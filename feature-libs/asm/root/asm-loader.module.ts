@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { PageComponentModule } from '@spartacus/storefront';
@@ -26,7 +32,7 @@ export class AsmLoaderModule {}
  * to a real component; the router and state aren't available in an optimized
  * way during the APP_INITIALIZER.
  */
-export function asmFactory(asmEnablerService: AsmEnablerService) {
+export function asmFactory(asmEnablerService: AsmEnablerService): () => void {
   const isReady = () => {
     asmEnablerService.load();
   };

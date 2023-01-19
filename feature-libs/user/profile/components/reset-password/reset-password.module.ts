@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +16,11 @@ import {
   provideDefaultConfig,
   RoutingService,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
@@ -24,6 +34,7 @@ import { ResetPasswordComponent } from './reset-password.component';
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

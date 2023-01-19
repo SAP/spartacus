@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
 // Note that this namespace should be augmentable, therefore it's exposed in the 'public_api.ts'
@@ -29,6 +35,8 @@ export namespace Configurator {
     attributePriceTotal?: PriceDetails;
     intervalInDomain?: boolean;
     key?: string;
+    validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {
@@ -86,6 +94,14 @@ export namespace Configurator {
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
+    variants?: Variant[];
+    kbKey?: KB;
+    pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
+  }
+
+  export interface ConfigurationWithOverview extends Configuration {
+    overview: Overview;
   }
 
   export interface InteractionState {
@@ -95,14 +111,20 @@ export namespace Configurator {
       [id: string]: boolean;
     };
     issueNavigationDone?: boolean;
+    isConflictResolutionMode?: boolean;
   }
 
   export interface Overview {
     configId: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode: string;
+    attributeFilters?: OverviewFilter[];
+    groupFilters?: string[];
+    possibleGroups?: GroupOverview[];
   }
 
   export interface GroupOverview {
@@ -166,6 +188,17 @@ export namespace Configurator {
     galleryIndex?: number;
   }
 
+  export interface Variant {
+    productCode: string;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
+  }
+
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
     SUB_ITEM_GROUP = 'SubItemGroup',
@@ -176,9 +209,11 @@ export namespace Configurator {
   export enum UiType {
     NOT_IMPLEMENTED = 'not_implemented',
     RADIOBUTTON = 'radioGroup',
+    RADIOBUTTON_ADDITIONAL_INPUT = 'radioGroup_add',
     CHECKBOX = 'checkBox',
     CHECKBOXLIST = 'checkBoxList',
     DROPDOWN = 'dropdown',
+    DROPDOWN_ADDITIONAL_INPUT = 'dropdown_add',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',
@@ -223,4 +258,17 @@ export namespace Configurator {
     GENERAL = 'general',
     BUNDLE = 'bundle',
   }
+
+  export enum ValidationType {
+    NONE = 'NONE',
+    NUMERIC = 'NUMERIC',
+  }
+  export enum OverviewFilter {
+    VISIBLE = 'PRIMARY',
+    USER_INPUT = 'USER_INPUT',
+    PRICE_RELEVANT = 'PRICE_RELEVANT',
+  }
+
+  export const ConflictIdPrefix = 'CONFLICT';
+  export const ConflictHeaderId = 'CONFLICT_HEADER';
 }

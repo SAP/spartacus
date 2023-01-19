@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import {
   Action,
@@ -26,7 +32,7 @@ export function getReducers(): ActionReducerMap<OrderApprovalState> {
         ORDER_APPROVAL_ENTITIES,
         orderApprovalsEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         ORDER_APPROVAL_LIST,
         orderApprovalsListReducer
       ),

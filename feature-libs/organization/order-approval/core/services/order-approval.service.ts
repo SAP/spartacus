@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
@@ -39,7 +45,7 @@ export class OrderApprovalService {
     );
   }
 
-  loadOrderApprovals(params?: SearchConfig): void {
+  loadOrderApprovals(params: SearchConfig): void {
     this.userIdService
       .takeUserId()
       .subscribe((userId) =>
@@ -52,20 +58,20 @@ export class OrderApprovalService {
   private getOrderApproval(
     orderApprovalCode: string
   ): Observable<StateUtils.LoaderState<OrderApproval>> {
-    return this.store.select(
+    return (<Store<OrderApprovalState>>this.store).select(
       OrderApprovalSelectors.getOrderApproval(orderApprovalCode)
     );
   }
 
   private getOrderApprovalList(
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<OrderApproval>>> {
-    return this.store.select(
+    return (<Store<OrderApprovalState>>this.store).select(
       OrderApprovalSelectors.getOrderApprovalList(params)
     );
   }
 
-  get(orderApprovalCode: string): Observable<OrderApproval> {
+  get(orderApprovalCode: string): Observable<OrderApproval | undefined> {
     return this.getOrderApproval(orderApprovalCode).pipe(
       observeOn(queueScheduler),
       tap((state) => {
@@ -73,7 +79,7 @@ export class OrderApprovalService {
           this.loadOrderApproval(orderApprovalCode);
         }
       }),
-      filter((state) => state.success || state.error),
+      filter((state) => Boolean(state.success || state.error)),
       map((state) => state.value)
     );
   }
@@ -85,10 +91,15 @@ export class OrderApprovalService {
    * @param orderApprovalCode The approval code for which we want the loading status.
    */
   getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
-    return this.getOrderApproval(orderApprovalCode).pipe(pluck('loading'));
+    return this.getOrderApproval(orderApprovalCode).pipe(
+      pluck('loading'),
+      map((loading) => loading ?? false)
+    );
   }
 
-  getList(params: SearchConfig): Observable<EntitiesModel<OrderApproval>> {
+  getList(
+    params: SearchConfig
+  ): Observable<EntitiesModel<OrderApproval> | undefined> {
     return this.getOrderApprovalList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<OrderApproval>>) => {
@@ -96,9 +107,8 @@ export class OrderApprovalService {
           this.loadOrderApprovals(params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<OrderApproval>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<OrderApproval>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -124,7 +134,7 @@ export class OrderApprovalService {
    * by makeDecision() is currently running.
    */
   getMakeDecisionResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
           ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
@@ -138,7 +148,7 @@ export class OrderApprovalService {
    * of makeDecision() was an error.
    */
   getMakeDecisionResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
           ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
@@ -152,7 +162,7 @@ export class OrderApprovalService {
    * of makeDecision() was a success.
    */
   getMakeDecisionResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
           ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID

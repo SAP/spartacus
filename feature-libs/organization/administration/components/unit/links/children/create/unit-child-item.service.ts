@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { UntypedFormGroup } from '@angular/forms';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
-  OrgUnitService,
   OrganizationItemStatus,
+  OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import { Observable } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
@@ -24,7 +30,7 @@ export class UnitChildItemService extends UnitItemService {
   }
 
   save(
-    form: FormGroup,
+    form: UntypedFormGroup,
     key?: string
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     // we enable the parentOrgUnit temporarily so that the underlying
@@ -42,6 +48,6 @@ export class UnitChildItemService extends UnitItemService {
   }
 
   protected buildRouteParams(item: B2BUnit) {
-    return { uid: item.parentOrgUnit.uid };
+    return { uid: item.parentOrgUnit?.uid };
   }
 }

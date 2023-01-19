@@ -1,6 +1,6 @@
 @import '../../theme';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/custom-forms';
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/custom-forms';
 
 .form-control {
   margin-bottom: 0.25rem;
@@ -60,6 +60,10 @@ cx-file-upload {
 
   input[type='file'] {
     display: none;
+  }
+
+  button {
+    width: 100%;
   }
 }
 
@@ -146,6 +150,10 @@ legend {
 
       &:hover {
         color: var(--cx-color-primary);
+      }
+
+      @include media-breakpoint-down(sm) {
+        display: inline;
       }
     }
 

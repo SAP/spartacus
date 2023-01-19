@@ -1,5 +1,5 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
   ConsentTemplate,
@@ -82,7 +82,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       expect(component.hideBanner).toHaveBeenCalled();
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.ANONYMOUS_CONSENT,
-        null,
+        undefined,
         component['vcr']
       );
     });

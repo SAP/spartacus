@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultSeoConfig } from './config';
@@ -5,7 +11,7 @@ import { htmlLangProvider } from './html-lang-provider';
 import { SeoMetaService } from './seo-meta.service';
 import { StructuredDataModule } from './structured-data/structured-data.module';
 
-export function initSeoService(injector: Injector) {
+export function initSeoService(injector: Injector): () => void {
   const result = () => {
     const service = injector.get(SeoMetaService);
     service.init();

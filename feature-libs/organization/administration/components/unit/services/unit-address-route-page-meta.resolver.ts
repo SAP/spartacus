@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Address,
@@ -16,7 +22,7 @@ export class UnitAddressRoutePageMetaResolver extends DefaultRoutePageMetaResolv
     super(translation);
   }
 
-  protected getParams(): Observable<Address> {
+  protected getParams(): Observable<Address | undefined> {
     return this.currentItemService.item$;
   }
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -24,7 +30,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
     return this.http.get<Occ.ConsentTemplateList>(url, { headers }).pipe(
       catchError((error: any) => throwError(error)),
-      map((consentList) => consentList.consentTemplates),
+      map((consentList) => consentList.consentTemplates ?? []),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
   }

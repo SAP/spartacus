@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,7 +11,7 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -21,7 +27,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit
 {
-  attributeCheckBoxForms = new Array<FormControl>();
+  attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   @Input() group: string;
 
@@ -39,12 +45,12 @@ export class ConfiguratorAttributeCheckBoxListComponent
       let attributeCheckBoxForm;
 
       if (value.selected) {
-        attributeCheckBoxForm = new FormControl({
+        attributeCheckBoxForm = new UntypedFormControl({
           value: true,
           disabled: disabled,
         });
       } else {
-        attributeCheckBoxForm = new FormControl(false);
+        attributeCheckBoxForm = new UntypedFormControl(false);
       }
       this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }

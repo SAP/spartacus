@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,9 +20,16 @@ import {
   ContentSlotComponentData,
   ContentSlotData,
   DynamicAttributeService,
+  isNotUndefined,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { PageSlotService } from './page-slot.service';
 
@@ -44,10 +57,10 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    */
   @HostBinding('attr.position')
   @Input()
-  set position(value: string) {
+  set position(value: string | undefined) {
     this.position$.next(value);
   }
-  get position(): string {
+  get position(): string | undefined {
     return this.position$.value;
   }
 
@@ -73,11 +86,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    */
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
-  protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  protected position$ = new BehaviorSubject<string | undefined>(undefined);
 
   components: ContentSlotComponentData[];
 
   protected slot$: Observable<ContentSlotData> = this.position$.pipe(
+    filter(isNotUndefined),
     switchMap((position) => this.cmsService.getContentSlot(position)),
     distinctUntilChanged(this.isDistinct)
   );
@@ -125,7 +139,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
     // host bindings
     this.pending = slot?.components?.length || 0;
-    this.hasComponents = slot?.components?.length > 0;
+    this.hasComponents = slot?.components
+      ? slot?.components?.length > 0
+      : false;
     if (cls && cls !== this.class) {
       this.class = cls;
     }
@@ -174,13 +190,17 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected isDistinct(old: ContentSlotData, current: ContentSlotData) {
-    return (
+  protected isDistinct(
+    old: ContentSlotData,
+    current: ContentSlotData
+  ): boolean {
+    return Boolean(
       current.components &&
-      old.components?.length === current.components.length &&
-      !old.components.find(
-        (el, index) => el.uid !== current.components[index].uid
-      )
+        old.components &&
+        old.components.length === current.components.length &&
+        !old.components.find(
+          (el, index) => el.uid !== current.components?.[index].uid
+        )
     );
   }
 

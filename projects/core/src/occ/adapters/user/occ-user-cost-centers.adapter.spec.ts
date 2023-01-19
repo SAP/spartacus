@@ -3,7 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, COST_CENTERS_NORMALIZER } from '@spartacus/core';
+import {
+  ConverterService,
+  COST_CENTERS_NORMALIZER,
+  OCC_HTTP_TOKEN,
+} from '@spartacus/core';
+
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccUserCostCenterAdapter } from './occ-user-cost-centers.adapter';
 
@@ -61,6 +66,9 @@ describe('OccUserCostCenterAdapter', () => {
         (req) => req.method === 'GET' && req.url === 'getActiveCostCenters'
       );
       expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+        sendUserIdAsHeader: true,
+      });
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([costCenter]);
       expect(converterService.pipeable).toHaveBeenCalledWith(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ValueProvider } from '@angular/core';
 import { CmsStructureConfig, provideConfig } from '@spartacus/core';
 import { LayoutConfig } from '../../layout/config/layout-config';
@@ -51,7 +57,7 @@ function buildCmsStructure({
     };
   }
 
-  if (componentId && pageSlotPosition) {
+  if (componentId && pageSlotPosition && config.cmsStructure) {
     config.cmsStructure.slots = {
       [pageSlotPosition]: { componentIds: [componentId] },
     };

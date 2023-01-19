@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Compiler,
   Injectable,
@@ -121,7 +127,7 @@ export class LazyModulesService implements OnDestroy {
           this.dependencyModules.set(module, moduleRef);
         }
 
-        return this.dependencyModules.get(module);
+        return this.dependencyModules.get(module) as NgModuleRef<any>;
       }),
       concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>

@@ -1,5 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { Product, ProductService, SemanticPathService } from '@spartacus/core';
+import {
+  isNotUndefined,
+  Product,
+  ProductService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ProductCarouselItem } from './product-carousel.model';
@@ -18,8 +29,8 @@ export class ProductCarouselService {
    */
   loadProduct(code: string): Observable<ProductCarouselItem> {
     return this.productService.get(code).pipe(
-      filter(Boolean),
-      map((product) => this.convertProduct(product))
+      filter(isNotUndefined),
+      map((product: Product) => this.convertProduct(product))
     );
   }
 

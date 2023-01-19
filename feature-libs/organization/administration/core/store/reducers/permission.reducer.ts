@@ -1,4 +1,10 @@
-import { StateUtils } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ListModel, StateUtils } from '@spartacus/core';
 import { Permission } from '../../model/permission.model';
 import {
   B2BUserActions,
@@ -6,13 +12,13 @@ import {
   UserGroupActions,
 } from '../actions/index';
 
-export const permissionInitialState = undefined;
-export const permissionsInitialState = undefined;
+export const permissionInitialState: Permission | undefined = undefined;
+export const permissionsInitialState: ListModel | undefined = undefined;
 
 export function permissionsEntitiesReducer(
-  state: Permission = permissionInitialState,
+  state = permissionInitialState,
   action: StateUtils.LoaderAction
-): Permission {
+): Permission | undefined {
   switch (action.type) {
     case PermissionActions.LOAD_PERMISSION_SUCCESS:
     case PermissionActions.CREATE_PERMISSION_SUCCESS:
@@ -33,7 +39,7 @@ export function permissionsEntitiesReducer(
 export function permissionsListReducer(
   state = permissionsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case PermissionActions.LOAD_PERMISSIONS_SUCCESS:
       return action.payload.page;

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Address } from './address.model';
 import { User } from './misc.model';
 
@@ -16,6 +22,10 @@ export enum B2BUserRole {
   APPROVER = 'b2bapprovergroup',
 }
 
+export enum B2BUserRight {
+  UNITORDERVIEWER = 'unitorderviewergroup',
+}
+
 export interface B2BUnit {
   active?: boolean;
   addresses?: Address[];
@@ -25,6 +35,7 @@ export interface B2BUnit {
 
 export interface B2BUser extends User {
   active?: boolean;
+  email?: string;
 }
 
 export interface B2BApprovalProcess {

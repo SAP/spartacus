@@ -3,12 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CmsOrderDetailItemsComponent,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { CardModule, PromotionsModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  CmsComponentData,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
@@ -109,6 +114,14 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   ],
 };
 
+const mockData: CmsOrderDetailItemsComponent = {
+  enableAddToCart: true,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
+
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
@@ -150,6 +163,7 @@ describe('OrderDetailItemsComponent', () => {
               features: { level: '1.4', consignmentTracking: true },
             },
           },
+          { provide: CmsComponentData, useValue: MockCmsComponentData },
         ],
         declarations: [
           OrderDetailItemsComponent,

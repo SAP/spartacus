@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,6 +18,7 @@ import {
   OutletModule,
   PromotionsModule,
   PwaModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
@@ -41,6 +48,7 @@ const orderConfirmationComponents = [
     FormErrorsModule,
     OrderOverviewModule,
     OutletModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

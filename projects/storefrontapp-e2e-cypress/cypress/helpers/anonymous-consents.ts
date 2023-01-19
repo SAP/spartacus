@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { giveConsent } from '../helpers/consent-management';
 import { SampleUser } from '../sample-data/checkout-flow';
 import { standardUser } from '../sample-data/shared-users';
@@ -87,7 +93,7 @@ export function navigateToConsentPage() {
 }
 
 export function seeBannerAsAnonymous() {
-  cy.get(ANONYMOUS_BANNER).should('exist');
+  cy.get(`${ANONYMOUS_BANNER} .anonymous-consent-banner`).should('be.visible');
 }
 
 export function checkBannerHidden() {
@@ -304,8 +310,8 @@ export function showAnonymousConfigTest() {
   it('should not display consents on the consents management page', () => {
     navigateToConsentPage();
     checkConsentsInConsentPage();
-
     signOutUser();
+    seeBannerAsAnonymous();
   });
 
   it('should not display the legal in the dialog', () => {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -16,7 +22,7 @@ export class FooterNavigationComponent {
     this.componentData.data$
   );
 
-  styleClass$: Observable<string> = this.componentData.data$.pipe(
+  styleClass$: Observable<string | undefined> = this.componentData.data$.pipe(
     map((d) => d?.styleClass)
   );
 

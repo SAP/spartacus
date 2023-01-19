@@ -2,6 +2,14 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/spartacus)](https://api.reuse.software/info/github.com/SAP/spartacus)
 
+## Spartacus and Composable Storefront
+
+Starting with version 5.0, “SAP Commerce Cloud, composable storefront” is the name for the official release of project “Spartacus” libraries published by SAP. The officially supported composable storefront is available to SAP Commerce Cloud customers. Documentation is available on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT?locale=en-US).
+
+Composable storefront is based off the Spartacus open source code, and is included in the SAP Commerce Cloud license at no extra cost. Composable storefront has a roll-forward update policy.
+
+On-premise customers may still use Spartacus open source. For more information, see [Self-Publishing Spartacus Libraries Using the Open Source Code](docs/self-publishing-spartacus-libraries.md).
+
 ## What is Spartacus?
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
@@ -37,21 +45,29 @@ See the [Release documentation](https://sap.github.io/spartacus-docs/release-inf
 
 ## Requirements
 
+If you are working with Spartacus 5.x, your Angular development environment should include the following:
+
+- [Angular CLI](https://angular.io/): Version **14.2.3** or newer, < 15.
+- [Node.js](https://nodejs.org/en/): Version **14.15** or newer (but **less than** version 15), or **16.10** or newer.
+- [Yarn](https://classic.yarnpkg.com/lang/en/): Version **1.15** or newer.
+
+For the back end, SAP Commerce Cloud version 2105 or higher is required.
+
 If you are working with Spartacus 4.x, your Angular development environment should include the following:
 
-- [Angular CLI](https://angular.io/): **12.0** or later.
-- node.js: 12 (12.16.1 or later) or 14.x.
+- [Angular CLI](https://angular.io/): **12.0** or later, < 13.
 - yarn: v1.15 or later
+- node.js: Version **14.15** is required. Version 12.x reached end-of-life on April 30, 2022, and is no longer supported by Spartacus. It is strongly recommended that you migrate any existing Spartacus storefronts to Node.js 14 as soon as possible. If there are any issues with Spartacus and Node.js 14, please upgrade to the latest releases. If you continue to experience issues with Node.js 14, create a support ticket with SAP. Spartacus also supports version 16.x of Node.js, but this version is not yet supported in Commerce Cloud in the Public Cloud builder.
 
 If you are working with Spartacus 3.x, your Angular development environment should include the following:
 
-- [Angular CLI](https://angular.io/): **10.1** or later.
+- [Angular CLI](https://angular.io/): **10.1** or later, < 11.
 - node.js: 12.16.1 or later, < 13.0. The most recent 12.x version is recommended.
 - yarn: v1.15 or later
 
 If you are working with Spartacus 2.x, your Angular development environment should include the following:
 
-- [Angular CLI](https://angular.io/): **9.1** or later.
+- [Angular CLI](https://angular.io/): **9.1** or later, < 10.
 - node.js: 10.14.1 or later, < 13.0. The most recent 12.x version is recommended.
 - yarn: v1.15 or later
 
@@ -130,5 +146,5 @@ Many improvements are coming! All tasks will be posted to our GitHub issue track
 
 ## License
 
-Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+Copyright (c) 2023 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.

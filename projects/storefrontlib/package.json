@@ -10,22 +10,21 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/storefrontlib",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular/common": "^13.2.0",
-    "@angular/core": "^13.2.0",
-    "@angular/forms": "^13.2.0",
-    "@angular/platform-browser": "^13.2.0",
-    "@angular/router": "^13.2.0",
-    "@angular/service-worker": "^13.2.0",
-    "@ng-bootstrap/ng-bootstrap": "^11.0.0",
-    "@ng-select/ng-select": "^8.0.0",
-    "@ngrx/effects": "^13.0.2",
-    "@ngrx/router-store": "^13.0.2",
-    "@ngrx/store": "^13.0.2",
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@angular/forms": "^14.2.3",
+    "@angular/platform-browser": "^14.2.3",
+    "@angular/router": "^14.2.3",
+    "@angular/service-worker": "^14.2.3",
+    "@ng-select/ng-select": "^9.0.2",
+    "@ngrx/effects": "^14.3.0",
+    "@ngrx/router-store": "^14.3.0",
+    "@ngrx/store": "^14.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "ngx-infinite-scroll": "^8.0.0",
+    "ngx-infinite-scroll": "^14.0.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

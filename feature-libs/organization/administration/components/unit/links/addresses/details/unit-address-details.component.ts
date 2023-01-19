@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -25,15 +31,15 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
   ],
 })
 export class UnitAddressDetailsComponent {
-  unit$: Observable<B2BUnit> = this.currentUnitService.item$;
+  unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;
 
   model$: Observable<Address> = this.itemService.key$.pipe(
     withLatestFrom(this.unit$),
-    switchMap(([code, unit]) => this.itemService.load(unit.uid, code)),
+    switchMap(([code, unit]) => this.itemService.load(unit?.uid, code)),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  getCountry(isoCode): Observable<Country> {
+  getCountry(isoCode: string | undefined): Observable<Country | undefined> {
     return this.userAddressService.getDeliveryCountries().pipe(
       tap((countries: Country[]) => {
         if (Object.keys(countries).length === 0) {

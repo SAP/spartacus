@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ProfileTagPushEvent } from '../../../../profiletag/index';
 import { MerchandisingMetadata } from '../../../model/index';
 

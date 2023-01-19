@@ -1,12 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  loaderErrorSelector,
+  loaderLoadingSelector,
+  loaderSuccessSelector,
+  loaderValueSelector,
+} from '../loader';
 import { LoaderState } from '../loader/loader-state';
 import { initialLoaderState } from '../loader/loader.reducer';
 import { EntityLoaderState } from './entity-loader-state';
-import {
-  loaderValueSelector,
-  loaderLoadingSelector,
-  loaderErrorSelector,
-  loaderSuccessSelector,
-} from '../loader';
 
 export function entityLoaderStateSelector<T>(
   state: EntityLoaderState<T>,

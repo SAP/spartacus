@@ -134,4 +134,53 @@ describe('ConfigUIKeyGeneratorService', () => {
       ).toThrow();
     });
   });
+
+  describe('isWithAdditionalValues', () => {
+    it('should know that DROPDOWN does not allow additional values', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN;
+      expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should know that DROPDOWN_ADDITIONAL_INPUT allows additional values', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
+        true
+      );
+    });
+
+    it('should know that RADIOBUTTON_ADDITIONAL_INPUT allows additional values', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
+        true
+      );
+    });
+  });
+
+  describe('getLabel', () => {
+    it('should return empty string', () => {
+      expect(classUnderTest.getLabel(false, undefined, undefined)).toEqual('');
+    });
+
+    it('should return label without technical name', () => {
+      const label = 'label';
+      const techName = 'techName';
+      expect(classUnderTest.getLabel(false, label, techName)).toEqual(label);
+    });
+
+    it('should return label without technical name despite expert mode is set to true', () => {
+      const label = 'label';
+      const techName = undefined;
+      expect(classUnderTest.getLabel(true, label, techName)).toEqual(label);
+    });
+
+    it('should return label with technical name because expert mode is set to true', () => {
+      const label = 'label';
+      const techName = 'techName';
+      const techLabel = label + ' / [' + techName + ']';
+      expect(classUnderTest.getLabel(true, label, techName)).toEqual(techLabel);
+    });
+  });
 });

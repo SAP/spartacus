@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -6,6 +12,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import {
+  isNotUndefined,
   Product,
   ProductScope,
   ProductService,
@@ -35,7 +42,7 @@ export class ProductVariantsGuard implements CanActivate {
       return of(true);
     }
     return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
-      filter((p) => !!p),
+      filter(isNotUndefined),
       switchMap((product: Product) => {
         if (!product.purchasable) {
           const purchasableCode = this.findPurchasableProductCode(product);
@@ -43,7 +50,7 @@ export class ProductVariantsGuard implements CanActivate {
             return this.productService
               .get(purchasableCode, ProductScope.LIST)
               .pipe(
-                filter((p) => !!p),
+                filter(isNotUndefined),
                 take(1),
                 map((_product: Product) => {
                   return this.router.createUrlTree(

@@ -1,11 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
-import { EventService } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { PaymentTypeSetEvent } from './checkout-b2b.events';
+import {
+  CurrencySetEvent,
+  EventService,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
+} from '@spartacus/core';
+import { merge, Subscription } from 'rxjs';
+import {
+  CheckoutPaymentTypeSetEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
+} from './checkout-b2b.events';
 
 @Injectable({
   providedIn: 'root',
@@ -14,20 +30,45 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onPaymentTypeChange();
+    this.onPaymentTypeSet();
+
+    this.onGetPaymentTypesQueryReload();
+    this.onGetPaymentTypesQueryReset();
   }
 
-  protected onPaymentTypeChange(): void {
+  protected onPaymentTypeSet(): void {
     this.subscriptions.add(
       this.eventService
-        .get(PaymentTypeSetEvent)
+        .get(CheckoutPaymentTypeSetEvent)
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutResetDeliveryModesEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent
           );
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
+    );
+  }
+
+  protected onGetPaymentTypesQueryReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LanguageSetEvent),
+        this.eventService.get(CurrencySetEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutPaymentTypesQueryReloadEvent);
+      })
+    );
+  }
+
+  protected onGetPaymentTypesQueryReset(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutPaymentTypesQueryResetEvent);
+      })
     );
   }
 

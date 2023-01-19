@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,12 +44,13 @@ export class SubListComponent extends ListComponent {
 
   subKey$: Observable<string>;
 
-  readonly listData$: Observable<EntitiesModel<any>> = this.currentKey$.pipe(
-    switchMap((key) => this.service.getData(key)),
-    tap((data) => {
-      this.hasGhostData = this.service.hasGhostData(data);
-    })
-  );
+  readonly listData$: Observable<EntitiesModel<any> | undefined> =
+    this.currentKey$.pipe(
+      switchMap((key) => this.service.getData(key)),
+      tap((data) => {
+        this.hasGhostData = this.service.hasGhostData(data);
+      })
+    );
 
   readonly dataStructure$: Observable<TableStructure> =
     this.service.getStructure();

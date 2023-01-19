@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CostCenterSetEvent } from './checkout-b2b.events';
+import { CheckoutCostCenterSetEvent } from './checkout-b2b.events';
 
 @Injectable({
   providedIn: 'root',
@@ -14,19 +20,19 @@ export class CheckoutCostCenterEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onCostCenterChange();
+    this.onCostCenterSet();
   }
 
-  protected onCostCenterChange(): void {
+  protected onCostCenterSet(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CostCenterSetEvent)
+        .get(CheckoutCostCenterSetEvent)
         .subscribe(({ cartId, userId }) => {
           this.eventService.dispatch(
             { cartId, userId },
-            CheckoutResetDeliveryModesEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent
           );
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }

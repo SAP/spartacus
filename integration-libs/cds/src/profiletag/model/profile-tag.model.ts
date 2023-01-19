@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { PersonalizationAction } from '@spartacus/tracking/personalization/core';
+import { Cart } from '@spartacus/cart/base/root';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -170,6 +177,14 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
     productCategoryName: string;
     productCategory: string;
   }) {
+    this.data = data;
+  }
+}
+
+export class CartSnapshotPushEvent implements ProfileTagPushEvent {
+  name = 'CartSnapshot';
+  data: any;
+  constructor(data: { cart: Cart }) {
     this.data = data;
   }
 }

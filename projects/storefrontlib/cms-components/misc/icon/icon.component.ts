@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ElementRef,
@@ -56,7 +62,7 @@ export class IconComponent {
   /**
    * the icon provides an html fragment that is used to add SVG or text based icons.
    */
-  icon: SafeHtml;
+  icon: SafeHtml | undefined;
 
   /**
    * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.

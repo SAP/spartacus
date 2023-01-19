@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -40,7 +46,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
     return this.getClientToken(isClientTokenRequest).pipe(
       take(1),
-      switchMap((token: ClientToken) => {
+      switchMap((token: ClientToken | undefined) => {
         if (
           token?.access_token &&
           request.url.includes(this.occEndpoints.getBaseUrl())
@@ -77,11 +83,11 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
   protected getClientToken(
     isClientTokenRequest: boolean
-  ): Observable<ClientToken> {
+  ): Observable<ClientToken | undefined> {
     if (isClientTokenRequest) {
       return this.clientTokenService.getClientToken();
     }
-    return of(null);
+    return of(undefined);
   }
 
   protected isClientTokenRequest(request: HttpRequest<any>): boolean {

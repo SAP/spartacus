@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -68,15 +74,6 @@ export class AuthRedirectService implements OnDestroy {
   }
 
   /**
-   * Saves url of a page that user wanted to access, but wasn't yet logged in.
-   *
-   * @deprecated since 4.0 - use `saveCurrentNavigationUrl` method instead
-   */
-  reportAuthGuard(): void {
-    this.saveCurrentNavigationUrl();
-  }
-
-  /**
    * Saves the url of the current navigation as the redirect url, unless
    * the url is a part of the user login flow.
    */
@@ -89,12 +86,6 @@ export class AuthRedirectService implements OnDestroy {
     const url = this.router.serializeUrl(navigation.finalUrl);
     this.setRedirectUrl(url);
   }
-
-  /**
-   * @deprecated since 4.0 - method not needed anymore. Every visited URL is now
-   *                         remembered automatically as redirect URL on NavigationEnd event.
-   */
-  reportNotAuthGuard() {}
 
   /**
    * Save the url as the redirect url, unless it's a part of the user login flow.

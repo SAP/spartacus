@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CxEvent } from '../../event/cx-event';
 
 /**
@@ -11,7 +17,7 @@ export class FacetChangedEvent extends CxEvent {
   /**
    * Facet code
    */
-  code: string;
+  code?: string;
   /**
    * Facet name
    */
@@ -19,7 +25,7 @@ export class FacetChangedEvent extends CxEvent {
   /**
    * Facet value code
    */
-  valueCode: string;
+  valueCode?: string;
   /**
    * Facet value name
    */
@@ -27,5 +33,5 @@ export class FacetChangedEvent extends CxEvent {
   /**
    * Indicate whether facet value is toggled on or off
    */
-  selected: boolean;
+  selected?: boolean;
 }

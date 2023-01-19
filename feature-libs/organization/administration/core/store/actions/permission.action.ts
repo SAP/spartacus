@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ListModel,
+  OrderApprovalPermissionType,
   SearchConfig,
   StateUtils,
-  OrderApprovalPermissionType,
 } from '@spartacus/core';
 import { Permission } from '../../model/permission.model';
 import {
@@ -57,8 +63,8 @@ export class LoadPermissionSuccess extends StateUtils.EntitySuccessAction {
     super(
       PERMISSION_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((permission) => permission?.code)
-        : payload?.code
+        ? payload.map((permission) => permission?.code ?? '')
+        : payload?.code ?? ''
     );
   }
 }
@@ -101,7 +107,7 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
 export class CreatePermission extends StateUtils.EntityLoadAction {
   readonly type = CREATE_PERMISSION;
   constructor(public payload: { userId: string; permission: Permission }) {
-    super(PERMISSION_ENTITIES, payload.permission.code);
+    super(PERMISSION_ENTITIES, payload.permission.code ?? null);
   }
 }
 
@@ -115,7 +121,7 @@ export class CreatePermissionFail extends StateUtils.EntityFailAction {
 export class CreatePermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_PERMISSION_SUCCESS;
   constructor(public payload: Permission) {
-    super(PERMISSION_ENTITIES, payload.code, payload);
+    super(PERMISSION_ENTITIES, payload.code ?? null, payload);
   }
 }
 
@@ -128,7 +134,7 @@ export class UpdatePermission extends StateUtils.EntityLoadAction {
       permission: Permission;
     }
   ) {
-    super(PERMISSION_ENTITIES, payload.permission.code);
+    super(PERMISSION_ENTITIES, payload.permission.code ?? '');
   }
 }
 
@@ -142,7 +148,7 @@ export class UpdatePermissionFail extends StateUtils.EntityFailAction {
 export class UpdatePermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PERMISSION_SUCCESS;
   constructor(public payload: Permission) {
-    super(PERMISSION_ENTITIES, payload.code, payload);
+    super(PERMISSION_ENTITIES, payload.code ?? '', payload);
   }
 }
 

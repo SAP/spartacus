@@ -1,8 +1,21 @@
-import { ArrayLiteralExpression, Expression, Node, SourceFile } from 'ts-morph';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  ArrayLiteralExpression,
+  Expression,
+  Node,
+  ObjectLiteralExpression,
+  SourceFile,
+  SyntaxKind,
+} from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../libs-constants';
+import { AdditionalProviders } from './feature-utils';
 import { isImportedFromSpartacusLibs } from './import-utils';
-import { CustomConfig } from './lib-utils';
 import { getModule, getModulePropertyInitializer } from './new-module-utils';
 
 export function getSpartacusProviders(
@@ -70,7 +83,44 @@ function normalizeConfiguration(config: string | Node): string {
   return newConfig;
 }
 
-export function getB2bConfiguration(): CustomConfig[] {
+export function normalizeObject(obj: string): string {
+  return obj.replace(EMPTY_SPACE_REG_EXP, '');
+}
+
+/**
+ * Removes the config for the given property name.
+ * If the object is empty after removal, the object
+ * itself is removed.
+ */
+export function removeProperty(
+  objectLiteral: ObjectLiteralExpression,
+  propertyName: string
+): void {
+  const properties = objectLiteral.getProperties();
+  for (const property of properties) {
+    if (!Node.isPropertyAssignment(property)) {
+      continue;
+    }
+
+    if (property.getName() === propertyName) {
+      property.remove();
+      return;
+    }
+
+    const nestedConfigObject = property.getFirstDescendantByKind(
+      SyntaxKind.ObjectLiteralExpression
+    );
+    if (nestedConfigObject) {
+      removeProperty(nestedConfigObject, propertyName);
+    }
+
+    if (normalizeObject(property.getInitializer()?.getText() ?? '') === '{}') {
+      property.remove();
+    }
+  }
+}
+
+export function getB2bConfiguration(): AdditionalProviders[] {
   return [
     {
       import: [

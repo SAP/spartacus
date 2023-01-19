@@ -154,7 +154,7 @@ describe('SearchBoxComponentService', () => {
 
   it('should not return products when config.displayProducts = false', () => {
     spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-      of(['sug1', 'sug2'] as any)
+      of([{ value: 'sug1' }, { value: 'sug2' }] as any)
     );
 
     let result: SearchResults;
@@ -174,7 +174,7 @@ describe('SearchBoxComponentService', () => {
 
     it('should return 2 suggestions', () => {
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of(['sug1', 'sug2'] as any)
+        of([{ value: 'sug1' }, { value: 'sug2' }] as any)
       );
 
       service
@@ -185,7 +185,7 @@ describe('SearchBoxComponentService', () => {
 
     it('should not return suggestions when config.displaySuggestions = false', () => {
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of(['sug1', 'sug2'] as any)
+        of([{ value: 'sug1' }, { value: 'sug2' }] as any)
       );
 
       service
@@ -207,7 +207,7 @@ describe('SearchBoxComponentService', () => {
 
     it('should not get an exact match suggestion when there are suggestions returned', () => {
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of(['sug1'] as any)
+        of([{ value: 'sug1' }] as any)
       );
 
       service
@@ -255,7 +255,7 @@ describe('SearchBoxComponentService', () => {
     it('should not get a message when there are suggestions ', () => {
       spyOn(searchBoxService, 'getResults').and.returnValue(of());
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
-        of(['sug1'] as any)
+        of([{ value: 'sug1' }] as any)
       );
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -12,7 +18,7 @@ import { ProductDetailOutlets } from '../product-outlets.model';
 export class ProductSummaryComponent {
   outlets = ProductDetailOutlets;
 
-  product$: Observable<Product> = this.currentProductService.getProduct([
+  product$: Observable<Product | null> = this.currentProductService.getProduct([
     ProductScope.DETAILS,
     ProductScope.PRICE,
   ]);

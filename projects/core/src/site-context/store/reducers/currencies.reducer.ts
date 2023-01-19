@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Currency } from '../../../model/misc.model';
 import { SiteContextActions } from '../actions/index';
 import { CurrenciesState } from '../state';
@@ -18,7 +24,7 @@ export function reducer(
         (currEntities: { [isocode: string]: Currency }, currency: Currency) => {
           return {
             ...currEntities,
-            [currency.isocode]: currency,
+            [currency.isocode ?? '']: currency,
           };
         },
         {

@@ -223,6 +223,14 @@ describe('FacetService', () => {
         query: 'test test ~ ! @ # $ & * ( ) = : / , ; ? _ . %',
       });
     });
+
+    it('should decode the special values ', () => {
+      const result = service.getLinkParams('1280+%C3%97+720');
+      expect(result).toEqual({
+        query: '1280 × 720',
+      });
+    });
+
     it(`should replace '+' with and empty space ' '`, () => {
       const result = service.getLinkParams('test+test');
       expect(result).toEqual({ query: 'test test' });

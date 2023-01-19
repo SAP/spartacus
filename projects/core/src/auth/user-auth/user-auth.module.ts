@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
-import { tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
@@ -19,15 +25,15 @@ import { AuthStorageService } from './services/auth-storage.service';
 export function checkOAuthParamsInUrl(
   authService: AuthService,
   configInit: ConfigInitializerService
-) {
+): () => Promise<void> {
   const result = () =>
     configInit
       .getStable()
       .pipe(
-        tap(() => {
+        switchMap(() =>
           // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-          authService.checkOAuthParamsInUrl();
-        })
+          authService.checkOAuthParamsInUrl()
+        )
       )
       .toPromise();
 

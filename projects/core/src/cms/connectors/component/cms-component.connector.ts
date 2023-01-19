@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, of, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -37,7 +43,7 @@ export class CmsComponentConnector {
       switchMap((configuredComponents) => {
         // check if we have some components that are not loaded from configuration
         const missingIds = configuredComponents.reduce(
-          (acc, component, index) => {
+          (acc: string[], component, index) => {
             if (component === undefined) {
               acc.push(ids[index]);
             }

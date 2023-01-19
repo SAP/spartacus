@@ -1,8 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
-import { CheckoutModule } from '@spartacus/checkout/base';
 import { DpCheckoutModule } from './checkout/dp-checkout.module';
 
 @NgModule({
-  imports: [CheckoutModule, DpCheckoutModule],
+  imports: [DpCheckoutModule],
 })
 export class DigitalPaymentsModule {}

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -39,7 +45,7 @@ export class OccUserNotificationPreferenceAdapter
         }
       )
       .pipe(
-        map((list) => list.preferences),
+        map((list) => list.preferences ?? []),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
         catchError((error: any) => throwError(error))
       );

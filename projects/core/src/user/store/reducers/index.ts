@@ -1,12 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { Address } from '../../../model/address.model';
-import { PaymentDetails } from '../../../model/payment.model';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { CostCenter } from '../../../model/org-unit.model';
+import { PaymentDetails } from '../../../model/payment.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
@@ -32,36 +38,39 @@ import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
 
-export function getReducers(): ActionReducerMap<UserState> {
+export function getReducers(): ActionReducerMap<UserState, any> {
   return {
-    addresses: loaderReducer<Address[]>(
+    addresses: loaderReducer<Address[], any>(
       USER_ADDRESSES,
       fromAddressesReducer.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
-    consents: loaderReducer<ConsentTemplate[]>(
+    consents: loaderReducer<ConsentTemplate[], any>(
       USER_CONSENTS,
       fromUserConsentsReducer.reducer
     ),
-    payments: loaderReducer<PaymentDetails[]>(
+    payments: loaderReducer<PaymentDetails[], any>(
       USER_PAYMENT_METHODS,
       fromPaymentReducer.reducer
     ),
     countries: fromDeliveryCountries.reducer,
-    regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
-    customerCoupons: loaderReducer<CustomerCouponSearchResult>(
+    regions: loaderReducer<RegionsState, any>(
+      REGIONS,
+      fromRegionsReducer.reducer
+    ),
+    customerCoupons: loaderReducer<CustomerCouponSearchResult, any>(
       CUSTOMER_COUPONS,
       fromCustomerCouponReducer.reducer
     ),
-    notificationPreferences: loaderReducer<NotificationPreference[]>(
+    notificationPreferences: loaderReducer<NotificationPreference[], any>(
       NOTIFICATION_PREFERENCES,
       fromNotificationPreferenceReducer.reducer
     ),
-    productInterests: loaderReducer<ProductInterestSearchResult>(
+    productInterests: loaderReducer<ProductInterestSearchResult, any>(
       PRODUCT_INTERESTS,
       fromInterestsReducer.reducer
     ),
-    costCenters: loaderReducer<CostCenter[]>(
+    costCenters: loaderReducer<CostCenter[], any>(
       USER_COST_CENTERS,
       fromCostCenterReducer.reducer
     ),

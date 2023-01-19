@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
@@ -18,7 +24,7 @@ import { ProductListComponentService } from './product-list-component.service';
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  isInfiniteScroll: boolean;
+  isInfiniteScroll: boolean | undefined;
 
   model$: Observable<ProductSearchPage> =
     this.productListComponentService.model$;

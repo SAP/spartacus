@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   OutletContextData,
@@ -21,7 +27,7 @@ export class CellComponent {
     return this.outlet.context;
   }
 
-  get property(): string {
+  get property(): string | undefined {
     return this.model?.[this.outlet?.context?._field];
   }
 

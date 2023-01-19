@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
 import {
@@ -32,12 +38,14 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
     super(tableService);
   }
 
-  protected load(): Observable<EntitiesModel<B2BUnitTreeNode>> {
+  protected load(): Observable<EntitiesModel<B2BUnitTreeNode> | undefined> {
     return this.unitService.getTree().pipe(
       switchMap((node) =>
         this.unitItemService.key$.pipe(
           map((key) => {
-            this.unitTreeService.initialize(node, key);
+            if (node) {
+              this.unitTreeService.initialize(node, key);
+            }
             return node;
           })
         )
@@ -45,42 +53,42 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
       switchMap((tree) =>
         this.unitTreeService.treeToggle$.pipe(map(() => tree))
       ),
-      map((tree: B2BUnitNode) => this.convertListItem(tree))
+      map((tree: B2BUnitNode | undefined) => this.convertListItem(tree))
     );
   }
 
   protected convertListItem(
-    unit: B2BUnitNode,
+    unit: B2BUnitNode | undefined,
     depthLevel = 0,
     pagination = { totalResults: 0 }
-  ): EntitiesModel<B2BUnitTreeNode> {
-    let values = [];
+  ): EntitiesModel<B2BUnitTreeNode> | undefined {
+    let values: B2BUnitTreeNode[] = [];
     if (!unit) {
-      return;
+      return undefined;
     }
 
     const node: B2BUnitTreeNode = {
       ...unit,
       count: unit.children?.length ?? 0,
-      expanded: this.unitTreeService.isExpanded(unit.id, depthLevel),
+      expanded: this.unitTreeService.isExpanded(unit.id ?? '', depthLevel),
       depthLevel,
       // tmp, should be normalized
-      uid: unit.id,
-      children: [...unit.children].sort((unitA, unitB) =>
-        unitA.name.localeCompare(unitB.name)
+      uid: unit.id ?? '',
+      children: [...(unit.children ?? [])].sort((unitA, unitB) =>
+        (unitA.name ?? '').localeCompare(unitB.name ?? '')
       ),
     };
 
     values.push(node);
     pagination.totalResults++;
 
-    node.children.forEach((childUnit) => {
+    node.children?.forEach((childUnit) => {
       const childList = this.convertListItem(
         childUnit,
         depthLevel + 1,
         pagination
       )?.values;
-      if (node.expanded && childList.length > 0) {
+      if (node.expanded && childList && childList.length > 0) {
         values = values.concat(childList);
       }
     });

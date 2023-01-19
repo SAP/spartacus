@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as login from './login';
 import * as configurationCartVc from './product-configurator-cart-vc';
 //import * as configurationCart from './product-configurator-cart';
@@ -233,6 +239,14 @@ export function checkAttrValueNotDisplayed(
   cy.get(`${valueLocator}`).should('not.exist');
 }
 
+export function checkVariantCarouselDisplayed(): void {
+  cy.get('.cx-variant-carousel-container').should('be.visible');
+}
+
+export function checkVariantCarouselNotDisplayed(): void {
+  cy.get('.cx-variant-carousel-container').should('not.exist');
+}
+
 /**
  * Retrieves attribute ID.
  *
@@ -442,7 +456,7 @@ export function clickOnGroupByGroupIndex(groupIndex: number): void {
  * Clicks the group menu.
  */
 export function clickHamburger(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]')
+  cy.get('cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]')
     .click()
     .then(() => {
       checkUpdatingMessageNotDisplayed();
@@ -453,7 +467,9 @@ export function clickHamburger(): void {
  * Verifies whether the group menu is displayed.
  */
 export function checkHamburgerDisplayed(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
+  cy.get(
+    'cx-configurator-group-title cx-hamburger-menu [aria-label="Menu"]'
+  ).should('be.visible');
 }
 
 /**
@@ -484,7 +500,6 @@ export function clickOnViewCartBtnOnPD(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/cart');
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
       cy.get('cx-cart-details').should('be.visible');
     });
 }

@@ -6,17 +6,17 @@ import { of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 import createSpy = jasmine.createSpy;
 
+const homepagePath = '/home';
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
-  getActive = createSpy().and.returnValue(of());
-  isStable = createSpy().and.returnValue(of());
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  takeActive = createSpy().and.returnValue(of());
 }
 
-class SemanticPathServiceStub implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue('/home');
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get = createSpy().and.returnValue(homepagePath);
 }
 
 describe('CartNotEmptyGuard', () => {
@@ -28,11 +28,11 @@ describe('CartNotEmptyGuard', () => {
       providers: [
         {
           provide: SemanticPathService,
-          useClass: SemanticPathServiceStub,
+          useClass: MockSemanticPathService,
         },
         {
           provide: ActiveCartFacade,
-          useClass: ActiveCartServiceStub,
+          useClass: MockActiveCartService,
         },
       ],
       imports: [RouterTestingModule],
@@ -42,78 +42,58 @@ describe('CartNotEmptyGuard', () => {
     activeCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
-  describe('canActivate:', () => {
-    describe('when cart is loaded', () => {
-      describe(', and when cart is NOT created', () => {
-        beforeEach(() => {
-          activeCartFacade.getActive = createSpy().and.returnValue(
-            of(CART_NOT_CREATED)
-          );
-          activeCartFacade.isStable = createSpy().and.returnValue(of(true));
-        });
-
-        it('then router should return main page url', () => {
-          let emittedValue: any = 'nothing was emitted';
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe((result) => (emittedValue = result))
-            .unsubscribe();
-          expect(emittedValue.toString()).toEqual('/home');
-        });
+  describe('canActivate()', () => {
+    describe('when cart is NOT created', () => {
+      beforeEach(() => {
+        activeCartFacade.takeActive = createSpy().and.returnValue(
+          of(CART_NOT_CREATED)
+        );
       });
 
-      describe(', and when cart is empty', () => {
-        beforeEach(() => {
-          activeCartFacade.getActive = createSpy().and.returnValue(
-            of(CART_EMPTY)
-          );
-          activeCartFacade.isStable = createSpy().and.returnValue(of(true));
-        });
-
-        it('then router should return main page url', () => {
-          let emittedValue: any = 'nothing was emitted';
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe((result) => (emittedValue = result))
-            .unsubscribe();
-          expect(emittedValue.toString()).toEqual('/home');
-        });
-      });
-
-      describe(', and when cart is NOT empty', () => {
-        beforeEach(() => {
-          activeCartFacade.getActive = createSpy().and.returnValue(
-            of(CART_NOT_EMPTY)
-          );
-          activeCartFacade.isStable = createSpy().and.returnValue(of(true));
-        });
-
-        it('then returned observable should emit true', () => {
-          let emittedValue: any = 'nothing was emitted';
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe((result) => (emittedValue = result))
-            .unsubscribe();
-          expect(emittedValue).toBe(true);
-        });
+      it('should return the homepage route', (done) => {
+        cartNotEmptyGuard
+          .canActivate()
+          .subscribe((result) => {
+            expect(result.toString()).toEqual(homepagePath);
+            done();
+          })
+          .unsubscribe();
       });
     });
 
-    describe('when cart is not loaded', () => {
+    describe('when cart is empty', () => {
       beforeEach(() => {
-        activeCartFacade.getActive = createSpy().and.returnValue(
-          of(CART_NOT_CREATED)
+        activeCartFacade.takeActive = createSpy().and.returnValue(
+          of(CART_EMPTY)
         );
-        activeCartFacade.isStable = createSpy().and.returnValue(of(false));
       });
 
-      it('then returned observable should not emit', () => {
-        let emittedValue: any = 'nothing was emitted';
+      it('should return the homepage route', (done) => {
         cartNotEmptyGuard
           .canActivate()
-          .subscribe((result) => (emittedValue = result))
+          .subscribe((result) => {
+            expect(result.toString()).toEqual(homepagePath);
+            done();
+          })
           .unsubscribe();
-        expect(emittedValue).toBe('nothing was emitted');
+      });
+    });
+
+    describe('when cart is NOT empty', () => {
+      beforeEach(() => {
+        activeCartFacade.takeActive = createSpy().and.returnValue(
+          of(CART_NOT_EMPTY)
+        );
+      });
+
+      it('should return true', (done) => {
+        cartNotEmptyGuard
+          .canActivate()
+          .subscribe((result) => {
+            expect(result).toBe(true);
+            done();
+          })
+          .unsubscribe();
       });
     });
   });

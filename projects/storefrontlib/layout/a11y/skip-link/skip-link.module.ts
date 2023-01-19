@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import {
   APP_INITIALIZER,
@@ -43,7 +49,7 @@ export class SkipLinkModule {}
 export function skipLinkFactory(
   componentFactoryResolver: ComponentFactoryResolver,
   outletService: OutletService
-) {
+): () => void {
   const isReady = () => {
     const factory =
       componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);

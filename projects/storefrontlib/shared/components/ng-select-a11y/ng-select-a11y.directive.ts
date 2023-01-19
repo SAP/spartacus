@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AfterViewInit,
   Directive,
@@ -15,7 +21,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
    * Angular component for accessibility compliance. If ng-select controls itself
    * ariaControls is not needed, instead bind a specific id to the <ng-select> element.
    */
-  @Input() cxNgSelectA11y: { ariaLabel: string; ariaControls?: string };
+  @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
@@ -27,7 +33,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const elementId = this.elementRef.nativeElement.id;
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
-    this.renderer.setAttribute(divCombobox, 'aria-label', ariaLabel);
+    if (ariaLabel) {
+      this.renderer.setAttribute(divCombobox, 'aria-label', ariaLabel);
+    }
 
     if (ariaControls) {
       this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);

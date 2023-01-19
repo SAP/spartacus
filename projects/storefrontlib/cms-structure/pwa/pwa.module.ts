@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, isDevMode, NgModule } from '@angular/core';
 import {
@@ -13,10 +19,12 @@ import { AddToHomeScreenService } from './services/add-to-home-screen.service';
 export function pwaConfigurationFactory(
   pwaConfig: PWAModuleConfig
 ): SwRegistrationOptions {
-  return { enabled: (!isDevMode() && pwaConfig.pwa.enabled) || false };
+  return { enabled: (!isDevMode() && pwaConfig.pwa?.enabled) || false };
 }
 
-export function pwaFactory(addToHomeScreenService): any {
+export function pwaFactory(
+  addToHomeScreenService: AddToHomeScreenService
+): any {
   const result = () => addToHomeScreenService;
   return result;
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -24,7 +30,7 @@ export class ProductSchemaBuilder implements SchemaBuilder {
 
   build(): Observable<any> {
     return this.currentProduct.getProduct().pipe(
-      switchMap((product: Product) => {
+      switchMap((product: Product | null) => {
         if (product) {
           return combineLatest(this.collect(product)).pipe(
             map((res: {}[]) => Object.assign({}, ...res))

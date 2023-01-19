@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   GlobalMessageService,
@@ -22,7 +28,7 @@ export class AddToHomeScreenService {
     protected globalMessageService: GlobalMessageService,
     protected winRef: WindowRef
   ) {
-    if (this.config.pwa.addToHomeScreen) {
+    if (this.config.pwa?.addToHomeScreen) {
       this.init();
     }
   }

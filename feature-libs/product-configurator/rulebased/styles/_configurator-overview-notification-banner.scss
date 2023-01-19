@@ -3,29 +3,48 @@
 
   &:not(:empty) {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     max-width: 1140px;
-    background-color: rgba(245, 206, 206, 1);
-    margin-block-end: 1.25rem;
-    padding-inline-start: 20px;
-    padding-inline-end: 25px;
-    padding-block-start: 5px;
-    padding-block-end: 5px;
 
-    @include media-breakpoint-up(xs) {
-      align-items: center;
+    .cx-error-notification-banner {
+      background-color: rgba(245, 206, 206, 1);
+      .cx-icon {
+        color: var(--cx-color-danger);
+      }
+    }
+    .cx-conflict-notification-banner {
+      background-color: mix(#ffffff, theme-color('warning'), 78%);
+      .cx-icon {
+        color: var(--cx-color-warning);
+      }
     }
 
-    @include media-breakpoint-down(sm) {
+    .cx-error-notification-banner,
+    .cx-conflict-notification-banner {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin-block-end: 1.25rem;
       padding-inline-start: 20px;
-      padding-inline-end: 20px;
+      padding-inline-end: 25px;
+      padding-block-start: 5px;
+      padding-block-end: 5px;
+
+      @include media-breakpoint-up(xs) {
+        align-items: center;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding-inline-start: 20px;
+        padding-inline-end: 20px;
+      }
     }
 
     cx-icon,
     .cx-icon {
       align-self: flex-start;
-      color: var(--cx-color-danger);
       font-size: 30px;
       padding-inline-start: 5px;
       padding-inline-end: 15px;
@@ -33,7 +52,8 @@
       padding-block-end: 5px;
     }
 
-    .cx-error-msg {
+    .cx-error-msg,
+    .cx-conflict-msg {
       padding-inline-end: 15px;
 
       button.link {

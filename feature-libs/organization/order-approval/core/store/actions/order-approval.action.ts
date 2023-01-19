@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ListModel,
   PROCESS_FEATURE,
@@ -54,8 +60,8 @@ export class LoadOrderApprovalSuccess extends StateUtils.EntitySuccessAction {
     super(
       ORDER_APPROVAL_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((orderApproval) => orderApproval?.code)
-        : payload?.code
+        ? payload.map((orderApproval) => orderApproval.code ?? '')
+        : payload.code ?? ''
     );
   }
 }

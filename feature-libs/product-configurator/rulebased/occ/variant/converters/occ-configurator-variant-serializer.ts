@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -68,7 +74,7 @@ export class OccConfiguratorVariantSerializer
   protected getRetractedValue(
     attribute: Configurator.Attribute
   ): string | undefined {
-    return attribute.values?.find((value) => value?.selected)?.valueCode;
+    return attribute.values?.find((value) => value.selected)?.valueCode;
   }
 
   protected retractValue(
@@ -100,7 +106,9 @@ export class OccConfiguratorVariantSerializer
 
     if (
       attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       this.retractValue(attribute, targetAttribute);
@@ -141,8 +149,16 @@ export class OccConfiguratorVariantSerializer
         uiType = OccConfigurator.UiType.RADIO_BUTTON;
         break;
       }
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT: {
+        uiType = OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT;
+        break;
+      }
       case Configurator.UiType.DROPDOWN: {
         uiType = OccConfigurator.UiType.DROPDOWN;
+        break;
+      }
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT: {
+        uiType = OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
       case Configurator.UiType.STRING: {

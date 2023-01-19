@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { removeCartItem } from './cart';
 import {
   PRODUCT_1,
@@ -44,7 +50,7 @@ export function addMultipleProductsToCart(products) {
 
 export function removeItemAndCheckCartEntriesNumber(
   product,
-  expectedCartLength = 0
+  expectedCartLength
 ) {
   removeCartItem(product);
   cy.wait('@refresh_cart');

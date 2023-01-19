@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   EntitiesModel,
@@ -5,10 +11,10 @@ import {
   SearchConfig,
   TranslationService,
 } from '@spartacus/core';
-import { OrderApproval } from '../../core/model/order-approval.model';
-import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrderApproval } from '../../core/model/order-approval.model';
+import { OrderApprovalService } from '../../core/services/order-approval.service';
 
 @Component({
   selector: 'cx-order-approval-list',
@@ -22,11 +28,11 @@ export class OrderApprovalListComponent implements OnInit {
     protected translation: TranslationService
   ) {}
 
-  sortLabels$;
+  sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
   protected PAGE_SIZE = 5;
   sortType: string;
 
-  orderApprovals$: Observable<EntitiesModel<OrderApproval>>;
+  orderApprovals$: Observable<EntitiesModel<OrderApproval> | undefined>;
 
   ngOnInit(): void {
     this.fetchApprovalListPage({});
@@ -66,7 +72,7 @@ export class OrderApprovalListComponent implements OnInit {
     this.orderApprovals$ = this.orderApprovalService.getList(searchConfig);
   }
 
-  goToApprovalDetails(event, orderApproval: OrderApproval): void {
+  goToApprovalDetails(event: any, orderApproval: OrderApproval): void {
     if (event?.target?.nodeName.toLowerCase() !== 'a') {
       this.routing.go({
         cxRoute: 'orderApprovalDetails',

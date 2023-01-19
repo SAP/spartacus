@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
@@ -122,9 +128,13 @@ import {
   VARIANT_STYLE_SELECTOR_MODULE,
   VIEW_CONFIG_MODULE,
 } from '../../../shared/constants';
+import { ASM_MODULE } from '../../../shared/lib-configs/asm-schematics-config';
+import { PERSONALIZATION_MODULE } from '../../../shared/lib-configs/tracking-schematics-config';
 import {
-  ASM_MODULE,
-  PERSONALIZATION_MODULE,
+  USER_ACCOUNT_MODULE,
+  USER_PROFILE_MODULE,
+} from '../../../shared/lib-configs/user-schematics-config';
+import {
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
@@ -141,8 +151,6 @@ import {
   SPARTACUS_USER_PROFILE_COMPONENTS,
   SPARTACUS_USER_PROFILE_CORE,
   SPARTACUS_USER_PROFILE_OCC,
-  USER_ACCOUNT_MODULE,
-  USER_PROFILE_MODULE,
 } from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';

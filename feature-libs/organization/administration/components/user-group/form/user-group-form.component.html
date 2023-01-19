@@ -29,7 +29,7 @@
       <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
     </label>
 
-    <label [formGroup]="form.get('orgUnit')">
+    <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgUserGroup.orgUnit' | cxTranslate
       }}</span>
@@ -38,10 +38,10 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="units$ | async"
+        [items]="(units$ | async) ?? null"
         bindLabel="name"
         bindValue="id"
-        [readonly]="form.get('orgUnit.uid').disabled"
+        [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
       >

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AfterViewInit,
   Directive,
@@ -108,7 +114,7 @@ export class AutoFocusDirective
    *
    * We keep this private to not pollute the API.
    */
-  private get firstFocusable(): HTMLElement {
+  private get firstFocusable(): HTMLElement | null | undefined {
     return this.service.findFirstFocusable(this.host, this.config);
   }
 }

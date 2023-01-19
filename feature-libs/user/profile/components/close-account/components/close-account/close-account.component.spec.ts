@@ -2,8 +2,12 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
+import {
+  ICON_TYPE,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { CloseAccountComponent } from './close-account.component';
 
 @Component({
@@ -21,17 +25,25 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog() {
+    return of({});
+  }
+}
+
 describe('CloseAccountComponent', () => {
   let component: CloseAccountComponent;
   let fixture: ComponentFixture<CloseAccountComponent>;
-  let modalInstance: any;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, RouterTestingModule],
         declarations: [CloseAccountComponent, MockUrlPipe, MockCxIconComponent],
-        providers: [{ provide: ModalService, useValue: { open: () => {} } }],
+        providers: [
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        ],
       }).compileComponents();
     })
   );
@@ -39,10 +51,8 @@ describe('CloseAccountComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);
     component = fixture.componentInstance;
-    modalInstance = TestBed.inject(ModalService);
 
-    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
-    fixture.detectChanges();
+    launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   it('should create', () => {
@@ -50,11 +60,14 @@ describe('CloseAccountComponent', () => {
   });
 
   it('should open modal', () => {
+    spyOn(launchDialogService, 'openDialog');
+
     component.openModal();
 
-    expect(modalInstance.open).toHaveBeenCalledWith(
-      CloseAccountModalComponent,
-      Object({ centered: true })
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.CLOSE_ACCOUNT,
+      component['element'],
+      component['vcr']
     );
   });
 });

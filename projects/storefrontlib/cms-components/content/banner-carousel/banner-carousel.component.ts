@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerCarouselComponent as model,
@@ -18,13 +24,13 @@ import { CmsComponentData } from '../../../cms-structure/index';
 })
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean),
+    filter((data) => Boolean(data)),
     tap((d: model) => (this.theme = `${d.effect}-theme`))
   );
 
   private items$: Observable<Observable<ContentSlotComponentData>[]> =
     this.componentData$.pipe(
-      map((data) => data.banners.trim().split(' ')),
+      map((data) => data.banners?.trim().split(' ') ?? []),
       map((codes) =>
         codes.map((code) => this.cmsService.getComponentData(code))
       )

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
@@ -21,7 +27,7 @@ export class OccUserListNormalizer
     target?: EntitiesModel<B2BUser>
   ): EntitiesModel<B2BUser> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<B2BUser>;
     }
     target.values = source.users.map((b2bUser) => ({
       ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),

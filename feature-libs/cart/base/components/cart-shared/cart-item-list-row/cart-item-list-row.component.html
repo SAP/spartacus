@@ -13,7 +13,6 @@
       <!-- Item Image -->
       <a
         [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-        cxModal="dismiss"
         tabindex="0"
       >
         <cx-media
@@ -26,7 +25,6 @@
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-            cxModal="dismiss"
             >{{ item.product?.name }}</a
           >
         </div>
@@ -115,19 +113,13 @@
       </ng-template>
     </td>
   </ng-container>
-  <!-- Availability -->
-  <td
-    role="cell"
-    *ngIf="isProductOutOfStock(item.product)"
-    class="cx-availability"
-  >
-    {{ 'addToCart.outOfStock' | cxTranslate }}
-  </td>
 
-  <!-- Actions -->
   <td
     role="cell"
-    *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
+    *ngIf="
+      (!readonly || options.isSaveForLater || options.displayAddToCart) &&
+      item.updateable
+    "
     class="cx-actions"
   >
     <ng-container *ngIf="!isProductOutOfStock(item.product)">
@@ -135,13 +127,27 @@
         *ngTemplateOutlet="
           options.optionalBtn;
           context: {
-            $implicit: { loading: quantityControl.disabled, item: item }
+            $implicit: {
+              loading: quantityControl.disabled,
+              item: this.item,
+              options: this.options
+            }
           }
         "
       ></ng-container>
     </ng-container>
 
+    <!-- Availability -->
+    <span
+      role="cell"
+      *ngIf="isProductOutOfStock(item.product)"
+      class="cx-availability"
+    >
+      {{ 'addToCart.outOfStock' | cxTranslate }}
+    </span>
+
     <button
+      *ngIf="!readonly"
       (click)="removeItem()"
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
       [disabled]="quantityControl.disabled"

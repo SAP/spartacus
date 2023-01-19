@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, NgZone, Optional } from '@angular/core';
 import {
   AuthService,
@@ -21,7 +27,6 @@ import {
   UserInterestsService,
   UserNotificationPreferenceService,
   UserPaymentService,
-  UserService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../model';
 
@@ -58,7 +63,6 @@ export class CxApiService {
     @Optional() public language: LanguageService,
     @Optional() public baseSite: BaseSiteService,
     // user
-    @Optional() public user: UserService,
     @Optional() public userAddress: UserAddressService,
     @Optional() public userConsent: UserConsentService,
     @Optional() public userPayment: UserPaymentService,

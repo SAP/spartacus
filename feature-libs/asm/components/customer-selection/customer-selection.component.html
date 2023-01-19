@@ -5,13 +5,21 @@
       #searchTerm
       type="text"
       formControlName="searchTerm"
+      [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
     />
     <cx-form-errors
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>
-  <button type="submit">
+  <button *cxFeatureLevel="'!5.1'" type="submit">
+    {{ 'asm.customerSearch.submit' | cxTranslate }}
+  </button>
+  <button
+    *cxFeatureLevel="'5.1'"
+    type="submit"
+    [class.active]="selectedCustomer"
+  >
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>

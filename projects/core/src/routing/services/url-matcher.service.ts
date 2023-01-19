@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, isDevMode } from '@angular/core';
 import {
   Route,
@@ -28,7 +34,7 @@ export class UrlMatcherService {
     const matchers = paths.map((path) => this.getFromPath(path));
     const matcher = this.getCombined(matchers);
     if (isDevMode()) {
-      matcher['_paths'] = paths; // property added for easier debugging of routes
+      (<any>matcher)['_paths'] = paths; // property added for easier debugging of routes
     }
     return matcher;
   }

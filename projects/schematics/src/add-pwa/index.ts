@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   externalSchematic,
@@ -8,23 +14,18 @@ import {
 } from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { UTF_8 } from '../shared/constants';
 import { getLineFromTSFile } from '../shared/utils/file-utils';
 import { getProjectTargets } from '../shared/utils/workspace-utils';
 
-function removeServiceWorkerSetup(host: Tree, modulePath: string) {
-  const buffer = host.read(modulePath);
-
-  if (!buffer) {
-    return;
-  }
-
-  let fileContent = buffer.toString();
+function removeServiceWorkerSetup(host: Tree, modulePath: string): void {
+  let fileContent = host.read(modulePath)?.toString(UTF_8);
 
   const serviceWorkerImport = `import { ServiceWorkerModule } from '@angular/service-worker';`;
-  const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })`;
+  const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js'`;
   if (
-    !fileContent.includes(serviceWorkerModuleImport) ||
-    !fileContent.includes(serviceWorkerImport)
+    !fileContent?.includes(serviceWorkerModuleImport) ||
+    !fileContent?.includes(serviceWorkerImport)
   ) {
     return;
   }
@@ -43,7 +44,12 @@ function removeServiceWorkerSetup(host: Tree, modulePath: string) {
     ...getLineFromTSFile(
       host,
       modulePath,
-      fileContent.indexOf(serviceWorkerModuleImport)
+      fileContent.indexOf(serviceWorkerModuleImport),
+      /**
+       * this is a temporary solution, until we switch the add-pwa
+       * and add-ssr to use tsmorph
+       */
+      6
     )
   );
 

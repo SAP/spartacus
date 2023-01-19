@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -36,7 +42,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http.get<Occ.AddressList>(url, { headers }).pipe(
       catchError((error: any) => throwError(error)),
-      map((addressList) => addressList.addresses),
+      map((addressList) => addressList.addresses ?? []),
       this.converter.pipeableMany(ADDRESS_NORMALIZER)
     );
   }

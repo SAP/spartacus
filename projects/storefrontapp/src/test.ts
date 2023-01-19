@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* eslint-disable */
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
@@ -18,7 +24,9 @@ declare var __karma__: any;
 declare var require: any;
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function () {};
+__karma__.loaded = function () {
+  // Intentional empty function
+};
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

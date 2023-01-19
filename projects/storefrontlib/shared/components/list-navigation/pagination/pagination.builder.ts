@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { PaginationConfig } from './config/pagination.config';
 import {
@@ -83,14 +89,16 @@ export class PaginationBuilder {
     current: number
   ): void {
     const start = this.getStartOfRange(pageCount, current);
-    const max = Math.min(this.config.rangeCount, pageCount);
-    Array.from(Array(max)).forEach((_, i) => {
-      pages.push({
-        number: i + start,
-        label: String(i + start + 1),
-        type: PaginationItemType.PAGE,
+    if (this.config.rangeCount !== undefined && start !== null) {
+      const max = Math.min(this.config.rangeCount, pageCount);
+      Array.from(Array(max)).forEach((_, i) => {
+        pages.push({
+          number: i + start,
+          label: String(i + start + 1),
+          type: PaginationItemType.PAGE,
+        });
       });
-    });
+    }
   }
 
   /**
@@ -109,7 +117,7 @@ export class PaginationBuilder {
     const addFirstGap = () => {
       const firstItemNumber = pages[0].number;
       const gapNumber = this.config.addFirst ? 1 : 0;
-      if (firstItemNumber > gapNumber) {
+      if (firstItemNumber !== undefined && firstItemNumber > gapNumber) {
         const isGap =
           !this.config.substituteDotsForSingularPage ||
           firstItemNumber !== gapNumber + 1;
@@ -131,13 +139,16 @@ export class PaginationBuilder {
             isGap ? null : { number: gapNumber }
           ),
         ];
-      } else return [];
+      } else {
+        return [];
+      }
     };
 
     const addLastGap = () => {
-      const nextPageNumber = pages[pages.length - 1].number + 1;
+      const pageNumber = pages[pages.length - 1].number;
+      const nextPageNumber = pageNumber ? pageNumber + 1 : undefined;
       const last = pageCount - (this.config.addLast ? 2 : 1);
-      if (nextPageNumber <= last) {
+      if (nextPageNumber && nextPageNumber <= last) {
         const isSubstituted =
           this.config.addLast &&
           this.config.substituteDotsForSingularPage &&
@@ -162,7 +173,9 @@ export class PaginationBuilder {
             isGap ? null : { number: nextPageNumber }
           ),
         ];
-      } else return [];
+      } else {
+        return [];
+      }
     };
 
     pages.unshift(...addFirstGap());
@@ -203,8 +216,8 @@ export class PaginationBuilder {
    * The `PaginationNavigationPosition` allows for 3 flavours:
    *
    * - by default the pagination starts with start and previous and ends with the next and end links
-   * - BEFORE – all navigation links are added in the front of the pagination list
-   * - AFTER – all navigation links are pushed to the end of the pagination list
+   * - BEFORE – all navigation links are added in the front of the pagination list
+   * - AFTER – all navigation links are pushed to the end of the pagination list
    *
    * @param pages The list of page items that is used to amend
    * @param pageCount The total number of pages
@@ -309,18 +322,21 @@ export class PaginationBuilder {
    * @param pageCount The total number of pages.
    * @param current The current page number, 0-index based.
    */
-  protected getStartOfRange(pageCount: number, current: number): number {
-    const count = this.config.rangeCount - 1;
-    // the least number of pages before and after the current
-    const delta = Math.round(count / 2);
+  protected getStartOfRange(pageCount: number, current: number): number | null {
+    if (this.config.rangeCount !== undefined) {
+      const count = this.config.rangeCount - 1;
+      // the least number of pages before and after the current
+      const delta = Math.round(count / 2);
 
-    // ensure that we start with at least the first page
-    const minStart = Math.max(0, current - delta);
-    // ensures that we start with at least 1 and do not pass the last range
-    const maxStart = Math.max(0, pageCount - count - 1);
+      // ensure that we start with at least the first page
+      const minStart = Math.max(0, current - delta);
+      // ensures that we start with at least 1 and do not pass the last range
+      const maxStart = Math.max(0, pageCount - count - 1);
 
-    // ensure that we get at least a full range at the end
-    return Math.min(maxStart, minStart);
+      // ensure that we get at least a full range at the end
+      return Math.min(maxStart, minStart);
+    }
+    return null;
   }
 
   /**

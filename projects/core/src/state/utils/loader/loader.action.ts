@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 
 export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
@@ -7,11 +13,13 @@ export const LOADER_RESET_ACTION = '[LOADER] RESET';
 
 export interface LoaderMeta {
   entityType: string;
-  loader: {
-    load?: boolean;
-    error?: any;
-    success?: boolean;
-  };
+  loader:
+    | {
+        load?: boolean;
+        error?: any;
+        success?: boolean;
+      }
+    | undefined;
 }
 
 export interface LoaderAction extends Action {

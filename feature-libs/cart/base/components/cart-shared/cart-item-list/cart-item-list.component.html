@@ -17,7 +17,9 @@
           {{ 'saveForLaterItems.stock' | cxTranslate }}
         </th>
       </ng-container>
-      <ng-container *ngIf="!readonly || options.isSaveForLater">
+      <ng-container
+        *ngIf="!readonly || options.isSaveForLater || options.displayAddToCart"
+      >
         <th role="columnheader" class="cx-item-list-actions">
           {{ 'cartItems.actions' | cxTranslate }}
         </th>

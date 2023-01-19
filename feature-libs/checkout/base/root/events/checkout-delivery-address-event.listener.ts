@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -5,6 +11,8 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LoadUserAddressesEvent,
+  OCC_USER_ID_ANONYMOUS,
   UpdateUserAddressEvent,
   UserAddressEvent,
 } from '@spartacus/core';
@@ -12,12 +20,11 @@ import { Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import {
-  CheckoutClearDeliveryAddressEvent,
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressSetEvent,
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 
 /**
@@ -35,8 +42,11 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade
   ) {
+    this.onDeliveryAddressCreated();
+    this.onDeliveryAddressSet();
+    this.onDeliveryAddressCleared();
+
     this.onUserAddressChange();
-    this.onDeliveryAddressChange();
   }
 
   /**
@@ -64,20 +74,21 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
           this.eventService.dispatch(
             { cartId, userId },
-            CheckoutResetDeliveryModesEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent
           );
         })
     );
   }
 
-  /**
-   * Registers listeners on the Delivery address set event
-   */
-  protected onDeliveryAddressChange(): void {
+  protected onDeliveryAddressCreated(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryAddressCreatedEvent)
-        .subscribe(({ userId, cartId }) => {
+        .subscribe(({ cartId, userId }) => {
+          if (userId !== OCC_USER_ID_ANONYMOUS) {
+            this.eventService.dispatch({ userId }, LoadUserAddressesEvent);
+          }
+
           this.globalMessageService.add(
             { key: 'addressForm.userAddressAddSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -85,38 +96,35 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutResetDeliveryModesEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent
           );
 
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
+  }
+
+  protected onDeliveryAddressSet(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryAddressSetEvent)
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutResetDeliveryModesEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent
           );
 
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
+  }
 
+  protected onDeliveryAddressCleared(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryAddressClearedEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutResetQueryEvent)
-        )
-    );
-
-    this.subscriptions.add(
-      this.eventService
-        .get(CheckoutClearDeliveryAddressEvent)
-        .subscribe(() =>
-          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress()
+          this.eventService.dispatch({}, CheckoutQueryResetEvent)
         )
     );
   }

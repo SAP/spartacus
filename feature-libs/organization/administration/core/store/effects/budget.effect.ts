@@ -1,13 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { EntitiesModel, normalizeHttpError, StateUtils } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import { EntitiesModel, normalizeHttpError, StateUtils } from '@spartacus/core';
+import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { Budget } from '../../model/budget.model';
 import { BudgetActions, OrganizationActions } from '../actions/index';
-import { BudgetConnector } from '../../connectors/budget/budget.connector';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BudgetEffects {
@@ -88,7 +93,7 @@ export class BudgetEffects {
           catchError((error: HttpErrorResponse) =>
             from([
               new BudgetActions.CreateBudgetFail({
-                budgetCode: payload.budget.code,
+                budgetCode: payload.budget.code ?? '',
                 error: normalizeHttpError(error),
               }),
               new OrganizationActions.OrganizationClearData(),
@@ -118,7 +123,7 @@ export class BudgetEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new BudgetActions.UpdateBudgetFail({
-                  budgetCode: payload.budget.code,
+                  budgetCode: payload.budget.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),

@@ -1,5 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { B2BUnit } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -14,20 +24,20 @@ export class UnitFormService extends FormService<B2BUnit> {
   }
 
   protected build() {
-    const form = new FormGroup({});
+    const form = new UntypedFormGroup({});
     form.setControl(
       'uid',
-      new FormControl('', [
+      new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.noSpecialCharacters,
       ])
     );
-    form.setControl('name', new FormControl('', Validators.required));
+    form.setControl('name', new UntypedFormControl('', Validators.required));
 
     form.setControl(
       'approvalProcess',
-      new FormGroup({
-        code: new FormControl(null),
+      new UntypedFormGroup({
+        code: new UntypedFormControl(null),
       })
     );
 
@@ -38,24 +48,24 @@ export class UnitFormService extends FormService<B2BUnit> {
   protected toggleParentUnit(item?: B2BUnit): void {
     if (this.isRootUnit(item)) {
       this.form?.removeControl('parentOrgUnit');
-    } else if (!this.form.get('parentOrgUnit')) {
-      this.form.setControl(
+    } else if (!this.form?.get('parentOrgUnit')) {
+      this.form?.setControl(
         'parentOrgUnit',
-        new FormGroup({
-          uid: new FormControl(null, Validators.required),
+        new UntypedFormGroup({
+          uid: new UntypedFormControl(null, Validators.required),
         })
       );
     }
   }
 
-  protected isRootUnit(item: B2BUnit): boolean {
+  protected isRootUnit(item: B2BUnit | undefined): boolean {
     // as we don't have full response after toggle item status,
     // we have situation where we have object like {uid, active},
     // so decided to check name as alternative required property
-    return (
+    return Boolean(
       item?.uid &&
-      item?.name &&
-      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+        item?.name &&
+        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }

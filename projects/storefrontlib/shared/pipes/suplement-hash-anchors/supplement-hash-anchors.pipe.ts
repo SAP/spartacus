@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
@@ -17,17 +23,18 @@ export class SupplementHashAnchorsPipe implements PipeTransform {
   constructor(protected renderer: Renderer2, protected winRef: WindowRef) {}
 
   protected getPath(anchorId: string): string {
-    const currentUrlWithoutFragment = this.winRef.location.href.replace(
+    const currentUrlWithoutFragment = this.winRef.location.href?.replace(
       /#.*$/,
       ''
     );
     return `${currentUrlWithoutFragment}${anchorId}`;
   }
 
-  public transform(html: string): string {
+  public transform(html: string = ''): string {
     const template = this.renderer.createElement('template');
     template.innerHTML = html.trim();
-    const linkNodes: NodeList = template.content.querySelectorAll('a');
+    const linkNodes: NodeListOf<HTMLAnchorElement> =
+      template.content.querySelectorAll('a');
 
     Array.from(linkNodes).forEach((link: HTMLAnchorElement) => {
       const href = link.getAttribute('href');

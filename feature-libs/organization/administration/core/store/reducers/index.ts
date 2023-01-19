@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import {
   Action,
@@ -85,24 +91,24 @@ import {
   userGroupsListReducer,
 } from './user-group.reducer';
 
-export function getReducers(): ActionReducerMap<OrganizationState> {
+export function getReducers(): ActionReducerMap<OrganizationState, any> {
   return {
     [BUDGET_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<Budget>(
+      entities: StateUtils.entityLoaderReducer<Budget, any>(
         BUDGET_ENTITIES,
         budgetsEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         BUDGET_LIST,
         budgetsListReducer
       ),
     }),
     [PERMISSION_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<Permission>(
+      entities: StateUtils.entityLoaderReducer<Permission, any>(
         PERMISSION_ENTITIES,
         permissionsEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         PERMISSION_LIST,
         permissionsListReducer
       ),
@@ -111,7 +117,7 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       >(PERMISSION_TYPES_LIST),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<B2BUnit>(
+      entities: StateUtils.entityLoaderReducer<B2BUnit, any>(
         ORG_UNIT_ENTITIES,
         orgUnitEntitiesReducer
       ),
@@ -121,67 +127,68 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       approvalProcesses: StateUtils.entityLoaderReducer<B2BApprovalProcess[]>(
         ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
       ),
-      users: StateUtils.entityLoaderReducer<ListModel>(
+      users: StateUtils.entityLoaderReducer<ListModel, any>(
         ORG_UNIT_ASSIGNED_USERS,
         orgUnitUserListReducer
       ),
-      addressList: StateUtils.entityLoaderReducer<ListModel>(
+      addressList: StateUtils.entityLoaderReducer<ListModel, any>(
         ADDRESS_LIST,
         orgUnitAddressListReducer
       ),
-      addressEntities:
-        StateUtils.entityLoaderReducer<Address>(ADDRESS_ENTITIES),
+      addressEntities: StateUtils.entityLoaderReducer<Address, any>(
+        ADDRESS_ENTITIES
+      ),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<UserGroup>(
+      entities: StateUtils.entityLoaderReducer<UserGroup, any>(
         USER_GROUP_ENTITIES,
         userGroupEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_GROUP_LIST,
         userGroupsListReducer
       ),
-      permissions: StateUtils.entityLoaderReducer<ListModel>(
+      permissions: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_GROUP_PERMISSIONS,
         userGroupAvailableOrderApprovalPermissionsListReducer
       ),
-      customers: StateUtils.entityLoaderReducer<ListModel>(
+      customers: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_GROUP_AVAILABLE_CUSTOMERS,
         userGroupAvailablOrgCustomersListReducer
       ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<CostCenter>(
+      entities: StateUtils.entityLoaderReducer<CostCenter, any>(
         COST_CENTER_ENTITIES,
         costCentersEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         COST_CENTER_LIST,
         costCentersListReducer
       ),
-      budgets: StateUtils.entityLoaderReducer<ListModel>(
+      budgets: StateUtils.entityLoaderReducer<ListModel, any>(
         COST_CENTER_ASSIGNED_BUDGETS,
         costCenterAssignedBudgetsListReducer
       ),
     }),
     [B2B_USER_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<B2BUser>(
+      entities: StateUtils.entityLoaderReducer<B2BUser, any>(
         B2B_USER_ENTITIES,
         b2bUserEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         USER_LIST,
         userListReducer
       ),
-      approvers: StateUtils.entityLoaderReducer<ListModel>(
+      approvers: StateUtils.entityLoaderReducer<ListModel, any>(
         B2B_USER_APPROVERS,
         b2bUserApproverListReducer
       ),
-      permissions: StateUtils.entityLoaderReducer<ListModel>(
+      permissions: StateUtils.entityLoaderReducer<ListModel, any>(
         B2B_USER_PERMISSIONS,
         b2bUserPermissionListReducer
       ),
-      userGroups: StateUtils.entityLoaderReducer<ListModel>(
+      userGroups: StateUtils.entityLoaderReducer<ListModel, any>(
         B2B_USER_USER_GROUPS,
         b2bUserUserGroupListReducer
       ),

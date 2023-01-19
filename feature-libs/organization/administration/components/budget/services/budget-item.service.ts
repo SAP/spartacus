@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
@@ -34,14 +40,17 @@ export class BudgetItemService extends ItemService<Budget> {
     return this.budgetService.get(code);
   }
 
-  update(code, value: Budget): Observable<OrganizationItemStatus<Budget>> {
+  update(
+    code: string,
+    value: Budget
+  ): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.update(code, value);
-    return this.budgetService.getLoadingStatus(value.code);
+    return this.budgetService.getLoadingStatus(value.code ?? '');
   }
 
   protected create(value: Budget): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.create(value);
-    return this.budgetService.getLoadingStatus(value.code);
+    return this.budgetService.getLoadingStatus(value.code ?? '');
   }
 
   /**

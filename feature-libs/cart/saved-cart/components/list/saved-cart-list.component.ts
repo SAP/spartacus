@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,10 +37,10 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
     map((lists) =>
       lists.sort((a: Cart, b: Cart) => {
-        let date1: number = a.saveTime
+        const date1: number = a.saveTime
           ? new Date(a.saveTime).getTime()
           : new Date().getTime();
-        let date2: number = b.saveTime
+        const date2: number = b.saveTime
           ? new Date(b.saveTime).getTime()
           : new Date().getTime();
         return date2 - date1;

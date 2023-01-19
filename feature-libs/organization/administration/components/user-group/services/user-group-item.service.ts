@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
@@ -33,7 +39,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
-    return this.userGroupService.getLoadingStatus(value.uid);
+    return this.userGroupService.getLoadingStatus(value.uid ?? '');
   }
 
   delete(code: string): Observable<OrganizationItemStatus<UserGroup>> {
@@ -46,7 +52,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.create(value);
-    return this.userGroupService.getLoadingStatus(value.uid);
+    return this.userGroupService.getLoadingStatus(value.uid ?? '');
   }
 
   protected getDetailsRoute(): string {

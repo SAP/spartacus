@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
@@ -61,7 +67,7 @@ export class BreakpointService {
    * Returns the _maximum_ size for the breakpoint, given by the `LayoutConfig.breakpoints`
    * configuration.
    */
-  getSize(breakpoint: BREAKPOINT): number {
+  getSize(breakpoint: BREAKPOINT): number | null {
     return (
       this.getMaxSize(breakpoint) ??
       // if there's no direct max value or explicit max value
@@ -130,12 +136,14 @@ export class BreakpointService {
    */
   protected resolveBreakpointsFromConfig(): BREAKPOINT[] {
     const sortByScreenSize = (next: BREAKPOINT, prev: BREAKPOINT): number => {
+      const nextMinSize = this.getMinSize(next);
       const maxNext = Math.max(
-        this.getMinSize(next) + 1 || 0,
+        nextMinSize ? nextMinSize + 1 : 0,
         this.getMaxSize(next) || 0
       );
+      const preMinSize = this.getMinSize(prev);
       const maxPrev = Math.max(
-        this.getMinSize(prev) + 1 || 0,
+        preMinSize ? preMinSize + 1 : 0,
         this.getMaxSize(prev) || 0
       );
       return maxNext < maxPrev ? -1 : 0;
@@ -149,7 +157,7 @@ export class BreakpointService {
    * max size form the current breakpoint, but if this is not available, we
    * resolve it form the next breakpoint
    */
-  protected getMaxSize(breakpoint: BREAKPOINT): number {
+  protected getMaxSize(breakpoint: BREAKPOINT): number | null {
     const breakpointConfig = this.config[breakpoint];
 
     if (!breakpointConfig) {
@@ -166,8 +174,8 @@ export class BreakpointService {
     }
   }
 
-  protected getMinSize(breakpoint: BREAKPOINT): number {
-    return (this.config[breakpoint] as BreakPoint)?.min;
+  protected getMinSize(breakpoint: BREAKPOINT): number | null {
+    return (this.config[breakpoint] as BreakPoint)?.min ?? null;
   }
 
   /**
@@ -182,8 +190,10 @@ export class BreakpointService {
    */
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
     return (
-      this.breakpoints.find((br) => windowWidth < this.getSize(br)) ??
-      this.breakpoints?.[this.breakpoints.length - 1]
+      this.breakpoints.find((br) => {
+        const size = this.getSize(br);
+        return size !== null && windowWidth < size;
+      }) ?? this.breakpoints?.[this.breakpoints.length - 1]
     );
   }
 

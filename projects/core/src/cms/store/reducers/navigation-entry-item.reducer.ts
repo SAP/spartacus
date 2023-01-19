@@ -1,12 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NodeItem } from '../../model/node-item.model';
 import { CmsActions } from '../actions/index';
 
-export const initialState: NodeItem = undefined;
+export const initialState: NodeItem | undefined = undefined;
 
 export function reducer(
   state = initialState,
   action: CmsActions.CmsNavigationEntryItemAction
-): NodeItem {
+): NodeItem | undefined {
   switch (action.type) {
     case CmsActions.LOAD_CMS_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {

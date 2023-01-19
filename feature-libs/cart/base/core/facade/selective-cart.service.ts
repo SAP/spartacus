@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Cart,
@@ -10,8 +16,8 @@ import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -28,7 +34,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   protected selectiveCart$: Observable<Cart>;
 
   constructor(
-    protected userService: UserService,
+    protected userProfileFacade: UserProfileFacade,
     protected multiCartFacade: MultiCartFacade,
     protected baseSiteService: BaseSiteService,
     protected userIdService: UserIdService
@@ -41,7 +47,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
     if (!this.selectiveCart$) {
       this.selectiveCart$ = combineLatest([
         this.getSelectiveCartId(),
-        this.userService.get(),
+        this.userProfileFacade.get(),
         this.userIdService.getUserId(),
         this.baseSiteService.getActive(),
       ]).pipe(

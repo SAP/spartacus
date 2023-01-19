@@ -14,7 +14,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_CORE } from '../libs-constants';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   buildDefaultPath,
   getAngularJsonFile,
@@ -30,7 +30,10 @@ import {
 } from './workspace-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('Workspace utils', () => {
   let appTree: UnitTestTree;
@@ -85,14 +88,13 @@ describe('Workspace utils', () => {
     it('should return data about project', async () => {
       const workspaceInfo = getWorkspace(appTree);
       expect(workspaceInfo.path).toEqual('/angular.json');
-      expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
     });
   });
 
   describe('getAngularJsonFile', () => {
     it('should return workspace', async () => {
       const workspace = getAngularJsonFile(appTree);
-      expect(workspace.defaultProject).toEqual(appOptions.name);
+      expect(workspace).not.toBeUndefined();
     });
 
     it('should throw an error if Angular not found', async () => {

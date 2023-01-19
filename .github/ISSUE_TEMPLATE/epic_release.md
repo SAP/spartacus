@@ -18,12 +18,12 @@ The following is a checklist for new epics or features acceptance for Spartacus,
 - [ ] Epic complies with [Security best practices](https://sap.github.io/spartacus-docs/security-best-practices/)
 - [ ] Epic complies with [Accessibility best practices](https://sap.github.io/spartacus-docs/a11y-best-practices/)
 - [ ] Epic CSS supports directionality (if required)
-- [ ] Epic code scans have been conducted (sonar, whitesource, checkmarx)
+- [ ] Epic code scans have been conducted [Compliance scans for branches](https://wiki.one.int.sap/wiki/display/spar/Compliance+scans+for+branches)
 - [ ] Epic renders successfully in SSR
 
 ## Audits/reviews
 
-- [ ] Architecture review of the epic (with @tobi-or-not-tobi)
+- [ ] Architecture review of the epic
 - [ ] Security and threat modeling audit/review from the Security team
 - [ ] Accessibility audit/review from the UX team
 

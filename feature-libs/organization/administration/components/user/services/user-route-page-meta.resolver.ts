@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
@@ -16,7 +22,7 @@ export class UserRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
     super(translation);
   }
 
-  protected getParams(): Observable<B2BUser> {
+  protected getParams(): Observable<B2BUser | undefined> {
     return this.currentItemService.item$;
   }
 }

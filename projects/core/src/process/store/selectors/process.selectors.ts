@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -22,23 +28,26 @@ export function getProcessStateFactory<T>(
 export function getProcessLoadingFactory<T>(
   processId: string
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
-  return createSelector(getProcessStateFactory(processId), (loaderState) =>
-    loaderLoadingSelector(loaderState)
+  return createSelector(
+    getProcessStateFactory<T>(processId),
+    (loaderState: LoaderState<T>) => loaderLoadingSelector(loaderState)
   );
 }
 
 export function getProcessSuccessFactory<T>(
   processId: string
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
-  return createSelector(getProcessStateFactory(processId), (loaderState) =>
-    loaderSuccessSelector(loaderState)
+  return createSelector(
+    getProcessStateFactory<T>(processId),
+    (loaderState: LoaderState<T>) => loaderSuccessSelector(loaderState)
   );
 }
 
 export function getProcessErrorFactory<T>(
   processId: string
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
-  return createSelector(getProcessStateFactory(processId), (loaderState) =>
-    loaderErrorSelector(loaderState)
+  return createSelector(
+    getProcessStateFactory<T>(processId),
+    (loaderState: LoaderState<T>) => loaderErrorSelector(loaderState)
   );
 }

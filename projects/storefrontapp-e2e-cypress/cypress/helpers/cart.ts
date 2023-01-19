@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { clickHamburger, waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
-import { waitForHomePage } from './homepage';
+import { checkBanner } from './homepage';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
@@ -93,9 +99,20 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .first()
       .click({ force: true });
   } else {
+    cy.intercept(
+      `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/products/search?fields=*&query=${id}&*`
+    ).as('ProductSearch');
+
     cy.get('cx-searchbox input')
       .clear({ force: true })
       .type(id, { force: true });
+
+    cy.wait(`@ProductSearch`)
+      .its('response.body.freeTextSearch')
+      .should('eq', id);
+
     cy.get('cx-searchbox')
       .get('.results .products .name')
       .first()
@@ -128,7 +145,7 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   clickAddToCart();
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   closeAddedToCartDialog();
 
@@ -136,9 +153,11 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   cy.get('cx-mini-cart > a').click({ force: true });
 
-  cy.wait('@cart_page');
+  cy.wait('@cart_page').its('response.statusCode').should('eq', 200);
 
-  checkProductInCart(products[0]);
+  return checkProductInCart(
+    products.find((product) => product.code === productCode)
+  );
 }
 
 export function checkBasicCart() {
@@ -158,16 +177,16 @@ export function checkBasicCart() {
   cy.get('cx-searchbox input').clear().type(`cameras{enter}`);
 
   cy.get(
-    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > cx-add-to-cart > .ng-untouched > .btn'
+    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn'
   ).click();
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   closeAddedToCartDialog();
   checkMiniCartCount(2);
   cy.get('cx-mini-cart > a').click({ force: true });
 
-  cy.wait('@cart_page');
+  cy.wait('@cart_page').its('response.statusCode').should('eq', 200);
 
   checkProductInCart(products[4]).within(() => {
     incrementQuantity();
@@ -177,12 +196,12 @@ export function checkBasicCart() {
 
   removeCartItem(products[0]);
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
   cy.get('.cx-item-list-row').should('have.length', 1);
 
   removeCartItem(products[4]);
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -278,7 +297,7 @@ export function removeAllItemsFromCart() {
 
   removeCartItem(products[0]);
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   removeCartItem(products[4]);
 
@@ -289,10 +308,10 @@ export function removeCartItem(product) {
   registerDeleteCartItemRoute();
 
   getCartItem(product.name).within(() => {
-    cy.get('button.cx-remove-btn').click();
+    cy.get('button.cx-remove-btn').should('be.enabled').click();
   });
 
-  cy.wait('@delete_cart_item');
+  cy.wait('@delete_cart_item').its('response.statusCode').should('eq', 200);
 }
 
 export function loginRegisteredUser() {
@@ -308,7 +327,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 
   clickAddToCart();
 
-  cy.wait('@create_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -320,6 +339,7 @@ export function logOutAndNavigateToEmptyCart() {
   });
   cy.wait(`@${logoutPage}`);
 
+  checkBanner();
   clickHamburger();
 
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
@@ -333,14 +353,18 @@ export function logOutAndNavigateToEmptyCart() {
 
 export function addProducts() {
   const prods = products.slice(0, 3);
-  prods.forEach((product) => {
+  prods.forEach((product, index) => {
     cy.visit(`/product/${product.code}`);
     clickAddToCart();
+    checkAddedToCartDialog(index + 1);
     closeAddedToCartDialog();
   });
 }
 
 export function addProductAsAnonymous() {
+  registerCartRefreshRoute();
+  registerCreateCartRoute();
+
   const product = products[2];
 
   createProductQuery(
@@ -362,6 +386,8 @@ export function addProductAsAnonymous() {
     .within(() => {
       clickAddToCart();
     });
+
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -432,22 +458,6 @@ export function verifyMergedCartWhenLoggedIn() {
   checkProductInCart(product1);
 }
 
-export function logOutAndEmptyCart() {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
-  cy.selectUserMenuOption({
-    option: 'Sign Out',
-  });
-  cy.wait(`@${logoutPage}`);
-
-  waitForHomePage();
-
-  const cartPage = waitForPage('/cart', 'getCartPage');
-  cy.visit('/cart');
-  cy.wait(`@${cartPage}`);
-
-  validateEmptyCart();
-}
-
 export function manipulateCartQuantity() {
   const product = products[1];
 
@@ -458,7 +468,7 @@ export function manipulateCartQuantity() {
 
   clickAddToCart();
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -466,7 +476,7 @@ export function manipulateCartQuantity() {
   checkMiniCartCount(1);
   cy.get('cx-mini-cart > a').click({ force: true });
 
-  cy.wait('@cart_page');
+  cy.wait('@cart_page').its('response.statusCode').should('eq', 200);
 
   checkProductInCart(product, 1).within(() => {
     incrementQuantity();
@@ -506,7 +516,7 @@ export const cartUser = {
 export function registerCartUser(user = cartUser) {
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
-  cy.wait(`@${registerPage}`);
+  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
   register({ ...user.registrationData });
   cy.url().should('not.contain', 'register');

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Algorithm for managing dependencies in spartacus
  *
@@ -16,11 +22,13 @@ import chalk from 'chalk';
 import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
 import glob from 'glob';
+import * as path from 'path';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import ts from 'typescript';
 import {
   PACKAGE_JSON,
+  PUBLISHING_VERSION,
   SAPUI5_TYPES,
   SAP_SCOPE,
   SPARTACUS_SCHEMATICS,
@@ -154,7 +162,7 @@ export function manageDependencies(
         const sourceFile = ts.createSourceFile(
           fileName,
           readFileSync(fileName).toString(),
-          ts.ScriptTarget.ES2015,
+          ts.ScriptTarget.ES2020,
           true
         );
 
@@ -213,6 +221,11 @@ export function manageDependencies(
       acc[curr.name] = curr;
       return acc;
     }, {});
+
+  // If publishing version is defined, update the publishing versions of packages
+  if (PUBLISHING_VERSION) {
+    updatePublishingVersions(libraries, PUBLISHING_VERSION);
+  }
 
   // Check where imports are used (spec, lib, schematics, schematics spec)
   categorizeUsageOfDependencies(libraries);
@@ -285,11 +298,33 @@ function filterLocalRelativeImports(
         return acc;
       }, {} as LibraryWithDependencies['tsImports']);
     lib.scssImports = Object.values(lib.scssImports)
-      .filter(
-        (imp) =>
-          imp.importPath.startsWith('node_modules/') ||
-          imp.importPath.startsWith('~')
-      )
+      .filter((imp) => {
+        if (
+          imp.importPath.startsWith('.') ||
+          imp.importPath.startsWith('url(')
+        ) {
+          return false;
+        }
+        if (imp.importPath.startsWith('@')) {
+          return true;
+        }
+        // whether imports can be resolved from relative path
+        let folder = path.dirname([...imp.files][0]);
+        let file;
+        if (imp.importPath.includes('/')) {
+          file = path.basename(imp.importPath);
+          folder = folder + '/' + path.dirname(imp.importPath);
+        } else {
+          file = imp.importPath;
+        }
+        if (
+          fs.existsSync(`${folder}/${file}.scss`) ||
+          fs.existsSync(`${folder}/_${file}.scss`)
+        ) {
+          return false;
+        }
+        return true;
+      })
       .reduce((acc, curr) => {
         acc[curr.importPath] = curr;
         return acc;
@@ -450,6 +485,18 @@ function filterLocalAbsolutePathFiles(
 }
 
 /**
+ * Update the publishing versions for packages
+ */
+function updatePublishingVersions(
+  libraries: Record<string, LibraryWithDependencies>,
+  version: string
+): void {
+  Object.values(libraries).map((library) => {
+    library.version = version;
+  });
+}
+
+/**
  * Categorize in which type of files we use different dependencies
  */
 function categorizeUsageOfDependencies(
@@ -464,7 +511,7 @@ function categorizeUsageOfDependencies(
           file.endsWith('spec.ts') ||
           file === `${lib.directory}/test.ts` ||
           file === `${lib.directory}/src/test.ts` ||
-          file === `${lib.directory}/test-jest.ts`
+          file === `${lib.directory}/setup-jest.ts`
         ) {
           imp.usageIn.spec = true;
         } else if (file.includes('schematics')) {
@@ -559,12 +606,7 @@ function extractExternalDependenciesFromImports(
     });
     Object.values(lib.scssImports).forEach((imp) => {
       let dependency: string;
-      let dep;
-      if (imp.importPath.startsWith('~')) {
-        dep = imp.importPath.substring(1);
-      } else {
-        dep = imp.importPath.substring('node_modules/'.length);
-      }
+      let dep = imp.importPath;
       if (dep.startsWith('@')) {
         const [scope, name] = dep.split('/');
         dependency = `${scope}/${name}`;
@@ -1032,6 +1074,10 @@ function updateDependenciesVersions(
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
+    // If publishing version is defined, update the publishing versions of packages
+    packageJson.version = PUBLISHING_VERSION
+      ? PUBLISHING_VERSION
+      : packageJson.version;
     const types = [
       'dependencies',
       'peerDependencies',

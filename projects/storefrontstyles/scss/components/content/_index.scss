@@ -4,8 +4,9 @@
 @import './tab-paragraph-container/index';
 @import './global-message/index';
 @import './video/index';
+@import './pdf/index';
 
 $content-components-allowlist: cx-banner, cx-link, cx-media, cx-carousel,
   cx-banner-carousel, cx-global-message, cx-navigation-ui, cx-footer-navigation,
   cx-category-navigation, cx-breadcrumb, cx-page-header, cx-scroll-to-top,
-  cx-video !default;
+  cx-video, cx-pdf !default;

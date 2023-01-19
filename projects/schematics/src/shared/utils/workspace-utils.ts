@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   Rule,
+  SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
@@ -18,6 +25,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
 } from '../libs-constants';
+import { debugLogRule } from './logger-utils';
 import { ensureModuleExists } from './new-module-utils';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
@@ -177,8 +185,13 @@ export function validateSpartacusInstallation(packageJson: any): void {
 }
 
 export function scaffoldStructure(options: SpartacusOptions): Rule {
-  return (_tree: Tree) => {
+  return (_tree: Tree, _context: SchematicContext) => {
     return chain([
+      debugLogRule(
+        `⌛️ Scaffolding Spartacus file structure...`,
+        options.debug
+      ),
+
       ensureModuleExists({
         name: SPARTACUS_MODULE,
         path: 'app/spartacus',
@@ -197,6 +210,8 @@ export function scaffoldStructure(options: SpartacusOptions): Rule {
         module: 'spartacus',
         project: options.project,
       }),
+
+      debugLogRule(`✅ Spartacus file structure scaffolded.`, options.debug),
     ]);
   };
 }

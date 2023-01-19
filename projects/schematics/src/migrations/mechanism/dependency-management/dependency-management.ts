@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { logging } from '@angular-devkit/core';
 import {
   chain,
@@ -8,14 +14,11 @@ import {
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import collectedDependencies from '../../../dependencies.json';
 import {
-  CORE_SPARTACUS_SCOPES,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
 } from '../../../shared/libs-constants';
-import {
-  getSpartacusLibraries,
-  installPackageJsonDependencies,
-} from '../../../shared/utils/lib-utils';
+import { analyzeCrossLibraryDependenciesByLibraries } from '../../../shared/utils/dependency-utils';
+import { installPackageJsonDependencies } from '../../../shared/utils/lib-utils';
 import {
   createDependencies,
   readPackageJson,
@@ -56,42 +59,17 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
   spartacusPeerDeps: string[];
 } {
   const dependencies: Record<string, string> = packageJson.dependencies;
-  const installedLibs = getSpartacusLibraries(dependencies);
+  const installedLibs = Object.keys(dependencies).filter((dependency) =>
+    dependency.startsWith(SPARTACUS_SCOPE)
+  );
 
-  let spartacusPeerDeps: string[] = [];
-  for (const spartacusLib of installedLibs) {
-    spartacusPeerDeps = collectSpartacusPeerDeps(
-      spartacusLib,
-      spartacusPeerDeps
-    );
-  }
+  const spartacusPeerDeps =
+    analyzeCrossLibraryDependenciesByLibraries(installedLibs);
 
-  // remove the duplicates
-  spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   return {
     installedLibs,
     spartacusPeerDeps,
   };
-}
-
-function collectSpartacusPeerDeps(
-  name: string,
-  collectedDeps: string[]
-): string[] {
-  const peerDepsWithVersions = (
-    collectedDependencies as Record<string, Record<string, string>>
-  )[name];
-  const peerDeps = Object.keys(peerDepsWithVersions)
-    .filter((d) => d.startsWith(SPARTACUS_SCOPE))
-    .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
-    .filter((d) => !collectedDeps.includes(d));
-
-  collectedDeps = collectedDeps.concat(peerDeps);
-  for (const peerDep of peerDeps) {
-    collectedDeps = collectSpartacusPeerDeps(peerDep, collectedDeps);
-  }
-
-  return collectedDeps;
 }
 
 function createSpartacusLibraryDependencies(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -202,7 +208,7 @@ export class UserGroupEffects {
           catchError((error: HttpErrorResponse) =>
             from([
               new UserGroupActions.CreateUserGroupFail({
-                userGroupId: payload.userGroup.uid,
+                userGroupId: payload.userGroup.uid ?? '',
                 error: normalizeHttpError(error),
               }),
               new OrganizationActions.OrganizationClearData(),
@@ -233,7 +239,7 @@ export class UserGroupEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new UserGroupActions.UpdateUserGroupFail({
-                  userGroupId: payload.userGroup.uid,
+                  userGroupId: payload.userGroup.uid ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),

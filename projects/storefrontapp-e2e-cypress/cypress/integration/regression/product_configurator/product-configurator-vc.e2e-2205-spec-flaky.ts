@@ -1,9 +1,10 @@
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
+import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
+const testProduct = 'CONF_CAMERA_SL';
 
 // UI types
 const radioGroup = 'radioGroup';
@@ -27,6 +28,7 @@ const Conflict_msg_gaming_console =
 // List of attributes
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
+const CAMERA_MODE = 'CAMERA_MODE';
 
 // List of attribute values
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
@@ -34,23 +36,29 @@ const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
 const GAMING_CONSOLE_NO = 'GAMING_CONSOLE_NO';
 
 context('Product Configuration - 2205', () => {
+  let configUISettings: any;
+
   beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        enableNavigationToConflict: true,
+      },
+    };
+    cy.cxConfig(configUISettings);
     cy.visit('/');
   });
 
-  describe.only('Conflict Solver', () => {
+  afterEach(() => {
+    configUISettings.productConfigurator.enableNavigationToConflict = false;
+  });
+
+  describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      clickAllowAllFromBanner();
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
+      configurationVc.registerConfigurationUpdateRoute();
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       cy.wait('@updateConfig');
@@ -83,6 +91,7 @@ context('Product Configuration - 2205', () => {
       cy.wait('@updateConfig');
 
       // Navigate to a conflict group via clicking on 'Conflict Detected' link
+      configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
       configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
       configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
       configurationVc.checkConflictDescriptionDisplayed(
@@ -90,9 +99,61 @@ context('Product Configuration - 2205', () => {
       );
 
       // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
+      configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
       configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+
+      // finally navigate to overview page and check conflict behavior on it
+      configurationOverviewVc.registerConfigurationOverviewRoute();
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.verifyNotificationBannerOnOP(0, 1); // 0 issues, 1 conflict
+      configurationOverviewVc.clickOnResolveConflictsLinkOnOP();
+      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+      configurationVc.checkConflictDescriptionDisplayed(
+        Conflict_msg_gaming_console
+      );
+    });
+  });
+});
+
+context('Variant Carousel for Product Configuration', () => {
+  let configUISettings: any;
+
+  beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        enableVariantSearch: false, // disable variant search
+      },
+    };
+    cy.cxConfig(configUISettings);
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.enableVariantSearch = false; // disable variant search
+  });
+
+  describe('Disable variant search', () => {
+    it('should not display any variant carousel', () => {
+      //Go to the configuration
+      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      // Verify whether attribute is displayed
+      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+      // Verify whether variant carousel is not displayed
+      configuration.checkVariantCarouselNotDisplayed();
+    });
+  });
+
+  describe('Enable variant search', () => {
+    it('should display variant carousel', () => {
+      configUISettings.productConfigurator.enableVariantSearch = true; // enable variant search
+      cy.cxConfig(configUISettings);
+      //Go to the configuration
+      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      // Verify whether attribute is displayed
+      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+      // Verify whether variant carousel is displayed
+      configuration.checkVariantCarouselDisplayed();
     });
   });
 });

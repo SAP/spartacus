@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -133,6 +139,18 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   /**
+   * Waits for the cart to be stable before returning the active cart.
+   */
+  takeActive(): Observable<Cart> {
+    return this.isStable().pipe(
+      filter((isStable) => isStable),
+      switchMap(() => this.getActive()),
+      filter((cart) => !!cart),
+      take(1)
+    );
+  }
+
+  /**
    * Returns active cart id
    */
   getActiveCartId(): Observable<string> {
@@ -143,6 +161,9 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     );
   }
 
+  /**
+   * Waits for the cart to be stable before returning the active cart's ID.
+   */
   takeActiveCartId(): Observable<string> {
     return this.isStable().pipe(
       filter((isStable) => isStable),

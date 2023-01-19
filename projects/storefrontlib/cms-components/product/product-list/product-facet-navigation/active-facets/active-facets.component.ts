@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -24,7 +30,9 @@ export class ActiveFacetsComponent {
   constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
-    return this.facetService.getLinkParams(facet.removeQuery?.query?.value);
+    return this.facetService.getLinkParams(
+      facet.removeQuery?.query?.value ?? ''
+    );
   }
 
   /**

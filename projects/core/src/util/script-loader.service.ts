@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
@@ -62,9 +68,9 @@ export class ScriptLoader {
       Object.keys(attributes).forEach((key) => {
         // custom attributes
         if (key.startsWith('data-')) {
-          script.setAttribute(key, attributes[key]);
+          script.setAttribute(key, attributes[key as keyof object]);
         } else {
-          script[key] = attributes[key];
+          (script as any)[key] = attributes[key as keyof object];
         }
       });
     }
@@ -99,7 +105,10 @@ export class ScriptLoader {
       result =
         '?' +
         keysArray
-          .map((key) => encodeURI(key) + '=' + encodeURI(params[key]))
+          .map(
+            (key) =>
+              encodeURI(key) + '=' + encodeURI(params[key as keyof object])
+          )
           .join('&');
     }
     return result;

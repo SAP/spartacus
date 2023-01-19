@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const inventoryDisplayB2C = {
   IN_STOCK_WITH_QUANTITY_PRODUCT: '358639',
   OUT_OF_STOCK_PRODUCT: '872912',

@@ -1,8 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
-  CostCenterSetEvent,
+  CheckoutCostCenterSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
@@ -36,7 +42,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
                       userId,
                       code: payload,
                     },
-                    CostCenterSetEvent
+                    CheckoutCostCenterSetEvent
                   )
                 )
               )

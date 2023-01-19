@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, InjectionToken, Provider } from '@angular/core';
 import { RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
@@ -107,8 +113,8 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot =
       routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
-    let context: PageContext;
-    let semanticRoute: string;
+    let context: PageContext | undefined;
+    let semanticRoute: string | undefined;
     let urlString = '';
 
     while (state.firstChild) {

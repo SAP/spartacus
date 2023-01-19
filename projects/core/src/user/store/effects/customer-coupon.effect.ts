@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
-import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
+import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 
 @Injectable()
 export class CustomerCouponEffects {

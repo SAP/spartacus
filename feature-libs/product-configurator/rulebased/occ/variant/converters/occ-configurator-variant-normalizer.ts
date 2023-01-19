@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
@@ -34,6 +40,9 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
+      kbKey: source.kbKey ?? undefined,
+      pricingEnabled: source.pricingEnabled ?? true,
+      hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -94,8 +103,8 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
   ): void {
-    const numberOfConflicts = sourceAttribute?.conflicts
-      ? sourceAttribute?.conflicts?.length
+    const numberOfConflicts = sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length
       : 0;
 
     const attributeImages: Configurator.Image[] = [];
@@ -114,16 +123,20 @@ export class OccConfiguratorVariantNormalizer
         this.convertValue(value, attributeValues)
       );
     }
-
+    const uiType = this.convertAttributeType(sourceAttribute);
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
-      ),
+      uiType: uiType,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
-      userInput: sourceAttribute.formattedValue,
+      userInput:
+        uiType === Configurator.UiType.NUMERIC ||
+        uiType === Configurator.UiType.STRING
+          ? sourceAttribute.formattedValue
+            ? sourceAttribute.formattedValue
+            : ''
+          : undefined,
       maxlength:
         (sourceAttribute.maxlength ?? 0) +
         (sourceAttribute.negativeAllowed ? 1 : 0),
@@ -136,6 +149,8 @@ export class OccConfiguratorVariantNormalizer
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,
       key: sourceAttribute.key,
+      validationType: sourceAttribute.validationType,
+      visible: sourceAttribute.visible,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -187,28 +202,54 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
+  protected hasSourceAttributeConflicts(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length > 0
+      : false;
+  }
+
+  protected isSourceAttributeTypeReadOnly(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.type === OccConfigurator.UiType.READ_ONLY;
+  }
+
+  protected isRetractBlocked(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.retractBlocked
+      ? sourceAttribute.retractBlocked
+      : false;
+  }
+
   protected addRetractValue(
     sourceAttribute: OccConfigurator.Attribute,
     values: Configurator.Value[]
   ) {
-    if (this.uiSettingsConfig?.productConfigurator?.addRetractOption) {
-      const attributeType = this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
-      );
+    const isRetractBlocked = this.isRetractBlocked(sourceAttribute);
+    const isConflicting = this.hasSourceAttributeConflicts(sourceAttribute);
 
+    if (!isRetractBlocked) {
       if (
-        attributeType === Configurator.UiType.RADIOBUTTON ||
-        attributeType === Configurator.UiType.DROPDOWN
+        this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
+        (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting)
       ) {
-        const value: Configurator.Value = {
-          valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
-          valueDisplay: '',
-          selected: this.isRetractValueSelected(sourceAttribute),
-        };
+        const attributeType = this.convertAttributeType(sourceAttribute);
+        if (
+          attributeType === Configurator.UiType.RADIOBUTTON ||
+          attributeType === Configurator.UiType.DROPDOWN
+        ) {
+          const value: Configurator.Value = {
+            valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+            selected: this.isRetractValueSelected(sourceAttribute),
+          };
 
-        this.setRetractValueDisplay(attributeType, value);
+          this.setRetractValueDisplay(attributeType, value);
 
-        values.push(value);
+          values.push(value);
+        }
       }
     }
   }
@@ -259,15 +300,25 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {
+  convertAttributeType(
+    sourceAttribute: OccConfigurator.Attribute
+  ): Configurator.UiType {
     let uiType: Configurator.UiType;
-    switch (type) {
+    switch (sourceAttribute.type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
       }
+      case OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+        break;
+      }
       case OccConfigurator.UiType.DROPDOWN: {
         uiType = Configurator.UiType.DROPDOWN;
+        break;
+      }
+      case OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
       case OccConfigurator.UiType.STRING: {
@@ -279,7 +330,11 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.READ_ONLY: {
-        uiType = Configurator.UiType.READ_ONLY;
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.RADIOBUTTON
+            : Configurator.UiType.READ_ONLY;
         break;
       }
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
@@ -381,6 +436,8 @@ export class OccConfiguratorVariantNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||

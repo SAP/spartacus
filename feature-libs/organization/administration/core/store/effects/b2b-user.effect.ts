@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -7,12 +13,13 @@ import {
   B2BUserRole,
   EntitiesModel,
   normalizeHttpError,
+  RouterState,
   RoutingService,
   StateUtils,
   User,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -81,7 +88,9 @@ export class B2BUserEffects {
               switchMap(() => {
                 const successActions = [
                   new B2BUserActions.CreateB2BUserSuccess(data),
-                  new B2BUserActions.CreateB2BUserSuccess({ customerId: null }),
+                  new B2BUserActions.CreateB2BUserSuccess({
+                    customerId: undefined,
+                  }),
                   new OrganizationActions.OrganizationClearData(),
                 ] as any[];
                 if (isAssignedToApprovers) {
@@ -90,8 +99,8 @@ export class B2BUserEffects {
                     0,
                     new OrgUnitActions.AssignApprover({
                       userId,
-                      orgUnitId: orgCustomer.orgUnit.uid,
-                      orgCustomerId: data.customerId,
+                      orgUnitId: orgCustomer.orgUnit?.uid ?? '',
+                      orgCustomerId: data.customerId ?? '',
                       roleId: B2BUserRole.APPROVER,
                     })
                   );
@@ -103,7 +112,7 @@ export class B2BUserEffects {
           catchError((error: HttpErrorResponse) =>
             from([
               new B2BUserActions.CreateB2BUserFail({
-                orgCustomerId: orgCustomer.customerId,
+                orgCustomerId: orgCustomer.customerId ?? '',
                 error: normalizeHttpError(error),
               }),
               new OrganizationActions.OrganizationClearData(),
@@ -137,7 +146,7 @@ export class B2BUserEffects {
                 successActions.push(
                   new OrgUnitActions.AssignApprover({
                     userId,
-                    orgUnitId: orgCustomer.orgUnit.uid,
+                    orgUnitId: orgCustomer.orgUnit?.uid ?? '',
                     orgCustomerId,
                     roleId: B2BUserRole.APPROVER,
                   })
@@ -148,7 +157,7 @@ export class B2BUserEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new B2BUserActions.UpdateB2BUserFail({
-                  orgCustomerId: orgCustomer.customerId,
+                  orgCustomerId: orgCustomer.customerId ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
@@ -167,19 +176,24 @@ export class B2BUserEffects {
     this.actions$.pipe(
       ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
       map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
-      withLatestFrom(this.userService.get(), this.userIdService.getUserId()),
-      switchMap(([payload, currentUser]: [B2BUser, User, string]) => {
-        const currentUserEmailMatch =
-          payload.customerId === currentUser.customerId &&
-          payload.email !== currentUser.displayUid;
+      withLatestFrom(
+        this.userAccountFacade.get(),
+        this.userIdService.getUserId()
+      ),
+      switchMap(
+        ([payload, currentUser]: [B2BUser, User | undefined, string]) => {
+          const currentUserEmailMatch =
+            payload.customerId === currentUser?.customerId &&
+            payload.email !== currentUser?.displayUid;
 
-        if (currentUserEmailMatch) {
-          this.routingService.go({ cxRoute: 'login' });
+          if (currentUserEmailMatch) {
+            this.routingService.go({ cxRoute: 'login' });
+          }
+          return currentUserEmailMatch
+            ? [new AuthActions.Logout()]
+            : [new OrganizationActions.OrganizationClearData()];
         }
-        return currentUserEmailMatch
-          ? [new AuthActions.Logout()]
-          : [new OrganizationActions.OrganizationClearData()];
-      })
+      )
     )
   );
 
@@ -616,11 +630,11 @@ export class B2BUserEffects {
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
-    private userService: UserService,
+    private userAccountFacade: UserAccountFacade,
     private userIdService: UserIdService
   ) {}
 
-  protected redirectToDetails(route, data) {
+  protected redirectToDetails(route: RouterState, data: B2BUser) {
     if ((route as any)?.state?.context?.id !== '/organization/units') {
       this.routingService.go({
         cxRoute: 'orgUserDetails',

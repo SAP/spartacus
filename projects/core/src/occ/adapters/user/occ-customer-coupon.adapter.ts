@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
@@ -24,8 +30,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   getCustomerCoupons(
     userId: string,
     pageSize: number,
-    currentPage: number,
-    sort: string
+    currentPage?: number,
+    sort?: string
   ): Observable<CustomerCouponSearchResult> {
     // Currently OCC only supports calls for customer coupons in case of logged users
     if (userId === OCC_USER_ID_ANONYMOUS) {

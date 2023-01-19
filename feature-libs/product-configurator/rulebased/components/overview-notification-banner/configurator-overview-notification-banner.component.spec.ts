@@ -35,6 +35,38 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+const productConfigurationWithDetailedIssuesCountedInOverview: Configurator.Configuration =
+  {
+    ...productConfigurationWithConflicts,
+    totalNumberOfIssues: 0,
+    overview: {
+      configId: CONFIG_ID,
+      productCode: productConfigurationWithConflicts.productCode,
+      totalNumberOfIssues: 5,
+      numberOfConflicts: 3,
+      numberOfIncompleteCharacteristics: 2,
+    },
+  };
+
+const productConfigurationWithOnlyTotalIssuesCountedInOverview: Configurator.Configuration =
+  {
+    ...productConfigurationWithConflicts,
+    totalNumberOfIssues: 0,
+    overview: {
+      configId: CONFIG_ID,
+      productCode: productConfigurationWithConflicts.productCode,
+      totalNumberOfIssues: 5,
+    },
+  };
+
+const productConfigurationWithIssues: Configurator.Configuration = {
+  ...productConfigurationWithConflicts,
+  overview: {
+    configId: productConfigurationWithConflicts.configId,
+    productCode: productConfigurationWithConflicts.productCode,
+  },
+};
+
 const configuratorType = ConfiguratorType.VARIANT;
 
 const routerData: ConfiguratorRouter.Data = {
@@ -134,28 +166,15 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       htmlElem,
       '.cx-error-msg'
     );
-  });
-
-  it('should count issues from configuration in case OV not available', () => {
-    configurationObs = of(productConfigurationWithoutIssues);
-    initialize(routerData);
-    component.numberOfIssues$.subscribe((numberOfIssues) =>
-      expect(numberOfIssues).toBe(
-        productConfigurationWithoutIssues.totalNumberOfIssues
-      )
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-conflict-msg'
     );
   });
 
   it('should display banner when there are issues', () => {
-    const productConfigurationWithIssuesAndConflicts: Configurator.Configuration =
-      {
-        ...productConfigurationWithConflicts,
-        overview: {
-          configId: productConfigurationWithConflicts.configId,
-          productCode: productConfigurationWithoutIssues.productCode,
-        },
-      };
-    configurationObs = of(productConfigurationWithIssuesAndConflicts);
+    configurationObs = of(productConfigurationWithIssues);
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -169,27 +188,26 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     );
   });
 
-  it('should display banner when there are issues counted in Configurator.Overview', () => {
-    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration =
-      {
-        ...productConfigurationWithoutIssues,
-        overview: {
-          configId: CONFIG_ID,
-          productCode: productConfigurationWithoutIssues.productCode,
-          totalNumberOfIssues: 5,
-        },
-      };
-    configurationObs = of(productConfigurationWithConflictsCountedInOverview);
+  it('should display 2 banners when there are detailed issues counted', () => {
+    configurationObs = of(
+      productConfigurationWithDetailedIssuesCountedInOverview
+    );
     initialize(routerData);
-    CommonConfiguratorTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectNumberOfElements(
       expect,
       htmlElem,
-      'cx-icon'
+      'cx-icon',
+      2
     );
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-error-msg'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-conflict-msg'
     );
   });
 
@@ -205,6 +223,96 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       expect,
       htmlElem,
       '.cx-error-msg'
+    );
+  });
+
+  it('should count issues from configuration in case OV not available', () => {
+    configurationObs = of(productConfigurationWithConflicts);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(
+        productConfigurationWithConflicts.totalNumberOfIssues
+      )
+    );
+  });
+
+  it('should count issues from OV in case OV is available', () => {
+    configurationObs = of(
+      productConfigurationWithOnlyTotalIssuesCountedInOverview
+    );
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(
+        productConfigurationWithOnlyTotalIssuesCountedInOverview.overview
+          ?.totalNumberOfIssues
+      )
+    );
+  });
+
+  it('should count only missing mandatory fields as issues in case detailed issue numbers are available', () => {
+    configurationObs = of(
+      productConfigurationWithDetailedIssuesCountedInOverview
+    );
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(
+        productConfigurationWithDetailedIssuesCountedInOverview.overview
+          ?.numberOfIncompleteCharacteristics
+      )
+    );
+  });
+
+  it('should count zero issues in case detailed issue numbers are available with only conflicts', () => {
+    let config: Configurator.Configuration = {
+      ...productConfigurationWithDetailedIssuesCountedInOverview,
+    };
+    if (config.overview) {
+      config.overview.numberOfIncompleteCharacteristics = 0;
+    }
+    configurationObs = of(config);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(0)
+    );
+  });
+
+  it('should count only conflicts as warnings in case detailed issue numbers are available', () => {
+    configurationObs = of(
+      productConfigurationWithDetailedIssuesCountedInOverview
+    );
+    initialize(routerData);
+    component.numberOfConflicts$.subscribe((numberOfConflicts) =>
+      expect(numberOfConflicts).toBe(
+        productConfigurationWithDetailedIssuesCountedInOverview.overview
+          ?.numberOfConflicts
+      )
+    );
+    component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
+      expect(skipConflicts).toBe(true)
+    );
+  });
+
+  it('should count zero warnings as in case detailed issue numbers are not available', () => {
+    configurationObs = of(
+      productConfigurationWithOnlyTotalIssuesCountedInOverview
+    );
+    initialize(routerData);
+    component.numberOfConflicts$.subscribe((numberOfConflicts) =>
+      expect(numberOfConflicts).toBe(0)
+    );
+    component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
+      expect(skipConflicts).toBe(false)
+    );
+  });
+
+  it('should count zero warnings as in case overview is not available', () => {
+    configurationObs = of(productConfigurationWithConflicts);
+    initialize(routerData);
+    component.numberOfConflicts$.subscribe((numberOfConflicts) =>
+      expect(numberOfConflicts).toBe(0)
+    );
+    component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
+      expect(skipConflicts).toBe(false)
     );
   });
 });

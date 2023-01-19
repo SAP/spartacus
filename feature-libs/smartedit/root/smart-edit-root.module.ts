@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultSmartEditConfig } from './config/default-smart-edit-config';
@@ -6,7 +12,7 @@ import { SmartEditLauncherService } from './services/smart-edit-launcher.service
 
 export function smartEditFactory(
   smartEditLauncherService: SmartEditLauncherService
-) {
+): () => void {
   const isReady = () => {
     smartEditLauncherService.load();
   };

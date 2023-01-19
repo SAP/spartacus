@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -26,6 +32,7 @@ import { Cart, CartType, OrderEntry } from '../models/cart.model';
         'updateEntry',
         'getEntry',
         'assignEmail',
+        'removeCart',
         'deleteCart',
         'reloadCart',
         'getCartIdByType',
@@ -208,6 +215,16 @@ export abstract class MultiCartFacade {
    * @param email
    */
   abstract assignEmail(cartId: string, userId: string, email: string): void;
+
+  /**
+   * Remove cart
+   *
+   * Removes the cart from the state.
+   * To remove a cart from the state and back-end, please use `DeleteCart` action.
+   *
+   * @param cartId
+   */
+  abstract removeCart(cartId: string): void;
 
   /**
    * Delete cart

@@ -1,9 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartFacade,
   CartAddEntrySuccessEvent,
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { Category, EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
@@ -23,10 +31,12 @@ import {
   mapTo,
   pairwise,
   startWith,
+  switchMapTo,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
   AddedToCartPushEvent,
+  CartSnapshotPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
@@ -70,12 +80,14 @@ export class ProfileTagPushEventsService {
     this.orderConfirmationPageVisited(),
     this.addedToCart(),
     this.removedFromCart(),
-    this.modifiedCart()
+    this.modifiedCart(),
+    this.cartChangedEvent()
   );
 
   constructor(
     protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
+    protected personalizationContextService: PersonalizationContextService,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   /**
@@ -252,9 +264,9 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to CartAddEntrySuccessEvent events, transforms them to AddedToCartPushEvent.
+   * Listens to @CartAddEntrySuccessEvent events, transforms them to @AddedToCartPushEvent .
    *
-   * @returns an observable emitting AddedToCartPushEvent events
+   * @returns an observable emitting @AddedToCartPushEvent events
    * @see CartAddEntrySuccessEvent
    * @see AddedToCartPushEvent
    */
@@ -320,8 +332,8 @@ export class ProfileTagPushEventsService {
   /**
    * Listens to @CartUpdateEntrySuccessEvent events, transforms them to @ModifiedCartPushEvent
    *
-   * @returns an observable emitting @RemovedFromCartPushEvent events
-   * @see CartRemoveEntrySuccessEvent
+   * @returns an observable emitting @ModifiedCartPushEvent events
+   * @see CartUpdateEntrySuccessEvent
    * @see ModifiedCartPushEvent
    */
   protected modifiedCart(): Observable<ProfileTagPushEvent> {
@@ -345,6 +357,34 @@ export class ProfileTagPushEventsService {
                   item.entry.product.categories.length - 1
                 ].code
               : undefined,
+          })
+      )
+    );
+  }
+
+  /**
+   * Listens to @CartAddEntrySuccessEvent , @CartUpdateEntrySuccessEvent and @CartRemoveEntrySuccessEvent events,
+   * transforms them to @CartSnapshotPushEvent whenever there is an activity on the cart.
+   *
+   * @returns an observable emitting @CartSnapshotPushEvent events
+   * @see CartAddEntrySuccessEvent
+   * @see CartUpdateEntrySuccessEvent
+   * @see CartRemoveEntrySuccessEvent
+   * @see MergeCartSuccessEvent
+   * @see CartSnapshotPushEvent
+   */
+  protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
+    return merge(
+      this.eventService.get(CartAddEntrySuccessEvent),
+      this.eventService.get(CartUpdateEntrySuccessEvent),
+      this.eventService.get(CartRemoveEntrySuccessEvent),
+      this.eventService.get(MergeCartSuccessEvent)
+    ).pipe(
+      switchMapTo(this.activeCartFacade.takeActive()),
+      map(
+        (cart) =>
+          new CartSnapshotPushEvent({
+            cart,
           })
       )
     );

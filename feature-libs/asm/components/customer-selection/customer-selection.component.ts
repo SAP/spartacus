@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ElementRef,
@@ -7,7 +13,11 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -21,7 +31,7 @@ import { debounceTime } from 'rxjs/operators';
   },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
-  customerSelectionForm: FormGroup;
+  customerSelectionForm: UntypedFormGroup;
   protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
@@ -34,7 +44,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @ViewChild('searchTerm') searchTerm: ElementRef;
 
   constructor(
-    protected fb: FormBuilder,
+    protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig
   ) {}

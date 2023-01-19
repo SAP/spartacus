@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { BaseSite, Currency, Language } from '../../model/misc.model';
 export const SITE_CONTEXT_FEATURE = 'siteContext';
 
@@ -16,20 +22,20 @@ export interface CurrencyEntities {
 }
 
 export interface CurrenciesState {
-  entities: CurrencyEntities;
-  activeCurrency: string;
+  entities: CurrencyEntities | null;
+  activeCurrency: string | null;
 }
 export interface LanguagesEntities {
   [isocode: string]: Language;
 }
 
 export interface LanguagesState {
-  entities: LanguagesEntities;
-  activeLanguage: string;
+  entities: LanguagesEntities | null;
+  activeLanguage: string | null;
 }
 
 export interface BaseSiteState {
-  entities: BaseSiteEntities;
+  entities: BaseSiteEntities | null;
   activeSite: string;
   details: BaseSite;
 }

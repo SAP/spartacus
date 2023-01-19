@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
   CmsConfig,
   FeaturesConfig,
@@ -11,6 +18,7 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
+  KeyboardFocusModule,
   OutletModule,
   PromotionsModule,
   SpinnerModule,
@@ -18,6 +26,7 @@ import {
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
+import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
@@ -46,6 +55,8 @@ const moduleComponents = [
     SpinnerModule,
     RouterModule,
     OutletModule,
+    AddToCartModule,
+    KeyboardFocusModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -55,6 +66,9 @@ const moduleComponents = [
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
+          data: {
+            enableAddToCart: true,
+          },
         },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
@@ -67,6 +81,8 @@ const moduleComponents = [
         consignmentTracking: '1.2',
       },
     }),
+
+    provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

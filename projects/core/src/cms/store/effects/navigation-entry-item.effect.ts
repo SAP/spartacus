@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
@@ -52,10 +58,10 @@ export class NavigationEntryItemEffects {
                 )
             )
           );
-        } else if (data.ids.pageIds.length > 0) {
+          //} else if (data.ids.pageIds.length > 0) {
           // TODO: future work
           // dispatch action to load cms page one by one
-        } else if (data.ids.mediaIds.length > 0) {
+          //} else if (data.ids.mediaIds.length > 0) {
           // TODO: future work
           // send request to get list of media
         } else {

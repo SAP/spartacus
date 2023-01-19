@@ -7,27 +7,43 @@ on:
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
-
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
+  
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
 
 concurrency: 
-  group: ${{ github.head_ref || github.run_id }}
+  group: ci-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Spartacus build pipeline
 jobs:
   no_retries: 
-    name: Verify retries
+    name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
-      - name: Forcefully fail build if retried
+      - name: Forcefully fail build if jobs are all retried
         uses: actions/github-script@v5
         with:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
+  validate_e2e_execution:
+    name: Validate pull_request files
+    runs-on: ubuntu-latest
+    outputs: 
+      SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Determine whether to run e2es
+        id: save-e2e-output-result
+        run: |         
+          source ci-scripts/validate-e2e-execution.sh
+          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   unit_tests_core:
     needs: no_retries
     name: Unit tests for core Spartacus libs
@@ -38,8 +54,18 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -55,16 +81,44 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
         run: |
           ci-scripts/unit-tests.sh
+  sonarqube_scan:
+    needs: no_retries
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.projectKey=composable-storefront
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonar.tools.sap
+    if: github.event_name == 'pull_request'
   linting:
     needs: no_retries
-    name: Validation checks
+    name: Validations and static code checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -72,69 +126,118 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@14
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
   b2c_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
+        env: 
+          SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2B
     runs-on: ubuntu-latest
     strategy:
       matrix:
         containers: [1, 2]
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
-  lighthouse:
-    needs: no_retries
-    name: Lighthouse score validation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
-      - name: Package installation
-        run: yarn --frozen-lockfile
-      - name: Run lighthouse score validation
-        run: |
-          ci-scripts/lhci.sh
   build_conclusion:
-    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
+    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -145,11 +248,77 @@ jobs:
           script: |
             core.setFailed('Build failed')
         if: |
-          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' || needs.no_retries.result == 'skipped' ||
-          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || needs.unit_tests_core.result == 'skipped' ||
-          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || needs.unit_tests_libs.result == 'skipped' ||
-          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' || needs.linting.result == 'skipped' ||
-          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' || needs.b2c_e2e_tests.result == 'skipped' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
-          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
-          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
+          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
+          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
+          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' ||
+          needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
+          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
+  send_slack_message:
+    needs: build_conclusion
+    name: Slack message for failed develop CI build in Spartacus
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Notify the slack channel of when build conclusion failed
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          channel-id: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":nuclear-bomb: :fireduck: *Broken build in develop*"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Failed build",
+                        "emoji": true
+                      },
+                      "value": "failed_build",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "What was committed?",
+                        "emoji": true
+                      },
+                      "value": "recent_merged_commit",
+                      "url": "${{ github.event.head_commit.url }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Build history",
+                        "emoji": true
+                      },
+                      "value": "buid_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                    }
+                  ]
+                }
+              ]
+            }
+        if: | 
+          needs.build_conclusion.result == 'failure' &&
+          github.event_name == 'push' && 
+          github.ref_name == 'develop'

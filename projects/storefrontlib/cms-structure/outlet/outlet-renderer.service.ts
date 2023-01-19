@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { isNotNullable } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,7 +23,7 @@ export class OutletRendererService {
    */
   render(outlet: string): void {
     if (this.outletRefs.value.size !== 0) {
-      this.outletRefs.value.get(outlet).render();
+      this.outletRefs.value.get(outlet)?.render();
     }
   }
 

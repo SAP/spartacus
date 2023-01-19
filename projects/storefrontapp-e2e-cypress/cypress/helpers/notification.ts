@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { login } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import { generateMail, randomString } from './user';
@@ -94,7 +100,7 @@ export function updateEmail(): String {
   cy.get('cx-update-email [formcontrolname="email"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="password"]').type(password);
-  cy.get('cx-update-email button').click();
+  cy.get('cx-update-email button').contains('Save').click();
   login(newUid, password);
   return newUid;
 }

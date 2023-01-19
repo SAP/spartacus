@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ProductReference } from '../../../model/product.model';
 import { ProductActions } from '../actions/index';
 import { ProductReferencesState } from '../product-state';
@@ -27,7 +33,7 @@ export function reducer(
               !productReferences.some(
                 (obj) =>
                   obj.referenceType === productReference.referenceType &&
-                  obj.target.code === productReference.target.code
+                  obj.target?.code === productReference.target?.code
               )
             ) {
               productReferences.push(productReference);

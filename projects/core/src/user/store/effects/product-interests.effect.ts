@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
-import { UserActions } from '../actions/index';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
-import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
+import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ProductInterestsEffect {
@@ -60,9 +65,9 @@ export class ProductInterestsEffect {
                 payload.singleDelete
                   ? {
                       userId: payload.userId,
-                      productCode: payload.item.product.code,
+                      productCode: payload.item.product?.code,
                       notificationType:
-                        payload.item.productInterestEntry[0].interestType,
+                        payload.item.productInterestEntry?.[0].interestType,
                     }
                   : { userId: payload.userId }
               ),

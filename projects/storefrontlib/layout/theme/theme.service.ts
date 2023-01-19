@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ComponentRef,
   Injectable,
@@ -27,10 +33,10 @@ export class ThemeService {
     // Theme value is a string. It is put in the generic multi-value
     // property of the SiteContextConfig. So the array's first item
     // is the theme value.
-    this.setTheme(this.config.context[THEME_CONTEXT_ID]?.[0]);
+    this.setTheme(this.config.context?.[THEME_CONTEXT_ID]?.[0]);
   }
 
-  setTheme(theme: string): void {
+  setTheme(theme: string | undefined): void {
     if (theme) {
       const element = this.rootComponent.location.nativeElement;
       // remove the old theme

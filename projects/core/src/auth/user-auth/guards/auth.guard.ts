@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -26,7 +32,9 @@ export class AuthGuard implements CanActivate {
       map((isLoggedIn) => {
         if (!isLoggedIn) {
           this.authRedirectService.saveCurrentNavigationUrl();
-          return this.router.parseUrl(this.semanticPathService.get('login'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('login') ?? ''
+          );
         }
         return isLoggedIn;
       })

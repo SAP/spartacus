@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CmsComponent } from '../../model';
 import { StateUtils } from '../../state/index';
 import { NodeItem } from '../model/node-item.model';
@@ -14,7 +20,7 @@ export interface StateWithCms {
 export type ComponentsState = StateUtils.EntityState<ComponentsContext>;
 
 export interface ComponentsContext {
-  component: CmsComponent;
+  component?: CmsComponent;
   /**
    * Page context stores an information for which context does the component exist.
    * For example, if `SiteLogoComponent` was successfully loaded for a product page with an ID of 1776948, then this object will contain:

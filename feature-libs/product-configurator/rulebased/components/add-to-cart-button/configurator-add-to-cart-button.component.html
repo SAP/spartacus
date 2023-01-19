@@ -4,6 +4,13 @@
       <button
         class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
         (click)="onAddToCart(container.configuration, container.routerData)"
+        [attr.aria-label]="
+          (getButtonResourceKey(container.routerData, container.configuration)
+            | cxTranslate) +
+          ' ' +
+          ('configurator.a11y.addToCartPrices'
+            | cxTranslate: extractConfigPrices(container.configuration))
+        "
       >
         {{
           getButtonResourceKey(container.routerData, container.configuration)

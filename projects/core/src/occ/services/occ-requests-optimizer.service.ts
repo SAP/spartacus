@@ -1,14 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ScopedData } from '../../model/scoped-data';
 import { map, shareReplay } from 'rxjs/operators';
+import { ScopedData } from '../../model/scoped-data';
 import { extractFields } from '../utils/occ-fields';
 import {
   OccFieldsModel,
   OccFieldsService,
   ScopedDataWithUrl,
 } from './occ-fields.service';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +35,7 @@ export class OccRequestsOptimizerService {
     scopedDataWithUrls: ScopedDataWithUrl[],
     dataFactory?: (url: string) => Observable<T>
   ): ScopedData<T>[] {
-    const result = [];
+    const result: ScopedData<T>[] = [];
 
     if (!dataFactory) {
       dataFactory = (url) => this.http.get<any>(url);
@@ -50,17 +56,17 @@ export class OccRequestsOptimizerService {
           // only one scope for url, we can pass the data straightaway
           result.push({
             ...groupedModels[0].scopedData,
-            data$: dataFactory(url),
+            data$: dataFactory?.(url),
           });
         } else {
           // multiple scopes per url
           // we have to split the model per each scope
-          const data$ = dataFactory(url).pipe(shareReplay(1));
+          const data$ = dataFactory?.(url).pipe(shareReplay(1));
 
           groupedModels.forEach((modelData) => {
             result.push({
               ...modelData.scopedData,
-              data$: data$.pipe(
+              data$: data$?.pipe(
                 map((data) => extractFields<T>(data, modelData.fields))
               ),
             });

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Converter,
@@ -23,11 +29,12 @@ export class OccBudgetListNormalizer
     target?: EntitiesModel<Budget>
   ): EntitiesModel<Budget> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<Budget>;
     }
-    target.values = source.budgets.map((budget) => ({
-      ...this.converter.convert(budget, BUDGET_NORMALIZER),
-    }));
+    target.values =
+      source.budgets?.map((budget) => ({
+        ...this.converter.convert(budget, BUDGET_NORMALIZER),
+      })) ?? [];
     return target;
   }
 }

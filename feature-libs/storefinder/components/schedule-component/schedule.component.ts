@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { PointOfService, WeekdayOpeningDay } from '@spartacus/core';
 
@@ -11,7 +17,9 @@ export class ScheduleComponent implements OnInit {
 
   weekDays: WeekdayOpeningDay[];
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit(): void {
     if (this.location) {

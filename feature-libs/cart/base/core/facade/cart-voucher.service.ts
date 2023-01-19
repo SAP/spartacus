@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
@@ -43,10 +49,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Get add voucher process error flag
-   * @deprecated since 2.0
    */
   getAddVoucherResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -54,10 +58,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Get add voucher process success flag
-   * @deprecated since 2.0
    */
   getAddVoucherResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -65,10 +67,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Get add voucher process loading flag
-   * @deprecated since 2.0
    */
   getAddVoucherResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -76,10 +76,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Reset add voucher process
-   * @deprecated since 2.0
    */
   resetAddVoucherProcessingState(): void {
     this.store.dispatch(new CartActions.CartResetAddVoucher());

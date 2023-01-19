@@ -1,5 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  Optional,
+} from '@angular/core';
+import {
+  FeatureConfigService,
   isNotUndefined,
   RoutingService,
   TranslationService,
@@ -19,15 +31,35 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderHistoryComponent implements OnDestroy {
+  // TODO(#630): make featureConfigService are required dependency and for major releases, remove featureConfigService
+  constructor(
+    routing: RoutingService,
+    orderHistoryFacade: OrderHistoryFacade,
+    translation: TranslationService,
+    replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    routing: RoutingService,
+    orderHistoryFacade: OrderHistoryFacade,
+    translation: TranslationService,
+    replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+  );
   constructor(
     protected routing: RoutingService,
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;
+  hasPONumber: boolean | undefined;
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.PAGE_SIZE)
@@ -36,6 +68,10 @@ export class OrderHistoryComponent implements OnDestroy {
         if (orders?.pagination?.sort) {
           this.sortType = orders.pagination.sort;
         }
+        // TODO(#630): remove featureConfigService for major releases
+        this.hasPONumber =
+          orders?.orders?.[0]?.purchaseOrderNumber !== undefined &&
+          this.featureConfigService?.isLevel('5.1');
       })
     );
 

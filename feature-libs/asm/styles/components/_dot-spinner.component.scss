@@ -1,0 +1,35 @@
+%cx-dot-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  > div {
+    width: 8px;
+    height: 8px;
+    margin: 6px;
+    border-radius: 100%;
+    background-color: currentColor;
+    animation: spinner-dots-pulse 1s ease infinite;
+
+    &:nth-child(1) {
+      animation-delay: -0.2s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes spinner-dots-pulse {
+      0%,
+      100%,
+      60% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+      30% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+      }
+    }
+  }
+}

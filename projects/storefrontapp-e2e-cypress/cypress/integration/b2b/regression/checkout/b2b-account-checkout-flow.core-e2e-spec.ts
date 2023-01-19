@@ -2,7 +2,7 @@ import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import {
   b2bAccountShipToUser,
   b2bProduct,
-  cartWithB2bProduct,
+  cartWithB2bProductAndPremiumShipping,
   order_type,
   POWERTOOLS_BASESITE,
 } from '../../../../sample-data/b2b-checkout';
@@ -45,7 +45,7 @@ context('B2B - Account Checkout flow', () => {
   it('should review and place order', () => {
     b2bCheckout.reviewB2bReviewOrderPage(
       b2bAccountShipToUser,
-      cartWithB2bProduct,
+      cartWithB2bProductAndPremiumShipping,
       true,
       order_type.PLACE_ORDER
     );
@@ -57,7 +57,7 @@ context('B2B - Account Checkout flow', () => {
     b2bCheckout.reviewB2bOrderConfirmation(
       b2bAccountShipToUser,
       b2bProduct,
-      cartWithB2bProduct
+      cartWithB2bProductAndPremiumShipping
     );
   });
 });

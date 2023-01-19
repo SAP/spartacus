@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
 import * as alerts from './global-message';
@@ -19,7 +25,7 @@ export function testUpdateEmailAndLogin() {
       cy.get('[formcontrolname="confirmEmail"]').type(newUid);
       cy.get('[formcontrolname="password"]').type(password);
 
-      cy.get('button').click();
+      cy.get('button.btn-primary').click();
     });
     cy.get('cx-login-form').should('exist');
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EntitiesModel, ListModel } from '../../model/index';
 import { SearchConfig } from '../../product/model/search-config';
 import { EntityListState } from './entity-list-state';
@@ -39,11 +45,11 @@ export function denormalizeCustomB2BSearch<T>(
   const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
     value: {
       values: serializedList.value.ids.map(
-        (code) => entityLoaderStateSelector(entities, code).value
+        (code: string) => entityLoaderStateSelector(entities, code).value
       ),
     },
   });
-  if (params) {
+  if (params && res.value) {
     res.value.pagination = serializedList.value.pagination;
     res.value.sorts = serializedList.value.sorts;
   }
@@ -54,9 +60,9 @@ export function normalizeListPage<T>(
   list: EntitiesModel<T>,
   id: string
 ): { values: T[]; page: ListModel } {
-  const values = list?.values || [];
+  const values = list.values || [];
   const page: ListModel = {
-    ids: values.map((data) => data[id]),
+    ids: values.map((data) => (<any>data)[id]),
   };
   if (list.pagination) {
     page.pagination = list.pagination;

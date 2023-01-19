@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -9,4 +15,5 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   @Input() attribute: Configurator.Attribute;
   @Input() group: String;
+  @Input() expMode: boolean;
 }

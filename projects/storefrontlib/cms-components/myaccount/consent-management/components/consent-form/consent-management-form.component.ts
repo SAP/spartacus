@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AnonymousConsent,
@@ -19,7 +25,7 @@ export class ConsentManagementFormComponent implements OnInit {
   requiredConsents: string[] = [];
 
   @Input()
-  consent: AnonymousConsent;
+  consent: AnonymousConsent | null;
 
   @Output()
   consentChanged = new EventEmitter<{
@@ -27,7 +33,9 @@ export class ConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit(): void {
     if (this.consent) {
@@ -54,7 +62,7 @@ export class ConsentManagementFormComponent implements OnInit {
     });
   }
 
-  isRequired(templateId: string): boolean {
-    return this.requiredConsents.includes(templateId);
+  isRequired(templateId: string | undefined): boolean {
+    return templateId ? this.requiredConsents.includes(templateId) : false;
   }
 }

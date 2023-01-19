@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
 
@@ -46,11 +52,8 @@ export class CartAddVoucherSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-// TODO(#7241): Remove when switching to event system for vouchers
 /**
  * Resets add voucher process
- *
- * @deprecated since 2.0
  */
 export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
   readonly type = CART_RESET_ADD_VOUCHER;

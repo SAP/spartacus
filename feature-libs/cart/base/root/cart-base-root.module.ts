@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -8,6 +14,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { ORDER_ENTRIES_CONTEXT } from './context/order-entires.context';
+import { CartBaseEventModule } from './events/cart-base-event.module';
 import {
   ADD_TO_CART_FEATURE,
   CART_BASE_CORE_FEATURE,
@@ -51,6 +58,7 @@ export function defaultCartComponentsConfig() {
 
 @NgModule({
   imports: [
+    CartBaseEventModule,
     RouterModule.forChild([
       {
         // @ts-ignore

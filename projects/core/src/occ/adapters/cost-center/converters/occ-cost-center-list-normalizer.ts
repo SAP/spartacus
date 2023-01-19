@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { COST_CENTER_NORMALIZER } from '../../../../cost-center/connectors/cost-center/converters';
 import { EntitiesModel } from '../../../../model/misc.model';
@@ -21,7 +27,7 @@ export class OccCostCenterListNormalizer
     target?: EntitiesModel<CostCenter>
   ): EntitiesModel<CostCenter> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<CostCenter>;
     }
     target.values = source.costCenters.map((costCenter) => ({
       ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),

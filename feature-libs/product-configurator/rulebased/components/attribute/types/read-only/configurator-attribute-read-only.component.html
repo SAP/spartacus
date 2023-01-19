@@ -1,4 +1,7 @@
-<div id="{{ createAttributeIdForConfigurator(attribute) }}">
+<div
+  id="{{ createAttributeIdForConfigurator(attribute) }}"
+  *ngIf="attribute.values !== undefined && attribute.values.length > 0"
+>
   <ng-container
     *ngIf="
       attribute.values !== undefined && attribute.values.length > 0;
@@ -22,7 +25,9 @@
         }}
       </span>
       <div class="cx-read-only-label" *ngIf="value.selected" aria-hidden="true">
-        <span aria-hidden="true">{{ value.valueDisplay }}</span>
+        <span aria-hidden="true">{{
+          getLabel(expMode, value.valueDisplay, value.valueCode)
+        }}</span>
       </div>
     </ng-container>
   </ng-container>
@@ -69,7 +74,7 @@
                 }
         }}
       </span>
-      <div class="cx-read-only-label">
+      <div class="cx-read-only-label" aria-hidden="true">
         <span aria-hidden="true">{{ attribute.userInput }}</span>
       </div>
     </ng-container>

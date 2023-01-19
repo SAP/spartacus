@@ -1,4 +1,10 @@
-export function mockTranslate(key: string, options: any = {}) {
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export function mockTranslate(key: string | undefined, options: any = {}) {
   const optionsString = Object.keys(options)
     .sort()
     .map((optionName) => `${optionName}:${options[optionName]}`)

@@ -32,7 +32,7 @@
               *ngIf="data.pagination?.sort"
               [searchable]="false"
               [clearable]="false"
-              (change)="sort(data.pagination)"
+              (change)="sort($any(data.pagination))"
               [tabIndex]="0"
               [(ngModel)]="sortCode"
               [attr.aria-label]="
@@ -51,6 +51,7 @@
           <ng-content select="[actions]"></ng-content>
 
           <a
+            *ngIf="!hideAddButton"
             class="button primary create"
             [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
             routerLinkActive="disabled"
@@ -61,20 +62,20 @@
       </div>
 
       <cx-table
-        *ngIf="data.values?.length > 0; else emptyList"
+        *ngIf="data.values && data.values.length > 0; else emptyList"
         [structure]="structure"
         [data]="data.values"
         [i18nRoot]="domainType"
         [currentItem]="{ property: key, value: currentKey$ | async }"
         (launch)="launchItem($event)"
-        [cxFocus]="{ trap: 'both' }"
+        [cxFocus]="{ trap: trapFocus.both }"
       >
       </cx-table>
 
       <div class="footer">
         <cx-pagination
           [pagination]="data.pagination"
-          (viewPageEvent)="browse(data.pagination, $event)"
+          (viewPageEvent)="browse($any(data.pagination), $event)"
         ></cx-pagination>
       </div>
     </cx-view>

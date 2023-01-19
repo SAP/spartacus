@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -179,7 +185,7 @@ export class RoutingPageMetaResolver {
    */
   protected getPageMetaConfig(
     route: ActivatedRouteSnapshotWithPageMeta
-  ): RoutePageMetaConfig {
+  ): RoutePageMetaConfig | undefined {
     // Note: we use `route.routeConfig.data` (not `route.data`) to save us from
     // an edge case bug. In Angular, by design the `data` of ActivatedRoute is inherited
     // from the parent route, if only the child has an empty path ''.

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -28,7 +34,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
       catchError((error: any) => throwError(error)),
-      map((methodList) => methodList.payments),
+      map((methodList) => methodList.payments ?? []),
       this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
     );
   }

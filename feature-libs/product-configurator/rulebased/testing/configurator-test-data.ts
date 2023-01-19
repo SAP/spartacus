@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -21,10 +27,10 @@ export const GROUP_ID_8 = '1234-56-7898';
 export const GROUP_ID_9 = '1234-56-7899';
 export const GROUP_ID_10 = '1234-56-7900';
 
-export const GROUP_ID_CONFLICT_HEADER = '9999-99-0000';
-export const GROUP_ID_CONFLICT_1 = '9999-99-0001';
-export const GROUP_ID_CONFLICT_2 = '9999-99-0002';
-export const GROUP_ID_CONFLICT_3 = '9999-99-0003';
+export const GROUP_ID_CONFLICT_HEADER = 'CONFLICT_HEADER';
+export const GROUP_ID_CONFLICT_1 = 'CONFLICT9999-99-0001';
+export const GROUP_ID_CONFLICT_2 = 'CONFLICT9999-99-0002';
+export const GROUP_ID_CONFLICT_3 = 'CONFLICT9999-99-0003';
 export const ATTRIBUTE_1_CHECKBOX = 'ATTRIBUTE_1_CHECKBOX';
 
 export const VALUE_01 = 'VALUE_01';
@@ -140,14 +146,15 @@ export const attributeRadioButton: Configurator.Attribute = {
     },
   ],
 };
-
+export const attributeCheckboxCode = 123;
+export const attributeCheckboxGroupId = '1';
 export const attributeCheckbox: Configurator.Attribute = {
   name: 'ATTRIBUTE_2_RADIOBUTTON',
   uiType: Configurator.UiType.RADIOBUTTON,
   required: false,
   incomplete: false,
-  groupId: '1',
-  attrCode: 123,
+  groupId: attributeCheckboxGroupId,
+  attrCode: attributeCheckboxCode,
   values: [
     {
       name: VALUE_01,
@@ -170,14 +177,264 @@ export const attributeCheckbox: Configurator.Attribute = {
   ],
 };
 
+export const productConfigurationWithoutBasePrice: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 123.56,
+      },
+      selectedOptions: {
+        formattedValue: '$500',
+        currencyIso: 'USD',
+        value: 500,
+      },
+      currentTotal: {
+        formattedValue: '$623.56',
+        currencyIso: 'USD',
+        value: 623.56,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
+export const mockProductConfigurationWithoutTotalPrice: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: '$123.56',
+        currencyIso: 'USD',
+        value: 123.56,
+      },
+      selectedOptions: {
+        formattedValue: '$500',
+        currencyIso: 'USD',
+        value: 500,
+      },
+      currentTotal: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 623.56,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
+export const mockProductConfigurationWithPriceSummaryButNoPrices: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 50,
+      },
+      selectedOptions: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 20,
+      },
+      currentTotal: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 30,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
+export const productConfigurationWithoutSelectedOptions: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: '$123.56',
+        currencyIso: 'USD',
+        value: 123.56,
+      },
+      selectedOptions: {
+        formattedValue: '',
+        currencyIso: 'USD',
+        value: 500,
+      },
+      currentTotal: {
+        formattedValue: '$623.56',
+        currencyIso: 'USD',
+        value: 623.56,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+export const OV_GROUP_DESCRIPTION = 'Group 1';
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  priceSummary: {
+    basePrice: { formattedValue: '$123.56', currencyIso: 'USD', value: 123.56 },
+    selectedOptions: { formattedValue: '$500', currencyIso: 'USD', value: 500 },
+    currentTotal: {
+      formattedValue: '$623.56',
+      currencyIso: 'USD',
+      value: 623.56,
+    },
+  },
   groups: [
     {
       id: GROUP_ID_1,
       configurable: true,
       description: 'Description for ' + GROUP_ID_1,
+      name: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [attributeCheckbox],
       subGroups: [],
@@ -313,7 +570,7 @@ export const productConfiguration: Configurator.Configuration = {
     groups: [
       {
         id: '1',
-        groupDescription: 'Group 1',
+        groupDescription: OV_GROUP_DESCRIPTION,
         attributes: [
           {
             attribute: 'C1',
@@ -348,12 +605,14 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
       id: GROUP_ID_CONFLICT_HEADER,
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       attributes: [],
+      description: GROUP_ID_CONFLICT_HEADER,
       subGroups: [
         {
           id: GROUP_ID_CONFLICT_3,
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
           attributes: undefined,
+          description: GROUP_ID_CONFLICT_3,
         },
         {
           id: GROUP_ID_CONFLICT_1,

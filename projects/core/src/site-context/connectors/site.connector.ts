@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Country, CountryType, Region } from '../../model/address.model';
@@ -26,7 +32,7 @@ export class SiteConnector {
     return this.adapter.loadRegions(countryIsoCode);
   }
 
-  getBaseSite(siteUid?: string): Observable<BaseSite> {
+  getBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
     return this.adapter.loadBaseSite(siteUid);
   }
 

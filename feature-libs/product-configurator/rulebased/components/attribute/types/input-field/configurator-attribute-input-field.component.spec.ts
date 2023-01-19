@@ -217,4 +217,33 @@ describe('ConfigAttributeInputFieldComponent', () => {
       );
     });
   });
+
+  describe('isRequired', () => {
+    it('should tell from attribute if form input required for string and numeric attribute without domain', () => {
+      expect(component.isRequired).toBe(true);
+
+      component.attribute.uiType = Configurator.UiType.NUMERIC;
+      expect(component.isRequired).toBe(true);
+
+      component.attribute.required = false;
+      expect(component.isRequired).toBe(false);
+    });
+
+    it('should handle situation where required is not defined on attribute level', () => {
+      component.attribute.required = undefined;
+      expect(component.isRequired).toBe(false);
+    });
+
+    it('should always return false for attribute types with domain', () => {
+      component.attribute.required = true;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isRequired).toBe(false);
+
+      component.attribute.required = undefined;
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isRequired).toBe(false);
+    });
+  });
 });

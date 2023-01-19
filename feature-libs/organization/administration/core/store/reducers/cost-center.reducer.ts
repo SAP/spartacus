@@ -1,13 +1,19 @@
-import { CostCenter, StateUtils } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CostCenter, ListModel, StateUtils } from '@spartacus/core';
 import { CostCenterActions } from '../actions/index';
 
-export const costCenterInitialState = undefined;
-export const costCentersInitialState = undefined;
+export const costCenterInitialState: CostCenter | undefined = undefined;
+export const costCentersInitialState: ListModel | undefined = undefined;
 
 export function costCentersEntitiesReducer(
-  state: CostCenter = costCenterInitialState,
+  state = costCenterInitialState,
   action: StateUtils.LoaderAction
-): CostCenter {
+): CostCenter | undefined {
   switch (action.type) {
     case CostCenterActions.LOAD_COST_CENTER_SUCCESS:
     case CostCenterActions.CREATE_COST_CENTER_SUCCESS:
@@ -20,7 +26,7 @@ export function costCentersEntitiesReducer(
 export function costCentersListReducer(
   state = costCentersInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case CostCenterActions.LOAD_COST_CENTERS_SUCCESS:
       return action.payload.page;
@@ -31,7 +37,7 @@ export function costCentersListReducer(
 export function costCenterAssignedBudgetsListReducer(
   state = costCentersInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case CostCenterActions.LOAD_ASSIGNED_BUDGETS_SUCCESS:
       return action.payload.page;

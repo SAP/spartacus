@@ -1,12 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  Product,
-  RoutingService,
   BaseOption,
-  VariantQualifier,
-  VariantOptionQualifier,
-  ProductService,
+  isNotUndefined,
+  Product,
   ProductScope,
+  ProductService,
+  RoutingService,
+  VariantOptionQualifier,
+  VariantQualifier,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
 
@@ -34,7 +41,7 @@ export class ProductVariantSizeSelectorComponent {
         .pipe(
           // below call might looks redundant but in fact this data is going to be loaded anyways
           // we're just calling it earlier and storing
-          filter((p) => !!p),
+          filter(isNotUndefined),
           take(1)
         )
         .subscribe((product: Product) => {

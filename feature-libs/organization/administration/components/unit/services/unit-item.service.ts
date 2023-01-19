@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
@@ -33,16 +39,19 @@ export class UnitItemService extends ItemService<B2BUnit> {
     return this.unitService.get(code);
   }
 
-  update(code, value: B2BUnit): Observable<OrganizationItemStatus<B2BUnit>> {
+  update(
+    code: string,
+    value: B2BUnit
+  ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.update(code, value);
-    return this.unitService.getLoadingStatus(value.uid);
+    return this.unitService.getLoadingStatus(value.uid ?? '');
   }
 
   protected create(
     value: B2BUnit
   ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.create(value);
-    return this.unitService.getLoadingStatus(value.uid);
+    return this.unitService.getLoadingStatus(value.uid ?? '');
   }
 
   /**

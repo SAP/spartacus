@@ -1,15 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel, B2BUser } from '@spartacus/core';
+import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
-  UserGroup,
-  UserGroupService,
   B2BUserService,
   OrganizationItemStatus,
+  UserGroup,
+  UserGroupService,
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +42,7 @@ export class UserGroupUserListService extends SubListService<B2BUser> {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.userGroupService.getAvailableOrgCustomers(code, pagination);
   }
 

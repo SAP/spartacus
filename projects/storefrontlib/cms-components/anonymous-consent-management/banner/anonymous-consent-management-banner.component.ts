@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
 import { AnonymousConsentsService } from '@spartacus/core';
-import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
-import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
@@ -25,7 +31,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
     this.hideBanner();
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.ANONYMOUS_CONSENT,
-      null,
+      undefined,
       this.vcr
     );
     if (dialog) {

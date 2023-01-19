@@ -1,8 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
 import {
@@ -23,14 +28,12 @@ import { StoreFinderStoreDescriptionComponent } from './store-finder-store-descr
 import { StoreFinderStoreComponent } from './store-finder-store/store-finder-store.component';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderComponent } from './store-finder/store-finder.component';
-
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
     ListNavigationModule,
-    NgbNavModule,
     SpinnerModule,
     UrlModule,
     StoreFinderCoreModule,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface TranslationChunksConfig {
   [chunk: string]: string[];
 }
@@ -17,6 +23,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'errorHandlers',
     'carousel',
     'assistiveMessage',
+    'passwordVisibility',
+    'generalErrors',
   ],
   address: [
     'addressForm',

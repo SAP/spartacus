@@ -1,4 +1,10 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -14,7 +20,7 @@ import {
   providedIn: 'root',
 })
 export class IconLoaderService {
-  private loadedResources = [];
+  private loadedResources: string[] = [];
   constructor(
     protected winRef: WindowRef,
     protected iconConfig: IconConfig,
@@ -24,14 +30,27 @@ export class IconLoaderService {
   /**
    * Returns an html fragment which can be added to the DOM in a safe way.
    */
-  getHtml(type: ICON_TYPE | string): SafeHtml {
+  getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
     if (this.isResourceType(type, IconResourceType.SVG)) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
+      const url = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        this.getSvgPath(type) || null
       );
+      if (url) {
+        const useElement = this.winRef.document.createElement('use');
+        useElement.setAttribute('xlink:href', url);
+        const svgElement = this.winRef.document.createElement('svg');
+        svgElement.appendChild(useElement);
+        return this.sanitizer.bypassSecurityTrustHtml(svgElement.outerHTML);
+      }
     }
     if (this.isResourceType(type, IconResourceType.TEXT)) {
-      return this.sanitizer.bypassSecurityTrustHtml(this.getSymbol(type));
+      const symbol = this.getSymbol(type);
+      if (symbol) {
+        const helperDiv = this.winRef.document.createElement('div');
+        helperDiv.textContent = symbol;
+        return this.sanitizer.bypassSecurityTrustHtml(helperDiv.innerHTML);
+      }
     }
   }
 
@@ -39,7 +58,7 @@ export class IconLoaderService {
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  getFlipDirection(type: ICON_TYPE | string): DirectionMode {
+  getFlipDirection(type: ICON_TYPE | string): DirectionMode | undefined {
     return this.config?.flipDirection?.[type];
   }
 
@@ -60,7 +79,7 @@ export class IconLoaderService {
     resourceType: IconResourceType
   ): boolean {
     return (
-      this.config.resources &&
+      this.config?.resources !== undefined &&
       !!this.config.resources.find(
         (res) =>
           res.types && res.type === resourceType && res.types.includes(iconType)
@@ -74,8 +93,8 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  private getSvgPath(iconType: ICON_TYPE | string): string {
-    const svgResource = this.config.resources.find(
+  private getSvgPath(iconType: ICON_TYPE | string): string | undefined {
+    const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG &&
         res.types &&
@@ -97,30 +116,31 @@ export class IconLoaderService {
    * web component.
    */
   addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource = this.findResource(
-      iconType,
-      IconResourceType.LINK
-    );
-    if (
-      resource &&
-      resource.url &&
-      !this.loadedResources.includes(resource.url)
-    ) {
+    const resource = this.findResource(iconType, IconResourceType.LINK);
+
+    if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
-      const head = this.winRef.document.getElementsByTagName('head')[0];
-      const link = this.winRef.document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = resource.url;
-      head.appendChild(link);
+      // using DOM APIs, so need to sanitize our URLs manually
+      const sanitizedUrl = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        resource.url
+      );
+      if (sanitizedUrl) {
+        const head = this.winRef.document.getElementsByTagName('head')[0];
+        const link = this.winRef.document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = sanitizedUrl;
+        head.appendChild(link);
+      }
     }
   }
 
   private findResource(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
-  ): IconConfigResource {
-    if (!this.config.resources) {
+  ): IconConfigResource | undefined {
+    if (!this.config?.resources) {
       return;
     }
 
@@ -131,7 +151,9 @@ export class IconLoaderService {
     // no specific resource found, let's try to find a one-size-fits-all resource
     if (!resource) {
       resource = this.config.resources.find(
-        (res) => (res.type === resourceType && !res.types) || res.types === []
+        (res) =>
+          (res.type === resourceType && !res.types) ||
+          (res.types && res.types.length === 0)
       );
     }
     return resource;
@@ -143,7 +165,7 @@ export class IconLoaderService {
     }
   }
 
-  private get config(): IconOptions {
+  private get config(): IconOptions | undefined {
     return this.iconConfig.icon;
   }
 }

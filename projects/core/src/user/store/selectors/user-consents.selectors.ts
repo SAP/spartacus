@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { StateUtils } from '../../../state/utils/index';
@@ -21,7 +27,7 @@ export const getConsentsValue: MemoizedSelector<
 
 export const getConsentByTemplateId = (
   templateId: string
-): MemoizedSelector<StateWithUser, ConsentTemplate> =>
+): MemoizedSelector<StateWithUser, ConsentTemplate | undefined> =>
   createSelector(getConsentsValue, (templates) =>
     templates.find((template) => template.id === templateId)
   );

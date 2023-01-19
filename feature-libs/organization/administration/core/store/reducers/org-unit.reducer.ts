@@ -1,14 +1,20 @@
-import { StateUtils } from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ListModel, StateUtils } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { OrgUnitActions } from '../actions/index';
 
-export const orgUnitInitialState = undefined;
-export const orgUnitsInitialState = undefined;
+export const orgUnitInitialState: B2BUnitNode | undefined = undefined;
+export const orgUnitsInitialState: ListModel | undefined = undefined;
 
 export function orgUnitEntitiesReducer(
-  state: B2BUnitNode = orgUnitInitialState,
+  state = orgUnitInitialState,
   action: StateUtils.LoaderAction
-): B2BUnitNode {
+): B2BUnitNode | undefined {
   switch (action.type) {
     case OrgUnitActions.LOAD_ORG_UNIT_SUCCESS:
     case OrgUnitActions.CREATE_ORG_UNIT_SUCCESS:
@@ -45,7 +51,7 @@ export function orgUnitUserListReducer(
 export function orgUnitAddressListReducer(
   state = orgUnitsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case OrgUnitActions.LOAD_ADDRESSES_SUCCESS:
       return action.payload.page;

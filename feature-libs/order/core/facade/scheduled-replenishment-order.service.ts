@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -38,6 +44,7 @@ export class ScheduledReplenishmentOrderService
             .pipe(
               tap((replenishmentOrder) => {
                 this.orderFacade.setPlacedOrder(replenishmentOrder);
+
                 this.eventService.dispatch(
                   {
                     userId,
@@ -47,13 +54,6 @@ export class ScheduledReplenishmentOrderService
                      * we can safely use the cartId, which is actually the cart.code.
                      */
                     cartCode: cartId,
-                  },
-                  RemoveCartEvent
-                );
-                this.eventService.dispatch(
-                  {
-                    userId,
-                    cartId,
                     replenishmentOrder,
                   },
                   ReplenishmentOrderScheduledEvent

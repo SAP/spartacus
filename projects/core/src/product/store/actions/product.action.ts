@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
 import { EntityLoaderMeta } from '../../../state/utils/entity-loader/entity-loader.action';
@@ -36,7 +42,7 @@ export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailA
 export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
   constructor(public payload: Product, scope = '') {
-    super(PRODUCT_DETAIL_ENTITY, payload.code, scope);
+    super(PRODUCT_DETAIL_ENTITY, payload.code ?? '', scope);
   }
 }
 

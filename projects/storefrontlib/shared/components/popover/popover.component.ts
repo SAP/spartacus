@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -13,13 +19,13 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
 import { WindowRef } from '@spartacus/core';
-import { PopoverEvent, PopoverPosition } from './popover.model';
-import { PositioningService } from '../../services/positioning/positioning.service';
-import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { Subject, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { PositioningService } from '../../services/positioning/positioning.service';
+import { PopoverEvent, PopoverPosition } from './popover.model';
 
 @Component({
   selector: 'cx-popover',
@@ -80,11 +86,6 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    * Flag used to show/hide close button in popover component.
    */
   displayCloseButton?: boolean;
-
-  /**
-   * Flag which indicates if passed content is a TemplateRef or string.
-   */
-  isTemplate: boolean;
 
   /**
    * After popover component is initialized position needs to be changing dynamically
@@ -160,18 +161,18 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }
 
-  protected isClickedOnPopover(event) {
+  protected isClickedOnPopover(event: MouseEvent) {
     return this.popoverInstance.location.nativeElement.contains(event.target);
   }
 
-  protected isClickedOnDirective(event) {
+  protected isClickedOnDirective(event: MouseEvent) {
     return this.triggerElement.nativeElement.contains(event.target);
   }
 
   /**
    * Emits close event trigger.
    */
-  close(event: MouseEvent | KeyboardEvent) {
+  close(event: MouseEvent | KeyboardEvent | Event) {
     event.preventDefault();
     if (event instanceof MouseEvent) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
@@ -213,11 +214,15 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.isTemplate = this.content instanceof TemplateRef;
-
-    if (!this.customClass) this.customClass = 'cx-popover';
-    if (!this.position) this.position = 'top';
-    if (this.autoPositioning === undefined) this.autoPositioning = true;
+    if (!this.customClass) {
+      this.customClass = 'cx-popover';
+    }
+    if (!this.position) {
+      this.position = 'top';
+    }
+    if (this.autoPositioning === undefined) {
+      this.autoPositioning = true;
+    }
 
     this.baseClass = `${this.customClass}`;
 
@@ -234,6 +239,17 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.positionOnScroll) {
       this.triggerScrollEvent();
     }
+  }
+
+  /**
+   * indicates if passed content is a TemplateRef or string.
+   */
+  isTemplate(content: string | TemplateRef<any>): content is TemplateRef<any> {
+    return content instanceof TemplateRef;
+  }
+
+  isString(content: string | TemplateRef<any>): content is string {
+    return !(content instanceof TemplateRef);
   }
 
   ngAfterViewChecked(): void {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
@@ -89,20 +95,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         }
       }),
       map(([templateList, anonymousTemplates]) => {
-        if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
-          if (
-            Boolean(
-              this.anonymousConsentsConfig.anonymousConsents.requiredConsents
-            )
-          ) {
+        if (this.anonymousConsentsConfig.anonymousConsents) {
+          if (this.anonymousConsentsConfig.anonymousConsents.requiredConsents) {
             this.requiredConsents =
               this.anonymousConsentsConfig.anonymousConsents.requiredConsents;
           }
           if (
-            Boolean(
-              this.anonymousConsentsConfig.anonymousConsents
-                .consentManagementPage
-            )
+            this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
           ) {
             return this.hideAnonymousConsents(templateList, anonymousTemplates);
           }
@@ -120,10 +119,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     let hideTemplateIds: string[] = [];
 
     if (
-      !this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-        .showAnonymousConsents
+      !this.anonymousConsentsConfig.anonymousConsents?.consentManagementPage
+        ?.showAnonymousConsents
     ) {
-      hideTemplateIds = anonymousTemplates.map((template) => template.id);
+      hideTemplateIds = anonymousTemplates.map((template) => template.id ?? '');
       return this.userConsentService.filterConsentTemplates(
         templateList,
         hideTemplateIds
@@ -131,10 +130,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     }
 
     if (
-      Boolean(
-        this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
-          .hideConsents
-      ) &&
+      this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
+        .hideConsents &&
       this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
         .hideConsents.length > 0
     ) {
@@ -192,9 +189,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     given: boolean;
     template: ConsentTemplate;
   }): void {
-    if (given) {
+    if (given && template.id && template.version !== undefined) {
       this.userConsentService.giveConsent(template.id, template.version);
-    } else {
+    } else if (template.currentConsent?.code) {
       this.userConsentService.withdrawConsent(template.currentConsent.code);
     }
   }
@@ -222,7 +219,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   rejectAll(templates: ConsentTemplate[] = []): void {
     const consentsToWithdraw: ConsentTemplate[] = [];
     templates.forEach((template) => {
-      if (this.userConsentService.isConsentGiven(template.currentConsent)) {
+      if (
+        template.currentConsent &&
+        this.userConsentService.isConsentGiven(template.currentConsent)
+      ) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -252,9 +252,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     const withdraw$ = count$.pipe(
       tap((i) => {
         if (i < consentsToWithdraw.length) {
-          this.userConsentService.withdrawConsent(
-            consentsToWithdraw[i].currentConsent.code
-          );
+          const code = consentsToWithdraw[i].currentConsent?.code;
+          if (code) {
+            this.userConsentService.withdrawConsent(code);
+          }
         }
       })
     );
@@ -268,7 +269,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach((template) => {
-      if (this.userConsentService.isConsentWithdrawn(template.currentConsent)) {
+      if (
+        template.currentConsent &&
+        this.userConsentService.isConsentWithdrawn(template.currentConsent)
+      ) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -298,10 +302,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     const giveConsent$ = count$.pipe(
       tap((i) => {
         if (i < consentsToGive.length) {
-          this.userConsentService.giveConsent(
-            consentsToGive[i].id,
-            consentsToGive[i].version
-          );
+          const consent = consentsToGive[i];
+          if (consent.id && consent.version !== undefined) {
+            this.userConsentService.giveConsent(consent.id, consent.version);
+          }
         }
       })
     );
@@ -313,14 +317,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
-    return (
-      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-      Boolean(
-        this.anonymousConsentsConfig.anonymousConsents.requiredConsents
-      ) &&
-      this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-        template.id
-      )
+    return Boolean(
+      template.id &&
+        this.anonymousConsentsConfig.anonymousConsents &&
+        this.anonymousConsentsConfig.anonymousConsents?.requiredConsents &&
+        this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+          template.id
+        )
     );
   }
 

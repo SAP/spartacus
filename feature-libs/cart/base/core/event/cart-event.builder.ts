@@ -1,8 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartFacade,
+  AddCartVoucherEvent,
+  AddCartVoucherFailEvent,
+  AddCartVoucherSuccessEvent,
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
@@ -16,6 +25,10 @@ import {
   DeleteCartEvent,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  RemoveCartVoucherEvent,
+  RemoveCartVoucherFailEvent,
+  RemoveCartVoucherSuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
   ActionToEventMapping,
@@ -50,6 +63,9 @@ export class CartEventBuilder {
     this.registerRemoveEntry();
     this.registerUpdateEntry();
     this.registerDeleteCart();
+    this.registerAddCartVoucher();
+    this.registerRemoveCartVoucher();
+    this.registerMergeCartSuccess();
   }
 
   /**
@@ -89,6 +105,13 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_FAIL,
       event: CartUpdateEntryFailEvent,
+    });
+  }
+
+  protected registerMergeCartSuccess(): void {
+    this.registerMapped({
+      action: CartActions.MERGE_CART_SUCCESS,
+      event: MergeCartSuccessEvent,
     });
   }
 
@@ -139,6 +162,40 @@ export class CartEventBuilder {
           ...action.payload,
           cartCode: action.payload.cartId,
         }),
+    });
+  }
+
+  protected registerAddCartVoucher(): void {
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_VOUCHER,
+      event: AddCartVoucherEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_VOUCHER_SUCCESS,
+      event: AddCartVoucherSuccessEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_VOUCHER_FAIL,
+      event: AddCartVoucherFailEvent,
+    });
+  }
+
+  protected registerRemoveCartVoucher(): void {
+    this.stateEventService.register({
+      action: CartActions.CART_REMOVE_VOUCHER,
+      event: RemoveCartVoucherEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      event: RemoveCartVoucherSuccessEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_REMOVE_VOUCHER_FAIL,
+      event: RemoveCartVoucherFailEvent,
     });
   }
 

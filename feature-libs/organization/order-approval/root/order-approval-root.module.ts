@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -37,6 +43,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -13,10 +19,10 @@ export class BreadcrumbSchemaBuilder implements SchemaBuilder {
   build(): Observable<any> {
     return this.pageMetaService
       .getMeta()
-      .pipe(map((pageMeta: PageMeta) => this.collect(pageMeta)));
+      .pipe(map((pageMeta: PageMeta | null) => this.collect(pageMeta)));
   }
 
-  protected collect(pageMeta: PageMeta): any {
+  protected collect(pageMeta: PageMeta | null): any {
     if (!pageMeta?.breadcrumbs) {
       return;
     }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -58,8 +64,22 @@ export class MultiCartEffects {
           }
           break;
         }
-        case CartActions.LOAD_CART_SUCCESS:
-        // point to `temp-${uuid}` when we are creating/merging cart
+        case CartActions.LOAD_CART_SUCCESS: {
+          if (action?.payload?.extraData?.active) {
+            // saved cart is not active cart
+            if (action.payload?.cart.saveTime) {
+              return new CartActions.SetCartTypeIndex({
+                cartType: CartType.ACTIVE,
+                cartId: '',
+              });
+            }
+            return new CartActions.SetCartTypeIndex({
+              cartType: CartType.ACTIVE,
+              cartId: action.meta.entityId as string,
+            });
+          }
+          break;
+        }
         case CartActions.CREATE_CART: {
           if (action?.payload?.extraData?.active) {
             return new CartActions.SetCartTypeIndex({

@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
-  PaymentTypeSetEvent,
+  CheckoutPaymentTypeSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
@@ -161,7 +161,7 @@ describe(`CheckoutPaymentTypeService`, () => {
         });
     });
 
-    it(`should call dispatch PaymentTypeSetEvent`, (done) => {
+    it(`should call dispatch CheckoutPaymentTypeSetEvent`, (done) => {
       service
         .setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
         .pipe(take(1))
@@ -173,7 +173,7 @@ describe(`CheckoutPaymentTypeService`, () => {
               paymentTypeCode: mockB2bPaymentType,
               purchaseOrderNumber: mockPurchaseOrderNumber,
             },
-            PaymentTypeSetEvent
+            CheckoutPaymentTypeSetEvent
           );
           done();
         });

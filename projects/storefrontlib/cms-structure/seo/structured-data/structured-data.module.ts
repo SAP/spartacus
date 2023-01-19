@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { JsonLdDirective } from './json-ld.directive';
@@ -7,7 +13,7 @@ import { StructuredDataFactory } from './structured-data.factory';
  * Factory to build the structure data
  * without any interaction with the UI.
  */
-export function getStructuredDataFactory(injector: Injector) {
+export function getStructuredDataFactory(injector: Injector): () => void {
   const result = () => {
     const factory = injector.get(StructuredDataFactory);
     factory.build();

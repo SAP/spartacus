@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectorRef,
   isDevMode,
@@ -32,11 +38,11 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
           `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
         );
       }
-      return;
+      return '';
     }
 
     if ((input as Translatable).raw) {
-      return (input as Translatable).raw;
+      return (input as Translatable).raw ?? '';
     }
 
     const key = typeof input === 'string' ? input : input.key;

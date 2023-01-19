@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
@@ -6,6 +12,7 @@ import {
   Injector,
 } from '@angular/core';
 import { Router, Scroll } from '@angular/router';
+import { isFeatureLevel } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, pairwise } from 'rxjs/operators';
 import { OnNavigateConfig } from './config';
@@ -45,6 +52,14 @@ export class OnNavigateService {
     this.subscription?.unsubscribe();
 
     if (enable) {
+      // Disable automatic scroll restoration to avoid race conditions
+      /**
+       * @deprecated since 5.1
+       * this feature level check should be removed in Major release
+       */
+      if (isFeatureLevel(this.config, '5.1')) {
+        this.viewportScroller.setHistoryScrollRestoration('manual');
+      }
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
@@ -54,11 +69,10 @@ export class OnNavigateService {
           const previousRoute = event[0];
           const currentRoute = event[1];
 
-          if (currentRoute.position) {
+          const position = currentRoute.position;
+          if (position) {
             // allow the pages to be repainted before scrolling to proper position
-            setTimeout(() =>
-              this.viewportScroller.scrollToPosition(currentRoute.position)
-            );
+            setTimeout(() => this.viewportScroller.scrollToPosition(position));
           } else {
             if (
               this.config.enableResetViewOnNavigate?.ignoreQueryString &&

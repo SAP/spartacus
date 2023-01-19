@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -95,7 +101,7 @@ export class PermissionEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new PermissionActions.CreatePermissionFail({
-                  permissionCode: payload.permission.code,
+                  permissionCode: payload.permission.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
@@ -125,7 +131,7 @@ export class PermissionEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new PermissionActions.UpdatePermissionFail({
-                  permissionCode: payload.permission.code,
+                  permissionCode: payload.permission.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),

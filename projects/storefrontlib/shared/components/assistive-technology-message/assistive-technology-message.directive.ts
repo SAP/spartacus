@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Directive,
   ElementRef,
@@ -20,7 +26,7 @@ export class AtMessageDirective {
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
-  @Input() cxAtMessage: string | string[];
+  @Input() cxAtMessage: string | string[] | undefined;
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,

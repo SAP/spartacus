@@ -1,5 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  EntitiesModel,
+  isNotUndefined,
+  PaginationModel,
+} from '@spartacus/core';
 import {
   PermissionService,
   UserGroup,
@@ -44,7 +54,7 @@ export class PermissionListService extends ListService<PermissionModel> {
     pagination: PaginationModel
   ): Observable<EntitiesModel<PermissionModel>> {
     return this.permissionsService.getList(pagination).pipe(
-      filter((list) => Boolean(list)),
+      filter(isNotUndefined),
       map((raw) => this.convertPermissions(raw))
     );
   }

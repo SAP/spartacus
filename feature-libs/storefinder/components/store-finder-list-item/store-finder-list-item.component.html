@@ -39,9 +39,9 @@
       </div>
     </div>
     <a
-      aria-hidden="true"
       href="{{ getDirections(location) }}"
       target="_blank"
+      rel="noopener noreferrer"
       class="btn btn-sm btn-action btn-block cx-button"
       (click)="$event.stopPropagation()"
       [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"

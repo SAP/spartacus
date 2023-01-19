@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // We need this import for augmentation of OccEndpoints to pick up
 import { CartOccEndpoints } from '@spartacus/cart/base/occ';
 import { OccConfig } from '@spartacus/core';

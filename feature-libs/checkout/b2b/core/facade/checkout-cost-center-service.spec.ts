@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { CostCenterSetEvent } from '@spartacus/checkout/b2b/root';
+import { CheckoutCostCenterSetEvent } from '@spartacus/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
@@ -127,7 +127,7 @@ describe(`CheckoutCostCenterService`, () => {
         });
     });
 
-    it(`should call dispatch CostCenterSetEvent`, (done) => {
+    it(`should call dispatch CheckoutCostCenterSetEvent`, (done) => {
       service
         .setCostCenter(mockCostCenter.code ?? '')
         .pipe(take(1))
@@ -138,7 +138,7 @@ describe(`CheckoutCostCenterService`, () => {
               userId: mockUserId,
               code: mockCostCenter.code ?? '',
             },
-            CostCenterSetEvent
+            CheckoutCostCenterSetEvent
           );
           done();
         });

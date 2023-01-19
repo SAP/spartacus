@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { AuthService } from '../facade/auth.service';
-import { AuthRedirectService } from '../services/auth-redirect.service';
 import { NotAuthGuard } from './not-auth.guard';
 
 class AuthServiceStub implements Partial<AuthService> {
@@ -19,30 +18,20 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
   }
 }
 
-class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  reportNotAuthGuard = jasmine.createSpy('reportNotAuthGuard');
-}
-
 describe('NotAuthGuard', () => {
   let guard: NotAuthGuard;
   let authService: AuthServiceStub;
-  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: SemanticPathService, useClass: SemanticPathServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
-        {
-          provide: AuthRedirectService,
-          useClass: MockAuthRedirectService,
-        },
       ],
       imports: [RouterTestingModule],
     });
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotAuthGuard);
-    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   describe(', when user is authorized,', () => {
@@ -74,11 +63,6 @@ describe('NotAuthGuard', () => {
         .unsubscribe();
 
       expect(result).toBe(true);
-    });
-
-    it('should notify AuthRedirectService with the current navigation', () => {
-      guard.canActivate().subscribe().unsubscribe();
-      expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
     });
   });
 });

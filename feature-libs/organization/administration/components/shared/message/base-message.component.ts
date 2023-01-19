@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
@@ -13,7 +19,7 @@ import { MessageData } from './message.model';
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class BaseMessageComponent implements OnInit {
-  @HostBinding('class') type: string;
+  @HostBinding('class') type: string | undefined;
   @HostBinding('class.terminated') terminated = false;
 
   message: Translatable;
@@ -22,7 +28,7 @@ export abstract class BaseMessageComponent implements OnInit {
   /**
    * Icon used to display next to the message.
    */
-  messageIcon: ICON_TYPE;
+  messageIcon: ICON_TYPE | undefined;
 
   constructor(
     protected messageData: MessageData,
@@ -41,10 +47,10 @@ export abstract class BaseMessageComponent implements OnInit {
   }
 
   close(): void {
-    this.messageData.events.next({ close: true });
+    this.messageData.events?.next({ close: true });
   }
 
-  protected resolveType(): string {
+  protected resolveType(): string | undefined {
     if (
       !this.messageData.type ||
       this.messageData.type === GlobalMessageType.MSG_TYPE_INFO

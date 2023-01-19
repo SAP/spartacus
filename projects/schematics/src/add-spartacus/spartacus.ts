@@ -1,4 +1,15 @@
-import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
 import { BASE_STOREFRONT_MODULE } from '../shared/constants';
 import {
   SPARTACUS_MODULE,
@@ -10,11 +21,16 @@ import {
 } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
+import { Schema as SpartacusOptions } from './schema';
 
 /** Migration which ensures the spartacus is being correctly set up */
-export function setupSpartacusModule(project: string): Rule {
-  return (tree: Tree): Tree => {
-    const { buildPaths } = getProjectTsConfigPaths(tree, project);
+export function setupSpartacusModule(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Setting up Spartacus module...`);
+    }
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     if (!buildPaths.length) {
       throw new SchematicsException(
@@ -25,6 +41,10 @@ export function setupSpartacusModule(project: string): Rule {
     const basePath = process.cwd();
     for (const tsconfigPath of buildPaths) {
       configureSpartacusModules(tree, tsconfigPath, basePath);
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅ Spartacus module setup complete.`);
     }
     return tree;
   };

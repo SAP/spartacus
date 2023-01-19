@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -28,7 +34,7 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<Occ.LanguageList>(this.occEndpointsService.buildUrl('languages'))
       .pipe(
-        map((languageList) => languageList.languages),
+        map((languageList) => languageList.languages ?? []),
         this.converterService.pipeableMany(LANGUAGE_NORMALIZER)
       );
   }
@@ -37,7 +43,7 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<Occ.CurrencyList>(this.occEndpointsService.buildUrl('currencies'))
       .pipe(
-        map((currencyList) => currencyList.currencies),
+        map((currencyList) => currencyList.currencies ?? []),
         this.converterService.pipeableMany(CURRENCY_NORMALIZER)
       );
   }
@@ -50,7 +56,7 @@ export class OccSiteAdapter implements SiteAdapter {
         })
       )
       .pipe(
-        map((countryList) => countryList.countries),
+        map((countryList) => countryList.countries ?? []),
         this.converterService.pipeableMany(COUNTRY_NORMALIZER)
       );
   }
@@ -63,7 +69,7 @@ export class OccSiteAdapter implements SiteAdapter {
         })
       )
       .pipe(
-        map((regionList) => regionList.regions),
+        map((regionList) => regionList.regions ?? []),
         this.converterService.pipeableMany(REGION_NORMALIZER)
       );
   }

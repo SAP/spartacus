@@ -1,0 +1,51 @@
+cx-account-summary-document-filter {
+  .cx-account-summary-document-filter-form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+
+  .cx-account-summary-document-filter-form-item {
+    flex-direction: column;
+    flex-basis: 25%;
+    padding: 0.5rem;
+
+    @include media-breakpoint-down(md) {
+      flex-basis: 50%;
+      padding: 0.5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-basis: 100%;
+      padding: 0.5rem;
+    }
+  }
+
+  .cx-account-summary-document-filter-form-input {
+    padding: 0.5rem;
+    width: 100%;
+    height: 50px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    border-radius: 4px;
+  }
+
+  .cx-account-summary-document-filter-form-button-block {
+    flex-basis: 100%;
+    justify-content: flex-end;
+    margin-inline-end: 0.5rem;
+    margin-bottom: 2rem;
+    align-self: center;
+
+    display: flex;
+    flex-direction: row;
+
+    .clear-btn {
+      margin-inline-end: 1rem;
+      border: none;
+      background-color: inherit;
+      font-size: var(--cx-font-size, 1rem);
+    }
+  }
+}

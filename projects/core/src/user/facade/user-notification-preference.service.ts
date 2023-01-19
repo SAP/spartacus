@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -25,14 +31,18 @@ export class UserNotificationPreferenceService {
    * Returns all notification preferences.
    */
   getPreferences(): Observable<NotificationPreference[]> {
-    return this.store.pipe(select(UsersSelectors.getPreferences));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getPreferences)
+    );
   }
 
   /**
    * Returns all enabled notification preferences.
    */
   getEnabledPreferences(): Observable<NotificationPreference[]> {
-    return this.store.pipe(select(UsersSelectors.getEnabledPreferences));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getEnabledPreferences)
+    );
   }
 
   /**
@@ -55,7 +65,9 @@ export class UserNotificationPreferenceService {
    * Returns a loading flag for notification preferences.
    */
   getPreferencesLoading(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getPreferencesLoading));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getPreferencesLoading)
+    );
   }
 
   /**
@@ -77,7 +89,7 @@ export class UserNotificationPreferenceService {
    * Returns a loading flag for updating preferences.
    */
   getUpdatePreferencesResultLoading(): Observable<boolean> {
-    return this.store.select(
+    return (<Store<StateWithProcess<void>>>this.store).select(
       getProcessLoadingFactory(UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID)
     );
   }

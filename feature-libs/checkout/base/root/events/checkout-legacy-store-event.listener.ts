@@ -1,7 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/base/core';
-import { LoadCartEvent, RemoveCartEvent } from '@spartacus/cart/base/root';
 import {
   EventService,
   LoadUserAddressesEvent,
@@ -27,7 +31,6 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
   ) {
     this.onUserAddressAction();
     this.onUserPaymentAction();
-    this.onCartAction();
   }
 
   /**
@@ -63,38 +66,6 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
             new UserActions.LoadUserPaymentMethods(userId)
           );
         })
-    );
-  }
-
-  /**
-   * Registers events for the cart actions.
-   */
-  protected onCartAction(): void {
-    this.subscriptions.add(
-      this.eventService.get(LoadCartEvent).subscribe(({ userId, cartId }) => {
-        /**
-         * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
-         * Remove once it is switched from ngrx to c&q.
-         * We should dispatch an event, which will load the cart$ query.
-         */
-        this.store.dispatch(
-          new CartActions.LoadCart({
-            userId,
-            cartId,
-          })
-        );
-      })
-    );
-
-    this.subscriptions.add(
-      this.eventService.get(RemoveCartEvent).subscribe(({ cartId }) => {
-        /**
-         * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
-         * Remove once it is switched from ngrx to c&q.
-         * We should dispatch an event, which will load the cart$ query.
-         */
-        this.store.dispatch(new CartActions.RemoveCart({ cartId }));
-      })
     );
   }
 

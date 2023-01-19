@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { AuthConfig, AuthLibConfig } from '../config/auth-config';
@@ -30,7 +36,7 @@ export class AuthConfigService {
    * @return client_id
    */
   public getClientId(): string {
-    return this.config.client_id ?? '';
+    return this.config?.client_id ?? '';
   }
 
   /**
@@ -39,7 +45,7 @@ export class AuthConfigService {
    * @return client_secret
    */
   public getClientSecret(): string {
-    return this.config.client_secret ?? '';
+    return this.config?.client_secret ?? '';
   }
 
   /**
@@ -47,7 +53,7 @@ export class AuthConfigService {
    */
   public getBaseUrl(): string {
     return (
-      this.config.baseUrl ??
+      this.config?.baseUrl ??
       (this.occConfig?.backend?.occ?.baseUrl ?? '') + '/authorizationserver'
     );
   }
@@ -56,7 +62,7 @@ export class AuthConfigService {
    * Returns endpoint for getting the auth token
    */
   public getTokenEndpoint(): string {
-    const tokenEndpoint = this.config.tokenEndpoint ?? '';
+    const tokenEndpoint = this.config?.tokenEndpoint ?? '';
     return this.prefixEndpoint(tokenEndpoint);
   }
 
@@ -64,7 +70,7 @@ export class AuthConfigService {
    * Returns url for redirect to the authorization server to get token/code
    */
   public getLoginUrl(): string {
-    const loginUrl = this.config.loginUrl ?? '';
+    const loginUrl = this.config?.loginUrl ?? '';
     return this.prefixEndpoint(loginUrl);
   }
 
@@ -72,7 +78,7 @@ export class AuthConfigService {
    * Returns endpoint for token revocation (both access and refresh token).
    */
   public getRevokeEndpoint(): string {
-    const revokeEndpoint = this.config.revokeEndpoint ?? '';
+    const revokeEndpoint = this.config?.revokeEndpoint ?? '';
     return this.prefixEndpoint(revokeEndpoint);
   }
 
@@ -80,7 +86,7 @@ export class AuthConfigService {
    * Returns logout url to redirect to on logout.
    */
   public getLogoutUrl(): string {
-    const logoutUrl = this.config.logoutUrl ?? '';
+    const logoutUrl = this.config?.logoutUrl ?? '';
     return this.prefixEndpoint(logoutUrl);
   }
 
@@ -88,7 +94,7 @@ export class AuthConfigService {
    * Returns userinfo endpoint of the OAuth server.
    */
   public getUserinfoEndpoint(): string {
-    const userinfoEndpoint = this.config.userinfoEndpoint ?? '';
+    const userinfoEndpoint = this.config?.userinfoEndpoint ?? '';
     return this.prefixEndpoint(userinfoEndpoint);
   }
 
@@ -96,7 +102,7 @@ export class AuthConfigService {
    * Returns configuration specific for the angular-oauth2-oidc library.
    */
   public getOAuthLibConfig(): AuthLibConfig {
-    return this.config.OAuthLibConfig ?? {};
+    return this.config?.OAuthLibConfig ?? {};
   }
 
   protected prefixEndpoint(endpoint: string): string {
@@ -112,7 +118,7 @@ export class AuthConfigService {
    * Use when you have to perform particular action only in some of the OAuth flow scenarios.
    */
   public getOAuthFlow(): OAuthFlow {
-    const responseType = this.config.OAuthLibConfig?.responseType;
+    const responseType = this.config?.OAuthLibConfig?.responseType;
     if (responseType) {
       const types = responseType.split(' ');
       if (types.includes('code')) {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CommonConfigurator,
@@ -39,14 +45,31 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     map((configuration) => {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
-      if (configuration.overview?.totalNumberOfIssues) {
-        return configuration.overview.totalNumberOfIssues;
-      } else
+      const configOv = configuration.overview;
+      if (configOv?.totalNumberOfIssues) {
+        return configOv.numberOfIncompleteCharacteristics !== undefined
+          ? configOv.numberOfIncompleteCharacteristics
+          : configOv.totalNumberOfIssues;
+      } else {
         return configuration.totalNumberOfIssues
           ? configuration.totalNumberOfIssues
           : 0;
+      }
     })
   );
+
+  numberOfConflicts$: Observable<number> = this.configuration$.pipe(
+    map((configuration) => {
+      return configuration.overview?.numberOfConflicts ?? 0;
+    })
+  );
+
+  skipConflictsOnIssueNavigation$: Observable<boolean> =
+    this.configuration$.pipe(
+      map((configuration) => {
+        return (configuration.overview?.numberOfConflicts ?? 0) > 0;
+      })
+    );
 
   iconTypes = ICON_TYPE;
 

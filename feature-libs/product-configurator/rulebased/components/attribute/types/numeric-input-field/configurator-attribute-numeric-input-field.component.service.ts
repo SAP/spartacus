@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   formatNumber,
   getLocaleNumberSymbol,
@@ -65,7 +71,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (decimalPlaces === undefined) {
       decimalPlaces = 0;
     }
-    let formatted = formatNumber(
+    const formatted = formatNumber(
       intervalValue,
       locale,
       '1.' + decimalPlaces + '-' + decimalPlaces
@@ -85,7 +91,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     const intervals: ConfiguratorAttributeNumericInterval[] = [];
     if (values && values.length > 0) {
       values.forEach((value) => {
-        let interval = this.getInterval(value);
+        const interval = this.getInterval(value);
         if (interval && Object.keys(interval).length !== 0) {
           intervals.push(interval);
         }
@@ -118,7 +124,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
   getInterval(
     value: Configurator.Value
   ): ConfiguratorAttributeNumericInterval | undefined {
-    let interval: ConfiguratorAttributeNumericInterval = {
+    const interval: ConfiguratorAttributeNumericInterval = {
       minValue: undefined,
       maxValue: undefined,
       minValueIncluded: false,
@@ -128,57 +134,16 @@ export class ConfiguratorAttributeNumericInputFieldService {
       return undefined;
     }
 
-    let minVal: string = '';
-    let maxVal: string = '';
+    let minVal: string;
+    let maxVal: string;
 
     // standard interval a - b
     if (value.name.includes(' - ')) {
-      let index = value.name.indexOf(' - ');
-      minVal = value.name.substring(0, index);
-      maxVal = value.name.substring(index + 3, value.name.length);
-      interval.minValueIncluded = true;
-      interval.maxValueIncluded = true;
-      if (minVal.includes('>')) {
-        interval.minValueIncluded = false;
-        minVal = minVal.replace('>', '');
-      }
-
-      if (maxVal.includes('<')) {
-        interval.maxValueIncluded = false;
-        maxVal = maxVal.replace('<', '');
-      }
+      ({ minVal, maxVal } = this.handleStandardInterval(value.name, interval));
 
       // infinite interval or single value
     } else {
-      if (value.name.includes('>')) {
-        minVal = value.name;
-        interval.minValueIncluded = false;
-        minVal = minVal.replace('>', '');
-      }
-      if (value.name.includes('<')) {
-        maxVal = value.name;
-        interval.maxValueIncluded = false;
-        maxVal = maxVal.replace('<', '');
-      }
-      if (value.name.includes('≥')) {
-        minVal = value.name;
-        interval.minValueIncluded = true;
-        minVal = minVal.replace('≥', '');
-      }
-      if (value.name.includes('≤')) {
-        maxVal = value.name;
-        interval.maxValueIncluded = true;
-        maxVal = maxVal.replace('≤', '');
-      }
-      if (
-        !value.name.includes('>') &&
-        !value.name.includes('<') &&
-        !value.name.includes('≤') &&
-        !value.name.includes('≥')
-      ) {
-        minVal = value.name;
-        maxVal = value.name;
-      }
+      ({ minVal, maxVal } = this.handleSingleOrInfinite(value.name, interval));
     }
 
     if (minVal && minVal.length > 0) {
@@ -189,6 +154,65 @@ export class ConfiguratorAttributeNumericInputFieldService {
     }
 
     return interval;
+  }
+
+  protected handleSingleOrInfinite(
+    valueName: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ) {
+    let minVal = '';
+    let maxVal = '';
+    if (valueName.includes('>')) {
+      minVal = valueName;
+      interval.minValueIncluded = false;
+      minVal = minVal.replace('>', '');
+    }
+    if (valueName.includes('<')) {
+      maxVal = valueName;
+      interval.maxValueIncluded = false;
+      maxVal = maxVal.replace('<', '');
+    }
+    if (valueName.includes('≥')) {
+      minVal = valueName;
+      interval.minValueIncluded = true;
+      minVal = minVal.replace('≥', '');
+    }
+    if (valueName.includes('≤')) {
+      maxVal = valueName;
+      interval.maxValueIncluded = true;
+      maxVal = maxVal.replace('≤', '');
+    }
+    if (
+      !valueName.includes('>') &&
+      !valueName.includes('<') &&
+      !valueName.includes('≤') &&
+      !valueName.includes('≥')
+    ) {
+      minVal = valueName;
+      maxVal = valueName;
+    }
+    return { minVal, maxVal };
+  }
+
+  protected handleStandardInterval(
+    valueName: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ) {
+    const index = valueName.indexOf(' - ');
+    let minVal = valueName.substring(0, index);
+    let maxVal = valueName.substring(index + 3, valueName.length);
+    interval.minValueIncluded = true;
+    interval.maxValueIncluded = true;
+    if (minVal.includes('>')) {
+      interval.minValueIncluded = false;
+      minVal = minVal.replace('>', '');
+    }
+
+    if (maxVal.includes('<')) {
+      interval.maxValueIncluded = false;
+      maxVal = maxVal.replace('<', '');
+    }
+    return { minVal, maxVal };
   }
 
   /**

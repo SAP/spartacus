@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ConfigFactory } from './config-factory';
 import { provideConfig, provideConfigFactory } from './config-providers';
@@ -8,7 +14,9 @@ import { ConfigurationService } from './services/configuration.service';
 export class ConfigModule {
   // To make sure ConfigurationService will be instantiated, we inject it into
   // module constructor
-  constructor(_configurationService: ConfigurationService) {}
+  constructor(_configurationService: ConfigurationService) {
+    // Intentional empty constructor
+  }
 
   /**
    * Import ConfigModule and contribute config to the global configuration
@@ -20,6 +28,7 @@ export class ConfigModule {
   static withConfig(config: Config): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
+      // eslint-disable-next-line @spartacus-eslint/use-default-provide-config
       providers: [provideConfig(config)],
     };
   }
@@ -50,6 +59,7 @@ export class ConfigModule {
   static forRoot(config: Config = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
+      // eslint-disable-next-line @spartacus-eslint/use-default-provide-config
       providers: [provideConfig(config)],
     };
   }

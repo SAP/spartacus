@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -34,7 +40,7 @@ export class OrgUnitEffects {
         return this.orgUnitConnector.get(userId, orgUnitId).pipe(
           switchMap((orgUnit: B2BUnit) => {
             const { values, page } = StateUtils.normalizeListPage(
-              { values: orgUnit.addresses },
+              { values: orgUnit.addresses ?? [] },
               'id'
             );
             return [
@@ -97,7 +103,7 @@ export class OrgUnitEffects {
           catchError((error: HttpErrorResponse) =>
             from([
               new OrgUnitActions.CreateUnitFail({
-                unitCode: payload.unit.uid,
+                unitCode: payload.unit.uid ?? '',
                 error: normalizeHttpError(error),
               }),
               new OrganizationActions.OrganizationClearData(),
@@ -128,7 +134,7 @@ export class OrgUnitEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.UpdateUnitFail({
-                  unitCode: payload.unit.uid,
+                  unitCode: payload.unit.uid ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
@@ -377,13 +383,13 @@ export class OrgUnitEffects {
           .pipe(
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess({ id: null }),
+              new OrgUnitActions.CreateAddressSuccess({ id: undefined }),
               new OrganizationActions.OrganizationClearData(),
             ]),
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.CreateAddressFail({
-                  addressId: payload.address.id,
+                  addressId: payload.address.id ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
@@ -415,7 +421,7 @@ export class OrgUnitEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new OrgUnitActions.UpdateAddressFail({
-                  addressId: address.id,
+                  addressId: address.id ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),

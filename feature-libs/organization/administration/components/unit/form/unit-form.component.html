@@ -58,7 +58,7 @@
           formControlName="uid"
           [searchable]="true"
           [clearable]="false"
-          [items]="units$ | async"
+          [items]="(units$ | async) ?? null"
           bindLabel="name"
           bindValue="id"
           appendTo="cx-org-list"

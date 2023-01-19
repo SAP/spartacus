@@ -1,4 +1,5 @@
 yarn.lock
 importer.js
 temp-scss/
-.release-it.*
+.pipeline/
+sub-folder/

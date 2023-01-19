@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { BaseSite } from '../../../model/misc.model';
 import {
@@ -34,12 +40,12 @@ export const getBaseSiteData: MemoizedSelector<StateWithSiteContext, BaseSite> =
 
 export const getBaseSitesEntities: MemoizedSelector<
   StateWithSiteContext,
-  BaseSiteEntities
+  BaseSiteEntities | null
 > = createSelector(getBaseSiteState, sitesEntitiesSelector);
 
 export const getAllBaseSites: MemoizedSelector<
   StateWithSiteContext,
-  BaseSite[]
+  BaseSite[] | null
 > = createSelector(getBaseSitesEntities, (entities) => {
   return entities ? Object.keys(entities).map((uid) => entities[uid]) : null;
 });

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
@@ -30,8 +36,8 @@ export abstract class CurrentItemService<T> {
    *
    * The active item is loaded by the active `key$`.
    */
-  readonly item$: Observable<T> = this.key$.pipe(
-    switchMap((code: string) => (code ? this.getItem(code) : of(null)))
+  readonly item$: Observable<T | undefined> = this.key$.pipe(
+    switchMap((code: string) => (code ? this.getItem(code) : of(undefined)))
   );
 
   /**
@@ -48,9 +54,9 @@ export abstract class CurrentItemService<T> {
   protected abstract getParamKey(): string;
 
   /**
-   * Emits the current model or null, if there is no model available
+   * Emits the current model or undefined, if there is no model available
    */
-  protected abstract getItem(...params: any[]): Observable<T>;
+  protected abstract getItem(...params: any[]): Observable<T | undefined>;
 
   getRouterParam(paramKey: string): Observable<string> {
     return this.routingService

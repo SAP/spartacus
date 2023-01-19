@@ -1,9 +1,11 @@
-import { Observable } from 'rxjs';
-import { Title, User } from '../model/misc.model';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-export abstract class UserAccountFacadeTransitionalToken {
-  abstract get(): Observable<User | undefined>;
-}
+import { Observable } from 'rxjs';
+import { Title } from '../model/misc.model';
 
 export abstract class UserProfileFacadeTransitionalToken {
   abstract getTitles(): Observable<Title[]>;

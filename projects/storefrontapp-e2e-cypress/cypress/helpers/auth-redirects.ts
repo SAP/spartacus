@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';

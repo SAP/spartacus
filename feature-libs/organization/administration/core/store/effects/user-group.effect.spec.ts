@@ -13,7 +13,6 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import {
   B2BUserActions,
   PermissionActions,
@@ -94,6 +93,15 @@ describe('UserGroup Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -107,7 +115,7 @@ describe('UserGroup Effects', () => {
           provide: UserGroupConnector,
           useClass: MockUserGroupConnector,
         },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.UserGroupEffects,
         provideMockActions(() => actions$),
       ],

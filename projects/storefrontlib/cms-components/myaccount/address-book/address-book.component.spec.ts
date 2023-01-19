@@ -10,6 +10,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
+  FeaturesConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   User,
@@ -105,6 +107,7 @@ describe('AddressBookComponent', () => {
           I18nTestingModule,
           CardModule,
           RouterTestingModule,
+          FeaturesConfigModule,
         ],
         providers: [
           {
@@ -112,6 +115,12 @@ describe('AddressBookComponent', () => {
             useClass: MockComponentService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
+          },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
       }).compileComponents();
@@ -231,6 +240,26 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.deleteUserAddress
       ).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('Header', () => {
+    it('should set correct header for add new address', () => {
+      component.showEditAddressForm = false;
+      component.showAddAddressForm = true;
+      fixture.detectChanges();
+
+      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+        'addressBook.addNewDeliveryAddress'
+      );
+    });
+    it('should set correct header for edit address', () => {
+      component.editAddressButtonHandle(mockAddress);
+      fixture.detectChanges();
+
+      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+        'addressBook.editDeliveryAddress'
+      );
     });
   });
 });

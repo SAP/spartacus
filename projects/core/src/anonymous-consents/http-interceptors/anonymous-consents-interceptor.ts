@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   HttpEvent,
   HttpHandler,
@@ -64,7 +70,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
 
   private handleResponse(
     isUserLoggedIn: boolean,
-    newRawConsents: string,
+    newRawConsents: string | null,
     previousConsents: AnonymousConsent[]
   ): void {
     if (!isUserLoggedIn && newRawConsents) {
@@ -111,11 +117,12 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     const givenConsents = [...consents];
 
     if (
-      Boolean(this.config.anonymousConsents) &&
-      Boolean(this.config.anonymousConsents.requiredConsents)
+      this.config.anonymousConsents &&
+      this.config.anonymousConsents.requiredConsents
     ) {
       for (const consent of givenConsents) {
         if (
+          consent.templateCode &&
           this.config.anonymousConsents.requiredConsents.includes(
             consent.templateCode
           )

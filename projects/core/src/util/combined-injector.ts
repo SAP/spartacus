@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AbstractType,
   InjectFlags,
@@ -34,9 +40,9 @@ export class CombinedInjector implements Injector {
     flags?: InjectFlags
   ): T;
   get(token: any, notFoundValue?: any): any;
-  get(token, notFoundValue?: any, flags?: InjectFlags): any {
+  get(token: any, notFoundValue?: any, flags?: InjectFlags): any {
     // eslint-disable-next-line no-bitwise
-    if (flags & InjectFlags.Self) {
+    if (flags && flags & InjectFlags.Self) {
       if (notFoundValue !== undefined) {
         return notFoundValue;
       }

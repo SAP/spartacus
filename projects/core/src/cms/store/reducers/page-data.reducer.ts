@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EntityState } from '../../../state/utils/entity/entity-state';
 import { Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
@@ -11,7 +17,10 @@ export function reducer(
   switch (action.type) {
     case CmsActions.LOAD_CMS_PAGE_DATA_SUCCESS: {
       const page: Page = action.payload;
-      return { ...state, entities: { ...state.entities, [page.pageId]: page } };
+      return {
+        ...state,
+        entities: { ...state.entities, [page.pageId ?? '']: page },
+      };
     }
   }
   return state;

@@ -113,7 +113,10 @@
         border: 1px solid var(--cx-color-secondary);
       }
 
-      input,
+      input {
+        color: var(--cx-color-text);
+      }
+
       cx-icon {
         color: var(--cx-color-primary);
         @include media-breakpoint-up(md) {

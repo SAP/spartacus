@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -22,18 +26,18 @@ import { PermissionFormComponent } from './permission-form.component';
 
 import createSpy = jasmine.createSpy;
 
-const mockForm = new FormGroup({
-  code: new FormControl(),
-  periodRange: new FormControl(),
-  threshold: new FormControl(),
-  orderApprovalPermissionType: new FormGroup({
-    code: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  code: new UntypedFormControl(),
+  periodRange: new UntypedFormControl(),
+  threshold: new UntypedFormControl(),
+  orderApprovalPermissionType: new UntypedFormGroup({
+    code: new UntypedFormControl(),
   }),
-  currency: new FormGroup({
-    isocode: new FormControl(),
+  currency: new UntypedFormGroup({
+    isocode: new UntypedFormControl(),
   }),
-  orgUnit: new FormGroup({
-    uid: new FormControl(),
+  orgUnit: new UntypedFormGroup({
+    uid: new UntypedFormControl(),
   }),
 });
 
@@ -119,7 +123,7 @@ describe('PermissionFormComponent', () => {
   });
 
   it('should not render any form controls if the form is falsy', () => {
-    component.form = undefined;
+    component.form = null;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBe(0);
@@ -155,6 +159,12 @@ describe('PermissionFormComponent', () => {
 
     it('should not auto-select unit if more than one is available', () => {
       activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+
+    it('should not auto-select unit if there is no unit', () => {
+      activeUnitList$.next(undefined);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });

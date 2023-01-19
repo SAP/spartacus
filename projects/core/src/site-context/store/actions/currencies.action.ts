@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { Currency } from '../../../model/misc.model';
 
@@ -28,7 +34,9 @@ export class SetActiveCurrency implements Action {
 
 export class CurrencyChange implements Action {
   readonly type = CURRENCY_CHANGE;
-  constructor(public payload: { previous: string; current: string }) {}
+  constructor(
+    public payload: { previous: string | null; current: string | null }
+  ) {}
 }
 
 // action types

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DeferLoadingStrategy } from '@spartacus/core';
@@ -21,9 +27,8 @@ export class DeferLoaderService {
     protected config: LayoutConfig,
     protected intersectionService: IntersectionService
   ) {
-    this.globalLoadStrategy = config.deferredLoading
-      ? config.deferredLoading.strategy
-      : DeferLoadingStrategy.INSTANT;
+    this.globalLoadStrategy =
+      config.deferredLoading?.strategy ?? DeferLoadingStrategy.INSTANT;
   }
 
   /**
@@ -48,7 +53,7 @@ export class DeferLoaderService {
   }
 
   private shouldLoadInstantly(
-    elementLoadingStrategy: DeferLoadingStrategy
+    elementLoadingStrategy: DeferLoadingStrategy | undefined
   ): boolean {
     return (
       isPlatformServer(this.platformId) ||

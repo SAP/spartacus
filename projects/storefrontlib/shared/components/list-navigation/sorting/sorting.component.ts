@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,17 +20,17 @@ import { SortModel } from '@spartacus/core';
 })
 export class SortingComponent {
   @Input()
-  sortOptions: SortModel[];
+  sortOptions: SortModel[] | undefined;
   @Input()
   ariaControls: string;
   @Input()
-  ariaLabel: string;
+  ariaLabel: string | undefined;
   @Input()
-  selectedOption: string;
+  selectedOption: string | undefined;
   @Input()
   placeholder: string;
   @Input()
-  sortLabels: { [code: string]: string };
+  sortLabels: { [code: string]: string } | null;
 
   @Output()
   sortListEvent: EventEmitter<string>;
@@ -38,9 +44,11 @@ export class SortingComponent {
   }
 
   get selectedLabel() {
-    return (
-      this.sortOptions?.find((sort) => sort.code === this.selectedOption)
-        ?.name ?? this.sortLabels?.[this.selectedOption]
-    );
+    if (this.selectedOption) {
+      return (
+        this.sortOptions?.find((sort) => sort.code === this.selectedOption)
+          ?.name ?? this.sortLabels?.[this.selectedOption]
+      );
+    }
   }
 }

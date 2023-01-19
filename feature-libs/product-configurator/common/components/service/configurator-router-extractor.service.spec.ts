@@ -17,6 +17,7 @@ const CART_ENTRY_NUMBER = '0';
 const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 const OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
+const CONFIG_ID_TEMPLATE = 'abcd';
 
 let mockRouterState: any;
 
@@ -62,6 +63,7 @@ describe('ConfigRouterExtractorService', () => {
   it('should create component', () => {
     expect(serviceUnderTest).toBeDefined();
   });
+
   describe('extractRouterData', () => {
     it('should find proper owner for route based purely on product code', () => {
       let owner: CommonConfigurator.Owner;
@@ -151,7 +153,7 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to resolve issues of a configuration', () => {
+    it('should tell from the URL if we need to resolve issues without ignoring conflicts of a configuration', (done) => {
       mockRouterState.state.queryParams = { resolveIssues: 'true' };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
@@ -159,6 +161,86 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
+          expect(routerData.skipConflicts).toBe(false);
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we need to skip conflicts while resolving issues of a configuration', (done) => {
+      mockRouterState.state.queryParams = {
+        resolveIssues: 'true',
+        skipConflicts: 'true',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.resolveIssues).toBe(true);
+          expect(routerData.skipConflicts).toBe(true);
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('should check whether an expert was set via query parameter', () => {
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.expMode).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we need to fetch a configuration for an expert mode', () => {
+      mockRouterState.state.queryParams = { expMode: 'true' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.expMode).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we do not need to fetch a configuration for an expert mode', () => {
+      mockRouterState.state.queryParams = { expMode: 'false' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.expMode).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a configuration template ID has been passed', () => {
+      mockRouterState.state.queryParams = {
+        configIdTemplate: CONFIG_ID_TEMPLATE,
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.configIdTemplate).toBe(CONFIG_ID_TEMPLATE);
+        })
+        .unsubscribe();
+    });
+
+    it('should be fine with configuration template ID not provided', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.configIdTemplate).toBe(undefined);
         })
         .unsubscribe();
     });

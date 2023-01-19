@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,7 +33,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * The navigation node to render.
    */
-  @Input() node: NavigationNode;
+  @Input() node: NavigationNode | null;
 
   /**
    * The number of child nodes that must be wrapped.
@@ -37,9 +43,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
-  @Input() resetMenuOnClose: boolean;
+  @Input() resetMenuOnClose: boolean | undefined;
 
-  @Input() navAriaLabel: string;
+  @Input() navAriaLabel: string | null | undefined;
   /**
    * the icon type that will be used for navigation nodes
    * with children.
@@ -109,11 +115,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   closeIfClickedTheSameLink(navNode: NavigationNode): void {
     if (
       typeof navNode.url === 'string' &&
-      this.winRef.nativeWindow.location.href.includes(navNode.url)
+      this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.elemRef.nativeElement
         .querySelectorAll('li.is-open:not(.back), li.is-opened')
-        .forEach((el) => {
+        .forEach((el: any) => {
           this.renderer.removeClass(el, 'is-open');
           this.renderer.removeClass(el, 'is-opened');
         });
@@ -207,8 +213,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       (event.target || event.relatedTarget)
     );
     if (
-      target.ownerDocument.activeElement.matches('nav[tabindex]') &&
-      target.parentElement.matches('.flyout')
+      target.ownerDocument.activeElement?.matches('nav[tabindex]') &&
+      target.parentElement?.matches('.flyout')
     ) {
       target.focus();
     }

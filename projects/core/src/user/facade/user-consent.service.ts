@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { iif, Observable } from 'rxjs';
@@ -11,6 +17,7 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { isNotUndefined } from '../../util/type-guards';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
@@ -45,7 +52,7 @@ export class UserConsentService {
   getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
     return iif(
       () => loadIfMissing,
-      this.store.pipe(
+      (<Store<StateWithUser>>this.store).pipe(
         select(UsersSelectors.getConsentsValue),
         withLatestFrom(
           this.getConsentsResultLoading(),
@@ -63,7 +70,9 @@ export class UserConsentService {
         filter(([templates, _loading]) => Boolean(templates)),
         map(([templates, _loading]) => templates)
       ),
-      this.store.pipe(select(UsersSelectors.getConsentsValue))
+      (<Store<StateWithUser>>this.store).pipe(
+        select(UsersSelectors.getConsentsValue)
+      )
     );
   }
 
@@ -71,21 +80,27 @@ export class UserConsentService {
    * Returns the consents loading flag
    */
   getConsentsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getConsentsLoading));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getConsentsLoading)
+    );
   }
 
   /**
    * Returns the consents success flag
    */
   getConsentsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getConsentsSuccess));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getConsentsSuccess)
+    );
   }
 
   /**
    * Returns the consents error flag
    */
   getConsentsResultError(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getConsentsError));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getConsentsError)
+    );
   }
 
   /**
@@ -102,16 +117,16 @@ export class UserConsentService {
    *
    * @param templateId a template ID by which to filter the registered templates.
    */
-  getConsent(templateId: string): Observable<Consent> {
+  getConsent(templateId: string): Observable<Consent | undefined> {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
       switchMap(() => this.getConsents(true)),
       switchMap(() =>
-        this.store.pipe(
+        (<Store<StateWithUser>>this.store).pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )
       ),
-      filter((template) => Boolean(template)),
+      filter(isNotUndefined),
       map((template) => template.currentConsent)
     );
   }
@@ -136,9 +151,9 @@ export class UserConsentService {
    *
    * @param consent to check
    */
-  isConsentWithdrawn(consent: Consent): boolean {
+  isConsentWithdrawn(consent: Consent | undefined): boolean {
     if (Boolean(consent)) {
-      return Boolean(consent.consentWithdrawnDate);
+      return Boolean(consent?.consentWithdrawnDate);
     }
     return true;
   }
@@ -164,7 +179,7 @@ export class UserConsentService {
    * Returns the give consent process loading flag
    */
   getGiveConsentResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(GIVE_CONSENT_PROCESS_ID))
     );
   }
@@ -173,7 +188,7 @@ export class UserConsentService {
    * Returns the give consent process success flag
    */
   getGiveConsentResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(GIVE_CONSENT_PROCESS_ID))
     );
   }
@@ -182,7 +197,7 @@ export class UserConsentService {
    * Returns the give consent process error flag
    */
   getGiveConsentResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(GIVE_CONSENT_PROCESS_ID))
     );
   }
@@ -213,7 +228,7 @@ export class UserConsentService {
    * Returns the withdraw consent process loading flag
    */
   getWithdrawConsentResultLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
   }
@@ -222,7 +237,7 @@ export class UserConsentService {
    * Returns the withdraw consent process success flag
    */
   getWithdrawConsentResultSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
   }
@@ -231,7 +246,7 @@ export class UserConsentService {
    * Returns the withdraw consent process error flag
    */
   getWithdrawConsentResultError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(WITHDRAW_CONSENT_PROCESS_ID))
     );
   }
@@ -262,7 +277,7 @@ export class UserConsentService {
 
     const updatedTemplateList: ConsentTemplate[] = [];
     for (const template of templateList) {
-      const show = !hideTemplateIds.includes(template.id);
+      const show = template.id && !hideTemplateIds.includes(template.id);
       if (show) {
         updatedTemplateList.push(template);
       }

@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
 @Component({
@@ -11,8 +18,8 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 export class UpdateEmailComponent {
   constructor(protected service: UpdateEmailComponentService) {}
 
-  form: FormGroup = this.service.form;
-  isUpdating$ = this.service.isUpdating$;
+  form: UntypedFormGroup = this.service.form;
+  isUpdating$: Observable<boolean> = this.service.isUpdating$;
 
   onSubmit(): void {
     this.service.save();

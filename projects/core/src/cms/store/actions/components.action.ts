@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
@@ -13,7 +19,7 @@ export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       uid: string;
-      pageContext: PageContext;
+      pageContext?: PageContext;
     }
   ) {
     super(COMPONENT_ENTITY, payload.uid);
@@ -55,7 +61,7 @@ export class CmsGetComponentFromPage<
   ) {
     super(
       COMPONENT_ENTITY,
-      [].concat(payload).map((cmp) => cmp.component.uid)
+      ([] as any[]).concat(payload).map((cmp) => cmp.component.uid)
     );
   }
 }

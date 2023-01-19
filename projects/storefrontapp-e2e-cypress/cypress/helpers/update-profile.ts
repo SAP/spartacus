@@ -1,13 +1,28 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import * as login from '../helpers/login';
+import { SampleUser } from '../sample-data/checkout-flow';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import * as login from '../helpers/login';
 
 export const newTitle = 'Dr.';
 export const newFirstName = 'N';
 export const newLastName = 'Z';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
-export function updateProfile() {
+export function updateProfile(user?: SampleUser) {
+  if (user) {
+    cy.get('[formcontrolname="firstName"]').should(
+      'have.value',
+      user.firstName
+    );
+    cy.get('[formcontrolname="lastName"]').should('have.value', user.lastName);
+  }
+
   cy.get('cx-update-profile').within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect(newTitle);
     cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);

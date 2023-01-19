@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -19,7 +25,8 @@ export class ActivatedRoutesService {
       // eslint-disable-next-line import/no-deprecated
       startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
       map(() => {
-        let route = this.router.routerState.snapshot.root;
+        let route: ActivatedRouteSnapshot | null =
+          this.router.routerState.snapshot.root;
         const routes: ActivatedRouteSnapshot[] = [route];
 
         // traverse to the leaf route:

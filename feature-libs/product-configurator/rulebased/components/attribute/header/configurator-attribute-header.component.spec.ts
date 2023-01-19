@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -8,6 +12,7 @@ import {
 import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfiguratorUISettingsConfig,
 } from '@spartacus/product-configurator/rulebased';
 import {
   IconLoaderService,
@@ -15,6 +20,7 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
@@ -41,7 +47,7 @@ class MockConfigUtilsService {
     return of(isCartEntryOrGroupVisited);
   }
 
-  focusAttribute(): void {}
+  focusValue(): void {}
   scrollToConfigurationElement(): void {}
 }
 
@@ -73,6 +79,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let uiConfig: ConfiguratorUISettingsConfig;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -98,11 +105,20 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   let htmlElem: HTMLElement;
 
+  const TestConfiguratorUISettings: ConfiguratorUISettingsConfig = {
+    productConfigurator: {
+      enableNavigationToConflict: false,
+    },
+  };
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
-        declarations: [ConfiguratorAttributeHeaderComponent],
+        imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
+        declarations: [
+          ConfiguratorAttributeHeaderComponent,
+          MockFeatureLevelDirective,
+        ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
           {
@@ -116,6 +132,16 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
+          },
+          {
+            provide: ConfiguratorUISettingsConfig,
+            useValue: TestConfiguratorUISettings,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
           },
         ],
       })
@@ -136,6 +162,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute = currentAttribute;
     component.attribute.label = 'label of attribute';
     component.attribute.name = '123';
+    component.attribute.visible = true;
     component.owner = owner;
     component.groupId = 'testGroup';
     component.attribute.required = false;
@@ -152,6 +179,9 @@ describe('ConfigAttributeHeaderComponent', () => {
     );
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    uiConfig = TestBed.inject(
+      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
     );
   });
 
@@ -177,6 +207,30 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isSingleSelection', () => {
+    it('should know that DROPDOWN_ADDITIONAL_INPUT is a single selection attributes', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that RADIOBUTTON_ADDITIONAL_INPUT is a single selection attributes', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that CHECKBOX is a single selection attributes from the users point of view', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that MULTI_SELECTION_IMAGE is not a single selection attributes', () => {
+      component.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+      expect(component['isSingleSelection']()).toBe(false);
+    });
+  });
+
   describe('hasImage', () => {
     it('should return true if image available', () => {
       expect(component.hasImage).toBe(true);
@@ -196,6 +250,31 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Render corresponding part of the component', () => {
+    it('should not render message for not visible attribute', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+    });
+
+    it('should render message for not visible attribute', () => {
+      component.attribute.visible = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg',
+        'configurator.attribute.notVisibleAttributeMsg'
+      );
+    });
+
     it('should render a label', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -241,7 +320,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('Get required message key', () => {
+  describe('getRequiredMessageKey', () => {
     it('should return a single-select message key for radio button attribute type', () => {
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
@@ -324,6 +403,14 @@ describe('ConfigAttributeHeaderComponent', () => {
         'singleSelectRequiredMessage'
       );
     });
+
+    it('should return proper key for attribute types with additional values', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.getRequiredMessageKey()).toContain(
+        'singleSelectAdditionalRequiredMessage'
+      );
+    });
   });
 
   describe('Required message at the attribute level', () => {
@@ -400,7 +487,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'a.cx-conflict-msg'
+        'div.cx-conflict-msg a.link.cx-action-link'
       );
     });
 
@@ -412,7 +499,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div .cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
     });
   });
@@ -426,7 +513,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -541,8 +628,18 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Get conflict message key', () => {
+    it("should return 'configurator.conflict.conflictDetected' conflict message key", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.conflictDetected'
+      );
+    });
+
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
@@ -771,17 +868,19 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logWarning');
+      spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
         0
       );
-      expect(component['logWarning']).toHaveBeenCalled();
+      expect(component['logError']).toHaveBeenCalled();
     });
+  });
 
-    it('should call focusAttribute', () => {
+  describe('Focus selected value', () => {
+    it('should call focusValue with attribute', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
       });
@@ -790,7 +889,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       testScheduler.run(() => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
-
         const configurationLoading = cold('-a-b', {
           a: true,
           b: false,
@@ -800,18 +898,19 @@ describe('ConfigAttributeHeaderComponent', () => {
           'isConfigurationLoading'
         ).and.returnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusAttribute');
+        spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
-
-        component['focusAttribute'](ConfigurationTestData.GROUP_ID_2);
+        component['focusValue'](component.attribute);
       });
 
       expect(
-        configuratorStorefrontUtilsService.focusAttribute
+        configuratorStorefrontUtilsService.focusValue
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Scroll to configuration element', () => {
     it('should call scrollToConfigurationElement', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
@@ -845,7 +944,9 @@ describe('ConfigAttributeHeaderComponent', () => {
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Find conflict group ID', () => {
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
         component.findConflictGroupId(configWithoutConflicts, currentAttribute)
@@ -856,6 +957,26 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(
         component.findConflictGroupId(configConflict, currentAttribute)
       ).toBe(ConfigurationTestData.GROUP_ID_CONFLICT_1);
+    });
+  });
+
+  describe('isNavigationToConflictEnabled', () => {
+    it('should return false if productConfigurator setting is not provided', () => {
+      uiConfig.productConfigurator = undefined;
+      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+    });
+    it('should return false if enableNavigationToConflict setting is not provided', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
+        undefined;
+      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+    });
+    it('should return true if enableNavigationToConflict setting is true', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      expect(component.isNavigationToConflictEnabled()).toBeTruthy();
+    });
+    it('should return false if enableNavigationToConflict setting is false', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
   });
 });

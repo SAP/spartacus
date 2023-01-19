@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +42,7 @@ export class CarouselComponent implements OnInit {
   /**
    * The title is rendered as the carousel heading.
    */
-  @Input() title: string;
+  @Input() title: string | undefined | null;
 
   /**
    * The items$ represent the carousel items. The items$ are
@@ -92,7 +98,7 @@ export class CarouselComponent implements OnInit {
   }
 
   getSlideNumber(size: number, currentIndex: number): number {
-    let normalizedCurrentIndex = currentIndex + 1;
+    const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
   }
 }

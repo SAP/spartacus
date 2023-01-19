@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformServer } from '@angular/common';
 import {
   Inject,
@@ -16,9 +22,10 @@ import {
   ConfigInitializerService,
   deepMerge,
   DeferLoadingStrategy,
+  isNotUndefined,
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
-import { mapTo, share, tap } from 'rxjs/operators';
+import { filter, mapTo, share, tap } from 'rxjs/operators';
 import { CmsFeaturesService } from './cms-features.service';
 
 /**
@@ -85,7 +92,9 @@ export class CmsComponentsService {
             );
           } else {
             // simply use only static config
-            this.mappings[componentType] = staticConfig;
+            if (staticConfig) {
+              this.mappings[componentType] = staticConfig;
+            }
           }
         }
       }
@@ -101,11 +110,12 @@ export class CmsComponentsService {
   private getFeatureMappingResolver(
     componentType: string,
     staticConfig?: CmsComponentMapping
-  ): Observable<CmsComponentMapping> {
+  ): Observable<CmsComponentMapping> | undefined {
     if (!this.mappingResolvers.has(componentType)) {
       const mappingResolver$ = this.featureModules
         .getCmsMapping(componentType)
         .pipe(
+          filter(isNotUndefined),
           tap((featureComponentMapping) => {
             // We treat cms mapping configuration from a feature as a default,
             // that can be overridden by app/static configuration
@@ -130,10 +140,9 @@ export class CmsComponentsService {
    * @param componentType
    */
   getModule(componentType: string): NgModuleRef<any> | undefined {
-    return (
-      this.featureModules.hasFeatureFor(componentType) &&
-      this.featureModules.getModule(componentType)
-    );
+    if (this.featureModules.hasFeatureFor(componentType)) {
+      return this.featureModules.getModule(componentType);
+    }
   }
 
   /**
@@ -219,9 +228,9 @@ export class CmsComponentsService {
 
     (childRoutesConfigs || []).forEach((config) => {
       if (Array.isArray(config)) {
-        result.children.push(...config);
+        result.children?.push(...config);
       } else {
-        result.children.push(...(config.children || []));
+        result.children?.push(...(config.children || []));
         if (config.parent) {
           result.parent = config.parent;
         }

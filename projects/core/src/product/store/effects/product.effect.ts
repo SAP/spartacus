@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -52,23 +58,32 @@ export class ProductEffects {
   ): Observable<
     ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
   > {
-    return productLoad.data$.pipe(
-      map(
-        (data) =>
-          new ProductActions.LoadProductSuccess(
-            { code: productLoad.code, ...data },
-            productLoad.scope
-          )
-      ),
-      catchError((error) => {
-        return of(
-          new ProductActions.LoadProductFail(
-            productLoad.code,
-            normalizeHttpError(error),
-            productLoad.scope
-          )
-        );
-      })
+    return (
+      productLoad.data$?.pipe(
+        map(
+          (data) =>
+            new ProductActions.LoadProductSuccess(
+              { code: productLoad.code, ...data },
+              productLoad.scope
+            )
+        ),
+        catchError((error) => {
+          return of(
+            new ProductActions.LoadProductFail(
+              productLoad.code,
+              normalizeHttpError(error),
+              productLoad.scope
+            )
+          );
+        })
+      ) ??
+      of(
+        new ProductActions.LoadProductFail(
+          productLoad.code,
+          'Scoped product data does not exist',
+          productLoad.scope
+        )
+      )
     );
   }
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* Use this methods if you need to test UI for login/register (eg. form validation).
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 

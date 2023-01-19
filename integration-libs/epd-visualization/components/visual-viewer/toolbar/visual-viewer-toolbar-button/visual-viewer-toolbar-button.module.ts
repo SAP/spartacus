@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { IconModule } from '@spartacus/storefront';
@@ -7,6 +13,5 @@ import { VisualViewerToolbarButtonComponent } from './visual-viewer-toolbar-butt
   imports: [CommonModule, IconModule],
   declarations: [VisualViewerToolbarButtonComponent],
   exports: [VisualViewerToolbarButtonComponent],
-  entryComponents: [VisualViewerToolbarButtonComponent],
 })
 export class VisualViewerToolbarButtonModule {}

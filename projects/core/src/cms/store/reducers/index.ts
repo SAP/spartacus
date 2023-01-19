@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import {
   Action,
@@ -14,6 +20,7 @@ import { entityReducer } from '../../../state/utils/entity/entity.reducer';
 import { NodeItem } from '../../model/node-item.model';
 import {
   CmsState,
+  ComponentsContext,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
   StateWithCms,
@@ -23,31 +30,34 @@ import * as fromNavigation from './navigation-entry-item.reducer';
 import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
 
-export function getReducers(): ActionReducerMap<CmsState> {
+export function getReducers(): ActionReducerMap<CmsState, any> {
   return {
     page: combineReducers({
       pageData: fromPageReducer.reducer,
       index: combineReducers({
-        content: entityLoaderReducer<string>(
+        content: entityLoaderReducer<string, any>(
           PageType.CONTENT_PAGE,
           fromPageIndexReducer.reducer(PageType.CONTENT_PAGE)
         ),
-        product: entityLoaderReducer<string>(
+        product: entityLoaderReducer<string, any>(
           PageType.PRODUCT_PAGE,
           fromPageIndexReducer.reducer(PageType.PRODUCT_PAGE)
         ),
-        category: entityLoaderReducer<string>(
+        category: entityLoaderReducer<string, any>(
           PageType.CATEGORY_PAGE,
           fromPageIndexReducer.reducer(PageType.CATEGORY_PAGE)
         ),
-        catalog: entityLoaderReducer<string>(
+        catalog: entityLoaderReducer<string, any>(
           PageType.CATALOG_PAGE,
           fromPageIndexReducer.reducer(PageType.CATALOG_PAGE)
         ),
       }),
     }),
-    components: entityReducer(COMPONENT_ENTITY, fromComponentsReducer.reducer),
-    navigation: entityLoaderReducer<NodeItem>(
+    components: entityReducer<ComponentsContext, any>(
+      COMPONENT_ENTITY,
+      fromComponentsReducer.reducer
+    ),
+    navigation: entityLoaderReducer<NodeItem, any>(
       NAVIGATION_DETAIL_ENTITY,
       fromNavigation.reducer
     ),

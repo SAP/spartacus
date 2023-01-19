@@ -1,15 +1,22 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
+  isNotUndefined,
   ProtectedRoutesGuard,
   RouteLoadStrategy,
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { first, switchMap, take } from 'rxjs/operators';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuardService } from './cms-page-guard.service';
 
 @Injectable({
@@ -45,6 +52,7 @@ export class CmsPageGuard implements CanActivate {
       switchMap((canActivate) =>
         canActivate === true
           ? this.routingService.getNextPageContext().pipe(
+              filter(isNotUndefined),
               take(1),
               switchMap((pageContext) =>
                 this.cmsService.getPage(pageContext, this.shouldReload()).pipe(

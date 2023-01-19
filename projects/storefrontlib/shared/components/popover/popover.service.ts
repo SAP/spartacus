@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ElementRef, Injectable } from '@angular/core';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverEvent } from './popover.model';

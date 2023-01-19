@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import {
   Inject,
@@ -9,14 +15,16 @@ import {
 import {
   AuthService,
   BaseSiteService,
+  GlobalMessageService,
+  GlobalMessageType,
   LanguageService,
   ScriptLoader,
   User,
   WindowRef,
 } from '@spartacus/core';
+import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -38,7 +46,8 @@ export class CdcJsService implements OnDestroy {
     protected auth: AuthService,
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
-    @Inject(PLATFORM_ID) protected platform: any
+    @Inject(PLATFORM_ID) protected platform: any,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   /**
@@ -86,9 +95,11 @@ export class CdcJsService implements OnDestroy {
                 callback: () => {
                   this.registerEventListeners(baseSite);
                   this.loaded$.next(true);
+                  this.errorLoading$.next(false);
                 },
                 errorCallback: () => {
                   this.errorLoading$.next(true);
+                  this.loaded$.next(false);
                 },
               });
               if (this.winRef?.nativeWindow !== undefined) {
@@ -144,7 +155,7 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    * @param response
    */
-  onLoginEventHandler(baseSite: string, response?: any) {
+  protected onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
       this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
@@ -152,6 +163,190 @@ export class CdcJsService implements OnDestroy {
         response.signatureTimestamp,
         response.id_token !== undefined ? response.id_token : '',
         baseSite
+      );
+    }
+  }
+
+  /**
+   * Trigger CDC User registration and log in using CDC APIs.
+   *
+   * @param user: UserSignUp
+   */
+  registerUserWithoutScreenSet(
+    user: UserSignUp
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((initRegistration) => {
+      if (!user.uid || !user.password) {
+        initRegistration.error(null);
+      } else {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.initRegistration({
+          callback: (response: any) => {
+            this.zone.run(() => {
+              this.onInitRegistrationHandler(user, response).subscribe({
+                next: (result) => {
+                  initRegistration.next(result);
+                  initRegistration.complete();
+                },
+                error: (error) => initRegistration.error(error),
+              });
+            });
+          },
+        });
+      }
+    });
+  }
+
+  /**
+   * Trigger CDC User registration using CDC APIs.
+   *
+   * @param response
+   */
+  protected onInitRegistrationHandler(
+    user: UserSignUp,
+    response: any
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isRegistered) => {
+      if (response && response.regToken && user.uid && user.password) {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.register({
+          email: user.uid,
+          password: user.password,
+          profile: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+          },
+          regToken: response.regToken,
+          finalizeRegistration: true,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              if (response?.status === 'OK') {
+                isRegistered.next(response);
+                isRegistered.complete();
+              } else {
+                this.handleRegisterError(response);
+                isRegistered.error(response);
+              }
+            });
+          },
+        });
+      }
+    });
+  }
+
+  /**
+   * Trigger CDC User log in using CDC APIs.
+   *
+   * @param response
+   */
+  loginUserWithoutScreenSet(
+    email: string,
+    password: string
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isLoggedIn) => {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.login({
+        loginID: email,
+        password: password,
+        callback: (response: any) => {
+          this.zone.run(() => {
+            if (response?.status === 'OK') {
+              isLoggedIn.next({ status: response.status });
+              isLoggedIn.complete();
+            } else {
+              this.handleLoginError(response);
+              isLoggedIn.error(response);
+            }
+          });
+        },
+      });
+    });
+  }
+
+  /**
+   * Show failure message to the user in case registration fails.
+   *
+   * @param response
+   */
+  protected handleRegisterError(response: any) {
+    if (response && response.status === 'FAIL') {
+      let errorMessage =
+        (response.validationErrors &&
+          response.validationErrors.length > 0 &&
+          response.validationErrors[response.validationErrors.length - 1]
+            .message) ||
+        'Error';
+      this.globalMessageService.add(
+        errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
+
+  /**
+   * Show failure message to the user in case login fails.
+   *
+   * @param response
+   */
+  protected handleLoginError(response: any) {
+    if (response && response.status === 'FAIL') {
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage: response.statusMessage,
+          },
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
+
+  /**
+   * Trigger CDC forgot password using CDC APIs.
+   *
+   * @param email
+   * @param password
+   */
+  resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((isResetPassword) => {
+      if (email && email.length > 0) {
+        (this.winRef.nativeWindow as { [key: string]: any })?.[
+          'gigya'
+        ]?.accounts?.resetPassword({
+          loginID: email,
+          callback: (response: any) => {
+            this.zone.run(() => {
+              this.handleResetPassResponse(response);
+
+              if (response?.status === 'OK') {
+                isResetPassword.next({ status: response.status });
+                isResetPassword.complete();
+              } else {
+                isResetPassword.error(response);
+              }
+            });
+          },
+        });
+      }
+    });
+  }
+
+  protected handleResetPassResponse(response: any) {
+    if (response && response.status === 'OK') {
+      this.globalMessageService.add(
+        { key: 'forgottenPassword.passwordResetEmailSent' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    } else {
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.unknownError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
       );
     }
   }

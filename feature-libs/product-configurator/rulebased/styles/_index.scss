@@ -27,7 +27,12 @@
 @import 'configurator-group-menu';
 @import 'configurator-group-title';
 @import 'configurator-overview-attribute';
+@import 'configurator-overview-filter';
+@import 'configurator-overview-filter-bar';
+@import 'configurator-overview-filter-button';
+@import 'configurator-overview-filter-dialog';
 @import 'configurator-overview-form';
+@import 'configurator-overview-menu';
 @import 'configurator-overview-notification-banner';
 @import 'configurator-previous-next-buttons';
 @import 'configurator-price-summary';
@@ -37,5 +42,7 @@
 @import 'configurator-update-message';
 @import 'configurator-conflict-and-error-messages';
 @import 'configurator-exit-button';
+@import 'configurator-variant-carousel';
+@import 'configurator-overview-sidebar';
 // Pages
 @import './pages/index';

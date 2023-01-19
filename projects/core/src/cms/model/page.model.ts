@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CmsComponent } from '../../model/cms.model';
 import { ContentSlotData } from './content-slot-data.model';
 
@@ -73,7 +79,7 @@ export interface PageMeta {
 
 export interface BreadcrumbMeta {
   label: string;
-  link: string;
+  link?: string | any[];
 }
 
 export enum PageRobotsMeta {

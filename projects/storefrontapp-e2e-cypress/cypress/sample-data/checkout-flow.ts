@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { generateMail, randomString } from '../helpers/user';
 
 export interface SampleUser {
@@ -66,7 +72,7 @@ export function getSampleUser() {
       number: '4111111111111111',
       expires: {
         month: '12',
-        year: '2025',
+        year: '2027',
       },
       cvv: '123',
     },

@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
+import { ImageGroup, Images } from '../../../../model/image.model';
+import { Product } from '../../../../model/product.model';
+import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { Converter } from '../../../../util/converter.service';
-import { Product } from '../../../../model/product.model';
-import { Images } from '../../../../model/image.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
@@ -11,7 +17,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
 
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Product;
     }
     if (source.images) {
       target.images = this.normalize(source.images);
@@ -28,28 +34,32 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
    * - images.GALLERY[0].thumnail.url
    */
   normalize(source: Occ.Image[]): Images {
-    const images = {};
+    const images: Images = {};
     if (source) {
       for (const image of source) {
         const isList = image.hasOwnProperty('galleryIndex');
-        if (!images.hasOwnProperty(image.imageType)) {
-          images[image.imageType] = isList ? [] : {};
-        }
+        if (image.imageType) {
+          if (!images.hasOwnProperty(image.imageType)) {
+            images[image.imageType] = isList ? [] : {};
+          }
 
-        let imageContainer;
-        if (isList && !images[image.imageType][image.galleryIndex]) {
-          images[image.imageType][image.galleryIndex] = {};
-        }
+          let imageContainer: ImageGroup;
+          if (isList) {
+            const imageGroups = images[image.imageType] as ImageGroup[];
+            if (!imageGroups[image.galleryIndex as number]) {
+              imageGroups[image.galleryIndex as number] = {};
+            }
+            imageContainer = imageGroups[image.galleryIndex as number];
+          } else {
+            imageContainer = images[image.imageType] as ImageGroup;
+          }
 
-        if (isList) {
-          imageContainer = images[image.imageType][image.galleryIndex];
-        } else {
-          imageContainer = images[image.imageType];
+          const targetImage = { ...image };
+          targetImage.url = this.normalizeImageUrl(targetImage.url ?? '');
+          if (image.format) {
+            imageContainer[image.format] = targetImage;
+          }
         }
-
-        const targetImage = { ...image };
-        targetImage.url = this.normalizeImageUrl(targetImage.url);
-        imageContainer[image.format] = targetImage;
       }
     }
     return images;
@@ -66,8 +76,8 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
       return url;
     }
     return (
-      (this.config.backend.media.baseUrl ||
-        this.config.backend.occ.baseUrl ||
+      (this.config.backend?.media?.baseUrl ||
+        this.config.backend?.occ?.baseUrl ||
         '') + url
     );
   }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -98,6 +104,6 @@ export class FacetComponent {
   }
 
   getLinkParams(value: FacetValue) {
-    return this.facetService.getLinkParams(value.query?.query.value);
+    return this.facetService.getLinkParams(value.query?.query?.value ?? '');
   }
 }

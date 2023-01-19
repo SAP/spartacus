@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -86,12 +92,10 @@ export class ConfiguratorCommonsService {
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
-      case CommonConfigurator.OwnerType.PRODUCT: {
-        return this.getOrCreateConfigurationForProduct(owner);
-      }
       case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
           owner
@@ -101,6 +105,9 @@ export class ConfiguratorCommonsService {
         return this.configuratorCartService.readConfigurationForOrderEntry(
           owner
         );
+      }
+      default: {
+        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }
     }
   }
@@ -185,6 +192,17 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Updates configuration overview according to group and attribute filters
+   *
+   * @param configuration - Configuration. Can contain filters in its overview facet
+   */
+  updateConfigurationOverview(configuration: Configurator.Configuration): void {
+    this.store.dispatch(
+      new ConfiguratorActions.UpdateConfigurationOverview(configuration)
+    );
+  }
+
+  /**
    * Removes a configuration.
    *
    * @param owner - Configuration owner
@@ -214,7 +232,8 @@ export class ConfiguratorCommonsService {
   }
 
   protected getOrCreateConfigurationForProduct(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -232,7 +251,10 @@ export class ConfiguratorCommonsService {
           configurationState.error !== true
         ) {
           this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
+            new ConfiguratorActions.CreateConfiguration({
+              owner,
+              configIdTemplate,
+            })
           );
         }
       }),
@@ -254,5 +276,14 @@ export class ConfiguratorCommonsService {
     configuration: Configurator.Configuration
   ): boolean {
     return configuration.overview !== undefined;
+  }
+
+  /**
+   * Removes product bound configurations that is linked to state
+   */
+  removeProductBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveProductBoundConfigurations()
+    );
   }
 }

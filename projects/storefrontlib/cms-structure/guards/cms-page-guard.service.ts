@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
@@ -6,8 +12,8 @@ import {
   Page,
   PageContext,
   PageType,
-  SemanticPathService,
   RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
@@ -103,9 +109,13 @@ export class CmsPageGuardService {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
+    const notFoundLabel = this.semanticPathService.get('notFound');
+    if (!notFoundLabel) {
+      return of(false);
+    }
     const notFoundCmsPageContext: PageContext = {
       type: PageType.CONTENT_PAGE,
-      id: this.semanticPathService.get('notFound'),
+      id: notFoundLabel,
     };
 
     return this.cmsService.getPage(notFoundCmsPageContext).pipe(

@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { OrderAmendService } from '../amend-order.service';
@@ -20,12 +24,12 @@ const mockEntries = [
     product: { code: 'test' },
   },
 ];
-const mockForm: FormGroup = new FormGroup({});
-const entryGroup = new FormGroup({});
+const mockForm: UntypedFormGroup = new UntypedFormGroup({});
+const entryGroup = new UntypedFormGroup({});
 mockForm.addControl('entries', entryGroup);
 mockEntries.forEach((entry) => {
   const key = entry.entryNumber.toString();
-  entryGroup.addControl(key, new FormControl(0));
+  entryGroup.addControl(key, new UntypedFormControl(0));
 });
 
 @Component({

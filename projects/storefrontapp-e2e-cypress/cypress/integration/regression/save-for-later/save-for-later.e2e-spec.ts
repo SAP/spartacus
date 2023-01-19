@@ -83,6 +83,22 @@ context('Save for later', () => {
         moveItem(products[3], ItemList.Cart);
         validateCart(3, 0);
       });
+
+      it('should be unable to save a cart for later if there is no active cart', () => {
+        addProductToCart(products[0]);
+
+        cy.get('cx-mini-cart a').click();
+
+        cy.get('cx-add-to-saved-cart').should('not.be.disabled');
+
+        moveItem(products[0], ItemList.SaveForLater);
+
+        cy.get('button').contains('Save For Later').should('not.exist');
+
+        cy.get('cx-add-to-saved-cart')
+          .contains('Save cart for later')
+          .should('be.disabled');
+      });
     });
   });
 });

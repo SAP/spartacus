@@ -8,7 +8,7 @@ import createSpy = jasmine.createSpy;
 class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   createPaymentDetails = createSpy().and.returnValue(of({}));
   setPaymentDetails = createSpy().and.returnValue(of({}));
-  getCardTypes = createSpy().and.returnValue(of([]));
+  getPaymentCardTypes = createSpy().and.returnValue(of([]));
 }
 
 describe('CheckoutPaymentConnector', () => {
@@ -47,10 +47,10 @@ describe('CheckoutPaymentConnector', () => {
   it('getCardTypes should call adapter', () => {
     let result;
     service
-      .getCardTypes()
+      .getPaymentCardTypes()
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toEqual([]);
-    expect(adapter.getCardTypes).toHaveBeenCalledWith();
+    expect(adapter.getPaymentCardTypes).toHaveBeenCalledWith();
   });
 });

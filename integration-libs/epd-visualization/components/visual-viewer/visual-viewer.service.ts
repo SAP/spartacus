@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // '@sapui5/ts-types-esm' package contains types for sap modules, e.g. 'sap/ui/core/Core'
 /// <reference types="@sapui5/ts-types-esm" />
 import {
@@ -1403,7 +1409,7 @@ export class VisualViewerService implements OnDestroy {
           return of(visualizationLoadInfo);
         }),
         catchError(() => {
-          let visualizationLoadInfo = {
+          const visualizationLoadInfo = {
             lookupResult: VisualizationLookupResult.UnexpectedError,
             loadStatus: VisualizationLoadStatus.NotStarted,
           };

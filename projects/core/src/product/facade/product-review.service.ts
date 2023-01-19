@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -22,7 +28,8 @@ export class ProductReviewService {
             new ProductActions.LoadProductReviews(productCode)
           );
         }
-      })
+      }),
+      map((reviews) => reviews ?? [])
     );
   }
 

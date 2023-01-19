@@ -13,6 +13,13 @@ import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-var
 
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
+const generalGroupAttributeName = 'C1';
+const generalGroupValueName = 'V1';
+const occPrice: OccConfigurator.PriceDetails = {
+  currencyIso: 'USD',
+  formattedValue: '$545.45',
+  value: 545.45,
+};
 const groupDescription = 'The Group Name';
 const groupId = '1';
 const configId = '1234-4568';
@@ -24,53 +31,6 @@ class MockTranslationService {
     return of(generalGroupDescription);
   }
 }
-
-const convertedOverview: Configurator.Overview = {
-  configId: configId,
-  totalNumberOfIssues: totalNumberOfIssues,
-  priceSummary: {},
-  productCode: PRODUCT_CODE,
-  groups: [
-    {
-      id: groupId,
-      groupDescription: groupDescription,
-
-      attributes: [
-        {
-          attribute: 'C1',
-          attributeId: undefined,
-          value: 'V1',
-          valueId: undefined,
-        },
-      ],
-      subGroups: [
-        {
-          id: '11',
-          groupDescription: undefined,
-          attributes: [],
-        },
-      ],
-    },
-    {
-      id: '2',
-      groupDescription: 'Group 2',
-      attributes: [
-        {
-          attribute: 'C2',
-          attributeId: undefined,
-          value: 'V2',
-          valueId: undefined,
-        },
-        {
-          attribute: 'C3',
-          attributeId: undefined,
-          value: 'V3',
-          valueId: undefined,
-        },
-      ],
-    },
-  ],
-};
 
 const group3: OccConfigurator.GroupOverview = {
   id: '3',
@@ -94,8 +54,9 @@ const group1: OccConfigurator.GroupOverview = {
   groupDescription: groupDescription,
   characteristicValues: [
     {
-      characteristic: 'C1',
-      value: 'V1',
+      characteristic: generalGroupAttributeName,
+      value: generalGroupValueName,
+      price: occPrice,
     },
   ],
   subGroups: [subgroup],
@@ -107,8 +68,9 @@ const generalGroup: OccConfigurator.GroupOverview = {
   groupDescription: '',
   characteristicValues: [
     {
-      characteristic: 'C1',
-      value: 'V1',
+      characteristic: generalGroupAttributeName,
+      value: generalGroupValueName,
+      price: occPrice,
     },
   ],
 };
@@ -117,6 +79,8 @@ Object.freeze(generalGroup);
 const overview: OccConfigurator.Overview = {
   id: configId,
   totalNumberOfIssues: totalNumberOfIssues,
+  numberOfConflicts: totalNumberOfIssues - 1,
+  numberOfIncompleteCharacteristics: 1,
   pricing: {},
   productCode: PRODUCT_CODE,
   groups: [
@@ -164,11 +128,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should be created', () => {
     expect(occConfiguratorVariantOverviewNormalizer).toBeTruthy();
-  });
-
-  it('should convert the overview', () => {
-    const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
-    expect(result).toEqual(convertedOverview);
   });
 
   it('should cover sub groups', () => {
@@ -241,9 +200,52 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantOverviewNormalizer.convertGroup(group1);
     expect(result[0].groupDescription).toBe(groupDescription);
   });
+
   it('should convert a general group', () => {
     const result =
       occConfiguratorVariantOverviewNormalizer.convertGroup(generalGroup);
     expect(result[0].groupDescription).toBe(generalGroupDescription);
+    const attribute = result[0]
+      ? result[0].attributes
+        ? result[0].attributes[0]
+        : undefined
+      : undefined;
+    expect(attribute).toBeDefined();
+    if (attribute) {
+      expect(attribute.attribute).toBe(generalGroupAttributeName);
+      expect(attribute.value).toBe(generalGroupValueName);
+      expect(attribute.valuePrice?.currencyIso).toBe(occPrice.currencyIso);
+      expect(attribute.valuePrice?.formattedValue).toBe(
+        occPrice.formattedValue
+      );
+      expect(attribute.valuePrice?.value).toBe(occPrice.value);
+    }
+  });
+
+  it('should set all issue counters when running on commerce 2205 or later', () => {
+    let target: Configurator.Overview = { configId: '123', productCode: 'abc' };
+    occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
+      target,
+      overview
+    );
+    expect(target.totalNumberOfIssues).toBe(2);
+    expect(target.numberOfIncompleteCharacteristics).toBe(1);
+    expect(target.numberOfConflicts).toBe(1);
+  });
+
+  it('should set only total number of issues when running on commerce before 2205', () => {
+    let target: Configurator.Overview = { configId: '123', productCode: 'abc' };
+    let source: OccConfigurator.Overview = {
+      id: '123',
+      productCode: 'abc',
+      totalNumberOfIssues: 2,
+    };
+    occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
+      target,
+      source
+    );
+    expect(target.totalNumberOfIssues).toBe(2);
+    expect(target.numberOfIncompleteCharacteristics).toBeUndefined();
+    expect(target.numberOfConflicts).toBeUndefined();
   });
 });

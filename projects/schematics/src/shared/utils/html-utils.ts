@@ -6,15 +6,13 @@ import {
   parse as parseHtml,
 } from 'parse5';
 
-/**
- * @license
+/*
  * Copyright Google LLC All Rights Reserved.
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- *
- * see: https://github.com/angular/components/blob/master/src/cdk/schematics/utils/html-manipulation.ts
+ * SPDX-License-Identifier: Apache-2.0
  */
+
 /** Appends the given element HTML fragment to the `<head>` element of the specified HTML file. */
 export function appendHtmlElementToHead(
   host: Tree,

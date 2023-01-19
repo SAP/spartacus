@@ -1,65 +1,43 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_QUALTRICS_FEATURE,
+  analyzeApplication,
+  analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   LibraryOptions as SpartacusQualtricsOptions,
-  QUALTRICS_MODULE,
-  QUALTRICS_ROOT_MODULE,
   readPackageJson,
-  shouldAddFeature,
-  SPARTACUS_QUALTRICS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
-  QUALTRICS_FEATURE_NAME_CONSTANT,
-  QUALTRICS_FOLDER_NAME,
-  QUALTRICS_MODULE_NAME,
-  SPARTACUS_QUALTRICS_ROOT,
-} from '../constants';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+
     return chain([
+      analyzeApplication(options, features),
+
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
-        ? addQualtricsFeature(options)
-        : noop(),
+      finalizeInstallation(options, features),
     ]);
   };
-}
-
-function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: QUALTRICS_FOLDER_NAME,
-    moduleName: QUALTRICS_MODULE_NAME,
-    featureModule: {
-      name: QUALTRICS_MODULE,
-      importPath: SPARTACUS_QUALTRICS,
-    },
-    rootModule: {
-      name: QUALTRICS_ROOT_MODULE,
-      importPath: SPARTACUS_QUALTRICS_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_QUALTRICS_ROOT,
-      namedImports: [QUALTRICS_FEATURE_NAME_CONSTANT],
-    },
-    styles: {
-      scssFileName: QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
-      importStyle: SPARTACUS_QUALTRICS,
-    },
-  });
 }

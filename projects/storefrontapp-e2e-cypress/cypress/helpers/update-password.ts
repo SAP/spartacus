@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { login } from './auth-forms';
 import * as alerts from './global-message';
 import * as helper from './login';
@@ -5,6 +11,7 @@ import * as helper from './login';
 import { standardUser } from '../sample-data/shared-users';
 
 export const PAGE_TITLE_HOME = 'Homepage';
+export const PAGE_TITLE_LOGIN = 'Login';
 export const PAGE_URL_UPDATE_PASSWORD = '/my-account/update-password';
 export const newPassword = 'newPassword123!';
 
@@ -19,12 +26,11 @@ export function testUpdatePassword() {
     );
     cy.get('[formcontrolname="newPassword"]').type(newPassword);
     cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-    cy.get('cx-update-password button').click();
-    cy.title().should('eq', PAGE_TITLE_HOME);
+    cy.get('cx-update-password button.btn-primary').click();
+    cy.title().should('eq', PAGE_TITLE_LOGIN);
     alerts.getSuccessAlert().should('exist');
+    cy.url().should('contain', '/login');
 
-    helper.signOutUser();
-    cy.visit('/login');
     login(standardUser.registrationData.email, newPassword);
     cy.get(helper.userGreetSelector).should('exist');
   });

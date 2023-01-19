@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, Tree } from '@angular-devkit/schematics';
 import {
   ASM_ACTIONS,
@@ -64,9 +70,9 @@ import {
   VARIANT_STYLE_ICONS_COMPONENT,
   VARIANT_STYLE_ICONS_MODULE,
 } from '../../../shared/constants';
+import { ASM_MODULE } from '../../../shared/lib-configs/asm-schematics-config';
+import { QUALTRICS_MODULE } from '../../../shared/lib-configs/qualtrics-schematics-config';
 import {
-  ASM_MODULE,
-  QUALTRICS_MODULE,
   SPARTACUS_ASM,
   SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   SPARTACUS_CHECKOUT_OLD_CORE,

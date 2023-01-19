@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
@@ -21,7 +27,7 @@ import { UnitUserListService } from '../services/unit-user-list.service';
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;
 
-  unit$: Observable<B2BUnit> = this.currentUnitService
+  unit$: Observable<B2BUnit | undefined> = this.currentUnitService
     ? this.currentUnitService.item$
     : of({ active: true });
 

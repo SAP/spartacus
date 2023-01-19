@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
@@ -19,7 +25,7 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     this.unitService.clearAssignedUsersList(
       code,
       B2BUserRole.APPROVER,
