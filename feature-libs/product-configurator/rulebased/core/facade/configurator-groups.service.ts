@@ -39,7 +39,6 @@ export class ConfiguratorGroupsService {
   getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
-        console.log("CHHI getCurrentGroupId: " +configuration.interactionState.currentGroup );
         if (configuration.interactionState.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
@@ -85,31 +84,6 @@ export class ConfiguratorGroupsService {
           this.navigateToGroup(configuration, groupId, true);
         }
       });
-  }
-
-  /**
-   * Navigates to the first attribute group
-   *
-   * @param {Configurator.Configuration} configuration - Configuration
-   */
-  navigateToFirstAttributeGroup(
-    configuration: Configurator.Configuration
-  ): void {
-    const groupId = this.getFirstAttributeGroup(configuration)?.id;
-    if (groupId) {
-      this.navigateToGroup(configuration, groupId, false);
-    }
-  }
-  protected getFirstAttributeGroup(
-    configuration: Configurator.Configuration
-  ): Configurator.Group | undefined {
-    const group = configuration.flatGroups.find(
-      (group) =>
-        (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
-          group.groupType === Configurator.GroupType.SUB_ITEM_GROUP) &&
-        group.attributes?.length
-    );
-    return group;
   }
 
   /**
