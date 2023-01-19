@@ -168,7 +168,7 @@ describe('ticket details', () => {
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.visitTicketDetailsOfFirstTicketByItsId();
+        customerTicketing.visitTicketDetailsOfFirstTicketByItsIdThroughURL();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
