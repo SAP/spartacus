@@ -339,7 +339,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && npm run build --configuration production )
+        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && npm run build -- --configuration production )
     fi
 }
 
