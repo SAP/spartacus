@@ -1,5 +1,5 @@
 export const futureStockDropdown = {
-  open: 'Future Availability',
+  header: 'Future Availability',
   quantity: 'Qty',
 };
 

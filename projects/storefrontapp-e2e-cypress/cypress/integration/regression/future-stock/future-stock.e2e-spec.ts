@@ -2,11 +2,7 @@ import { waitForPage, waitForProductPage } from '../../../helpers/checkout-flow'
 import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../helpers/auth-forms';
 
-// 3318057
-// 4567181
 const productIdWithFutureStock = '3318057';
-// 3881014
-// 3755219
 const productIdWithoutFutureStock = '3755219';
 
 const b2bUser = {
