@@ -303,7 +303,6 @@ function handleSetCurrentGroup(
   action: ConfiguratorActions.SetCurrentGroup
 ): Configurator.Configuration | undefined {
   const newCurrentGroup: string = action.payload.currentGroup;
-
   const result = {
     ...state,
     interactionState: {
@@ -364,7 +363,6 @@ function handleChangeGroup(
   action: ConfiguratorActions.ChangeGroup
 ): Configurator.Configuration | undefined {
   const isConflictResolutionMode = action.payload.conflictResolutionMode;
-
   return {
     ...state,
     interactionState: {
@@ -393,7 +391,11 @@ function setInitialCurrentGroup(
   let initialCurrentGroup;
   const flatGroups = state.flatGroups;
   if (flatGroups && flatGroups.length > 0) {
-    initialCurrentGroup = flatGroups[0]?.id;
+    initialCurrentGroup = state.immediateConflictResolution
+      ? flatGroups.find(
+          (group) => !group.id.startsWith(Configurator.ConflictIdPrefix)
+        )?.id
+      : flatGroups[0].id;
   }
   const menuParentGroup = initialCurrentGroup?.startsWith(
     Configurator.ConflictIdPrefix

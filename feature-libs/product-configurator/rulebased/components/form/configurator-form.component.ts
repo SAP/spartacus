@@ -8,20 +8,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  OnDestroy,
 } from '@angular/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -32,7 +25,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorFormComponent implements OnInit, OnDestroy {
+export class ConfiguratorFormComponent implements OnInit {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -55,7 +48,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  conflictSolverSubscription: Subscription;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -105,33 +97,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       if (routingData.expMode) {
         this.configExpertModeService?.setExpModeRequested(routingData.expMode);
       }
-      this.conflictSolverSubscription = this.configuratorCommonsService
-        .getConfiguration(routingData.owner)
-        .pipe(
-          distinctUntilChanged(
-            (a, b) =>
-              a.interactionState.showConflictSolverDialog ===
-              b.interactionState.showConflictSolverDialog
-          )
-        )
-        .subscribe((config) => {
-          if (config.interactionState.showConflictSolverDialog) {
-            if (
-              config.interactionState.currentGroup?.startsWith(
-                Configurator.ConflictIdPrefix
-              )
-            ) {
-              this.configuratorGroupsService.navigateToFirstAttributeGroup(
-                config
-              );
-            }
-          }
-        });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.conflictSolverSubscription?.unsubscribe();
   }
 
   /**
