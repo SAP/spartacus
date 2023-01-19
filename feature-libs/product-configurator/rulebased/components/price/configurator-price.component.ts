@@ -122,7 +122,6 @@ export class ConfiguratorPriceComponent {
    * @return {string} - corresponding style class
    */
   get styleClass(): string {
-    let styleClass = 'cx-greyed-out';
-    return styleClass;
+    return 'cx-greyed-out';
   }
 }
