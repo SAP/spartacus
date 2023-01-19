@@ -23,6 +23,13 @@ export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 export const GET_CONFIG_ALIAS = '@readConfig';
 
 /**
+ * Alias used for reading the config prices
+ */
+export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
+
+
+
+/**
  * Navigates to the product configuration page.
  *
  * @param {string} shopName - shop name
@@ -455,6 +462,18 @@ export function registerConfigurationUpdateRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Register configuration update route using name @see UPDATE_CONFIG_ALIAS
+ */
+export function registerConfigurationPricingRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*/pricing*`,
+  }).as(CONFIG_PRICING_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
