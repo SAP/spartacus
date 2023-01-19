@@ -1,10 +1,10 @@
 import * as configuration from '../../../helpers/product-configurator';
 
+const testProduct = '1934793';
+
 /**
  * Requires commerce core 22.05
  */
-const testProduct = '1934793';
-
 context('Textfield Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
