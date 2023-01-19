@@ -17,12 +17,10 @@ export class AvatarComponent {
   @Input() message: MessageEvent;
   iconTypes = ICON_TYPE;
 
-  constructor() {}
-
   getInitials(author: string): string {
     return author
       .split(' ')
-      .map((author) => author[0])
+      .map((string) => string[0])
       .join('');
   }
 }

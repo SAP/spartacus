@@ -10,7 +10,7 @@ import { CustomerTicketingEventListener } from './customer-ticketing-event.liste
 
 @NgModule({})
 export class CustomerTicketingEventModule {
-  constructor(
-    _customerTicketingEventListener: CustomerTicketingEventListener
-  ) {}
+  constructor(_customerTicketingEventListener: CustomerTicketingEventListener) {
+    // Intentional empty constructor
+  }
 }
