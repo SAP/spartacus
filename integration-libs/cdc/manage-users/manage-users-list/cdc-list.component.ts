@@ -5,13 +5,9 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  BaseItem,
-  ItemService,
-  ListComponent,
-  ListService,
-} from '@spartacus/organization/administration/components';
+import { BaseItem, ItemService, ListService } from '@spartacus/organization/administration/components';
 import { ManageUsersService } from './manage-users.service';
+
 
 @Component({
   selector: 'cx-org-list',
