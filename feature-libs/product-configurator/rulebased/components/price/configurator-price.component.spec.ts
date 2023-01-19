@@ -65,7 +65,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -89,7 +89,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -100,7 +100,7 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.price).toEqual('+$10');
     });
 
-    it('should be defined: value price less than zero', () => {
+    it('should be defined: negative value price is shown correctly', () => {
       component.formula = createTestData(0, -10, 0, false, true);
       component.formula = {
         quantity: 0,
@@ -117,7 +117,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -127,7 +127,7 @@ describe('ConfiguratorPriceComponent', () => {
 
       expect(component.price).toEqual('-$10');
     });
-    it('should be defined: value price is undefined', () => {
+    it('should be defined: no value price is given and a String of length 0 should be returned', () => {
       component.formula = createTestData(0, 0, 0, false, true);
       component.formula = {
         quantity: 0,
@@ -140,7 +140,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -151,14 +151,14 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.price).toEqual('');
     });
 
-    it('should be defined: value price greater than zero and value is selected', () => {
+    it('should be defined: positive value price is given and the value is selected', () => {
       component.formula = createTestData(0, 10, 10, true);
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -169,15 +169,9 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.price).toEqual('+$10');
     });
 
-    it('should be defined: value price greater than zero and value is not selected', () => {
+    it('should be defined: positive value price is given and the value is not selected', () => {
       component.formula = createTestData(0, 10, 10);
       fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-price'
-      );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -192,14 +186,14 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.price).toEqual('+$10');
     });
 
-    it('should be defined: value price total greater than zero', () => {
+    it('should be defined: a positive total value price is given', () => {
       component.formula = createTestData(0, 0, 150, true);
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -209,7 +203,7 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.priceTotal).toEqual('+$150');
     });
 
-    it('should be defined: value price total less than zero', () => {
+    it('should be defined: a negative total value price is given', () => {
       component.formula = createTestData(0, 0, -150, true);
       component.formula = {
         quantity: 0,
@@ -226,7 +220,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -235,7 +229,7 @@ describe('ConfiguratorPriceComponent', () => {
       );
       expect(component.priceTotal).toEqual('-$150');
     });
-    it('should be defined: value price total is undefined', () => {
+    it('should be defined: no total value price is given and a String of length 0 should be returned', () => {
       component.formula = createTestData(0, 0, 0, true);
       component.formula = {
         quantity: 0,
@@ -248,12 +242,7 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-quantity-price'
+        '.cx-greyed-out'
       );
       expect(component.priceTotal).toEqual('');
     });
@@ -262,11 +251,6 @@ describe('ConfiguratorPriceComponent', () => {
       component.formula = createTestData(2, 10, 20);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-price'
-      );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -286,19 +270,19 @@ describe('ConfiguratorPriceComponent', () => {
       }
       expect(component.priceTotal).toEqual('+$20');
     });
-    it('should be defined: value is lightedUp and selected', () => {
+    it('should be defined: value is greyed out selected', () => {
       component.formula = createTestData(0, 0, 0, true);
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-greyed-out'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-price',
+        '.cx-greyed-out',
         'configurator.price.selectedItem'
       );
     });
@@ -307,10 +291,7 @@ describe('ConfiguratorPriceComponent', () => {
       component.formula.isLightedUp = undefined;
       expect(component.isPriceLightedUp()).toEqual(false);
     });
-  });
-
-  describe('price is lighted up or greyed out', () => {
-    it('should be greyed out', () => {
+    it('should be defined: price is greyed out', () => {
       component.formula = createTestData(0, 10, 10);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -320,20 +301,7 @@ describe('ConfiguratorPriceComponent', () => {
       );
       expect(component.priceTotal).toEqual('+$10');
     });
-
-    it('should be lighted up', () => {
-      component.formula = createTestData(0, 10, 10, true);
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-greyed-out'
-      );
-      expect(component.priceTotal).toEqual('+$10');
-    });
   });
-
   describe('Accessibility', () => {
     it("should contain div element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
       component.formula = createTestData(0, 0, 150, true);

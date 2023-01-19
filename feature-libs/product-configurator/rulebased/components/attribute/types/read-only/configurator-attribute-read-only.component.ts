@@ -26,7 +26,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
+  ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,
       price: value.valuePrice,

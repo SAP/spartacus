@@ -31,10 +31,7 @@ export class ConfiguratorPriceComponent {
     if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      if (
-        this.formula.price?.value !== undefined &&
-        this.formula.price?.value >= 0
-      ) {
+      if (this.formula.price?.value && this.formula.price?.value >= 0) {
         return '+' + this.formula.price?.formattedValue;
       } else {
         return this.formula.price?.formattedValue || '';
@@ -48,10 +45,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    if (
-      this.formula.priceTotal !== undefined &&
-      this.formula.priceTotal.value >= 0
-    ) {
+    if (this.formula.priceTotal && this.formula.priceTotal.value >= 0) {
       return '+' + this.formula.priceTotal?.formattedValue;
     } else {
       return this.formula.priceTotal?.formattedValue || '';
@@ -128,11 +122,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - corresponding style class
    */
   get styleClass(): string {
-    let styleClass = 'cx-price';
-    if (!this.isPriceLightedUp()) {
-      styleClass += ' cx-greyed-out';
-    }
-
+    let styleClass = 'cx-greyed-out';
     return styleClass;
   }
 }

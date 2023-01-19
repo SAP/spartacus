@@ -74,7 +74,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should test return of extractValuePriceFormulaParameters() method', () => {
+  it('should return corresponding value price formula parameters ', () => {
     expect(component.extractValuePriceFormulaParameters(myValues[0])).toEqual(
       configuratorPriceComponentOptions
     );
