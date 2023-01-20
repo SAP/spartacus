@@ -26,9 +26,11 @@ import {
   AsmCustomerProductInterestsComponent,
   AsmCustomerProductReviewsComponent,
   AsmCustomerProfileComponent,
+  AsmCustomerSavedCartComponent,
 } from './sections/components';
 import { AsmCustomerProductInterestsModule } from './sections/asm-customer-product-interests/asm-customer-product-interests.module';
 import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart/asm-customer-active-cart.module';
+import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/asm-customer-saved-cart.module';
 
 @NgModule({
   imports: [
@@ -39,6 +41,7 @@ import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart
     PageComponentModule,
     AsmCustomerActiveCartModule,
     AsmCustomerProductInterestsModule,
+    AsmCustomerSavedCartModule,
     AsmCustomerProfileModule,
     AsmCustomerActivityModule,
     AsmCustomerMapComponentModule,
@@ -58,6 +61,9 @@ import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart
         },
         AsmCustomer360ProductReviewsComponent: {
           component: AsmCustomerProductReviewsComponent,
+        },
+        AsmCustomer360SavedCartComponent: {
+          component: AsmCustomerSavedCartComponent,
         },
         AsmCustomer360CustomerActivityComponent: {
           component: AsmCustomerActivityComponent,

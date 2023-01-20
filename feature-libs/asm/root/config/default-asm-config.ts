@@ -57,6 +57,9 @@ export const defaultAsmConfig: AsmConfig = {
           i18nNameKey: 'asm.customer360.overviewTab',
           components: [
             {
+              component: 'AsmCustomer360SavedCartComponent',
+            },
+            {
               component: 'AsmCustomer360ActiveCartComponent',
             },
             {

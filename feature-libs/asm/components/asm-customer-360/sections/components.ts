@@ -13,6 +13,8 @@ export { AsmCustomerProductInterestsComponent } from './asm-customer-product-int
 
 export { AsmCustomerActiveCartComponent } from './asm-customer-active-cart/asm-customer-active-cart.component';
 
+export { AsmCustomerSavedCartComponent } from './asm-customer-saved-cart/asm-customer-saved-cart.component';
+
 export { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews/asm-customer-product-reviews.component';
 
 export { AsmCustomerProfileComponent } from './asm-customer-profile/asm-customer-profile.component';

@@ -28,10 +28,10 @@ import { AsmAuthService } from './services/asm-auth.service';
       featureModules: {
         [ASM_FEATURE]: {
           cmsComponents: [
-            'AsmCustomer360OverviewComponent',
             'AsmCustomer360ProfileComponent',
             'AsmCustomer360CustomerActivityComponent',
             'AsmCustomer360ActiveCartComponent',
+            'AsmCustomer360SavedCartComponent',
             'AsmCustomer360ProductInterestsComponent',
             'AsmCustomer360ProductReviewsComponent',
             'AsmCustomer360MapComponent',
