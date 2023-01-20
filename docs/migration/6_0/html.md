@@ -86,3 +86,12 @@
 ### UserRegistrationFormComponent
 
 - Added `id` attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
+
+### CardComponent
+
+- Replaced `a` tag with `button` for accessibility improvements.
+
+### ActiveFacetsComponent
+
+- Replaced `h4` tag with `h2` tag header for accessibility improvements.
+
