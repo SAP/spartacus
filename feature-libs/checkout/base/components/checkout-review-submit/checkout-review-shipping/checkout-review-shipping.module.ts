@@ -9,11 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import {
-  CardModule,
-  IconModule,
-  OutletModule,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 
 @NgModule({
   declarations: [CheckoutReviewShippingComponent],

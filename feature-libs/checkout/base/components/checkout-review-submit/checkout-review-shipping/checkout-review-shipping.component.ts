@@ -45,7 +45,7 @@ export class CheckoutReviewShippingComponent {
   get entries$(): Observable<OrderEntry[]> {
     return this.activeCartFacade.getDeliveryEntries();
   }
-  
+
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
