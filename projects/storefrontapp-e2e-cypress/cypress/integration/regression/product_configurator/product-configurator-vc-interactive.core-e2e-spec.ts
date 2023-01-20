@@ -288,9 +288,9 @@ context('Product Configuration', () => {
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
-      configurationVc.clickOnGroup(2);
+      configurationVc.clickOnGroupAndWait(2);
       configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
-      configurationVc.clickOnGroup(1);
+      configurationVc.clickOnGroupAndWait(1);
       configuration.checkAttributeDisplayed(CAMERA_PIXELS, radioGroup);
     });
 
@@ -311,7 +311,7 @@ context('Product Configuration', () => {
         electronicsShop,
         testProductMultiLevel
       );
-      configurationVc.clickOnGroup(2);
+      configurationVc.clickOnGroupAndWait(2);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
     });
   });
@@ -403,36 +403,35 @@ context('Product Configuration', () => {
         PROJECTOR_LCD
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroup(3);
+      configurationVc.clickOnGroupAndWait(3);
 
-      configurationVc.selectConflictingValue(
+      configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
+
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationVc.deselectConflictingValue(
+      configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
+
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
       configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
-      configurationVc.selectConflictingValue(
+      configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
 
       // Navigate to a conflict group via clicking on 'Conflict Detected' link
       configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-      configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
+      configurationVc.clickOnConflictDetectedAndWait(GAMING_CONSOLE);
       configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
@@ -440,7 +439,7 @@ context('Product Configuration', () => {
 
       // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
       configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configurationVc.clickOnViewInConfigurationAndWait(GAMING_CONSOLE);
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
 

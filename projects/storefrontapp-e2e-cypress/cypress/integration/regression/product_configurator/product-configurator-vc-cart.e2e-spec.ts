@@ -105,35 +105,35 @@ context('Product Configuration', () => {
         PROJECTOR_LCD
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
-      configurationVc.clickOnGroup(3);
+      configurationVc.clickOnGroupAndWait(3);
 
-      configurationVc.selectConflictingValue(
+      configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
+
       cy.log('Conflict has been triggered');
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationVc.deselectConflictingValue(
+      configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
+
       cy.log('Conflicting value has been de-selected');
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
       configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
-      configurationVc.selectConflictingValue(
+      configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
+
       cy.log('Conflicting value again has been selected');
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
       configurationVc.clickOnPreviousBtnAndWait(SUBWOOFER);
       configurationVc.clickOnPreviousBtnAndWait(REAR_SPEAKER);
       configurationVc.clickOnPreviousBtnAndWait(CENTER_SPEAKER);
@@ -176,15 +176,15 @@ context('Product Configuration', () => {
         Conflict_msg_gaming_console
       );
       // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
-      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configurationVc.clickOnViewInConfigurationAndWait(GAMING_CONSOLE);
       configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
-      configurationVc.deselectConflictingValue(
+      configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
-      cy.wait(configurationVc.UPDATE_CONFIG_ALIAS);
+
       cy.log('Conflicting value again has been de-selected');
       //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
       configurationVc.clickAddToCartBtn();
