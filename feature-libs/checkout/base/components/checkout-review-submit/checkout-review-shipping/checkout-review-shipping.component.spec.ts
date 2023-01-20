@@ -27,24 +27,6 @@ const mockCheckoutStep: CheckoutStep = {
   type: [CheckoutStepType.DELIVERY_ADDRESS],
 };
 
-class MockCheckoutStepService {
-  steps$ = of([
-    {
-      id: 'step1',
-      name: 'step1',
-      routeName: 'route1',
-      type: [CheckoutStepType.DELIVERY_ADDRESS],
-    },
-    {
-      id: 'step2',
-      name: 'step2',
-      routeName: 'route2',
-      type: [CheckoutStepType.DELIVERY_MODE],
-    },
-  ]);
-  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
-}
-
 const mockCountry: Country = {
   isocode: 'JP',
   name: 'Japan',
@@ -60,6 +42,16 @@ const mockAddress: Address = {
   postalCode: 'zip',
   country: mockCountry,
 };
+
+const mockDeliveryMode: DeliveryMode = {
+  name: 'standard-gross',
+  description: 'Delivery mode test description',
+};
+
+const mockEntries: OrderEntry[] = [
+  { entryNumber: 123, quantity: 2, totalPrice: { formattedValue: '$8.20' } },
+  { entryNumber: 456 },
+];
 
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
@@ -84,19 +76,27 @@ class MockCheckoutDeliveryModesService
   );
 }
 
+class MockCheckoutStepService {
+  steps$ = of([
+    {
+      id: 'step1',
+      name: 'step1',
+      routeName: 'route1',
+      type: [CheckoutStepType.DELIVERY_ADDRESS],
+    },
+    {
+      id: 'step2',
+      name: 'step2',
+      routeName: 'route2',
+      type: [CheckoutStepType.DELIVERY_MODE],
+    },
+  ]);
+  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
+}
+
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = createSpy().and.returnValue(of(mockEntries));
 }
-
-const mockDeliveryMode: DeliveryMode = {
-  name: 'standard-gross',
-  description: 'Delivery mode test description',
-};
-
-const mockEntries: OrderEntry[] = [
-  { entryNumber: 123, quantity: 2, totalPrice: { formattedValue: '$8.20' } },
-  { entryNumber: 456 },
-];
 
 @Pipe({
   name: 'cxUrl',
