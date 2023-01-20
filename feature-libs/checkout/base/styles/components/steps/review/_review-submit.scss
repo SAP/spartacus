@@ -15,10 +15,6 @@
     padding: 20px 40px;
   }
 
-  .container {
-    padding: 2px 16px;
-  }
-
   .cx-review {
     padding: 0 0 1rem;
   }
@@ -33,10 +29,12 @@
   .cx-review-shipping-summary {
     display: flex;
     justify-content: space-between;
+    background-color: var(--cx-color-inverse) !important;
   }
 
   .cx-review-summary {
     margin: 0;
+    background-color: var(--cx-color-background);
     padding: 15px 0;
 
     &-wrapper {
