@@ -44,9 +44,13 @@ export class I18nextHttpBackendService implements I18nextBackendService {
    * Returns the configuration for the i18next-http-backend plugin.
    */
   protected getBackendConfig(): BackendOptions {
-    const loadPath = this.getLoadPath(
-      this.config.i18n?.backend?.loadPath ?? ''
-    );
+    if (!this.config.i18n?.backend?.loadPath) {
+      throw new Error(
+        'I18nextHttpBackendService: Missing `i18n.backend.loadPath` config.'
+      );
+    }
+
+    const loadPath = this.getLoadPath(this.config.i18n.backend.loadPath);
 
     const backend: BackendOptions = {
       loadPath,
