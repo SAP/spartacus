@@ -34,10 +34,10 @@ export class OrderDetailsService {
 
     this.orderLoad$ = this.orderCode$.pipe(
       tap((orderCode) => {
+        this.orderHistoryFacade.clearOrderDetails();
+
         if (orderCode) {
           this.orderHistoryFacade.loadOrderDetails(orderCode);
-        } else {
-          this.orderHistoryFacade.clearOrderDetails();
         }
       }),
       shareReplay({ bufferSize: 1, refCount: true })
