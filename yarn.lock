@@ -2056,9 +2056,8 @@
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
 "@spartacus-eslint/eslint-plugin@link:./projects/eslint":
-  version "0.0.0-dev"
-  dependencies:
-    tslib "^2.4.0"
+  version "0.0.0"
+  uid ""
 
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.3"
@@ -6121,6 +6120,11 @@ i18n-lint@^1.0.0:
     glob "^5.0.0"
     htmlparser2 "^3.0.0"
     node.extend "^1.0.0"
+
+i18next-fs-backend@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.1.1.tgz#07c6393be856c5a398e3dfc1257bf8439841cd89"
+  integrity sha512-FTnj+UmNgT3YRml5ruRv0jMZDG7odOL/OP5PF5mOqvXud2vHrPOOs68Zdk6iqzL47cnnM0ZVkK2BAvpFeDJToA==
 
 i18next-http-backend@^1.4.1:
   version "1.4.4"
