@@ -182,7 +182,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       distinctUntilChanged()
     );
   }
-  
 
   /**
    * Returns last cart entry for provided product code.

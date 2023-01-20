@@ -8,9 +8,8 @@ describe('CheckoutReviewShippingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CheckoutReviewShippingComponent ]
-    })
-    .compileComponents();
+      declarations: [CheckoutReviewShippingComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
     component = fixture.componentInstance;

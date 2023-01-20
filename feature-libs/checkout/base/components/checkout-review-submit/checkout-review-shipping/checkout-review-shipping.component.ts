@@ -4,9 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
-import { ActiveCartFacade, CartOutlets, DeliveryMode, OrderEntry } from '@spartacus/cart/base/root';
-import { CheckoutDeliveryAddressFacade, CheckoutDeliveryModesFacade, CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import { Component } from '@angular/core';
+import {
+  ActiveCartFacade,
+  CartOutlets,
+  DeliveryMode,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/base/root';
 import { Address, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -17,38 +27,39 @@ import { CheckoutStepService } from '../../services';
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
 })
-export class CheckoutReviewShippingComponent implements OnInit {
-
-  constructor(protected activeCartFacade: ActiveCartFacade, 
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade, 
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService) { }
-
-  ngOnInit(): void {
-  }
+export class CheckoutReviewShippingComponent {
+  readonly cartOutlets = CartOutlets;
+  iconTypes = ICON_TYPE;
 
   checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
   checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
-  
-  iconTypes = ICON_TYPE;
 
+  get entries$(): Observable<OrderEntry[]> {
+    return this.activeCartFacade.getDeliveryEntries();
+  }
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
+
+  constructor(
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected translationService: TranslationService,
+    protected checkoutStepService: CheckoutStepService
+  ) {}
 
   deliveryAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
-  );
+    );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
     this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
-  );
+    );
 
   deliverySteps(steps: CheckoutStep[]): CheckoutStep[] {
-    console.log("in steps");
     return steps.filter((step) =>
       this.getCheckoutDeliverySteps().includes(step.type[0])
     );
@@ -65,7 +76,6 @@ export class CheckoutReviewShippingComponent implements OnInit {
     deliveryAddress: Address,
     countryName?: string
   ): Observable<Card> {
-    console.log("in");
     return this.translationService.translate('addressCard.shipTo').pipe(
       map((textTitle) => {
         if (!countryName) {
@@ -118,11 +128,4 @@ export class CheckoutReviewShippingComponent implements OnInit {
   protected getCheckoutDeliverySteps(): Array<CheckoutStepType | string> {
     return [CheckoutStepType.DELIVERY_ADDRESS, CheckoutStepType.DELIVERY_MODE];
   }
-
-  readonly cartOutlets = CartOutlets;
-
-  get entries$(): Observable<OrderEntry[]> {
-    return this.activeCartFacade.getDeliveryEntries();
-  }
-
 }

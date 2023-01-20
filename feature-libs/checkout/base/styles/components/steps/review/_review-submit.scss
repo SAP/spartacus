@@ -2,7 +2,7 @@
   @include media-breakpoint-down(md) {
     padding: 20px 0;
   }
-  
+
   img {
     border-radius: 5px 5px 0 0;
   }
@@ -13,9 +13,8 @@
     font-weight: 600;
     font-size: 18px;
     padding: 20px 40px;
-
   }
-  
+
   .container {
     padding: 2px 16px;
   }
@@ -32,7 +31,7 @@
   }
 
   .cx-review-shipping-summary {
-    display: flex; 
+    display: flex;
     justify-content: space-between;
   }
 

@@ -9,14 +9,15 @@ import { CommonModule } from '@angular/common';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import { CardModule, IconModule, OutletModule, PromotionsModule } from '@spartacus/storefront';
-
-
+import {
+  CardModule,
+  IconModule,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
 
 @NgModule({
-  declarations: [
-    CheckoutReviewShippingComponent
-  ],
+  declarations: [CheckoutReviewShippingComponent],
   exports: [CheckoutReviewShippingComponent],
   imports: [
     CommonModule,
@@ -27,6 +28,6 @@ import { CardModule, IconModule, OutletModule, PromotionsModule } from '@spartac
     PromotionsModule,
     IconModule,
     OutletModule,
-  ]
+  ],
 })
-export class CheckoutReviewShippingModule { }
+export class CheckoutReviewShippingModule {}

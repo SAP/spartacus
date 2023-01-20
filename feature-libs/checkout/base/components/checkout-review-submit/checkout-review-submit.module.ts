@@ -34,7 +34,7 @@ import { CheckoutReviewShippingModule } from './checkout-review-shipping/checkou
     PromotionsModule,
     IconModule,
     OutletModule,
-    CheckoutReviewShippingModule
+    CheckoutReviewShippingModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

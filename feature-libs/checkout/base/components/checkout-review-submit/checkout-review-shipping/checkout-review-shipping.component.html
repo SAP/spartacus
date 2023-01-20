@@ -1,29 +1,29 @@
 <ng-container *ngIf="entries$ | async as entries">
-    <div class="cx-review-header"> Items to be shipped </div>
-    <div class="cx-review-summary cx-review-shipping-summary">
-        <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
-          <div class="cx-review-summary-card-container">
-            <ng-container *ngFor="let step of deliverySteps(steps)">
-              <ng-container [ngSwitch]="step.type[0]">
-                <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
-                  <ng-container *ngTemplateOutlet="deliveryAddress"></ng-container>
-                </ng-container>
-              </ng-container>
+  <div class="cx-review-header">Items to be shipped</div>
+  <div class="cx-review-summary cx-review-shipping-summary">
+    <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
+      <div class="cx-review-summary-card-container">
+        <ng-container *ngFor="let step of deliverySteps(steps)">
+          <ng-container [ngSwitch]="step.type[0]">
+            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
+              <ng-container *ngTemplateOutlet="deliveryAddress"></ng-container>
             </ng-container>
-          </div>
-          <div class="cx-review-summary-card-container">
-            <ng-container *ngFor="let step of deliverySteps(steps)">
-              <ng-container [ngSwitch]="step.type[0]">
-                <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
-                  <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
-                </ng-container>
-              </ng-container>
-            </ng-container>
-          </div>
+          </ng-container>
         </ng-container>
       </div>
+      <div class="cx-review-summary-card-container">
+        <ng-container *ngFor="let step of deliverySteps(steps)">
+          <ng-container [ngSwitch]="step.type[0]">
+            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
+              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
 
-        <!-- DELIVERY ADDRESS SECTION -->
+  <!-- DELIVERY ADDRESS SECTION -->
   <ng-template #deliveryAddress>
     <div
       *ngIf="deliveryAddress$ | async as deliveryAddress"
@@ -46,7 +46,7 @@
         ></a>
       </div>
     </div>
-</ng-template>
+  </ng-template>
 
   <!-- DELIVERY MODE SECTION -->
   <ng-template #deliveryMode>
@@ -68,21 +68,19 @@
       </div>
     </div>
   </ng-template>
-  
- <!-- CART ITEM SECTION -->
-    <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
-      {{ 'checkoutReview.placeOrder' | cxTranslate }}
-    </div>
-    <div
-      class="cx-review-cart-item col-md-12"
+
+  <!-- CART ITEM SECTION -->
+  <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+    {{ 'checkoutReview.placeOrder' | cxTranslate }}
+  </div>
+  <div class="cx-review-cart-item col-md-12">
+    <ng-template
+      [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: entries,
+        readonly: true
+      }"
     >
-      <ng-template
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: entries,
-          readonly: true
-        }"
-      >
-      </ng-template>
-    </div>
+    </ng-template>
+  </div>
 </ng-container>
