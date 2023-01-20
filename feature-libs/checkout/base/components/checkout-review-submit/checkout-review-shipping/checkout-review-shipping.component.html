@@ -2,7 +2,7 @@
     <div class="cx-review-header"> Items to be shipped </div>
     <div class="cx-review-summary cx-review-shipping-summary">
         <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
-          <div class="card">
+          <div class="cx-review-summary-card-container">
             <ng-container *ngFor="let step of deliverySteps(steps)">
               <ng-container [ngSwitch]="step.type[0]">
                 <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
@@ -11,7 +11,7 @@
               </ng-container>
             </ng-container>
           </div>
-          <div class="card">
+          <div class="cx-review-summary-card-container">
             <ng-container *ngFor="let step of deliverySteps(steps)">
               <ng-container [ngSwitch]="step.type[0]">
                 <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">

@@ -17,7 +17,6 @@
     display: flex;
     justify-content: space-between;
     background-color: var(--cx-color-inverse);
-    border-bottom: solid 1px var(--cx-color-light);
     padding: 40px 30px 20px;
 
     @include media-breakpoint-up(md) {
