@@ -9,7 +9,6 @@ import { defineConfig } from 'cypress';
 export default defineConfig({
   defaultCommandTimeout: 10000,
   requestTimeout: 15000,
-  testIsolation: false,
   retries: {
     runMode: 2,
   },
@@ -32,5 +31,6 @@ export default defineConfig({
       return require('./cypress/plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:4200',
+    testIsolation: false,
   },
 });

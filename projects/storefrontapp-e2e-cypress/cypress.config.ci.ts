@@ -8,7 +8,6 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   defaultCommandTimeout: 30000,
-  testIsolation: false,
   requestTimeout: 30000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 1,
@@ -36,5 +35,6 @@ export default defineConfig({
       return require('./cypress/plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:4200',
+    testIsolation: false,
   },
 });
