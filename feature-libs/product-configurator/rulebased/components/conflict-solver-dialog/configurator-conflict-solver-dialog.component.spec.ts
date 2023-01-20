@@ -8,8 +8,9 @@ import {
   IconModule,
   LaunchDialogService,
   FocusConfig,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Type } from '@angular/core';
@@ -88,6 +89,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let launchDialogService: LaunchDialogService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let focusService: KeyboardFocusService;
 
   beforeEach(
     waitForAsync(() => {
@@ -144,6 +146,8 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     spyOn(launchDialogService, 'closeDialog').and.callThrough();
+
+    focusService = TestBed.inject(KeyboardFocusService);
   });
 
   afterEach(() => {
@@ -217,6 +221,13 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
     });
   });
 
+  describe('init', () => {
+    it('should clear persisted focus key', () => {
+      focusService.set('key');
+      component.init(NEVER, NEVER);
+      expect(focusService.get()).toBeUndefined();
+    });
+  });
   describe('dismissModal', () => {
     it('should close dialog when dismissModal is called', () => {
       const reason = 'Close conflict solver dialog';
