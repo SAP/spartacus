@@ -12,32 +12,31 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-fdescribe('FutureStockAccordionComponent', () => {
+describe('FutureStockAccordionComponent', () => {
 	let component: FutureStockAccordionComponent;
 	let fixture: ComponentFixture<FutureStockAccordionComponent>;
 
-	// const mockHeader = 'Header';
-	// const mockExpanded = true;
-	// const mockContent = [
-	// 	{
-	// 		formattedDate: '10/11/2020',
-	// 		stock: {
-	// 			stockLevel: 15,
-	// 		},
-	// 	},
-	// 	{
-	// 		formattedDate: '11/11/2020',
-	// 		stock: {
-	// 			stockLevel: 20,
-	// 		},
-	// 	},
-	// 	{
-	// 		formattedDate: '12/11/2020',
-	// 		stock: {
-	// 			stockLevel: 25,
-	// 		},
-	// 	},
-	// ];
+	const mockHeader = 'Header';
+	const mockContent = [
+		{
+			formattedDate: '10/11/2020',
+			stock: {
+				stockLevel: 15,
+			},
+		},
+		{
+			formattedDate: '11/11/2020',
+			stock: {
+				stockLevel: 20,
+			},
+		},
+		{
+			formattedDate: '12/11/2020',
+			stock: {
+				stockLevel: 25,
+			},
+		},
+	];
 
 	beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -50,27 +49,45 @@ fdescribe('FutureStockAccordionComponent', () => {
     }).compileComponents();
 	});
 
-  // function createComponent() {
-	// 	fixture = TestBed.createComponent(FutureStockAccordionComponent);
-  //   futureStockAccordionComponent = fixture.componentInstance;
-
-  //   fixture.detectChanges();
-	// }
-
 	beforeEach(() => {
 		fixture = TestBed.createComponent(FutureStockAccordionComponent);
 		component = fixture.componentInstance;
-
+		component.header = mockHeader;
     fixture.detectChanges();
 
 	});
-	describe('bla', () => {
-		beforeEach(() => {
 
+	describe('creation', () => {
+		it('should create component', () => {
+			expect(component).toBeTruthy();
+		});
+	});
+
+	describe('toggle', () => {
+		it('should change expanded state of accordion', () => {
+			expect(component.expanded).toBeFalsy();
+
+			component.toggle();
+
+			expect(component.expanded).toBeTruthy();
+		});
+	});
+
+	describe('isString', () => {
+		it('should return true if string input was provided', () => {
+			component.content = 'test';
+
+			const isString = component.isString(component.content);
+
+			expect(isString).toBeTruthy();
 		});
 
-		it('should be created2', () => {
-			expect(component).toBeTruthy();
+		it('should return false if nonString input was provided', () => {
+			component.content = mockContent;
+
+			const isString = component.isString(component.content);
+
+			expect(isString).toBeFalsy();
 		});
 	});
 });

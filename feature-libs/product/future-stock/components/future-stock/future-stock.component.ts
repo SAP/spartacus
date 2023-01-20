@@ -18,7 +18,6 @@ export class FutureStockComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-
     if(!this.futureStocks) {
       this.futureStockSubscription = this.futureStocks$.subscribe((futureStocks) => {
         this.futureStocks = (futureStocks && futureStocks.futureStocks.length !== 0) ? futureStocks.futureStocks : 'This product has no future availability information.';

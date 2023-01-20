@@ -61,7 +61,7 @@ const MockOccModuleConfig: OccConfig = {
 	}
 };
 
-fdescribe('OccFutureStockAdapter', () => {
+describe('OccFutureStockAdapter', () => {
 	let service: OccFutureStockAdapter;
 	let httpMock: HttpTestingController;
 	let converter: ConverterService;

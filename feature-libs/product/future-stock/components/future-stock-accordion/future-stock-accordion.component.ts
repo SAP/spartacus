@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { FutureStock } from '@spartacus/core';
 
@@ -11,15 +11,13 @@ import { FutureStock } from '@spartacus/core';
 })
 export class FutureStockAccordionComponent {
   @Input() header: string;
-  @Input() expanded: boolean = false;
   @Input() content: FutureStock[] | string;
-  @Output() expandedChange = new EventEmitter<boolean>();
 
+  expanded: boolean = false;
   iconType = ICON_TYPE;
 
   toggle(): void {
     this.expanded = !this.expanded;
-    this.expandedChange.emit(this.expanded);
   }
 
   isString(param: FutureStock[] | string): boolean {
