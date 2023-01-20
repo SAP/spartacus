@@ -255,6 +255,7 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  * Navigates to the corresponding group that contains an attribute which is involved in a conflict.
  *
  * @param attribute - Attribute name
+ * @param linkName - link to click
  */
 function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
@@ -299,6 +300,16 @@ export function clickOnViewInConfiguration(attribute: string): void {
 }
 
 /**
+ * Navigates to a group that contains an attribute which is involved in a conflict and waits for request to finish
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
  * Verifies whether the view in configuration link is displayed.
  */
 export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
@@ -340,6 +351,16 @@ export function checkConflictLinkDisplayed(
 export function clickOnConflictDetected(attribute: string): void {
   cy.log('Click Conflict Detected - View Details Link');
   clickOnConflictSolverLink(attribute, 'Conflict Detected - View Details Link');
+}
+
+/**
+ * Navigates to the conflict group that contains an attribute which is involved in a conflict and waits for the request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnConflictDetectedAndWait(attribute: string): void {
+  clickOnConflictDetected(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -391,6 +412,29 @@ export function selectConflictingValue(
 }
 
 /**
+ * Selects a conflicting value, namely selects a value and waits for the request to finish.
+ * Then verifies whether the conflict detected message under the attribute name is displayed,
+ * The conflict header group in the group menu is displayed and
+ * Finally verifies whether the expected number of conflicts is accurate.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ * @param {number} numberOfConflicts - Expected number of conflicts
+ */
+export function selectConflictingValueAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string,
+  numberOfConflicts: number
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
+  this.checkConflictDetectedMsgDisplayed(attributeName);
+  checkConflictHeaderGroupDisplayed();
+  verifyNumberOfConflicts(numberOfConflicts);
+}
+
+/**
  * Deselects a conflicting value, namely deselects a value.
  * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
  * the conflict header group in the group menu is not displayed either.
@@ -405,6 +449,25 @@ export function deselectConflictingValue(
   valueName: string
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
+  this.checkConflictDetectedMsgNotDisplayed(attributeName);
+  checkConflictHeaderGroupNotDisplayed();
+}
+
+/**
+ * Deselects a conflicting value, namely deselects a value and waits for the request to finish.
+ * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
+ * the conflict header group in the group menu is not displayed either.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ */
+export function deselectConflictingValueAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -434,6 +497,16 @@ export function clickOnGroup(groupIndex: number): void {
       configuration.clickOnGroupByGroupIndex(0);
     }
   });
+}
+
+/**
+ * Clicks on the group via its index in the group menu and wait for the request to finish.
+ *
+ * @param {number} groupIndex - Group index
+ */
+export function clickOnGroupAndWait(groupIndex: number): void {
+  clickOnGroup(groupIndex);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
