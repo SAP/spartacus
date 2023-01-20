@@ -59,6 +59,10 @@ export class CheckoutReviewShippingComponent {
       map((state) => state.data)
     );
 
+  protected getCheckoutDeliverySteps(): Array<CheckoutStepType | string> {
+    return [CheckoutStepType.DELIVERY_ADDRESS, CheckoutStepType.DELIVERY_MODE];
+  }
+
   deliverySteps(steps: CheckoutStep[]): CheckoutStep[] {
     return steps.filter((step) =>
       this.getCheckoutDeliverySteps().includes(step.type[0])
@@ -123,9 +127,5 @@ export class CheckoutReviewShippingComponent {
         } as Card;
       })
     );
-  }
-
-  protected getCheckoutDeliverySteps(): Array<CheckoutStepType | string> {
-    return [CheckoutStepType.DELIVERY_ADDRESS, CheckoutStepType.DELIVERY_MODE];
   }
 }
