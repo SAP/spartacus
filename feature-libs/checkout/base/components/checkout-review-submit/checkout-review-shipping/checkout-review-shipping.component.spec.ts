@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutDeliveryAddressFacade, CheckoutDeliveryModesFacade, CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/base/root';
 import { Address, Country, I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
@@ -8,7 +13,11 @@ import createSpy = jasmine.createSpy;
 
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
-import { ActiveCartFacade, DeliveryMode, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  DeliveryMode,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { Pipe, PipeTransform } from '@angular/core';
 
 const mockCheckoutStep: CheckoutStep = {
@@ -84,7 +93,10 @@ const mockDeliveryMode: DeliveryMode = {
   description: 'Delivery mode test description',
 };
 
-const mockEntries: OrderEntry[] = [{ entryNumber: 123, quantity: 2, totalPrice: { formattedValue: "$8.20" }}, { entryNumber: 456 }];
+const mockEntries: OrderEntry[] = [
+  { entryNumber: 123, quantity: 2, totalPrice: { formattedValue: '$8.20' } },
+  { entryNumber: 456 },
+];
 
 @Pipe({
   name: 'cxUrl',
@@ -99,11 +111,7 @@ describe('CheckoutReviewShippingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        IconTestingModule,
-      ],
+      imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
       declarations: [CheckoutReviewShippingComponent, MockUrlPipe],
       providers: [
         {
@@ -119,7 +127,7 @@ describe('CheckoutReviewShippingComponent', () => {
           useClass: MockCheckoutStepService,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
