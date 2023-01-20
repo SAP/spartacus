@@ -34,11 +34,6 @@ export class CheckoutReviewShippingComponent {
   checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
   checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
 
-  get entries$(): Observable<OrderEntry[]> {
-    return this.activeCartFacade.getDeliveryEntries();
-  }
-  steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
-
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
@@ -46,6 +41,12 @@ export class CheckoutReviewShippingComponent {
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService
   ) {}
+
+  get entries$(): Observable<OrderEntry[]> {
+    return this.activeCartFacade.getDeliveryEntries();
+  }
+  
+  steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(

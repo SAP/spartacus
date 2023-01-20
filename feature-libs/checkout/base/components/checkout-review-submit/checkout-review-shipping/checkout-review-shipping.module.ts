@@ -13,7 +13,6 @@ import {
   CardModule,
   IconModule,
   OutletModule,
-  PromotionsModule,
 } from '@spartacus/storefront';
 
 @NgModule({
@@ -25,7 +24,6 @@ import {
     CardModule,
     UrlModule,
     RouterModule,
-    PromotionsModule,
     IconModule,
     OutletModule,
   ],
