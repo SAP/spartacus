@@ -21,7 +21,7 @@
     "build:digital-payments": "npm --prefix integration-libs/digital-payments run build:schematics && ng build digital-payments --configuration production",
     "build:epd-visualization": "npm --prefix integration-libs/epd-visualization run build:schematics && ng build epd-visualization --configuration production",
     "build:order": "npm --prefix feature-libs/order run build:schematics && ng build order --configuration production",
-    "build:libs": "ng build core --configuration production && ng build storefrontlib --configuration production && concurrently --kill-others-on-fail npm:build:schematics npm:build:user && npm run build:cart && npm run build:order && concurrently --kill-others-on-fail npm:build:checkout npm:build:asm npm:build:tracking  && concurrently --kill-others-on-fail npm:build:organization npm:build:product npm:build:product-configurator npm:build:storefinder npm:build:cdc && concurrently --kill-others-on-fail npm:build:smartedit npm:build:qualtrics npm:build:assets npm:build:cds npm:build:digital-payments npm:build:epd-visualization  npm:build:s4om && npm run build:setup",
+    "build:libs": "ng build core --configuration production && ng build storefrontlib --configuration production && concurrently --kill-others-on-fail npm:build:schematics npm:build:user && npm run build:cart && npm run build:order && concurrently --kill-others-on-fail npm:build:checkout npm:build:asm npm:build:tracking && concurrently --kill-others-on-fail npm:build:organization npm:build:product npm:build:product-configurator npm:build:storefinder npm:build:cdc && concurrently --kill-others-on-fail npm:build:smartedit npm:build:qualtrics npm:build:assets npm:build:cds npm:build:digital-payments npm:build:epd-visualization  npm:build:s4om && npm run build:setup",
     "build:organization": "npm --prefix feature-libs/organization run build:schematics && ng build organization --configuration production",
     "build:product": "npm --prefix feature-libs/product run build:schematics && ng build product --configuration production",
     "build:product-configurator": "npm --prefix feature-libs/product-configurator run build:schematics && ng build product-configurator --configuration production",
@@ -196,7 +196,9 @@
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0"
   },
-  "resolutions": {
-    "@nguniversal/builders/browser-sync/qs": "6.2.4"
+  "overrides": {
+    "@nguniversal/builders": {
+      "qs": "6.2.4"
+    }
   }
 }

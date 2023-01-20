@@ -54,7 +54,7 @@ For more information about using Verdaccio or another registry software, see the
 1. Run the following command to install packages and then build the libraries:
 
     ```bash
-    npm run && npm run build:libs
+    npm install && npm run build:libs
     ```
 
 1. Run the following schematics testing script provided by the Spartacus project:
