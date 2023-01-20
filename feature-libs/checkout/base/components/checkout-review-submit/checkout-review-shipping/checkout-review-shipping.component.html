@@ -1,8 +1,8 @@
 <ng-container *ngIf="entries$ | async as entries">
-    <div class="title-message"> Items to be shipped </div>
-    <div class="cx-review-summary" style="display: flex; justify-content: space-between;">
+    <div class="cx-review-header"> Items to be shipped </div>
+    <div class="cx-review-summary cx-review-shipping-summary">
         <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
-          <div class="cx-review-payment-col card">
+          <div class="card">
             <ng-container *ngFor="let step of deliverySteps(steps)">
               <ng-container [ngSwitch]="step.type[0]">
                 <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
@@ -11,7 +11,7 @@
               </ng-container>
             </ng-container>
           </div>
-          <div class="cx-review-payment-col card">
+          <div class="card">
             <ng-container *ngFor="let step of deliverySteps(steps)">
               <ng-container [ngSwitch]="step.type[0]">
                 <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
@@ -80,8 +80,7 @@
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{
           items: entries,
-          readonly: true,
-          promotionLocation: null
+          readonly: true
         }"
       >
       </ng-template>

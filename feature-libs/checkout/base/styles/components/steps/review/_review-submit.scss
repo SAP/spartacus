@@ -18,7 +18,8 @@
     border-radius: 5px 5px 0 0;
   }
 
-  .title-message {
+  .cx-review-header {
+    margin: 2.375rem 0 0 0;
     background-color: var(--cx-color-background);
     font-weight: 600;
     font-size: 18px;
@@ -39,6 +40,11 @@
     padding: 2.375rem 0 1.25rem 0;
     @include type('3');
     font-weight: var(--cx-font-weight-normal);
+  }
+
+  .cx-review-shipping-summary {
+    display: flex; 
+    justify-content: space-between;
   }
 
   .cx-review-summary {
