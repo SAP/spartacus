@@ -10,7 +10,7 @@ function configure_project {
     mkdir sub-folder
     mv !(sub-folder) sub-folder
     cd sub-folder
-    npm ci
+    npm ci && npm run build:libs
 }
 
 # Clear root containing the old package so the next package can be published 
@@ -31,10 +31,10 @@ function pack {
     elif [[ $PACKAGE == 'styles' ]]; then
         cp -r projects/storefrontstyles/* ../.
     elif [[ $PACKAGE == 'schematics' ]]; then
-        npm run build:schematics
         cp -r projects/schematics/* ../.
+    elif [[ $PACKAGE == 'storefront' ]]; then
+        cp -r dist/storefrontlib/* ../.
     else
-        npm run build:$PACKAGE
         cp -r dist/$PACKAGE/* ../.
     fi
 }
