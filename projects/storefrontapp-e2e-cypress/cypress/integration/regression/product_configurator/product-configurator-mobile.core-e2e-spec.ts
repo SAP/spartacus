@@ -25,7 +25,7 @@ viewportContext(['mobile'], () => {
       configuration.clickHamburger();
       configuration.checkGroupMenuDisplayed();
 
-      configurationVc.clickOnGroup(2);
+      configurationVc.clickOnGroupAndWait(2);
       configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
     });
   });
