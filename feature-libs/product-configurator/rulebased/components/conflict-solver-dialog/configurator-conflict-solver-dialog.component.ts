@@ -14,6 +14,7 @@ import {
   LaunchDialogService,
   ICON_TYPE,
   FocusConfig,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
@@ -48,13 +49,15 @@ export class ConfiguratorConflictSolverDialogComponent
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected focusService: KeyboardFocusService
   ) {}
 
   init(
     conflictGroup: Observable<Configurator.Group>,
     routerData: Observable<ConfiguratorRouter.Data>
   ): void {
+    this.focusService.clear();
     this.conflictGroup$ = conflictGroup;
     this.routerData$ = routerData;
   }
