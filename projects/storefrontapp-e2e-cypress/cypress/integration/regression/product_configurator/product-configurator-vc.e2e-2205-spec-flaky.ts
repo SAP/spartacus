@@ -10,7 +10,6 @@ const radioGroup = 'radioGroup';
 // List of attributes
 const CAMERA_MODE = 'CAMERA_MODE';
 
-
 context('Variant Carousel for Product Configuration', () => {
   let configUISettings: any;
 
