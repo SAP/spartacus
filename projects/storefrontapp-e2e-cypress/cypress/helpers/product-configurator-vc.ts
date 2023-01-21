@@ -27,8 +27,6 @@ export const GET_CONFIG_ALIAS = '@readConfig';
  */
 export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
 
-
-
 /**
  * Navigates to the product configuration page.
  *
