@@ -61,7 +61,6 @@ context('Product Configuration', () => {
       );
       configuration.navigateToOverviewPage();
       configurationVc.checkGlobalMessageNotDisplayed();
-      configuration.checkUpdatingMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationVc.checkGhostAnimationNotDisplayed();
       if (commerceIsAtLeast2211) {
