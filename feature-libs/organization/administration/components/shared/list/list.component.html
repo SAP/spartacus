@@ -54,10 +54,9 @@
           <a
             *ngIf="!hideAddButton"
             class="button primary create"
-            [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
-            routerLinkActive="disabled"
+            (click)="onAddButtonClick()"
           >
-            {{ 'organization.add' | cxTranslate }}
+            {{ getAddButtonLabel() | cxTranslate }}
           </a>
         </div>
       </div>

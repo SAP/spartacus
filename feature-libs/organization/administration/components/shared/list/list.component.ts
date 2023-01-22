@@ -10,7 +10,11 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  EntitiesModel,
+  PaginationModel,
+  RoutingService,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   Table,
@@ -35,7 +39,8 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   constructor(
     protected service: ListService<T, P>,
-    protected organizationItemService: ItemService<T>
+    protected organizationItemService: ItemService<T>,
+    protected routingService: RoutingService
   ) {}
 
   @HostBinding('class')
@@ -102,5 +107,15 @@ export class ListComponent<T = any, P = PaginationModel> {
         ...({ sort: this.sortCode } as PaginationModel),
       });
     }
+  }
+
+  getAddButtonLabel(): string {
+    return 'organization.add';
+  }
+
+  onAddButtonClick() {
+    this.structure$.subscribe((structure) => {
+      this.routingService.go({ cxRoute: structure.type + 'Create' });
+    });
   }
 }

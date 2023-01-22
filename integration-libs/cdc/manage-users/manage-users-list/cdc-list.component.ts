@@ -5,25 +5,34 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BaseItem, ItemService, ListService } from '@spartacus/organization/administration/components';
+import { RoutingService } from '@spartacus/core';
+import {
+  BaseItem,
+  ItemService,
+  ListComponent,
+  ListService,
+} from '@spartacus/organization/administration/components';
 import { ManageUsersService } from './manage-users.service';
-
 
 @Component({
   selector: 'cx-org-list',
-  templateUrl: './cdc-list.component.html',
+  templateUrl:
+    '../../../../feature-libs/organization/administration/components/shared/list/list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CdcListComponent<T extends BaseItem> extends ListComponent {
   constructor(
     protected service: ListService<T>,
     protected organizationItemService: ItemService<T>,
-    protected manageUsersService: ManageUsersService
+    protected manageUsersService: ManageUsersService,
+    protected routingService: RoutingService
   ) {
-    super(service, organizationItemService);
+    super(service, organizationItemService, routingService);
   }
-
-  protected openDelegateAdmin() {
+  getAddButtonLabel(): string {
+    return 'organization.manageUsers';
+  }
+  onAddButtonClick() {
     this.manageUsersService.openDelegateAdminLogin();
   }
 }

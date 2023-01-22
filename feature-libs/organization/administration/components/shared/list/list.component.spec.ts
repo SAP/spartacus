@@ -11,7 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
+import {
+  EntitiesModel,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { OrganizationTableType } from '@spartacus/organization/administration/components';
 import { PopoverModule, Table } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -19,7 +23,7 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/shared/components/split-view/testing/spit-view-testing.module';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
 import { ListService } from './list.service';
@@ -88,17 +92,23 @@ class MockTableComponent {
   @Input() showHint = true;
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 @Component({
   templateUrl: './list.component.html',
 })
 class MockListComponent extends ListComponent<Mock> {
   constructor(
     protected baseListService: ListService<Mock>,
-    protected organizationItemService: ItemService<Mock>
+    protected organizationItemService: ItemService<Mock>,
+    protected routingService: RoutingService
   ) {
-    super(baseListService, organizationItemService);
+    super(baseListService, organizationItemService, routingService);
   }
   viewType = OrganizationTableType.BUDGET;
+  readonly structure$: Observable<any> = of({ type: 'MockTable' });
 }
 
 describe('ListComponent', () => {
@@ -106,6 +116,7 @@ describe('ListComponent', () => {
   let fixture: ComponentFixture<MockListComponent>;
   let service: ListService<Mock>;
   let itemService: ItemService<any>;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -129,12 +140,17 @@ describe('ListComponent', () => {
           useClass: MockBaseListService,
         },
         {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
           provide: ItemService,
           useClass: MockItemService,
         },
       ],
     }).compileComponents();
 
+    routingService = TestBed.inject(RoutingService);
     service = TestBed.inject(ListService);
     itemService = TestBed.inject(ItemService);
   });
@@ -183,6 +199,12 @@ describe('ListComponent', () => {
         sort: 'sortCode',
         currentPage: 3,
       });
+    });
+
+    it('should open create user form', () => {
+      spyOn(routingService, 'go').and.stub();
+      component.onAddButtonClick();
+      expect(routingService.go).toHaveBeenCalled();
     });
 
     describe('UI', () => {
