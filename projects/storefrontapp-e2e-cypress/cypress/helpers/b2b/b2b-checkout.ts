@@ -478,7 +478,7 @@ export function reviewB2bOrderConfirmation(
     });
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(2)').within(() => {
         cy.contains(poNumber);
         if (isAccount) {
           cy.contains('Account');
@@ -489,12 +489,12 @@ export function reviewB2bOrderConfirmation(
         }
       });
     } else {
-      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(2)').within(() => {
         cy.contains('Frequency');
         cy.contains(recurrencePeriodMap.get(replenishment));
       });
 
-      cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(3)').within(() => {
         cy.contains(poNumber);
         if (isAccount) {
           cy.contains('Account');
@@ -507,7 +507,7 @@ export function reviewB2bOrderConfirmation(
     }
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(3)').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
 
@@ -521,7 +521,7 @@ export function reviewB2bOrderConfirmation(
         }
       });
     } else {
-      cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(4)').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
         cy.contains('Premium Delivery');
@@ -529,7 +529,7 @@ export function reviewB2bOrderConfirmation(
     }
 
     if (!isAccount) {
-      cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(4)').within(() => {
         cy.contains('Payment');
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
