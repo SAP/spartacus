@@ -111,6 +111,7 @@ export const LOCATORS = {
   ...REVIEW_ORDER_LOCATORS,
   SELECTED_STORE: `[data-store-is-selected=true]`,
   SET_PREFERRED_STORE: `[data-preferred-store]`,
+  ORDER_CONFIRMATION: `cx-order-confirmation-thank-you-message`,
 };
 
 export const EMAIL_ADDRESS = `${new Date().getTime()}@test.com`;
