@@ -12,9 +12,9 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/base/core';
+import { ActiveCartService, MultiCartService } from '@spartacus/cart/base/core';
 import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
-import { UserIdService } from '@spartacus/core';
+import { OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -30,32 +30,26 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
     protected orderDetailsService: OrderDetailsService,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
-    protected userIdService: UserIdService,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected multiCartService: MultiCartService,
   ) {}
 
   @ViewChild('element') element: ElementRef;
   protected subscription = new Subscription();
   order$: Observable<any>;
-  userId: string;
   readonly CartOutlets = CartOutlets;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
-    this.subscription.add(
-      this.userIdService.getUserId().subscribe((userId) => {
-        this.userId = userId;
-      })
-    );
   }
 
   onReorderClick(order: any) {
     this.launchDialog();
     this.reorderOrderFacade
-      .reorder(order.code, this.userId)
+      .reorder(order.code)
       .subscribe((cartModificationList: CartModificationList) => {
-        this.activeCartService.reloadCurrentActiveCart();
+        this.multiCartService.reloadCart(OCC_CART_ID_CURRENT);
         this.launchDialogService.emitData({
           loading: false,
           cartModificationList,

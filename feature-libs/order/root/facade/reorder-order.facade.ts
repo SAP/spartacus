@@ -21,10 +21,9 @@ import { ORDER_CORE_FEATURE } from '../feature-name';
 })
 export abstract class ReorderOrderFacade {
   /**
-   * Create a reorder
+   * Create cart from an existing order
    */
   abstract reorder(
     orderId: string,
-    userId: string
   ): Observable<CartModificationList>;
 }

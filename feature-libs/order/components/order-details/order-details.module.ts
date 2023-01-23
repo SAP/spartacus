@@ -85,9 +85,6 @@ const moduleComponents = [
         },
         AccountOrderDetailsReorderComponent: {
           component: OrderDetailReorderComponent,
-          data: {
-            enableReorder: true,
-          },
         },
       },
       features: {

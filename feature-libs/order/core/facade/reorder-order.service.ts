@@ -6,39 +6,45 @@
 
 import { Injectable } from '@angular/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
-import { Command, CommandService, CommandStrategy } from '@spartacus/core';
+import {
+  Command,
+  CommandService,
+  CommandStrategy,
+  UserIdService,
+} from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
 export class ReorderOrderService implements ReorderOrderFacade {
-  protected reorderCommand: Command<
-    { orderId: string; userId: string },
-    CartModificationList
-  > = this.commandService.create<
-    { orderId: string; userId: string },
-    CartModificationList
-  >(
-    ({ orderId, userId }) =>
-      this.reorderOrderConnector.reorder(orderId, userId),
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+  protected reorderCommand: Command<{ orderId: string }, CartModificationList> =
+    this.commandService.create<{ orderId: string }, CartModificationList>(
+      ({ orderId }) =>
+        this.userIdService.takeUserId().pipe(
+          take(1),
+          switchMap((userId: string) =>
+            this.reorderOrderConnector.reorder(orderId, userId)
+          )
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
   constructor(
     protected commandService: CommandService,
-    protected reorderOrderConnector: ReorderOrderConnector
+    protected reorderOrderConnector: ReorderOrderConnector,
+    protected userIdService: UserIdService
   ) {}
 
   /**
-   * Schedule a replenishment order
+   * Create cart from an existing order
    */
-  reorder(orderId: string, userId: string): Observable<CartModificationList> {
+  reorder(orderId: string): Observable<CartModificationList> {
     return this.reorderCommand.execute({
       orderId,
-      userId,
     });
   }
 }

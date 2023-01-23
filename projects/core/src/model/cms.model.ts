@@ -204,10 +204,6 @@ export interface CmsOrderDetailItemsComponent extends CmsComponent {
   enableAddToCart?: boolean;
 }
 
-export interface CmsOrderDetailReorderComponent extends CmsComponent {
-  enableReorder?: boolean;
-}
-
 export interface CmsPDFDocumentComponent extends CmsComponent {
   pdfFile?: CmsBannerComponentMedia;
   title?: string;

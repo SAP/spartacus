@@ -31,7 +31,7 @@ export const REPLENISHMENT_ORDER_NORMALIZER = new InjectionToken<
 
 export const REORDER_ORDER_NORMALIZER = new InjectionToken<
   Converter<any, CartModificationList>
->('ReplenishmentOrderNormalizer');
+>('ReorderOrderNormalizer');
 
 export const ORDER_HISTORY_NORMALIZER = new InjectionToken<
   Converter<any, OrderHistoryList>
