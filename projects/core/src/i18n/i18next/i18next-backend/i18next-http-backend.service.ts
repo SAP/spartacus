@@ -78,8 +78,7 @@ export class I18nextHttpBackendService implements I18nextBackendService {
         path = path.slice(2);
       }
       const serverRequestOrigin = this.windowRef.location.origin;
-      const result = `${serverRequestOrigin}/${path}`;
-      return result;
+      return `${serverRequestOrigin}/${path}`;
     }
     return path;
   }
