@@ -81,8 +81,10 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
 const deliveryEntries$ = new BehaviorSubject<OrderEntry[]>([
   { orderCode: 'testEntry' },
 ]);
+const hasPickupItems$ = new BehaviorSubject<boolean>(false);
 class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
+  hasPickupItems = () => hasPickupItems$.asObservable();
 }
 
 describe('CheckoutDeliveryModeComponent', () => {
@@ -125,14 +127,6 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get shipped entries', () => {
-    let shippedEntries;
-    component.deliveryEntries$.subscribe((value) => {
-      shippedEntries = value;
-    });
-    expect(shippedEntries).toEqual([{ orderCode: 'testEntry' }]);
   });
 
   it('should get supported delivery modes', () => {
@@ -263,6 +257,23 @@ describe('CheckoutDeliveryModeComponent', () => {
       getBackBtn().nativeElement.click();
 
       expect(component.back).toHaveBeenCalled();
+    });
+  });
+
+  describe('UI shipping items section', () => {
+    it('should not display shipping items section if there is no pickup items', () => {
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.textContent).not.toContain(
+        'checkoutMode.deliveryEntries'
+      );
+    });
+
+    it('should display shipping items section if there is pickup items', () => {
+      hasPickupItems$.next(true);
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
+        'checkoutMode.deliveryEntries'
+      );
     });
   });
 });

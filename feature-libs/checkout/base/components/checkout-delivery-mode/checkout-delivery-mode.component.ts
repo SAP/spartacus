@@ -64,8 +64,6 @@ export class CheckoutDeliveryModeComponent {
       )
     );
 
-  deliveryEntries$ = this.activeCartFacade.getDeliveryEntries();
-
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
   mode: UntypedFormGroup = this.fb.group({
