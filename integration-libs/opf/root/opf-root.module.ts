@@ -6,6 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import {
+  CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -14,7 +15,7 @@ import { defaultOpfConfig } from './config/default-opf-config';
 import { OPF_CORE_FEATURE, OPF_FEATURE } from './feature-name';
 
 export function defaultOPFComponentsConfig() {
-  const config = {
+  const config: CmsConfig = {
     featureModules: {
       [OPF_FEATURE]: {
         // TODO: (OPF) provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
