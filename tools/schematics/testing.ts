@@ -117,7 +117,6 @@ function publishLibs(): void {
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
-    console.log(dir, packagePath);
     execSync(
       `cd ${dir} && npm publish --registry=${verdaccioUrl} --no-git-tag-version`,
       { stdio: 'inherit' }
