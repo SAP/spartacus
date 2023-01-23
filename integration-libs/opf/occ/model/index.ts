@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import './occ-opf-endpoints.model';
+export * from './occ-opf-endpoints.model';
