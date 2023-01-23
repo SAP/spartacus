@@ -29,15 +29,13 @@ import { TrackingEventsComponent } from './order-detail-items/consignment-tracki
 import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
-import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
-import { OrderOverviewModule } from './order-overview/order-overview.module';
+import { OrderOverviewComponent } from './order-overview/order-overview.component';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
-  OrderDetailShippingComponent,
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
@@ -50,7 +48,6 @@ const moduleComponents = [
     I18nModule,
     FeaturesConfigModule,
     PromotionsModule,
-    OrderOverviewModule,
     UrlModule,
     SpinnerModule,
     RouterModule,
@@ -73,8 +70,11 @@ const moduleComponents = [
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
         },
-        AccountOrderDetailsShippingComponent: {
-          component: OrderDetailShippingComponent,
+        // AccountOrderDetailsShippingComponent: {
+        //   component: OrderOverviewComponent,
+        // },
+        AccountOrderDetailsOverviewComponent: {
+          component: OrderOverviewComponent,
         },
       },
       features: {

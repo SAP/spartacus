@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import { Address, CostCenter, TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-overview',
@@ -17,14 +18,12 @@ import { filter, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
-  order: any;
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
 
-  @Input('order')
-  set setOrder(order: any) {
-    this.order = order;
-  }
-
-  constructor(protected translation: TranslationService) {}
+  constructor(
+    protected translation: TranslationService,
+    protected orderDetailsService: OrderDetailsService
+  ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(

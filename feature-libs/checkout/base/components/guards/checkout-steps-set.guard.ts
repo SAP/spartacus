@@ -112,6 +112,14 @@ export class CheckoutStepsSetGuard implements CanActivate, OnDestroy {
           return this.isDeliveryModeSet(step);
         }
         case CheckoutStepType.PAYMENT_DETAILS: {
+          if (
+            this.checkoutStepService.getCheckoutStep(
+              CheckoutStepType.DELIVERY_MODE
+            )?.disabled
+          ) {
+            this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
+          }
+
           return this.isPaymentDetailsSet(step);
         }
         case CheckoutStepType.REVIEW_ORDER: {
