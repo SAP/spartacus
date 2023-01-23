@@ -18,7 +18,9 @@ concurrency:
 name: Merge Checks
 jobs:
   no_retries: 
-    name: Verify re-run of all jobs
+    name: Prevent re-run of merge checks
+    # E2Es can't be retried.  Moreover, in some retry cases, they don't run
+    # and the job returns a success code.
     runs-on: ubuntu-latest
     steps:
       - name: Forcefully fail build if jobs are all retried
@@ -43,7 +45,7 @@ jobs:
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   b2c_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: Merge Check - E2E B2C
+    name: MC - E2E B2C
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -75,7 +77,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: Merge Check - E2E SSR B2C
+    name: MC - E2E SSR B2C
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
@@ -104,7 +106,7 @@ jobs:
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: Merge Check - E2E B2B
+    name: MC - E2E B2B
     runs-on: ubuntu-latest
     strategy:
       matrix:
