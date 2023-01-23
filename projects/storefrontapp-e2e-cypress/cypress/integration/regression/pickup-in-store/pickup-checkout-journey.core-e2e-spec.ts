@@ -124,8 +124,16 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
 
         cy.log('The logged in user checks out.');
 
-        // Not ideal, but we need this to allow time for the event handlers to have been attached
+        // TODO
+        /*
+          Not ideal, but we need this to allow time for the event handlers to have been attached
+          After cypress version 6 we can use
+            cy.get('#element').listeners().then(events => {
+              expect(events.click).to.have.lengthOf(1);
+            });
+         */
         cy.wait(1000);
+
         cy.get(L.MINI_CART_BUTTON).click();
         cy.get(L.PROCEED_TO_CHECKOUT_BUTTON).should('be.visible').click();
 
