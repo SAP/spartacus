@@ -1,0 +1,26 @@
+%cx-opf-checkout-payments {
+  > div {
+    border: 1px solid #d3d6db;
+    padding: 1.75rem 1.75rem;
+    border-radius: 10px;
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .form-check {
+    margin-bottom: 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    & ~ .form-check {
+      padding-top: 1rem;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #d3d6db;
+    }
+  }
+}

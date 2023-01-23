@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,10 +15,10 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OPFCheckoutPaymentAndReviewComponent {
-  constructor(protected activeCartFacade: ActiveCartFacade) {}
+  constructor(protected activeCartService: ActiveCartFacade) {}
 
   get paymentType$(): Observable<PaymentType | undefined> {
-    return this.activeCartFacade
+    return this.activeCartService
       .getActive()
       .pipe(map((cart) => cart.paymentType));
   }

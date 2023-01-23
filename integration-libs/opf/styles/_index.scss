@@ -1,6 +1,7 @@
 @import './components/index';
 
-$opf-components-allowlist: cx-opf-checkout-payment-and-review !default;
+$opf-components-allowlist: cx-opf-checkout-payment-and-review,
+  cx-opf-checkout-payments !default;
 
 $skipComponentStyles: () !default;
 

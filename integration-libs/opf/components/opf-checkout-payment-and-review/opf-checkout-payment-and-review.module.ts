@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,10 +12,11 @@ import {
   CheckoutAuthGuard,
   CartNotEmptyGuard,
 } from '@spartacus/checkout/base/components';
+import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 
 @NgModule({
   declarations: [OPFCheckoutPaymentAndReviewComponent],
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, OpfCheckoutPaymentsModule],
 
   providers: [
     provideDefaultConfig(<CmsConfig>{
