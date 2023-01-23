@@ -133,7 +133,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
 
           if (requestData) {
             return (response as AsmCustomer360Response).value.find(
-              (data) => data.type === requestData.customer360Type
+              (data) => data.type === requestData.type
             );
           } else {
             return undefined;

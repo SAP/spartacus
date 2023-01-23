@@ -65,7 +65,7 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: 'AsmCustomer360ProductInterestsComponent',
               requestData: {
-                customer360Type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
+                type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
               },
             },
           ],
@@ -88,7 +88,7 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: 'AsmCustomer360ProductReviewsComponent',
               requestData: {
-                customer360Type: AsmCustomer360Type.REVIEW_LIST,
+                type: AsmCustomer360Type.REVIEW_LIST,
               },
               config: { pageSize: 5 },
             },
@@ -100,7 +100,7 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: 'AsmCustomer360MapComponent',
               requestData: {
-                customer360Type: AsmCustomer360Type.STORE_LOCATION,
+                type: AsmCustomer360Type.STORE_LOCATION,
               },
               config: {
                 googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',

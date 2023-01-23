@@ -51,13 +51,13 @@ export interface AdditionalRequestParameters {
 }
 
 export interface AsmCustomer360Query {
-  customer360Type?: AsmCustomer360Type | string;
+  type?: AsmCustomer360Type | string;
   additionalRequestParameters?: AdditionalRequestParameters;
 }
 
 export interface AsmCustomer360Request {
   queries: Array<AsmCustomer360Query>;
-  options?: AsmCustomer360Params;
+  options: AsmCustomer360Params;
 }
 
 export type AsmCustomer360Data =

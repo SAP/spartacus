@@ -60,7 +60,7 @@ describe('Asm360Service', () => {
               {
                 component: 'AsmCustomer360ProductReviewsComponent',
                 requestData: {
-                  customer360Type: AsmCustomer360Type.REVIEW_LIST,
+                  type: AsmCustomer360Type.REVIEW_LIST,
                 },
                 config: { pageSize: 5 },
               },

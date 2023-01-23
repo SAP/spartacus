@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -14,7 +13,7 @@ import {
 } from '@spartacus/asm/root';
 import { Query, QueryService, QueryState } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { AsmConfig } from '../config/asm-config';
@@ -47,16 +46,24 @@ export class Asm360Service implements Asm360Facade {
               []
             );
 
-            const request: AsmCustomer360Request = {
-              queries,
-              options: {
-                userId: customer?.customerId ?? '',
-              },
-            };
+            if (queries.length > 0) {
+              const request: AsmCustomer360Request = {
+                queries,
+                options: {
+                  userId: customer?.uid ?? '',
+                },
+              };
 
-            return this.queryService.create(() =>
-              this.asmConnector.getCustomer360Data(request)
-            );
+              return this.queryService.create(() =>
+                this.asmConnector.getCustomer360Data(request)
+              );
+            } else {
+              return this.queryService.create(() =>
+                of({
+                  value: [],
+                })
+              );
+            }
           }) ?? [];
       });
   }

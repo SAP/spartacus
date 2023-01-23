@@ -15,8 +15,8 @@ import {
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
+  AsmCustomer360Request,
   AsmCustomer360Response,
-  AsmCustomer360Type,
   BindCartParams,
   CustomerListsPage,
 } from '@spartacus/asm/root';
@@ -30,8 +30,6 @@ import {
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-//
-import { of } from 'rxjs';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
@@ -152,8 +150,9 @@ export class OccAsmAdapter implements AsmAdapter {
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
-  getCustomer360Data(/* queries: Array<AsmCustomer360Query>, { userId }: AsmCustomer360Params */): Observable<AsmCustomer360Response> {
-    /*
+  getCustomer360Data(
+    request: AsmCustomer360Request
+  ): Observable<AsmCustomer360Response> {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
@@ -165,7 +164,7 @@ export class OccAsmAdapter implements AsmAdapter {
       {
         urlParams: {
           baseSiteId: this.activeBaseSite,
-          userId,
+          userId: request.options.userId ?? '',
         },
       },
       {
@@ -175,128 +174,11 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     const requestBody = {
-      customer360Queries: queries,
-    };
-    */
-
-    // return this.http.post<AsmCustomer360Response>(url, requestBody, { headers });
-
-    const response: AsmCustomer360Response = {
-      value: [
-        {
-          type: AsmCustomer360Type.REVIEW_LIST,
-          reviews: [
-            {
-              productName: 'DC Car Battery Adapter',
-              productCode: '107701',
-              rating: '0.5',
-              reviewStatus: 'pending',
-              reviewText: 'Adapter? More like Badapter!!!',
-              createdAt: '2022-05-15T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'VCT-D580RM Remote Control Tripod',
-              productCode: '2992',
-              rating: '4.5',
-              reviewStatus: 'pending',
-              reviewText: 'Flimsy stand!',
-              createdAt: '2022-06-22T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'Mini T-Cam',
-              productCode: '458542',
-              rating: '1',
-              reviewStatus: 'pending',
-              reviewText: 'Webcam bad',
-              createdAt: '2022-07-02T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'HDR-CX105E Red',
-              productCode: '1934406',
-              rating: '1.5',
-              reviewStatus: 'pending',
-              reviewText: 'First review',
-              createdAt: '2022-07-03T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'DC Car Battery Adapter',
-              productCode: '10770',
-              rating: '2.5',
-              reviewStatus: 'pending',
-              reviewText: 'Adapter? More like Badapter!!!',
-              createdAt: '2022-05-15T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'VCT-D580RM Remote Control Tripod',
-              productCode: '29925',
-              rating: '3.5',
-              reviewStatus: 'pending',
-              reviewText: 'Flimsy stand!',
-              createdAt: '2022-06-22T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'Mini T-Cam',
-              productCode: '4585',
-              rating: '4',
-              reviewStatus: 'pending',
-              reviewText: 'Webcam bad',
-              createdAt: '2022-07-02T18:25:43.511Z',
-              updatedAt: '',
-            },
-            {
-              productName: 'HDR-CX105E Red',
-              productCode: '19406',
-              rating: '3',
-              reviewStatus: 'pending',
-              reviewText: 'First review',
-              createdAt: '2022-07-03T18:25:43.511Z',
-              updatedAt: '',
-            },
-          ],
-        },
-        {
-          type: AsmCustomer360Type.STORE_LOCATION,
-          address: 'New York United States 10001',
-        },
-        {
-          type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
-          customerProductInterests: [
-            {
-              product: {
-                code: '280916',
-              },
-            },
-            {
-              product: {
-                code: '482105',
-              },
-            },
-            {
-              product: {
-                code: '872912',
-              },
-            },
-            {
-              product: {
-                code: '1981415',
-              },
-            },
-            {
-              product: {
-                code: '458542',
-              },
-            },
-          ],
-        },
-      ],
+      customer360Queries: request.queries,
     };
 
-    return of(response);
+    return this.http.post<AsmCustomer360Response>(url, requestBody, {
+      headers,
+    });
   }
 }
