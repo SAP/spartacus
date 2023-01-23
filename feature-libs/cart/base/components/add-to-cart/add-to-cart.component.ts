@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 /*
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -28,7 +29,6 @@ import {
   isNotNullable,
   Product,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
 import {
   CmsComponentData,
   CurrentProductService,
@@ -54,7 +54,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    */
   @Input() product: Product;
 
-  @Input() order: Order;
+  // @Input() order: Order;
 
   //for modal
   @ViewChild('open') element: ElementRef;
@@ -64,6 +64,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
+
+  orderCode: string | null;
 
   showInventory$: Observable<boolean | undefined> | undefined =
     this.component?.data$.pipe(map((data) => data.inventoryDisplay));
@@ -83,10 +85,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
     protected launchDialogService: LaunchDialogService,
+    protected route: ActivatedRoute,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
   ngOnInit() {
+    if (this.route.snapshot.paramMap.get('orderCode'))
+    {
+      this.orderCode = this.route.snapshot.paramMap.get('orderCode');
+    }
+
     if (this.product) {
       this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
@@ -198,7 +206,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.RESELL,
       this.element,
       this.vcr,
-      { product: this.product, orderCode: this.order.code, orderEntry: 0 }
+      { product: this.product, orderCode: this.orderCode, orderEntry: 0 }
     );
 
     if (dialog) {
