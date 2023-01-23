@@ -27,8 +27,7 @@ export class OpfEndpointsService {
   buildUrl(endpoint: string): string {
     const baseUrl = this.getBaseEndpoint();
     const opfEndpoint = this.getEndpointFromContext(endpoint);
-    const result = `${baseUrl}/${this._activeBaseSite}/${opfEndpoint}`;
-    return result;
+    return `${baseUrl}/${this._activeBaseSite}/${opfEndpoint}`;
   }
 
   private getEndpointFromContext(endpoint: string): string | undefined {
