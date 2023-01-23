@@ -15,7 +15,7 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
 
-    &:not(:first-child) {
+    & ~ .form-check {
       padding-top: 1rem;
     }
 

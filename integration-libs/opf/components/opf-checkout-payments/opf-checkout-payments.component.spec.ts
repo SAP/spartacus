@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   ActiveConfiguration,
@@ -36,6 +37,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [OpfCheckoutPaymentsComponent],
       providers: [
         { provide: OpfCheckoutFacade, useClass: MockOpfCheckoutFacade },
