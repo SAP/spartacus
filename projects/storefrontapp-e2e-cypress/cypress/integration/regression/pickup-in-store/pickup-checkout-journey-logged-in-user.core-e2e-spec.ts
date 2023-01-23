@@ -21,10 +21,10 @@ import {
   - The user selects which store they want to collect from (by default the last store they selected, falling back to the nearest store).
   - The user adds the product to the cart. (The cart entries post call will have the "deliveryPointOfService" field).
   - From the cart, the user can change the location they wish to pick up the product from.
-  TODO:- The user checks out.
-  TODO:- During checkout, the user can change the pickup location.
-  TODO:- During the order review, the user can change the pickup location.
-  TODO:- The user completes checkout and sees the order details. On here they can see their pickup location.
+  - The user checks out.
+  - During checkout, the user cannot change the pickup location.
+  - During the order review, the user cannot change the pickup location.
+  - The user completes checkout and sees the order details. On here they can see their pickup location.
 
 */
 describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', () => {
@@ -100,15 +100,32 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
         });
       });
 
-      // The user checks out.
+      cy.log('The logged in user checks out.');
+
       cy.get(L.PROCEED_TO_CHECKOUT_BUTTON).click();
       fillAddressForm(defaultAddress);
       cy.get(L.CHECKOUT_ADDRESS_FORM_SUBMIT_BUTTON).click();
       cy.get(L.CHECKOUT_DELIVERY_MODE_CONTINUE_BUTTON).click();
+
+      cy.log('During checkout, the user cannot change the pickup location');
+      cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('not.exist');
+      cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('not.exist');
+
       fillPaymentForm(defaultPaymentDetails);
       cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
+      cy.log(
+        'During the order review, the user cannot change the pickup location.'
+      );
+      cy.get(
+        `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`
+      ).should('not.exist');
 
-      //
+      cy.log(
+        '  - The user completes checkout and sees the order details. On here they can see their pickup location.'
+      );
+      cy.get(L.REVIEW_ORDER_TERM_CONDITION).click();
+      cy.get(L.REVIEW_ORDER_SUBMIT).click();
+      cy.get(L.ORDER_CONFIRMATION).should('exist');
     });
   });
 });

@@ -22,9 +22,10 @@ import { viewportContext } from '../../../helpers/viewport-context';
 - The user also add another item only for delivery.(Multiple items in cart)
 - The user decides to login so the order will show in the user's account.
 - The logged in user checks out.
-- During checkout, the user cannot change the pickup location. (WIP)
+
+- During checkout, the user cannot change the pickup location.
 - During the order review, the user cannot change the pickup location.
-TODO:- The user completes checkout and sees the order details. On here they can see their pickup location for the picket item and the delivery for the delivered item. (WIP)
+- The user completes checkout and sees the order details. On here they can see their pickup location for the picket item and the delivery for the delivered item. (WIP)
 */
 
 describe('Pickup Delivery Option - A guest user logs in while checking out with BOPIS', () => {
@@ -127,11 +128,7 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         // TODO
         /*
           Not ideal, but we need this to allow time for the event handlers to have been attached
-          After cypress version 6 we can use
-            cy.get('#element').listeners().then(events => {
-              expect(events.click).to.have.lengthOf(1);
-            });
-         */
+        */
         cy.wait(1000);
 
         cy.get(L.MINI_CART_BUTTON).click();
@@ -141,7 +138,7 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
         fillAddressForm(defaultAddress);
         cy.get(L.CHECKOUT_ADDRESS_FORM_SUBMIT_BUTTON).click();
 
-        // During checkout, the user cannot change the pickup location. (WIP)
+        cy.log('During checkout, the user cannot change the pickup location.');
         cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('not.exist');
         cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('not.exist');
 
@@ -158,6 +155,9 @@ describe('Pickup Delivery Option - A guest user logs in while checking out with 
           `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`
         ).should('not.exist');
 
+        cy.log(
+          '  - The user completes checkout and sees the order details. On here they can see their pickup location.'
+        );
         cy.get(L.REVIEW_ORDER_TERM_CONDITION).click();
         cy.get(L.REVIEW_ORDER_SUBMIT).click();
         cy.get(L.ORDER_CONFIRMATION).should('exist');
