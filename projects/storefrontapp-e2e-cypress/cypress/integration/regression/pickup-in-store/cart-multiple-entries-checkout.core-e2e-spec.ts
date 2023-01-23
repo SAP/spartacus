@@ -1,5 +1,9 @@
 import {
   configureApparelProduct,
+  defaultAddress,
+  defaultPaymentDetails,
+  fillAddressForm,
+  fillPaymentForm,
   LOCATORS as L,
   login,
   register,
@@ -17,10 +21,10 @@ import { viewportContext } from '../../../helpers/viewport-context';
   - From the cart, the user can change the location they wish to pick up the product from.
   - The user also add another item only for delivery.(Multiple items in cart)
   - The user decides to login so the order will show in the user's account.
-  TODO:- The logged in user checks out.
-  TODO:- During checkout, the user can change the pickup location.
-  TODO:- During the order review, the user can change the pickup location.
-  TODO:- The user completes checkout and sees the order details. On here they can see their pickup location for the picket item and the delivery for the delivered item.
+  - The logged in user checks out.
+  - During checkout, the user cannot change the pickup location.
+  - During the order review, the user cannot change the pickup location.
+  - The user completes checkout and sees the order details. On here they can see their pickup location for the picket item and the delivery for the delivered item.
 */
 
 describe('A user who has a cart with multiple entries checkout with BOPIS are run in Client-Side Rendering (CSR) mode', () => {
@@ -104,7 +108,34 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
         login();
       });
 
-      //
+      // The logged in user checks out.
+      cy.log('The logged in user checks out.');
+      cy.wait(1000);
+      cy.get(L.MINI_CART_BUTTON).click();
+      cy.get(L.PROCEED_TO_CHECKOUT_BUTTON).click();
+      fillAddressForm(defaultAddress);
+      cy.get(L.CHECKOUT_ADDRESS_FORM_SUBMIT_BUTTON).click();
+      cy.get(L.CHECKOUT_DELIVERY_MODE_CONTINUE_BUTTON).click();
+
+      cy.log('During checkout, the user cannot change the pickup location');
+      cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('not.exist');
+      cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('not.exist');
+
+      fillPaymentForm(defaultPaymentDetails);
+      cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
+      cy.log(
+        'During the order review, the user cannot change the pickup location.'
+      );
+      cy.get(
+        `cx-pickup-in-store-details-review ${L.PICKUP_OPTIONS_RADIO_DELIVERY}`
+      ).should('not.exist');
+
+      cy.log(
+        '  - The user completes checkout and sees the order details. On here they can see their pickup location.'
+      );
+      cy.get(L.REVIEW_ORDER_TERM_CONDITION).click();
+      cy.get(L.REVIEW_ORDER_SUBMIT).click();
+      cy.get(L.ORDER_CONFIRMATION).should('exist');
     });
   });
 });
