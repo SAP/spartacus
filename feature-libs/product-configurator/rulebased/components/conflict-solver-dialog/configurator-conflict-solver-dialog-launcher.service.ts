@@ -30,7 +30,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
   conflictGroup$: Observable<Configurator.Group | undefined> =
     this.routerData$.pipe(
       switchMap((routerData) => {
-        return this.configuratorGroupsService.getConflictGroupsForImmediateConflictResolution(
+        return this.configuratorGroupsService.getConflictGroupForImmediateConflictResolution(
           routerData.owner
         );
       }),

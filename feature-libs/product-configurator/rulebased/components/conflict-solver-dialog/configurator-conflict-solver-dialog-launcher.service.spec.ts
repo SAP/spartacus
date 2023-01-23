@@ -57,7 +57,7 @@ let group: Configurator.Group;
 let conflictGroup$: Observable<Configurator.Group | undefined>;
 
 class MockConfiguratorGroupsService {
-  getConflictGroupsForImmediateConflictResolution(): Observable<
+  getConflictGroupForImmediateConflictResolution(): Observable<
     Configurator.Group | undefined
   > {
     return conflictGroup$;
