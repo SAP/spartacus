@@ -30,7 +30,7 @@ export class OccOpfAdapter implements OpfAdapter {
   ) {}
 
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       // TODO: (OPF) to be changed once backend has stable configuration
       'sap-commerce-cloud-public-key': '123',
     });
