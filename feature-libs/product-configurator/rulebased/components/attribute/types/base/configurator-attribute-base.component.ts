@@ -146,8 +146,7 @@ export class ConfiguratorAttributeBaseComponent {
    * @param expMode - Is expert mode set?
    * @param label - value label
    * @param techName - value technical name
-   * @param value - item Object which contains the valuePrice
-   * @param isSelected - is item in dropdown list selected
+   * @param value - Object which contains the valuePrice
    */
   getLabel(
     expMode: boolean,
@@ -159,10 +158,18 @@ export class ConfiguratorAttributeBaseComponent {
     if (expMode && techName) {
       title += ` / [${techName}]`;
     }
-    if (value && !value.selected) {
-      if (value.valuePrice?.value && value.valuePrice.value < 0) {
+    title = this.getValuePrice(title, value);
+    return title;
+  }
+
+  protected getValuePrice(
+    title: string,
+    value: Configurator.Value | undefined
+  ): string {
+    if (value?.valuePrice?.value && !value.selected) {
+      if (value.valuePrice.value < 0) {
         title += ` [${value.valuePrice?.formattedValue}]`;
-      } else if (value.valuePrice?.value && value.valuePrice.value >= 0) {
+      } else if (value.valuePrice.value > 0) {
         title += ` [+${value.valuePrice?.formattedValue}]`;
       }
     }
@@ -187,6 +194,7 @@ export class ConfiguratorAttributeBaseComponent {
       throw new Error('No attribute code for: ' + attribute.name);
     }
   }
+
   /**
    * Checks if attribute type allows additional values
    * @param attribute Attribute

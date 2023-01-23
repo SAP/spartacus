@@ -31,7 +31,7 @@ export class ConfiguratorPriceComponent {
     if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      if (this.formula.price?.value && this.formula.price?.value >= 0) {
+      if (this.formula.price?.value && this.formula.price?.value > 0) {
         return '+' + this.formula.price?.formattedValue;
       } else {
         return this.formula.price?.formattedValue || '';
@@ -62,14 +62,6 @@ export class ConfiguratorPriceComponent {
     return quantity ? this.formula.price?.value !== 0 && quantity >= 1 : false;
   }
 
-  /**
-   * Verifies if 'Selected' should be shown
-   *
-   * @return {boolean} - 'true' if 'Selected' should be shown, otherwise 'false'
-   */
-  displaySelected(): boolean {
-    return this.isPriceLightedUp() && !this.displayFormula();
-  }
   /**
    * Verifies whether only price should be displayed.
    *

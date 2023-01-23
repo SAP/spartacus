@@ -101,7 +101,6 @@ describe('ConfiguratorPriceComponent', () => {
     });
 
     it('should be defined: negative value price is shown correctly', () => {
-      component.formula = createTestData(0, -10, 0, false, true);
       component.formula = {
         quantity: 0,
         price: {
@@ -128,7 +127,6 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.price).toEqual('-$10');
     });
     it('should be defined: no value price is given and a String of length 0 should be returned', () => {
-      component.formula = createTestData(0, 0, 0, false, true);
       component.formula = {
         quantity: 0,
         price: undefined,
@@ -204,7 +202,6 @@ describe('ConfiguratorPriceComponent', () => {
     });
 
     it('should be defined: a negative total value price is given', () => {
-      component.formula = createTestData(0, 0, -150, true);
       component.formula = {
         quantity: 0,
         price: undefined,
@@ -230,7 +227,6 @@ describe('ConfiguratorPriceComponent', () => {
       expect(component.priceTotal).toEqual('-$150');
     });
     it('should be defined: no total value price is given and a String of length 0 should be returned', () => {
-      component.formula = createTestData(0, 0, 0, true);
       component.formula = {
         quantity: 0,
         price: undefined,
@@ -288,7 +284,6 @@ describe('ConfiguratorPriceComponent', () => {
     });
     it('should be defined: value is not lightedUp since lightedUp is undefined', () => {
       component.formula = createTestData(0, 0, 0, undefined);
-      component.formula.isLightedUp = undefined;
       expect(component.isPriceLightedUp()).toEqual(false);
     });
     it('should be defined: price is greyed out', () => {
