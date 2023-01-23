@@ -267,14 +267,11 @@ export class ConfiguratorAttributeHeaderComponent
    * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
-    if (
-      this.isNavigationToGroupEnabled &&
-      this.configuratorUiSettings.productConfigurator
-        ?.enableNavigationToConflict
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return (
+      (this.isNavigationToGroupEnabled &&
+        this.configuratorUiSettings.productConfigurator
+          ?.enableNavigationToConflict) ??
+      false
+    );
   }
 }
