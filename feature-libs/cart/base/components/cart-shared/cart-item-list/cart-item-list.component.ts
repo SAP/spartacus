@@ -142,29 +142,47 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     // The items we're getting from the input do not have a consistent model.
     // In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
-      this._items = items.map((consignmentEntry) => {
-        const entry = Object.assign(
-          {},
-          (consignmentEntry as ConsignmentEntry).orderEntry
-        );
-        entry.quantity = consignmentEntry.quantity;
-        return entry;
-      });
+      this.normalizeConsignmentEntries(items);
     } else {
-      // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
-      // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
-      // So we update each array element to the new object only when it's any different to the previous one.
-      for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
-        if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-          if (this._items[i] && this.form) {
-            this.form.removeControl(this.getControlName(this._items[i]));
-          }
-          if (!items[i]) {
-            this._items.splice(i, 1);
-            i--;
-          } else {
-            this._items[i] = items[i];
-          }
+      this.rerenderChangedItems(items);
+    }
+  }
+
+  protected normalizeConsignmentEntries(items: OrderEntry[]) {
+    this._items = items.map((consignmentEntry) => {
+      const entry = Object.assign(
+        {},
+        (consignmentEntry as ConsignmentEntry).orderEntry
+      );
+      entry.quantity = consignmentEntry.quantity;
+      return entry;
+    });
+  }
+
+  /**
+   * We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
+   * OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
+   * So we update each array element to the new object only when it's any different to the previous one.
+   */
+  protected rerenderChangedItems(items: OrderEntry[]) {
+    let offset = 0;
+    for (
+      let i = 0;
+      i - offset < Math.max(items.length, this._items.length);
+      i++
+    ) {
+      const index = i - offset;
+      if (
+        JSON.stringify(this._items?.[index]) !== JSON.stringify(items[index])
+      ) {
+        if (this._items[index]) {
+          this.form?.removeControl(this.getControlName(this._items[index]));
+        }
+        if (!items[index]) {
+          this._items.splice(index, 1);
+          offset++;
+        } else {
+          this._items[index] = items[index];
         }
       }
     }
