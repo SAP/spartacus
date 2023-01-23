@@ -1,0 +1,22 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - develop
+      - release/**
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
+
+env:
+  NODE_VERSION: "16"
+  GH_TOKEN: ${{ github.token }}
+
+name: PR Status
+jobs:
+  change-to-draft:
+    name: Set PR to draft
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Script
+        run: |
+          gh pr ready --undo ${{github.event.number}} -R ${{ github.repository }}
