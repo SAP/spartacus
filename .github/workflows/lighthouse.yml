@@ -7,7 +7,6 @@ on:
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
-
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
