@@ -32,6 +32,7 @@ export class UserDetailsComponent {
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
+  isUpdatingUserAllowed$ = this.b2bUserService.isUpdatingUserAllowed();
   availableRoles: string[] = this.b2bUserService
     .getAllRoles()
     .map((role: B2BUserRole) => role.toString());

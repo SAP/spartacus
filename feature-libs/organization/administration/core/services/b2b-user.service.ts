@@ -15,7 +15,7 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, queueScheduler, using } from 'rxjs';
+import { Observable, of, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
@@ -409,5 +409,9 @@ export class B2BUserService {
     params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getUserList(params));
+  }
+
+  isUpdatingUserAllowed(): Observable<boolean> {
+    return of(true);
   }
 }

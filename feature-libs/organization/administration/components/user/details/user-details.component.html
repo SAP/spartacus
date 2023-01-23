@@ -8,6 +8,7 @@
     class="link edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUserEdit', params: model } | cxUrl"
+    [hidden]="!(isUpdatingUserAllowed$ | async)"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
@@ -16,6 +17,7 @@
     actions
     key="customerId"
     i18nRoot="orgUser"
+    [hidden]="!(isUpdatingUserAllowed$ | async)"
   ></cx-org-toggle-status>
 
   <cx-org-disable-info info i18nRoot="orgUser"> </cx-org-disable-info>
@@ -81,6 +83,7 @@
       <a
         *ngIf="model.customerId"
         class="link"
+        [hidden]="!(isUpdatingUserAllowed$ | async)"
         [class.disabled]="!model.active"
         [routerLink]="
           { cxRoute: 'orgUserChangePassword', params: model } | cxUrl
