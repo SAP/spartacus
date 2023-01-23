@@ -72,10 +72,10 @@ export class I18nextHttpBackendService implements I18nextBackendService {
   protected getLoadPath(path: string): string {
     if (!this.windowRef.isBrowser() && !path.match(/^http(s)?:\/\//)) {
       if (path.startsWith('/')) {
-        path = path.slice(1);
+        path = path.slice('/'.length);
       }
       if (path.startsWith('./')) {
-        path = path.slice(2);
+        path = path.slice('./'.length);
       }
       const serverRequestOrigin = this.windowRef.location.origin;
       return `${serverRequestOrigin}/${path}`;
