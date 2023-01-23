@@ -28,13 +28,15 @@
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
+    "@angular/platform-browser-dynamic": "^14.2.3",
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.8"
   },
   "publishConfig": {
     "access": "public"
