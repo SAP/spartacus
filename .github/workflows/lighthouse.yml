@@ -5,6 +5,7 @@ on:
       - epic/**
       - release/**
       - integration-libs/**
+      - feature/CXSPA-1977-test
   pull_request:
     types: [opened, synchronize]
 env:
