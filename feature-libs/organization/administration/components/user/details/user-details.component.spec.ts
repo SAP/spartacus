@@ -12,7 +12,7 @@ import {
   Budget,
 } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemService } from '../../shared/item.service';
@@ -58,6 +58,9 @@ class MockB2BUserService implements Partial<B2BUserService> {
   }
   getAllRights() {
     return [B2BUserRight.UNITORDERVIEWER];
+  }
+  isUpdatingUserAllowed(): Observable<boolean> {
+    return of(true);
   }
 }
 

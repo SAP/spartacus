@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
@@ -78,6 +79,7 @@ describe('SubListComponent', () => {
         I18nTestingModule,
         RouterTestingModule,
         PaginationTestingModule,
+        StoreModule.forRoot({}),
       ],
       declarations: [SubListComponent, MockTableComponent],
 
