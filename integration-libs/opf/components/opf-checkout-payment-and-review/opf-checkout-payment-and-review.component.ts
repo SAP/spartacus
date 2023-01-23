@@ -37,8 +37,4 @@ export class OPFCheckoutPaymentAndReviewComponent {
       .getActive()
       .pipe(map((cart) => cart.paymentType));
   }
-
-  checkFormState() {
-    console.log(this.checkoutSubmitForm);
-  }
 }
