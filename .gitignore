@@ -20,6 +20,7 @@ docs.zip
 
 # dependencies
 node_modules/
+yarn.lock
 
 # verdaccio storage
 scripts/install/storage

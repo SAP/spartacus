@@ -41,7 +41,7 @@ function cmd_clean {
     delete_dir ${BASE_DIR}
     delete_dir storage
 
-    npm cache verify
+    npm cache clean --force
 }
 
 function prepare_install {
@@ -78,7 +78,6 @@ function clone_repo {
 }
 
 function update_projects_versions {
-    projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
@@ -283,7 +282,7 @@ function install_from_sources {
     ( cd ${CLONE_DIR} && npm install)
 
     printh "Updating projects versions."
-    update_projects_versions ${project_sources[@]}
+    update_projects_versions
 
     printh "Building libraries."
     ( cd ${CLONE_DIR} && npm run build:libs)
