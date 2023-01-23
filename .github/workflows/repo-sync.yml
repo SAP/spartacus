@@ -30,6 +30,7 @@ jobs:
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
           AZURE_CONFIG_PATH="./azure-pipelines.yml"
           SONAR_PATH="./sonar-project.properties"
+          RELEASE_PACKAGES_LIST_GENERATOR="./ci-scripts/release-packages-list-generator.sh"
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
@@ -74,6 +75,29 @@ jobs:
               echo "Branch name has successfully been added to the trigger"
           else
               echo "Error. Branch name has NOT been added to the trigger"
+              exit 1
+          fi
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Configure azure pipeline build packages list"
+
+          RELEASE_PACKAGES=$($RELEASE_PACKAGES_LIST_GENERATOR)
+          
+          FORMATTED_RELEASE_PACKAGES=""
+          for PACKAGE in $RELEASE_PACKAGES; do
+            FORMATTED_RELEASE_PACKAGES+="    - ${PACKAGE}\n"
+          done
+
+          sed -i "s%buildPackages:%buildPackages:\n${FORMATTED_RELEASE_PACKAGES}%gi" $AZURE_CONFIG_PATH
+          
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Verify buildPackages parameter has been updated with the generated release packages list"
+
+          if grep -Pzo "buildPackages:\n${FORMATTED_RELEASE_PACKAGES}" $AZURE_CONFIG_PATH
+          then
+              echo "List of packages to release has successfully been added to the buildPackages parameter"
+          else
+              echo "Error. List of packages to release has NOT been added to the buildPackages parameter"
               exit 1
           fi
 
