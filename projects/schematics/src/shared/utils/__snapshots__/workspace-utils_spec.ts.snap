@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Workspace utils getProject should return project 1`] = `
-{
-  "architect": {
-    "build": {
+Object {
+  "architect": Object {
+    "build": Object {
       "builder": "@angular-devkit/build-angular:browser",
-      "configurations": {
-        "development": {
+      "configurations": Object {
+        "development": Object {
           "buildOptimizer": false,
           "extractLicenses": false,
           "namedChunks": true,
@@ -14,21 +14,21 @@ exports[`Workspace utils getProject should return project 1`] = `
           "sourceMap": true,
           "vendorChunk": true,
         },
-        "production": {
-          "budgets": [
-            {
+        "production": Object {
+          "budgets": Array [
+            Object {
               "maximumError": "2.5mb",
               "maximumWarning": "500kb",
               "type": "initial",
             },
-            {
+            Object {
               "maximumError": "4kb",
               "maximumWarning": "2kb",
               "type": "anyComponentStyle",
             },
           ],
-          "fileReplacements": [
-            {
+          "fileReplacements": Array [
+            Object {
               "replace": "src/environments/environment.ts",
               "with": "src/environments/environment.prod.ts",
             },
@@ -37,8 +37,8 @@ exports[`Workspace utils getProject should return project 1`] = `
         },
       },
       "defaultConfiguration": "production",
-      "options": {
-        "assets": [
+      "options": Object {
+        "assets": Array [
           "src/favicon.ico",
           "src/assets",
         ],
@@ -47,40 +47,40 @@ exports[`Workspace utils getProject should return project 1`] = `
         "main": "src/main.ts",
         "outputPath": "dist/schematics-test",
         "polyfills": "src/polyfills.ts",
-        "scripts": [],
-        "stylePreprocessorOptions": {
-          "includePaths": [
+        "scripts": Array [],
+        "stylePreprocessorOptions": Object {
+          "includePaths": Array [
             "node_modules/",
           ],
         },
-        "styles": [
+        "styles": Array [
           "src/styles.scss",
         ],
         "tsConfig": "tsconfig.app.json",
       },
     },
-    "extract-i18n": {
+    "extract-i18n": Object {
       "builder": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
+      "options": Object {
         "browserTarget": "schematics-test:build",
       },
     },
-    "serve": {
+    "serve": Object {
       "builder": "@angular-devkit/build-angular:dev-server",
-      "configurations": {
-        "development": {
+      "configurations": Object {
+        "development": Object {
           "browserTarget": "schematics-test:build:development",
         },
-        "production": {
+        "production": Object {
           "browserTarget": "schematics-test:build:production",
         },
       },
       "defaultConfiguration": "development",
     },
-    "test": {
+    "test": Object {
       "builder": "@angular-devkit/build-angular:karma",
-      "options": {
-        "assets": [
+      "options": Object {
+        "assets": Array [
           "src/favicon.ico",
           "src/assets",
         ],
@@ -88,13 +88,13 @@ exports[`Workspace utils getProject should return project 1`] = `
         "karmaConfig": "karma.conf.js",
         "main": "src/test.ts",
         "polyfills": "src/polyfills.ts",
-        "scripts": [],
-        "stylePreprocessorOptions": {
-          "includePaths": [
+        "scripts": Array [],
+        "stylePreprocessorOptions": Object {
+          "includePaths": Array [
             "node_modules/",
           ],
         },
-        "styles": [
+        "styles": Array [
           "src/styles.scss",
         ],
         "tsConfig": "tsconfig.spec.json",
@@ -104,8 +104,8 @@ exports[`Workspace utils getProject should return project 1`] = `
   "prefix": "app",
   "projectType": "application",
   "root": "",
-  "schematics": {
-    "@schematics/angular:component": {
+  "schematics": Object {
+    "@schematics/angular:component": Object {
       "style": "scss",
     },
   },
@@ -114,11 +114,11 @@ exports[`Workspace utils getProject should return project 1`] = `
 `;
 
 exports[`Workspace utils getProjectTargets should return project targets 1`] = `
-{
-  "build": {
+Object {
+  "build": Object {
     "builder": "@angular-devkit/build-angular:browser",
-    "configurations": {
-      "development": {
+    "configurations": Object {
+      "development": Object {
         "buildOptimizer": false,
         "extractLicenses": false,
         "namedChunks": true,
@@ -126,21 +126,21 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
         "sourceMap": true,
         "vendorChunk": true,
       },
-      "production": {
-        "budgets": [
-          {
+      "production": Object {
+        "budgets": Array [
+          Object {
             "maximumError": "2.5mb",
             "maximumWarning": "500kb",
             "type": "initial",
           },
-          {
+          Object {
             "maximumError": "4kb",
             "maximumWarning": "2kb",
             "type": "anyComponentStyle",
           },
         ],
-        "fileReplacements": [
-          {
+        "fileReplacements": Array [
+          Object {
             "replace": "src/environments/environment.ts",
             "with": "src/environments/environment.prod.ts",
           },
@@ -149,8 +149,8 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       },
     },
     "defaultConfiguration": "production",
-    "options": {
-      "assets": [
+    "options": Object {
+      "assets": Array [
         "src/favicon.ico",
         "src/assets",
       ],
@@ -159,40 +159,40 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       "main": "src/main.ts",
       "outputPath": "dist/schematics-test",
       "polyfills": "src/polyfills.ts",
-      "scripts": [],
-      "stylePreprocessorOptions": {
-        "includePaths": [
+      "scripts": Array [],
+      "stylePreprocessorOptions": Object {
+        "includePaths": Array [
           "node_modules/",
         ],
       },
-      "styles": [
+      "styles": Array [
         "src/styles.scss",
       ],
       "tsConfig": "tsconfig.app.json",
     },
   },
-  "extract-i18n": {
+  "extract-i18n": Object {
     "builder": "@angular-devkit/build-angular:extract-i18n",
-    "options": {
+    "options": Object {
       "browserTarget": "schematics-test:build",
     },
   },
-  "serve": {
+  "serve": Object {
     "builder": "@angular-devkit/build-angular:dev-server",
-    "configurations": {
-      "development": {
+    "configurations": Object {
+      "development": Object {
         "browserTarget": "schematics-test:build:development",
       },
-      "production": {
+      "production": Object {
         "browserTarget": "schematics-test:build:production",
       },
     },
     "defaultConfiguration": "development",
   },
-  "test": {
+  "test": Object {
     "builder": "@angular-devkit/build-angular:karma",
-    "options": {
-      "assets": [
+    "options": Object {
+      "assets": Array [
         "src/favicon.ico",
         "src/assets",
       ],
@@ -200,13 +200,13 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       "karmaConfig": "karma.conf.js",
       "main": "src/test.ts",
       "polyfills": "src/polyfills.ts",
-      "scripts": [],
-      "stylePreprocessorOptions": {
-        "includePaths": [
+      "scripts": Array [],
+      "stylePreprocessorOptions": Object {
+        "includePaths": Array [
           "node_modules/",
         ],
       },
-      "styles": [
+      "styles": Array [
         "src/styles.scss",
       ],
       "tsConfig": "tsconfig.spec.json",
