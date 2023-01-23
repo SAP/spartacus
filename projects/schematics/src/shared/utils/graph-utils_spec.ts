@@ -150,7 +150,7 @@ describe('Graph utils', () => {
   describe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
-        Array [
+        [
           "User-Account",
           "User-Profile",
           "Cart",
