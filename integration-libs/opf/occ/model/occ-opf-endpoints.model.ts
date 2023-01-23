@@ -6,13 +6,11 @@
 
 import { OccEndpoint } from '@spartacus/core';
 
-export interface OpfOccEndpoints {
-  /**
-   * Endpoint to get active payment configurations
-   */
-  getActiveConfigurations?: string | OccEndpoint;
-}
-
 declare module '@spartacus/core' {
-  interface OccEndpoints extends OpfOccEndpoints {}
+  interface OccEndpoints {
+    /**
+     * Endpoint to get active payment configurations
+     */
+    getActiveConfigurations?: string | OccEndpoint;
+  }
 }
