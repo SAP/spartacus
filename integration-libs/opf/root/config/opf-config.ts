@@ -11,7 +11,7 @@ import { Config } from '@spartacus/core';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class OpfConfig {
+export abstract class OpfConfig implements Config {
   opf?: {
     baseUrl?: string;
   };

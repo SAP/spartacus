@@ -69,43 +69,4 @@ describe(`CheckoutPaymentService`, () => {
         });
     });
   });
-
-  describe(`getActiveConfigurations`, () => {
-    it(`should call facade's getActiveConfigurationsState()`, (done) => {
-      spyOn(service, 'getActiveConfigurationsState').and.returnValue(
-        of({
-          loading: false,
-          error: false,
-          data: mockActiveConfigurations,
-        })
-      );
-
-      service
-        .getActiveConfigurations()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockActiveConfigurations);
-          expect(service.getActiveConfigurationsState).toHaveBeenCalled();
-          done();
-        });
-    });
-
-    it(`should return an empty array if query's data is falsy`, (done) => {
-      spyOn(service, 'getActiveConfigurationsState').and.returnValue(
-        of({
-          loading: false,
-          error: false,
-          data: undefined,
-        })
-      );
-
-      service
-        .getActiveConfigurations()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual([]);
-          done();
-        });
-    });
-  });
 });

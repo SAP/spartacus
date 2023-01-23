@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { Query, QueryService, QueryState } from '@spartacus/core';
 import { ActiveConfiguration, OpfCheckoutFacade } from '@spartacus/opf/root';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
 
 @Injectable()
@@ -27,10 +26,5 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     QueryState<ActiveConfiguration[] | undefined>
   > {
     return this.activeConfigurationsQuery.getState();
-  }
-  getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    return this.getActiveConfigurationsState().pipe(
-      map((state) => state.data ?? [])
-    );
   }
 }
