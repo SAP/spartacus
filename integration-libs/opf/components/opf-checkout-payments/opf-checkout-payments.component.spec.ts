@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, QueryState } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   ActiveConfiguration,
@@ -26,8 +26,14 @@ const mockActiveConfigurations: ActiveConfiguration[] = [
   },
 ];
 class MockOpfCheckoutFacade implements Partial<OpfCheckoutFacade> {
-  getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    return of(mockActiveConfigurations);
+  getActiveConfigurationsState(): Observable<
+    QueryState<ActiveConfiguration[] | undefined>
+  > {
+    return of({
+      loading: false,
+      error: false,
+      data: mockActiveConfigurations,
+    });
   }
 }
 

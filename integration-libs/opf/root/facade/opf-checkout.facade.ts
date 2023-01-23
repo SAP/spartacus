@@ -16,14 +16,10 @@ import { ActiveConfiguration } from '../model/opf-checkout.model';
     facadeFactory({
       facade: OpfCheckoutFacade,
       feature: OPF_CORE_FEATURE,
-      methods: ['getActiveConfigurationsState', 'getActiveConfigurations'],
+      methods: ['getActiveConfigurationsState'],
     }),
 })
 export abstract class OpfCheckoutFacade {
-  /**
-   * Get checkout payment active configurations
-   */
-  abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
   /**
    * Get checkout payment active configurations
    */
