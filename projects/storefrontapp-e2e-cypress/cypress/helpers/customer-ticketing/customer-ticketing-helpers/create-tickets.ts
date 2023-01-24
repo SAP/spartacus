@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as commons from './customer-ticketing-commons';
 import {
   TestTicketDetails,
   TICKET_MESSAGE_MAX_LENGTH,
   TICKET_SUBJECT_MAX_LENGTH,
+  verifyGlobalMessage,
 } from './customer-ticketing-commons';
 
 export function openCreateTicketPopup() {
@@ -102,7 +102,7 @@ export function createTicket(ticketDetails: TestTicketDetails) {
   openCreateTicketPopup();
   fillTicketDetails(ticketDetails);
   clickSubmit();
-  commons.verifyGlobalMessage();
+  verifyGlobalMessage();
 }
 
 export function createMultipleTickets(

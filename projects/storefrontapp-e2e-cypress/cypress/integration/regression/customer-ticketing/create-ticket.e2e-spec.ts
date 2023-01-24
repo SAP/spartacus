@@ -1,9 +1,5 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
-import {
-  TestTicketDetails,
-  TestCategory,
-} from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticketing', () => {
   viewportContext(['desktop', 'mobile'], () => {
@@ -21,10 +17,10 @@ describe('ticketing', () => {
       });
 
       it('should be able to create ticket when filling the required form', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Entering a subject',
           message: 'Typing a message',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
         };
 
         customerTicketing.loginRegisteredUser();
@@ -37,10 +33,10 @@ describe('ticketing', () => {
       });
 
       it('should be able to create a ticket with an attachment', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
           filename: 'test.docx',
         };
         customerTicketing.loginRegisteredUser();
@@ -57,10 +53,10 @@ describe('ticketing', () => {
       });
 
       it('should not be able to create a ticket with an attachment larger than 10mb', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
           filename: 'largeFile.txt',
         };
         customerTicketing.loginRegisteredUser();
@@ -73,10 +69,10 @@ describe('ticketing', () => {
       });
 
       it('should not be able to create a ticket with an attachment that has an unsupported extension', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
           filename: 'fileNotSupported.xls',
         };
         customerTicketing.loginRegisteredUser();
@@ -89,10 +85,10 @@ describe('ticketing', () => {
       });
 
       it('should be able to create a ticket with an empty attachment', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Testing uploading attachment',
           message: 'Has the file been uploaded',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
           filename: 'emptyFile.doc',
         };
         customerTicketing.loginRegisteredUser();
@@ -117,10 +113,10 @@ describe('ticketing', () => {
       });
 
       it('should not create tickets when cancelling or closing the modal', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Cancelling a ticketing creation',
           message: 'Cancelled',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
@@ -136,12 +132,12 @@ describe('ticketing', () => {
 
       it('should not let subject exceeds 255 character limit', () => {
         const TICKET_SUBJECT_MAX_LENGTH = 255;
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: customerTicketing.generateDummyStringOfLength(
             TICKET_SUBJECT_MAX_LENGTH + 1
           ),
           message: 'Exceeding character limit',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
@@ -153,12 +149,12 @@ describe('ticketing', () => {
 
       it('should not let message exceeds 5000 character limit', () => {
         const TICKET_MESSAGE_MAX_LENGTH = 5000;
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Exceeding character limit',
           message: customerTicketing.generateDummyStringOfLength(
             TICKET_MESSAGE_MAX_LENGTH + 1
           ),
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
@@ -169,10 +165,10 @@ describe('ticketing', () => {
       });
 
       it('should close create ticket popup upon submit', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Entering a subject',
           message: 'Typing a message',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
         };
 
         customerTicketing.loginRegisteredUser();
@@ -184,10 +180,10 @@ describe('ticketing', () => {
       });
 
       it('should not be able to see created ticket in other stores', () => {
-        const testTicketDetails: TestTicketDetails = {
+        const testTicketDetails: customerTicketing.TestTicketDetails = {
           subject: 'Entering a subject',
           message: 'Typing a message',
-          category: TestCategory.complaint,
+          category: customerTicketing.TestCategory.complaint,
         };
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
