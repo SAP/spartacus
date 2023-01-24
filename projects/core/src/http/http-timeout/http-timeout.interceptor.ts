@@ -93,20 +93,20 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
     timeoutValue: number;
   }): unknown | HttpErrorResponse {
     if (error instanceof TimeoutError) {
-      const httpErrorResponse = new HttpErrorResponse({
+      // create a new Error here, to record the current stacktrace (which is not present in RxJs TimeoutError)
+      const cxHttpTimeoutError = this.buildError(request, timeoutValue);
+
+      return new HttpErrorResponse({
         url: request.url,
-        statusText: this.getHttpErrorMessage(timeoutValue),
-        error,
+        error: cxHttpTimeoutError,
       });
-      return httpErrorResponse;
     }
     return error;
   }
 
-  /**
-   * Returns the error message to be used in the `HttpErrorResponse` object, in case of timeout.
-   */
-  protected getHttpErrorMessage(timeoutValue: number): string {
-    return `[Spartacus] Timeout: Request exceeded time ${timeoutValue}ms and was terminated`;
+  protected buildError(request: HttpRequest<unknown>, timeout: number): Error {
+    return new Error(
+      `Request to URL '${request.url}' exceeded expected time of ${timeout}ms and was aborted.`
+    );
   }
 }

@@ -16,7 +16,7 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { Observable, TimeoutError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { OccConfig } from '../../occ/config/occ-config';
 import { WindowRef } from '../../window/window-ref';
@@ -241,7 +241,7 @@ describe('HttpTimeoutInterceptor', () => {
     }));
   });
 
-  it('in case of timeout, it should throw HttpErrorResponse with url, statusText and original error', fakeAsync(() => {
+  it('in case of timeout, it should throw HttpErrorResponse with url and Error object', fakeAsync(() => {
     spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
     let error: any;
@@ -254,9 +254,9 @@ describe('HttpTimeoutInterceptor', () => {
 
     expect(error.url).toEqual(testUrl);
     expect(error instanceof HttpErrorResponse).toBe(true);
-    expect(error.error instanceof TimeoutError).toBe(true);
-    expect(error.statusText).toEqual(
-      `[Spartacus] Timeout: Request exceeded time ${SERVER_TIMEOUT}ms and was terminated`
+    expect(error.error instanceof Error).toBe(true);
+    expect(error.error.message).toEqual(
+      `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
     );
   }));
 });
