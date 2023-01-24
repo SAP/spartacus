@@ -185,5 +185,16 @@ describe('I18nextHttpBackendService', () => {
         });
       });
     });
+
+    describe('when config i18n.backend.loadPath is not set', () => {
+      it('should throw an error', () => {
+        config.i18n = { backend: {} };
+        spyOn(i18next, 'init');
+
+        expect(() => initializer.initialize()).toThrowError(
+          'I18nextHttpBackendService: Missing `i18n.backend.loadPath` config.'
+        );
+      });
+    });
   });
 });
