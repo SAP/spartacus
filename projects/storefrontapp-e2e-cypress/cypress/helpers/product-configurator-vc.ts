@@ -283,7 +283,8 @@ export function isConflictLinkAttached(attribute: string): void {
 }
 
 /**
- * Navigates to a group that contains an attribute which is involved in a conflict.
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute.
  *
  * @param attribute - Attribute name
  */
@@ -293,7 +294,8 @@ export function clickOnViewInConfiguration(attribute: string): void {
 }
 
 /**
- * Navigates to a group that contains an attribute which is involved in a conflict and waits for request to finish
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
  *
  * @param attribute - Attribute name
  */
@@ -337,7 +339,8 @@ export function checkConflictLinkDisplayed(
 }
 
 /**
- * Navigates to the conflict group that contains an attribute which is involved in a conflict.
+ * Assuming the given attribute is involved in the conflict, it navigates from the standard group
+ * to the conflict group containing the corresponding attribute.
  *
  * @param attribute - Attribute name
  */
@@ -347,7 +350,8 @@ export function clickOnConflictDetected(attribute: string): void {
 }
 
 /**
- * Navigates to the conflict group that contains an attribute which is involved in a conflict and waits for the request to finish.
+ * Assuming the given attribute is involved in the conflict, it navigates from the standard group
+ * to the conflict group containing the corresponding attribute and waits for the request to finish.
  *
  * @param attribute - Attribute name
  */
