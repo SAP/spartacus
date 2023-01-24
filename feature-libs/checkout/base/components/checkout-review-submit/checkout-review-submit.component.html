@@ -22,5 +22,31 @@
     </div>
   </ng-template>
 
+  <!-- CART ITEM SECTION -->
+  <ng-container *ngIf="cart$ | async as cart">
+    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
+      {{
+        'cartItems.cartTotal'
+          | cxTranslate: { count: cart.deliveryItemsQuantity }
+      }}:
+      {{ cart.totalPrice?.formattedValue }}
+    </div>
+    <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+      {{ 'checkoutReview.placeOrder' | cxTranslate }}
+    </div>
+    <div
+      class="cx-review-cart-item col-md-12"
+      *ngIf="entries$ | async as entries"
+    >
+      <cx-promotions
+        [promotions]="
+          (cart.appliedOrderPromotions || []).concat(
+            cart.potentialOrderPromotions || []
+          )
+        "
+      ></cx-promotions>
+    </div>
+  </ng-container>
+
   <cx-checkout-review-shipping></cx-checkout-review-shipping>
 </div>

@@ -21,6 +21,7 @@ import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutReviewShippingComponent } from './checkout-review-shipping/checkout-review-shipping.component';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 import createSpy = jasmine.createSpy;
 
@@ -103,6 +104,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockCart));
   getEntries = createSpy().and.returnValue(of(mockEntries));
+  getDeliveryEntries = createSpy().and.returnValue(of(mockEntries));
 }
 
 const mockCheckoutStep: CheckoutStep = {
@@ -154,6 +156,7 @@ describe('CheckoutReviewSubmitComponent', () => {
           CheckoutReviewSubmitComponent,
           MockCardComponent,
           MockUrlPipe,
+          CheckoutReviewShippingComponent,
         ],
         providers: [
           {
