@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FutureStock } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import { Subscription } from 'rxjs';
+
+export const NO_FUTURE_STOCK = 'This product has no future availability information.';
+
 @Component({
   selector: 'cx-future-stock',
   templateUrl: './future-stock.component.html',
@@ -20,7 +23,7 @@ export class FutureStockComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(!this.futureStocks) {
       this.futureStockSubscription = this.futureStocks$.subscribe((futureStocks) => {
-        this.futureStocks = (futureStocks && futureStocks.futureStocks.length !== 0) ? futureStocks.futureStocks : 'This product has no future availability information.';
+        this.futureStocks = (futureStocks && futureStocks.futureStocks.length !== 0) ? futureStocks.futureStocks : NO_FUTURE_STOCK;
       });
     }
   }

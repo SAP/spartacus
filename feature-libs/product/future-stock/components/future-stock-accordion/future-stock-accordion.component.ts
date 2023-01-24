@@ -5,9 +5,6 @@ import { FutureStock } from '@spartacus/core';
 @Component({
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
-  host: {
-    '[class.collapsed]': '!expanded',
-  },
 })
 export class FutureStockAccordionComponent {
   @Input() header: string;
