@@ -7,7 +7,7 @@
 
 import { RoutingConfig } from '@spartacus/core';
 
-export const defaultSupportTicketRoutingConfig: RoutingConfig = {
+export const defaultCustomerTicketingRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       supportTickets: {

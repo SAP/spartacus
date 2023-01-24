@@ -51,5 +51,6 @@ export const customerTicketing = {
     requestClosed: 'Request closed, you may reopen if needed.',
     reopenRequest: 'Reopen Request',
     closeRequest: 'Close Request',
+    ticketNotFound: 'Ticket not found.',
   },
 };

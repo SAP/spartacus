@@ -55,7 +55,7 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.routingService.go({ cxRoute: 'supportTickets' });
         this.globalMessageService.add(
-          { key: 'httpHandlers.ticketNotFound' },
+          { key: 'customerTicketingDetails.ticketNotFound' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

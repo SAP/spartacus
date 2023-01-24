@@ -75,7 +75,7 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
       .pipe(
         take(1),
         tap(([ticket, ticketCode]) => {
-          if (ticketCode !== ticket?.id) {
+          if (ticket && ticketCode !== ticket?.id) {
             this.eventService.dispatch({}, GetTicketQueryReloadEvent);
           }
         })

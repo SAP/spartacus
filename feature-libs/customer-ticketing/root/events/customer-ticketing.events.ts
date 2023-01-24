@@ -23,8 +23,18 @@ export class GetTicketsQueryReloadEvents extends CxEvent {
   static readonly type = 'GetTicketsQueryReloadEvents';
 }
 
-export class TicketEventCreatedEvent extends CxEvent {
-  static readonly type = 'TicketEventCreatedEvent';
+export class NewMessageEvent extends CxEvent {
+  static readonly type = 'NewMessageEvent';
+  status: string;
+}
+
+export class TicketReopenedEvent extends CxEvent {
+  static readonly type = 'TicketReopenedEvent';
+  status: string;
+}
+
+export class TicketClosedEvent extends CxEvent {
+  static readonly type = 'TicketClosedEvent';
   status: string;
 }
 

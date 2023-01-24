@@ -151,7 +151,6 @@ export const common = {
       'This coupon has exceeded the number of times it can be used',
     unknownIdentifier: 'Item not found.',
     otherCartErrors: 'Cart errors occurred.',
-    ticketNotFound: 'Ticket not found.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',

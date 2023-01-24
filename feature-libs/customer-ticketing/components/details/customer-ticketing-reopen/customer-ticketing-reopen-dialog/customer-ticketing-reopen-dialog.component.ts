@@ -7,7 +7,6 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  GetTicketQueryReloadEvent,
   STATUS,
   STATUS_NAME,
   TicketEvent,
@@ -46,8 +45,6 @@ export class CustomerTicketingReopenDialogComponent
                 this.form.get('file')?.value?.item(0),
                 createdEvent.code
               );
-            } else {
-              this.eventService.dispatch({}, GetTicketQueryReloadEvent);
             }
           })
         )

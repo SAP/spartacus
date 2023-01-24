@@ -30,10 +30,13 @@ import {
   GetTicketQueryResetEvent,
   GetTicketsQueryReloadEvents,
   GetTicketsQueryResetEvents,
+  NewMessageEvent,
+  STATUS,
+  TicketClosedEvent,
   TicketDetails,
   TicketEvent,
-  TicketEventCreatedEvent,
   TicketList,
+  TicketReopenedEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
@@ -44,7 +47,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CustomerTicketingConnector } from '../connectors';
+import { CustomerTicketingConnector } from '../connectors/customer-ticketing.connector';
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
@@ -103,29 +106,47 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return [GetTicketsQueryResetEvents];
   }
 
-  protected createTicketEventCommand: Command<TicketEvent, TicketEvent> =
-    this.commandService.create<TicketEvent, TicketEvent>(
-      (payload) =>
-        this.customerTicketingPreConditions().pipe(
-          switchMap(([customerId, ticketId]) =>
-            this.customerTicketingConnector
-              .createTicketEvent(customerId, ticketId, payload)
-              .pipe(
-                tap(() => {
-                  if (payload.toStatus?.id) {
-                    this.eventService.dispatch(
-                      { status: payload.toStatus?.id },
-                      TicketEventCreatedEvent
-                    );
-                  }
-                })
-              )
-          )
-        ),
-      {
-        strategy: CommandStrategy.Queue,
-      }
-    );
+  protected createTicketEventCommand: Command<
+    { ticketEvent: TicketEvent; containsAttachment?: boolean },
+    TicketEvent
+  > = this.commandService.create<
+    { ticketEvent: TicketEvent; containsAttachment?: boolean },
+    TicketEvent
+  >(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId, ticketId]) =>
+          this.customerTicketingConnector
+            .createTicketEvent(customerId, ticketId, payload.ticketEvent)
+            .pipe(
+              tap(() => {
+                if (payload.ticketEvent.toStatus?.id === STATUS.CLOSED) {
+                  this.eventService.dispatch(
+                    { status: payload.ticketEvent.toStatus?.id },
+                    TicketClosedEvent
+                  );
+                } else if (
+                  payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
+                  payload.ticketEvent.toStatus?.id === STATUS.INPROCESS
+                ) {
+                  this.eventService.dispatch(
+                    { status: payload.ticketEvent.toStatus?.id },
+                    TicketReopenedEvent
+                  );
+                } else if (!payload.containsAttachment) {
+                  this.eventService.dispatch(
+                    { status: payload.ticketEvent.toStatus?.id },
+                    NewMessageEvent
+                  );
+                }
+              })
+            )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
 
   protected uploadAttachmentCommand: Command<{
     file: File;
@@ -332,8 +353,14 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
   }
 
-  createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent> {
-    return this.createTicketEventCommand.execute(ticketEvent);
+  createTicketEvent(
+    ticketEvent: TicketEvent,
+    containsAttachment?: boolean
+  ): Observable<TicketEvent> {
+    return this.createTicketEventCommand.execute({
+      ticketEvent,
+      containsAttachment,
+    });
   }
 
   uploadAttachment(

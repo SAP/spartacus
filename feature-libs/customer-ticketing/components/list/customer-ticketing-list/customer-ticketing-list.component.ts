@@ -25,8 +25,8 @@ import { map, tap } from 'rxjs/operators';
 export class CustomerTicketingListComponent {
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routing: RoutingService,
-    protected translation: TranslationService,
+    protected routingService: RoutingService,
+    protected translationService: TranslationService,
     protected customerTicketingConfig: CustomerTicketingConfig
   ) {}
   PAGE_SIZE =
@@ -38,7 +38,7 @@ export class CustomerTicketingListComponent {
     .pipe(tap((tickets) => (this.sortType = tickets?.pagination?.sort || '')));
 
   goToTicketDetail(ticketId: string): void {
-    this.routing.go({
+    this.routingService.go({
       cxRoute: 'supportTicketDetails',
       params: { ticketCode: ticketId },
     });
@@ -46,8 +46,8 @@ export class CustomerTicketingListComponent {
 
   getSortLabels(): Observable<{ byTicketId: string; byDate: string }> {
     return combineLatest([
-      this.translation.translate('customerTicketing.ticketId'),
-      this.translation.translate('customerTicketing.changedOn'),
+      this.translationService.translate('customerTicketing.ticketId'),
+      this.translationService.translate('customerTicketing.changedOn'),
     ]).pipe(
       map(([textByTicketId, textByDate]) => {
         return {
