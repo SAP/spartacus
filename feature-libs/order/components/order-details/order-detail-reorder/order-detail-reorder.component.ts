@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartService, MultiCartService } from '@spartacus/cart/base/core';
+import { MultiCartService } from '@spartacus/cart/base/core';
 import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
 import { OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
@@ -31,7 +31,6 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected activeCartService: ActiveCartService,
     protected multiCartService: MultiCartService,
   ) {}
 

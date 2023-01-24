@@ -143,6 +143,4 @@ export abstract class ActiveCartFacade {
   abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 
   abstract reloadActiveCart(): void;
-
-  abstract reloadCurrentActiveCart(): void;
 }

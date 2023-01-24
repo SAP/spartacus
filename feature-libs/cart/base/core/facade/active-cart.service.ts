@@ -527,26 +527,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .subscribe();
   }
 
-  /**
-   * Reloads current active cart
-   */
-  reloadCurrentActiveCart() {
-    const cartId = OCC_CART_ID_CURRENT;
-    this.userIdService
-      .takeUserId()
-      .pipe(
-        take(1),
-        map((userId) => {
-          this.multiCartFacade.loadCart({
-            cartId,
-            userId,
-            extraData: { active: true },
-          });
-        })
-      )
-      .subscribe();
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
