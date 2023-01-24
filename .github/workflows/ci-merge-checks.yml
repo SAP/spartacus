@@ -2,8 +2,9 @@ on:
   pull_request:
     types: [ready_for_review]
     branches:
-      - "develop"
+      - develop
       - release/**
+      - feature/CXSPA-2106-C
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
@@ -50,7 +51,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -79,7 +80,7 @@ jobs:
     needs: [no_retries, validate_e2e_execution]
     name: MC - E2E SSR B2C
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -111,7 +112,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -136,4 +137,18 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
- 
+  build_conclusion:
+    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
+    name: Merge Checks Result
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Aggregate Job Results
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Build failed')
+        if: |
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' 
