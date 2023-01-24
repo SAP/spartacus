@@ -575,9 +575,9 @@ export function completeOrderProcess(productName: string): void {
 }
 
 /**
- * Clicks on 'Proceed to Checkout' on the product details page.
+ * Clicks on the exit configuration button.
  */
-export function clickExitConfigurationButton(): void {
+export function clickExitConfigurationBtn(): void {
   cy.get('cx-configurator-exit-button button')
     .click()
     .then(() => {

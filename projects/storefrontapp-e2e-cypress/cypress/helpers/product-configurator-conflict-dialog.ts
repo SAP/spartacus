@@ -8,90 +8,97 @@ import * as configuration from './product-configurator';
 import * as configurationVc from './product-configurator-vc';
 
 /**
- * verifies that the conflict solver dialog is currently opened
+ * Verifies that the conflict solver dialog is currently opened.
  */
 export function checkIsOpen() {
   cy.get('cx-configurator-conflict-solver-dialog').should('be.visible');
 }
 
 /**
- * verifies that the conflict solver dialog is currently closed
+ * Verifies that the conflict solver dialog is currently closed.
  */
 export function checkIsClosed() {
   cy.get('cx-configurator-conflict-solver-dialog').should('not.exist');
 }
 
 /**
- * verifies the content of the conflict solver dialog
- * @param involvedAttributes expected involved attributes for the currently visible conflict
+ * Verifies the content of the conflict solver dialog.
+ * @param conflictingAttributes expected involved attributes for the currently visible conflict
  */
 export function checkDisplayedConflict(
-  involvedAttributes: {
+  conflictingAttributes: {
     name: string;
     selectedValueNames: string[];
     uiType: configuration.uiType;
   }[]
 ) {
-  checkHasTitle();
-  checkHasCloseButton();
-  checkHasResolveMessage();
-  checkHasDescription();
-  checkNumberOfSuggestions(involvedAttributes.length);
-  involvedAttributes.forEach((attr) =>
-    checkAttributeInvolved(attr.name, attr.selectedValueNames, attr.uiType)
+  checkTitleDisplayed();
+  checkCloseButtonDisplayed();
+  checkResolveMessageDisplayed();
+  checkDescriptionDisplayed();
+  checkNumberOfSuggestions(conflictingAttributes.length);
+  conflictingAttributes.forEach((attr) =>
+    checkConflictingAttributeDisplayed(
+      attr.name,
+      attr.selectedValueNames,
+      attr.uiType
+    )
   );
 }
 
 /**
- * verifies that the conflict solver dialog has a title
+ * Verifies that the conflict solver dialog has a title.
  */
-export function checkHasTitle() {
+export function checkTitleDisplayed() {
   cy.get('.cx-dialog-title').should('be.visible');
 }
 
 /**
- * verifies that the conflict solver dialog has a close button
+ * Verifies that the conflict solver dialog has a close button.
  */
-export function checkHasCloseButton() {
+export function checkCloseButtonDisplayed() {
   cy.get('button.close').should('be.visible');
 }
 
 /**
- * verifies that the conflict solver dialog displays the resole issues message
+ * Verifies that the conflict solver dialog displays the resole issues message.
  */
-export function checkHasResolveMessage() {
+export function checkResolveMessageDisplayed() {
   cy.get('.cx-dialog-body .cx-msg-warning').should('be.visible');
 }
 
 /**
- * verifies that the conflict solver dialog displays the conflict description
+ * Verifies that the conflict solver dialog displays the conflict description.
  */
-export function checkHasDescription() {
+export function checkDescriptionDisplayed() {
   cy.get('cx-configurator-conflict-description').should('be.visible');
 }
 
 /**
- * verifies that the conflict solver dialog displays the given number of suggestions
- * @param {number} number number of expected suggestions
+ * Verifies that the conflict solver dialog displays the given number of suggestions.
+ * @param {number} expectedNumber number of expected suggestions
  */
-export function checkNumberOfSuggestions(number: number) {
-  cy.get('cx-configurator-conflict-suggestion').should('have.length', number);
+export function checkNumberOfSuggestions(expectedNumber: number) {
+  cy.get('cx-configurator-conflict-suggestion').should(
+    'have.length',
+    expectedNumber
+  );
 }
 
 /**
- * verifies if given attribute is involved in the conflict
+ * Verifies if the given attribute is involved in the conflict.
  * @param {string} attributeName name of attribute
- * @param {string} selectedValueNames list of expected selected values
+ * @param {string} selectedValues list of expected selected values
  * @param {uiType} uiType uiType of the attribute
  */
-export function checkAttributeInvolved(
+export function checkConflictingAttributeDisplayed(
   attributeName: string,
-  selectedValueNames: string[],
+  selectedValues: string[],
   uiType: configuration.uiType
 ) {
   cy.get('cx-configurator-conflict-solver-dialog').within(() => {
     configuration.checkAttributeDisplayed(attributeName, uiType);
-    selectedValueNames.forEach((valueName) =>
+    selectedValues.forEach((valueName) =>
       configuration.checkValueSelected(uiType, attributeName, valueName)
     );
   });
@@ -99,16 +106,16 @@ export function checkAttributeInvolved(
 /**
  * Change the attribute value within the conflict solver dialog
  * @param {sting} attributeName attribute name
+ * @param {string} value value name to select / value to set
  * @param {uiType} uiType uiType o attribute
- * @param {string} valueName value name to select / value to set
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  value: string
 ) {
   cy.get('cx-configurator-conflict-solver-dialog').within(() =>
-    configurationVc.selectAttributeAndWait(attributeName, uiType, valueName)
+    configurationVc.selectAttributeAndWait(attributeName, uiType, value)
   );
 }
 /**

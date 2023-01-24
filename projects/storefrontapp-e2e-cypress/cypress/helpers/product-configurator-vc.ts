@@ -341,12 +341,12 @@ export function checkConflictDetectedLinkNotDisplayed(attribute: string): void {
 export function checkConflictLink(
   attribute: string,
   linkName: string,
-  linkDisplayed: boolean
+  isLinkDisplayed: boolean
 ): void {
   cy.get(
     `cx-configurator-attribute-header #cx-configurator--attribute-msg--${attribute}`
   ).within(() => {
-    if (linkDisplayed) {
+    if (isLinkDisplayed) {
       cy.get('a.cx-action-link').should('be.visible');
       cy.log(linkName + ' is displayed');
     } else {
