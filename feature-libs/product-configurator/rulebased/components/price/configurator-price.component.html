@@ -1,4 +1,4 @@
-<ng-container *ngIf="displayFormula()">
+<ng-container *ngIf="displayFormula(); else selected">
   <ng-container *ngIf="displayPriceOnly()">
     <div
       [ngClass]="styleClass"
@@ -17,8 +17,11 @@
     <div class="cx-price-total">{{ priceTotal }}</div>
   </ng-container>
 </ng-container>
-<ng-container *ngIf="isPriceLightedUp() && !this.displayFormula()">
-  <div [ngClass]="styleClass">
-    {{ 'configurator.price.selectedItem' | cxTranslate }}
-  </div>
-</ng-container>
+
+<ng-template #selected>
+  <ng-container *ngIf="isPriceLightedUp()">
+    <div [ngClass]="styleClass">
+      {{ 'configurator.price.selectedItem' | cxTranslate }}
+    </div>
+  </ng-container>
+</ng-template>

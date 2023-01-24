@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
@@ -6,6 +6,14 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
@@ -43,7 +51,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorAttributeReadOnlyComponent],
+        declarations: [
+          ConfiguratorAttributeReadOnlyComponent,
+          MockConfiguratorPriceComponent,
+        ],
         imports: [ReactiveFormsModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {

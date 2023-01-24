@@ -31,11 +31,14 @@ export class ConfiguratorPriceComponent {
     if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      if (this.formula.price?.value && this.formula.price?.value > 0) {
-        return '+' + this.formula.price?.formattedValue;
-      } else {
-        return this.formula.price?.formattedValue || '';
+      if (this.formula.price?.value) {
+        if (this.formula.price?.value > 0) {
+          return '+' + this.formula.price?.formattedValue;
+        } else if (this.formula.price?.value < 0) {
+          return this.formula.price?.formattedValue || '';
+        }
       }
+      return '';
     }
   }
 
@@ -114,6 +117,11 @@ export class ConfiguratorPriceComponent {
    * @return {string} - corresponding style class
    */
   get styleClass(): string {
-    return 'cx-greyed-out';
+    let styleClass = 'cx-price';
+    if (!this.isPriceLightedUp()) {
+      styleClass += ' cx-greyed-out';
+    }
+
+    return styleClass;
   }
 }
