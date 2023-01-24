@@ -5,20 +5,12 @@
  */
 
 import { Component } from '@angular/core';
-import {
-  CartOutlets,
-  DeliveryMode,
-  PromotionLocation,
-} from '@spartacus/cart/base/root';
-import {
-  Address,
-  CmsOrderDetailItemsComponent,
-  TranslationService,
-} from '@spartacus/core';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
+import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
-import { Card, CmsComponentData } from '@spartacus/storefront';
+import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
   cancelledValues,
@@ -59,8 +51,7 @@ export class OrderDetailItemsComponent {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>,
-    protected translation: TranslationService
+    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
   ) {}
 
   protected groupConsignments(
@@ -91,51 +82,5 @@ export class OrderDetailItemsComponent {
       return -1;
     }
     return 1;
-  }
-
-  getAddressCardContent(deliveryAddress: Address): Observable<Card> {
-    return this.translation.translate('addressCard.shipTo').pipe(
-      filter(() => Boolean(deliveryAddress)),
-      map((textTitle) => {
-        const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress.formattedAddress ?? ''
-        );
-
-        return {
-          title: textTitle,
-          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-          text: [formattedAddress, deliveryAddress.country?.name],
-        } as Card;
-      })
-    );
-  }
-
-  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
-    return this.translation.translate('orderDetails.shippingMethod').pipe(
-      filter(() => Boolean(deliveryMode)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: deliveryMode.name,
-            text: [
-              deliveryMode.description,
-              deliveryMode.deliveryCost?.formattedValue
-                ? deliveryMode.deliveryCost?.formattedValue
-                : '',
-            ],
-          } as Card)
-      )
-    );
-  }
-
-  private normalizeFormattedAddress(formattedAddress: string): string {
-    const addresses = formattedAddress
-      .split(',')
-      .map((address) => address.trim());
-
-    const newFormattedAddress = addresses.filter(Boolean).join(', ');
-
-    return newFormattedAddress;
   }
 }
