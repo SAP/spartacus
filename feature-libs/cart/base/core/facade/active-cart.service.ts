@@ -386,6 +386,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   addEntry(productCode: string, quantity: number, pickupStore?: string): void {
     this.requireLoadedCart()
@@ -423,6 +424,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param entryNumber
    * @param quantity
+   * @param pickupStore
+   * @param pickupToDelivery
    */
   updateEntry(
     entryNumber: number,

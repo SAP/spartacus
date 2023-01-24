@@ -9,7 +9,7 @@
       <div>{{ consignment?.statusDate | cxDate }}</div>
     </div>
 
-    <div *ngIf="consignment.deliveryPointOfService; else showDelivery">
+    <div *ngIf="consignment.deliveryPointOfService">
       {{ consignment.deliveryPointOfService.name }}
     </div>
 

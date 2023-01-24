@@ -34,6 +34,7 @@ import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-t
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 
 const moduleComponents = [
+  OrderOverviewComponent,
   OrderDetailActionsComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
