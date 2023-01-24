@@ -1,5 +1,7 @@
 %cx-configurator-overview-menu {
   &:not(:empty) {
+    overflow-y: auto;
+
     ul {
       list-style-type: none;
       padding-inline-start: 0px;

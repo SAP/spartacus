@@ -5,16 +5,14 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   HostListener,
   Input,
 } from '@angular/core';
-import {
-  ICON_TYPE,
-  IntersectionOptions,
-  IntersectionService,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
@@ -23,50 +21,78 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorOverviewMenuComponent {
+export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
+  @HostBinding('style.height') height = '';
+
   @Input() config: Configurator.ConfigurationWithOverview;
 
   protected readonly CX_MENU_GROUP = 'cx-menu-group';
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
-  protected readonly TOP = 25;
 
   iconTypes = ICON_TYPE;
 
   constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected intersectionService: IntersectionService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
+
+  // https://dev.to/nikosanif/how-to-set-dynamic-height-at-element-with-angular-directive-5986
+  ngAfterViewInit() {
+    this.height = this.getHeight();
+  }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    const options: IntersectionOptions = { rootMargin: '0px 0px -500px 0px' };
-    const intersectingCondition = (entry: IntersectionObserverEntry) => {
-      return (
-        entry.intersectionRatio > 0 &&
-        entry.target.getBoundingClientRect().top <= this.TOP
-      );
-    };
+    let currentMenuItem: HTMLElement | undefined;
     const groups =
       this.configuratorStorefrontUtilsService.getElements('div.cx-group');
     groups?.forEach((group) => {
-      this.intersectionService
-        .isIntersecting(group, options, intersectingCondition)
-        .subscribe((isIntersecting) => {
-          const id = group?.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
-          if (id) {
-            const querySelector = '#' + id;
-            const groupItem =
-              this.configuratorStorefrontUtilsService.getElement(querySelector);
-            if (isIntersecting) {
-              groupItem?.classList.add(this.ACTIVE_CLASS);
-            } else {
-              groupItem?.classList.remove(this.ACTIVE_CLASS);
-            }
-          }
-        });
+      const groupTop = group.offsetTop;
+      if (scrollY >= groupTop) {
+        const id = group?.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
+        if (id) {
+          const querySelector = '#' + id;
+          currentMenuItem =
+            this.configuratorStorefrontUtilsService.getElement(querySelector);
+        }
+      }
     });
+
+    const menuItems = this.configuratorStorefrontUtilsService.getElements(
+      'button.cx-menu-item'
+    );
+    menuItems?.forEach((menuItem) => {
+      menuItem.classList.remove(this.ACTIVE_CLASS);
+      if (menuItem.id === currentMenuItem?.id) {
+        currentMenuItem.classList.add(this.ACTIVE_CLASS);
+      }
+    });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.height = this.getHeight();
+  }
+
+  /**
+   * Retrieves an actual component height.
+   */
+  getHeight(): string {
+    const menu = this.configuratorStorefrontUtilsService.getElement(
+      'cx-configurator-overview-menu'
+    );
+    const viewPortHeight =
+      this.configuratorStorefrontUtilsService.getViewPortHeight();
+    if (menu) {
+      if (menu.offsetHeight < viewPortHeight) {
+        return '';
+      } else {
+        return viewPortHeight + 'px';
+      }
+    }
+
+    return '';
   }
 
   /**
@@ -122,9 +148,5 @@ export class ConfiguratorOverviewMenuComponent {
       idPrefix,
       groupId
     );
-  }
-
-  numSequence(n: number): Array<number> {
-    return Array(n);
   }
 }

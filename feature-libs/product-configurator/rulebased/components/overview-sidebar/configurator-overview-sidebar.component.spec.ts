@@ -61,6 +61,7 @@ class MockConfiguratorStorefrontUtilsService {
   changeStyling() {}
   getElement() {}
   createOvMenuItemId() {}
+  getViewPortHeight() {}
 }
 
 @Component({

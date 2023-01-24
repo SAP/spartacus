@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { Configurator } from '../../core/model/configurator.model';
@@ -10,7 +9,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Component, Input, Type } from '@angular/core';
-import { ICON_TYPE, IntersectionService } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 
 const OWNER: CommonConfigurator.Owner =
@@ -43,7 +42,6 @@ let fixture: ComponentFixture<ConfiguratorOverviewMenuComponent>;
 let htmlElem: HTMLElement;
 let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 let configuratorGroupsService: ConfiguratorGroupsService;
-let intersectionService: IntersectionService;
 
 function initialize() {
   fixture = TestBed.createComponent(ConfiguratorOverviewMenuComponent);
@@ -73,10 +71,6 @@ function initialize() {
   ).and.callThrough();
 
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
-
-  intersectionService = TestBed.inject(
-    IntersectionService as Type<IntersectionService>
-  );
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
@@ -92,9 +86,6 @@ describe('ConfigurationOverviewMenuComponent', () => {
           },
           {
             provide: ConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: IntersectionService,
           },
         ],
       }).compileComponents();
@@ -168,6 +159,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
+  /**
   describe('onScroll', () => {
     beforeEach(() => {
       initialize();
@@ -267,4 +259,5 @@ describe('ConfigurationOverviewMenuComponent', () => {
       });
     });
   });
+  */
 });

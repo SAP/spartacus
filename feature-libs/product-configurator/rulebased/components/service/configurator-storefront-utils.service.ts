@@ -109,6 +109,14 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+  syncScroll(element1:Element | HTMLElement, element2?: Element | HTMLElement): void {
+    if (this.windowRef.isBrowser()) {
+      element1.scrollTop = this.windowRef.document.scrollingElement?.scrollTop ?  this.windowRef.document.scrollingElement?.scrollTop : 0;
+    }
+  }
+   */
+
+  /**
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
@@ -324,5 +332,14 @@ export class ConfiguratorStorefrontUtilsService {
         this.windowRef.document.querySelectorAll(querySelector)
       );
     }
+  }
+
+  getViewPortHeight(): number {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.nativeWindow
+        ? this.windowRef.nativeWindow.innerHeight - 180
+        : 0;
+    }
+    return 0;
   }
 }
