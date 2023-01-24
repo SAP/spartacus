@@ -13,8 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { MultiCartService } from '@spartacus/cart/base/core';
-import { CartModificationList, CartOutlets } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT } from '@spartacus/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -44,8 +43,8 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   }
 
   onReorderClick(order: any) {
-    this.launchDialog();
-    this.reorderOrderFacade
+    this.launchDialog(order.code);
+    /*this.reorderOrderFacade
       .reorder(order.code)
       .subscribe((cartModificationList: CartModificationList) => {
         this.multiCartService.reloadCart(OCC_CART_ID_CURRENT);
@@ -53,15 +52,15 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
           loading: false,
           cartModificationList,
         });
-      });
+      }); */
   }
 
-  launchDialog() {
+  launchDialog(orderCode: string) {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.REORDER,
       this.element,
       this.vcr,
-      { loading: true }
+      { orderCode }
     );
 
     if (dialog) {

@@ -8,6 +8,23 @@ cx-reorder-dialog {
         }
       }
       .cx-dialog-body {
+        .cx-reorder-dialog-areyousure-section {
+          display: flex;
+          flex-direction: column;
+          .cx-reorder-dialog-footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 1rem;
+            div {
+              display: flex;
+              button {
+                flex: 0 0 calc(50% - 1rem);
+                margin: 0 1rem;
+              }
+            }
+          }
+        }
         p {
           .cx-cart-mod-entry-container {
             display: block;

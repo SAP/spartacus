@@ -7,27 +7,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
 import {
   CartModification,
+  CartModificationList,
   CartValidationStatusCode,
+  MultiCartFacade,
 } from '@spartacus/cart/base/root';
+import { OCC_CART_ID_CURRENT } from '@spartacus/core';
+import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-reorder-dialog',
   templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReorderDialogComponent implements OnInit, OnDestroy {
-  protected subscriptions = new Subscription();
+export class ReorderDialogComponent {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -36,23 +37,28 @@ export class ReorderDialogComponent implements OnInit, OnDestroy {
     focusOnEscape: true,
   };
 
-  cartModifications: CartModification[];
+  cartModifications: CartModification[] | undefined;
 
   loading$ = new BehaviorSubject(false);
+  showDecisionPrompt$ = new BehaviorSubject(true);
+  data$ = this.launchDialogService.data$;
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected reorderOrderFacade: ReorderOrderFacade,
+    protected multiCartService: MultiCartFacade,
+  ) {}
 
-  ngOnInit() {
-    this.subscriptions.add(
-      this.launchDialogService.data$.subscribe((data: any) => {
-        this.cartModifications = data.cartModificationList?.cartModifications;
-        this.loading$.next(data.loading);
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+  createCartFromOrder(orderCode: string): void {
+    this.showDecisionPrompt$.next(false);
+    this.loading$.next(true);
+    this.reorderOrderFacade
+      .reorder(orderCode)
+      .subscribe((cartModificationList: CartModificationList) => {
+        this.multiCartService.reloadCart(OCC_CART_ID_CURRENT);
+        this.cartModifications = cartModificationList.cartModifications;
+        this.loading$.next(false);
+      });
   }
 
   close(reason: string): void {
