@@ -38,6 +38,6 @@ export abstract class BackendHttpTimeoutConfig {
 
 declare module '../../occ/config/occ-config' {
   // It's valid because we augment the module for interfaces merging:
-  //NOSONAR
+  // NOSONAR
   interface BackendConfig extends BackendHttpTimeoutConfig {}
 }
