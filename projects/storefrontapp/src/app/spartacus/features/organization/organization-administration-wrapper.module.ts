@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { environment } from 'projects/storefrontapp/src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { NgModule, Type } from '@angular/core';
 import { AdministrationModule } from '@spartacus/organization';
 import {

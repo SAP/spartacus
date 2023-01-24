@@ -73,7 +73,8 @@ export const userAccountWrapperModulePath =
   'src/app/spartacus/features/user/user-account-wrapper.module.ts';
 export const userProfileWrapperModulePath =
   'src/app/spartacus/features/user/user-profile-wrapper.module.ts';
-
+export const administrationWrapperModulePath =
+  'src/app/spartacus/features/organization/organization-administration-wrapper.module.ts';
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';
 export const cdsFeatureModulePath =

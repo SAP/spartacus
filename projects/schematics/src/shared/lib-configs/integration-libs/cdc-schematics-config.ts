@@ -10,10 +10,13 @@ import {
   SPARTACUS_CDC_USER_ACCOUNT,
   SPARTACUS_CDC_USER_PROFILE,
   SPARTACUS_CDC_ROOT,
+  SPARTACUS_CDC_MANAGE_USERS,
   USER_PROFILE_FEATURE_NAME,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
+import { ADMINISTRATION_MODULE } from '../organization-schematics-config';
 import {
   USER_ACCOUNT_MODULE,
   USER_PROFILE_MODULE,
@@ -36,7 +39,8 @@ export const CDC_CONFIG = 'CdcConfig';
 export const CDC_USER_ACCOUNT_MODULE = 'CDCUserAccountModule';
 
 export const CDC_USER_PROFILE_MODULE = 'CDCUserProfileModule';
-
+export const CDC_USER_LIST_MODULE = 'CdcListModule';
+export const CDC_USER_DETAILS_MODULE = 'CdcUserDetailsModule';
 export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: CDC_FEATURE_NAME,
@@ -57,6 +61,14 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
       name: CDC_USER_PROFILE_MODULE,
       importPath: SPARTACUS_CDC_USER_PROFILE,
     },
+    {
+      name: CDC_USER_LIST_MODULE,
+      importPath: SPARTACUS_CDC_MANAGE_USERS,
+    },
+    {
+      name: CDC_USER_DETAILS_MODULE,
+      importPath: SPARTACUS_CDC_MANAGE_USERS,
+    },
   ],
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CDC_ROOT,
@@ -68,7 +80,10 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDC_ROOT_MODULE}`,
   },
   customConfig: buildCdcConfig,
-  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
+  dependencyFeatures: [
+    USER_PROFILE_FEATURE_NAME,
+    ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ],
   importAfter: [
     {
       markerModuleName: USER_ACCOUNT_MODULE,
@@ -77,6 +92,14 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     {
       markerModuleName: USER_PROFILE_MODULE,
       featureModuleName: CDC_USER_PROFILE_MODULE,
+    },
+    {
+      markerModuleName: ADMINISTRATION_MODULE,
+      featureModuleName: CDC_USER_LIST_MODULE,
+    },
+    {
+      markerModuleName: ADMINISTRATION_MODULE,
+      featureModuleName: CDC_USER_DETAILS_MODULE,
     },
   ],
 };
