@@ -310,6 +310,17 @@ export function clickOnViewInConfigurationAndWait(attribute: string): void {
 }
 
 /**
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
  * Verifies whether the view in configuration link is displayed.
  */
 export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
