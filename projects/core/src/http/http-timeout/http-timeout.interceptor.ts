@@ -104,9 +104,12 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
     return error;
   }
 
-  protected buildError(request: HttpRequest<unknown>, timeout: number): Error {
+  protected buildError(
+    request: HttpRequest<unknown>,
+    timeoutValue: number
+  ): Error {
     return new Error(
-      `Request to URL '${request.url}' exceeded expected time of ${timeout}ms and was aborted.`
+      `Request to URL '${request.url}' exceeded expected time of ${timeoutValue}ms and was aborted.`
     );
   }
 }
