@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import { Address, CostCenter, TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -156,41 +156,41 @@ export class OrderOverviewComponent {
     );
   }
 
-  getAddressCardContent(deliveryAddress: Address): Observable<Card> {
-    return this.translation.translate('addressCard.shipTo').pipe(
-      filter(() => Boolean(deliveryAddress)),
-      map((textTitle) => {
-        const formattedAddress = this.normalizeFormattedAddress(
-          deliveryAddress.formattedAddress ?? ''
-        );
+  // getAddressCardContent(deliveryAddress: Address): Observable<Card> {
+  //   return this.translation.translate('addressCard.shipTo').pipe(
+  //     filter(() => Boolean(deliveryAddress)),
+  //     map((textTitle) => {
+  //       const formattedAddress = this.normalizeFormattedAddress(
+  //         deliveryAddress.formattedAddress ?? ''
+  //       );
 
-        return {
-          title: textTitle,
-          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-          text: [formattedAddress, deliveryAddress.country?.name],
-        } as Card;
-      })
-    );
-  }
+  //       return {
+  //         title: textTitle,
+  //         textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+  //         text: [formattedAddress, deliveryAddress.country?.name],
+  //       } as Card;
+  //     })
+  //   );
+  // }
 
-  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
-    return this.translation.translate('orderDetails.shippingMethod').pipe(
-      filter(() => Boolean(deliveryMode)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: deliveryMode.name,
-            text: [
-              deliveryMode.description,
-              deliveryMode.deliveryCost?.formattedValue
-                ? deliveryMode.deliveryCost?.formattedValue
-                : '',
-            ],
-          } as Card)
-      )
-    );
-  }
+  // getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
+  //   return this.translation.translate('orderDetails.shippingMethod').pipe(
+  //     filter(() => Boolean(deliveryMode)),
+  //     map(
+  //       (textTitle) =>
+  //         ({
+  //           title: textTitle,
+  //           textBold: deliveryMode.name,
+  //           text: [
+  //             deliveryMode.description,
+  //             deliveryMode.deliveryCost?.formattedValue
+  //               ? deliveryMode.deliveryCost?.formattedValue
+  //               : '',
+  //           ],
+  //         } as Card)
+  //     )
+  //   );
+  // }
 
   getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
     return combineLatest([
@@ -229,13 +229,13 @@ export class OrderOverviewComponent {
     );
   }
 
-  private normalizeFormattedAddress(formattedAddress: string): string {
-    const addresses = formattedAddress
-      .split(',')
-      .map((address) => address.trim());
+  // private normalizeFormattedAddress(formattedAddress: string): string {
+  //   const addresses = formattedAddress
+  //     .split(',')
+  //     .map((address) => address.trim());
 
-    const newFormattedAddress = addresses.filter(Boolean).join(', ');
+  //   const newFormattedAddress = addresses.filter(Boolean).join(', ');
 
-    return newFormattedAddress;
-  }
+  //   return newFormattedAddress;
+  // }
 }
