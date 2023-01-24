@@ -15,6 +15,7 @@ import { CheckoutPlaceOrderModule } from './checkout-place-order/checkout-place-
 import { CheckoutProgressMobileBottomModule } from './checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module';
 import { CheckoutProgressMobileTopModule } from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
+import { CheckoutReviewShippingModule } from './checkout-review-submit/checkout-review-shipping/checkout-review-shipping.module';
 import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-re
     CheckoutPaymentMethodModule,
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
+    CheckoutReviewShippingModule,
     CheckoutDeliveryAddressModule,
     CheckoutLoginModule,
   ],
