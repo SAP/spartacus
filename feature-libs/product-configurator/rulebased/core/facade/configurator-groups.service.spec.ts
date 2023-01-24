@@ -458,13 +458,13 @@ describe('ConfiguratorGroupsService', () => {
     ).toBe(false);
   });
 
-  describe('getConflictGroupsForImmediateConflictResolution', () => {
+  describe('getConflictGroupForImmediateConflictResolution', () => {
     it('should not return any conflict group because showConflictSolverDialog is not defined', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
       const conflictGroups =
-        classUnderTest.getConflictGroupsForImmediateConflictResolution(
+        classUnderTest.getConflictGroupForImmediateConflictResolution(
           productConfiguration.owner
         );
 
@@ -485,7 +485,7 @@ describe('ConfiguratorGroupsService', () => {
         of(configurationWithConflicts)
       );
       const conflictGroups =
-        classUnderTest.getConflictGroupsForImmediateConflictResolution(
+        classUnderTest.getConflictGroupForImmediateConflictResolution(
           configurationWithConflicts.owner
         );
 
@@ -506,7 +506,7 @@ describe('ConfiguratorGroupsService', () => {
         of(configurationWithConflicts)
       );
       const conflictGroups =
-        classUnderTest.getConflictGroupsForImmediateConflictResolution(
+        classUnderTest.getConflictGroupForImmediateConflictResolution(
           configurationWithConflicts.owner
         );
 

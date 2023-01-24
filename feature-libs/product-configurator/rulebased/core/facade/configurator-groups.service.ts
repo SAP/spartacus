@@ -174,7 +174,7 @@ export class ConfiguratorGroupsService {
    * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @return {Observable<Configurator.Group | undefined} - Conflict group
    */
-  getConflictGroupsForImmediateConflictResolution(
+  getConflictGroupForImmediateConflictResolution(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group | undefined> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
