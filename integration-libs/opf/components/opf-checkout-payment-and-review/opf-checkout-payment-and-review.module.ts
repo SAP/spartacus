@@ -39,7 +39,6 @@ import { RouterModule } from '@angular/router';
           component: OPFCheckoutPaymentAndReviewComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
-        CheckoutPlaceOrder: {},
       },
     }),
   ],

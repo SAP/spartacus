@@ -27,7 +27,7 @@ export class OpfCheckoutPaymentsComponent {
     );
 
   @Input()
-  disabled = false;
+  disabled = true;
 
   selectedPaymentId?: number;
 

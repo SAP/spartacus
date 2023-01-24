@@ -19,7 +19,7 @@ export function defaultOPFComponentsConfig() {
     featureModules: {
       [OPF_FEATURE]: {
         // TODO: (OPF) provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
-        cmsComponents: ['CheckoutReviewOrder', 'CheckoutPlaceOrder'],
+        cmsComponents: ['CheckoutReviewOrder'],
       },
 
       // By default core is bundled together with components.

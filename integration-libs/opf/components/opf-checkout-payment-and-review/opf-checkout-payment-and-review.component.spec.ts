@@ -106,12 +106,15 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
   });
 
   it('should change form value when checkbox get selected / change state', () => {
+    cart$.next(mockCart);
+
+    fixture.detectChanges();
+
     expect(component.termsAndConditionInvalid).toEqual(true);
 
-    const inputEl = el.query(By.css('input[type="checkbox"]')).nativeElement;
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement;
 
     inputEl.click();
-    fixture.detectChanges();
 
     expect(inputEl.checked).toEqual(true);
     expect(component.termsAndConditionInvalid).toEqual(false);
