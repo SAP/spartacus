@@ -295,7 +295,7 @@ export function isConflictLinkAttached(attribute: string): void {
  */
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
-  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
+  clickOnConflictSolverLink(attribute, 'View in Configuration Link');
 }
 
 /**
