@@ -26,10 +26,6 @@ export class OrderOverviewComponent {
 
   constructor(protected translation: TranslationService) {}
 
-  isOrderLoaded(): boolean {
-    return !!this.order && Object.keys(this.order).length > 0;
-  }
-
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
       filter(() => Boolean(orderCode)),
