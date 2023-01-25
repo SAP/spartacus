@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CartModification,
   CartModificationList,
@@ -46,7 +43,7 @@ export class ReorderDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected reorderOrderFacade: ReorderOrderFacade,
-    protected multiCartService: MultiCartFacade,
+    protected multiCartFacade: MultiCartFacade
   ) {}
 
   createCartFromOrder(orderCode: string): void {
@@ -55,7 +52,7 @@ export class ReorderDialogComponent {
     this.reorderOrderFacade
       .reorder(orderCode)
       .subscribe((cartModificationList: CartModificationList) => {
-        this.multiCartService.reloadCart(OCC_CART_ID_CURRENT);
+        this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
         this.cartModifications = cartModificationList.cartModifications;
         this.loading$.next(false);
       });

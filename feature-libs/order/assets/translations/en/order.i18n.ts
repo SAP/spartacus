@@ -196,7 +196,9 @@ export const order = {
         unresolvableIssues: 'Unrecognized problem with "{{ productCode }}".',
         success: 'Products have been successfully added to the cart',
       },
-      areYouSureToReplaceCart: "Current cart will be replaced with new items. Do you wish to continue?"
+      areYouSureToReplaceCart: "Current cart will be replaced with new items. Do you wish to continue?",
+      cancel: "Cancel",
+      continue: "Continue",
     },
   },
 };

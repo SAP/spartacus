@@ -12,9 +12,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { MultiCartService } from '@spartacus/cart/base/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { ReorderOrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -28,15 +25,12 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected reorderOrderFacade: ReorderOrderFacade,
-    protected multiCartService: MultiCartService,
+    protected vcr: ViewContainerRef
   ) {}
 
   @ViewChild('element') element: ElementRef;
   protected subscription = new Subscription();
   order$: Observable<any>;
-  readonly CartOutlets = CartOutlets;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();

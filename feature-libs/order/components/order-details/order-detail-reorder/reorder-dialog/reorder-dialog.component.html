@@ -25,19 +25,24 @@
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
       <ng-container *ngIf="data$ | async as data">
-        <ng-container *ngIf="(showDecisionPrompt$ | async); else result">
+        <ng-container *ngIf="showDecisionPrompt$ | async; else result">
           <div class="cx-reorder-dialog-areyousure-section">
             <p>
               {{ 'reorder.dialog.areYouSureToReplaceCart' | cxTranslate }}
             </p>
             <div class="cx-reorder-dialog-footer">
               <div class="col-xs-12 col-md-10 col-lg-8">
-                <button class="btn btn-action"
-                (click)="close('Cancel creating cart from order')">
-                  Cancel
+                <button
+                  class="btn btn-action"
+                  (click)="close('Cancel creating cart from order')"
+                >
+                  {{ 'reorder.dialog.cancel' | cxTranslate }}
                 </button>
-                <button class="btn btn-primary" (click)="createCartFromOrder(data.orderCode)">
-                  Continue
+                <button
+                  class="btn btn-primary"
+                  (click)="createCartFromOrder(data.orderCode)"
+                >
+                  {{ 'reorder.dialog.continue' | cxTranslate }}
                 </button>
               </div>
             </div>
@@ -46,10 +51,15 @@
         <ng-template #result>
           <ng-container *ngIf="!(loading$ | async); else loading">
             <p>
-              <ng-container *ngIf="!cartModifications.length; else cartResponse">
+              <ng-container
+                *ngIf="!cartModifications.length; else cartResponse"
+              >
                 <span class="cx-cart-mod-entry-container">
                   <span class="alert-icon">
-                    <cx-icon class="success" [type]="iconTypes.SUCCESS"></cx-icon>
+                    <cx-icon
+                      class="success"
+                      [type]="iconTypes.SUCCESS"
+                    ></cx-icon>
                   </span>
                   {{ 'reorder.dialog.messages.success' | cxTranslate }}
                 </span>
@@ -67,7 +77,10 @@
                     "
                   >
                     <span class="alert-icon">
-                      <cx-icon class="warning" [type]="iconTypes.INFO"></cx-icon>
+                      <cx-icon
+                        class="warning"
+                        [type]="iconTypes.INFO"
+                      ></cx-icon>
                     </span>
                   </ng-container>
                   <ng-template #errorIcon>

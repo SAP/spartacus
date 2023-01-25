@@ -1,32 +1,16 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService } from '@spartacus/cart/base/core';
-import { CartModificationList } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
-import { Order, ReorderOrderFacade } from '@spartacus/order/root';
+import { Order } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailReorderComponent } from './order-detail-reorder.component';
-
-const mockCartModificationList: CartModificationList = {
-  cartModifications: [],
-};
 
 const mockOrder: Order = {
   code: '123',
 };
-
-class MockActiveCartService {
-  reloadCurrentActiveCart(): void {}
-}
-
-class MockReorderOrderFacade implements Partial<ReorderOrderFacade> {
-  reorder(_orderId: string, _userId: string): Observable<CartModificationList> {
-    return of(mockCartModificationList);
-  }
-}
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -58,16 +42,8 @@ describe('Order detail reorder component', () => {
         providers: [
           RouterTestingModule,
           {
-            provide: ReorderOrderFacade,
-            useClass: MockReorderOrderFacade,
-          },
-          {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
-          },
-          {
-            provide: ActiveCartService,
-            useClass: MockActiveCartService,
           },
           {
             provide: OrderDetailsService,
