@@ -22,7 +22,7 @@ import {
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
-import { CheckoutReviewShippingModule } from './checkout-review-shipping/checkout-review-shipping.module';
+import { CheckoutReviewShippingModule } from '../checkout-review/checkout-review-shipping/checkout-review-shipping.module';
 
 @NgModule({
   imports: [

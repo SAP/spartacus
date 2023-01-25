@@ -7,9 +7,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
 import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
+import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
+import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 
 @NgModule({
   declarations: [CheckoutReviewShippingComponent],
@@ -22,6 +24,16 @@ import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
     RouterModule,
     IconModule,
     OutletModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutReviewShipping: {
+          component: CheckoutReviewShippingComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
   ],
 })
 export class CheckoutReviewShippingModule {}
