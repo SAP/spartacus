@@ -15,14 +15,12 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-review-payment',
   templateUrl: './checkout-review-payment.component.html',
 })
-export class CheckoutReviewPaymentComponent implements OnInit {
+export class CheckoutReviewPaymentComponent {
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected translationService: TranslationService
   ) {}
-
-  ngOnInit(): void {}
 
   checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
 
