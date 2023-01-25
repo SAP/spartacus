@@ -131,7 +131,7 @@ describe('AsmCustomerSavedCartComponent', () => {
     const title = productListing.query(By.css('.title-link'));
 
     expect(title.nativeElement.textContent).toBe(
-      ' asm.customer360.overview.savedCart '
+      ' asm.customer360.savedCart.header '
     );
 
     const titleLink = productListing.query(By.css('.cx-overview-title-link'));
@@ -141,13 +141,13 @@ describe('AsmCustomerSavedCartComponent', () => {
     const totalItems = productListing.query(By.css('.cart-total-no-items'));
 
     expect(totalItems.nativeElement.textContent).toBe(
-      ' asm.customer360.overview.totalNoItems count:2 '
+      ' asm.customer360.productListing.totalNoItems count:2 '
     );
 
     const totalPrice = productListing.query(By.css('.cart-total-price'));
 
     expect(totalPrice.nativeElement.textContent).toBe(
-      ' asm.customer360.overview.totalPrice price:$165.00 '
+      ' asm.customer360.productListing.totalPrice price:$165.00 '
     );
   });
 });

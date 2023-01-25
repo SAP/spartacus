@@ -152,7 +152,7 @@ describe('AsmCustomerProductInterestsComponent', () => {
     const title = productListing.query(By.css('.title-link'));
 
     expect(title.nativeElement.textContent).toBe(
-      ' asm.customer360.overview.interests '
+      ' asm.customer360.productInterests.header '
     );
   });
 });

@@ -3,6 +3,7 @@ import {
   AsmCustomer360ReviewList,
   AsmCustomer360Type,
 } from '@spartacus/asm/root';
+import { I18nTestingModule } from '@spartacus/core';
 
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
@@ -38,6 +39,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [AsmCustomerProductReviewsComponent],
       providers: [
         Customer360SectionContextSource,
