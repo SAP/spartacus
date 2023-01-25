@@ -13,7 +13,7 @@ import {
   POWERTOOLS_BASESITE,
 } from '../../../../sample-data/b2b-checkout';
 
-context('B2B - Account Checkout flow', () => {
+context('B2B - Account Checkout flow', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

@@ -15,61 +15,65 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
-context(`B2B - ${recurrencePeriod.WEEKLY} Replenishment Checkout flow`, () => {
-  before(() => {
-    clearAllStorage();
-    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
-  });
+context(
+  `B2B - ${recurrencePeriod.WEEKLY} Replenishment Checkout flow`,
+  { testIsolation: false },
+  () => {
+    before(() => {
+      clearAllStorage();
+      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-  });
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
 
-  it('should login to b2b user', () => {
-    b2bCheckout.loginB2bUser();
-  });
+    it('should login to b2b user', () => {
+      b2bCheckout.loginB2bUser();
+    });
 
-  it('should add a product to cart', () => {
-    b2bCheckout.addB2bProductToCartAndCheckout();
-  });
+    it('should add a product to cart', () => {
+      b2bCheckout.addB2bProductToCartAndCheckout();
+    });
 
-  it('should select Account payment type', () => {
-    b2bCheckout.enterPONumber();
-    b2bCheckout.selectAccountPayment();
-  });
+    it('should select Account payment type', () => {
+      b2bCheckout.enterPONumber();
+      b2bCheckout.selectAccountPayment();
+    });
 
-  it('should enter shipping address', () => {
-    b2bCheckout.selectAccountShippingAddress();
-  });
+    it('should enter shipping address', () => {
+      b2bCheckout.selectAccountShippingAddress();
+    });
 
-  it('should select delivery mode', () => {
-    b2bCheckout.selectAccountDeliveryMode();
-  });
+    it('should select delivery mode', () => {
+      b2bCheckout.selectAccountDeliveryMode();
+    });
 
-  it('should review and place order', () => {
-    b2bCheckout.reviewB2bReviewOrderPage(
-      b2bAccountShipToUser,
-      cartWithB2bProductAndPremiumShipping,
-      true,
-      order_type.SCHEDULE_REPLENISHMENT
-    );
+    it('should review and place order', () => {
+      b2bCheckout.reviewB2bReviewOrderPage(
+        b2bAccountShipToUser,
+        cartWithB2bProductAndPremiumShipping,
+        true,
+        order_type.SCHEDULE_REPLENISHMENT
+      );
 
-    b2bCheckout.completeReplenishmentForm(recurrencePeriod.WEEKLY);
+      b2bCheckout.completeReplenishmentForm(recurrencePeriod.WEEKLY);
 
-    b2bCheckout.placeOrder('/replenishment/confirmation');
-  });
+      b2bCheckout.placeOrder('/replenishment/confirmation');
+    });
 
-  it('should display summary page', () => {
-    b2bCheckout.reviewB2bOrderConfirmation(
-      b2bAccountShipToUser,
-      b2bProduct,
-      cartWithB2bProductAndPremiumShipping,
-      true,
-      recurrencePeriod.WEEKLY
-    );
-  });
-});
+    it('should display summary page', () => {
+      b2bCheckout.reviewB2bOrderConfirmation(
+        b2bAccountShipToUser,
+        b2bProduct,
+        cartWithB2bProductAndPremiumShipping,
+        true,
+        recurrencePeriod.WEEKLY
+      );
+    });
+  }
+);

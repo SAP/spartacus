@@ -13,7 +13,7 @@ import {
   USER_REQUEST_ENDPOINT,
 } from '../../../../sample-data/b2b-checkout';
 
-describe('Order History with no orders', () => {
+describe('Order History with no orders', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

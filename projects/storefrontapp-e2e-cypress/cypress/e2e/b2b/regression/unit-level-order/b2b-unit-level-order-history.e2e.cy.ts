@@ -5,12 +5,12 @@
  */
 
 import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-history';
-import * as sampleData from '../../../../sample-data/b2b-order-history';
 import { doPlaceB2BOrder } from '../../../../helpers/b2b/b2b-order-history';
+import * as sampleData from '../../../../sample-data/b2b-order-history';
 import { interceptGet } from '../../../../support/utils/intercept';
 import Chainable = Cypress.Chainable;
 
-describe('B2B - Unit-Level Orders History', () => {
+describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
   const buyerGiSun = 'Gi Sun';
   const buyerMarkRivers = 'Mark Rivers';
   const buyerWilliamHunter = 'William Hunter';
