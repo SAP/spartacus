@@ -61,7 +61,7 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
       });
   }
 
-  protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return response.error?.errors || [];
+  protected getErrors(response: HttpErrorResponse): [ErrorModel,RoutingService][] {
+    return response.error?.errors.map((e: ErrorModel) => [e, this.routingService] as const) || [];
   }
 }
