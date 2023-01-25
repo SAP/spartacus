@@ -56,22 +56,5 @@ export class CustomerEffects {
       )
     );
 
-  customer360Data$: Observable<AsmActions.CustomerAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AsmActions.CUSTOMER_360_GET),
-      map((action: AsmActions.Customer360Get) => action.payload),
-      switchMap((request) =>
-        this.asmConnector.getCustomer360Data(request).pipe(
-          map((customer360Response) => {
-            return new AsmActions.Customer360GetSuccess(customer360Response);
-          }),
-          catchError((error) =>
-            of(new AsmActions.Customer360GetFail(normalizeHttpError(error)))
-          )
-        )
-      )
-    )
-  );
-
   constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
 }
