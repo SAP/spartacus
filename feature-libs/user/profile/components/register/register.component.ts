@@ -55,10 +55,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         '',
         [Validators.required, ...CustomFormValidators.passwordValidators],
       ],
-      passwordconf: [
-        '',
-        [Validators.required, ...CustomFormValidators.passwordValidators],
-      ],
+      passwordconf: ['', Validators.required],
       newsletter: new UntypedFormControl({
         value: false,
         disabled: this.isConsentRequired(),

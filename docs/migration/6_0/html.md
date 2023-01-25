@@ -130,3 +130,54 @@
 ### Translatable interface
 
 - Type of the property 'key' is now `string | string[]`
+
+### FormErrorsComponent
+
+- `p` has been changed from 
+
+  ```html
+  <p *ngFor="let error of errorDetails">
+    {{
+      prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1])
+    }}
+  </p>
+  ```
+
+  to
+
+  ```html
+  <p *ngFor="let error of errorDetails">
+    {{
+      [prefix + '.' + error[0], fallbackPrefix + '.' + error[0]] | cxTranslate: getTranslationParams(error[1])
+    }}
+  </p>
+  ```
+
+### DatePickerComponent
+
+- `cx-form-errors` has been changed from 
+
+  ```html
+  <cx-form-errors
+    [control]="control"
+    prefix="formErrors.date"
+    [translationParams]="{
+      max: getDate(max) | cxDate,
+      min: getDate(min) | cxDate
+    }"
+  ></cx-form-errors>
+  ```
+
+  to
+
+  ```html
+  <cx-form-errors
+    [control]="control"
+    prefix="formErrors.labeled.date"
+    [translationParams]="{
+      label: label ?? '' | cxTranslate,
+      max: getDate(max) | cxDate,
+      min: getDate(min) | cxDate
+    }"
+  ></cx-form-errors>
+  ```
