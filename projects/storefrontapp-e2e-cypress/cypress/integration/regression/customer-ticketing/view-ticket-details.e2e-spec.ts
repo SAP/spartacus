@@ -1,4 +1,4 @@
-import { viewportContext } from '../../../helpers/viewport-context';
+
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import {
   TestTicketDetails,
@@ -8,7 +8,6 @@ import {
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket details', () => {
-  viewportContext(['desktop', 'mobile'], () => {
     context('Registered User', () => {
       before(() => {
         cy.window().then((win) => {
@@ -168,7 +167,7 @@ describe('ticket details', () => {
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.visitTicketDetailsOfFirstTicketByItsId();
+        customerTicketing.visitTicketDetailsOfFirstTicketByItsIdThroughURL();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
@@ -179,5 +178,4 @@ describe('ticket details', () => {
         customerTicketing.verifyGlobalMessage('Ticket not found.');
       });
     });
-  });
 });
