@@ -11,39 +11,33 @@
     ></cx-promotions>
   </ng-container>
 
-  <!-- pickup consigned entries -->
-  <cx-order-consigned-entries
-    *ngIf="pickupConsignments$ | async as consignments"
-    [order]="order"
-    [consignments]="consignments"
-    [enableAddToCart]="enableAddToCart$ | async"
-    [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
-  ></cx-order-consigned-entries>
+  <ng-template
+    [cxOutlet]="OrderOutlets.ORDER_PICKUP_CONSIGNMENTS_LIST"
+    [cxOutletContext]="order"
+  >
+    <!-- pickup consigned entries -->
+    <cx-order-consigned-entries
+      *ngIf="pickupConsignments$ | async as consignments"
+      [order]="order"
+      [consignments]="consignments"
+      [enableAddToCart]="enableAddToCart$ | async"
+      [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
+    ></cx-order-consigned-entries>
+  </ng-template>
 
-  <!-- delivery info
-  <div class="cx-summary-card">
-    <ng-container *ngIf="order.deliveryAddress">
-      <cx-card
-        [content]="getAddressCardContent(order.deliveryAddress) | async"
-      ></cx-card>
-    </ng-container>
-
-    <ng-container *ngIf="order.deliveryMode">
-      <cx-card
-        [content]="getDeliveryModeCardContent(order.deliveryMode) | async"
-      ></cx-card>
-    </ng-container>
-  </div>
- -->
-
-  <!-- delivery consigned entries -->
-  <cx-order-consigned-entries
-    *ngIf="deliveryConsignments$ | async as consignments"
-    [order]="order"
-    [consignments]="consignments"
-    [enableAddToCart]="enableAddToCart$ | async"
-    [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
-  ></cx-order-consigned-entries>
+  <ng-template
+    [cxOutlet]="OrderOutlets.ORDER_DELIVERY_CONSIGNMENTS_LIST"
+    [cxOutletContext]="order"
+  >
+    <!-- delivery consigned entries -->
+    <cx-order-consigned-entries
+      *ngIf="deliveryConsignments$ | async as consignments"
+      [order]="order"
+      [consignments]="consignments"
+      [enableAddToCart]="enableAddToCart$ | async"
+      [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
+    ></cx-order-consigned-entries>
+  </ng-template>
 
   <!-- unconsigned entries OR any entries -->
   <ng-container

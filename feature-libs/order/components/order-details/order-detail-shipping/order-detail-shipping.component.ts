@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Order } from '@spartacus/order/root';
+import { Card, OutletContextData } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -16,13 +17,29 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-details-shipping',
   templateUrl: './order-detail-shipping.component.html',
 })
-export class OrderDetailShippingComponent {
+export class OrderDetailShippingComponent implements OnInit, OnDestroy {
+  @Input() order: Order;
   order$ = this.orderDetailsService.getOrderDetails();
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    @Optional() protected outlet?: OutletContextData<any>
   ) {}
+
+  protected subscription = new Subscription();
+
+  ngOnInit(): void {
+    if (this.outlet?.context$) {
+      this.subscription.add(
+        this.outlet.context$.subscribe((context) => (this.order = context))
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
@@ -65,8 +82,6 @@ export class OrderDetailShippingComponent {
       .split(',')
       .map((address) => address.trim());
 
-    const newFormattedAddress = addresses.filter(Boolean).join(', ');
-
-    return newFormattedAddress;
+    return addresses.filter(Boolean).join(', ');
   }
 }

@@ -16,11 +16,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   KeyboardFocusModule,
   OutletModule,
+  OutletPosition,
   PromotionsModule,
+  provideOutlet,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
@@ -54,11 +57,16 @@ const moduleComponents = [
     UrlModule,
     SpinnerModule,
     RouterModule,
-    OutletModule,
+    OutletModule.forChild(),
     AddToCartModule,
     KeyboardFocusModule,
   ],
   providers: [
+    provideOutlet({
+      id: OrderOutlets.ORDER_DELIVERY_CONSIGNMENTS_LIST,
+      component: OrderDetailShippingComponent,
+      position: OutletPosition.BEFORE,
+    }),
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
@@ -73,9 +81,9 @@ const moduleComponents = [
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
         },
-        AccountOrderDetailsShippingComponent: {
-          component: OrderDetailShippingComponent,
-        },
+        // AccountOrderDetailsShippingComponent: {
+        //   component: OrderDetailShippingComponent,
+        // },
         AccountOrderDetailsOverviewComponent: {
           component: OrderOverviewComponent,
         },
