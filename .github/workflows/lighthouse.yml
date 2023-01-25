@@ -1,12 +1,12 @@
 on:
-  push:
+  pull_request:
+    types: [ready_for_review]
     branches:
       - develop
-      - epic/**
       - release/**
-      - integration-libs/**
-  pull_request:
-    types: [opened, synchronize]
+      - feature/CXSPA-2106-C
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
