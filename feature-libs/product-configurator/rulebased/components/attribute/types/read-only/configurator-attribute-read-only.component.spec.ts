@@ -15,39 +15,39 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+const priceDetails: Configurator.PriceDetails = {
+  currencyIso: '$',
+  formattedValue: '$3',
+  value: 3,
+};
+
+const myValues: Configurator.Value[] = [
+  {
+    valueCode: 'val1',
+    valueDisplay: 'val1',
+    selected: false,
+    quantity: 3,
+    valuePrice: priceDetails,
+    valuePriceTotal: priceDetails,
+  },
+  {
+    valueCode: 'val2',
+    valueDisplay: 'val2',
+    selected: true,
+  },
+];
+
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
   let htmlElem: HTMLElement;
-  let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions;
-
-  const priceDetails: Configurator.PriceDetails = {
-    currencyIso: '$',
-    formattedValue: '$3',
-    value: 3,
-  };
-
-  const myValues: Configurator.Value[] = [
-    {
-      valueCode: 'val1',
-      valueDisplay: 'val1',
-      selected: false,
-      quantity: 3,
-      valuePrice: priceDetails,
-      valuePriceTotal: priceDetails,
-    },
-    {
-      valueCode: 'val2',
-      valueDisplay: 'val2',
-      selected: true,
-    },
-  ];
-  configuratorPriceComponentOptions = {
+  let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions = {
     quantity: myValues[0].quantity,
     price: myValues[0].valuePrice,
     priceTotal: myValues[0].valuePriceTotal,
     isLightedUp: myValues[0].selected,
   };
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({

@@ -17,9 +17,10 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   @Input() attribute: Configurator.Attribute;
   @Input() group: String;
   @Input() expMode: boolean;
+
   /**
    * Extract corresponding value price formula parameters.
-   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
+   * For the read-only attribute types the complete price formula should be displayed at the value level.
    *
    * @param {Configurator.Value} value - Configurator value
    * @return {ConfiguratorPriceComponentOptions} - New price formula

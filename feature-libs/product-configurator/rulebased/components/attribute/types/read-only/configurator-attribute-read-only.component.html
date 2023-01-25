@@ -1,90 +1,103 @@
-<div class="form-group" id="{{ createAttributeIdForConfigurator(attribute) }}">
-  <ng-container
-    *ngIf="
-      attribute.values !== undefined && attribute.values.length > 0;
-      else noStaticDomain
-    "
-  >
-    <ng-container *ngFor="let value of attribute.values">
-      <span
-        *ngIf="value.selected"
-        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-        tabindex="0"
-        class="cx-visually-hidden"
-      >
-        {{
-          'configurator.a11y.readOnlyValueOfAttributeFull'
-            | cxTranslate
-              : {
-                  value: value.valueDisplay,
-                  attribute: attribute.label
-                }
-        }}
-      </span>
-      <div *ngIf="value.selected" aria-hidden="true">
-        <label
-          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-          for="{{
-            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+<!--TODO: breaking change-->
+<fieldset>
+  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <ng-container
+      *ngIf="
+        attribute.values && attribute.values.length > 0;
+        else noStaticDomain
+      "
+    >
+      <ng-container *ngFor="let value of attribute.values">
+        <div *ngIf="value.selected" class="form-check">
+          <span
+            id="{{
+              createValueUiKey('label', attribute.name, value.valueCode)
+            }}"
+            tabindex="0"
+            class="cx-visually-hidden"
+          >
+            {{
+              'configurator.a11y.readOnlyValueOfAttributeFull'
+                | cxTranslate
+                  : {
+                      value: value.valueDisplay,
+                      attribute: attribute.label
+                    }
+            }}
+          </span>
+          <div class="cx-value-label-pair">
+            <label
+              id="{{
+                createValueUiKey('label', attribute.name, value.valueCode)
+              }}"
+              for="{{
+                createAttributeValueIdForConfigurator(
+                  attribute,
+                  value.valueCode
+                )
+              }}"
+              aria-hidden="true"
+              class="cx-read-only-label"
+              >{{
+                getLabel(expMode, value.valueDisplay, value.valueCode)
+              }}</label
+            >
+          </div>
+          <div class="cx-value-price">
+            <cx-configurator-price
+              [formula]="extractValuePriceFormulaParameters(value)"
+            ></cx-configurator-price>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #noStaticDomain>
+      <ng-container *ngIf="attribute.selectedSingleValue">
+        <span
+          id="{{
+            createValueUiKey(
+              'label',
+              attribute.name,
+              attribute.selectedSingleValue
+            )
           }}"
-          aria-hidden="true"
-          class="cx-form-group-readonly-label"
-          >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
+          tabindex="0"
+          class="cx-visually-hidden"
         >
-      </div>
-      <div *ngIf="value.valuePrice" aria-hidden="true" class="cx-value-price">
-        <cx-configurator-price
-          [formula]="extractValuePriceFormulaParameters(value)"
-        ></cx-configurator-price>
-      </div>
-    </ng-container>
-  </ng-container>
-  <ng-template #noStaticDomain>
-    <ng-container *ngIf="attribute.selectedSingleValue">
-      <span
-        id="{{
-          createValueUiKey(
-            'label',
-            attribute.name,
-            attribute.selectedSingleValue
-          )
-        }}"
-        tabindex="0"
-        class="cx-visually-hidden"
-      >
-        {{
-          'configurator.a11y.readOnlyValueOfAttributeFull'
-            | cxTranslate
-              : {
-                  value: attribute.selectedSingleValue,
-                  attribute: attribute.label
-                }
-        }}
-      </span>
-      <div class="cx-read-only-label" aria-hidden="true">
-        <span aria-hidden="true">{{ attribute.selectedSingleValue }}</span>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="attribute.userInput">
-      <span
-        id="{{
-          createValueUiKey('label', attribute.name, attribute.userInput)
-        }}"
-        tabindex="0"
-        class="cx-visually-hidden"
-      >
-        {{
-          'configurator.a11y.readOnlyValueOfAttributeFull'
-            | cxTranslate
-              : {
-                  value: attribute.userInput,
-                  attribute: attribute.label
-                }
-        }}
-      </span>
-      <div class="cx-read-only-label" aria-hidden="true">
-        <span aria-hidden="true">{{ attribute.userInput }}</span>
-      </div>
-    </ng-container>
-  </ng-template>
-</div>
+          {{
+            'configurator.a11y.readOnlyValueOfAttributeFull'
+              | cxTranslate
+                : {
+                    value: attribute.selectedSingleValue,
+                    attribute: attribute.label
+                  }
+          }}
+        </span>
+        <div class="cx-read-only-label" aria-hidden="true">
+          <span aria-hidden="true">{{ attribute.selectedSingleValue }}</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="attribute.userInput">
+        <span
+          id="{{
+            createValueUiKey('label', attribute.name, attribute.userInput)
+          }}"
+          tabindex="0"
+          class="cx-visually-hidden"
+        >
+          {{
+            'configurator.a11y.readOnlyValueOfAttributeFull'
+              | cxTranslate
+                : {
+                    value: attribute.userInput,
+                    attribute: attribute.label
+                  }
+          }}
+        </span>
+        <div class="cx-read-only-label" aria-hidden="true">
+          <span aria-hidden="true">{{ attribute.userInput }}</span>
+        </div>
+      </ng-container>
+    </ng-template>
+  </div>
+</fieldset>

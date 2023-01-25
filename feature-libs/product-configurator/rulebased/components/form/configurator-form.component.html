@@ -121,7 +121,7 @@
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-checkbox>
           <cx-configurator-attribute-read-only
-            *ngIf="attribute.uiType === uiType.READ_ONLY"
+            *ngIf="isReadOnly(attribute)"
             [attribute]="attribute"
             [group]="currentGroup.id"
             [expMode]="expMode | async"
