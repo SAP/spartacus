@@ -32,6 +32,9 @@ import { CustomerTicketingCreateComponent } from './customer-ticketing-create.co
     CustomerTicketingCreateComponent,
     CustomerTicketingCreateDialogComponent,
   ],
-  exports: [CustomerTicketingCreateComponent],
+  exports: [
+    CustomerTicketingCreateComponent,
+    CustomerTicketingCreateDialogComponent,
+  ],
 })
 export class CustomerTicketingCreateModule {}
