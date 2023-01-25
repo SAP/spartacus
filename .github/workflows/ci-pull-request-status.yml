@@ -14,7 +14,7 @@ env:
 name: PR Status
 jobs:
   change-to-draft:
-    name: Set PR to draft
+    name: Set pull request to draft
     runs-on: ubuntu-latest
     steps:
       - name: Run Script

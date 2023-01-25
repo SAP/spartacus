@@ -16,10 +16,10 @@ concurrency:
   group: ci-merge-checks-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-name: Merge Checks
+name: E2E Tests
 jobs:
   no_retries: 
-    name: Prevent re-run of merge checks
+    name: E2E - Prevent retries
     # E2Es can't be retried.  Moreover, in some retry cases, they don't run
     # and the job returns a success code.
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
   validate_e2e_execution:
-    name: Validate pull_request files
+    name: E2E - Confirm e2es should run
     runs-on: ubuntu-latest
     outputs: 
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
@@ -46,7 +46,7 @@ jobs:
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   b2c_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: MC - E2E B2C
+    name: E2E - B2C core
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -78,7 +78,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: MC - E2E SSR B2C
+    name: E2E - SSR (B2C)
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
@@ -107,7 +107,7 @@ jobs:
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
-    name: MC - E2E B2B
+    name: E2E B2B core
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -139,7 +139,7 @@ jobs:
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
-    name: Merge Checks Result
+    name: E2E Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
