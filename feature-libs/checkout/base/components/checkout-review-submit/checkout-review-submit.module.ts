@@ -21,6 +21,7 @@ import {
 } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
+import { CheckoutReviewPaymentModule } from './checkout-review-payment/checkout-review-payment.module';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CheckoutReviewSubmitComponent } from './checkout-review-submit.componen
     PromotionsModule,
     IconModule,
     OutletModule,
+    CheckoutReviewPaymentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

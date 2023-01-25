@@ -9,10 +9,12 @@ export const payment = {
     payment: 'Payment',
     choosePaymentMethod: 'Choose a payment method',
     paymentType: 'Payment Type',
+    paymentByCreditCard: 'by Credit Card',
     accountHolderName: {
       label: 'Account Holder Name',
       placeholder: 'Account Holder Name',
     },
+    creditCardDetails: 'Credit Card Details',
     cardNumber: 'Card Number',
     expirationDate: 'Expiration Date',
     securityCode: 'Security code (CVV)',

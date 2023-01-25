@@ -3,6 +3,13 @@
     padding: 20px 0;
   }
 
+  .cx-review-header {
+    background-color: var(--cx-color-background);
+    font-weight: 600;
+    font-size: 18px;
+    padding: 20px 40px;
+  }
+
   .cx-review {
     padding: 0 0 1rem;
   }
@@ -14,10 +21,18 @@
     font-weight: var(--cx-font-weight-normal);
   }
 
+  .cx-review-summary-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
   .cx-review-summary {
     margin: 0;
     background-color: var(--cx-color-background);
-    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 
     &-wrapper {
       display: flex;
@@ -41,22 +56,23 @@
       }
     }
 
+    .cx-review-summary-payment-card {
+      margin: 30px;
+      background-color: theme-color('inverse');
+      width: 45%;
+      border: 1px solid var(--cx-color-light);
+      border-radius: 10px;
+    }
+
     .cx-review-summary-card {
       display: flex;
       justify-content: space-between;
 
       @include media-breakpoint-down(md) {
-        background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
         min-height: auto;
-      }
-
-      &:not(:last-of-type) {
-        @include media-breakpoint-up(lg) {
-          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-        }
       }
 
       .cx-card-title {
@@ -73,11 +89,6 @@
         align-self: flex-start;
         padding: 20px;
         font-size: $h4-font-size;
-
-        a,
-        a:hover {
-          color: var(--cx-color-dark);
-        }
       }
     }
   }
