@@ -16,7 +16,7 @@ describe('ticket details', () => {
         });
       });
 
-      it('should be able to view ticket details page for an existing ticket', () => {
+      it('should be able to view ticket details page for an existing ticket (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.clickMyAccountMenuOption();
         customerTicketing.clickCustomerSupportMenuOption();
@@ -30,7 +30,7 @@ describe('ticket details', () => {
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
-      it('clicking a ticket should open its corresponding ticket details', () => {
+      it('clicking a ticket should open its corresponding ticket details (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.clickMyAccountMenuOption();
         customerTicketing.clickCustomerSupportMenuOption();
@@ -57,7 +57,7 @@ describe('ticket details', () => {
         );
       });
 
-      it('closing a ticket should not let user interact with the ticket anymore', () => {
+      it('closing a ticket should not let user interact with the ticket anymore (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.verifyTicketListingPageVisit();
@@ -76,7 +76,7 @@ describe('ticket details', () => {
         customerTicketing.verifyMessageBoxIsDisabled();
       });
 
-      it('reopening a ticket should let user make more interaction with the ticket', () => {
+      it('reopening a ticket should let user make more interaction with the ticket (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         customerTicketing.createTicket({
@@ -97,7 +97,7 @@ describe('ticket details', () => {
         customerTicketing.verifyMessageBoxIsEnabled();
       });
 
-      it('ticket should always have atleast one message in it', () => {
+      it('ticket should always have atleast one message in it (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
@@ -112,7 +112,7 @@ describe('ticket details', () => {
         customerTicketing.verifyMessageWasPosted('Update ticket with comments');
       });
 
-      it('pressing send should publish message without attachment', () => {
+      it('pressing send should publish message without attachment (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
@@ -127,7 +127,7 @@ describe('ticket details', () => {
         customerTicketing.verifyMessageWasPosted('Update ticket with comments');
       });
 
-      it('pressing send should publish message with attachment', () => {
+      it('pressing send should publish message with attachment (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
@@ -145,7 +145,7 @@ describe('ticket details', () => {
         customerTicketing.verifyFileAttachedToMessage(file_name);
       });
 
-      it('should be able to view ticket details page for an existing ticket', () => {
+      it('should be able to view ticket details page for an existing ticket (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
@@ -159,7 +159,7 @@ describe('ticket details', () => {
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
-      it('should be able to visit ticket details page for an existing ticket via url', () => {
+      it('should be able to visit ticket details page for an existing ticket via url (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitElectronicTicketListingPage();
         const testTicketDetails: TestTicketDetails = {
@@ -168,11 +168,11 @@ describe('ticket details', () => {
           category: TestCategory.complaint,
         };
         customerTicketing.createTicket(testTicketDetails);
-        customerTicketing.visitTicketDetailsOfFirstTicketByItsId();
+        customerTicketing.visitTicketDetailsOfFirstTicketByItsIdThroughURL();
         customerTicketing.verifyTicketDetailsPageVisit();
       });
 
-      it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url', () => {
+      it('should throw 404 error when trying to visit ticket details page for a non-existing ticket id via url (CXSPA-470)', () => {
         customerTicketing.loginRegisteredUser();
         customerTicketing.visitTicketDetailsPageForNonExistingTicket();
         customerTicketing.verifyTicketListingPageVisit();

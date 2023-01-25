@@ -1,0 +1,65 @@
+{
+  "backlogIds": [
+      "CXSPA"
+  ],
+  "releaseDecisionEntity": "issue",
+  "releaseIssueType": "epic",
+  "releaseIssueProjectId": "MYPROJECT",
+  "coverageThreshold": {
+      "aggregated": {
+          "branchRate": {
+              "0": "red",
+              "50": "blue",
+              "100": "green"
+          },
+          "lineRate": {
+              "0": "orange",
+              "50": "yellow",
+              "100": "green"
+          }
+      },
+      "jacoco": {
+          "branchRate": {
+              "0": "red",
+              "50": "green"
+          },
+          "lineRate": {
+              "0": "yellow",
+              "80": "green"
+          }
+      },
+      "cobertura": {
+          "branchRate": {
+              "0": "red",
+              "50": "green"
+          },
+          "lineRate": {
+              "0": "red",
+              "50": "green"
+          }
+      }
+  },
+  "jiraComponentPipelineMappings": [
+      {
+          "component": "COMPONENT-1",
+          "pipelineKeys": [
+              "Pipeline1",
+              "Pipeline2"
+          ]
+      },
+      {
+          "component": "COMPONENT-2",
+          "pipelineKeys": [
+              "Pipeline3"
+          ]
+      }
+  ],
+  "productStandardsToCheck": [
+      "SLC-25",
+      "SLC-29",
+      "PSL-1",
+      "FC-1",
+      "FC-3",
+      "SAST"
+  ]
+}
