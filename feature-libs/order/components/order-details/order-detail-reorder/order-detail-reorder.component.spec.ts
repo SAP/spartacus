@@ -1,5 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -21,7 +22,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {
     return of();
   }
-  emitData(_data: any): void {}
 }
 
 class MockOrderDetailsService {
@@ -33,6 +33,7 @@ class MockOrderDetailsService {
 describe('Order detail reorder component', () => {
   let component: OrderDetailReorderComponent;
   let fixture: ComponentFixture<OrderDetailReorderComponent>;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -57,6 +58,7 @@ describe('Order detail reorder component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailReorderComponent);
     component = fixture.componentInstance;
+    launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   it('should be created', () => {
@@ -69,5 +71,22 @@ describe('Order detail reorder component', () => {
     component.order$.subscribe((order: any) => {
       expect(order).toEqual(mockOrder);
     });
+  });
+
+  it('should launch dialog on reorder button click', () => {
+    spyOn(launchDialogService, 'openDialog').and.stub();
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('.btn'))
+      .nativeElement.dispatchEvent(new MouseEvent('click'));
+
+    const dialogData = { orderCode: mockOrder.code };
+
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.REORDER,
+      component.element,
+      component['vcr'],
+      dialogData
+    );
   });
 });
