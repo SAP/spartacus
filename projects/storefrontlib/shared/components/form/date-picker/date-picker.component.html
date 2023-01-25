@@ -11,8 +11,10 @@
 />
 <cx-form-errors
   [control]="control"
-  prefix="formErrors.date"
+  prefix="formErrors.labeled.date"
+  fallbackPrefix="formErrors.date"
   [translationParams]="{
+    label: label ?? '' | cxTranslate,
     max: getDate(max) | cxDate,
     min: getDate(min) | cxDate
   }"

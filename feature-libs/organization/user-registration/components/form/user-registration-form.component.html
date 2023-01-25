@@ -38,6 +38,9 @@
         formControlName="firstName"
       />
       <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.firstName.label' | cxTranslate
+        }"
         [control]="registerForm.get('firstName')"
       ></cx-form-errors>
     </label>
@@ -56,7 +59,12 @@
         }}"
         formControlName="lastName"
       />
-      <cx-form-errors [control]="registerForm.get('lastName')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.lastName.label' | cxTranslate
+        }"
+        [control]="registerForm.get('lastName')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -73,7 +81,12 @@
         }}"
         formControlName="email"
       />
-      <cx-form-errors [control]="registerForm.get('email')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.email.label' | cxTranslate
+        }"
+        [control]="registerForm.get('email')"
+      ></cx-form-errors>
     </label>
 
     <ng-container
@@ -102,6 +115,9 @@
         >
         </ng-select>
         <cx-form-errors
+          [translationParams]="{
+            label: 'userRegistrationForm.fields.country.label' | cxTranslate
+          }"
           [control]="registerForm.get('country.isocode')"
         ></cx-form-errors>
       </label>
@@ -119,7 +135,12 @@
         }}"
         formControlName="line1"
       />
-      <cx-form-errors [control]="registerForm.get('line1')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.addressLine.label' | cxTranslate
+        }"
+        [control]="registerForm.get('line1')"
+      ></cx-form-errors>
     </label>
 
     <label>
@@ -166,6 +187,9 @@
         formControlName="postalCode"
       />
       <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.postalCode.label' | cxTranslate
+        }"
         [control]="registerForm.get('postalCode')"
       ></cx-form-errors>
     </label>
@@ -193,6 +217,9 @@
         >
         </ng-select>
         <cx-form-errors
+          [translationParams]="{
+            label: 'userRegistrationForm.fields.state.label' | cxTranslate
+          }"
           [control]="registerForm.get('region.isocode')"
         ></cx-form-errors>
       </label>
@@ -211,6 +238,9 @@
         formControlName="phoneNumber"
       />
       <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.phoneNumber.label' | cxTranslate
+        }"
         [control]="registerForm.get('phoneNumber')"
       ></cx-form-errors>
     </label>
@@ -227,7 +257,12 @@
         }}"
         rows="5"
       ></textarea>
-      <cx-form-errors [control]="registerForm.get('message')"></cx-form-errors>
+      <cx-form-errors
+        [translationParams]="{
+          label: 'userRegistrationForm.fields.message.label' | cxTranslate
+        }"
+        [control]="registerForm.get('message')"
+      ></cx-form-errors>
     </label>
 
     <button type="submit" class="btn btn-block btn-primary">

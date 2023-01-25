@@ -23,6 +23,9 @@
           {{ 'voucher.apply' | cxTranslate }}
         </button>
         <cx-form-errors
+          [translationParams]="{
+            label: 'voucher.placeholder' | cxTranslate
+          }"
           [control]="couponForm.get('couponCode')"
         ></cx-form-errors>
       </div>

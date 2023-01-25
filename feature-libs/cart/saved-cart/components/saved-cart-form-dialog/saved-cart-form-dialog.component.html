@@ -205,7 +205,12 @@
                   required
                   type="text"
                 />
-                <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+                <cx-form-errors
+                  [translationParams]="{
+                    label: 'savedCartDialog.savedCartName' | cxTranslate
+                  }"
+                  [control]="form.get('name')"
+                ></cx-form-errors>
               </label>
             </ng-container>
           </div>
@@ -225,6 +230,9 @@
                 rows="5"
               ></textarea>
               <cx-form-errors
+                [translationParams]="{
+                  label: 'savedCartDialog.savedCartDescription' | cxTranslate
+                }"
                 [control]="form.get('description')"
               ></cx-form-errors>
 

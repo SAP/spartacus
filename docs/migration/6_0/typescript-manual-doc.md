@@ -53,3 +53,127 @@ If explicitly set, this option will take precedence over the express server.
 ### QuickOrderOrderEntriesContext
 
 - `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
+
+### FormErrorsComponent
+
+- Value of field `@Input() prefix` has been changed from 
+  
+  ```ts
+  formErrors
+  ``` 
+  
+  to 
+  
+  ```ts
+  formErrors.labeled
+  ```
+
+### ProductReviewsComponent
+
+- Validators of `rating` form control have been changed from 
+  
+  ```ts
+  [null, CustomFormValidators.starRatingEmpty]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [null, Validators.required]
+  ```
+
+### Regex Pattern file
+
+- Value of `PASSWORD_PATTERN` has been changed from 
+  
+  ```ts
+  /^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/;
+  ```
+
+  to
+
+  ```ts
+  /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[!@#$%^*()_\-+{};:.,]).{6,}$/;
+  ```
+
+### UpdatePasswordComponentService
+
+- Validators of `newPassword` form control have been changed from 
+  
+  ```ts
+  [Validators.required, CustomFormValidators.passwordValidator]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [Validators.required, ...CustomFormValidators.passwordValidators]
+  ```
+
+### ResetPasswordComponentService
+
+- Validators of `password` form control have been changed from 
+  
+  ```ts
+  [Validators.required, CustomFormValidators.passwordValidator]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [Validators.required, ...CustomFormValidators.passwordValidators]
+  ```
+
+### RegisterComponent
+
+- Validators of `password` form control have been changed from 
+  
+  ```ts
+  [Validators.required, CustomFormValidators.passwordValidator]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [Validators.required, ...CustomFormValidators.passwordValidators]
+  ```
+
+### UserChangePasswordFormService
+
+- Validators of `password` form control have been changed from 
+  
+  ```ts
+  [Validators.required, CustomFormValidators.passwordValidator]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [Validators.required, ...CustomFormValidators.passwordValidators]
+  ```
+
+- Validators of `confirmPassword` form control have been changed from 
+  
+  ```ts
+  [Validators.required, CustomFormValidators.passwordValidator]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [Validators.required, ...CustomFormValidators.passwordValidators]
+  ```
+
+### OrderQuestRegisterFormComponent
+
+- Validators of `password` form control have been changed from 
+  
+  ```ts
+  [Validators.required, CustomFormValidators.passwordValidator]
+  ``` 
+  
+  to 
+  
+  ```ts
+  [Validators.required, ...CustomFormValidators.passwordValidators]
+  ```

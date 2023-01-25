@@ -11,7 +11,12 @@
       placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
       [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
     />
-    <cx-form-errors [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      [translationParams]="{
+        label: 'asm.loginForm.userId.label' | cxTranslate
+      }"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <label>
@@ -24,6 +29,9 @@
       cxPasswordVisibilitySwitch
     />
     <cx-form-errors
+      [translationParams]="{
+        label: 'asm.loginForm.password.label' | cxTranslate
+      }"
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>
   </label>

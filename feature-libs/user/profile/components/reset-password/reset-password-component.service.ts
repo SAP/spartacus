@@ -46,7 +46,7 @@ export class ResetPasswordComponentService {
     {
       password: new UntypedFormControl('', [
         Validators.required,
-        CustomFormValidators.passwordValidator,
+        ...CustomFormValidators.passwordValidators,
       ]),
       passwordConfirm: new UntypedFormControl('', Validators.required),
     },
