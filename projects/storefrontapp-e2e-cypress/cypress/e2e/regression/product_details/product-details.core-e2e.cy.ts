@@ -7,7 +7,7 @@
 import * as productDetails from '../../../helpers/product-details';
 import { formats } from '../../../sample-data/viewports';
 
-context('Product details', () => {
+context('Product details', { testIsolation: false }, () => {
   describe('Electronics', () => {
     before(productDetails.configureDefaultProduct);
 
@@ -22,23 +22,27 @@ context('Product details', () => {
 });
 
 //TODO split this test in two files (one for mobile)
-context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
-  before(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
-  beforeEach(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
+context(
+  `${formats.mobile.width + 1}p resolution - Product details`,
+  { testIsolation: false },
+  () => {
+    before(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
+    });
+    beforeEach(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
+    });
 
-  describe('Electronics', () => {
-    before(productDetails.configureDefaultProduct);
+    describe('Electronics', () => {
+      before(productDetails.configureDefaultProduct);
 
-    productDetails.productDetailsTest();
-  });
+      productDetails.productDetailsTest();
+    });
 
-  describe('Apparel', () => {
-    before(productDetails.configureApparelProduct);
+    describe('Apparel', () => {
+      before(productDetails.configureApparelProduct);
 
-    productDetails.apparelProductDetailsTest();
-  });
-});
+      productDetails.apparelProductDetailsTest();
+    });
+  }
+);

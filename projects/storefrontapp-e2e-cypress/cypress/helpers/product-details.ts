@@ -189,6 +189,7 @@ export function apparelProductDetailsTest() {
 
 export function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
+  cy.clearAllLocalStorage();
   cy.cxConfig({
     context: {
       baseSite: ['electronics-spa'],

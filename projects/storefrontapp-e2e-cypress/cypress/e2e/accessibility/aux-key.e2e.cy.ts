@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-context('Auxiliary Keys', () => {
+context('Auxiliary Keys', { testIsolation: false }, () => {
   describe('Category Navigation', () => {
     before(() => {
       loadPageWithComponenents('/');

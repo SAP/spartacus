@@ -15,7 +15,7 @@ import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('My Account - Address Book', () => {
+describe('My Account - Address Book', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

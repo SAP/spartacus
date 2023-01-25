@@ -30,7 +30,7 @@ describe('Payment Methods', () => {
       });
     });
 
-    describe('Authenticated user', () => {
+    describe('Authenticated user', { testIsolation: false }, () => {
       before(() => {
         visitHomePage();
       });

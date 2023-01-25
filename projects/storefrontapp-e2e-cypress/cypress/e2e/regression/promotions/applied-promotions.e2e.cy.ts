@@ -7,7 +7,7 @@
 import * as appliedPromotions from '../../../helpers/applied-promotions';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Applied promotions', () => {
+context('Applied promotions', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => {

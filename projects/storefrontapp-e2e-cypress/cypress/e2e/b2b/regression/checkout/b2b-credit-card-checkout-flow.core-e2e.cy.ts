@@ -14,7 +14,7 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 import { user } from '../../../../sample-data/checkout-flow';
 
-context('B2B - Credit Card Checkout flow', () => {
+context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
