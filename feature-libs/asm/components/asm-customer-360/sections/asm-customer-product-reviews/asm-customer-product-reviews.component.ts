@@ -30,10 +30,28 @@ import { ReviewEntry } from './asm-customer-product-reviews.model';
 })
 export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
   reviewColumns: Array<CustomerTableColumn> = [
-    { property: 'item', text: 'item', navigatable: true },
-    { property: 'dateAndStatus', text: 'DATE / STATUS' },
-    { property: 'rating', text: 'rate', renderAsStarRating: true },
-    { property: 'reviewText', text: 'review' },
+    {
+      property: 'item',
+      text: 'item',
+      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.item',
+      navigatable: true,
+    },
+    {
+      property: 'dateAndStatus',
+      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.dateAndStatus',
+      text: 'DATE / STATUS',
+    },
+    {
+      property: 'rating',
+      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.rating',
+      text: 'rate',
+      renderAsStarRating: true,
+    },
+    {
+      property: 'reviewText',
+      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.review',
+      text: 'review',
+    },
   ];
 
   reviewEntries: Array<ReviewEntry>;

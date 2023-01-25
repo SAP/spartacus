@@ -22,7 +22,7 @@ export class AsmCustomerActiveCartComponent {
   activeCart$: Observable<Cart>;
   productItems$: Observable<Array<ProductItem>>;
 
-  constructor(public sectionContext: Customer360SectionContext<any>) {
+  constructor(public sectionContext: Customer360SectionContext<void>) {
     this.activeCart$ = this.sectionContext.activeCart$;
 
     this.productItems$ = this.activeCart$.pipe(

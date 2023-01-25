@@ -11,30 +11,41 @@ export const customer360 = {
     activeCartLabel: '{{cartSize}} item added to cart',
     recentOrderLabel: 'Last order {{price}}',
   },
-  overview: {
-    activeCart: 'Active Cart',
+  productListing: {
     totalNoItems: 'Total No. Items {{count}}',
     totalPrice: 'Total Price {{price}}',
-    noActiveCart: 'There are currently no Active Cart Items',
-    savedCartCode: 'Last Saved Cart {{code}}',
-    savedCart: 'Last Saved Cart',
-    noSavedCart: 'There are currently no Saved Cart items',
-    interests: 'Interests',
-    noInterests: 'There are currently no interest items',
-    inStock: 'In Stock',
-    lowStock: 'Low Stock',
+    showMore: 'Show More',
+    showLess: 'Show Less',
+  },
+  productItem: {
     outOfStock: 'Out of Stock',
     quantity: 'Qty: {{count}}',
     itemPrice: 'Item Price: {{price}}',
-    showMore: 'Show More',
-    showLess: 'Show Less',
+  },
+  activeCart: {
+    header: 'Active Cart',
+    emptyDescription: 'There are currently no active cart Items',
+    aria: {
+      linkLabel: 'Active Cart {{code}}',
+    },
+  },
+  savedCart: {
+    header: 'Last Saved Cart',
+    emptyDescription: 'There are currently no saved cart items',
+    aria: {
+      linkLabel: 'Last Saved Cart {{code}}',
+    },
+  },
+  productInterests: {
+    header: 'Interests',
+    emptyDescription: 'There are currently no interest items',
   },
   profile: {
     address: 'Address',
     billingAddress: 'Billing Address',
     deliveryAddress: 'Delivery Address',
-    phone1: 'Phone1',
-    phone2: 'Phone2',
+    phone1: 'Phone 1',
+    phone2: 'Phone 2',
     paymentMethodHeader: 'Saved Payment Methods',
   },
   activity: {
@@ -50,6 +61,16 @@ export const customer360 = {
     savedCart: 'Saved Cart',
     emptyStateText: 'There is currently no recorded customer activity',
     headerText: 'General',
+  },
+  productReviews: {
+    columnHeaders: {
+      item: 'Item',
+      dateAndStatus: 'Date / Status',
+      rating: 'Rating',
+      review: 'Review',
+    },
+    header: 'Product Reviews',
+    emptyDescription: 'There are currently no product review items',
   },
   maps: {
     storeClosed: 'Close',

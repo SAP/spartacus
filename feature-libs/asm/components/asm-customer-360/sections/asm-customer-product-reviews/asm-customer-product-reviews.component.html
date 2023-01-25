@@ -1,6 +1,8 @@
 <cx-asm-customer-table
-  emptyStateText="There are currently no Product Review items"
-  headerText="Product Reviews"
+  [emptyStateText]="
+    'asm.customer360.productReviews.emptyDescription' | cxTranslate
+  "
+  [headerText]="'asm.customer360.productReviews.header' | cxTranslate"
   sortProperty="dateAndStatus"
   [columns]="reviewColumns"
   [entries]="reviewEntries"

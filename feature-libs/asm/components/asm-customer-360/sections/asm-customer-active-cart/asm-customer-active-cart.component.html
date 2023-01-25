@@ -1,10 +1,10 @@
 <cx-asm-customer-product-listing
   [emptyResultDescription]="
-    'asm.customer360.overview.noActiveCart' | cxTranslate
+    'asm.customer360.activeCart.emptyDescription' | cxTranslate
   "
   [headerInactive]="true"
   [headerTemplate]="headerTemplate"
-  [headerText]="'asm.customer360.overview.activeCart' | cxTranslate"
+  [headerText]="'asm.customer360.activeCart.header' | cxTranslate"
   [products]="productItems$ | async"
   (selectProduct)="
     sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
@@ -17,7 +17,7 @@
     <a
       tabindex="0"
       [attr.aria-label]="
-        'asm.customer360.aria.activeCartCode'
+        'asm.customer360.activeCart.aria.linkLabel'
           | cxTranslate: { code: activeCart.code }
       "
       role="link"
@@ -28,14 +28,14 @@
     </a>
     <div class="cart-total-no-items">
       {{
-        'asm.customer360.overview.totalNoItems'
+        'asm.customer360.productListing.totalNoItems'
           | cxTranslate: { count: activeCart.totalItems }
       }}
     </div>
     <div class="cart-divider"></div>
     <div class="cart-total-price">
       {{
-        'asm.customer360.overview.totalPrice'
+        'asm.customer360.productListing.totalPrice'
           | cxTranslate: { price: activeCart.totalPrice?.formattedValue }
       }}
     </div>

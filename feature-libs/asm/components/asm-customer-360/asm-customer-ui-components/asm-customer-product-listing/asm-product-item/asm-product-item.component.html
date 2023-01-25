@@ -25,12 +25,13 @@
     </div>
     <div class="cx-asm-product-item-quantity" *ngIf="quantity">
       {{
-        'asm.customer360.overview.quantity' | cxTranslate: { count: quantity }
+        'asm.customer360.productItem.quantity'
+          | cxTranslate: { count: quantity }
       }}
     </div>
     <div class="cx-asm-product-item-price">
       {{
-        'asm.customer360.overview.itemPrice'
+        'asm.customer360.productItem.itemPrice'
           | cxTranslate: { price: product?.price?.formattedValue }
       }}
     </div>
@@ -40,7 +41,7 @@
       class="cx-asm-product-item-out-of-stock"
       *ngIf="product.stock?.stockLevelStatus === 'outOfStock'"
     >
-      {{ 'asm.customer360.overview.outOfStock' | cxTranslate }}
+      {{ 'asm.customer360.productItem.outOfStock' | cxTranslate }}
     </div>
   </ng-template>
 </div>

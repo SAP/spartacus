@@ -35,11 +35,11 @@
         (click)="toggleShowMore()"
       >
         <span *ngIf="!showMore; else showLess">{{
-          'asm.customer360.overview.showMore' | cxTranslate
+          'asm.customer360.productListing.showMore' | cxTranslate
         }}</span>
         <ng-template #showLess>
           <span *ngIf="showMore">{{
-            'asm.customer360.overview.showLess' | cxTranslate
+            'asm.customer360.productListing.showLess' | cxTranslate
           }}</span>
         </ng-template>
       </button>

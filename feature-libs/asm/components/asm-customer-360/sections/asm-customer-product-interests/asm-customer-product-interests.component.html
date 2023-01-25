@@ -1,8 +1,8 @@
 <cx-asm-customer-product-listing
   [emptyResultDescription]="
-    'asm.customer360.overview.noInterests' | cxTranslate
+    'asm.customer360.productInterests.Description' | cxTranslate
   "
-  [headerText]="'asm.customer360.overview.interests' | cxTranslate"
+  [headerText]="'asm.customer360.productInterests.header' | cxTranslate"
   [products]="products$ | async"
   (clickHeader)="sectionContext.navigate$.next({ cxRoute: 'myInterests' })"
   (selectProduct)="

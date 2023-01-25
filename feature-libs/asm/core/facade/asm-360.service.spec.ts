@@ -93,7 +93,7 @@ describe('Asm360Service', () => {
   class MockUserAccountFacade {
     get(): Observable<User> {
       return of({
-        customerId: 'customer001',
+        uid: 'customer001',
       });
     }
   }
@@ -134,17 +134,11 @@ describe('Asm360Service', () => {
     callback();
 
     const asmConnector = TestBed.inject(AsmConnector);
-    expect(asmConnector.getCustomer360Data).toHaveBeenCalledTimes(2);
-    expect(asmConnector.getCustomer360Data).toHaveBeenCalledWith({
-      queries: [],
-      options: {
-        userId: 'customer001',
-      },
-    });
+    expect(asmConnector.getCustomer360Data).toHaveBeenCalledTimes(1);
     expect(asmConnector.getCustomer360Data).toHaveBeenCalledWith({
       queries: [
         {
-          customer360Type: AsmCustomer360Type.REVIEW_LIST,
+          type: AsmCustomer360Type.REVIEW_LIST,
         },
       ],
       options: {

@@ -109,6 +109,7 @@ describe('AsmProductItemComponent', () => {
     spyOn(component.selectProduct, 'emit').and.stub();
 
     component.product = mockProduct;
+    component.quantity = 1;
     component.isOrderEntry = true;
 
     fixture.detectChanges();
