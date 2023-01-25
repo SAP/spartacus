@@ -156,23 +156,6 @@ export class OrderOverviewComponent {
     );
   }
 
-  getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
-    return this.translation.translate('paymentForm.billingAddress').pipe(
-      filter(() => Boolean(billingAddress)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-            text: [
-              billingAddress.formattedAddress,
-              billingAddress.country?.name,
-            ],
-          } as Card)
-      )
-    );
-  }
-
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
       filter(() => Boolean(deliveryAddress)),
@@ -224,6 +207,23 @@ export class OrderOverviewComponent {
             title: textTitle,
             textBold: payment.accountHolderName,
             text: [payment.cardNumber, textExpires],
+          } as Card)
+      )
+    );
+  }
+
+  getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
+    return this.translation.translate('paymentForm.billingAddress').pipe(
+      filter(() => Boolean(billingAddress)),
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
+            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
+            text: [
+              billingAddress.formattedAddress,
+              billingAddress.country?.name,
+            ],
           } as Card)
       )
     );
