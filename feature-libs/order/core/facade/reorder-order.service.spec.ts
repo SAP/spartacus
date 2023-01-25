@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { CartModificationList } from '@spartacus/cart/base/root';
-import { OCC_USER_ID_CURRENT } from '@spartacus/core';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 import { ReorderOrderService } from './reorder-order.service';
@@ -17,6 +17,12 @@ class MockReorderOrderOrderConnector implements Partial<ReorderOrderConnector> {
   reorder = createSpy().and.returnValue(of(mockCartModificationList));
 }
 
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId() {
+    return of(OCC_USER_ID_CURRENT);
+  }
+}
+
 describe(`ReorderOrderService`, () => {
   let service: ReorderOrderService;
   let connector: ReorderOrderConnector;
@@ -28,6 +34,10 @@ describe(`ReorderOrderService`, () => {
         {
           provide: ReorderOrderConnector,
           useClass: MockReorderOrderOrderConnector,
+        },
+        {
+          provide: UserIdService,
+          useClass: MockUserIdService,
         },
       ],
     });
