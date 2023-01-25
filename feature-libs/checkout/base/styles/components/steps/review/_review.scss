@@ -1,4 +1,5 @@
-%cx-review-submit, %cx-review-shipping {
+%cx-review-submit,
+%cx-review-shipping {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
   }
