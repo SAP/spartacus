@@ -59,8 +59,9 @@ Just copy paste the following and and make sure to rename `TODO:` to you lib's n
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
+      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
@@ -68,24 +69,28 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter'),
     ],
+    parallelOptions: {
+      executors: 2,
+      shardStrategy: 'round-robin',
+    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-   reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
       outputFile: 'unit-test-<lib-name>.xml',
-      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),      
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/TODO:'),
+      dir: require('path').join(__dirname, '../../coverage/TODO'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
-          statements: 80,
-          lines: 80,
-          branches: 70,
-          functions: 80,
+          statements: 90,
+          lines: 90,
+          branches: 75,
+          functions: 85,
         },
       },
     },
@@ -144,7 +149,7 @@ Use the following template:
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/TODO",
   "dependencies": {
     "tslib": "^2.0.0"
   },
@@ -188,6 +193,8 @@ Use the following template:
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
+    "declarationMap": true,
+    "strict": true,
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
@@ -205,6 +212,8 @@ Use the following template:
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
@@ -341,14 +350,14 @@ There are couple of required changes to make sure schematics will work properly
   - `projects/storefrontapp/tsconfig.server.prod.json`,
   - `projects/storefrontapp/tsconfig.server.json`,
   - `projects/storefrontapp/tsconfig.app.prod.json`
-- add new feature lib consts in schematics folder - `feature-libs\<lib-name>\schematics\constants.ts` where the `lib-name` is the name of the new library
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
-- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file. 
-
+- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file.
 
 ### Testing Schematics
+
+IMPORTANT : DO NOT PUSH any changed done under this step.
 
 - Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
 - Run it: `$ verdaccio`

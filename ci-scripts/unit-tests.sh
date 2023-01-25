@@ -79,3 +79,11 @@ yarn --cwd feature-libs/tracking run test:schematics --coverage
 echo "Running unit tests and code coverage for schematics library"
 
 yarn --cwd projects/schematics run test --runInBand --coverage
+
+echo "Running schematics unit tests and code coverage for customer-ticketing"
+
+yarn --cwd feature-libs/customer-ticketing run test:schematics --coverage
+
+echo "Running unit tests and code coverage for customer-ticketing"
+
+ng test customer-ticketing --source-map --no-watch --code-coverage --browsers ChromeHeadless

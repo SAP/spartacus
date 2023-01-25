@@ -151,6 +151,7 @@ export const common = {
       'This coupon has exceeded the number of times it can be used',
     unknownIdentifier: 'Item not found.',
     otherCartErrors: 'Cart errors occurred.',
+    ticketNotFound: 'Ticket not found.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
@@ -199,6 +200,7 @@ export const common = {
       tooLarge: 'File size should not exceed {{ maxSize }} MB',
       tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
       notParsable: 'File is not parsable',
+      fileNotAllowed: 'This file type is not allowed',
     },
   },
   errorHandlers: {
@@ -214,5 +216,15 @@ export const common = {
   },
   generalErrors: {
     pageFailure: 'The page could not be loaded. Please try again later.',
+  },
+  chatMessaging: {
+    charactersLeft: 'characters left: {{count}}',
+    addNewMessage: 'Add New Message',
+    send: 'Send',
+    uploadFile: 'Upload File',
+    informationLabel: '{{author}}. {{text}} at {{date}}',
+    messages: 'Messages',
+    addMessagePlaceHolder: 'Start Typing...',
+    characterLimitAlert: 'Characters limit reached.',
   },
 };
