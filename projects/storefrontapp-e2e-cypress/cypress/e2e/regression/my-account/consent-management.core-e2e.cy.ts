@@ -21,29 +21,33 @@ viewportContext(['mobile', 'desktop'], () => {
       verifyAsAnonymous();
     });
 
-    describe('consent management test for logged in user', () => {
-      before(() => {
-        cy.requireLoggedIn();
-        cy.reload();
-        cy.visit('/');
-        cy.selectUserMenuOption({
-          option: 'Consent Management',
+    describe(
+      'consent management test for logged in user',
+      { testIsolation: false },
+      () => {
+        before(() => {
+          cy.requireLoggedIn();
+          cy.reload();
+          cy.visit('/');
+          cy.selectUserMenuOption({
+            option: 'Consent Management',
+          });
         });
-      });
 
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-      });
+        beforeEach(() => {
+          cy.restoreLocalStorage();
+        });
 
-      consentManagementTest();
+        consentManagementTest();
 
-      afterEach(() => {
-        cy.saveLocalStorage();
-      });
+        afterEach(() => {
+          cy.saveLocalStorage();
+        });
 
-      after(() => {
-        login.signOutUser();
-      });
-    });
+        after(() => {
+          login.signOutUser();
+        });
+      }
+    );
   });
 });

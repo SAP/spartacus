@@ -11,7 +11,7 @@ import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register'
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-describe('Order History with no orders', () => {
+describe('Order History with no orders', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       clearAllStorage();

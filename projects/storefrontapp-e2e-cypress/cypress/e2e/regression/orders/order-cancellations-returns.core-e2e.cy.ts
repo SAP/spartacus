@@ -6,7 +6,7 @@
 
 import * as orderCancellationReturn from '../../../helpers/order-cancellations-returns';
 
-describe('Order Cancellations and Returns', () => {
+describe('Order Cancellations and Returns', { testIsolation: false }, () => {
   before(() => {
     cy.requireLoggedIn();
     cy.saveLocalStorage();

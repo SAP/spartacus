@@ -25,7 +25,7 @@ const polandAddress: Address = {
   postal: '50-203',
 };
 
-context('Payment billing address', () => {
+context('Payment billing address', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });

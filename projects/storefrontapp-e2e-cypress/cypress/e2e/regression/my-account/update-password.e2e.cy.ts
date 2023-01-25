@@ -5,13 +5,13 @@
  */
 
 import * as alerts from '../../../helpers/global-message';
-import * as updatePassword from '../../../helpers/update-password';
 import { signOutUser } from '../../../helpers/login';
+import * as updatePassword from '../../../helpers/update-password';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
-describe('My Account - Update Password', () => {
+describe('My Account - Update Password', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
     before(() =>
       cy.window().then((win) => {
