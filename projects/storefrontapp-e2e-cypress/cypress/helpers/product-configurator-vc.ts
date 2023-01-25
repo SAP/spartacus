@@ -23,6 +23,11 @@ export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 export const GET_CONFIG_ALIAS = '@readConfig';
 
 /**
+ * Alias used for reading the config prices
+ */
+export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
+
+/**
  * Navigates to the product configuration page.
  *
  * @param {string} shopName - shop name
@@ -290,7 +295,18 @@ export function isConflictLinkAttached(attribute: string): void {
  */
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
-  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
+  clickOnConflictSolverLink(attribute, 'View in Configuration Link');
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -532,6 +548,18 @@ export function registerConfigurationUpdateRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Register configuration update route using name @see UPDATE_CONFIG_ALIAS
+ */
+export function registerConfigurationPricingRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*/pricing*`,
+  }).as(CONFIG_PRICING_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
