@@ -8,8 +8,8 @@ import { OccConfig } from '@spartacus/core';
 import { FutureStockOccEndpoints } from '../model/occ-future-stock-endpoints.model';
 
 const futureStockEndpoints: FutureStockOccEndpoints = {
-    futureStock: 'users/${userId}/futureStocks/${productCode}',
-    futureStocks: 'users/${userId}/futureStocks',
+  futureStock: 'users/${userId}/futureStocks/${productCode}',
+  futureStocks: 'users/${userId}/futureStocks',
 };
 
 export const defaultOccFutureStockConfig: OccConfig = {
@@ -17,7 +17,7 @@ export const defaultOccFutureStockConfig: OccConfig = {
     occ: {
       endpoints: {
         ...futureStockEndpoints,
-        },
+      },
     },
   },
 };
