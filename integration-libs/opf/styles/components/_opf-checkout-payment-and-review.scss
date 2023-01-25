@@ -1,3 +1,21 @@
 %cx-opf-checkout-payment-and-review {
   @include checkout-media-style();
+
+  h3 {
+    padding-bottom: 1rem;
+    margin-bottom: 0;
+    font-size: 1.15rem;
+  }
+
+  .cx-opf-terms-and-conditions {
+    border: 1px solid #d3d6db;
+    padding: 1.75rem 1.75rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+
+    .form-check,
+    .form-group {
+      margin-bottom: 0;
+    }
+  }
 }

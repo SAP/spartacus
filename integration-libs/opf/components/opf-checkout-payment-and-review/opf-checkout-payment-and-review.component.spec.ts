@@ -1,9 +1,19 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService } from '@spartacus/cart/base/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { OPFCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
@@ -21,24 +31,41 @@ class MockActiveCartService implements Partial<ActiveCartService> {
     return cart$.asObservable();
   }
 }
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 @Component({
   template: '',
   selector: 'cx-opf-checkout-payments',
 })
-class MockOpfCheckoutPaymentsComponent {}
+class MockOpfCheckoutPaymentsComponent {
+  @Input()
+  disabled = false;
+}
 
 describe('OPFCheckoutPaymentReviewComponent', () => {
   let component: OPFCheckoutPaymentAndReviewComponent;
   let fixture: ComponentFixture<OPFCheckoutPaymentAndReviewComponent>;
+  let el: DebugElement;
   let activeCartService: ActiveCartFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+      ],
       declarations: [
         OPFCheckoutPaymentAndReviewComponent,
         MockOpfCheckoutPaymentsComponent,
+        MockUrlPipe,
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -46,6 +73,7 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(OPFCheckoutPaymentAndReviewComponent);
+    el = fixture.debugElement;
     activeCartService = TestBed.inject(ActiveCartFacade);
 
     component = fixture.componentInstance;
@@ -66,9 +94,7 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
     cart$.next(mockCart);
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('cx-opf-checkout-payments'))
-    ).toBeTruthy();
+    expect(el.query(By.css('cx-opf-checkout-payments'))).toBeTruthy();
   });
 
   it('should not render cx-opf-checkout-payments component if payment type is set to ACCOUNT', () => {
@@ -76,8 +102,21 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
 
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('cx-opf-checkout-payments'))
-    ).toBeFalsy();
+    expect(el.query(By.css('cx-opf-checkout-payments'))).toBeFalsy();
+  });
+
+  it('should change form value when checkbox get selected / change state', () => {
+    cart$.next(mockCart);
+
+    fixture.detectChanges();
+
+    expect(component.termsAndConditionInvalid).toEqual(true);
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement;
+
+    inputEl.click();
+
+    expect(inputEl.checked).toEqual(true);
+    expect(component.termsAndConditionInvalid).toEqual(false);
   });
 });

@@ -14,6 +14,7 @@ export const opf = {
       },
       paymentAndReviewTitle: 'Payment and review',
       paymentOption: 'Payment option',
+      termsAndConditions: 'Terms & Conditions',
     },
   },
 };

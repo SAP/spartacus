@@ -1,6 +1,9 @@
 <ng-container *ngIf="activeConfiguratons$ | async as activeConfiguratons">
   <div>
-    <div class="title">{{ 'opf.checkout.paymentOption' | cxTranslate }}</div>
+    <h3>
+      {{ 'opf.checkout.paymentOption' | cxTranslate }}
+    </h3>
+
     <div class="form-check" *ngFor="let configuration of activeConfiguratons">
       <input
         id="paymentId-{{ configuration.id }}"
@@ -12,6 +15,7 @@
         [value]="configuration.id"
         [checked]="configuration.id === selectedPaymentId"
         formControlName="paymentId"
+        [disabled]="disabled"
       />
       <label
         class="cx-payment-type-label form-check-label form-radio-label"

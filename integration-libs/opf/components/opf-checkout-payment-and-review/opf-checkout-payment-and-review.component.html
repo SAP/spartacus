@@ -3,5 +3,37 @@
 </h2>
 <!-- For B2B Account payment, OPF should not be displayed -->
 <ng-container *ngIf="(paymentType$ | async)?.code !== 'ACCOUNT'">
-  <cx-opf-checkout-payments></cx-opf-checkout-payments>
+  <div class="cx-opf-terms-and-conditions">
+    <h3>{{ 'opf.checkout.termsAndConditions' | cxTranslate }}</h3>
+
+    <form
+      class="cx-place-order-form form-check"
+      [formGroup]="checkoutSubmitForm"
+    >
+      <div class="form-group">
+        <label>
+          <input
+            formControlName="termsAndConditions"
+            class="scaled-input form-check-input"
+            type="checkbox"
+          />
+          <span class="form-check-label">
+            {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+            <a
+              [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+              class="cx-tc-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+            </a>
+          </span>
+        </label>
+      </div>
+    </form>
+  </div>
+
+  <cx-opf-checkout-payments
+    [disabled]="termsAndConditionInvalid"
+  ></cx-opf-checkout-payments>
 </ng-container>
