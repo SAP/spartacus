@@ -15,6 +15,7 @@ const CAMERA_MODE = 'CAMERA_MODE';
 viewportContext(['mobile'], () => {
   describe('Group Handling', () => {
     it('should navigate using the group menu in mobile resolution', () => {
+      configurationVc.registerConfigurationRoute();
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
       clickAllowAllFromBanner();
@@ -25,7 +26,7 @@ viewportContext(['mobile'], () => {
       configuration.clickHamburger();
       configuration.checkGroupMenuDisplayed();
 
-      configurationVc.clickOnGroup(2);
+      configurationVc.clickOnGroupAndWait(2);
       configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
     });
   });
