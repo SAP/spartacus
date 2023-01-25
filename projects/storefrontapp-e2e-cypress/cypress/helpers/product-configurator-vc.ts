@@ -23,6 +23,11 @@ export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 export const GET_CONFIG_ALIAS = '@readConfig';
 
 /**
+ * Alias used for reading the config prices
+ */
+export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
+
+/**
  * Navigates to the product configuration page.
  *
  * @param {string} shopName - shop name
@@ -248,6 +253,7 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  * Navigates to the corresponding group that contains an attribute which is involved in a conflict.
  *
  * @param attribute - Attribute name
+ * @param linkName - link to click
  */
 function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
@@ -282,13 +288,36 @@ export function isConflictLinkAttached(attribute: string): void {
 }
 
 /**
- * Navigates to a group that contains an attribute which is involved in a conflict.
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute.
  *
  * @param attribute - Attribute name
  */
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
-  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
+  clickOnConflictSolverLink(attribute, 'View in Configuration Link');
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -326,13 +355,25 @@ export function checkConflictLinkDisplayed(
 }
 
 /**
- * Navigates to the conflict group that contains an attribute which is involved in a conflict.
+ * Assuming the given attribute is involved in the conflict, it navigates from the standard group
+ * to the conflict group containing the corresponding attribute.
  *
  * @param attribute - Attribute name
  */
 export function clickOnConflictDetected(attribute: string): void {
   cy.log('Click Conflict Detected - View Details Link');
   clickOnConflictSolverLink(attribute, 'Conflict Detected - View Details Link');
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the standard group
+ * to the conflict group containing the corresponding attribute and waits for the request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnConflictDetectedAndWait(attribute: string): void {
+  clickOnConflictDetected(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -384,6 +425,29 @@ export function selectConflictingValue(
 }
 
 /**
+ * Selects a conflicting value, namely selects a value and waits for the request to finish.
+ * Then verifies whether the conflict detected message under the attribute name is displayed,
+ * The conflict header group in the group menu is displayed and
+ * Finally verifies whether the expected number of conflicts is accurate.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ * @param {number} numberOfConflicts - Expected number of conflicts
+ */
+export function selectConflictingValueAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string,
+  numberOfConflicts: number
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
+  this.checkConflictDetectedMsgDisplayed(attributeName);
+  checkConflictHeaderGroupDisplayed();
+  verifyNumberOfConflicts(numberOfConflicts);
+}
+
+/**
  * Deselects a conflicting value, namely deselects a value.
  * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
  * the conflict header group in the group menu is not displayed either.
@@ -398,6 +462,25 @@ export function deselectConflictingValue(
   valueName: string
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
+  this.checkConflictDetectedMsgNotDisplayed(attributeName);
+  checkConflictHeaderGroupNotDisplayed();
+}
+
+/**
+ * Deselects a conflicting value, namely deselects a value and waits for the request to finish.
+ * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
+ * the conflict header group in the group menu is not displayed either.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ */
+export function deselectConflictingValueAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -430,6 +513,16 @@ export function clickOnGroup(groupIndex: number): void {
 }
 
 /**
+ * Clicks on the group via its index in the group menu and wait for the request to finish.
+ *
+ * @param {number} groupIndex - Group index
+ */
+export function clickOnGroupAndWait(groupIndex: number): void {
+  clickOnGroup(groupIndex);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
  * Scrolls to the bottom of the window and
  * clicks on the 'Add to cart' button.
  */
@@ -455,6 +548,18 @@ export function registerConfigurationUpdateRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Register configuration update route using name @see UPDATE_CONFIG_ALIAS
+ */
+export function registerConfigurationPricingRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*/pricing*`,
+  }).as(CONFIG_PRICING_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
