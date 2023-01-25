@@ -52,7 +52,7 @@
           <ng-container *ngIf="!(loading$ | async); else loading">
             <p>
               <ng-container
-                *ngIf="!cartModifications.length; else cartResponse"
+                *ngIf="!cartModifications?.length; else cartResponse"
               >
                 <span class="cx-cart-mod-entry-container">
                   <span class="alert-icon">
