@@ -23,7 +23,5 @@ export abstract class ReorderOrderFacade {
   /**
    * Create cart from an existing order
    */
-  abstract reorder(
-    orderId: string,
-  ): Observable<CartModificationList>;
+  abstract reorder(orderId: string): Observable<CartModificationList>;
 }
