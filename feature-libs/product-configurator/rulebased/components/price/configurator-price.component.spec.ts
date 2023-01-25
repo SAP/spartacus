@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -12,7 +12,7 @@ class MockNumericPipe implements PipeTransform {
   transform(): any {}
 }
 
-function getFormattedValue(value: number | undefined): string {
+function getFormattedValue(value: number | undefined): string | undefined {
   if (value !== undefined) {
     if (value > 0) {
       return '$' + value;
@@ -23,7 +23,9 @@ function getFormattedValue(value: number | undefined): string {
   return undefined;
 }
 
-function createPrice(price: number | undefined): Configurator.PriceDetails {
+function createPrice(
+  price: number | undefined
+): Configurator.PriceDetails | undefined {
   if (price !== undefined) {
     return {
       currencyIso: '$',
@@ -92,7 +94,7 @@ describe('ConfiguratorPriceComponent', () => {
       const result =
         component.formula.quantity +
         'x(' +
-        component.formula.price.formattedValue +
+        component.formula.price?.formattedValue +
         ')';
       if (qty) {
         expect(component.quantityWithPrice(qty.toString())).toEqual(result);
@@ -100,7 +102,7 @@ describe('ConfiguratorPriceComponent', () => {
         fail();
       }
       expect(component.priceTotal).toEqual(
-        '+' + component.formula.priceTotal.formattedValue
+        '+' + component.formula.priceTotal?.formattedValue
       );
     });
   });
@@ -113,14 +115,16 @@ describe('ConfiguratorPriceComponent', () => {
 
     it('should return empty string when value price is negative and formatted value is undefined', () => {
       component.formula = createFormula(0, -10, undefined);
-      component.formula.price.formattedValue = undefined;
+      if (component.formula.price) {
+        component.formula.price.formattedValue = undefined;
+      }
       expect(component.price).toEqual('');
     });
 
     it('should return total price', () => {
       component.formula = createFormula(0, 0, 10);
       expect(component.price).toEqual(
-        '+' + component.formula.priceTotal.formattedValue
+        '+' + component.formula.priceTotal?.formattedValue
       );
     });
 
@@ -163,7 +167,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-price.cx-greyed-out'
       );
       expect(component.price).toEqual(
-        '+' + component.formula.price.formattedValue
+        '+' + component.formula.price?.formattedValue
       );
     });
 
@@ -177,7 +181,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-price'
       );
       expect(component.price).toEqual(
-        '+' + component.formula.price.formattedValue
+        '+' + component.formula.price?.formattedValue
       );
     });
 
@@ -191,7 +195,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-price'
       );
 
-      expect(component.price).toEqual(component.formula.price.formattedValue);
+      expect(component.price).toEqual(component.formula.price?.formattedValue);
     });
 
     it('should display selected positive value price', () => {
@@ -204,7 +208,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-price.cx-greyed-out'
       );
 
-      expect(component.price).toEqual(component.formula.price.formattedValue);
+      expect(component.price).toEqual(component.formula.price?.formattedValue);
     });
   });
 
@@ -224,7 +228,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-quantity-price'
       );
       expect(component.priceTotal).toEqual(
-        '+' + component.formula.priceTotal.formattedValue
+        '+' + component.formula.priceTotal?.formattedValue
       );
     });
 
@@ -243,7 +247,7 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-quantity-price'
       );
       expect(component.priceTotal).toEqual(
-        component.formula.priceTotal.formattedValue
+        component.formula.priceTotal?.formattedValue
       );
     });
 
