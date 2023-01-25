@@ -2,7 +2,11 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PaymentDetails } from '@spartacus/cart/base/root';
-import { CheckoutPaymentFacade, CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
+import {
+  CheckoutPaymentFacade,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
@@ -68,7 +72,11 @@ describe('CheckoutReviewPaymentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
-      declarations: [CheckoutReviewPaymentComponent, MockUrlPipe, MockCardComponent],
+      declarations: [
+        CheckoutReviewPaymentComponent,
+        MockUrlPipe,
+        MockCardComponent,
+      ],
       providers: [
         {
           provide: CheckoutPaymentFacade,
@@ -102,7 +110,9 @@ describe('CheckoutReviewPaymentComponent', () => {
   it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
     component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
       expect(card.title).toEqual('paymentForm.creditCardDetails');
-      expect(card.text).toEqual([mockPaymentDetails.cardType?.name, mockPaymentDetails.accountHolderName,
+      expect(card.text).toEqual([
+        mockPaymentDetails.cardType?.name,
+        mockPaymentDetails.accountHolderName,
         mockPaymentDetails.cardNumber,
         `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
       ]);
@@ -116,4 +126,3 @@ describe('CheckoutReviewPaymentComponent', () => {
     });
   });
 });
-

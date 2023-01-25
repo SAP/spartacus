@@ -28,9 +28,9 @@ export class CheckoutReviewPaymentComponent {
     protected translationService: TranslationService
   ) {}
 
-  checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
-
   iconTypes = ICON_TYPE;
+
+  checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
 
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
@@ -83,16 +83,16 @@ export class CheckoutReviewPaymentComponent {
     );
   }
 
+  paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
+    return steps.filter((step) =>
+      this.getCheckoutPaymentSteps().includes(step.type[0])
+    );
+  }
+
   getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined {
     const step = this.checkoutStepService.getCheckoutStep(
       stepType as CheckoutStepType
     );
     return step?.routeName;
-  }
-
-  paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) =>
-      this.getCheckoutPaymentSteps().includes(step.type[0])
-    );
   }
 }
