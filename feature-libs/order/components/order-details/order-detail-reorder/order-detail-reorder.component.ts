@@ -44,15 +44,6 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
 
   onReorderClick(order: any) {
     this.launchDialog(order.code);
-    /*this.reorderOrderFacade
-      .reorder(order.code)
-      .subscribe((cartModificationList: CartModificationList) => {
-        this.multiCartService.reloadCart(OCC_CART_ID_CURRENT);
-        this.launchDialogService.emitData({
-          loading: false,
-          cartModificationList,
-        });
-      }); */
   }
 
   launchDialog(orderCode: string) {

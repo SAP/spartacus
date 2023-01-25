@@ -130,10 +130,6 @@ export class LaunchDialogService {
     return this._dialogClose.asObservable();
   }
 
-  emitData(data: any) {
-    this._dataSubject.next(data);
-  }
-
   closeDialog(reason: any) {
     this._dialogClose.next(reason);
   }
