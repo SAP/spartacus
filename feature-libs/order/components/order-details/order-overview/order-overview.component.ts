@@ -156,6 +156,59 @@ export class OrderOverviewComponent {
     );
   }
 
+  getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
+    return this.translation.translate('paymentForm.billingAddress').pipe(
+      filter(() => Boolean(billingAddress)),
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
+            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
+            text: [
+              billingAddress.formattedAddress,
+              billingAddress.country?.name,
+            ],
+          } as Card)
+      )
+    );
+  }
+
+  getAddressCardContent(deliveryAddress: Address): Observable<Card> {
+    return this.translation.translate('addressCard.shipTo').pipe(
+      filter(() => Boolean(deliveryAddress)),
+      map((textTitle) => {
+        const formattedAddress = this.normalizeFormattedAddress(
+          deliveryAddress.formattedAddress ?? ''
+        );
+
+        return {
+          title: textTitle,
+          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          text: [formattedAddress, deliveryAddress.country?.name],
+        } as Card;
+      })
+    );
+  }
+
+  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
+    return this.translation.translate('orderDetails.shippingMethod').pipe(
+      filter(() => Boolean(deliveryMode)),
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
+            textBold: deliveryMode.name,
+            text: [
+              deliveryMode.description,
+              deliveryMode.deliveryCost?.formattedValue
+                ? deliveryMode.deliveryCost?.formattedValue
+                : '',
+            ],
+          } as Card)
+      )
+    );
+  }
+
   getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
@@ -176,20 +229,11 @@ export class OrderOverviewComponent {
     );
   }
 
-  getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
-    return this.translation.translate('paymentForm.billingAddress').pipe(
-      filter(() => Boolean(billingAddress)),
-      map(
-        (textTitle) =>
-          ({
-            title: textTitle,
-            textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
-            text: [
-              billingAddress.formattedAddress,
-              billingAddress.country?.name,
-            ],
-          } as Card)
-      )
-    );
+  private normalizeFormattedAddress(formattedAddress: string): string {
+    const addresses = formattedAddress
+      .split(',')
+      .map((address) => address.trim());
+
+    return addresses.filter(Boolean).join(', ');
   }
 }
