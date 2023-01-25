@@ -16,14 +16,7 @@
             tabindex="0"
             class="cx-visually-hidden"
           >
-            {{
-              'configurator.a11y.readOnlyValueOfAttributeFull'
-                | cxTranslate
-                  : {
-                      value: value.valueDisplay,
-                      attribute: attribute.label
-                    }
-            }}
+            {{ getAriaLabel(value, attribute, value.valueDisplay) }}
           </span>
           <div class="cx-value-label-pair">
             <label
@@ -64,14 +57,7 @@
           tabindex="0"
           class="cx-visually-hidden"
         >
-          {{
-            'configurator.a11y.readOnlyValueOfAttributeFull'
-              | cxTranslate
-                : {
-                    value: attribute.selectedSingleValue,
-                    attribute: attribute.label
-                  }
-          }}
+          {{ getAriaLabel(value, attribute, attribute.selectedSingleValue) }}
         </span>
         <div class="cx-read-only-label" aria-hidden="true">
           <span aria-hidden="true">{{ attribute.selectedSingleValue }}</span>
@@ -85,14 +71,7 @@
           tabindex="0"
           class="cx-visually-hidden"
         >
-          {{
-            'configurator.a11y.readOnlyValueOfAttributeFull'
-              | cxTranslate
-                : {
-                    value: attribute.userInput,
-                    attribute: attribute.label
-                  }
-          }}
+          {{ getAriaLabel(value, attribute, attribute.userInput) }}
         </span>
         <div class="cx-read-only-label" aria-hidden="true">
           <span aria-hidden="true">{{ attribute.userInput }}</span>
