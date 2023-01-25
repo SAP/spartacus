@@ -146,7 +146,7 @@ export class ConfiguratorAttributeBaseComponent {
    * @param expMode - Is expert mode set?
    * @param label - value label
    * @param techName - value technical name
-   * @param value - Object which contains the valuePrice
+   * @param value - Configurator value
    */
   getLabel(
     expMode: boolean,

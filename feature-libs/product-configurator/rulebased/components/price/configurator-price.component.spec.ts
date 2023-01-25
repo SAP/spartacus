@@ -3,37 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 @Pipe({
   name: 'cxNumeric',
 })
 class MockNumericPipe implements PipeTransform {
   transform(): any {}
-}
-
-function getFormattedValue(value: number | undefined): string | undefined {
-  if (value !== undefined) {
-    if (value > 0) {
-      return '$' + value;
-    } else if (value < 0) {
-      return '-$' + Math.abs(value);
-    }
-  }
-  return undefined;
-}
-
-function createPrice(
-  price: number | undefined
-): Configurator.PriceDetails | undefined {
-  if (price !== undefined) {
-    return {
-      currencyIso: '$',
-      formattedValue: getFormattedValue(price),
-      value: price,
-    };
-  }
-  return undefined;
 }
 
 const createFormula = (
@@ -44,8 +20,8 @@ const createFormula = (
   isOverview = false
 ): any => ({
   quantity: quantity,
-  price: createPrice(price),
-  priceTotal: createPrice(priceTotal),
+  price: ConfiguratorTestUtils.createPrice(price),
+  priceTotal: ConfiguratorTestUtils.createPrice(priceTotal),
   isLightedUp: isLightedUp,
   isOverview: isOverview,
 });
