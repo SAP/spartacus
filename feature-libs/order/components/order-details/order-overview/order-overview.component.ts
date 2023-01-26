@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PaymentDetails } from '@spartacus/cart/base/root';
+import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import { Address, CostCenter, TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';

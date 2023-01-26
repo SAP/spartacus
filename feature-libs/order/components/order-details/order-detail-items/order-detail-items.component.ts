@@ -5,12 +5,16 @@
  */
 
 import { Component } from '@angular/core';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
+import {
+  CartOutlets,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
   cancelledValues,
@@ -26,34 +30,48 @@ export class OrderDetailItemsComponent {
   readonly OrderOutlets = OrderOutlets;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+
+  pickupConsignments: Consignment[] | undefined;
+  deliveryConsignments: Consignment[] | undefined;
+  pickupUnConsignments: OrderEntry[] | undefined;
+  deliveryUnConsignments: OrderEntry[] | undefined;
+
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
+    tap((order) => {
+      this.pickupConsignments = this.getGroupedConsignments(order, true);
+      this.deliveryConsignments = this.getGroupedConsignments(order, false);
+      this.pickupUnConsignments = order.unconsignedEntries?.filter(
+        (entry) => entry.deliveryPointOfService !== undefined
+      );
+      this.deliveryUnConsignments = order.unconsignedEntries?.filter(
+        (entry) => entry.deliveryPointOfService === undefined
+      );
+    })
+  );
 
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.enableAddToCart)
-  );
-
-  pickupConsignments$ = this.order$.pipe(
-    map((order) =>
-      order.consignments?.filter(
-        (entry) => entry.deliveryPointOfService !== undefined
-      )
-    ),
-    map((conginments) => this.groupConsignments(conginments))
-  );
-
-  deliveryConsignments$ = this.order$.pipe(
-    map((order) =>
-      order.consignments?.filter(
-        (entry) => entry.deliveryPointOfService === undefined
-      )
-    ),
-    map((conginments) => this.groupConsignments(conginments))
   );
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailItemsComponent>
   ) {}
+
+  protected getGroupedConsignments(
+    order: Order,
+    pickup: boolean
+  ): Consignment[] | undefined {
+    const consignments = pickup
+      ? order.consignments?.filter(
+          (entry) => entry.deliveryPointOfService !== undefined
+        )
+      : order.consignments?.filter(
+          (entry) => entry.deliveryPointOfService === undefined
+        );
+
+    return this.groupConsignments(consignments);
+  }
 
   protected groupConsignments(
     consignments: Consignment[] | undefined

@@ -63,7 +63,7 @@ const moduleComponents = [
   ],
   providers: [
     provideOutlet({
-      id: OrderOutlets.ORDER_DELIVERY_CONSIGNMENTS_LIST,
+      id: OrderOutlets.ORDER_DELIVERY_ITEMS_LIST,
       component: OrderDetailShippingComponent,
       position: OutletPosition.BEFORE,
     }),
