@@ -68,6 +68,7 @@
       justify-content: space-between;
 
       @include media-breakpoint-down(md) {
+        background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
