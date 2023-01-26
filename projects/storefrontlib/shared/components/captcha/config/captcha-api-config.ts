@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { CaptchaProvider } from '../captcha.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 export abstract class CaptchaApiConfig {
   apiUrl?: string;
   fields?: { [key: string]: string };
-  renderingFunction?: (params: { [key: string]: any }) => Observable<string>;
+  captchaProvider?: Type<CaptchaProvider>;
 }
 
 declare module '@spartacus/core' {

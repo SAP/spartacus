@@ -13,9 +13,16 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { forkJoin, Observable, of, ReplaySubject, Subscription } from 'rxjs';
-import { concatMap, take, map } from 'rxjs/operators';
-import { CaptchaApiConfig } from './config/captcha-api-config';
+import {
+  forkJoin,
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+} from 'rxjs';
+import { concatMap, take } from 'rxjs/operators';
+import { CaptchaApiConfig } from '../config/captcha-api-config';
+import { CaptchaProvider, RenderParams } from '../captcha.model';
 
 /**
  * Global function to be passes as "onload" url param for captcha <script>, to be
@@ -30,7 +37,7 @@ declare global {
 @Injectable({
   providedIn: 'root',
 })
-export class CaptchaService implements OnDestroy {
+export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
   protected token: string;
   protected subscription = new Subscription();
 
@@ -68,7 +75,11 @@ export class CaptchaService implements OnDestroy {
           baseSite?.captchaConfig?.publicKey
         ) {
           captchaConfig = baseSite.captchaConfig;
-          this.loadScript(lang);
+          this.loadScript({
+            onload: 'onCaptchaLoad',
+            render: 'explicit',
+            hl: lang,
+          });
         } else {
           this.captchaConfigSubject$.next({ enabled: false });
         }
@@ -89,15 +100,20 @@ export class CaptchaService implements OnDestroy {
    * @param {HTMLElement} elem - HTML element to render captcha widget within.
    * @param {string} pubKey - public key to be used for the widget
    */
-  renderCaptcha(elem: HTMLElement, pubKey: string): Observable<string> {
-    const params: { [key: string]: any } = { sitekey: pubKey, element: elem };
-    if (this.apiConfig?.renderingFunction) {
-      return this.apiConfig
-        ?.renderingFunction(params)
-        .pipe(map((result) => (this.token = result)));
-    } else {
-      return of('');
-    }
+  renderCaptcha(renderParams: RenderParams): Observable<string> {
+    const retVal = new Subject<string>();
+
+    // @ts-ignore Global object created when captcha script is loaded
+    grecaptcha.render(renderParams.element, {
+      sitekey: renderParams.publicKey,
+      callback: (response: string) => {
+        this.token = response;
+        retVal.next(response);
+        retVal.complete();
+      },
+    });
+
+    return retVal.asObservable();
   }
 
   ngOnDestroy() {
@@ -112,13 +128,26 @@ export class CaptchaService implements OnDestroy {
    * Load external script with dependencies to be added to <head>.
    * @param {string} lang - Language used by api in the script
    */
-  loadScript(lang: string): void {
+  loadScript(params?: { [key: string]: string }): void {
     if (this.apiConfig?.apiUrl) {
-      this.scriptLoader.embedScript({
-        src: this.apiConfig.apiUrl,
-        params: { onload: 'onCaptchaLoad', render: 'explicit', hl: lang },
-        attributes: { type: 'text/javascript' },
-      });
+      //const scriptParams: any = { onload: 'onCaptchaLoad', render: 'explicit' };
+      /*
+      if (lang) {
+        params.hl = lang;
+      }
+*/
+      if (params) {
+        this.scriptLoader.embedScript({
+          src: this.apiConfig.apiUrl,
+          params: params,
+          attributes: { type: 'text/javascript' },
+        });
+      } else {
+        this.scriptLoader.embedScript({
+          src: this.apiConfig.apiUrl,
+          attributes: { type: 'text/javascript' },
+        });
+      }
     }
   }
 }

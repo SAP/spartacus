@@ -1,10 +1,10 @@
 import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
-import { CaptchaComponent, CaptchaService } from '@spartacus/storefront';
+import { CaptchaComponent, CaptchaProvider } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CaptchaApiConfig } from './config/captcha-api-config';
 
-class MockCaptchaService {
+class MockCaptchaService implements CaptchaProvider {
   getCaptchaConfig(): Observable<CaptchaConfig> {
     return of({
       enabled: true,
@@ -12,27 +12,34 @@ class MockCaptchaService {
     });
   }
 
-  renderCaptcha(): void {}
+  getToken(): string {
+    return 'mock-token';
+  }
+
+  renderCaptcha(): Observable<string> {
+    return of('');
+  }
 }
 
-const mockField = 'mock-field';
-const mockValue = 'mock-value';
-const mockConfig: CaptchaApiConfig = {
-  fields: { [mockField]: mockValue },
+const mockCaptchaApiConfig: CaptchaApiConfig = {
+  apiUrl: 'mock-url',
+  fields: { 'mock-field-key': 'mock-field-value' },
+  captchaProvider: MockCaptchaService,
 };
 
 describe('Captcha Component', () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
-  let service: CaptchaService;
+  let config: CaptchaApiConfig;
+  let service: CaptchaProvider;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [CaptchaComponent],
         providers: [
-          { provide: CaptchaApiConfig, useValue: mockConfig },
-          { provide: CaptchaService, useClass: MockCaptchaService },
+          { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
+          MockCaptchaService,
         ],
       }).compileComponents();
     })
@@ -41,7 +48,8 @@ describe('Captcha Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(CaptchaService);
+    config = TestBed.inject(CaptchaApiConfig);
+    service = TestBed.inject(MockCaptchaService);
   });
 
   it('should be created', () => {
@@ -57,8 +65,8 @@ describe('Captcha Component', () => {
 
     expect(service.getCaptchaConfig).toHaveBeenCalledTimes(1);
     expect(service.renderCaptcha).toHaveBeenCalledTimes(1);
-    expect(component.captchaRef.nativeElement.getAttribute(mockField)).toEqual(
-      mockValue
-    );
+    expect(
+      component.captchaRef.nativeElement.getAttribute('mock-field-key')
+    ).toEqual(config.fields['mock-field-key']);
   });
 });

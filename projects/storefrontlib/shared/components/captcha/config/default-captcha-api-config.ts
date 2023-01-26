@@ -5,23 +5,10 @@
  */
 
 import { CaptchaApiConfig } from './captcha-api-config';
-import { Subject } from 'rxjs';
+import { GoogleRecaptchaV2Service } from '../google-recaptchaV2/google-recaptchaV2.service';
 
 export const defaultCaptchaApiConfig: CaptchaApiConfig = {
   apiUrl: 'https://www.google.com/recaptcha/api.js',
   fields: { 'data-theme': 'light', 'data-size': 'normal' },
-  renderingFunction: (params) => {
-    const retVal = new Subject<string>();
-
-    // @ts-ignore Global object created when captcha script is loaded
-    grecaptcha.render(params['element'], {
-      sitekey: params['sitekey'],
-      callback: (response: string) => {
-        retVal.next(response);
-        retVal.complete();
-      },
-    });
-
-    return retVal.asObservable();
-  },
+  captchaProvider: GoogleRecaptchaV2Service,
 };

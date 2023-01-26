@@ -6,4 +6,5 @@
 
 export * from './captcha.component';
 export * from './captcha.module';
-export * from './captcha.service';
+export * from './captcha.model';
+export * from './config/captcha-api-config';

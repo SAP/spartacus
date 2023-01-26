@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
@@ -26,7 +26,7 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CaptchaService } from '@spartacus/storefront';
+import { CaptchaApiConfig, CaptchaProvider } from '@spartacus/storefront';
 
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
@@ -34,7 +34,8 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
-    protected captchaService?: CaptchaService
+    protected captchaConfig?: CaptchaApiConfig,
+    protected injector?: Injector
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
@@ -165,13 +166,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
-    if (this.captchaService?.getToken()) {
-      return currentHeaders.append(
-        USE_CAPTCHA_TOKEN,
-        this.captchaService.getToken()
+    if (this.injector && this.captchaConfig?.captchaProvider) {
+      const provider = this.injector.get<CaptchaProvider>(
+        this.captchaConfig.captchaProvider
       );
-    } else {
-      return currentHeaders;
+      if (provider?.getToken()) {
+        return currentHeaders.append(USE_CAPTCHA_TOKEN, provider.getToken());
+      }
     }
+    return currentHeaders;
   }
 }

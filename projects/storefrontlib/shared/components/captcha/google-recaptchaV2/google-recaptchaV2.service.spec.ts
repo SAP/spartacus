@@ -1,4 +1,3 @@
-import { CaptchaService } from '@spartacus/storefront';
 import { TestBed } from '@angular/core/testing';
 import {
   BaseSite,
@@ -8,8 +7,9 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { defaultCaptchaApiConfig } from './config/default-captcha-api-config';
+import { defaultCaptchaApiConfig } from '../config/default-captcha-api-config';
 import { Observable, of } from 'rxjs';
+import { GoogleRecaptchaV2Service } from './google-recaptchaV2.service';
 
 const mockLang = 'mock-lang';
 const mockKey = 'mock-key';
@@ -48,17 +48,17 @@ class MockSiteAdapter {
   }
 }
 
-describe('Captcha Service', () => {
-  let service: CaptchaService;
+describe('GoogleRecaptchaV2Service Service', () => {
   let scriptLoader: ScriptLoader;
   let languageService: LanguageService;
   let baseSiteService: BaseSiteService;
   let siteAdapter: SiteAdapter;
+  let service: GoogleRecaptchaV2Service;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CaptchaService,
+        GoogleRecaptchaV2Service,
         provideDefaultConfig(defaultCaptchaApiConfig),
         { provide: SiteAdapter, useClass: MockSiteAdapter },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
@@ -67,7 +67,7 @@ describe('Captcha Service', () => {
       ],
     });
 
-    service = TestBed.inject(CaptchaService);
+    service = TestBed.inject(GoogleRecaptchaV2Service);
     languageService = TestBed.inject(LanguageService);
     baseSiteService = TestBed.inject(BaseSiteService);
     siteAdapter = TestBed.inject(SiteAdapter);
@@ -93,7 +93,7 @@ describe('Captcha Service', () => {
     spyOn(service, 'loadScript').and.callThrough();
     service.initialize();
     expect(service.loadScript).toHaveBeenCalledTimes(1);
-    expect(service.loadScript).toHaveBeenCalledWith(mockLang);
+    expect(service.loadScript).toHaveBeenCalledWith(mockEmbedParams.params);
     expect(scriptLoader.embedScript).toHaveBeenCalledTimes(1);
     expect(scriptLoader.embedScript).toHaveBeenCalledWith(mockEmbedParams);
   });

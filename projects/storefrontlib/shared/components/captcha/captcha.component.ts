@@ -10,6 +10,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   Output,
@@ -20,8 +21,8 @@ import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { AbstractControl } from '@angular/forms';
 
-import { CaptchaService } from './captcha.service';
 import { CaptchaApiConfig } from './config/captcha-api-config';
+import { CaptchaProvider } from './captcha.model';
 
 @Component({
   selector: 'cx-captcha',
@@ -42,7 +43,7 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     protected config: CaptchaApiConfig,
-    protected captchaService: CaptchaService,
+    protected injector: Injector,
     private renderer: Renderer2
   ) {}
 
@@ -64,28 +65,33 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
       });
     }
 
-    this.subscription.add(
-      this.captchaService
-        .getCaptchaConfig()
-        .pipe(
-          concatMap((captchaConfig) => {
-            if (captchaConfig?.enabled && captchaConfig?.publicKey) {
-              this.enabled.emit(true);
-              return this.captchaService.renderCaptcha(
-                this.captchaRef.nativeElement,
-                captchaConfig.publicKey
-              );
-            } else {
-              this.enabled.emit(false);
-              return of(null);
-            }
+    if (this.config?.captchaProvider) {
+      const captchaProvider = this.injector.get<CaptchaProvider>(
+        this.config.captchaProvider
+      );
+      this.subscription.add(
+        captchaProvider
+          .getCaptchaConfig()
+          .pipe(
+            concatMap((captchaConfig) => {
+              if (captchaConfig?.enabled && captchaConfig?.publicKey) {
+                this.enabled.emit(true);
+                return captchaProvider.renderCaptcha({
+                  element: this.captchaRef.nativeElement,
+                  publicKey: captchaConfig.publicKey,
+                });
+              } else {
+                this.enabled.emit(false);
+                return of(null);
+              }
+            })
+          )
+          .subscribe(() => {
+            this.control.setValue(true);
+            this.confirmed.emit(true);
           })
-        )
-        .subscribe(() => {
-          this.control.setValue(true);
-          this.confirmed.emit(true);
-        })
-    );
+      );
+    }
   }
 
   ngOnDestroy() {
