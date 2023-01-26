@@ -45,7 +45,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     value?: Configurator.Value | undefined
   ): string {
     let ariaLabel = '';
-    let valueName = this.getCurrentValueName(attribute, value);
+    const valueName = this.getCurrentValueName(attribute, value);
     if (value) {
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
