@@ -27,9 +27,9 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
     this.busy$.next(true);
 
     let formValue = this.form.value;
-    this.cdcJsService.updateProfileWithoutScreenSet(formValue?.firstName, formValue?.lastName).subscribe({
+    this.cdcJsService.updateProfileWithoutScreenSet(formValue).subscribe({
       next: () => this.onSuccess(),
-      error: (error: Error) => this.onError(error),
+      error: (error) => this.onError(error),
     });
   }
 
@@ -45,7 +45,9 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
     this.form.reset();
   }
 
-  protected onError(_error: Error): void {
+  protected onError(_error: any): void {
+    let errorMessage = _error?.errorMessage || ' ';
+    this.globalMessageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
     this.busy$.next(false);
   }
 }

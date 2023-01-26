@@ -27,7 +27,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import { UserProfileFacade, UserRegisterFacade } from '@spartacus/user/profile/root';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 
 @NgModule({
@@ -58,6 +58,7 @@ import { CDCRegisterComponentService } from './cdc-register-component.service';
                 GlobalMessageService,
                 AuthService,
                 EventService,
+                UserProfileFacade,
               ],
             },
           ],
