@@ -55,7 +55,11 @@ export class CustomerTicketingFeatureModule { }
 "
 `;
 
-exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/customer-ticketing\\";"`;
+exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feature general setup styling should create a proper scss file 1`] = `
+"@import \\"../../styles-config\\";
+@import \\"@spartacus/customer-ticketing\\";
+"
+`;
 
 exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feature general setup styling should update angular.json 1`] = `
 "{
