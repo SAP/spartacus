@@ -71,9 +71,6 @@ const moduleComponents = [
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
         },
-        // AccountOrderDetailsShippingComponent: {
-        //   component: OrderDetailShippingComponent,
-        // },
         AccountOrderDetailsOverviewComponent: {
           component: OrderOverviewComponent,
         },
