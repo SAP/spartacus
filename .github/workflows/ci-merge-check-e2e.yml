@@ -105,6 +105,7 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
+          exit 1
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E B2B core
