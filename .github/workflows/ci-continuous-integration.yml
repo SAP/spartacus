@@ -5,11 +5,10 @@ on:
     # empty as it is used only to manually trigger the workflow
   
 env:
-  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
 
 concurrency: 
-  group: ci-pr-push-checks-${{ github.head_ref || github.run_id }}
+  group: ci-continuous-integration-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Continuous Integration

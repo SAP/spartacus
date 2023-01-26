@@ -11,6 +11,10 @@ env:
   NODE_VERSION: "16"
   GH_TOKEN: ${{ github.token }}
 
+concurrency: 
+  group: ci-merge-checks-e2e-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 name: PR Status
 jobs:
   change-to-draft:
