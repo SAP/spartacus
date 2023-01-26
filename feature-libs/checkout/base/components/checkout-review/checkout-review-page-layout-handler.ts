@@ -11,6 +11,9 @@ import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/*
+ * temporary, will be removed or fixed
+ */
 @Injectable({
   providedIn: 'root',
 })
