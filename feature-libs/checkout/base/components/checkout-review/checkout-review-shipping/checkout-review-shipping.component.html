@@ -1,6 +1,6 @@
 <ng-container *ngIf="entries$ | async as entries">
   <h2 class="cx-review-header">
-    {{ 'checkoutReview.shippingLabel' | cxTranslate }}
+    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
   </h2>
   <div class="cx-review-summary cx-review-shipping-summary">
     <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
