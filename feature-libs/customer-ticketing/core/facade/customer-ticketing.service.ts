@@ -322,9 +322,8 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   createTicketEvent(
     ticketEvent: TicketEvent,
-    containsAttachment?: boolean
+    containsAttachment?: boolean | false
   ): Observable<TicketEvent> {
-    containsAttachment = containsAttachment ?? false;
     return this.createTicketEventCommand.execute({
       ticketEvent,
       containsAttachment,
