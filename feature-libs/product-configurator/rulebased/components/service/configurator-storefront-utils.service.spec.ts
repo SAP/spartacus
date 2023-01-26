@@ -222,6 +222,12 @@ describe('ConfigUtilsService', () => {
     });
   });
 
+  describe('createOvGroupId', () => {
+    it('should create a group id from its 2 parameters', () => {
+      expect(classUnderTest.createOvGroupId('A', 'B')).toBe('idAB-ovGroup');
+    });
+  });
+
   describe('focusOnElementForConflicting', () => {
     it('should return focusable element if provided and attribute carries no values', () => {
       const attribute: Configurator.Attribute = { name: 'Name' };

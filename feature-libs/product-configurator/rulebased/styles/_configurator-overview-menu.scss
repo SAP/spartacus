@@ -1,0 +1,34 @@
+%cx-configurator-overview-menu {
+  &:not(:empty) {
+    .cx-menu-group {
+      padding-block-start: 10px;
+      margin-inline-start: 20px;
+
+      .cx-menu-item {
+        text-decoration: none;
+        color: var(--cx-color-text);
+        border: none;
+        background-color: transparent;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--cx-color-primary);
+        }
+
+        span {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          line-break: anywhere;
+
+          @include cx-configurator-truncate-content();
+        }
+      }
+    }
+
+    .groupLevel1 {
+      margin-inline-start: 0px;
+    }
+  }
+}

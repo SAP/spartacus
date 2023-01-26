@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -114,9 +114,10 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http
-      .get<CustomerSearchPage>(url, { headers, params })
-      .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
+    return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
+    );
   }
 
   bindCart({ cartId, customerId }: BindCartParams): Observable<unknown> {
@@ -125,7 +126,7 @@ export class OccAsmAdapter implements AsmAdapter {
       true,
       new HttpHeaders()
     );
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
       .set('baseSite', this.activeBaseSite)
       .set('cartId', cartId)
       .set('customerId', customerId);

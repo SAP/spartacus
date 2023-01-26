@@ -1576,4 +1576,47 @@ describe('ConfigurationGroupMenuComponent', () => {
       ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
+
+  describe('icon tooltip', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+    });
+    it('incomplete group should have icon tooltip', () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'ERROR',
+        0,
+        'title',
+        'configurator.icon.groupIncomplete'
+      );
+    });
+
+    it('complete group should have icon tooltip', () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'COMPLETE',
+        0,
+        'title',
+        'configurator.icon.groupComplete'
+      );
+    });
+
+    it('conflict group should have icon tooltip', () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'WARNING',
+        0,
+        'title',
+        'configurator.icon.groupConflict'
+      );
+    });
+  });
 });

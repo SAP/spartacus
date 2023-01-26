@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
+  AuthRedirectService,
+  AuthService,
   CmsConfig,
   GlobalMessageService,
   I18nModule,
@@ -19,8 +21,8 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
@@ -48,7 +50,13 @@ import { UpdatePasswordComponent } from './update-password.component';
             {
               provide: UpdatePasswordComponentService,
               useClass: UpdatePasswordComponentService,
-              deps: [UserPasswordFacade, RoutingService, GlobalMessageService],
+              deps: [
+                UserPasswordFacade,
+                RoutingService,
+                GlobalMessageService,
+                AuthRedirectService,
+                AuthService,
+              ],
             },
           ],
         },

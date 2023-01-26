@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,13 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
+import {
+  ConfigInitializer,
+  CONFIG_INITIALIZER,
+} from '../config/config-initializer/config-initializer';
+import { RoutingConfig } from './configurable-routes';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
+import { SecurePortalConfigInitializer } from './configurable-routes/secure-portal-config/secure-portal-config-initializer';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -26,6 +32,16 @@ export function initConfigurableRoutes(
 ): () => void {
   const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
+}
+
+export function initSecurePortalConfig(
+  configInitializer: SecurePortalConfigInitializer,
+  routingConfig: RoutingConfig
+): ConfigInitializer | null {
+  if (routingConfig.routing?.protected === undefined) {
+    return configInitializer;
+  }
+  return null;
 }
 
 @NgModule({
@@ -52,6 +68,12 @@ export class RoutingModule {
           provide: APP_INITIALIZER,
           useFactory: initConfigurableRoutes,
           deps: [ConfigurableRoutesService],
+          multi: true,
+        },
+        {
+          provide: CONFIG_INITIALIZER,
+          useFactory: initSecurePortalConfig,
+          deps: [SecurePortalConfigInitializer, RoutingConfig],
           multi: true,
         },
       ],

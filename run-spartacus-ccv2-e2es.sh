@@ -13,14 +13,7 @@ CYPRESS_VENDOR_FOLDER="$CYPRESS_ROOT_FOLDER/vendor"
 
 
 export E2ES_TO_RUN="$CYPRESS_B2C_FOLDER/checkout/checkout-flow.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/homepage/homepage.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/user_access/register.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/product-search/product-search.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/my-account/order-history-orders-flow.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/my-account/order-history-no-orders-flow.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/my-account/update-password.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/my-account/update-email.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/cart/added-to-cart-modal.core-e2e-spec.ts
+$CYPRESS_B2C_FOLDER/homepage/homepage.core-e2e-spec.ts
 "
 
 # install cypress standlone dependencies

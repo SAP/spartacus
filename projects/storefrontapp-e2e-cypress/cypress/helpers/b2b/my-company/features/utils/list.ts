@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -121,20 +121,25 @@ export function checkRows(rows): void {
       for (let columnIndex = 0; columnIndex < row.text.length; columnIndex++) {
         if (row.text[columnIndex]) {
           if (Array.isArray(row.text[columnIndex])) {
-            const ROLE = {
+            const ROLES = {
               b2bcustomergroup: 'Customer',
               b2bmanagergroup: 'Manager',
               b2bapprovergroup: 'Approver',
               b2badmingroup: 'Admin',
             };
 
-            // Used in user roles array
+            // should to be filtered out, as we don't show them
+            const RIGHTS = ['unitorderviewergroup'];
+
+            // Used in user roles and rights array
             // Because we can't use translate pipe, have to check per case
-            row.text[columnIndex].forEach((text) => {
-              cy.get(
-                `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
-              ).should('include.text', ROLE[text]);
-            });
+            row.text[columnIndex]
+              .filter((text: string) => !RIGHTS.includes(text))
+              .forEach((text) => {
+                cy.get(
+                  `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+                ).should('include.text', ROLES[text]);
+              });
           } else {
             cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
               'include.text',
