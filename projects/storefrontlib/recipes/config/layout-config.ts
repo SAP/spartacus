@@ -119,9 +119,9 @@ export const layoutConfig: LayoutConfig = {
       slots: [
         'TopContent',
         'BodyContent',
+        'OnlyForTest',
         'SideContent',
         'BottomContent',
-        'RightContentSlot',
       ],
     },
     CheckoutLoginPageTemplate: {

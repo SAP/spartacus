@@ -18,7 +18,6 @@ export const defaultCmsContentProviders: ValueProvider[] = [
   }),
   provideCmsStructure({
     componentId: 'CheckoutReviewShipping',
-    pageSlotPosition: 'RightContentSlot',
-    pageTemplate: 'MultiStepCheckoutSummaryPageTemplate',
+    pageSlotPosition: 'OnlyForTest',
   }),
 ];
