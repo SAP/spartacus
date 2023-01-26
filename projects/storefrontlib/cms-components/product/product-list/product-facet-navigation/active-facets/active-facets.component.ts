@@ -22,7 +22,7 @@ import { FacetService } from '../services/facet.service';
 })
 export class ActiveFacetsComponent {
   @HostBinding('attr.role') role = 'group';
-  @HostBinding('attr.aria-labelledby') labelledby = 'groupName';
+  @HostBinding('attr.aria-labelledby') labelledby = 'cx-active-facets-groupName';
 
   /** Active facets which are applied to the product results. */
   facetList$: Observable<FacetList> = this.facetService.facetList$;

@@ -1,7 +1,7 @@
 <ng-container *ngIf="facetList$ | async as facetList">
   <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
   <ng-container *cxFeatureLevel="'5.2'">
-    <div id="groupName" *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0">
+    <div id="cx-active-facets-groupName" *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0">
       {{ 'productList.appliedFilter' | cxTranslate }}
     </div>
   </ng-container>
