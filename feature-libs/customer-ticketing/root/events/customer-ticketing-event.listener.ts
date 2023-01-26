@@ -39,7 +39,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected eventService: EventService,
     protected globalMessageService: GlobalMessageService
   ) {
-    this.onLanguageAndCurrencySetEvent;
+    this.onLanguageAndCurrencySetEvent();
     this.onLoginAndLogoutEvent();
     this.onTicketCreatedEvent();
     this.onNewMessage();
