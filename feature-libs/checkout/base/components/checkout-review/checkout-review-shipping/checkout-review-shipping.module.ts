@@ -4,19 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { RouterModule } from '@angular/router';
 import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
-import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
+import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
 @NgModule({
   declarations: [CheckoutReviewShippingComponent],
@@ -35,7 +33,7 @@ import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
       cmsComponents: {
         CheckoutReviewShipping: {
           component: CheckoutReviewShippingComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          //guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
