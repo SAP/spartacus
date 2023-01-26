@@ -16,18 +16,12 @@
             tabindex="0"
             class="cx-visually-hidden"
           >
-            {{ getAriaLabel(value, attribute, value.valueDisplay) }}
+            {{ getAriaLabel(attribute, value) }}
           </span>
           <div class="cx-value-label-pair">
             <label
               id="{{
                 createValueUiKey('label', attribute.name, value.valueCode)
-              }}"
-              for="{{
-                createAttributeValueIdForConfigurator(
-                  attribute,
-                  value.valueCode
-                )
               }}"
               aria-hidden="true"
               class="cx-read-only-label"
@@ -57,7 +51,7 @@
           tabindex="0"
           class="cx-visually-hidden"
         >
-          {{ getAriaLabel(value, attribute, attribute.selectedSingleValue) }}
+          {{ getAriaLabel(attribute) }}
         </span>
         <div class="cx-read-only-label" aria-hidden="true">
           <span aria-hidden="true">{{ attribute.selectedSingleValue }}</span>
@@ -71,7 +65,7 @@
           tabindex="0"
           class="cx-visually-hidden"
         >
-          {{ getAriaLabel(value, attribute, attribute.userInput) }}
+          {{ getAriaLabel(attribute) }}
         </span>
         <div class="cx-read-only-label" aria-hidden="true">
           <span aria-hidden="true">{{ attribute.userInput }}</span>

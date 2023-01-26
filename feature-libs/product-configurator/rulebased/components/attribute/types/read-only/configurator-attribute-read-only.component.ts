@@ -25,12 +25,27 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     super();
   }
 
-  getAriaLabel(
-    value: Configurator.Value | undefined,
+  protected getCurrentValueName(
     attribute: Configurator.Attribute,
-    currentValue: String
+    value?: Configurator.Value
+  ): string {
+    let name = '';
+    if (attribute.selectedSingleValue) {
+      name = attribute.selectedSingleValue;
+    } else if (attribute.userInput) {
+      name = attribute.userInput;
+    } else if (name === '' && value) {
+      name = value?.valueDisplay ?? '';
+    }
+    return name;
+  }
+
+  getAriaLabel(
+    attribute: Configurator.Attribute,
+    value?: Configurator.Value | undefined
   ): string {
     let ariaLabel = '';
+    let valueName = this.getCurrentValueName(attribute, value);
     if (value) {
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
@@ -38,7 +53,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
             .translate(
               'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
               {
-                value: currentValue,
+                value: valueName,
                 attribute: attribute.label,
                 price: value.valuePriceTotal.formattedValue,
               }
@@ -50,7 +65,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
             .translate(
               'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
               {
-                value: currentValue,
+                value: valueName,
                 attribute: attribute.label,
                 price: value.valuePrice.formattedValue,
               }
@@ -58,15 +73,15 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
             .pipe(take(1))
             .subscribe((text) => (ariaLabel = text));
         }
-      } else {
-        this.translation
-          .translate('configurator.a11y.readOnlyValueOfAttributeFull', {
-            value: currentValue,
-            attribute: attribute.label,
-          })
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
       }
+    } else {
+      this.translation
+        .translate('configurator.a11y.readOnlyValueOfAttributeFull', {
+          value: valueName,
+          attribute: attribute.label,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (ariaLabel = text));
     }
     return ariaLabel;
   }
