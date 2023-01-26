@@ -52,7 +52,7 @@ const moduleComponents = [
     UrlModule,
     SpinnerModule,
     RouterModule,
-    OutletModule.forChild(),
+    OutletModule,
     AddToCartModule,
     KeyboardFocusModule,
   ],
