@@ -4,7 +4,7 @@
 @import './delivery-address/index';
 @import './delivery-method/index';
 
-$checkout-components-allowlist: cx-payment-method, cx-payment-methods,
+$checkout-components-allowlist: cx-checkout-review-payment, cx-payment-method, cx-payment-methods,
   cx-checkout-progress, cx-checkout-progress-mobile-top,
   cx-checkout-progress-mobile-bottom, cx-delivery-mode, cx-delivery-address,
   cx-address-form, cx-billing-address-form, cx-payment-form, cx-review-submit,

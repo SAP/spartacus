@@ -1,5 +1,5 @@
 %cx-review-submit,
-%cx-review-payment {
+%cx-checkout-review-payment {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
   }
@@ -31,9 +31,7 @@
   .cx-review-summary {
     margin: 0;
     background-color: var(--cx-color-background);
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+    padding: 15px 0;
 
     &-wrapper {
       display: flex;

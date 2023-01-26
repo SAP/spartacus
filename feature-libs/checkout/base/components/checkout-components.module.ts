@@ -16,6 +16,7 @@ import { CheckoutProgressMobileBottomModule } from './checkout-progress/checkout
 import { CheckoutProgressMobileTopModule } from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
 import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
+import { CheckoutReviewPaymentModule } from './checkout-review/checkout-review-payment/checkout-review-payment.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-re
     CheckoutPaymentMethodModule,
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
+    CheckoutReviewPaymentModule,
     CheckoutDeliveryAddressModule,
     CheckoutLoginModule,
   ],

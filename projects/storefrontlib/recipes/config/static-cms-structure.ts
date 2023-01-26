@@ -16,4 +16,9 @@ export const defaultCmsContentProviders: ValueProvider[] = [
     componentId: 'LoginComponent',
     pageSlotPosition: 'SiteLogin',
   }),
+  provideCmsStructure({
+    componentId: 'CheckoutReviewPayment',
+    pageSlotPosition: 'RightContentSlot',
+    pageTemplate: 'MultiStepCheckoutSummaryPageTemplate'
+  }),
 ];
