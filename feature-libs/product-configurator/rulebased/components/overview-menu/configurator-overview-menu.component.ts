@@ -5,7 +5,6 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   HostBinding,
@@ -21,8 +20,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
-  @HostBinding('style.height') height = '';
+export class ConfiguratorOverviewMenuComponent {
+  @HostBinding('style.height') height = this.getHeight();
 
   @Input() config: Configurator.ConfigurationWithOverview;
 
@@ -37,14 +36,23 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
-  // https://dev.to/nikosanif/how-to-set-dynamic-height-at-element-with-angular-directive-5986
-  ngAfterViewInit() {
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    this.highlightMenuItem();
+    this.syncScroll();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
     this.height = this.getHeight();
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll(): void {
-    let currentMenuItem: HTMLElement | undefined;
+  protected highlightMenuItem(): void {
+    this.highlight(this.getMenuItemToHighlight());
+  }
+
+  protected getMenuItemToHighlight(): HTMLElement | undefined {
+    let menuItem: HTMLElement | undefined;
     const groups =
       this.configuratorStorefrontUtilsService.getElements('div.cx-group');
     groups?.forEach((group) => {
@@ -53,38 +61,43 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
         const id = group?.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
         if (id) {
           const querySelector = '#' + id;
-          currentMenuItem =
+          menuItem =
             this.configuratorStorefrontUtilsService.getElement(querySelector);
         }
       }
     });
+    return menuItem;
+  }
 
-    const menuItems = this.configuratorStorefrontUtilsService.getElements(
-      'button.cx-menu-item'
+  protected highlight(menuItemToHighlight: HTMLElement | undefined) {
+    if (menuItemToHighlight) {
+      const menuItems = this.configuratorStorefrontUtilsService.getElements(
+        'button.cx-menu-item'
+      );
+      menuItems?.forEach((menuItem) => {
+        menuItem.classList.remove(this.ACTIVE_CLASS);
+        if (menuItem.id === menuItemToHighlight?.id) {
+          menuItemToHighlight.classList.add(this.ACTIVE_CLASS);
+        }
+      });
+    }
+  }
+
+  protected syncScroll(): void {
+    const ovMenu = this.configuratorStorefrontUtilsService.getElement(
+      'cx-configurator-overview-menu'
     );
-    menuItems?.forEach((menuItem) => {
-      menuItem.classList.remove(this.ACTIVE_CLASS);
-      if (menuItem.id === currentMenuItem?.id) {
-        currentMenuItem.classList.add(this.ACTIVE_CLASS);
-      }
-    });
+    this.configuratorStorefrontUtilsService.syncScroll(ovMenu);
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.height = this.getHeight();
-  }
-
-  /**
-   * Retrieves an actual component height.
-   */
-  getHeight(): string {
+  protected getHeight(): string {
     const menu = this.configuratorStorefrontUtilsService.getElement(
       'cx-configurator-overview-menu'
     );
-    const viewPortHeight =
-      this.configuratorStorefrontUtilsService.getViewPortHeight();
+
     if (menu) {
+      const viewPortHeight =
+        this.configuratorStorefrontUtilsService.getViewPortHeight(true);
       if (menu.offsetHeight < viewPortHeight) {
         return '';
       } else {
@@ -92,7 +105,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       }
     }
 
-    return '';
+    return this.configuratorStorefrontUtilsService.getViewPortHeight() + 'px';
   }
 
   /**

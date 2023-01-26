@@ -109,14 +109,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-  syncScroll(element1:Element | HTMLElement, element2?: Element | HTMLElement): void {
-    if (this.windowRef.isBrowser()) {
-      element1.scrollTop = this.windowRef.document.scrollingElement?.scrollTop ?  this.windowRef.document.scrollingElement?.scrollTop : 0;
-    }
-  }
-   */
-
-  /**
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
@@ -334,12 +326,43 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
-  getViewPortHeight(): number {
+  getViewPortHeight(isMenuRendered: boolean = false): number {
     if (this.windowRef.isBrowser()) {
+      if (isMenuRendered) {
+        return this.windowRef.nativeWindow
+          ? this.windowRef.nativeWindow.innerHeight - 190
+          : 0;
+      }
       return this.windowRef.nativeWindow
-        ? this.windowRef.nativeWindow.innerHeight - 180
+        ? this.windowRef.nativeWindow.innerHeight - 400
         : 0;
     }
     return 0;
+  }
+
+  syncScroll(element: HTMLElement | undefined): void {
+    if (this.windowRef.isBrowser() && element) {
+      const windowHeight = this.windowRef.nativeWindow?.innerHeight;
+      const elementHeight = element.offsetHeight;
+      const difference = windowHeight ? windowHeight / elementHeight : 0;
+      const yPosition = this.windowRef.nativeWindow?.scrollY
+        ? this.windowRef.nativeWindow?.scrollY / (difference * 5.5)
+        : 0;
+      const elementTop = element.scrollTop;
+      console.warn(
+        'windowHeight: ' +
+          windowHeight +
+          '; elementHeight: ' +
+          elementHeight +
+          '; difference: ' +
+          difference +
+          '; windowsY:' +
+          this.windowRef.nativeWindow?.scrollY +
+          '; elementY: ' +
+          elementTop
+      );
+      const xPosition = this.windowRef.nativeWindow?.scrollX ?? 0;
+      element.scroll(xPosition, yPosition);
+    }
   }
 }
