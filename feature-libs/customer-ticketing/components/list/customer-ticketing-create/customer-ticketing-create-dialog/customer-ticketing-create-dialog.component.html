@@ -46,16 +46,13 @@
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.category' | cxTranslate }}
           </span>
-          <select
-            class="form-control"
-            (change)="setSelectedCategory(ticketCategories, $event)"
-          >
+          <select class="form-control" formControlName="ticketCategory">
             <option value="" disabled selected>
               {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
             </option>
             <option
               *ngFor="let category of ticketCategories"
-              ngValue="{{ category.id }}"
+              [ngValue]="category"
               [selected]="category.id === selectedCategory?.id"
             >
               {{ category.name }}
@@ -73,12 +70,7 @@
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.associateTo' | cxTranslate }}
           </span>
-          <select
-            class="form-control"
-            (change)="
-              setSelectedAssociatedObject(ticketAssociatedObjects, $event)
-            "
-          >
+          <select class="form-control" formControlName="associatedTo">
             <option value="" disabled selected>
               {{
                 'createCustomerTicket.optionallySelectAssociatedObject'
@@ -87,7 +79,7 @@
             </option>
             <option
               *ngFor="let associatedObject of ticketAssociatedObjects"
-              value="{{ associatedObject.code }}"
+              [ngValue]="associatedObject"
               [selected]="
                 associatedObject.code === selectedAssociatedObject?.code
               "

@@ -1,14 +1,15 @@
-import { isTicketNotFoundError } from './utils';
+import { isNotFoundError } from './utils';
 
 describe('Ticket utils', () => {
-  describe('isTicketNotFoundError', () => {
-    it('should return true when it is normal cart notFound error', () => {
+  describe('isNotFoundError', () => {
+    it('should return true when it is notFound error', () => {
       expect(
-        isTicketNotFoundError({
-          type: 'NotFoundError',
-          message: 'Ticket not found for the given ID XYZ12345',
-          reason: 'notFound',
-        })
+        isNotFoundError(
+          {
+            type: 'NotFoundError',
+            reason: 'notFound'
+          }
+        )
       ).toEqual(true);
     });
   });

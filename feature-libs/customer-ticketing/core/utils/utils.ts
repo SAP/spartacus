@@ -8,17 +8,15 @@
 import {
   ErrorModel,
   OccHttpErrorType,
-  OccHttpErrorReason,
+  OccHttpErrorReason
 } from '@spartacus/core';
 
 /**
  * Check if the returned error is of type notFound.
  */
-export function isTicketNotFoundError(error: ErrorModel): boolean {
+export function isNotFoundError(error: ErrorModel): boolean {
   return (
     error.reason === OccHttpErrorReason.NOT_FOUND_ERROR &&
-    error.type === OccHttpErrorType.NOT_FOUND_ERROR &&
-    error.message !== undefined &&
-    error.message.toLowerCase().startsWith('ticket')
+    error.type === OccHttpErrorType.NOT_FOUND_ERROR
   );
 }

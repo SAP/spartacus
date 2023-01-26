@@ -45,8 +45,8 @@ export class CustomerTicketingCreateDialogComponent
     return {
       message: form?.get('message')?.value,
       subject: form?.get('subject')?.value,
-      associatedTo: this.selectedAssociatedObject,
-      ticketCategory: this.selectedCategory,
+      associatedTo: form?.get('associatedTo')?.value,
+      ticketCategory: form?.get('ticketCategory')?.value,
     };
   }
 
@@ -84,27 +84,6 @@ export class CustomerTicketingCreateDialogComponent
       ])
     );
     this.form = form;
-  }
-
-  setSelectedAssociatedObject(
-    ticketAssociatedObjects: AssociatedObject[],
-    selectEvent: Event
-  ) {
-    const selectedAssociatedObjectIndex = (
-      selectEvent.target as HTMLSelectElement
-    ).selectedIndex;
-    this.selectedAssociatedObject =
-      ticketAssociatedObjects[selectedAssociatedObjectIndex - 1];
-    this.form.controls.associatedTo.setValue(
-      this.selectedAssociatedObject.code
-    );
-  }
-
-  setSelectedCategory(ticketCategories: Category[], selectEvent: Event): void {
-    const selectedCategoryIndex = (selectEvent.target as HTMLSelectElement)
-      .selectedIndex;
-    this.selectedCategory = ticketCategories[selectedCategoryIndex - 1];
-    this.form.controls.ticketCategory.setValue(this.selectedCategory.id);
   }
 
   createTicketRequest(): void {
