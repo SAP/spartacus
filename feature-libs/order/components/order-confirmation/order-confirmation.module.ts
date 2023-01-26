@@ -25,6 +25,7 @@ import { OrderDetailsService } from '../order-details/order-details.service';
 import { OrderOverviewComponent } from '../order-details/order-overview/order-overview.component';
 import { OrderConfirmationOrderEntriesContext } from '../page-context/order-confirmation-order-entries.context';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items/order-confirmation-items.component';
+import { OrderConfirmationShippingComponent } from './order-confirmation-shipping/order-confirmation-shipping.component';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals/order-confirmation-totals.component';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form/order-guest-register-form.component';
@@ -34,6 +35,7 @@ const orderConfirmationComponents = [
   OrderConfirmationThankYouMessageComponent,
   OrderConfirmationTotalsComponent,
   OrderGuestRegisterFormComponent,
+  OrderConfirmationShippingComponent,
 ];
 
 @NgModule({
@@ -96,6 +98,11 @@ const orderConfirmationComponents = [
               useExisting: OrderFacade,
             },
           ],
+          guards: [OrderConfirmationGuard],
+        },
+
+        OrderConfirmationShippingComponent: {
+          component: OrderConfirmationShippingComponent,
           guards: [OrderConfirmationGuard],
         },
       },
