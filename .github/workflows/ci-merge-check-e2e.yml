@@ -143,7 +143,8 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Aggregate Job Results
-        run: |     
+        run: |
+            gh pr ready --undo ${{github.event.number}} -R ${{ github.repository }} 
             exit 1
         if: |
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
