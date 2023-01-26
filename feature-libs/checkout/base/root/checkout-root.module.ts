@@ -27,6 +27,7 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutPaymentDetails',
   'CheckoutPlaceOrder',
   'CheckoutReviewOrder',
+  'CheckoutReviewShipping',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
 ];
