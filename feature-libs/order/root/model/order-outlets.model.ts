@@ -5,7 +5,7 @@
  */
 
 /**
- * Identifiers of outlets inside the cart details view.
+ * Identifiers of outlets for the order consignment.
  */
 export enum OrderOutlets {
   ORDER_CONSIGNMENT = 'cx-order-consignment',
