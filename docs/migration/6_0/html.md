@@ -95,3 +95,7 @@
 
 - Replaced `h4` tag with `h2` tag header for accessibility improvements.
 
+### AddressBookFormComponent
+
+- Added `Cellphone` field to the `addressForm`
+
