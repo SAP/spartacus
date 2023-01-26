@@ -27,6 +27,7 @@ import {
   TicketClosedEvent,
   TicketCreatedEvent,
   TicketReopenedEvent,
+  UploadAttachmentSuccessEvent,
 } from './customer-ticketing.events';
 @Injectable({
   providedIn: 'root',
@@ -38,8 +39,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected eventService: EventService,
     protected globalMessageService: GlobalMessageService
   ) {
-    this.onGetTicketQueryReload();
-    this.onGetTicketsQueryReload();
+    this.onLanguageAndCurrencySetEvent;
     this.onLoginAndLogoutEvent();
     this.onTicketCreatedEvent();
     this.onNewMessage();
@@ -61,24 +61,14 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onGetTicketQueryReload(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
-      ).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-      })
-    );
-  }
-
-  protected onGetTicketsQueryReload(): void {
+  protected onLanguageAndCurrencySetEvent(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
+        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })
     );
   }
@@ -132,6 +122,14 @@ export class CustomerTicketingEventListener implements OnDestroy {
           },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+      })
+    );
+  }
+
+  protected onUploadAttachmentSucess(): void {
+    this.subscriptions.add(
+      this.eventService.get(UploadAttachmentSuccessEvent).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })
     );
   }

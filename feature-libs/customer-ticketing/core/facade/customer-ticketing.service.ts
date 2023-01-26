@@ -38,6 +38,7 @@ import {
   TicketList,
   TicketReopenedEvent,
   TicketStarter,
+  UploadAttachmentSuccessEvent,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
 import {
@@ -169,7 +170,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
             )
             .pipe(
               tap(() =>
-                this.eventService.dispatch({}, GetTicketQueryReloadEvent)
+                this.eventService.dispatch({}, UploadAttachmentSuccessEvent)
               )
             )
         )

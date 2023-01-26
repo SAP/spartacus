@@ -59,3 +59,7 @@ export class TicketCreatedEvent extends CxEvent {
 export class CreateEvent extends CxEvent {
   static readonly type = 'CreateEvent';
 }
+
+export class UploadAttachmentSuccessEvent extends CxEvent {
+  static readonly type = 'UploadAttachmentSuccessEvent';
+}
