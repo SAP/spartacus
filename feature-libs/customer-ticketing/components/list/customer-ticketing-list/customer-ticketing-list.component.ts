@@ -37,7 +37,7 @@ export class CustomerTicketingListComponent {
     .getTickets(this.PAGE_SIZE)
     .pipe(tap((tickets) => (this.sortType = tickets?.pagination?.sort || '')));
 
-  goToTicketDetail(ticketId: string): void {
+  goToTicketDetail(ticketId: string | undefined): void {
     this.routingService.go({
       cxRoute: 'supportTicketDetails',
       params: { ticketCode: ticketId },

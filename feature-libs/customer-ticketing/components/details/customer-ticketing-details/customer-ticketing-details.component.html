@@ -4,7 +4,7 @@
       <div class="cx-details-card">
         <cx-card
           [content]="
-            prepareCardContent(ticket.id!, 'customerTicketing.ticketId') | async
+            prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
           "
         ></cx-card>
       </div>
@@ -35,9 +35,9 @@
         <cx-card
           [content]="
             prepareCardContent(
-              ticket.status?.name!,
+              ticket.status ? ticket.status.name : undefined,
               'customerTicketing.status',
-              ticket.status?.id!
+              ticket.status ? ticket.status.id : undefined
             ) | async
           "
         ></cx-card>
