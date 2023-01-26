@@ -64,7 +64,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
     userId: string,
     productCodes: string
   ): string {
-    let params = <any>{};
+    const params = <any>{};
 
     if (productCodes) {
       params['productCodes'] = productCodes;
