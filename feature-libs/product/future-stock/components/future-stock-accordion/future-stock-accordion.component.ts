@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { FutureStock } from '@spartacus/core';
@@ -5,9 +11,6 @@ import { FutureStock } from '@spartacus/core';
 @Component({
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
-  host: {
-    '[class.collapsed]': '!expanded',
-  },
 })
 export class FutureStockAccordionComponent {
   @Input() header: string;

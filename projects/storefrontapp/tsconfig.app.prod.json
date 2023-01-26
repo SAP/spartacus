@@ -134,6 +134,22 @@
       "@spartacus/organization/order-approval/root": [
         "dist/organization/order-approval/root"
       ],
+      "@spartacus/organization/unit-order/assets": [
+        "dist/organization/unit-order/assets"
+      ],
+      "@spartacus/organization/unit-order/components": [
+        "dist/organization/unit-order/components"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "dist/organization/unit-order/core"
+      ],
+      "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
+      "@spartacus/organization/unit-order/occ": [
+        "dist/organization/unit-order/occ"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "dist/organization/unit-order/root"
+      ],
       "@spartacus/organization/user-registration/assets": [
         "dist/organization/user-registration/assets"
       ],
@@ -151,22 +167,6 @@
       ],
       "@spartacus/organization/user-registration/root": [
         "dist/organization/user-registration/root"
-      ],
-      "@spartacus/organization/unit-order/assets": [
-        "dist/organization/unit-order/assets"
-      ],
-      "@spartacus/organization/unit-order/components": [
-        "dist/organization/unit-order/components"
-      ],
-      "@spartacus/organization/unit-order/core": [
-        "dist/organization/unit-order/core"
-      ],
-      "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
-      "@spartacus/organization/unit-order/occ": [
-        "dist/organization/unit-order/occ"
-      ],
-      "@spartacus/organization/unit-order/root": [
-        "dist/organization/unit-order/root"
       ],
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
@@ -204,6 +204,20 @@
       "@spartacus/product/bulk-pricing/root": [
         "dist/product/bulk-pricing/root"
       ],
+      "@spartacus/product/future-stock/assets": [
+        "dist/product/future-stock/assets"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "dist/product/future-stock/components"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "dist/product/future-stock/core"
+      ],
+      "@spartacus/product/future-stock": ["dist/product/future-stock"],
+      "@spartacus/product/future-stock/occ": ["dist/product/future-stock/occ"],
+      "@spartacus/product/future-stock/root": [
+        "dist/product/future-stock/root"
+      ],
       "@spartacus/product/image-zoom/assets": [
         "dist/product/image-zoom/assets"
       ],
@@ -220,19 +234,6 @@
       "@spartacus/product/variants": ["dist/product/variants"],
       "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
       "@spartacus/product/variants/root": ["dist/product/variants/root"],
-      "@spartacus/product/future-stock/assets": [
-        "dist/product/future-stock/assets"
-      ],
-      "@spartacus/product/future-stock/components": [
-        "dist/product/future-stock/components"
-      ],
-      "@spartacus/product/future-stock/core": [
-        "dist/product/future-stock/core"
-      ],
-      "@spartacus/product/future-stock": ["dist/product/future-stock"],
-      "@spartacus/product/future-stock/root": [
-        "dist/product/future-stock/root"
-      ],
       "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
       "@spartacus/qualtrics": ["dist/qualtrics"],
       "@spartacus/qualtrics/root": ["dist/qualtrics/root"],

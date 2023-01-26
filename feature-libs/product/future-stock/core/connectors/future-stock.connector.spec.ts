@@ -1,8 +1,8 @@
-import { TestBed } from "@angular/core/testing";
-import { of } from "rxjs";
-import { take } from "rxjs/operators";
-import { FutureStockAdapter } from "./future-stock.adapter";
-import { FutureStockConnector } from "./future-stock.connector";
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { FutureStockAdapter } from './future-stock.adapter';
+import { FutureStockConnector } from './future-stock.connector';
 import createSpy = jasmine.createSpy;
 
 const userId = 'userId1';
@@ -10,20 +10,23 @@ const productCode = 'productCode1';
 const productCodes = 'productCode1, productCode2';
 
 class MockFutureStockAdapter implements Partial<FutureStockAdapter> {
-	getFutureStock = createSpy('FutureStockAdapter.getFutureStock').and.callFake(
-		(productCode: string, userId: string) => of(`getFutureStock-${userId}-${productCode}`)
-	);
+  getFutureStock = createSpy('FutureStockAdapter.getFutureStock').and.callFake(
+    (productCode: string, userId: string) =>
+      of(`getFutureStock-${userId}-${productCode}`)
+  );
 
-	getFutureStocks = createSpy('FutureStockAdapter.getFutureStocks').and.callFake(
-		(productCodes: string, userId: string) => of(`getFutureStocks-${userId}-${productCodes}`)
-	);
+  getFutureStocks = createSpy(
+    'FutureStockAdapter.getFutureStocks'
+  ).and.callFake((productCodes: string, userId: string) =>
+    of(`getFutureStocks-${userId}-${productCodes}`)
+  );
 }
 
 describe('FutureStockConnector', () => {
-	let service: FutureStockConnector;
-	let adapter: FutureStockAdapter;
+  let service: FutureStockConnector;
+  let adapter: FutureStockAdapter;
 
-	beforeEach(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         FutureStockConnector,
@@ -35,11 +38,11 @@ describe('FutureStockConnector', () => {
     adapter = TestBed.inject(FutureStockAdapter);
   });
 
-	it('should be created', () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-	it('getFutureStock should call adapter', () => {
+  it('getFutureStock should call adapter', () => {
     let result;
     service
       .getFutureStock(productCode, userId)
@@ -49,7 +52,7 @@ describe('FutureStockConnector', () => {
     expect(adapter.getFutureStock).toHaveBeenCalledWith(productCode, userId);
   });
 
-	it('getFutureStocks should call adapter', () => {
+  it('getFutureStocks should call adapter', () => {
     let result;
     service
       .getFutureStocks(productCodes, userId)
@@ -59,4 +62,3 @@ describe('FutureStockConnector', () => {
     expect(adapter.getFutureStocks).toHaveBeenCalledWith(productCodes, userId);
   });
 });
-

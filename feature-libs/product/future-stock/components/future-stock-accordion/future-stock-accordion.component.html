@@ -1,4 +1,8 @@
-<button class="cx-future-stock-accordion-header" (click)="toggle()">
+<button
+  class="cx-future-stock-accordion-header"
+  [attr.aria-expanded]="expanded"
+  (click)="toggle()"
+>
   <span>
     {{ header }}
     <cx-icon *ngIf="expanded" [type]="iconType.CARET_UP"></cx-icon>
