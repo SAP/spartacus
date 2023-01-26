@@ -25,17 +25,14 @@ export class GetTicketsQueryReloadEvents extends CxEvent {
 
 export class NewMessageEvent extends CxEvent {
   static readonly type = 'NewMessageEvent';
-  status: string;
 }
 
 export class TicketReopenedEvent extends CxEvent {
   static readonly type = 'TicketReopenedEvent';
-  status: string;
 }
 
 export class TicketClosedEvent extends CxEvent {
   static readonly type = 'TicketClosedEvent';
-  status: string;
 }
 
 export class GetTicketCategoryQueryResetEvent extends CxEvent {

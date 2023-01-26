@@ -122,23 +122,14 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
             .pipe(
               tap(() => {
                 if (payload.ticketEvent.toStatus?.id === STATUS.CLOSED) {
-                  this.eventService.dispatch(
-                    { status: payload.ticketEvent.toStatus?.id },
-                    TicketClosedEvent
-                  );
+                  this.eventService.dispatch({}, TicketClosedEvent);
                 } else if (
                   payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
                   payload.ticketEvent.toStatus?.id === STATUS.INPROCESS
                 ) {
-                  this.eventService.dispatch(
-                    { status: payload.ticketEvent.toStatus?.id },
-                    TicketReopenedEvent
-                  );
+                  this.eventService.dispatch({}, TicketReopenedEvent);
                 } else if (!payload.containsAttachment) {
-                  this.eventService.dispatch(
-                    { status: payload.ticketEvent.toStatus?.id },
-                    NewMessageEvent
-                  );
+                  this.eventService.dispatch({}, NewMessageEvent);
                 }
               })
             )
@@ -239,30 +230,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
-  getTicketsQuery$(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Query<TicketList | undefined> {
-    return this.queryService.create<TicketList | undefined>(
-      () =>
-        this.customerTicketingListPreConditions().pipe(
-          switchMap((customerId) =>
-            this.customerTicketingConnector.getTickets(
-              customerId,
-              pageSize,
-              currentPage,
-              sort
-            )
-          )
-        ),
-      {
-        reloadOn: this.getTicketsQueryReloadEvents(),
-        resetOn: this.getTicketsQueryResetEvents(),
-      }
-    );
-  }
-
   constructor(
     protected queryService: QueryService,
     protected commandService: CommandService,
@@ -336,21 +303,20 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.createTicketCommand.execute(ticketStarted);
   }
 
-  getTicketsState(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Observable<QueryState<TicketList | undefined>> {
-    return this.getTicketsQuery$(pageSize, currentPage, sort).getState();
-  }
-
   getTickets(
     pageSize: number,
     currentPage: number,
     sort: string
   ): Observable<TicketList | undefined> {
-    return this.getTicketsState(pageSize, currentPage, sort).pipe(
-      map((state) => state.data)
+    return this.customerTicketingListPreConditions().pipe(
+      switchMap((customerId) =>
+        this.customerTicketingConnector.getTickets(
+          customerId,
+          pageSize,
+          currentPage,
+          sort
+        )
+      )
     );
   }
 
