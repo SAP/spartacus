@@ -116,7 +116,13 @@ export const layoutConfig: LayoutConfig = {
       slots: ['BodyContent', 'SideContent'],
     },
     MultiStepCheckoutSummaryPageTemplate: {
-      slots: ['TopContent', 'BodyContent', 'SideContent', 'BottomContent'],
+      slots: [
+        'TopContent',
+        'BodyContent',
+        'OnlyForTest',
+        'SideContent',
+        'BottomContent',
+      ],
     },
     CheckoutLoginPageTemplate: {
       slots: ['RightContentSlot'],
