@@ -41,7 +41,7 @@ export const checkout = {
     editPaymentType: 'Edit payment method, opens Method of Payment page',
     editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
     orderInProcess: 'Order is in process. Please wait.',
-    shippingLabel: 'Shipping to',
+    shippingLabel: 'Items to be Shipped',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',
