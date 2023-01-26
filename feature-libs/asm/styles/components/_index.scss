@@ -16,13 +16,14 @@
 @import './asm-customer-product-listing.component';
 @import './_asm-customer-table.component.scss';
 @import './asm-customer-map.component.scss';
+@import './_tab-headers.component.scss';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-bind-cart-dialog, cx-asm-toggle-ui,
   cx-csagent-login-form, cx-customer-emulation, cx-customer-selection,
   cx-dot-spinner, cx-customer-list, cx-asm-customer-360, cx-asm-customer-profile,
   cx-asm-customer-product-listing, cx-asm-customer-overview,
-  cx-asm-customer-table, cx-asm-customer-map !default;
+  cx-asm-customer-table, cx-asm-customer-map, cx-tab-headers !default;
 
 $skipComponentStyles: () !default;
 

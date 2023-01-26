@@ -1,0 +1,38 @@
+%cx-tab-headers {
+  .cx-tab-headers {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    border-bottom: 1px solid #dddddd;
+    padding: 2rem 0 0 2rem;
+    .cx-tab-header {
+      text-align: center;
+      color: $asmTabTextColor;
+      font-weight: var(--cx-font-weight-semi);
+      border: 1px solid white;
+      background-color: white;
+      margin-inline-start: 1rem;
+      padding: 0 1rem 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      &.active {
+        cursor: default;
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+      &:hover {
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+      &:active,
+      &:hover,
+      &:focus {
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="cx-tab-headers" role="tablist">
+  <button
+    #tabHeaderItem
+    *ngFor="let tabHeader of tabHeaders; let i = index"
+    class="cx-tab-header"
+    role="tab"
+    [attr.aria-selected]="activeTabIndex === i"
+    [attr.aria-controls]="tabHeader.ariaControls ?? ariaControls"
+    (click)="onSelectTab(i)"
+    [class.active]="activeTabIndex === i"
+    (keydown)="switchTabOnKeyPress($event, i)"
+  >
+    {{ tabHeader.label ?? tabHeader.i18nNameKey | cxTranslate }}
+  </button>
+</div>

@@ -1,14 +1,15 @@
 <div
   class="cx-asm-customer-360 cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
 >
   <!-- Modal Header -->
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div class="header-title">
-        <h3 id="asm-customer-360-title" class="modal-title">
+        <h2 id="asm-customer-360-title" class="modal-title">
           {{ 'asm.customer360.header.title' | cxTranslate }}
-        </h3>
+        </h2>
         <div id="asm-customer-360-desc" class="cx-visually-hidden">
           {{ 'asm.customer360.header.title' | cxTranslate }}
         </div>
@@ -82,17 +83,13 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body">
-      <div class="cx-tab-container">
-        <a
-          class="cx-tab"
-          *ngFor="let tab of tabs; let i = index"
-          (click)="selectTab(i)"
-          [class.active]="activeTab === i"
-        >
-          {{ tab.i18nNameKey | cxTranslate }}
-        </a>
-      </div>
-      <div class="cx-tab-content modal-body">
+      <cx-tab-headers
+        [activeTabIndex]="activeTab"
+        [tabHeaders]="tabHeaders"
+        (selectTab)="selectTab($event)"
+        ariaControls="cx-asm360-tab-panels"
+      ></cx-tab-headers>
+      <div id="cx-asm360-tab-panels" class="cx-tab-content modal-body">
         <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
           <cx-asm-customer-section
             *ngFor="let config of currentTab?.components; let i = index"

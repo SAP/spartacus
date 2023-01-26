@@ -25,9 +25,14 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
+import { TabHeader } from '../tab-headers/tab-headers.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +44,13 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
   readonly closeIcon = ICON_TYPE.CLOSE;
   readonly orderIcon = ICON_TYPE.ORDER;
 
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: '.cx-tab-header.active',
+    focusOnEscape: true,
+  };
+
   tabs: Array<AsmCustomer360TabConfig>;
   activeTab = 0;
   currentTab: AsmCustomer360TabConfig;
@@ -47,9 +59,11 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
 
   customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
 
-  activeCart$: Observable<Cart>;
+  activeCart$: Observable<Cart | undefined>;
   savedCarts$: Observable<Array<Cart>>;
   orderHistory$: Observable<OrderHistoryList>;
+
+  tabHeaders: Array<TabHeader> = [];
 
   protected readonly ORDER_LIMIT = 100;
   protected subscription = new Subscription();
@@ -64,6 +78,12 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     protected savedCartFacade: SavedCartFacade
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
+    this.tabHeaders = this.tabs.map((tab) => {
+      return {
+        i18nNameKey: tab.i18nNameKey,
+      };
+    });
+
     this.currentTab = this.tabs[0];
 
     this.activeCart$ = this.activeCartFacade

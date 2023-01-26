@@ -16,9 +16,10 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      h3 {
+      h2 {
         font-weight: var(--cx-font-weight-semi);
         color: $asmMainTextColor;
+        font-size: 1.375rem;
       }
     }
     .header-content {
@@ -60,7 +61,7 @@
 
         > span {
           align-items: center;
-          color: #747881;
+          color: $asmMainSecondaryTextColor;
           display: inline-flex;
 
           &:nth-of-type(n + 2) {
@@ -87,38 +88,6 @@
     padding-top: 0;
     overflow-y: hidden;
 
-    .cx-tab-container {
-      display: flex;
-      flex-direction: row;
-      margin-top: 2rem;
-      overflow-x: auto;
-      border-bottom: 1px solid #dddddd;
-      padding-inline-start: 2rem;
-    }
-    .cx-tab {
-      text-align: center;
-      color: $asmTabTextColor;
-      font-weight: var(--cx-font-weight-semi);
-      border-bottom: 1px solid white;
-      padding: 0 1rem 1rem;
-      text-transform: uppercase;
-      cursor: pointer;
-      &.active {
-        cursor: default;
-      }
-      &:hover {
-        color: $asmVisualFocusColor;
-        text-decoration: none;
-        border-bottom: 1px solid $asmVisualFocusColor;
-      }
-      &:active,
-      &:hover,
-      &:focus {
-        color: $asmVisualFocusColor;
-        text-decoration: none;
-        border-bottom: 1px solid $asmVisualFocusColor;
-      }
-    }
     .cx-tab-content {
       flex: 1;
       min-height: 0;
