@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
-// import { TranslationService } from '@spartacus/core';
-// import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/testing/configurator-test-utils';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -37,13 +35,19 @@ const myValues: Configurator.Value[] = [
     valueDisplay: 'val2',
     selected: true,
   },
+  {
+    valueCode: 'val3',
+    valueDisplay: 'val3',
+    selected: false,
+    quantity: 3,
+    valuePrice: priceDetails,
+  },
 ];
 
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfiguratorAttributeReadOnlyComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeReadOnlyComponent>;
   let htmlElem: HTMLElement;
-  // let translation: TranslationService;
   let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions = {
     quantity: myValues[0].quantity,
     price: myValues[0].valuePrice,
@@ -84,7 +88,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -100,19 +104,16 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     it('should display valueDisplay of selected value for attribute with domain', () => {
       component.attribute.values = myValues;
       fixture.detectChanges();
-      console.log('html:  ' + htmlElem);
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.form-check'
       );
-
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-read-only-label'
       );
-
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -130,7 +131,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         htmlElem,
         '.form-check'
       );
-
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -148,15 +148,175 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         htmlElem,
         '.form-check'
       );
-
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-value-price'
       );
     });
+  });
 
-    describe('no static Domain', () => {
+  describe('no static Domain', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      component.attribute = {
+        name: 'attributeName',
+        label: 'attributelabel',
+        attrCode: 444,
+        uiType: Configurator.UiType.READ_ONLY,
+        selectedSingleValue: myValues[1].valueCode,
+        values: undefined,
+        quantity: 1,
+      };
+      fixture.detectChanges();
+    });
+
+    describe('should display selectedSingleValue', () => {
+      it('should create component for selectedSingleValue', () => {
+        expect(component).toBeTruthy();
+      });
+      it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'span'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-visually-hidden'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-read-only-label'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-form-check'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-value-price'
+        );
+      });
+    });
+
+    describe('should display userInput', () => {
+      beforeEach(() => {
+        fixture = TestBed.createComponent(
+          ConfiguratorAttributeReadOnlyComponent
+        );
+        component = fixture.componentInstance;
+        htmlElem = fixture.nativeElement;
+        component.attribute = {
+          name: 'attributeName',
+          label: 'attributeName',
+          attrCode: 444,
+          uiType: Configurator.UiType.READ_ONLY,
+          userInput: myValues[1].valueCode,
+          values: undefined,
+          quantity: 1,
+        };
+        fixture.detectChanges();
+      });
+
+      it('should create component for userInput', () => {
+        expect(component).toBeTruthy();
+      });
+
+      it("should contain span element with class name 'cx-visually-hidden' that hides span content on the UI", () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'span'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-visually-hidden'
+        );
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-read-only-label'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-form-check'
+        );
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-value-price'
+        );
+      });
+    });
+  });
+
+  describe('Accessibility', () => {
+    describe('with staticDomain', () => {
+      it('should create component for staticDomain', () => {
+        expect(component).toBeTruthy();
+      });
+
+      it('should return aria label for valuePriceTotal', () => {
+        myValues[0].selected = true;
+        component.attribute.values = myValues;
+        fixture.detectChanges();
+        let attributeLabel = component.attribute.label;
+        let valueName = myValues[0].valueCode;
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-visually-hidden'
+        );
+        expect(
+          component.getAriaLabel(component.attribute, myValues[0])
+        ).toEqual(
+          'configurator.a11y.readOnlyValueOfAttributeFullWithPrice' +
+            ' attribute:' +
+            attributeLabel +
+            ' price:' +
+            myValues[0].valuePriceTotal?.formattedValue +
+            ' value:' +
+            valueName
+        );
+      });
+
+      it('should return aria label for only valuePrice', () => {
+        myValues[0].selected = false;
+        myValues[1].selected = false;
+        myValues[2].selected = true;
+        component.attribute.values = myValues;
+        fixture.detectChanges();
+        let attributeLabel = component.attribute.label;
+        let valueName = myValues[2].valueCode;
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-visually-hidden'
+        );
+        expect(
+          component.getAriaLabel(component.attribute, myValues[2])
+        ).toEqual(
+          'configurator.a11y.readOnlyValueOfAttributeFullWithPrice' +
+            ' attribute:' +
+            attributeLabel +
+            ' price:' +
+            myValues[2].valuePrice?.formattedValue +
+            ' value:' +
+            valueName
+        );
+      });
+    });
+
+    describe('noStaticDomain', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(
           ConfiguratorAttributeReadOnlyComponent
@@ -174,40 +334,30 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         };
         fixture.detectChanges();
       });
+
       describe('should display selectedSingleValue', () => {
-        it('should create', () => {
+        it('should create component for selectedSingleValue', () => {
           expect(component).toBeTruthy();
         });
-        it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
-          CommonConfiguratorTestUtilsService.expectElementPresent(
-            expect,
-            htmlElem,
-            'span'
-          );
+
+        it('should return aria label for selectedSingleValue ', () => {
+          let attributeLabel = component.attribute.label || '';
+          let valueName = myValues[1].valueCode;
           CommonConfiguratorTestUtilsService.expectElementPresent(
             expect,
             htmlElem,
             '.cx-visually-hidden'
           );
-          CommonConfiguratorTestUtilsService.expectElementPresent(
-            expect,
-            htmlElem,
-            '.cx-read-only-label'
-          );
-          CommonConfiguratorTestUtilsService.expectElementNotPresent(
-            expect,
-            htmlElem,
-            '.cx-form-check'
-          );
-          CommonConfiguratorTestUtilsService.expectElementNotPresent(
-            expect,
-            htmlElem,
-            '.cx-value-price'
+          expect(component.getAriaLabel(component.attribute)).toEqual(
+            'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
+              attributeLabel +
+              ' value:' +
+              valueName
           );
         });
       });
 
-      describe('User input', () => {
+      describe('should display userInput', () => {
         beforeEach(() => {
           fixture = TestBed.createComponent(
             ConfiguratorAttributeReadOnlyComponent
@@ -225,298 +375,25 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           };
           fixture.detectChanges();
         });
-        it('should create', () => {
+        it('should create component for userInput', () => {
           expect(component).toBeTruthy();
         });
-        it("should contain span element with class name 'cx-visually-hidden' that hides span content on the UI", () => {
-          CommonConfiguratorTestUtilsService.expectElementPresent(
-            expect,
-            htmlElem,
-            'span'
-          );
+        it('should return aria label for userInput ', () => {
+          let attributeLabel = component.attribute.label || '';
+          let valueName = myValues[1].valueCode;
           CommonConfiguratorTestUtilsService.expectElementPresent(
             expect,
             htmlElem,
             '.cx-visually-hidden'
           );
-          CommonConfiguratorTestUtilsService.expectElementPresent(
-            expect,
-            htmlElem,
-            '.cx-read-only-label'
-          );
-          CommonConfiguratorTestUtilsService.expectElementNotPresent(
-            expect,
-            htmlElem,
-            '.cx-form-check'
-          );
-          CommonConfiguratorTestUtilsService.expectElementNotPresent(
-            expect,
-            htmlElem,
-            '.cx-value-price'
+          expect(component.getAriaLabel(component.attribute)).toEqual(
+            'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
+              attributeLabel +
+              ' value:' +
+              valueName
           );
         });
       });
-
-      // describe('Accessibility', () => {});
     });
   });
 });
-// describe('ConfigAttributeReadOnlyComponent', () => {
-//   let component: ConfiguratorAttributeReadOnlyComponent;
-//   let fixture: ComponentFixture<ExampleReadOnlyComponent>;
-//   let htmlElem: HTMLElement;
-//   let configuratorPriceComponentOptions: ConfiguratorPriceComponentOptions = {
-//     quantity: myValues[0].quantity,
-//     price: myValues[0].valuePrice,
-//     priceTotal: myValues[0].valuePriceTotal,
-//     isLightedUp: myValues[0].selected,
-//   };
-
-//   beforeEach(
-//     waitForAsync(() => {
-//       TestBed.configureTestingModule({
-//         declarations: [
-//           ExampleReadOnlyComponent,
-//           MockConfiguratorPriceComponent,
-//         ],
-//         imports: [ReactiveFormsModule, I18nTestingModule],
-//       })
-//         .overrideComponent(ExampleReadOnlyComponent, {
-//           set: {
-//             changeDetection: ChangeDetectionStrategy.Default,
-//           },
-//         })
-//         .compileComponents();
-//     })
-//   );
-
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(ExampleReadOnlyComponent);
-//     component = fixture.componentInstance;
-//     htmlElem = fixture.nativeElement;
-//     component.attribute = {
-//       name: 'attributeName',
-//       label: 'attributeName',
-//       attrCode: 444,
-//       uiType: Configurator.UiType.READ_ONLY,
-//       selectedSingleValue: 'selectedValue',
-//       quantity: 1,
-//     };
-//     fixture.detectChanges();
-//   });
-
-////   it('should create', () => {
-////     expect(component).toBeTruthy();
-////   });
-
-////   it('should return corresponding value price formula parameters ', () => {
-////     expect(component.extractValuePriceFormulaParameters(myValues[0])).toEqual(
-////       configuratorPriceComponentOptions
-////     );
-////   });
-
-//   it('should display selectedSingleValue for attribute without domain', () => {
-//     CommonConfiguratorTestUtilsService.expectElementNotPresent(
-//       expect,
-//       htmlElem,
-//       '.cx-form-group-readonly-label'
-//     );
-//   });
-
-////  it('should display valueDisplay of selected value for attribute with domain', () => {
-//     component.attribute.values = myValues;
-//     fixture.detectChanges();
-//     CommonConfiguratorTestUtilsService.expectElementPresent(
-//       expect,
-//       htmlElem,
-//       '.cx-form-group-readonly-label'
-//     );
-//     CommonConfiguratorTestUtilsService.expectElementToContainText(
-//       expect,
-//       htmlElem,
-//       '.cx-form-group-readonly-label',
-//       'val2'
-//     );
-//   });
-
-//////   it('should display valueDisplay of all selected values for attribute with domain', () => {
-//     myValues[0].selected = true;
-//     component.attribute.values = myValues;
-//     fixture.detectChanges();
-//     CommonConfiguratorTestUtilsService.expectElementPresent(
-//       expect,
-//       htmlElem,
-//       '.cx-form-group-readonly-label'
-//     );
-//     expect(
-//       htmlElem.querySelectorAll('.cx-form-group-readonly-label').length
-//     ).toBe(2);
-//   });
-
-////   it('should display price component for attribute without domain', () => {
-//     CommonConfiguratorTestUtilsService.expectElementNotPresent(
-//       expect,
-//       htmlElem,
-//       '.cx-value-price'
-//     );
-//   });
-
-//   describe('Accessibility', () => {
-//     beforeEach(() => {
-//       myValues[0].selected = true;
-//       component.attribute.selectedSingleValue = myValues[0].valueCode;
-//       component.attribute.values = myValues;
-//       fixture.detectChanges();
-//     });
-
-//     describe('Static domain', () => {
-//       it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
-//         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//           expect,
-//           htmlElem,
-//           'span',
-//           'cx-visually-hidden',
-//           0,
-//           undefined,
-//           undefined,
-//           'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
-//             component.attribute.label +
-//             ' value:' +
-//             component.attribute.selectedSingleValue
-//         );
-//       });
-
-//       it("should contain label element with class name 'cx-form-group-readonly-label' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
-//         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//           expect,
-//           htmlElem,
-//           'label',
-//           'cx-form-group-readonly-label',
-//           0,
-//           'aria-hidden',
-//           'true'
-//         );
-//       });
-
-//       it("should contain price element with class name 'cx-value-price' and 'aria-hidden' attribute that removes an element from the accessibility tree ", () => {
-//         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//           expect,
-//           htmlElem,
-//           'div',
-//           'cx-value-price',
-//           0,
-//           'aria-hidden',
-//           'true'
-//         );
-//       });
-//     });
-
-//     describe('No Static domain', () => {
-//       describe('Selected single value', () => {
-//         beforeEach(() => {
-//           fixture = TestBed.createComponent(ExampleReadOnlyComponent);
-//           component = fixture.componentInstance;
-//           htmlElem = fixture.nativeElement;
-//           component.attribute = {
-//             name: 'attributeName',
-//             label: 'attributeName',
-//             attrCode: 444,
-//             uiType: Configurator.UiType.READ_ONLY,
-//             selectedSingleValue: myValues[1].valueCode,
-//             values: undefined,
-//             quantity: 1,
-//           };
-//           fixture.detectChanges();
-//         });
-
-//         it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
-//           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//             expect,
-//             htmlElem,
-//             'span',
-//             'cx-visually-hidden',
-//             0,
-//             undefined,
-//             undefined,
-//             ' configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
-//               component.attribute.label +
-//               ' value:' +
-//               component.attribute.selectedSingleValue
-//           );
-//         });
-
-//         it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that removes div from the accessibility tree", () => {
-//           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//             expect,
-//             htmlElem,
-//             'div',
-//             'cx-read-only-label',
-//             0,
-//             'aria-hidden',
-//             'true'
-//           );
-//         });
-
-//         it("should contain span element with 'aria-hidden' attribute attribute that removes span from the accessibility tree", () => {
-//           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//             expect,
-//             htmlElem,
-//             'span',
-//             undefined,
-//             1,
-//             'aria-hidden',
-//             'true',
-//             component.attribute.selectedSingleValue
-//           );
-//         });
-//       });
-
-//   describe('User input', () => {
-//     beforeEach(() => {
-//       fixture = TestBed.createComponent(ExampleReadOnlyComponent);
-//       component = fixture.componentInstance;
-//       htmlElem = fixture.nativeElement;
-//       component.attribute = {
-//         name: 'attributeName',
-//         label: 'attributeName',
-//         attrCode: 444,
-//         uiType: Configurator.UiType.READ_ONLY,
-//         userInput: myValues[1].valueCode,
-//         values: undefined,
-//         quantity: 1,
-//       };
-//       fixture.detectChanges();
-//     });
-
-//     it("should contain span element with class name 'cx-visually-hidden' that hides span content on the UI", () => {
-//       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//         expect,
-//         htmlElem,
-//         'span',
-//         'cx-visually-hidden',
-//         1,
-//         undefined,
-//         undefined,
-//         'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
-//           component.attribute.label +
-//           ' value:' +
-//           component.attribute.userInput
-//       );
-//     });
-
-//     it("should contain span element with 'aria-hidden' attribute that removes span from the accessibility tree", () => {
-//       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-//         expect,
-//         htmlElem,
-//         'span',
-//         undefined,
-//         1,
-//         'aria-hidden',
-//         'true',
-//         component.attribute.userInput
-//       );
-//     });
-//   });
-// });
-// });
-// });

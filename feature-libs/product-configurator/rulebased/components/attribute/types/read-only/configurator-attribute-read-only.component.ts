@@ -30,12 +30,12 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     value?: Configurator.Value
   ): string {
     let name = '';
-    if (attribute.selectedSingleValue) {
+    if (attribute.selectedSingleValue && !value) {
       name = attribute.selectedSingleValue;
-    } else if (attribute.userInput) {
+    } else if (attribute.userInput && !value) {
       name = attribute.userInput;
-    } else if (name === '' && value) {
-      name = value?.valueDisplay ?? '';
+    } else if (value && value.valueDisplay) {
+      name = value?.valueDisplay;
     }
     return name;
   }
@@ -45,8 +45,8 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     value?: Configurator.Value | undefined
   ): string {
     let ariaLabel = '';
-    const valueName = this.getCurrentValueName(attribute, value);
     if (value) {
+      const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
           this.translation
@@ -75,6 +75,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
         }
       }
     } else {
+      const valueName = this.getCurrentValueName(attribute);
       this.translation
         .translate('configurator.a11y.readOnlyValueOfAttributeFull', {
           value: valueName,
