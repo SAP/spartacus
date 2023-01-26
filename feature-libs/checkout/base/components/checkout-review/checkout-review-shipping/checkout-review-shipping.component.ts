@@ -14,7 +14,6 @@ import {
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
-  CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { Address, TranslationService } from '@spartacus/core';
@@ -31,6 +30,9 @@ export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
+  checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
+  checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
+
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
@@ -42,8 +44,6 @@ export class CheckoutReviewShippingComponent {
   get entries$(): Observable<OrderEntry[]> {
     return this.activeCartFacade.getDeliveryEntries();
   }
-
-  steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(

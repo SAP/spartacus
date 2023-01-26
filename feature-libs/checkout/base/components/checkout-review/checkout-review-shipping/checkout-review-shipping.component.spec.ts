@@ -148,24 +148,6 @@ describe('CheckoutReviewShippingComponent', () => {
     expect(entries).toEqual(mockEntries);
   });
 
-  it('should be able to get steps', () => {
-    let steps: CheckoutStep[] | undefined;
-    component.steps$.subscribe((data) => (steps = data));
-
-    expect(steps?.[0]).toEqual({
-      id: 'step1',
-      name: 'step1',
-      routeName: 'route1',
-      type: [CheckoutStepType.DELIVERY_ADDRESS],
-    });
-    expect(steps?.[1]).toEqual({
-      id: 'step2',
-      name: 'step2',
-      routeName: 'route2',
-      type: [CheckoutStepType.DELIVERY_MODE],
-    });
-  });
-
   it('should be able to get deliveryAddress', () => {
     let deliveryAddress: Address | undefined;
     component.deliveryAddress$.subscribe((data) => {
