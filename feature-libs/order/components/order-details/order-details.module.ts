@@ -16,14 +16,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { OrderOutlets } from '@spartacus/order/root';
 import {
   CardModule,
   KeyboardFocusModule,
   OutletModule,
-  OutletPosition,
   PromotionsModule,
-  provideOutlet,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
@@ -62,11 +59,6 @@ const moduleComponents = [
     KeyboardFocusModule,
   ],
   providers: [
-    provideOutlet({
-      id: OrderOutlets.ORDER_DELIVERY_ITEMS_LIST,
-      component: OrderDetailShippingComponent,
-      position: OutletPosition.BEFORE,
-    }),
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {

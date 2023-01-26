@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
+/*import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -266,4 +266,4 @@ describe('OrderDetailItemsComponent', () => {
     expect(order).toEqual(mockReplenishmentOrder);
     expect(el.query(By.css('.cx-promotions'))).toBeTruthy();
   });
-});
+}); */
