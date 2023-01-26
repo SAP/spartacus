@@ -32,7 +32,7 @@ const coreTestMapping = {
 
 export function testFeaturesFromConfig(config: MyCompanyConfig) {
   if (config.features?.length) {
-    describe('My Company Features', () => {
+    describe('My Company Features', { testIsolation: false }, () => {
       config.features.forEach((featureToggle: string) => {
         testMapping[featureToggle](config);
       });
@@ -42,7 +42,7 @@ export function testFeaturesFromConfig(config: MyCompanyConfig) {
 
 export function testCoreFeaturesFromConfig(config: MyCompanyConfig) {
   if (config.features?.length) {
-    describe('My Company Core Features', () => {
+    describe('My Company Core Features', { testIsolation: false }, () => {
       config.coreFeatures.forEach((featureToggle: string) => {
         testMapping[featureToggle](config);
       });

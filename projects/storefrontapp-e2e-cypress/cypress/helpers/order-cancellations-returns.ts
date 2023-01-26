@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as sampleData from '../sample-data/order-cancellations-returns';
 import {
   cancellableOrder,
   cancelledReturnRequest,
@@ -13,10 +14,9 @@ import {
   returnRequestList,
   RMA,
 } from '../sample-data/order-cancellations-returns';
-import { waitForPage } from './checkout-flow';
 import { verifyTabbingOrder } from './accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from './accessibility/tabbing-order.config';
-import * as sampleData from '../sample-data/order-cancellations-returns';
+import { waitForPage } from './checkout-flow';
 
 export function visitOrderDetailPage() {
   const alias = waitForPage(
@@ -177,7 +177,7 @@ export function getStubbedReturnRequestDetailsAfterCancel() {
 }
 
 export function testCancelOrder() {
-  describe('should cancel order', () => {
+  describe('should cancel order', { testIsolation: false }, () => {
     it('should cancel', () => {
       getStubbedCancellableOrderDetails();
       visitCancelOrderPage();
@@ -221,7 +221,7 @@ export function testCancelOrder() {
 }
 
 export function testReturnOrder() {
-  describe('should return order', () => {
+  describe('should return order', { testIsolation: false }, () => {
     it('should return', () => {
       getStubbedReturnableOrderDetails();
       visitReturnOrderPage();

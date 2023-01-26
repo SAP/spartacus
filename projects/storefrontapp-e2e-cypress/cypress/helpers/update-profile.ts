@@ -111,28 +111,32 @@ export function testSeeNewProfileInfo() {
 }
 
 export function testUpdateProfileLoggedInUser() {
-  describe('update profile test for logged in user', () => {
-    before(() => {
-      cy.requireLoggedIn();
-      cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
+  describe(
+    'update profile test for logged in user',
+    { testIsolation: false },
+    () => {
+      before(() => {
+        cy.requireLoggedIn();
+        cy.visit('/');
       });
-    });
 
-    testUpdateProfileDetails();
-    testSeeNewProfileInfo();
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+        });
+      });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
+      testUpdateProfileDetails();
+      testSeeNewProfileInfo();
 
-    after(() => {
-      login.signOutUser();
-    });
-  });
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      after(() => {
+        login.signOutUser();
+      });
+    }
+  );
 }

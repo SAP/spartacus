@@ -18,13 +18,13 @@ import { getSampleUser } from '../../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../../sample-data/shared-users';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
-context('B2B - User Registration', () => {
+context('B2B - User Registration', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
     });
 
-    describe('Registration form', { testIsolation: false }, () => {
+    describe('Registration form', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cy.visit('/');
