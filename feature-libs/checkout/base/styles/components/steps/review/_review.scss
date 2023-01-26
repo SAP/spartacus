@@ -31,9 +31,7 @@
   .cx-review-summary {
     margin: 0;
     background-color: var(--cx-color-background);
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+    padding: 15px 0;
 
     &-wrapper {
       display: flex;
