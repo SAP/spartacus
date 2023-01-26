@@ -2,31 +2,10 @@
   <h2 class="cx-review-header">
     {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
   </h2>
-  <div class="cx-review-summary cx-review-shipping-summary">
-    <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
-      <div class="cx-review-summary-card-container">
-        <ng-container *ngFor="let step of deliverySteps(steps)">
-          <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
-              <ng-container *ngTemplateOutlet="deliveryAddress"></ng-container>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-      </div>
-      <div class="cx-review-summary-card-container">
-        <ng-container *ngFor="let step of deliverySteps(steps)">
-          <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
-              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-      </div>
-    </ng-container>
-  </div>
 
+  <div class="cx-review-summary cx-review-shipping-summary">
   <!-- DELIVERY ADDRESS SECTION -->
-  <ng-template #deliveryAddress>
+  <div class="cx-review-summary-card-container">
     <div
       *ngIf="deliveryAddress$ | async as deliveryAddress"
       class="cx-review-summary-card cx-review-card-address"
@@ -48,10 +27,10 @@
         ></a>
       </div>
     </div>
-  </ng-template>
+  </div>
 
   <!-- DELIVERY MODE SECTION -->
-  <ng-template #deliveryMode>
+  <div class="cx-review-summary-card-container">
     <div class="cx-review-summary-card cx-review-card-address">
       <cx-card
         *ngIf="deliveryMode$ | async as deliveryMode"
@@ -69,7 +48,8 @@
         </a>
       </div>
     </div>
-  </ng-template>
+  </div>
+</div>
 
   <!-- CART ITEM SECTION -->
   <div class="cx-review-cart-item col-md-12">
