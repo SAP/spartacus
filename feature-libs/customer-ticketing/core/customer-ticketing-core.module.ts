@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { HttpErrorHandler, PageMetaResolver } from '@spartacus/core';
 import { CustomerTicketingConnector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
-import { BadTicketRequestHandler } from './http-interceptors/handlers/bad-ticket-request.handler';
+import { NotFoundTicketRequestHandler } from './http-interceptors/handlers/not-found-ticket-request.handler';
 import { CustomerTicketingPageMetaResolver } from './services';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { CustomerTicketingPageMetaResolver } from './services';
     CustomerTicketingPageMetaResolver,
     {
       provide: HttpErrorHandler,
-      useExisting: BadTicketRequestHandler,
+      useExisting: NotFoundTicketRequestHandler,
       multi: true,
     },
     {

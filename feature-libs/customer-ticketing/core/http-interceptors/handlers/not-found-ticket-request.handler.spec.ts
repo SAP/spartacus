@@ -6,7 +6,7 @@ import {
   HttpResponseStatus,
   RoutingService,
 } from '@spartacus/core';
-import { BadTicketRequestHandler } from './bad-ticket-request.handler';
+import { NotFoundTicketRequestHandler } from './not-found-ticket-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;
 
@@ -31,16 +31,18 @@ class MockGlobalMessageService {
 
 class MockRoutingService {
   go() {}
+  getRouterState() {}
 }
 
-describe('BadTicketRequestHandler', () => {
-  let service: BadTicketRequestHandler;
+describe('NotFoundTicketRequestHandler', () => {
+  let service: NotFoundTicketRequestHandler;
   let globalMessageService: GlobalMessageService;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        BadTicketRequestHandler,
+        NotFoundTicketRequestHandler,
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -48,11 +50,13 @@ describe('BadTicketRequestHandler', () => {
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
-    service = TestBed.inject(BadTicketRequestHandler);
+    service = TestBed.inject(NotFoundTicketRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
 
     spyOn(globalMessageService, 'add');
     spyOn(globalMessageService, 'remove');
+    spyOn(routingService, 'go');
   });
 
   it('should be created', () => {
@@ -70,6 +74,7 @@ describe('BadTicketRequestHandler', () => {
 
   it('should handle ticket not found error', () => {
     service.handleError(MockRequest, MockTicketNotFoundResponse);
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'supportTickets' });
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.ticketNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR

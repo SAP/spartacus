@@ -8,29 +8,15 @@
 import {
   ErrorModel,
   OccHttpErrorType,
-  OccHttpErrorReason,
-  RoutingService
+  OccHttpErrorReason
 } from '@spartacus/core';
-import {take} from 'rxjs/operators';
 
 /**
  * Check if the returned error is of type notFound.
  */
-export function isTicketNotFoundError(errorObj: [ErrorModel, RoutingService]): boolean {
-  let currentSemanticRoute = '';
-  const error = errorObj[0] as ErrorModel;
-
-  (errorObj[1] as RoutingService).getRouterState()
-    .pipe(take(1))
-    .subscribe((routerState: any) => {
-        currentSemanticRoute = routerState.state.semanticRoute;
-      }
-    );
-
+export function isNotFoundError(error: ErrorModel): boolean {
   return (
     error.reason === OccHttpErrorReason.NOT_FOUND_ERROR &&
-    error.type === OccHttpErrorType.NOT_FOUND_ERROR &&
-    error.message !== undefined &&
-    currentSemanticRoute === 'supportTicketDetails'
+    error.type === OccHttpErrorType.NOT_FOUND_ERROR
   );
 }

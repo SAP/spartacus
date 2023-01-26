@@ -15,12 +15,13 @@ import {
   Priority,
   RoutingService,
   GlobalMessageService,
+  getLastValueSync,
 } from '@spartacus/core';
-import { isTicketNotFoundError } from '../../utils/utils';
+import { isNotFoundError } from '../../utils/utils';
 @Injectable({
   providedIn: 'root',
 })
-export class BadTicketRequestHandler extends HttpErrorHandler {
+export class NotFoundTicketRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.NOT_FOUND;
 
   constructor(
@@ -38,7 +39,8 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return (
       super.hasMatch(errorResponse) &&
-      this.getErrors(errorResponse).some(isTicketNotFoundError)
+      this.isCustomerTicketingDetailsRoute() &&
+      this.getErrors(errorResponse).some(isNotFoundError)
     );
   }
 
@@ -46,12 +48,16 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
     this.handleTicketNotFoundError(request, response);
   }
 
+  protected isCustomerTicketingDetailsRoute(): boolean {
+    return getLastValueSync(this.routingService.getRouterState())?.state?.semanticRoute === 'supportTicketDetails';
+  }
+
   protected handleTicketNotFoundError(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter((e) => isTicketNotFoundError(e))
+      .filter((e) => isNotFoundError(e))
       .forEach(() => {
         this.routingService.go({ cxRoute: 'supportTickets' });
         this.globalMessageService.add(
@@ -61,7 +67,7 @@ export class BadTicketRequestHandler extends HttpErrorHandler {
       });
   }
 
-  protected getErrors(response: HttpErrorResponse): [ErrorModel,RoutingService][] {
-    return response.error?.errors.map((e: ErrorModel) => [e, this.routingService] as const) || [];
+  protected getErrors(response: HttpErrorResponse): ErrorModel[] {
+    return response.error?.errors || [];
   }
 }
