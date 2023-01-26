@@ -50,14 +50,22 @@ export class CustomerTicketingReopenDialogComponent
         )
         .subscribe({
           complete: () => {
-            this.isDataLoading$.next(false);
-            this.close('Ticket reopened successfully');
+            this.onComplete();
           },
           error: () => {
-            this.close('Something went wrong while reopening ticket');
+            this.onError();
           },
         });
     }
+  }
+
+  protected onComplete(): void {
+    this.isDataLoading$.next(false);
+    this.close('Ticket reopened successfully');
+  }
+
+  protected onError(): void {
+    this.close('Something went wrong while reopening ticket');
   }
 
   protected prepareTicketEvent(): TicketEvent {

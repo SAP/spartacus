@@ -111,14 +111,22 @@ export class CustomerTicketingCreateDialogComponent
         )
         .subscribe({
           complete: () => {
-            this.close('Ticket created successfully');
-            this.eventService.dispatch({}, TicketCreatedEvent);
+            this.onComplete();
           },
           error: () => {
-            this.close('Something went wrong');
+            this.onError();
           },
         });
     }
+  }
+
+  protected onComplete() {
+    this.close('Ticket created successfully');
+    this.eventService.dispatch({}, TicketCreatedEvent);
+  }
+
+  protected onError() {
+    this.close('Something went wrong');
   }
 
   ngOnDestroy(): void {
