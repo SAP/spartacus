@@ -9,8 +9,12 @@ import { Observable } from 'rxjs';
 export abstract class TranslationService {
   /**
    * Translates given key with options.
-   * If key is missing, it tries to load the chunk and emits a value when chunk is loaded.
-   * If key is missing after loaded chunk, a fallback value is emitted
+   * It accepts also an array of keys. It allows for providing multiple variations of a key or multiple keys that may be used interchangeably as fallback.
+   * In case the primary key is not available, the fallback keys will be attempted in the order they are provided.
+   * The first key that can be resolved will be used for the translation.
+   *
+   * Note: When using lazy-loading of translation chunks, it will first load all the chunks for the corresponding keys before attempting to resolve the value.
+   * This ensures that all the necessary data is available before the translation is performed.
    *
    * @param key translation key or array of keys
    * @param options values for interpolation in translation

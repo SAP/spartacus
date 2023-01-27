@@ -8,7 +8,7 @@ export function mockTranslate(
   key: string | string[] | undefined,
   options: any = {}
 ) {
-  const keyString = Array.isArray(key) ? key[0] : key;
+  const keyString = Array.isArray(key) ? key.join(',') : key;
   const optionsString = Object.keys(options)
     .sort()
     .map((optionName) => `${optionName}:${options[optionName]}`)

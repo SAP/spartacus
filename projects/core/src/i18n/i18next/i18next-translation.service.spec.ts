@@ -165,9 +165,7 @@ describe('I18nextTranslationService', () => {
               .translate(key, testOptions)
               .pipe(first())
               .subscribe((x) => (result = x));
-            expect(result).toEqual(
-              namespacedKeys.map((key) => `[${key}]`).join(nonBreakingSpace)
-            );
+            expect(result).toEqual(`[${namespacedKeys.join(', ')}]`);
           });
 
           it('should return non-breaking space for production', () => {
@@ -186,7 +184,7 @@ describe('I18nextTranslationService', () => {
             const keys = Array.isArray(key) ? key : [key];
             const expected = `Translation keys missing [${keys.join(
               ', '
-            )}]. Attempt to load ${keys
+            )}]. Attempted to load ${keys
               .map((key) => `'${key}' from chunk 'testChunk'`)
               .join(', ')}.`;
             service.translate(key, testOptions).pipe(first()).subscribe();

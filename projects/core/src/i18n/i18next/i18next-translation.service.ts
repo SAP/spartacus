@@ -39,16 +39,13 @@ export class I18nextTranslationService implements TranslationService {
     const translationKeys = Array.isArray(key) ? key : [key];
 
     const chunkNamesByKeys: Map<string, string> = new Map();
-    const chunksNames: string[] = [];
     const namespacedKeys: string[] = [];
 
     translationKeys.forEach((translationKey) => {
       const chunkName =
         this.translationChunk.getChunkNameForKey(translationKey);
       const namespacedKey = this.getNamespacedKey(translationKey, chunkName);
-      chunksNames.push(chunkName);
       namespacedKeys.push(namespacedKey);
-
       chunkNamesByKeys.set(translationKey, chunkName);
     });
 
@@ -63,15 +60,18 @@ export class I18nextTranslationService implements TranslationService {
 
         // loadNamespaces has cache under the hood, so it won't load the same chunk twice
         // when namespaces are already loaded, the callback will be called synchronously:
-        this.i18next.loadNamespaces(chunksNames, () => {
-          namespacesLoaded = true;
-          if (this.i18next.exists(namespacedKeys, options)) {
-            subscriber.next(this.i18next.t(namespacedKeys, options));
-          } else {
-            this.reportMissingKey(chunkNamesByKeys);
-            subscriber.next(this.getFallbackValue(namespacedKeys));
+        this.i18next.loadNamespaces(
+          Array.from(chunkNamesByKeys.values()),
+          () => {
+            namespacesLoaded = true;
+            if (this.i18next.exists(namespacedKeys, options)) {
+              subscriber.next(this.i18next.t(namespacedKeys, options));
+            } else {
+              this.reportMissingKey(chunkNamesByKeys);
+              subscriber.next(this.getFallbackValue(namespacedKeys));
+            }
           }
-        });
+        );
 
         // if namespaces are not loaded yet, we can emit a non-breaking space
         if (!namespacesLoaded && whitespaceUntilLoaded) {
@@ -94,16 +94,14 @@ export class I18nextTranslationService implements TranslationService {
    * @param keys
    */
   protected getFallbackValue(keys: string[]): string {
-    return isDevMode()
-      ? keys.map((key) => `[${key}]`).join(this.NON_BREAKING_SPACE)
-      : this.NON_BREAKING_SPACE;
+    return isDevMode() ? `[${keys.join(', ')}]` : this.NON_BREAKING_SPACE;
   }
 
   private reportMissingKey(chunkNamesByKeys: Map<string, string>) {
     const keys = [...chunkNamesByKeys.keys()];
     if (isDevMode()) {
       console.warn(
-        `Translation keys missing [${keys.join(', ')}]. Attempt to load ${[
+        `Translation keys missing [${keys.join(', ')}]. Attempted to load ${[
           ...chunkNamesByKeys,
         ]
           .map(([key, chunk]) => `'${key}' from chunk '${chunk}'`)
