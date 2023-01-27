@@ -146,15 +146,32 @@ export class ConfiguratorAttributeBaseComponent {
    * @param expMode - Is expert mode set?
    * @param label - value label
    * @param techName - value technical name
+   * @param value - Configurator value
    */
   getLabel(
     expMode: boolean,
     label: string | undefined,
-    techName: string | undefined
+    techName: string | undefined,
+    value?: Configurator.Value
   ): string {
     let title = label ? label : '';
     if (expMode && techName) {
       title += ` / [${techName}]`;
+    }
+    title = this.getValuePrice(title, value);
+    return title;
+  }
+
+  protected getValuePrice(
+    title: string,
+    value: Configurator.Value | undefined
+  ): string {
+    if (value?.valuePrice?.value && !value.selected) {
+      if (value.valuePrice.value < 0) {
+        title += ` [${value.valuePrice?.formattedValue}]`;
+      } else if (value.valuePrice.value > 0) {
+        title += ` [+${value.valuePrice?.formattedValue}]`;
+      }
     }
     return title;
   }
@@ -177,6 +194,7 @@ export class ConfiguratorAttributeBaseComponent {
       throw new Error('No attribute code for: ' + attribute.name);
     }
   }
+
   /**
    * Checks if attribute type allows additional values
    * @param attribute Attribute
