@@ -64,7 +64,7 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
         run: |
-          ci-scripts/unit-tests.sh
+          ci-scripts/unit-tests.sh          
   sonarqube_scan:
     name: CI - SonarQube Scan
     runs-on: ubuntu-latest
@@ -108,7 +108,8 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
-  merge_checks_result:
+          exit 1
+  ci_result:
     needs: [unit_tests_core, unit_tests_libs, sonarqube_scan, linting]
     name: CI - Result
     runs-on: ubuntu-latest
