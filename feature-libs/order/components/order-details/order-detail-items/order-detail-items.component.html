@@ -64,7 +64,7 @@
             readonly: true,
             promotionLocation: promotionLocation,
             options: {
-              displayAddToCart: enableAddToCart$ | async,
+              displayAddToCart: 'addToCart.buyItAgain' | cxTranslate,
               addToCartString: (buyItAgainTranslation$ | async),
               optionalBtn: addToCartBtn
             }
