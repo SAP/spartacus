@@ -64,8 +64,8 @@
             readonly: true,
             promotionLocation: promotionLocation,
             options: {
-              displayAddToCart: 'addToCart.buyItAgain' | cxTranslate,
-              addToCartString: (buyItAgainTranslation$ | async),
+              displayAddToCart: enableAddToCart$ | async,
+              addToCartString: 'addToCart.buyItAgain' | cxTranslate,
               optionalBtn: addToCartBtn
             }
           }"
