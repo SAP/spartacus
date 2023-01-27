@@ -64,34 +64,33 @@
           ></cx-form-errors>
         </label>
 
-        <label
-          *ngIf="
-            (ticketAssociatedObjects$ | async).length > 0 &&
-              ticketAssociatedObjects$ | async as ticketAssociatedObjects
-          "
+        <ng-container
+          *ngIf="ticketAssociatedObjects$ | async as ticketAssociatedObjects"
         >
-          <span class="cx-customer-ticket-label label-content">
-            {{ 'createCustomerTicket.associateTo' | cxTranslate }}
-          </span>
-          <select class="form-control" formControlName="associatedTo">
-            <option value="" disabled selected>
-              {{
-                'createCustomerTicket.optionallySelectAssociatedObject'
-                  | cxTranslate
-              }}
-            </option>
-            <option
-              *ngFor="let associatedObject of ticketAssociatedObjects"
-              [ngValue]="associatedObject"
-              [selected]="
-                associatedObject.code === selectedAssociatedObject?.code
-              "
-            >
-              {{ associatedObject.type }}
-              {{ associatedObject.code }}
-            </option>
-          </select>
-        </label>
+          <label *ngIf="ticketAssociatedObjects.length > 0">
+            <span class="cx-customer-ticket-label label-content">
+              {{ 'createCustomerTicket.associateTo' | cxTranslate }}
+            </span>
+            <select class="form-control" formControlName="associatedTo">
+              <option value="" disabled selected>
+                {{
+                  'createCustomerTicket.optionallySelectAssociatedObject'
+                    | cxTranslate
+                }}
+              </option>
+              <option
+                *ngFor="let associatedObject of ticketAssociatedObjects"
+                [ngValue]="associatedObject"
+                [selected]="
+                  associatedObject.code === selectedAssociatedObject?.code
+                "
+              >
+                {{ associatedObject.type }}
+                {{ associatedObject.code }}
+              </option>
+            </select>
+          </label>
+        </ng-container>
 
         <label>
           <span class="cx-customer-ticket-label label-content">
