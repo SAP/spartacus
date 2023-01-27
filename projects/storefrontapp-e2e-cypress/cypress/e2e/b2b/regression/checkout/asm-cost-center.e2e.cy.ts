@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as asm from '../../../../helpers/asm';
+import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
+import * as checkout from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import * as checkout from '../../../../helpers/checkout-flow';
 
-context('B2B - ASM Account Checkout', () => {
+context('B2B - ASM Account Checkout', { testIsolation: false }, () => {
   const invalid_cost_center = 'Rustic_Global';
   const valid_cost_center = 'Pronto_Services';
   const customer = {
@@ -19,6 +19,7 @@ context('B2B - ASM Account Checkout', () => {
   };
 
   before(() => {
+    cy.clearAllLocalStorage();
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });

@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-context('Homepage', { testIsolation: false }, () => {
-  before(() => {
-    cy.clearAllLocalStorage();
+context('Homepage', () => {
+  beforeEach(() => {
     cy.visit('/');
   });
 

@@ -13,20 +13,21 @@ import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
-describe('My Account - Update Email', { testIsolation: false }, () => {
+describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
+      cy.clearAllLocalStorage();
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    describe('Anonymous user', () => {
+    describe('Anonymous user', { testIsolation: false }, () => {
       it('should redirect to login page', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
     });
 
-    describe('Logged in user', () => {
+    describe('Logged in user', { testIsolation: false }, () => {
       before(() => {
         registerAndLogin();
         cy.visit('/');
