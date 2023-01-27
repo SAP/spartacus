@@ -17,10 +17,10 @@ concurrency:
   # The goal is to cancel pending expensive tests when the PR is set to to draft.
   cancel-in-progress: true
 
-name: PR Status
+name: Pull Request
 jobs:
   change-to-draft:
-    name: Set pull request to draft
+    name: PR - Set status to draft
     runs-on: ubuntu-latest
     steps:
       - name: Run Script
