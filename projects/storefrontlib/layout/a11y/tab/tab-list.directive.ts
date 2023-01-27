@@ -16,7 +16,7 @@ import { TabDirective } from './tab.directive';
   selector: '[cxTabList]',
 })
 export class TabListDirective implements AfterContentInit {
-  @ContentChildren(TabDirective)
+  @ContentChildren(TabDirective, { descendants: true })
   tabs: QueryList<TabDirective> | undefined;
 
   @Input()
@@ -73,14 +73,14 @@ export class TabListDirective implements AfterContentInit {
   @HostListener('keydown.home', ['$event'])
   onHome(event: KeyboardEvent): void {
     event.preventDefault();
-    this.focusTab(0);
+    this.focusTab((this.currentFocusedIndex = 0));
   }
 
   @HostListener('keydown.end', ['$event'])
   onEnd(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.tabs) {
-      this.focusTab(this.tabs.length - 1);
+      this.focusTab((this.currentFocusedIndex = this.tabs.length - 1));
     }
   }
 

@@ -30,6 +30,7 @@ export class StoreFinderListComponent {
   storeDetails: PointOfService;
   iconTypes = ICON_TYPE;
   displayModes = LocationDisplayMode;
+  displayModeList = Object.values(LocationDisplayMode);
   activeDisplayMode = LocationDisplayMode.LIST_VIEW;
 
   constructor(
@@ -76,5 +77,11 @@ export class StoreFinderListComponent {
 
   isDisplayModeActive(mode: LocationDisplayMode): boolean {
     return this.activeDisplayMode === mode;
+  }
+
+  get currentDisplayModeIndex(): number {
+    return this.displayModeList.findIndex(
+      (mode) => mode === this.activeDisplayMode
+    );
   }
 }

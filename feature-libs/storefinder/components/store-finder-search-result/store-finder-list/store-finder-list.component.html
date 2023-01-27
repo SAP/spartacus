@@ -64,12 +64,19 @@
 
     <!-- mobile tabs for column set only -->
     <div *ngIf="locations?.stores" class="cx-columns-mobile">
-      <ul class="nav cx-nav" role="tablist">
+      <ul
+        class="nav cx-nav"
+        role="tablist"
+        cxTabList
+        [selectedIndex]="currentDisplayModeIndex"
+        (changeTab)="setDisplayMode(displayModeList[$event])"
+      >
         <li
           class="nav-item cx-nav-item"
           *ngFor="let mode of displayModes | keyvalue"
         >
           <button
+            cxTab
             [id]="'tab-' + mode?.value"
             role="tab"
             [ngClass]="{
@@ -77,9 +84,7 @@
               active: isDisplayModeActive(mode?.value)
             }"
             [attr.aria-controls]="'tab-' + mode?.value + '-panel'"
-            [attr.aria-selected]="isDisplayModeActive(mode?.value)"
             aria-disabled="false"
-            (click)="setDisplayMode(mode?.value)"
           >
             {{ 'storeFinder.' + mode?.value | cxTranslate }}
           </button>
