@@ -158,25 +158,11 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
   describe('no static Domain', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);
-      component = fixture.componentInstance;
-      htmlElem = fixture.nativeElement;
-      component.attribute = {
-        name: 'attributeName',
-        label: 'attributelabel',
-        attrCode: 444,
-        uiType: Configurator.UiType.READ_ONLY,
-        selectedSingleValue: myValues[1].valueCode,
-        values: undefined,
-        quantity: 1,
-      };
+      component.attribute.selectedSingleValue = myValues[1].valueCode;
       fixture.detectChanges();
     });
 
     describe('should display selectedSingleValue', () => {
-      it('should create component for selectedSingleValue', () => {
-        expect(component).toBeTruthy();
-      });
       it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -208,25 +194,9 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
     describe('should display userInput', () => {
       beforeEach(() => {
-        fixture = TestBed.createComponent(
-          ConfiguratorAttributeReadOnlyComponent
-        );
-        component = fixture.componentInstance;
-        htmlElem = fixture.nativeElement;
-        component.attribute = {
-          name: 'attributeName',
-          label: 'attributeName',
-          attrCode: 444,
-          uiType: Configurator.UiType.READ_ONLY,
-          userInput: myValues[1].valueCode,
-          values: undefined,
-          quantity: 1,
-        };
+        component.attribute.userInput = myValues[1].valueCode;
+        component.attribute.selectedSingleValue = undefined;
         fixture.detectChanges();
-      });
-
-      it('should create component for userInput', () => {
-        expect(component).toBeTruthy();
       });
 
       it("should contain span element with class name 'cx-visually-hidden' that hides span content on the UI", () => {
@@ -261,10 +231,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
   describe('Accessibility', () => {
     describe('with staticDomain', () => {
-      it('should create component for staticDomain', () => {
-        expect(component).toBeTruthy();
-      });
-
       it('should return aria label for valuePriceTotal', () => {
         myValues[0].selected = true;
         component.attribute.values = myValues;
@@ -317,27 +283,10 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     });
 
     describe('noStaticDomain', () => {
-      beforeEach(() => {
-        fixture = TestBed.createComponent(
-          ConfiguratorAttributeReadOnlyComponent
-        );
-        component = fixture.componentInstance;
-        htmlElem = fixture.nativeElement;
-        component.attribute = {
-          name: 'attributeName',
-          label: 'attributelabel',
-          attrCode: 444,
-          uiType: Configurator.UiType.READ_ONLY,
-          selectedSingleValue: myValues[1].valueCode,
-          values: undefined,
-          quantity: 1,
-        };
-        fixture.detectChanges();
-      });
-
       describe('should display selectedSingleValue', () => {
-        it('should create component for selectedSingleValue', () => {
-          expect(component).toBeTruthy();
+        beforeEach(() => {
+          component.attribute.selectedSingleValue = myValues[1].valueCode;
+          fixture.detectChanges();
         });
 
         it('should return aria label for selectedSingleValue ', () => {
@@ -359,25 +308,11 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
       describe('should display userInput', () => {
         beforeEach(() => {
-          fixture = TestBed.createComponent(
-            ConfiguratorAttributeReadOnlyComponent
-          );
-          component = fixture.componentInstance;
-          htmlElem = fixture.nativeElement;
-          component.attribute = {
-            name: 'attributeName',
-            label: 'attributeName',
-            attrCode: 444,
-            uiType: Configurator.UiType.READ_ONLY,
-            userInput: myValues[1].valueCode,
-            values: undefined,
-            quantity: 1,
-          };
+          component.attribute.userInput = myValues[1].valueCode;
+          component.attribute.selectedSingleValue = undefined;
           fixture.detectChanges();
         });
-        it('should create component for userInput', () => {
-          expect(component).toBeTruthy();
-        });
+
         it('should return aria label for userInput ', () => {
           let attributeLabel = component.attribute.label || '';
           let valueName = myValues[1].valueCode;
