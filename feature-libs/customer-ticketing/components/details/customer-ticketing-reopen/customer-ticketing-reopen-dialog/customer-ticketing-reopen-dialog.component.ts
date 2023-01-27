@@ -65,6 +65,7 @@ export class CustomerTicketingReopenDialogComponent
   }
 
   protected onError(): void {
+    this.isDataLoading$.next(false);
     this.close('Something went wrong while reopening ticket');
   }
 

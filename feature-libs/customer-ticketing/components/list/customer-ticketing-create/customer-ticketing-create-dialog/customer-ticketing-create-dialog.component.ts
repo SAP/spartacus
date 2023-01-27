@@ -120,12 +120,12 @@ export class CustomerTicketingCreateDialogComponent
     }
   }
 
-  protected onComplete() {
+  protected onComplete(): void {
     this.close('Ticket created successfully');
     this.eventService.dispatch({}, TicketCreatedEvent);
   }
 
-  protected onError() {
+  protected onError(): void {
     this.close('Something went wrong');
   }
 
