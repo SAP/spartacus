@@ -121,4 +121,4 @@ jobs:
           needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
           needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || 
           needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
-          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' 
+          needs.linting.result == 'failure' || needs.linting.result == 'cancelled'
