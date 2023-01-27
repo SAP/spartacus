@@ -1,3 +1,4 @@
+%cx-checkout-review-shipping,
 %cx-checkout-review-payment {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
@@ -8,6 +9,7 @@
     font-weight: 600;
     font-size: 18px;
     padding: 20px 40px;
+    margin-bottom: 20px;
   }
 
   .cx-review-summary {
@@ -36,6 +38,9 @@
     .cx-review-summary-payment-card {
       margin: 30px;
       background-color: theme-color('inverse');
+    }
+    
+    .cx-review-summary-card-container {
       width: 45%;
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
@@ -69,6 +74,10 @@
         font-size: $h4-font-size;
       }
     }
+  }
+
+  .cx-review-shipping-summary {
+    background-color: var(--cx-color-inverse) !important;
   }
 
   // ***************************** MEDIA QUERIES *****************************
