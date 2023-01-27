@@ -169,7 +169,7 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
 }
 
 export function testPromotionsForLoggedInUser() {
-  describe('As a logged in user', () => {
+  describe('As a logged in user', { testIsolation: false }, () => {
     before(() => {
       const eosCameraProductCode = '1382080';
       const productPage = waitForProductPage(

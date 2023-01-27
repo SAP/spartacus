@@ -10,6 +10,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 context('Applied promotions', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
     before(() => {
+      cy.clearAllLocalStorage();
       cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();

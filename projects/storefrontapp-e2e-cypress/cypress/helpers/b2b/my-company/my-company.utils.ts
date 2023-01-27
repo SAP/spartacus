@@ -21,6 +21,7 @@ export function testMyCompanyFeatureFromConfig(
     { testIsolation: false },
     () => {
       before(() => {
+        cy.clearAllLocalStorage();
         Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
       });
 
