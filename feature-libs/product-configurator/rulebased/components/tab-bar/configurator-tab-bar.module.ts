@@ -15,6 +15,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { TabModule } from 'projects/storefrontlib/layout/a11y/tab';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
     I18nModule,
     UrlModule,
     RouterModule,
+    TabModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
