@@ -18,7 +18,8 @@ import {
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
-  TicketEventCreatedEvent,
+  TicketClosedEvent,
+  TicketReopenedEvent,
 } from './customer-ticketing.events';
 import createSpy = jasmine.createSpy;
 
@@ -110,10 +111,8 @@ describe('CustomerTicketingEventListener', () => {
   });
 
   describe('onTicketEventCreated', () => {
-    it('TicketEventCreatedEvent should trigger requestClosed global message', () => {
-      mockEventStream$.next(
-        createFrom(TicketEventCreatedEvent, { status: STATUS.CLOSED })
-      );
+    it('TicketClosedEvent should trigger requestClosed global message', () => {
+      mockEventStream$.next(createFrom(TicketClosedEvent, {}));
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'customerTicketingDetails.requestClosed' },
@@ -121,9 +120,9 @@ describe('CustomerTicketingEventListener', () => {
       );
     });
 
-    it('TicketEventCreatedEvent should trigger requestReopened global message', () => {
+    it('TicketReopenedEvent should trigger requestReopened global message', () => {
       mockEventStream$.next(
-        createFrom(TicketEventCreatedEvent, { status: STATUS.OPEN })
+        createFrom(TicketReopenedEvent, { status: STATUS.OPEN })
       );
 
       expect(globalMessageService.add).toHaveBeenCalledWith(

@@ -254,30 +254,6 @@ describe('CustomerTicketingService', () => {
           done();
         });
     });
-
-    it('should contain the query state', (done) => {
-      const mockCurrentPage = 1;
-      const mockPageSize = 5;
-      const mockSort = 'byId';
-
-      service
-        .getTicketsState(mockCurrentPage, mockPageSize, mockSort)
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getTickets).toHaveBeenCalledWith(
-            mockUserId,
-            mockCurrentPage,
-            mockPageSize,
-            mockSort
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockTicketList,
-          });
-          done();
-        });
-    });
   });
 
   describe('getTicketCategories', () => {

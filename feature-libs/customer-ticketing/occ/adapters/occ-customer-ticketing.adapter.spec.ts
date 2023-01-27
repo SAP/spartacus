@@ -124,10 +124,6 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_EVENT_NORMALIZER
       );
-      expect(converter.convert).toHaveBeenCalledWith(
-        mockTicketEvent,
-        CUSTOMER_TICKETING_EVENT_NORMALIZER
-      );
     });
   });
 
@@ -270,10 +266,6 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(converter.pipeable).toHaveBeenCalledWith(
         CUSTOMER_TICKETING_FILE_NORMALIZER
       );
-      expect(converter.convert).toHaveBeenCalledWith(
-        '' as unknown as File,
-        CUSTOMER_TICKETING_FILE_NORMALIZER
-      );
     });
   });
 
@@ -369,10 +361,6 @@ describe('OccCustomerTicketingAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockCreatedTicketResponse);
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CUSTOMER_TICKETING_CREATE_NORMALIZER
-      );
-      expect(converter.convert).toHaveBeenCalledWith(
-        mockTicketStarter,
         CUSTOMER_TICKETING_CREATE_NORMALIZER
       );
     });

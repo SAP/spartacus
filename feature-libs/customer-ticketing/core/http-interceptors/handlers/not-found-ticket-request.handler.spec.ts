@@ -78,7 +78,7 @@ describe('NotFoundTicketRequestHandler', () => {
       cxRoute: 'supportTickets',
     });
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'httpHandlers.ticketNotFound' },
+      { key: 'customerTicketingDetails.ticketNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });

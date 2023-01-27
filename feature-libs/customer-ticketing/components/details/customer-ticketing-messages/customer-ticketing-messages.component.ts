@@ -43,7 +43,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
-  onSend(event: { files: FileList | File | undefined; message: string }) {
+  onSend(event: { files: FileList | undefined; message: string }) {
     const attachmentFlag =
       (event.files instanceof FileList && event.files?.length > 0) ?? false;
     this.subscription.add(
@@ -53,11 +53,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
           attachmentFlag
         )
         .subscribe((createdEvent: TicketEvent) => {
-          if (
-            event.files instanceof FileList &&
-            event.files?.length &&
-            createdEvent.code
-          ) {
+          if (event.files && event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
               event.files.item(0) as File,
               createdEvent.code
