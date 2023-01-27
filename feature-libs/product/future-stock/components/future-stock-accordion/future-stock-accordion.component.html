@@ -3,25 +3,26 @@
   [attr.aria-expanded]="expanded"
   (click)="toggle()"
 >
-  <span>
     {{ header }}
-    <cx-icon *ngIf="expanded" [type]="iconType.CARET_UP"></cx-icon>
-    <cx-icon *ngIf="!expanded" [type]="iconType.CARET_DOWN"></cx-icon>
-  </span>
+    <cx-icon *ngIf="expanded; else notExpanded" [type]="iconType.CARET_UP"></cx-icon>
+
+    <ng-template #notExpanded>
+      <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+    </ng-template>
 </button>
 
-<div *ngIf="expanded">
-  <div *ngIf="!isString(content); else contentString">
+<ng-container *ngIf="expanded">
+  <ng-container *ngIf="!isString(content); else contentString">
     <div class="cx-future-stock-accordion-content" *ngFor="let elem of content">
       {{ elem.formattedDate }} -
       {{ 'futureStockDropdown.quantity' | cxTranslate }}
       {{ elem.stock.stockLevel }}
     </div>
-  </div>
+  </ng-container>
 
   <ng-template #contentString>
     <div class="cx-future-stock-accordion-content">
       {{ content }}
     </div>
   </ng-template>
-</div>
+</ng-container>
