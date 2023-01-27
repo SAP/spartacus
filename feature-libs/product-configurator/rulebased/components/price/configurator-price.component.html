@@ -1,13 +1,5 @@
-<ng-container *ngIf="displayFormula(); else selected">
-  <ng-container *ngIf="displayPriceOnly()">
-    <div
-      [ngClass]="styleClass"
-      [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
-    >
-      {{ price }}
-    </div>
-  </ng-container>
-  <ng-container *ngIf="displayQuantityAndPrice()">
+<ng-container *ngIf="displayFormula()">
+  <ng-container *ngIf="displayQuantityAndPrice(); else priceOnly">
     <div
       class="cx-quantity-price"
       [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
@@ -17,6 +9,17 @@
     <div class="cx-price-total">{{ priceTotal }}</div>
   </ng-container>
 </ng-container>
+
+<ng-template #priceOnly>
+  <ng-container *ngIf="displayPriceOnly(); else selected">
+    <div
+      [ngClass]="styleClass"
+      [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
+    >
+      {{ price }}
+    </div>
+  </ng-container>
+</ng-template>
 
 <ng-template #selected>
   <ng-container *ngIf="isPriceLightedUp()">

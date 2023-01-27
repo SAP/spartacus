@@ -26,6 +26,7 @@ export class ConfiguratorOverviewAttributeComponent {
       price: this.attributeOverview.valuePrice,
       priceTotal: this.attributeOverview.valuePriceTotal,
       isLightedUp: true,
+      isOverview: true,
     };
   }
 

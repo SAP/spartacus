@@ -12,6 +12,7 @@ export interface ConfiguratorPriceComponentOptions {
   price?: Configurator.PriceDetails;
   priceTotal?: Configurator.PriceDetails;
   isLightedUp?: boolean;
+  isOverview?: boolean;
 }
 
 @Component({
@@ -74,8 +75,9 @@ export class ConfiguratorPriceComponent {
     const priceValue = this.formula.price?.value ?? 0;
     const priceTotalValue = this.formula.priceTotal?.value ?? 0;
     return (
-      (priceValue !== 0 || priceTotalValue !== 0) &&
-      !this.displayQuantityAndPrice()
+      ((priceValue !== 0 || priceTotalValue !== 0) &&
+        !this.displayQuantityAndPrice()) ||
+      this.isOverview()
     );
   }
 
@@ -86,9 +88,9 @@ export class ConfiguratorPriceComponent {
    */
   displayFormula(): boolean {
     const displayFormula =
-      (this.formula.quantity && this.formula.quantity !== 0) ||
-      (this.formula.price && this.formula.price?.value !== 0) ||
-      (this.formula.priceTotal && this.formula.priceTotal?.value !== 0);
+      this.formula.quantity !== undefined ||
+      this.formula.price !== undefined ||
+      this.formula.priceTotal !== undefined;
     return displayFormula ?? false;
   }
 
@@ -109,6 +111,10 @@ export class ConfiguratorPriceComponent {
    */
   isPriceLightedUp(): boolean {
     return this.formula.isLightedUp ?? false;
+  }
+
+  isOverview(): boolean {
+    return this.formula.isOverview ?? false;
   }
 
   /**
