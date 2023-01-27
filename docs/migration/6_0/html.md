@@ -73,3 +73,25 @@
 ### defaultAnonymousConsentLayoutConfig
 
 - Changed `inline: true` to `inlineRoot: true` for keyboard tabbing and VO to work correctly.
+
+
+### StoreFinderSearchComponent
+
+- Added `tabindex="-1"` to avoid tab stop for accessibility improvements.
+
+### UpdateProfileComponent
+
+- Removed empty option(`ng-option`) from the title code selector(`ng-select`).
+
+### UserRegistrationFormComponent
+
+- Added `id` attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
+
+### CardComponent
+
+- Replaced `a` tag with `button` for accessibility improvements.
+
+### ActiveFacetsComponent
+
+- Replaced `h4` tag with `h2` tag header for accessibility improvements.
+

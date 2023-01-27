@@ -48,8 +48,23 @@ const Conflict_msg_gaming_console =
   'Gaming console cannot be selected with LCD projector';
 
 context('Product Configuration', () => {
+  let configUISettings: any;
+
   beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        enableNavigationToConflict: true,
+      },
+    };
+    configurationVc.registerConfigurationRoute();
+    configurationVc.registerConfigurationUpdateRoute();
+    configurationOverviewVc.registerConfigurationOverviewRoute();
+    cy.cxConfig(configUISettings);
     cy.visit('/');
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.enableNavigationToConflict = false;
   });
 
   describe('Navigate to Product Configuration Page', () => {
@@ -79,65 +94,61 @@ context('Product Configuration', () => {
     it('should support the conflict solving process', () => {
       const commerceIsAtLeast2205 = true;
       clickAllowAllFromBanner();
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
-      configuration.clickOnNextBtn(PROJECTOR);
-      configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
-      cy.wait('@updateConfig');
-      configuration.clickOnPreviousBtn(GENERAL);
-      configurationVc.clickOnGroup(3);
+      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.selectAttributeAndWait(
+        PROJECTOR_TYPE,
+        radioGroup,
+        PROJECTOR_LCD
+      );
+      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
+      configurationVc.clickOnGroupAndWait(3);
 
-      configurationVc.selectConflictingValue(
+      configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
+
       cy.log('Conflict has been triggered');
-      cy.wait('@updateConfig');
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationVc.deselectConflictingValue(
+      configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
+
       cy.log('Conflicting value has been de-selected');
-      cy.wait('@updateConfig');
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
       configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
-      configurationVc.selectConflictingValue(
+      configurationVc.selectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
         1
       );
+
       cy.log('Conflicting value again has been selected');
-      cy.wait('@updateConfig');
-      configuration.clickOnPreviousBtn(SUBWOOFER);
-      configuration.clickOnPreviousBtn(REAR_SPEAKER);
-      configuration.clickOnPreviousBtn(CENTER_SPEAKER);
-      configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
-      configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
-      configuration.clickOnPreviousBtn(PROJECTOR);
+      configurationVc.clickOnPreviousBtnAndWait(SUBWOOFER);
+      configurationVc.clickOnPreviousBtnAndWait(REAR_SPEAKER);
+      configurationVc.clickOnPreviousBtnAndWait(CENTER_SPEAKER);
+      configurationVc.clickOnPreviousBtnAndWait(FRONT_SPEAKERS);
+      configurationVc.clickOnPreviousBtnAndWait(PROJECTOR_SCREEN);
+      configurationVc.clickOnPreviousBtnAndWait(PROJECTOR);
       configurationVc.checkConflictDetectedMsgDisplayed(PROJECTOR_TYPE);
-      configuration.clickOnPreviousBtn(GENERAL);
-      configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
+      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
+      configurationVc.clickOnPreviousBtnAndWait(CONFLICT_FOR_GAMING_CONSOLE);
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
       );
-      configuration.clickOnNextBtn(GENERAL);
+      configurationVc.clickOnNextBtnAndWait(GENERAL);
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationOverviewVc.registerConfigurationOverviewRoute();
       configurationVc.clickAddToCartBtn();
       cy.log('Configuration has been added to the cart');
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
@@ -165,17 +176,17 @@ context('Product Configuration', () => {
         Conflict_msg_gaming_console
       );
       // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
-      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configurationVc.clickOnViewInConfigurationAndWait(GAMING_CONSOLE);
       configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
-      configurationVc.deselectConflictingValue(
+      configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
+
       cy.log('Conflicting value again has been de-selected');
       //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
-      configurationOverviewVc.registerConfigurationOverviewRoute();
       configurationVc.clickAddToCartBtn();
       cy.log('Done button has been clicked');
       configurationOverviewVc.verifyNotificationBannerOnOP();
@@ -187,18 +198,22 @@ context('Product Configuration', () => {
     it('should support the issue solving process', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
-      configurationOverviewVc.registerConfigurationOverviewRoute();
+      configurationVc.selectAttributeAndWait(CAMERA_MODE, radioGroup, 'S');
+
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(2, 0);
 
       configurationOverviewVc.clickOnResolveIssuesLinkOnOPProductBound();
-      configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, 'JPEG');
+      configurationVc.selectAttributeAndWait(
+        CAMERA_FORMAT_PICTURES,
+        radioGroup,
+        'JPEG'
+      );
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(1, 0);
 
       configurationOverviewVc.clickOnResolveIssuesLinkOnOPProductBound();
-      configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
+      configurationVc.selectAttributeAndWait(CAMERA_DISPLAY, radioGroup, 'P5');
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(0, 0);
     });

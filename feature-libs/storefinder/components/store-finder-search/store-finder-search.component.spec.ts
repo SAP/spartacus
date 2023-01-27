@@ -3,7 +3,12 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -51,7 +56,12 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+        imports: [
+          RouterTestingModule,
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+        ],
         declarations: [
           StoreFinderSearchComponent,
           MockUrlPipe,
@@ -63,6 +73,13 @@ describe('StoreFinderSearchComponent', () => {
             useValue: { go: jasmine.createSpy() },
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
+          },
         ],
       }).compileComponents();
     })
