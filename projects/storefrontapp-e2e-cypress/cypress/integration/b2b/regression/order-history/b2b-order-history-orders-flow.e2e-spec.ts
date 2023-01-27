@@ -12,6 +12,8 @@ import {
   costCenter,
 } from '../../../../sample-data/b2b-checkout';
 import {
+  goToOrderDetails,
+  interceptCartFromOrderEndpoint,
   interceptOrdersEndpoint,
   waitForResponse,
 } from '../../../../helpers/order-history';
@@ -83,21 +85,37 @@ describe('Order History with orders', () => {
     cy.get('.cx-order-history-cost-center a').should('contain', costCenter);
   });
 
-  it('should display order details page with the reorder button', () => {
-    cy.get('.cx-order-history-value').first().click();
-    cy.get('cx-order-details-reorder div div button').should(
-      'contain',
-      'Reorder'
-    );
-  });
+  describe('Order details (reorder)', () => {
+    it('should display order details page with the reorder button', () => {
+      cy.get('.cx-order-history-value').first().click();
+      cy.get('cx-order-details-reorder div div button').should(
+        'contain',
+        'Reorder'
+      );
+    });
 
-  it('should show result dialog on adding items to the the cart and update the cart', () => {
-    cy.get('cx-order-details-reorder div div button').first().click();
-    cy.get('.cx-cart-mod-entry-container').should('exist');
+    it('items in the cart should match previous order when proceeding with reorder', () => {
+      // Saving cartId before starting the reorder flow
+      b2bCheckout.addB2bProductToCart();
+      cart.goToCart();
+      cart.saveCartId();
 
-    cart.goToCart();
-    cart.verifyCartNotEmpty();
+      goToOrderDetails();
 
-    cart.clearActiveCart();
+      // Check if the reorder button exists
+      cy.get('cx-order-details-reorder div div button').first().click();
+      cy.get('.cx-reorder-dialog-areyousure-section').should('exist');
+
+      // Click on continue and wait for the response from backend
+      const cartFromOrderAlias = interceptCartFromOrderEndpoint();
+      cy.get('.cx-reorder-dialog-footer div button.btn-primary')
+        .first()
+        .click();
+      waitForResponse(cartFromOrderAlias);
+
+      // Go to cart and verify if the cartId is different
+      cart.goToCart();
+      cart.verifyCartIdIsDifferent();
+    });
   });
 });

@@ -546,6 +546,10 @@ export function verifyCartIdAfterClearCart() {
   closeAddedToCartDialog();
 
   goToCart();
+  verifyCartIdIsDifferent();
+}
+
+export function verifyCartIdIsDifferent() {
   let _cartId;
   cy.get('cx-cart-details')
     .get('h2.cx-total')

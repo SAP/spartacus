@@ -18,6 +18,7 @@ const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
+export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -81,6 +82,17 @@ export function interceptOrdersEndpoint(): string {
   ).as(ORDERS_ALIAS);
 
   return ORDERS_ALIAS;
+}
+
+export function interceptCartFromOrderEndpoint(): string {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/orgUsers/current/cartFromOrder?*`
+  ).as(CART_FROM_ORDER_ALIAS);
+
+  return CART_FROM_ORDER_ALIAS;
 }
 
 export const orderHistoryTest = {
@@ -225,3 +237,10 @@ export const orderHistoryTest = {
     });
   },
 };
+
+export function goToOrderDetails() {
+  cy.visit('/my-account/orders');
+  const ordersAlias = interceptOrdersEndpoint();
+  waitForResponse(ordersAlias);
+  cy.get('.cx-order-history-value').first().click();
+}
