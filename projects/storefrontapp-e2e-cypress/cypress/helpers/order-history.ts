@@ -244,3 +244,23 @@ export function goToOrderDetails() {
   waitForResponse(ordersAlias);
   cy.get('.cx-order-history-value').first().click();
 }
+
+export function saveOrderDetails() {
+  cy.get('tr.cx-item-list-row').each(($row, index, list) => {
+    if (index === 0) {
+      cy.wrap(list.length).as('totalOrderHistoryListItems');
+    }
+    cy.wrap($row)
+      .find('.cx-code')
+      .then((code) => {
+        const itemCode = Cypress.$(code).html();
+        cy.wrap(itemCode).as(`itemCode${index}`);
+      });
+    cy.wrap($row)
+      .find('cx-item-counter input')
+      .then((input) => {
+        const inputValue = Cypress.$(input).val();
+        cy.wrap(inputValue).as(`quantityItem${index}`);
+      });
+  });
+}

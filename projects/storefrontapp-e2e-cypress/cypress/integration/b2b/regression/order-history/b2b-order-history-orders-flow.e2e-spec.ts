@@ -15,6 +15,7 @@ import {
   goToOrderDetails,
   interceptCartFromOrderEndpoint,
   interceptOrdersEndpoint,
+  saveOrderDetails,
   waitForResponse,
 } from '../../../../helpers/order-history';
 import * as cart from '../../../../helpers/cart';
@@ -85,7 +86,7 @@ describe('Order History with orders', () => {
     cy.get('.cx-order-history-cost-center a').should('contain', costCenter);
   });
 
-  describe('Order details (reorder)', () => {
+  describe('Order details - reorder', () => {
     it('should display order details page with the reorder button', () => {
       cy.get('.cx-order-history-value').first().click();
       cy.get('cx-order-details-reorder div div button').should(
@@ -101,6 +102,7 @@ describe('Order History with orders', () => {
       cart.saveCartId();
 
       goToOrderDetails();
+      saveOrderDetails();
 
       // Check if the reorder button exists
       cy.get('cx-order-details-reorder div div button').first().click();
@@ -116,6 +118,25 @@ describe('Order History with orders', () => {
       // Go to cart and verify if the cartId is different
       cart.goToCart();
       cart.verifyCartIdIsDifferent();
+
+      // Count <li> and see if they match with order details
+      cy.get('@totalOrderHistoryListItems').then((totalOrderHistoryListItems: any) => {
+        cy.get('cx-cart-item-list .cx-item-list-row').should(
+          'have.length',
+          totalOrderHistoryListItems
+        );
+      });
+
+      // Go through each <li> and compare product & quantity
+      cy.get('tr.cx-item-list-row').each(($row, index) => {
+        cy.get(`@itemCode${index}`).then((itemCode) => {
+          cy.wrap($row).find('.cx-code').should('contain', itemCode);
+        });
+        cy.get(`@quantityItem${index}`).then((quantity) => {
+          cy.wrap($row).find('cx-item-counter input').should('have.value', quantity);
+        });
+      });
+
     });
   });
 });
