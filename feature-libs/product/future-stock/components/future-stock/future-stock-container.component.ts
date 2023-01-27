@@ -18,11 +18,11 @@ export const NO_FUTURE_STOCK =
   'This product has no future availability information.';
 
 @Component({
-  selector: 'cx-future-stock',
-  templateUrl: './future-stock.component.html',
+  selector: 'cx-future-stock-container',
+  templateUrl: './future-stock-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FutureStockComponent implements OnInit, OnDestroy {
+export class FutureStockContainerComponent implements OnInit, OnDestroy {
   futureStocks$ = this.futureStockService.getFutureStock();
   futureStocks: FutureStock[] | string;
 

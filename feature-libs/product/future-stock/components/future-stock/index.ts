@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './future-stock.component';
+export * from './future-stock-container.component';
