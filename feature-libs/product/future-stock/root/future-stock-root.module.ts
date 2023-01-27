@@ -9,14 +9,13 @@ import { provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_FUTURE_STOCK_FEATURE } from './feature-name';
 
 export function defaultFutureStockComponentsConfig() {
-  const config = {
+  return {
     featureModules: {
       [PRODUCT_FUTURE_STOCK_FEATURE]: {
         cmsComponents: ['FutureStockComponent'],
       },
     },
   };
-  return config;
 }
 
 @NgModule({
