@@ -161,8 +161,4 @@ export class ConfiguratorFormComponent implements OnInit {
   get expMode(): Observable<boolean> | undefined {
     return this.configExpertModeService?.getExpModeActive();
   }
-
-  isReadOnly(attribute: Configurator.Attribute): boolean {
-    return attribute.uiType === Configurator.UiType.READ_ONLY;
-  }
 }
