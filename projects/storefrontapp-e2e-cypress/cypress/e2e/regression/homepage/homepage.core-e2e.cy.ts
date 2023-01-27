@@ -6,6 +6,7 @@
 
 context('Homepage', { testIsolation: false }, () => {
   before(() => {
+    cy.clearAllLocalStorage();
     cy.visit('/');
   });
 

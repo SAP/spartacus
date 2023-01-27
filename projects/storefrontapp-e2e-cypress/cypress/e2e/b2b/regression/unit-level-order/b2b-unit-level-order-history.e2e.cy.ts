@@ -192,46 +192,50 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
     });
   });
 
-  describe('User who wants to filter order history', () => {
-    before(() => {
-      const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
-      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
-      cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
-    });
+  describe(
+    'User who wants to filter order history',
+    { testIsolation: false },
+    () => {
+      before(() => {
+        const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
+        unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
+        cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
+      });
 
-    it('can use a Buyer filter that limits orders to a specific buyer', () => {
-      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-      cleanFilter(filterUnit).wait(ordersToReload);
-      setFilter(filterBuyer, buyerGiSun).wait(ordersToReload);
-      checkThatOrdersAreFilteredBy(fieldBuyer, buyerGiSun);
-      setFilter(filterBuyer, buyerMarkRivers).wait(ordersToReload);
-      checkThatOrdersAreFilteredBy(fieldBuyer, buyerMarkRivers);
-      setFilter(filterBuyer, buyerWilliamHunter).wait(ordersToReload);
-      checkThatOrdersAreFilteredBy(fieldBuyer, buyerWilliamHunter);
-    });
+      it('can use a Buyer filter that limits orders to a specific buyer', () => {
+        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+        cleanFilter(filterUnit).wait(ordersToReload);
+        setFilter(filterBuyer, buyerGiSun).wait(ordersToReload);
+        checkThatOrdersAreFilteredBy(fieldBuyer, buyerGiSun);
+        setFilter(filterBuyer, buyerMarkRivers).wait(ordersToReload);
+        checkThatOrdersAreFilteredBy(fieldBuyer, buyerMarkRivers);
+        setFilter(filterBuyer, buyerWilliamHunter).wait(ordersToReload);
+        checkThatOrdersAreFilteredBy(fieldBuyer, buyerWilliamHunter);
+      });
 
-    it('can use a Unit filter that limits orders to a specific unit', () => {
-      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-      cleanFilter(filterBuyer).wait(ordersToReload);
-      setFilter(filterUnit, unitCustomRetail).wait(ordersToReload);
-      checkThatOrdersAreFilteredBy(fieldUnit, unitCustomRetail);
-      setFilter(filterUnit, unitServicesWest).wait(ordersToReload);
-      checkThatOrdersAreFilteredBy(fieldUnit, unitServicesWest);
-    });
+      it('can use a Unit filter that limits orders to a specific unit', () => {
+        const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
+        cleanFilter(filterBuyer).wait(ordersToReload);
+        setFilter(filterUnit, unitCustomRetail).wait(ordersToReload);
+        checkThatOrdersAreFilteredBy(fieldUnit, unitCustomRetail);
+        setFilter(filterUnit, unitServicesWest).wait(ordersToReload);
+        checkThatOrdersAreFilteredBy(fieldUnit, unitServicesWest);
+      });
 
-    it('should see an empty list when setting mutually exclusive filter values', () => {
-      setMutuallyExclusiveFilterValues();
-      checkThatOrderListIsEmpty();
-    });
+      it('should see an empty list when setting mutually exclusive filter values', () => {
+        setMutuallyExclusiveFilterValues();
+        checkThatOrderListIsEmpty();
+      });
 
-    it('can reset the filter by pressing the reset icon', () => {
-      resetFilter(filterBuyer);
-      resetFilter(filterUnit);
-      checkThatFilterIsCleaned(filterBuyer);
-      checkThatFilterIsCleaned(filterUnit);
-      checkThatOrdersListIsNotEmpty();
-    });
-  });
+      it('can reset the filter by pressing the reset icon', () => {
+        resetFilter(filterBuyer);
+        resetFilter(filterUnit);
+        checkThatFilterIsCleaned(filterBuyer);
+        checkThatFilterIsCleaned(filterUnit);
+        checkThatOrdersListIsNotEmpty();
+      });
+    }
+  );
 
   function registerReloadOrdersAlias(urlToWaitFor: string) {
     return interceptGet('waitForOrderHistoryToReload', urlToWaitFor);

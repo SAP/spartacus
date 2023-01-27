@@ -24,8 +24,8 @@ import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/u
 describe('Order History with orders', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
     before(() => {
+      cy.clearAllLocalStorage();
       cy.window().then((win) => win.sessionStorage.clear());
-      // cy.clearAllLocalStorage();
       cy.requireLoggedIn();
     });
 

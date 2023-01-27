@@ -23,6 +23,7 @@ context('B2B - User Registration', () => {
 
     describe('Registration form', { testIsolation: false }, () => {
       before(() => {
+        cy.clearAllLocalStorage();
         cy.window().then((win) => win.sessionStorage.clear());
         cy.visit('/');
       });

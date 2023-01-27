@@ -27,6 +27,7 @@ const polandAddress: Address = {
 
 context('Payment billing address', { testIsolation: false }, () => {
   before(() => {
+    cy.clearAllLocalStorage();
     cy.window().then((win) => win.sessionStorage.clear());
   });
 

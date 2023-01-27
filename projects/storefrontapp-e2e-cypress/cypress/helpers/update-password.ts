@@ -37,28 +37,35 @@ export function testUpdatePassword() {
 }
 
 export function testUpdatePasswordLoggedInUser() {
-  describe('update password test for logged in user', () => {
-    before(() => {
-      standardUser.registrationData.email = generateMail(randomString(), true);
-      cy.requireLoggedIn(standardUser);
-      cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      cy.selectUserMenuOption({
-        option: 'Password',
+  describe(
+    'update password test for logged in user',
+    { testIsolation: false },
+    () => {
+      before(() => {
+        standardUser.registrationData.email = generateMail(
+          randomString(),
+          true
+        );
+        cy.requireLoggedIn(standardUser);
+        cy.visit('/');
       });
-    });
 
-    testUpdatePassword();
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+        cy.selectUserMenuOption({
+          option: 'Password',
+        });
+      });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
+      testUpdatePassword();
 
-    after(() => {
-      signOutUser();
-    });
-  });
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      after(() => {
+        signOutUser();
+      });
+    }
+  );
 }

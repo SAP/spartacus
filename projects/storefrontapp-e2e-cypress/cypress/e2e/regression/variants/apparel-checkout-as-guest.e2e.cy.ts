@@ -20,9 +20,10 @@ import {
   variantProduct,
 } from '../../../sample-data/apparel-checkout-flow';
 
-context('Apparel - checkout as guest', () => {
+context('Apparel - checkout as guest', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
     before(() => {
+      cy.clearAllLocalStorage();
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
       checkoutVariants.generateVariantGuestUser();
@@ -42,6 +43,7 @@ context('Apparel - checkout as guest', () => {
   });
   viewportContext(['desktop'], () => {
     before(() => {
+      cy.clearLocalStorage();
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
       checkoutVariants.generateVariantGuestUser();
@@ -61,6 +63,7 @@ context('Apparel - checkout as guest', () => {
 
     // Below tests depend on core test for setup.
     it('should keep guest cart content and restart checkout', () => {
+      // cy.clearAllLocalStorage();
       cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
       checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);

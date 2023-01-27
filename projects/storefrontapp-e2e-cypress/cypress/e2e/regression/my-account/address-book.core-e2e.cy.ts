@@ -15,22 +15,18 @@ import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('My Account - Address Book', { testIsolation: false }, () => {
+describe('My Account - Address Book', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    describe(
-      'address book test for anonymous user',
-      { testIsolation: false },
-      () => {
-        it('should redirect to login page for anonymous user', () => {
-          cy.visit('/my-account/address-book');
-          cy.location('pathname').should('contain', '/login');
-        });
-      }
-    );
+    describe('address book test for anonymous user', () => {
+      it('should redirect to login page for anonymous user', () => {
+        cy.visit('/my-account/address-book');
+        cy.location('pathname').should('contain', '/login');
+      });
+    });
 
     describe(
       'address book test for logged in user',

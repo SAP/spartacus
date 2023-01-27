@@ -16,6 +16,7 @@ import {
 describe('Order History with no orders', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
+    cy.clearAllLocalStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     Cypress.env('OCC_PREFIX_USER_ENDPOINT', USER_REQUEST_ENDPOINT);
     Cypress.env('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
