@@ -12,9 +12,9 @@ env:
   GH_TOKEN: ${{ github.token }}
 
 concurrency: 
-  group: ci-merge-checks-e2e-${{ github.head_ref || github.run_id }}
-  # This workflow has the same group id as the e2e test workflow.
-  # The goal is to cancel any running e2e tests when the PR is set to to draft.
+  group: ci-merge-checks-${{ github.head_ref || github.run_id }}
+  # This workflow has the same group id as the merge checks (e2e tests) workflow.
+  # The goal is to cancel pending expensive tests when the PR is set to to draft.
   cancel-in-progress: true
 
 name: PR Status
