@@ -30,15 +30,10 @@ export class ConfiguratorPriceComponent {
   get price(): string {
     if (this.formula.priceTotal) {
       return this.priceTotal;
+    } else if ((this.formula.price?.value ?? 0) > 0) {
+      return '+' + this.formula.price?.formattedValue;
     } else {
-      if (this.formula.price?.value) {
-        if (this.formula.price?.value > 0) {
-          return '+' + this.formula.price?.formattedValue;
-        } else if (this.formula.price?.value < 0) {
-          return this.formula.price?.formattedValue || '';
-        }
-      }
-      return '';
+      return this.formula.price?.formattedValue ?? '';
     }
   }
 
@@ -48,10 +43,10 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    if (this.formula.priceTotal && this.formula.priceTotal.value >= 0) {
+    if (this.formula.priceTotal && this.formula.priceTotal.value > 0) {
       return '+' + this.formula.priceTotal?.formattedValue;
     } else {
-      return this.formula.priceTotal?.formattedValue || '';
+      return this.formula.priceTotal?.formattedValue ?? '';
     }
   }
 

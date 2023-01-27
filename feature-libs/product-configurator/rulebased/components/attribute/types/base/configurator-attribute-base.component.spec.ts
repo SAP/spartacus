@@ -218,39 +218,31 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   describe('getValuePrice', () => {
     it('should return empty string because value is undefined', () => {
-      expect(classUnderTest['getValuePrice']('', undefined)).toEqual('');
+      expect(classUnderTest['getValuePrice'](undefined)).toEqual('');
     });
 
     it('should return empty string because price is undefined', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', undefined);
-      expect(classUnderTest['getValuePrice']('', value)).toEqual('');
+      expect(classUnderTest['getValuePrice'](value)).toEqual('');
     });
 
     it('should return empty string because price is zero', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', 0);
-      expect(classUnderTest['getValuePrice']('', value)).toEqual('');
+      expect(classUnderTest['getValuePrice'](value)).toEqual('');
     });
 
     it('should return title that contains negative price', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', -100);
-      const title = 'title';
-      expect(classUnderTest['getValuePrice'](title, value)).toEqual(
-        title + ' [' + value.valuePrice?.formattedValue + ']'
+      expect(classUnderTest['getValuePrice'](value)).toEqual(
+        ' [' + value.valuePrice?.formattedValue + ']'
       );
     });
 
     it('should return title that contains positive price', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', 10);
-      const title = 'title';
-      expect(classUnderTest['getValuePrice'](title, value)).toEqual(
-        title + ' [+' + value.valuePrice?.formattedValue + ']'
+      expect(classUnderTest['getValuePrice'](value)).toEqual(
+        ' [+' + value.valuePrice?.formattedValue + ']'
       );
-    });
-
-    it('should return only title because is selected', () => {
-      const value = ConfiguratorTestUtils.createValue('valueCode', 10, true);
-      const title = 'title';
-      expect(classUnderTest['getValuePrice'](title, value)).toEqual(title);
     });
   });
 });

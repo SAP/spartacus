@@ -9,7 +9,9 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
   name: 'cxNumeric',
 })
 class MockNumericPipe implements PipeTransform {
-  transform(): any {}
+  transform(value: string): string {
+    return value;
+  }
 }
 
 const createFormula = (
@@ -55,31 +57,24 @@ describe('ConfiguratorPriceComponent', () => {
       component.formula = createFormula(2, 10, 20);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-quantity-price'
+        '.cx-quantity-price',
+        '2x($10)'
       );
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-price-total'
+        '.cx-price-total',
+        '+$20'
       );
+
       const qty = component.formula.quantity;
-      const result =
-        component.formula.quantity +
-        'x(' +
-        component.formula.price?.formattedValue +
-        ')';
-      if (qty) {
-        expect(component.quantityWithPrice(qty.toString())).toEqual(result);
-      } else {
-        fail();
-      }
-      expect(component.priceTotal).toEqual(
-        '+' + component.formula.priceTotal?.formattedValue
-      );
+      expect(qty).toBeDefined();
+      expect(component.quantityWithPrice(String(qty))).toEqual('2x($10)');
+      expect(component.priceTotal).toEqual('+$20');
     });
   });
 
@@ -99,9 +94,7 @@ describe('ConfiguratorPriceComponent', () => {
 
     it('should return total price', () => {
       component.formula = createFormula(0, 0, 10);
-      expect(component.price).toEqual(
-        '+' + component.formula.priceTotal?.formattedValue
-      );
+      expect(component.price).toEqual('+$10');
     });
 
     it('should not display value price', () => {
@@ -124,89 +117,94 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-price.cx-greyed-out'
       );
-      expect(component.price).toEqual(
-        '+' + component.formula.price?.formattedValue
-      );
+      expect(component.price).toEqual('+$10');
     });
 
     it('should display lighted up value price when it is greater than zero', () => {
       component.formula = createFormula(0, 10, undefined, true);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-price',
+        '+$10'
       );
-      expect(component.price).toEqual(
-        '+' + component.formula.price?.formattedValue
-      );
+      expect(component.price).toEqual('+$10');
     });
 
     it('should display selected negative value price', () => {
       component.formula = createFormula(0, -10, undefined, true);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-price',
+        '-$10'
       );
-
-      expect(component.price).toEqual(component.formula.price?.formattedValue);
+      expect(component.price).toEqual('-$10');
     });
 
     it('should display selected positive value price', () => {
       component.formula = createFormula(0, -10, undefined);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-price.cx-greyed-out'
+        '.cx-price',
+        '-$10'
       );
 
-      expect(component.price).toEqual(component.formula.price?.formattedValue);
+      expect(component.price).toEqual('-$10');
     });
   });
 
   describe('Display total price', () => {
-    it('should display a positive total value price', () => {
-      component.formula = createFormula(0, undefined, 150, true);
+    it('should display zero total value price', () => {
+      component.formula = createFormula(0, undefined, 0, true);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-price'
-      );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-quantity-price'
       );
-      expect(component.priceTotal).toEqual(
-        '+' + component.formula.priceTotal?.formattedValue
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-price-total'
       );
+
+      expect(component.priceTotal).toEqual('');
+    });
+
+    it('should display a positive total value price', () => {
+      component.formula = createFormula(0, undefined, 150, true);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-price',
+        '+$150'
+      );
+      expect(component.priceTotal).toEqual('+$150');
     });
 
     it('should display a negative total value price', () => {
       component.formula = createFormula(0, undefined, -150, true);
       fixture.detectChanges();
 
-      CommonConfiguratorTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-price'
+        '.cx-price',
+        '-$150'
       );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-quantity-price'
-      );
-      expect(component.priceTotal).toEqual(
-        component.formula.priceTotal?.formattedValue
-      );
+      expect(component.priceTotal).toEqual('-$150');
     });
 
     it('should not display total value price', () => {

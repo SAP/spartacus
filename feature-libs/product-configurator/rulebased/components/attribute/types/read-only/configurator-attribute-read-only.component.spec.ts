@@ -8,7 +8,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @Component({
-  selector: 'cx-configurator-attribute-read-only',
+  selector: 'cx-configurator-price',
   template: '',
 })
 class MockConfiguratorPriceComponent {

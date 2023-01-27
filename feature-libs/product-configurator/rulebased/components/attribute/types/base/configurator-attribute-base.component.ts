@@ -158,22 +158,19 @@ export class ConfiguratorAttributeBaseComponent {
     if (expMode && techName) {
       title += ` / [${techName}]`;
     }
-    title = this.getValuePrice(title, value);
+    title += this.getValuePrice(value);
     return title;
   }
 
-  protected getValuePrice(
-    title: string,
-    value: Configurator.Value | undefined
-  ): string {
+  protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
-        title += ` [${value.valuePrice?.formattedValue}]`;
+        return ` [${value.valuePrice?.formattedValue}]`;
       } else if (value.valuePrice.value > 0) {
-        title += ` [+${value.valuePrice?.formattedValue}]`;
+        return ` [+${value.valuePrice?.formattedValue}]`;
       }
     }
-    return title;
+    return '';
   }
 
   /**
