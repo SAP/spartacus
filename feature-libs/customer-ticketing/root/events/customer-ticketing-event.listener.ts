@@ -45,6 +45,7 @@ export class CustomerTicketingEventListener implements OnDestroy {
     this.onNewMessage();
     this.onTicketClosed();
     this.onTicketReopened();
+    this.onUploadAttachmentSucess();
   }
 
   protected onTicketCreatedEvent() {

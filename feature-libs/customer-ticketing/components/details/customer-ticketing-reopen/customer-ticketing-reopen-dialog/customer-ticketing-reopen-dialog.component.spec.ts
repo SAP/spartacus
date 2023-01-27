@@ -79,7 +79,8 @@ describe('CustomerTicketingReopenDialogComponent', () => {
       component.reopenRequest();
 
       expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
-        mockEvent
+        mockEvent,
+        false
       );
     });
   });

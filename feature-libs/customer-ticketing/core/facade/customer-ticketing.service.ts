@@ -124,8 +124,9 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
                 if (payload.ticketEvent.toStatus?.id === STATUS.CLOSED) {
                   this.eventService.dispatch({}, TicketClosedEvent);
                 } else if (
-                  payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
-                  payload.ticketEvent.toStatus?.id === STATUS.INPROCESS
+                  (payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
+                    payload.ticketEvent.toStatus?.id === STATUS.INPROCESS) &&
+                  !payload.containsAttachment
                 ) {
                   this.eventService.dispatch({}, TicketReopenedEvent);
                 } else if (!payload.containsAttachment) {

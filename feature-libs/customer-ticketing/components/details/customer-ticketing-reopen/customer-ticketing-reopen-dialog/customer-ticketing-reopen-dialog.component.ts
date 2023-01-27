@@ -13,7 +13,6 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
@@ -35,20 +34,19 @@ export class CustomerTicketingReopenDialogComponent
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
+      const attachmentFlag = this.form.get('file')?.value?.length > 0 ?? false;
       this.isDataLoading$.next(true);
       this.subscription = this.customerTicketingFacade
-        .createTicketEvent(this.prepareTicketEvent())
-        .pipe(
-          tap((createdEvent: TicketEvent) => {
+        .createTicketEvent(this.prepareTicketEvent(), attachmentFlag)
+        .subscribe({
+          next: (createdEvent: TicketEvent) => {
             if (this.form.get('file')?.value?.length && createdEvent.code) {
               this.customerTicketingFacade.uploadAttachment(
                 this.form.get('file')?.value?.item(0),
                 createdEvent.code
               );
             }
-          })
-        )
-        .subscribe({
+          },
           complete: () => {
             this.onComplete();
           },
