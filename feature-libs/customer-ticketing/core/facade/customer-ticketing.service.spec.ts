@@ -1,13 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
 import {
+  EventService,
   OCC_USER_ID_CURRENT,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import {
+  NewMessageEvent,
+  STATUS,
+  STATUS_NAME,
+  TicketClosedEvent,
   TicketDetails,
   TicketEvent,
   TicketList,
+  TicketReopenedEvent,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
@@ -175,6 +181,7 @@ class MockCustomerTicketingConnector
 describe('CustomerTicketingService', () => {
   let service: CustomerTicketingService;
   let connector: CustomerTicketingConnector;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -191,6 +198,7 @@ describe('CustomerTicketingService', () => {
 
     service = TestBed.inject(CustomerTicketingService);
     connector = TestBed.inject(CustomerTicketingConnector);
+    eventService = TestBed.inject(EventService);
   });
 
   it('should inject customerTicketingService', inject(
@@ -336,6 +344,75 @@ describe('CustomerTicketingService', () => {
           expect(data).toEqual(mockCreateEventResponse);
           done();
         });
+    });
+
+    it('should dispatch TicketClosedEvent if the toStatus id is CLOSED', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: STATUS.CLOSED,
+          name: STATUS_NAME.CLOSED,
+        },
+      };
+
+      spyOn(eventService, 'dispatch').and.callThrough();
+      service.createTicketEvent(mockTicketEvent).pipe(take(1)).subscribe();
+
+      expect(eventService.dispatch).toHaveBeenCalledWith({}, TicketClosedEvent);
+      done();
+    });
+
+    it('should dispatch TicketReopenedEvent if the toStatus id is OPEN or INPROCESS', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: STATUS.OPEN,
+          name: STATUS_NAME.OPEN,
+        },
+      };
+
+      spyOn(eventService, 'dispatch').and.callThrough();
+      service.createTicketEvent(mockTicketEvent).pipe(take(1)).subscribe();
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        TicketReopenedEvent
+      );
+      done();
+    });
+
+    it('should not dispatch TicketReopenedEvent if containsAttachment is true', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        toStatus: {
+          id: STATUS.INPROCESS,
+          name: STATUS_NAME.INPROCESS,
+        },
+      };
+
+      spyOn(eventService, 'dispatch').and.callThrough();
+      service
+        .createTicketEvent(mockTicketEvent, true)
+        .pipe(take(1))
+        .subscribe();
+
+      expect(eventService.dispatch).not.toHaveBeenCalledWith(
+        {},
+        TicketReopenedEvent
+      );
+      done();
+    });
+
+    it('should dispatch NewMessageEvent if containsAttachment is false and there is no status change', (done) => {
+      const mockTicketEvent: TicketEvent = {
+        message: 'MockMessage',
+      };
+
+      spyOn(eventService, 'dispatch').and.callThrough();
+      service
+        .createTicketEvent(mockTicketEvent, false)
+        .pipe(take(1))
+        .subscribe();
+
+      expect(eventService.dispatch).toHaveBeenCalledWith({}, NewMessageEvent);
+      done();
     });
   });
 

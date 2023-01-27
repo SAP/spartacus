@@ -64,22 +64,15 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryResetEvent];
   }
-  /**
-   * Returns the reload events for the getTicket query.
-   */
+
   protected getTicketQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketQueryReloadEvent];
   }
-  /**
-   * Returns the reset events for the getTicket query.
-   */
+
   protected getTicketQueryResetEvents(): QueryNotifier[] {
     return [GetTicketQueryResetEvent];
   }
 
-  /**
-   * Returns the reload events for the getTickets query.
-   */
   protected getTicketsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketsQueryReloadEvents];
   }
@@ -100,9 +93,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
-  /**
-   * Returns the reset events for the getTickets query.
-   */
   protected getTicketsQueryResetEvents(): QueryNotifier[] {
     return [GetTicketsQueryResetEvents];
   }
