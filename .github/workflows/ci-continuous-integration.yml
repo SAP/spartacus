@@ -108,7 +108,6 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
-          exit 1
   ci_result:
     needs: [unit_tests_core, unit_tests_libs, sonarqube_scan, linting]
     name: CI - Result
