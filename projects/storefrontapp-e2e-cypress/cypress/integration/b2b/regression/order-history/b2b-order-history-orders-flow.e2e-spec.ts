@@ -120,12 +120,14 @@ describe('Order History with orders', () => {
       cart.verifyCartIdIsDifferent();
 
       // Count <li> and see if they match with order details
-      cy.get('@totalOrderHistoryListItems').then((totalOrderHistoryListItems: any) => {
-        cy.get('cx-cart-item-list .cx-item-list-row').should(
-          'have.length',
-          totalOrderHistoryListItems
-        );
-      });
+      cy.get('@totalOrderHistoryListItems').then(
+        (totalOrderHistoryListItems: any) => {
+          cy.get('cx-cart-item-list .cx-item-list-row').should(
+            'have.length',
+            totalOrderHistoryListItems
+          );
+        }
+      );
 
       // Go through each <li> and compare product & quantity
       cy.get('tr.cx-item-list-row').each(($row, index) => {
@@ -133,10 +135,11 @@ describe('Order History with orders', () => {
           cy.wrap($row).find('.cx-code').should('contain', itemCode);
         });
         cy.get(`@quantityItem${index}`).then((quantity) => {
-          cy.wrap($row).find('cx-item-counter input').should('have.value', quantity);
+          cy.wrap($row)
+            .find('cx-item-counter input')
+            .should('have.value', quantity);
         });
       });
-
     });
   });
 });
