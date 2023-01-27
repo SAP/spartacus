@@ -8,7 +8,6 @@ on:
     # empty as it is used only to manually trigger the workflow
 
 env:
-  NODE_VERSION: "16"
   GH_TOKEN: ${{ github.token }}
 
 concurrency: 

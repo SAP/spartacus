@@ -9,7 +9,6 @@ on:
   
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '16'
   GH_TOKEN: ${{ github.token }}
 
 concurrency: 
