@@ -22,6 +22,7 @@ export abstract class FutureStockAdapter {
   /**
    *
    * Abstract method  used to get the future product availability for the list of specified products
+   * example list of products: '3318057,72399000,3228058'
    */
   abstract getFutureStocks(
     userId: string,
