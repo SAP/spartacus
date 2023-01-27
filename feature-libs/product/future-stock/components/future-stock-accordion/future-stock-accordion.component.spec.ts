@@ -16,7 +16,6 @@ describe('FutureStockAccordionComponent', () => {
   let component: FutureStockAccordionComponent;
   let fixture: ComponentFixture<FutureStockAccordionComponent>;
 
-  const mockHeader = 'Header';
   const mockContent = [
     {
       formattedDate: '10/11/2020',
@@ -49,7 +48,6 @@ describe('FutureStockAccordionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FutureStockAccordionComponent);
     component = fixture.componentInstance;
-    component.header = mockHeader;
     fixture.detectChanges();
   });
 

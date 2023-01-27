@@ -3,7 +3,7 @@
   [attr.aria-expanded]="expanded"
   (click)="toggle()"
 >
-    {{ header }}
+    {{ 'futureStockDropdown.header' | cxTranslate }}
     <cx-icon *ngIf="expanded; else notExpanded" [type]="iconType.CARET_UP"></cx-icon>
 
     <ng-template #notExpanded>

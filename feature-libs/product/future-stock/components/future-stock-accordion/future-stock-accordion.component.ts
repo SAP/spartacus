@@ -13,7 +13,6 @@ import { FutureStock } from '@spartacus/core';
   templateUrl: './future-stock-accordion.component.html',
 })
 export class FutureStockAccordionComponent {
-  @Input() header: string;
   @Input() content: FutureStock[] | string;
 
   expanded: boolean = false;
