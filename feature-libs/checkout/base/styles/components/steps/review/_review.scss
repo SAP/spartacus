@@ -1,4 +1,5 @@
-%cx-checkout-review-shipping {
+%cx-checkout-review-shipping,
+%cx-checkout-review-overview {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
   }
@@ -72,6 +73,11 @@
 
   .cx-review-shipping-summary {
     background-color: var(--cx-color-inverse) !important;
+  }
+
+  .cx-review-cart-total {
+    @include type('4');
+    margin: 2.625rem 0 0.5rem 0;
   }
 
   // ***************************** MEDIA QUERIES *****************************
