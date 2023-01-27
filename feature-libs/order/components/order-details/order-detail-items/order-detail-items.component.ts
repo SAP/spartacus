@@ -5,11 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import {
-  CartOutlets,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/base/root';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -33,19 +29,11 @@ export class OrderDetailItemsComponent {
 
   pickupConsignments: Consignment[] | undefined;
   deliveryConsignments: Consignment[] | undefined;
-  pickupUnConsignments: OrderEntry[] | undefined;
-  deliveryUnConsignments: OrderEntry[] | undefined;
 
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
     tap((order) => {
       this.pickupConsignments = this.getGroupedConsignments(order, true);
       this.deliveryConsignments = this.getGroupedConsignments(order, false);
-      this.pickupUnConsignments = order.unconsignedEntries?.filter(
-        (entry) => entry.deliveryPointOfService !== undefined
-      );
-      this.deliveryUnConsignments = order.unconsignedEntries?.filter(
-        (entry) => entry.deliveryPointOfService === undefined
-      );
     })
   );
 

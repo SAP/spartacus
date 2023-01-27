@@ -53,6 +53,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'OrderConfirmationItemsComponent',
           'OrderConfirmationTotalsComponent',
           'OrderConfirmationOverviewComponent',
+          'OrderConfirmationShippingComponent',
           'ReplenishmentConfirmationMessageComponent',
           'ReplenishmentConfirmationOverviewComponent',
           'ReplenishmentConfirmationItemsComponent',

@@ -16,5 +16,6 @@ export enum CartOutlets {
   ORDER_SUMMARY = 'cx-order-summary',
   CART_ITEM_LIST = 'cx-cart-item-list',
   PICKUP_ITEM_LIST = 'cx-pickup-item-list',
+  DELIVERY_CONSIGNMENT_LIST = 'cx-delivery-consignment-list',
   DELIVERY_ITEM_LIST = 'cx-delivery-item-list',
 }

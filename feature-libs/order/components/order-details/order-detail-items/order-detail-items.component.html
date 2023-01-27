@@ -21,8 +21,13 @@
   ></cx-order-consigned-entries>
 
   <ng-template
-    [cxOutlet]="CartOutlets.DELIVERY_ITEM_LIST"
-    [cxOutletContext]="order"
+    [cxOutlet]="CartOutlets.DELIVERY_CONSIGNMENT_LIST"
+    [cxOutletContext]="{
+      readonly: true,
+      showItemList: false,
+      deliveryAddress: order.deliveryAddress,
+      deliveryMode: order.deliveryMode
+    }"
   >
     <!-- delivery consigned entries -->
     <cx-order-consigned-entries
@@ -50,43 +55,22 @@
         </div>
       </div>
       <div class="cx-list-item col-12">
-        <ng-container *ngIf="order?.unconsignedEntries?.length">
-          <ng-template
-            [cxOutlet]="CartOutlets.DELIVERY_ITEM_LIST"
-            [cxOutletContext]="{
-              items: deliveryUnConsignments,
-              options: {
-                displayAddToCart: enableAddToCart$ | async,
-                addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn
-              }
-            }"
-          >
-          </ng-template>
-          <ng-template
-            [cxOutlet]="CartOutlets.PICKUP_ITEM_LIST"
-            [cxOutletContext]="{
-              items: pickupUnConsignments
-            }"
-          >
-          </ng-template>
-        </ng-container>
-        <ng-container *ngIf="order?.replenishmentOrderCode">
-          <ng-template
-            [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-            [cxOutletContext]="{
-              items: order.entries,
-              readonly: true,
-              promotionLocation: promotionLocation,
-              options: {
-                displayAddToCart: enableAddToCart$ | async,
-                addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn
-              }
-            }"
-          >
-          </ng-template>
-        </ng-container>
+        <ng-template
+          [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            items: order?.unconsignedEntries
+              ? order.unconsignedEntries
+              : order.entries,
+            readonly: true,
+            promotionLocation: promotionLocation,
+            options: {
+              displayAddToCart: enableAddToCart$ | async,
+              addToCartString: (buyItAgainTranslation$ | async),
+              optionalBtn: addToCartBtn
+            }
+          }"
+        >
+        </ng-template>
       </div>
     </div>
   </ng-container>
