@@ -34,10 +34,11 @@ export class CustomerTicketingReopenDialogComponent
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
-      const attachmentFlag = this.form.get('file')?.value?.length > 0 ?? false;
+      const mustWaitForAttachment =
+        this.form.get('file')?.value?.length > 0 ?? false;
       this.isDataLoading$.next(true);
       this.subscription = this.customerTicketingFacade
-        .createTicketEvent(this.prepareTicketEvent(), attachmentFlag)
+        .createTicketEvent(this.prepareTicketEvent(), mustWaitForAttachment)
         .subscribe({
           next: (createdEvent: TicketEvent) => {
             if (this.form.get('file')?.value?.length && createdEvent.code) {

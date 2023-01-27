@@ -65,7 +65,10 @@
         </label>
 
         <label
-          *ngIf="ticketAssociatedObjects$ | async as ticketAssociatedObjects"
+          *ngIf="
+            (ticketAssociatedObjects$ | async).length > 0 &&
+              ticketAssociatedObjects$ | async as ticketAssociatedObjects
+          "
         >
           <span class="cx-customer-ticket-label label-content">
             {{ 'createCustomerTicket.associateTo' | cxTranslate }}

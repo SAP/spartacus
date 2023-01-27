@@ -113,13 +113,15 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
               tap(() => {
                 if (payload.ticketEvent.toStatus?.id === STATUS.CLOSED) {
                   this.eventService.dispatch({}, TicketClosedEvent);
-                } else if (!payload.containsAttachment){
-                   if (payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
-                    payload.ticketEvent.toStatus?.id === STATUS.INPROCESS) {
-                        this.eventService.dispatch({}, TicketReopenedEvent);
-                    } else {
-                        this.eventService.dispatch({}, NewMessageEvent);
-                    }
+                } else if (!payload.containsAttachment) {
+                  if (
+                    payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
+                    payload.ticketEvent.toStatus?.id === STATUS.INPROCESS
+                  ) {
+                    this.eventService.dispatch({}, TicketReopenedEvent);
+                  } else {
+                    this.eventService.dispatch({}, NewMessageEvent);
+                  }
                 }
               })
             )
@@ -312,7 +314,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   createTicketEvent(
     ticketEvent: TicketEvent,
-    containsAttachment?: boolean | false
+    containsAttachment = false
   ): Observable<TicketEvent> {
     return this.createTicketEventCommand.execute({
       ticketEvent,

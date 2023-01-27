@@ -44,13 +44,13 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
   onSend(event: { files: FileList | undefined; message: string }) {
-    const attachmentFlag =
+    const mustWaitForAttachment =
       (event.files instanceof FileList && event.files?.length > 0) ?? false;
     this.subscription.add(
       this.customerTicketingFacade
         .createTicketEvent(
           this.prepareTicketEvent(event.message),
-          attachmentFlag
+          mustWaitForAttachment
         )
         .subscribe((createdEvent: TicketEvent) => {
           if (event.files && event.files?.length && createdEvent.code) {

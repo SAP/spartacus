@@ -63,6 +63,7 @@ describe('CustomerTicketMessagesComponent', () => {
   });
 
   it('should call createTicketEvent on send', () => {
+    const mustWaitForAttachment = false;
     spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
     component.onSend(mockSendEvent);
 
@@ -70,7 +71,7 @@ describe('CustomerTicketMessagesComponent', () => {
       {
         message: 'mock message',
       },
-      false
+      mustWaitForAttachment
     );
   });
 
