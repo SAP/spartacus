@@ -2,11 +2,7 @@ on:
   push:
     branches:
       - develop
-      - epic/**
       - release/**
-      - integration-libs/**
-  pull_request:
-    types: [opened, synchronize]
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
