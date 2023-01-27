@@ -11,7 +11,9 @@ import { PromotionsModule } from '@spartacus/storefront';
 const mockCart: Cart = {
   guid: 'test',
   code: 'test',
-  deliveryItemsQuantity: 123,
+  deliveryItemsQuantity: 3,
+  pickupItemsQuantity: 5,
+  totalUnitCount: 8,
   totalPrice: { formattedValue: '$999.98' },
 };
 
@@ -57,7 +59,7 @@ describe('CheckoutReviewOverviewComponent', () => {
 
     it('should contain total number of items', () => {
       fixture.detectChanges();
-      expect(getCartTotalText()).toContain(123);
+      expect(getCartTotalText()).toContain(8);
     });
 
     it('should contain total price', () => {
