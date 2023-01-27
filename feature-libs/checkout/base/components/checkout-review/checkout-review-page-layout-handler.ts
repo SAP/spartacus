@@ -38,11 +38,11 @@ export class CheckoutReviewPageLayoutHandler implements PageLayoutHandler {
             arr.filter((item) => args.every((arg) => arg !== item));
 
           if (page.label !== '/checkout/review-order') {
-            return exclude(slots, ['OnlyForTest']);
+            return exclude(slots, ['OnlyForTest', 'OnlyForTest2']);
           } else {
             return hasPickup
               ? exclude(slots, ['BodyContent'])
-              : exclude(slots, ['OnlyForTest']);
+              : exclude(slots, ['OnlyForTest', 'OnlyForTest2']);
           }
         })
       );

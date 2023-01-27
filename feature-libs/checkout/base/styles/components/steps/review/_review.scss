@@ -9,7 +9,7 @@
     font-weight: 600;
     font-size: 18px;
     padding: 20px 40px;
-    margin-bottom: 20px;
+    margin: 30px 0 20px 0; 
   }
 
   .cx-review-summary {
@@ -38,6 +38,9 @@
     .cx-review-summary-payment-card {
       margin: 30px;
       background-color: theme-color('inverse');
+      width: 45%;
+      border: 1px solid var(--cx-color-light);
+      border-radius: 10px;
     }
     
     .cx-review-summary-card-container {

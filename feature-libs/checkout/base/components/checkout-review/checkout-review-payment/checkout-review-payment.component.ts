@@ -1,14 +1,7 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentFacade,
-  CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
@@ -27,25 +20,16 @@ export class CheckoutReviewPaymentComponent {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected translationService: TranslationService
   ) {}
-
+  
   iconTypes = ICON_TYPE;
 
   checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
-
-  steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
-
-  protected getCheckoutPaymentSteps(): Array<CheckoutStepType | string> {
-    return [
-      CheckoutStepType.PAYMENT_DETAILS,
-      CheckoutStepType.DELIVERY_ADDRESS,
-    ];
-  }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
@@ -80,12 +64,6 @@ export class CheckoutReviewPaymentComponent {
           text: [paymentByCardText],
         } as Card;
       })
-    );
-  }
-
-  paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
-    return steps.filter((step) =>
-      this.getCheckoutPaymentSteps().includes(step.type[0])
     );
   }
 

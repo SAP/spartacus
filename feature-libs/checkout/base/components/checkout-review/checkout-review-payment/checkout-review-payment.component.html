@@ -1,20 +1,7 @@
-<div class="cx-review-summary cx-review-summary-container">
-  <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
-    <ng-container *ngFor="let step of paymentSteps(steps)">
-      <ng-container [ngSwitch]="step.type[0]">
-        <ng-container *ngSwitchCase="checkoutStepTypePaymentDetails">
-          <ng-container *ngTemplateOutlet="paymentCards"></ng-container>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</div>
-
-<ng-template #paymentCards>
+<div class="cx-review-summary" *ngIf="paymentDetails$ | async as paymentDetails">
   <div class="cx-review-summary-card cx-review-summary-payment-card">
     <div>
       <cx-card
-        *ngIf="paymentDetails$ | async as paymentDetails"
         [content]="getPaymentTypeCard() | async"
       ></cx-card>
     </div>
@@ -34,9 +21,8 @@
   <div class="cx-review-summary-card cx-review-summary-payment-card">
     <div>
       <cx-card
-        *ngIf="paymentDetails$ | async as paymentDetails"
         [content]="getPaymentMethodCard(paymentDetails) | async"
       ></cx-card>
     </div>
   </div>
-</ng-template>
+</div>
