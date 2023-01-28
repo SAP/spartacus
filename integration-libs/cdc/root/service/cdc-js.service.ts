@@ -300,7 +300,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected handleRegisterError(response: any) {
     if (response && response.status === 'FAIL') {
-      let errorMessage =
+      const errorMessage =
         (response.validationErrors &&
           response.validationErrors.length > 0 &&
           response.validationErrors[response.validationErrors.length - 1]
