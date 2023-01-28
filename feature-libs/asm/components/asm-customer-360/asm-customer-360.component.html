@@ -1,5 +1,6 @@
 <div
   class="cx-asm-customer-360 cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
 >
   <!-- Modal Header -->
@@ -88,6 +89,7 @@
           *ngFor="let tab of tabs; let i = index"
           (click)="selectTab(i)"
           [class.active]="activeTab === i"
+          tabindex="0"
         >
           {{ tab.i18nNameKey | cxTranslate }}
         </a>

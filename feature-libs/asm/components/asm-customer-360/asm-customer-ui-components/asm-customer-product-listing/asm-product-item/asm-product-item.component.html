@@ -1,4 +1,5 @@
-<a
+<button
+  class="cx-asm-product-item-media link"
   tabindex="0"
   [attr.aria-label]="product?.name"
   role="link"
@@ -9,16 +10,15 @@
     format="product"
     [alt]="product?.name ?? ''"
   ></cx-media>
-</a>
+</button>
 <div class="cx-asm-product-item-content">
-  <a
-    tabindex="0"
+  <button
     [attr.aria-label]="product?.name"
-    role="link"
     (click)="selectProduct.emit(product)"
-    class="cx-asm-product-item-name"
-    ><span title="{{ product?.name }}">{{ product?.name }}</span></a
+    class="cx-asm-product-item-name link"
   >
+    <span title="{{ product?.name }}">{{ product?.name }}</span>
+  </button>
   <ng-container *ngIf="isOrderEntry; else notOrderEntryTemplate">
     <div class="cx-asm-product-item-code">
       {{ product?.code }}

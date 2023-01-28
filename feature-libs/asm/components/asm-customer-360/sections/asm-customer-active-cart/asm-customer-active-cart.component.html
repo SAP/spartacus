@@ -14,18 +14,16 @@
 
 <ng-template #headerTemplate>
   <ng-container *ngIf="activeCart$ | async as activeCart">
-    <a
-      tabindex="0"
+    <button
       [attr.aria-label]="
         'asm.customer360.activeCart.aria.linkLabel'
           | cxTranslate: { code: activeCart.code }
       "
-      role="link"
-      class="cx-overview-title-link"
+      class="cx-overview-title-link link"
       (click)="sectionContext.navigate$.next({ cxRoute: 'cart' })"
     >
       {{ activeCart.code }}
-    </a>
+    </button>
     <div class="cart-total-no-items">
       {{
         'asm.customer360.productListing.totalNoItems'

@@ -60,7 +60,7 @@
 
         > span {
           align-items: center;
-          color: #747881;
+          color: $asmMainSecondaryTextColor;
           display: inline-flex;
 
           &:nth-of-type(n + 2) {
@@ -69,7 +69,7 @@
         }
 
         .account-icon {
-          color: #0070f2;
+          color: $asmLinkColor;
           font-size: 18px;
           margin: 0 14px 0 0;
         }
@@ -92,7 +92,7 @@
       flex-direction: row;
       margin-top: 2rem;
       overflow-x: auto;
-      border-bottom: 1px solid #dddddd;
+      border-bottom: 1px solid $asmBorderColor;
       padding-inline-start: 2rem;
     }
     .cx-tab {

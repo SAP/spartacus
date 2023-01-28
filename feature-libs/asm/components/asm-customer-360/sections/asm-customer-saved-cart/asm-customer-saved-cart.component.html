@@ -6,20 +6,20 @@
   [headerTemplate]="headerTemplate"
   [headerText]="'asm.customer360.savedCart.header' | cxTranslate"
   [products]="productItems$ | async"
-  (selectProduct)="navigateToSavedCartDetails()"
+  (selectProduct)="
+    sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
+  "
 >
 </cx-asm-customer-product-listing>
 
 <ng-template #headerTemplate>
   <ng-container *ngIf="savedCart$ | async as savedCart">
-    <a
-      tabindex="0"
+    <button
       [attr.aria-label]="
         'asm.customer360.savedCart.aria.linkLabel'
           | cxTranslate: { code: savedCart.code }
       "
-      role="link"
-      class="cx-overview-title-link"
+      class="cx-overview-title-link link"
       (click)="
         sectionContext.navigate$.next({
           cxRoute: 'savedCartsDetails',
@@ -28,7 +28,7 @@
       "
     >
       {{ savedCart.code }}
-    </a>
+    </button>
     <div class="cart-total-no-items">
       {{
         'asm.customer360.productListing.totalNoItems'

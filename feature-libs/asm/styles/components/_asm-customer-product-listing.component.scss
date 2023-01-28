@@ -33,8 +33,6 @@
   }
 
   .title-link {
-    text-decoration: none;
-    cursor: pointer;
     color: $asmLinkColor;
 
     &.inactive {
@@ -61,8 +59,7 @@
     border: 1px solid $asmBorderColor;
     border-radius: 10px;
     padding: 16px;
-
-    cx-media {
+    .cx-asm-product-item-media {
       margin-right: 16px;
       width: 100px;
     }
@@ -72,6 +69,9 @@
     &-content {
       flex: 1;
       min-width: 0;
+      button {
+        text-align: start;
+      }
     }
 
     &-out-of-stock {

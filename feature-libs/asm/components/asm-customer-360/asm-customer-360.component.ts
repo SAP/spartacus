@@ -25,7 +25,7 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import { FocusConfig, ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 
@@ -38,6 +38,13 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
   readonly cartIcon = ICON_TYPE.CART;
   readonly closeIcon = ICON_TYPE.CLOSE;
   readonly orderIcon = ICON_TYPE.ORDER;
+
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: '.cx-tab.active',
+    focusOnEscape: true,
+  };
 
   tabs: Array<AsmCustomer360TabConfig>;
   activeTab = 0;

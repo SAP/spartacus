@@ -1,15 +1,14 @@
 <div class="product-listing" *ngIf="products?.length; else emptyResultTemplate">
   <div class="product-listing-header">
-    <a
-      tabindex="0"
+    <button
       [attr.aria-label]="headerText"
+      [attr.aria-disabled]="headerInactive"
       [class.inactive]="headerInactive"
-      role="link"
-      class="title-link"
+      class="title-link link"
       (click)="clickHeader.emit()"
     >
       {{ headerText }}
-    </a>
+    </button>
     <ng-container *ngIf="headerTemplate">
       <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
     </ng-container>
