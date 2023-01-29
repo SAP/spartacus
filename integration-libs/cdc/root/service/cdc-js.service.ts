@@ -324,7 +324,7 @@ export class CdcJsService implements OnDestroy {
         {
           key: 'httpHandlers.badRequestPleaseLoginAgain',
           params: {
-            errorMessage: response.statusMessage,
+            errorMessage: response.errorDetails,
           },
         },
         GlobalMessageType.MSG_TYPE_ERROR
@@ -387,7 +387,7 @@ export class CdcJsService implements OnDestroy {
 
   /**
    * Response handler for forgot password
-   * @param response 
+   * @param response
    */
   protected handleResetPassResponse(response: any) {
     if (response && response.status === 'OK') {

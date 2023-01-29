@@ -5,19 +5,19 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Address, UserAddressService } from '@spartacus/core';
+import { Address, GlobalMessageService, GlobalMessageType, UserAddressService } from '@spartacus/core';
 import { AddressBookComponentService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CdcJsService } from '../../root/service/cdc-js.service';
 
 @Injectable()
 export class CDCAddressBookComponentService extends  AddressBookComponentService{
-  constructor(protected userAddressService: UserAddressService, protected cdcJsService: CdcJsService) {
+  constructor(protected userAddressService: UserAddressService, protected globalMessageService: GlobalMessageService, protected cdcJsService: CdcJsService) {
     super(userAddressService);
   }
-  
-  protected addresses$: Observable<Address[]>
 
+  protected addresses$: Observable<Address[]>;
+  
   getAddresses(): Observable<Address[]> {
     this.addresses$ =  this.userAddressService.getAddresses();
     this.addresses$.subscribe( (addresses: Address[]) => {
@@ -25,7 +25,12 @@ export class CDCAddressBookComponentService extends  AddressBookComponentService
         if(address.defaultAddress) {
           //send to CDC
           let formattedAddress = address.formattedAddress || '';
-          this.cdcJsService.updateAddressWithoutScreenSet(formattedAddress);
+          this.cdcJsService.updateAddressWithoutScreenSet(formattedAddress).subscribe({
+            error: (error) =>  {
+              let errorMessage = error?.errorDetails || ' ';
+              this.globalMessageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
+            }
+          });
           break;
         }
       }
