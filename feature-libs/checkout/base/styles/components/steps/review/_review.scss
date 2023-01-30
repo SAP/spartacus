@@ -1,5 +1,5 @@
 %cx-checkout-review-shipping,
-%cx-checkout-review-payment, 
+%cx-checkout-review-payment,
 %cx-checkout-review-overview {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
@@ -10,7 +10,7 @@
     font-weight: 600;
     font-size: 18px;
     padding: 20px 40px;
-    margin: 10px 0 20px 0; 
+    margin: 10px 0 20px 0;
   }
 
   .cx-review-summary {
@@ -43,7 +43,7 @@
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
     }
-    
+
     .cx-review-summary-card-container {
       width: 45%;
       border: 1px solid var(--cx-color-light);

@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-checkout-review-overview',
   templateUrl: './checkout-review-overview.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewOverviewComponent {
   constructor(protected activeCartFacade: ActiveCartFacade) {}

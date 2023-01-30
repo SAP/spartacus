@@ -25,7 +25,7 @@ import { CheckoutStepService } from '../../services';
 @Component({
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;

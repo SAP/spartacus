@@ -1,9 +1,6 @@
 <ng-container *ngIf="cart$ | async as cart">
   <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
-    {{
-      'cartItems.cartTotal'
-        | cxTranslate: { count: cart.totalUnitCount }
-    }}:
+    {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalUnitCount } }}:
     {{ cart.totalPrice?.formattedValue }}
   </div>
   <cx-promotions

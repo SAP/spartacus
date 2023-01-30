@@ -19,7 +19,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 @Component({
   selector: 'cx-checkout-review-payment',
   templateUrl: './checkout-review-payment.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewPaymentComponent {
   constructor(
@@ -27,7 +27,7 @@ export class CheckoutReviewPaymentComponent {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected translationService: TranslationService
   ) {}
-  
+
   iconTypes = ICON_TYPE;
 
   checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
@@ -63,25 +63,25 @@ export class CheckoutReviewPaymentComponent {
   getBillingAddressCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translationService.translate('paymentForm.billingAddress'),
-      this.translationService.translate('addressCard.billTo')
+      this.translationService.translate('addressCard.billTo'),
     ]).pipe(
       map(([billingAddress, billTo]) => {
         const region = paymentDetails.billingAddress?.region?.isocode
-        ? paymentDetails.billingAddress?.region?.isocode + ', '
-        : '';
+          ? paymentDetails.billingAddress?.region?.isocode + ', '
+          : '';
         return {
           title: billingAddress,
           text: [
             billTo,
             paymentDetails.billingAddress?.firstName +
-            ' ' +
-            paymentDetails.billingAddress?.lastName,
-          paymentDetails.billingAddress?.line1,
-          paymentDetails.billingAddress?.town +
-            ', ' +
-            region +
-            paymentDetails.billingAddress?.country?.isocode,
-          paymentDetails.billingAddress?.postalCode,
+              ' ' +
+              paymentDetails.billingAddress?.lastName,
+            paymentDetails.billingAddress?.line1,
+            paymentDetails.billingAddress?.town +
+              ', ' +
+              region +
+              paymentDetails.billingAddress?.country?.isocode,
+            paymentDetails.billingAddress?.postalCode,
           ],
         } as Card;
       })
