@@ -4,25 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { FutureStock } from '@spartacus/core';
+import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 
 @Component({
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
 })
 export class FutureStockAccordionComponent {
-  @Input() content: FutureStock[] | string;
-
+  futureStocks$ = this.futureStockService.getFutureStock();
   expanded: boolean = false;
   iconType = ICON_TYPE;
 
+  constructor(protected futureStockService: FutureStockFacade) {}
+
   toggle(): void {
     this.expanded = !this.expanded;
-  }
-
-  isString(param: FutureStock[] | string): boolean {
-    return typeof param === 'string';
   }
 }

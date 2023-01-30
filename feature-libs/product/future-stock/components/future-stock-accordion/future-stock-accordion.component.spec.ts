@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
 
 @Component({
@@ -12,30 +14,32 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('FutureStockAccordionComponent', () => {
+fdescribe('FutureStockAccordionComponent', () => {
   let component: FutureStockAccordionComponent;
   let fixture: ComponentFixture<FutureStockAccordionComponent>;
 
-  const mockContent = [
-    {
-      formattedDate: '10/11/2020',
-      stock: {
-        stockLevel: 15,
+  const mockFutureStocks = {
+    futureStocks: [
+      {
+        formattedDate: '10/11/2020',
+        stock: {
+          stockLevel: 15,
+        },
       },
-    },
-    {
-      formattedDate: '11/11/2020',
-      stock: {
-        stockLevel: 20,
+      {
+        formattedDate: '11/11/2020',
+        stock: {
+          stockLevel: 20,
+        },
       },
-    },
-    {
-      formattedDate: '12/11/2020',
-      stock: {
-        stockLevel: 25,
+      {
+        formattedDate: '12/11/2020',
+        stock: {
+          stockLevel: 25,
+        },
       },
-    },
-  ];
+    ],
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -67,21 +71,49 @@ describe('FutureStockAccordionComponent', () => {
     });
   });
 
-  describe('isString', () => {
-    it('should return true if string input was provided', () => {
-      component.content = 'test';
+  describe('Show Future Stocks', () => {
+    it('should show no stocks message', () => {
+      component.futureStocks$ = of({});
+      fixture.detectChanges();
 
-      const isString = component.isString(component.content);
+      let button = fixture.debugElement.query(
+        By.css('.cx-future-stock-accordion-header')
+      );
+      button.triggerEventHandler('click');
+      fixture.detectChanges();
 
-      expect(isString).toBeTruthy();
+      let stocks = fixture.debugElement.query(
+        By.css('.cx-future-stock-accordion-content')
+      );
+
+      expect(stocks.nativeElement.innerText).toEqual(
+        'futureStockDropdown.noFutureStocks'
+      );
     });
 
-    it('should return false if nonString input was provided', () => {
-      component.content = mockContent;
+    it('should show mocked future stocks', () => {
+      component.futureStocks$ = of(mockFutureStocks);
+      fixture.detectChanges();
 
-      const isString = component.isString(component.content);
+      let button = fixture.debugElement.query(
+        By.css('.cx-future-stock-accordion-header')
+      );
+      button.triggerEventHandler('click');
+      fixture.detectChanges();
 
-      expect(isString).toBeFalsy();
+      let stocks = fixture.debugElement.queryAll(
+        By.css('.cx-future-stock-accordion-content')
+      );
+
+      expect(stocks[0].nativeElement.innerText).toEqual(
+        '10/11/2020 - futureStockDropdown.quantity 15'
+      );
+      expect(stocks[1].nativeElement.innerText).toEqual(
+        '11/11/2020 - futureStockDropdown.quantity 20'
+      );
+      expect(stocks[2].nativeElement.innerText).toEqual(
+        '12/11/2020 - futureStockDropdown.quantity 25'
+      );
     });
   });
 });

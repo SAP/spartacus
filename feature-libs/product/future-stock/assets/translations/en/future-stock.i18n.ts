@@ -7,6 +7,7 @@
 export const futureStockDropdown = {
   header: 'Future Availability',
   quantity: 'Qty',
+  noFutureStocks: 'This product has no future availability information.',
 };
 
 export const futureStock = {
