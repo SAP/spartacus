@@ -14,6 +14,7 @@ export const exportEntries = {
     name: 'Name',
     price: 'Price',
   },
+  exportProductToCsv: 'Export Product to CSV',
 };
 
 export const importEntries = {
