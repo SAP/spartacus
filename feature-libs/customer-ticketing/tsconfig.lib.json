@@ -2,22 +2,20 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
-    "target": "es2020",
+    "target": "es2015",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
-    "declarationMap": true,
-    "strict": true,
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
     "lib": ["dom", "esnext"],
+    "strict": true,
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
@@ -65,6 +63,8 @@
       "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
       "@spartacus/user/account/core": ["dist/user/account/core"],
@@ -81,14 +81,12 @@
     }
   },
   "angularCompilerOptions": {
-    "annotateForClosureCompiler": true,
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
-    "strictTemplates": true,
-    "strictInputAccessModifiers": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictInputAccessModifiers": true
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

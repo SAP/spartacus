@@ -49,7 +49,10 @@ export class NotFoundTicketRequestHandler extends HttpErrorHandler {
   }
 
   protected isCustomerTicketingDetailsRoute(): boolean {
-    return getLastValueSync(this.routingService.getRouterState())?.state?.semanticRoute === 'supportTicketDetails';
+    return (
+      getLastValueSync(this.routingService.getRouterState())?.state
+        ?.semanticRoute === 'supportTicketDetails'
+    );
   }
 
   protected handleTicketNotFoundError(
@@ -61,7 +64,7 @@ export class NotFoundTicketRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.routingService.go({ cxRoute: 'supportTickets' });
         this.globalMessageService.add(
-          { key: 'httpHandlers.ticketNotFound' },
+          { key: 'customerTicketingDetails.ticketNotFound' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

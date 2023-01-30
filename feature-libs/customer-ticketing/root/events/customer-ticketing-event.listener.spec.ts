@@ -11,14 +11,16 @@ import {
   LogoutEvent,
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
-import { STATUS } from '../model';
 import { CustomerTicketingEventListener } from './customer-ticketing-event.listener';
 import {
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
   GetTicketQueryReloadEvent,
   GetTicketQueryResetEvent,
-  TicketEventCreatedEvent,
+  NewMessageEvent,
+  TicketClosedEvent,
+  TicketReopenedEvent,
+  UploadAttachmentSuccessEvent,
 } from './customer-ticketing.events';
 import createSpy = jasmine.createSpy;
 
@@ -109,27 +111,47 @@ describe('CustomerTicketingEventListener', () => {
     });
   });
 
-  describe('onTicketEventCreated', () => {
-    it('TicketEventCreatedEvent should trigger requestClosed global message', () => {
-      mockEventStream$.next(
-        createFrom(TicketEventCreatedEvent, { status: STATUS.CLOSED })
-      );
+  describe('newTicketEvent', () => {
+    it('TicketClosedEvent should trigger requestClosed global message and dispatch GetTicketQueryResetEvent', () => {
+      mockEventStream$.next(createFrom(TicketClosedEvent, {}));
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'customerTicketingDetails.requestClosed' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+
+      assertServiceDispatchForEvent(
+        new TicketClosedEvent(),
+        GetTicketQueryResetEvent
+      );
     });
 
-    it('TicketEventCreatedEvent should trigger requestReopened global message', () => {
-      mockEventStream$.next(
-        createFrom(TicketEventCreatedEvent, { status: STATUS.OPEN })
-      );
+    it('TicketReopenedEvent should trigger requestReopened global message and dispatch GetTicketQueryReloadEvent', () => {
+      mockEventStream$.next(createFrom(TicketReopenedEvent, {}));
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'customerTicketingDetails.requestReopened' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+
+      assertServiceDispatchForEvent(
+        new TicketReopenedEvent(),
+        GetTicketQueryReloadEvent
+      );
     });
+
+    it('NewMessageEvent should dispatch GetTicketQueryReloadEvent', () => {
+      assertServiceDispatchForEvent(
+        new NewMessageEvent(),
+        GetTicketQueryReloadEvent
+      );
+    });
+  });
+
+  it('should dipatch GetTicketQueryReloadEvent when UploadAttachmentSuccessEvent is triggered', () => {
+    assertServiceDispatchForEvent(
+      new UploadAttachmentSuccessEvent(),
+      GetTicketQueryReloadEvent
+    );
   });
 });

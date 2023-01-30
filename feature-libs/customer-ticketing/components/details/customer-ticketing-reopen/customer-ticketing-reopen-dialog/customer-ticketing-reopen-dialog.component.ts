@@ -7,14 +7,12 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  GetTicketQueryReloadEvent,
   STATUS,
   STATUS_NAME,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
@@ -36,31 +34,38 @@ export class CustomerTicketingReopenDialogComponent
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
     } else {
+      const mustWaitForAttachment =
+        this.form.get('file')?.value?.length > 0 ?? false;
       this.isDataLoading$.next(true);
       this.subscription = this.customerTicketingFacade
-        .createTicketEvent(this.prepareTicketEvent())
-        .pipe(
-          tap((createdEvent: TicketEvent) => {
+        .createTicketEvent(this.prepareTicketEvent(), mustWaitForAttachment)
+        .subscribe({
+          next: (createdEvent: TicketEvent) => {
             if (this.form.get('file')?.value?.length && createdEvent.code) {
               this.customerTicketingFacade.uploadAttachment(
                 this.form.get('file')?.value?.item(0),
                 createdEvent.code
               );
-            } else {
-              this.eventService.dispatch({}, GetTicketQueryReloadEvent);
             }
-          })
-        )
-        .subscribe({
+          },
           complete: () => {
-            this.isDataLoading$.next(false);
-            this.close('Ticket reopened successfully');
+            this.onComplete();
           },
           error: () => {
-            this.close('Something went wrong while reopening ticket');
+            this.onError();
           },
         });
     }
+  }
+
+  protected onComplete(): void {
+    this.isDataLoading$.next(false);
+    this.close('Ticket reopened successfully');
+  }
+
+  protected onError(): void {
+    this.isDataLoading$.next(false);
+    this.close('Something went wrong while reopening ticket');
   }
 
   protected prepareTicketEvent(): TicketEvent {

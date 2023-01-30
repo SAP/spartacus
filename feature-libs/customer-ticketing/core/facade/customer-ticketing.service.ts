@@ -30,11 +30,16 @@ import {
   GetTicketQueryResetEvent,
   GetTicketsQueryReloadEvents,
   GetTicketsQueryResetEvents,
+  NewMessageEvent,
+  STATUS,
+  TicketClosedEvent,
+  TicketCreatedEvent,
   TicketDetails,
   TicketEvent,
-  TicketEventCreatedEvent,
   TicketList,
+  TicketReopenedEvent,
   TicketStarter,
+  UploadAttachmentSuccessEvent,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
 import {
@@ -44,40 +49,37 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CustomerTicketingConnector } from '../connectors';
+import { CustomerTicketingConnector } from '../connectors/customer-ticketing.connector';
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
-  getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
+  protected getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketCategoryQueryReloadEvent];
   }
-  getTicketCategoriesQueryResetEvents(): QueryNotifier[] {
+  protected getTicketCategoriesQueryResetEvents(): QueryNotifier[] {
     return [GetTicketCategoryQueryResetEvent];
   }
-  getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] {
+  protected getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryReloadEvent];
   }
-  getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] {
+  protected getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryResetEvent];
   }
-  /**
-   * Returns the reload events for the getTicket query.
-   */
+
   protected getTicketQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketQueryReloadEvent];
   }
-  /**
-   * Returns the reset events for the getTicket query.
-   */
+
   protected getTicketQueryResetEvents(): QueryNotifier[] {
     return [GetTicketQueryResetEvent];
   }
 
-  /**
-   * Returns the reload events for the getTickets query.
-   */
   protected getTicketsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketsQueryReloadEvents];
+  }
+
+  protected getTicketsQueryResetEvents(): QueryNotifier[] {
+    return [GetTicketsQueryResetEvents];
   }
 
   protected createTicketCommand: Command<TicketStarter, TicketDetails> =
@@ -89,43 +91,50 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
               customerId,
               ticketStarted
             )
-          )
+          ),
+          tap(() => {
+            this.eventService.dispatch({}, TicketCreatedEvent);
+          })
         ),
       {
         strategy: CommandStrategy.Queue,
       }
     );
 
-  /**
-   * Returns the reset events for the getTickets query.
-   */
-  protected getTicketsQueryResetEvents(): QueryNotifier[] {
-    return [GetTicketsQueryResetEvents];
-  }
-
-  protected createTicketEventCommand: Command<TicketEvent, TicketEvent> =
-    this.commandService.create<TicketEvent, TicketEvent>(
-      (payload) =>
-        this.customerTicketingPreConditions().pipe(
-          switchMap(([customerId, ticketId]) =>
-            this.customerTicketingConnector
-              .createTicketEvent(customerId, ticketId, payload)
-              .pipe(
-                tap(() => {
-                  if (payload.toStatus?.id) {
-                    this.eventService.dispatch(
-                      { status: payload.toStatus?.id },
-                      TicketEventCreatedEvent
-                    );
+  protected createTicketEventCommand: Command<
+    { ticketEvent: TicketEvent; containsAttachment?: boolean },
+    TicketEvent
+  > = this.commandService.create<
+    { ticketEvent: TicketEvent; containsAttachment?: boolean },
+    TicketEvent
+  >(
+    (payload) =>
+      this.customerTicketingPreConditions().pipe(
+        switchMap(([customerId, ticketId]) =>
+          this.customerTicketingConnector
+            .createTicketEvent(customerId, ticketId, payload.ticketEvent)
+            .pipe(
+              tap(() => {
+                if (payload.ticketEvent.toStatus?.id === STATUS.CLOSED) {
+                  this.eventService.dispatch({}, TicketClosedEvent);
+                } else if (!payload.containsAttachment) {
+                  if (
+                    payload.ticketEvent.toStatus?.id === STATUS.OPEN ||
+                    payload.ticketEvent.toStatus?.id === STATUS.INPROCESS
+                  ) {
+                    this.eventService.dispatch({}, TicketReopenedEvent);
+                  } else {
+                    this.eventService.dispatch({}, NewMessageEvent);
                   }
-                })
-              )
-          )
-        ),
-      {
-        strategy: CommandStrategy.Queue,
-      }
-    );
+                }
+              })
+            )
+        )
+      ),
+    {
+      strategy: CommandStrategy.Queue,
+    }
+  );
 
   protected uploadAttachmentCommand: Command<{
     file: File;
@@ -148,7 +157,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
             )
             .pipe(
               tap(() =>
-                this.eventService.dispatch({}, GetTicketQueryReloadEvent)
+                this.eventService.dispatch({}, UploadAttachmentSuccessEvent)
               )
             )
         )
@@ -192,6 +201,30 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
+  protected getTicketsQuery$(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Query<TicketList | undefined> {
+    return this.queryService.create<TicketList | undefined>(
+      () =>
+        this.customerTicketingListPreConditions().pipe(
+          switchMap((customerId) =>
+            this.customerTicketingConnector.getTickets(
+              customerId,
+              pageSize,
+              currentPage,
+              sort
+            )
+          )
+        ),
+      {
+        reloadOn: this.getTicketsQueryReloadEvents(),
+        resetOn: this.getTicketsQueryResetEvents(),
+      }
+    );
+  }
+
   protected getTicketCategoriesQuery: Query<Category[]> =
     this.queryService.create(
       () => this.customerTicketingConnector.getTicketCategories(),
@@ -216,59 +249,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketAssociatedObjectsQueryResetEvents(),
       }
     );
-
-  getTicketsQuery$(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Query<TicketList | undefined> {
-    return this.queryService.create<TicketList | undefined>(
-      () =>
-        this.customerTicketingListPreConditions().pipe(
-          switchMap((customerId) =>
-            this.customerTicketingConnector.getTickets(
-              customerId,
-              pageSize,
-              currentPage,
-              sort
-            )
-          )
-        ),
-      {
-        reloadOn: this.getTicketsQueryReloadEvents(),
-        resetOn: this.getTicketsQueryResetEvents(),
-      }
-    );
-  }
-
-  constructor(
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected userIdService: UserIdService,
-    protected customerTicketingConnector: CustomerTicketingConnector,
-    protected routingService: RoutingService,
-    protected eventService: EventService
-  ) {}
-  getTicketAssociatedObjectsState(): Observable<
-    QueryState<AssociatedObject[]>
-  > {
-    return this.getTicketAssociatedObjectsQuery.getState();
-  }
-  getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
-    return this.getTicketAssociatedObjectsState().pipe(
-      map((state) => state.data ?? [])
-    );
-  }
-
-  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
-    return this.getTicketCategoriesQuery.getState();
-  }
-
-  getTicketCategories(): Observable<Category[]> {
-    return this.getTicketCategoriesState().pipe(
-      map((state) => state.data ?? [])
-    );
-  }
 
   protected customerTicketingPreConditions(): Observable<[string, string]> {
     return combineLatest([
@@ -297,6 +277,36 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         }
         return userId;
       })
+    );
+  }
+
+  constructor(
+    protected queryService: QueryService,
+    protected commandService: CommandService,
+    protected userIdService: UserIdService,
+    protected customerTicketingConnector: CustomerTicketingConnector,
+    protected routingService: RoutingService,
+    protected eventService: EventService
+  ) {}
+
+  getTicketAssociatedObjectsState(): Observable<
+    QueryState<AssociatedObject[]>
+  > {
+    return this.getTicketAssociatedObjectsQuery.getState();
+  }
+  getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
+    return this.getTicketAssociatedObjectsState().pipe(
+      map((state) => state.data ?? [])
+    );
+  }
+
+  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
+    return this.getTicketCategoriesQuery.getState();
+  }
+
+  getTicketCategories(): Observable<Category[]> {
+    return this.getTicketCategoriesState().pipe(
+      map((state) => state.data ?? [])
     );
   }
 
@@ -332,8 +342,14 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
   }
 
-  createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent> {
-    return this.createTicketEventCommand.execute(ticketEvent);
+  createTicketEvent(
+    ticketEvent: TicketEvent,
+    containsAttachment = false
+  ): Observable<TicketEvent> {
+    return this.createTicketEventCommand.execute({
+      ticketEvent,
+      containsAttachment,
+    });
   }
 
   uploadAttachment(

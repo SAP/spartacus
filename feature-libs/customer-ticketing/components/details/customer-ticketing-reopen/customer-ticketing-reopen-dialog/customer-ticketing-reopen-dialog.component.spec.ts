@@ -74,12 +74,14 @@ describe('CustomerTicketingReopenDialogComponent', () => {
           name: STATUS_NAME.INPROCESS,
         },
       };
+      const mustWaitForAttachment = false;
 
       component.form.get('message')?.setValue('mockMessage');
       component.reopenRequest();
 
       expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
-        mockEvent
+        mockEvent,
+        mustWaitForAttachment
       );
     });
   });

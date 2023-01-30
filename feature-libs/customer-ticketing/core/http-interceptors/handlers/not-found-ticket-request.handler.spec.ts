@@ -74,9 +74,11 @@ describe('NotFoundTicketRequestHandler', () => {
 
   it('should handle ticket not found error', () => {
     service.handleError(MockRequest, MockTicketNotFoundResponse);
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'supportTickets' });
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'supportTickets',
+    });
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'httpHandlers.ticketNotFound' },
+      { key: 'customerTicketingDetails.ticketNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });

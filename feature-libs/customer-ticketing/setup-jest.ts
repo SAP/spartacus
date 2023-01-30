@@ -5,5 +5,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-core.model';
-export * from './customer-ticketing.model';
+import 'jest-preset-angular/setup-jest';
+import 'zone.js';

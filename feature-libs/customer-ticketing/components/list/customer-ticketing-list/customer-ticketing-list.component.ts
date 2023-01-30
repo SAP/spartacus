@@ -8,6 +8,7 @@
 import { Component } from '@angular/core';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import {
+  CustomerTicketingConfig,
   CustomerTicketingFacade,
   STATUS,
   TEXT_COLOR_CLASS,
@@ -15,7 +16,7 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
@@ -24,18 +25,20 @@ import { map } from 'rxjs/operators';
 export class CustomerTicketingListComponent {
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routing: RoutingService,
-    protected translation: TranslationService
+    protected routingService: RoutingService,
+    protected translationService: TranslationService,
+    protected customerTicketingConfig: CustomerTicketingConfig
   ) {}
-  PAGE_SIZE = 5;
-  sortType: string = 'byId';
+  PAGE_SIZE =
+    this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
+  sortType: string;
   iconTypes = ICON_TYPE;
-  customerTicketsFlag: boolean = true;
-  tickets$: Observable<TicketList | undefined> =
-    this.customerTicketingFacade.getTickets(this.PAGE_SIZE);
+  tickets$: Observable<TicketList | undefined> = this.customerTicketingFacade
+    .getTickets(this.PAGE_SIZE)
+    .pipe(tap((tickets) => (this.sortType = tickets?.pagination?.sort || '')));
 
-  goToTicketDetail(ticketId: string): void {
-    this.routing.go({
+  goToTicketDetail(ticketId: string | undefined): void {
+    this.routingService.go({
       cxRoute: 'supportTicketDetails',
       params: { ticketCode: ticketId },
     });
@@ -43,8 +46,8 @@ export class CustomerTicketingListComponent {
 
   getSortLabels(): Observable<{ byTicketId: string; byDate: string }> {
     return combineLatest([
-      this.translation.translate('customerTicketing.ticketId'),
-      this.translation.translate('customerTicketing.changedOn'),
+      this.translationService.translate('customerTicketing.ticketId'),
+      this.translationService.translate('customerTicketing.changedOn'),
     ]).pipe(
       map(([textByTicketId, textByDate]) => {
         return {

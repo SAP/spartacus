@@ -16,7 +16,6 @@ import {
   LogoutEvent,
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
-import { STATUS } from '../model';
 import {
   GetTicketAssociatedObjectsQueryResetEvent,
   GetTicketCategoryQueryResetEvent,
@@ -24,8 +23,11 @@ import {
   GetTicketQueryResetEvent,
   GetTicketsQueryReloadEvents,
   GetTicketsQueryResetEvents,
+  NewMessageEvent,
+  TicketClosedEvent,
   TicketCreatedEvent,
-  TicketEventCreatedEvent,
+  TicketReopenedEvent,
+  UploadAttachmentSuccessEvent,
 } from './customer-ticketing.events';
 @Injectable({
   providedIn: 'root',
@@ -37,14 +39,16 @@ export class CustomerTicketingEventListener implements OnDestroy {
     protected eventService: EventService,
     protected globalMessageService: GlobalMessageService
   ) {
-    this.onGetTicketQueryReload();
-    this.onGetTicketsQueryReload();
+    this.onLanguageAndCurrencySetEvent();
     this.onLoginAndLogoutEvent();
     this.onTicketCreatedEvent();
-    this.onTicketEventCreated();
+    this.onNewMessage();
+    this.onTicketClosed();
+    this.onTicketReopened();
+    this.onUploadAttachmentSucess();
   }
 
-  onTicketCreatedEvent() {
+  protected onTicketCreatedEvent() {
     this.subscriptions.add(
       this.eventService.get(TicketCreatedEvent).subscribe(() => {
         this.globalMessageService.add(
@@ -58,24 +62,14 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onGetTicketQueryReload(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LanguageSetEvent),
-        this.eventService.get(CurrencySetEvent)
-      ).subscribe(() => {
-        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
-      })
-    );
-  }
-
-  protected onGetTicketsQueryReload(): void {
+  protected onLanguageAndCurrencySetEvent(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketsQueryReloadEvents);
+        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })
     );
   }
@@ -97,24 +91,46 @@ export class CustomerTicketingEventListener implements OnDestroy {
     );
   }
 
-  protected onTicketEventCreated(): void {
+  protected onNewMessage(): void {
     this.subscriptions.add(
-      this.eventService.get(TicketEventCreatedEvent).subscribe(({ status }) => {
-        if (status === STATUS.CLOSED) {
-          this.globalMessageService.add(
-            {
-              key: 'customerTicketingDetails.requestClosed',
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        } else if (status === STATUS.INPROCESS || status === STATUS.OPEN) {
-          this.globalMessageService.add(
-            {
-              key: 'customerTicketingDetails.requestReopened',
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        }
+      this.eventService.get(NewMessageEvent).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+      })
+    );
+  }
+
+  protected onTicketClosed(): void {
+    this.subscriptions.add(
+      this.eventService.get(TicketClosedEvent).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketQueryResetEvent);
+        this.globalMessageService.add(
+          {
+            key: 'customerTicketingDetails.requestClosed',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      })
+    );
+  }
+
+  protected onTicketReopened(): void {
+    this.subscriptions.add(
+      this.eventService.get(TicketReopenedEvent).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
+        this.globalMessageService.add(
+          {
+            key: 'customerTicketingDetails.requestReopened',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      })
+    );
+  }
+
+  protected onUploadAttachmentSucess(): void {
+    this.subscriptions.add(
+      this.eventService.get(UploadAttachmentSuccessEvent).subscribe(() => {
+        this.eventService.dispatch({}, GetTicketQueryReloadEvent);
       })
     );
   }

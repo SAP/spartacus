@@ -44,21 +44,21 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
   }
 
   prepareCardContent(
-    entity: string,
+    entity: string | undefined,
     titleTranslation: string,
-    id?: string
+    id?: string | undefined
   ): Observable<Card> {
     return this.translation.translate(titleTranslation).pipe(
       filter(() => Boolean(entity)),
       map((textTitle) => ({
         title: textTitle,
-        text: [entity],
+        text: [entity || ''],
         customClass: this.getStatusClass(id?.toUpperCase()),
       }))
     );
   }
 
-  getStatusClass(id?: string): string {
+  getStatusClass(id?: string | undefined): string {
     if (id === STATUS.OPEN || id === STATUS.INPROCESS) {
       return TEXT_COLOR_CLASS.GREEN;
     } else if (id === STATUS.CLOSED) {
@@ -75,7 +75,7 @@ export class CustomerTicketingDetailsComponent implements OnDestroy {
       .pipe(
         take(1),
         tap(([ticket, ticketCode]) => {
-          if (ticketCode !== ticket?.id) {
+          if (ticket && ticketCode !== ticket?.id) {
             this.eventService.dispatch({}, GetTicketQueryReloadEvent);
           }
         })

@@ -10,6 +10,7 @@ import {
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_CUSTOMER_TICKETING_ASSETS,
   SPARTACUS_CUSTOMER_TICKETING_ROOT,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
 
@@ -53,4 +54,5 @@ export const CUSTOMER_TICKETING_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CUSTOMER_TICKETING_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CUSTOMER_TICKETING,
   },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };

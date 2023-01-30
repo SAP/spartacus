@@ -22,8 +22,7 @@ import {
   STATUS_DELIMITER,
   SUBJECT_DELIMITER,
   TestCategory,
-  FIFTH_ROW_TICKET_LIST,
-  visitTicketDetailsForExistingTicket
+  visitTicketDetailsForExistingTicket,
 } from './customer-ticketing-commons';
 const MESSAGE_BOX = '.form-control';
 
@@ -290,19 +289,19 @@ export function verifyTicketIdIsHigherInFirstPageComparedToOtherPageByComparingI
   });
 }
 
-export function visitTicketDetailsOfFirstTicketByItsIdThroughURL(){
+export function visitTicketDetailsOfFirstTicketByItsIdThroughURL() {
   cy.get('cx-customer-ticketing-list')
-        .find('tbody')
-        .get('tr')
-        .eq(FIRST_ROW_TICKET_LIST)
-        .within(() => {
-          cy.get('td')
-            .eq(ID_COLUMN)
-            .invoke('text')
-            .then((id) => {
-              visitTicketDetailsForExistingTicket(
-                id.substring(ID_DELIMITER).trim()
-              );
-            });
-          });
+    .find('tbody')
+    .get('tr')
+    .eq(FIRST_ROW_TICKET_LIST)
+    .within(() => {
+      cy.get('td')
+        .eq(ID_COLUMN)
+        .invoke('text')
+        .then((id) => {
+          visitTicketDetailsForExistingTicket(
+            id.substring(ID_DELIMITER).trim()
+          );
+        });
+    });
 }

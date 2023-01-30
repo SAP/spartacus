@@ -5,5 +5,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './augmented-core.model';
-export * from './customer-ticketing.model';
+export * from './customer-ticketing-dialog/index';

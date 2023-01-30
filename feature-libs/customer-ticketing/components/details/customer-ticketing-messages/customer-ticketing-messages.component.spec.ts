@@ -12,7 +12,6 @@ describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
   let fixture: ComponentFixture<CustomerTicketingMessagesComponent>;
   let customerTicketingFacade: CustomerTicketingFacade;
-  let eventService: EventService;
 
   const mockSendEvent: { files: FileList | undefined; message: string } = {
     files: '' as unknown as FileList,
@@ -51,7 +50,6 @@ describe('CustomerTicketMessagesComponent', () => {
 
     createTicketResponse$.next(mockResponse);
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
-    eventService = TestBed.inject(EventService);
   });
 
   beforeEach(() => {
@@ -65,12 +63,16 @@ describe('CustomerTicketMessagesComponent', () => {
   });
 
   it('should call createTicketEvent on send', () => {
+    const mustWaitForAttachment = false;
     spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
     component.onSend(mockSendEvent);
 
-    expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith({
-      message: 'mock message',
-    });
+    expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
+      {
+        message: 'mock message',
+      },
+      mustWaitForAttachment
+    );
   });
 
   it('should call uploadAttachment if the file is attached', () => {
@@ -102,34 +104,6 @@ describe('CustomerTicketMessagesComponent', () => {
     component.onSend(mockSendEvent);
 
     expect(customerTicketingFacade.uploadAttachment).not.toHaveBeenCalled();
-  });
-
-  it('should dispatch GetTicketQueryReloadEvent if the file is not attached', () => {
-    const fileList: FileList = {
-      0: '' as unknown as File,
-      length: 0,
-      item: () => 'mockFile' as unknown as File,
-    };
-
-    spyOn(eventService, 'dispatch').and.callThrough();
-    mockSendEvent.files = fileList;
-    component.onSend(mockSendEvent);
-
-    expect(eventService.dispatch).toHaveBeenCalled();
-  });
-
-  it('should not dispatch GetTicketQueryReloadEvent if the file is attached', () => {
-    const fileList: FileList = {
-      0: 'mockFile' as unknown as File,
-      length: 1,
-      item: () => 'mockFile' as unknown as File,
-    };
-
-    spyOn(eventService, 'dispatch').and.callThrough();
-    mockSendEvent.files = fileList;
-    component.onSend(mockSendEvent);
-
-    expect(eventService.dispatch).not.toHaveBeenCalled();
   });
 
   it('should call downloadAttachment', () => {

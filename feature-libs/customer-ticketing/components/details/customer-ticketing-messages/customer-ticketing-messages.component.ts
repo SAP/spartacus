@@ -18,7 +18,6 @@ import {
   STATUS,
   TicketDetails,
   TicketEvent,
-  GetTicketQueryReloadEvent,
 } from '@spartacus/customer-ticketing/root';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -44,22 +43,21 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
 
-  onSend(event: { files: FileList | File | undefined; message: string }) {
+  onSend(event: { files: FileList | undefined; message: string }) {
+    const mustWaitForAttachment =
+      (event.files instanceof FileList && event.files?.length > 0) ?? false;
     this.subscription.add(
       this.customerTicketingFacade
-        .createTicketEvent(this.prepareTicketEvent(event.message))
+        .createTicketEvent(
+          this.prepareTicketEvent(event.message),
+          mustWaitForAttachment
+        )
         .subscribe((createdEvent: TicketEvent) => {
-          if (
-            event.files instanceof FileList &&
-            event.files?.length &&
-            createdEvent.code
-          ) {
+          if (event.files && event.files?.length && createdEvent.code) {
             this.customerTicketingFacade.uploadAttachment(
               event.files.item(0) as File,
               createdEvent.code
             );
-          } else {
-            this.eventService.dispatch({}, GetTicketQueryReloadEvent);
           }
           this.messagingComponent?.resetForm();
         })

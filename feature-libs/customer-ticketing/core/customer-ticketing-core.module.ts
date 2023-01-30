@@ -7,10 +7,10 @@
 
 import { NgModule } from '@angular/core';
 import { HttpErrorHandler, PageMetaResolver } from '@spartacus/core';
-import { CustomerTicketingConnector } from './connectors';
+import { CustomerTicketingConnector } from './connectors/customer-ticketing.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { NotFoundTicketRequestHandler } from './http-interceptors/handlers/not-found-ticket-request.handler';
-import { CustomerTicketingPageMetaResolver } from './services';
+import { CustomerTicketingPageMetaResolver } from './services/customer-ticketing-page-meta.resolver';
 
 @NgModule({
   providers: [

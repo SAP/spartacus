@@ -35,6 +35,7 @@ import {
         'getTicketAssociatedObjects',
         'createTicket',
         'uploadAttachment',
+        'downloadAttachment',
       ],
     }),
 })
@@ -67,7 +68,10 @@ export abstract class CustomerTicketingFacade {
 
   abstract createTicket(ticket: TicketStarter): Observable<TicketDetails>;
 
-  abstract createTicketEvent(ticketEvent: TicketEvent): Observable<TicketEvent>;
+  abstract createTicketEvent(
+    ticketEvent: TicketEvent,
+    containsAttachment?: boolean
+  ): Observable<TicketEvent>;
 
   abstract uploadAttachment(
     file: File,

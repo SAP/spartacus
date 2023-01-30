@@ -23,6 +23,7 @@ export abstract class CustomerTicketingConfig {
     };
     inputCharactersLimit?: number;
     inputCharactersLimitForSubject?: number;
+    listViewPageSize?: number;
   };
 }
 

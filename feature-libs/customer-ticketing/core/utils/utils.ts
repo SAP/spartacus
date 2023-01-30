@@ -8,7 +8,7 @@
 import {
   ErrorModel,
   OccHttpErrorType,
-  OccHttpErrorReason
+  OccHttpErrorReason,
 } from '@spartacus/core';
 
 /**

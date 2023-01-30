@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCustomerTicketingConfig } from './config';
-import { defaultSupportTicketRoutingConfig } from './config/default-support-ticket-routing-config';
+import { defaultCustomerTicketingRoutingConfig } from './config/default-customer-ticketing-routing-config';
 import {
   CUSTOMER_TICKETING_CORE_FEATURE,
   CUSTOMER_TICKETING_FEATURE,
@@ -67,7 +67,7 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   ],
   providers: [
     provideDefaultConfigFactory(defaultCustomerTicketingComponentsConfig),
-    provideDefaultConfig(defaultSupportTicketRoutingConfig),
+    provideDefaultConfig(defaultCustomerTicketingRoutingConfig),
     provideDefaultConfig(defaultCustomerTicketingConfig),
   ],
 })

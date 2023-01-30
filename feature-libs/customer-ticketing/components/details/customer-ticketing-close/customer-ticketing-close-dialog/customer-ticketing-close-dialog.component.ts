@@ -7,7 +7,6 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  GetTicketQueryResetEvent,
   STATUS,
   STATUS_NAME,
   TicketEvent,
@@ -40,13 +39,10 @@ export class CustomerTicketingCloseDialogComponent
         .createTicketEvent(this.prepareTicketEvent())
         .subscribe({
           complete: () => {
-            this.isDataLoading$.next(false);
-            this.close('Ticket closed successfully');
-            this.routingService.go({ cxRoute: 'supportTickets' });
-            this.eventService.dispatch({}, GetTicketQueryResetEvent);
+            this.onComplete();
           },
           error: () => {
-            this.close('Something went wrong while closing the ticket');
+            this.onError();
           },
         });
     }
@@ -60,6 +56,17 @@ export class CustomerTicketingCloseDialogComponent
         name: STATUS_NAME.CLOSED,
       },
     };
+  }
+
+  protected onComplete(): void {
+    this.isDataLoading$.next(false);
+    this.close('Ticket closed successfully');
+    this.routingService.go({ cxRoute: 'supportTickets' });
+  }
+
+  protected onError(): void {
+    this.close('Something went wrong while closing the ticket');
+    this.isDataLoading$.next(false);
   }
 
   ngOnDestroy(): void {

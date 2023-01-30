@@ -95,14 +95,19 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       );
   }
 
+  protected getTicketEndpoint(customerId: string, ticketId: string): string {
+    return this.occEndpoints.buildUrl('getTicket', {
+      urlParams: {
+        customerId,
+        ticketId,
+      },
+    });
+  }
+
   createTicket(
     customerId: string,
     ticket: TicketStarter
   ): Observable<TicketStarter> {
-    ticket = this.converter.convert(
-      ticket,
-      CUSTOMER_TICKETING_CREATE_NORMALIZER
-    );
     return this.http
       .post<TicketStarter>(this.getCreateTicketEndpoint(customerId), ticket, {
         headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -111,15 +116,6 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         catchError((error) => throwError(normalizeHttpError(error))),
         this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
       );
-  }
-
-  protected getTicketEndpoint(customerId: string, ticketId: string): string {
-    return this.occEndpoints.buildUrl('getTicket', {
-      urlParams: {
-        customerId,
-        ticketId,
-      },
-    });
   }
 
   protected getCreateTicketEndpoint(customerId: string): string {
@@ -169,11 +165,6 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     ticketId: string,
     ticketEvent: TicketEvent
   ): Observable<TicketEvent> {
-    ticketEvent = this.converter.convert(
-      ticketEvent,
-      CUSTOMER_TICKETING_EVENT_NORMALIZER
-    );
-
     return this.http
       .post<TicketEvent>(
         this.getCreateTicketEventEndpoint(customerId, ticketId),
@@ -206,7 +197,6 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     eventCode: string,
     file: File
   ): Observable<unknown> {
-    file = this.converter.convert(file, CUSTOMER_TICKETING_FILE_NORMALIZER);
     const formData: FormData = new FormData();
     formData.append('ticketEventAttachment', file);
 

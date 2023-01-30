@@ -49,6 +49,9 @@ import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reo
     CustomerTicketingReopenComponent,
     CustomerTicketingReopenDialogComponent,
   ],
-  exports: [CustomerTicketingReopenComponent],
+  exports: [
+    CustomerTicketingReopenComponent,
+    CustomerTicketingReopenDialogComponent,
+  ],
 })
 export class CustomerTicketingReopenModule {}
