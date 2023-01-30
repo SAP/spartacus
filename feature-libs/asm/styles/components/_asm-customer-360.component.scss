@@ -87,24 +87,27 @@
     padding-top: 0;
     overflow-y: hidden;
 
-    .cx-tab-container {
+    .cx-tab-headers {
       display: flex;
       flex-direction: row;
-      margin-top: 2rem;
       overflow-x: auto;
       border-bottom: 1px solid $asmBorderColor;
-      padding-inline-start: 2rem;
+      padding: 2rem 0 0 2rem;
     }
-    .cx-tab {
+    .cx-tab-header {
       text-align: center;
       color: $asmTabTextColor;
       font-weight: var(--cx-font-weight-semi);
-      border-bottom: 1px solid white;
+      border: 1px solid #fff;
+      background-color: #fff;
+      margin-inline-start: 1rem;
       padding: 0 1rem 1rem;
       text-transform: uppercase;
-      cursor: pointer;
       &.active {
         cursor: default;
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
       }
       &:hover {
         color: $asmVisualFocusColor;
