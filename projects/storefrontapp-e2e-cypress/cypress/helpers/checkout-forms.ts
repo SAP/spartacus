@@ -46,7 +46,7 @@ export function fillShippingAddress(
         cy
           .get('.country-select[formcontrolname="isocode"]')
           .ngSelect(shippingAddress.address.country);
-      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
       shippingAddress?.firstName &&
         cy
           .get('[formcontrolname="firstName"]')
