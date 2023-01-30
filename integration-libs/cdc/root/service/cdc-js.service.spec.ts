@@ -6,7 +6,8 @@ import {
   GlobalMessageType,
   LanguageService,
   ScriptLoader,
-  WindowRef,
+  User,
+  WindowRef
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subscription } from 'rxjs';
@@ -26,9 +27,11 @@ const sampleCdcConfig: CdcConfig = {
   ],
 };
 
+const newEmail: string = 'newemail@domain.com';
+
 class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
-    return of();
+    return of('electronics-spa');
   }
 }
 class LanguageServiceStub implements Partial<LanguageService> {
@@ -49,11 +52,11 @@ class ScriptLoaderMock {
     _params?: Object;
     _attributes?: Object;
     _callback?: EventListener;
-  }): void {}
+  }): void { }
 }
 
 class MockCdcAuthFacade implements Partial<CdcAuthFacade> {
-  loginWithCustomCdcFlow(): void {}
+  loginWithCustomCdcFlow(): void { }
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -64,21 +67,23 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   update = createSpy().and.returnValue(of(undefined));
+  get = createSpy().and.returnValue(of({ uid: newEmail }));
 }
 
 class MockSubscription {
-  unsubscribe() {}
+  unsubscribe() { }
 
-  add() {}
+  add() { }
 }
 
 const gigya = {
   accounts: {
-    addEventHandlers: () => {},
-    register: () => {},
-    initRegistration: () => {},
-    login: () => {},
-    resetPassword: () => {},
+    addEventHandlers: () => { },
+    register: () => { },
+    initRegistration: () => { },
+    login: () => { },
+    resetPassword: () => { },
+    setAccountInfo: () => { },
   },
 };
 
@@ -89,8 +94,8 @@ const mockedWindowRef = {
 };
 
 const mockedGlobalMessageService = {
-  add: () => {},
-  remove: () => {},
+  add: () => { },
+  remove: () => { },
 };
 
 describe('CdcJsService', () => {
@@ -401,6 +406,7 @@ describe('CdcJsService', () => {
         ).toHaveBeenCalledWith({
           loginID: 'uid',
           password: 'password',
+          sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
           callback: jasmine.any(Function),
         });
         done();
@@ -475,7 +481,7 @@ describe('CdcJsService', () => {
       spyOn(globalMessageService, 'add');
       service['handleLoginError']({
         status: 'FAIL',
-        statusMessage: 'Error',
+        errorDetails: 'Error',
       });
       expect(globalMessageService.remove).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -569,6 +575,231 @@ describe('CdcJsService', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getSessionExpirationValue', () => {
+    it('should return the configured value for a given base site', () => {
+      expect(service['getSessionExpirationValue']()).toBe(120);
+    });
+
+    it('should return the default value if no configurations found', () => {
+      service['cdcConfig'] = {};
+      expect(service['getSessionExpirationValue']()).toBe(3600);
+    });
+  });
+
+  describe('getCurrentBaseSite', () => {
+    it('should return the configured value of the base site', () => {
+      expect(service['getCurrentBaseSite']()).toBe('electronics-spa');
+    });
+
+    it('should return the configured value of the base site', () => {
+      spyOn(baseSiteService, 'getActive').and.returnValue(of(''));
+      expect(service['getCurrentBaseSite']()).toBe('');
+    });
+  });
+
+  describe('updateProfileWithoutScreenSet', () => {
+    it('should not call update profile', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.updateProfileWithoutScreenSet).toBeTruthy();
+      service.updateProfileWithoutScreenSet({}).subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).not.toHaveBeenCalled();
+      });
+      done();
+    });
+
+    it('should call update profile', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.resetPasswordWithoutScreenSet).toBeTruthy();
+      let sampleUser: User = {
+        firstName: 'firstName',
+        lastName: 'lastName',
+        titleCode: 'mr',
+      };
+
+      service.updateProfileWithoutScreenSet(sampleUser).subscribe(() => {
+        service.updateProfileWithoutScreenSet({}).subscribe(() => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.setAccountInfo
+          ).toHaveBeenCalledWith({
+            profile: {
+              firstName: sampleUser.firstName,
+              lastName: sampleUser.lastName
+            }
+          });
+          expect(userProfileFacade.update).toHaveBeenCalledWith({
+            firstName: sampleUser.firstName,
+            lastName: sampleUser.lastName,
+            titleCode: sampleUser.titleCode,
+          });
+        });
+      });
+      done();
+    });
+  });
+
+
+  describe('updateUserPasswordWithoutScreenSet', () => {
+    it('should not call updateUserPasswordWithoutScreenSet', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.updateProfileWithoutScreenSet).toBeTruthy();
+      service.updateUserPasswordWithoutScreenSet('', '').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).not.toHaveBeenCalled();
+      });
+      done();
+    });
+
+    it('should call updateUserPasswordWithoutScreenSet', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.updateUserPasswordWithoutScreenSet).toBeTruthy();
+      let oldPass = 'OldPass123!';
+      let newPass = 'Password1!';
+
+      service.updateUserPasswordWithoutScreenSet(oldPass, newPass).subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).toHaveBeenCalledWith({
+          password: oldPass,
+          newPassword: newPass,
+          callback: jasmine.any(Function),
+        });
+      });
+      done();
+    });
+  });
+
+  describe('updateUserEmailWithoutScreenSet', () => {
+    it('should not call updateUserEmailWithoutScreenSet', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.updateProfileWithoutScreenSet).toBeTruthy();
+      service.updateUserEmailWithoutScreenSet('', '').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).not.toHaveBeenCalled();
+      });
+      done();
+    });
+
+    it('should call updateUserEmailWithoutScreenSet', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'login'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+
+      expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
+      let pass = 'Password123!';
+
+      service.updateUserEmailWithoutScreenSet(pass, newEmail).subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).toHaveBeenCalledWith({
+          profile: {
+            email: newEmail,
+          },
+          callback: jasmine.any(Function),
+        });
+        expect(userProfileFacade.update).toHaveBeenCalledWith({
+          uid: newEmail,
+        });
+      });
+      done();
+    });
+  });
+
+  describe('getLoggedInUserEmail', () => {
+    it('should return the logged in user email', () => {
+      userProfileFacade.get = createSpy().and.returnValue(of({ uid: newEmail }));
+
+      expect(
+        service['getLoggedInUserEmail']()
+      ).toEqual(newEmail);
+    });
+
+    it('should return empty if no email is obtained', () => {
+      userProfileFacade.get = createSpy().and.returnValue(of({}));
+
+      expect(
+        service['getLoggedInUserEmail']()
+      ).toEqual('');
+    });
+  });
+
+  describe('updateAddressWithoutScreenSet', () => {
+    it('should not call updateAddressWithoutScreenSet', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.updateProfileWithoutScreenSet).toBeTruthy();
+      service.updateAddressWithoutScreenSet('').subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).not.toHaveBeenCalled();
+      });
+      done();
+    });
+
+    it('should call updateAddressWithoutScreenSet', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts,
+        'setAccountInfo'
+      ).and.callFake((options: { callback: Function }) => {
+        options.callback({ status: 'OK' });
+      });
+      expect(service.updateAddressWithoutScreenSet).toBeTruthy();
+      let sampleAddress = 'Address1, address2 , US';
+      service.updateAddressWithoutScreenSet(sampleAddress).subscribe(() => {
+        expect(
+          winRef.nativeWindow['gigya'].accounts.setAccountInfo
+        ).toHaveBeenCalledWith({
+          profile: {
+            address: sampleAddress,
+          },
+          callback: jasmine.any(Function),
+        });
+      });
+      done();
     });
   });
 

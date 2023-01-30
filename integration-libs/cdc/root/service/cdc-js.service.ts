@@ -580,12 +580,8 @@ export class CdcJsService implements OnDestroy {
           callback: (response: any) => {
             this.zone.run(() => {
               if (response?.status === 'OK') {
-                this.userProfileFacade.update(profileObj as User).subscribe({
-                  next: () => {
-                    isAddressUpdated.next({ status: response.status });
-                    isAddressUpdated.complete();
-                  }
-                })
+                isAddressUpdated.next({ status: response.status });
+                isAddressUpdated.complete();
               } else {
                 isAddressUpdated.error(response);
               }
