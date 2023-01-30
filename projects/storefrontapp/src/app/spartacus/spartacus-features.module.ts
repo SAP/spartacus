@@ -87,7 +87,7 @@ import { TrackingFeatureModule } from './features/tracking/tracking-feature.modu
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
-import { FutureStockFeatureModule } from './features/future-stock-feature.module';
+import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 
 const featureModules = [];
 
