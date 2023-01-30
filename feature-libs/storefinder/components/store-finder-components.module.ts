@@ -19,8 +19,8 @@ import {
   IconModule,
   ListNavigationModule,
   SpinnerModule,
+  TabModule,
 } from '@spartacus/storefront';
-import { TabModule } from 'projects/storefrontlib/layout/a11y/tab';
 import { ScheduleComponent } from './schedule-component/schedule.component';
 import { StoreFinderGridComponent } from './store-finder-grid/store-finder-grid.component';
 import { StoreFinderHeaderComponent } from './store-finder-header/store-finder-header.component';

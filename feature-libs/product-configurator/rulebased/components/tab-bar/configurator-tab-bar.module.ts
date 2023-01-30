@@ -15,7 +15,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { TabModule } from 'projects/storefrontlib/layout/a11y/tab';
+import { TabModule } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 @NgModule({
