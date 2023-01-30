@@ -95,3 +95,6 @@
 
 - Replaced `h4` tag with `h2` tag header for accessibility improvements.
 
+### UnitLevelOrderOverviewComponent
+
+- Removed a condition to hide 2nd order summary column
