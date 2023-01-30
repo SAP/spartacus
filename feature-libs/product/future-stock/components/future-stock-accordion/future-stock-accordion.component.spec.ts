@@ -14,7 +14,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-fdescribe('FutureStockAccordionComponent', () => {
+describe('FutureStockAccordionComponent', () => {
   let component: FutureStockAccordionComponent;
   let fixture: ComponentFixture<FutureStockAccordionComponent>;
 
