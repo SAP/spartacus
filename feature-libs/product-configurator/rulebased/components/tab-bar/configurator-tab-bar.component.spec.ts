@@ -56,7 +56,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('ConfigTabBarComponent', () => {
+describe('ConfiguratorTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
   let htmlElem: HTMLElement;
@@ -128,12 +128,20 @@ describe('ConfigTabBarComponent', () => {
     component.isOverviewPage$
       .subscribe((isOv) => expect(isOv).toBe(true))
       .unsubscribe();
+
+    component.currentIndex$
+      .subscribe((index) => expect(index).toBe(1))
+      .unsubscribe();
   });
 
   it('should tell from semantic route that we are on config page', () => {
     mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
     component.isOverviewPage$
       .subscribe((isOv) => expect(isOv).toBe(false))
+      .unsubscribe();
+
+    component.currentIndex$
+      .subscribe((index) => expect(index).toBe(0))
       .unsubscribe();
   });
 
@@ -165,36 +173,6 @@ describe('ConfigTabBarComponent', () => {
           0,
           'aria-label',
           'configurator.a11y.configurationPageLink',
-          'configurator.tabBar.configuration'
-        );
-      });
-
-      it("should contain an element with 'aria-selected' attribute set to true if the configuration page is displayed", () => {
-        mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'a',
-          undefined,
-          0,
-          'aria-selected',
-          'true',
-          'configurator.tabBar.configuration'
-        );
-      });
-
-      it("should contain an element with 'aria-selected' attribute set to false if the overview page is displayed", () => {
-        mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'a',
-          undefined,
-          0,
-          'aria-selected',
-          'false',
           'configurator.tabBar.configuration'
         );
       });
@@ -246,36 +224,6 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain an element with 'aria-selected' attribute set to false if the configuration page is displayed", () => {
-        mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'a',
-          undefined,
-          1,
-          'aria-selected',
-          'false',
-          'configurator.tabBar.overview'
-        );
-      });
-
-      it("should contain an element with 'aria-selected' attribute set to true if the overview page is displayed", () => {
-        mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-        fixture.detectChanges();
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'a',
-          undefined,
-          1,
-          'aria-selected',
-          'true',
-          'configurator.tabBar.overview'
-        );
-      });
-
       it("should contain an element with 'role' attribute that defines the link as a tab", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
@@ -290,108 +238,6 @@ describe('ConfigTabBarComponent', () => {
           'configurator.tabBar.overview'
         );
       });
-    });
-  });
-
-  describe('getTabIndexOverviewTab', () => {
-    it('should return tabindex 0 if on overview page', () => {
-      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-      expect(component.getTabIndexOverviewTab()).toBe(0);
-    });
-
-    it('should return tabindex -1 if on configuration page', () => {
-      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      expect(component.getTabIndexOverviewTab()).toBe(-1);
-    });
-  });
-
-  describe('getTabIndexConfigTab', () => {
-    it('should return tabindex -1 if on overview page', () => {
-      mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
-      expect(component.getTabIndexConfigTab()).toBe(-1);
-    });
-
-    it('should return tabindex 0 if on configuration page', () => {
-      mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
-      expect(component.getTabIndexConfigTab()).toBe(0);
-    });
-  });
-
-  describe('switchTabOnArrowPress', () => {
-    it('should focus overview tab if right arrow pressed and if current tab is config tab', () => {
-      fixture.detectChanges();
-      const event = new KeyboardEvent('keydown', {
-        code: 'ArrowRight',
-      });
-      component.switchTabOnArrowPress(event, '#configTab');
-      let focusedElement = document.activeElement;
-      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
-    });
-
-    it('should focus overview tab if left arrow pressed and if current tab is config tab', () => {
-      fixture.detectChanges();
-      const event = new KeyboardEvent('keydown', {
-        code: 'ArrowLeft',
-      });
-      component.switchTabOnArrowPress(event, '#configTab');
-      let focusedElement = document.activeElement;
-      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
-    });
-
-    it('should not change focus if up arrow pressed', () => {
-      fixture.detectChanges();
-      const leftEvent = new KeyboardEvent('keydown', {
-        code: 'ArrowLeft',
-      });
-      component.switchTabOnArrowPress(leftEvent, '#configTab');
-      let focusedElement = document.activeElement;
-      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
-      const downEvent = new KeyboardEvent('keydown', {
-        code: 'ArrowUp',
-      });
-      component.switchTabOnArrowPress(downEvent, '#configTab');
-      document.activeElement;
-      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
-    });
-
-    it('should not change focus if down arrow pressed', () => {
-      fixture.detectChanges();
-      const leftEvent = new KeyboardEvent('keydown', {
-        code: 'ArrowLeft',
-      });
-      component.switchTabOnArrowPress(leftEvent, '#configTab');
-      let focusedElement = document.activeElement;
-      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
-      const downEvent = new KeyboardEvent('keydown', {
-        code: 'ArrowDown',
-      });
-      component.switchTabOnArrowPress(downEvent, '#configTab');
-      document.activeElement;
-      expect(focusedElement?.innerHTML).toBe('configurator.tabBar.overview');
-    });
-
-    it('should focus config tab if right arrow pressed and if current tab is overview tab', () => {
-      fixture.detectChanges();
-      const event = new KeyboardEvent('keydown', {
-        code: 'ArrowRight',
-      });
-      component.switchTabOnArrowPress(event, '#overviewTab');
-      let focusedElement = document.activeElement;
-      expect(focusedElement?.innerHTML).toBe(
-        'configurator.tabBar.configuration'
-      );
-    });
-
-    it('should focus config tab if left arrow pressed and if current tab is overview tab', () => {
-      fixture.detectChanges();
-      const event = new KeyboardEvent('keydown', {
-        code: 'ArrowLeft',
-      });
-      component.switchTabOnArrowPress(event, '#overviewTab');
-      let focusedElement = document.activeElement;
-      expect(focusedElement?.innerHTML).toBe(
-        'configurator.tabBar.configuration'
-      );
     });
   });
 });

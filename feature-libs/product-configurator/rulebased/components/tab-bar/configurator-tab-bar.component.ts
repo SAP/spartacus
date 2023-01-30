@@ -44,7 +44,7 @@ export class ConfiguratorTabBarComponent {
     )
   );
 
-  currentIndex: Observable<number> = this.isOverviewPage$.pipe(
+  currentIndex$: Observable<number> = this.isOverviewPage$.pipe(
     map((isOverviewPage) => Number(isOverviewPage))
   );
 

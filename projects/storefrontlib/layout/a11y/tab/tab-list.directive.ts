@@ -25,12 +25,6 @@ export class TabListDirective implements AfterContentInit {
     this.updateTabs(selectedIndex);
   }
 
-  /**
-   * TODO
-   */
-  @Input()
-  automatic = false;
-
   @Output()
   changeTab: EventEmitter<number> = new EventEmitter();
 

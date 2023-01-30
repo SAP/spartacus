@@ -140,8 +140,10 @@ describe('StoreFinderDisplayListComponent', () => {
 
   it('should "setDisplayMode" switch active display mode', () => {
     expect(component.activeDisplayMode).toBe(displayModes.LIST_VIEW);
+    expect(component.currentDisplayModeIndex).toBe(0);
     component.setDisplayMode(displayModes.MAP_VIEW);
     expect(component.activeDisplayMode).toBe(displayModes.MAP_VIEW);
+    expect(component.currentDisplayModeIndex).toBe(1);
   });
 
   it('should "isDisplayModeActive" return valid boolean flag', () => {

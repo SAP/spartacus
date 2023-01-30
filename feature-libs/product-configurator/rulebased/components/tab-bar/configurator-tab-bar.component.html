@@ -5,7 +5,7 @@
         class="cx-tab-bar"
         role="tablist"
         cxTabList
-        [selectedIndex]="currentIndex | async"
+        [selectedIndex]="currentIndex$ | async"
         (changeTab)="$event === 0 ? configTab.click() : overviewTab.click()"
       >
         <a
