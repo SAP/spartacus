@@ -9,7 +9,7 @@ $checkout-components-allowlist: cx-payment-method, cx-payment-methods,
   cx-checkout-progress-mobile-bottom, cx-delivery-mode, cx-delivery-address,
   cx-address-form, cx-billing-address-form, cx-payment-form, cx-review-submit,
   cx-guest-register-form, cx-suggested-addresses-dialog,
-  cx-checkout-review-shipping !default;
+  cx-checkout-review-shipping, cx-checkout-review-overview !default;
 
 $skipComponentStyles: () !default;
 
