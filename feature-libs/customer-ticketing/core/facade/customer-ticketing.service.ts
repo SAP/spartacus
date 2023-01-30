@@ -40,7 +40,7 @@ import {
   TicketStarter,
   UploadAttachmentSuccessEvent,
 } from '@spartacus/customer-ticketing/root';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   map,
@@ -52,16 +52,19 @@ import { CustomerTicketingConnector } from '../connectors/customer-ticketing.con
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
-  getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
+  protected tickets$: BehaviorSubject<TicketList> =
+    new BehaviorSubject<TicketList>({});
+
+  protected getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketCategoryQueryReloadEvent];
   }
-  getTicketCategoriesQueryResetEvents(): QueryNotifier[] {
+  protected getTicketCategoriesQueryResetEvents(): QueryNotifier[] {
     return [GetTicketCategoryQueryResetEvent];
   }
-  getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] {
+  protected getTicketAssociatedObjectsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryReloadEvent];
   }
-  getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] {
+  protected getTicketAssociatedObjectsQueryResetEvents(): QueryNotifier[] {
     return [GetTicketAssociatedObjectsQueryResetEvent];
   }
 
@@ -75,6 +78,10 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   protected getTicketsQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketsQueryReloadEvents];
+  }
+
+  protected getTicketsQueryResetEvents(): QueryNotifier[] {
+    return [GetTicketsQueryResetEvents];
   }
 
   protected createTicketCommand: Command<TicketStarter, TicketDetails> =
@@ -92,10 +99,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         strategy: CommandStrategy.Queue,
       }
     );
-
-  protected getTicketsQueryResetEvents(): QueryNotifier[] {
-    return [GetTicketsQueryResetEvents];
-  }
 
   protected createTicketEventCommand: Command<
     { ticketEvent: TicketEvent; containsAttachment?: boolean },
@@ -197,6 +200,30 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       }
     );
 
+  protected getTicketsQuery$(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Query<TicketList | undefined> {
+    return this.queryService.create<TicketList | undefined>(
+      () =>
+        this.customerTicketingListPreConditions().pipe(
+          switchMap((customerId) =>
+            this.customerTicketingConnector.getTickets(
+              customerId,
+              pageSize,
+              currentPage,
+              sort
+            )
+          )
+        ),
+      {
+        reloadOn: this.getTicketsQueryReloadEvents(),
+        resetOn: this.getTicketsQueryResetEvents(),
+      }
+    );
+  }
+
   protected getTicketCategoriesQuery: Query<Category[]> =
     this.queryService.create(
       () => this.customerTicketingConnector.getTicketCategories(),
@@ -221,35 +248,6 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
         resetOn: this.getTicketAssociatedObjectsQueryResetEvents(),
       }
     );
-
-  constructor(
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected userIdService: UserIdService,
-    protected customerTicketingConnector: CustomerTicketingConnector,
-    protected routingService: RoutingService,
-    protected eventService: EventService
-  ) {}
-  getTicketAssociatedObjectsState(): Observable<
-    QueryState<AssociatedObject[]>
-  > {
-    return this.getTicketAssociatedObjectsQuery.getState();
-  }
-  getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
-    return this.getTicketAssociatedObjectsState().pipe(
-      map((state) => state.data ?? [])
-    );
-  }
-
-  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
-    return this.getTicketCategoriesQuery.getState();
-  }
-
-  getTicketCategories(): Observable<Category[]> {
-    return this.getTicketCategoriesState().pipe(
-      map((state) => state.data ?? [])
-    );
-  }
 
   protected customerTicketingPreConditions(): Observable<[string, string]> {
     return combineLatest([
@@ -281,6 +279,36 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     );
   }
 
+  constructor(
+    protected queryService: QueryService,
+    protected commandService: CommandService,
+    protected userIdService: UserIdService,
+    protected customerTicketingConnector: CustomerTicketingConnector,
+    protected routingService: RoutingService,
+    protected eventService: EventService
+  ) {}
+
+  getTicketAssociatedObjectsState(): Observable<
+    QueryState<AssociatedObject[]>
+  > {
+    return this.getTicketAssociatedObjectsQuery.getState();
+  }
+  getTicketAssociatedObjects(): Observable<AssociatedObject[]> {
+    return this.getTicketAssociatedObjectsState().pipe(
+      map((state) => state.data ?? [])
+    );
+  }
+
+  getTicketCategoriesState(): Observable<QueryState<Category[]>> {
+    return this.getTicketCategoriesQuery.getState();
+  }
+
+  getTicketCategories(): Observable<Category[]> {
+    return this.getTicketCategoriesState().pipe(
+      map((state) => state.data ?? [])
+    );
+  }
+
   getTicketState(): Observable<QueryState<TicketDetails | undefined>> {
     return this.getTicketQuery$.getState();
   }
@@ -295,20 +323,21 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     return this.createTicketCommand.execute(ticketStarted);
   }
 
+  getTicketsState(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<QueryState<TicketList | undefined>> {
+    return this.getTicketsQuery$(pageSize, currentPage, sort).getState();
+  }
+
   getTickets(
     pageSize: number,
     currentPage: number,
     sort: string
   ): Observable<TicketList | undefined> {
-    return this.customerTicketingListPreConditions().pipe(
-      switchMap((customerId) =>
-        this.customerTicketingConnector.getTickets(
-          customerId,
-          pageSize,
-          currentPage,
-          sort
-        )
-      )
+    return this.getTicketsState(pageSize, currentPage, sort).pipe(
+      map((state) => state.data)
     );
   }
 

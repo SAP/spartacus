@@ -26,6 +26,7 @@ import {
       methods: [
         'getTicketState',
         'getTicket',
+        'getTicketsState',
         'getTickets',
         'createTicketEvent',
         'getTicketCategoriesState',
@@ -42,6 +43,12 @@ export abstract class CustomerTicketingFacade {
   abstract getTicketState(): Observable<QueryState<TicketDetails | undefined>>;
 
   abstract getTicket(): Observable<TicketDetails | undefined>;
+
+  abstract getTicketsState(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<QueryState<TicketList | undefined>>;
 
   abstract getTickets(
     pageSize: number,
