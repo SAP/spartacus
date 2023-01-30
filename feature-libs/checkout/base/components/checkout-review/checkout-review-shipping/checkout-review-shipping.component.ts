@@ -31,8 +31,14 @@ export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
-  checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
-  checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
+  checkoutStepTypeDeliveryAddressRoute =
+    this.checkoutStepService.getCheckoutStepRoute(
+      CheckoutStepType.DELIVERY_ADDRESS
+    );
+  checkoutStepTypeDeliveryModeRoute =
+    this.checkoutStepService.getCheckoutStepRoute(
+      CheckoutStepType.DELIVERY_MODE
+    );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -57,14 +63,6 @@ export class CheckoutReviewShippingComponent {
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
-
-  getCheckoutStepRoute(
-    stepType: CheckoutStepType | string
-  ): string | undefined {
-    return this.checkoutStepService.getCheckoutStepRoute(
-      stepType as CheckoutStepType
-    );
-  }
 
   getDeliveryAddressCard(
     deliveryAddress: Address,

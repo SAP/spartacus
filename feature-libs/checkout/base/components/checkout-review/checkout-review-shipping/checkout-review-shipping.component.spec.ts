@@ -201,8 +201,8 @@ describe('CheckoutReviewShippingComponent', () => {
   });
 
   it('should get checkout step route', () => {
-    expect(
-      component.getCheckoutStepRoute(CheckoutStepType.DELIVERY_ADDRESS)
-    ).toEqual(mockCheckoutStep.routeName);
+    expect(component.checkoutStepTypeDeliveryAddressRoute).toEqual(
+      mockCheckoutStep.routeName
+    );
   });
 });

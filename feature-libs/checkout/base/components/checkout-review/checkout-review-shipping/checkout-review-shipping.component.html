@@ -21,7 +21,7 @@
               "
               [routerLink]="
                 {
-                  cxRoute: getCheckoutStepRoute(checkoutStepTypeDeliveryAddress)
+                  cxRoute: checkoutStepTypeDeliveryAddressRoute
                 } | cxUrl
               "
               ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -43,8 +43,7 @@
                 'checkoutReview.editDeliveryMode' | cxTranslate
               "
               [routerLink]="
-                { cxRoute: getCheckoutStepRoute(checkoutStepTypeDeliveryMode) }
-                  | cxUrl
+                { cxRoute: checkoutStepTypeDeliveryModeRoute } | cxUrl
               "
             >
               <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
