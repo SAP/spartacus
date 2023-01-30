@@ -11,10 +11,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { UpdateProfileComponent, UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
-import { UpdateProfileComponentService } from './update-profile-component.service';
-import { UpdateProfileComponent } from './update-profile.component';
 import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',

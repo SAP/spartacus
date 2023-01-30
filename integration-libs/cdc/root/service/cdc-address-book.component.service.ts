@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Address, GlobalMessageService, GlobalMessageType, UserAddressService } from '@spartacus/core';
 import { AddressBookComponentService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { CdcJsService } from '../../root/service/cdc-js.service';
+import { CdcJsService } from './cdc-js.service';
 
 @Injectable()
 export class CDCAddressBookComponentService extends  AddressBookComponentService{
@@ -17,7 +17,7 @@ export class CDCAddressBookComponentService extends  AddressBookComponentService
   }
 
   protected addresses$: Observable<Address[]>;
-  
+
   getAddresses(): Observable<Address[]> {
     this.addresses$ =  this.userAddressService.getAddresses();
     this.addresses$.subscribe( (addresses: Address[]) => {

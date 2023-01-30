@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, User, UserAddressService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Address, GlobalMessageService, GlobalMessageType, User, UserAddressService } from '@spartacus/core';
+import { Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CDCAddressBookComponentService } from './cdc-address-book.component.service';
+import { CdcJsService } from './cdc-js.service';
+import createSpy = jasmine.createSpy;
 
 const mockAddresses: Address[] = [
   {
@@ -14,6 +16,8 @@ const mockAddresses: Address[] = [
     id: '222',
     line1: 'Street Name 222',
     country: { isocode: 'PL' },
+    defaultAddress: true,
+    formattedAddress: "222, Street Name 222, PL",
   },
 ];
 
@@ -39,23 +43,36 @@ class MockUserAddressService {
   }
 }
 
+class MockGlobalMessageService {
+  add = createSpy().and.stub();
+  remove = createSpy().and.stub();
+}
+
+
+class MockCDCJsService implements Partial<CdcJsService> {
+  updateAddressWithoutScreenSet = createSpy().and.returnValue(of({status: 'OK'}));
+}
+
 describe('AddressBookComponentService', () => {
   let service: CDCAddressBookComponentService;
   let userAddressService: UserAddressService;
+  let cdcJsService: CdcJsService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CDCAddressBookComponentService,
-        {
-          provide: UserAddressService,
-          useClass: MockUserAddressService,
-        },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        { provide: CdcJsService, useClass: MockCDCJsService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     });
 
     service = TestBed.inject(CDCAddressBookComponentService);
     userAddressService = TestBed.inject(UserAddressService);
+    cdcJsService = TestBed.inject(CdcJsService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should service be created', () => {
@@ -67,6 +84,28 @@ describe('AddressBookComponentService', () => {
       .getAddresses()
       .pipe(take(1))
       .subscribe((addresses: Address[]) => {
+        expect(addresses).toEqual(mockAddresses);
+      });
+  });
+
+  it('should getAddresses() invoke CDC SDK and update default address', () => {
+    service
+      .getAddresses()
+      .pipe(take(1))
+      .subscribe((addresses: Address[]) => {
+        expect(cdcJsService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(mockAddresses[1].formattedAddress);
+        expect(addresses).toEqual(mockAddresses);
+      });
+  });
+
+  it('should throw error in getAddresses() if CDC SDK update fails', () => {
+    cdcJsService.updateAddressWithoutScreenSet = createSpy().and.returnValue(throwError({status:'error', errorDetails: 'Error'}));
+    service
+      .getAddresses()
+      .pipe(take(1))
+      .subscribe((addresses: Address[]) => {
+        expect(globalMessageService.add).toHaveBeenCalledWith('Error',  GlobalMessageType.MSG_TYPE_ERROR);
+        expect(cdcJsService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(mockAddresses[1].formattedAddress);
         expect(addresses).toEqual(mockAddresses);
       });
   });

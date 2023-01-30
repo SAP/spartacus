@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { AddressBookComponent, AddressBookComponentService, LogoutGuard } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
-import { CDCAddressBookComponentService } from '../components/address-book/cdc-address-book.component.service';
+import { CDCAddressBookComponentService } from './service/cdc-address-book.component.service';
 import { cdcRoutingConfig } from './config/cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';

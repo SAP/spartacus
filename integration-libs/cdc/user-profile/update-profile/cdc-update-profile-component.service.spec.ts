@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -29,24 +30,24 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
+class MockCDCJsService implements Partial<CdcJsService> {
+  updateProfileWithoutScreenSet = createSpy().and.returnValue(of({ status: 'OK' }));
+}
+
 describe('UpdateProfileComponentService', () => {
   let service: CDCUpdateProfileComponentService;
   let userService: UserProfileFacade;
   let globalMessageService: GlobalMessageService;
+  let cdcJsService: CdcJsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
         CDCUpdateProfileComponentService,
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-        {
-          provide: UserProfileFacade,
-          useClass: MockUserProfileFacade,
-        },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        { provide: CdcJsService, useClass: MockCDCJsService },
       ],
     }).compileComponents();
   });
@@ -55,6 +56,7 @@ describe('UpdateProfileComponentService', () => {
     service = TestBed.inject(CDCUpdateProfileComponentService);
     userService = TestBed.inject(UserProfileFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    cdcJsService = TestBed.inject(CdcJsService);
   });
 
   it('should create', () => {
@@ -87,11 +89,14 @@ describe('UpdateProfileComponentService', () => {
 
       it('should update password', () => {
         service.updateProfile();
-        expect(userService.update).toHaveBeenCalledWith(mockUser);
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateProfileWithoutScreenSet).toHaveBeenCalledWith(mockUser);
       });
 
       it('should show message', () => {
         service.updateProfile();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateProfileWithoutScreenSet).toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updateProfileForm.profileUpdateSuccess',
@@ -111,6 +116,7 @@ describe('UpdateProfileComponentService', () => {
     it('should not save invalid form', () => {
       service.form.patchValue({ customerId: '123' } as User);
       service.updateProfile();
+      expect(cdcJsService.updateProfileWithoutScreenSet).not.toHaveBeenCalled();
       expect(userService.update).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });

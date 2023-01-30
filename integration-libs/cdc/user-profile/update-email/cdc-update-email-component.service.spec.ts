@@ -1,5 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthRedirectService,
   AuthService,
@@ -31,6 +32,10 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   setRedirectUrl = createSpy('setRedirectUrl');
 }
 
+class MockCDCJsService implements Partial<CdcJsService> {
+  updateUserEmailWithoutScreenSet = createSpy().and.returnValue(of({ status: 'OK' }));
+}
+
 describe('UpdateEmailComponentService', () => {
   let service: CDCUpdateEmailComponentService;
   let userService: UserEmailFacade;
@@ -41,32 +46,19 @@ describe('UpdateEmailComponentService', () => {
   let confirmNewUid: AbstractControl;
   let password: AbstractControl;
   let authRedirectService: AuthRedirectService;
+  let cdcJsService: CdcJsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
         CDCUpdateEmailComponentService,
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-        {
-          provide: UserEmailFacade,
-          useClass: MockUserEmailService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: AuthRedirectService,
-          useClass: MockAuthRedirectService,
-        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: UserEmailFacade, useClass: MockUserEmailService },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        { provide: CdcJsService, useClass: MockCDCJsService },
       ],
     }).compileComponents();
   });
@@ -79,6 +71,7 @@ describe('UpdateEmailComponentService', () => {
     userService = TestBed.inject(UserEmailFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
+    cdcJsService = TestBed.inject(CdcJsService);
 
     newUid = service.form.controls.email;
     confirmNewUid = service.form.controls.confirmEmail;
@@ -117,7 +110,8 @@ describe('UpdateEmailComponentService', () => {
 
       it('should save valid email', () => {
         service.save();
-        expect(userService.update).toHaveBeenCalledWith(
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalledWith(
           'Qwe123!',
           'tester@sap.com'
         );
@@ -125,6 +119,8 @@ describe('UpdateEmailComponentService', () => {
 
       it('should show message', () => {
         service.save();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updateEmailForm.emailUpdateSuccess',
@@ -136,6 +132,8 @@ describe('UpdateEmailComponentService', () => {
 
       it('should logout', () => {
         service.save();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
         expect(authService.coreLogout).toHaveBeenCalled();
       });
 
@@ -143,6 +141,8 @@ describe('UpdateEmailComponentService', () => {
         'should reroute to the login page',
         waitForAsync(() => {
           service.save();
+          expect(userService.update).not.toHaveBeenCalled();
+          expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
           authService.coreLogout().then(() => {
             expect(routingService.go).toHaveBeenCalledWith(
               { cxRoute: 'login' },
@@ -159,6 +159,8 @@ describe('UpdateEmailComponentService', () => {
       it('reset form', () => {
         spyOn(service.form, 'reset').and.callThrough();
         service.save();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
         expect(service.form.reset).toHaveBeenCalled();
       });
 
@@ -166,6 +168,8 @@ describe('UpdateEmailComponentService', () => {
         'should set the redirect url to the home page before navigating to the login page',
         waitForAsync(() => {
           service.save();
+          expect(userService.update).not.toHaveBeenCalled();
+          expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
           expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
             routingService.getUrl({ cxRoute: 'home' })
           );
@@ -183,6 +187,7 @@ describe('UpdateEmailComponentService', () => {
         confirmNewUid.setValue('diff@sap.com');
         service.save();
         expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserEmailWithoutScreenSet).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(authService.coreLogout).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();

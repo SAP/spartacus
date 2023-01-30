@@ -1,15 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nTestingModule,
-  RoutingService,
+  AuthRedirectService,
+  AuthService,
+  GlobalMessageService, GlobalMessageType, I18nTestingModule,
+  RoutingService
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { UpdatePasswordModule } from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { CDCUpdatePasswordComponentService} from './cdc-update-password-component.service';
+import { CDCUpdatePasswordComponentService } from './cdc-update-password-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
@@ -18,46 +20,53 @@ class MockUserPasswordService implements Partial<UserPasswordFacade> {
 
 class MockRoutingService {
   go = createSpy().and.stub();
+  getUrl = createSpy().and.returnValue('');
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  setRedirectUrl = createSpy();
+}
+
+class MockAuthService implements Partial<AuthService> {
+  coreLogout = createSpy().and.returnValue(Promise.resolve());
+}
+
+class MockCDCJsService implements Partial<CdcJsService> {
+  updateUserPasswordWithoutScreenSet = createSpy().and.returnValue(of({ status: 'OK' }));
+}
+
 
 describe('CDCUpdatePasswordComponentService', () => {
   let service: CDCUpdatePasswordComponentService;
   let userService: UserPasswordFacade;
-  let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let oldPassword: AbstractControl;
   let newPassword: AbstractControl;
   let newPasswordConfirm: AbstractControl;
+  let cdcJsService: CdcJsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, UpdatePasswordModule],
       providers: [
         CDCUpdatePasswordComponentService,
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-        {
-          provide: UserPasswordFacade,
-          useClass: MockUserPasswordService,
-        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: UserPasswordFacade, useClass: MockUserPasswordService },
+        { provide: CdcJsService, useClass: MockCDCJsService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService, },
+        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
     service = TestBed.inject(CDCUpdatePasswordComponentService);
-    routingService = TestBed.inject(RoutingService);
     userService = TestBed.inject(UserPasswordFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    cdcJsService = TestBed.inject(CdcJsService);
 
     oldPassword = service.form.controls.oldPassword;
     newPassword = service.form.controls.newPassword;
@@ -96,11 +105,14 @@ describe('CDCUpdatePasswordComponentService', () => {
 
       it('should update password', () => {
         service.updatePassword();
-        expect(userService.update).toHaveBeenCalledWith('Old123!', 'New123!');
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserPasswordWithoutScreenSet).toHaveBeenCalledWith('Old123!', 'New123!');
       });
 
       it('should show message', () => {
         service.updatePassword();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserPasswordWithoutScreenSet).toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updatePasswordForm.passwordUpdateSuccess',
@@ -109,26 +121,23 @@ describe('CDCUpdatePasswordComponentService', () => {
         );
       });
 
-      it('should reroute to the login page', () => {
-        service.updatePassword();
-
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-      });
-
-      it('reset()', () => {
+      it('should reset the form', () => {
         spyOn(service.form, 'reset').and.callThrough();
         service.updatePassword();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserPasswordWithoutScreenSet).toHaveBeenCalled();
         expect(service.form.reset).toHaveBeenCalled();
       });
     });
 
     describe('error', () => {
-      it('should not save invalid email', () => {
-        newPassword.setValue('diff@sap.com');
+      it('should not update the password', () => {
+        newPassword.setValue('testpassword123');
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
+        expect(cdcJsService.updateUserPasswordWithoutScreenSet).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
-        expect(routingService.go).not.toHaveBeenCalled();
+
       });
     });
   });
