@@ -22,6 +22,19 @@ const mockPaymentDetails: PaymentDetails = {
   expiryMonth: '01',
   expiryYear: '2022',
   cvn: '123',
+  billingAddress: {
+    firstName: 'John',
+    lastName: 'Smith',
+    line1: '2343 test address',
+    town: 'Montreal',
+    region: {
+      isocode: 'QC',
+    },
+    country: {
+      isocode: 'CAN',
+    },
+    postalCode: 'H2N 1E3',
+  },
 };
 
 const mockCheckoutStep: CheckoutStep = {
@@ -109,7 +122,7 @@ describe('CheckoutReviewPaymentComponent', () => {
 
   it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
     component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
-      expect(card.title).toEqual('paymentForm.creditCardDetails');
+      expect(card.title).toEqual('paymentForm.payment');
       expect(card.text).toEqual([
         mockPaymentDetails.cardType?.name,
         mockPaymentDetails.accountHolderName,
@@ -122,7 +135,19 @@ describe('CheckoutReviewPaymentComponent', () => {
   it('should call getBillingAddressCard to get billing address card data', () => {
     component.getBillingAddressCard(mockPaymentDetails).subscribe((card) => {
       expect(card.title).toEqual('paymentForm.billingAddress');
-      expect(card.text).toContain(['addressCard.billTo']);
+      expect(card.text).toEqual([
+        'addressCard.billTo',
+        mockPaymentDetails.billingAddress?.firstName +
+          ' ' +
+          mockPaymentDetails.billingAddress?.lastName,
+        mockPaymentDetails.billingAddress?.line1,
+        mockPaymentDetails.billingAddress?.town +
+          ', ' +
+          mockPaymentDetails.billingAddress?.region?.isocode +
+          ', ' +
+          mockPaymentDetails.billingAddress?.country?.isocode,
+        mockPaymentDetails.billingAddress?.postalCode,
+      ]);
     });
   });
 });

@@ -15,8 +15,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-// import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-// import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 
 @NgModule({
   declarations: [CheckoutReviewPaymentComponent],
