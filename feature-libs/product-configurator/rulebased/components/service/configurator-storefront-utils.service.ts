@@ -93,6 +93,19 @@ export class ConfiguratorStorefrontUtilsService {
     this.windowRef.nativeWindow?.scroll(0, topOffset);
   }
 
+  scrollTo(element: Element | HTMLElement | undefined): void {
+    if (element) {
+      let topOffset = 0;
+      if (element instanceof HTMLElement) {
+        topOffset = element.offsetTop;
+      }
+      this.windowRef.nativeWindow?.scrollTo({
+        top: topOffset,
+        behavior: 'smooth',
+      });
+    }
+  }
+
   /**
    * Scrolls to the corresponding configuration element in the HTML tree.
    *
@@ -326,43 +339,128 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
-  getViewPortHeight(isMenuRendered: boolean = false): number {
+  isScrollBox(querySelector: string): boolean {
+    const element = this.getElement(querySelector);
+    if (element) {
+      return element.scrollHeight > element.clientHeight;
+    }
+    return false;
+  }
+
+  isInViewport(element: HTMLElement | undefined): boolean {
+    if (element) {
+      const bounding = element.getBoundingClientRect();
+      const height = element.offsetHeight;
+      const width = element.offsetWidth;
+
+      if (
+        bounding.top >= -height &&
+        bounding.left >= -width &&
+        bounding.right <=
+          (window.innerWidth || document.documentElement.clientWidth) + width &&
+        bounding.bottom <=
+          (window.innerHeight || document.documentElement.clientHeight) + height
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  getViewportHeight(isMenuRendered: boolean = false): number {
     if (this.windowRef.isBrowser()) {
+      const spaHeader = this.getElement('header');
+      const ovHeader = this.getElement('.VariantConfigOverviewHeader');
+      const addToCart = this.getElement('cx-configurator-add-to-cart-button');
+
+      const isSpaHeaderInViewport = this.isInViewport(spaHeader);
+      const ovHeaderInViewport = this.isInViewport(ovHeader);
+      const addToCartInViewport = this.isInViewport(addToCart);
+
+      const spaHeaderHeight =
+        isSpaHeaderInViewport && spaHeader?.offsetHeight
+          ? spaHeader?.offsetHeight
+          : 0;
+      const ovHeaderHeight =
+        ovHeaderInViewport && ovHeader?.offsetHeight
+          ? ovHeader?.offsetHeight
+          : 0;
+      const addToCartHeight =
+        addToCartInViewport && addToCart?.offsetHeight
+          ? addToCart?.offsetHeight
+          : 0;
+
+      const occupiedHeight = spaHeaderHeight + ovHeaderHeight + addToCartHeight;
       if (isMenuRendered) {
+        //190
         return this.windowRef.nativeWindow
-          ? this.windowRef.nativeWindow.innerHeight - 190
+          ? this.windowRef.nativeWindow.innerHeight - occupiedHeight * 2
           : 0;
       }
+      // 400
+      const allowedHeight = occupiedHeight + occupiedHeight * 0.3;
       return this.windowRef.nativeWindow
-        ? this.windowRef.nativeWindow.innerHeight - 400
+        ? this.windowRef.nativeWindow.innerHeight - allowedHeight
         : 0;
     }
     return 0;
   }
 
-  syncScroll(element: HTMLElement | undefined): void {
-    if (this.windowRef.isBrowser() && element) {
-      const windowHeight = this.windowRef.nativeWindow?.innerHeight;
-      const elementHeight = element.offsetHeight;
-      const difference = windowHeight ? windowHeight / elementHeight : 0;
-      const yPosition = this.windowRef.nativeWindow?.scrollY
-        ? this.windowRef.nativeWindow?.scrollY / (difference * 5.5)
-        : 0;
-      const elementTop = element.scrollTop;
-      console.warn(
-        'windowHeight: ' +
-          windowHeight +
-          '; elementHeight: ' +
-          elementHeight +
-          '; difference: ' +
-          difference +
-          '; windowsY:' +
-          this.windowRef.nativeWindow?.scrollY +
-          '; elementY: ' +
-          elementTop
+  protected isVisible(
+    element: HTMLElement | undefined,
+    container: HTMLElement | undefined
+  ): boolean {
+    if (element && container) {
+      const elementTop = element.offsetTop;
+      const elementBottom = elementTop + element.clientHeight;
+
+      const containerTop = container.scrollTop;
+      const containerBottom = containerTop + container.clientHeight;
+
+      // The element is fully visible in the container
+      return (
+        (elementTop >= containerTop && elementBottom <= containerBottom) ||
+        // Some part of the element is visible in the container
+        (elementTop < containerTop && containerTop < elementBottom) ||
+        (elementTop < containerBottom && containerBottom < elementBottom)
       );
-      const xPosition = this.windowRef.nativeWindow?.scrollX ?? 0;
-      element.scroll(xPosition, yPosition);
+    }
+    return false;
+  }
+
+  syncScroll(querySelector: string, element: HTMLElement | undefined): void {
+    const container = this.getElement(querySelector);
+    if (element && container) {
+      //if(!this.isVisible(element, container)) {
+      console.log('element: ' + element.id + ' is not visible');
+      console.log(
+        'element.offsetTop: ' +
+          element.offsetTop +
+          '; container.scrollTop: ' +
+          container.scrollTop
+      );
+      if (element.offsetTop < container.scrollTop) {
+        console.log('element.offsetTop < container.scrollTop: true');
+        container.scrollTop = element.offsetTop;
+        console.warn('container.scrollTop: ' + container.scrollTop);
+      } else {
+        console.log('element.offsetTop < container.scrollTop: false');
+        const offsetBottom = element.offsetTop + element.offsetHeight;
+        const containerBottom = container.scrollTop + container.offsetHeight;
+        console.log(
+          'offsetBottom: ' +
+            offsetBottom +
+            '; containerBottom: ' +
+            containerBottom
+        );
+        if (offsetBottom > containerBottom) {
+          container.scrollTop = offsetBottom - container.offsetHeight;
+          console.warn('container.scrollTop: ' + container.scrollTop);
+        }
+      }
+      // }
     }
   }
 }

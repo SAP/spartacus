@@ -38,8 +38,10 @@ export class ConfiguratorOverviewMenuComponent {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    this.highlightMenuItem();
-    this.syncScroll();
+    //this.height = this.getHeight();
+    const menuItem = this.getMenuItemToHighlight();
+    this.highlight(menuItem);
+    this.syncScroll(menuItem);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -47,8 +49,18 @@ export class ConfiguratorOverviewMenuComponent {
     this.height = this.getHeight();
   }
 
-  protected highlightMenuItem(): void {
-    this.highlight(this.getMenuItemToHighlight());
+  protected highlight(element: HTMLElement | undefined): void {
+    if (element) {
+      const menuItems = this.configuratorStorefrontUtilsService.getElements(
+        'button.cx-menu-item'
+      );
+      menuItems?.forEach((menuItem) => {
+        menuItem.classList.remove(this.ACTIVE_CLASS);
+        if (menuItem.id === element?.id) {
+          element.classList.add(this.ACTIVE_CLASS);
+        }
+      });
+    }
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {
@@ -69,25 +81,19 @@ export class ConfiguratorOverviewMenuComponent {
     return menuItem;
   }
 
-  protected highlight(menuItemToHighlight: HTMLElement | undefined) {
-    if (menuItemToHighlight) {
-      const menuItems = this.configuratorStorefrontUtilsService.getElements(
-        'button.cx-menu-item'
-      );
-      menuItems?.forEach((menuItem) => {
-        menuItem.classList.remove(this.ACTIVE_CLASS);
-        if (menuItem.id === menuItemToHighlight?.id) {
-          menuItemToHighlight.classList.add(this.ACTIVE_CLASS);
-        }
-      });
+  protected syncScroll(element: HTMLElement | undefined): void {
+    if (element) {
+      if (
+        this.configuratorStorefrontUtilsService.isScrollBox(
+          'cx-configurator-overview-menu'
+        )
+      ) {
+        this.configuratorStorefrontUtilsService.syncScroll(
+          'cx-configurator-overview-menu',
+          element
+        );
+      }
     }
-  }
-
-  protected syncScroll(): void {
-    const ovMenu = this.configuratorStorefrontUtilsService.getElement(
-      'cx-configurator-overview-menu'
-    );
-    this.configuratorStorefrontUtilsService.syncScroll(ovMenu);
   }
 
   protected getHeight(): string {
@@ -97,15 +103,15 @@ export class ConfiguratorOverviewMenuComponent {
 
     if (menu) {
       const viewPortHeight =
-        this.configuratorStorefrontUtilsService.getViewPortHeight(true);
-      if (menu.offsetHeight < viewPortHeight) {
+        this.configuratorStorefrontUtilsService.getViewportHeight(true);
+      if (menu.offsetHeight <= viewPortHeight) {
         return '';
       } else {
         return viewPortHeight + 'px';
       }
     }
 
-    return this.configuratorStorefrontUtilsService.getViewPortHeight() + 'px';
+    return this.configuratorStorefrontUtilsService.getViewportHeight() + 'px';
   }
 
   /**
