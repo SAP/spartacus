@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ActiveCartFacade,
   CartOutlets,
@@ -25,6 +25,7 @@ import { CheckoutStepService } from '../../services';
 @Component({
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;
