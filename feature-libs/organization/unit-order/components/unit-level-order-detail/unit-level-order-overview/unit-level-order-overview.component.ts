@@ -4,12 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,
   CostCenter,
+  FeatureConfigService,
   TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -24,9 +30,24 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
+  // TODO(#CXSPA-1695): make featureConfigService are required dependency and for major releases, remove featureConfigService
+  constructor(
+    translation: TranslationService,
+    unitLevelOrderDetailsService: UnitLevelOrderDetailService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(
+    translation: TranslationService,
+    unitLevelOrderDetailsService: UnitLevelOrderDetailService
+  );
   constructor(
     protected translation: TranslationService,
-    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService
+    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   order$: Observable<Order>;
