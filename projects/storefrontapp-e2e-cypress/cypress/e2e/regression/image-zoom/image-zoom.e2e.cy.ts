@@ -9,14 +9,16 @@ import { viewportContext } from '../../../helpers/viewport-context';
 
 const productId = '1990255';
 
-describe('Image zoom', () => {
+describe('Image zoom', { testIsolation: false }, () => {
   viewportContext(['desktop'], () => {
     let hasGallery = false;
 
     before(() => {
+      cy.clearAllLocalStorage();
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });
+
       const productPage = waitForProductPage(productId, 'getProductPage');
       cy.visit(`/product/${productId}`);
       cy.intercept(
