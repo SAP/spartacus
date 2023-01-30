@@ -12,7 +12,7 @@ class MockFutureStockConnector implements Partial<FutureStockConnector> {
 const mockUserId = 'current';
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId(): Observable<string> {
+  takeUserId(): Observable<string> {
     return of(mockUserId);
   }
 }
@@ -54,12 +54,6 @@ const mockFutureStocks = {
 	],
 };
 
-// class MockFutureStockFacade implements Partial<FutureStockFacade> {
-//   getFutureStock(): Observable<any> {
-//     return of(mockFutureStocks);
-//   }
-// }
-
 fdescribe('FutureStockService', () => {
   let service: FutureStockService;
   // let connector: FutureStockConnector;
@@ -67,6 +61,7 @@ fdescribe('FutureStockService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+				FutureStockService,
 				{ provide: UserIdService, useClass: MockUserIdService },
 				{ provide: FutureStockConnector, useClass: MockFutureStockConnector},
         { provide: RoutingService, useClass: MockRoutingService },
