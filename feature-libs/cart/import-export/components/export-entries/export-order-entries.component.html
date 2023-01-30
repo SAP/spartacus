@@ -2,6 +2,7 @@
   *ngIf="(entries$ | async)?.length > 0 && (entries$ | async) as entries"
   class="link cx-action-link"
   (click)="exportCsv(entries)"
+  [attr.aria-label]="'exportEntries.exportProductToCsv' | cxTranslate"
 >
   {{ 'exportEntries.exportToCsv' | cxTranslate }}
 </button>
