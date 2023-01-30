@@ -71,9 +71,9 @@ const moduleComponents = [
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
         },
-        AccountOrderDetailsOverviewComponent: {
-          component: OrderOverviewComponent,
-        },
+        // AccountOrderDetailsOverviewComponent: {
+        //   component: OrderOverviewComponent,
+        // },
       },
       features: {
         consignmentTracking: '1.2',

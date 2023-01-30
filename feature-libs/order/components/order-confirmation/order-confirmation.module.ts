@@ -62,10 +62,10 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        OrderConfirmationItemsComponent: {
-          component: OrderConfirmationItemsComponent,
-          guards: [OrderConfirmationGuard],
-        },
+        // OrderConfirmationItemsComponent: {
+        //   component: OrderConfirmationItemsComponent,
+        //   guards: [OrderConfirmationGuard],
+        // },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
@@ -80,16 +80,16 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        OrderConfirmationOverviewComponent: {
-          component: OrderOverviewComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderFacade,
-            },
-          ],
-          guards: [OrderConfirmationGuard],
-        },
+        // OrderConfirmationOverviewComponent: {
+        //   component: OrderOverviewComponent,
+        //   providers: [
+        //     {
+        //       provide: OrderDetailsService,
+        //       useExisting: OrderFacade,
+        //     },
+        //   ],
+        //   guards: [OrderConfirmationGuard],
+        // },
         ReplenishmentConfirmationOverviewComponent: {
           component: OrderOverviewComponent,
           providers: [
