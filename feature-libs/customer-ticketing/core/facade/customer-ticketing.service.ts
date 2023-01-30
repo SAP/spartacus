@@ -41,7 +41,7 @@ import {
   TicketStarter,
   UploadAttachmentSuccessEvent,
 } from '@spartacus/customer-ticketing/root';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   map,
@@ -53,9 +53,6 @@ import { CustomerTicketingConnector } from '../connectors/customer-ticketing.con
 
 @Injectable()
 export class CustomerTicketingService implements CustomerTicketingFacade {
-  protected tickets$: BehaviorSubject<TicketList> =
-    new BehaviorSubject<TicketList>({});
-
   protected getTicketCategoriesQueryReloadEvents(): QueryNotifier[] {
     return [GetTicketCategoryQueryReloadEvent];
   }
