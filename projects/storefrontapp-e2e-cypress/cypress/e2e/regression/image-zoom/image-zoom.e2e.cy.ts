@@ -15,6 +15,7 @@ describe('Image zoom', { testIsolation: false }, () => {
 
     before(() => {
       cy.clearAllLocalStorage();
+      cy.clearAllCookies();
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });

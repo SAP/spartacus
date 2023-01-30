@@ -27,6 +27,9 @@ context('Apparel - checkout as guest', () => {
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
       checkoutVariants.generateVariantGuestUser();
     });
+    after(() => {
+      cy.clearAllCookies();
+    });
 
     beforeEach(() => {
       configureProductWithVariants();
@@ -45,6 +48,9 @@ context('Apparel - checkout as guest', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
       checkoutVariants.generateVariantGuestUser();
+    });
+    after(() => {
+      cy.clearAllCookies();
     });
 
     beforeEach(() => {
