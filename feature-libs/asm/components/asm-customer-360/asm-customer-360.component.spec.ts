@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmConfig } from '@spartacus/asm/core';
@@ -12,7 +12,11 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { I18nTestingModule, User } from '@spartacus/core';
 import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { AsmCustomer360Component } from './asm-customer-360.component';
@@ -62,6 +66,12 @@ describe('AsmCustomer360Component', () => {
         totalItems: 3,
         code: '00001089',
       });
+    }
+  }
+
+  class MockDirectionService {
+    getDirection() {
+      return DirectionMode.LTR;
     }
   }
 
@@ -126,6 +136,7 @@ describe('AsmCustomer360Component', () => {
 
   let component: AsmCustomer360Component;
   let fixture: ComponentFixture<AsmCustomer360Component>;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -138,13 +149,19 @@ describe('AsmCustomer360Component', () => {
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryService },
         { provide: SavedCartFacade, useClass: MockSavedCartService },
         { provide: Asm360Facade, useClass: MockAsm360Service },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmCustomer360Component);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
 
     fixture.detectChanges();
   });
@@ -154,27 +171,21 @@ describe('AsmCustomer360Component', () => {
   });
 
   it("should show a label with information on the emulated user's active cart", () => {
-    const label = fixture.debugElement.query(
-      By.css('.header-account-details-active-cart')
-    );
+    const label = el.query(By.css('.header-account-details-active-cart'));
     expect(label.nativeElement.textContent).toEqual(
       ' asm.customer360.header.activeCartLabel cartSize:3  00001089 '
     );
   });
 
   it("should show a label with information on the emulated user's most recent order", () => {
-    const label = fixture.debugElement.query(
-      By.css('.header-account-details-recent-order')
-    );
+    const label = el.query(By.css('.header-account-details-recent-order'));
     expect(label.nativeElement.textContent).toEqual(
       ' asm.customer360.header.recentOrderLabel price:$10.00  00001088 , 11-21-2022 '
     );
   });
 
   it('should render component sections', () => {
-    const sections = fixture.debugElement.queryAll(
-      By.css('cx-asm-customer-section')
-    );
+    const sections = el.queryAll(By.css('cx-asm-customer-section'));
     expect(sections.length).toBe(1);
   });
 
@@ -183,9 +194,7 @@ describe('AsmCustomer360Component', () => {
 
     fixture.detectChanges();
 
-    const sections = fixture.debugElement.queryAll(
-      By.css('cx-asm-customer-section')
-    );
+    const sections = el.queryAll(By.css('cx-asm-customer-section'));
     expect(sections.length).toBe(1);
   });
 
@@ -222,6 +231,50 @@ describe('AsmCustomer360Component', () => {
         cxRoute: 'product',
         params: { code: 'product001', name: 'Product' },
       },
+    });
+  });
+
+  describe('Tab navigation', () => {
+    it('should display tabs', () => {
+      expect(component.tabHeaderItems.length).toBe(
+        mockAsmConfig.asm?.customer360?.tabs?.length
+      );
+    });
+    it('should activate the first tab when dialog opens', () => {
+      expect(document.activeElement).toBe(component.tabHeaderItems.toArray()[0].nativeElement);
+    });
+
+    it('should switch tab selection', () => {
+      const firstTab = component.tabHeaderItems.toArray()[0].nativeElement;
+      const secondTab = component.tabHeaderItems.toArray()[1].nativeElement;
+      let event = {
+        code: 'ArrowRight',
+        stopPropagation: ()=>{},
+        preventDefault:()=>{}
+      };
+
+      expect(firstTab.tabIndex).toBe(0);
+      expect(secondTab.tabIndex).toBe(-1);
+
+      event.code = 'ArrowLeft';
+      component.switchTab(event as KeyboardEvent, 0);
+      expect(firstTab.tabIndex).toBe(-1);
+      expect(secondTab.tabIndex).toBe(0);
+
+      event.code = 'ArrowRight';
+      component.switchTab(event as KeyboardEvent, 1);
+      expect(firstTab.tabIndex).toBe(0);
+      expect(secondTab.tabIndex).toBe(-1);
+
+      event.code = 'Home';
+      component.switchTab(event as KeyboardEvent, 1);
+      expect(firstTab.tabIndex).toBe(0);
+      expect(secondTab.tabIndex).toBe(-1);
+
+      event.code = 'End';
+      component.switchTab(event as KeyboardEvent, 0);
+      expect(firstTab.tabIndex).toBe(-1);
+      expect(secondTab.tabIndex).toBe(0);
     });
   });
 });

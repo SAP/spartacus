@@ -6,11 +6,16 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostBinding,
   Injector,
   OnDestroy,
   OnInit,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { AsmConfig, getAsmDialogActionEvent } from '@spartacus/asm/core';
 import {
@@ -25,7 +30,13 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
-import { FocusConfig, ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 
@@ -34,7 +45,16 @@ import { filter, map, shareReplay } from 'rxjs/operators';
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
 })
-export class AsmCustomer360Component implements OnDestroy, OnInit {
+export class AsmCustomer360Component
+  implements OnDestroy, OnInit, AfterViewInit
+{
+  @HostBinding('attr.role') role = 'dialog';
+  @HostBinding('attr.aria-modal') modal = true;
+  @HostBinding('attr.aria-labelledby') labelledby = 'asm-customer-360-title';
+  @HostBinding('attr.aria-describedby') describedby = 'asm-customer-360-desc';
+  @ViewChildren('tabHeaderItem') tabHeaderItems: QueryList<
+    ElementRef<HTMLElement>
+  >;
   readonly cartIcon = ICON_TYPE.CART;
   readonly closeIcon = ICON_TYPE.CLOSE;
   readonly orderIcon = ICON_TYPE.ORDER;
@@ -42,7 +62,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: '.cx-tab.active',
+    autofocus: '.cx-tab-header.active',
     focusOnEscape: true,
   };
 
@@ -54,7 +74,7 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
 
   customer360Tabs$: Observable<Array<AsmCustomer360Data | undefined>>;
 
-  activeCart$: Observable<Cart>;
+  activeCart$: Observable<Cart | undefined>;
   savedCarts$: Observable<Array<Cart>>;
   orderHistory$: Observable<OrderHistoryList>;
 
@@ -68,7 +88,8 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     protected launchDialogService: LaunchDialogService,
     protected activeCartFacade: ActiveCartFacade,
     protected orderHistoryFacade: OrderHistoryFacade,
-    protected savedCartFacade: SavedCartFacade
+    protected savedCartFacade: SavedCartFacade,
+    protected directionService: DirectionService
   ) {
     this.tabs = asmConfig.asm?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
@@ -94,6 +115,10 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     this.setTabData();
   }
 
+  ngAfterViewInit(): void {
+    this.updateTabIndex(this.activeTab);
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -101,8 +126,39 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
   selectTab(selectedTab: number): void {
     this.activeTab = selectedTab;
     this.currentTab = this.tabs[selectedTab];
-
+    this.updateTabIndex(selectedTab);
     this.setTabData();
+  }
+  /**
+   *  update tab focus when key is pressed
+   * @param {KeyboardEvent} event
+   * @param {number} selectedIndex current tab index
+   */
+  switchTab(event: KeyboardEvent, selectedIndex: number): void {
+    const maxTab = this.tabs.length - 1;
+    let flag = true;
+    if (this.isBackNavigation(event)) {
+      selectedIndex--;
+      if (selectedIndex < 0) {
+        selectedIndex = maxTab;
+      }
+    } else if (this.isForwardsNavigation(event)) {
+      selectedIndex++;
+      if (selectedIndex > maxTab) {
+        selectedIndex = 0;
+      }
+    } else if (event.code === 'Home') {
+      selectedIndex = 0;
+    } else if (event.code === 'End') {
+      selectedIndex = maxTab;
+    } else {
+      flag = false;
+    }
+    if (flag) {
+      this.updateTabIndex(selectedIndex);
+      event.stopPropagation();
+      event.preventDefault();
+    }
   }
 
   getAvatar(): string {
@@ -128,6 +184,22 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
+  /**
+   * Update tabIndex for each tab: select tab becomes 0 and other tabs will be -1
+   * this is for prevent tabbing within tabs
+   * @param {number} selectedIndex - selected tab index
+   */
+  protected updateTabIndex(selectedIndex: number): void {
+    this.tabHeaderItems.toArray().forEach((tabHeaderItem, index) => {
+      if (index === selectedIndex) {
+        tabHeaderItem.nativeElement.tabIndex = 0;
+        tabHeaderItem.nativeElement.focus();
+      } else {
+        tabHeaderItem.nativeElement.tabIndex = -1;
+      }
+    });
+  }
+
   protected setTabData(): void {
     const get360Data =
       this.asm360Facade.get360Data(this.activeTab) ?? of(undefined);
@@ -148,5 +220,39 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
         });
       })
     );
+  }
+  /**
+   * Verifies whether the user navigates into a subgroup of the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
+   * @protected
+   */
+  protected isForwardsNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowRight' && this.isLTRDirection()) ||
+      (event.code === 'ArrowLeft' && this.isRTLDirection())
+    );
+  }
+
+  /**
+   * Verifies whether the user navigates from a subgroup back to the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates back into the main group menu, otherwise 'false'.
+   * @protected
+   */
+  protected isBackNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowLeft' && this.isLTRDirection()) ||
+      (event.code === 'ArrowRight' && this.isRTLDirection())
+    );
+  }
+  protected isLTRDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.LTR;
+  }
+
+  protected isRTLDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.RTL;
   }
 }

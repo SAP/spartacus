@@ -11,7 +11,10 @@
           {{ 'asm.customer360.header.title' | cxTranslate }}
         </h3>
         <div id="asm-customer-360-desc" class="cx-visually-hidden">
-          {{ 'asm.customer360.header.title' | cxTranslate }}
+          {{
+            'asm.customer360.header.subTitle'
+              | cxTranslate: { name: customer.firstName }
+          }}
         </div>
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
@@ -42,18 +45,16 @@
               'asm.customer360.header.activeCartLabel'
                 | cxTranslate: { cartSize: activeCart.totalItems }
             }}
-            <a
-              tabindex="0"
+            <button
               [attr.aria-label]="
                 'asm.customer360.aria.activeCartCode'
                   | cxTranslate: { code: activeCart.code }
               "
-              role="link"
-              class="cx-overview-title-link"
+              class="cx-overview-title-link link"
               (click)="navigateTo({ cxRoute: 'cart' })"
             >
               {{ activeCart.code }}
-            </a>
+            </button>
           </span>
           <span
             class="header-account-details-recent-order"
@@ -64,17 +65,15 @@
               'asm.customer360.header.recentOrderLabel'
                 | cxTranslate: { price: recentOrder.total.formattedValue }
             }}
-            <a
-              tabindex="0"
+            <button
               [attr.aria-label]="
                 'asm.customer360.aria.recentOrderCode'
                   | cxTranslate: { code: recentOrder.code }
               "
-              role="link"
-              class="cx-overview-title-link"
+              class="cx-overview-title-link link"
               (click)="navigateTo({ cxRoute: 'orders' })"
             >
-              {{ recentOrder.code }} </a
+              {{ recentOrder.code }}</button
             >, {{ recentOrder.placed | date: 'MM-dd-yyyy' }}
           </span>
         </div>
@@ -83,18 +82,22 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body">
-      <div class="cx-tab-container">
-        <a
-          class="cx-tab"
-          *ngFor="let tab of tabs; let i = index"
+      <div class="cx-tab-headers" role="tablist">
+        <button
+          #tabHeaderItem
+          *ngFor="let tabHeader of tabs; let i = index"
+          class="cx-tab-header"
+          role="tab"
+          [attr.aria-selected]="activeTab === i"
+          attr.aria-controls="asm-customer-360-tab-panel"
           (click)="selectTab(i)"
           [class.active]="activeTab === i"
-          tabindex="0"
+          (keydown)="switchTab($event, i)"
         >
-          {{ tab.i18nNameKey | cxTranslate }}
-        </a>
+          {{ tabHeader.i18nNameKey | cxTranslate }}
+        </button>
       </div>
-      <div class="cx-tab-content modal-body">
+      <div id="asm-customer-360-tab-panel" class="cx-tab-content modal-body">
         <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
           <cx-asm-customer-section
             *ngFor="let config of currentTab?.components; let i = index"
