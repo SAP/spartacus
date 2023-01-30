@@ -154,8 +154,8 @@ describe('CheckoutReviewPaymentComponent', () => {
   });
 
   it('should get checkout step route', () => {
-    expect(
-      component.paymentDetailsStepRoute
-    ).toEqual(mockCheckoutStep.routeName);
+    expect(component.paymentDetailsStepRoute).toEqual(
+      mockCheckoutStep.routeName
+    );
   });
 });

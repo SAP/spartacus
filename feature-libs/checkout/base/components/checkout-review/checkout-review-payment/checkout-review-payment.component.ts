@@ -30,7 +30,9 @@ export class CheckoutReviewPaymentComponent {
 
   iconTypes = ICON_TYPE;
 
-  paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(CheckoutStepType.PAYMENT_DETAILS);
+  paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.PAYMENT_DETAILS
+  );
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
