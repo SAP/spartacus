@@ -89,12 +89,4 @@ export class CheckoutReviewPaymentComponent {
       })
     );
   }
-
-  getCheckoutStepRoute(
-    stepType: CheckoutStepType | string
-  ): string | undefined {
-    return this.checkoutStepService.getCheckoutStepRoute(
-      stepType as CheckoutStepType
-    );
-  }
 }
