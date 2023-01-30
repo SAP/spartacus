@@ -12,7 +12,7 @@
       <a
         [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
         [routerLink]="
-          { cxRoute: getCheckoutStepRoute(checkoutStepTypePaymentDetails) }
+          { cxRoute: paymentDetailsStepRoute }
             | cxUrl
         "
       >
@@ -26,6 +26,17 @@
       <cx-card
         [content]="getPaymentMethodCard(paymentDetails) | async"
       ></cx-card>
+    </div>
+    <div class="cx-review-summary-edit-step">
+      <a
+        [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
+        [routerLink]="
+          { cxRoute: paymentDetailsStepRoute }
+            | cxUrl
+        "
+      >
+        <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+      </a>
     </div>
   </div>
 </div>
