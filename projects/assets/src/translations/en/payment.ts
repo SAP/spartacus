@@ -13,7 +13,6 @@ export const payment = {
       label: 'Account Holder Name',
       placeholder: 'Account Holder Name',
     },
-    creditCardDetails: 'Credit Card Details',
     cardNumber: 'Card Number',
     expirationDate: 'Expiration Date',
     securityCode: 'Security code (CVV)',
