@@ -119,10 +119,10 @@ describe('CheckoutReviewPaymentComponent', () => {
     });
   });
 
-  it('should call getPaymentTypeCard to get payment type card data', () => {
-    component.getPaymentTypeCard().subscribe((card) => {
-      expect(card.title).toEqual('paymentForm.payment');
-      expect(card.text).toEqual(['paymentForm.paymentByCreditCard']);
+  it('should call getBillingAddressCard to get billing address card data', () => {
+    component.getBillingAddressCard(mockPaymentDetails).subscribe((card) => {
+      expect(card.title).toEqual('paymentForm.billingAddress');
+      expect(card.text).toContain(['addressCard.billTo']);
     });
   });
 });

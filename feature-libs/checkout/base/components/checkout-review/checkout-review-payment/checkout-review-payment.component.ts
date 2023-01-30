@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentFacade,
@@ -19,6 +19,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 @Component({
   selector: 'cx-checkout-review-payment',
   templateUrl: './checkout-review-payment.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutReviewPaymentComponent {
   constructor(
