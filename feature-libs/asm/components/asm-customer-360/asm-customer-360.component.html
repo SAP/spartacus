@@ -89,7 +89,7 @@
           class="cx-tab-header"
           role="tab"
           [attr.aria-selected]="activeTab === i"
-          [attr.aria-controls]="tabHeader.ariaControls ?? ariaControls"
+          attr.aria-controls="asm-customer-360-tab-panel"
           (click)="selectTab(i)"
           [class.active]="activeTab === i"
           (keydown)="switchTab($event, i)"
@@ -97,7 +97,7 @@
           {{ tabHeader.i18nNameKey | cxTranslate }}
         </button>
       </div>
-      <div class="cx-tab-content modal-body">
+      <div id="asm-customer-360-tab-panel" class="cx-tab-content modal-body">
         <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
           <cx-asm-customer-section
             *ngFor="let config of currentTab?.components; let i = index"
