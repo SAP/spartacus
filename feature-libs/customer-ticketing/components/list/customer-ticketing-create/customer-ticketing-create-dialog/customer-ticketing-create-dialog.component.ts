@@ -11,13 +11,11 @@ import {
   AssociatedObject,
   Category,
   MAX_ENTRIES_FOR_ATTACHMENT,
-  TicketCreatedEvent,
   TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
@@ -94,8 +92,8 @@ export class CustomerTicketingCreateDialogComponent
     } else {
       this.subscription = this.customerTicketingFacade
         .createTicket(this.getCreateTicketPayload(this.form))
-        .pipe(
-          tap((response: TicketDetails) => {
+        .subscribe({
+          next: (response: TicketDetails) => {
             if (
               response.id &&
               this.attachment &&
@@ -107,9 +105,7 @@ export class CustomerTicketingCreateDialogComponent
                 response.id
               );
             }
-          })
-        )
-        .subscribe({
+          },
           complete: () => {
             this.onComplete();
           },
@@ -122,7 +118,6 @@ export class CustomerTicketingCreateDialogComponent
 
   protected onComplete(): void {
     this.close('Ticket created successfully');
-    this.eventService.dispatch({}, TicketCreatedEvent);
   }
 
   protected onError(): void {

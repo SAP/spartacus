@@ -33,6 +33,7 @@ import {
   NewMessageEvent,
   STATUS,
   TicketClosedEvent,
+  TicketCreatedEvent,
   TicketDetails,
   TicketEvent,
   TicketList,
@@ -93,7 +94,10 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
               customerId,
               ticketStarted
             )
-          )
+          ),
+          tap(() => {
+            this.eventService.dispatch({}, TicketCreatedEvent);
+          })
         ),
       {
         strategy: CommandStrategy.Queue,
