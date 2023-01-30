@@ -10,7 +10,7 @@
     font-weight: 600;
     font-size: 18px;
     padding: 20px 40px;
-    margin: 30px 0 20px 0; 
+    margin: 10px 0 20px 0; 
   }
 
   .cx-review-summary {
@@ -86,7 +86,7 @@
 
   .cx-review-cart-total {
     @include type('4');
-    margin: 2.625rem 0 0.5rem 0;
+    margin: 2rem 0 0.5rem 0;
   }
 
   // ***************************** MEDIA QUERIES *****************************

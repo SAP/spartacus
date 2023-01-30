@@ -121,6 +121,7 @@ export const layoutConfig: LayoutConfig = {
         'BodyContent',
         'OnlyForTest',
         'OnlyForTest2',
+        'OnlyForTest3',
         'SideContent',
         'BottomContent',
       ],

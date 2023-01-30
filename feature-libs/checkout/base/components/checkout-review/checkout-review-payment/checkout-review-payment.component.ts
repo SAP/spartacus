@@ -39,7 +39,7 @@ export class CheckoutReviewPaymentComponent {
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('paymentForm.creditCardDetails'),
+      this.translationService.translate('paymentForm.payment'),
       this.translationService.translate('paymentCard.expires', {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
@@ -59,15 +59,29 @@ export class CheckoutReviewPaymentComponent {
     );
   }
 
-  getPaymentTypeCard(): Observable<Card> {
+  getBillingAddressCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('paymentForm.payment'),
-      this.translationService.translate('paymentForm.paymentByCreditCard'),
+      this.translationService.translate('paymentForm.billingAddress'),
+      this.translationService.translate('addressCard.billTo')
     ]).pipe(
-      map(([textTitle, paymentByCardText]) => {
+      map(([billingAddress, billTo]) => {
+        const region = paymentDetails.billingAddress?.region?.isocode
+        ? paymentDetails.billingAddress?.region?.isocode + ', '
+        : '';
         return {
-          title: textTitle,
-          text: [paymentByCardText],
+          title: billingAddress,
+          text: [
+            billTo,
+            paymentDetails.billingAddress?.firstName +
+            ' ' +
+            paymentDetails.billingAddress?.lastName,
+          paymentDetails.billingAddress?.line1,
+          paymentDetails.billingAddress?.town +
+            ', ' +
+            region +
+            paymentDetails.billingAddress?.country?.isocode,
+          paymentDetails.billingAddress?.postalCode,
+          ],
         } as Card;
       })
     );

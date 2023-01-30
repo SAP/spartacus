@@ -2,7 +2,7 @@
   <div class="cx-review-summary-card cx-review-summary-payment-card">
     <div>
       <cx-card
-        [content]="getPaymentTypeCard() | async"
+        [content]="getBillingAddressCard(paymentDetails) | async"
       ></cx-card>
     </div>
     <div class="cx-review-summary-edit-step">

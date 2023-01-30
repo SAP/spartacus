@@ -21,7 +21,11 @@ export const defaultCmsContentProviders: ValueProvider[] = [
     pageSlotPosition: 'OnlyForTest',
   }),
   provideCmsStructure({
-    componentId: 'CheckoutReviewShipping',
+    componentId: 'CheckoutReviewOverview',
     pageSlotPosition: 'OnlyForTest2',
+  }),
+  provideCmsStructure({
+    componentId: 'CheckoutReviewShipping',
+    pageSlotPosition: 'OnlyForTest3',
   }),
 ];
