@@ -91,7 +91,9 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.DELIVERY_MODE],
     },
   ]);
-  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
+  getCheckoutStepRoute = createSpy().and.returnValue(
+    mockCheckoutStep.routeName
+  );
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
@@ -198,9 +200,9 @@ describe('CheckoutReviewShippingComponent', () => {
     });
   });
 
-  it('should get checkout step url', () => {
+  it('should get checkout step route', () => {
     expect(
-      component.getCheckoutStepUrl(CheckoutStepType.DELIVERY_ADDRESS)
+      component.getCheckoutStepRoute(CheckoutStepType.DELIVERY_ADDRESS)
     ).toEqual(mockCheckoutStep.routeName);
   });
 });

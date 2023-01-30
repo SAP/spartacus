@@ -58,11 +58,12 @@ export class CheckoutReviewShippingComponent {
       map((state) => state.data)
     );
 
-  getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined {
-    const step = this.checkoutStepService.getCheckoutStep(
+  getCheckoutStepRoute(
+    stepType: CheckoutStepType | string
+  ): string | undefined {
+    return this.checkoutStepService.getCheckoutStepRoute(
       stepType as CheckoutStepType
     );
-    return step?.routeName;
   }
 
   getDeliveryAddressCard(

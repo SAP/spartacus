@@ -41,7 +41,7 @@ const mockCheckoutStep: CheckoutStep = {
   id: 'step',
   name: 'name',
   routeName: '/route',
-  type: [CheckoutStepType.DELIVERY_ADDRESS],
+  type: [CheckoutStepType.PAYMENT_DETAILS],
 };
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
@@ -59,7 +59,9 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.PAYMENT_DETAILS],
     },
   ]);
-  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
+  getCheckoutStepRoute = createSpy().and.returnValue(
+    mockCheckoutStep.routeName
+  );
 }
 
 @Component({
@@ -149,5 +151,11 @@ describe('CheckoutReviewPaymentComponent', () => {
         mockPaymentDetails.billingAddress?.postalCode,
       ]);
     });
+  });
+
+  it('should get checkout step route', () => {
+    expect(
+      component.getCheckoutStepRoute(CheckoutStepType.PAYMENT_DETAILS)
+    ).toEqual(mockCheckoutStep.routeName);
   });
 });
