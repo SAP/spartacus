@@ -89,14 +89,14 @@ describe('Order History with orders', () => {
   describe('Order details - reorder', () => {
     it('should display order details page with the reorder button', () => {
       cy.get('.cx-order-history-value').first().click();
-      cy.get('cx-order-details-reorder button').should(
-        'contain',
-        'Reorder'
-      );
+      cy.get('cx-order-details-reorder button').should('contain', 'Reorder');
     });
 
     it('items in the cart should match previous order when proceeding with reorder', () => {
-      // Saving cartId before starting the reorder flow
+      /*
+       * Saving cartId before starting the reorder flow
+       * It is compared with the updated cartId once reorder is executed
+       */
       b2bCheckout.addB2bProductToCart();
       cart.goToCart();
       cart.saveCartId();
