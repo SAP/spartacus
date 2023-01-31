@@ -49,7 +49,7 @@ export class ConfiguratorPriceComponent {
     return '';
   }
 
-  protected addSing(
+  protected addSign(
     value: string | undefined,
     sign: string,
     before: boolean
@@ -60,6 +60,22 @@ export class ConfiguratorPriceComponent {
     return '';
   }
 
+  protected compileFormattedValue(
+    priceValue: number,
+    formattedValue: string | undefined,
+    isRTL: boolean
+  ): string {
+    if (priceValue > 0) {
+      return this.addSign(formattedValue, '+', !isRTL);
+    } else {
+      if (isRTL) {
+        const withoutSign = this.removeSign(formattedValue, '-');
+        return this.addSign(withoutSign, '-', false);
+      }
+      return formattedValue ?? '';
+    }
+  }
+
   /**
    * Retrieves price.
    *
@@ -68,20 +84,12 @@ export class ConfiguratorPriceComponent {
   get price(): string {
     if (this.formula.priceTotal) {
       return this.priceTotal;
-    } else if ((this.formula.price?.value ?? 0) > 0) {
-      if (this.isRTLDirection()) {
-        return this.addSing(this.formula.price?.formattedValue, '+', false);
-      }
-      return this.addSing(this.formula.price?.formattedValue, '+', true);
     } else {
-      if (this.isRTLDirection()) {
-        const withoutSign = this.removeSign(
-          this.formula.price?.formattedValue,
-          '-'
-        );
-        return this.addSing(withoutSign, '-', false);
-      }
-      return this.formula.price?.formattedValue ?? '';
+      return this.compileFormattedValue(
+        this.formula.price?.value ?? 0,
+        this.formula.price?.formattedValue,
+        this.isRTLDirection()
+      );
     }
   }
 
@@ -91,26 +99,11 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    if (this.formula.priceTotal && this.formula.priceTotal.value > 0) {
-      if (this.isRTLDirection()) {
-        return this.addSing(
-          this.formula.priceTotal?.formattedValue,
-          '+',
-          false
-        );
-      } else {
-        return this.addSing(this.formula.priceTotal?.formattedValue, '+', true);
-      }
-    } else {
-      if (this.isRTLDirection()) {
-        const withoutSign = this.removeSign(
-          this.formula.priceTotal?.formattedValue,
-          '-'
-        );
-        return this.addSing(withoutSign, '-', false);
-      }
-      return this.formula.priceTotal?.formattedValue ?? '';
-    }
+    return this.compileFormattedValue(
+      this.formula.priceTotal?.value ?? 0,
+      this.formula.priceTotal?.formattedValue,
+      this.isRTLDirection()
+    );
   }
 
   /**
