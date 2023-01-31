@@ -10,6 +10,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
+  Optional,
   Output,
 } from '@angular/core';
 import {
@@ -26,6 +27,7 @@ import {
   Address,
   AddressValidation,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -110,6 +112,10 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
+  /**
+  * TODO: (#CXSPA-53) Remove featureConfigService from constructor and make translationService a
+  * required dependency in 6.0.
+  */
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -118,7 +124,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
-    protected translationService?: TranslationService
+    @Optional() protected translationService?: TranslationService,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -204,8 +211,15 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
 
-  getAddressCardContent(address: Address): Observable<Card> {
-    return this.translationService
+  /**
+  * TODO: (#CXSPA-53) Remove feature config check in 6.0
+  */
+  getAddressCardContent(address: Address): Card;
+  getAddressCardContent(address: Address): Observable<Card>;
+  getAddressCardContent(address: Address): Card | Observable<Card> {
+
+    if (this.featureConfigService?.isLevel('5.2')) {
+      return this.translationService
       ? combineLatest([
           this.translationService.translate('addressCard.phoneNumber'),
           this.translationService.translate('addressCard.mobileNumber'),
@@ -216,7 +230,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
               region = address.region.isocode + ', ';
             }
             let numbers: string | undefined;
-            numbers = getAddressNumbers(address, textPhone, textMobile);
+            numbers = this.featureConfigService?.isLevel('5.2') 
+            ? getAddressNumbers(address, textPhone, textMobile) : address.phone;
 
             return {
               textBold: address.firstName + ' ' + address.lastName,
@@ -231,6 +246,22 @@ export class CheckoutPaymentFormComponent implements OnInit {
           })
         )
       : EMPTY;
+    } else {
+      let region = '';
+      if (address.region && address.region.isocode) {
+        region = address.region.isocode + ', ';
+      }
+      return {
+        textBold: address.firstName + ' ' + address.lastName,
+        text: [
+          address.line1,
+          address.line2,
+          address.town + ', ' + region + address.country?.isocode,
+          address.postalCode,
+          address.phone,
+        ],
+      } as Card;
+    }
   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.
