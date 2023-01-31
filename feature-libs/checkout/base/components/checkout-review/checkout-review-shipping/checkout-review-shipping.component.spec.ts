@@ -17,6 +17,7 @@ import {
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
+import { OutletContextData } from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
@@ -111,8 +112,8 @@ describe('CheckoutReviewShippingComponent', () => {
   let component: CheckoutReviewShippingComponent;
   let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  function configureTestingModule(): TestBed {
+    return TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
       declarations: [CheckoutReviewShippingComponent, MockUrlPipe],
       providers: [
@@ -130,79 +131,117 @@ describe('CheckoutReviewShippingComponent', () => {
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
       ],
-    }).compileComponents();
+    });
+  }
 
+  function stubSeviceAndCreateComponent() {
     fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should be able to get delivery entries', () => {
-    let entries: OrderEntry[] | undefined;
-    component.entries$.subscribe((data: OrderEntry[]) => {
-      entries = data;
+  describe('Not use outlet', () => {
+    beforeEach(() => {
+      configureTestingModule();
+      stubSeviceAndCreateComponent();
     });
 
-    expect(entries).toEqual(mockEntries);
-  });
-
-  it('should be able to get deliveryAddress', () => {
-    let deliveryAddress: Address | undefined;
-    component.deliveryAddress$.subscribe((data) => {
-      deliveryAddress = data;
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
 
-    expect(deliveryAddress).toEqual(mockAddress);
-  });
-
-  it('should be able to get deliveryMode if a mode is selected', () => {
-    let deliveryMode: DeliveryMode | undefined;
-    component.deliveryMode$.subscribe((data) => {
-      deliveryMode = data;
-    });
-
-    expect(deliveryMode).toEqual(mockDeliveryMode);
-  });
-
-  it('should call getDeliveryAddressCard(deliveryAddress, countryName) to get address card data', () => {
-    component
-      .getDeliveryAddressCard(mockAddress, 'Canada')
-      .subscribe((card) => {
-        expect(card.title).toEqual('addressCard.shipTo');
-        expect(card.textBold).toEqual('John Doe');
-        expect(card.text).toEqual([
-          'Toyosaki 2 create on cart',
-          'line2',
-          'town, JP-27, Canada',
-          'zip',
-          undefined,
-        ]);
+    it('should be able to get delivery entries', () => {
+      let entries: OrderEntry[] | undefined;
+      component.entries$.subscribe((data: OrderEntry[]) => {
+        entries = data;
       });
-  });
 
-  it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
-    const selectedMode: DeliveryMode = {
-      code: 'standard-gross',
-      name: 'Standard gross',
-      description: 'Standard Delivery description',
-      deliveryCost: {
-        formattedValue: '$9.99',
-      },
-    };
-    component.getDeliveryModeCard(selectedMode).subscribe((card) => {
-      expect(card.title).toEqual('checkoutMode.deliveryMethod');
-      expect(card.textBold).toEqual('Standard gross');
-      expect(card.text).toEqual(['Standard Delivery description', '$9.99']);
+      expect(entries).toEqual(mockEntries);
+    });
+
+    it('should be able to get deliveryAddress', () => {
+      let deliveryAddress: Address | undefined;
+      component.deliveryAddress$.subscribe((data) => {
+        deliveryAddress = data;
+      });
+
+      expect(deliveryAddress).toEqual(mockAddress);
+    });
+
+    it('should be able to get deliveryMode if a mode is selected', () => {
+      let deliveryMode: DeliveryMode | undefined;
+      component.deliveryMode$.subscribe((data) => {
+        deliveryMode = data;
+      });
+
+      expect(deliveryMode).toEqual(mockDeliveryMode);
+    });
+
+    it('should call getDeliveryAddressCard(deliveryAddress, countryName) to get address card data', () => {
+      component
+        .getDeliveryAddressCard(mockAddress, 'Canada')
+        .subscribe((card) => {
+          expect(card.title).toEqual('addressCard.shipTo');
+          expect(card.textBold).toEqual('John Doe');
+          expect(card.text).toEqual([
+            'Toyosaki 2 create on cart',
+            'line2',
+            'town, JP-27, Canada',
+            'zip',
+            undefined,
+          ]);
+        });
+    });
+
+    it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
+      const selectedMode: DeliveryMode = {
+        code: 'standard-gross',
+        name: 'Standard gross',
+        description: 'Standard Delivery description',
+        deliveryCost: {
+          formattedValue: '$9.99',
+        },
+      };
+      component.getDeliveryModeCard(selectedMode).subscribe((card) => {
+        expect(card.title).toEqual('checkoutMode.deliveryMethod');
+        expect(card.textBold).toEqual('Standard gross');
+        expect(card.text).toEqual(['Standard Delivery description', '$9.99']);
+      });
+    });
+
+    it('should get checkout step route', () => {
+      expect(component.deliveryAddressStepRoute).toEqual(
+        mockCheckoutStep.routeName
+      );
     });
   });
 
-  it('should get checkout step route', () => {
-    expect(component.deliveryAddressStepRoute).toEqual(
-      mockCheckoutStep.routeName
-    );
+  describe('Use outlet with outlet context data', () => {
+    const context$ = of({
+      readonly: true,
+      showItemList: false,
+      entries: [],
+      deliveryAddress: { id: 'testAdress' },
+    });
+
+    beforeEach(() => {
+      configureTestingModule().overrideProvider(OutletContextData, {
+        useValue: { context$ },
+      });
+      TestBed.compileComponents();
+      stubSeviceAndCreateComponent();
+    });
+
+    it('should be able to get data from outlet context', () => {
+      component.ngOnInit();
+
+      expect(component.readonly).toEqual(true);
+      expect(component.showItemList).toEqual(false);
+
+      component.entries$.subscribe((value) => expect(value).toEqual([]));
+      component.deliveryAddress$.subscribe((value) =>
+        expect(value).toEqual({ id: 'testAdress' })
+      );
+    });
   });
 });
