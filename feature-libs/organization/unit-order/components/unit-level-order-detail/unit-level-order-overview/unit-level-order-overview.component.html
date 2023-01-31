@@ -20,9 +20,13 @@
         [content]="getBuyerNameCardContent(order.orgCustomer) | async"
       ></cx-card>
     </div>
-
+    <!-- TODO:(CXSPA-1695) for next major release remove below ngIf statement to always show content -->
     <ng-container
-      *ngIf="order.purchaseOrderNumber || order.purchaseOrderNumber === ''"
+      *ngIf="
+        featureConfigService?.isLevel('5.2') ||
+        order.purchaseOrderNumber ||
+        order.purchaseOrderNumber === ''
+      "
     >
       <div class="cx-summary-card">
         <cx-card
