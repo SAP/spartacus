@@ -1,0 +1,41 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
+import { CardModule, IconModule } from '@spartacus/storefront';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+
+@NgModule({
+  declarations: [CheckoutReviewPaymentComponent],
+  exports: [CheckoutReviewPaymentComponent],
+  imports: [
+    CommonModule,
+    CardModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    IconModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutReviewPayment: {
+          component: CheckoutReviewPaymentComponent,
+          // guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
+  ],
+})
+export class CheckoutReviewPaymentModule {}

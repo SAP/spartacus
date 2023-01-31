@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
@@ -35,6 +42,7 @@ interface ShippingItemContext {
 @Component({
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewShippingComponent implements OnInit, OnDestroy {
   @Input() readonly: boolean = false;
@@ -44,8 +52,12 @@ export class CheckoutReviewShippingComponent implements OnInit, OnDestroy {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
-  checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
-  checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
+  deliveryAddressStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.DELIVERY_ADDRESS
+  );
+  deliveryModeStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.DELIVERY_MODE
+  );
 
   protected subscription = new Subscription();
 
@@ -90,13 +102,6 @@ export class CheckoutReviewShippingComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
-
-  getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined {
-    const step = this.checkoutStepService.getCheckoutStep(
-      stepType as CheckoutStepType
-    );
-    return step?.routeName;
   }
 
   getDeliveryAddressCard(

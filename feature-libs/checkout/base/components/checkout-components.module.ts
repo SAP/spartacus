@@ -17,6 +17,8 @@ import { CheckoutProgressMobileBottomModule } from './checkout-progress/checkout
 import { CheckoutProgressMobileTopModule } from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
 import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
+import { CheckoutReviewPaymentModule } from './checkout-review/checkout-review-payment/checkout-review-payment.module';
+import { CheckoutReviewOverviewModule } from './checkout-review/checkout-review-overview/checkout-review-overview.module';
 import { CheckoutReviewPageLayoutHandler } from './checkout-review/checkout-review-page-layout-handler';
 import { CheckoutReviewShippingModule } from './checkout-review/checkout-review-shipping/checkout-review-shipping.module';
 
@@ -31,7 +33,9 @@ import { CheckoutReviewShippingModule } from './checkout-review/checkout-review-
     CheckoutPaymentMethodModule,
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
+    CheckoutReviewPaymentModule,
     CheckoutReviewShippingModule,
+    CheckoutReviewOverviewModule,
     CheckoutDeliveryAddressModule,
     CheckoutLoginModule,
   ],

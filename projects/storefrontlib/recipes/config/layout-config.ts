@@ -120,6 +120,8 @@ export const layoutConfig: LayoutConfig = {
         'TopContent',
         'BodyContent',
         'OnlyForTest',
+        'OnlyForTest2',
+        'OnlyForTest3',
         'SideContent',
         'BottomContent',
       ],
