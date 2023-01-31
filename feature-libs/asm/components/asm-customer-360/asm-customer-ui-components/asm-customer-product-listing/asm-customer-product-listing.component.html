@@ -1,8 +1,14 @@
 <div class="product-listing" *ngIf="products?.length; else emptyResultTemplate">
-  <div class="product-listing-header">
+  <div
+    class="product-listing-header"
+    role="heading"
+    aria-level="4"
+    [attr.aria-label]="headerText"
+  >
     <button
       [attr.aria-label]="headerText"
       [attr.aria-disabled]="headerInactive"
+      [disabled]="headerInactive"
       [class.inactive]="headerInactive"
       class="title-link link"
       (click)="clickHeader.emit()"

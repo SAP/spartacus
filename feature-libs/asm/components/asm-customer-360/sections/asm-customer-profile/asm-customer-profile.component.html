@@ -3,16 +3,16 @@
     <div>
       <div class="row">
         <div class="col">
-          <h4 class="mt-3 pt-3 mb-4">
+          <h4 class="mt-4 mb-3">
             {{ 'asm.customer360.profile.address' | cxTranslate }}
           </h4>
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <div class="cx-asm-profile-subheader">
+          <h5 class="cx-asm-profile-subheader">
             {{ 'asm.customer360.profile.billingAddress' | cxTranslate }}
-          </div>
+          </h5>
           <div class="cx-asm-profile-container billing-address">
             <ng-container
               *ngTemplateOutlet="
@@ -23,9 +23,9 @@
           </div>
         </div>
         <div class="col">
-          <div class="cx-asm-profile-subheader">
+          <h5 class="cx-asm-profile-subheader">
             {{ 'asm.customer360.profile.deliveryAddress' | cxTranslate }}
-          </div>
+          </h5>
           <div class="cx-asm-profile-container delivery-address">
             <ng-container
               *ngTemplateOutlet="
@@ -37,26 +37,26 @@
         </div>
         <div class="w-100 d-lg-none"></div>
         <div class="col">
-          <div class="cx-asm-profile-subheader">
+          <h5 class="cx-asm-profile-subheader">
             {{ 'asm.customer360.profile.phone1' | cxTranslate }}
-          </div>
+          </h5>
           <div class="cx-asm-profile-container profile-phone1">
             {{ customerProfileData?.phone1 }}
           </div>
         </div>
         <div class="col">
-          <div class="cx-asm-profile-subheader">
+          <h5 class="cx-asm-profile-subheader">
             {{ 'asm.customer360.profile.phone2' | cxTranslate }}
-          </div>
+          </h5>
           <div class="cx-asm-profile-container profile-phone2">
             {{ customerProfileData?.phone2 }}
           </div>
         </div>
       </div>
     </div>
-    <div class="cx-asm-profile-subheader mt-4">
+    <h4 class="mt-4 mb-4">
       {{ 'asm.customer360.profile.paymentMethodHeader' | cxTranslate }}
-    </div>
+    </h4>
     <div class="cx-asm-profile-cards">
       <div
         class="cx-asm-profile-card"

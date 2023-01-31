@@ -12,10 +12,11 @@
   </div>
 
   <div>
-    <div
+    <button
       class="store-listing-item"
       [class.selected]="selectedStore === store"
       *ngFor="let store of storeData.stores"
+      [attr.aria-label]="store.displayName"
       (click)="selectStore(store)"
     >
       <div class="store-listing-item-details">
@@ -28,7 +29,7 @@
       <div class="store-listing-item-distance store-listing-item-text">
         {{ store.formattedDistance }}
       </div>
-    </div>
+    </button>
   </div>
 
   <div *ngIf="selectedStore">
@@ -46,16 +47,18 @@
         <div>{{ selectedStore.address?.town }}</div>
       </div>
     </div>
-    <iframe
-      *ngIf="!!(source.config$ | async)?.googleMapsApiKey"
-      class="store-map"
-      height="400"
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade"
-      [src]="googleMapsUrl"
-    >
-    </iframe>
+    <div class="store-map-container">
+      <iframe
+        *ngIf="!!(source.config$ | async)?.googleMapsApiKey"
+        [title]="selectedStore.displayName"
+        class="store-map"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        [src]="googleMapsUrl"
+      >
+      </iframe>
+    </div>
     <div
       class="store-openings"
       *ngIf="selectedStore?.openingHours as openingHours"

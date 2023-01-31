@@ -1,7 +1,7 @@
 <div class="cx-asm-customer-table-heading" *ngIf="headerText">
-  <div class="cx-asm-customer-table-heading-text">
+  <h4 class="cx-asm-customer-table-heading-text">
     {{ headerText }}
-  </div>
+  </h4>
   <div class="cx-asm-customer-table-heading-pages" *ngIf="entryPages">
     <ng-container *ngFor="let page of entryPages; let pageNumber = index">
       <div
@@ -53,14 +53,13 @@
           ></ng-container>
 
           <ng-template #linkTemplate>
-            <a
-              tabindex="0"
+            <button
               [attr.aria-label]="entry[column.property]"
-              role="link"
               (click)="selectItem.emit(entry)"
-              class="cx-asm-customer-table-link"
-              >{{ entry[column.property] || '---' }}</a
+              class="cx-asm-customer-table-link link"
             >
+              {{ entry[column.property] || '---' }}
+            </button>
           </ng-template>
 
           <ng-template #starRating>
