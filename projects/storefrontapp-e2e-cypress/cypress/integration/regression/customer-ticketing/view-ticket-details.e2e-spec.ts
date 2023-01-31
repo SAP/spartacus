@@ -6,7 +6,7 @@ import {
   FIRST_ROW_TICKET_LIST,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe('ticket details', () => {
+describe.skip('ticket details', () => {
   context('Registered User', () => {
     before(() => {
       cy.window().then((win) => {

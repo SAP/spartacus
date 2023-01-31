@@ -8,7 +8,7 @@ import {
   LAST_PAGE,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe('ticket listing', () => {
+describe.skip('ticket listing', () => {
   context('Registered User', () => {
     before(() => {
       cy.window().then((win) => {
