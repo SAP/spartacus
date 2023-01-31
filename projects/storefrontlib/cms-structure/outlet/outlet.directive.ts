@@ -58,6 +58,9 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   @Input() cxOutletDefer: IntersectionOptions;
 
   @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>(true);
+  @Output() cxComponentRef = new EventEmitter<
+    ComponentRef<any> | EmbeddedViewRef<any>
+  >();
 
   subscription = new Subscription();
 
@@ -167,6 +170,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
         undefined,
         this.getComponentInjector(position)
       );
+      this.cxComponentRef.emit(component);
       return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
@@ -179,6 +183,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
       view.markForCheck();
+      this.cxComponentRef.emit(view);
       return view;
     }
   }
