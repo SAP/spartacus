@@ -77,7 +77,7 @@
 
 ### StoreFinderSearchComponent
 
-- Added `tabindex="-1"` to avoid tab stop for accessibility improvements.
+- Added `tabindex"` to control tab stop for accessibility improvements.
 
 ### UpdateProfileComponent
 
@@ -95,3 +95,6 @@
 
 - Replaced `h4` tag with `h2` tag header for accessibility improvements.
 
+### UnitLevelOrderOverviewComponent
+
+- Removed a condition to hide 2nd order summary column
