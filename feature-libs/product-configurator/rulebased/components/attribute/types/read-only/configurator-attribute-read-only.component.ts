@@ -60,52 +60,59 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
       const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-          if (this.translationService) {
-            this.translationService
-              .translate(
-                'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
-                {
-                  value: valueName,
-                  attribute: attribute.label,
-                  price: value.valuePriceTotal.formattedValue,
-                }
-              )
-              .pipe(take(1))
-              .subscribe((text) => (ariaLabel = text));
-          } else {
-            //TODO
-          }
+          ariaLabel = this.translate(
+            'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
+            valueName,
+            attribute,
+            value.valuePriceTotal?.formattedValue
+          );
         } else {
-          if (this.translationService) {
-            this.translationService
-              .translate(
-                'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
-                {
-                  value: valueName,
-                  attribute: attribute.label,
-                  price: value.valuePrice.formattedValue,
-                }
-              )
-              .pipe(take(1))
-              .subscribe((text) => (ariaLabel = text));
-          } else {
-            //TODO
-          }
+          ariaLabel = this.translate(
+            'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
+            valueName,
+            attribute,
+            value.valuePrice?.formattedValue
+          );
         }
       }
     } else {
       const valueName = this.getCurrentValueName(attribute);
-      if (this.translationService) {
-        this.translationService
-          .translate('configurator.a11y.readOnlyValueOfAttributeFull', {
+      ariaLabel = this.translate(
+        'configurator.a11y.readOnlyValueOfAttributeFull',
+        valueName,
+        attribute
+      );
+    }
+    return ariaLabel;
+  }
+
+  protected translate(
+    resourceKey: string,
+    valueName: string,
+    attribute: Configurator.Attribute,
+    formattedPrice?: string
+  ): string {
+    let ariaLabel: string = '';
+    if (this.translationService) {
+      const options = formattedPrice
+        ? {
             value: valueName,
             attribute: attribute.label,
-          })
-          .pipe(take(1))
-          .subscribe((text) => (ariaLabel = text));
-      } else {
-        //TODO
-      }
+            price: formattedPrice,
+          }
+        : {
+            value: valueName,
+            attribute: attribute.label,
+          };
+
+      this.translationService
+        .translate(resourceKey, options)
+        .pipe(take(1))
+        .subscribe((text) => (ariaLabel = text));
+    } else {
+      throw new Error(
+        'At this point we expect the translation service to be defined (for SPA <= 5.1 the method will not be called)'
+      );
     }
     return ariaLabel;
   }

@@ -346,4 +346,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       });
     });
   });
+  describe('translate', () => {
+    it('should throw an error in case translation service is not present', () => {
+      component['translationService'] = undefined;
+      expect(() =>
+        component['translate']('huhu', 'valueName', { name: 'attributeName' })
+      ).toThrowError();
+    });
+  });
 });
