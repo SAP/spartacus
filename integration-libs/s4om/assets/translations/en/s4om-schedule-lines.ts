@@ -6,7 +6,7 @@
 
 export const s4omScheduleLines = {
   s4omScheduleLines: {
-    quantity: 'Quantity',
+    quantity: '-  Qty',
     a11y: {
       scheduleLineEntryInfo:
         '{{ quantity }} quantity will be delivered by {{ date }}',
