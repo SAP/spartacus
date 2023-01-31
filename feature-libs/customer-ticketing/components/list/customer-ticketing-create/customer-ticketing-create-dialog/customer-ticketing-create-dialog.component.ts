@@ -42,7 +42,7 @@ export class CustomerTicketingCreateDialogComponent
     return {
       message: form?.get('message')?.value,
       subject: form?.get('subject')?.value,
-      associatedTo: form?.get('associatedTo')?.value,
+      associatedTo: form?.get('associatedTo')?.value || undefined,
       ticketCategory: form?.get('ticketCategory')?.value,
     };
   }
@@ -64,7 +64,7 @@ export class CustomerTicketingCreateDialogComponent
       'ticketCategory',
       new FormControl('', [Validators.required])
     );
-    form.setControl('associatedTo', new FormControl());
+    form.setControl('associatedTo', new FormControl(''));
     form.setControl(
       'message',
       new FormControl('', [
