@@ -242,7 +242,14 @@ export function goToOrderDetails() {
   cy.visit('/my-account/orders');
   const ordersAlias = interceptOrdersEndpoint();
   waitForResponse(ordersAlias);
+
+  const orderDetailsPage = waitForPage(
+    '/my-account/order/*',
+    'getOrderDetails'
+  );
   cy.get('.cx-order-history-value').first().click();
+  cy.wait(`@${orderDetailsPage}`).its('response.statusCode').should('eq', 200);
+  cy.get('cx-breadcrumb h1').should('contain', 'Order Details');
 }
 
 export function saveOrderDetails() {

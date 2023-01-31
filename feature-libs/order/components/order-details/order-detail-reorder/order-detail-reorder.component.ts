@@ -5,6 +5,7 @@
  */
 
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
@@ -20,6 +21,7 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-reorder',
   templateUrl: './order-detail-reorder.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   constructor(
