@@ -25,14 +25,18 @@ import { CheckoutStepService } from '../../services';
 @Component({
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
-  checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
-  checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
+  deliveryAddressStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.DELIVERY_ADDRESS
+  );
+  deliveryModeStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.DELIVERY_MODE
+  );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -57,13 +61,6 @@ export class CheckoutReviewShippingComponent {
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
-
-  getCheckoutStepUrl(stepType: CheckoutStepType | string): string | undefined {
-    const step = this.checkoutStepService.getCheckoutStep(
-      stepType as CheckoutStepType
-    );
-    return step?.routeName;
-  }
 
   getDeliveryAddressCard(
     deliveryAddress: Address,

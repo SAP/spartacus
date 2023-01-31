@@ -11,14 +11,14 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { Pipe, PipeTransform } from '@angular/core';
 import {
   ActiveCartFacade,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Pipe, PipeTransform } from '@angular/core';
+import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
 const mockCheckoutStep: CheckoutStep = {
   id: 'step',
@@ -91,7 +91,9 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.DELIVERY_MODE],
     },
   ]);
-  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
+  getCheckoutStepRoute = createSpy().and.returnValue(
+    mockCheckoutStep.routeName
+  );
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
@@ -198,9 +200,9 @@ describe('CheckoutReviewShippingComponent', () => {
     });
   });
 
-  it('should get checkout step url', () => {
-    expect(
-      component.getCheckoutStepUrl(CheckoutStepType.DELIVERY_ADDRESS)
-    ).toEqual(mockCheckoutStep.routeName);
+  it('should get checkout step route', () => {
+    expect(component.deliveryAddressStepRoute).toEqual(
+      mockCheckoutStep.routeName
+    );
   });
 });
