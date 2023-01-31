@@ -30,5 +30,5 @@ export function getAddressNumbers(
     return textPhone + ': ' + address.phone
   }
 
-  return
+  return undefined;
 }
