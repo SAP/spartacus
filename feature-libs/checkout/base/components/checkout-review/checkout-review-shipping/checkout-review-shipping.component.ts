@@ -31,14 +31,12 @@ export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
-  checkoutStepTypeDeliveryAddressRoute =
-    this.checkoutStepService.getCheckoutStepRoute(
-      CheckoutStepType.DELIVERY_ADDRESS
-    );
-  checkoutStepTypeDeliveryModeRoute =
-    this.checkoutStepService.getCheckoutStepRoute(
-      CheckoutStepType.DELIVERY_MODE
-    );
+  deliveryAddressStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.DELIVERY_ADDRESS
+  );
+  deliveryModeStepRoute = this.checkoutStepService.getCheckoutStepRoute(
+    CheckoutStepType.DELIVERY_MODE
+  );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
