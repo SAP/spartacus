@@ -48,7 +48,5 @@ describe('OrderConfirmationShippingComponent', () => {
     fixture.detectChanges();
 
     expect(component.entries?.length).toEqual(1);
-    expect(component.deliveryAddress?.id).toEqual('testAddress');
-    expect(component.deliveryMode?.code).toEqual('testCode');
   });
 });

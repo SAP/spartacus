@@ -1,54 +1,44 @@
-/*import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
-import { PromotionsModule } from '@spartacus/storefront';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { OrderConfirmationShippingComponent } from './order-detail-billing.component';
-import createSpy = jasmine.createSpy;
+import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailBillingComponent } from './order-detail-billing.component';
 
-class MockOrderFacade implements Partial<OrderFacade> {
-  getOrderDetails = createSpy().and.returnValue(
-    of({
-      entries: [
-        {
-          entryNumber: 1,
-          quantity: 1,
-        },
-      ],
-      deliveryAddress: { id: 'testAddress' },
-      deliveryMode: { code: 'testCode' },
-    })
-  );
+const mockOrder: Order = {
+  code: '1',
+  statusDisplay: 'Shipped',
+};
+
+class MockOrderDetailsService {
+  getOrderDetails() {
+    return of(mockOrder);
+  }
 }
 
-describe('OrderConfirmationShippingComponent', () => {
-  let component: OrderConfirmationShippingComponent;
-  let fixture: ComponentFixture<OrderConfirmationShippingComponent>;
+describe('OrderDetailBillingComponent', () => {
+  let component: OrderDetailBillingComponent;
+  let fixture: ComponentFixture<OrderDetailBillingComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, PromotionsModule],
-        declarations: [OrderConfirmationShippingComponent],
-        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+        declarations: [OrderDetailBillingComponent],
+        providers: [
+          {
+            provide: OrderDetailsService,
+            useClass: MockOrderDetailsService,
+          },
+        ],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderConfirmationShippingComponent);
+    fixture = TestBed.createComponent(OrderDetailBillingComponent);
     component = fixture.componentInstance;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should get order entries, delivery address and delivery mode', () => {
-    fixture.detectChanges();
-
-    expect(component.entries?.length).toEqual(1);
-    expect(component.deliveryAddress?.id).toEqual('testAddress');
-    expect(component.deliveryMode?.code).toEqual('testCode');
-  });
-});*/
+});

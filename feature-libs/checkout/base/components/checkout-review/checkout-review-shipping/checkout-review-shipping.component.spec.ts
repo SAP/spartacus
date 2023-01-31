@@ -11,7 +11,7 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import {
   ActiveCartFacade,
   DeliveryMode,
@@ -130,6 +130,10 @@ describe('CheckoutReviewShippingComponent', () => {
           useClass: MockCheckoutStepService,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: createSpy('markForCheck') },
+        },
       ],
     });
   }

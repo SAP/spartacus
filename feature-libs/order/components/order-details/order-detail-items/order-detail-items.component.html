@@ -21,7 +21,6 @@
   ></cx-order-consigned-entries>
 
   <ng-template
-    *ngIf="order.deliveryAddress && order.deliveryMode"
     [cxOutlet]="CartOutlets.DELIVERY_CONSIGNMENT_LIST"
     [cxOutletContext]="{
       readonly: true,
