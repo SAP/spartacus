@@ -7,7 +7,7 @@ import {
   LanguageService,
   ScriptLoader,
   User,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subscription } from 'rxjs';
@@ -52,16 +52,19 @@ class ScriptLoaderMock {
     _params?: Object;
     _attributes?: Object;
     _callback?: EventListener;
-  }): void { }
+  }): void {}
 }
 
 class MockCdcAuthFacade implements Partial<CdcAuthFacade> {
-  loginWithCustomCdcFlow(): void { }
+  loginWithCustomCdcFlow(): void {}
 }
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of();
+  }
+  coreLogout(): Promise<void> {
+    return Promise.resolve();
   }
 }
 
@@ -71,19 +74,20 @@ class MockUserProfileFacade implements Partial<UserProfileFacade> {
 }
 
 class MockSubscription {
-  unsubscribe() { }
+  unsubscribe() {}
 
-  add() { }
+  add() {}
 }
 
 const gigya = {
   accounts: {
-    addEventHandlers: () => { },
-    register: () => { },
-    initRegistration: () => { },
-    login: () => { },
-    resetPassword: () => { },
-    setAccountInfo: () => { },
+    addEventHandlers: () => {},
+    register: () => {},
+    initRegistration: () => {},
+    login: () => {},
+    logout: () => {},
+    resetPassword: () => {},
+    setAccountInfo: () => {},
   },
 };
 
@@ -94,8 +98,8 @@ const mockedWindowRef = {
 };
 
 const mockedGlobalMessageService = {
-  add: () => { },
-  remove: () => { },
+  add: () => {},
+  remove: () => {},
 };
 
 describe('CdcJsService', () => {
@@ -580,12 +584,16 @@ describe('CdcJsService', () => {
 
   describe('getSessionExpirationValue', () => {
     it('should return the configured value for a given base site', () => {
-      expect(service['getSessionExpirationValue']()).toBe(120);
+      service['getSessionExpirationValue']().subscribe((sessionExipration) => {
+        expect(sessionExipration).toBe(120);
+      });
     });
 
     it('should return the default value if no configurations found', () => {
       service['cdcConfig'] = {};
-      expect(service['getSessionExpirationValue']()).toBe(3600);
+      service['getSessionExpirationValue']().subscribe((sessionExipration) => {
+        expect(sessionExipration).toBe(3600);
+      });
     });
   });
 
@@ -638,8 +646,8 @@ describe('CdcJsService', () => {
           ).toHaveBeenCalledWith({
             profile: {
               firstName: sampleUser.firstName,
-              lastName: sampleUser.lastName
-            }
+              lastName: sampleUser.lastName,
+            },
           });
           expect(userProfileFacade.update).toHaveBeenCalledWith({
             firstName: sampleUser.firstName,
@@ -651,7 +659,6 @@ describe('CdcJsService', () => {
       done();
     });
   });
-
 
   describe('updateUserPasswordWithoutScreenSet', () => {
     it('should not call updateUserPasswordWithoutScreenSet', (done) => {
@@ -681,15 +688,17 @@ describe('CdcJsService', () => {
       let oldPass = 'OldPass123!';
       let newPass = 'Password1!';
 
-      service.updateUserPasswordWithoutScreenSet(oldPass, newPass).subscribe(() => {
-        expect(
-          winRef.nativeWindow['gigya'].accounts.setAccountInfo
-        ).toHaveBeenCalledWith({
-          password: oldPass,
-          newPassword: newPass,
-          callback: jasmine.any(Function),
+      service
+        .updateUserPasswordWithoutScreenSet(oldPass, newPass)
+        .subscribe(() => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.setAccountInfo
+          ).toHaveBeenCalledWith({
+            password: oldPass,
+            newPassword: newPass,
+            callback: jasmine.any(Function),
+          });
         });
-      });
       done();
     });
   });
@@ -718,12 +727,11 @@ describe('CdcJsService', () => {
       ).and.callFake((options: { callback: Function }) => {
         options.callback({ status: 'OK' });
       });
-      spyOn(
-        winRef.nativeWindow['gigya'].accounts,
-        'login'
-      ).and.callFake((options: { callback: Function }) => {
-        options.callback({ status: 'OK' });
-      });
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
 
       expect(service.updateUserEmailWithoutScreenSet).toBeTruthy();
       let pass = 'Password123!';
@@ -747,19 +755,17 @@ describe('CdcJsService', () => {
 
   describe('getLoggedInUserEmail', () => {
     it('should return the logged in user email', () => {
-      userProfileFacade.get = createSpy().and.returnValue(of({ uid: newEmail }));
+      userProfileFacade.get = createSpy().and.returnValue(
+        of({ uid: newEmail })
+      );
 
-      expect(
-        service['getLoggedInUserEmail']()
-      ).toEqual(newEmail);
+      expect(service['getLoggedInUserEmail']()).toEqual(newEmail);
     });
 
     it('should return empty if no email is obtained', () => {
       userProfileFacade.get = createSpy().and.returnValue(of({}));
 
-      expect(
-        service['getLoggedInUserEmail']()
-      ).toEqual('');
+      expect(service['getLoggedInUserEmail']()).toEqual('');
     });
   });
 

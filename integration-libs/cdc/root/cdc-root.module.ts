@@ -12,14 +12,18 @@ import {
   GlobalMessageService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  UserAddressService
+  UserAddressService,
 } from '@spartacus/core';
-import { AddressBookComponent, AddressBookComponentService, LogoutGuard } from '@spartacus/storefront';
+import {
+  AddressBookComponent,
+  AddressBookComponentService,
+  LogoutGuard,
+} from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
-import { CDCAddressBookComponentService } from './service/cdc-address-book.component.service';
-import { cdcRoutingConfig } from './config/cdc-routing-config';
+import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
+import { CDCAddressBookComponentService } from './service/cdc-address-book.component.service';
 import { CdcJsService } from './service/cdc-js.service';
 
 export function cdcJsFactory(
@@ -61,7 +65,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
       deps: [CdcJsService, ConfigInitializerService],
       multi: true,
     },
-    provideDefaultConfig(cdcRoutingConfig),
+    provideDefaultConfig(defaultCdcRoutingConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountAddressBookComponent: {
@@ -70,11 +74,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
             {
               provide: AddressBookComponentService,
               useClass: CDCAddressBookComponentService,
-              deps: [
-                UserAddressService,
-                GlobalMessageService,
-                CdcJsService
-              ],
+              deps: [UserAddressService, GlobalMessageService, CdcJsService],
             },
           ],
         },
@@ -82,4 +82,4 @@ export function defaultCdcComponentsConfig(): CmsConfig {
     }),
   ],
 })
-export class CdcRootModule { }
+export class CdcRootModule {}

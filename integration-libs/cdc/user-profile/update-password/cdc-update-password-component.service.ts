@@ -6,9 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
-import {
-  GlobalMessageService, RoutingService
-} from '@spartacus/core';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
 import { UpdatePasswordComponentService } from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 
@@ -22,7 +20,6 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
   ) {
     super(userPasswordService, routingService, globalMessageService);
   }
-
 
   /**
    * Updates the password for the user.
@@ -38,10 +35,11 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
     const oldPassword = this.form.get('oldPassword')?.value;
     const newPassword = this.form.get('newPassword')?.value;
 
-    this.cdcJsService.updateUserPasswordWithoutScreenSet(oldPassword, newPassword).subscribe({
-      next: () => this.onSuccess(),
-      error: (error: Error) => this.onError(error),
-    });
+    this.cdcJsService
+      .updateUserPasswordWithoutScreenSet(oldPassword, newPassword)
+      .subscribe({
+        next: () => this.onSuccess(),
+        error: (error: Error) => this.onError(error),
+      });
   }
-
 }

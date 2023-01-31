@@ -13,11 +13,15 @@ import {
   CommandService,
   EventService,
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
-import { UserProfileFacade, UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  UserProfileFacade,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { merge, Observable, throwError } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -84,12 +88,21 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         this.registerCommand.execute({ user })
       ),
       switchMap(() =>
-        merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(map(() => {
-          //update user title code
-          this.userProfileFacade.update(user);
-          return user;
-        }))
-      ),
+        merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(
+          map(() => {
+            //create User object
+            let userObj: User = {
+              ...(user.firstName && { firstName: user.firstName }),
+              ...(user.lastName && { lastName: user.lastName }),
+              ...(user.titleCode && { titleCode: user.titleCode }),
+              ...(user.uid && { uid: user.uid }),
+            };
+            //update user title code
+            this.userProfileFacade.update(userObj);
+            return userObj;
+          })
+        )
+      )
     );
   }
 

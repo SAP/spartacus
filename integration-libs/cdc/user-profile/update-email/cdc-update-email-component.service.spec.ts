@@ -33,7 +33,9 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateUserEmailWithoutScreenSet = createSpy().and.returnValue(of({ status: 'OK' }));
+  updateUserEmailWithoutScreenSet = createSpy().and.returnValue(
+    of({ status: 'OK' })
+  );
 }
 
 describe('UpdateEmailComponentService', () => {
@@ -82,24 +84,6 @@ describe('UpdateEmailComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('isUpdating$', () => {
-    it('should return true', () => {
-      service['busy$'].next(true);
-      let result;
-      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
-    });
-
-    it('should return false', () => {
-      service['busy$'].next(false);
-      let result;
-      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
-    });
-  });
-
   describe('save', () => {
     describe('success', () => {
       beforeEach(() => {
@@ -111,10 +95,9 @@ describe('UpdateEmailComponentService', () => {
       it('should save valid email', () => {
         service.save();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalledWith(
-          'Qwe123!',
-          'tester@sap.com'
-        );
+        expect(
+          cdcJsService.updateUserEmailWithoutScreenSet
+        ).toHaveBeenCalledWith('Qwe123!', 'tester@sap.com');
       });
 
       it('should show message', () => {
@@ -142,7 +125,9 @@ describe('UpdateEmailComponentService', () => {
         waitForAsync(() => {
           service.save();
           expect(userService.update).not.toHaveBeenCalled();
-          expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
+          expect(
+            cdcJsService.updateUserEmailWithoutScreenSet
+          ).toHaveBeenCalled();
           authService.coreLogout().then(() => {
             expect(routingService.go).toHaveBeenCalledWith(
               { cxRoute: 'login' },
@@ -169,7 +154,9 @@ describe('UpdateEmailComponentService', () => {
         waitForAsync(() => {
           service.save();
           expect(userService.update).not.toHaveBeenCalled();
-          expect(cdcJsService.updateUserEmailWithoutScreenSet).toHaveBeenCalled();
+          expect(
+            cdcJsService.updateUserEmailWithoutScreenSet
+          ).toHaveBeenCalled();
           expect(authRedirectService.setRedirectUrl).toHaveBeenCalledWith(
             routingService.getUrl({ cxRoute: 'home' })
           );
@@ -187,7 +174,9 @@ describe('UpdateEmailComponentService', () => {
         confirmNewUid.setValue('diff@sap.com');
         service.save();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateUserEmailWithoutScreenSet).not.toHaveBeenCalled();
+        expect(
+          cdcJsService.updateUserEmailWithoutScreenSet
+        ).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(authService.coreLogout).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();

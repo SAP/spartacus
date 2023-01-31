@@ -31,7 +31,9 @@ class MockGlobalMessageService {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateProfileWithoutScreenSet = createSpy().and.returnValue(of({ status: 'OK' }));
+  updateProfileWithoutScreenSet = createSpy().and.returnValue(
+    of({ status: 'OK' })
+  );
 }
 
 describe('UpdateProfileComponentService', () => {
@@ -63,24 +65,6 @@ describe('UpdateProfileComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('isUpdating$', () => {
-    it('should return true', () => {
-      service['busy$'].next(true);
-      let result;
-      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
-    });
-
-    it('should return false', () => {
-      service['busy$'].next(false);
-      let result;
-      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
-    });
-  });
-
   describe('save()', () => {
     describe('success', () => {
       beforeEach(() => {
@@ -90,7 +74,9 @@ describe('UpdateProfileComponentService', () => {
       it('should update password', () => {
         service.updateProfile();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateProfileWithoutScreenSet).toHaveBeenCalledWith(mockUser);
+        expect(cdcJsService.updateProfileWithoutScreenSet).toHaveBeenCalledWith(
+          mockUser
+        );
       });
 
       it('should show message', () => {

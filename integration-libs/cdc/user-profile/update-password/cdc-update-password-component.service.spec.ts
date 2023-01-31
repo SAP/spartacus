@@ -4,8 +4,10 @@ import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthRedirectService,
   AuthService,
-  GlobalMessageService, GlobalMessageType, I18nTestingModule,
-  RoutingService
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UpdatePasswordModule } from '@spartacus/user/profile/components';
@@ -34,9 +36,10 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateUserPasswordWithoutScreenSet = createSpy().and.returnValue(of({ status: 'OK' }));
+  updateUserPasswordWithoutScreenSet = createSpy().and.returnValue(
+    of({ status: 'OK' })
+  );
 }
-
 
 describe('CDCUpdatePasswordComponentService', () => {
   let service: CDCUpdatePasswordComponentService;
@@ -49,14 +52,19 @@ describe('CDCUpdatePasswordComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, UpdatePasswordModule],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        UpdatePasswordModule,
+      ],
       providers: [
         CDCUpdatePasswordComponentService,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: UserPasswordFacade, useClass: MockUserPasswordService },
         { provide: CdcJsService, useClass: MockCDCJsService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService, },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents();
@@ -77,24 +85,6 @@ describe('CDCUpdatePasswordComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('isUpdating$', () => {
-    it('should return true', () => {
-      service['busy$'].next(true);
-      let result;
-      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
-    });
-
-    it('should return false', () => {
-      service['busy$'].next(false);
-      let result;
-      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
-    });
-  });
-
   describe('save', () => {
     describe('success', () => {
       beforeEach(() => {
@@ -106,13 +96,17 @@ describe('CDCUpdatePasswordComponentService', () => {
       it('should update password', () => {
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateUserPasswordWithoutScreenSet).toHaveBeenCalledWith('Old123!', 'New123!');
+        expect(
+          cdcJsService.updateUserPasswordWithoutScreenSet
+        ).toHaveBeenCalledWith('Old123!', 'New123!');
       });
 
       it('should show message', () => {
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateUserPasswordWithoutScreenSet).toHaveBeenCalled();
+        expect(
+          cdcJsService.updateUserPasswordWithoutScreenSet
+        ).toHaveBeenCalled();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updatePasswordForm.passwordUpdateSuccess',
@@ -125,7 +119,9 @@ describe('CDCUpdatePasswordComponentService', () => {
         spyOn(service.form, 'reset').and.callThrough();
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateUserPasswordWithoutScreenSet).toHaveBeenCalled();
+        expect(
+          cdcJsService.updateUserPasswordWithoutScreenSet
+        ).toHaveBeenCalled();
         expect(service.form.reset).toHaveBeenCalled();
       });
     });
@@ -135,9 +131,10 @@ describe('CDCUpdatePasswordComponentService', () => {
         newPassword.setValue('testpassword123');
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
-        expect(cdcJsService.updateUserPasswordWithoutScreenSet).not.toHaveBeenCalled();
+        expect(
+          cdcJsService.updateUserPasswordWithoutScreenSet
+        ).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
-
       });
     });
   });

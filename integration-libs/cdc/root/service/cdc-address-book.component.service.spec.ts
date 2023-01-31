@@ -1,5 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, GlobalMessageService, GlobalMessageType, User, UserAddressService } from '@spartacus/core';
+import {
+  Address,
+  GlobalMessageService,
+  GlobalMessageType,
+  User,
+  UserAddressService,
+} from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CDCAddressBookComponentService } from './cdc-address-book.component.service';
@@ -17,7 +23,7 @@ const mockAddresses: Address[] = [
     line1: 'Street Name 222',
     country: { isocode: 'PL' },
     defaultAddress: true,
-    formattedAddress: "222, Street Name 222, PL",
+    formattedAddress: '222, Street Name 222, PL',
   },
 ];
 
@@ -48,9 +54,10 @@ class MockGlobalMessageService {
   remove = createSpy().and.stub();
 }
 
-
 class MockCDCJsService implements Partial<CdcJsService> {
-  updateAddressWithoutScreenSet = createSpy().and.returnValue(of({status: 'OK'}));
+  updateAddressWithoutScreenSet = createSpy().and.returnValue(
+    of({ status: 'OK' })
+  );
 }
 
 describe('AddressBookComponentService', () => {
@@ -93,19 +100,28 @@ describe('AddressBookComponentService', () => {
       .getAddresses()
       .pipe(take(1))
       .subscribe((addresses: Address[]) => {
-        expect(cdcJsService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(mockAddresses[1].formattedAddress);
+        expect(cdcJsService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
+          mockAddresses[1].formattedAddress
+        );
         expect(addresses).toEqual(mockAddresses);
       });
   });
 
   it('should throw error in getAddresses() if CDC SDK update fails', () => {
-    cdcJsService.updateAddressWithoutScreenSet = createSpy().and.returnValue(throwError({status:'error', errorDetails: 'Error'}));
+    cdcJsService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
+      throwError({ status: 'error', errorDetails: 'Error' })
+    );
     service
       .getAddresses()
       .pipe(take(1))
       .subscribe((addresses: Address[]) => {
-        expect(globalMessageService.add).toHaveBeenCalledWith('Error',  GlobalMessageType.MSG_TYPE_ERROR);
-        expect(cdcJsService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(mockAddresses[1].formattedAddress);
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          'Error',
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        expect(cdcJsService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
+          mockAddresses[1].formattedAddress
+        );
         expect(addresses).toEqual(mockAddresses);
       });
   });

@@ -20,7 +20,6 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
     super(userProfile, globalMessageService);
   }
 
-
   /**
    * Updates the user's details and handles the UI.
    */
@@ -39,21 +38,12 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
     });
   }
 
-  protected onSuccess(): void {
-    this.globalMessageService.add(
-      {
-        key: 'updateProfileForm.profileUpdateSuccess',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-
-    this.busy$.next(false);
-    this.form.reset();
-  }
-
   protected onError(_error: any): void {
     let errorMessage = _error?.errorMessage || ' ';
-    this.globalMessageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
+    this.globalMessageService.add(
+      errorMessage,
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
     this.busy$.next(false);
   }
 }

@@ -14,7 +14,7 @@ export const cdcRoutesConfig: RoutesConfig = {
   },
 };
 
-export const cdcRoutingConfig: RoutingConfig = {
+export const defaultCdcRoutingConfig: RoutingConfig = {
   routing: {
     routes: cdcRoutesConfig,
   },

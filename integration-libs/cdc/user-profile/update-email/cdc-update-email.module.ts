@@ -9,22 +9,20 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CdcJsService, CdcLogoutGuard } from '@spartacus/cdc/root';
+import { CdcLogoutGuard } from '@spartacus/cdc/root';
 import {
-  AuthRedirectService,
-  AuthService,
   CmsConfig,
-  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
-  RoutingService,
-  UrlModule
+  UrlModule,
 } from '@spartacus/core';
 import {
-  FormErrorsModule, LogoutGuard, PasswordVisibilityToggleModule, SpinnerModule
+  FormErrorsModule,
+  LogoutGuard,
+  PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UpdateEmailComponentService } from '@spartacus/user/profile/components';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { CDCUpdateEmailComponentService } from './cdc-update-email-component.service';
 
 @NgModule({
@@ -48,19 +46,11 @@ import { CDCUpdateEmailComponentService } from './cdc-update-email-component.ser
             {
               provide: UpdateEmailComponentService,
               useClass: CDCUpdateEmailComponentService,
-              deps: [
-                UserEmailFacade,
-                RoutingService,
-                GlobalMessageService,
-                AuthService,
-                AuthRedirectService,
-                CdcJsService
-              ],
             },
           ],
         },
       },
     }),
-  ]
+  ],
 })
 export class CDCUpdateEmailModule {}

@@ -10,22 +10,22 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthGuard,
   CmsConfig,
-  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  SpinnerModule,
   NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
-import { UpdateProfileComponent, UpdateProfileComponentService } from '@spartacus/user/profile/components';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import {
+  UpdateProfileComponent,
+  UpdateProfileComponentService,
+} from '@spartacus/user/profile/components';
 import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
 
 @NgModule({
@@ -51,7 +51,6 @@ import { CDCUpdateProfileComponentService } from './cdc-update-profile-component
             {
               provide: UpdateProfileComponentService,
               useClass: CDCUpdateProfileComponentService,
-              deps: [UserProfileFacade, GlobalMessageService, CdcJsService],
             },
           ],
         },

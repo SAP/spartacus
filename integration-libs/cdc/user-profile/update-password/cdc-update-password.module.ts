@@ -9,20 +9,18 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CdcJsService } from '@spartacus/cdc/root';
 import {
   CmsConfig,
-  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
-  RoutingService,
-  UrlModule
+  UrlModule,
 } from '@spartacus/core';
 import {
-  FormErrorsModule, PasswordVisibilityToggleModule, SpinnerModule
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UpdatePasswordComponentService } from '@spartacus/user/profile/components';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { CDCUpdatePasswordComponentService } from './cdc-update-password-component.service';
 
 @NgModule({
@@ -45,12 +43,11 @@ import { CDCUpdatePasswordComponentService } from './cdc-update-password-compone
             {
               provide: UpdatePasswordComponentService,
               useClass: CDCUpdatePasswordComponentService,
-              deps: [UserPasswordFacade, RoutingService, GlobalMessageService, CdcJsService],
             },
           ],
         },
       },
     }),
-  ]
+  ],
 })
 export class CDCUpdatePasswordModule {}

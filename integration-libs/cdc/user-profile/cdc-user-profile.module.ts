@@ -12,6 +12,12 @@ import { CDCUpdatePasswordModule } from './update-password/cdc-update-password.m
 import { CDCUpdateProfileModule } from './update-profile/cdc-update-profile.module';
 
 @NgModule({
-  imports: [CDCRegisterModule, CDCForgotPasswordModule, CDCUpdateProfileModule, CDCUpdatePasswordModule, CDCUpdateEmailModule],
+  imports: [
+    CDCRegisterModule,
+    CDCForgotPasswordModule,
+    CDCUpdateProfileModule,
+    CDCUpdatePasswordModule,
+    CDCUpdateEmailModule,
+  ],
 })
 export class CDCUserProfileModule {}

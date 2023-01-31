@@ -10,7 +10,7 @@ import {
   Injectable,
   NgZone,
   OnDestroy,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   AuthService,
@@ -20,11 +20,17 @@ import {
   LanguageService,
   ScriptLoader,
   User,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  combineLatest,
+  Observable,
+  of,
+  ReplaySubject,
+  Subscription,
+} from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -48,7 +54,7 @@ export class CdcJsService implements OnDestroy {
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
     protected globalMessageService: GlobalMessageService
-  ) { }
+  ) {}
 
   /**
    * Initialize CDC script
@@ -148,7 +154,7 @@ export class CdcJsService implements OnDestroy {
       'gigya'
     ]?.accounts?.addEventHandlers({
       onLogin: () => {
-        this.zone.run(() => { });
+        this.zone.run(() => {});
       },
     });
   }
@@ -176,7 +182,8 @@ export class CdcJsService implements OnDestroy {
    */
   protected onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
-      if (response?.context != 'RESET_EMAIL') { //skip re-authentication during reset email
+      if (response?.context !== 'RESET_EMAIL') {
+        //skip re-authentication during reset email
         this.cdcAuth.loginWithCustomCdcFlow(
           response.UID,
           response.UIDSignature,
@@ -270,27 +277,31 @@ export class CdcJsService implements OnDestroy {
     password: string,
     context?: string
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isLoggedIn) => {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.login({
-        loginID: email,
-        password: password,
-        ...(context) && { context: context },
-        sessionExpiry: this.getSessionExpirationValue(),
-        callback: (response: any) => {
-          this.zone.run(() => {
-            if (response?.status === 'OK') {
-              isLoggedIn.next({ status: response.status });
-              isLoggedIn.complete();
-            } else {
-              this.handleLoginError(response);
-              isLoggedIn.error(response);
-            }
+    return this.getSessionExpirationValue().pipe(
+      switchMap((sessionExpiration) => {
+        return new Observable<{ status: string }>((isLoggedIn) => {
+          (this.winRef.nativeWindow as { [key: string]: any })?.[
+            'gigya'
+          ]?.accounts?.login({
+            loginID: email,
+            password: password,
+            ...(context && { context: context }),
+            sessionExpiry: sessionExpiration,
+            callback: (response: any) => {
+              this.zone.run(() => {
+                if (response?.status === 'OK') {
+                  isLoggedIn.next({ status: response.status });
+                  isLoggedIn.complete();
+                } else {
+                  this.handleLoginError(response);
+                  isLoggedIn.error(response);
+                }
+              });
+            },
           });
-        },
-      });
-    });
+        });
+      })
+    );
   }
 
   /**
@@ -332,18 +343,17 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
-
-  protected getSessionExpirationValue(): number {
+  protected getSessionExpirationValue(): Observable<number> {
     if (this.cdcConfig?.cdc !== undefined) {
       const filteredConfigs: any = this.cdcConfig.cdc.filter(
         (conf) => conf.baseSite === this.getCurrentBaseSite()
       );
       if (filteredConfigs && filteredConfigs.length > 0) {
-        return filteredConfigs[0].sessionExpiration;
+        return of(filteredConfigs[0].sessionExpiration);
       }
     }
     // Return a default value
-    return 3600;
+    return of(3600);
   }
 
   private getCurrentBaseSite(): string {
@@ -354,7 +364,6 @@ export class CdcJsService implements OnDestroy {
       .subscribe((data) => (baseSite = data));
     return baseSite;
   }
-
 
   /**
    * Trigger CDC forgot password using CDC APIs.
@@ -405,7 +414,6 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
-
   /**
    * Trigger CDC Profile update.
    *
@@ -414,12 +422,17 @@ export class CdcJsService implements OnDestroy {
    */
   updateProfileWithoutScreenSet(user: User): Observable<{ status: string }> {
     return new Observable<{ status: string }>((isProfileUpdated) => {
-      if (user.firstName && user.firstName.length > 0 && user.lastName && user.lastName.length > 0) {
+      if (
+        user.firstName &&
+        user.firstName.length > 0 &&
+        user.lastName &&
+        user.lastName.length > 0
+      ) {
         let profileObj = {
           profile: {
             firstName: user.firstName,
-            lastName: user.lastName
-          }
+            lastName: user.lastName,
+          },
         };
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
@@ -446,16 +459,23 @@ export class CdcJsService implements OnDestroy {
     });
   }
 
-
   /**
    * Trigger CDC User Password update.
    *
    * @param oldPassword
    * @param newPassword
    */
-  updateUserPasswordWithoutScreenSet(oldPassword: string, newPassword: string): Observable<{ status: string }> {
+  updateUserPasswordWithoutScreenSet(
+    oldPassword: string,
+    newPassword: string
+  ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((isPasswordUpdated) => {
-      if (oldPassword && oldPassword.length > 0 && newPassword && newPassword.length > 0) {
+      if (
+        oldPassword &&
+        oldPassword.length > 0 &&
+        newPassword &&
+        newPassword.length > 0
+      ) {
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
         ]?.accounts?.setAccountInfo({
@@ -468,7 +488,10 @@ export class CdcJsService implements OnDestroy {
                 isPasswordUpdated.complete();
               } else {
                 let errorMessage = response.errorMessage;
-                this.globalMessageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
+                this.globalMessageService.add(
+                  errorMessage,
+                  GlobalMessageType.MSG_TYPE_ERROR
+                );
                 isPasswordUpdated.error(response);
               }
             });
@@ -492,29 +515,33 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
-
   /**
-  * Trigger CDC user email update.
-  *
-  * @param password
-  * @param newEmail
-  */
-  updateUserEmailWithoutScreenSet(password: string, newEmail: string): Observable<{ status: string }> {
+   * Trigger CDC user email update.
+   *
+   * @param password
+   * @param newEmail
+   */
+  updateUserEmailWithoutScreenSet(
+    password: string,
+    newEmail: string
+  ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((isEmailUpdated) => {
-
       if (password && password.length > 0 && newEmail && newEmail.length > 0) {
         let email = this.getLoggedInUserEmail();
 
         //Verify the password by attempting to login
-        this.loginUserWithoutScreenSet(email, password, "RESET_EMAIL").subscribe({
+        this.loginUserWithoutScreenSet(
+          email,
+          password,
+          'RESET_EMAIL'
+        ).subscribe({
           next: (response) => {
             if (response?.status === 'OK') {
-
               (this.winRef.nativeWindow as { [key: string]: any })?.[
                 'gigya'
               ]?.accounts?.setAccountInfo({
                 profile: {
-                  email: newEmail
+                  email: newEmail,
                 },
                 callback: (response: any) => {
                   this.zone.run(() => {
@@ -540,7 +567,6 @@ export class CdcJsService implements OnDestroy {
             ]?.accounts?.logout();
           },
         });
-
       }
     });
   }
@@ -551,27 +577,31 @@ export class CdcJsService implements OnDestroy {
    */
   protected getLoggedInUserEmail() {
     let email: string = '';
-    this.userProfileFacade.get().pipe(take(1)).subscribe((user?: User) => {
-      if (user && user.uid) {
-        email = user.uid;
-      }
-    });
+    this.userProfileFacade
+      .get()
+      .pipe(take(1))
+      .subscribe((user?: User) => {
+        if (user && user.uid) {
+          email = user.uid;
+        }
+      });
     return email;
   }
-
 
   /**
    * Trigger CDC address update.
    *
    * @param address
    */
-  updateAddressWithoutScreenSet(address: string): Observable<{ status: string }> {
+  updateAddressWithoutScreenSet(
+    address: string
+  ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((isAddressUpdated) => {
       if (address && address.length > 0) {
         let profileObj = {
           profile: {
             address: address,
-          }
+          },
         };
         (this.winRef.nativeWindow as { [key: string]: any })?.[
           'gigya'
