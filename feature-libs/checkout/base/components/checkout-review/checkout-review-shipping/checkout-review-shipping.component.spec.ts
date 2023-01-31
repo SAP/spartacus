@@ -11,14 +11,14 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { Pipe, PipeTransform } from '@angular/core';
 import {
   ActiveCartFacade,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Pipe, PipeTransform } from '@angular/core';
+import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
 const mockCheckoutStep: CheckoutStep = {
   id: 'step',
@@ -201,7 +201,7 @@ describe('CheckoutReviewShippingComponent', () => {
   });
 
   it('should get checkout step route', () => {
-    expect(component.checkoutStepTypeDeliveryAddressRoute).toEqual(
+    expect(component.deliveryAddressStepRoute).toEqual(
       mockCheckoutStep.routeName
     );
   });
