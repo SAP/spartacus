@@ -99,45 +99,91 @@ describe('OccFutureStockAdapter', () => {
     httpMock.verify();
   });
 
-  it('getFutureStock should return future stock', (done) => {
-    service
-      .getFutureStock(userId, productCode)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(futureStockMock);
-        done();
+  describe('getFutureStock()', () => {
+    it(' should return future stock', (done) => {
+      service
+        .getFutureStock(userId, productCode)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(futureStockMock);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+
+      mockReq.flush(futureStockMock);
+      expect(converter.pipeable).toHaveBeenCalledWith(FUTURE_STOCK_NORMALIZER);
     });
 
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
+    it('should throw error', (done) => {
+      const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
+      const data = 'Error message';
 
-    mockReq.flush(futureStockMock);
-    expect(converter.pipeable).toHaveBeenCalledWith(FUTURE_STOCK_NORMALIZER);
+      service
+        .getFutureStock(userId, productCode)
+        .pipe(take(1))
+        .subscribe(
+          () => {},
+          (err) => {
+            expect(err.status).toEqual(mockErrorResponse.status);
+            done();
+          }
+        );
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
+      });
+      mockReq.flush(data, mockErrorResponse);
+    });
   });
 
-  it('getFutureStocks should return future stocks', (done) => {
-    service
-      .getFutureStocks(userId, productCode)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(futureStockListMock);
-        done();
+  describe('getFutureStocks()', () => {
+    it('should return future stocks', (done) => {
+      service
+        .getFutureStocks(userId, productCode)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(futureStockListMock);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
       });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET';
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+
+      mockReq.flush(futureStockListMock);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        FUTURE_STOCK_LIST_NORMALIZER
+      );
     });
 
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
+    it('should throw error', (done) => {
+      const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
+      const data = 'Error message';
 
-    mockReq.flush(futureStockListMock);
-    expect(converter.pipeable).toHaveBeenCalledWith(
-      FUTURE_STOCK_LIST_NORMALIZER
-    );
+      service
+        .getFutureStocks(userId, productCode)
+        .pipe(take(1))
+        .subscribe(
+          () => {},
+          (err) => {
+            expect(err.status).toEqual(mockErrorResponse.status);
+            done();
+          }
+        );
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
+      });
+      mockReq.flush(data, mockErrorResponse);
+    });
   });
 });
