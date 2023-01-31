@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
@@ -23,7 +23,6 @@ export class ReorderOrderService implements ReorderOrderFacade {
     this.commandService.create<{ orderId: string }, CartModificationList>(
       ({ orderId }) =>
         this.userIdService.takeUserId().pipe(
-          take(1),
           switchMap((userId: string) =>
             this.reorderOrderConnector.reorder(orderId, userId)
           )
