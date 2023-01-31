@@ -5,7 +5,7 @@
  */
 
 import { NgModule, Provider } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
@@ -14,8 +14,6 @@ import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
   OpfConfig,
-  OpfRootModule,
-  OPF_FEATURE,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -27,7 +25,6 @@ if (environment.b2b) {
 }
 
 @NgModule({
-  imports: [OpfRootModule],
   providers: [
     provideConfig(<OpfConfig>{
       opf: {
@@ -42,15 +39,6 @@ if (environment.b2b) {
         fallbackLang: 'en',
       },
     }),
-
-    provideConfig(<CmsConfig>{
-      featureModules: {
-        [OPF_FEATURE]: {
-          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-        },
-      },
-    }),
-
     ...extensionProviders,
   ],
 })

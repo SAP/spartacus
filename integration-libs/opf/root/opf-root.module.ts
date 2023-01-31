@@ -25,6 +25,9 @@ export function defaultOPFComponentsConfig() {
       // By default core is bundled together with components.
       [OPF_CORE_FEATURE]: OPF_FEATURE,
     },
+    cmsComponents: {
+      CheckoutPlaceOrder: undefined,
+    },
   };
   return config;
 }
