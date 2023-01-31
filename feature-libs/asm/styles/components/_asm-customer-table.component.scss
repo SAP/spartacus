@@ -79,11 +79,9 @@
       text-overflow: ellipsis;
       font-size: 1rem;
       font-weight: var(--cx-font-weight-normal);
-      a {
+      button {
         font-weight: bold;
         color: $asmLinkColor;
-        text-decoration: none;
-        cursor: pointer;
       }
     }
 
