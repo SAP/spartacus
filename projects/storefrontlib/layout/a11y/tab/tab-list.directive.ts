@@ -73,14 +73,18 @@ export class TabListDirective implements AfterContentInit {
   @HostListener('keydown.home', ['$event'])
   onHome(event: KeyboardEvent): void {
     event.preventDefault();
-    this.focusTab((this.currentFocusedIndex = 0));
+    this.currentFocusedIndex = 0;
+    this.focusTab(0);
   }
 
   @HostListener('keydown.end', ['$event'])
   onEnd(event: KeyboardEvent): void {
     event.preventDefault();
     if (this.tabs) {
-      this.focusTab((this.currentFocusedIndex = this.tabs.length - 1));
+      const index = this.tabs.length - 1;
+
+      this.currentFocusedIndex = index;
+      this.focusTab(index);
     }
   }
 
@@ -128,11 +132,11 @@ export class TabListDirective implements AfterContentInit {
       tab.tabindex = -1;
     });
 
-    const tab = this.tabs.get(index);
+    const selectedTab = this.tabs.get(index);
 
-    if (tab) {
-      tab.ariaSelected = true;
-      tab.tabindex = 0;
+    if (selectedTab) {
+      selectedTab.ariaSelected = true;
+      selectedTab.tabindex = 0;
     }
   }
 
