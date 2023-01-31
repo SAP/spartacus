@@ -24,6 +24,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
+import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
 import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
@@ -37,6 +38,7 @@ const moduleComponents = [
   OrderDetailActionsComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
+  OrderDetailBillingComponent,
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
@@ -74,6 +76,11 @@ const moduleComponents = [
         // AccountOrderDetailsOverviewComponent: {
         //   component: OrderOverviewComponent,
         // },
+
+        // temporary use AccountOrderDetailsOverviewComponent to show billing, need create a new cms componnet
+        AccountOrderDetailsOverviewComponent: {
+          component: OrderDetailBillingComponent,
+        },
       },
       features: {
         consignmentTracking: '1.2',

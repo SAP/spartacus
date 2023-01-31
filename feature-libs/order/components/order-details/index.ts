@@ -5,6 +5,7 @@
  */
 
 export * from './order-detail-actions/order-detail-actions.component';
+export * from './order-detail-billing/order-detail-billing.component';
 export * from './order-detail-items/index';
 export * from './order-detail-totals/order-detail-totals.component';
 export * from './order-details.module';

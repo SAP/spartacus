@@ -5,12 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  CartOutlets,
-  DeliveryMode,
-  OrderEntry,
-} from '@spartacus/cart/base/root';
-import { Address } from '@spartacus/core';
+import { CartOutlets, OrderEntry } from '@spartacus/cart/base/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -24,8 +19,6 @@ export class OrderConfirmationShippingComponent {
   readonly cartOutlets = CartOutlets;
 
   entries: OrderEntry[] | undefined;
-  deliveryAddress: Address | undefined;
-  deliveryMode: DeliveryMode | undefined;
 
   order$: Observable<Order | undefined> = this.orderFacade
     .getOrderDetails()
@@ -34,9 +27,8 @@ export class OrderConfirmationShippingComponent {
         this.entries = order?.entries?.filter(
           (entry) => entry.deliveryPointOfService === undefined
         );
-        this.deliveryAddress = order?.deliveryAddress;
-        this.deliveryMode = order?.deliveryMode;
       })
     );
+
   constructor(protected orderFacade: OrderFacade) {}
 }

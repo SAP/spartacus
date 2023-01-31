@@ -18,4 +18,5 @@ export enum CartOutlets {
   PICKUP_ITEM_LIST = 'cx-pickup-item-list',
   DELIVERY_CONSIGNMENT_LIST = 'cx-delivery-consignment-list',
   DELIVERY_ITEM_LIST = 'cx-delivery-item-list',
+  PAYMENT_INFO = 'cx-payment-info',
 }

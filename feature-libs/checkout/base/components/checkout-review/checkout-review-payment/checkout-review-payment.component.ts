@@ -4,15 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { Card, ICON_TYPE, OutletContextData } from '@spartacus/storefront';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -21,12 +29,8 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   templateUrl: './checkout-review-payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutReviewPaymentComponent {
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected translationService: TranslationService
-  ) {}
+export class CheckoutReviewPaymentComponent implements OnInit, OnDestroy {
+  @Input() readonly: boolean = false;
 
   iconTypes = ICON_TYPE;
 
@@ -34,11 +38,37 @@ export class CheckoutReviewPaymentComponent {
     CheckoutStepType.PAYMENT_DETAILS
   );
 
+  protected subscription = new Subscription();
+
+  constructor(
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected translationService: TranslationService,
+    protected cd: ChangeDetectorRef,
+    @Optional()
+    protected outlet?: OutletContextData<{
+      readonly?: boolean;
+      paymentDetails?: PaymentDetails;
+    }>
+  ) {}
+
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.outlet?.context$.subscribe((context) => {
+        this.readonly = context.readonly ?? this.readonly;
+        if (context.paymentDetails) {
+          this.paymentDetails$ = of(context.paymentDetails);
+        }
+        this.cd.markForCheck();
+      })
+    );
+  }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
@@ -88,5 +118,9 @@ export class CheckoutReviewPaymentComponent {
         } as Card;
       })
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

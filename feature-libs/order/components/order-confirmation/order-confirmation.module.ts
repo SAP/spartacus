@@ -21,6 +21,7 @@ import {
   PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
+import { OrderDetailBillingComponent } from '../order-details/order-detail-billing/order-detail-billing.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { OrderOverviewComponent } from '../order-details/order-overview/order-overview.component';
 import { OrderConfirmationOrderEntriesContext } from '../page-context/order-confirmation-order-entries.context';
@@ -103,6 +104,18 @@ const orderConfirmationComponents = [
 
         OrderConfirmationShippingComponent: {
           component: OrderConfirmationShippingComponent,
+          guards: [OrderConfirmationGuard],
+        },
+
+        // temporary use OrderConfirmationContinueButtonComponent, need create a new cms component in sample data
+        OrderConfirmationContinueButtonComponent: {
+          component: OrderDetailBillingComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderFacade,
+            },
+          ],
           guards: [OrderConfirmationGuard],
         },
       },

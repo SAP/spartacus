@@ -4,17 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
-import { CardModule, IconModule } from '@spartacus/storefront';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { RouterModule } from '@angular/router';
+import {
+  CardModule,
+  IconModule,
+  OutletPosition,
+  provideOutlet,
+} from '@spartacus/storefront';
+import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
 
 @NgModule({
   declarations: [CheckoutReviewPaymentComponent],
@@ -35,6 +41,11 @@ import { RouterModule } from '@angular/router';
           // guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
+    }),
+    provideOutlet({
+      id: CartOutlets.PAYMENT_INFO,
+      component: CheckoutReviewPaymentComponent,
+      position: OutletPosition.REPLACE,
     }),
   ],
 })

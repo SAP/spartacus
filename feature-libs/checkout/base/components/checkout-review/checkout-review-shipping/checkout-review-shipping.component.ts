@@ -6,6 +6,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -67,6 +68,7 @@ export class CheckoutReviewShippingComponent implements OnInit, OnDestroy {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
+    protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ShippingItemContext>
   ) {}
 
@@ -100,6 +102,7 @@ export class CheckoutReviewShippingComponent implements OnInit, OnDestroy {
         if (context.deliveryMode) {
           this.deliveryMode$ = of(context.deliveryMode);
         }
+        this.cd.markForCheck();
       })
     );
   }
