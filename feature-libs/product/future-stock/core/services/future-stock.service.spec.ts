@@ -54,9 +54,9 @@ const mockFutureStocks = {
 	],
 };
 
-fdescribe('FutureStockService', () => {
+describe('FutureStockService', () => {
   let service: FutureStockService;
-  // let connector: FutureStockConnector;
+  let connector: FutureStockConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,7 +69,7 @@ fdescribe('FutureStockService', () => {
     });
 
     service = TestBed.inject(FutureStockService);
-    // connector = TestBed.inject(FutureStockConnector);
+    connector = TestBed.inject(FutureStockConnector);
 
   });
 
@@ -77,5 +77,22 @@ fdescribe('FutureStockService', () => {
     expect(service).toBeTruthy();
   });
 
+	it('should get future stock', () => {
+		let result;
+
+		service.getFutureStock().subscribe((data) => {
+			result = data;
+		})
+		.unsubscribe();
+    expect(result).toEqual(mockFutureStocks);
+  });
+
+	it('should call connector', () => {
+		service.getFutureStock().subscribe(() => {
+		})
+		.unsubscribe();
+
+    expect(connector.getFutureStock).toHaveBeenCalled();
+	});
 });
 
