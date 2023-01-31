@@ -22,11 +22,13 @@ export class ReorderOrderService implements ReorderOrderFacade {
   protected reorderCommand: Command<{ orderId: string }, CartModificationList> =
     this.commandService.create<{ orderId: string }, CartModificationList>(
       ({ orderId }) =>
-        this.userIdService.takeUserId().pipe(
-          switchMap((userId: string) =>
-            this.reorderOrderConnector.reorder(orderId, userId)
-          )
-        ),
+        this.userIdService
+          .takeUserId()
+          .pipe(
+            switchMap((userId: string) =>
+              this.reorderOrderConnector.reorder(orderId, userId)
+            )
+          ),
       {
         strategy: CommandStrategy.CancelPrevious,
       }
