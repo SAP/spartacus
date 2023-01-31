@@ -21,8 +21,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
-import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { CheckoutConnector } from '../connectors';
+import { CheckoutDetailsConnector } from './checkout-details.connector';
 
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
@@ -44,7 +45,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
-            this.checkoutConnector.getCheckoutDetails(userId, cartId)
+            //this.checkoutConnector.getCheckoutDetails(userId, cartId)
+            this.detailsConnector.getCheckoutDetails(userId, cartId)
           )
         ),
       {
@@ -57,7 +59,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected queryService: QueryService,
-    protected checkoutConnector: CheckoutConnector
+    protected checkoutConnector: CheckoutConnector,
+    protected detailsConnector: CheckoutDetailsConnector
   ) {}
 
   /**
@@ -84,6 +87,9 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   }
 
   getCheckoutDetailsState(): Observable<QueryState<CheckoutState | undefined>> {
-    return this.checkoutQuery$.getState();
+    console.log('getCheckoutDetailsState()');
+    return this.checkoutQuery$
+      .getState()
+      .pipe(tap((state) => console.log('state', state)));
   }
 }

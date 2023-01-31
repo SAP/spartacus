@@ -1834,6 +1834,14 @@
   dependencies:
     tslib "^2.3.1"
 
+"@ngneat/query@^1.0.0-beta.18":
+  version "1.0.0-beta.18"
+  resolved "https://registry.yarnpkg.com/@ngneat/query/-/query-1.0.0-beta.18.tgz#3f744ee1f5105d89881fda5f4e815c6ac6d42893"
+  integrity sha512-hMkn064SKYwiBg95OdhTmv6epsoh0nEdcjqOrNzZQ/gletPevE5fEMOytVZqQnow9tHdkB1cUWOl+KX7oIwFdA==
+  dependencies:
+    "@tanstack/query-core" "^4.9.0"
+    tslib "^2.3.0"
+
 "@ngrx/effects@^14.3.0":
   version "14.3.1"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-14.3.1.tgz#b22dcbc084c85d02b8ae34a4c6b7ce83f66d58d3"
@@ -2056,9 +2064,8 @@
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
 "@spartacus-eslint/eslint-plugin@link:./projects/eslint":
-  version "0.0.0-dev"
-  dependencies:
-    tslib "^2.4.0"
+  version "0.0.0"
+  uid ""
 
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.3"
@@ -2074,6 +2081,11 @@
   dependencies:
     remark "^13.0.0"
     unist-util-find-all-after "^3.0.2"
+
+"@tanstack/query-core@^4.24.4", "@tanstack/query-core@^4.9.0":
+  version "4.24.4"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.24.4.tgz#6fe78777286fdd805ac319c7c743df4935e18ee2"
+  integrity sha512-9dqjv9eeB6VHN7lD3cLo16ZAjfjCsdXetSAD5+VyKqLUvcKTL0CklGQRJu+bWzdrS69R6Ea4UZo8obHYZnG6aA==
 
 "@tootallnate/once@1":
   version "1.1.2"
