@@ -114,7 +114,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
 
   /**
   * TODO: (#CXSPA-53) Remove featureConfigService from constructor and make translationService a
-  * required dependency in 6.0.
+  * required dependency in 6.0
   */
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,

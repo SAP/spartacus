@@ -33,7 +33,7 @@ export class AddressBookComponent implements OnInit {
   editCard: string | null;
 
     /**
-    * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0.
+    * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
     */
     constructor(
     protected service: AddressBookComponentService,
