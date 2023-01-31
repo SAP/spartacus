@@ -42,9 +42,7 @@ export class CustomerTicketingCreateDialogComponent
     return {
       message: form?.get('message')?.value,
       subject: form?.get('subject')?.value,
-      associatedTo: form?.get('associatedTo')?.value
-        ? form?.get('associatedTo')?.value
-        : undefined,
+      associatedTo: form?.get('associatedTo')?.value || undefined,
       ticketCategory: form?.get('ticketCategory')?.value,
     };
   }
