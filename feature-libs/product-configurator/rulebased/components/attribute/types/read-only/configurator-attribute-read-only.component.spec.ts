@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  FeaturesConfig,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -62,7 +66,16 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           ConfiguratorAttributeReadOnlyComponent,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
+        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
+        providers: [
+          // TODO:(CXSPA-1689) #deprecation for next major release remove below feature config
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
           set: {
@@ -112,12 +125,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-read-only-label'
+        '.cx-read-only-attribute-label'
       );
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        '.cx-read-only-label',
+        '.cx-read-only-attribute-label',
         'val2'
       );
     });
@@ -134,9 +147,11 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-read-only-label'
+        '.cx-read-only-attribute-label'
       );
-      expect(htmlElem.querySelectorAll('.cx-read-only-label').length).toBe(2);
+      expect(
+        htmlElem.querySelectorAll('.cx-read-only-attribute-label').length
+      ).toBe(2);
     });
 
     it('should display price component of selected value for attribute with domain', () => {
@@ -177,7 +192,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-read-only-label'
+          '.cx-read-only-attribute-label'
         );
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
@@ -213,7 +228,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '.cx-read-only-label'
+          '.cx-read-only-attribute-label'
         );
         CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,

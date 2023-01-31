@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Optional,
+} from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -21,7 +26,13 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   @Input() group: String;
   @Input() expMode: boolean;
 
-  constructor(protected translation: TranslationService) {
+  //TODO(CXSPA-1014): make TranslationService a required dependency
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    translationService: TranslationService
+  );
+
+  constructor(@Optional() protected translationService?: TranslationService) {
     super();
   }
 
@@ -49,40 +60,52 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
       const valueName = this.getCurrentValueName(attribute, value);
       if (value.valuePrice && value.valuePrice?.value !== 0) {
         if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
-          this.translation
-            .translate(
-              'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
-              {
-                value: valueName,
-                attribute: attribute.label,
-                price: value.valuePriceTotal.formattedValue,
-              }
-            )
-            .pipe(take(1))
-            .subscribe((text) => (ariaLabel = text));
+          if (this.translationService) {
+            this.translationService
+              .translate(
+                'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
+                {
+                  value: valueName,
+                  attribute: attribute.label,
+                  price: value.valuePriceTotal.formattedValue,
+                }
+              )
+              .pipe(take(1))
+              .subscribe((text) => (ariaLabel = text));
+          } else {
+            //TODO
+          }
         } else {
-          this.translation
-            .translate(
-              'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
-              {
-                value: valueName,
-                attribute: attribute.label,
-                price: value.valuePrice.formattedValue,
-              }
-            )
-            .pipe(take(1))
-            .subscribe((text) => (ariaLabel = text));
+          if (this.translationService) {
+            this.translationService
+              .translate(
+                'configurator.a11y.readOnlyValueOfAttributeFullWithPrice',
+                {
+                  value: valueName,
+                  attribute: attribute.label,
+                  price: value.valuePrice.formattedValue,
+                }
+              )
+              .pipe(take(1))
+              .subscribe((text) => (ariaLabel = text));
+          } else {
+            //TODO
+          }
         }
       }
     } else {
       const valueName = this.getCurrentValueName(attribute);
-      this.translation
-        .translate('configurator.a11y.readOnlyValueOfAttributeFull', {
-          value: valueName,
-          attribute: attribute.label,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (ariaLabel = text));
+      if (this.translationService) {
+        this.translationService
+          .translate('configurator.a11y.readOnlyValueOfAttributeFull', {
+            value: valueName,
+            attribute: attribute.label,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (ariaLabel = text));
+      } else {
+        //TODO
+      }
     }
     return ariaLabel;
   }

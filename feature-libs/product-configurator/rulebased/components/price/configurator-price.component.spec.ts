@@ -322,7 +322,7 @@ describe('ConfiguratorPriceComponent', () => {
     });
 
     it("should return 'false' because directionService is undefined", () => {
-      component['directionService'] = null;
+      component['directionService'] = undefined;
       expect(component['isRTLDirection']()).toBe(false);
     });
 

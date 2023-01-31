@@ -28,6 +28,11 @@ export interface ConfiguratorPriceComponentOptions {
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
+  //TODO(CXSPA-1014): make DirectionService a required dependency
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    directionService: DirectionService
+  );
   constructor(
     @Optional()
     protected directionService?: DirectionService
