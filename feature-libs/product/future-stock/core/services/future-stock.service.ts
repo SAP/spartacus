@@ -7,10 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
-import {
-  RoutingService,
-  UserIdService,
-} from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { FutureStockConnector } from '../connectors';
 import { ProductFutureStock } from '../model';
