@@ -9,7 +9,7 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -17,12 +17,12 @@ import {
   IntendedPickupLocationFacade,
   LocationSearchParams,
   PickupLocationsSearchFacade,
-  PickupOptionFacade
+  PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   FocusConfig,
   ICON_TYPE,
-  LaunchDialogService
+  LaunchDialogService,
 } from '@spartacus/storefront';
 
 import { Observable, Subscription } from 'rxjs';

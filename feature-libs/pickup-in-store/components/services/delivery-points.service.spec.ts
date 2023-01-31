@@ -27,7 +27,9 @@ class MockPickupLocationsSearchFacade {
   }
 }
 export class DeliveryPointsServiceMock {
-  getDeliveryPointsOfServiceFromCart(): Observable<Array<DeliveryPointOfServiceItems>> {
+  getDeliveryPointsOfServiceFromCart(): Observable<
+    Array<DeliveryPointOfServiceItems>
+  > {
     return of([]);
   }
 }
