@@ -89,7 +89,7 @@ describe('Order History with orders', () => {
   describe('Order details - reorder', () => {
     it('should display order details page with the reorder button', () => {
       cy.get('.cx-order-history-value').first().click();
-      cy.get('cx-order-details-reorder div div button').should(
+      cy.get('cx-order-details-reorder button').should(
         'contain',
         'Reorder'
       );
