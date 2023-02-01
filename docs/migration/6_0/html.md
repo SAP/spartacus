@@ -98,3 +98,12 @@
 ### UnitLevelOrderOverviewComponent
 
 - Removed a condition to hide 2nd order summary column
+
+### AddressBookFormComponent
+
+- Added `Cellphone` field to the `addressForm`
+
+### AddressBookFormComponent
+
+- Added `Cellphone` field to adress card
+
