@@ -15,7 +15,7 @@
     </ng-container>
   </div>
 </div>
-<hr class="cx-asm-customer-table-separator" aria-hidden="true"/>
+<hr class="cx-asm-customer-table-separator" aria-hidden="true" />
 <ng-container *ngIf="entryPages?.length && columns?.length">
   <table class="cx-asm-customer-table" role="table">
     <caption class="cx-visually-hidden">
@@ -32,14 +32,19 @@
           [class.active]="sortProperty === column.property"
           [class.asc]="listSortOrder === SortOrder.ASC"
           [class.desc]="listSortOrder !== SortOrder.ASC"
-          [attr.aria-sort]="listSortOrder === SortOrder.ASC ? 'ascending' : 'descending'"
+          [attr.aria-sort]="
+            listSortOrder === SortOrder.ASC ? 'ascending' : 'descending'
+          "
         >
-        <button class="link" (click)="sortEntriesAndUpdatePages(column.property)">
-          <span *ngIf="column?.i18nTextKey">{{
-            column.i18nTextKey | cxTranslate
-          }}</span>
-          <span *ngIf="!column?.i18nTextKey">{{ column.text }}</span>
-        </button>
+          <button
+            class="link"
+            (click)="sortEntriesAndUpdatePages(column.property)"
+          >
+            <span *ngIf="column?.i18nTextKey">{{
+              column.i18nTextKey | cxTranslate
+            }}</span>
+            <span *ngIf="!column?.i18nTextKey">{{ column.text }}</span>
+          </button>
         </th>
       </tr>
     </thead>

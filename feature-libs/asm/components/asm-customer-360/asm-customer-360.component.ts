@@ -37,7 +37,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 
 @Component({
@@ -201,8 +201,7 @@ export class AsmCustomer360Component
   }
 
   protected setTabData(): void {
-    const get360Data =
-      this.asm360Facade.get360Data(this.activeTab) ?? of(undefined);
+    const get360Data = this.asm360Facade.get360Data(this.currentTab.components);
 
     this.customer360Tabs$ = get360Data.pipe(
       filter((response) => Boolean(response)),

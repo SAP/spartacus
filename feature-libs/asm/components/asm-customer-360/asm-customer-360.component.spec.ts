@@ -241,7 +241,9 @@ describe('AsmCustomer360Component', () => {
       );
     });
     it('should activate the first tab when dialog opens', () => {
-      expect(document.activeElement).toBe(component.tabHeaderItems.toArray()[0].nativeElement);
+      expect(document.activeElement).toBe(
+        component.tabHeaderItems.toArray()[0].nativeElement
+      );
     });
 
     it('should switch tab selection', () => {
@@ -249,8 +251,8 @@ describe('AsmCustomer360Component', () => {
       const secondTab = component.tabHeaderItems.toArray()[1].nativeElement;
       let event = {
         code: 'ArrowRight',
-        stopPropagation: ()=>{},
-        preventDefault:()=>{}
+        stopPropagation: () => {},
+        preventDefault: () => {},
       };
 
       expect(firstTab.tabIndex).toBe(0);

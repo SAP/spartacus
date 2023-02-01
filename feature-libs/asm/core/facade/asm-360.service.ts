@@ -10,73 +10,62 @@ import {
   AsmCustomer360Query,
   AsmCustomer360Request,
   AsmCustomer360Response,
+  AsmCustomer360TabComponent,
 } from '@spartacus/asm/root';
-import { Query, QueryService, QueryState } from '@spartacus/core';
+import { Command, CommandService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { concatMap, take } from 'rxjs/operators';
 
-import { AsmConfig } from '../config/asm-config';
 import { AsmConnector } from '../connectors/asm.connector';
 
 @Injectable()
 export class Asm360Service implements Asm360Facade {
-  protected customer360Query$: Query<AsmCustomer360Response>;
-  protected customer360Queries$: Array<Query<AsmCustomer360Response>>;
+  protected customer360Command$: Command<
+    Array<AsmCustomer360TabComponent>,
+    AsmCustomer360Response
+  >;
 
   constructor(
-    protected asmConfig: AsmConfig,
-    protected queryService: QueryService,
+    protected commandService: CommandService,
     protected asmConnector: AsmConnector,
     protected userAccountFacade: UserAccountFacade
   ) {
-    this.userAccountFacade
-      .get()
-      .pipe(take(1))
-      .subscribe((customer) => {
-        this.customer360Queries$ =
-          asmConfig.asm?.customer360?.tabs?.map((tab) => {
-            const queries = tab.components.reduce(
-              (requests: Array<AsmCustomer360Query>, component) => {
-                if (component.requestData) {
-                  return requests.concat(component.requestData);
-                }
-                return requests;
+    this.customer360Command$ = this.commandService.create((tabComponents) => {
+      return this.userAccountFacade.get().pipe(
+        take(1),
+        concatMap((customer) => {
+          const queries = tabComponents.reduce(
+            (requests: Array<AsmCustomer360Query>, component) => {
+              if (component.requestData) {
+                return requests.concat(component.requestData);
+              }
+              return requests;
+            },
+            []
+          );
+
+          if (queries.length > 0) {
+            const request: AsmCustomer360Request = {
+              queries,
+              options: {
+                userId: customer?.uid ?? '',
               },
-              []
-            );
-
-            if (queries.length > 0) {
-              const request: AsmCustomer360Request = {
-                queries,
-                options: {
-                  userId: customer?.uid ?? '',
-                },
-              };
-
-              return this.queryService.create(() =>
-                this.asmConnector.getCustomer360Data(request)
-              );
-            } else {
-              return this.queryService.create(() =>
-                of({
-                  value: [],
-                })
-              );
-            }
-          }) ?? [];
-      });
+            };
+            return this.asmConnector.getCustomer360Data(request);
+          } else {
+            return of({
+              value: [],
+            });
+          }
+        })
+      );
+    });
   }
 
   get360Data(
-    index: number
-  ): Observable<AsmCustomer360Response | undefined> | undefined {
-    return this.customer360Queries$[index]?.get();
-  }
-
-  get360DataState(
-    index: number
-  ): Observable<QueryState<AsmCustomer360Response>> | undefined {
-    return this.customer360Queries$[index]?.getState();
+    components: Array<AsmCustomer360TabComponent>
+  ): Observable<AsmCustomer360Response | undefined> {
+    return this.customer360Command$.execute(components);
   }
 }

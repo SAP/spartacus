@@ -3,12 +3,11 @@ import {
   AsmCustomer360Response,
   AsmCustomer360Type,
 } from '@spartacus/asm/root';
-import { Query, QueryService, QueryState, User } from '@spartacus/core';
+import { User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { AsmConfig } from '../config/asm-config';
 import { AsmConnector } from '../connectors/asm.connector';
 
 import { Asm360Service } from './asm-360.service';
@@ -33,57 +32,6 @@ describe('Asm360Service', () => {
     ],
   };
 
-  const dataState: QueryState<AsmCustomer360Response> = {
-    loading: false,
-    error: false,
-    data,
-  };
-
-  const asmConfig: AsmConfig = {
-    asm: {
-      customer360: {
-        tabs: [
-          {
-            i18nNameKey: 'asm.customer360.overviewTab',
-            components: [
-              {
-                component: 'AsmCustomer360OverviewComponent',
-              },
-            ],
-          },
-          {
-            i18nNameKey: 'asm.customer360.profileTab',
-            components: [
-              {
-                component: 'AsmCustomer360ProfileComponent',
-              },
-              {
-                component: 'AsmCustomer360ProductReviewsComponent',
-                requestData: {
-                  type: AsmCustomer360Type.REVIEW_LIST,
-                },
-                config: { pageSize: 5 },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  };
-
-  class MockQueryService {
-    create(): Query<AsmCustomer360Response> {
-      return {
-        get(): Observable<AsmCustomer360Response> {
-          return of(data);
-        },
-        getState(): Observable<QueryState<AsmCustomer360Response>> {
-          return of(dataState);
-        },
-      };
-    }
-  }
-
   class MockAsmConnector {
     getCustomer360Data(): Observable<AsmCustomer360Response> {
       return of(data);
@@ -104,15 +52,10 @@ describe('Asm360Service', () => {
     TestBed.configureTestingModule({
       providers: [
         Asm360Service,
-        { provide: AsmConfig, useValue: asmConfig },
-        { provide: QueryService, useClass: MockQueryService },
         { provide: AsmConnector, useClass: MockAsmConnector },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
       ],
     });
-
-    const queryService = TestBed.inject(QueryService);
-    spyOn(queryService, 'create').and.callThrough();
 
     const asmConnector = TestBed.inject(AsmConnector);
     spyOn(asmConnector, 'getCustomer360Data').and.callThrough();
@@ -124,60 +67,52 @@ describe('Asm360Service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should create queries for each tab', () => {
-    const queryService = TestBed.inject(QueryService);
-    const spy = queryService.create as jasmine.Spy;
-
-    let [callback] = spy.calls.argsFor(0);
-    callback();
-    [callback] = spy.calls.argsFor(1);
-    callback();
-
+  it('should get data', () => {
     const asmConnector = TestBed.inject(AsmConnector);
-    expect(asmConnector.getCustomer360Data).toHaveBeenCalledTimes(1);
-    expect(asmConnector.getCustomer360Data).toHaveBeenCalledWith({
-      queries: [
-        {
+
+    const components1 = [
+      {
+        component: 'AsmCustomer360OverviewComponent',
+      },
+    ];
+    const components2 = [
+      {
+        component: 'AsmCustomer360ProfileComponent',
+      },
+      {
+        component: 'AsmCustomer360ProductReviewsComponent',
+        requestData: {
           type: AsmCustomer360Type.REVIEW_LIST,
         },
-      ],
-      options: {
-        userId: 'customer001',
+        config: { pageSize: 5 },
       },
-    });
-  });
+    ];
 
-  it('should get data', () => {
-    expect(service.get360Data(2)).toBeUndefined();
-
-    const getData1 = service.get360Data(0);
+    const getData1 = service.get360Data(components1);
     expect(getData1).toBeDefined();
 
-    const getData2 = service.get360Data(1);
+    const getData2 = service.get360Data(components2);
     expect(getData2).toBeDefined();
 
-    combineLatest([getData1 as any, getData2 as any])
+    combineLatest([getData1, getData2])
       .pipe(take(1))
       .subscribe(([response1, response2]) => {
-        expect(response1).toBe(data);
-        expect(response2).toBe(data);
-      });
-  });
+        expect(asmConnector.getCustomer360Data).toHaveBeenCalledTimes(1);
+        expect(asmConnector.getCustomer360Data).toHaveBeenCalledWith({
+          queries: [
+            {
+              type: AsmCustomer360Type.REVIEW_LIST,
+            },
+          ],
+          options: {
+            userId: 'customer001',
+          },
+        });
 
-  it('should get data state', () => {
-    expect(service.get360DataState(2)).toBeUndefined();
-
-    const getDataState1 = service.get360DataState(0);
-    expect(getDataState1).toBeDefined();
-
-    const getDataState2 = service.get360DataState(1);
-    expect(getDataState2).toBeDefined();
-
-    combineLatest([getDataState1 as any, getDataState2 as any])
-      .pipe(take(1))
-      .subscribe(([response1, response2]) => {
-        expect(response1).toBe(dataState);
-        expect(response2).toBe(dataState);
+        expect(response1).toEqual({
+          value: [],
+        });
+        expect(response2).toEqual(data);
       });
   });
 });
