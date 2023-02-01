@@ -12,6 +12,15 @@
     white-space: pre-line;
   }
 
+  .cx-text-green {
+    color: var(--cx-color-success);
+    font-weight: var(--cx-font-weight-bold);
+  }
+
+  .cx-text-gray {
+    color: var(--cx-color-secondary);
+  }
+
   .cx-card-title {
     @include type('4');
     font-weight: var(--cx-font-weight-normal);

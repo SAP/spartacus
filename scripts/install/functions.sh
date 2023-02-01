@@ -132,10 +132,11 @@ function add_s4om {
 function add_feature_libs {
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+  ng add @spartacus/customer-ticketing --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {
-    local IS_NPM_INSTALL="$2"   
+    local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
         create_npmrc ${CSR_APP_NAME}
@@ -161,7 +162,7 @@ function add_spartacus_ssr {
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
         create_npmrc ${SSR_APP_NAME}
     fi
-    
+
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
@@ -318,7 +319,7 @@ function install_from_sources {
 
 function install_from_npm {
     printh "Installing Spartacus from npm libraries"
-  
+
     if [ -z "${NPM_URL}" ]; then
         echo "Please fill NPM_URL"
     else
@@ -329,7 +330,7 @@ function install_from_npm {
 
         remove_npm_token
     fi
-    
+
 }
 
 function build_csr {
@@ -591,7 +592,7 @@ function ng_sanity_check {
             echo "   Example: ANGULAR_CLI_VERSION='^12.0.5'"
             echo ""
             read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^12.0.5' or [a]bort? (c/o/a) " yn
-            case $yn in 
+            case $yn in
                 c ) echo "continue";;
                 o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
                     ANGULAR_CLI_VERSION='^12.0.5';;
@@ -611,7 +612,7 @@ function ng_sanity_check {
             echo "   Example: ANGULAR_CLI_VERSION='^13.3.0'"
             echo ""
             read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^13.3.0' or [a]bort? (c/o/a) " yn
-            case $yn in 
+            case $yn in
                 c ) echo "continue";;
                 o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
                     ANGULAR_CLI_VERSION='^13.3.0';;
@@ -672,27 +673,27 @@ function parseInstallArgs {
                 ;;
             b2b)
                 ADD_B2B_LIBS=true
-                echo "➖ Added B2B Libs"         
+                echo "➖ Added B2B Libs"
                 shift
                 ;;
             cpq)
                 ADD_CPQ=true
-                echo "➖ Added CPQ"   
+                echo "➖ Added CPQ"
                 shift
                 ;;
             cdc)
                 ADD_CDC=true
-                echo "➖ Added CDC"   
+                echo "➖ Added CDC"
                 shift
                 ;;
             epd)
                 ADD_EPD_VISUALIZATION=true
-                echo "➖ Added EPD"   
+                echo "➖ Added EPD"
                 shift
                 ;;
             s4om)
                 ADD_S4OM=true
-                echo "➖ Added S4OM"   
+                echo "➖ Added S4OM"
                 shift
                 ;;
             -*|--*)
@@ -791,9 +792,9 @@ function add_time_measurement {
     local ELAPSED=$(($END_TIME - $START_TIME))
     TIME_MEASUREMENT_TIMES+=("$END_TIME")
 
-    if [ $ELAPSED -gt 30 ]; then 
+    if [ $ELAPSED -gt 30 ]; then
         TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
-    elif [ $ELAPSED -gt 10 ]; then 
+    elif [ $ELAPSED -gt 10 ]; then
         TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
     else
         TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
@@ -822,17 +823,17 @@ function print_summary {
     printf "Total Time: \033[32m${ELAPSED}s\033[m\n\n"
 }
 
-function create_npmrc {   
+function create_npmrc {
     local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\n"
     if [ -z "$NPM_TOKEN" ] ; then
         echo "NPM_TOKEN is empty"
     fi
-    echo "creating .npmrc file in ${1} folder"    
+    echo "creating .npmrc file in ${1} folder"
     printf $NPMRC_CONTENT > .npmrc
-    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"   
+    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"
 }
 
-function remove_npmrc {   
+function remove_npmrc {
     if [ -f "./.npmrc" ]; then
         echo 'removing .npmrc file'
         rm -rf .npmrc
