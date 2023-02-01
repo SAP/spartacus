@@ -66,6 +66,8 @@ describe('HttpTimeoutInterceptor', () => {
     httpClient = TestBed.inject(HttpClient);
     windowRef = TestBed.inject(WindowRef);
     config = TestBed.inject(OccConfig);
+
+    spyOn(console, 'warn');
   });
 
   afterEach(fakeAsync(() => {
@@ -256,6 +258,21 @@ describe('HttpTimeoutInterceptor', () => {
     expect(error instanceof HttpErrorResponse).toBe(true);
     expect(error.error instanceof Error).toBe(true);
     expect(error.error.message).toEqual(
+      `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
+    );
+  }));
+
+  it('in case of timeout, it should console.warn', fakeAsync(() => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
+
+    httpClient.get(testUrl).subscribe({ error: () => {} });
+
+    const request = httpMock.expectOne(testUrl);
+    request.event({ type: HttpEventType.Sent });
+
+    tick(VERY_LONG_TIME);
+
+    expect(console.warn).toHaveBeenCalledWith(
       `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
     );
   }));
