@@ -234,7 +234,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   /**
-   * TODO: (#CXSPA-53) Remove feature returnAsync in 6.0
+   * TODO: (CXSPA-53) Remove synchronous overload signature and return only an observable.
    */
   getAddressCardContent(address: Address): Card;
   getAddressCardContent(address: Address, returnAsync: true): Observable<Card>;
