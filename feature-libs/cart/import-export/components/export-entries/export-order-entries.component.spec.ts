@@ -164,4 +164,12 @@ describe('ExportOrderEntriesComponent', () => {
       expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(entries);
     });
   });
+  it('should has correct text in the button', () => {
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement
+        .query(By.css('button.cx-action-link'))
+        .nativeElement.innerText.trim()
+    ).toEqual('exportEntries.exportProductToCsv');
+  });
 });
