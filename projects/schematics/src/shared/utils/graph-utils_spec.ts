@@ -181,11 +181,11 @@ describe('Graph utils', () => {
           "Customer-Ticketing",
           "Store-Finder",
           "SmartEdit",
-          "Qualtrics",          
+          "Qualtrics",
+          "Future-Stock",
           "Product-Variants",
           "Image-Zoom",
-          "Bulk-Pricing",          
-          "Future-Stock",
+          "Bulk-Pricing",
           "ASM",
         ]
       `);
