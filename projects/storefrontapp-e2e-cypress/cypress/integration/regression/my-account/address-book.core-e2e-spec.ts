@@ -48,7 +48,7 @@ describe('My Account - Address Book', () => {
         verifyNewAddress();
       });
 
-      it('should display cell phone number', () => {
+      it('should display cell phone number (CXSPA-53)', () => {
         cy.get('cx-card .card-body .cx-card-label')
           .eq(4)
           .should('contain', newAddress.cellphone);

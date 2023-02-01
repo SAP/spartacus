@@ -103,3 +103,7 @@
 
 - Added `Cellphone` field to the `addressForm`
 
+### AddressBookFormComponent
+
+- Added `Cellphone` field to adress card
+
