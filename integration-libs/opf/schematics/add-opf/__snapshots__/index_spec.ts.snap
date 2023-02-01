@@ -5,10 +5,12 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature eager 
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { OpfModule } from "@spartacus/opf";
 import { opfTranslationChunksConfig, opfTranslations } from "@spartacus/opf/assets";
+import { OpfRootModule } from "@spartacus/opf/root";
 
 @NgModule({
   declarations: [],
   imports: [
+    OpfRootModule,
     OpfModule
   ],
   providers: [provideConfig(<I18nConfig>{
@@ -26,10 +28,12 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { opfTranslationChunksConfig, opfTranslations } from "@spartacus/opf/assets";
+import { OpfRootModule } from "@spartacus/opf/root";
 
 @NgModule({
   declarations: [],
   imports: [
+    OpfRootModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -47,10 +51,12 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { opfTranslationChunksConfig, opfTranslations } from "@spartacus/opf/assets";
+import { OpfRootModule } from "@spartacus/opf/root";
 
 @NgModule({
   declarations: [],
   imports: [
+    OpfRootModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {

@@ -9,6 +9,7 @@ import {
   OPF_FEATURE_NAME,
   SPARTACUS_OPF,
   SPARTACUS_OPF_ASSETS,
+  SPARTACUS_OPF_ROOT,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
 import { CHECKOUT_BASE_MODULE } from '../checkout-schematics-config';
@@ -19,6 +20,7 @@ export const OPF_SCSS_FILE_NAME = 'opf.scss';
 
 export const OPF_FEATURE_NAME_CONSTANT = 'OPF_FEATURE';
 export const OPF_MODULE = 'OpfModule';
+export const OPF_ROOT_MODULE = 'OpfRootModule';
 export const OPF_TRANSLATIONS = 'opfTranslations';
 export const OPF_TRANSLATION_CHUNKS_CONFIG = 'opfTranslationChunksConfig';
 
@@ -32,6 +34,10 @@ export const OPF_SCHEMATICS_CONFIG: SchematicConfig = {
   featureModule: {
     name: OPF_MODULE,
     importPath: SPARTACUS_OPF,
+  },
+  rootModule: {
+    name: OPF_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_ROOT,
   },
   i18n: {
     resources: OPF_TRANSLATIONS,

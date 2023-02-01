@@ -14,6 +14,7 @@ import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
   OpfConfig,
+  OpfRootModule,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -25,6 +26,7 @@ if (environment.b2b) {
 }
 
 @NgModule({
+  imports: [OpfRootModule],
   providers: [
     provideConfig(<OpfConfig>{
       opf: {
