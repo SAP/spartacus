@@ -112,7 +112,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   });
 
   /**
-   * @deprecated since 5.1
+   * @deprecated since 5.2
    */
   constructor(
     checkoutPaymentFacade: CheckoutPaymentFacade,
@@ -253,8 +253,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
               if (address.region && address.region.isocode) {
                 region = address.region.isocode + ', ';
               }
-              let numbers: string | undefined;
-              numbers = getAddressNumbers(address, textPhone, textMobile);
+              const numbers = getAddressNumbers(address, textPhone, textMobile);
 
               return {
                 textBold: address.firstName + ' ' + address.lastName,
