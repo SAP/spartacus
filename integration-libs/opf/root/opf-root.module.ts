@@ -21,10 +21,12 @@ export function defaultOPFComponentsConfig() {
         // TODO: (OPF) provide proper step type (PAYMENT_REVIEW) once augmenting problem is solved
         cmsComponents: ['CheckoutReviewOrder'],
       },
-
-      // By default core is bundled together with components.
       [OPF_CORE_FEATURE]: OPF_FEATURE,
     },
+
+    // NOTE: Developers are urged to remove mapping for this component via impex script
+    // This approach was taken to keep possibility of maintainig functionality proper way
+    // As side effect we accept possible console warning regarding empty mapping
     cmsComponents: {
       CheckoutPlaceOrder: undefined,
     },
