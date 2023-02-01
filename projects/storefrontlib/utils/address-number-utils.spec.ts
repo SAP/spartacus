@@ -10,13 +10,13 @@ describe('Checkout utils', () => {
       cellphone: '67890',
     };
 
-    it('should return phone number and mobile number', () => {
+    it('should return phone number and mobile number when both are provided', () => {
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
         `P: ${mockAddress.phone}\nM: ${mockAddress.cellphone}`
       );
     });
 
-    it('should return phone number only when moilbe number not provided', () => {
+    it('should return phone number only when mobile number not provided', () => {
       mockAddress.cellphone = '';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
         'P: ' + mockAddress.phone
