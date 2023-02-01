@@ -178,10 +178,11 @@ describe('Graph utils', () => {
           "CDC",
           "Store-Finder",
           "SmartEdit",
-          "Qualtrics",
+          "Qualtrics",          
           "Product-Variants",
           "Image-Zoom",
-          "Bulk-Pricing",
+          "Bulk-Pricing",          
+          "Future-Stock",
           "ASM",
         ]
       `);
