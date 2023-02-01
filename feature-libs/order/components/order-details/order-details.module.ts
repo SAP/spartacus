@@ -18,6 +18,7 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
+  IconModule,
   KeyboardFocusModule,
   OutletModule,
   PromotionsModule,
@@ -30,8 +31,11 @@ import { TrackingEventsComponent } from './order-detail-items/consignment-tracki
 import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
+import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
+import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
+import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 const moduleComponents = [
   OrderOverviewComponent,
@@ -42,6 +46,8 @@ const moduleComponents = [
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
+  OrderDetailReorderComponent,
+  ReorderDialogComponent,
 ];
 
 @NgModule({
@@ -57,6 +63,7 @@ const moduleComponents = [
     OutletModule,
     AddToCartModule,
     KeyboardFocusModule,
+    IconModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -81,13 +88,16 @@ const moduleComponents = [
         AccountOrderDetailsOverviewComponent: {
           component: OrderDetailBillingComponent,
         },
+        AccountOrderDetailsReorderComponent: {
+          component: OrderDetailReorderComponent,
+        },
       },
       features: {
         consignmentTracking: '1.2',
       },
     }),
-
     provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
+    provideDefaultConfig(defaultReorderLayoutConfig),
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

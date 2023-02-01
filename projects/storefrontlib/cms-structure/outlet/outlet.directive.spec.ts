@@ -1,5 +1,12 @@
-import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  EmbeddedViewRef,
+  Inject,
+  Type,
+} from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
 import { OutletService } from '@spartacus/storefront';
@@ -468,6 +475,56 @@ describe('OutletDirective', () => {
       mockContextSubject$.next('newFakeContext');
       fixture.detectChanges();
       expect(getLastValueSync(outletData.context$)).toEqual('newFakeContext');
+    });
+  });
+
+  describe('after component or view created', () => {
+    let component: MockTestOutletComponent;
+    let fixture: ComponentFixture<MockTestOutletComponent>;
+
+    @Component({
+      template: `
+        <ng-template
+          cxOutlet="test"
+          (cxComponentRef)="testComponentRef($event)"
+        >
+        </ng-template>
+      `,
+    })
+    class MockTestOutletComponent {
+      testComponentRef(_eventValue: ComponentRef<any> | EmbeddedViewRef<any>) {}
+    }
+
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [MockTestOutletComponent, OutletDirective],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
+
+    describe('with angular component', () => {
+      beforeEach(() => {
+        fixture = TestBed.createComponent(
+          MockTestOutletComponent as Type<MockTestOutletComponent>
+        );
+        component = fixture.componentInstance;
+      });
+
+      it('should be able to get componentRef or viewRef', () => {
+        spyOn(component, 'testComponentRef').and.callThrough();
+
+        fixture.detectChanges();
+
+        expect(component.testComponentRef).toHaveBeenCalled();
+      });
     });
   });
 });
