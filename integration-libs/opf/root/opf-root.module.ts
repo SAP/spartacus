@@ -25,8 +25,8 @@ export function defaultOPFComponentsConfig() {
     },
 
     // NOTE: Developers are urged to remove mapping for this component via impex script
-    // This approach was taken to keep possibility of maintainig functionality proper way
-    // As side effect we accept possible console warning regarding empty mapping
+    // This approach was taken to keep the possibility of maintaining functionality proper way
+    // As a side effect, we accept possible console warnings regarding empty mapping
     cmsComponents: {
       CheckoutPlaceOrder: undefined,
     },
