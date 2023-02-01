@@ -49,6 +49,10 @@ module.exports = {
         __dirname,
         'integration-libs/epd-visualization'
       ),
+      '@spartacus/customer-ticketing': path.join(
+        __dirname,
+        'feature-libs/customer-ticketing'
+      ),
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
     },
   },
