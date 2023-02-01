@@ -14,6 +14,8 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
+import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
+import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
 @NgModule({
@@ -33,7 +35,7 @@ import { CheckoutReviewShippingComponent } from './checkout-review-shipping.comp
       cmsComponents: {
         CheckoutReviewShipping: {
           component: CheckoutReviewShippingComponent,
-          //guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),

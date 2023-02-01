@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
+  AuthGuard,
   CmsConfig,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -30,11 +31,11 @@ import { TrackingEventsComponent } from './order-detail-items/consignment-tracki
 import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
+import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
+import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderOverviewModule } from './order-overview/order-overview.module';
-import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
-import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 const moduleComponents = [
@@ -70,21 +71,26 @@ const moduleComponents = [
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
+          guards: [AuthGuard],
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
+          guards: [AuthGuard],
           data: {
             enableAddToCart: true,
           },
         },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
+          guards: [AuthGuard],
         },
         AccountOrderDetailsShippingComponent: {
           component: OrderDetailShippingComponent,
+          guards: [AuthGuard],
         },
         AccountOrderDetailsReorderComponent: {
           component: OrderDetailReorderComponent,
+          guards: [AuthGuard],
         },
       },
       features: {
