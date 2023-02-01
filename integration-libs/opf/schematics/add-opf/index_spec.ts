@@ -17,6 +17,9 @@ import {
   SpartacusOptions,
   SPARTACUS_OPF,
   SPARTACUS_SCHEMATICS,
+  CHECKOUT_BASE_FEATURE_NAME,
+  SPARTACUS_CHECKOUT,
+  checkoutWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -59,6 +62,11 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     features: [],
   };
 
+  const checkoutFeatureOptions: SpartacusOpfOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CHECKOUT_BASE_FEATURE_NAME],
+  };
+
   const opfFeatureOptions: SpartacusOpfOptions = {
     ...libraryNoFeaturesOptions,
     features: [OPF_FEATURE_NAME],
@@ -70,6 +78,14 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
       path.join(
         __dirname,
         '../../../../projects/schematics/src/collection.json'
+      )
+    );
+
+    schematicRunner.registerCollection(
+      SPARTACUS_CHECKOUT,
+      path.join(
+        __dirname,
+        '../../../../feature-libs/checkout/schematics/collection.json'
       )
     );
 
@@ -113,6 +129,9 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
   describe('SAP OPF feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
+          .toPromise();
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', opfFeatureOptions, appTree)
           .toPromise();
@@ -163,10 +182,25 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
 
         expect(tasks.length).toEqual(0);
       });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(opfFeatureModulePath);
+        expect(module).toMatchSnapshot();
+
+        const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+        expect(wrapperModule).toMatchSnapshot();
+      });
     });
 
     describe('eager loading', () => {
       beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...checkoutFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
@@ -179,62 +213,8 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(opfFeatureModulePath);
         expect(module).toMatchSnapshot();
-      });
-    });
-  });
 
-  describe('SAP OPF  feature - No compilerOptions in tsconfig', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', opfFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should install necessary Spartacus libraries', () => {
-        const packageJson = JSON.parse(appTree.readContent('package.json'));
-        let dependencies: Record<string, string> = {};
-        dependencies = { ...packageJson.dependencies };
-        dependencies = { ...dependencies, ...packageJson.devDependencies };
-
-        for (const toAdd in peerDependencies) {
-          if (
-            !peerDependencies.hasOwnProperty(toAdd) ||
-            toAdd === SPARTACUS_SCHEMATICS
-          ) {
-            continue;
-          }
-          const expectedDependency = dependencies[toAdd];
-          expect(expectedDependency).toBeTruthy();
-        }
-      });
-
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks.filter(
-          (task) =>
-            task.name === 'run-schematic' &&
-            (task.options as RunSchematicTaskOptions<{}>).collection ===
-              '@sap/opf'
-        );
-
-        expect(tasks.length).toEqual(0);
-      });
-    });
-
-    describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...opfFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
-      });
-
-      it('should import appropriate modules', async () => {
-        const module = appTree.readContent(opfFeatureModulePath);
-        expect(module).toMatchSnapshot();
+        expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
       });
     });
   });
