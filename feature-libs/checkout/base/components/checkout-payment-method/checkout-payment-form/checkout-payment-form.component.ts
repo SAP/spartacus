@@ -234,15 +234,15 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   /**
-   * TODO: (#CXSPA-53) Remove feature check in 6.0
+   * TODO: (#CXSPA-53) Remove feature returnAsync in 6.0
    */
   getAddressCardContent(address: Address): Card;
-  getAddressCardContent(address: Address, check: true): Observable<Card>;
+  getAddressCardContent(address: Address, returnAsync: true): Observable<Card>;
   getAddressCardContent(
     address: Address,
-    check?: true
+    returnAsync?: true
   ): Card | Observable<Card> {
-    if (check) {
+    if (returnAsync) {
       return this.translationService
         ? combineLatest([
             this.translationService.translate('addressCard.phoneNumber'),

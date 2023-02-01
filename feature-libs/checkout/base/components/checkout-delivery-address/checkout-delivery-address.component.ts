@@ -205,7 +205,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.getSupportedAddresses(),
       this.selectedAddress$,
     ]);
-    const translations = combineLatest([
+    const translations$ = combineLatest([
       this.translationService.translate(
         'checkoutAddress.defaultDeliveryAddress'
       ),
@@ -215,7 +215,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
 
-    return combineLatest([addresses$, translations]).pipe(
+    return combineLatest([addresses$, translations$]).pipe(
       tap(([[addresses, selected]]) =>
         this.selectDefaultAddress(addresses, selected)
       ),

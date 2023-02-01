@@ -36,7 +36,22 @@ export class AddressBookComponent implements OnInit {
    * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
    */
   constructor(
-    protected service: AddressBookComponentService,
+    service: AddressBookComponentService,
+    translation: TranslationService,
+    globalMessageService: GlobalMessageService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(
+    service: AddressBookComponentService,
+    translation: TranslationService,
+    globalMessageService: GlobalMessageService
+  );
+  constructor(
+    public service: AddressBookComponentService,
     protected translation: TranslationService,
     protected globalMessageService: GlobalMessageService,
     @Optional() protected featureConfigService?: FeatureConfigService
