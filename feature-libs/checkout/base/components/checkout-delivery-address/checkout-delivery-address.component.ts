@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit, Optional } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -66,9 +71,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
-    /**
-     * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
-     */
+  /**
+   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
+   */
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -106,7 +111,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
      * TODO: (#CXSPA-53) Remove feature config check in 6.0
      */
     const numbers = this.featureConfigService?.isLevel('5.2')
-      ? getAddressNumbers(address, textPhone, textMobile) : address.phone;
+      ? getAddressNumbers(address, textPhone, textMobile)
+      : address.phone;
 
     return {
       role: 'region',

@@ -21,7 +21,11 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  FeatureConfigService,
+  TranslationService,
+} from '@spartacus/core';
 import { Card, getAddressNumbers, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -121,7 +125,8 @@ export class CheckoutReviewSubmitComponent {
          * TODO: (#CXSPA-53) Remove feature config check in 6.0.
          */
         const numbers = this.featureConfigService?.isLevel('5.2')
-        ? getAddressNumbers(deliveryAddress, textPhone, textMobile) : deliveryAddress.phone;
+          ? getAddressNumbers(deliveryAddress, textPhone, textMobile)
+          : deliveryAddress.phone;
 
         return {
           title: textTitle,

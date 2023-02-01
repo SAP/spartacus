@@ -16,25 +16,33 @@ describe('Checkout utils', () => {
       );
     });
 
-    it('should return phone number only', () => {
+    it('should return phone number only when moilbe number not provided', () => {
       mockAddress.cellphone = '';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
         'P: ' + mockAddress.phone
       );
     });
 
-    it('should return mobile number only', () => {
+    it('should return mobile number when phone number is not provided', () => {
       mockAddress.phone = '';
       mockAddress.cellphone = '67890';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
         'M: ' + mockAddress.cellphone
       );
+    });
 
+    it('should return mobile number when moilbe number and phone number are the same', () => {
       mockAddress.phone = '67890';
       mockAddress.cellphone = '67890';
       expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(
         'M: ' + mockAddress.cellphone
       );
+    });
+
+    it('should return undefined when no numbers are provided', () => {
+      mockAddress.phone = '';
+      mockAddress.cellphone = '';
+      expect(getAddressNumbers(mockAddress, 'P', 'M')).toEqual(undefined);
     });
   });
 });

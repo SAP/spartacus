@@ -32,15 +32,15 @@ export class AddressBookComponent implements OnInit {
   showEditAddressForm = false;
   editCard: string | null;
 
-    /**
-     * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
-     */
-    constructor(
+  /**
+   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
+   */
+  constructor(
     protected service: AddressBookComponentService,
     protected translation: TranslationService,
     protected globalMessageService: GlobalMessageService,
     @Optional() protected featureConfigService?: FeatureConfigService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();
@@ -116,7 +116,8 @@ export class AddressBookComponent implements OnInit {
            * TODO: (#CXSPA-53) Remove feature config check in 6.0
            */
           const numbers = this.featureConfigService?.isLevel('5.2')
-            ? getAddressNumbers(address, textPhone, textMobile) : address.phone;
+            ? getAddressNumbers(address, textPhone, textMobile)
+            : address.phone;
 
           return {
             role: 'region',

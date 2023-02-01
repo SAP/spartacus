@@ -121,13 +121,13 @@ export class CheckoutPaymentFormComponent implements OnInit {
     globalMessageService: GlobalMessageService,
     fb: UntypedFormBuilder,
     userAddressService: UserAddressService,
-    launchDialogService: LaunchDialogService,
-    );
+    launchDialogService: LaunchDialogService
+  );
 
   /**
    * TODO: (#CXSPA-53) Make translationService a required dependency in 6.0
    */
-   constructor(
+  constructor(
     checkoutPaymentFacade: CheckoutPaymentFacade,
     checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     userPaymentService: UserPaymentService,
@@ -136,8 +136,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
     userAddressService: UserAddressService,
     launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    translationService?: TranslationService,
-    );
+    translationService?: TranslationService
+  );
 
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
@@ -147,7 +147,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected translationService?: TranslationService,
+    @Optional() protected translationService?: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -236,53 +236,56 @@ export class CheckoutPaymentFormComponent implements OnInit {
   /**
    * TODO: (#CXSPA-53) Remove feature check in 6.0
    */
-   getAddressCardContent(address: Address): Card;
-   getAddressCardContent(address: Address, check: true): Observable<Card>;
-   getAddressCardContent(address: Address, check?: true): Card | Observable<Card>{
-     if (check) {
-       return this.translationService
-       ? combineLatest([
-           this.translationService.translate('addressCard.phoneNumber'),
-           this.translationService.translate('addressCard.mobileNumber'),
-         ]).pipe(
-           map(([textPhone, textMobile]) => {
-             let region = '';
-             if (address.region && address.region.isocode) {
-               region = address.region.isocode + ', ';
-             }
-             let numbers: string | undefined;
-             numbers = getAddressNumbers(address, textPhone, textMobile);
+  getAddressCardContent(address: Address): Card;
+  getAddressCardContent(address: Address, check: true): Observable<Card>;
+  getAddressCardContent(
+    address: Address,
+    check?: true
+  ): Card | Observable<Card> {
+    if (check) {
+      return this.translationService
+        ? combineLatest([
+            this.translationService.translate('addressCard.phoneNumber'),
+            this.translationService.translate('addressCard.mobileNumber'),
+          ]).pipe(
+            map(([textPhone, textMobile]) => {
+              let region = '';
+              if (address.region && address.region.isocode) {
+                region = address.region.isocode + ', ';
+              }
+              let numbers: string | undefined;
+              numbers = getAddressNumbers(address, textPhone, textMobile);
 
-             return {
-               textBold: address.firstName + ' ' + address.lastName,
-               text: [
-                 address.line1,
-                 address.line2,
-                 address.town + ', ' + region + address.country?.isocode,
-                 address.postalCode,
-                 numbers,
-               ],
-             } as Card;
-           })
-         )
-       : EMPTY;
-     } else {
-       let region = '';
-       if (address.region && address.region.isocode) {
-         region = address.region.isocode + ', ';
-       }
-       return {
-         textBold: address.firstName + ' ' + address.lastName,
-         text: [
-           address.line1,
-           address.line2,
-           address.town + ', ' + region + address.country?.isocode,
-           address.postalCode,
-           address.phone,
-         ],
-       } as Card;
-     }
-   }
+              return {
+                textBold: address.firstName + ' ' + address.lastName,
+                text: [
+                  address.line1,
+                  address.line2,
+                  address.town + ', ' + region + address.country?.isocode,
+                  address.postalCode,
+                  numbers,
+                ],
+              } as Card;
+            })
+          )
+        : EMPTY;
+    } else {
+      let region = '';
+      if (address.region && address.region.isocode) {
+        region = address.region.isocode + ', ';
+      }
+      return {
+        textBold: address.firstName + ' ' + address.lastName,
+        text: [
+          address.line1,
+          address.line2,
+          address.town + ', ' + region + address.country?.isocode,
+          address.postalCode,
+          address.phone,
+        ],
+      } as Card;
+    }
+  }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.
   openSuggestedAddress(results: AddressValidation): void {

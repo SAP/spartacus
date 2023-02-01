@@ -17,18 +17,18 @@ export function getAddressNumbers(
 ): string | undefined {
   if (address.cellphone && address.phone) {
     if (address.cellphone === address.phone) {
-      return textMobile + ': ' + address.cellphone
+      return textMobile + ': ' + address.cellphone;
     }
-    return `${textPhone}: ${address.phone}\n${textMobile}: ${address.cellphone}`
+    return `${textPhone}: ${address.phone}\n${textMobile}: ${address.cellphone}`;
   }
 
   if (address.cellphone) {
-    return textMobile + ': ' + address.cellphone
+    return textMobile + ': ' + address.cellphone;
   }
 
   if (address.phone) {
-    return textPhone + ': ' + address.phone
+    return textPhone + ': ' + address.phone;
   }
 
-  return
+  return;
 }
