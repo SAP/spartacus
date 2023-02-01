@@ -27,7 +27,6 @@ import {
   Address,
   AddressValidation,
   Country,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -113,9 +112,33 @@ export class CheckoutPaymentFormComponent implements OnInit {
   });
 
   /**
-  * TODO: (#CXSPA-53) Remove featureConfigService from constructor and make translationService a
-  * required dependency in 6.0
-  */
+   * @deprecated since 5.1
+   */
+  constructor(
+    checkoutPaymentFacade: CheckoutPaymentFacade,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    userPaymentService: UserPaymentService,
+    globalMessageService: GlobalMessageService,
+    fb: UntypedFormBuilder,
+    userAddressService: UserAddressService,
+    launchDialogService: LaunchDialogService,
+    );
+
+  /**
+   * TODO: (#CXSPA-53) Make translationService a required dependency in 6.0
+   */
+   constructor(
+    checkoutPaymentFacade: CheckoutPaymentFacade,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    userPaymentService: UserPaymentService,
+    globalMessageService: GlobalMessageService,
+    fb: UntypedFormBuilder,
+    userAddressService: UserAddressService,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    translationService?: TranslationService,
+    );
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -125,7 +148,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
     @Optional() protected translationService?: TranslationService,
-    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -212,57 +234,55 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   /**
-  * TODO: (#CXSPA-53) Remove feature config check in 6.0
-  */
-  getAddressCardContent(address: Address): Card;
-  getAddressCardContent(address: Address): Observable<Card>;
-  getAddressCardContent(address: Address): Card | Observable<Card> {
+   * TODO: (#CXSPA-53) Remove feature check in 6.0
+   */
+   getAddressCardContent(address: Address): Card;
+   getAddressCardContent(address: Address, check: true): Observable<Card>;
+   getAddressCardContent(address: Address, check?: true): Card | Observable<Card>{
+     if (check) {
+       return this.translationService
+       ? combineLatest([
+           this.translationService.translate('addressCard.phoneNumber'),
+           this.translationService.translate('addressCard.mobileNumber'),
+         ]).pipe(
+           map(([textPhone, textMobile]) => {
+             let region = '';
+             if (address.region && address.region.isocode) {
+               region = address.region.isocode + ', ';
+             }
+             let numbers: string | undefined;
+             numbers = getAddressNumbers(address, textPhone, textMobile);
 
-    if (this.featureConfigService?.isLevel('5.2')) {
-      return this.translationService
-      ? combineLatest([
-          this.translationService.translate('addressCard.phoneNumber'),
-          this.translationService.translate('addressCard.mobileNumber'),
-        ]).pipe(
-          map(([textPhone, textMobile]) => {
-            let region = '';
-            if (address.region && address.region.isocode) {
-              region = address.region.isocode + ', ';
-            }
-            let numbers: string | undefined;
-            numbers = this.featureConfigService?.isLevel('5.2') 
-            ? getAddressNumbers(address, textPhone, textMobile) : address.phone;
-
-            return {
-              textBold: address.firstName + ' ' + address.lastName,
-              text: [
-                address.line1,
-                address.line2,
-                address.town + ', ' + region + address.country?.isocode,
-                address.postalCode,
-                numbers,
-              ],
-            } as Card;
-          })
-        )
-      : EMPTY;
-    } else {
-      let region = '';
-      if (address.region && address.region.isocode) {
-        region = address.region.isocode + ', ';
-      }
-      return {
-        textBold: address.firstName + ' ' + address.lastName,
-        text: [
-          address.line1,
-          address.line2,
-          address.town + ', ' + region + address.country?.isocode,
-          address.postalCode,
-          address.phone,
-        ],
-      } as Card;
-    }
-  }
+             return {
+               textBold: address.firstName + ' ' + address.lastName,
+               text: [
+                 address.line1,
+                 address.line2,
+                 address.town + ', ' + region + address.country?.isocode,
+                 address.postalCode,
+                 numbers,
+               ],
+             } as Card;
+           })
+         )
+       : EMPTY;
+     } else {
+       let region = '';
+       if (address.region && address.region.isocode) {
+         region = address.region.isocode + ', ';
+       }
+       return {
+         textBold: address.firstName + ' ' + address.lastName,
+         text: [
+           address.line1,
+           address.line2,
+           address.town + ', ' + region + address.country?.isocode,
+           address.postalCode,
+           address.phone,
+         ],
+       } as Card;
+     }
+   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.
   openSuggestedAddress(results: AddressValidation): void {

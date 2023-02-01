@@ -19,7 +19,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 
 @NgModule({
   /**
-   * TODO: (#CXSPA-53) Remove feature config check in 6.0
+   * TODO: (#CXSPA-53) Remove FeaturesConfigModule in 6.0
    */
   imports: [
     NgSelectA11yModule,

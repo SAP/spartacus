@@ -43,8 +43,8 @@ export class CheckoutReviewSubmitComponent {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   /**
-  * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0.
-  */
+   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0.
+   */
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
@@ -118,9 +118,9 @@ export class CheckoutReviewSubmitComponent {
         }
 
         /**
-        * TODO: (#CXSPA-53) Remove feature config check in 6.0.
-        */
-        const numbers = this.featureConfigService?.isLevel('5.2') 
+         * TODO: (#CXSPA-53) Remove feature config check in 6.0.
+         */
+        const numbers = this.featureConfigService?.isLevel('5.2')
         ? getAddressNumbers(deliveryAddress, textPhone, textMobile) : deliveryAddress.phone;
 
         return {

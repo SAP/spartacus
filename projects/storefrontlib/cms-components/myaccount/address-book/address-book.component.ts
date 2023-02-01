@@ -33,8 +33,8 @@ export class AddressBookComponent implements OnInit {
   editCard: string | null;
 
     /**
-    * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
-    */
+     * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
+     */
     constructor(
     protected service: AddressBookComponentService,
     protected translation: TranslationService,
@@ -112,10 +112,10 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
-    /**
-    * TODO: (#CXSPA-53) Remove feature config check in 6.0
-    */
-          const numbers = this.featureConfigService?.isLevel('5.2') 
+          /**
+           * TODO: (#CXSPA-53) Remove feature config check in 6.0
+           */
+          const numbers = this.featureConfigService?.isLevel('5.2')
             ? getAddressNumbers(address, textPhone, textMobile) : address.phone;
 
           return {
