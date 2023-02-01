@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
-  FeaturesConfig,
+  FeatureConfigService,
   FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
@@ -93,6 +93,15 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
+/**
+ * TODO: (#CXSPA-53) Remove MockFeatureConfigService in 6.0
+ */
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
@@ -116,10 +125,8 @@ describe('AddressBookComponent', () => {
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
           },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],

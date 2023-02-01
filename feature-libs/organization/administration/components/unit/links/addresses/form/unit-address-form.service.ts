@@ -65,6 +65,7 @@ export class UnitAddressFormService extends FormService<Address> {
       new UntypedFormControl('', Validators.required)
     );
     form.setControl('phone', new UntypedFormControl(''));
+    form.setControl('cellphone', new UntypedFormControl(''));
 
     this.form = form;
   }
