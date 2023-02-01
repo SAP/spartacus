@@ -32,9 +32,24 @@ export abstract class I18nConfig {
        *
        * Example:
        * `assets/i18n-assets/{{lng}}/{{ns}}.json`
+       *
+       * @deprecated use `loader` property instead
        */
 
       loadPath?: string;
+
+      /**
+       * Function that loads asynchronously the translation resources, based on the provided language and namespace.
+       *
+       * @example
+       * ```ts
+       * (lng: string, ns: string) => import(`./assets/i18n-assets/${lng}/${ns}.json`)
+       * ```
+       */
+      loader?: (
+        language: string,
+        namespace: string
+      ) => Promise<TranslationResources>;
     };
 
     /**

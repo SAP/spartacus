@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import type { InitOptions } from 'i18next';
-import { I18nextHttpBackendService } from './i18next-http-backend.service';
+import { I18nextDefaultBackendService } from './i18next-default-backend.service';
 
 /**
  * Configures an i18next backend plugin, to allow for loading translations from external resources.
@@ -16,7 +16,7 @@ import { I18nextHttpBackendService } from './i18next-http-backend.service';
  * It's an extension point to allow for providing potentially different i18next backend plugins.
  * See the list of available plugins: https://www.i18next.com/overview/plugins-and-utils#backends
  */
-@Injectable({ providedIn: 'root', useExisting: I18nextHttpBackendService })
+@Injectable({ providedIn: 'root', useExisting: I18nextDefaultBackendService })
 export abstract class I18nextBackendService {
   /**
    * Configures an i18next backend plugin, to allow for loading translations from external resources.

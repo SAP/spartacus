@@ -1271,6 +1271,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.20.6":
+  version "7.20.13"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.13.tgz#7055ab8a7cff2b8f6058bf6ae45ff84ad2aded4b"
+  integrity sha512-gt3PKXs0DBoL9xCvOIIZ2NEqAGZqHjAnmVbfQtB620V0uReIQutpel14KcneZuer7UioY8ALKZ7iocavvzTNFA==
+  dependencies:
+    regenerator-runtime "^0.13.11"
+
 "@babel/template@7.18.10", "@babel/template@^7.18.10", "@babel/template@^7.3.3":
   version "7.18.10"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.18.10.tgz#6f9134835970d1dbf0835c0d100c9f38de0c5e71"
@@ -6121,17 +6128,19 @@ i18n-lint@^1.0.0:
     htmlparser2 "^3.0.0"
     node.extend "^1.0.0"
 
-i18next-fs-backend@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.1.1.tgz#07c6393be856c5a398e3dfc1257bf8439841cd89"
-  integrity sha512-FTnj+UmNgT3YRml5ruRv0jMZDG7odOL/OP5PF5mOqvXud2vHrPOOs68Zdk6iqzL47cnnM0ZVkK2BAvpFeDJToA==
-
 i18next-http-backend@^1.4.1:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-1.4.4.tgz#9f372f704975a5e96ce74e4247698bcbd00d148f"
   integrity sha512-M4gLPe6JKZ2p1UmE6t4rzWV/sAxgrLThW7ztXAsTpFwFqXoyzhTzX8eYxVv9KjpCQh4K9nwxnEjEi+74C4Thbg==
   dependencies:
     cross-fetch "3.1.5"
+
+i18next-resources-to-backend@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/i18next-resources-to-backend/-/i18next-resources-to-backend-1.1.1.tgz#b2f66e47c47e76d65918bc1981268f4f18f96783"
+  integrity sha512-8RSFzFGy1SKQDkG/Pv6dEWR1H07L6UflAysWXE4z3kdN7pntdncgBQh915/fkphkioRnU00+HYj+r9d92YDH5A==
+  dependencies:
+    "@babel/runtime" "^7.20.6"
 
 i18next@^21.9.1:
   version "21.9.2"
@@ -9509,6 +9518,11 @@ regenerator-runtime@0.13.9, regenerator-runtime@^0.13.4:
   version "0.13.9"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
   integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
+
+regenerator-runtime@^0.13.11:
+  version "0.13.11"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
+  integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
 
 regenerator-transform@^0.15.0:
   version "0.15.0"
