@@ -30,6 +30,7 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
           "Organization-User-Registration",
@@ -215,6 +216,10 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
           }
         ]
       }

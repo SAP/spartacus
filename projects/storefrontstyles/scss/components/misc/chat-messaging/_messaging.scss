@@ -1,0 +1,142 @@
+%cx-messaging {
+  .container {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 0;
+    min-height: 400px;
+    padding-bottom: 2rem;
+
+    .cx-avatar-line {
+      border: 0px solid;
+      margin-inline-start: 2.1875rem;
+      color: var(--cx-color-light);
+      border-right-width: 1px;
+    }
+
+    .cx-messages {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+      margin-inline-start: -2.1875rem;
+      max-height: 400px;
+      overflow-y: auto;
+
+      label {
+        margin-bottom: 0;
+        font-size: var(--cx-font-size, 0.875rem);
+      }
+
+      .cx-message-card {
+        display: flex;
+        flex-direction: row;
+        gap: 0.875rem;
+
+        div {
+          width: 100%;
+        }
+      }
+
+      .cx-message-display {
+        @include media-breakpoint-up(md) {
+          padding-inline-start: 4.875rem;
+        }
+      }
+
+      .cx-message-left-align-text {
+        padding: 20px 28px;
+        border: 1px solid var(--cx-color-light);
+        background-color: mix(
+          theme-color('inverse'),
+          theme-color('primary'),
+          90%
+        );
+        border-radius: 0px 16px 16px 16px;
+      }
+
+      .cx-message-right-align-text {
+        padding: 20px 28px;
+        border: 1px solid var(--cx-color-light);
+        background-color: var(--cx-color-background);
+        border-radius: 0px 16px 16px 16px;
+      }
+
+      .cx-attachment {
+        cx-icon {
+          color: var(--cx-color-secondary);
+        }
+        margin: 0;
+        color: var(--cx-color-text);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .cx-message-footer {
+    display: flex;
+    gap: 1rem;
+
+    @include media-breakpoint-up(md) {
+      padding-inline-start: 4.875rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      .cx-send {
+        align-self: flex-end;
+      }
+    }
+
+    .cx-message-box {
+      width: 100%;
+
+      cx-file-upload {
+        display: flex;
+        align-items: flex-start;
+        justify-content: left;
+        width: 100%;
+        button {
+          width: auto;
+        }
+        .cx-message-footer-text {
+          text-decoration: underline;
+          cursor: pointer;
+          padding: 0rem 0.5rem;
+          white-space: nowrap;
+        }
+        cx-icon {
+          color: var(--cx-color-secondary);
+          cursor: pointer;
+          font-size: var(--cx-font-size, 1.25rem);
+        }
+      }
+
+      .cx-footer-label {
+        font-weight: var(--cx-font-weight-semi);
+        .cx-message-input {
+          display: flex;
+          gap: 1rem;
+        }
+      }
+
+      .cx-message-footer-info {
+        display: flex;
+        padding-inline-end: 7.5rem;
+        justify-content: space-between;
+        .cx-message-footer-info-text {
+          width: 100%;
+        }
+        p {
+          font-size: var(--cx-font-size, 0.75rem);
+          font-style: italic;
+          text-align: end;
+          margin: 0;
+        }
+      }
+    }
+    .cx-send {
+      max-width: 6.5rem;
+      height: 48px;
+    }
+  }
+}

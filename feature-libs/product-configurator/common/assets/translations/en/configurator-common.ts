@@ -153,6 +153,8 @@ export const configurator = {
         'Selected value {{ value }} of attribute {{ attribute }}',
       selectedValueOfAttributeFullWithPrice:
         'Selected value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
+      readOnlyValueOfAttributeFullWithPrice:
+        'Read-only value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
