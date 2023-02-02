@@ -61,7 +61,9 @@ export class CheckoutReviewPaymentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.outlet?.context$.subscribe((context) => {
-        this.readonly = context.readonly ?? this.readonly;
+        if (context.readonly !== undefined) {
+          this.readonly = context.readonly;
+        }
         if (context.paymentDetails) {
           this.paymentDetails$ = of(context.paymentDetails);
         }

@@ -90,9 +90,15 @@ export class CheckoutReviewShippingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.outlet?.context$.subscribe((context) => {
-        this.readonly = context.readonly ?? this.readonly;
-        this.showItemList = context.showItemList ?? this.showItemList;
-        this.options = context.options ?? this.options;
+        if (context.readonly !== undefined) {
+          this.readonly = context.readonly;
+        }
+        if (context.showItemList !== undefined) {
+          this.showItemList = context.showItemList;
+        }
+        if (context.options) {
+          this.options = context.options;
+        }
         if (context.entries) {
           this.entries$ = of(context.entries);
         }
