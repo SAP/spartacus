@@ -52,6 +52,8 @@
         </button>
       </div>
     </div>
-    <cx-spinner *ngIf="isDataLoading$ | async" class="overlay"></cx-spinner>
+    <ng-container *ngIf="{isDataLoading$ | async} as isDataLoading">
+      <cx-spinner *ngIf="isDataLoading" class="overlay"></cx-spinner>
+    </ng-container>
   </form>
 </div>
