@@ -31,7 +31,6 @@ Cypress.Commands.add(
   'requireCustomerTicketList',
   (auth, { message, subject, ticketCategory }) => {
     function createCustomerTicket() {
-      console.log('1', message, '2', subject, '3', ticketCategory);
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
