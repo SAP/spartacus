@@ -6,9 +6,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory, QueryState } from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
+import { AsmCustomer360TabComponent } from '../model/customer-360-tab-config';
 import { AsmCustomer360Response } from '../model/customer-360.model';
 
 @Injectable({
@@ -17,14 +18,11 @@ import { AsmCustomer360Response } from '../model/customer-360.model';
     facadeFactory({
       facade: Asm360Facade,
       feature: ASM_FEATURE,
-      methods: ['get360Data', 'get360DataState'],
+      methods: ['get360Data'],
     }),
 })
 export abstract class Asm360Facade {
   abstract get360Data(
-    tabIndex: number
-  ): Observable<AsmCustomer360Response | undefined> | undefined;
-  abstract get360DataState(
-    tabIndex: number
-  ): Observable<QueryState<AsmCustomer360Response>> | undefined;
+    components: Array<AsmCustomer360TabComponent>
+  ): Observable<AsmCustomer360Response | undefined>;
 }
