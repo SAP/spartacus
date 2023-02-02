@@ -5,22 +5,22 @@
  */
 
 import {
-  TestTicketDetails,
-  TestStatus,
-  TestSortingTypes,
-  FIRST_ROW_TICKET_LIST,
-  SUBJECT_COLUMN,
   CATEGORY_COLUMN,
-  STATUS_COLUMN,
-  ID_COLUMN,
+  CHANGED_ON_COLUMN,
   COLUMN_HEADER_TICKET_LIST,
   CREATED_ON_COLUMN,
-  CHANGED_ON_COLUMN,
-  MAX_TICKETS_PER_PAGE,
+  FIRST_ROW_TICKET_LIST,
+  ID_COLUMN,
   ID_DELIMITER,
+  MAX_TICKETS_PER_PAGE,
+  STATUS_COLUMN,
   STATUS_DELIMITER,
+  SUBJECT_COLUMN,
   SUBJECT_DELIMITER,
   TestCategory,
+  TestSortingTypes,
+  TestStatus,
+  TestTicketDetails,
   visitTicketDetailsForExistingTicket,
 } from './customer-ticketing-commons';
 const MESSAGE_BOX = '.form-control';
@@ -43,7 +43,7 @@ export function verifyCreatedTicketDetails(
     .get('tr')
     .eq(rowNumber);
   row.get('td').eq(SUBJECT_COLUMN).contains(ticketDetails.subject);
-  row.get('td').eq(CATEGORY_COLUMN).contains(ticketDetails.category);
+  row.get('td').eq(CATEGORY_COLUMN).contains(ticketDetails.ticketCategory.name);
   row.get('td').eq(STATUS_COLUMN).contains('Open');
 
   row.click();
@@ -208,7 +208,10 @@ export function extractTicketDetailsFromFirstRowInTicketListingPage(): TestTicke
   const testTicketDetails: TestTicketDetails = {
     subject: '',
     message: '',
-    category: TestCategory.complaint,
+    ticketCategory: {
+      id: TestCategory.complaint.toUpperCase(),
+      name: TestCategory.complaint,
+    },
   };
 
   cy.get('cx-customer-ticketing-list')
@@ -302,5 +305,18 @@ export function visitTicketDetailsOfFirstTicketByItsIdThroughURL() {
             id.substring(ID_DELIMITER).trim()
           );
         });
+    });
+}
+
+export function waitForTicketListData(
+  numberOfTicketsToRequest: number,
+  ticketDetails: TestTicketDetails
+) {
+  cy.window()
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then(({ token }) => {
+      for (let i = 0; i < numberOfTicketsToRequest; i++) {
+        cy.requireCustomerTicketList(token, ticketDetails);
+      }
     });
 }
