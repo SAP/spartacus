@@ -37,12 +37,5 @@ import { CheckoutReviewShippingModule } from './checkout-review/checkout-review-
     CheckoutDeliveryAddressModule,
     CheckoutLoginModule,
   ],
-  // providers: [
-  //   {
-  //     provide: PAGE_LAYOUT_HANDLER,
-  //     useExisting: CheckoutReviewPageLayoutHandler,
-  //     multi: true,
-  //   },
-  // ],
 })
 export class CheckoutComponentsModule {}
