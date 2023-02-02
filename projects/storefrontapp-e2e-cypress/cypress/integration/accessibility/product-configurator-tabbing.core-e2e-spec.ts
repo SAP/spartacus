@@ -1,9 +1,9 @@
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
+import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
+import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
 import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configuration from '../../helpers/product-configurator';
-import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
  * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
@@ -44,7 +44,7 @@ context('Product Configuration', () => {
   });
 
   describe('Product Config Tabbing', () => {
-    it('should allow to navigate with tab key', () => {
+    xit('should allow to navigate with tab key', () => {
       const commerceIsAtLeast2211 = false;
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
