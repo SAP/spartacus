@@ -17,7 +17,7 @@ export const PICKUP_IN_STORE_FOLDER_NAME = 'pickup-in-store';
 export const PICKUP_IN_STORE_FEATURE_MODULE_NAME = 'Pickup-In-Store';
 
 export const PICKUP_IN_STORE_FEATURE_NAME_CONSTANT = 'PICKUP_IN_STORE_FEATURE';
-export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
+export const PICKUP_IN_STORE_MODULE = 'PickupInStoreBaseModule';
 export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 export const PICKUP_IN_STORE_TRANSLATIONS = 'pickupInStoreTranslations';
 export const PICKUP_IN_STORE_TRANSLATION_CHUNKS_CONFIG =
