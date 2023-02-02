@@ -61,7 +61,13 @@
   </div>
 </ng-template>
 
-<ng-container cxInnerComponentsHost></ng-container>
+<ng-template
+  [cxOutlet]="CartOutlets.PICKUP_ITEM_LIST"
+  [cxOutletContext]="{
+    items: activeCartFacade.getPickupEntries() | async
+  }"
+>
+</ng-template>
 
 <div class="row cx-checkout-btns">
   <div class="col-md-12 col-lg-6">

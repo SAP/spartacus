@@ -85,6 +85,7 @@ const hasPickupItems$ = new BehaviorSubject<boolean>(false);
 class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
+  getPickupEntries = createSpy().and.returnValue(of([]));
 }
 
 describe('CheckoutDeliveryModeComponent', () => {

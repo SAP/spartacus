@@ -1,0 +1,11 @@
+<div class="cx-order-items container" *ngIf="order$ | async as order">
+  <ng-template
+    *ngIf="order.paymentInfo"
+    [cxOutlet]="cartOutlets.PAYMENT_INFO"
+    [cxOutletContext]="{
+      readonly: true,
+      paymentDetails: order.paymentInfo
+    }"
+  >
+  </ng-template>
+</div>

@@ -4,7 +4,7 @@
 @import './order-details-reorder';
 @import './reorder-dialog';
 
-$order-details-allowlist: cx-order-details-items, cx-order-details-shipping,
+$order-details-allowlist: cx-order-details-items, cx-order-overview,
   cx-order-details-actions, cx-order-details-reorder !default;
 
 $skipComponentStyles: () !default;

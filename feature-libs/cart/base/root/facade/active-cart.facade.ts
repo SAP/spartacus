@@ -95,8 +95,13 @@ export abstract class ActiveCartFacade {
    *
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
-  abstract addEntry(productCode: string, quantity: number): void;
+  abstract addEntry(
+    productCode: string,
+    quantity: number,
+    pickupStore?: string
+  ): void;
 
   /**
    * Remove entry
@@ -110,6 +115,8 @@ export abstract class ActiveCartFacade {
    *
    * @param entryNumber
    * @param quantity
+   * @param pickupStore
+   * @param pickupToDelivery
    */
   abstract updateEntry(
     entryNumber: number,

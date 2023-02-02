@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsOrderDetailItemsComponent,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -80,6 +79,7 @@ const mockOrder: Order = {
       status: 'PICKUP_COMPLETE',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 4, shippedQuantity: 4 }],
+      deliveryPointOfService: {},
     },
     {
       code: 'a00000342',
@@ -157,12 +157,6 @@ describe('OrderDetailItemsComponent', () => {
         ],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.4', consignmentTracking: true },
-            },
-          },
           { provide: CmsComponentData, useValue: MockCmsComponentData },
         ],
         declarations: [
@@ -179,7 +173,6 @@ describe('OrderDetailItemsComponent', () => {
     el = fixture.debugElement;
 
     component = fixture.componentInstance;
-    component.ngOnInit();
   });
 
   it('should create', () => {
@@ -197,55 +190,29 @@ describe('OrderDetailItemsComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should initialize others and check if it does not allow valid consignment status', () => {
+  it('should get pickupConsignements', () => {
     fixture.detectChanges();
-    let others: Consignment[];
-    component.others$
-      .subscribe((value) => {
-        others = value;
-      })
-      .unsubscribe();
+    component.order$.subscribe().unsubscribe();
 
-    expect(others).not.toContain(mockOrder.consignments[1]);
-    expect(others).not.toContain(mockOrder.consignments[2]);
-    expect(others).not.toContain(mockOrder.consignments[3]);
+    expect(component.pickupConsignments).toContain(mockOrder.consignments[2]);
   });
 
-  it('should initialize others and check if it contains any consignment status', () => {
+  it('should get grouped deliveryConsignments', () => {
     fixture.detectChanges();
-    let others: Consignment[];
-    component.others$
-      .subscribe((value) => {
-        others = value;
-      })
-      .unsubscribe();
+    component.order$.subscribe().unsubscribe();
 
-    expect(others).toContain(mockOrder.consignments[0]);
-    expect(others).toContain(mockOrder.consignments[4]);
-  });
-
-  it('should initialize completed', () => {
-    fixture.detectChanges();
-    let completed: Consignment[];
-    component.completed$
-      .subscribe((value) => {
-        completed = value;
-      })
-      .unsubscribe();
-
-    expect(completed).toContain(mockOrder.consignments[1]);
-    expect(completed).toContain(mockOrder.consignments[2]);
-  });
-
-  it('should initialize cancel', () => {
-    fixture.detectChanges();
-    let cancel: Consignment[];
-    component.cancel$
-      .subscribe((value) => {
-        cancel = value;
-      })
-      .unsubscribe();
-    expect(cancel).toContain(mockOrder.consignments[3]);
+    expect(component.deliveryConsignments?.[0]).toEqual(
+      mockOrder.consignments[0]
+    );
+    expect(component.deliveryConsignments?.[1]).toEqual(
+      mockOrder.consignments[4]
+    );
+    expect(component.deliveryConsignments?.[2]).toEqual(
+      mockOrder.consignments[1]
+    );
+    expect(component.deliveryConsignments?.[3]).toEqual(
+      mockOrder.consignments[3]
+    );
   });
 
   it('should order details item be rendered', () => {

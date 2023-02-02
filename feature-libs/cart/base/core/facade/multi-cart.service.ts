@@ -220,6 +220,7 @@ export class MultiCartService implements MultiCartFacade {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   addEntry(
     userId: string,
@@ -287,6 +288,8 @@ export class MultiCartService implements MultiCartFacade {
    * @param cartId
    * @param entryNumber
    * @param quantity
+   * @param pickupStore
+   * @param pickupToDelivery
    */
   updateEntry(
     userId: string,

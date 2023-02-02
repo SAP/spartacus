@@ -26,6 +26,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
+import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
 import { defaultConsignmentTrackingLayoutConfig } from './order-detail-items/default-consignment-tracking-layout.config';
@@ -33,16 +34,16 @@ import { OrderConsignedEntriesComponent } from './order-detail-items/order-consi
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
-import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
-import { OrderOverviewModule } from './order-overview/order-overview.module';
+import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
 
 const moduleComponents = [
+  OrderOverviewComponent,
   OrderDetailActionsComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
-  OrderDetailShippingComponent,
+  OrderDetailBillingComponent,
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
   OrderConsignedEntriesComponent,
@@ -57,7 +58,6 @@ const moduleComponents = [
     I18nModule,
     FeaturesConfigModule,
     PromotionsModule,
-    OrderOverviewModule,
     UrlModule,
     SpinnerModule,
     RouterModule,
@@ -84,8 +84,13 @@ const moduleComponents = [
           component: OrderDetailTotalsComponent,
           guards: [AuthGuard],
         },
-        AccountOrderDetailsShippingComponent: {
-          component: OrderDetailShippingComponent,
+        // AccountOrderDetailsOverviewComponent: {
+        //   component: OrderOverviewComponent,
+        // },
+
+        // temporary use AccountOrderDetailsOverviewComponent to show billing, need create a new cms componnet
+        AccountOrderDetailsOverviewComponent: {
+          component: OrderDetailBillingComponent,
           guards: [AuthGuard],
         },
         AccountOrderDetailsReorderComponent: {
