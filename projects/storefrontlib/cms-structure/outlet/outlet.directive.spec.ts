@@ -1,8 +1,6 @@
 import {
   Component,
   ComponentFactoryResolver,
-  ComponentRef,
-  EmbeddedViewRef,
   Inject,
   Type,
 } from '@angular/core';
@@ -484,15 +482,12 @@ describe('OutletDirective', () => {
 
     @Component({
       template: `
-        <ng-template
-          cxOutlet="test"
-          (cxComponentRef)="testComponentRef($event)"
-        >
+        <ng-template cxOutlet="test" [(cxComponentRef)]="innerCompRef">
         </ng-template>
       `,
     })
     class MockTestOutletComponent {
-      testComponentRef(_eventValue: ComponentRef<any> | EmbeddedViewRef<any>) {}
+      innerCompRef: any;
     }
 
     beforeEach(
@@ -519,11 +514,9 @@ describe('OutletDirective', () => {
       });
 
       it('should be able to get componentRef or viewRef', () => {
-        spyOn(component, 'testComponentRef').and.callThrough();
-
         fixture.detectChanges();
 
-        expect(component.testComponentRef).toHaveBeenCalled();
+        expect(component.innerCompRef).not.toBeUndefined();
       });
     });
   });
