@@ -23,7 +23,6 @@ export abstract class I18nConfig {
      * Configuration for lazy loading of translation files.
      * For eager loading of translations please use config option `i18n.resources`
      */
-
     backend?: {
       /**
        * The path to JSON translations. It should contain placeholders:
@@ -31,11 +30,20 @@ export abstract class I18nConfig {
        * - `{{ns}}` for the name of chunk.
        *
        * Example:
-       * `assets/i18n-assets/{{lng}}/{{ns}}.json`
+       * ```ts
+       * { loadPath: 'assets/i18n-assets/{{lng}}/{{ns}}.json' }
+       * ```
        *
-       * @deprecated use `loader` property instead
+       * **CAUTION: It's recommended to use the `loader` config property instead, for SSR performance reasons
+       * (for more, see https://github.com/SAP/spartacus/issues/13460).**
+       *
+       *
+       * If you really want to use this config, you'll need to additionally provide `I18nextHttpBackendService`
+       * for `I18nextBackendService`:
+       * ```ts
+       * { provide: I18nextBackendService, useExisting: I18nextHttpBackendService }
+       * ```
        */
-
       loadPath?: string;
 
       /**
@@ -43,7 +51,7 @@ export abstract class I18nConfig {
        *
        * @example
        * ```ts
-       * (lng: string, ns: string) => import(`./assets/i18n-assets/${lng}/${ns}.json`)
+       * { loader: (lng: string, ns: string) => import(`./assets/i18n-assets/${lng}/${ns}.json`) }
        * ```
        */
       loader?: (

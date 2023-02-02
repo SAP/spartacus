@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
-import { WindowRef } from '../../../window/window-ref';
-import { I18nConfig } from '../../config/i18n-config';
-import { I18NEXT_INSTANCE } from '../i18next-instance';
+import { WindowRef } from '../../../../window/window-ref';
+import { I18nConfig } from '../../../config/i18n-config';
+import { I18NEXT_INSTANCE } from '../../i18next-instance';
 import {
   I18nextHttpBackendClient,
   I18NEXT_HTTP_BACKEND_CLIENT,

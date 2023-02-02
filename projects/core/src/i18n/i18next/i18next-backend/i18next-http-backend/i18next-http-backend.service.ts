@@ -7,10 +7,10 @@
 import { Inject, Injectable } from '@angular/core';
 import type { i18n, InitOptions } from 'i18next';
 import i18nextHttpBackend, { BackendOptions } from 'i18next-http-backend';
-import { WindowRef } from '../../../window/window-ref';
-import { I18nConfig } from '../../config/i18n-config';
-import { I18NEXT_INSTANCE } from '../i18next-instance';
-import { I18nextBackendService } from './i18next-backend.service';
+import { WindowRef } from '../../../../window/window-ref';
+import { I18nConfig } from '../../../config/i18n-config';
+import { I18NEXT_INSTANCE } from '../../i18next-instance';
+import { I18nextBackendService } from '../i18next-backend.service';
 import {
   I18nextHttpBackendClient,
   I18NEXT_HTTP_BACKEND_CLIENT,
@@ -45,9 +45,7 @@ export class I18nextHttpBackendService implements I18nextBackendService {
    */
   protected getBackendConfig(): BackendOptions {
     if (!this.config.i18n?.backend?.loadPath) {
-      throw new Error(
-        'I18nextHttpBackendService: Missing `i18n.backend.loadPath` config.'
-      );
+      throw new Error('Missing `i18n.backend.loadPath` config.');
     }
 
     const loadPath = this.getLoadPath(this.config.i18n.backend.loadPath);

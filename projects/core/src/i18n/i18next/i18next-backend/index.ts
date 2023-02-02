@@ -5,5 +5,5 @@
  */
 
 export * from './i18next-backend.service';
-export * from './i18next-http-backend-client';
-export * from './i18next-http-backend.service';
+export * from './i18next-default-backend.service';
+export * from './i18next-http-backend/index';
