@@ -1,0 +1,12 @@
+<div class="cx-order-items container" *ngIf="order$ | async as order">
+  <ng-template
+    [cxOutlet]="cartOutlets.DELIVERY_ITEM_LIST"
+    [cxOutletContext]="{
+      entries: entries,
+      readonly: true,
+      deliveryAddress: order.deliveryAddress,
+      deliveryMode: order.deliveryMode
+    }"
+  >
+  </ng-template>
+</div>

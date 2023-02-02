@@ -8,7 +8,7 @@
         [content]="getBillingAddressCard(paymentDetails) | async"
       ></cx-card>
     </div>
-    <div class="cx-review-summary-edit-step">
+    <div *ngIf="!readonly" class="cx-review-summary-edit-step">
       <a
         [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
         [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"
@@ -24,7 +24,7 @@
         [content]="getPaymentMethodCard(paymentDetails) | async"
       ></cx-card>
     </div>
-    <div class="cx-review-summary-edit-step">
+    <div *ngIf="!readonly" class="cx-review-summary-edit-step">
       <a
         [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
         [routerLink]="{ cxRoute: paymentDetailsStepRoute } | cxUrl"

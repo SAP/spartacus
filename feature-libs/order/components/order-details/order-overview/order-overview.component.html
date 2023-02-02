@@ -1,4 +1,4 @@
-<div class="cx-order-summary">
+<div class="cx-order-summary" *ngIf="order$ | async as order">
   <div class="container">
     <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
       <div class="cx-summary-card">

@@ -88,6 +88,7 @@ class MockCheckoutDeliveryModesFacade
   getSelectedDeliveryModeState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
+  setDeliveryMode = createSpy();
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
@@ -287,6 +288,16 @@ describe(`CheckoutStepsSetGuard`, () => {
           expect(result).toBeTruthy();
           done();
         });
+    });
+
+    it('before go to review step, if delivery mode step is disabled, should set it to pickup', (done) => {
+      testStep.disabled = true;
+      guard.canActivate(<any>{ url: ['checkout', 'route4'] }).subscribe((_) => {
+        expect(
+          checkoutDeliveryModesFacade.setDeliveryMode
+        ).toHaveBeenCalledWith('pickup');
+        done();
+      });
     });
   });
 });

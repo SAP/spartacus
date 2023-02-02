@@ -11,32 +11,33 @@
     ></cx-promotions>
   </ng-container>
 
-  <!-- consigned entries -->
-  <ng-container *ngIf="order.consignments?.length">
-    <cx-order-consigned-entries
-      *ngIf="others$ | async as others"
-      [order]="order"
-      [consignments]="others"
-      [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
-    ></cx-order-consigned-entries>
+  <!-- pickup consigned entries -->
+  <cx-order-consigned-entries
+    *ngIf="pickupConsignments"
+    [order]="order"
+    [consignments]="pickupConsignments"
+    [enableAddToCart]="enableAddToCart$ | async"
+    [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
+  ></cx-order-consigned-entries>
 
+  <ng-template
+    [cxOutlet]="CartOutlets.DELIVERY_CONSIGNMENT_LIST"
+    [cxOutletContext]="{
+      readonly: true,
+      showItemList: false,
+      deliveryAddress: order.deliveryAddress,
+      deliveryMode: order.deliveryMode
+    }"
+  >
+    <!-- delivery consigned entries -->
     <cx-order-consigned-entries
-      *ngIf="completed$ | async as completed"
+      *ngIf="deliveryConsignments"
       [order]="order"
-      [consignments]="completed"
+      [consignments]="deliveryConsignments"
       [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
+      [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
     ></cx-order-consigned-entries>
-
-    <cx-order-consigned-entries
-      *ngIf="cancel$ | async as cancel"
-      [order]="order"
-      [consignments]="cancel"
-      [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
-    ></cx-order-consigned-entries>
-  </ng-container>
+  </ng-template>
 
   <!-- unconsigned entries OR any entries -->
   <ng-container
@@ -64,7 +65,7 @@
             promotionLocation: promotionLocation,
             options: {
               displayAddToCart: enableAddToCart$ | async,
-              addToCartString: (buyItAgainTranslation$ | async),
+              addToCartString: 'addToCart.buyItAgain' | cxTranslate,
               optionalBtn: addToCartBtn
             }
           }"
@@ -81,6 +82,7 @@
     [product]="ctx.item.product"
     [showQuantity]="false"
     [options]="ctx.options"
+    [pickupStore]="ctx.item.deliveryPointOfService?.name"
     class="add-to-cart"
   >
   </cx-add-to-cart>

@@ -16,16 +16,17 @@ import {
   CardModule,
   FormErrorsModule,
   OutletModule,
+  PasswordVisibilityToggleModule,
   PromotionsModule,
   PwaModule,
-  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
-import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
+import { OrderDetailBillingComponent } from '../order-details/order-detail-billing/order-detail-billing.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
-import { OrderOverviewModule } from '../order-details/order-overview/order-overview.module';
+import { OrderOverviewComponent } from '../order-details/order-overview/order-overview.component';
 import { OrderConfirmationOrderEntriesContext } from '../page-context/order-confirmation-order-entries.context';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items/order-confirmation-items.component';
+import { OrderConfirmationShippingComponent } from './order-confirmation-shipping/order-confirmation-shipping.component';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals/order-confirmation-totals.component';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form/order-guest-register-form.component';
@@ -35,6 +36,7 @@ const orderConfirmationComponents = [
   OrderConfirmationThankYouMessageComponent,
   OrderConfirmationTotalsComponent,
   OrderGuestRegisterFormComponent,
+  OrderConfirmationShippingComponent,
 ];
 
 @NgModule({
@@ -46,7 +48,6 @@ const orderConfirmationComponents = [
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    OrderOverviewModule,
     OutletModule,
     PasswordVisibilityToggleModule,
   ],
@@ -62,10 +63,10 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        OrderConfirmationItemsComponent: {
-          component: OrderConfirmationItemsComponent,
-          guards: [OrderConfirmationGuard],
-        },
+        // OrderConfirmationItemsComponent: {
+        //   component: OrderConfirmationItemsComponent,
+        //   guards: [OrderConfirmationGuard],
+        // },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
@@ -80,8 +81,18 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        OrderConfirmationOverviewComponent: {
-          component: OrderDetailShippingComponent,
+        // OrderConfirmationOverviewComponent: {
+        //   component: OrderOverviewComponent,
+        //   providers: [
+        //     {
+        //       provide: OrderDetailsService,
+        //       useExisting: OrderFacade,
+        //     },
+        //   ],
+        //   guards: [OrderConfirmationGuard],
+        // },
+        ReplenishmentConfirmationOverviewComponent: {
+          component: OrderOverviewComponent,
           providers: [
             {
               provide: OrderDetailsService,
@@ -90,8 +101,15 @@ const orderConfirmationComponents = [
           ],
           guards: [OrderConfirmationGuard],
         },
-        ReplenishmentConfirmationOverviewComponent: {
-          component: OrderDetailShippingComponent,
+
+        OrderConfirmationShippingComponent: {
+          component: OrderConfirmationShippingComponent,
+          guards: [OrderConfirmationGuard],
+        },
+
+        // temporary use OrderConfirmationContinueButtonComponent, need create a new cms component in sample data
+        OrderConfirmationContinueButtonComponent: {
+          component: OrderDetailBillingComponent,
           providers: [
             {
               provide: OrderDetailsService,
