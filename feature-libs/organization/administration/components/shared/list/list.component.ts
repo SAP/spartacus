@@ -47,6 +47,8 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   iconTypes = ICON_TYPE;
 
+  showLink = this.service.showLink();
+
   /**
    * The current key represents the current selected item from the dataset.
    * This key is used to load the item details as well as highlight the item in
@@ -102,5 +104,19 @@ export class ListComponent<T = any, P = PaginationModel> {
         ...({ sort: this.sortCode } as PaginationModel),
       });
     }
+  }
+
+  /**
+   * Function to call when 'Manage Users' button is clicked
+   */
+  onCreateButtonClick(): void {
+    this.service.onCreateButtonClick();
+  }
+
+  /**
+   * Returns the label for Create button
+   */
+  getCreateButtonLabel(): string {
+    return this.service.getCreateButtonLabel();
   }
 }

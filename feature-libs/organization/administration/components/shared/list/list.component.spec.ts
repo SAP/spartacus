@@ -67,6 +67,8 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
+  onCreateButtonClick(): void {}
+  showLink = createSpy('showLink');
 }
 
 class MockItemService {
@@ -249,7 +251,21 @@ describe('ListComponent', () => {
     });
   });
 
-  describe('hideAddButton', () => {
+  describe('onCreateButtonClick', () => {
+    beforeEach(() => {
+      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      fixture = TestBed.createComponent(MockListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    it('should process click of create button', () => {
+      spyOn(service, 'onCreateButtonClick').and.callThrough();
+      component.onCreateButtonClick();
+      expect(service.onCreateButtonClick).toHaveBeenCalled();
+    });
+  });
+
+  describe('hideAddButton & showLink', () => {
     let el: DebugElement;
 
     beforeEach(() => {
@@ -260,17 +276,56 @@ describe('ListComponent', () => {
       fixture.detectChanges();
     });
 
-    it('it should show add button by default', () => {
-      fixture.detectChanges();
-      const addBtn = el.query(By.css('a'));
-      expect(addBtn).toBeTruthy();
+    describe('it should show create functionality by default', () => {
+      it('it should show Hyperlink and not Button', () => {
+        service.showLink = createSpy().and.returnValue(true);
+        component.showLink = service.showLink();
+        component.hideAddButton = false;
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeTruthy();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeNull();
+      });
+
+      it('it should show Button and not Hyperlink', () => {
+        service.showLink = createSpy().and.returnValue(false);
+        component.showLink = service.showLink();
+        component.hideAddButton = false;
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeNull();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeTruthy();
+      });
     });
 
-    it('it should hide add button', () => {
-      component.hideAddButton = true;
-      fixture.detectChanges();
-      const addBtn = el.query(By.css('a'));
-      expect(addBtn).toBeNull();
+    describe('it should not show create functionality', () => {
+      it('it should not show Hyperlink', () => {
+        service.showLink = createSpy().and.returnValue(true);
+        component.hideAddButton = true;
+        component.showLink = service.showLink();
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeNull();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeNull();
+      });
+
+      it('it should not show Button', () => {
+        service.showLink = createSpy().and.returnValue(false);
+        component.showLink = service.showLink();
+        component.hideAddButton = true;
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeNull();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeNull();
+      });
     });
   });
 });

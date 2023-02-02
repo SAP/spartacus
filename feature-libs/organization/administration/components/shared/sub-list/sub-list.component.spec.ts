@@ -57,6 +57,8 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
+  onCreateButtonClick(): void {}
+  showLink = createSpy('showLink');
 }
 
 class MockItemService {

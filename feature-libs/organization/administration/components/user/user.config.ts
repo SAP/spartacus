@@ -62,6 +62,7 @@ export const userCmsConfig: CmsConfig = {
           {
             path: 'create',
             component: UserFormComponent,
+            canMatch: [AdminGuard],
           },
           {
             path: `:${ROUTE_PARAMS.userCode}`,
@@ -73,10 +74,12 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: `edit`,
                 component: UserFormComponent,
+                canMatch: [AdminGuard],
               },
               {
                 path: `change-password`,
                 component: UserChangePasswordFormComponent,
+                canMatch: [AdminGuard],
               },
               {
                 path: 'user-groups',

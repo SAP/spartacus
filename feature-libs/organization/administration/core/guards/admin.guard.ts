@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, CanMatch } from '@angular/router';
 import {
   B2BUserRole,
   GlobalMessageService,
@@ -15,16 +15,32 @@ import {
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { filter, map, pluck } from 'rxjs/operators';
+import { B2BUserService } from '../services';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AdminGuard implements CanActivate {
+export class AdminGuard implements CanActivate, CanMatch {
   constructor(
     protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected b2bUserService: B2BUserService,
+    protected location: Location
   ) {}
+
+  canMatch(): boolean {
+    let promise = this.b2bUserService.isUpdatingUserAllowed();
+    if (!promise) {
+      this.routingService.go({ cxRoute: 'organization' });
+      this.globalMessageService.add(
+        { key: 'organization.notification.notExist' },
+        GlobalMessageType.MSG_TYPE_WARNING
+      );
+    }
+    return promise;
+  }
 
   canActivate(): Observable<boolean> {
     return this.userAccountFacade.get().pipe(

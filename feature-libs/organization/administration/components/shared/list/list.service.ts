@@ -158,4 +158,24 @@ export abstract class ListService<T, P = PaginationModel> {
     pagination: PaginationModel,
     ...args: any
   ): Observable<EntitiesModel<T> | undefined>;
+
+  /**
+   * If this method returns true, hyperlink will be shown to add new user.
+   * If this method returns false, button will be displayed.
+   */
+  showLink(): boolean {
+    return true;
+  }
+
+  /**
+   * This method will be called when the button to create new user is clicked.
+   */
+  onCreateButtonClick(): void {}
+
+  /**
+   * This method will return the label for create button
+   */
+  getCreateButtonLabel(): string {
+    return 'organization.add';
+  }
 }

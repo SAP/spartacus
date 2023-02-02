@@ -3,6 +3,7 @@
 exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcModule } from "@spartacus/cdc";
+import { ManageUsersModule } from "@spartacus/cdc/manage-users";
 import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
 import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
@@ -14,7 +15,8 @@ import { provideConfig } from "@spartacus/core";
     CdcRootModule,
     CdcModule,
     CDCUserAccountModule,
-    CDCUserProfileModule
+    CDCUserProfileModule,
+    ManageUsersModule
   ],
   providers: [provideConfig(<CdcConfig>{
     cdc: [
@@ -92,6 +94,37 @@ import { UserProfileModule } from "@spartacus/user/profile";
   ]
 })
 export class UserProfileWrapperModule { }
+"
+`;
+
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 3`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { organizationTranslationChunksConfig, organizationTranslations } from "@spartacus/organization/administration/assets";
+import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from "@spartacus/organization/administration/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AdministrationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORGANIZATION_ADMINISTRATION_FEATURE]: {
+        module: () =>
+          import('./administration-wrapper.module').then((m) => m.AdministrationWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: organizationTranslations,
+      chunks: organizationTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrganizationAdministrationFeatureModule { }
 "
 `;
 

@@ -5,6 +5,7 @@
 >
   <a
     actions
+    *ngIf="isUpdatingUserAllowed"
     class="link edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUserEdit', params: model } | cxUrl"
@@ -14,6 +15,7 @@
 
   <cx-org-toggle-status
     actions
+    *ngIf="isUpdatingUserAllowed"
     key="customerId"
     i18nRoot="orgUser"
   ></cx-org-toggle-status>
@@ -66,6 +68,7 @@
     <div class="property">
       <label>{{ 'orgUser.orgUnit' | cxTranslate }}</label>
       <a
+        *ngIf="isUpdatingUserAllowed; else showOrgUnitValueWithoutNavigation"
         class="value"
         [routerLink]="
           {
@@ -76,10 +79,13 @@
       >
         {{ model.orgUnit?.name }}
       </a>
+      <ng-template #showOrgUnitValueWithoutNavigation>
+        {{ model.orgUnit?.name }}
+      </ng-template>
     </div>
     <div class="property full-width">
       <a
-        *ngIf="model.customerId"
+        *ngIf="model.customerId && isUpdatingUserAllowed"
         class="link"
         [class.disabled]="!model.active"
         [routerLink]="
