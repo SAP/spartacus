@@ -53,3 +53,19 @@ If explicitly set, this option will take precedence over the express server.
 ### QuickOrderOrderEntriesContext
 
 - `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
+
+### CheckoutDeliveryAddressComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutPaymentFormComponent
+
+- `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutReviewSubmitComponent
+
+- `getDeliveryAddressCard()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### AddressBookComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.

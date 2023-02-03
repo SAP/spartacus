@@ -273,7 +273,9 @@ export function exportCart(expectedData?: string) {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-export-order-entries button').contains('Export to CSV').click();
+  cy.get('cx-export-order-entries button')
+    .contains('Export Product to CSV')
+    .click();
   cy.get('cx-global-message').contains(
     'CSV file will download automatically to your device'
   );
