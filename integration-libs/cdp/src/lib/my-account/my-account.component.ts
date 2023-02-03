@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-account.component.css']
 })
 export class MyAccountComponent implements OnInit {
-
+  pageTitle: string = 'My Account';
   constructor() { }
 
   ngOnInit(): void {
