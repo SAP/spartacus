@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   Input,
   OnDestroy,
   OnInit,
@@ -17,6 +18,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartOutlets,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import {
@@ -64,6 +66,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   addToCartForm = new UntypedFormGroup({
     quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
   });
+
+  readonly CartOutlets = CartOutlets;
+
+  pickupOptionCompRef: any;
 
   constructor(
     protected currentProductService: CurrentProductService,
@@ -139,6 +145,11 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     const quantity = this.addToCartForm.get('quantity')?.value;
     if (!this.productCode || quantity <= 0) {
       return;
+    }
+
+    if (this.pickupOptionCompRef instanceof ComponentRef) {
+      // get pickup store name from this.pickupOptionCompRef.instance
+      // and set this.pickupStore
     }
 
     this.activeCartService
