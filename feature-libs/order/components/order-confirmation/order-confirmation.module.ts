@@ -63,10 +63,10 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        // OrderConfirmationItemsComponent: {
-        //   component: OrderConfirmationItemsComponent,
-        //   guards: [OrderConfirmationGuard],
-        // },
+        OrderConfirmationItemsComponent: {
+          component: OrderConfirmationItemsComponent,
+          guards: [OrderConfirmationGuard],
+        },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
@@ -81,16 +81,16 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        // OrderConfirmationOverviewComponent: {
-        //   component: OrderOverviewComponent,
-        //   providers: [
-        //     {
-        //       provide: OrderDetailsService,
-        //       useExisting: OrderFacade,
-        //     },
-        //   ],
-        //   guards: [OrderConfirmationGuard],
-        // },
+        OrderConfirmationOverviewComponent: {
+          component: OrderOverviewComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderFacade,
+            },
+          ],
+          guards: [OrderConfirmationGuard],
+        },
         ReplenishmentConfirmationOverviewComponent: {
           component: OrderOverviewComponent,
           providers: [
@@ -107,8 +107,7 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        // temporary use OrderConfirmationContinueButtonComponent, need create a new cms component in sample data
-        OrderConfirmationContinueButtonComponent: {
+        OrderConfirmationBillingComponent: {
           component: OrderDetailBillingComponent,
           providers: [
             {

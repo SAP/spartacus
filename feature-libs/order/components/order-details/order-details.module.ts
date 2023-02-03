@@ -84,12 +84,10 @@ const moduleComponents = [
           component: OrderDetailTotalsComponent,
           guards: [AuthGuard],
         },
-        // AccountOrderDetailsOverviewComponent: {
-        //   component: OrderOverviewComponent,
-        // },
-
-        // temporary use AccountOrderDetailsOverviewComponent to show billing, need create a new cms componnet
         AccountOrderDetailsOverviewComponent: {
+          component: OrderOverviewComponent,
+        },
+        AccountOrderDetailsBillingComponent: {
           component: OrderDetailBillingComponent,
           guards: [AuthGuard],
         },
