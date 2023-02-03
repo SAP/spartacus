@@ -1,9 +1,11 @@
 @import './order-details-items';
 @import './order-details-shipping';
 @import './order-details-actions';
+@import './order-details-reorder';
+@import './reorder-dialog';
 
 $order-details-allowlist: cx-order-details-items, cx-order-details-shipping,
-  cx-order-details-actions !default;
+  cx-order-details-actions, cx-order-details-reorder !default;
 
 $skipComponentStyles: () !default;
 

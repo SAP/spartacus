@@ -326,4 +326,38 @@ export class ConfiguratorTestUtils {
     }
     return groups;
   }
+
+  static getFormattedValue(value: number | undefined): string | undefined {
+    if (value !== undefined) {
+      if (value > 0) {
+        return '$' + value;
+      } else if (value < 0) {
+        return '-$' + Math.abs(value);
+      }
+    }
+    return undefined;
+  }
+
+  static createPrice(
+    price: number | undefined
+  ): Configurator.PriceDetails | undefined {
+    if (price !== undefined) {
+      return {
+        currencyIso: '$',
+        formattedValue: this.getFormattedValue(price),
+        value: price,
+      };
+    }
+    return undefined;
+  }
+
+  static createValue = (
+    valueCode: string,
+    price: number | undefined,
+    isSelected = false
+  ): Configurator.Value => ({
+    valueCode: valueCode,
+    valuePrice: this.createPrice(price),
+    selected: isSelected,
+  });
 }
