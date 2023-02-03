@@ -69,6 +69,9 @@ class MockBaseListService {
   }
   onCreateButtonClick(): void {}
   showLink = createSpy('showLink');
+  getCreateButtonLabel(): string {
+    return 'organization.add';
+  }
 }
 
 class MockItemService {
@@ -265,7 +268,7 @@ describe('ListComponent', () => {
     });
   });
 
-  describe('hideAddButton & showLink', () => {
+  describe('Hide/Show a Link/Button with appropriate Label ', () => {
     let el: DebugElement;
 
     beforeEach(() => {
@@ -277,20 +280,26 @@ describe('ListComponent', () => {
     });
 
     describe('it should show create functionality by default', () => {
-      it('it should show Hyperlink and not Button', () => {
+      it('it should show Hyperlink with correct label and not Button', () => {
         service.showLink = createSpy().and.returnValue(true);
+        service.getCreateButtonLabel =
+          createSpy().and.returnValue('organization.add');
         component.showLink = service.showLink();
         component.hideAddButton = false;
         fixture.detectChanges();
 
         let hlink = el.query(By.css('a.button.primary.create'));
         expect(hlink).toBeTruthy();
+        expect(hlink.nativeElement.innerText).toBe('organization.add');
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
       });
 
-      it('it should show Button and not Hyperlink', () => {
+      it('it should show Button with correct label and not Hyperlink', () => {
         service.showLink = createSpy().and.returnValue(false);
+        service.getCreateButtonLabel = createSpy().and.returnValue(
+          'organization.manageUsers'
+        );
         component.showLink = service.showLink();
         component.hideAddButton = false;
         fixture.detectChanges();
@@ -299,6 +308,7 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeTruthy();
+        expect(button.nativeElement.innerText).toBe('organization.manageUsers');
       });
     });
 
