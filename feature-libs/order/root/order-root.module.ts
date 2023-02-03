@@ -37,6 +37,8 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'AccountOrderDetailsTotalsComponent',
           'AccountOrderDetailsOverviewComponent',
           'AccountOrderDetailsBillingComponent',
+          'AccountOrderDetailsGroupedItemsComponent',
+          'AccountOrderDetailsSimpleOverviewComponent',
           'AccountOrderHistoryComponent',
           'ReplenishmentDetailItemsComponent',
           'AccountOrderDetailsReorderComponent',

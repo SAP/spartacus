@@ -47,9 +47,8 @@ import { CheckoutReviewShippingComponent } from './checkout-review-shipping.comp
       },
     }),
     provideOutlet({
-      id: CartOutlets.DELIVERY_CONSIGNMENT_LIST,
+      id: CartOutlets.CONSIGNMENT_DELIVERY_INFO,
       component: CheckoutReviewShippingComponent,
-      position: OutletPosition.BEFORE,
     }),
     provideOutlet({
       id: CartOutlets.DELIVERY_ITEM_LIST,

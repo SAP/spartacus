@@ -20,8 +20,10 @@
     [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
   ></cx-order-consigned-entries>
 
+  <!-- delivery consignment address and delivery mode -->
   <ng-template
-    [cxOutlet]="CartOutlets.DELIVERY_CONSIGNMENT_LIST"
+    *ngIf="displayConsignmentDelivery$ | async"
+    [cxOutlet]="CartOutlets.CONSIGNMENT_DELIVERY_INFO"
     [cxOutletContext]="{
       readonly: true,
       showItemList: false,
@@ -29,15 +31,16 @@
       deliveryMode: order.deliveryMode
     }"
   >
-    <!-- delivery consigned entries -->
-    <cx-order-consigned-entries
-      *ngIf="deliveryConsignments"
-      [order]="order"
-      [consignments]="deliveryConsignments"
-      [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
-    ></cx-order-consigned-entries>
   </ng-template>
+
+  <!-- delivery consigned entries -->
+  <cx-order-consigned-entries
+    *ngIf="deliveryConsignments"
+    [order]="order"
+    [consignments]="deliveryConsignments"
+    [enableAddToCart]="enableAddToCart$ | async"
+    [buyItAgainTranslation]="'addToCart.buyItAgain' | cxTranslate"
+  ></cx-order-consigned-entries>
 
   <!-- unconsigned entries OR any entries -->
   <ng-container

@@ -80,12 +80,28 @@ const moduleComponents = [
             enableAddToCart: true,
           },
         },
+        AccountOrderDetailsGroupedItemsComponent: {
+          component: OrderDetailItemsComponent,
+          guards: [AuthGuard],
+          data: {
+            enableAddToCart: true,
+            displayConsignmentDelivery: true,
+          },
+        },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
           guards: [AuthGuard],
         },
         AccountOrderDetailsOverviewComponent: {
           component: OrderOverviewComponent,
+          guards: [AuthGuard],
+        },
+        AccountOrderDetailsSimpleOverviewComponent: {
+          component: OrderOverviewComponent,
+          guards: [AuthGuard],
+          data: {
+            simple: true,
+          },
         },
         AccountOrderDetailsBillingComponent: {
           component: OrderDetailBillingComponent,

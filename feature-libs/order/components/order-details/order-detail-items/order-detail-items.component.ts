@@ -7,7 +7,7 @@
 import { Component } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
-import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
+import { Consignment, Order } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -23,7 +23,6 @@ import {
 })
 export class OrderDetailItemsComponent {
   readonly CartOutlets = CartOutlets;
-  readonly OrderOutlets = OrderOutlets;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
@@ -40,6 +39,9 @@ export class OrderDetailItemsComponent {
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.enableAddToCart)
   );
+
+  displayConsignmentDelivery$: Observable<boolean | undefined> =
+    this.component.data$.pipe(map((data) => data.displayConsignmentDelivery));
 
   constructor(
     protected orderDetailsService: OrderDetailsService,

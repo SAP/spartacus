@@ -6,8 +6,13 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CostCenter, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import {
+  Address,
+  CmsOrderDetailOverviewComponent,
+  CostCenter,
+  TranslationService,
+} from '@spartacus/core';
+import { Card, CmsComponentData } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -20,9 +25,14 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderOverviewComponent {
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
 
+  simple$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.simple)
+  );
+
   constructor(
     protected translation: TranslationService,
-    protected orderDetailsService: OrderDetailsService
+    protected orderDetailsService: OrderDetailsService,
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
   ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
