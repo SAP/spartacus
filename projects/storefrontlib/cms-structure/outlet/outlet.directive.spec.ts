@@ -1,10 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ComponentFactoryResolver,
-  ComponentRef,
-  EmbeddedViewRef,
   Inject,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -479,27 +477,36 @@ describe('OutletDirective', () => {
   });
 
   describe('after component or view created', () => {
-    let component: MockTestOutletComponent;
-    let fixture: ComponentFixture<MockTestOutletComponent>;
-
     @Component({
       template: `
         <ng-template
-          cxOutlet="test"
-          (cxComponentRef)="testComponentRef($event)"
+          [cxOutlet]="'${keptOutlet}'"
+          [(cxComponentRef)]="innerCompRef"
         >
         </ng-template>
       `,
+      changeDetection: ChangeDetectionStrategy.OnPush,
     })
     class MockTestOutletComponent {
-      testComponentRef(_eventValue: ComponentRef<any> | EmbeddedViewRef<any>) {}
+      innerCompRef: any;
     }
+
+    @Component({
+      template: ` <div id="component">TestData</div> `,
+      selector: 'cx-test-component',
+      //changeDetection: ChangeDetectionStrategy.OnPush,
+    })
+    class MockOutletComponent {}
 
     beforeEach(
       waitForAsync(() => {
         TestBed.configureTestingModule({
           imports: [],
-          declarations: [MockTestOutletComponent, OutletDirective],
+          declarations: [
+            MockTestOutletComponent,
+            OutletDirective,
+            MockOutletComponent,
+          ],
           providers: [
             {
               provide: DeferLoaderService,
@@ -511,19 +518,19 @@ describe('OutletDirective', () => {
     );
 
     describe('with angular component', () => {
-      beforeEach(() => {
-        fixture = TestBed.createComponent(
-          MockTestOutletComponent as Type<MockTestOutletComponent>
-        );
-        component = fixture.componentInstance;
-      });
-
       it('should be able to get componentRef or viewRef', () => {
-        spyOn(component, 'testComponentRef').and.callThrough();
+        const outletService = TestBed.inject(OutletService);
+        const cfr = TestBed.inject(ComponentFactoryResolver);
+        outletService.add(
+          keptOutlet,
+          cfr.resolveComponentFactory(MockOutletComponent)
+        );
 
+        const fixture = TestBed.createComponent(MockTestOutletComponent);
         fixture.detectChanges();
 
-        expect(component.testComponentRef).toHaveBeenCalled();
+        const component = fixture.componentInstance;
+        expect(component.innerCompRef).not.toBeUndefined();
       });
     });
   });
