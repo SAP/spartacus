@@ -11,8 +11,6 @@ import { I18nextDefaultBackendService } from './i18next-default-backend.service'
 /**
  * Configures an i18next backend plugin, to allow for loading translations from external resources.
  *
- * By default it configures and uses the `I18nextHttpBackendService`.
- *
  * It's an extension point to allow for providing potentially different i18next backend plugins.
  * See the list of available plugins: https://www.i18next.com/overview/plugins-and-utils#backends
  */
