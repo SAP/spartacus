@@ -11,7 +11,9 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -42,6 +44,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
+  @ViewChildren('resultItem') resultItems: QueryList<ElementRef<HTMLElement>>;
+
+  activeIndex = -1;
 
   constructor(
     protected fb: UntypedFormBuilder,
@@ -78,6 +83,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       return;
     }
     this.asmService.customerSearchReset();
+    this.activeIndex = -1;
+    this.updateItemIndex(this.activeIndex);
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
@@ -92,6 +99,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.selectedCustomer.name
     );
     this.asmService.customerSearchReset();
+    this.setFocusOnInput();
   }
 
   onSubmit(): void {
@@ -102,7 +110,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDocumentClick(event: Event) {
+  onDocumentClick(event: UIEvent) {
     if (Boolean(this.resultList)) {
       if (
         this.resultList.nativeElement.contains(event.target) ||
@@ -117,10 +125,101 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   closeResults() {
     this.asmService.customerSearchReset();
+    this.setFocusOnInput();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.asmService.customerSearchReset();
+  }
+
+  /**
+   * set focus to the first searched item
+   * @param event keyboard event
+   */
+  focusFirstItem(event: UIEvent): void {
+    event.preventDefault();
+    this.activeIndex = 0;
+    this.updateItemIndex(this.activeIndex);
+  }
+  /**
+   * set mouse cursor to the end of search text
+   * @param event keyboard event
+   */
+  setSelectionEnd(event: UIEvent): void {
+    event.preventDefault();
+    if (this.searchTerm.nativeElement.value?.length) {
+      const selectionStart = this.searchTerm.nativeElement.value.length;
+      this.searchTerm.nativeElement.selectionStart = selectionStart;
+      this.searchTerm.nativeElement.selectionEnd = selectionStart;
+    }
+  }
+  /**
+   * set focus on previous searh result item.  If no previous item then go to end of item.
+   * @param event keyboard event
+   */
+  focusPreviousChild(event: UIEvent): void {
+    event.preventDefault();
+    this.activeIndex--;
+    if (this.activeIndex < 0) {
+      this.activeIndex = this.resultItems.length - 1;
+    }
+    this.updateItemIndex(this.activeIndex);
+  }
+  /**
+   * set focus on next searh result item.  if no next item then go to the first item
+   * @param event keyboard event
+   */
+  focusNextChild(event: UIEvent): void {
+    event.preventDefault();
+    this.activeIndex++;
+    if (this.activeIndex > this.resultItems.length - 1) {
+      this.activeIndex = 0;
+    }
+    this.updateItemIndex(this.activeIndex);
+  }
+  /**
+   * set focus to input search text
+   * @param event keyboard event
+   * @param {boolean} moveOneLeft - flag to move cursor one left
+   * @param {boolean} moveBegin - flag to move cursor to front
+   */
+  focusInputText(event: UIEvent, moveOneLeft = false, moveBegin = false): void {
+    event.preventDefault();
+    this.activeIndex = -1;
+    this.updateItemIndex(this.activeIndex);
+    this.searchTerm.nativeElement.focus();
+    if (this.searchTerm.nativeElement.value?.length) {
+      let selectionPos = this.searchTerm.nativeElement.value.length;
+      if (moveOneLeft) {
+        selectionPos--;
+      }
+      if (moveBegin) {
+        selectionPos = 0;
+      }
+      this.searchTerm.nativeElement.selectionStart = selectionPos;
+      this.searchTerm.nativeElement.selectionEnd = selectionPos;
+    }
+  }
+  /**
+   * set focus to selected item and update tabIndex.
+   * @param {number} selectedIndex - current selected item index or -1.
+   *  if -1 then set all result item's tabIndex -1
+   */
+  updateItemIndex(selectedIndex: number): void {
+    this.resultItems.toArray().forEach((resultItem, index) => {
+      if (index === selectedIndex) {
+        resultItem.nativeElement.tabIndex = 0;
+        resultItem.nativeElement.focus();
+      } else {
+        resultItem.nativeElement.tabIndex = -1;
+      }
+    });
+  }
+
+  setFocusOnInput(): void {
+    setTimeout(() => {
+      this.searchTerm.nativeElement.focus();
+    });
   }
 }

@@ -7,6 +7,8 @@
       formControlName="searchTerm"
       [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+      (keydown.arrowdown)="focusFirstItem($event)"
+      (keydown.end)="setSelectionEnd($event)"
     />
     <cx-form-errors
       [control]="customerSelectionForm.get('searchTerm')"
@@ -26,14 +28,32 @@
 
 <div *ngIf="searchResults | async as results" class="asm-results" #resultList>
   <button
-    *ngFor="let result of results.entries"
+    #resultItem
+    *ngFor="let result of results.entries; let i = index"
+    tabindex="-1"
+    [attr.aria-selected]="activeIndex === i"
+    [class.active]="activeIndex === i"
+    (keydown.arrowup)="focusPreviousChild($event)"
+    (keydown.arrowdown)="focusNextChild($event)"
+    (keydown.arrowright)="focusInputText($event)"
+    (keydown.arrowleft)="focusInputText($event, true)"
+    (keydown.enter)="selectCustomerFromList(result)"
+    (keydown.escape)="closeResults()"
+    (keydown.home)="focusInputText($event)"
+    (keydown.end)="focusInputText($event, false, true)"
     (click)="selectCustomerFromList(result)"
   >
     <span class="result-name">{{ result.name }}</span>
     <span class="result-id">{{ result.uid }}</span>
   </button>
   <button
+    #resultItem
     (click)="closeResults()"
+    (keydown.enter)="closeResults()"
+    (keydown.escape)="closeResults()"
+    (keydown.arrowright)="focusInputText($event)"
+    (keydown.arrowleft)="focusInputText($event, true)"
+    [class.active]="activeIndex === 0"
     *ngIf="
       !(searchResultsLoading$ | async) &&
       searchTerm.value.length >= 3 &&

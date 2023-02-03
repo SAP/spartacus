@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -78,6 +78,7 @@ describe('CustomerSelectionComponent', () => {
   let fixture: ComponentFixture<CustomerSelectionComponent>;
   let asmService: AsmService;
   let el: DebugElement;
+  let resultItems: Array<ElementRef<HTMLElement>> = [];
 
   const validSearchTerm = 'cUstoMer@test.com';
 
@@ -239,5 +240,91 @@ describe('CustomerSelectionComponent', () => {
       el.query(By.css('button[type="submit"]')).nativeElement.disabled
     ).toBeFalsy();
     expect(asmService.customerSearchReset).toHaveBeenCalled();
+  });
+
+  describe('Search result navigation', () => {
+    beforeEach(() => {
+      spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
+        of(mockCustomerSearchPage)
+      );
+      component.ngOnInit();
+      component.customerSelectionForm.controls.searchTerm.setValue(
+        validSearchTerm
+      );
+      fixture.detectChanges();
+      resultItems = component.resultItems.toArray();
+      component.searchTerm.nativeElement.focus();
+    });
+    it('should navigate between result items', () => {
+      spyOn(resultItems[0].nativeElement, 'focus');
+
+      expect(component.activeIndex).toEqual(-1);
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      expect(component.activeIndex).toEqual(0);
+      expect(resultItems[0].nativeElement.tabIndex).toEqual(0);
+      expect(resultItems[0].nativeElement.focus).toHaveBeenCalled();
+
+      component.focusNextChild(new UIEvent('keydown.arrowdown'));
+      expect(component.activeIndex).toEqual(1);
+      expect(resultItems[0].nativeElement.tabIndex).toEqual(-1);
+      expect(resultItems[1].nativeElement.tabIndex).toEqual(0);
+
+      component.focusPreviousChild(new UIEvent('keydown.arrowup'));
+      expect(component.activeIndex).toEqual(0);
+      expect(resultItems[0].nativeElement.tabIndex).toEqual(0);
+      expect(resultItems[1].nativeElement.tabIndex).toEqual(-1);
+    });
+    it('should focus search text and set cursor when right arrow key pressed', () => {
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(new UIEvent('keydown.arrowright'));
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+        validSearchTerm.length
+      );
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+        validSearchTerm.length
+      );
+    });
+    it('should focus search text and set cursor -1 when left arrow key pressed', () => {
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(new UIEvent('keydown.arrowleft'), true);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+        validSearchTerm.length - 1
+      );
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+        validSearchTerm.length - 1
+      );
+    });
+
+    it('should cursor to end when end key is pressed', () => {
+      component.searchTerm.nativeElement.selectionStart = 1;
+      component.searchTerm.nativeElement.selectionEnd = 1;
+      component.setSelectionEnd(new UIEvent('keydown.end'));
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+        validSearchTerm.length
+      );
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+        validSearchTerm.length
+      );
+    });
+
+    it('should focus search text and set cursor at the begining of text', () => {
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(new UIEvent('keydown.arrowright'), false, true);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(0);
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(0);
+    });
   });
 });
