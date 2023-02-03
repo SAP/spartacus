@@ -31,7 +31,7 @@ export class AdminGuard implements CanActivate, CanMatch {
   ) {}
 
   canMatch(): boolean {
-    let promise = this.b2bUserService.isUpdatingUserAllowed();
+    const promise = this.b2bUserService.isUpdatingUserAllowed();
     if (!promise) {
       this.routingService.go({ cxRoute: 'organization' });
       this.globalMessageService.add(
