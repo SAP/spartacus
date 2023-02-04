@@ -30,7 +30,7 @@
   <button
     #resultItem
     *ngFor="let result of results.entries; let i = index"
-    tabindex="-1"
+    [tabindex]="activeIndex === i ? 0 : -1"
     [attr.aria-selected]="activeIndex === i"
     [class.active]="activeIndex === i"
     (keydown.arrowup)="focusPreviousChild($event)"

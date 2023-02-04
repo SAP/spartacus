@@ -84,7 +84,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
     this.asmService.customerSearchReset();
     this.activeIndex = -1;
-    this.updateItemIndex(this.activeIndex);
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
@@ -187,7 +186,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   focusInputText(event: UIEvent, moveOneLeft = false, moveBegin = false): void {
     event.preventDefault();
     this.activeIndex = -1;
-    this.updateItemIndex(this.activeIndex);
     this.searchTerm.nativeElement.focus();
     if (this.searchTerm.nativeElement.value?.length) {
       let selectionPos = this.searchTerm.nativeElement.value.length;
@@ -202,19 +200,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
   /**
-   * set focus to selected item and update tabIndex.
-   * @param {number} selectedIndex - current selected item index or -1.
-   *  if -1 then set all result item's tabIndex -1
+   * set focus to selected item
+   * @param {number} selectedIndex - current selected item index
    */
   updateItemIndex(selectedIndex: number): void {
-    this.resultItems.toArray().forEach((resultItem, index) => {
-      if (index === selectedIndex) {
-        resultItem.nativeElement.tabIndex = 0;
-        resultItem.nativeElement.focus();
-      } else {
-        resultItem.nativeElement.tabIndex = -1;
-      }
-    });
+    this.resultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
   }
 
   setFocusOnInput(): void {

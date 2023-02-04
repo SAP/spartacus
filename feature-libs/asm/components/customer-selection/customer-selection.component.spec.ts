@@ -261,16 +261,19 @@ describe('CustomerSelectionComponent', () => {
       expect(component.activeIndex).toEqual(-1);
 
       component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      fixture.detectChanges();
       expect(component.activeIndex).toEqual(0);
       expect(resultItems[0].nativeElement.tabIndex).toEqual(0);
       expect(resultItems[0].nativeElement.focus).toHaveBeenCalled();
 
       component.focusNextChild(new UIEvent('keydown.arrowdown'));
+      fixture.detectChanges();
       expect(component.activeIndex).toEqual(1);
       expect(resultItems[0].nativeElement.tabIndex).toEqual(-1);
       expect(resultItems[1].nativeElement.tabIndex).toEqual(0);
 
       component.focusPreviousChild(new UIEvent('keydown.arrowup'));
+      fixture.detectChanges();
       expect(component.activeIndex).toEqual(0);
       expect(resultItems[0].nativeElement.tabIndex).toEqual(0);
       expect(resultItems[1].nativeElement.tabIndex).toEqual(-1);
