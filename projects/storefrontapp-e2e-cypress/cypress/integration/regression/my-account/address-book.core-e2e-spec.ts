@@ -48,6 +48,12 @@ describe('My Account - Address Book', () => {
         verifyNewAddress();
       });
 
+      it('should display cell phone number (CXSPA-53)', () => {
+        cy.get('cx-card .card-body .cx-card-label')
+          .eq(4)
+          .should('contain', newAddress.cellphone);
+      });
+
       it('should edit the existing address', () => {
         cy.get('button').contains('Edit').click();
         cy.get('cx-address-form').within(() => {

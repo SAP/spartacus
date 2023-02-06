@@ -24,7 +24,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 const config: Configurator.Configuration =
