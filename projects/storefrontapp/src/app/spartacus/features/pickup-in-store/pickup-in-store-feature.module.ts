@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import { PickupInStoreBaseModule } from '@spartacus/pickup-in-store/base';
+
 import {
   pickupInStoreTranslationChunksConfig,
   pickupInStoreTranslations,
@@ -17,10 +18,12 @@ import {
   providers: [
     provideConfig({
       featureModules: {
-        'PICK_UP_IN_STORE_FEATURE': {
-          
-        }
-
+        PICK_UP_IN_STORE_FEATURE: {
+          module: () =>
+            import('@spartacus/pickup-in-store/feature').then(
+              (m) => m.PickupInStoreFeatureModule
+            ),
+        },
       },
     }),
     provideConfig({

@@ -202,6 +202,9 @@
       "@spartacus/pickup-in-store/base/root": [
         "../../dist/pickup-in-store/base/root"
       ],
+      "@spartacus/pickup-in-store/feature": [
+        "../../dist/pickup-in-store/feature"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
       ],

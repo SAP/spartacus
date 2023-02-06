@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * Public API surface of pickup-in-store
- */
-export * from './pickup-in-store-base.module';
+import { NgModule } from '@angular/core';
+
+@NgModule({
+  imports: [],
+})
+export class PickupInStoreFeatureModule {}
