@@ -199,7 +199,13 @@
               else billingAddress
             "
           >
+            <!-- TODO: (#CXSPA-53) Remove feature config check in 6.0. -->
             <cx-card
+              *cxFeatureLevel="'5.2'"
+              [content]="getAddressCardContent(deliveryAddress, true) | async"
+            ></cx-card>
+            <cx-card
+              *cxFeatureLevel="'!5.2'"
               [content]="getAddressCardContent(deliveryAddress)"
             ></cx-card>
           </ng-container>
