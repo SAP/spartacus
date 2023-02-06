@@ -7,20 +7,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  OutletModule,
-  OutletPosition,
-  provideOutlet,
-} from '@spartacus/storefront';
+import { CardModule, IconModule, OutletModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
@@ -35,7 +28,7 @@ import { CheckoutReviewShippingComponent } from './checkout-review-shipping.comp
     UrlModule,
     RouterModule,
     IconModule,
-    OutletModule.forChild(),
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -45,15 +38,6 @@ import { CheckoutReviewShippingComponent } from './checkout-review-shipping.comp
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
-    }),
-    provideOutlet({
-      id: CartOutlets.CONSIGNMENT_DELIVERY_INFO,
-      component: CheckoutReviewShippingComponent,
-    }),
-    provideOutlet({
-      id: CartOutlets.DELIVERY_ITEM_LIST,
-      component: CheckoutReviewShippingComponent,
-      position: OutletPosition.REPLACE,
     }),
   ],
 })

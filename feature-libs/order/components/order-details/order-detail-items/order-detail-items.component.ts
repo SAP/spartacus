@@ -7,7 +7,7 @@
 import { Component } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
-import { Consignment, Order } from '@spartacus/order/root';
+import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -22,6 +22,7 @@ import {
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent {
+  readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;

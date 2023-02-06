@@ -14,7 +14,7 @@
           <cx-card
             [content]="getDeliveryAddressCard(deliveryAddress) | async"
           ></cx-card>
-          <div *ngIf="!readonly" class="cx-review-summary-edit-step">
+          <div class="cx-review-summary-edit-step">
             <a
               [attr.aria-label]="
                 'checkoutReview.editDeliveryAddressDetails' | cxTranslate
@@ -37,7 +37,7 @@
             *ngIf="deliveryMode$ | async as deliveryMode"
             [content]="getDeliveryModeCard(deliveryMode) | async"
           ></cx-card>
-          <div *ngIf="!readonly" class="cx-review-summary-edit-step">
+          <div class="cx-review-summary-edit-step">
             <a
               [attr.aria-label]="
                 'checkoutReview.editDeliveryMode' | cxTranslate
@@ -52,7 +52,7 @@
     </div>
 
     <!-- CART ITEM SECTION -->
-    <div *ngIf="showItemList" class="cx-review-cart-item col-md-12">
+    <div class="cx-review-cart-item col-md-12">
       <ng-template
         [cxOutlet]="cartOutlets.CART_ITEM_LIST"
         [cxOutletContext]="{

@@ -23,12 +23,10 @@
   <!-- delivery consignment address and delivery mode -->
   <ng-template
     *ngIf="displayConsignmentDelivery$ | async"
-    [cxOutlet]="CartOutlets.CONSIGNMENT_DELIVERY_INFO"
+    [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"
     [cxOutletContext]="{
-      readonly: true,
       showItemList: false,
-      deliveryAddress: order.deliveryAddress,
-      deliveryMode: order.deliveryMode
+      order: order
     }"
   >
   </ng-template>

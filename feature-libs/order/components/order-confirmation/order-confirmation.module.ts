@@ -11,6 +11,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   OrderConfirmationOrderEntriesContextToken,
   OrderFacade,
+  OrderOutlets,
 } from '@spartacus/order/root';
 import {
   CardModule,
@@ -18,6 +19,7 @@ import {
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
+  provideOutlet,
   PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
@@ -48,7 +50,7 @@ const orderConfirmationComponents = [
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    OutletModule,
+    OutletModule.forChild(),
     PasswordVisibilityToggleModule,
   ],
   providers: [
@@ -123,6 +125,10 @@ const orderConfirmationComponents = [
       provide: OrderConfirmationOrderEntriesContextToken,
       useExisting: OrderConfirmationOrderEntriesContext,
     },
+    provideOutlet({
+      id: OrderOutlets.CONSIGNMENT_DELIVERY_INFO,
+      component: OrderConfirmationShippingComponent,
+    }),
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],

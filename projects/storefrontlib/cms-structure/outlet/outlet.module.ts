@@ -32,6 +32,7 @@ export function registerOutletsFactory(
   outletService: OutletService<ComponentFactory<Type<any>>>
 ): () => void {
   const result = () => {
+    console.log('register outelets factory', providedOutletOptions);
     (providedOutletOptions ?? []).forEach((options) => {
       const factory = componentFactoryResolver.resolveComponentFactory(
         options.component
@@ -53,6 +54,7 @@ export function registerOutletsFactory(
 })
 export class OutletModule {
   static forRoot(): ModuleWithProviders<OutletModule> {
+    console.log('-----forRoot');
     return {
       ngModule: OutletModule,
       providers: [
@@ -71,6 +73,7 @@ export class OutletModule {
   }
 
   static forChild(): ModuleWithProviders<OutletModule> {
+    console.log('-----forChild');
     return {
       ngModule: OutletModule,
       providers: [
