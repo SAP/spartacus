@@ -31,6 +31,7 @@ describe('Configurator selectors', () => {
       groupsVisited: {},
       menuParentGroup: undefined,
       issueNavigationDone: true,
+      showConflictSolverDialog: undefined,
     },
   };
   const GROUP_ID = 'currentGroupId';
