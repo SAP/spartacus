@@ -6,8 +6,10 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
-import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
+import {
+  CART_BASE_FEATURE,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -63,7 +65,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReplenishmentConfirmationItemsComponent',
           'ReplenishmentConfirmationTotalsComponent',
         ],
-        dependencies: [CHECKOUT_FEATURE],
+        dependencies: [CART_BASE_FEATURE],
       },
       // by default core is bundled together with components
       [ORDER_CORE_FEATURE]: ORDER_FEATURE,
