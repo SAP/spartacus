@@ -1,8 +1,8 @@
 import * as cart from '../../../helpers/cart';
 import * as importExport from '../../../helpers/cart-import-export';
+import { ImportExportContext } from '../../../helpers/cart-import-export';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { ImportExportContext } from './../../../helpers/cart-import-export';
 
 context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {

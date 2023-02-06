@@ -1,6 +1,3 @@
-import { getSampleUser } from './../../../../sample-data/checkout-flow';
-import { viewportContext } from '../../../../helpers/viewport-context';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
   fillOrganizationUserRegistrationForm,
   navigateToOrganizationUserRegisterPage,
@@ -8,6 +5,9 @@ import {
   verifyGlobalMessageAfterRegistration,
   verifyTabbingOrder,
 } from '../../../../helpers/b2b/b2b-user-registration';
+import { viewportContext } from '../../../../helpers/viewport-context';
+import { getSampleUser } from '../../../../sample-data/checkout-flow';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - User Registration', () => {
   viewportContext(['mobile', 'desktop'], () => {
