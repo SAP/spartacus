@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentFacade,
@@ -22,8 +22,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewPaymentComponent {
-  @Input() readonly: boolean = false;
-
   iconTypes = ICON_TYPE;
 
   paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(

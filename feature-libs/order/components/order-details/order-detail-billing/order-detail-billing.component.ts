@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartOutlets, PaymentDetails } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
@@ -19,8 +19,6 @@ import { OrderDetailsService } from '../order-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderDetailBillingComponent {
-  readonly cartOutlets = CartOutlets;
-
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
 
