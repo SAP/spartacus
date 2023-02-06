@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-history';
 import * as sampleData from '../../../../sample-data/b2b-order-history';
 import { doPlaceB2BOrder } from '../../../../helpers/b2b/b2b-order-history';

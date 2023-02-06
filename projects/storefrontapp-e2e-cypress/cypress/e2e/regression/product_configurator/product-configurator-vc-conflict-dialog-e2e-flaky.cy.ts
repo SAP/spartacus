@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as conflictDialog from '../../../helpers/product-configurator-conflict-dialog';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationVc from '../../../helpers/product-configurator-vc';

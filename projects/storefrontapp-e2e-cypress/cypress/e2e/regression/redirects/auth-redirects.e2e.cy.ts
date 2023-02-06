@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as authForms from '../../../helpers/auth-forms';
 import { createUser, revokeAccessToken } from '../../../helpers/auth-redirects';
 import { AccountData } from '../../../support/require-logged-in.commands';

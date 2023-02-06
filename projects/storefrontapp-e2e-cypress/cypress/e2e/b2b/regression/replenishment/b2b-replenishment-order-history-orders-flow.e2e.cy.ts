@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { loginB2bUser } from '../../../../helpers/b2b/b2b-checkout';
 import * as replenishmentHistory from '../../../../helpers/b2b/b2b-replenishment-order-history';
 import {
