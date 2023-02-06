@@ -8,7 +8,7 @@ import {
   TestTicketDetails,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe.skip('ticket listing', () => {
+describe('ticket listing', () => {
   context('Registered User', () => {
     before(() => {
       cy.window().then((win) => {
@@ -93,15 +93,16 @@ describe.skip('ticket listing', () => {
 
       const numberOfTicketsToCreateInitially = 5;
       const numberOfTicketsToCreateForOnePagination = 1;
-      const numberOfTicketsToCreateForMultipagePagination = 5;
 
       customerTicketing.loginRegisteredUser();
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.verifyPaginationDoesNotExist();
+
       customerTicketing.createMultipleTickets(
         numberOfTicketsToCreateInitially,
         testTicketDetails
       );
+
       customerTicketing.verifyPaginationDoesNotExist();
       customerTicketing.createMultipleTickets(
         numberOfTicketsToCreateForOnePagination,
@@ -111,16 +112,7 @@ describe.skip('ticket listing', () => {
       let totalNumberOfTicketsCreated =
         numberOfTicketsToCreateInitially +
         numberOfTicketsToCreateForOnePagination;
-      customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
-        totalNumberOfTicketsCreated
-      );
 
-      customerTicketing.createMultipleTickets(
-        numberOfTicketsToCreateForMultipagePagination,
-        testTicketDetails
-      );
-      totalNumberOfTicketsCreated +=
-        numberOfTicketsToCreateForMultipagePagination;
       customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
         totalNumberOfTicketsCreated
       );

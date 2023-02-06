@@ -6,7 +6,7 @@ import {
   TestTicketDetails,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe.skip('ticket details', () => {
+describe('ticket details', () => {
   context('Registered User', () => {
     before(() => {
       cy.window().then((win) => {
