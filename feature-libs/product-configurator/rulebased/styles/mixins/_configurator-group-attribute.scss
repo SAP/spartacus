@@ -11,9 +11,7 @@
     padding-block-start: 12px;
     padding-block-end: 12px;
 
-    @include forVersion(5.1) {
-      padding-block-end: 24px;
-    }
+    padding-block-end: 24px;
   }
 
   em {
