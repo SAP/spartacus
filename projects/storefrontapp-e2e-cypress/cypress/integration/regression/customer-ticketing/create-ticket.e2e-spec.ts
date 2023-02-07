@@ -1,6 +1,6 @@
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe.skip('ticketing', () => {
+describe('ticketing', () => {
   context('Registered User', () => {
     before(() => {
       cy.window().then((win) => {
@@ -18,7 +18,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Entering a subject',
         message: 'Typing a message',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
       };
 
       customerTicketing.loginRegisteredUser();
@@ -34,7 +37,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Testing uploading attachment',
         message: 'Has the file been uploaded',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
         filename: 'test.docx',
       };
       customerTicketing.loginRegisteredUser();
@@ -52,7 +58,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Testing uploading attachment',
         message: 'Has the file been uploaded',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
         filename: 'largeFile.txt',
       };
       customerTicketing.loginRegisteredUser();
@@ -68,7 +77,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Testing uploading attachment',
         message: 'Has the file been uploaded',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
         filename: 'fileNotSupported.xls',
       };
       customerTicketing.loginRegisteredUser();
@@ -84,7 +96,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Testing uploading attachment',
         message: 'Has the file been uploaded',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
         filename: 'emptyFile.doc',
       };
       customerTicketing.loginRegisteredUser();
@@ -110,7 +125,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Cancelling a ticketing creation',
         message: 'Cancelled',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
       };
       customerTicketing.loginRegisteredUser();
       customerTicketing.visitElectronicTicketListingPage();
@@ -131,7 +149,10 @@ describe.skip('ticketing', () => {
           TICKET_SUBJECT_MAX_LENGTH + 1
         ),
         message: 'Exceeding character limit',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
       };
       customerTicketing.loginRegisteredUser();
       customerTicketing.visitElectronicTicketListingPage();
@@ -148,7 +169,10 @@ describe.skip('ticketing', () => {
         message: customerTicketing.generateDummyStringOfLength(
           TICKET_MESSAGE_MAX_LENGTH + 1
         ),
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
       };
       customerTicketing.loginRegisteredUser();
       customerTicketing.visitElectronicTicketListingPage();
@@ -162,7 +186,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Entering a subject',
         message: 'Typing a message',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
       };
 
       customerTicketing.loginRegisteredUser();
@@ -177,7 +204,10 @@ describe.skip('ticketing', () => {
       const testTicketDetails: customerTicketing.TestTicketDetails = {
         subject: 'Entering a subject',
         message: 'Typing a message',
-        category: customerTicketing.TestCategory.complaint,
+        ticketCategory: {
+          id: customerTicketing.TestCategory.complaint.toUpperCase(),
+          name: customerTicketing.TestCategory.complaint,
+        },
       };
       customerTicketing.loginRegisteredUser();
       customerTicketing.visitElectronicTicketListingPage();
