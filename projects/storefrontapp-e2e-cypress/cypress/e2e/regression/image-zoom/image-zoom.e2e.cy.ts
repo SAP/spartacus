@@ -5,11 +5,13 @@
  */
 
 import { waitForProductPage } from '../../../helpers/checkout-flow';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 const productId = '1990255';
 
-describe('Image zoom', () => {
+describe('Image zoom', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['desktop'], () => {
     let hasGallery = false;
 

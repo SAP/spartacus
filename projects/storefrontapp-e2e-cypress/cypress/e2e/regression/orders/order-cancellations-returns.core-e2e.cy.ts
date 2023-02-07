@@ -5,13 +5,14 @@
  */
 
 import * as orderCancellationReturn from '../../../helpers/order-cancellations-returns';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 
-describe('Order Cancellations and Returns', () => {
+describe('Order Cancellations and Returns', { testIsolation: false }, () => {
   before(() => {
     cy.requireLoggedIn();
     cy.saveLocalStorage();
   });
-
+  clearCacheCy12();
   beforeEach(() => {
     cy.restoreLocalStorage();
   });

@@ -5,9 +5,10 @@
  */
 
 import * as alerts from '../../../helpers/global-message';
-import * as updatePassword from '../../../helpers/update-password';
 import { signOutUser } from '../../../helpers/login';
+import * as updatePassword from '../../../helpers/update-password';
 import { generateMail, randomString } from '../../../helpers/user';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
@@ -36,50 +37,55 @@ describe('My Account - Update Password', () => {
       });
     });
 
-    describe('update password test for logged in user', () => {
-      before(() => {
-        standardUser.registrationData.email = generateMail(
-          randomString(),
-          true
-        );
-        cy.requireLoggedIn(standardUser);
-        cy.visit('/');
-      });
+    describe(
+      'update password test for logged in user',
+      { testIsolation: false },
+      () => {
+        before(() => {
+          standardUser.registrationData.email = generateMail(
+            randomString(),
+            true
+          );
 
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-        cy.selectUserMenuOption({
-          option: 'Password',
+          cy.requireLoggedIn(standardUser);
+          cy.visit('/');
         });
-      });
+        clearCacheCy12();
+        beforeEach(() => {
+          cy.restoreLocalStorage();
+          cy.selectUserMenuOption({
+            option: 'Password',
+          });
+        });
 
-      it('should be able to cancel and go back to home', () => {
-        cy.get('cx-update-password a').click();
-        cy.title().should('eq', updatePassword.PAGE_TITLE_HOME);
-        alerts.getAlert().should('not.exist');
-      });
+        it('should be able to cancel and go back to home', () => {
+          cy.get('cx-update-password a').click();
+          cy.title().should('eq', updatePassword.PAGE_TITLE_HOME);
+          alerts.getAlert().should('not.exist');
+        });
 
-      it('should display server error if old password is wrong', () => {
-        alerts.getErrorAlert().should('not.exist');
-        cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
-        cy.get('[formcontrolname="newPassword"]').type(
-          updatePassword.newPassword
-        );
-        cy.get('[formcontrolname="newPasswordConfirm"]').type(
-          updatePassword.newPassword
-        );
-        cy.get('cx-update-password button.btn-primary').click();
-        cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
-        alerts.getErrorAlert().should('exist');
-      });
+        it('should display server error if old password is wrong', () => {
+          alerts.getErrorAlert().should('not.exist');
+          cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
+          cy.get('[formcontrolname="newPassword"]').type(
+            updatePassword.newPassword
+          );
+          cy.get('[formcontrolname="newPasswordConfirm"]').type(
+            updatePassword.newPassword
+          );
+          cy.get('cx-update-password button.btn-primary').click();
+          cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
+          alerts.getErrorAlert().should('exist');
+        });
 
-      afterEach(() => {
-        cy.saveLocalStorage();
-      });
+        afterEach(() => {
+          cy.saveLocalStorage();
+        });
 
-      after(() => {
-        signOutUser();
-      });
-    });
+        after(() => {
+          signOutUser();
+        });
+      }
+    );
   });
 });

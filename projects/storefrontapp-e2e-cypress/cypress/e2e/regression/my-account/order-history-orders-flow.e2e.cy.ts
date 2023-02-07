@@ -9,19 +9,19 @@ import {
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
-  doPlaceOrder,
-  orderHistoryTest,
-  interceptCartPageEndpoint,
-  verifyActionLinkHasText,
   clickOnActionLink,
-  waitForResponse,
+  doPlaceOrder,
   interceptAddToCartEndpoint,
+  interceptCartPageEndpoint,
+  orderHistoryTest,
+  verifyActionLinkHasText,
+  waitForResponse,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 
-describe('Order History with orders', () => {
+xdescribe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

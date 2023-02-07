@@ -5,9 +5,11 @@
  */
 
 import * as appliedPromotions from '../../../helpers/applied-promotions';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Applied promotions', () => {
+context('Applied promotions', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => {

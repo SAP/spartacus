@@ -5,15 +5,18 @@
  */
 
 import * as appliedPromotions from '../../../helpers/applied-promotions';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Applied promotions', () => {
+context('Applied promotions', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
+
       cy.requireLoggedIn();
     });
 

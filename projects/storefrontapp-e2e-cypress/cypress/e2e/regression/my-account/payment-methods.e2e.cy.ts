@@ -14,6 +14,7 @@ import {
   verifyPaymentCard,
   visitPaymentDetailsPage,
 } from '../../../helpers/payment-methods';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Payment Methods', () => {
@@ -30,11 +31,11 @@ describe('Payment Methods', () => {
       });
     });
 
-    describe('Authenticated user', () => {
+    describe('Authenticated user', { testIsolation: false }, () => {
       before(() => {
         visitHomePage();
       });
-
+      clearCacheCy12();
       beforeEach(() => {
         cy.restoreLocalStorage();
       });

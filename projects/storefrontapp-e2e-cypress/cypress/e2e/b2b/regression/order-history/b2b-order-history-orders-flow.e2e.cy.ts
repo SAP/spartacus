@@ -4,19 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { loginB2bUser } from '../../../../helpers/b2b/b2b-checkout';
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
-import {
-  b2bAccountShipToUser,
-  b2bProduct,
-  cartWithB2bProductAndPremiumShipping,
-  order_type,
-  ORDER_REQUEST_ENDPOINT,
-  POWERTOOLS_BASESITE,
-  USER_REQUEST_ENDPOINT,
-  poNumber,
-  costCenter,
-} from '../../../../sample-data/b2b-checkout';
+import { loginB2bUser } from '../../../../helpers/b2b/b2b-checkout';
+import * as cart from '../../../../helpers/cart';
 import {
   goToOrderDetails,
   interceptCartFromOrderEndpoint,
@@ -24,16 +14,27 @@ import {
   saveOrderDetails,
   waitForResponse,
 } from '../../../../helpers/order-history';
-import * as cart from '../../../../helpers/cart';
+import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import {
+  b2bAccountShipToUser,
+  b2bProduct,
+  cartWithB2bProductAndPremiumShipping,
+  costCenter,
+  ORDER_REQUEST_ENDPOINT,
+  order_type,
+  poNumber,
+  POWERTOOLS_BASESITE,
+  USER_REQUEST_ENDPOINT,
+} from '../../../../sample-data/b2b-checkout';
 
-describe('Order History with orders', () => {
+describe('Order History with orders', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     Cypress.env('OCC_PREFIX_USER_ENDPOINT', USER_REQUEST_ENDPOINT);
     Cypress.env('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
   });
-
+  clearCacheCy12();
   beforeEach(() => {
     cy.restoreLocalStorage();
   });

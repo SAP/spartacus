@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-context('Homepage', () => {
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+
+context('Homepage', { testIsolation: false }, () => {
   before(() => {
     cy.visit('/');
   });
-
+  clearCacheCy12();
   it('should display title', () => {
     cy.title().should('not.be.empty');
   });

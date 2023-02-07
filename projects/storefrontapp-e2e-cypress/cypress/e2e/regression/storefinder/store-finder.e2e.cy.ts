@@ -5,7 +5,9 @@
  */
 
 import * as storeFinder from '../../../helpers/store-finder';
-context('Store finder', () => {
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+context('Store finder', { testIsolation: false }, () => {
+  clearCacheCy12();
   before(() => {
     cy.visit('/store-finder');
   });

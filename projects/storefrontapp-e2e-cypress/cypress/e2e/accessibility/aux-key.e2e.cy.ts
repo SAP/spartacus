@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-context('Auxiliary Keys', () => {
+import { clearCacheCy12 } from '../../helpers/utils-cypress12';
+
+context('Auxiliary Keys', { testIsolation: false }, () => {
   describe('Category Navigation', () => {
+    clearCacheCy12();
     before(() => {
       loadPageWithComponenents('/');
     });

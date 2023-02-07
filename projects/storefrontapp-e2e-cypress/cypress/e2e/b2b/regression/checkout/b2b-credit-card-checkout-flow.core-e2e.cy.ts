@@ -6,6 +6,7 @@
 
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as checkout from '../../../../helpers/checkout-flow';
+import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
 import {
   cartWithB2bProduct,
   order_type,
@@ -14,12 +15,12 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 import { user } from '../../../../sample-data/checkout-flow';
 
-context('B2B - Credit Card Checkout flow', () => {
+context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
-
+  clearCacheCy12();
   beforeEach(() => {
     cy.restoreLocalStorage();
   });
