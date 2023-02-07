@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -112,7 +108,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
+        imports: [I18nTestingModule, IconModule],
         declarations: [
           ConfiguratorAttributeHeaderComponent,
           MockFeatureLevelDirective,
@@ -134,12 +130,6 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
           },
         ],
       })
