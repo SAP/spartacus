@@ -238,15 +238,15 @@ describe('ConfigProductTitleComponent', () => {
 
   describe('product$', () => {
     it('should get product name as part of product of configuration', () => {
-      component.product$.subscribe((data: Product) => {
-        expect(data.name).toEqual(PRODUCT_NAME);
+      component.product$.subscribe((data: Product | undefined) => {
+        expect(data?.name).toEqual(PRODUCT_NAME);
       });
     });
 
     it('should get product name as part of product from overview, in case configuration is order bound', () => {
       configuration = orderEntryconfig;
-      component.product$.subscribe((data: Product) => {
-        expect(data.name).toEqual(PRODUCT_NAME);
+      component.product$.subscribe((data: Product | undefined) => {
+        expect(data?.name).toEqual(PRODUCT_NAME);
       });
     });
 
@@ -349,7 +349,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey.kbName,
+      configuration.kbKey?.kbName ?? '',
       0
     );
 
@@ -357,7 +357,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey.kbLogsys,
+      configuration.kbKey?.kbLogsys ?? '',
       1
     );
 
@@ -365,7 +365,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey.kbVersion,
+      configuration.kbKey?.kbVersion ?? '',
       2
     );
 
@@ -373,7 +373,7 @@ describe('ConfigProductTitleComponent', () => {
       expect,
       htmlElem,
       'span.cx-value',
-      configuration.kbKey.kbBuildNumber,
+      configuration.kbKey?.kbBuildNumber ?? '',
       3
     );
   });
@@ -520,7 +520,7 @@ describe('ConfigProductTitleComponent', () => {
         'cx-label',
         0,
         'aria-label',
-        'configurator.a11y.kbKeyName name:' + configuration.kbKey.kbName,
+        'configurator.a11y.kbKeyName name:' + configuration.kbKey?.kbName,
         'configurator.header.kbKeyName'
       );
     });
@@ -533,7 +533,7 @@ describe('ConfigProductTitleComponent', () => {
         'cx-label',
         1,
         'aria-label',
-        'configurator.a11y.kbKeyLogsys logsys:' + configuration.kbKey.kbLogsys,
+        'configurator.a11y.kbKeyLogsys logsys:' + configuration.kbKey?.kbLogsys,
         'configurator.header.kbKeyLogsys'
       );
     });
@@ -547,7 +547,7 @@ describe('ConfigProductTitleComponent', () => {
         2,
         'aria-label',
         'configurator.a11y.kbKeyVersion version:' +
-          configuration.kbKey.kbVersion,
+          configuration.kbKey?.kbVersion,
         'configurator.header.kbKeyVersion'
       );
     });
@@ -561,7 +561,7 @@ describe('ConfigProductTitleComponent', () => {
         3,
         'aria-label',
         'configurator.a11y.kbKeyBuildNr number:' +
-          configuration.kbKey.kbBuildNumber,
+          configuration.kbKey?.kbBuildNumber,
         'configurator.header.kbKeyBuildNr'
       );
     });
