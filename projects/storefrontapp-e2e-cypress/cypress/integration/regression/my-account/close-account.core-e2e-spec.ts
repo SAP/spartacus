@@ -1,4 +1,5 @@
 import { login } from '../../../helpers/auth-forms';
+import { visitAndWaitForRedirections } from '../../../helpers/auth-redirects';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { generateMail, randomString } from '../../../helpers/user';
@@ -29,8 +30,7 @@ describe('My Account - Close Account', () => {
           true
         );
         cy.requireLoggedIn(standardUser);
-        cy.visit('/');
-        waitForRedirections();
+        visitAndWaitForRedirections('/');
       });
 
       beforeEach(() => {
@@ -79,8 +79,7 @@ describe('My Account - Close Account', () => {
       });
 
       it('should not login with a closed account credentials', () => {
-        cy.visit('/login');
-        waitForRedirections();
+        visitAndWaitForRedirections('/login');
 
         login(
           standardUser.registrationData.email,
@@ -95,20 +94,5 @@ describe('My Account - Close Account', () => {
         cy.saveLocalStorage();
       });
     });
-
-    /**
-     * Waits for the background work to complete after a cy.visit() call and the browser adds base parameters.
-     *
-     * Handling of authentication revocation can slow down page loads to the point that tests fail due to timeouts.
-     * When the background work completes after a cy.visit(), the base paramaters are added to the url and the page loads normally.
-     */
-    function waitForRedirections() {
-      cy.location('pathname', { timeout: 30000 }).should(
-        'contain',
-        `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
-          'BASE_CURRENCY'
-        )}`
-      );
-    }
   });
 });
