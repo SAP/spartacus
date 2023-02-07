@@ -101,3 +101,19 @@ If explicitly set, this option will take precedence over the express server.
 ### Translatable interface
 
 - Type of the property 'key' is now `string | string[]`
+
+### CheckoutDeliveryAddressComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutPaymentFormComponent
+
+- `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutReviewSubmitComponent
+
+- `getDeliveryAddressCard()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### AddressBookComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.

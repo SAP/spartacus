@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import {
   Address,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
+import { getAddressNumbers } from '../../../utils/address-number-utils';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -30,10 +32,29 @@ export class AddressBookComponent implements OnInit {
   showEditAddressForm = false;
   editCard: string | null;
 
+  /**
+   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
+   */
+  constructor(
+    service: AddressBookComponentService,
+    translation: TranslationService,
+    globalMessageService: GlobalMessageService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(
+    service: AddressBookComponentService,
+    translation: TranslationService,
+    globalMessageService: GlobalMessageService
+  );
   constructor(
     public service: AddressBookComponentService,
     protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +101,8 @@ export class AddressBookComponent implements OnInit {
       this.translation.translate('common.delete'),
       this.translation.translate('common.edit'),
       this.translation.translate('addressBook.areYouSureToDeleteAddress'),
+      this.translation.translate('addressCard.phoneNumber'),
+      this.translation.translate('addressCard.mobileNumber'),
     ]).pipe(
       map(
         ([
@@ -88,6 +111,8 @@ export class AddressBookComponent implements OnInit {
           textDelete,
           textEdit,
           textVerifyDeleteMsg,
+          textPhone,
+          textMobile,
         ]) => {
           let region = '';
 
@@ -102,6 +127,13 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
+          /**
+           * TODO: (#CXSPA-53) Remove feature config check in 6.0
+           */
+          const numbers = this.featureConfigService?.isLevel('5.2')
+            ? getAddressNumbers(address, textPhone, textMobile)
+            : address.phone;
+
           return {
             role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
@@ -110,7 +142,7 @@ export class AddressBookComponent implements OnInit {
               address.line2,
               address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
-              address.phone,
+              numbers,
             ],
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',

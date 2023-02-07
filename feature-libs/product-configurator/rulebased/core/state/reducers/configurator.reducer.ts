@@ -65,7 +65,7 @@ function ensureReducerMapCreated() {
     );
     reducerMap.set(
       ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS,
-      handleReadSucess
+      handleCartEntryReadSucess
     );
     reducerMap.set(
       ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS,
@@ -107,6 +107,14 @@ function ensureReducerMapCreated() {
       ConfiguratorActions.SET_GROUPS_VISITED,
       handleSetGroupsVisited
     );
+    reducerMap.set(
+      ConfiguratorActions.DISMISS_CONFLICT_DIALOG,
+      handleActionDismissConflictSolverDialog
+    );
+    reducerMap.set(
+      ConfiguratorActions.CHECK_CONFLICT_DIALOG,
+      handleActionCheckConflictSolverDialog
+    );
     reducerMap.set(ConfiguratorActions.CHANGE_GROUP, handleChangeGroup);
   }
 }
@@ -116,8 +124,48 @@ function handleActionUpdateConfigurationFinalizeSuccess(
   action: ConfiguratorActions.UpdateConfigurationFinalizeSuccess
 ): Configurator.Configuration | undefined {
   const result: Configurator.Configuration = takeOverChanges(action, state);
+  checkConflictSolverDialog(result);
   result.isCartEntryUpdateRequired = true;
   result.overview = undefined;
+  return result;
+}
+
+function checkConflictSolverDialog(
+  configuration: Configurator.Configuration
+): void {
+  configuration.interactionState.showConflictSolverDialog =
+    configuration.immediateConflictResolution && !configuration.consistent;
+  if (configuration.interactionState.showConflictSolverDialog) {
+    configuration.interactionState.issueNavigationDone = true;
+  }
+}
+
+function handleActionDismissConflictSolverDialog(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.DissmissConflictDialoge
+): Configurator.Configuration | undefined {
+  if (action.type === ConfiguratorActions.DISMISS_CONFLICT_DIALOG) {
+    const result: Configurator.Configuration = {
+      ...state,
+      interactionState: {
+        ...state.interactionState,
+        showConflictSolverDialog: false,
+      },
+    };
+    return result;
+  }
+}
+
+function handleActionCheckConflictSolverDialog(
+  state: Configurator.Configuration
+): Configurator.Configuration | undefined {
+  const result: Configurator.Configuration = {
+    ...state,
+    interactionState: {
+      ...state.interactionState,
+    },
+  };
+  checkConflictSolverDialog(result);
   return result;
 }
 
@@ -135,6 +183,15 @@ function handleReadSucess(
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.ReadConfigurationSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+): Configurator.Configuration | undefined {
+  const result = setInitialCurrentGroup(takeOverChanges(action, state));
+  checkConflictSolverDialog(result);
+  return result;
+}
+
+function handleCartEntryReadSucess(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.ReadCartEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   return setInitialCurrentGroup(takeOverChanges(action, state));
 }
@@ -243,14 +300,15 @@ function handleSetCurrentGroup(
   action: ConfiguratorActions.SetCurrentGroup
 ): Configurator.Configuration | undefined {
   const newCurrentGroup: string = action.payload.currentGroup;
-
-  return {
+  const result = {
     ...state,
     interactionState: {
       ...state.interactionState,
       currentGroup: newCurrentGroup,
     },
   };
+  checkConflictSolverDialog(result);
+  return result;
 }
 
 function handleSetMenuParentGroup(
@@ -302,7 +360,6 @@ function handleChangeGroup(
   action: ConfiguratorActions.ChangeGroup
 ): Configurator.Configuration | undefined {
   const isConflictResolutionMode = action.payload.conflictResolutionMode;
-
   return {
     ...state,
     interactionState: {
@@ -331,7 +388,11 @@ function setInitialCurrentGroup(
   let initialCurrentGroup;
   const flatGroups = state.flatGroups;
   if (flatGroups && flatGroups.length > 0) {
-    initialCurrentGroup = flatGroups[0]?.id;
+    initialCurrentGroup = state.immediateConflictResolution
+      ? flatGroups.find(
+          (group) => !group.id.startsWith(Configurator.ConflictIdPrefix)
+        )?.id
+      : flatGroups[0].id;
   }
   const menuParentGroup = initialCurrentGroup?.startsWith(
     Configurator.ConflictIdPrefix
@@ -367,6 +428,7 @@ function takeOverChanges(
     interactionState: {
       ...state.interactionState,
       ...content.interactionState,
+      showConflictSolverDialog: state.interactionState.showConflictSolverDialog,
       issueNavigationDone: true,
     },
   };

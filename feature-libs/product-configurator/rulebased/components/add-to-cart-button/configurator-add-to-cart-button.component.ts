@@ -339,7 +339,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     // From the technical point of view it is controlled by checking whether the add-to-cart button intersects the price-summary or not:
     // the add-to-cart button has to be shown sticky, if intersects, and fixed, if not.
     // To avoid the situation where the add-to-cart button is shown fixed below the footer view
-    // when the configutation view is scrolled out to the top on small mobile screens, we use the rootMargin parameter.
+    // when the configuration view is scrolled out to the top on small mobile screens, we use the rootMargin parameter.
     // The first field of the rootMargin controls the delay in pixel after them the add-to-cart button has to be shown fixed again.
     // We set this value very high, so the add-to-cart button will never appear below the footer view even in case of small screens.
     const options: IntersectionOptions = {
