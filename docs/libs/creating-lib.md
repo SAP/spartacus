@@ -362,7 +362,7 @@ IMPORTANT : DO NOT PUSH any changed done under this step.
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
 - Create new angular project `ng new schematics-test --style scss --routing=false`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
-- Build all libs (if it is first time, if not just build your new lib) or run a command `yarn build:libs`
+- Build all libs (if it is first time, if not just build your new lib) or run a command `npm run build:libs`
 - Publish
 - Add spartacus to new angular project `ng add @spartacus/schematics@latest --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site=electronics-spa
 
