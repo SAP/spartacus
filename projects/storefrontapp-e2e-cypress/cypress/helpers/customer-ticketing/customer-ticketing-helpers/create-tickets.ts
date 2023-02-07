@@ -33,7 +33,7 @@ export function fillTicketDetails(ticketDetails: TestTicketDetails) {
     cy.contains('.cx-customer-ticket-label', 'Category')
       .get('select')
       .eq(CATEGORY_SELECT)
-      .select(ticketDetails.category);
+      .select(ticketDetails.ticketCategory.name);
     cy.get(`textarea[formcontrolname="${MESSAGE_CONTROL}"]`).type(
       ticketDetails.message
     );
