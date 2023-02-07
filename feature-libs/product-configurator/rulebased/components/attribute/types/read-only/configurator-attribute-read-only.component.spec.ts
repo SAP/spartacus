@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  I18nTestingModule,
-  FeaturesConfig,
-  FeaturesConfigModule,
-} from '@spartacus/core';
+import { I18nTestingModule, FeaturesConfigModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -67,15 +63,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
-        providers: [
-          // TODO:(CXSPA-1689) #deprecation for next major release remove below feature config
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
-          },
-        ],
       })
         .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
           set: {
