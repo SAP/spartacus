@@ -4,6 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
+      - 'feature/CXSPA-1977'
 name: Cache node modules
 
 env:
