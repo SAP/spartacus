@@ -15,11 +15,12 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 
 context('B2B - Account Checkout flow', { testIsolation: false }, () => {
+  clearCacheCy12();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
-  clearCacheCy12();
+
   beforeEach(() => {
     cy.restoreLocalStorage();
   });

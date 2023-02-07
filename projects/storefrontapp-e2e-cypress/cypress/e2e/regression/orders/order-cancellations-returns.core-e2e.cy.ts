@@ -8,11 +8,12 @@ import * as orderCancellationReturn from '../../../helpers/order-cancellations-r
 import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 
 describe('Order Cancellations and Returns', { testIsolation: false }, () => {
+  clearCacheCy12();
   before(() => {
     cy.requireLoggedIn();
     cy.saveLocalStorage();
   });
-  clearCacheCy12();
+
   beforeEach(() => {
     cy.restoreLocalStorage();
   });

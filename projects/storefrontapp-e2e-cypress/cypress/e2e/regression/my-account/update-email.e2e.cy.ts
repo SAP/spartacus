@@ -8,10 +8,11 @@ import { login } from '../../../helpers/auth-forms';
 import * as alerts from '../../../helpers/global-message';
 import { checkBanner } from '../../../helpers/homepage';
 import { signOut } from '../../../helpers/register';
+import * as updateEmail from '../../../helpers/update-email';
 import { registerAndLogin } from '../../../helpers/update-email';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
-import * as updateEmail from '../../../helpers/update-email';
 
 describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -26,7 +27,8 @@ describe('My Account - Update Email', () => {
       });
     });
 
-    describe('Logged in user', () => {
+    describe('Logged in user', { testIsolation: false }, () => {
+      clearCacheCy12();
       before(() => {
         registerAndLogin();
         cy.visit('/');

@@ -30,7 +30,7 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
   let order0;
   let order1;
   let order2;
-
+  clearCacheCy12();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     unitLevelOrderHistory.loginB2bCommonUser();
@@ -43,7 +43,6 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
     unitLevelOrderHistory.loginB2bUnitOrderViewer();
     cy.visit('/my-account/unitLevelOrders');
   });
-  clearCacheCy12();
 
   describe('User without right', () => {
     it('is not allowed to access unit-level orders page', () => {

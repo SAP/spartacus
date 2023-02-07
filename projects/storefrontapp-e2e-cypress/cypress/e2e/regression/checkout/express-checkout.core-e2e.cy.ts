@@ -6,11 +6,13 @@
 
 import { CheckoutConfig } from '@spartacus/storefront';
 import * as checkout from '../../../helpers/checkout-flow';
+import * as expressCheckout from '../../../helpers/express-checkout';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import * as expressCheckout from '../../../helpers/express-checkout';
 
-context('Express checkout', () => {
+context('Express checkout', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['desktop'], () => {
     before(() => {
       clearAllStorage();

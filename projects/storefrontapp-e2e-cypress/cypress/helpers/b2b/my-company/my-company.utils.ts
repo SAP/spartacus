@@ -21,10 +21,11 @@ export function testMyCompanyFeatureFromConfig(
     `My Company - ${config.name}${config.nameSuffix || ''}`,
     { testIsolation: false },
     () => {
+      clearCacheCy12();
       before(() => {
         Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
       });
-      clearCacheCy12();
+
       beforeEach(() => {
         cy.restoreLocalStorage();
 

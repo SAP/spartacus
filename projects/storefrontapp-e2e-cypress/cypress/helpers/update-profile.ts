@@ -8,6 +8,7 @@ import * as login from '../helpers/login';
 import { SampleUser } from '../sample-data/checkout-flow';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
+import { clearCacheCy12 } from './utils-cypress12';
 
 export const newTitle = 'Dr.';
 export const newFirstName = 'N';
@@ -111,28 +112,33 @@ export function testSeeNewProfileInfo() {
 }
 
 export function testUpdateProfileLoggedInUser() {
-  describe('update profile test for logged in user', () => {
-    before(() => {
-      cy.requireLoggedIn();
-      cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
+  describe(
+    'update profile test for logged in user',
+    { testIsolation: false },
+    () => {
+      clearCacheCy12();
+      before(() => {
+        cy.requireLoggedIn();
+        cy.visit('/');
       });
-    });
 
-    testUpdateProfileDetails();
-    testSeeNewProfileInfo();
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+        });
+      });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
+      testUpdateProfileDetails();
+      testSeeNewProfileInfo();
 
-    after(() => {
-      login.signOutUser();
-    });
-  });
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      after(() => {
+        login.signOutUser();
+      });
+    }
+  );
 }

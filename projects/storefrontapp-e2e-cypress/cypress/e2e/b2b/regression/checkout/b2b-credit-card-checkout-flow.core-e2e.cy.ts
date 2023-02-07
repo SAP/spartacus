@@ -16,11 +16,12 @@ import {
 import { user } from '../../../../sample-data/checkout-flow';
 
 context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
+  clearCacheCy12();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
-  clearCacheCy12();
+
   beforeEach(() => {
     cy.restoreLocalStorage();
   });

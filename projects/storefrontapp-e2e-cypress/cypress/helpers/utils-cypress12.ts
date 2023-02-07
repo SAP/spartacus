@@ -1,6 +1,5 @@
 export function clearCacheCy12() {
-  beforeEach(() => {
-    console.log('flo');
+  before(() => {
     cy.clearLocalStorage();
     cy.clearCookies();
   });

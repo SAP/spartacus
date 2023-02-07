@@ -7,10 +7,11 @@
 import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 
 context('Homepage', { testIsolation: false }, () => {
+  clearCacheCy12();
   before(() => {
     cy.visit('/');
   });
-  clearCacheCy12();
+
   it('should display title', () => {
     cy.title().should('not.be.empty');
   });

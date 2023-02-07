@@ -26,6 +26,7 @@ viewportContext(['mobile', 'desktop'], () => {
       'consent management test for logged in user',
       { testIsolation: false },
       () => {
+        clearCacheCy12();
         before(() => {
           cy.requireLoggedIn();
           cy.reload();
@@ -34,7 +35,7 @@ viewportContext(['mobile', 'desktop'], () => {
             option: 'Consent Management',
           });
         });
-        clearCacheCy12();
+
         beforeEach(() => {
           cy.restoreLocalStorage();
         });

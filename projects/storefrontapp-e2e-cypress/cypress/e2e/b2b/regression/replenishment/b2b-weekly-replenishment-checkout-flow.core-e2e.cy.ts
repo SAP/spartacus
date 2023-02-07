@@ -20,11 +20,12 @@ context(
   `B2B - ${recurrencePeriod.WEEKLY} Replenishment Checkout flow`,
   { testIsolation: false },
   () => {
+    clearCacheCy12();
     before(() => {
       clearAllStorage();
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     });
-    clearCacheCy12();
+
     beforeEach(() => {
       cy.restoreLocalStorage();
     });

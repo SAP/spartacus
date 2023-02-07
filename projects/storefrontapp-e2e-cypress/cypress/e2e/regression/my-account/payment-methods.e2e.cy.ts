@@ -32,10 +32,11 @@ describe('Payment Methods', () => {
     });
 
     describe('Authenticated user', { testIsolation: false }, () => {
+      clearCacheCy12();
       before(() => {
         visitHomePage();
       });
-      clearCacheCy12();
+
       beforeEach(() => {
         cy.restoreLocalStorage();
       });

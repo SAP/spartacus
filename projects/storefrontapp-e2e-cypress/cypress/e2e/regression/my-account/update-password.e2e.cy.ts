@@ -41,6 +41,7 @@ describe('My Account - Update Password', () => {
       'update password test for logged in user',
       { testIsolation: false },
       () => {
+        clearCacheCy12();
         before(() => {
           standardUser.registrationData.email = generateMail(
             randomString(),
@@ -50,7 +51,7 @@ describe('My Account - Update Password', () => {
           cy.requireLoggedIn(standardUser);
           cy.visit('/');
         });
-        clearCacheCy12();
+
         beforeEach(() => {
           cy.restoreLocalStorage();
           cy.selectUserMenuOption({
