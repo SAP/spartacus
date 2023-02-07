@@ -18,6 +18,7 @@ declare module '@spartacus/product-configurator/common' {
 
 declare module '@spartacus/storefront' {
   const enum LAUNCH_CALLER {
+    CONFLICT_SOLVER = 'CONFLICT_SOLVER',
     CONFIGURATOR_OV_FILTER = 'CONFIGURATOR_OV_FILTER',
   }
 }

@@ -7,7 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+import { I18nModule, FeaturesConfigModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
@@ -16,8 +17,11 @@ import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute
     KeyboardFocusModule,
     FormsModule,
     ReactiveFormsModule,
+    ConfiguratorPriceModule,
     CommonModule,
     I18nModule,
+    // TODO:(CXSPA-1689) #deprecation for next major release remove below feature config
+    FeaturesConfigModule,
   ],
   declarations: [ConfiguratorAttributeReadOnlyComponent],
   exports: [ConfiguratorAttributeReadOnlyComponent],

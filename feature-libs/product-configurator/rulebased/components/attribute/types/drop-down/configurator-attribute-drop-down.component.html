@@ -24,14 +24,15 @@
   >
     <option
       *ngFor="let item of attribute.values"
-      [label]="getLabel(expMode, item.valueDisplay, item.valueCode)"
       [selected]="item.selected"
+      [label]="getLabel(expMode, item.valueDisplay, item.valueCode, item)"
       [attr.aria-label]="getAriaLabel(item, attribute)"
       [value]="item.valueCode"
     >
-      {{ getLabel(expMode, item.valueDisplay, item.valueCode) }}
+      {{ getLabel(expMode, item.valueDisplay, item.valueCode, item) }}
     </option>
   </select>
+
   <div
     *ngIf="!withQuantity && getSelectedValue()?.valuePrice"
     class="cx-value-price"

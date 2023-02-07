@@ -77,7 +77,7 @@
 
 ### StoreFinderSearchComponent
 
-- Added `tabindex="-1"` to avoid tab stop for accessibility improvements.
+- Added `tabindex"` to control tab stop for accessibility improvements.
 
 ### UpdateProfileComponent
 
@@ -98,3 +98,12 @@
 ### UnitLevelOrderOverviewComponent
 
 - Removed a condition to hide 2nd order summary column
+
+### AddressBookFormComponent
+
+- Added `Cellphone` field to the `addressForm`
+
+### AddressBookFormComponent
+
+- Added `Cellphone` field to adress card
+

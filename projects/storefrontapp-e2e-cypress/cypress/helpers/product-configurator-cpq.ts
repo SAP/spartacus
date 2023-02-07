@@ -180,15 +180,13 @@ export function convertCardTypeToUiType(cardType: cardType) {
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
   cy.wait('@readConfig');
 }
