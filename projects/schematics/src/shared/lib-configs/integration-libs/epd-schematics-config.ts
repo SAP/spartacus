@@ -6,10 +6,10 @@
 
 import { EPD_VISUALIZATION_CONFIG } from '../../constants';
 import {
-    EPD_VISUALIZATION_FEATURE_NAME,
-    SPARTACUS_EPD_VISUALIZATION,
-    SPARTACUS_EPD_VISUALIZATION_ASSETS,
-    SPARTACUS_EPD_VISUALIZATION_ROOT
+  EPD_VISUALIZATION_FEATURE_NAME,
+  SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_EPD_VISUALIZATION_ASSETS,
+  SPARTACUS_EPD_VISUALIZATION_ROOT
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
