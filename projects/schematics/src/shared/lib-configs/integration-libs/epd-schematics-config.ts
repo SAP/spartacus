@@ -9,7 +9,7 @@ import {
   EPD_VISUALIZATION_FEATURE_NAME,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_EPD_VISUALIZATION_ASSETS,
-  SPARTACUS_EPD_VISUALIZATION_ROOT,
+  SPARTACUS_EPD_VISUALIZATION_ROOT
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -75,7 +75,7 @@ function buildCdsConfig(
       content: `<${EPD_VISUALIZATION_CONFIG}>{
         epdVisualization: {
           ui5: {
-            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.107.1/resources/sap-ui-core.js"
+            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.108.5/resources/sap-ui-core.js"
           },
 
           apis: {

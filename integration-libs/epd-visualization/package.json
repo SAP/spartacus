@@ -37,7 +37,7 @@
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
     "@angular/router": "^14.2.3",
-    "@sapui5/ts-types-esm": "1.107.1",
+    "@sapui5/ts-types-esm": "1.108.5",
     "@spartacus/cart": "5.2.0-1",
     "@spartacus/core": "5.2.0-1",
     "@spartacus/schematics": "5.2.0-1",
