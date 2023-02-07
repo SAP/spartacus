@@ -164,19 +164,7 @@ export function verifyNumberOfPagesBasedOnTotalNumberOfTickets(
 }
 
 export function selectSortBy(sort: TestSortingTypes) {
-  cy.get('cx-sorting').click();
-  cy.get('[aria-label="Sort orders"]')
-    .get('.ng-value-label')
-    .then((box) => {
-      if (box.is(sort)) {
-        cy.get('cx-sorting').click();
-      } else {
-        cy.get('cx-sorting')
-          .get('ng-dropdown-panel')
-          .get('span[ng-reflect-ng-item-label="' + sort + '"]')
-          .click();
-      }
-    });
+  cy.get('.top cx-sorting .ng-select').ngSelect(sort);
 }
 
 export function verifyCertainNumberOfTicketsSortedById(
