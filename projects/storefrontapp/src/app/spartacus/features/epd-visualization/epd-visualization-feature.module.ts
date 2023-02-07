@@ -7,13 +7,13 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  epdVisualizationTranslationChunksConfig,
-  epdVisualizationTranslations,
+    epdVisualizationTranslationChunksConfig,
+    epdVisualizationTranslations
 } from '@spartacus/epd-visualization/assets';
 import {
-  EpdVisualizationConfig,
-  EpdVisualizationRootModule,
-  EPD_VISUALIZATION_FEATURE,
+    EpdVisualizationConfig,
+    EpdVisualizationRootModule,
+    EPD_VISUALIZATION_FEATURE
 } from '@spartacus/epd-visualization/root';
 
 const epdVisualizationConfig: EpdVisualizationConfig = {
@@ -25,7 +25,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
 
     ui5: {
       bootstrapUrl:
-        'https://sapui5.hana.ondemand.com/1.107.1/resources/sap-ui-core.js',
+        'https://sapui5.hana.ondemand.com/1.108.5/resources/sap-ui-core.js',
     },
   },
 };

@@ -2012,9 +2012,9 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@sapui5/ts-types-esm@1.107.1":
-  version "1.107.1"
-  resolved "https://registry.yarnpkg.com/@sapui5/ts-types-esm/-/ts-types-esm-1.107.1.tgz#9e56921b4282949b248b062159d85723aec887d9"
+"@sapui5/ts-types-esm@1.108.5":
+  version "1.108.5"
+  resolved "https://registry.yarnpkg.com/@sapui5/ts-types-esm/-/ts-types-esm-1.108.5.tgz#9e56921b4282949b248b062159d85723aec887d9"
   integrity sha512-eq58UFBBnzqQCuoBbfYusMtjbxfZfE+jJfJG9n6Sc0rV/su6enrhnZfI5R0wQyKCipvNMRIORktZkTNgYXivKg==
   dependencies:
     "@types/jquery" "3.5.13"
