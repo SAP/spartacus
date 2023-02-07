@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/cdp",
+  "lib": {
+    "entryFile": "./public_api.ts"
+  },
+  "assets": [
+    "**/*.scss", 
+    "schematics/**/*.json", 
+    "schematics/**/*.js"
+  ]
+}
