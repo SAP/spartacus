@@ -5,9 +5,11 @@
  */
 
 import * as productSearchFlow from '../../../helpers/product-search';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-context('Product search', () => {
+context('Product search', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.visit('/');

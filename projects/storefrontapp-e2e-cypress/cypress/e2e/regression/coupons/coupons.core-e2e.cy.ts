@@ -5,9 +5,16 @@
  */
 
 import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('Cart Coupon', () => {
+describe('Cart Coupon', { testIsolation: false }, () => {
+  // beforeEach(() => {
+  //   cy.clearLocalStorage();
+  //   cy.clearCookies();
+  // });
+  clearCacheCy12();
+
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());

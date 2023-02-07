@@ -13,9 +13,11 @@ import {
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('My Account - Address Book', () => {
+describe('My Account - Address Book', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
