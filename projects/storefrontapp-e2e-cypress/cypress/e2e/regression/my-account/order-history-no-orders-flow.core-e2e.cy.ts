@@ -8,10 +8,12 @@ import { clickHamburger } from '../../../helpers/homepage';
 import * as userAccountHelpers from '../../../helpers/login';
 import { orderHistoryTest } from '../../../helpers/order-history';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-describe('Order History with no orders', () => {
+describe('Order History with no orders', { testIsolation: false }, () => {
+  clearCacheCy12();
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       clearAllStorage();
