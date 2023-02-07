@@ -107,3 +107,15 @@
 
 - Added `Cellphone` field to adress card
 
+### Feature lib product-configurator 
+
+#### ConfiguratorAttributeDropDownComponent
+
+- Drop down options now can contain the technical attribute value key (if expert mode is active) and the value price if present
+
+#### ConfiguratorAttributeReadOnlyComponent
+
+- Label now can contain the technical attribute value key (if expert mode is active)
+- New class `cx-read-only-attribute-label` attached to the label has been introduced
+- Component content now wrapped in `<fieldset>`
+
