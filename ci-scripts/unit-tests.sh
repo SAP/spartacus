@@ -87,3 +87,12 @@ ng test customer-ticketing --source-map --no-watch --code-coverage --browsers Ch
 echo "Running schematics unit tests and code coverage for customer-ticketing"
 
 yarn --cwd feature-libs/customer-ticketing run test:schematics --coverage
+
+echo "Running unit tests and code coverage for cdp"
+
+ng test cdp --source-map --no-watch --code-coverage --browsers ChromeHeadless
+
+echo "Running schematics unit tests and code coverage for cdp"
+
+yarn --cwd integration-libs/cdp run test:schematics --coverage
+

@@ -117,6 +117,9 @@ if (environment.epdVisualization) {
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
+if (environment.cdp) {
+  featureModules.push(S4OMFeatureModule);
+}
 
 @NgModule({
   imports: [
