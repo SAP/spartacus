@@ -15,6 +15,7 @@ export * from './src/config/index';
 export * from './src/event/index';
 export * from './src/features-config/index';
 export * from './src/global-message/index';
+export * from './src/http/index';
 export * from './src/i18n/index';
 export * from './src/model/index';
 export * from './src/cost-center/index';
