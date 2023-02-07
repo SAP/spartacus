@@ -38,6 +38,7 @@ export class ConfiguratorAttributeHeaderComponent
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
   @Input() expMode: boolean;
+  @Input() isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
@@ -56,9 +57,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
-      );
+      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
   }
 
   /**
@@ -127,6 +126,15 @@ export class ConfiguratorAttributeHeaderComponent
       return true;
     }
     return false;
+  }
+
+  /**
+   * Verifies whether the conflict resolution is active.
+   *
+   * @return {boolean} - 'true' if the conflict resolution is active otherwise 'false'
+   */
+  isConflictResolutionActive(): boolean {
+    return this.isAttributeGroup() && this.isNavigationToGroupEnabled;
   }
 
   /**
@@ -254,12 +262,16 @@ export class ConfiguratorAttributeHeaderComponent
       .subscribe(callback);
   }
   /**
-   * @returns true only if navigation to conflict groups is enabled.
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
     return (
-      this.configuratorUiSettings.productConfigurator
-        ?.enableNavigationToConflict ?? false
+      (this.isNavigationToGroupEnabled &&
+        this.configuratorUiSettings.productConfigurator
+          ?.enableNavigationToConflict) ??
+      false
     );
   }
 }

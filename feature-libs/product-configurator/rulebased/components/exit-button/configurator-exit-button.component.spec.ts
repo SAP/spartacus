@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BreakpointService } from '@spartacus/storefront';
 import {
   I18nTestingModule,
   Product,
@@ -15,15 +16,12 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorExitButtonComponent,
-} from '@spartacus/product-configurator/rulebased';
-import { BreakpointService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { Observable, of } from 'rxjs';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
