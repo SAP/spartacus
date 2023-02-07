@@ -150,7 +150,7 @@ export class ConfiguratorCartEffects {
                         currentGroup:
                           this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                             result,
-                            true
+                            !result.immediateConflictResolution
                           ),
                       },
                     })

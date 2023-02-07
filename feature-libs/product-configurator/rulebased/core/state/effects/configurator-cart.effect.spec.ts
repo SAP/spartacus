@@ -15,7 +15,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { CONFIG_ID } from '../../../testing/configurator-test-data';
+import { CONFIG_ID, GROUP_ID_1 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
@@ -89,7 +89,20 @@ const productConfigurationWithConflict: Configurator.Configuration = {
   ...productConfiguration,
   groups: [
     {
-      id: GROUP_ID_CONFLICT,
+      id: 'CONFLICT_HEADER',
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      subGroups: [
+        {
+          id: GROUP_ID_CONFLICT,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: [{ name: ATTRIBUTE_NAME }],
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       subGroups: [],
       attributes: [{ name: ATTRIBUTE_NAME }],
     },
@@ -376,6 +389,42 @@ describe('ConfiguratorCartEffect', () => {
       const searchVariantsActionForConflict =
         new ConfiguratorActions.SearchVariants(
           productConfigurationWithConflict
+        );
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: readCartEntrySuccessActionForConflict,
+        c: updatePriceActionForConflict,
+        d: searchVariantsActionForConflict,
+      });
+
+      expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should trigger the price action for the first non-conflict attribute group if immediateConflictResolution is active', () => {
+      const productConfigImmediateConflictResolution: Configurator.Configuration =
+        {
+          ...productConfigurationWithConflict,
+          immediateConflictResolution: true,
+        };
+      readFromCartEntryObs = of(productConfigImmediateConflictResolution);
+
+      const updatePriceActionForConflict =
+        new ConfiguratorActions.UpdatePriceSummary({
+          ...productConfigImmediateConflictResolution,
+          interactionState: { currentGroup: GROUP_ID_1 },
+        });
+
+      const readCartEntrySuccessActionForConflict =
+        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+          productConfigImmediateConflictResolution
+        );
+
+      const searchVariantsActionForConflict =
+        new ConfiguratorActions.SearchVariants(
+          productConfigImmediateConflictResolution
         );
 
       actions$ = cold('-a', { a: action });

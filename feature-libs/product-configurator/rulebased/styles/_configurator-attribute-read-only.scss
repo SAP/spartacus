@@ -5,15 +5,12 @@
     padding-inline-start: 20px;
     padding-inline-end: 20px;
   }
+  &:not(:empty) {
+    @include cx-configurator-attribute-type();
 
-  @include forVersion(5.1) {
-    &:not(:empty) {
-      @include cx-configurator-attribute-type();
-
-      .cx-read-only-label {
-        padding-inline-start: 20px;
-        padding-inline-end: 20px;
-      }
+    .cx-read-only-label {
+      padding-inline-start: 20px;
+      padding-inline-end: 20px;
     }
   }
 }
