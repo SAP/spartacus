@@ -106,7 +106,7 @@ describe('I18nextTranslationService', () => {
             let result;
             service
               .translate(key, testOptions)
-              .pipe(take(namespacedKeys.length))
+              .pipe(first())
               .subscribe((x) => (result = x));
 
             expect(i18next.t).toHaveBeenCalledWith(namespacedKeys, testOptions);

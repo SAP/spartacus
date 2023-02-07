@@ -84,6 +84,18 @@ If explicitly set, this option will take precedence over the express server.
     translate(key: string | string[], options?: any, whitespaceUntilLoaded?: boolean): Observable<string>;
   ```
 
+- Method 'getFallbackValue' changed from
+  
+  ```ts
+    getFallbackValue(key: string): string;
+  ```
+
+  to
+  
+  ```ts
+    getFallbackValue(keys: string[]): string;
+  ```
+
 ### TranslationPipe
 
 - Method 'transform' changed from
