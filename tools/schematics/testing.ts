@@ -24,6 +24,7 @@ const featureLibsFolders: string[] = [
   'storefinder',
   'tracking',
   'user',
+  'customer-ticketing',
 ];
 
 const integrationLibsFolders: string[] = [
@@ -54,6 +55,7 @@ const commands = [
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
+  'build customer-ticketing/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -199,6 +201,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build storefinder/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
+    case 'build customer-ticketing/schematics':
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
       buildSchematicsAndPublish(`npm run build:${lib}`);

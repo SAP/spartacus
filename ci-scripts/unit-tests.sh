@@ -76,6 +76,15 @@ echo "Running schematics unit tests and code coverage for tracking library"
 
 npm --prefix feature-libs/tracking run test:schematics -- --coverage
 
+echo "Running unit tests and code coverage for customer-ticketing"
+
+ng test customer-ticketing --source-map --no-watch --code-coverage --browsers ChromeHeadless
+
+echo "Running schematics unit tests and code coverage for customer-ticketing"
+
+npm --prefix feature-libs/customer-ticketing run test:schematics -- --coverage
+
 echo "Running unit tests and code coverage for schematics library"
 
 npm --prefix projects/schematics run test --runInBand -- --coverage
+
