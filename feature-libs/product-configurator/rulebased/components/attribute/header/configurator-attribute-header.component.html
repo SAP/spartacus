@@ -1,9 +1,8 @@
-<ng-container *cxFeatureLevel="'5.1'">
-  <div *ngIf="!attribute.visible" class="cx-hidden-msg">
-    <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
-    {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
-  </div>
-</ng-container>
+<div *ngIf="!attribute.visible" class="cx-hidden-msg">
+  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+  {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
+</div>
+
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
