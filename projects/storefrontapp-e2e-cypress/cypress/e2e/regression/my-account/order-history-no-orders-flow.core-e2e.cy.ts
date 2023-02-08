@@ -13,8 +13,8 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('Order History with no orders', { testIsolation: false }, () => {
-  clearCacheCy12();
   viewportContext(['mobile', 'desktop'], () => {
+    clearCacheCy12();
     before(() => {
       clearAllStorage();
       cy.visit('/');

@@ -17,9 +17,11 @@ import {
   STORE_USER_INFORMATION,
 } from '../../../helpers/anonymous-consents';
 import { waitForPage } from '../../../helpers/checkout-flow';
+import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-context('Anonymous consents - config flow', () => {
+context('Anonymous consents - config flow', { testIsolation: false }, () => {
+  clearCacheCy12();
   beforeEach(() => {
     clearAllStorage();
   });
