@@ -2,12 +2,20 @@ import {
   acceptPrivaryTerm,
   addToCartFromList,
   clickCartIcon,
-  scrollToBottomOfPageAndClickBackToTopButton
+  verifyBackToTopButtonIsNotVisible,
+  verifyBackToTopButtonIsVisible,
+  scrollToBottomOfPage,
+  verifyBackToTopButtonTakesPageToTop,
+  visitHomePage,
+  interceptSpecificPage,
+  clickSpecficComponentOfPage,
+  PRODUCT_DETAILS_HEADER,
+  BACK_TO_TOP_BUTTON,
+  SONY_CAMERA_URL_PATH,
+  POWER_SUPPLY_LIST_PAGE
 } from '../../../helpers/infinite-scroll';
-import * as infiniteScroll from '../../../helpers/infinite-scroll';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { waitForPage } from '../../../helpers/checkout-flow';
 
 
 context('Back to the Top', () => {
@@ -26,62 +34,50 @@ context('Back to the Top', () => {
         cy.clearCookies();
       });
 
-      it("back to top should be visible on homepage after scrolling and clicking it should take the page to the top", () => {
+      it("back to top button should work on homepage (CXSPA-2407)", () => {
 
-        const homePage = waitForPage('homepage', 'getHomePage');
-        cy.visit('/');
-        cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
-
+        visitHomePage();
         acceptPrivaryTerm();
-
-        scrollToBottomOfPageAndClickBackToTopButton();
+        verifyBackToTopButtonIsNotVisible();
+        scrollToBottomOfPage();
+        verifyBackToTopButtonIsVisible();
+        clickSpecficComponentOfPage(BACK_TO_TOP_BUTTON);
+        verifyBackToTopButtonTakesPageToTop();
       });
 
-      it("back to top should be visible on PLP after scrolling and clicking it should take the page to the top", () => {
+      it("back to top button should work on product list page (CXSPA-2407)", () => {
 
-        cy.intercept(infiniteScroll.testUrl).as('getProductListPage');
-        cy.visit(infiniteScroll.testUrl);
-        cy.wait(`@getProductListPage`).its('response.statusCode').should('eq', 200);
-
+        interceptSpecificPage(POWER_SUPPLY_LIST_PAGE);
         acceptPrivaryTerm();
-
-        scrollToBottomOfPageAndClickBackToTopButton();
+        verifyBackToTopButtonIsNotVisible();
+        scrollToBottomOfPage();
+        verifyBackToTopButtonIsVisible();
+        clickSpecficComponentOfPage(BACK_TO_TOP_BUTTON);
+        verifyBackToTopButtonTakesPageToTop();
       });
 
-      it("back to top should be visible on PDP after scrolling and clicking it should take the page to the top", () => {
-
-        cy.intercept(infiniteScroll.pdp).as('getProductDetailPage');
-        cy.visit(infiniteScroll.pdp);
-        cy.wait('@getProductDetailPage').its('response.statusCode').should('eq', 200);
-
+      it("back to top button should work when page is scrolled dynamically (CXSPA-2407)", () => {
+        interceptSpecificPage(SONY_CAMERA_URL_PATH);
         acceptPrivaryTerm();
-
-        cy.get('[role="region"] > :nth-child(1)').click();
-        cy.scrollTo("top");
-        cy.get(`.cx-scroll-to-top-btn`).should('not.be.visible');
-        //scroll just until Product Details header comes into frame
-        cy.get('cx-product-images > .is-initialized > img').scrollIntoView();
-        cy.get(`.cx-scroll-to-top-btn`).should('not.be.visible');
-        cy.get('[role="region"] > :nth-child(1)').click();
-        cy.get(`.cx-scroll-to-top-btn`).should('be.visible');
-        cy.get(`.cx-scroll-to-top-btn`).click();
-
-        cy.window().its('scrollY').should('equal', 0);
+        verifyBackToTopButtonIsNotVisible();
+        //Clicking Product Detail header scrolls the page to bring the component into view
+        clickSpecficComponentOfPage(PRODUCT_DETAILS_HEADER);
+        verifyBackToTopButtonIsVisible();
+        clickSpecficComponentOfPage(BACK_TO_TOP_BUTTON);
+        verifyBackToTopButtonTakesPageToTop();
       });
 
-      it("back to top should be visible on Cart page after scrolling and clicking it should take the page to the top", () => {
+      it("back to top should work on Cart page with items (CXSPA-2407)", () => {
 
-        cy.intercept(infiniteScroll.testUrl).as('getProductListPage');
-        cy.visit(infiniteScroll.testUrl);
-        cy.wait(`@getProductListPage`).its('response.statusCode').should('eq', 200);
-
+        interceptSpecificPage(POWER_SUPPLY_LIST_PAGE);
         acceptPrivaryTerm();
-
         addToCartFromList(6);
-
         clickCartIcon();
-
-        scrollToBottomOfPageAndClickBackToTopButton();
+        verifyBackToTopButtonIsNotVisible();
+        scrollToBottomOfPage();
+        verifyBackToTopButtonIsVisible();
+        clickSpecficComponentOfPage(BACK_TO_TOP_BUTTON);
+        verifyBackToTopButtonTakesPageToTop();
       });
     });
     });
