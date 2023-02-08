@@ -26,19 +26,13 @@ export function configureDefaultProduct() {
 
   cy.get('cx-epd-visualization-visual-picking-tab');
 
-  cy.get('button')
-    .contains('Allow All')
-    .click({
-      timeout: 10_000
-    });
+  cy.get('button').contains('Allow All').click();
 }
 
 export function verifyTabbingOrder() {
   cy.get('cx-tab-paragraph-container button')
     .contains('Product Details')
-    .click({
-      timeout: 10_000
-    });
+    .click();
 
   cy.pressTab();
   cy.focused().should('include.text', 'Specs');
@@ -47,9 +41,7 @@ export function verifyTabbingOrder() {
   cy.focused().should('include.text', 'Reviews');
 
   cy.pressTab();
-  cy.focused().should('include.text', 'Spare Parts').click({
-    timeout: 10_000
-  });
+  cy.focused().should('include.text', 'Spare Parts').click();
 
   // The Spare Parts tab is active.
   // Wait for the viewer to load the visualization.
@@ -63,7 +55,6 @@ export function verifyTabbingOrder() {
 
   cy.pressTab();
   cy.focused().get('cx-epd-visualization-visual-picking-tab').should('exist');
-
 
   cy.pressTab();
   cy.focused()
