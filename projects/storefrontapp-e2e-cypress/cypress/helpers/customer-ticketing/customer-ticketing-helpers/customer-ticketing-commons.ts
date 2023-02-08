@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clickHamburger } from '../../checkout-flow';
 import { loginRegisteredUser as login } from '../../cart';
-import { myCompanyAdminUser } from '../../../sample-data/shared-users';
+import { clickHamburger } from '../../checkout-flow';
 
 export const HTTP_STATUS_OK = 200;
 export const COLUMN_HEADER_TICKET_LIST = 0;
@@ -48,10 +47,14 @@ export enum TestCategory {
   problem = 'Problem',
 }
 
+export interface Category {
+  id: string;
+  name: string;
+}
 export interface TestTicketDetails {
   subject: string;
   message: string;
-  category: TestCategory;
+  ticketCategory: Category;
   associatedTo?: string;
   filename?: string;
   id?: string;
@@ -60,11 +63,6 @@ export interface TestTicketDetails {
 
 export function loginRegisteredUser() {
   login();
-}
-
-export function loginAsAdmin() {
-  cy.requireLoggedIn(myCompanyAdminUser);
-  cy.reload();
 }
 
 export function visitPage(page: string, alias?: string) {
