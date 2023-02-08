@@ -5,7 +5,7 @@ import {
   SECOND_ROW_TICKET_LIST,
   TestCategory,
   TestStatus,
-  TestTicketDetails
+  TestTicketDetails,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
 describe('ticket listing', () => {
