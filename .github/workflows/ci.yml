@@ -3,7 +3,7 @@ on:
     branches:
       - develop
       - release/**
-      - feature/CXSPA-1977
+      - feature/CXSPA-1977-testv2
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   

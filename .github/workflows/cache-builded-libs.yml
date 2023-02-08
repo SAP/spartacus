@@ -4,7 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
-      - feature/CXSPA-1977
+      - feature/CXSPA-1977-testv2
 name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:
