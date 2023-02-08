@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginComponentService {
-  isCdpEnabled: string = "false";
+  constructor(
+  ) { }
 
-  constructor() { }
-}
+  myAccountForCdp(): boolean{
+      return true;
+  }
+  }
+

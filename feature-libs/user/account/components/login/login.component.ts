@@ -16,10 +16,11 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
+  isCdpEnabled: boolean =false;
 
   constructor(
-    private auth: AuthService,
-    private userAccount: UserAccountFacade
+    protected auth: AuthService,
+    protected userAccount: UserAccountFacade
   ) {}
 
   ngOnInit(): void {
