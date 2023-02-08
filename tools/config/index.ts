@@ -17,7 +17,7 @@ import { execSync } from 'child_process';
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
 import glob from 'glob';
-import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
+import { NG_PACKAGE_JSON, PACKAGE_JSON, PUBLISHING_VERSION } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
 
@@ -278,7 +278,11 @@ manageDependencies(repository, options);
 manageTsConfigs(repository, options);
 
 // collect and generate dependencies.json file.
+if (PUBLISHING_VERSION) {
+execSync(`yarn generate:deps`);
+} else {
 execSync(`yarn generate:deps --compare=true`);
+}
 
 /**
  * Format all files.
