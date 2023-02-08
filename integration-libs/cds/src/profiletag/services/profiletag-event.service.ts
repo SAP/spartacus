@@ -7,7 +7,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { fromEvent, merge, Observable } from 'rxjs';
+import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -29,7 +29,8 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  latestConsentReference = null;
+  profileTagMetadata = localStorage.getItem('profiletag');
+  latestConsentReference = new BehaviorSubject(this.profileTagMetadata ? JSON.parse(this.profileTagMetadata).cr['electronics-spa-consentReference'].consentReference : null);
   profileTagDebug = false;
   private consentReference$: Observable<string | null>;
   private profileTagWindow: ProfileTagWindowObject;
@@ -66,7 +67,7 @@ export class ProfileTagEventService {
 
   handleConsentWithdrawn(): void {
     this.consentReference$ = null;
-    this.latestConsentReference = null;
+    this.latestConsentReference.next(null);
   }
 
   addTracker(): Observable<string> {
@@ -90,7 +91,7 @@ export class ProfileTagEventService {
   private setConsentReference(): Observable<string> {
     return this.getConsentReference().pipe(
       tap(
-        (consentReference) => (this.latestConsentReference = consentReference)
+        (consentReference) => (this.latestConsentReference.next(consentReference))
       )
     );
   }
