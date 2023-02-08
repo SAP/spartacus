@@ -12,17 +12,20 @@ import {
   pickupInStoreTranslationChunksConfig,
   pickupInStoreTranslations,
 } from '@spartacus/pickup-in-store/base/assets';
+import { PICKUP_IN_STORE_FEATURE } from 'feature-libs/pickup-in-store/base/root/feature-name';
 
 @NgModule({
   imports: [PickupInStoreBaseModule],
   providers: [
     provideConfig({
       featureModules: {
-        PICK_UP_IN_STORE_FEATURE: {
-          module: () =>
-            import('@spartacus/pickup-in-store/feature').then(
+        [PICKUP_IN_STORE_FEATURE]: {
+          module: () => {
+            console.log('############## Lazy Load the feature module');
+            return import('@spartacus/pickup-in-store/feature').then(
               (m) => m.PickupInStoreFeatureModule
-            ),
+            );
+          },
         },
       },
     }),
@@ -35,4 +38,8 @@ import {
     }),
   ],
 })
-export class PickupInStoreFeatureModule {}
+export class PickupInStoreFeatureModule {
+  constructor() {
+    console.log('+++++++ Store Front Module');
+  }
+}
