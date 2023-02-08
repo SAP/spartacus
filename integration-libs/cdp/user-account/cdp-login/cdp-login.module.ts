@@ -27,6 +27,6 @@ import { CdpLoginComponent } from './cdp-login.component';
       },
     }),
   ],
-  declarations: [CdpLoginComponent],
+  // declarations: [CdpLoginComponent],
 })
 export class CdpLoginModule {}

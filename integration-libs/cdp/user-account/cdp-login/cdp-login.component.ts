@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { LoginComponent } from '@spartacus/user/account/components';
+import { LoginComponentService } from '@spartacus/user/account/components/login';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 
 @Component({
@@ -12,11 +13,12 @@ export class CdpLoginComponent extends LoginComponent implements OnInit {
 
   constructor(
     protected auth: AuthService,
-    protected userAccount: UserAccountFacade
+    protected userAccount: UserAccountFacade,
+    protected loginComponentService: LoginComponentService
   ) {super(auth,userAccount); }
 
   ngOnInit(): void {
-    this.isCdpEnabled = this.LoginComponentService.myAccountForCdp();
+    this.isCdpEnabled = this.loginComponentService.myAccountForCdp();
 
   }
 
