@@ -17,7 +17,7 @@ import { OrderConfirmationPickupInStoreComponent } from './order-confirmation-pi
     PickUpItemsDetailsModule,
     ConfigModule.withConfig({
       cmsComponents: {
-        OrderConfirmationPickupInStore: {
+        PickupInStoreOrderConfirmationComponent: {
           component: OrderConfirmationPickupInStoreComponent,
         },
       },

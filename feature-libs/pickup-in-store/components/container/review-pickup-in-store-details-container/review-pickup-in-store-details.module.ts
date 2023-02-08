@@ -17,7 +17,7 @@ import { PickupInStoreDetailsReviewComponent } from './review-pickup-in-store-de
     PickUpItemsDetailsModule,
     ConfigModule.withConfig({
       cmsComponents: {
-        PickupInStoreDetailsReviewComponent: {
+        PickupInStoreReviewComponent: {
           component: PickupInStoreDetailsReviewComponent,
         },
       },
