@@ -39,7 +39,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     ) {
       this.globalMessageService.add(
         {
-          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          key: this.getErrorTranslationKey(response.error?.error_description),
           params: {
             errorMessage:
               response.error.error_description || response.message || '',

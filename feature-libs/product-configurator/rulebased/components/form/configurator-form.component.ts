@@ -10,7 +10,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -98,15 +98,13 @@ export class ConfiguratorFormComponent implements OnInit {
 
   /**
    * Verifies whether the navigation to a conflict group is enabled.
-   *
-   * @returns {Observable<boolean>} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
+   * @param configuration Current configuration
+   * @returns {boolean} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
    */
-  isNavigationToGroupEnabled(): Observable<boolean> {
-    return this.configuration$.pipe(
-      map((configuration) => {
-        return !configuration.immediateConflictResolution;
-      })
-    );
+  isNavigationToGroupEnabled(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return !configuration.immediateConflictResolution;
   }
 
   /**
