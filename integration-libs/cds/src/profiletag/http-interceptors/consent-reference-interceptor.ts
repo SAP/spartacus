@@ -26,6 +26,7 @@ export class ConsentReferenceInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (
+      !this.profileTagEventTracker.latestConsentReference ||
       !this.profileTagEventTracker.latestConsentReference.value ||
       !this.isOccUrl(request.url)
     ) {

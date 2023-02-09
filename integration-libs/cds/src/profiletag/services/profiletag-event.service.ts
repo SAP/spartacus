@@ -13,6 +13,7 @@ import {
   filter,
   map,
   shareReplay,
+  take,
   tap,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
@@ -29,9 +30,7 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  profileTagMetadata = JSON.parse(localStorage.getItem('profiletag') || '{}');
-  consentReferenceFromLocalStorage = this.profileTagMetadata.cr[Object.keys(this.profileTagMetadata.cr)[0]].consentReference;
-  latestConsentReference = new BehaviorSubject(this.consentReferenceFromLocalStorage);
+  latestConsentReference: BehaviorSubject<string | null>;
   profileTagDebug = false;
   private consentReference$: Observable<string | null>;
   private profileTagWindow: ProfileTagWindowObject;
@@ -46,6 +45,17 @@ export class ProfileTagEventService {
     @Inject(PLATFORM_ID) private platform: any
   ) {
     this.initWindow();
+    this.setConsentReferenceFromLocalStorage();
+  }
+
+  private setConsentReferenceFromLocalStorage(): void {
+    let profileTagMetadata = JSON.parse(localStorage.getItem('profiletag') || '{}');
+    this.baseSiteService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.latestConsentReference = new BehaviorSubject(profileTagMetadata.cr[`${data}-consentReference`]?.consentReference);
+      });
   }
 
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
