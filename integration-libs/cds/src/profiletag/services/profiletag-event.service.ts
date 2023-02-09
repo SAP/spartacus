@@ -49,7 +49,7 @@ export class ProfileTagEventService {
   }
 
   private setConsentReferenceFromLocalStorage(): void {
-    let profileTagMetadata = JSON.parse(localStorage.getItem('profiletag') || '{}');
+    let profileTagMetadata = JSON.parse(localStorage.getItem('profiletag') || '{"cr":{}}');
     this.baseSiteService
       .getActive()
       .pipe(take(1))

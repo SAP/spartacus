@@ -41,7 +41,7 @@ describe('ProfileTagEventTracker', () => {
   let getConsentBehavior;
 
   function setVariables() {
-    getActiveBehavior = new BehaviorSubject<string>('');
+    getActiveBehavior = new BehaviorSubject<string>('electronics-test');
     appendChildSpy = jasmine.createSpy('appendChildSpy');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
     mockedWindowRef = {
