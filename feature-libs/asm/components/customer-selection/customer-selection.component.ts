@@ -102,7 +102,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.selectedCustomer.name
     );
     this.asmService.customerSearchReset();
-    this.setFocusOnInput();
+    this.searchTerm.nativeElement.focus();
   }
 
   onSubmit(): void {
@@ -217,7 +217,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
   }
 
-  setFocusOnInput(): void {
+  private setFocusOnInput(): void {
     setTimeout(() => {
       this.searchTerm.nativeElement.focus();
     });

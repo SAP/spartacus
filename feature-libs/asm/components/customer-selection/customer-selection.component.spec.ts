@@ -9,12 +9,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
-import {
-  FeaturesConfigModule,
-  GlobalMessageService,
-  I18nTestingModule,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -95,12 +90,7 @@ describe('CustomerSelectionComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          FeaturesConfigModule.forRoot(),
-        ],
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
