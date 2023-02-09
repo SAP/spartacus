@@ -53,3 +53,11 @@ If explicitly set, this option will take precedence over the express server.
 ### QuickOrderOrderEntriesContext
 
 - `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
+
+## OrderHistoryService
+
+- The method `getOrderDetailsLoading()` has been added and returning order details loading state.
+
+## OrderDetailsService
+
+- Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
