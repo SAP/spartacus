@@ -258,10 +258,12 @@ export function checkConflictDescriptionDisplayed(description: string): void {
 function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
   isConflictLinkAttached(attribute);
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+  cy.get('cx-configurator-attribute-header').as('conf');
+  cy.get('@conf')
+    .find(`#cx-configurator--attribute-msg--${attribute}`, {
       timeout: 10000,
-    }).within(() => {
+    })
+    .within(() => {
       cy.log('Click conflict link ' + linkName);
       cy.get('a.cx-action-link')
         .click()
@@ -269,7 +271,6 @@ function clickOnConflictSolverLink(attribute: string, linkName: string): void {
           checkGhostAnimationNotDisplayed();
         });
     });
-  });
 }
 
 /**
@@ -278,13 +279,14 @@ function clickOnConflictSolverLink(attribute: string, linkName: string): void {
  * @param attribute - Attribute name
  */
 export function isConflictLinkAttached(attribute: string): void {
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+  cy.get('cx-configurator-attribute-header').as('conf');
+  cy.get('@conf')
+    .find(`#cx-configurator--attribute-msg--${attribute}`, {
       timeout: 10000,
-    }).within(() => {
+    })
+    .within(() => {
       cy.get('a.cx-action-link').wait(1000);
     });
-  });
 }
 
 /**
