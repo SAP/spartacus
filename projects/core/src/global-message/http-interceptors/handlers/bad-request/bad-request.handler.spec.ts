@@ -143,9 +143,9 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle bad password message', () => {
-    spyOn(service, 'createErrorTranslationKey').and.callThrough();
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
-    expect(service.createErrorTranslationKey).toHaveBeenCalledWith(
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockBadPasswordResponse.error.error_description
     );
     expect(globalMessageService.add).toHaveBeenCalled();
@@ -153,9 +153,9 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle disabled user message', () => {
-    spyOn(service, 'createErrorTranslationKey').and.callThrough();
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
-    expect(service.createErrorTranslationKey).toHaveBeenCalledWith(
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockDisabledUserResponse.error.error_description
     );
     expect(globalMessageService.add).toHaveBeenCalled();
@@ -212,8 +212,8 @@ describe('BadRequestHandler', () => {
 
   it('should convert error description to translation key', () => {
     const error_description = 'This is test error';
-    expect(service.createErrorTranslationKey(error_description)).toBe(
-      'this_is_test_error'
+    expect(service.getErrorTranslationKey(error_description)).toBe(
+      'httpHandlers.badRequest.this_is_test_error'
     );
   });
 });

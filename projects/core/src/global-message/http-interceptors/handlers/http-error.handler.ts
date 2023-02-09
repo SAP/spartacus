@@ -6,17 +6,19 @@
 
 import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { Applicable, Priority } from '../../../util/applicable';
 import { GlobalMessageService } from '../../facade/global-message.service';
-
+import { FeatureConfigService } from '../../../features-config';
 @Injectable({
   providedIn: 'root',
 })
 export abstract class HttpErrorHandler implements Applicable {
   constructor(
     protected globalMessageService: GlobalMessageService,
-    @Inject(PLATFORM_ID) protected platformId?: Object
+    @Inject(PLATFORM_ID) protected platformId?: Object,
+    // TODO: Remove FeatureConfigService for 6.0 (CXSPA-2413)
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**
@@ -49,8 +51,15 @@ export abstract class HttpErrorHandler implements Applicable {
    *
    * Example: 'User is disabled' will be transformed to 'user_is_disabled'.
    */
-  createErrorTranslationKey(reason: string): string {
-    return reason.toLowerCase().replace(/ /g, '_');
+  getErrorTranslationKey(reason: string): string {
+    const translationPrefix = `httpHandlers.badRequest`;
+
+    // TODO: Remove feature flag `isLevel` check for 6.0 (CXSPA-2413)
+    if (this.featureConfigService?.isLevel('5.2') || !reason) {
+      return `${translationPrefix}PleaseLoginAgain`;
+    }
+
+    return `${translationPrefix}.${reason.toLowerCase().replace(/ /g, '_')}`;
   }
 
   abstract getPriority?(): Priority;
