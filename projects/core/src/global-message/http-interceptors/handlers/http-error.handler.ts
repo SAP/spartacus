@@ -55,7 +55,7 @@ export abstract class HttpErrorHandler implements Applicable {
     const translationPrefix = `httpHandlers.badRequest`;
 
     // TODO: Remove feature flag `isLevel` check for 6.0 (CXSPA-2413)
-    if (this.featureConfigService?.isLevel('5.2') || !reason) {
+    if (!this.featureConfigService?.isLevel('5.2') || !reason) {
       return `${translationPrefix}PleaseLoginAgain`;
     }
 
