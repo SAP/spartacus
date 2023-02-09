@@ -213,6 +213,6 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * Returns the order details loading flag
    */
   getOrderDetailsLoading(): Observable<boolean> {
-    this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
+    return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
   }
 }
