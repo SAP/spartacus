@@ -9,6 +9,7 @@ import { visitAndWaitForRedirections } from '../../../helpers/auth-redirects';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { generateMail, randomString } from '../../../helpers/user';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
@@ -29,7 +30,8 @@ describe('My Account - Close Account', () => {
       });
     });
 
-    describe('Logged in user', () => {
+    describe('Logged in user', { testIsolation: false }, () => {
+      clearCacheTestIsolation();
       before(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
