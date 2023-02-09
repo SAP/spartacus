@@ -75,7 +75,7 @@ function buildCdsConfig(
       content: `<${EPD_VISUALIZATION_CONFIG}>{
         epdVisualization: {
           ui5: {
-            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.107.1/resources/sap-ui-core.js"
+            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.108.5/resources/sap-ui-core.js"
           },
 
           apis: {
