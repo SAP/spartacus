@@ -326,10 +326,22 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Retrieves a number of pixels that the document is currently scrolled vertically.
+   *
+   * @returns {number | undefined} - Number of pixels that the document is currently scrolled vertically.
+   */
+  getScrollY(): number | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.nativeWindow?.scrollY;
+    }
+    return undefined;
+  }
+
+  /**
    * Retrieves a list of HTML elements based on querySelector when running in browser
    *
-   * @param querySelector - querySelector
-   * @returns list of HTML elements
+   * @param {string} querySelector - querySelector
+   * @returns {HTMLElement[] | undefined} - List of HTML elements
    */
   getElements(querySelector: string): HTMLElement[] | undefined {
     if (this.windowRef.isBrowser()) {
@@ -339,6 +351,12 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
+  /**
+   * Verifies whether the element has a scrollbar.
+   *
+   * @param {string} querySelector - Element query selector
+   * @returns {boolean} - 'True', if the element has a scrollbar, otherwise 'false'
+   */
   isScrollBox(querySelector: string): boolean {
     const element = this.getElement(querySelector);
     if (element) {
@@ -347,7 +365,7 @@ export class ConfiguratorStorefrontUtilsService {
     return false;
   }
 
-  isInViewport(element: HTMLElement | undefined): boolean {
+  protected isInViewport(element: HTMLElement | undefined): boolean {
     if (element) {
       const bounding = element.getBoundingClientRect();
       const height = element.offsetHeight;
@@ -357,9 +375,13 @@ export class ConfiguratorStorefrontUtilsService {
         bounding.top >= -height &&
         bounding.left >= -width &&
         bounding.right <=
-          (window.innerWidth || document.documentElement.clientWidth) + width &&
+          (this.windowRef.nativeWindow?.innerWidth ||
+            document.documentElement.clientWidth) +
+            width &&
         bounding.bottom <=
-          (window.innerHeight || document.documentElement.clientHeight) + height
+          (this.windowRef.nativeWindow?.innerHeight ||
+            document.documentElement.clientHeight) +
+            height
       ) {
         return true;
       } else {
@@ -369,98 +391,59 @@ export class ConfiguratorStorefrontUtilsService {
     return false;
   }
 
-  getViewportHeight(isMenuRendered: boolean = false): number {
+  protected getElementHeight(querySelector: string): number {
+    const element = this.getElement(querySelector);
+    const isElementInViewport = this.isInViewport(element);
+    if (isElementInViewport && element?.offsetHeight) {
+      return element?.offsetHeight;
+    }
+    return 0;
+  }
+
+  /**
+   * Retrieves the actual height of the viewport.
+   *
+   * @returns {number} - Height of the viewport.
+   */
+  getViewportHeight(): number {
     if (this.windowRef.isBrowser()) {
-      const spaHeader = this.getElement('header');
-      const ovHeader = this.getElement('.VariantConfigOverviewHeader');
-      const addToCart = this.getElement('cx-configurator-add-to-cart-button');
-
-      const isSpaHeaderInViewport = this.isInViewport(spaHeader);
-      const ovHeaderInViewport = this.isInViewport(ovHeader);
-      const addToCartInViewport = this.isInViewport(addToCart);
-
-      const spaHeaderHeight =
-        isSpaHeaderInViewport && spaHeader?.offsetHeight
-          ? spaHeader?.offsetHeight
-          : 0;
-      const ovHeaderHeight =
-        ovHeaderInViewport && ovHeader?.offsetHeight
-          ? ovHeader?.offsetHeight
-          : 0;
+      const spaHeaderHeight = this.getElementHeight('header');
+      const ovHeaderHeight = this.getElementHeight(
+        '.VariantConfigOverviewHeader'
+      );
       const addToCartHeight =
-        addToCartInViewport && addToCart?.offsetHeight
-          ? addToCart?.offsetHeight
-          : 0;
+        this.getElementHeight('cx-configurator-add-to-cart-button') !== 0
+          ? this.getElementHeight('cx-configurator-add-to-cart-button')
+          : 82;
 
-      const occupiedHeight = spaHeaderHeight + ovHeaderHeight + addToCartHeight;
-      if (isMenuRendered) {
-        //190
-        return this.windowRef.nativeWindow
-          ? this.windowRef.nativeWindow.innerHeight - occupiedHeight * 2
-          : 0;
-      }
-      // 400
-      const allowedHeight = occupiedHeight + occupiedHeight * 0.3;
+      const occupiedHeight =
+        spaHeaderHeight + ovHeaderHeight + addToCartHeight * 2;
+
       return this.windowRef.nativeWindow
-        ? this.windowRef.nativeWindow.innerHeight - allowedHeight
+        ? this.windowRef.nativeWindow.innerHeight - occupiedHeight
         : 0;
     }
     return 0;
   }
 
-  protected isVisible(
-    element: HTMLElement | undefined,
-    container: HTMLElement | undefined
-  ): boolean {
-    if (element && container) {
-      const elementTop = element.offsetTop;
-      const elementBottom = elementTop + element.clientHeight;
-
-      const containerTop = container.scrollTop;
-      const containerBottom = containerTop + container.clientHeight;
-
-      // The element is fully visible in the container
-      return (
-        (elementTop >= containerTop && elementBottom <= containerBottom) ||
-        // Some part of the element is visible in the container
-        (elementTop < containerTop && containerTop < elementBottom) ||
-        (elementTop < containerBottom && containerBottom < elementBottom)
-      );
-    }
-    return false;
-  }
-
+  /**
+   * Syncs scrolling.
+   *
+   * @param {string} querySelector - Element query selector
+   * @param {HTMLElement | undefined} element - Element that should be visible within the scrollable element.
+   */
   syncScroll(querySelector: string, element: HTMLElement | undefined): void {
     const container = this.getElement(querySelector);
     if (element && container) {
-      //if(!this.isVisible(element, container)) {
-      console.log('element: ' + element.id + ' is not visible');
-      console.log(
-        'element.offsetTop: ' +
-          element.offsetTop +
-          '; container.scrollTop: ' +
-          container.scrollTop
-      );
-      if (element.offsetTop < container.scrollTop) {
-        console.log('element.offsetTop < container.scrollTop: true');
-        container.scrollTop = element.offsetTop;
-        console.warn('container.scrollTop: ' + container.scrollTop);
-      } else {
-        console.log('element.offsetTop < container.scrollTop: false');
+      if (element.offsetTop > container.scrollTop) {
         const offsetBottom = element.offsetTop + element.offsetHeight;
         const containerBottom = container.scrollTop + container.offsetHeight;
-        console.log(
-          'offsetBottom: ' +
-            offsetBottom +
-            '; containerBottom: ' +
-            containerBottom
-        );
         if (offsetBottom > containerBottom) {
           container.scrollTop = offsetBottom - container.offsetHeight;
-          console.warn('container.scrollTop: ' + container.scrollTop);
         }
+      } else {
+        container.scrollTop = element.getBoundingClientRect()?.top - 10;
       }
-      // }
     }
   }
 }

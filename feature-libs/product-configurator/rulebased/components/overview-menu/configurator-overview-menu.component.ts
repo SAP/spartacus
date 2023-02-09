@@ -25,12 +25,17 @@ export class ConfiguratorOverviewMenuComponent {
 
   @Input() config: Configurator.ConfigurationWithOverview;
 
+  protected readonly CX_CONFIGURATOR_OVERVIEW_MENU =
+    'cx-configurator-overview-menu';
+  protected readonly CX_MENU_ITEM_BUTTONS = 'button.cx-menu-item';
+  protected readonly CX_GROUPS = 'div.cx-group';
   protected readonly CX_MENU_GROUP = 'cx-menu-group';
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
 
   iconTypes = ICON_TYPE;
+  menuItem: HTMLElement | undefined;
 
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
@@ -38,39 +43,32 @@ export class ConfiguratorOverviewMenuComponent {
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    //this.height = this.getHeight();
-    const menuItem = this.getMenuItemToHighlight();
-    this.highlight(menuItem);
-    this.syncScroll(menuItem);
+    this.menuItem = this.getMenuItemToHighlight();
+    this.highlight(this.menuItem);
+    this.height = this.getHeight();
+    this.syncScroll(this.menuItem);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.height = this.getHeight();
+    this.syncScroll(this.menuItem);
   }
 
-  protected highlight(element: HTMLElement | undefined): void {
-    if (element) {
-      const menuItems = this.configuratorStorefrontUtilsService.getElements(
-        'button.cx-menu-item'
-      );
-      menuItems?.forEach((menuItem) => {
-        menuItem.classList.remove(this.ACTIVE_CLASS);
-        if (menuItem.id === element?.id) {
-          element.classList.add(this.ACTIVE_CLASS);
-        }
-      });
-    }
+  protected getHeight(): string {
+    return this.configuratorStorefrontUtilsService.getViewportHeight() + 'px';
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {
     let menuItem: HTMLElement | undefined;
-    const groups =
-      this.configuratorStorefrontUtilsService.getElements('div.cx-group');
+    const groups = this.configuratorStorefrontUtilsService.getElements(
+      this.CX_GROUPS
+    );
+    const scrollY = this.configuratorStorefrontUtilsService.getScrollY();
+
     groups?.forEach((group) => {
-      const groupTop = group.offsetTop;
-      if (scrollY >= groupTop) {
-        const id = group?.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
+      if (scrollY && scrollY >= group.offsetTop) {
+        const id = group.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
         if (id) {
           const querySelector = '#' + id;
           menuItem =
@@ -81,37 +79,32 @@ export class ConfiguratorOverviewMenuComponent {
     return menuItem;
   }
 
-  protected syncScroll(element: HTMLElement | undefined): void {
-    if (element) {
-      if (
-        this.configuratorStorefrontUtilsService.isScrollBox(
-          'cx-configurator-overview-menu'
-        )
-      ) {
-        this.configuratorStorefrontUtilsService.syncScroll(
-          'cx-configurator-overview-menu',
-          element
-        );
-      }
+  protected highlight(elementToHighlight: HTMLElement | undefined): void {
+    if (elementToHighlight) {
+      const menuItems = this.configuratorStorefrontUtilsService.getElements(
+        this.CX_MENU_ITEM_BUTTONS
+      );
+      menuItems?.forEach((menuItem) => {
+        menuItem.classList.remove(this.ACTIVE_CLASS);
+        if (menuItem.id === elementToHighlight.id) {
+          elementToHighlight.classList.add(this.ACTIVE_CLASS);
+        }
+      });
     }
   }
 
-  protected getHeight(): string {
-    const menu = this.configuratorStorefrontUtilsService.getElement(
-      'cx-configurator-overview-menu'
-    );
-
-    if (menu) {
-      const viewPortHeight =
-        this.configuratorStorefrontUtilsService.getViewportHeight(true);
-      if (menu.offsetHeight <= viewPortHeight) {
-        return '';
-      } else {
-        return viewPortHeight + 'px';
-      }
+  protected syncScroll(element: HTMLElement | undefined): void {
+    if (
+      element &&
+      this.configuratorStorefrontUtilsService.isScrollBox(
+        this.CX_CONFIGURATOR_OVERVIEW_MENU
+      )
+    ) {
+      this.configuratorStorefrontUtilsService.syncScroll(
+        this.CX_CONFIGURATOR_OVERVIEW_MENU,
+        element
+      );
     }
-
-    return this.configuratorStorefrontUtilsService.getViewportHeight() + 'px';
   }
 
   /**
