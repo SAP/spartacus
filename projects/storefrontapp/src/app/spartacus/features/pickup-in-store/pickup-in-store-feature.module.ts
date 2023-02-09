@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import { PickupInStoreBaseModule } from '@spartacus/pickup-in-store/base';
+import { PickupInStoreBaseRootModule } from '@spartacus/pickup-in-store/base/root';
 
 import {
   pickupInStoreTranslationChunksConfig,
@@ -15,15 +15,15 @@ import {
 import { PICKUP_IN_STORE_FEATURE } from 'feature-libs/pickup-in-store/base/root/feature-name';
 
 @NgModule({
-  imports: [PickupInStoreBaseModule],
+  imports: [PickupInStoreBaseRootModule],
   providers: [
     provideConfig({
       featureModules: {
         [PICKUP_IN_STORE_FEATURE]: {
           module: () => {
             console.log('############## Lazy Load the feature module');
-            return import('@spartacus/pickup-in-store/feature').then(
-              (m) => m.PickupInStoreFeatureModule
+            return import('@spartacus/pickup-in-store/base').then(
+              (m) => m.PickupInStoreBaseModule
             );
           },
         },

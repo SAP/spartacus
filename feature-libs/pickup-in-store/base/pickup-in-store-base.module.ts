@@ -6,13 +6,13 @@
 
 import { NgModule } from '@angular/core';
 import { PickupInStoreComponentsModule } from '@spartacus/pickup-in-store/base/components';
-import { PickupInStoreCoreModule } from '@spartacus/pickup-in-store/base/core';
+import { PickupInStoreBaseCoreModule } from '@spartacus/pickup-in-store/base/core';
 import { PickupInStoreOccModule } from '@spartacus/pickup-in-store/base/occ';
 
 @NgModule({
   imports: [
     PickupInStoreComponentsModule,
-    PickupInStoreCoreModule,
+    PickupInStoreBaseCoreModule,
     PickupInStoreOccModule,
   ],
 })

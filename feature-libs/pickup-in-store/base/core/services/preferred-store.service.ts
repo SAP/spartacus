@@ -11,6 +11,7 @@ import {
   PickRequiredDeep,
   PickupLocationsSearchFacade,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
+PreferredStoreFacade
 } from '@spartacus/pickup-in-store/base/root';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -25,7 +26,7 @@ import {
 } from '../store/actions/default-point-of-service-name.action';
 import { isInStock } from '../utils';
 
-export type PointOfServiceNames = PickRequiredDeep<
+export type PointOfServiceNames = PickRequiredDeep< /// TODO: remove this and move canonical symbol to root/models
   PointOfServiceStock,
   'name' | 'displayName'
 >;
@@ -34,7 +35,7 @@ export type PointOfServiceNames = PickRequiredDeep<
  * Service to store the user's preferred store for Pickup in Store in local storage.
  */
 @Injectable()
-export class PreferredStoreService {
+export class PreferredStoreService implements PreferredStoreFacade {
   constructor(
     protected config: PickupInStoreConfig,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,

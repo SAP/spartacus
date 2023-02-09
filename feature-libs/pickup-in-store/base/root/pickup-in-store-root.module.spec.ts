@@ -10,8 +10,8 @@ import {
 } from './feature-name';
 import {
   defaultPickupInStoreComponentsConfig,
-  PickupInStoreRootModule,
-} from './pickup-in-store-root.module';
+  PickupInStoreBaseRootModule,
+} from './pickup-in-store-base-root.module';
 
 const MockCmsConfig: CmsConfig = {
   featureModules: {
@@ -19,20 +19,20 @@ const MockCmsConfig: CmsConfig = {
   },
 };
 
-describe('PickupInStoreRootModule', () => {
+describe('PickupInStoreBaseRootModule', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         HttpClientTestingModule,
-        PickupInStoreRootModule,
+        PickupInStoreBaseRootModule,
       ],
     });
   });
 
   it('initializes', () => {
-    const module = TestBed.inject(PickupInStoreRootModule);
+    const module = TestBed.inject(PickupInStoreBaseRootModule);
     expect(module).toBeDefined();
   });
 

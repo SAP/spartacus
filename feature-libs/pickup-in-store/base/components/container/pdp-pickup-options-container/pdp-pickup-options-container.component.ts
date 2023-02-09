@@ -15,13 +15,13 @@ import {
 import { Product } from '@spartacus/core';
 import {
   getProperty,
-  PreferredStoreService,
 } from '@spartacus/pickup-in-store/base/core';
 import {
   IntendedPickupLocationFacade,
   PickupOption,
   PickupOptionFacade,
   RequiredDeepPath,
+  PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/base/root';
 import {
   CurrentProductService,
@@ -61,7 +61,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreService: PreferredStoreService,
+    protected preferredStoreService: PreferredStoreFacade,
     protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
