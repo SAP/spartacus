@@ -47,6 +47,12 @@ class MockOpfCheckoutPaymentsComponent {
   disabled = false;
 }
 
+@Component({
+  template: '',
+  selector: 'cx-opf-checkout-billing-address-form',
+})
+class MockOpfCheckoutBillingAddressFormComponent {}
+
 describe('OPFCheckoutPaymentReviewComponent', () => {
   let component: OPFCheckoutPaymentAndReviewComponent;
   let fixture: ComponentFixture<OPFCheckoutPaymentAndReviewComponent>;
@@ -66,6 +72,7 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
         OPFCheckoutPaymentAndReviewComponent,
         MockOpfCheckoutPaymentsComponent,
         MockUrlPipe,
+        MockOpfCheckoutBillingAddressFormComponent,
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },

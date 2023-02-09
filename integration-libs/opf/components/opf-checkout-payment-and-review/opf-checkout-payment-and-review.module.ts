@@ -20,6 +20,7 @@ import {
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 
 @NgModule({
   declarations: [OPFCheckoutPaymentAndReviewComponent],
@@ -30,6 +31,7 @@ import { RouterModule } from '@angular/router';
     UrlModule,
     ReactiveFormsModule,
     RouterModule,
+    OpfCheckoutBillingAddressFormModule,
   ],
 
   providers: [
