@@ -29,13 +29,6 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-// TODO: Remove this `MockFeatureConfigService` for 6.0
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('OrderHistoryService', () => {
   let userOrderService: OrderHistoryService;
   let userIdService: UserIdService;
@@ -56,11 +49,6 @@ describe('OrderHistoryService', () => {
         OrderHistoryService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
-        // TODO: Remove this `FeatureConfigService` provider for 6.0
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
 

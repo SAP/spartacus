@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  FeatureConfigService,
   ProcessSelectors,
   RoutingService,
   StateWithProcess,
@@ -20,7 +19,7 @@ import {
   OrderHistoryFacade,
   OrderHistoryList,
 } from '@spartacus/order/root';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
@@ -32,9 +31,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
     protected store: Store<StateWithOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    protected routingService: RoutingService,
-    // TODO: Remove `featureConfigSerice` for 6.0
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -216,9 +213,6 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * Returns the order details loading flag
    */
   getOrderDetailsLoading(): Observable<boolean> {
-    // TODO: Remove feature flag for 6.0
-    return this.featureConfigService?.isLevel('5.2')
-      ? this.store.pipe(select(OrderSelectors.getOrderDetailsLoading))
-      : of(false);
+    this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
   }
 }
