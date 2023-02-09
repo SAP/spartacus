@@ -31,6 +31,7 @@ let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 
 const CONFIG_ID = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-78aa';
 const GROUP_ID_1 = '123ab';
 const GROUP_ID_2 = '1234-56-7892';
 
@@ -76,6 +77,10 @@ const productConfigurationChanged: Configurator.Configuration = {
 };
 
 const configurationState: ConfiguratorState = {
+  configurations: { entities: {} },
+};
+
+const configurationStateWoLoading: ConfiguratorState = {
   configurations: { entities: {} },
 };
 
@@ -215,6 +220,11 @@ describe('ConfiguratorCommonsService', () => {
       ...productConfiguration,
       loading: false,
     };
+
+    configurationStateWoLoading.configurations.entities[OWNER_PRODUCT.key] = {
+      ...productConfiguration,
+      loading: undefined,
+    };
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
@@ -251,19 +261,39 @@ describe('ConfiguratorCommonsService', () => {
     expect(hasPendingChanges).toBe(true);
   });
 
-  it('should get configuration loading state from store', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(
-      () => () =>
-        of(configurationState.configurations.entities[OWNER_PRODUCT.key])
-    );
+  describe('isConfigurationLoading', () => {
+    it('should get configuration loading state from store', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of(configurationState.configurations.entities[OWNER_PRODUCT.key])
+      );
 
-    let isLoading = false;
-    serviceUnderTest
-      .isConfigurationLoading(OWNER_PRODUCT)
-      .subscribe((loading) => {
-        isLoading = loading;
-      });
-    expect(isLoading).toBe(false);
+      let isLoading = false;
+      serviceUnderTest
+        .isConfigurationLoading(OWNER_PRODUCT)
+        .subscribe((loading) => {
+          isLoading = loading;
+        });
+      expect(isLoading).toBe(false);
+    });
+    it('should get loading false in case loading attribute is not available in state', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of(
+            configurationStateWoLoading.configurations.entities[
+              OWNER_PRODUCT.key
+            ]
+          )
+      );
+
+      let isLoading = false;
+      serviceUnderTest
+        .isConfigurationLoading(OWNER_PRODUCT)
+        .subscribe((loading) => {
+          isLoading = loading;
+        });
+      expect(isLoading).toBe(false);
+    });
   });
 
   it('should update a configuration, accessing the store', () => {
@@ -404,6 +434,18 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
+  describe('updateConfigurationOverview', () => {
+    it('should fire the corresponding action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.updateConfigurationOverview(productConfiguration);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.UpdateConfigurationOverview(
+          productConfiguration
+        )
+      );
+    });
+  });
+
   describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
@@ -493,7 +535,35 @@ describe('ConfiguratorCommonsService', () => {
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(OWNER_PRODUCT)
+        new ConfiguratorActions.CreateConfiguration({
+          owner: OWNER_PRODUCT,
+          configIdTemplate: undefined,
+        })
+      );
+    });
+
+    it('should hand over configuration ID template to action', () => {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: false,
+        };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+        OWNER_PRODUCT,
+        CONFIG_ID_TEMPLATE
+      );
+      expect(configurationObs).toBeObservable(cold('', {}));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.CreateConfiguration({
+          owner: OWNER_PRODUCT,
+          configIdTemplate: CONFIG_ID_TEMPLATE,
+        })
       );
     });
 
@@ -571,6 +641,26 @@ describe('ConfiguratorCommonsService', () => {
       serviceUnderTest.removeProductBoundConfigurations();
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.RemoveProductBoundConfigurations()
+      );
+    });
+  });
+
+  describe('dismissConflictSolverDialog', () => {
+    it('should call matching action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.dismissConflictSolverDialog(OWNER_PRODUCT);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.DissmissConflictDialoge(OWNER_PRODUCT.key)
+      );
+    });
+  });
+
+  describe('checkConflictSolverDialog', () => {
+    it('should call matching action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.checkConflictSolverDialog(OWNER_PRODUCT);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.CheckConflictDialoge(OWNER_PRODUCT.key)
       );
     });
   });

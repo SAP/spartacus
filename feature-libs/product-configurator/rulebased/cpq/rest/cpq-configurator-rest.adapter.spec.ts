@@ -205,6 +205,10 @@ describe('CpqConfiguratorRestAdapter', () => {
       });
   });
 
+  it('should throw error in case overview is to be updated', () => {
+    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrowError();
+  });
+
   it('should delegate update quantity configuration to rest service and map owner', () => {
     inputForUpdateConfiguration.updateType =
       Configurator.UpdateType.VALUE_QUANTITY;

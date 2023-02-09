@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,10 @@ export const fontawesomeIconConfig: IconConfig = {
       ORDER: 'fas fa-clipboard-list',
       DOWNLOAD: 'fas fa-download',
       FILE: 'fas fa-file',
+      HEADSET: 'fas fa-headset',
+      ATTACHMENT: 'fas fa-paperclip',
+      UPLOAD: 'fas fa-upload',
+      USER: 'fas fa-user',
     },
     resources: [
       {

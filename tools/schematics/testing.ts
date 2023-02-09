@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ const featureLibsFolders: string[] = [
   'storefinder',
   'tracking',
   'user',
+  'customer-ticketing',
 ];
 
 const integrationLibsFolders: string[] = [
@@ -32,6 +33,7 @@ const integrationLibsFolders: string[] = [
   'cds',
   'digital-payments',
   'epd-visualization',
+  's4om',
 ];
 
 const commands = [
@@ -49,11 +51,13 @@ const commands = [
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
+  'build s4om/schematics',
   'build qualtrics/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
+  'build customer-ticketing/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -63,8 +67,6 @@ type Command = typeof commands[number];
 const buildLibRegEx = new RegExp('build (.*?)/schematics');
 const verdaccioUrl = 'http://localhost:4873/';
 const npmUrl = 'https://registry.npmjs.org/';
-
-let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
   execSync('rm -rf ./scripts/install/storage');
@@ -97,16 +99,26 @@ function beforeExit(): void {
   }
 }
 
-function publishLibs(reload = false): void {
-  if (!currentVersion || reload) {
-    currentVersion = semver.parse(
-      JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
+function getCurrentVersion(): string {
+  const result = semver.parse(
+    JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
+  )?.version;
+  if (!result) {
+    throw new Error(
+      `File 'projects/core/package.json' doesn't contain a valid field "version"`
     );
   }
+  return result;
+}
+let newVersion = getCurrentVersion();
 
+function publishLibs(reload = false): void {
+  if (reload) {
+    newVersion = getCurrentVersion();
+  }
   // Bump version to publish
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  semver.inc(currentVersion!, 'patch');
+  newVersion = semver.inc(newVersion, 'patch') ?? '';
+
   // Packages released from it's source directory
   const files = [
     'projects/storefrontstyles/package.json',
@@ -117,18 +129,14 @@ function publishLibs(reload = false): void {
   [...files, ...distFiles].forEach((packagePath) => {
     // Update version in package
     const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    content.version = currentVersion!.version;
+    content.version = newVersion;
     fs.writeFileSync(packagePath, JSON.stringify(content, undefined, 2));
 
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
     execSync(
-      `yarn publish --cwd ${dir} --new-version ${
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        currentVersion!.version
-      } --registry=${verdaccioUrl} --no-git-tag-version`,
+      `yarn publish --cwd ${dir} --new-version ${newVersion} --registry=${verdaccioUrl} --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });
@@ -207,10 +215,12 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build product/schematics':
     case 'build product-configurator/schematics':
     case 'build qualtrics/schematics':
+    case 'build s4om/schematics':
     case 'build smartedit/schematics':
     case 'build storefinder/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
+    case 'build customer-ticketing/schematics':
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
       buildSchematicsAndPublish(`yarn build:${lib}`);

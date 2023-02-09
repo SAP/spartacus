@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,8 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -42,6 +43,15 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract updateConfiguration(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration>;
+
+  /**
+   * Abstract method to update the configuration overview
+   *
+   * @param configurationOverview Configuration overview with filter options that should be applied
+   */
+  abstract updateConfigurationOverview(
+    configurationOverview: Configurator.Overview
+  ): Observable<Configurator.Overview>;
 
   /**
    * Abstract method to add a configuration to cart.

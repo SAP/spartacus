@@ -24,6 +24,12 @@ $sapFiori_Button_Emphasized_Active_Background: #ffffff;
 $sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
 
 %cx-asm-bind-cart-dialog {
+  .cx-modal-content {
+    max-width: 477px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+  }
+
   .cx-dialog-header {
     padding-top: 0.9rem;
     padding-inline-end: 1rem;
@@ -48,6 +54,7 @@ $sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
   .cx-dialog-body {
     padding: 1rem;
     font-size: 14px;
+    min-height: 137px;
   }
 
   .cx-dialog-footer {

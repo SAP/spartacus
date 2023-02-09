@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,8 @@ export const common = {
     selectFile: 'Select file',
     clear: 'Clear',
     loaded: 'Loaded',
+    results: 'Results',
+    of: 'of',
   },
   pageMetaResolver: {
     category: {
@@ -201,6 +203,7 @@ export const common = {
       tooLarge: 'File size should not exceed {{ maxSize }} MB',
       tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
       notParsable: 'File is not parsable',
+      fileNotAllowed: 'This file type is not allowed',
     },
   },
   errorHandlers: {
@@ -213,5 +216,18 @@ export const common = {
   passwordVisibility: {
     showPassword: 'Show password',
     hidePassword: 'Hide password',
+  },
+  generalErrors: {
+    pageFailure: 'The page could not be loaded. Please try again later.',
+  },
+  chatMessaging: {
+    charactersLeft: 'characters left: {{count}}',
+    addNewMessage: 'Add New Message',
+    send: 'Send',
+    uploadFile: 'Upload File',
+    informationLabel: '{{author}}. {{text}} at {{date}}',
+    messages: 'Messages',
+    addMessagePlaceHolder: 'Start Typing...',
+    characterLimitAlert: 'Characters limit reached.',
   },
 };

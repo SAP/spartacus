@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,6 +65,7 @@ export class UnitAddressFormService extends FormService<Address> {
       new UntypedFormControl('', Validators.required)
     );
     form.setControl('phone', new UntypedFormControl(''));
+    form.setControl('cellphone', new UntypedFormControl(''));
 
     this.form = form;
   }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,14 +25,22 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
   BehaviorSubject,
+  combineLatest,
   defer,
   EMPTY,
   iif,
   Observable,
-  of,
   Subscription,
 } from 'rxjs';
-import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
+import {
+  concatMap,
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 
 @Component({
@@ -56,7 +64,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  valid$ = this.cartId.statusChanges.pipe(map((status) => status === 'VALID'));
+  valid$ = this.cartId.statusChanges.pipe(
+    map((status) => status === 'VALID'),
+    shareReplay(1)
+  );
 
   activeCartId = '';
 
@@ -93,18 +104,26 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    * Bind the input cart number to the customer
    */
   bindCartToCustomer() {
-    let anonymousCartId = this.cartId.value;
+    const anonymousCartId = this.cartId.value;
 
-    const subscription = of(this.loading$.getValue())
+    const subscription = combineLatest([
+      this.loading$.asObservable(),
+      this.valid$,
+    ])
       .pipe(
-        filter((loading) => !loading && Boolean(anonymousCartId)),
-        tap(() => {
-          this.loading$.next(true);
-        }),
+        take(1),
+        filter(([loading, valid]) => !loading && valid),
+        tap(() => this.loading$.next(true)),
         concatMap(() =>
+          this.activeCartFacade.getActive().pipe(
+            map((cart) => cart.deliveryItemsQuantity ?? 0),
+            take(1)
+          )
+        ),
+        concatMap((cartItemCount) =>
           iif(
-            () => Boolean(this.activeCartId),
-            this.openDialog(anonymousCartId as string),
+            () => Boolean(this.activeCartId && cartItemCount),
+            this.openDialog(this.activeCartId, anonymousCartId as string),
             this.simpleBindCart(anonymousCartId as string)
           )
         ),
@@ -148,7 +167,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   /**
    * Opens dialog and passes non-cancel result to select action
    */
-  protected openDialog(anonymousCartId: string) {
+  protected openDialog(activeCartId: string, anonymousCartId: string) {
     return defer(() => {
       this.launchDialogService.openDialogAndSubscribe(
         LAUNCH_CALLER.ASM_BIND_CART,
@@ -161,18 +180,23 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     }).pipe(
       filter((dialogResult) => Boolean(dialogResult)),
       concatMap((dialogResult) => {
-        return this.selectBindAction(anonymousCartId, dialogResult);
+        return this.selectBindAction(
+          activeCartId,
+          anonymousCartId,
+          dialogResult
+        );
       })
     );
   }
 
   protected selectBindAction(
+    activeCartId: string,
     anonymousCartId: string,
     action: BIND_CART_DIALOG_ACTION
   ): Observable<unknown> {
     switch (action) {
       case BIND_CART_DIALOG_ACTION.REPLACE:
-        return this.replaceCart(anonymousCartId);
+        return this.replaceCart(activeCartId, anonymousCartId);
 
       case BIND_CART_DIALOG_ACTION.CANCEL:
       default:
@@ -180,19 +204,19 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected replaceCart(anonymousCartId: string): Observable<unknown> {
-    return of(this.activeCartId).pipe(
-      tap((activeCartId) => {
-        if (activeCartId) {
-          this.savedCartFacade.saveCart({
-            cartId: activeCartId,
-            saveCartName: activeCartId,
-            // TODO(#12660): Remove default value once backend is updated
-            saveCartDescription: '-',
-          });
-        }
-      }),
-      concatMap(() => this.simpleBindCart(anonymousCartId))
+  protected replaceCart(
+    previousActiveCartId: string,
+    anonymousCartId: string
+  ): Observable<unknown> {
+    return this.simpleBindCart(anonymousCartId).pipe(
+      tap(() => {
+        this.savedCartFacade.saveCart({
+          cartId: previousActiveCartId,
+          saveCartName: previousActiveCartId,
+          // TODO(#12660): Remove default value once backend is updated
+          saveCartDescription: '-',
+        });
+      })
     );
   }
 }

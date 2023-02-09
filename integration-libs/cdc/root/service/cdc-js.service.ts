@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -273,7 +273,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected handleRegisterError(response: any) {
     if (response && response.status === 'FAIL') {
-      let errorMessage =
+      const errorMessage =
         (response.validationErrors &&
           response.validationErrors.length > 0 &&
           response.validationErrors[response.validationErrors.length - 1]

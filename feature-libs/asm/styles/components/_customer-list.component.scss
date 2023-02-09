@@ -3,7 +3,10 @@ $sapFioriLinkColor: #0070f2;
 $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
-  min-height: 500px;
+  .cx-modal-content {
+    min-height: 424px;
+  }
+
   .cx-dialog-header {
     padding-top: 2rem;
     padding-inline-end: 1.75rem;
@@ -182,13 +185,10 @@ $sapFioriContent_LabelColor: #6a6d70;
     }
   }
 
-  .cx-empty-state {
+  .cx-empty-state,
+  .cx-error-state {
     display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    margin-inline-end: 0;
-    margin-bottom: 0;
-    margin-inline-start: 0;
+    justify-content: left;
   }
   .ng-select {
     .ng-select-container {

@@ -1,4 +1,6 @@
 import { login } from '../../../helpers/auth-forms';
+import { visitAndWaitForRedirections } from '../../../helpers/auth-redirects';
+import { waitForPage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -28,7 +30,7 @@ describe('My Account - Close Account', () => {
           true
         );
         cy.requireLoggedIn(standardUser);
-        cy.visit('/');
+        visitAndWaitForRedirections('/');
       });
 
       beforeEach(() => {
@@ -44,7 +46,7 @@ describe('My Account - Close Account', () => {
         cy.location('pathname').should('contain', '/');
       });
 
-      it('should close account', () => {
+      it('should close account and go back to homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
@@ -64,15 +66,21 @@ describe('My Account - Close Account', () => {
 
         cy.wait('@deleteQuery');
 
-        cy.location('pathname').should('contain', '/');
+        const homePageAlias = waitForPage('homepage', 'getHomePage');
 
         alerts
           .getSuccessAlert()
           .should('contain', 'Account closed with success');
+
+        cy.wait(`@${homePageAlias}`);
+
+        cy.get('cx-login .cx-login-greet').should('not.exist');
+        cy.get('cx-login a').should('contain', 'Sign In / Register');
       });
 
       it('should not login with a closed account credentials', () => {
-        cy.visit('/login');
+        visitAndWaitForRedirections('/login');
+
         login(
           standardUser.registrationData.email,
           standardUser.registrationData.password

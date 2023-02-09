@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -532,7 +532,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates aria-label for group menu item
    *
-   * @param {string} groupId - group ID
+   * @param {Configurator.Group} group - group
    * @returns {string | undefined} - generated group ID
    */
   getAriaLabel(group: Configurator.Group): string {
@@ -562,7 +562,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates an id for icons.
    *
-   * @param {string} prefix - prefix for type of icon
+   * @param {ICON_TYPE} type - icon type
    * @param {string} groupId - group id
    * @returns {string | undefined} - generated icon id
    */
@@ -631,10 +631,34 @@ export class ConfiguratorGroupMenuComponent {
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {
-            title += ' / [' + group.name + ']';
+            title += ` / [${group.name}]`;
           }
         });
     }
     return title;
+  }
+
+  displayMenuItem(group: Configurator.Group): Observable<boolean> {
+    return this.configuration$.pipe(
+      map((configuration) => {
+        let displayMenuItem = true;
+        if (
+          configuration.immediateConflictResolution &&
+          group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+        ) {
+          displayMenuItem = false;
+        }
+        return displayMenuItem;
+      })
+    );
+  }
+
+  /**
+   * Checks if conflict solver dialog is active
+   * @param configuration
+   * @returns Conflict solver dialog active?
+   */
+  isDialogActive(configuration: Configurator.Configuration): boolean {
+    return configuration.interactionState.showConflictSolverDialog ?? false;
   }
 }
