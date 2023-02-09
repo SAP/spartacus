@@ -29,8 +29,9 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagEventService {
-  profileTagMetadata = localStorage.getItem('profiletag');
-  latestConsentReference = new BehaviorSubject(this.profileTagMetadata ? JSON.parse(this.profileTagMetadata).cr['electronics-spa-consentReference'].consentReference : null);
+  profileTagMetadata = JSON.parse(localStorage.getItem('profiletag') || '{}');
+  consentReferenceFromLocalStorage = this.profileTagMetadata.cr[Object.keys(this.profileTagMetadata.cr)[0]].consentReference;
+  latestConsentReference = new BehaviorSubject(this.consentReferenceFromLocalStorage);
   profileTagDebug = false;
   private consentReference$: Observable<string | null>;
   private profileTagWindow: ProfileTagWindowObject;
