@@ -95,7 +95,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   verifyAddress(address: Address): void {
     if (!this.sameAsDeliveryAddress) {
-      // uncomment this section once there's clear vision for the approach how to pass billing address form data
+      // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
       // this.checkoutPaymentService
       //   .setPaymentDetails({ billingAddress: address })
       //   .subscribe({

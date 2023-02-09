@@ -14,7 +14,7 @@ import { defaultOpfConfig } from './config/default-opf-config';
   providers: [
     provideDefaultConfig(defaultOpfConfig),
     provideDefaultConfig(defaultOPFCheckoutConfig),
-    // TODO: (OPF) uncomment once proper type and routing is set up
+    // TODO OPF: uncomment once proper type and routing is set up
     // provideDefaultConfig(defaultOPFRoutingConfig),
   ],
 })
