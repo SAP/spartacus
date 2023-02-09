@@ -6,7 +6,7 @@
 
 import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Applicable, Priority } from '../../../util/applicable';
 import { GlobalMessageService } from '../../facade/global-message.service';
 @Injectable({
