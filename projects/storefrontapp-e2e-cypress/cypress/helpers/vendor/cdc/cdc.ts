@@ -16,6 +16,13 @@ export function registerUser() {
 const user = getSampleUser();
 const nativeUser = getSampleUser();
 
+export const cdcB2BDelegateAdminUser = {
+  userId: '1002',
+  fullName: 'Anjana BL',
+  email: 'anjana.b.l+1@sap.com',
+  password: 'Anjana1201!',
+};
+
 export function registerCDC() {
   fillAndSubmitRegistrationForm();
 }
