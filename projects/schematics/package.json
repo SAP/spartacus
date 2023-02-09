@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "4.1.0-next.0",
+  "version": "5.2.0-1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -62,7 +62,8 @@
       "@spartacus/cdc",
       "@spartacus/cds",
       "@spartacus/digital-payments",
-      "@spartacus/epd-visualization"
+      "@spartacus/epd-visualization",
+      "@spartacus/customer-ticketing"
     ]
   },
   "schematics": "./src/collection.json"

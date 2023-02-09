@@ -140,6 +140,23 @@ export function addB2bProductToCartAndCheckout() {
   cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
 }
 
+export function addB2bProductToCart() {
+  const code = products[0].code;
+  const productPage = waitForProductPage(code, 'getProductPage');
+
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.get('cx-product-intro').within(() => {
+    cy.get('.code').should('contain', products[0].code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', products[0].name);
+  });
+
+  addCheapProductToCart(products[0]);
+}
+
 export function enterPONumber() {
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',
