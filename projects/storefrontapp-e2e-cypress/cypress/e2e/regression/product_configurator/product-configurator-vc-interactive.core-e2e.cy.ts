@@ -380,7 +380,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.only('Conflict Solver', () => {
+  describe('Conflict Solver', () => {
     let configUISettings: any;
 
     beforeEach(() => {

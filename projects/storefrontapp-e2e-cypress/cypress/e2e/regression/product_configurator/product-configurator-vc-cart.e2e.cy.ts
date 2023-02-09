@@ -96,7 +96,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.only('Conflict Solver', () => {
+  describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
       const commerceIsAtLeast2205 = true;
       clickAllowAllFromBanner();
