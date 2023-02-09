@@ -92,6 +92,10 @@ export const common = {
     pageViewUpdated: 'Page view updated with your selected options.',
   },
   httpHandlers: {
+    badRequest: {
+      bad_credentials: '{{ errorMessage }}. Please login again.',
+      user_is_disabled: '{{ errorMessage }}. Please contact administration.',
+    },
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
