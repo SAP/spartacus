@@ -10,7 +10,7 @@ import { checkBanner } from '../../../helpers/homepage';
 import { signOut } from '../../../helpers/register';
 import * as updateEmail from '../../../helpers/update-email';
 import { registerAndLogin } from '../../../helpers/update-email';
-import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
@@ -28,7 +28,7 @@ describe('My Account - Update Email', () => {
     });
 
     describe('Logged in user', { testIsolation: false }, () => {
-      clearCacheCy12();
+      clearCacheTestIsolation();
       before(() => {
         registerAndLogin();
         cy.visit('/');

@@ -6,7 +6,7 @@
 
 import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-history';
 import { doPlaceB2BOrder } from '../../../../helpers/b2b/b2b-order-history';
-import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
 import * as sampleData from '../../../../sample-data/b2b-order-history';
 import { interceptGet } from '../../../../support/utils/intercept';
 import Chainable = Cypress.Chainable;
@@ -30,7 +30,7 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
   let order0;
   let order1;
   let order2;
-  clearCacheCy12();
+  clearCacheTestIsolation();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     unitLevelOrderHistory.loginB2bCommonUser();

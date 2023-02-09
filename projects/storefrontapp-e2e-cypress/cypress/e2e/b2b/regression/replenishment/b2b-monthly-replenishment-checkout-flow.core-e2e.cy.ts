@@ -5,7 +5,7 @@
  */
 
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
-import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
 import {
   b2bAccountShipToUser,
   b2bProduct,
@@ -20,7 +20,7 @@ context(
   `B2B - ${recurrencePeriod.MONTHLY} Replenishment Checkout flow`,
   { testIsolation: false },
   () => {
-    clearCacheCy12();
+    clearCacheTestIsolation();
     before(() => {
       clearAllStorage();
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

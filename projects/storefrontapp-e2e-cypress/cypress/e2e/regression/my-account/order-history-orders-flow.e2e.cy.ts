@@ -17,13 +17,13 @@ import {
   verifyActionLinkHasText,
   waitForResponse,
 } from '../../../helpers/order-history';
-import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 
 describe('Order History with orders', { testIsolation: false }, () => {
-  clearCacheCy12();
+  clearCacheTestIsolation();
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
@@ -45,7 +45,7 @@ describe('Order History with orders', { testIsolation: false }, () => {
 });
 
 describe('Order details page', { testIsolation: false }, () => {
-  clearCacheCy12();
+  clearCacheTestIsolation();
   viewportContext(['mobile', 'desktop'], () => {
     let formattedValue: any;
 

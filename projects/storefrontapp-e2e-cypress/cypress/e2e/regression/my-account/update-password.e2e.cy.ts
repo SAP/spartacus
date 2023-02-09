@@ -8,7 +8,7 @@ import * as alerts from '../../../helpers/global-message';
 import { signOutUser } from '../../../helpers/login';
 import * as updatePassword from '../../../helpers/update-password';
 import { generateMail, randomString } from '../../../helpers/user';
-import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
@@ -41,7 +41,7 @@ describe('My Account - Update Password', () => {
       'update password test for logged in user',
       { testIsolation: false },
       () => {
-        clearCacheCy12();
+        clearCacheTestIsolation();
         before(() => {
           standardUser.registrationData.email = generateMail(
             randomString(),

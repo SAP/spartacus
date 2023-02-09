@@ -9,7 +9,7 @@ import {
   verifyAsAnonymous,
 } from '../../../helpers/consent-management';
 import * as login from '../../../helpers/login';
-import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 viewportContext(['mobile', 'desktop'], () => {
@@ -26,7 +26,7 @@ viewportContext(['mobile', 'desktop'], () => {
       'consent management test for logged in user',
       { testIsolation: false },
       () => {
-        clearCacheCy12();
+        clearCacheTestIsolation();
         before(() => {
           cy.requireLoggedIn();
           cy.reload();

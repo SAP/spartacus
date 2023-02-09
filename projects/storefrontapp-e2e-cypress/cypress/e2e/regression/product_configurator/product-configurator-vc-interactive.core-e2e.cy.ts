@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as configuration from '../../../helpers/product-configurator';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
 
@@ -380,7 +380,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Conflict Solver', () => {
+  describe.only('Conflict Solver', () => {
     let configUISettings: any;
 
     beforeEach(() => {

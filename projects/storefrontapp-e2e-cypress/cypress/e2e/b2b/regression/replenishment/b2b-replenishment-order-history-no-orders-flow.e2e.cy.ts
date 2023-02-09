@@ -6,7 +6,7 @@
 
 import { replenishmentOrderHistoryUrl } from '../../../../helpers/b2b/b2b-replenishment-order-history';
 import { orderHistoryTest } from '../../../../helpers/order-history';
-import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
 import {
   b2bAccountShipToUser,
   ORDER_REQUEST_ENDPOINT,
@@ -15,7 +15,7 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 
 describe('Order History with no orders', { testIsolation: false }, () => {
-  clearCacheCy12();
+  clearCacheTestIsolation();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

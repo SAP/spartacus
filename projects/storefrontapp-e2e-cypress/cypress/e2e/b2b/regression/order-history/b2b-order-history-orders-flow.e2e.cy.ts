@@ -14,7 +14,7 @@ import {
   saveOrderDetails,
   waitForResponse,
 } from '../../../../helpers/order-history';
-import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
 import {
   b2bAccountShipToUser,
   b2bProduct,
@@ -28,7 +28,7 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 
 describe('Order History with orders', { testIsolation: false }, () => {
-  clearCacheCy12();
+  clearCacheTestIsolation();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

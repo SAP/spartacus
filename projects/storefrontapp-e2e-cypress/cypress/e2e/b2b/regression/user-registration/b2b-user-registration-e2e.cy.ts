@@ -13,7 +13,7 @@ import {
   verifyRedirectionToLoginPage,
   verifyTabbingOrder,
 } from '../../../../helpers/b2b/b2b-user-registration';
-import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import { getSampleUser } from '../../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../../sample-data/shared-users';
@@ -26,7 +26,7 @@ context('B2B - User Registration', () => {
     });
 
     describe('Registration form', { testIsolation: false }, () => {
-      clearCacheCy12();
+      clearCacheTestIsolation();
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cy.clearAllLocalStorage();

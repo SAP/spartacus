@@ -8,7 +8,7 @@ import * as login from '../helpers/login';
 import { SampleUser } from '../sample-data/checkout-flow';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
-import { clearCacheCy12 } from './utils-cypress12';
+import { clearCacheTestIsolation } from './utils-cypress-legacy';
 
 export const newTitle = 'Dr.';
 export const newFirstName = 'N';
@@ -116,7 +116,7 @@ export function testUpdateProfileLoggedInUser() {
     'update profile test for logged in user',
     { testIsolation: false },
     () => {
-      clearCacheCy12();
+      clearCacheTestIsolation();
       before(() => {
         cy.requireLoggedIn();
         cy.visit('/');

@@ -6,7 +6,7 @@
 
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
-import { clearCacheCy12 } from '../../utils-cypress12';
+import { clearCacheTestIsolation } from '../../utils-cypress-legacy';
 import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import {
   testCoreFeaturesFromConfig,
@@ -21,7 +21,7 @@ export function testMyCompanyFeatureFromConfig(
     `My Company - ${config.name}${config.nameSuffix || ''}`,
     { testIsolation: false },
     () => {
-      clearCacheCy12();
+      clearCacheTestIsolation();
       before(() => {
         Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
       });

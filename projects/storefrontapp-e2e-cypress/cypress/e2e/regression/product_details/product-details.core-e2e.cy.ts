@@ -5,11 +5,11 @@
  */
 
 import * as productDetails from '../../../helpers/product-details';
-import { clearCacheCy12 } from '../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { formats } from '../../../sample-data/viewports';
 
 context('Product details', { testIsolation: false }, () => {
-  clearCacheCy12();
+  clearCacheTestIsolation();
   describe('Electronics', () => {
     before(productDetails.configureDefaultProduct);
 
@@ -28,7 +28,7 @@ context(
   `${formats.mobile.width + 1}p resolution - Product details`,
   { testIsolation: false },
   () => {
-    clearCacheCy12();
+    clearCacheTestIsolation();
     before(() => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
     });

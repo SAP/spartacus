@@ -6,7 +6,7 @@
 
 import { loginB2bUser } from '../../../../helpers/b2b/b2b-checkout';
 import * as replenishmentHistory from '../../../../helpers/b2b/b2b-replenishment-order-history';
-import { clearCacheCy12 } from '../../../../helpers/utils-cypress12';
+import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
 import {
   ORDER_REQUEST_ENDPOINT,
   POWERTOOLS_BASESITE,
@@ -14,7 +14,7 @@ import {
 } from '../../../../sample-data/b2b-checkout';
 
 describe('Replenishment order history', { testIsolation: false }, () => {
-  clearCacheCy12();
+  clearCacheTestIsolation();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
