@@ -22,6 +22,7 @@ import {
 } from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -44,14 +45,17 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
-  @ViewChildren('resultItem') resultItems: QueryList<ElementRef<HTMLElement>>;
+  @ViewChildren('searchResultItem') searchResultItems: QueryList<
+    ElementRef<HTMLElement>
+  >;
 
-  activeIndex = -1;
+  activeFocusedButtonIndex = -1;
 
   constructor(
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
-    protected config: AsmConfig
+    protected config: AsmConfig,
+    protected directionService: DirectionService
   ) {}
 
   ngOnInit(): void {
@@ -83,7 +87,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       return;
     }
     this.asmService.customerSearchReset();
-    this.activeIndex = -1;
+    this.activeFocusedButtonIndex = -1;
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
@@ -138,8 +142,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   focusFirstItem(event: UIEvent): void {
     event.preventDefault();
-    this.activeIndex = 0;
-    this.updateItemIndex(this.activeIndex);
+    this.activeFocusedButtonIndex = 0;
+    this.updateItemIndex(this.activeFocusedButtonIndex);
   }
   /**
    * set mouse cursor to the end of search text
@@ -159,11 +163,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   focusPreviousChild(event: UIEvent): void {
     event.preventDefault();
-    this.activeIndex--;
-    if (this.activeIndex < 0) {
-      this.activeIndex = this.resultItems.length - 1;
+    this.activeFocusedButtonIndex--;
+    if (this.activeFocusedButtonIndex < 0) {
+      this.activeFocusedButtonIndex = this.searchResultItems.length - 1;
     }
-    this.updateItemIndex(this.activeIndex);
+    this.updateItemIndex(this.activeFocusedButtonIndex);
   }
   /**
    * set focus on next searh result item.  if no next item then go to the first item
@@ -171,29 +175,35 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   focusNextChild(event: UIEvent): void {
     event.preventDefault();
-    this.activeIndex++;
-    if (this.activeIndex > this.resultItems.length - 1) {
-      this.activeIndex = 0;
+    this.activeFocusedButtonIndex++;
+    if (this.activeFocusedButtonIndex > this.searchResultItems.length - 1) {
+      this.activeFocusedButtonIndex = 0;
     }
-    this.updateItemIndex(this.activeIndex);
+    this.updateItemIndex(this.activeFocusedButtonIndex);
   }
   /**
    * set focus to input search text
    * @param event keyboard event
-   * @param {boolean} moveOneLeft - flag to move cursor one left
-   * @param {boolean} moveBegin - flag to move cursor to front
    */
-  focusInputText(event: UIEvent, moveOneLeft = false, moveBegin = false): void {
+  focusInputText(event: KeyboardEvent): void {
     event.preventDefault();
-    this.activeIndex = -1;
+    this.activeFocusedButtonIndex = -1;
     this.searchTerm.nativeElement.focus();
     if (this.searchTerm.nativeElement.value?.length) {
-      let selectionPos = this.searchTerm.nativeElement.value.length;
-      if (moveOneLeft) {
-        selectionPos--;
-      }
-      if (moveBegin) {
+      let selectionPos = this.searchTerm.nativeElement.selectionEnd;
+      const searchTermLength = this.searchTerm.nativeElement.value.length;
+
+      if (this.isBackNavigation(event)) {
+        selectionPos = selectionPos <= 0 ? 0 : selectionPos - 1;
+      } else if (this.isForwardsNavigation(event)) {
+        selectionPos =
+          selectionPos >= searchTermLength
+            ? searchTermLength
+            : selectionPos + 1;
+      } else if (event.code === 'Home') {
         selectionPos = 0;
+      } else if (event.code === 'End') {
+        selectionPos = searchTermLength;
       }
       this.searchTerm.nativeElement.selectionStart = selectionPos;
       this.searchTerm.nativeElement.selectionEnd = selectionPos;
@@ -204,12 +214,46 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    * @param {number} selectedIndex - current selected item index
    */
   updateItemIndex(selectedIndex: number): void {
-    this.resultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
+    this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
   }
 
   setFocusOnInput(): void {
     setTimeout(() => {
       this.searchTerm.nativeElement.focus();
     });
+  }
+  /**
+   * Verifies whether the user navigates into a subgroup of the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
+   * @protected
+   */
+  protected isForwardsNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowRight' && this.isLTRDirection()) ||
+      (event.code === 'ArrowLeft' && this.isRTLDirection())
+    );
+  }
+
+  /**
+   * Verifies whether the user navigates from a subgroup back to the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates back into the main group menu, otherwise 'false'.
+   * @protected
+   */
+  protected isBackNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowLeft' && this.isLTRDirection()) ||
+      (event.code === 'ArrowRight' && this.isRTLDirection())
+    );
+  }
+  protected isLTRDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.LTR;
+  }
+
+  protected isRTLDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.RTL;
   }
 }

@@ -28,19 +28,19 @@
 
 <div *ngIf="searchResults | async as results" class="asm-results" #resultList>
   <button
-    #resultItem
+    #searchResultItem
     *ngFor="let result of results.entries; let i = index"
-    [tabindex]="activeIndex === i ? 0 : -1"
-    [attr.aria-selected]="activeIndex === i"
-    [class.active]="activeIndex === i"
+    [tabindex]="activeFocusedButtonIndex === i ? 0 : -1"
+    [attr.aria-selected]="activeFocusedButtonIndex === i"
+    [class.active]="activeFocusedButtonIndex === i"
     (keydown.arrowup)="focusPreviousChild($event)"
     (keydown.arrowdown)="focusNextChild($event)"
     (keydown.arrowright)="focusInputText($event)"
-    (keydown.arrowleft)="focusInputText($event, true)"
+    (keydown.arrowleft)="focusInputText($event)"
     (keydown.enter)="selectCustomerFromList(result)"
     (keydown.escape)="closeResults()"
     (keydown.home)="focusInputText($event)"
-    (keydown.end)="focusInputText($event, false, true)"
+    (keydown.end)="focusInputText($event)"
     (click)="selectCustomerFromList(result)"
   >
     <span class="result-name">{{ result.name }}</span>
@@ -52,8 +52,10 @@
     (keydown.enter)="closeResults()"
     (keydown.escape)="closeResults()"
     (keydown.arrowright)="focusInputText($event)"
-    (keydown.arrowleft)="focusInputText($event, true)"
-    [class.active]="activeIndex === 0"
+    (keydown.arrowleft)="focusInputText($event)"
+    (keydown.home)="focusInputText($event)"
+    (keydown.end)="focusInputText($event)"
+    [class.active]="activeFocusedButtonIndex === 0"
     *ngIf="
       !(searchResultsLoading$ | async) &&
       searchTerm.value.length >= 3 &&
