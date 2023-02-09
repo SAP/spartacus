@@ -42,8 +42,10 @@ export class OrderDetailItemsComponent implements OnInit {
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.enableAddToCart)
   );
+  isOrderLoading$: Observable<boolean>;
 
   ngOnInit() {
+    this.isOrderLoading$ = this.orderDetailsService.isOrderDetailsLoading();
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);

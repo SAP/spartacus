@@ -78,3 +78,15 @@ If explicitly set, this option will take precedence over the express server.
   also as part of the new conflict solver dialog that is introduced for the AVC configurator. This means that `configurator-form.component.html`
   is much smaller and includes `configurator-group.component.html`, moreover many methods previously residing in `configurator-form.component.ts` have
   been moved to `configurator-group.component.ts`
+  
+## BadRequestHandler
+
+- `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
+
+## OrderHistoryService
+
+- The method `getOrderDetailsLoading()` has been added and returning order details loading state.
+
+## OrderDetailsService
+
+- Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
