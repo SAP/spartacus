@@ -9,13 +9,9 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterState } from '@angular/router';
+
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  I18nTestingModule,
-  LanguageService,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -47,18 +43,6 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
-
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    semanticRoute: CONFIGURATOR_ROUTE,
-    queryParams: {},
-  },
-};
 
 const OWNER = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
@@ -174,23 +158,10 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
 }
 
-let routerStateObservable: Observable<RouterState> = EMPTY;
-let configurationCreateObservable: Observable<Configurator.Configuration> =
-  EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
-}
-
 class MockConfiguratorCommonsService {
-  getOrCreateConfiguration(): Observable<Configurator.Configuration> {
-    return configurationCreateObservable;
-  }
-
   removeConfiguration(): void {}
 
   updateConfiguration(): void {}
@@ -283,11 +254,6 @@ describe('ConfiguratorGroupComponent', () => {
           MockConfiguratorAttributeMultiSelectionBundleComponent,
         ],
         providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -384,21 +350,21 @@ describe('ConfiguratorGroupComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-header',
-        component.group.attributes.length
+        component.group.attributes?.length ?? 0
       );
 
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         '.cx-group-attribute',
-        component.group.attributes.length
+        component.group.attributes?.length ?? 0
       );
 
       CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
         expect,
         htmlElem,
         'cx-configurator-attribute-footer',
-        component.group.attributes.length
+        component.group.attributes?.length ?? 0
       );
     });
 
@@ -510,7 +476,6 @@ describe('ConfiguratorGroupComponent', () => {
 
   describe('isConflictGroupType', () => {
     it('should not call configurator group service to check group type', () => {
-      routerStateObservable = of(mockRouterState);
       spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
       createComponent().isConflictGroupType(undefined);
       expect(
@@ -519,7 +484,6 @@ describe('ConfiguratorGroupComponent', () => {
     });
 
     it('should call configurator group service to check group type', () => {
-      routerStateObservable = of(mockRouterState);
       spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
       createComponent().isConflictGroupType(
         Configurator.GroupType.CONFLICT_GROUP
@@ -536,7 +500,7 @@ describe('ConfiguratorGroupComponent', () => {
       x: true,
       y: false,
     });
-    routerStateObservable = of(mockRouterState);
+
     createComponent().updateConfiguration({
       ownerKey: OWNER.key,
       changedAttribute: ConfigurationTestData.attributeCheckBoxes,

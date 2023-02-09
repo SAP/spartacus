@@ -34,6 +34,7 @@ export function orderHistoryFacadeFactory() {
       'getCancelOrderLoading',
       'getCancelOrderSuccess',
       'resetCancelOrderProcessState',
+      'getOrderDetailsLoading',
     ],
     async: true,
   });
@@ -132,4 +133,9 @@ export abstract class OrderHistoryFacade {
    * Resets the cancel order process flags
    */
   abstract resetCancelOrderProcessState(): void;
+
+  /**
+   * Returns an order details loading flag
+   */
+  abstract getOrderDetailsLoading(): Observable<boolean>;
 }

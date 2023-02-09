@@ -5,6 +5,7 @@
  */
 
 import { login } from '../../../helpers/auth-forms';
+import { visitAndWaitForRedirections } from '../../../helpers/auth-redirects';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { generateMail, randomString } from '../../../helpers/user';
@@ -35,7 +36,7 @@ describe('My Account - Close Account', () => {
           true
         );
         cy.requireLoggedIn(standardUser);
-        cy.visit('/');
+        visitAndWaitForRedirections('/');
       });
 
       beforeEach(() => {
@@ -84,7 +85,8 @@ describe('My Account - Close Account', () => {
       });
 
       it('should not login with a closed account credentials', () => {
-        cy.visit('/login');
+        visitAndWaitForRedirections('/login');
+
         login(
           standardUser.registrationData.email,
           standardUser.registrationData.password
