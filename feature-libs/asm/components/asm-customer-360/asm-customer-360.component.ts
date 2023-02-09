@@ -19,7 +19,6 @@ import {
 } from '@angular/core';
 import { AsmConfig, getAsmDialogActionEvent } from '@spartacus/asm/core';
 import {
-  Asm360Facade,
   AsmCustomer360Data,
   AsmCustomer360Response,
   AsmCustomer360TabConfig,
@@ -39,6 +38,8 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
+
+import { Asm360Facade } from './services/asm-360.facade';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

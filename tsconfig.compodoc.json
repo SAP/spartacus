@@ -47,6 +47,9 @@
       "@spartacus/asm/root": [
         "feature-libs/asm/root/public_api"
       ],
+      "@spartacus/asm/components/asm-customer-360": [
+        "feature-libs/asm/components/asm-customer-360/public_api"
+      ],
       "@spartacus/cart/base/assets": [
         "feature-libs/cart/base/assets/public_api"
       ],

@@ -6,7 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import {
-  Asm360Facade,
   AsmCustomer360Query,
   AsmCustomer360Request,
   AsmCustomer360Response,
@@ -16,8 +15,9 @@ import { Command, CommandService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
+import { AsmConnector } from '@spartacus/asm/core';
 
-import { AsmConnector } from '../connectors/asm.connector';
+import { Asm360Facade } from './asm-360.facade';
 
 @Injectable()
 export class Asm360Service implements Asm360Facade {
