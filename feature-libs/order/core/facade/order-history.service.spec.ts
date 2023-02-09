@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  FeatureConfigService,
   OCC_USER_ID_CURRENT,
   PROCESS_FEATURE,
   RoutingService,
@@ -28,6 +29,13 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
+// TODO: Remove this `MockFeatureConfigService` for 6.0
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('OrderHistoryService', () => {
   let userOrderService: OrderHistoryService;
   let userIdService: UserIdService;
@@ -48,6 +56,11 @@ describe('OrderHistoryService', () => {
         OrderHistoryService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
+        // TODO: Remove this `FeatureConfigService` provider for 6.0
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
@@ -256,5 +269,18 @@ describe('OrderHistoryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new OrderActions.ResetCancelOrderProcess()
     );
+  });
+
+  it('should be able to get order details loading flag', () => {
+    store.dispatch(
+      new OrderActions.LoadOrderDetails({
+        userId: 'current',
+        orderCode: 'test',
+      })
+    );
+    userOrderService
+      .getOrderDetailsLoading()
+      .subscribe((data) => expect(data).toEqual(true))
+      .unsubscribe();
   });
 });
