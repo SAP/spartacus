@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
+import { FeatureConfigService } from '../../../../features-config';
 import { BadRequestHandler } from './bad-request.handler';
 
 const MockRequest = {
@@ -27,6 +28,15 @@ const MockBadPasswordResponse = {
   url: 'https://server.com/authorizationserver/oauth/token',
   error: {
     error: 'invalid_grant',
+    error_description: 'Bad password',
+  },
+} as HttpErrorResponse;
+
+const MockDisabledUserResponse = {
+  url: 'https://server.com/authorizationserver/oauth/token',
+  error: {
+    error: 'invalid_grant',
+    error_description: 'User is disabled',
   },
 } as HttpErrorResponse;
 
@@ -89,6 +99,13 @@ const MockBadGuestDuplicateEmailResponse = {
   },
 } as HttpErrorResponse;
 
+// TODO: Remove this `MockFeatureConfigService` for 6.0 (CXSPA-2413)
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('BadRequestHandler', () => {
   let service: BadRequestHandler;
   let globalMessageService: GlobalMessageService;
@@ -100,6 +117,11 @@ describe('BadRequestHandler', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
+        },
+        // TODO: Remove this `FeatureConfigService` provider for 6.0 (CXSPA-2413)
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     });
@@ -134,7 +156,21 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle bad password message', () => {
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
+      MockBadPasswordResponse.error.error_description
+    );
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(globalMessageService.remove).toHaveBeenCalled();
+  });
+
+  it('should handle disabled user message', () => {
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
+    service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
+    expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
+      MockDisabledUserResponse.error.error_description
+    );
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(globalMessageService.remove).toHaveBeenCalled();
   });
@@ -184,6 +220,13 @@ describe('BadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'item not found',
       GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should convert error description to translation key', () => {
+    const error_description = 'This is test error';
+    expect(service.getErrorTranslationKey(error_description)).toBe(
+      'httpHandlers.badRequest.this_is_test_error'
     );
   });
 });
