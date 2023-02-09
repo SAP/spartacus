@@ -50,5 +50,12 @@
 - `margin-bottom` changed to `-20px` instead of `-60px` in `&.subgroupTopLevel`
 - ` &.subgroup` styling added in `.cx-group`
 - Styling added for subgroups on `sm` resolutions
+
+#### ConfiguratorVariantOverviewPage
+
+- Handles a new slot `VariantConfigOverviewNavigation`; previously it only got one slot, so no specific styling was required besides
+  including the page template `cx-configurator-template`. 
+  Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
+  `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
  
 
