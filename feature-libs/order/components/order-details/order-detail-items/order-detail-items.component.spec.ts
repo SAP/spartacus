@@ -14,7 +14,7 @@ import {
   CmsComponentData,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
@@ -142,6 +142,9 @@ describe('OrderDetailItemsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       mockOrderDetailsService = <OrderDetailsService>{
+        isOrderDetailsLoading(): Observable<boolean> {
+          return of(false);
+        },
         getOrderDetails() {
           return of(mockOrder);
         },
