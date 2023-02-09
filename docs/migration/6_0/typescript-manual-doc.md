@@ -69,3 +69,7 @@ If explicitly set, this option will take precedence over the express server.
 ### AddressBookComponent
 
 - `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+## BadRequestHandler
+
+- `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.

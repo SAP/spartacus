@@ -1,14 +1,14 @@
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import {
-  TestTicketDetails,
+  FIRST_ROW_TICKET_LIST,
+  LAST_PAGE,
+  SECOND_ROW_TICKET_LIST,
   TestCategory,
   TestStatus,
-  FIRST_ROW_TICKET_LIST,
-  SECOND_ROW_TICKET_LIST,
-  LAST_PAGE,
+  TestTicketDetails,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
 
-describe.skip('ticket listing', () => {
+describe('ticket listing', () => {
   context('Registered User', () => {
     before(() => {
       cy.window().then((win) => {
@@ -16,11 +16,14 @@ describe.skip('ticket listing', () => {
       });
     });
 
-    it('visit the ticket listing page and see if tickets exist', () => {
+    it('visit the ticket listing page and see if tickets exist (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'something to mindful',
         message: 'nothing to worry about',
-        category: TestCategory.complaint,
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       customerTicketing.loginRegisteredUser();
@@ -35,11 +38,14 @@ describe.skip('ticket listing', () => {
       customerTicketing.verifyTicketListingTableContent();
     });
 
-    it('should still show the ticket in the list when status is closed', () => {
+    it('should still show the ticket in the list when status is closed (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
-        subject: 'changing status',
-        message: 'status will change',
-        category: TestCategory.complaint,
+        subject: 'for pagination',
+        message: 'tgest pagination',
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       customerTicketing.loginRegisteredUser();
@@ -50,11 +56,14 @@ describe.skip('ticket listing', () => {
       customerTicketing.verifyStatusOfTicketInList();
     });
 
-    it('should still show the ticket in the list when status is In Process', () => {
+    it('should still show the ticket in the list when status is In Process (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
-        subject: 'changing status',
-        message: 'status will change',
-        category: TestCategory.complaint,
+        subject: 'for pagination',
+        message: 'tgest pagination',
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       customerTicketing.loginRegisteredUser();
@@ -72,24 +81,28 @@ describe.skip('ticket listing', () => {
       );
     });
 
-    it('should create 6 tickets', () => {
+    it('should create 6 tickets (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'Creating tickets for pagination ',
         message: 'Creating tickets for pagination ',
-        category: TestCategory.complaint,
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       const numberOfTicketsToCreateInitially = 5;
       const numberOfTicketsToCreateForOnePagination = 1;
-      const numberOfTicketsToCreateForMultipagePagination = 5;
 
       customerTicketing.loginRegisteredUser();
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.verifyPaginationDoesNotExist();
+
       customerTicketing.createMultipleTickets(
         numberOfTicketsToCreateInitially,
         testTicketDetails
       );
+
       customerTicketing.verifyPaginationDoesNotExist();
       customerTicketing.createMultipleTickets(
         numberOfTicketsToCreateForOnePagination,
@@ -99,32 +112,29 @@ describe.skip('ticket listing', () => {
       let totalNumberOfTicketsCreated =
         numberOfTicketsToCreateInitially +
         numberOfTicketsToCreateForOnePagination;
-      customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
-        totalNumberOfTicketsCreated
-      );
 
-      customerTicketing.createMultipleTickets(
-        numberOfTicketsToCreateForMultipagePagination,
-        testTicketDetails
-      );
-      totalNumberOfTicketsCreated +=
-        numberOfTicketsToCreateForMultipagePagination;
       customerTicketing.verifyNumberOfPagesBasedOnTotalNumberOfTickets(
         totalNumberOfTicketsCreated
       );
     });
 
-    it('should sort ticket listing', () => {
+    it('should sort ticket listing (CXSPA-470)', () => {
       const firstTicket: TestTicketDetails = {
         subject: 'first ticket',
         message: 'first ticket',
-        category: TestCategory.complaint,
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       const secondTicket: TestTicketDetails = {
         subject: 'secondoo',
         message: 'no uno',
-        category: TestCategory.complaint,
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       customerTicketing.loginRegisteredUser();
@@ -143,17 +153,23 @@ describe.skip('ticket listing', () => {
       customerTicketing.verifyCreatedTicketDetails(firstTicket);
     });
 
-    it('should put the ticket on top when Changed On is selected as the sort', () => {
+    it('should put the ticket on top when Changed On is selected as the sort (CXSPA-470)', () => {
       const otherTickets: TestTicketDetails = {
         subject: 'Creating tickets for pagination ',
         message: 'Creating tickets for pagination ',
-        category: TestCategory.complaint,
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       const ticketToSort: TestTicketDetails = {
         subject: 'This will go from bottom of the list to the top ',
         message: 'This will go from bottom of the list to the top ',
-        category: TestCategory.complaint,
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
       };
 
       const numberOfOtherTickets = 2;
@@ -175,24 +191,66 @@ describe.skip('ticket listing', () => {
       customerTicketing.verifyCreatedTicketDetails(ticketToSort);
     });
 
-    it('should take you to the corresponding page when clicking the page number on pagination', () => {
-      customerTicketing.loginAsAdmin();
+    it('should take you to the corresponding page when clicking the page number on pagination (CXSPA-470)', () => {
+      const testTicketDetails: TestTicketDetails = {
+        subject: 'for pagination',
+        message: 'tgest pagination',
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
+      };
+      const numberOfTicketsToCreate = 6;
+
+      customerTicketing.loginRegisteredUser();
+      customerTicketing.waitForTicketListData(
+        numberOfTicketsToCreate,
+        testTicketDetails
+      );
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.verifyPaginationExist();
       customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
       customerTicketing.verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds();
     });
 
-    it('should take you to the last page when the last button is clicked on pagination', () => {
-      customerTicketing.loginAsAdmin();
+    it('should take you to the last page when the last button is clicked on pagination (CXSPA-470)', () => {
+      const testTicketDetails: TestTicketDetails = {
+        subject: 'for pagination',
+        message: 'tgest pagination',
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
+      };
+      const numberOfTicketsToCreate = 6;
+
+      customerTicketing.loginRegisteredUser();
+      customerTicketing.waitForTicketListData(
+        numberOfTicketsToCreate,
+        testTicketDetails
+      );
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.verifyPaginationExist();
       customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
       customerTicketing.verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds();
     });
 
-    it('should take you to the first page when the first button is clicked on pagination', () => {
-      customerTicketing.loginAsAdmin();
+    it('should take you to the first page when the first button is clicked on pagination (CXSPA-470)', () => {
+      const testTicketDetails: TestTicketDetails = {
+        subject: 'for pagination',
+        message: 'tgest pagination',
+        ticketCategory: {
+          id: TestCategory.complaint.toUpperCase(),
+          name: TestCategory.complaint,
+        },
+      };
+      const numberOfTicketsToCreate = 6;
+
+      customerTicketing.loginRegisteredUser();
+      customerTicketing.waitForTicketListData(
+        numberOfTicketsToCreate,
+        testTicketDetails
+      );
       customerTicketing.visitElectronicTicketListingPage();
       customerTicketing.verifyPaginationExist();
       customerTicketing.selectSortBy(customerTicketing.TestSortingTypes.byId);
