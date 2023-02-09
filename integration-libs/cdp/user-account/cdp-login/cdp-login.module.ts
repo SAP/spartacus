@@ -14,6 +14,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '@spartacus/storefront';
+import { LoginComponentService } from '@spartacus/user/account/components';
 import { CdpLoginComponent } from './cdp-login.component';
 
 @NgModule({
@@ -23,6 +24,12 @@ import { CdpLoginComponent } from './cdp-login.component';
       cmsComponents: {
         LoginComponent: {
           component: CdpLoginComponent,
+          providers: [
+            {
+              provide: LoginComponentService,
+              useClass: LoginComponentService,
+            }
+         ]
         },
       },
     }),

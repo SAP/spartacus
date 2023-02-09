@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { LoginComponent } from '@spartacus/user/account/components';
-import { LoginComponentService } from '@spartacus/user/account/components/login';
+import { LoginComponentService } from '@spartacus/user/account/components';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 
 @Component({
