@@ -49,12 +49,16 @@ export class ProfileTagEventService {
   }
 
   private setConsentReferenceFromLocalStorage(): void {
-    let profileTagMetadata = JSON.parse(localStorage.getItem('profiletag') || '{"cr":{}}');
+    const profileTagMetadata = JSON.parse(
+      localStorage.getItem('profiletag') || '{"cr":{}}'
+    );
     this.baseSiteService
       .getActive()
       .pipe(take(1))
       .subscribe((data) => {
-        this.latestConsentReference = new BehaviorSubject(profileTagMetadata.cr[`${data}-consentReference`]?.consentReference);
+        this.latestConsentReference = new BehaviorSubject(
+          profileTagMetadata.cr[`${data}-consentReference`]?.consentReference
+        );
       });
   }
 
@@ -101,8 +105,8 @@ export class ProfileTagEventService {
 
   private setConsentReference(): Observable<string> {
     return this.getConsentReference().pipe(
-      tap(
-        (consentReference) => (this.latestConsentReference.next(consentReference))
+      tap((consentReference) =>
+        this.latestConsentReference.next(consentReference)
       )
     );
   }
