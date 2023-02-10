@@ -16,6 +16,10 @@ if (environment.cdc) {
   extensions.push(CDCUserAccountModule);
 }
 
+// if (environment.cdp) {
+//   extensions.push(CdpLoginModule);
+// }
+
 @NgModule({
   imports: [UserAccountModule, ...extensions],
 })

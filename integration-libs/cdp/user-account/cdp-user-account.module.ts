@@ -12,4 +12,4 @@ import { CdpLoginModule } from './cdp-login';
   declarations: [],
   imports: [CommonModule, CdpLoginModule],
 })
-export class CdcComponentsModule {}
+export class CdpUserAccountModule {}

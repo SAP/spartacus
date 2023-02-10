@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from '../cdp-root.module';
-export * from './feature-name';
+
+export * from './cdp-my-account/index';
+export * from './cdp-components.module';

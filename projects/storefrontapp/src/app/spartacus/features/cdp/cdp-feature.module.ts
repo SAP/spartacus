@@ -5,17 +5,17 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdpLoginModule } from 'integration-libs/cdp/user-account/cdp-login/cdp-login.module';
+import { CdpRootModule } from 'integration-libs/cdp/cdp-root.module';
 // import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 // import { CmsConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [CdpLoginModule],
+  imports: [CdpRootModule],
   // providers: [
-  //   provideConfig(<CdcConfig>{
+  //   provideConfig(<CdpConfig>{
   //     component: [
   //       {
-  //         LoginComponent: 'electronics-spa'
+  //         LoginComponent: CdpLoginComponent
   //       }
   //     ]
   //   })

@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { PageSlotModule } from '@spartacus/storefront';
 import { LoginComponentService } from '@spartacus/user/account/components';
-import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-my-account/cdp-my-account.component';
+import { CdpMyAccountComponent } from 'integration-libs/cdp/components/cdp-my-account/cdp-my-account.component';
 import { CdpLoginComponent } from './cdp-login.component';
 
 const routes: Routes = [
@@ -38,6 +38,6 @@ const routes: Routes = [
       },
     }),
   ],
-  // declarations: [CdpLoginComponent],
+  declarations: [CdpLoginComponent],
 })
 export class CdpLoginModule {}

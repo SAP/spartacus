@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "CDCSchematics",
-  "title": "CDC Schematics",
+  "$id": "CDPSchematics",
+  "title": "CDP Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -18,29 +18,29 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the CDC feature.",
+      "description": "Lazy load the CDP feature.",
       "default": true
     },
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["CDC"]
+      "default": ["CDP"]
     },
     "javascriptUrl": {
       "type": "string",
-      "description": "Location of the CDC Java Script SDK in Customer Data Cloud",
-      "x-prompt": "[CDC] What is the CDC JS SDK URL?"
+      "description": "Location of the CDP Java Script SDK in Customer Data Platform",
+      "x-prompt": "[CDP] What is the CDP JS SDK URL?"
     },
     "baseSite": {
       "type": "string",
       "description": "Name of the Spartcus base site",
-      "x-prompt": "[CDC] What is the base site?",
+      "x-prompt": "[CDP] What is the base site?",
       "default": "electronics-spa"
     },
     "sessionExpiration": {
       "type": "number",
       "description": "Session Expiration time in seconds",
-      "x-prompt": "[CDC] What is the CDC Session expiration time (in seconds)?",
+      "x-prompt": "[CDP] What is the CDP Session expiration time (in seconds)?",
       "default": 3600
     }
   },
