@@ -5,9 +5,10 @@
  */
 
 import { Provider } from '@angular/core';
-import { AsmBindCartFacade, AsmCustomerListFacade } from '@spartacus/asm/root';
+import { AsmBindCartFacade, AsmCustomerListFacade, AsmCreateCustomerFacade } from '@spartacus/asm/root';
 import { AsmBindCartService } from './asm-bind-cart.service';
 import { AsmCustomerListService } from './asm-customer-list.service';
+import { AsmCreateCustomerService } from './asm-create-customer.service';
 
 export const facadeProviders: Provider[] = [
   AsmCustomerListService,
@@ -19,5 +20,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: AsmBindCartFacade,
     useExisting: AsmBindCartService,
+  },
+  AsmCreateCustomerService,
+  {
+    provide: AsmCreateCustomerFacade,
+    useExisting: AsmCreateCustomerService,
   },
 ];

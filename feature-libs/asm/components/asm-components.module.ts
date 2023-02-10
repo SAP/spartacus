@@ -36,6 +36,8 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
+import { AsmCreateCustomerFormComponent } from './asm-create-customer-form/asm-create-customer-form.component';
+import { defaultAsmCreateCustomerFormLayoutConfig } from './asm-create-customer-form/default-asm-create-customer-form-layout.config';
 
 @NgModule({
   imports: [
@@ -65,6 +67,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
+    AsmCreateCustomerFormComponent,
   ],
   exports: [
     AsmBindCartDialogComponent,
@@ -83,6 +86,8 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     provideDefaultConfig(defaultAsmLayoutConfig),
     provideDefaultConfig(defaultBindCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
+    provideDefaultConfig(defaultAsmCreateCustomerFormLayoutConfig),
+    
   ],
 })
 export class AsmComponentsModule {}
