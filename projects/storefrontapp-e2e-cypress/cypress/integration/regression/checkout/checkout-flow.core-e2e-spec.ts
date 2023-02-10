@@ -8,7 +8,7 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser, product } from '../../../sample-data/checkout-flow';
 
-// Fundamental core test. Without which, there is no Composable Storefront solution. 
+// Fundamental core test. There is no Composable Storefront solution if this test fails.
 context('Checkout flow', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
