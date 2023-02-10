@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { AsmConnector } from '@spartacus/asm/core';
 import {
   AsmCustomer360Response,
   AsmCustomer360Type,
@@ -7,8 +8,6 @@ import { User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-
-import { AsmConnector } from '../connectors/asm.connector';
 
 import { Asm360Service } from './asm-360.service';
 

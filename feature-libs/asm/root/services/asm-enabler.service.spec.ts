@@ -49,7 +49,7 @@ const mockLaunchConfig: LayoutConfig = {
   launch: {
     ASM: {
       outlet: 'cx-outlet-test',
-      component: {},
+      component: class Foo {},
     },
   },
 };
