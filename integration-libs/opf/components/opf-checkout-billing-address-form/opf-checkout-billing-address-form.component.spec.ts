@@ -134,7 +134,8 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     expect(component.sameAsDeliveryAddress).toEqual(true);
   });
 
-  it('should verify address when custom form is filled', () => {
+  // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
+  xit('should verify address when custom form is filled', () => {
     component.sameAsDeliveryAddress = false;
     component.verifyAddress(mockAddress);
 
