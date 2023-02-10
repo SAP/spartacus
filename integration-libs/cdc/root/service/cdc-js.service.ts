@@ -5,13 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  NgZone,
-  OnDestroy,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import {
   AuthService,
   BaseSiteService,
@@ -29,8 +23,9 @@ import {
   of,
   ReplaySubject,
   Subscription,
+  throwError,
 } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -41,6 +36,7 @@ export class CdcJsService implements OnDestroy {
   protected loaded$ = new ReplaySubject<boolean>(1);
   protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
+  protected gigyaSDK: { [key: string]: any };
 
   constructor(
     protected cdcConfig: CdcConfig,
@@ -50,7 +46,6 @@ export class CdcJsService implements OnDestroy {
     protected winRef: WindowRef,
     protected cdcAuth: CdcAuthFacade,
     protected auth: AuthService,
-    protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
     protected globalMessageService: GlobalMessageService
@@ -146,31 +141,17 @@ export class CdcJsService implements OnDestroy {
   }
 
   /**
-   * Unregister login event listeners for CDC login
-   *
-   */
-  protected unRegisterEventListeners(): void {
-    (this.winRef.nativeWindow as { [key: string]: any })?.[
-      'gigya'
-    ]?.accounts?.addEventHandlers({
-      onLogin: () => {
-        this.zone.run(() => {});
-      },
-    });
-  }
-
-  /**
    * Method to register CDC event handlers
    *
    * @param baseSite
    */
   protected addCdcEventHandlers(baseSite: string): void {
-    (this.winRef.nativeWindow as { [key: string]: any })?.[
+    this.gigyaSDK = (this.winRef.nativeWindow as { [key: string]: any })?.[
       'gigya'
-    ]?.accounts?.addEventHandlers({
-      onLogin: (...params: any[]) => {
-        this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));
-      },
+    ];
+    this.gigyaSDK?.accounts?.addEventHandlers({
+      onLogin: (...params: any[]) =>
+        this.onLoginEventHandler(baseSite, ...params),
     });
   }
 
@@ -203,27 +184,13 @@ export class CdcJsService implements OnDestroy {
   registerUserWithoutScreenSet(
     user: UserSignUp
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((initRegistration) => {
-      if (!user.uid || !user.password) {
-        initRegistration.error(null);
-      } else {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.initRegistration({
-          callback: (response: any) => {
-            this.zone.run(() => {
-              this.onInitRegistrationHandler(user, response).subscribe({
-                next: (result) => {
-                  initRegistration.next(result);
-                  initRegistration.complete();
-                },
-                error: (error) => initRegistration.error(error),
-              });
-            });
-          },
-        });
-      }
-    });
+    if (!user.uid || !user.password) {
+      return throwError(null);
+    } else {
+      return this.invokeCDCAPI('accounts.initRegistration', {}).pipe(
+        switchMap((response) => this.onInitRegistrationHandler(user, response))
+      );
+    }
   }
 
   /**
@@ -236,33 +203,26 @@ export class CdcJsService implements OnDestroy {
     user: UserSignUp,
     response: any
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isRegistered) => {
-      if (response && response.regToken && user.uid && user.password) {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.register({
-          email: user.uid,
-          password: user.password,
-          profile: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-          },
-          regToken: response.regToken,
-          finalizeRegistration: true,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              if (response?.status === 'OK') {
-                isRegistered.next(response);
-                isRegistered.complete();
-              } else {
-                this.handleRegisterError(response);
-                isRegistered.error(response);
-              }
-            });
-          },
-        });
-      }
-    });
+    if (!response?.regToken || !user?.uid || !user?.password) {
+      return throwError(null);
+    } else {
+      let regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      return this.invokeCDCAPI('accounts.register', {
+        email: user.uid,
+        password: user.password,
+        profile: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+        regSource: regSource,
+        regToken: response.regToken,
+        finalizeRegistration: true,
+      }).pipe(
+        tap({
+          error: (response) => this.handleRegisterError(response),
+        })
+      );
+    }
   }
 
   /**
@@ -279,27 +239,16 @@ export class CdcJsService implements OnDestroy {
   ): Observable<{ status: string }> {
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
-        return new Observable<{ status: string }>((isLoggedIn) => {
-          (this.winRef.nativeWindow as { [key: string]: any })?.[
-            'gigya'
-          ]?.accounts?.login({
-            loginID: email,
-            password: password,
-            ...(context && { context: context }),
-            sessionExpiry: sessionExpiration,
-            callback: (response: any) => {
-              this.zone.run(() => {
-                if (response?.status === 'OK') {
-                  isLoggedIn.next({ status: response.status });
-                  isLoggedIn.complete();
-                } else {
-                  this.handleLoginError(response);
-                  isLoggedIn.error(response);
-                }
-              });
-            },
-          });
-        });
+        return this.invokeCDCAPI('accounts.login', {
+          loginID: email,
+          password: password,
+          ...(context && { context: context }),
+          sessionExpiry: sessionExpiration,
+        }).pipe(
+          tap({
+            error: (response) => this.handleLoginError(response),
+          })
+        );
       })
     );
   }
@@ -335,7 +284,7 @@ export class CdcJsService implements OnDestroy {
         {
           key: 'httpHandlers.badRequestPleaseLoginAgain',
           params: {
-            errorMessage: response.errorDetails,
+            errorMessage: response.errorMessage,
           },
         },
         GlobalMessageType.MSG_TYPE_ERROR
@@ -371,27 +320,17 @@ export class CdcJsService implements OnDestroy {
    * @param email
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isResetPassword) => {
-      if (email && email.length > 0) {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.resetPassword({
-          loginID: email,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              this.handleResetPassResponse(response);
-
-              if (response?.status === 'OK') {
-                isResetPassword.next({ status: response.status });
-                isResetPassword.complete();
-              } else {
-                isResetPassword.error(response);
-              }
-            });
-          },
-        });
-      }
-    });
+    if (!email || email?.length === 0) {
+      return throwError(null);
+    } else {
+      return this.invokeCDCAPI('accounts.resetPassword', {
+        loginID: email,
+      }).pipe(
+        tap({
+          error: (response) => this.handleResetPassResponse(response),
+        })
+      );
+    }
   }
 
   /**
@@ -421,42 +360,30 @@ export class CdcJsService implements OnDestroy {
    * @param lastName
    */
   updateProfileWithoutScreenSet(user: User): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isProfileUpdated) => {
-      if (
-        user.firstName &&
-        user.firstName.length > 0 &&
-        user.lastName &&
-        user.lastName.length > 0
-      ) {
-        let profileObj = {
-          profile: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-          },
-        };
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.setAccountInfo({
-          ...profileObj,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              if (response?.status === 'OK') {
-                //update user title code
-                this.userProfileFacade.update(user as User).subscribe({
-                  next: () => {
-                    isProfileUpdated.next({ status: response.status });
-                    isProfileUpdated.complete();
-                  },
-                  error: (error) => isProfileUpdated.error(error),
-                });
-              } else {
-                isProfileUpdated.error(response);
-              }
-            });
-          },
-        });
-      }
-    });
+    if (
+      !user?.firstName ||
+      user?.firstName?.length === 0 ||
+      !user?.lastName ||
+      user?.lastName?.length === 0
+    ) {
+      return throwError(null);
+    } else {
+      let profileObj = {
+        profile: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      };
+      return this.invokeCDCAPI('accounts.setAccountInfo', {
+        ...profileObj,
+      }).pipe(
+        tap(() =>
+          this.userProfileFacade.update(user as User).subscribe({
+            error: (error) => of(error),
+          })
+        )
+      );
+    }
   }
 
   /**
@@ -469,36 +396,29 @@ export class CdcJsService implements OnDestroy {
     oldPassword: string,
     newPassword: string
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isPasswordUpdated) => {
-      if (
-        oldPassword &&
-        oldPassword.length > 0 &&
-        newPassword &&
-        newPassword.length > 0
-      ) {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.setAccountInfo({
-          password: oldPassword,
-          newPassword: newPassword,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              if (response?.status === 'OK') {
-                isPasswordUpdated.next({ status: response.status });
-                isPasswordUpdated.complete();
-              } else {
-                let errorMessage = response.errorMessage;
-                this.globalMessageService.add(
-                  errorMessage,
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-                isPasswordUpdated.error(response);
-              }
-            });
+    if (
+      !oldPassword ||
+      oldPassword?.length === 0 ||
+      !newPassword ||
+      newPassword?.length === 0
+    ) {
+      return throwError(null);
+    } else {
+      return this.invokeCDCAPI('accounts.setAccountInfo', {
+        password: oldPassword,
+        newPassword: newPassword,
+      }).pipe(
+        tap({
+          error: (error) => {
+            let errorMessage = error.errorMessage;
+            this.globalMessageService.add(
+              errorMessage,
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
           },
-        });
-      }
-    });
+        })
+      );
+    }
   }
 
   /**
@@ -525,50 +445,44 @@ export class CdcJsService implements OnDestroy {
     password: string,
     newEmail: string
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isEmailUpdated) => {
-      if (password && password.length > 0 && newEmail && newEmail.length > 0) {
-        let email = this.getLoggedInUserEmail();
-
-        //Verify the password by attempting to login
-        this.loginUserWithoutScreenSet(
-          email,
-          password,
-          'RESET_EMAIL'
-        ).subscribe({
-          next: (response) => {
-            if (response?.status === 'OK') {
-              (this.winRef.nativeWindow as { [key: string]: any })?.[
-                'gigya'
-              ]?.accounts?.setAccountInfo({
-                profile: {
-                  email: newEmail,
-                },
-                callback: (response: any) => {
-                  this.zone.run(() => {
-                    if (response?.status === 'OK') {
-                      this.userProfileFacade.update({ uid: newEmail });
-                    } else {
-                      isEmailUpdated.error(response);
-                    }
-                  });
-                },
-              });
-            } else {
-              isEmailUpdated.error(response);
-            }
-          },
-          error: (error) => isEmailUpdated.error(error),
-          complete: () => {
-            isEmailUpdated.next({ status: 'OK' });
-            isEmailUpdated.complete();
-            this.auth.coreLogout();
-            (this.winRef.nativeWindow as { [key: string]: any })?.[
-              'gigya'
-            ]?.accounts?.logout();
-          },
-        });
-      }
-    });
+    if (
+      !password ||
+      password?.length === 0 ||
+      !newEmail ||
+      newEmail?.length === 0
+    ) {
+      return throwError(null);
+    } else {
+      //Verify the password by attempting to login
+      let email = this.getLoggedInUserEmail();
+      return this.loginUserWithoutScreenSet(
+        email,
+        password,
+        'RESET_EMAIL'
+      ).pipe(
+        switchMap(() =>
+          this.invokeCDCAPI('accounts.setAccountInfo', {
+            profile: {
+              email: newEmail,
+            },
+          }).pipe(
+            tap({
+              next: () =>
+                this.userProfileFacade.update({ uid: newEmail }).pipe(
+                  tap({
+                    error: (error) => of(error),
+                  })
+                ),
+              complete: () => {
+                this.auth.coreLogout();
+                this.invokeCDCAPI('accounts.logout', {});
+              },
+            })
+          )
+        ),
+        catchError((error) => of(error))
+      );
+    }
   }
 
   /**
@@ -596,29 +510,64 @@ export class CdcJsService implements OnDestroy {
   updateAddressWithoutScreenSet(
     address: string
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isAddressUpdated) => {
-      if (address && address.length > 0) {
-        let profileObj = {
-          profile: {
-            address: address,
-          },
-        };
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.setAccountInfo({
-          ...profileObj,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              if (response?.status === 'OK') {
-                isAddressUpdated.next({ status: response.status });
-                isAddressUpdated.complete();
-              } else {
-                isAddressUpdated.error(response);
-              }
-            });
-          },
-        });
+    if (!address || address?.length === 0) {
+      return throwError(null);
+    } else {
+      let profileObj = {
+        profile: {
+          address: address,
+        },
+      };
+      return this.invokeCDCAPI('accounts.setAccountInfo', {
+        ...profileObj,
+      });
+    }
+  }
+
+  /**
+   * Obtain the CDC SDK Method from the input method name as string
+   * @param methodName
+   * @returns CDC SDK Function
+   */
+  protected getCDCSDKFunctionFromName(
+    methodName: string
+  ): (payload: Object) => void {
+    //accounts.setAccountInfo or accounts.b2b.openDelegatedAdmin
+    let nestedMethods = methodName.split('.');
+    let cdcAPI: any = this.gigyaSDK;
+    nestedMethods.forEach((method) => {
+      if (cdcAPI && cdcAPI.hasOwnProperty(method)) {
+        cdcAPI = cdcAPI[method];
       }
+    });
+
+    return cdcAPI;
+  }
+
+  /**
+   * Invoke the CDC SDK Method and convert the callback to an Observable
+   * @param methodName - method to be invoked
+   * @param payload - Object payload
+   * @returns - Observable with the response
+   */
+  protected invokeCDCAPI(
+    methodName: string,
+    payload: Object
+  ): Observable<{ status: string }> {
+    return new Observable<{ status: string }>((result) => {
+      let actualAPI = this.getCDCSDKFunctionFromName(methodName);
+
+      actualAPI({
+        ...payload,
+        callback: (response: any) => {
+          if (response?.status === 'OK') {
+            result.next(response);
+            result.complete();
+          } else {
+            result.error(response);
+          }
+        },
+      });
     });
   }
 

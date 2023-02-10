@@ -90,19 +90,16 @@ export class CDCRegisterComponentService extends RegisterComponentService {
       switchMap(() =>
         merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(
           map(() => {
-            //create User object
-            let userObj: User = {
-              ...(user.firstName && { firstName: user.firstName }),
-              ...(user.lastName && { lastName: user.lastName }),
-              ...(user.titleCode && { titleCode: user.titleCode }),
-              ...(user.uid && { uid: user.uid }),
-            };
             //update user title code
-            this.userProfileFacade.update(userObj);
-            return userObj;
+            this.userProfileFacade.update(user);
           })
         )
-      )
+      ),
+      switchMap(() => {
+        return this.userProfileFacade
+          .get()
+          .pipe(filter((userObj): userObj is User => Boolean(userObj)));
+      })
     );
   }
 
