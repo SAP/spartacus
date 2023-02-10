@@ -108,12 +108,8 @@ export class HttpTimeoutInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     timeoutValue: number
   ): Error {
-    const message = `Request to URL '${request.url}' exceeded expected time of ${timeoutValue}ms and was aborted.`;
-
-    // If an HTTP call times out, it is considered an unexpected error.
-    // To assist with troubleshooting, the error is logged to the console.
-    console.warn(message);
-
-    return new Error(message);
+    return new Error(
+      `Request to URL '${request.url}' exceeded expected time of ${timeoutValue}ms and was aborted.`
+    );
   }
 }
