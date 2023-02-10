@@ -11,7 +11,6 @@ import { ConfigValidatorModule } from './config/config-validator/config-validato
 import { ConfigModule } from './config/config.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
-import { HttpModule } from './http/http.module';
 import { I18nModule } from './i18n/i18n.module';
 import { LazyLoadingModule } from './lazy-loading/lazy-loading.module';
 import { BaseOccModule } from './occ/base-occ.module';
@@ -35,7 +34,6 @@ import { StateModule } from './state/state.module';
     MetaTagConfigModule.forRoot(),
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
-    HttpModule.forRoot(),
   ],
 })
 export class BaseCoreModule {
