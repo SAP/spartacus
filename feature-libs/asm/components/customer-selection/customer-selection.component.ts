@@ -13,6 +13,7 @@ import {
   Output,
   QueryList,
   ViewChild,
+  Optional,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -24,7 +25,12 @@ import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
+import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model'
 
 @Component({
   selector: 'cx-customer-selection',
@@ -45,6 +51,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
+
+  @ViewChild('createCustomerLink') createCustomerLink: ElementRef;
   @ViewChildren('searchResultItem') searchResultItems: QueryList<
     ElementRef<HTMLElement>
   >;
@@ -55,7 +63,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
+    @Optional() protected launchDialogService?: LaunchDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -133,6 +142,24 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.searchTerm.nativeElement.focus();
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  createCustomer(): void {
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.createCustomerLink
+    );
+
+    
+    this.subscription.add(
+      this.launchDialogService?.dialogClose
+        .pipe(filter((result) => Boolean(result)))
+        .subscribe((result: CreatedCustomer) => {
+          if (result.email) {
+            this.submitEvent.emit({ customerId: result.email });
+          }
+        })
+    );
   }
 
   ngOnDestroy(): void {

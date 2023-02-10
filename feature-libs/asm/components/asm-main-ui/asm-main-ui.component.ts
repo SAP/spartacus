@@ -40,8 +40,9 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CustomerListAction } from '../customer-list/customer-list.model';
+// import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+// import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model'
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
@@ -60,6 +61,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   @ViewChild('customerListLink') element: ElementRef;
+  @ViewChild('addNewCustomerLink') addNewCustomerLinkElement: ElementRef;
 
   // TODO(#206): make LaunchDialogService are required dependency
   constructor(
@@ -130,14 +132,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService?.dialogClose
         .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CustomerListAction) => {
+        .subscribe((result) => {
           if (result.selectedUser) {
             this.startCustomerEmulationSession(result.selectedUser);
             if (
               result.actionType === CustomerListColumnActionType.ORDER_HISTORY
-            ) {
+            ) { 
               this.routingService.go({ cxRoute: 'orders' });
             }
+          } else if (result.email){
+              this.startCustomerEmulationSession({ customerId: result.email });
           }
         })
     );
@@ -191,6 +195,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
       this.element
+    );
+  }
+
+  createCustomer(): void {
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLinkElement
     );
   }
 
