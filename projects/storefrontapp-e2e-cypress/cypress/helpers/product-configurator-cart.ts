@@ -10,16 +10,6 @@
  * @param {number} cartItemIndex - Index of cart item
  */
 export function clickOnEditConfigurationLink(cartItemIndex: number): void {
-  // cy.get('cx-cart-item-list .cx-item-list-row')
-  //   .eq(cartItemIndex)
-  //   .find('cx-configure-cart-entry')
-  //   .within(() => {
-  //     cy.get('a:contains("Edit")')
-  //       .click()
-  //       .then(() => {
-  //         cy.location('pathname').should('contain', '/cartEntry/entityKey/');
-  //       });
-  //   });
   cy.get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
