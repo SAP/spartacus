@@ -25,14 +25,26 @@ export function configureDefaultProduct() {
   cy.get('cx-breadcrumb').should('contain', 'Craftex');
 
   cy.get('cx-epd-visualization-visual-picking-tab');
+
+  cy.get('button').contains('Allow All').click();
 }
 
 export function verifyTabbingOrder() {
-  // Ensure the spare parts tab is active
   cy.get('cx-tab-paragraph-container button')
-    .contains('Spare Parts')
-    .click()
+    .contains('Product Details')
     .click();
+
+  cy.pressTab();
+  cy.focused().should('include.text', 'Specs');
+
+  cy.pressTab();
+  cy.focused().should('include.text', 'Reviews');
+
+  cy.pressTab();
+  cy.focused().should('include.text', 'Spare Parts').click();
+
+  // The Spare Parts tab is active.
+  // Wait for the viewer to load the visualization.
 
   cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should(
     'be.visible'
@@ -41,16 +53,8 @@ export function verifyTabbingOrder() {
     timeout: 50000,
   }).should('be.visible');
 
-  cy.get('cx-tab-paragraph-container button')
-    .contains('Spare Parts')
-    .click()
-    .click();
-
-  cy.get('cx-icon.fa-home').parent().parent('button').focus();
-
-  cy.pressTab(true);
-
-  cy.focused().parent().get('cx-tab-paragraph-container').should('exist');
+  cy.pressTab();
+  cy.focused().get('cx-epd-visualization-visual-picking-tab').should('exist');
 
   cy.pressTab();
   cy.focused()
@@ -155,16 +159,6 @@ export function verifyTabbingOrder() {
     .should('have.class', 'next')
     .find('cx-icon')
     .should('have.class', 'cx-icon fas fa-angle-right flip-at-rtl');
-
-  // Focus should move to other tabs
-  cy.pressTab();
-  cy.focused().should('include.text', 'Product Details');
-
-  cy.pressTab();
-  cy.focused().should('include.text', 'Specs');
-
-  cy.pressTab();
-  cy.focused().should('include.text', 'Reviews');
 
   // Focus should move to the footer area
   cy.pressTab();
