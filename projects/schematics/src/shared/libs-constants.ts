@@ -183,6 +183,10 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
+export const SPARTACUS_CDP = `@spartacus/cdc`;
+export const SPARTACUS_CDP_ROOT = `@spartacus/cdc/root`;
+export const SPARTACUS_CDP_USER_ACCOUNT = `@spartacus/cdc/user-account`;
+
 export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
@@ -249,6 +253,8 @@ export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 export const CDC_FEATURE_NAME = 'CDC';
 
 export const CDS_FEATURE_NAME = 'CDS';
+
+export const CDP_FEATURE_NAME = 'CDP';
 
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 

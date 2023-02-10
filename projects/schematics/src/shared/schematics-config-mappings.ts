@@ -20,6 +20,7 @@ import {
 } from './lib-configs/checkout-schematics-config';
 import { CUSTOMER_TICKETING_SCHEMATICS_CONFIG } from './lib-configs/customer-ticketing-schematics-config';
 import { CDC_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdc-schematics-config';
+import { CDP_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdp-schematics-config';
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
@@ -116,6 +117,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
+
+  CDP_SCHEMATICS_CONFIG,
 ];
 
 /**
