@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -9,13 +9,12 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import {
-  FeaturesConfigModule,
-  GlobalMessageService,
-  I18nTestingModule,
-  User,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+  DirectionMode,
+  DirectionService,
+  FormErrorsModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
@@ -31,6 +30,12 @@ class MockAsmService {
   }
   getCustomerSearchResultsLoading(): Observable<boolean> {
     return of(false);
+  }
+}
+
+class MockDirectionService {
+  getDirection() {
+    return DirectionMode.LTR;
   }
 }
 
@@ -78,23 +83,23 @@ describe('CustomerSelectionComponent', () => {
   let fixture: ComponentFixture<CustomerSelectionComponent>;
   let asmService: AsmService;
   let el: DebugElement;
+  let searchResultItems: Array<ElementRef<HTMLElement>> = [];
 
   const validSearchTerm = 'cUstoMer@test.com';
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          FeaturesConfigModule.forRoot(),
-        ],
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: AsmConfig, useValue: MockAsmConfig },
+          {
+            provide: DirectionService,
+            useClass: MockDirectionService,
+          },
         ],
       }).compileComponents();
     })
@@ -239,5 +244,141 @@ describe('CustomerSelectionComponent', () => {
       el.query(By.css('button[type="submit"]')).nativeElement.disabled
     ).toBeFalsy();
     expect(asmService.customerSearchReset).toHaveBeenCalled();
+  });
+
+  describe('Search result navigation', () => {
+    beforeEach(() => {
+      spyOn(asmService, 'getCustomerSearchResults').and.returnValue(
+        of(mockCustomerSearchPage)
+      );
+      component.ngOnInit();
+      component.customerSelectionForm.controls.searchTerm.setValue(
+        validSearchTerm
+      );
+      fixture.detectChanges();
+      searchResultItems = component.searchResultItems.toArray();
+      component.searchTerm.nativeElement.focus();
+    });
+    it('should navigate between result items', () => {
+      spyOn(searchResultItems[0].nativeElement, 'focus');
+
+      expect(component.activeFocusedButtonIndex).toEqual(-1);
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      fixture.detectChanges();
+      expect(component.activeFocusedButtonIndex).toEqual(0);
+      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
+      expect(searchResultItems[0].nativeElement.focus).toHaveBeenCalled();
+
+      component.focusNextChild(new UIEvent('keydown.arrowdown'));
+      fixture.detectChanges();
+      expect(component.activeFocusedButtonIndex).toEqual(1);
+      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(-1);
+      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(0);
+
+      component.focusPreviousChild(new UIEvent('keydown.arrowup'));
+      fixture.detectChanges();
+      expect(component.activeFocusedButtonIndex).toEqual(0);
+      expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
+      expect(searchResultItems[1].nativeElement.tabIndex).toEqual(-1);
+    });
+    it('should focus search text and set cursor one right to original select position', () => {
+      const event = {
+        code: 'ArrowRight',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.searchTerm.nativeElement.selectionStart =
+        validSearchTerm.length - 5;
+      component.searchTerm.nativeElement.selectionEnd =
+        validSearchTerm.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(event as KeyboardEvent);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+        validSearchTerm.length - 4
+      );
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+        validSearchTerm.length - 4
+      );
+    });
+    it('should focus search text and set cursor -1 from original position', () => {
+      const event = {
+        code: 'ArrowLeft',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.searchTerm.nativeElement.selectionStart =
+        validSearchTerm.length - 5;
+      component.searchTerm.nativeElement.selectionEnd =
+        validSearchTerm.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(event as KeyboardEvent);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+        validSearchTerm.length - 6
+      );
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+        validSearchTerm.length - 6
+      );
+    });
+
+    it('should focus search text and set cursor at the begining of text', () => {
+      const event = {
+        code: 'Home',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.searchTerm.nativeElement.selectionStart =
+        validSearchTerm.length - 5;
+      component.searchTerm.nativeElement.selectionEnd =
+        validSearchTerm.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(event as KeyboardEvent);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(0);
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(0);
+    });
+
+    it('should focus search text and set cursor at the end of text', () => {
+      const event = {
+        code: 'End',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+      spyOn(component.searchTerm.nativeElement, 'focus');
+
+      component.searchTerm.nativeElement.selectionStart =
+        validSearchTerm.length - 5;
+      component.searchTerm.nativeElement.selectionEnd =
+        validSearchTerm.length - 5;
+
+      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusInputText(event as KeyboardEvent);
+
+      expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
+      expect(component.searchTerm.nativeElement.selectionStart).toEqual(
+        validSearchTerm.length
+      );
+      expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
+        validSearchTerm.length
+      );
+    });
   });
 });
