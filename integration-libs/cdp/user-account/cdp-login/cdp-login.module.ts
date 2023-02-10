@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
@@ -15,10 +15,14 @@ import {
 } from '@spartacus/core';
 import { PageSlotModule } from '@spartacus/storefront';
 import { LoginComponentService } from '@spartacus/user/account/components';
+import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-my-account/cdp-my-account.component';
 import { CdpLoginComponent } from './cdp-login.component';
 
+const routes: Routes = [
+  { path: 'my-account', component: CdpMyAccountComponent },
+];
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, PageSlotModule, I18nModule],
+  imports: [CommonModule, RouterModule.forRoot(routes), UrlModule, PageSlotModule, I18nModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

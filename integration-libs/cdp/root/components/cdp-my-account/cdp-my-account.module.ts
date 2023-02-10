@@ -12,7 +12,7 @@ import { CdpMyAccountComponent } from './cdp-my-account.component';
   imports: [
     CommonModule,
     RouterModule.forRoot([
-     { path: 'my-account',component: CdpMyAccountComponent }
+     { path: 'my-account', component: CdpMyAccountComponent }
     ])
   ]
 })
