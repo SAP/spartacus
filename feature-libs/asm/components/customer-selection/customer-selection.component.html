@@ -30,20 +30,20 @@
     (keydown.arrowdown)="focusNextChild($event)"
     (keydown.arrowright)="focusInputText($event)"
     (keydown.arrowleft)="focusInputText($event)"
-    (keydown.enter)="selectCustomerFromList(result); $event.preventDefault()"
-    (keydown.escape)="closeResults()"
+    (keydown.enter)="selectCustomerFromList($event, result)"
+    (keydown.escape)="closeResults($event)"
     (keydown.home)="focusInputText($event)"
     (keydown.end)="focusInputText($event)"
-    (click)="selectCustomerFromList(result); $event.preventDefault()"
+    (click)="selectCustomerFromList($event, result)"
   >
     <span class="result-name">{{ result.name }}</span>
     <span class="result-id">{{ result.uid }}</span>
   </button>
   <button
     #searchResultItem
-    (click)="closeResults()"
-    (keydown.enter)="closeResults()"
-    (keydown.escape)="closeResults()"
+    (click)="closeResults($event)"
+    (keydown.enter)="closeResults($event)"
+    (keydown.escape)="closeResults($event)"
     (keydown.arrowright)="focusInputText($event)"
     (keydown.arrowleft)="focusInputText($event)"
     (keydown.home)="focusInputText($event)"

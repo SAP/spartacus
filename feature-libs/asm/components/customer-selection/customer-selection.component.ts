@@ -96,13 +96,15 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectCustomerFromList(customer: User) {
+  selectCustomerFromList(event: UIEvent, customer: User) {
     this.selectedCustomer = customer;
     this.customerSelectionForm.controls.searchTerm.setValue(
       this.selectedCustomer.name
     );
     this.asmService.customerSearchReset();
     this.searchTerm.nativeElement.focus();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   onSubmit(): void {
@@ -126,9 +128,11 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeResults() {
+  closeResults(event: UIEvent) {
     this.asmService.customerSearchReset();
-    this.setFocusOnInput();
+    this.searchTerm.nativeElement.focus();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   ngOnDestroy(): void {
@@ -215,12 +219,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   updateItemIndex(selectedIndex: number): void {
     this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
-  }
-
-  private setFocusOnInput(): void {
-    setTimeout(() => {
-      this.searchTerm.nativeElement.focus();
-    });
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.
