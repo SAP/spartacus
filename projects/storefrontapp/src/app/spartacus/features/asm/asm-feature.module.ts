@@ -26,7 +26,7 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
         },
         [ASM_360_FEATURE]: {
           module: () =>
-            import('@spartacus/asm/components/asm-customer-360').then(
+            import('@spartacus/asm/asm-customer-360').then(
               (m) => m.AsmCustomer360Module
             ),
           dependencies: [ASM_FEATURE],
