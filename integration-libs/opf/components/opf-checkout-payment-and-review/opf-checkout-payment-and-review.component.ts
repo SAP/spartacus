@@ -10,13 +10,7 @@ import {
   Validators,
   UntypedFormBuilder,
 } from '@angular/forms';
-import {
-  ActiveCartFacade,
-  Cart,
-  CartOutlets,
-  OrderEntry,
-  PaymentType,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutReviewSubmitComponent,
   CheckoutStepService,
@@ -25,10 +19,8 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
-  CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -38,11 +30,6 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OPFCheckoutPaymentAndReviewComponent extends CheckoutReviewSubmitComponent {
-  readonly cartOutlets = CartOutlets;
-  iconTypes = ICON_TYPE;
-  checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
-  checkoutStepTypePaymentDetails = CheckoutStepType.DELIVERY_MODE;
-
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
@@ -74,13 +61,5 @@ export class OPFCheckoutPaymentAndReviewComponent extends CheckoutReviewSubmitCo
     return this.activeCartFacade
       .getActive()
       .pipe(map((cart) => cart.paymentType));
-  }
-
-  get cart$(): Observable<Cart> {
-    return this.activeCartFacade.getActive();
-  }
-
-  get entries$(): Observable<OrderEntry[]> {
-    return this.activeCartFacade.getEntries();
   }
 }

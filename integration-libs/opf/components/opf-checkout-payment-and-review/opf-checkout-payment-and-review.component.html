@@ -97,11 +97,11 @@
           <div class="cx-review-summary-edit-step">
             <a
               [attr.aria-label]="
-                'checkoutReview.editPaymentDetails' | cxTranslate
+                'checkoutReview.editDeliveryMode' | cxTranslate
               "
               [routerLink]="
                 {
-                  cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentDetails)
+                  cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode)
                 } | cxUrl
               "
               ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
