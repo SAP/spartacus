@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ParamsMapping, RoutingConfig } from '@spartacus/core';
 import { ROUTE_PARAMS } from '../route-params';
 

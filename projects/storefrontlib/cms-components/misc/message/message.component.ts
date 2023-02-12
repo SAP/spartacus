@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -35,7 +41,9 @@ export class MessageComponent {
 
   iconTypes = ICON_TYPE;
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   get getCssClassesForMessage(): Record<string, boolean> {
     return {

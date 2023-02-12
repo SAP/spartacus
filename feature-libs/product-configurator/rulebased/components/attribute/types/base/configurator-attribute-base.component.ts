@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Configurator } from '../../../../core/model/configurator.model';
 
 /**
@@ -135,6 +141,39 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
+   * Retrieves label with or without technical name depending whether the expert mode is set or not.
+   *
+   * @param expMode - Is expert mode set?
+   * @param label - value label
+   * @param techName - value technical name
+   * @param value - Configurator value
+   */
+  getLabel(
+    expMode: boolean,
+    label: string | undefined,
+    techName: string | undefined,
+    value?: Configurator.Value
+  ): string {
+    let title = label ? label : '';
+    if (expMode && techName) {
+      title += ` / [${techName}]`;
+    }
+    title += this.getValuePrice(value);
+    return title;
+  }
+
+  protected getValuePrice(value: Configurator.Value | undefined): string {
+    if (value?.valuePrice?.value && !value.selected) {
+      if (value.valuePrice.value < 0) {
+        return ` [${value.valuePrice?.formattedValue}]`;
+      } else if (value.valuePrice.value > 0) {
+        return ` [+${value.valuePrice?.formattedValue}]`;
+      }
+    }
+    return '';
+  }
+
+  /**
    * Get code from attribute.
    * The code is not a mandatory attribute (since not available for VC flavour),
    * still it is mandatory in the context of CPQ. Calling this method therefore only
@@ -152,6 +191,7 @@ export class ConfiguratorAttributeBaseComponent {
       throw new Error('No attribute code for: ' + attribute.name);
     }
   }
+
   /**
    * Checks if attribute type allows additional values
    * @param attribute Attribute

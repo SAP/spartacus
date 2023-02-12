@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, throwError } from 'rxjs';
 import { CloseAccountModalComponent } from './close-account-modal.component';
@@ -14,10 +15,6 @@ import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
-}
-
-class MockModalService implements Partial<ModalService> {
-  dismissActiveModal(): void {}
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -28,10 +25,25 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
+
+  coreLogout = createSpy().and.returnValue(Promise.resolve());
 }
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
+}
+
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  closeDialog = createSpy();
+}
+
+/**
+ * TODO: (#CXSPA-741) Remove MockFeatureConfigService in 6.0
+ */
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
 }
 
 @Component({
@@ -54,7 +66,8 @@ describe('CloseAccountModalComponent', () => {
   let userFacade: UserProfileFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
-  let mockModalService: MockModalService;
+  let launchDialogService: LaunchDialogService;
+  let authService: AuthService;
 
   beforeEach(
     waitForAsync(() => {
@@ -83,8 +96,12 @@ describe('CloseAccountModalComponent', () => {
             useClass: MockAuthService,
           },
           {
-            provide: ModalService,
-            useClass: MockModalService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
           },
         ],
       }).compileComponents();
@@ -98,7 +115,8 @@ describe('CloseAccountModalComponent', () => {
     userFacade = TestBed.inject(UserProfileFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    mockModalService = TestBed.inject(ModalService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    authService = TestBed.inject(AuthService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -114,20 +132,22 @@ describe('CloseAccountModalComponent', () => {
 
   it('should navigate away and dismiss modal when account is closed', () => {
     spyOn(component, 'onSuccess').and.callThrough();
-    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+    // spyOn(launchDialogService, 'closeDialog').and.callThrough();
 
     component.ngOnInit();
     component.closeAccount();
 
     expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+    authService.coreLogout().then(() => {
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+    expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 
   it('should dismiss modal when account failed to close', () => {
     spyOn(component, 'onError').and.callThrough();
-    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+    // spyOn(launchDialogService, 'closeDialog').and.callThrough();
     (userFacade.close as any).and.returnValue(throwError(undefined));
 
     component.ngOnInit();
@@ -135,6 +155,14 @@ describe('CloseAccountModalComponent', () => {
 
     expect(component.onError).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalled();
+  });
+
+  it('should closeModal when user click outside', () => {
+    const el = fixture.debugElement.nativeElement;
+    spyOn(component, 'dismissModal');
+
+    el.click();
+    expect(component.dismissModal).toHaveBeenCalledWith('Cross click');
   });
 });

@@ -6,13 +6,16 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_ESLINT_PLUGIN,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_S4OM,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
@@ -127,6 +130,7 @@ describe('Graph utils', () => {
         SPARTACUS_CHECKOUT,
         SPARTACUS_TRACKING,
         SPARTACUS_ASM,
+        SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CDS,
@@ -137,6 +141,8 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_CUSTOMER_TICKETING,
+        SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
   });
@@ -144,7 +150,7 @@ describe('Graph utils', () => {
   describe('feature dependency graph', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
-        Array [
+        [
           "User-Account",
           "User-Profile",
           "Cart",
@@ -162,18 +168,23 @@ describe('Graph utils', () => {
           "VC-Configurator",
           "CPQ-Configurator",
           "Textfield-Configurator",
+          "Administration",
+          "Account-Summary",
+          "Unit-Order",
+          "Organization-User-Registration",
+          "Order-Approval",
+          "S4HANA-Order-Management",
           "EPD-Visualization",
           "Digital-Payments",
           "CDS",
           "CDC",
+          "Customer-Ticketing",
           "Store-Finder",
           "SmartEdit",
           "Qualtrics",
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Order-Approval",
-          "Administration",
           "ASM",
         ]
       `);

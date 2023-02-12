@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthConfigService, AuthToken } from '@spartacus/core';
@@ -32,11 +38,11 @@ export class CdcUserAuthenticationTokenService {
       .set('client_id', this.authConfigService.getClientId())
       .set('client_secret', this.authConfigService.getClientSecret())
       .set('grant_type', 'custom')
-      .set('UID', UID)
-      .set('UIDSignature', UIDSignature)
-      .set('timeStamp', signatureTimestamp)
-      .set('idToken', idToken)
-      .set('baseSite', baseSite);
+      .set('UID', encodeURIComponent(UID))
+      .set('UIDSignature', encodeURIComponent(UIDSignature))
+      .set('signatureTimestamp', encodeURIComponent(signatureTimestamp))
+      .set('id_token', encodeURIComponent(idToken))
+      .set('baseSite', encodeURIComponent(baseSite));
 
     return this.http
       .post<Partial<AuthToken> & { expires_in?: number }>(url, params)

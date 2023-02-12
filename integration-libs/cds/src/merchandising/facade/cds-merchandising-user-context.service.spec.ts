@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ConverterService,
   PageContext,
   PageType,
   ProductSearchPage,
@@ -8,18 +7,14 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
 import {
-  MERCHANDISING_FACET_NORMALIZER,
-  MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER,
-} from './../connectors/strategy/converters';
-import { MerchandisingUserContext } from './../model/merchandising-user-context.model';
-import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
-import {
+  ProfileTagEventService,
+  MerchandisingUserContext,
+  CdsMerchandisingUserContextService,
   ConsentChangedPushEvent,
   ProfileTagLifecycleService,
 } from '@spartacus/cds';
+import { FacetService, FacetList } from '@spartacus/storefront';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
@@ -48,13 +43,16 @@ class ProfileTagLifecycleServiceStub {
     return of(consentNotGrantedEvent);
   }
 }
+class FacetServiceStub {
+  facetList$ = of();
+}
 describe('CdsMerchandisingUserContextService', () => {
   let cdsMerchandisingUserContextService: CdsMerchandisingUserContextService;
   let routingService: RoutingService;
   let productSearchService: ProductSearchService;
-  let converterService: ConverterService;
   let profileTagEventService: ProfileTagEventService;
   let profileTagLifecycleService: ProfileTagLifecycleService;
+  let facetService: FacetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,16 +66,16 @@ describe('CdsMerchandisingUserContextService', () => {
           useClass: ProductSearchServiceStub,
         },
         {
-          provide: ConverterService,
-          useClass: ConverterService,
-        },
-        {
           provide: ProfileTagEventService,
           useClass: ProfileTagEventServiceStub,
         },
         {
           provide: ProfileTagLifecycleService,
           useClass: ProfileTagLifecycleServiceStub,
+        },
+        {
+          provide: FacetService,
+          useClass: FacetServiceStub,
         },
       ],
     });
@@ -86,9 +84,9 @@ describe('CdsMerchandisingUserContextService', () => {
     );
     routingService = TestBed.inject(RoutingService);
     productSearchService = TestBed.inject(ProductSearchService);
-    converterService = TestBed.inject(ConverterService);
     profileTagEventService = TestBed.inject(ProfileTagEventService);
     profileTagLifecycleService = TestBed.inject(ProfileTagLifecycleService);
+    facetService = TestBed.inject(FacetService);
   });
 
   it('should be created', () => {
@@ -98,6 +96,8 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const expectedMerchandisingUserContext = {
       consentReference: '',
+      facets: undefined,
+      searchPhrase: undefined,
     };
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
@@ -117,6 +117,8 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, with a valid consent reference, if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const expectedMerchandisingUserContext = {
       consentReference: `${consentReference}`,
+      facets: undefined,
+      searchPhrase: undefined,
     };
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
@@ -141,15 +143,10 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are no facets, but a brandCode exists, and the page is a CATEGORY_PAGE', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: 'brand123',
-      facets: undefined,
       consentReference: '',
+      facets: undefined,
+      searchPhrase: undefined,
     };
-
-    spyOn(converterService, 'pipeable')
-      .withArgs(MERCHANDISING_FACET_NORMALIZER)
-      .and.returnValue(map(() => undefined))
-      .withArgs(MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER)
-      .and.returnValue(map(() => undefined));
 
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(emptyPageSearchResults)
@@ -169,8 +166,9 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are no facets, but a categoryCode exists, and the page is a CATEGORY_PAGE', () => {
     const expectedUserContext: MerchandisingUserContext = {
       category: '574',
-      facets: undefined,
       consentReference: '',
+      facets: undefined,
+      searchPhrase: undefined,
     };
 
     spyOn(routingService, 'getPageContext').and.returnValue(
@@ -179,11 +177,6 @@ describe('CdsMerchandisingUserContextService', () => {
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(emptyPageSearchResults)
     );
-    spyOn(converterService, 'pipeable')
-      .withArgs(MERCHANDISING_FACET_NORMALIZER)
-      .and.returnValue(map(() => undefined))
-      .withArgs(MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER)
-      .and.returnValue(map(() => undefined));
 
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
@@ -217,10 +210,16 @@ describe('CdsMerchandisingUserContextService', () => {
   it('should return a valid MerchandisingUserContext object, if there are facets, but the page type is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
     const expectedMerchandisingUserContext = {
       consentReference: '',
+      facets: 'category:584:price:$200-$499.99',
+      searchPhrase: 'something',
     };
 
     const pageSearchResults: ProductSearchPage = {
-      breadcrumbs: [
+      freeTextSearch: 'something',
+    };
+
+    const merchandisingFacets = {
+      activeFacets: [
         {
           facetCode: 'category',
           facetName: 'Category',
@@ -234,20 +233,8 @@ describe('CdsMerchandisingUserContextService', () => {
           facetValueName: '$200-$499.99',
         },
       ],
-    };
-
-    const merchandisingFacets = [
-      {
-        code: pageSearchResults.breadcrumbs[0].facetCode,
-        value: pageSearchResults.breadcrumbs[0].facetValueCode,
-      },
-      {
-        code: pageSearchResults.breadcrumbs[1].facetCode,
-        value: pageSearchResults.breadcrumbs[1].facetValueCode,
-      },
-    ];
-
-    const queryParams = `${merchandisingFacets[0].code}:${merchandisingFacets[0].value}:${merchandisingFacets[1].code}:${merchandisingFacets[1].value}`;
+    } as FacetList;
+    facetService.facetList$ = of(merchandisingFacets);
 
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
@@ -255,11 +242,6 @@ describe('CdsMerchandisingUserContextService', () => {
     spyOn(productSearchService, 'getResults').and.returnValue(
       of(pageSearchResults)
     );
-    spyOn(converterService, 'pipeable')
-      .withArgs(MERCHANDISING_FACET_NORMALIZER)
-      .and.returnValue(map(() => merchandisingFacets))
-      .withArgs(MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER)
-      .and.returnValue(map(() => queryParams));
 
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService

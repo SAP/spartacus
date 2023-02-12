@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { TabbingOrderConfig, TabbingOrderTypes } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
@@ -175,10 +181,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Overview',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Basics',
       type: TabbingOrderTypes.BUTTON,
     },
@@ -214,7 +216,22 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Configuration',
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+
+  productConfigurationOverviewPost2211: [
+    {
+      value: 'show more',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -223,6 +240,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Menu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Filter',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -669,6 +694,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Unit-Level Orders',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1121,6 +1150,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Unit-Level Orders',
       type: TabbingOrderTypes.LINK,
     },
     {

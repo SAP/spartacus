@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * A subset of the content types that may be returned by the EPD Visualization service.
  * We use filtering to ensure that we only get visualizations of the types below returned.

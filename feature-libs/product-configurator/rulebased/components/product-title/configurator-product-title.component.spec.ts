@@ -4,8 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   Product,
   ProductService,
@@ -25,6 +23,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -52,6 +51,12 @@ const config: Configurator.Configuration = {
   ),
 
   productCode: PRODUCT_CODE,
+  kbKey: {
+    kbName: PRODUCT_CODE + '_KB',
+    kbBuildNumber: '2',
+    kbLogsys: 'RR5CLNT910',
+    kbVersion: '1',
+  },
 };
 
 const orderEntryconfig: Configurator.Configuration = {
@@ -152,22 +157,27 @@ class MockMediaComponent {
   @Input() format: any;
 }
 
+class MockConfiguratorExpertModeService {
+  setExpModeRequested(): void {}
+  getExpModeRequested() {}
+  setExpModeActive(): void {}
+  getExpModeActive(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
   let changeDetectorRef: ChangeDetectorRef;
   let configuratorUtils: CommonConfiguratorUtilsService;
+  let configExpertModeService: ConfiguratorExpertModeService;
   let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          NgSelectModule,
-          FeaturesConfigModule,
-        ],
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
         declarations: [
           ConfiguratorProductTitleComponent,
           MockCxIconComponent,
@@ -191,11 +201,10 @@ describe('ConfigProductTitleComponent', () => {
             useClass: MockProductService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+
           {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '3.3' },
-            },
+            provide: ConfiguratorExpertModeService,
+            useClass: MockConfiguratorExpertModeService,
           },
         ],
       });
@@ -215,6 +224,12 @@ describe('ConfigProductTitleComponent', () => {
     configuratorUtils.setOwnerKey(orderEntryconfig.owner);
     configuration = config;
 
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
+    spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
+    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
+
     fixture.detectChanges();
   });
 
@@ -224,15 +239,15 @@ describe('ConfigProductTitleComponent', () => {
 
   describe('product$', () => {
     it('should get product name as part of product of configuration', () => {
-      component.product$.subscribe((data: Product) => {
-        expect(data.name).toEqual(PRODUCT_NAME);
+      component.product$.subscribe((data: Product | undefined) => {
+        expect(data?.name).toEqual(PRODUCT_NAME);
       });
     });
 
     it('should get product name as part of product from overview, in case configuration is order bound', () => {
       configuration = orderEntryconfig;
-      component.product$.subscribe((data: Product) => {
-        expect(data.name).toEqual(PRODUCT_NAME);
+      component.product$.subscribe((data: Product | undefined) => {
+        expect(data?.name).toEqual(PRODUCT_NAME);
       });
     });
 
@@ -300,6 +315,67 @@ describe('ConfigProductTitleComponent', () => {
       htmlElem,
       '.cx-title',
       PRODUCT_NAME
+    );
+  });
+
+  it('should render kb key details properly', () => {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'div.cx-kb-key-details'
+    );
+
+    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'div.cx-kb-pair',
+      4
+    );
+
+    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'span.cx-label',
+      4
+    );
+
+    CommonConfiguratorTestUtilsService.expectNumberOfElementsPresent(
+      expect,
+      htmlElem,
+      'span.cx-value',
+      4
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'span.cx-value',
+      configuration.kbKey?.kbName ?? '',
+      0
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'span.cx-value',
+      configuration.kbKey?.kbLogsys ?? '',
+      1
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'span.cx-value',
+      configuration.kbKey?.kbVersion ?? '',
+      2
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'span.cx-value',
+      configuration.kbKey?.kbBuildNumber ?? '',
+      3
     );
   });
 
@@ -434,6 +510,60 @@ describe('ConfigProductTitleComponent', () => {
         'aria-label',
         'configurator.a11y.productDescription',
         product.description
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute for kb key name that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-label',
+        0,
+        'aria-label',
+        'configurator.a11y.kbKeyName name:' + configuration.kbKey?.kbName,
+        'configurator.header.kbKeyName'
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute for kb key logical system that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-label',
+        1,
+        'aria-label',
+        'configurator.a11y.kbKeyLogsys logsys:' + configuration.kbKey?.kbLogsys,
+        'configurator.header.kbKeyLogsys'
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute for kb key version that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-label',
+        2,
+        'aria-label',
+        'configurator.a11y.kbKeyVersion version:' +
+          configuration.kbKey?.kbVersion,
+        'configurator.header.kbKeyVersion'
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute for kb key build number that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-label',
+        3,
+        'aria-label',
+        'configurator.a11y.kbKeyBuildNr number:' +
+          configuration.kbKey?.kbBuildNumber,
+        'configurator.header.kbKeyBuildNr'
       );
     });
   });

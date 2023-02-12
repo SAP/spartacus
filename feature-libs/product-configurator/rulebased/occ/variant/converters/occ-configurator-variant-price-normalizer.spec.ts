@@ -83,55 +83,43 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
         configId: 'configId',
       };
       const result: Configurator.Configuration = classUnderTest.convert(source);
-      expect(result.priceSupplements.length).toBe(0);
+      expect(result.priceSupplements?.length).toBe(0);
     });
 
     it('should return a configuration with a list of price supplements', () => {
       const source: OccConfigurator.Prices =
         OccConfiguratorTestUtils.createOccConfiguratorPrices(false, 1, 0, 3, 3);
       const result: Configurator.Configuration = classUnderTest.convert(source);
-      expect(result.priceSupplements.length).toBe(3);
-      expect(result.priceSupplements[0].attributeUiKey).toBe(
-        'group1@attribute_1_1'
-      );
-      expect(result.priceSupplements[0].valueSupplements.length).toBe(3);
-      expect(
-        result.priceSupplements[0].valueSupplements[0].attributeValueKey
-      ).toBe('value_1_1');
-      expect(
-        result.priceSupplements[0].valueSupplements[1].attributeValueKey
-      ).toBe('value_1_2');
-      expect(
-        result.priceSupplements[0].valueSupplements[2].attributeValueKey
-      ).toBe('value_1_3');
-
-      expect(result.priceSupplements[1].attributeUiKey).toBe(
-        'group1@attribute_1_2'
-      );
-      expect(result.priceSupplements[1].valueSupplements.length).toBe(3);
-      expect(
-        result.priceSupplements[1].valueSupplements[0].attributeValueKey
-      ).toBe('value_2_1');
-      expect(
-        result.priceSupplements[1].valueSupplements[1].attributeValueKey
-      ).toBe('value_2_2');
-      expect(
-        result.priceSupplements[1].valueSupplements[2].attributeValueKey
-      ).toBe('value_2_3');
-
-      expect(result.priceSupplements[2].attributeUiKey).toBe(
-        'group1@attribute_1_3'
-      );
-      expect(result.priceSupplements[2].valueSupplements.length).toBe(3);
-      expect(
-        result.priceSupplements[2].valueSupplements[0].attributeValueKey
-      ).toBe('value_3_1');
-      expect(
-        result.priceSupplements[2].valueSupplements[1].attributeValueKey
-      ).toBe('value_3_2');
-      expect(
-        result.priceSupplements[2].valueSupplements[2].attributeValueKey
-      ).toBe('value_3_3');
+      expect(result.priceSupplements?.length).toBe(3);
+      let suppl = result.priceSupplements
+        ? result.priceSupplements[0]
+        : undefined;
+      expect(suppl).toBeDefined();
+      if (suppl) {
+        expect(suppl.attributeUiKey).toBe('group1@attribute_1_1');
+        expect(suppl.valueSupplements.length).toBe(3);
+        expect(suppl.valueSupplements[0].attributeValueKey).toBe('value_1_1');
+        expect(suppl.valueSupplements[1].attributeValueKey).toBe('value_1_2');
+        expect(suppl.valueSupplements[2].attributeValueKey).toBe('value_1_3');
+      }
+      suppl = result.priceSupplements ? result.priceSupplements[1] : undefined;
+      expect(suppl).toBeDefined();
+      if (suppl) {
+        expect(suppl.attributeUiKey).toBe('group1@attribute_1_2');
+        expect(suppl.valueSupplements.length).toBe(3);
+        expect(suppl.valueSupplements[0].attributeValueKey).toBe('value_2_1');
+        expect(suppl.valueSupplements[1].attributeValueKey).toBe('value_2_2');
+        expect(suppl.valueSupplements[2].attributeValueKey).toBe('value_2_3');
+      }
+      suppl = result.priceSupplements ? result.priceSupplements[2] : undefined;
+      expect(suppl).toBeDefined();
+      if (suppl) {
+        expect(suppl.attributeUiKey).toBe('group1@attribute_1_3');
+        expect(suppl.valueSupplements.length).toBe(3);
+        expect(suppl.valueSupplements[0].attributeValueKey).toBe('value_3_1');
+        expect(suppl.valueSupplements[1].attributeValueKey).toBe('value_3_2');
+        expect(suppl.valueSupplements[2].attributeValueKey).toBe('value_3_3');
+      }
     });
   });
 });

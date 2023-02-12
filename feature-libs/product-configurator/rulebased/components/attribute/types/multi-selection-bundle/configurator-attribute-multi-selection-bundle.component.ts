@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -101,7 +107,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
         (selectionValue) => selectionValue.valueCode === eventValue.valueCode
       );
 
-    if (!value) return;
+    if (!value) {
+      return;
+    }
 
     value.quantity = eventValue.quantity;
 

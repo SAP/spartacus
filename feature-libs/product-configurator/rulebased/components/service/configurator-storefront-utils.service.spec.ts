@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -139,19 +139,6 @@ describe('ConfigUtilsService', () => {
     }
   });
 
-  it("should not scroll to element because browser set to 'false' of windowRef", () => {
-    spyOn(windowRef, 'isBrowser').and.returnValue(true);
-    const nativeWindow = windowRef.nativeWindow;
-    if (nativeWindow) {
-      spyOn(nativeWindow, 'scroll').and.callThrough();
-      classUnderTest.scrollToConfigurationElement(
-        '.VariantConfigurationTemplate'
-      );
-
-      expect(nativeWindow.scroll).toHaveBeenCalledTimes(0);
-    }
-  });
-
   it('should return false because the product has not been added to the cart and the current group was not visited', () => {
     isGroupVisited = of(false);
     owner.type = CommonConfigurator.OwnerType.PRODUCT;
@@ -170,9 +157,9 @@ describe('ConfigUtilsService', () => {
   });
 
   it('should assemble values from a checkbox list into an attribute value', () => {
-    const controlArray = new Array<FormControl>();
-    const control1 = new FormControl(true);
-    const control2 = new FormControl(false);
+    const controlArray = new Array<UntypedFormControl>();
+    const control1 = new UntypedFormControl(true);
+    const control2 = new UntypedFormControl(false);
     controlArray.push(control1, control2);
     const attribute: Configurator.Attribute = {
       name: 'attr',
@@ -194,9 +181,9 @@ describe('ConfigUtilsService', () => {
   });
 
   it('should gracefully handle situation that control array has values not present in attribute', () => {
-    const controlArray = new Array<FormControl>();
-    const control1 = new FormControl(true);
-    const control2 = new FormControl(false);
+    const controlArray = new Array<UntypedFormControl>();
+    const control1 = new UntypedFormControl(true);
+    const control2 = new UntypedFormControl(false);
     controlArray.push(control1, control2);
     const attribute: Configurator.Attribute = {
       name: 'attr',
@@ -209,6 +196,50 @@ describe('ConfigUtilsService', () => {
         attribute
       );
     expect(values.length).toBe(1);
+  });
+
+  it('should gracefully handle situation that no values are present: an empty array should be returned', () => {
+    const controlArray = new Array<UntypedFormControl>();
+    const control1 = new UntypedFormControl(true);
+    controlArray.push(control1);
+    const attribute: Configurator.Attribute = {
+      name: 'attr',
+    };
+
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+    expect(values.length).toBe(0);
+  });
+
+  describe('scroll', () => {
+    it('should handle situation that we are not in browser environment', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      classUnderTest['scroll'](fixture.debugElement.nativeElement);
+      expect(windowRef.nativeWindow).toBeUndefined();
+    });
+  });
+
+  describe('createOvGroupId', () => {
+    it('should create a group id from its 2 parameters', () => {
+      expect(classUnderTest.createOvGroupId('A', 'B')).toBe('idAB-ovGroup');
+    });
+  });
+
+  describe('focusOnElementForConflicting', () => {
+    it('should return focusable element if provided and attribute carries no values', () => {
+      const attribute: Configurator.Attribute = { name: 'Name' };
+      const foundFocusableElement = fixture.debugElement.nativeElement;
+      expect(
+        classUnderTest['focusOnElementForConflicting'](
+          attribute,
+          foundFocusableElement,
+          []
+        )
+      ).toBe(foundFocusableElement);
+    });
   });
 
   describe('Focused elements', () => {

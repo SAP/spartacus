@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { products } from '../sample-data/apparel-checkout-flow';
 import {
   cart,
@@ -196,26 +202,27 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
     .find('.cx-summary-amount')
     .should('contain', cart.total);
 
+  fillShippingAddress(shippingAddressData);
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
   /**
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
-
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-  fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
-
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
@@ -245,6 +252,9 @@ export function fillPaymentForm(
     .find('.cx-summary-amount')
     .should('not.be.empty');
   fillPaymentDetails(paymentDetailsData, billingAddress);
+
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 export function verifyReviewOrderPage() {
@@ -459,7 +469,17 @@ export function fillPaymentFormWithCheapProduct(
     .should('not.be.empty');
 
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPayment');
+
   fillPaymentDetails(paymentDetailsData, billingAddress);
+
+  cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 

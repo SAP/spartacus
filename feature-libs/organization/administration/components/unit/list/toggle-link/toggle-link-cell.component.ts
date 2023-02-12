@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';

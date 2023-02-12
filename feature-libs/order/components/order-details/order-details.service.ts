@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
@@ -36,6 +42,10 @@ export class OrderDetailsService {
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
+  }
+
+  isOrderDetailsLoading(): Observable<boolean> {
+    return this.orderHistoryFacade.getOrderDetailsLoading();
   }
 
   getOrderDetails(): Observable<Order> {

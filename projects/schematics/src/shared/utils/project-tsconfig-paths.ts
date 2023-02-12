@@ -1,9 +1,8 @@
-/**
- * @license
+/*
  * Copyright Google LLC All Rights Reserved.
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 import { normalize } from '@angular-devkit/core';

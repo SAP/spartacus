@@ -79,7 +79,12 @@ describe('dependency-util', () => {
         CDC_FEATURE_NAME,
       ]);
 
-      expect(result).toEqual([SPARTACUS_USER, SPARTACUS_ASM, SPARTACUS_CDC]);
+      expect(result).toEqual([
+        SPARTACUS_USER,
+        SPARTACUS_CART,
+        SPARTACUS_ASM,
+        SPARTACUS_CDC,
+      ]);
     });
   });
 
@@ -106,7 +111,12 @@ describe('dependency-util', () => {
         SPARTACUS_CDC,
       ]);
 
-      expect(result).toEqual([SPARTACUS_USER, SPARTACUS_ASM, SPARTACUS_CDC]);
+      expect(result).toEqual([
+        SPARTACUS_USER,
+        SPARTACUS_CART,
+        SPARTACUS_ASM,
+        SPARTACUS_CDC,
+      ]);
     });
 
     it('Core libs, Organization and Product configurator', () => {

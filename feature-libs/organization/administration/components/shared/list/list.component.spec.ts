@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -240,6 +246,31 @@ describe('ListComponent', () => {
       );
       expect(el).toBeTruthy();
       expect(el.nativeElement.innerText).toBe('orgBudget.hint');
+    });
+  });
+
+  describe('hideAddButton', () => {
+    let el: DebugElement;
+
+    beforeEach(() => {
+      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      fixture = TestBed.createComponent(MockListComponent);
+      el = fixture.debugElement;
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('it should show add button by default', () => {
+      fixture.detectChanges();
+      const addBtn = el.query(By.css('a'));
+      expect(addBtn).toBeTruthy();
+    });
+
+    it('it should hide add button', () => {
+      component.hideAddButton = true;
+      fixture.detectChanges();
+      const addBtn = el.query(By.css('a'));
+      expect(addBtn).toBeNull();
     });
   });
 });

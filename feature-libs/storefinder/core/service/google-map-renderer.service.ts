@@ -1,4 +1,10 @@
-/// <reference types="@types/googlemaps" />
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/// <reference types="@types/google.maps" />
 import { Injectable } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
@@ -29,7 +35,7 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0)
+    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
       if (this.googleMap === null) {
         this.scriptLoader.embedScript({
           src: this.config.googleMaps.apiUrl,
@@ -42,6 +48,7 @@ export class GoogleMapRendererService {
       } else {
         this.drawMap(mapElement, locations, selectMarkerHandler);
       }
+    }
   }
 
   /**

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, Occ, B2BApprovalProcess } from '@spartacus/core';
 
@@ -7,7 +13,9 @@ import { Converter, Occ, B2BApprovalProcess } from '@spartacus/core';
 export class OccOrgUnitApprovalProcessNormalizer
   implements Converter<Occ.B2BApprovalProcessList, B2BApprovalProcess[]>
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(
     source: Occ.B2BApprovalProcessList,

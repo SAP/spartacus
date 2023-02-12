@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -208,9 +214,15 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    if (!this.customClass) this.customClass = 'cx-popover';
-    if (!this.position) this.position = 'top';
-    if (this.autoPositioning === undefined) this.autoPositioning = true;
+    if (!this.customClass) {
+      this.customClass = 'cx-popover';
+    }
+    if (!this.position) {
+      this.position = 'top';
+    }
+    if (this.autoPositioning === undefined) {
+      this.autoPositioning = true;
+    }
 
     this.baseClass = `${this.customClass}`;
 

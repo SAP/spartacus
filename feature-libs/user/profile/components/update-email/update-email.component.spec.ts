@@ -4,7 +4,11 @@ import {
   DebugElement,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -26,10 +30,10 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 class MockUpdateEmailService implements Partial<UpdateEmailComponentService> {
-  form: FormGroup = new FormGroup({
-    email: new FormControl(),
-    confirmEmail: new FormControl(),
-    password: new FormControl(),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    email: new UntypedFormControl(),
+    confirmEmail: new UntypedFormControl(),
+    password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
   save = createSpy().and.stub();

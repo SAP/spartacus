@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -7,6 +13,7 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
@@ -19,6 +26,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     ListNavigationModule,
     I18nModule,
     SpinnerModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

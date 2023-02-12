@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';

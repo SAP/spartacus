@@ -1,22 +1,64 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ModalService } from '../../../../../shared/components/modal/index';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  Component,
+  ElementRef,
+  ChangeDetectionStrategy,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { CustomerCoupon } from '@spartacus/core';
+import { Subscription } from 'rxjs';
+import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
 
 @Component({
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CouponDialogComponent {
+export class CouponDialogComponent implements OnDestroy, OnInit {
+  private subscription = new Subscription();
   iconTypes = ICON_TYPE;
   coupon: CustomerCoupon;
 
-  @ViewChild('dialog', { read: ElementRef })
-  dialog: ElementRef;
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
 
-  constructor(protected modalService: ModalService) {}
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.close('Cross click');
+    }
+  }
 
-  dismissModal(reason?: any): void {
-    this.modalService.dismissActiveModal(reason);
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
+  ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe((data) => {
+        this.coupon = data.coupon;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
+
+  close(reason?: any): void {
+    this.launchDialogService.closeDialog(reason);
   }
 }

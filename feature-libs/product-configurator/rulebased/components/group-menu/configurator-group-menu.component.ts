@@ -1,7 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Optional,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -23,6 +30,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -101,6 +109,34 @@ export class ConfiguratorGroupMenuComponent {
   WARNING = ' WARNING';
   ICON = 'ICON';
 
+  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
+  constructor(
+    configCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    hamburgerMenuService: HamburgerMenuService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    configGroupMenuService: ConfiguratorGroupMenuService,
+    directionService: DirectionService,
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configExpertModeService: ConfiguratorExpertModeService
+  );
+
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    configCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    hamburgerMenuService: HamburgerMenuService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    configGroupMenuService: ConfiguratorGroupMenuService,
+    directionService: DirectionService,
+    translation: TranslationService
+  );
+
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -109,7 +145,9 @@ export class ConfiguratorGroupMenuComponent {
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configGroupMenuService: ConfiguratorGroupMenuService,
     protected directionService: DirectionService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    @Optional()
+    protected configExpertModeService?: ConfiguratorExpertModeService
   ) {}
 
   click(group: Configurator.Group): void {
@@ -494,7 +532,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates aria-label for group menu item
    *
-   * @param {string} groupId - group ID
+   * @param {Configurator.Group} group - group
    * @returns {string | undefined} - generated group ID
    */
   getAriaLabel(group: Configurator.Group): string {
@@ -524,7 +562,7 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Generates an id for icons.
    *
-   * @param {string} prefix - prefix for type of icon
+   * @param {ICON_TYPE} type - icon type
    * @param {string} groupId - group id
    * @returns {string | undefined} - generated icon id
    */
@@ -583,5 +621,44 @@ export class ConfiguratorGroupMenuComponent {
         return ariaDescribedby;
       })
     );
+  }
+
+  getGroupMenuTitle(group: Configurator.Group): string | undefined {
+    let title = group.description;
+    if (!this.isConflictHeader(group) && !this.isConflictGroup(group)) {
+      this.configExpertModeService
+        ?.getExpModeActive()
+        .pipe(take(1))
+        .subscribe((expMode) => {
+          if (expMode) {
+            title += ` / [${group.name}]`;
+          }
+        });
+    }
+    return title;
+  }
+
+  displayMenuItem(group: Configurator.Group): Observable<boolean> {
+    return this.configuration$.pipe(
+      map((configuration) => {
+        let displayMenuItem = true;
+        if (
+          configuration.immediateConflictResolution &&
+          group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+        ) {
+          displayMenuItem = false;
+        }
+        return displayMenuItem;
+      })
+    );
+  }
+
+  /**
+   * Checks if conflict solver dialog is active
+   * @param configuration
+   * @returns Conflict solver dialog active?
+   */
+  isDialogActive(configuration: Configurator.Configuration): boolean {
+    return configuration.interactionState.showConflictSolverDialog ?? false;
   }
 }

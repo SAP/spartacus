@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { FocusConfig } from './keyboard-focus.model';
 import { LockFocusDirective } from './lock/lock-focus.directive';

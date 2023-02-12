@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   CMS_FLEX_COMPONENT_TYPE,
@@ -127,7 +133,7 @@ export class OccCmsPageNormalizer
             comp.flexType = component.typeCode;
           }
           if (slot.position) {
-            let targetSlot = target.page?.slots?.[slot.position];
+            const targetSlot = target.page?.slots?.[slot.position];
             if (targetSlot) {
               if (!targetSlot.components) {
                 targetSlot.components = [];

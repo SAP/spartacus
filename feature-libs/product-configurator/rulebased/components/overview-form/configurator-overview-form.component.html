@@ -5,7 +5,8 @@
         groups;
         context: {
           overviewGroups: configuration.overview.groups,
-          level: 1
+          level: 1,
+          idPrefix: ''
         }
       "
     ></ng-container>
@@ -14,22 +15,23 @@
 
 <ng-template #noAttributes>
   <div class="cx-no-attribute-value-pairs">
-    <!-- We currently do not support filtering on overview page so this should never be displayed -->
     <h2>{{ 'configurator.overviewForm.noAttributeHeader' | cxTranslate }}</h2>
     <p>{{ 'configurator.overviewForm.noAttributeText' | cxTranslate }}</p>
   </div>
 </ng-template>
 
-<ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+<ng-template
+  #groups
+  let-overviewGroups="overviewGroups"
+  let-level="level"
+  let-idPrefix="idPrefix"
+>
   <span class="cx-visually-hidden">
     {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
   </span>
+
   <ng-container *ngFor="let group of overviewGroups">
-    <div
-      class="cx-group"
-      [class.topLevel]="level === 1"
-      [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
-    >
+    <div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">
       <span class="cx-visually-hidden">
         {{
           'configurator.a11y.group'
@@ -39,7 +41,7 @@
                 }
         }}
       </span>
-      <h2 aria-hidden="true">
+      <h2 aria-hidden="true" id="{{ getGroupId(idPrefix, group.id) }}">
         <span>{{ group.groupDescription }}</span>
       </h2>
 
@@ -71,15 +73,19 @@
           </ng-container>
         </ng-container>
       </div>
+      <ng-container *ngIf="group.subGroups?.length > 0">
+        <ng-container
+          *ngTemplateOutlet="
+            groups;
+            context: {
+              overviewGroups: group.subGroups,
+              level: level + 1,
+              idPrefix: idPrefix + group.id
+            }
+          "
+        ></ng-container>
+      </ng-container>
     </div>
-    <ng-container *ngIf="group.subGroups?.length > 0">
-      <ng-container
-        *ngTemplateOutlet="
-          groups;
-          context: { overviewGroups: group.subGroups, level: level + 1 }
-        "
-      ></ng-container>
-    </ng-container>
   </ng-container>
 </ng-template>
 

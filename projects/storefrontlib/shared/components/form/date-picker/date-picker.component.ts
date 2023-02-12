@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { DatePickerService } from './date-picker.service';
 
 /**
@@ -20,7 +26,7 @@ import { DatePickerService } from './date-picker.service';
 })
 export class DatePickerComponent {
   constructor(protected service: DatePickerService) {}
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
   @Input() min?: string;
   @Input() max?: string;
   @Input() required?: boolean;

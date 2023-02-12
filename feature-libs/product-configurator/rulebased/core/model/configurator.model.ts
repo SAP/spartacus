@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
 // Note that this namespace should be augmentable, therefore it's exposed in the 'public_api.ts'
@@ -30,6 +36,7 @@ export namespace Configurator {
     intervalInDomain?: boolean;
     key?: string;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {
@@ -88,6 +95,14 @@ export namespace Configurator {
     errorMessages?: string[];
     warningMessages?: string[];
     variants?: Variant[];
+    kbKey?: KB;
+    pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
+  }
+
+  export interface ConfigurationWithOverview extends Configuration {
+    overview: Overview;
   }
 
   export interface InteractionState {
@@ -97,6 +112,8 @@ export namespace Configurator {
       [id: string]: boolean;
     };
     issueNavigationDone?: boolean;
+    isConflictResolutionMode?: boolean;
+    showConflictSolverDialog?: boolean;
   }
 
   export interface Overview {
@@ -107,6 +124,9 @@ export namespace Configurator {
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode: string;
+    attributeFilters?: OverviewFilter[];
+    groupFilters?: string[];
+    possibleGroups?: GroupOverview[];
   }
 
   export interface GroupOverview {
@@ -174,6 +194,13 @@ export namespace Configurator {
     productCode: string;
   }
 
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
+  }
+
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
     SUB_ITEM_GROUP = 'SubItemGroup',
@@ -238,4 +265,12 @@ export namespace Configurator {
     NONE = 'NONE',
     NUMERIC = 'NUMERIC',
   }
+  export enum OverviewFilter {
+    VISIBLE = 'PRIMARY',
+    USER_INPUT = 'USER_INPUT',
+    PRICE_RELEVANT = 'PRICE_RELEVANT',
+  }
+
+  export const ConflictIdPrefix = 'CONFLICT';
+  export const ConflictHeaderId = 'CONFLICT_HEADER';
 }

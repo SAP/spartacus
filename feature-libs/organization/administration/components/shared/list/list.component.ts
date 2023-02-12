@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -60,6 +66,8 @@ export class ListComponent<T = any, P = PaginationModel> {
     );
 
   @Input() key = this.service.key();
+
+  @Input() hideAddButton = false;
 
   /**
    * Returns the total number of items.

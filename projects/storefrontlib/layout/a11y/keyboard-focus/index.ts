@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // given that we're likely going to refactor the directives, we're
 // NOT exposing all it to the public API.
 export * from './focus.directive';

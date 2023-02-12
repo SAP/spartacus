@@ -30,8 +30,12 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
+          "Organization-User-Registration",
+          "Unit-Order",
+          "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
           "Product-Variants",
@@ -39,6 +43,7 @@
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
@@ -135,6 +140,18 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
+          },
+          {
             "value": "Bulk-Pricing",
             "label": "Product - Bulk Pricing (b2b feature)"
           },
@@ -163,6 +180,10 @@
             "label": "Qualtrics"
           },
           {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
+          },
+          {
             "value": "SmartEdit",
             "label": "SmartEdit"
           },
@@ -189,6 +210,10 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
           }
         ]
       }
@@ -218,13 +243,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",

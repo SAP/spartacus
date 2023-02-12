@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* Use this methods if you need to test UI for login/register (eg. form validation).
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
@@ -17,7 +23,7 @@ export function fillRegistrationForm(
   cy.log(`🛒 Registering user ${email} from the registration page`);
   cy.get('cx-register form').should('be.visible');
   cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
     cy.get('[formcontrolname="email"]').type(email);

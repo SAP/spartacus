@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
@@ -36,8 +42,10 @@ export class OrderDetailItemsComponent implements OnInit {
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.enableAddToCart)
   );
+  isOrderLoading$: Observable<boolean>;
 
   ngOnInit() {
+    this.isOrderLoading$ = this.orderDetailsService.isOrderDetailsLoading();
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);

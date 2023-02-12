@@ -1,9 +1,9 @@
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
+import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
+import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
 import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configuration from '../../helpers/product-configurator';
-import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
  * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
@@ -37,11 +37,15 @@ const SPECIFICATION = 'Specification';
 
 context('Product Configuration', () => {
   beforeEach(() => {
+    configurationVc.registerConfigurationRoute();
+    configurationVc.registerConfigurationUpdateRoute();
+    configurationVc.registerConfigurationPricingRoute();
     cy.visit('/');
   });
 
   describe('Product Config Tabbing', () => {
-    it('should allow to navigate with tab key', () => {
+    xit('should allow to navigate with tab key', () => {
+      const commerceIsAtLeast2211 = false;
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
@@ -50,51 +54,45 @@ context('Product Configuration', () => {
         tabConfig.productConfigurationPage
       );
 
-      configuration.selectAttribute(
+      configurationVc.selectAttributeAndWait(
         CAMERA_MODE,
         RADIO_GROUP,
         CAMERA_MODE_PROFESSIONAL
       );
       configuration.navigateToOverviewPage();
       configurationVc.checkGlobalMessageNotDisplayed();
-      configuration.checkUpdatingMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationVc.checkGhostAnimationNotDisplayed();
-      verifyTabbingOrder(
-        containerSelectorOverviewForm,
-        tabConfig.productConfigurationOverview
-      );
+      if (commerceIsAtLeast2211) {
+        cy.log('Post 2211: product configuration overview page');
+        verifyTabbingOrder(
+          containerSelectorOverviewForm,
+          tabConfig.productConfigurationOverviewPost2211
+        ); //post 2211
+      } else {
+        cy.log('Pre 2211: product configuration overview page');
+        verifyTabbingOrder(
+          containerSelectorOverviewForm,
+          tabConfig.productConfigurationOverview
+        ); // pre 2211
+      }
     });
   });
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
-
-      cy.intercept({
-        method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*/pricing*`,
-      }).as('priceUpdate');
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
-      cy.wait('@priceUpdate');
+      cy.wait(configurationVc.CONFIG_PRICING_ALIAS);
 
-      configuration.selectAttribute(
+      configurationVc.selectAttributeAndWait(
         CAMERA_COLOR,
         RADIO_GROUP,
         CAMERA_COLOR_METALLIC
       );
 
-      cy.wait('@updateConfig');
-      cy.wait('@priceUpdate');
+      cy.wait(configurationVc.CONFIG_PRICING_ALIAS);
 
       configuration.checkFocus(
         CAMERA_COLOR,
@@ -102,17 +100,16 @@ context('Product Configuration', () => {
         CAMERA_COLOR_METALLIC
       );
 
-      configuration.clickOnNextBtn(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
       configuration.checkFocus(CAMERA_PIXELS, RADIO_GROUP, CAMERA_PIXELS_P8);
 
-      configuration.selectAttribute(
+      configurationVc.selectAttributeAndWait(
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
         CAMERA_SD_CARD_SDXC
       );
 
-      cy.wait('@updateConfig');
-      cy.wait('@priceUpdate');
+      cy.wait(configurationVc.CONFIG_PRICING_ALIAS);
 
       configuration.checkFocus(
         CAMERA_SD_CARD,

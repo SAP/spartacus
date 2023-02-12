@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
@@ -90,7 +96,7 @@ export class PageMetaService {
    * relevant during browsing.
    */
   protected getResolverMethods(): { [property: string]: string } {
-    let resolverMethods: Record<string, string> = {};
+    const resolverMethods: Record<string, string> = {};
     // filter the resolvers to avoid unnecessary processing in CSR
     this.pageMetaConfig?.pageMeta?.resolvers
       ?.filter((resolver) => {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DecimalPipe, getLocaleId } from '@angular/common';
 import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 import { LanguageService } from '../site-context/facade/language.service';

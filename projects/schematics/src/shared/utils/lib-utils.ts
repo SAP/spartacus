@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
@@ -60,7 +66,12 @@ import {
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
+  getRelativeStyleConfigImportPath,
+  getStylesConfigFilePath,
+} from './styling-utils';
+import {
   getDefaultProjectNameFromWorkspace,
+  getProject,
   getSourceRoot,
   getWorkspace,
   scaffoldStructure,
@@ -615,24 +626,39 @@ export function addLibraryStyles(
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
-    const toAdd = `@import "${stylingConfig.importStyle}";`;
-
+    const libraryStylesImport = `@import "${stylingConfig.importStyle}";`;
     if (tree.exists(libraryScssPath)) {
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
       let content = initialContent;
 
-      if (!content.includes(toAdd)) {
-        content += `\n${toAdd}`;
+      if (!content.includes(libraryStylesImport)) {
+        content += `\n${libraryStylesImport}`;
       }
-
       // prevent the unnecessary Angular logs about the files being updated
       if (initialContent !== content) {
         tree.overwrite(libraryScssPath, content);
       }
       return tree;
     }
+    const styleConfigFilePath = getStylesConfigFilePath(
+      getSourceRoot(tree, {
+        project: project,
+      })
+    );
+    let libraryScssFileContent = '';
 
-    tree.create(libraryScssPath, toAdd);
+    if (tree.exists(styleConfigFilePath)) {
+      const styleConfigImportPath = getRelativeStyleConfigImportPath(
+        getProject(tree, project),
+        libraryScssPath
+      );
+      const stylesConfigImport = `@import "${styleConfigImportPath}";`;
+      libraryScssFileContent += `${stylesConfigImport}\n`;
+    }
+
+    libraryScssFileContent += `${libraryStylesImport}\n`;
+
+    tree.create(libraryScssPath, libraryScssFileContent);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const architect = angularJson.projects[project].architect;

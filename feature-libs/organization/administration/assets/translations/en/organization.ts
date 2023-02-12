@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { orgBudget, orgBudgetAssignedCostCenters } from './budget.i18n';
 import {
   orgCostCenter,
@@ -77,6 +83,10 @@ export const organization = {
       b2badmingroup: 'Admin',
     },
 
+    userRights: {
+      unitorderviewergroup: 'View Unit-Level Orders',
+    },
+
     breadcrumb: 'Organization',
 
     notification: {
@@ -103,6 +113,7 @@ export const organization = {
         unknown: 'Server validation error.',
       },
     },
+    information: 'Information',
   },
 
   // sub feature labels are added below

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -7,7 +13,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -88,7 +94,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       }
     }
 
-    this.attributeInputForm = new FormControl('', [
+    this.attributeInputForm = new UntypedFormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
         numDecimalPlaces,
@@ -229,65 +235,96 @@ export class ConfiguratorAttributeNumericInputFieldComponent
           .subscribe((text) => (intervalText = text));
         return intervalText;
       }
-      this.translation
-        .translate('configurator.a11y.numericIntervalStandard', {
-          minValue: formattedMinValue,
-          maxValue: formattedMaxValue,
-        })
-        .pipe(take(1))
-        .subscribe((text) => (intervalText = text));
+      intervalText = this.getTextForRealInterval(
+        formattedMinValue,
+        formattedMaxValue,
+        intervalText,
+        interval
+      );
+    } else {
+      intervalText = this.getTextForPartialInterval(
+        interval,
+        intervalText,
+        formattedMinValue,
+        formattedMaxValue
+      );
+    }
+    return intervalText;
+  }
 
-      if (!interval.minValueIncluded || !interval.maxValueIncluded) {
-        if (!interval.minValueIncluded && !interval.maxValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
-            'configurator.a11y.numericIntervalStandardOpen'
-          );
-        } else {
-          if (!interval.minValueIncluded) {
-            intervalText += ' ';
-            intervalText += this.getAdditionalIntervalText(
-              'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
-            );
-          }
-          if (!interval.maxValueIncluded) {
-            intervalText += ' ';
-            intervalText += this.getAdditionalIntervalText(
-              'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
-            );
-          }
-        }
+  protected getTextForPartialInterval(
+    interval: ConfiguratorAttributeNumericInterval,
+    intervalText: string,
+    formattedMinValue: string,
+    formattedMaxValue: string
+  ) {
+    if (interval.minValue) {
+      if (interval.minValueIncluded) {
+        intervalText = this.getInfiniteIntervalText(
+          'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
+          formattedMinValue
+        );
+      } else {
+        intervalText = this.getInfiniteIntervalText(
+          'configurator.a11y.numericInfiniteIntervalMinValue',
+          formattedMinValue
+        );
       }
     } else {
-      if (interval.minValue) {
-        if (interval.minValueIncluded) {
+      if (interval.maxValue) {
+        if (interval.maxValueIncluded) {
           intervalText = this.getInfiniteIntervalText(
-            'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
-            formattedMinValue
+            'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
+            formattedMaxValue
           );
         } else {
           intervalText = this.getInfiniteIntervalText(
-            'configurator.a11y.numericInfiniteIntervalMinValue',
-            formattedMinValue
+            'configurator.a11y.numericInfiniteIntervalMaxValue',
+            formattedMaxValue
           );
-        }
-      } else {
-        if (interval.maxValue) {
-          if (interval.maxValueIncluded) {
-            intervalText = this.getInfiniteIntervalText(
-              'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
-              formattedMaxValue
-            );
-          } else {
-            intervalText = this.getInfiniteIntervalText(
-              'configurator.a11y.numericInfiniteIntervalMaxValue',
-              formattedMaxValue
-            );
-          }
         }
       }
     }
     return intervalText;
+  }
+
+  protected getTextForRealInterval(
+    formattedMinValue: string,
+    formattedMaxValue: string,
+    intervalText: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ) {
+    let textToReturn = intervalText;
+    this.translation
+      .translate('configurator.a11y.numericIntervalStandard', {
+        minValue: formattedMinValue,
+        maxValue: formattedMaxValue,
+      })
+      .pipe(take(1))
+      .subscribe((text) => (textToReturn = text));
+
+    if (!interval.minValueIncluded || !interval.maxValueIncluded) {
+      if (!interval.minValueIncluded && !interval.maxValueIncluded) {
+        textToReturn += ' ';
+        textToReturn += this.getAdditionalIntervalText(
+          'configurator.a11y.numericIntervalStandardOpen'
+        );
+      } else {
+        if (!interval.minValueIncluded) {
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
+            'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+          );
+        }
+        if (!interval.maxValueIncluded) {
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
+            'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+          );
+        }
+      }
+    }
+    return textToReturn;
   }
 
   protected getAdditionalIntervalText(key: string): string {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
@@ -12,9 +18,11 @@ import { environment } from '../../environments/environment';
 const defaultBaseSite = [
   'electronics-spa',
   'electronics',
+  'electronics-standalone',
   'apparel-de',
   'apparel-uk',
   'apparel-uk-spa',
+  'apparel-uk-standalone',
 ];
 const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)

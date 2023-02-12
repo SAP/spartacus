@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // '@sapui5/ts-types-esm' package contains types for sap modules, e.g. 'sap/ui/core/Core'
 /// <reference types="@sapui5/ts-types-esm" />
 import {
@@ -833,14 +839,14 @@ export class VisualViewerService implements OnDestroy {
       const nodeRefsToExclude: NodeRef[] = topLevelHotspotNodeRefs.filter(
         (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
       );
-      this.viewport.showHotspots(nodeRefsToExclude, false, null);
+      this.viewport.showHotspots(nodeRefsToExclude, false, 0);
       this.viewport.showHotspots(
         nodeRefsToInclude,
         true,
         this.getCSSColor(this._showAllHotspotsColor)
       );
     } else {
-      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, null);
+      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, 0);
     }
   }
 
@@ -1288,7 +1294,9 @@ export class VisualViewerService implements OnDestroy {
           sap_ui_vk_DrawerToolbar: any
         ) => {
           const core: Core = this.getCore();
-          const uiArea: UIArea = core.getUIArea(this.elementRef.nativeElement);
+          const uiArea: UIArea | null | undefined = core.getUIArea(
+            this.elementRef.nativeElement
+          );
           if (uiArea) {
             const oldViewport = uiArea.getContent()[0] as Viewport;
             this.destroyViewportAssociations(oldViewport);
@@ -1403,7 +1411,7 @@ export class VisualViewerService implements OnDestroy {
           return of(visualizationLoadInfo);
         }),
         catchError(() => {
-          let visualizationLoadInfo = {
+          const visualizationLoadInfo = {
             lookupResult: VisualizationLookupResult.UnexpectedError,
             loadStatus: VisualizationLoadStatus.NotStarted,
           };

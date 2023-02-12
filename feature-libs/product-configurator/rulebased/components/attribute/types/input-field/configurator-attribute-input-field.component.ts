@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +13,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
@@ -25,7 +31,7 @@ export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit, OnDestroy
 {
-  attributeInputForm = new FormControl('');
+  attributeInputForm = new UntypedFormControl('');
   protected sub: Subscription;
 
   @Input() ownerType: CommonConfigurator.OwnerType;

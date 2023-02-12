@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, StaticProvider } from '@angular/core';
 import { Route } from '@angular/router';
 import { Config } from '../../config/config-tokens';
@@ -35,6 +41,7 @@ export interface JspIncludeCmsComponentConfig {
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
+export const SMART_EDIT_DUMMY_COMPONENT_TYPE = 'SmartEditDummyCMSComponent';
 
 /**
  * Configuration of the CMS component's child routes

@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -19,6 +25,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Input() language: string;
   @Input() ownerType: string;
+  @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
@@ -92,7 +99,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: any, form?: FormControl): void {
+  onChangeQuantity(eventObject: any, form?: UntypedFormControl): void {
     if (!eventObject) {
       if (form) {
         form.setValue('0');
@@ -103,7 +110,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     }
   }
 
-  protected getInitialQuantity(form?: FormControl): number {
+  protected getInitialQuantity(form?: UntypedFormControl): number {
     const quantity: number = this.attribute.quantity ?? 0;
     if (form) {
       return form.value !== '0' ? quantity : 0;
@@ -119,7 +126,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    form?: FormControl
+    form?: UntypedFormControl
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity = this.getInitialQuantity(form);
     const disableQuantityActions$ = this.loading$.pipe(
@@ -190,9 +197,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
+    const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
-      let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
+      const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
       return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
     } else {
       return ariaLabel;

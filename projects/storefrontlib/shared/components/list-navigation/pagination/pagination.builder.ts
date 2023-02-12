@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { PaginationConfig } from './config/pagination.config';
 import {
@@ -133,7 +139,9 @@ export class PaginationBuilder {
             isGap ? null : { number: gapNumber }
           ),
         ];
-      } else return [];
+      } else {
+        return [];
+      }
     };
 
     const addLastGap = () => {
@@ -165,7 +173,9 @@ export class PaginationBuilder {
             isGap ? null : { number: nextPageNumber }
           ),
         ];
-      } else return [];
+      } else {
+        return [];
+      }
     };
 
     pages.unshift(...addFirstGap());

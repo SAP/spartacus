@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Rule,
   SchematicContext,
@@ -115,12 +121,18 @@ function addCommonConfiguration(
 }
 
 function createSiteContextConfig(options: SpartacusOptions): string {
-  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
-  const language = parseCSV(options.language, ['en']).toLowerCase();
   let contextConfig = `
-      context: {
-        currency: [${currency}],
-        language: [${language}],`;
+      context: {`;
+
+  if (options.currency) {
+    const currency = parseCSV(options.currency).toUpperCase();
+    contextConfig += `\ncurrency: [${currency}],`;
+  }
+
+  if (options.language) {
+    const language = parseCSV(options.language).toLowerCase();
+    contextConfig += `\nlanguage: [${language}],`;
+  }
 
   if (options.baseSite) {
     const baseSites = parseCSV(options.baseSite);

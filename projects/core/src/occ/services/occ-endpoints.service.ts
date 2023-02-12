@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpParams } from '@angular/common/http';
 import { Injectable, isDevMode, Optional } from '@angular/core';
 import { StringTemplate } from '../../config/utils/string-template';

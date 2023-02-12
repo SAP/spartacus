@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   FIND_COMPONENTS_BY_IDS_LEGACY,
   OCC_CMS_COMPONENT_ADAPTER,

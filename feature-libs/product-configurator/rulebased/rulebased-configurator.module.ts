@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RulebasedConfiguratorComponentsModule } from './components/rulebased-configurator-components.module';
 import { RulebasedConfiguratorCoreModule } from './core/rulebased-configurator-core.module';

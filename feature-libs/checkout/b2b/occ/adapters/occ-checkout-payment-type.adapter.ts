@@ -1,4 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/base/root';
 import {
@@ -12,6 +18,7 @@ import {
   normalizeHttpError,
   Occ,
   OccEndpointsService,
+  OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -27,8 +34,12 @@ export class OccCheckoutPaymentTypeAdapter
   ) {}
 
   getPaymentTypes(): Observable<PaymentType[]> {
+    const context = new HttpContext().set(OCC_HTTP_TOKEN, {
+      sendUserIdAsHeader: true,
+    });
+
     return this.http
-      .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint())
+      .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint(), { context })
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
