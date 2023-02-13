@@ -19,6 +19,7 @@ export interface AddressData {
   firstName: string;
   lastName: string;
   phone: string;
+  cellphone: string;
   address: Address;
 }
 
@@ -46,7 +47,7 @@ export function fillShippingAddress(
         cy
           .get('.country-select[formcontrolname="isocode"]')
           .ngSelect(shippingAddress.address.country);
-      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
       shippingAddress?.firstName &&
         cy
           .get('[formcontrolname="firstName"]')
@@ -82,6 +83,11 @@ export function fillShippingAddress(
           .get('[formcontrolname="postalCode"]')
           .clear()
           .type(shippingAddress.address.postal);
+      shippingAddress?.cellphone &&
+        cy
+          .get('[formcontrolname="cellphone"]')
+          .clear()
+          .type(shippingAddress.cellphone);
       shippingAddress?.phone &&
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
     }

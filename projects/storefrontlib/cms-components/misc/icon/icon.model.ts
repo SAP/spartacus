@@ -55,6 +55,10 @@ export enum ICON_TYPE {
   ORDER = 'ORDER',
   DOWNLOAD = 'DOWNLOAD',
   FILE = 'FILE',
+  HEADSET = 'HEADSET',
+  ATTACHMENT = 'ATTACHMENT',
+  UPLOAD = 'UPLOAD',
+  USER = 'USER',
 }
 
 @Injectable({

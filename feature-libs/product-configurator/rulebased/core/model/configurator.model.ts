@@ -98,6 +98,7 @@ export namespace Configurator {
     kbKey?: KB;
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {
@@ -112,6 +113,7 @@ export namespace Configurator {
     };
     issueNavigationDone?: boolean;
     isConflictResolutionMode?: boolean;
+    showConflictSolverDialog?: boolean;
   }
 
   export interface Overview {

@@ -24,10 +24,12 @@ describe('in Spare Parts Tab', () => {
 
         cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
         cy.wait(`@productPage`);
+        cy.get('cx-epd-visualization-visual-picking-tab');
+        cy.get('button').contains('Allow All').click();
         cy.get('cx-tab-paragraph-container button')
           .contains('Spare Parts')
-          .click()
           .click();
+
         cy.wait(`@lookupVisualization`);
         cy.get(
           'cx-epd-visualization-visual-picking-tab .no-product-references'
@@ -51,9 +53,10 @@ describe('in Spare Parts Tab', () => {
 
         cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
         cy.wait(`@productPage`);
+        cy.get('cx-epd-visualization-visual-picking-tab');
+        cy.get('button').contains('Allow All').click();
         cy.get('cx-tab-paragraph-container button')
           .contains('Spare Parts')
-          .click()
           .click();
         cy.wait(`@lookupVisualization`);
         cy.get(
@@ -84,7 +87,6 @@ describe('in Spare Parts Tab', () => {
         cy.wait(`@getProductReferences`);
         cy.get('cx-tab-paragraph-container button')
           .contains('Spare Parts')
-          .click()
           .click();
         cy.get(
           'cx-epd-visualization-visual-picking-tab .no-product-references'
