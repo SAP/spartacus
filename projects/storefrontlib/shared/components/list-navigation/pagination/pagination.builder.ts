@@ -123,7 +123,7 @@ export class PaginationBuilder {
    */
   protected addFirstGapToDots(pages: PaginationItem[]) {
     const firstItemNumber = pages[0].number;
-    const gapNumber = this.config.addFirst ? 1 : 0;
+    const gapNumber = Number(this.config.addFirst);
     if (firstItemNumber !== undefined && firstItemNumber > gapNumber) {
       const isGap =
         !this.config.substituteDotsForSingularPage ||
@@ -157,7 +157,7 @@ export class PaginationBuilder {
   protected addLastGapToDots(pages: PaginationItem[], pageCount: number) {
     const pageNumber = pages[pages.length - 1].number;
     const nextPageNumber = pageNumber ? pageNumber + 1 : undefined;
-    const last = pageCount - (this.config.addLast ? 2 : 1);
+    const last = pageCount - (Number(this.config.addLast) + 1);
     if (nextPageNumber && nextPageNumber <= last) {
       const isSubstituted =
         this.config.addLast &&
@@ -166,8 +166,8 @@ export class PaginationBuilder {
       const isGap =
         nextPageNumber <
         pageCount -
-          (this.config.substituteDotsForSingularPage ? 1 : 0) -
-          (this.config.addLast ? 1 : 0);
+          Number(this.config.substituteDotsForSingularPage) -
+          Number(this.config.addLast);
 
       const type = isGap
         ? PaginationItemType.GAP
