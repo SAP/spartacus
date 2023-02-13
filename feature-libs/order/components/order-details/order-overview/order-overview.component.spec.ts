@@ -3,11 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   Address,
+  CmsOrderDetailOverviewComponent,
   I18nTestingModule,
   TranslationService,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
@@ -124,6 +125,14 @@ class MockOrderDetailsService {
   }
 }
 
+const mockData: CmsOrderDetailOverviewComponent = {
+  simple: false,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
+
 describe('OrderOverviewComponent', () => {
   let component: OrderOverviewComponent;
   let fixture: ComponentFixture<OrderOverviewComponent>;
@@ -137,6 +146,7 @@ describe('OrderOverviewComponent', () => {
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
       ],
     }).compileComponents();
   });

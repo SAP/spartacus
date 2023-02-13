@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
+  AuthGuard,
   CmsConfig,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -70,26 +71,45 @@ const moduleComponents = [
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
+          guards: [AuthGuard],
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
+          guards: [AuthGuard],
           data: {
             enableAddToCart: true,
           },
         },
+        AccountOrderDetailsGroupedItemsComponent: {
+          component: OrderDetailItemsComponent,
+          guards: [AuthGuard],
+          data: {
+            enableAddToCart: true,
+            displayConsignmentDelivery: true,
+          },
+        },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
+          guards: [AuthGuard],
         },
-        // AccountOrderDetailsOverviewComponent: {
-        //   component: OrderOverviewComponent,
-        // },
-
-        // temporary use AccountOrderDetailsOverviewComponent to show billing, need create a new cms componnet
         AccountOrderDetailsOverviewComponent: {
+          component: OrderOverviewComponent,
+          guards: [AuthGuard],
+        },
+        AccountOrderDetailsSimpleOverviewComponent: {
+          component: OrderOverviewComponent,
+          guards: [AuthGuard],
+          data: {
+            simple: true,
+          },
+        },
+        AccountOrderDetailsBillingComponent: {
           component: OrderDetailBillingComponent,
+          guards: [AuthGuard],
         },
         AccountOrderDetailsReorderComponent: {
           component: OrderDetailReorderComponent,
+          guards: [AuthGuard],
         },
       },
       features: {

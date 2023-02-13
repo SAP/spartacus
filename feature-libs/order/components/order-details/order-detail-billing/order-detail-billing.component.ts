@@ -5,9 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/base/root';
+import { PaymentDetails } from '@spartacus/cart/base/root';
+import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Observable } from 'rxjs';
+import { Card } from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -16,10 +19,61 @@ import { OrderDetailsService } from '../order-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderDetailBillingComponent {
-  readonly cartOutlets = CartOutlets;
-
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
 
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  constructor(
+    protected orderDetailsService: OrderDetailsService,
+    protected translationService: TranslationService
+  ) {}
+
+  getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('paymentForm.payment'),
+      this.translationService.translate('paymentCard.expires', {
+        month: paymentDetails.expiryMonth,
+        year: paymentDetails.expiryYear,
+      }),
+    ]).pipe(
+      map(([textTitle, textExpires]) => {
+        return {
+          title: textTitle,
+          text: [
+            paymentDetails.cardType?.name,
+            paymentDetails.accountHolderName,
+            paymentDetails.cardNumber,
+            textExpires,
+          ],
+        } as Card;
+      })
+    );
+  }
+
+  getBillingAddressCard(paymentDetails: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('paymentForm.billingAddress'),
+      this.translationService.translate('addressCard.billTo'),
+    ]).pipe(
+      map(([billingAddress, billTo]) => {
+        const region = paymentDetails.billingAddress?.region?.isocode
+          ? paymentDetails.billingAddress?.region?.isocode + ', '
+          : '';
+        return {
+          title: billingAddress,
+          text: [
+            billTo,
+            paymentDetails.billingAddress?.firstName +
+              ' ' +
+              paymentDetails.billingAddress?.lastName,
+            paymentDetails.billingAddress?.line1,
+            paymentDetails.billingAddress?.town +
+              ', ' +
+              region +
+              paymentDetails.billingAddress?.country?.isocode,
+            paymentDetails.billingAddress?.postalCode,
+          ],
+        } as Card;
+      })
+    );
+  }
 }

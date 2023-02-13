@@ -22,8 +22,8 @@ import {
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent {
-  readonly CartOutlets = CartOutlets;
   readonly OrderOutlets = OrderOutlets;
+  readonly CartOutlets = CartOutlets;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
@@ -43,6 +43,9 @@ export class OrderDetailItemsComponent {
 
   isOrderLoading$: Observable<boolean> =
     this.orderDetailsService.isOrderDetailsLoading();
+
+  displayConsignmentDelivery$: Observable<boolean | undefined> =
+    this.component.data$.pipe(map((data) => data.displayConsignmentDelivery));
 
   constructor(
     protected orderDetailsService: OrderDetailsService,

@@ -11,6 +11,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   OrderConfirmationOrderEntriesContextToken,
   OrderFacade,
+  OrderOutlets,
 } from '@spartacus/order/root';
 import {
   CardModule,
@@ -18,6 +19,7 @@ import {
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
+  provideOutlet,
   PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
@@ -48,7 +50,7 @@ const orderConfirmationComponents = [
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    OutletModule,
+    OutletModule.forChild(),
     PasswordVisibilityToggleModule,
   ],
   providers: [
@@ -63,10 +65,10 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        // OrderConfirmationItemsComponent: {
-        //   component: OrderConfirmationItemsComponent,
-        //   guards: [OrderConfirmationGuard],
-        // },
+        OrderConfirmationItemsComponent: {
+          component: OrderConfirmationItemsComponent,
+          guards: [OrderConfirmationGuard],
+        },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
@@ -81,16 +83,16 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        // OrderConfirmationOverviewComponent: {
-        //   component: OrderOverviewComponent,
-        //   providers: [
-        //     {
-        //       provide: OrderDetailsService,
-        //       useExisting: OrderFacade,
-        //     },
-        //   ],
-        //   guards: [OrderConfirmationGuard],
-        // },
+        OrderConfirmationOverviewComponent: {
+          component: OrderOverviewComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderFacade,
+            },
+          ],
+          guards: [OrderConfirmationGuard],
+        },
         ReplenishmentConfirmationOverviewComponent: {
           component: OrderOverviewComponent,
           providers: [
@@ -107,8 +109,7 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
         },
 
-        // temporary use OrderConfirmationContinueButtonComponent, need create a new cms component in sample data
-        OrderConfirmationContinueButtonComponent: {
+        OrderConfirmationBillingComponent: {
           component: OrderDetailBillingComponent,
           providers: [
             {
@@ -124,6 +125,10 @@ const orderConfirmationComponents = [
       provide: OrderConfirmationOrderEntriesContextToken,
       useExisting: OrderConfirmationOrderEntriesContext,
     },
+    provideOutlet({
+      id: OrderOutlets.CONSIGNMENT_DELIVERY_INFO,
+      component: OrderConfirmationShippingComponent,
+    }),
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],

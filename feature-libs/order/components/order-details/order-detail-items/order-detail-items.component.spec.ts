@@ -116,6 +116,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockData: CmsOrderDetailItemsComponent = {
   enableAddToCart: true,
+  displayConsignmentDelivery: true,
 };
 
 const MockCmsComponentData = <CmsComponentData<any>>{

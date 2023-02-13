@@ -9,4 +9,5 @@
  */
 export enum OrderOutlets {
   ORDER_CONSIGNMENT = 'cx-order-consignment',
+  CONSIGNMENT_DELIVERY_INFO = 'cx-order-consignment-delivery-info',
 }
