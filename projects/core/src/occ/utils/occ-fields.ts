@@ -61,13 +61,12 @@ export function parseFields(
       startIndex = i + 1;
     } else if (fields[i] === '(') {
       const subFields = parseFields(fields, i + 1);
-      if (Array.isArray(subFields)) {
-        parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
-        startIndex = subFields[1];
-        i = startIndex - 1;
-        continue;
+      if (!Array.isArray(subFields)) {
+        return parsedFields;
       }
-      return parsedFields;
+      parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
+      startIndex = subFields[1];
+      i = startIndex - 1;
     } else if (fields[i] === ')') {
       if (i > startIndex) {
         parsedFields[fields.substr(startIndex, i - startIndex)] = {};
@@ -138,3 +137,5 @@ function getObjectPart<T>(data: T, fields: object): T {
 
   return result;
 }
+
+// CHECK SONAR
