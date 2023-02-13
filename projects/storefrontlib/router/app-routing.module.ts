@@ -13,10 +13,9 @@ import { OnNavigateService } from './on-navigate.service';
 @NgModule({
   imports: [
     RouterModule.forRoot([], {
-      anchorScrolling: 'enabled',
-      relativeLinkResolution: 'corrected',
-      initialNavigation: 'enabledBlocking',
-    }),
+    anchorScrolling: 'enabled',
+    initialNavigation: 'enabledBlocking'
+}),
   ],
   providers: [
     provideDefaultConfig(defaultOnNavigateConfig),
