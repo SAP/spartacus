@@ -11,7 +11,12 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { ArrowFunction, CallExpression, SyntaxKind } from 'ts-morph';
+import {
+  ArrayLiteralExpression,
+  ArrowFunction,
+  CallExpression,
+  SyntaxKind,
+} from 'ts-morph';
 import {
   featureFeatureModuleMapping,
   getKeyByMappingValueOrThrow,
@@ -298,12 +303,7 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
         if (!ngImports) {
           continue;
         }
-        for (const element of ngImports.getElements()) {
-          if (element.getText() === wrapperModuleClassName) {
-            ngImports.removeElement(element);
-            break;
-          }
-        }
+        removeNgImportWrapperElements(ngImports, wrapperModuleClassName);
 
         saveAndFormat(featureModule);
         break;
@@ -321,6 +321,18 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
     );
     return chain(rules);
   };
+
+  function removeNgImportWrapperElements(
+    ngImports: ArrayLiteralExpression,
+    wrapperModuleClassName: string
+  ) {
+    for (const element of ngImports.getElements()) {
+      if (element.getText() === wrapperModuleClassName) {
+        ngImports.removeElement(element);
+        break;
+      }
+    }
+  }
 }
 
 /**
@@ -527,5 +539,3 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
     ]);
   };
 }
-
-// CHECK SONAR

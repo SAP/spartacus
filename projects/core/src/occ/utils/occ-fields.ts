@@ -65,9 +65,9 @@ export function parseFields(
         parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
         startIndex = subFields[1];
         i = startIndex - 1;
-      } else {
-        return parsedFields;
+        continue;
       }
+      return parsedFields;
     } else if (fields[i] === ')') {
       if (i > startIndex) {
         parsedFields[fields.substr(startIndex, i - startIndex)] = {};
@@ -138,5 +138,3 @@ function getObjectPart<T>(data: T, fields: object): T {
 
   return result;
 }
-
-// CHECK SONAR

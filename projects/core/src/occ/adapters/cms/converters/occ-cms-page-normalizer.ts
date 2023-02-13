@@ -168,24 +168,22 @@ export class OccCmsPageNormalizer
     }
 
     for (const slot of source.contentSlots.contentSlot) {
-      if (Array.isArray(slot.components?.component)) {
-        for (const component of slot.components?.component ?? []) {
-          // while we're hoping to get this right from the backend api,
-          // the OCC api stills seems out of sync with the right model.
-          if (component.modifiedtime) {
-            component.modifiedTime = component.modifiedtime;
-            delete component.modifiedtime;
-          }
-
-          // we don't put properties into component state
-          if (component.properties) {
-            component.properties = undefined;
-          }
-          if (!target.components) {
-            target.components = [];
-          }
-          target.components.push(component);
+      for (const component of slot.components?.component ?? []) {
+        // while we're hoping to get this right from the backend api,
+        // the OCC api stills seems out of sync with the right model.
+        if (component.modifiedtime) {
+          component.modifiedTime = component.modifiedtime;
+          delete component.modifiedtime;
         }
+
+        // we don't put properties into component state
+        if (component.properties) {
+          component.properties = undefined;
+        }
+        if (!target.components) {
+          target.components = [];
+        }
+        target.components.push(component);
       }
     }
   }
@@ -219,5 +217,3 @@ export class OccCmsPageNormalizer
     target.robots = robots;
   }
 }
-
-// CHECK SONAR
