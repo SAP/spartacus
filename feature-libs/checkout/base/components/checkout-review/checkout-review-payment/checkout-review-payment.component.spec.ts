@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PaymentDetails } from '@spartacus/cart/base/root';
@@ -14,7 +8,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -90,8 +84,8 @@ describe('CheckoutReviewPaymentComponent', () => {
   let component: CheckoutReviewPaymentComponent;
   let fixture: ComponentFixture<CheckoutReviewPaymentComponent>;
 
-  function configureTestingModule(): TestBed {
-    return TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule, IconTestingModule],
       declarations: [
         CheckoutReviewPaymentComponent,
@@ -107,99 +101,61 @@ describe('CheckoutReviewPaymentComponent', () => {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
-        {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
-        },
       ],
-    });
-  }
+    }).compileComponents();
 
-  function stubSeviceAndCreateComponent() {
     fixture = TestBed.createComponent(CheckoutReviewPaymentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }
+  });
 
-  describe('Not use outlet', () => {
-    beforeEach(() => {
-      configureTestingModule();
-      stubSeviceAndCreateComponent();
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should be able to get paymentDetails', () => {
+    let paymentDetails: PaymentDetails | undefined;
+    component.paymentDetails$.subscribe((data) => {
+      paymentDetails = data;
     });
 
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
+    expect(paymentDetails).toEqual(mockPaymentDetails);
+  });
 
-    it('should be able to get paymentDetails', () => {
-      let paymentDetails: PaymentDetails | undefined;
-      component.paymentDetails$.subscribe((data) => {
-        paymentDetails = data;
-      });
-
-      expect(paymentDetails).toEqual(mockPaymentDetails);
-    });
-
-    it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
-      component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
-        expect(card.title).toEqual('paymentForm.payment');
-        expect(card.text).toEqual([
-          mockPaymentDetails.cardType?.name,
-          mockPaymentDetails.accountHolderName,
-          mockPaymentDetails.cardNumber,
-          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
-        ]);
-      });
-    });
-
-    it('should call getBillingAddressCard to get billing address card data', () => {
-      component.getBillingAddressCard(mockPaymentDetails).subscribe((card) => {
-        expect(card.title).toEqual('paymentForm.billingAddress');
-        expect(card.text).toEqual([
-          'addressCard.billTo',
-          mockPaymentDetails.billingAddress?.firstName +
-            ' ' +
-            mockPaymentDetails.billingAddress?.lastName,
-          mockPaymentDetails.billingAddress?.line1,
-          mockPaymentDetails.billingAddress?.town +
-            ', ' +
-            mockPaymentDetails.billingAddress?.region?.isocode +
-            ', ' +
-            mockPaymentDetails.billingAddress?.country?.isocode,
-          mockPaymentDetails.billingAddress?.postalCode,
-        ]);
-      });
-    });
-
-    it('should get checkout step route', () => {
-      expect(component.paymentDetailsStepRoute).toEqual(
-        mockCheckoutStep.routeName
-      );
+  it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
+    component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
+      expect(card.title).toEqual('paymentForm.payment');
+      expect(card.text).toEqual([
+        mockPaymentDetails.cardType?.name,
+        mockPaymentDetails.accountHolderName,
+        mockPaymentDetails.cardNumber,
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
+      ]);
     });
   });
 
-  describe('Use outlet with outlet context data', () => {
-    const context$ = of({
-      readonly: true,
-      paymentDetails: { accountHolderName: 'test' },
+  it('should call getBillingAddressCard to get billing address card data', () => {
+    component.getBillingAddressCard(mockPaymentDetails).subscribe((card) => {
+      expect(card.title).toEqual('paymentForm.billingAddress');
+      expect(card.text).toEqual([
+        'addressCard.billTo',
+        mockPaymentDetails.billingAddress?.firstName +
+          ' ' +
+          mockPaymentDetails.billingAddress?.lastName,
+        mockPaymentDetails.billingAddress?.line1,
+        mockPaymentDetails.billingAddress?.town +
+          ', ' +
+          mockPaymentDetails.billingAddress?.region?.isocode +
+          ', ' +
+          mockPaymentDetails.billingAddress?.country?.isocode,
+        mockPaymentDetails.billingAddress?.postalCode,
+      ]);
     });
+  });
 
-    beforeEach(() => {
-      configureTestingModule().overrideProvider(OutletContextData, {
-        useValue: { context$ },
-      });
-      TestBed.compileComponents();
-      stubSeviceAndCreateComponent();
-    });
-
-    it('should be able to get data from outlet context', () => {
-      component.ngOnInit();
-
-      expect(component.readonly).toEqual(true);
-
-      component.paymentDetails$.subscribe((value) =>
-        expect(value).toEqual({ accountHolderName: 'test' })
-      );
-    });
+  it('should get checkout step route', () => {
+    expect(component.paymentDetailsStepRoute).toEqual(
+      mockCheckoutStep.routeName
+    );
   });
 });

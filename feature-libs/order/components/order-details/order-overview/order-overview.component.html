@@ -1,5 +1,5 @@
 <div class="cx-order-summary" *ngIf="order$ | async as order">
-  <div class="container">
+  <div *ngIf="!(simple$ | async)" class="container">
     <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
       <div class="cx-summary-card">
         <cx-card
@@ -106,5 +106,19 @@
         ></cx-card>
       </div>
     </ng-container>
+  </div>
+
+  <div *ngIf="simple$ | async" class="container">
+    <cx-card [content]="getOrderCodeCardContent(order?.code) | async"></cx-card>
+
+    <cx-card
+      [content]="
+        getOrderCurrentDateCardContent(order?.created | cxDate) | async
+      "
+    ></cx-card>
+
+    <cx-card
+      [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+    ></cx-card>
   </div>
 </div>

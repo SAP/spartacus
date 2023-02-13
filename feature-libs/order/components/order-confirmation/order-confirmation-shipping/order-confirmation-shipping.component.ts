@@ -4,18 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartOutlets, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
+import {
+  CartOutlets,
+  DeliveryMode,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
+import { Address, TranslationService } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Card, OutletContextData } from '@spartacus/storefront';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-shipping',
   templateUrl: './order-confirmation-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderConfirmationShippingComponent {
+export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
+  @Input() showItemList: boolean = true;
+
   readonly cartOutlets = CartOutlets;
 
   entries: OrderEntry[] | undefined;
@@ -30,5 +46,88 @@ export class OrderConfirmationShippingComponent {
       })
     );
 
-  constructor(protected orderFacade: OrderFacade) {}
+  protected subscription = new Subscription();
+
+  constructor(
+    protected orderFacade: OrderFacade,
+    protected translationService: TranslationService,
+    protected cd: ChangeDetectorRef,
+    @Optional()
+    protected outlet?: OutletContextData<{
+      showItemList?: boolean;
+      order?: any;
+    }>
+  ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.outlet?.context$.subscribe((context) => {
+        if (context.showItemList !== undefined) {
+          this.showItemList = context.showItemList;
+        }
+        if (context.order) {
+          this.order$ = of(context.order);
+        }
+        this.cd.markForCheck();
+      })
+    );
+  }
+
+  getDeliveryAddressCard(
+    deliveryAddress: Address,
+    countryName?: string
+  ): Observable<Card> {
+    return this.translationService.translate('addressCard.shipTo').pipe(
+      map((textTitle) => {
+        if (!countryName) {
+          countryName = deliveryAddress?.country?.name as string;
+        }
+
+        let region = '';
+        if (
+          deliveryAddress &&
+          deliveryAddress.region &&
+          deliveryAddress.region.isocode
+        ) {
+          region = deliveryAddress.region.isocode + ', ';
+        }
+
+        return {
+          title: textTitle,
+          textBold:
+            deliveryAddress?.firstName + ' ' + deliveryAddress?.lastName,
+          text: [
+            deliveryAddress?.line1,
+            deliveryAddress?.line2,
+            deliveryAddress?.town + ', ' + region + countryName,
+            deliveryAddress?.postalCode,
+            deliveryAddress?.phone,
+          ],
+        } as Card;
+      })
+    );
+  }
+
+  getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('checkoutMode.deliveryMethod'),
+    ]).pipe(
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: deliveryMode?.name,
+          text: [
+            deliveryMode?.description,
+            deliveryMode?.deliveryCost?.formattedValue
+              ? deliveryMode?.deliveryCost?.formattedValue
+              : '',
+          ],
+        } as Card;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 }
