@@ -116,6 +116,9 @@ class MockTranslationService {
 }
 
 class MockOrderDetailsService {
+  isOrderDetailsLoading(): Observable<boolean> {
+    return of(false);
+  }
   getOrderDetails() {
     return of(mockOrder);
   }

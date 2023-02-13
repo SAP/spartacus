@@ -3,7 +3,7 @@
     <cx-configurator-group
       [group]="currentGroup$ | async"
       [owner]="configuration.owner"
-      [isNavigationToGroupEnabled]="isNavigationToGroupEnabled() | async"
+      [isNavigationToGroupEnabled]="isNavigationToGroupEnabled(configuration)"
     >
     </cx-configurator-group
   ></ng-container>

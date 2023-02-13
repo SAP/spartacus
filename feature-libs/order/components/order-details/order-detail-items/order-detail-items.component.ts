@@ -41,6 +41,9 @@ export class OrderDetailItemsComponent {
     map((data) => data.enableAddToCart)
   );
 
+  isOrderLoading$: Observable<boolean> =
+    this.orderDetailsService.isOrderDetailsLoading();
+
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailItemsComponent>

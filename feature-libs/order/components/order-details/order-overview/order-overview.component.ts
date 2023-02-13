@@ -19,6 +19,8 @@ import { OrderDetailsService } from '../order-details.service';
 })
 export class OrderOverviewComponent {
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
+  isOrderLoading$: Observable<boolean> =
+    this.orderDetailsService.isOrderDetailsLoading();
 
   constructor(
     protected translation: TranslationService,
