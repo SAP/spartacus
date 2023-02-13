@@ -29,7 +29,7 @@ import { VisualPickingProductFilterService } from '../product-filter/visual-pick
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualPickingProductListService implements OnDestroy {
   constructor(
