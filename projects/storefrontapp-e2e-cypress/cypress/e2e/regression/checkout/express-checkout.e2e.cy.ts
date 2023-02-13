@@ -12,8 +12,8 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Express checkout', { testIsolation: false }, () => {
-  clearCacheTestIsolation();
   viewportContext(['mobile', 'desktop'], () => {
+    clearCacheTestIsolation();
     before(() => {
       clearAllStorage();
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);

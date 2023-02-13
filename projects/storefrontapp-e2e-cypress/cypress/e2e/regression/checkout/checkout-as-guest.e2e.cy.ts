@@ -10,10 +10,12 @@ import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as loginHelper from '../../../helpers/login';
+import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { cheapProduct } from '../../../sample-data/checkout-flow';
-context('Checkout as guest', () => {
+context('Checkout as guest', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    clearCacheTestIsolation();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       guestCheckout.generateGuestUser();
