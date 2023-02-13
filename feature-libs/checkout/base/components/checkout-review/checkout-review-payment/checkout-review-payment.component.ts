@@ -11,6 +11,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
+import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -48,17 +49,9 @@ export class CheckoutReviewPaymentComponent {
         year: paymentDetails.expiryYear,
       }),
     ]).pipe(
-      map(([textTitle, textExpires]) => {
-        return {
-          title: textTitle,
-          text: [
-            paymentDetails.cardType?.name,
-            paymentDetails.accountHolderName,
-            paymentDetails.cardNumber,
-            textExpires,
-          ],
-        } as Card;
-      })
+      map(([textTitle, textExpires]) =>
+        paymentMethodCard(textTitle, textExpires, paymentDetails)
+      )
     );
   }
 
@@ -67,26 +60,9 @@ export class CheckoutReviewPaymentComponent {
       this.translationService.translate('paymentForm.billingAddress'),
       this.translationService.translate('addressCard.billTo'),
     ]).pipe(
-      map(([billingAddress, billTo]) => {
-        const region = paymentDetails.billingAddress?.region?.isocode
-          ? paymentDetails.billingAddress?.region?.isocode + ', '
-          : '';
-        return {
-          title: billingAddress,
-          text: [
-            billTo,
-            paymentDetails.billingAddress?.firstName +
-              ' ' +
-              paymentDetails.billingAddress?.lastName,
-            paymentDetails.billingAddress?.line1,
-            paymentDetails.billingAddress?.town +
-              ', ' +
-              region +
-              paymentDetails.billingAddress?.country?.isocode,
-            paymentDetails.billingAddress?.postalCode,
-          ],
-        } as Card;
-      })
+      map(([billingAddress, billTo]) =>
+        billingAddressCard(billingAddress, billTo, paymentDetails)
+      )
     );
   }
 }
