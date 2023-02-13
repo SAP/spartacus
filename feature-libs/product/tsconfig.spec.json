@@ -2,8 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": ["jasmine", "node"],
-    "target": "es2020",
+    "types": [
+      "jasmine",
+      "node"
+    ],
     "module": "es2020",
     "strict": false
   },
