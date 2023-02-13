@@ -17,4 +17,3 @@ export * from './customer-list/customer-list.component';
 export * from './customer-selection/customer-selection.component';
 export * from './dot-spinner/dot-spinner.component';
 export * from './services/index';
-export * from './asm-customer-360/index';

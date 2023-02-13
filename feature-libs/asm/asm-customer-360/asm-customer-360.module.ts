@@ -31,6 +31,7 @@ import {
 import { AsmCustomerProductInterestsModule } from './sections/asm-customer-product-interests/asm-customer-product-interests.module';
 import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart/asm-customer-active-cart.module';
 import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/asm-customer-saved-cart.module';
+import { facadeProviders } from './services/facade-providers';
 
 @NgModule({
   imports: [
@@ -50,6 +51,9 @@ import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/a
   providers: [
     provideDefaultConfig({
       cmsComponents: {
+        AsmCustomer360Component: {
+          component: AsmCustomer360Component,
+        },
         AsmCustomer360ProfileComponent: {
           component: AsmCustomerProfileComponent,
         },
@@ -73,8 +77,9 @@ import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/a
         },
       },
     }),
+    ...facadeProviders,
   ],
   declarations: [AsmCustomer360Component, AsmCustomerSectionComponent],
   exports: [AsmCustomer360Component],
 })
-export class AsmCustomer360ComponentModule {}
+export class AsmCustomer360Module {}

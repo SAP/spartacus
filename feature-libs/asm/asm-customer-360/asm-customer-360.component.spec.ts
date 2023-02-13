@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmConfig } from '@spartacus/asm/core';
 import {
-  Asm360Facade,
   AsmCustomer360Response,
   AsmCustomer360Type,
   AsmDialogActionType,
@@ -20,6 +19,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { AsmCustomer360Component } from './asm-customer-360.component';
+import { Asm360Facade } from './services/asm-360.facade';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: AsmConfig = {

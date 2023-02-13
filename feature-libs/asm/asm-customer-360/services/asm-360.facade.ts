@@ -8,16 +8,18 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ASM_FEATURE } from '../feature-name';
-import { AsmCustomer360TabComponent } from '../model/customer-360-tab-config';
-import { AsmCustomer360Response } from '../model/customer-360.model';
+import {
+  ASM_360_FEATURE,
+  AsmCustomer360TabComponent,
+  AsmCustomer360Response,
+} from '@spartacus/asm/root';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: Asm360Facade,
-      feature: ASM_FEATURE,
+      feature: ASM_360_FEATURE,
       methods: ['get360Data'],
     }),
 })

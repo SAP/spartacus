@@ -18,14 +18,14 @@ import {
   IconModule,
   KeyboardFocusModule,
   NgSelectA11yModule,
+  PageComponentModule,
   PasswordVisibilityToggleModule,
   SortingModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
-import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
-import { defaultCustomer360LayoutConfig } from './asm-customer-360/default-customer-360-layout.config';
+import { AsmCustomer360DialogComponent } from './asm-customer-360-dialog/asm-customer-360-dialog.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -37,6 +37,7 @@ import { defaultCustomerListLayoutConfig } from './customer-list/default-custome
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
+import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 
 @NgModule({
@@ -45,6 +46,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     ReactiveFormsModule,
     I18nModule,
     FormErrorsModule,
+    PageComponentModule,
     IconModule,
     NgSelectModule,
     FormsModule,
@@ -54,10 +56,10 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     NgSelectA11yModule,
     SortingModule,
     FeaturesConfigModule,
-    AsmCustomer360ComponentModule,
   ],
   declarations: [
     AsmBindCartDialogComponent,
+    AsmCustomer360DialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -72,6 +74,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
   exports: [
     AsmBindCartDialogComponent,
     AsmMainUiComponent,
+    AsmCustomer360DialogComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
     CustomerSelectionComponent,
