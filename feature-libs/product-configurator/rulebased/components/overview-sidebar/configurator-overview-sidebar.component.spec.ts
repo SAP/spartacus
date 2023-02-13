@@ -43,7 +43,10 @@ function initTestComponent() {
 
   spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
-  spyOn(configuratorStorefrontUtilsService, 'getViewportHeight').and.callThrough();
+  spyOn(
+    configuratorStorefrontUtilsService,
+    'getViewportHeight'
+  ).and.callThrough();
 }
 
 class MockConfiguratorCommonsService {

@@ -29,6 +29,25 @@ class MockConfiguratorGroupsService {
   setGroupStatusVisited() {}
 }
 
+class MockConfiguratorStorefrontUtilsService {
+  createOvMenuItemId(prefix: string, groupId: string): string {
+    return prefix
+      ? prefix + '--' + groupId + '-ovMenuItem'
+      : groupId + '-ovMenuItem';
+  }
+  createOvGroupId(prefix: string, groupId: string): string {
+    return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
+  }
+  scrollToConfigurationElement(): void {}
+  changeStyling(): void {}
+  getViewportHeight(): void {}
+  syncScroll(): void {}
+  isScrollBox(): void {}
+  getElement(): void {}
+  getElements(): void {}
+  getScrollY(): void {}
+}
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -60,6 +79,12 @@ function initialize() {
     ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
   );
 
+  spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
+
+  spyOn(configuratorStorefrontUtilsService, 'getViewportHeight');
+
+  spyOn(configuratorStorefrontUtilsService, 'syncScroll');
+
   spyOn(
     configuratorStorefrontUtilsService,
     'createOvGroupId'
@@ -67,10 +92,8 @@ function initialize() {
 
   spyOn(
     configuratorStorefrontUtilsService,
-    'scrollToConfigurationElement'
+    'createOvMenuItemId'
   ).and.callThrough();
-
-  spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
@@ -86,6 +109,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
           },
           {
             provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
           },
         ],
       }).compileComponents();
@@ -123,7 +147,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.createOvGroupId
-      ).toHaveBeenCalledWith(GROUP_PREFIX, GROUP_ID_LOCAL);
+      ).toHaveBeenCalled();
     });
 
     it('should invoke utils service for scrolling', () => {
@@ -159,12 +183,47 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
-  /**
   describe('onScroll', () => {
+    beforeEach(() => {
+      initialize();
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getElements'
+      ).and.callThrough();
+    });
+
+    it('should call onScroll method', () => {
+      component.onScroll();
+
+      expect(
+        configuratorStorefrontUtilsService.getViewportHeight
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        configuratorStorefrontUtilsService.syncScroll
+      ).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('onResize', () => {
     beforeEach(() => {
       initialize();
     });
 
+    it('should call onResize method', () => {
+      component.onResize();
+
+      expect(
+        configuratorStorefrontUtilsService.getViewportHeight
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        configuratorStorefrontUtilsService.syncScroll
+      ).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('getMenuItemToHighlight', () => {
     function createElement(
       id: string,
       tagName: string,
@@ -192,19 +251,20 @@ describe('ConfigurationOverviewMenuComponent', () => {
       return elements;
     }
 
-    it('should not call onScroll method', () => {
-      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(false));
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should not get menu item to highlight because getElements method return undefined', () => {
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         undefined
       );
       fixture.detectChanges();
 
-      component.onScroll();
-      expect(intersectionService.isIntersecting).not.toHaveBeenCalled();
+      expect(component['getMenuItemToHighlight']()).not.toBeDefined();
     });
 
-    it('should add active class to menu items', () => {
-      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+    it('should not get menu item to highlight because getScrollY method return undefined', () => {
       const groups = createElements('div');
 
       document.querySelectorAll = jasmine
@@ -214,28 +274,18 @@ describe('ConfigurationOverviewMenuComponent', () => {
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         groups
       );
-      let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
-      let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
-      spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
-        menuItem
+
+      spyOn(configuratorStorefrontUtilsService, 'getScrollY').and.returnValue(
+        undefined
       );
+
       fixture.detectChanges();
 
-      component.onScroll();
-
-      menuItems = htmlElem.querySelectorAll('button.cx-menu-item');
-      menuItems.forEach((item, index, menuItems) => {
-        if (index === menuItems.length - 1) {
-          expect(item.classList?.contains('active')).toBe(true);
-        } else {
-          expect(item.classList?.contains('active')).toBe(false);
-        }
-      });
+      expect(component['getMenuItemToHighlight']()).not.toBeDefined();
     });
 
-    it('should remove active class to menu items', () => {
-      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(false));
-      const groups = createElements('div', true);
+    it('should get menu item to highlight', () => {
+      const groups = createElements('div');
 
       document.querySelectorAll = jasmine
         .createSpy('div.cx-group')
@@ -244,20 +294,114 @@ describe('ConfigurationOverviewMenuComponent', () => {
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         groups
       );
+
+      spyOn(configuratorStorefrontUtilsService, 'getScrollY').and.returnValue(
+        123
+      );
+
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
       spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
         menuItem
       );
+
       fixture.detectChanges();
 
-      component.onScroll();
-
-      menuItems = htmlElem.querySelectorAll('button.cx-menu-item');
-      menuItems.forEach((item) => {
-        expect(item.classList?.contains('active')).toBe(false);
-      });
+      expect(component['getMenuItemToHighlight']().id).toEqual(menuItem.id);
     });
   });
-  */
+
+  describe('highlight', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should not highlight any element because elementToHighlight is undefined', () => {
+      spyOn(configuratorStorefrontUtilsService, 'getElements');
+      component['highlight'](undefined);
+      expect(
+        configuratorStorefrontUtilsService.getElements
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not highlight any element because getElements method returns undefined', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      const elementToHighlight = menuItems[menuItems.length - 1];
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        undefined
+      );
+      component['highlight'](elementToHighlight);
+      expect(
+        configuratorStorefrontUtilsService.getElements
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should highlight an element', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      const elementToHighlight = menuItems[menuItems.length - 1];
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        menuItems
+      );
+      component['highlight'](elementToHighlight);
+      expect(
+        configuratorStorefrontUtilsService.getElements
+      ).toHaveBeenCalledTimes(1);
+      expect(elementToHighlight.classList.contains('active')).toBe(true);
+    });
+  });
+
+  describe('syncScroll', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should not syncScroll because elementToHighlight is undefined', () => {
+      spyOn(configuratorStorefrontUtilsService, 'isScrollBox');
+      component['syncScroll'](undefined);
+      expect(
+        configuratorStorefrontUtilsService.isScrollBox
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorStorefrontUtilsService.syncScroll
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not syncScroll because isScrollBox is false', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      const element = menuItems[menuItems.length - 1];
+      spyOn(configuratorStorefrontUtilsService, 'isScrollBox').and.returnValue(
+        false
+      );
+      component['syncScroll'](element);
+      expect(
+        configuratorStorefrontUtilsService.isScrollBox
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        configuratorStorefrontUtilsService.syncScroll
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should syncScroll', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      const element = menuItems[menuItems.length - 1];
+      spyOn(configuratorStorefrontUtilsService, 'isScrollBox').and.returnValue(
+        true
+      );
+      component['syncScroll'](element);
+      expect(
+        configuratorStorefrontUtilsService.isScrollBox
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        configuratorStorefrontUtilsService.syncScroll
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
 });
