@@ -10,7 +10,10 @@ export function clearCacheTestIsolation() {
     cy.clearLocalStorage();
     cy.clearCookies();
   });
-  beforeEach(() => {
+}
+
+export function clearCacheTestIsolationAll() {
+  before(() => {
     cy.clearLocalStorage();
     cy.clearCookies();
   });
@@ -24,5 +27,18 @@ export function clearCacheTestIsolationForEach() {
   beforeEach(() => {
     cy.clearLocalStorage();
     cy.clearCookies();
+  });
+}
+
+export function clearCacheTestIsolationForEachAll() {
+  before(() => {
+    cy.clearAllLocalStorage();
+    cy.clearAllCookies();
+    cy.clearAllSessionStorage();
+  });
+  beforeEach(() => {
+    cy.clearAllLocalStorage();
+    cy.clearAllCookies();
+    cy.clearAllSessionStorage();
   });
 }
