@@ -484,21 +484,13 @@ describe('ConfigurationFormComponent', () => {
   });
 
   describe('isNavigationToGroupEnabled()', () => {
-    it('should return true in case immediateConflictResolution is set to false', (done) => {
-      createComponentWithData();
-      component.isNavigationToGroupEnabled().subscribe((value) => {
-        expect(value).toBe(true);
-        done();
-      });
+    it('should return true in case immediateConflictResolution is set to false', () => {
+      expect(component.isNavigationToGroupEnabled(configuration)).toBe(true);
     });
 
-    it('should return false in case immediateConflictResolution is set to true', (done) => {
+    it('should return false in case immediateConflictResolution is set to true', () => {
       configuration.immediateConflictResolution = true;
-      createComponentWithData();
-      component.isNavigationToGroupEnabled().subscribe((value) => {
-        expect(value).toBe(false);
-        done();
-      });
+      expect(component.isNavigationToGroupEnabled(configuration)).toBe(false);
     });
   });
 

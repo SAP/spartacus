@@ -16,7 +16,7 @@ describe('ticket listing', () => {
       });
     });
 
-    it('visit the ticket listing page and see if tickets exist', () => {
+    it('visit the ticket listing page and see if tickets exist (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'something to mindful',
         message: 'nothing to worry about',
@@ -38,7 +38,7 @@ describe('ticket listing', () => {
       customerTicketing.verifyTicketListingTableContent();
     });
 
-    it('should still show the ticket in the list when status is closed', () => {
+    it('should still show the ticket in the list when status is closed (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'for pagination',
         message: 'tgest pagination',
@@ -56,7 +56,7 @@ describe('ticket listing', () => {
       customerTicketing.verifyStatusOfTicketInList();
     });
 
-    it('should still show the ticket in the list when status is In Process', () => {
+    it('should still show the ticket in the list when status is In Process (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'for pagination',
         message: 'tgest pagination',
@@ -81,7 +81,7 @@ describe('ticket listing', () => {
       );
     });
 
-    it('should create 6 tickets', () => {
+    it('should create 6 tickets (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'Creating tickets for pagination ',
         message: 'Creating tickets for pagination ',
@@ -118,7 +118,7 @@ describe('ticket listing', () => {
       );
     });
 
-    it('should sort ticket listing', () => {
+    it('should sort ticket listing (CXSPA-470)', () => {
       const firstTicket: TestTicketDetails = {
         subject: 'first ticket',
         message: 'first ticket',
@@ -153,7 +153,7 @@ describe('ticket listing', () => {
       customerTicketing.verifyCreatedTicketDetails(firstTicket);
     });
 
-    it('should put the ticket on top when Changed On is selected as the sort', () => {
+    it('should put the ticket on top when Changed On is selected as the sort (CXSPA-470)', () => {
       const otherTickets: TestTicketDetails = {
         subject: 'Creating tickets for pagination ',
         message: 'Creating tickets for pagination ',
@@ -191,7 +191,7 @@ describe('ticket listing', () => {
       customerTicketing.verifyCreatedTicketDetails(ticketToSort);
     });
 
-    it('should take you to the corresponding page when clicking the page number on pagination', () => {
+    it('should take you to the corresponding page when clicking the page number on pagination (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'for pagination',
         message: 'tgest pagination',
@@ -213,7 +213,7 @@ describe('ticket listing', () => {
       customerTicketing.verifyTicketIdIsSmallerInNextPageComparedToPreviousPageByComparingIds();
     });
 
-    it('should take you to the last page when the last button is clicked on pagination', () => {
+    it('should take you to the last page when the last button is clicked on pagination (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'for pagination',
         message: 'tgest pagination',
@@ -235,7 +235,7 @@ describe('ticket listing', () => {
       customerTicketing.verifyTicketIdIsSmallerInLastPageComparedToFirstPageByComparingIds();
     });
 
-    it('should take you to the first page when the first button is clicked on pagination', () => {
+    it('should take you to the first page when the first button is clicked on pagination (CXSPA-470)', () => {
       const testTicketDetails: TestTicketDetails = {
         subject: 'for pagination',
         message: 'tgest pagination',
