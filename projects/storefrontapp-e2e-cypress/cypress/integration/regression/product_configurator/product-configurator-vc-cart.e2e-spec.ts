@@ -49,6 +49,15 @@ const Conflict_msg_gaming_console =
 
 context('Product Configuration', () => {
   let configUISettings: any;
+  const commerceRelease: configurationVc.CommerceRelease = {};
+
+  before(() => {
+    configurationVc.checkCommerceRelease(
+      electronicsShop,
+      testProduct,
+      commerceRelease
+    );
+  });
 
   beforeEach(() => {
     configUISettings = {
@@ -92,7 +101,6 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      const commerceIsAtLeast2205 = true;
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -152,7 +160,7 @@ context('Product Configuration', () => {
       configurationVc.clickAddToCartBtn();
       cy.log('Configuration has been added to the cart');
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
-      if (commerceIsAtLeast2205) {
+      if (commerceRelease.isAtLeast2205) {
         configurationOverviewVc.verifyNotificationBannerOnOP(0, 1);
       } else {
         configurationOverviewVc.verifyNotificationBannerOnOP(1);
@@ -167,7 +175,7 @@ context('Product Configuration', () => {
       configurationVc.clickAddToCartBtn();
       cy.log('Continue to cart clicked');
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
-      if (commerceIsAtLeast2205) {
+      if (commerceRelease.isAtLeast2205) {
         configurationOverviewVc.clickOnResolveConflictsLinkOnOP(); //post 2205
       } else {
         configurationOverviewVc.clickOnResolveIssuesLinkOnOP(); // pre 2205
