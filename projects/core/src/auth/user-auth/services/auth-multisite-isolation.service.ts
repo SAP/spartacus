@@ -65,6 +65,6 @@ export class AuthMultisiteIsolationService {
 
     const tokenBaseSite = auth.redirectUrl?.split('/')[0];
 
-    return baseSite && baseSite !== tokenBaseSite ? true : false;
+    return Boolean(baseSite) && baseSite !== tokenBaseSite;
   }
 }
