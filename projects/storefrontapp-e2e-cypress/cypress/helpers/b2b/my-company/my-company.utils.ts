@@ -29,19 +29,6 @@ export function testMyCompanyFeatureFromConfig(
 
       beforeEach(() => {
         cy.restoreLocalStorage();
-        // if (config.preserveCookies) {
-        //   cy.log('flo cookies1');
-
-        //   // Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
-        //   cy.session('test', cy.restoreLocalStorage, {
-        //     validate() {
-        //       cy.getCookies();
-        //     },
-        //   });
-        // } else {
-        //   cy.restoreLocalStorage();
-        //   cy.log('flo NO COOKIES');
-        // }
       });
 
       afterEach(() => {
