@@ -6,6 +6,7 @@
 
 import { NgModule, Type } from '@angular/core';
 import { CDCUserAccountModule } from '@spartacus/cdc/user-account';
+import { CdpLoginModule } from '@spartacus/cdp/user-account';
 import { UserAccountModule } from '@spartacus/user/account';
 
 import { environment } from '../../../../environments/environment';
@@ -16,9 +17,9 @@ if (environment.cdc) {
   extensions.push(CDCUserAccountModule);
 }
 
-// if (environment.cdp) {
-//   extensions.push(CdpLoginModule);
-// }
+if (environment.cdp) {
+  extensions.push(CdpLoginModule);
+}
 
 @NgModule({
   imports: [UserAccountModule, ...extensions],
