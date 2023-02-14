@@ -5,7 +5,7 @@
   <cx-page-slot *ngIf=(!isCdpEnabled) id="account-nav" position="HeaderLinks"></cx-page-slot>
   <button
   class=" cx-login-greet"
-  (click)="gotToMyAccount()"
+  (click)="goToMyAccount()"
   [routerLink]="{ cxRoute: 'my-account' } | cxUrl"
   type="button"
 >

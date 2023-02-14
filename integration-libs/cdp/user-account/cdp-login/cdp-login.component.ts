@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, RoutingService, User } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
 import { LoginComponent } from '@spartacus/user/account/components';
 import { LoginComponentService } from '@spartacus/user/account/components';
 import { UserAccountFacade } from '@spartacus/user/account/root';
@@ -39,10 +38,9 @@ export class CdpLoginComponent extends LoginComponent implements OnInit {
     return true;
 }
 
-goToMyAccount(order: Order): void {
+goToMyAccount(): void {
   this.routing.go({
-    cxRoute: '/my-account',
-    params: order,
+    cxRoute: 'myAccount'
   });
 }
 

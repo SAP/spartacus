@@ -19,7 +19,7 @@ import { CdpMyAccountComponent } from 'integration-libs/cdp/components/cdp-my-ac
 import { CdpLoginComponent } from './cdp-login.component';
 
 const routes: Routes = [
-  { path: '/my-account', component: CdpMyAccountComponent },
+  { path: 'my-account', component: CdpMyAccountComponent },
 ];
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes), UrlModule, PageSlotModule, I18nModule],
