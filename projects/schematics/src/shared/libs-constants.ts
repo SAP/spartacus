@@ -188,6 +188,10 @@ export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
 export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
+
+export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
+export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
+export const SPARTACUS_CUSTOMER_TICKETING = '@spartacus/customer-ticketing';
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -255,6 +259,7 @@ export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
+export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/
 
 /***** Feature name start *****/

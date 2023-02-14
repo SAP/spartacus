@@ -57,6 +57,10 @@ export const fontawesomeIconConfig: IconConfig = {
       USER_FRIENDS: 'fas fa-user-friends',
       VISA: 'fab fa-cc-visa',
       WARNING: 'fas fa-exclamation-triangle',
+      HEADSET: 'fas fa-headset',
+      ATTACHMENT: 'fas fa-paperclip',
+      UPLOAD: 'fas fa-upload',
+      USER: 'fas fa-user',
     },
     resources: [
       {

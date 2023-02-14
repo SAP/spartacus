@@ -101,6 +101,19 @@
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/customer-ticketing": {
+    "@angular-devkit/schematics": "^14.2.3",
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@angular/forms": "^14.2.3",
+    "@angular/router": "^14.2.3",
+    "@spartacus/cart": "4.1.0-next.0",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
+    "rxjs": "^6.6.0"
+  },
   "@spartacus/order": {
     "@angular-devkit/schematics": "^14.2.3",
     "@angular/common": "^14.2.3",
@@ -293,7 +306,7 @@
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
     "@angular/router": "^14.2.3",
-    "@sapui5/ts-types-esm": "1.107.1",
+    "@sapui5/ts-types-esm": "1.108.5",
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",

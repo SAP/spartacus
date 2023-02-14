@@ -9,13 +9,8 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2020",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2020", "dom"],
     "strictPropertyInitialization": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -157,22 +152,32 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "feature-libs/customer-ticketing/assets/public_api"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "feature-libs/customer-ticketing/components/public_api"
+      ],
+      "@spartacus/customer-ticketing/core": [
+        "feature-libs/customer-ticketing/core/public_api"
+      ],
+      "@spartacus/customer-ticketing": [
+        "feature-libs/customer-ticketing/public_api"
+      ],
+      "@spartacus/customer-ticketing/occ": [
+        "feature-libs/customer-ticketing/occ/public_api"
+      ],
+      "@spartacus/customer-ticketing/root": [
+        "feature-libs/customer-ticketing/root/public_api"
+      ],
       "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "feature-libs/order/components/public_api"
       ],
-      "@spartacus/order/core": [
-        "feature-libs/order/core/public_api"
-      ],
-      "@spartacus/order": [
-        "feature-libs/order/public_api"
-      ],
-      "@spartacus/order/occ": [
-        "feature-libs/order/occ/public_api"
-      ],
-      "@spartacus/order/root": [
-        "feature-libs/order/root/public_api"
-      ],
+      "@spartacus/order/core": ["feature-libs/order/core/public_api"],
+      "@spartacus/order": ["feature-libs/order/public_api"],
+      "@spartacus/order/occ": ["feature-libs/order/occ/public_api"],
+      "@spartacus/order/root": ["feature-libs/order/root/public_api"],
       "@spartacus/organization/account-summary/assets": [
         "feature-libs/organization/account-summary/assets/public_api"
       ],
@@ -422,24 +427,16 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
-      "@spartacus/cdc/core": [
-        "integration-libs/cdc/core/public_api"
-      ],
-      "@spartacus/cdc": [
-        "integration-libs/cdc/public_api"
-      ],
-      "@spartacus/cdc/root": [
-        "integration-libs/cdc/root/public_api"
-      ],
+      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cds": [
-        "integration-libs/cds/public_api"
-      ],
+      "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
@@ -464,24 +461,12 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/s4om/assets": [
-        "integration-libs/s4om/assets/public_api"
-      ],
-      "@spartacus/s4om": [
-        "integration-libs/s4om/public_api"
-      ],
-      "@spartacus/s4om/root": [
-        "integration-libs/s4om/root/public_api"
-      ],
-      "@spartacus/assets": [
-        "projects/assets/src/public_api"
-      ],
-      "@spartacus/core": [
-        "projects/core/public_api"
-      ],
-      "@spartacus/storefront": [
-        "projects/storefrontlib/public_api"
-      ]
+      "@spartacus/s4om/assets": ["integration-libs/s4om/assets/public_api"],
+      "@spartacus/s4om": ["integration-libs/s4om/public_api"],
+      "@spartacus/s4om/root": ["integration-libs/s4om/root/public_api"],
+      "@spartacus/assets": ["projects/assets/src/public_api"],
+      "@spartacus/core": ["projects/core/public_api"],
+      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]

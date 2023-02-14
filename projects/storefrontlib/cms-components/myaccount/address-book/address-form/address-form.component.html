@@ -192,7 +192,9 @@
           </ng-container>
         </ng-container>
       </div>
-      <div class="form-group">
+
+      <!-- TODO: (#CXSPA-53) Remove feature config check in 6.0. -->
+      <div class="form-group" *cxFeatureLevel="'!5.2'">
         <label>
           <span class="label-content">{{
             'addressForm.phoneNumber.label' | cxTranslate
@@ -207,6 +209,39 @@
           />
         </label>
       </div>
+      <div class="row" *cxFeatureLevel="'5.2'">
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content">{{
+              'addressForm.phoneNumber.label' | cxTranslate
+            }}</span>
+            <input
+              type="tel"
+              class="form-control"
+              placeholder="{{
+                'addressForm.phoneNumber.placeholder' | cxTranslate
+              }}"
+              formControlName="phone"
+            />
+          </label>
+        </div>
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content">{{
+              'addressForm.cellphone.label' | cxTranslate
+            }}</span>
+            <input
+              type="tel"
+              class="form-control"
+              placeholder="{{
+                'addressForm.cellphone.placeholder' | cxTranslate
+              }}"
+              formControlName="cellphone"
+            />
+          </label>
+        </div>
+      </div>
+
       <div
         class="form-group"
         *ngIf="(addresses$ | async)?.length && setAsDefaultField"

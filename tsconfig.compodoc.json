@@ -148,6 +148,24 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "feature-libs/customer-ticketing/assets/public_api"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "feature-libs/customer-ticketing/components/public_api"
+      ],
+      "@spartacus/customer-ticketing/core": [
+        "feature-libs/customer-ticketing/core/public_api"
+      ],
+      "@spartacus/customer-ticketing": [
+        "feature-libs/customer-ticketing/public_api"
+      ],
+      "@spartacus/customer-ticketing/occ": [
+        "feature-libs/customer-ticketing/occ/public_api"
+      ],
+      "@spartacus/customer-ticketing/root": [
+        "feature-libs/customer-ticketing/root/public_api"
+      ],
       "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "feature-libs/order/components/public_api"
@@ -439,24 +457,12 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/s4om/assets": [
-        "integration-libs/s4om/assets/public_api"
-      ],
-      "@spartacus/s4om": [
-        "integration-libs/s4om/public_api"
-      ],
-      "@spartacus/s4om/root": [
-        "integration-libs/s4om/root/public_api"
-      ],
-      "@spartacus/assets": [
-        "projects/assets/src/public_api"
-      ],
-      "@spartacus/core": [
-        "projects/core/public_api"
-      ],
-      "@spartacus/storefront": [
-        "projects/storefrontlib/public_api"
-      ]
+      "@spartacus/s4om/assets": ["integration-libs/s4om/assets/public_api"],
+      "@spartacus/s4om": ["integration-libs/s4om/public_api"],
+      "@spartacus/s4om/root": ["integration-libs/s4om/root/public_api"],
+      "@spartacus/assets": ["projects/assets/src/public_api"],
+      "@spartacus/core": ["projects/core/public_api"],
+      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
     }
   },
   "exclude": [

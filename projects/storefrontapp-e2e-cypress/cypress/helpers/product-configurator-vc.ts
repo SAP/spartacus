@@ -18,7 +18,7 @@ const conflictHeaderGroupSelector =
 export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 
 /**
- * Alias used for updating the config
+ * Alias used for reading the config
  */
 export const GET_CONFIG_ALIAS = '@readConfig';
 
@@ -325,7 +325,7 @@ export function clickOnViewInConfigurationAndWait(attribute: string): void {
  */
 export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
   cy.log('Verify whether View in Configuration Link is displayed');
-  this.checkConflictLinkDisplayed(attribute, 'View in Configuration Link');
+  this.checkConflictLink(attribute, 'View in Configuration Link', true);
 }
 
 /**
@@ -333,24 +333,55 @@ export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
  */
 export function checkConflictDetectedLinkDisplayed(attribute: string): void {
   cy.log('Verify whether Conflict Detected - View Details Link is displayed');
-  this.checkConflictLinkDisplayed(
+  this.checkConflictLink(
     attribute,
-    'Conflict Detected - View Details Link'
+    'Conflict Detected - View Details Link',
+    true
+  );
+}
+
+/**
+ * Verifies whether the view in configuration link is NOT displayed.
+ */
+export function checkViewInConfigurationLinkNotDisplayed(
+  attribute: string
+): void {
+  cy.log('Verify whether View in Configuration Link is NOT displayed');
+  this.checkConflictLink(attribute, 'View in Configuration Link', false);
+}
+
+/**
+ * Verifies whether the conflict detected - view details link is NOT displayed.
+ */
+export function checkConflictDetectedLinkNotDisplayed(attribute: string): void {
+  cy.log(
+    'Verify whether Conflict Detected - View Details Link is NOT displayed'
+  );
+  this.checkConflictLink(
+    attribute,
+    'Conflict Detected - View Details Link',
+    false
   );
 }
 
 /**
  * Verifies whether the conflict link is displayed.
  */
-export function checkConflictLinkDisplayed(
+export function checkConflictLink(
   attribute: string,
-  linkName: string
+  linkName: string,
+  isLinkDisplayed: boolean
 ): void {
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+  cy.get(
+    `cx-configurator-attribute-header #cx-configurator--attribute-msg--${attribute}`
+  ).within(() => {
+    if (isLinkDisplayed) {
       cy.get('a.cx-action-link').should('be.visible');
       cy.log(linkName + ' is displayed');
-    });
+    } else {
+      cy.get('a.cx-action-link').should('not.to.exist');
+      cy.log(linkName + ' is NOT displayed');
+    }
   });
 }
 
@@ -569,24 +600,22 @@ export function registerConfigurationPricingRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName, false);
   cy.wait(UPDATE_CONFIG_ALIAS);
 }
 
 /**
  * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
- * @param {string} nextGroup - Expected next group name
+ * @param {string} nextGroup - optional - expected next group name
  */
-export function clickOnNextBtnAndWait(nextGroup: string): void {
+export function clickOnNextBtnAndWait(nextGroup?: string): void {
   configuration.clickOnNextBtn(nextGroup);
   cy.wait(GET_CONFIG_ALIAS);
 }
@@ -594,9 +623,46 @@ export function clickOnNextBtnAndWait(nextGroup: string): void {
 /**
  * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
- * @param {string} previousGroup - Expected previous group name
+ * @param {string} previousGroup - optional - expected previous group name
  */
-export function clickOnPreviousBtnAndWait(previousGroup: string): void {
+export function clickOnPreviousBtnAndWait(previousGroup?: string): void {
   configuration.clickOnPreviousBtn(previousGroup);
   cy.wait(GET_CONFIG_ALIAS);
+}
+
+export class CommerceRelease {
+  isAtLeast2205?: boolean;
+  isAtLeast2211?: boolean;
+}
+
+export function checkCommerceRelease(
+  shop: string,
+  product: string,
+  commerceRelease
+) {
+  cy.request(
+    'GET',
+    Cypress.env('API_URL') +
+      Cypress.env('OCC_PREFIX') +
+      '/' +
+      shop +
+      '/products/' +
+      product +
+      '/configurators/ccpconfigurator'
+  ).then(({ body }) => {
+    cy.wrap(body).as('responseBodyVersionCheck');
+  });
+  cy.get('@responseBodyVersionCheck').then((responseBody) => {
+    const responseAsString = JSON.stringify(responseBody);
+    commerceRelease.isAtLeast2205 = responseAsString.includes('retractBlocked');
+    commerceRelease.isAtLeast2211 = responseAsString.includes(
+      'immediateConflictResolution'
+    );
+    cy.log(
+      'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
+    );
+    cy.log(
+      'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211
+    );
+  });
 }

@@ -82,6 +82,16 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "dist/checkout/scheduled-replenishment/root"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "dist/customer-ticketing/assets"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "dist/customer-ticketing/components"
+      ],
+      "@spartacus/customer-ticketing/core": ["dist/customer-ticketing/core"],
+      "@spartacus/customer-ticketing": ["dist/customer-ticketing"],
+      "@spartacus/customer-ticketing/occ": ["dist/customer-ticketing/occ"],
+      "@spartacus/customer-ticketing/root": ["dist/customer-ticketing/root"],
       "@spartacus/order/assets": ["dist/order/assets"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/core": ["dist/order/core"],

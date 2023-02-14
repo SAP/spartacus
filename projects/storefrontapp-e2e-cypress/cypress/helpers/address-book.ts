@@ -10,6 +10,7 @@ export const newAddress: AddressData = {
   firstName: 'Cypress',
   lastName: 'User',
   phone: '1234567',
+  cellphone: '555555555',
   address: {
     city: 'Montreal',
     country: 'Canada',

@@ -56,6 +56,10 @@ export enum ICON_TYPE {
   USER_FRIENDS = 'USER_FRIENDS',
   VISA = 'VISA',
   WARNING = 'WARNING',
+  HEADSET = 'HEADSET',
+  ATTACHMENT = 'ATTACHMENT',
+  UPLOAD = 'UPLOAD',
+  USER = 'USER',
 }
 
 @Injectable({

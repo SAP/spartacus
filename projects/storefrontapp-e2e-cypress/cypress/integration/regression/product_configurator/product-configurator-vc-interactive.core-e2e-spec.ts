@@ -64,6 +64,16 @@ const Conflict_msg_gaming_console =
   'Gaming console cannot be selected with LCD projector';
 
 context('Product Configuration', () => {
+  const commerceRelease: configurationVc.CommerceRelease = {};
+
+  before(() => {
+    configurationVc.checkCommerceRelease(
+      electronicsShop,
+      testProduct,
+      commerceRelease
+    );
+  });
+
   beforeEach(() => {
     configurationVc.registerConfigurationRoute();
     configurationVc.registerConfigurationUpdateRoute();
@@ -430,27 +440,31 @@ context('Product Configuration', () => {
       );
 
       // Navigate to a conflict group via clicking on 'Conflict Detected' link
-      configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-      configurationVc.clickOnConflictDetectedAndWait(GAMING_CONSOLE);
-      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
-      configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
-      );
 
-      // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
       configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-      configurationVc.clickOnViewInConfigurationAndWait(GAMING_CONSOLE);
-      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
-      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+      // Only perform this piece if backend allows to bavigate from attribute group to conflict group
+      if (commerceRelease.isAtLeast2211) {
+        configurationVc.clickOnConflictDetectedAndWait(GAMING_CONSOLE);
+        configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+        configurationVc.checkConflictDescriptionDisplayed(
+          Conflict_msg_gaming_console
+        );
 
-      // finally navigate to overview page and check conflict behavior on it
-      configurationVc.clickAddToCartBtn();
-      configurationOverviewVc.verifyNotificationBannerOnOP(0, 1); // 0 issues, 1 conflict
-      configurationOverviewVc.clickOnResolveConflictsLinkOnOP();
-      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
-      configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
-      );
+        // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
+        configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
+        configurationVc.clickOnViewInConfigurationAndWait(GAMING_CONSOLE);
+        configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
+        configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+
+        // finally navigate to overview page and check conflict behavior on it
+        configurationVc.clickAddToCartBtn();
+        configurationOverviewVc.verifyNotificationBannerOnOP(0, 1); // 0 issues, 1 conflict
+        configurationOverviewVc.clickOnResolveConflictsLinkOnOP();
+        configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+        configurationVc.checkConflictDescriptionDisplayed(
+          Conflict_msg_gaming_console
+        );
+      }
     });
   });
 });

@@ -165,7 +165,7 @@ describe('VisualPickingProductListService', () => {
       visualPickingProductListService.initialize();
     });
 
-    it('should produce one value for each distinct set of product references', (done) => {
+    it('should produce one value for each set of product references', (done) => {
       visualPickingProductListService['currentProduct$'] = of(currentProduct);
 
       spyOn(
@@ -191,13 +191,19 @@ describe('VisualPickingProductListService', () => {
       visualPickingProductListService
         .getProductReferences()
         .subscribe((productRefs: ProductReference[]) => {
-          if (count === 0) {
-            expect(productRefs).toEqual([]);
-          } else if (count === 1) {
-            expect(productRefs).toEqual(oneProductReference);
-          } else {
-            expect(productRefs).toEqual(productReferences);
-            done();
+          switch (count) {
+            case 0:
+            case 1:
+              expect(productRefs).toEqual([]);
+              break;
+            case 2:
+            case 3:
+              expect(productRefs).toEqual(oneProductReference);
+              break;
+            case 4:
+              expect(productRefs).toEqual(productReferences);
+              done();
+              break;
           }
           count++;
         });

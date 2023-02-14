@@ -53,3 +53,31 @@ If explicitly set, this option will take precedence over the express server.
 ### QuickOrderOrderEntriesContext
 
 - `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
+
+### CheckoutDeliveryAddressComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutPaymentFormComponent
+
+- `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutReviewSubmitComponent
+
+- `getDeliveryAddressCard()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### AddressBookComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+## BadRequestHandler
+
+- `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
+
+## OrderHistoryService
+
+- The method `getOrderDetailsLoading()` has been added and returning order details loading state.
+
+## OrderDetailsService
+
+- Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
