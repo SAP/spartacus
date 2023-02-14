@@ -7,7 +7,7 @@
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { clearCacheTestIsolation } from '../../utils-cypress-legacy';
-import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
+import { MyCompanyConfig } from './models/index';
 import {
   testCoreFeaturesFromConfig,
   testFeaturesFromConfig,
@@ -22,16 +22,26 @@ export function testMyCompanyFeatureFromConfig(
     { testIsolation: false },
     () => {
       clearCacheTestIsolation();
+      Cypress.Cookies.debug(true);
       before(() => {
         Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
       });
 
       beforeEach(() => {
         cy.restoreLocalStorage();
+        // if (config.preserveCookies) {
+        //   cy.log('flo cookies1');
 
-        if (config.preserveCookies) {
-          Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
-        }
+        //   // Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
+        //   cy.session('test', cy.restoreLocalStorage, {
+        //     validate() {
+        //       cy.getCookies();
+        //     },
+        //   });
+        // } else {
+        //   cy.restoreLocalStorage();
+        //   cy.log('flo NO COOKIES');
+        // }
       });
 
       afterEach(() => {
