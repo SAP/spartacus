@@ -11,3 +11,10 @@ export function clearCacheTestIsolation() {
     cy.clearCookies();
   });
 }
+
+export function clearCacheTestIsolationBeforeEach() {
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.clearCookies();
+  });
+}
