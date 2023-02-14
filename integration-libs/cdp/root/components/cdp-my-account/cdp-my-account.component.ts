@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-// import { Order } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-cdp-my-account',
@@ -9,8 +7,7 @@ import { RoutingService } from '@spartacus/core';
 })
 export class CdpMyAccountComponent   {
 
-  constructor( protected routing: RoutingService) { }
+  constructor() { }
 
-  // ngOnInit(): void {
-  // }
+
 }

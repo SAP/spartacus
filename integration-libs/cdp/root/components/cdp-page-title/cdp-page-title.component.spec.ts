@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CdpMyAccountComponent } from "./CdpMyAccountComponent";
+import { CdpPageTitleComponent } from './cdp-page-title.component';
 
-describe('CdpMyAccountComponent', () => {
-  let component: CdpMyAccountComponent;
-  let fixture: ComponentFixture<CdpMyAccountComponent>;
+describe('CdpPageTitleComponent', () => {
+  let component: CdpPageTitleComponent;
+  let fixture: ComponentFixture<CdpPageTitleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CdpMyAccountComponent ]
+      declarations: [ CdpPageTitleComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CdpMyAccountComponent);
+    fixture = TestBed.createComponent(CdpPageTitleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
