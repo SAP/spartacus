@@ -2177,10 +2177,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@ng-select/ng-select@^9.0.2":
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-9.0.2.tgz#15e270c2933423c7eaef6a09a1723db1e5212521"
-  integrity sha512-xdNiz/kgkMWYW1qFtk/337xDk/cmfEbSVtTFxWIM2OnIX1XsQOnTlGiBYces1TsMfqS68HjAvljEkj8QIGN2Lg==
+"@ng-select/ng-select@^10.0.3":
+  version "10.0.3"
+  resolved "https://registry.npmjs.org/@ng-select/ng-select/-/ng-select-10.0.3.tgz#0be2dcada8e535ee2594d7afd7b67450492f0995"
+  integrity sha512-Ma8pzKMI5TWnsKgOiONQLGeUeTko9gI6AtqpMMOVhrCktjtUSo9h5N17WomHRGtba9D7QviTZcR7UBhKOPwZ7g==
   dependencies:
     tslib "^2.3.1"
 
