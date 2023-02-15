@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
-import { FeatureConfigService } from '../../../../features-config';
 import { BadRequestHandler } from './bad-request.handler';
 
 const MockRequest = {
@@ -99,13 +98,6 @@ const MockBadGuestDuplicateEmailResponse = {
   },
 } as HttpErrorResponse;
 
-// TODO: Remove this `MockFeatureConfigService` for 6.0 (CXSPA-2413)
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('BadRequestHandler', () => {
   let service: BadRequestHandler;
   let globalMessageService: GlobalMessageService;
@@ -117,11 +109,6 @@ describe('BadRequestHandler', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
-        },
-        // TODO: Remove this `FeatureConfigService` provider for 6.0 (CXSPA-2413)
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     });

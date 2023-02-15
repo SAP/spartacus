@@ -138,7 +138,7 @@
     "@babel/runtime": "^7.18.9",
     "@ngrx/store-devtools": "^14.3.0",
     "@nguniversal/builders": "^14.2.0",
-    "@sapui5/ts-types-esm": "1.107.1",
+    "@sapui5/ts-types-esm": "1.108.5",
     "@schematics/angular": "^14.2.3",
     "@spartacus-eslint/eslint-plugin": "link:./projects/eslint",
     "@types/express": "^4.17.0",
