@@ -9,6 +9,12 @@ export function clearCacheTestIsolation() {
   before(() => {
     cy.clearAllLocalStorage();
     cy.clearAllCookies();
+    cy.clearAllSessionStorage();
+  });
+  beforeEach(() => {
+    cy.clearAllLocalStorage();
+    cy.clearAllCookies();
+    cy.clearAllSessionStorage();
   });
 }
 
