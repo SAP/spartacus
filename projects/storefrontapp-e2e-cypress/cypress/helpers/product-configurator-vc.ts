@@ -18,7 +18,7 @@ const conflictHeaderGroupSelector =
 export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 
 /**
- * Alias used for updating the config
+ * Alias used for reading the config
  */
 export const GET_CONFIG_ALIAS = '@readConfig';
 
@@ -628,4 +628,41 @@ export function clickOnNextBtnAndWait(nextGroup?: string): void {
 export function clickOnPreviousBtnAndWait(previousGroup?: string): void {
   configuration.clickOnPreviousBtn(previousGroup);
   cy.wait(GET_CONFIG_ALIAS);
+}
+
+export class CommerceRelease {
+  isAtLeast2205?: boolean;
+  isAtLeast2211?: boolean;
+}
+
+export function checkCommerceRelease(
+  shop: string,
+  product: string,
+  commerceRelease
+) {
+  cy.request(
+    'GET',
+    Cypress.env('API_URL') +
+      Cypress.env('OCC_PREFIX') +
+      '/' +
+      shop +
+      '/products/' +
+      product +
+      '/configurators/ccpconfigurator'
+  ).then(({ body }) => {
+    cy.wrap(body).as('responseBodyVersionCheck');
+  });
+  cy.get('@responseBodyVersionCheck').then((responseBody) => {
+    const responseAsString = JSON.stringify(responseBody);
+    commerceRelease.isAtLeast2205 = responseAsString.includes('retractBlocked');
+    commerceRelease.isAtLeast2211 = responseAsString.includes(
+      'immediateConflictResolution'
+    );
+    cy.log(
+      'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
+    );
+    cy.log(
+      'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211
+    );
+  });
 }

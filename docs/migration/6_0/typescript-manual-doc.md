@@ -73,3 +73,11 @@ If explicitly set, this option will take precedence over the express server.
 ## BadRequestHandler
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
+
+## OrderHistoryService
+
+- The method `getOrderDetailsLoading()` has been added and returning order details loading state.
+
+## OrderDetailsService
+
+- Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
