@@ -6,7 +6,7 @@
 
 import * as checkout from '../../../helpers/checkout-flow';
 import { Address } from '../../../helpers/checkout-forms';
-import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
+import { clearCacheTestIsolationBeforeOnly } from '../../../helpers/utils-cypress-legacy';
 import { user } from '../../../sample-data/checkout-flow';
 
 const canadaAddress: Address = {
@@ -27,7 +27,7 @@ const polandAddress: Address = {
 };
 
 context('Payment billing address', { testIsolation: false }, () => {
-  clearCacheTestIsolation();
+  clearCacheTestIsolationBeforeOnly();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });

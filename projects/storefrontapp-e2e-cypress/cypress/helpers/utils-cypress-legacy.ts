@@ -7,12 +7,19 @@
 // Used by tests not suporting TestIsolation introduced in Cypress12
 export function clearCacheTestIsolation() {
   before(() => {
-    cy.clearAllLocalStorage();
-    cy.clearAllCookies();
+    cy.clearLocalStorage();
+    cy.clearCookies();
   });
   beforeEach(() => {
-    cy.clearAllLocalStorage();
-    cy.clearAllCookies();
+    cy.clearLocalStorage();
+    cy.clearCookies();
+  });
+}
+
+export function clearCacheTestIsolationBeforeOnly() {
+  before(() => {
+    cy.clearLocalStorage();
+    cy.clearCookies();
   });
 }
 

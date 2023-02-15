@@ -17,13 +17,12 @@ import {
   verifyActionLinkHasText,
   waitForResponse,
 } from '../../../helpers/order-history';
-import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
+import { clearCacheTestIsolationBeforeOnly } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 
-describe('Order History with orders', { testIsolation: false }, () => {
-  clearCacheTestIsolation();
+describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
@@ -44,9 +43,9 @@ describe('Order History with orders', { testIsolation: false }, () => {
   });
 });
 
-describe('Order details page', { testIsolation: false }, () => {
-  clearCacheTestIsolation();
+describe.only('Order details page', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    clearCacheTestIsolationBeforeOnly();
     let formattedValue: any;
 
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
