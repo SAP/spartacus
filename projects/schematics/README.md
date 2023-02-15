@@ -30,7 +30,7 @@ The following points provide guidance on how to achieve that.
 - next, you can pick and choose a test that's using a class as an input (where the class is a made up testing class from customers' perspective, represented as a string). The output of the test is also a class, modified by the schematics (basically the expected result); again, this class is also represented as a string. Therefore, in case of the constructor deprecation, you can modify e.g. `ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS` constant to match your made up input. You can then just `console.log()` the result and assert the migrated code manually in the console.
 - in order to save yourself some time, it's recommended to `fdescribe` (or `fit`) the test that's using the constants from the previous step. To run the test(s), follow the steps from the beginning of this section. An additional benefit is that it removes a lot of noise in the terminal, which is especially useful when using `console.log()`ing the result.
 
-### Integration testing
+### Integration testing test
 
 The best way to test an unpublished schematic is to publish it to a local npm registry. For more, see [developing schematics](#Developing-schematics)
 
