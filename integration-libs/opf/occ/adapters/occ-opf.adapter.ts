@@ -17,7 +17,7 @@ import {
   OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
 } from '@spartacus/opf/core';
-import { ActiveConfiguration } from '@spartacus/opf/root';
+import { ActiveConfiguration, OpfConfig } from '@spartacus/opf/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -26,13 +26,14 @@ export class OccOpfAdapter implements OpfAdapter {
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
-    protected opfEndpointsService: OpfEndpointsService
+    protected opfEndpointsService: OpfEndpointsService,
+    protected config: OpfConfig
   ) {}
 
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
     const headers = new HttpHeaders({
-      // TODO: (OPF) to be changed once backend has stable configuration
-      'sap-commerce-cloud-public-key': '123',
+      'sap-commerce-cloud-public-key':
+        this.config.opf?.commerceCloudPublicKey || '',
     });
 
     return this.http
