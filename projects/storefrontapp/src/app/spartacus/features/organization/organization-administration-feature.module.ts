@@ -15,11 +15,11 @@ import {
   ORGANIZATION_ADMINISTRATION_FEATURE,
 } from '@spartacus/organization/administration/root';
 import { environment } from '../../../../environments/environment';
-import { ManageUsersModule } from '@spartacus/cdc/manage-users';
+import { CdcAdministrationModule } from 'integration-libs/cdc/organization/administration/public_api';
 
 const extensions: Type<any>[] = [];
 if (environment.cdc) {
-  extensions.push(ManageUsersModule);
+  extensions.push(CdcAdministrationModule);
 }
 @NgModule({
   declarations: [],

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
@@ -15,6 +15,11 @@ import {
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
+
+export enum CreateButtonType {
+  LINK = 'LINK',
+  BUTTON = 'BUTTON',
+}
 
 /**
  * The `ListService` deals with the table structure, list data and
@@ -160,22 +165,21 @@ export abstract class ListService<T, P = PaginationModel> {
   ): Observable<EntitiesModel<T> | undefined>;
 
   /**
-   * If this method returns true, hyperlink will be shown to add new user.
-   * If this method returns false, button will be displayed.
+   * This method will return what kind of UI element to be used for create option in UI
    */
-  showLink(): boolean {
-    return true;
+  getCreateButtonType(): CreateButtonType {
+    return CreateButtonType.LINK;
   }
 
   /**
-   * This method will be called when the button to create new user is clicked.
+   * This method will be called when the button to create new item is clicked.
    */
   onCreateButtonClick(): void {}
 
   /**
    * This method will return the label for create button
    */
-  getCreateButtonLabel(): string {
-    return 'organization.add';
+  getCreateButtonLabel(): Translatable {
+    return { key: 'organization.add' };
   }
 }

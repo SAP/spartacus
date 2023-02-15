@@ -10,7 +10,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
 import {
   ICON_TYPE,
   Table,
@@ -47,7 +47,7 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   iconTypes = ICON_TYPE;
 
-  showLink = this.service.showLink();
+  createButtonType = this.service.getCreateButtonType();
 
   /**
    * The current key represents the current selected item from the dataset.
@@ -116,7 +116,7 @@ export class ListComponent<T = any, P = PaginationModel> {
   /**
    * Returns the label for Create button
    */
-  getCreateButtonLabel(): string {
+  getCreateButtonLabel(): Translatable {
     return this.service.getCreateButtonLabel();
   }
 }

@@ -3,7 +3,7 @@
 exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcModule } from "@spartacus/cdc";
-import { ManageUsersModule } from "@spartacus/cdc/manage-users";
+import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
 import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
 import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
@@ -16,7 +16,7 @@ import { provideConfig } from "@spartacus/core";
     CdcModule,
     CDCUserAccountModule,
     CDCUserProfileModule,
-    ManageUsersModule
+    CdcAdministrationModule
   ],
   providers: [provideConfig(<CdcConfig>{
     cdc: [

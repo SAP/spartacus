@@ -58,7 +58,7 @@ class MockBaseListService {
     return false;
   }
   onCreateButtonClick(): void {}
-  showLink = createSpy('showLink');
+  getCreateButtonType = createSpy('getCreateButtonType');
 }
 
 class MockItemService {

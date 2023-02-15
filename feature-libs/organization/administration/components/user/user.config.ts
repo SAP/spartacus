@@ -5,7 +5,10 @@
  */
 
 import { AuthGuard, CmsConfig } from '@spartacus/core';
-import { AdminGuard } from '@spartacus/organization/administration/core';
+import {
+  AdminGuard,
+  UserGuard,
+} from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE } from '../constants';
@@ -62,7 +65,7 @@ export const userCmsConfig: CmsConfig = {
           {
             path: 'create',
             component: UserFormComponent,
-            canMatch: [AdminGuard],
+            canActivate: [UserGuard],
           },
           {
             path: `:${ROUTE_PARAMS.userCode}`,
@@ -74,12 +77,12 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: `edit`,
                 component: UserFormComponent,
-                canMatch: [AdminGuard],
+                canActivate: [UserGuard],
               },
               {
                 path: `change-password`,
                 component: UserChangePasswordFormComponent,
-                canMatch: [AdminGuard],
+                canActivate: [UserGuard],
               },
               {
                 path: 'user-groups',

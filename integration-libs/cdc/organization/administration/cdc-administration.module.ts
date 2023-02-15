@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import {
   CdcB2BUserService,
   CdcUserListService,
-} from '@spartacus/cdc/manage-users';
+} from 'integration-libs/cdc/organization/administration/public_api';
 import { UserListService } from '@spartacus/organization/administration/components';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 
@@ -18,4 +18,4 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
     { provide: UserListService, useClass: CdcUserListService },
   ],
 })
-export class ManageUsersModule {}
+export class CdcAdministrationModule {}

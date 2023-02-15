@@ -19,7 +19,6 @@ class MockWinRef {
   }
 }
 class MockCdcJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(true));
   openDelegatedAdminLogin = createSpy();
   getOrganizationContext = createSpy();
 }
@@ -75,7 +74,6 @@ describe('CdcUserListService', () => {
   });
   describe('onCreateButtonClick()', () => {
     it('should open delegate admin login successfully', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
       cdcJsService.getOrganizationContext = createSpy().and.returnValue(
         of({ orgId: orgId })
       );
@@ -83,12 +81,10 @@ describe('CdcUserListService', () => {
 
       service.onCreateButtonClick();
 
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcJsService.getOrganizationContext).toHaveBeenCalled();
       expect(cdcJsService.openDelegatedAdminLogin).toHaveBeenCalledWith(orgId);
     });
     it('should handle when empty incorrect organization id is passed', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(true));
       cdcJsService.getOrganizationContext = createSpy().and.returnValue(
         of({ orgId: '' })
       );
@@ -96,7 +92,6 @@ describe('CdcUserListService', () => {
 
       service.onCreateButtonClick();
 
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
       expect(cdcJsService.getOrganizationContext).toHaveBeenCalled();
       expect(cdcJsService.openDelegatedAdminLogin).not.toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -106,29 +101,17 @@ describe('CdcUserListService', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
-    it('should handle a failed CDC SDK Load Request', () => {
-      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
-      cdcJsService.getOrganizationContext = createSpy().and.returnValue(
-        of({ orgId: orgId })
-      );
-      cdcJsService.openDelegatedAdminLogin = createSpy();
-
-      service.onCreateButtonClick();
-
-      expect(cdcJsService.didLoad).toHaveBeenCalled();
-      expect(cdcJsService.getOrganizationContext).not.toHaveBeenCalled();
-      expect(cdcJsService.openDelegatedAdminLogin).not.toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'errorHandlers.scriptFailedToLoad',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
+  });
+  describe('getCreateButtonType()', () => {
+    it('should show Manage Users Button in UI', () => {
+      expect(service.getCreateButtonType()).toEqual('BUTTON');
     });
   });
-  describe('showLink()', () => {
-    it('should show Manage Users Button in UI', () => {
-      expect(service.showLink()).toEqual(false);
+  describe('getCreateButtonLabel()', () => {
+    it('should return label for Manage Users Button in UI', () => {
+      expect(service.getCreateButtonLabel()).toEqual({
+        key: 'organization.manageUsers',
+      });
     });
   });
 });

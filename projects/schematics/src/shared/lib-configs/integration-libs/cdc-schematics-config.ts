@@ -12,7 +12,7 @@ import {
   SPARTACUS_CDC_ROOT,
   USER_PROFILE_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-  SPARTACUS_CDC_MANAGE_USERS,
+  SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -39,7 +39,7 @@ export const CDC_CONFIG = 'CdcConfig';
 export const CDC_USER_ACCOUNT_MODULE = 'CDCUserAccountModule';
 
 export const CDC_USER_PROFILE_MODULE = 'CDCUserProfileModule';
-export const MANAGE_USERS_MODULE = 'ManageUsersModule';
+export const CDC_ADMINISTRATION_MODULE = 'CdcAdministrationModule';
 
 export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -62,8 +62,8 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
       importPath: SPARTACUS_CDC_USER_PROFILE,
     },
     {
-      name: MANAGE_USERS_MODULE,
-      importPath: SPARTACUS_CDC_MANAGE_USERS,
+      name: CDC_ADMINISTRATION_MODULE,
+      importPath: SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
     },
   ],
   lazyLoadingChunk: {
@@ -91,7 +91,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     },
     {
       markerModuleName: ADMINISTRATION_MODULE,
-      featureModuleName: MANAGE_USERS_MODULE,
+      featureModuleName: CDC_ADMINISTRATION_MODULE,
     },
   ],
 };

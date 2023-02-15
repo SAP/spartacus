@@ -132,6 +132,6 @@ describe('ListService', () => {
   });
 
   it('should show Add hyperlink', () => {
-    expect(service.showLink()).toEqual(true);
+    expect(service.getCreateButtonType()).toEqual('LINK');
   });
 });

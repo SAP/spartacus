@@ -6,4 +6,4 @@
 
 export * from './cdc-b2b-user.service';
 export * from './cdc-user-list.service';
-export * from './manage-users.module';
+export * from './cdc-administration.module';

@@ -11,7 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
+import {
+  EntitiesModel,
+  I18nTestingModule,
+  Translatable,
+} from '@spartacus/core';
 import { OrganizationTableType } from '@spartacus/organization/administration/components';
 import { PopoverModule, Table } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -68,9 +72,9 @@ class MockBaseListService {
     return false;
   }
   onCreateButtonClick(): void {}
-  showLink = createSpy('showLink');
-  getCreateButtonLabel(): string {
-    return 'organization.add';
+  getCreateButtonType = createSpy('getCreateButtonType');
+  getCreateButtonLabel(): Translatable {
+    return { key: 'organization.add' };
   }
 }
 
@@ -281,10 +285,11 @@ describe('ListComponent', () => {
 
     describe('it should show create functionality by default', () => {
       it('it should show Hyperlink with correct label and not Button', () => {
-        service.showLink = createSpy().and.returnValue(true);
-        service.getCreateButtonLabel =
-          createSpy().and.returnValue('organization.add');
-        component.showLink = service.showLink();
+        service.getCreateButtonType = createSpy().and.returnValue('LINK');
+        service.getCreateButtonLabel = createSpy().and.returnValue({
+          key: 'organization.add',
+        });
+        component.createButtonType = service.getCreateButtonType();
         component.hideAddButton = false;
         fixture.detectChanges();
 
@@ -296,11 +301,11 @@ describe('ListComponent', () => {
       });
 
       it('it should show Button with correct label and not Hyperlink', () => {
-        service.showLink = createSpy().and.returnValue(false);
-        service.getCreateButtonLabel = createSpy().and.returnValue(
-          'organization.manageUsers'
-        );
-        component.showLink = service.showLink();
+        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
+        service.getCreateButtonLabel = createSpy().and.returnValue({
+          key: 'organization.manageUsers',
+        });
+        component.createButtonType = service.getCreateButtonType();
         component.hideAddButton = false;
         fixture.detectChanges();
 
@@ -314,9 +319,9 @@ describe('ListComponent', () => {
 
     describe('it should not show create functionality', () => {
       it('it should not show Hyperlink', () => {
-        service.showLink = createSpy().and.returnValue(true);
+        service.getCreateButtonType = createSpy().and.returnValue('LINK');
         component.hideAddButton = true;
-        component.showLink = service.showLink();
+        component.createButtonType = service.getCreateButtonType();
         fixture.detectChanges();
 
         let hlink = el.query(By.css('a.button.primary.create'));
@@ -326,8 +331,8 @@ describe('ListComponent', () => {
       });
 
       it('it should not show Button', () => {
-        service.showLink = createSpy().and.returnValue(false);
-        component.showLink = service.showLink();
+        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
+        component.createButtonType = service.getCreateButtonType();
         component.hideAddButton = true;
         fixture.detectChanges();
 

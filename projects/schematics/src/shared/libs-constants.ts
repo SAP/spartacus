@@ -171,7 +171,7 @@ export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
 export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
 export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
-export const SPARTACUS_CDC_MANAGE_USERS = `@spartacus/cdc/manage-users`;
+export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organization/administration`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
