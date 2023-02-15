@@ -42,26 +42,7 @@ export function migrateComponentMigration(
       // check for usages of inputs / outputs of the deprecated component
       const sourceRoot = getSourceRoot(tree);
       const allHtmlFiles = getHtmlFiles(tree, '.html', sourceRoot);
-      for (const htmlFile of allHtmlFiles) {
-        for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
-          []) {
-          const buffer = tree.read(htmlFile);
-          if (!buffer) {
-            context.logger.warn(`Could not read file (${htmlFile}).`);
-            continue;
-          }
-          const content = buffer.toString(UTF_8);
-
-          const contentChange = insertComponentSelectorComment(
-            content,
-            deprecatedComponent.selector,
-            removedProperty
-          );
-          if (contentChange) {
-            tree.overwrite(htmlFile, contentChange);
-          }
-        }
-      }
+      handleHtmlFiles(allHtmlFiles, deprecatedComponent);
 
       // check for usages of the deprecated component properties in the .ts and the corresponding template (.html) files
       if (isInheriting(nodes, deprecatedComponent.componentClassName)) {
@@ -129,6 +110,30 @@ export function migrateComponentMigration(
   }
 
   return tree;
-}
 
-// CHECK SONAR
+  function handleHtmlFiles(
+    allHtmlFiles: string[],
+    deprecatedComponent: ComponentData
+  ) {
+    for (const htmlFile of allHtmlFiles) {
+      for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
+        []) {
+        const buffer = tree.read(htmlFile);
+        if (!buffer) {
+          context.logger.warn(`Could not read file (${htmlFile}).`);
+          continue;
+        }
+        const content = buffer.toString(UTF_8);
+
+        const contentChange = insertComponentSelectorComment(
+          content,
+          deprecatedComponent.selector,
+          removedProperty
+        );
+        if (contentChange) {
+          tree.overwrite(htmlFile, contentChange);
+        }
+      }
+    }
+  }
+}
