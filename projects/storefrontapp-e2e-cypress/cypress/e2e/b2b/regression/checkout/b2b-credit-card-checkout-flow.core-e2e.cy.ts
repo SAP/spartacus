@@ -6,7 +6,7 @@
 
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import * as checkout from '../../../../helpers/checkout-flow';
-import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
+import { clearCacheTestIsolationBeforeOnly } from '../../../../helpers/utils-cypress-legacy';
 import {
   cartWithB2bProduct,
   order_type,
@@ -16,19 +16,19 @@ import {
 import { user } from '../../../../sample-data/checkout-flow';
 
 context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
-  clearCacheTestIsolation();
+  clearCacheTestIsolationBeforeOnly();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-  });
+  // beforeEach(() => {
+  //   cy.restoreLocalStorage();
+  // });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+  // afterEach(() => {
+  //   cy.saveLocalStorage();
+  // });
 
   it('should login to b2b user', () => {
     b2bCheckout.loginB2bUser();
