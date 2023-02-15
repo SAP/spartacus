@@ -5,12 +5,13 @@
  */
 
 import { NgModule } from '@angular/core';
+
+import { UserListService } from '@spartacus/organization/administration/components';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import {
   CdcB2BUserService,
   CdcUserListService,
-} from 'integration-libs/cdc/organization/administration/public_api';
-import { UserListService } from '@spartacus/organization/administration/components';
-import { B2BUserService } from '@spartacus/organization/administration/core';
+} from '@spartacus/cdc/organization/administration';
 
 @NgModule({
   providers: [
