@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/styles",
-  "version": "4.1.1",
+  "version": "4.1.0-next.0",
   "description": "Style library containing global styles",
   "keywords": [
     "spartacus",
