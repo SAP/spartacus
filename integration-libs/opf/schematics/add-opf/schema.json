@@ -25,6 +25,15 @@
       "type": "array",
       "uniqueItems": true,
       "default": ["OPF"]
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "The base url of Cloud Commerce Adapter for Open Payment Framework integration",
+      "x-prompt": "[OPF] What is the base URL (origin) of your OPF Cloud Commerce Adapter?"
+    },
+    "commerceCloudPublicKey": {
+      "type": "string",
+      "description": "Commerce Clould public key required for authentication between OPF Cloud Commerce Adapter and Spartacus"
     }
   },
   "required": []

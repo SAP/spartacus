@@ -11,8 +11,14 @@ import {
   SPARTACUS_OPF_ASSETS,
   SPARTACUS_OPF_ROOT,
 } from '../../libs-constants';
-import { SchematicConfig } from '../../utils/lib-utils';
+import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
+import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 import { CHECKOUT_BASE_MODULE } from '../checkout-schematics-config';
+
+export interface SpartacusOpfOptions extends LibraryOptions {
+  baseUrl?: string;
+  commerceCloudPublicKey?: string;
+}
 
 export const OPF_FOLDER_NAME = 'opf';
 export const OPF_MODULE_NAME = 'Opf';
@@ -23,6 +29,8 @@ export const OPF_MODULE = 'OpfModule';
 export const OPF_ROOT_MODULE = 'OpfRootModule';
 export const OPF_TRANSLATIONS = 'opfTranslations';
 export const OPF_TRANSLATION_CHUNKS_CONFIG = 'opfTranslationChunksConfig';
+
+export const OPF_CONFIG = 'OpfConfig';
 
 export const OPF_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -55,4 +63,29 @@ export const OPF_SCHEMATICS_CONFIG: SchematicConfig = {
       featureModuleName: OPF_MODULE,
     },
   ],
+  customConfig: buildOpfConfig,
 };
+
+function buildOpfConfig(
+  options: SpartacusOpfOptions
+): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_OPF_ROOT,
+          namedImports: [OPF_CONFIG],
+        },
+      ],
+      content: `<${OPF_CONFIG}>{
+        opf: {
+          baseUrl: "${options.baseUrl || 'PLACEHOLDER_OPF_BASE_URL'}",
+          commerceCloudPublicKey: "${
+            options.commerceCloudPublicKey ||
+            'PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY'
+          }",
+        },
+      }`,
+    },
+  };
+}

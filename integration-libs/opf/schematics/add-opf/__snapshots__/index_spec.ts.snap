@@ -5,7 +5,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature eager 
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { OpfModule } from "@spartacus/opf";
 import { opfTranslationChunksConfig, opfTranslations } from "@spartacus/opf/assets";
-import { OpfRootModule } from "@spartacus/opf/root";
+import { OpfConfig, OpfRootModule } from "@spartacus/opf/root";
 
 @NgModule({
   declarations: [],
@@ -18,7 +18,14 @@ import { OpfRootModule } from "@spartacus/opf/root";
       resources: opfTranslations,
       chunks: opfTranslationChunksConfig,
     },
-  })]
+  }),
+  provideConfig(provideConfig(<OpfConfig>{
+    opf: {
+      baseUrl: "PLACEHOLDER_BASE_URL",
+      commerceCloudPublicKey: "PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY",
+    },
+  })
+]
 })
 export class OpfFeatureModule { }
 "
@@ -28,7 +35,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { opfTranslationChunksConfig, opfTranslations } from "@spartacus/opf/assets";
-import { OpfRootModule } from "@spartacus/opf/root";
+import { OpfConfig, OpfRootModule } from "@spartacus/opf/root";
 
 @NgModule({
   declarations: [],
@@ -40,8 +47,14 @@ import { OpfRootModule } from "@spartacus/opf/root";
       resources: opfTranslations,
       chunks: opfTranslationChunksConfig,
     },
+  }),
+  provideConfig(provideConfig(<OpfConfig>{
+    opf: {
+      baseUrl: "PLACEHOLDER_BASE_URL",
+      commerceCloudPublicKey: "PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY",
+    },
   })
-  ]
+]
 })
 export class OpfFeatureModule { }
 "
@@ -51,7 +64,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";
 import { opfTranslationChunksConfig, opfTranslations } from "@spartacus/opf/assets";
-import { OpfRootModule } from "@spartacus/opf/root";
+import { OpfConfig, OpfRootModule } from "@spartacus/opf/root";
 
 @NgModule({
   declarations: [],
@@ -63,8 +76,14 @@ import { OpfRootModule } from "@spartacus/opf/root";
       resources: opfTranslations,
       chunks: opfTranslationChunksConfig,
     },
+  }),
+  provideConfig(provideConfig(<OpfConfig>{
+    opf: {
+      baseUrl: "PLACEHOLDER_BASE_URL",
+      commerceCloudPublicKey: "PLACEHOLDER_COMMERCE_CLOUD_PUBLIC_KEY",
+    },
   })
-  ]
+]
 })
 export class OpfFeatureModule { }
 "
