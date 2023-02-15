@@ -4,6 +4,7 @@ on:
     branches:
       - develop
       - release/**
+      - feature/CXSPA-1977-v3-last-triple-check
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 env:

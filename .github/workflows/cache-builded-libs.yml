@@ -4,6 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
+      - feature/CXSPA-1977-v3-last-triple-check
 name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:
