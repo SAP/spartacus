@@ -1,6 +1,7 @@
 cx-future-stock-accordion {
   display: block;
   overflow: hidden;
+  margin-bottom: 1.25rem;
 
   .cx-future-stock-accordion-header {
     border: none;
@@ -24,6 +25,6 @@ cx-future-stock-accordion {
 
   .cx-future-stock-accordion-content {
     padding-inline-start: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 }
