@@ -13,6 +13,7 @@ import * as loginHelper from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { cheapProduct } from '../../../sample-data/checkout-flow';
 context('Checkout as guest', () => {
+  Cypress.Cookies.debug(true);
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
