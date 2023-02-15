@@ -273,15 +273,22 @@ export class AccountSummaryDocumentFilterComponent
           return { toDateMustComeAfterFrom: true };
         }
         if (type === 'number') {
-          const fromValue = parseFloat(from.value) || 0;
-          const toValue = parseFloat(to.value) || 0;
-          return !isNaN(from.value) && !isNaN(to.value) && fromValue > toValue
+          return isFromLargerThanTo(from, to)
             ? { toAmountMustBeLargeThanFrom: true }
             : null;
         }
         return null;
       };
     };
+
+    function isFromLargerThanTo(
+      from: AbstractControl<any, any>,
+      to: AbstractControl<any, any>
+    ) {
+      const fromValue = parseFloat(from.value) || 0;
+      const toValue = parseFloat(to.value) || 0;
+      return !isNaN(from.value) && !isNaN(to.value) && fromValue > toValue;
+    }
 
     this.filterForm = this.fb.group({
       status: status || DocumentStatus.OPEN,

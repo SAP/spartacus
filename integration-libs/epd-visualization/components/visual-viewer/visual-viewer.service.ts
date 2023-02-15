@@ -1143,6 +1143,11 @@ export class VisualViewerService implements OnDestroy {
       return;
     }
 
+    this.destroyContentConnector(core, viewport);
+    this.destroyViewManagers(core, viewport);
+  }
+
+  private destroyContentConnector(core: Core, viewport: Viewport): void {
     const contentConnectorId = viewport.getContentConnector();
     if (contentConnectorId) {
       const contentConnector = core.byId(contentConnectorId);
@@ -1150,7 +1155,9 @@ export class VisualViewerService implements OnDestroy {
         contentConnector.destroy();
       }
     }
+  }
 
+  private destroyViewManagers(core: Core, viewport: Viewport): void {
     const viewStateManagerId = viewport.getViewStateManager();
 
     if (viewStateManagerId && core.byId(viewStateManagerId)) {
