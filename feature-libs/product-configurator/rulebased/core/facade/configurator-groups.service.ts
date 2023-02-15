@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { delay, map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -169,6 +169,29 @@ export class ConfiguratorGroupsService {
   }
 
   /**
+   * Retrieves a conflict group for immediate conflict resolution.
+   *
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   * @return {Observable<Configurator.Group | undefined} - Conflict group
+   */
+  getConflictGroupForImmediateConflictResolution(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Group | undefined> {
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      //needed because we need have the form to react first on showConflictSolverDialog
+      delay(0),
+      map((configuration) => {
+        if (configuration.interactionState.showConflictSolverDialog) {
+          return configuration.flatGroups.find(
+            (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+          );
+        }
+        return undefined;
+      })
+    );
+  }
+
+  /**
    * Determines whether the group has been visited or not.
    *
    * @param {CommonConfigurator.Owner} owner - Owner
@@ -296,6 +319,19 @@ export class ConfiguratorGroupsService {
     return this.configuratorUtilsService.hasSubGroups(group);
   }
 
+  protected isConflictGroupInImmediateConflictResolutionMode(
+    groupType: Configurator.GroupType | undefined,
+    immediateConflictResolution = false
+  ): boolean {
+    if (groupType) {
+      return (
+        groupType === Configurator.GroupType.CONFLICT_GROUP &&
+        immediateConflictResolution
+      );
+    }
+    return false;
+  }
+
   /**
    * Retrieves a group ID of the neighboring group.
    *
@@ -316,7 +352,11 @@ export class ConfiguratorGroupsService {
               if (
                 group.id === currentGroupId &&
                 configuration.flatGroups &&
-                configuration.flatGroups[index + neighboringIndex] //Check if neighboring group exists
+                configuration.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
+                !this.isConflictGroupInImmediateConflictResolutionMode(
+                  configuration.flatGroups[index + neighboringIndex]?.groupType,
+                  configuration.immediateConflictResolution
+                )
               ) {
                 nextGroup =
                   configuration.flatGroups[index + neighboringIndex].id;

@@ -9,6 +9,8 @@ export * from './attribute/index';
 export * from './config/index';
 export * from './conflict-description/index';
 export * from './conflict-suggestion/index';
+export * from './conflict-solver-dialog/index';
+export * from './group/index';
 export * from './form/index';
 export * from './group-menu/index';
 export * from './group-title/index';

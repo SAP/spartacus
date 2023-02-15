@@ -18,9 +18,14 @@ const conflictHeaderGroupSelector =
 export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 
 /**
- * Alias used for updating the config
+ * Alias used for reading the config
  */
 export const GET_CONFIG_ALIAS = '@readConfig';
+
+/**
+ * Alias used for reading the config prices
+ */
+export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
 
 /**
  * Navigates to the product configuration page.
@@ -248,6 +253,7 @@ export function checkConflictDescriptionDisplayed(description: string): void {
  * Navigates to the corresponding group that contains an attribute which is involved in a conflict.
  *
  * @param attribute - Attribute name
+ * @param linkName - link to click
  */
 function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
@@ -282,13 +288,36 @@ export function isConflictLinkAttached(attribute: string): void {
 }
 
 /**
- * Navigates to a group that contains an attribute which is involved in a conflict.
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute.
  *
  * @param attribute - Attribute name
  */
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
-  clickOnConflictSolverLink(attribute, 'iew in Configuration Link');
+  clickOnConflictSolverLink(attribute, 'View in Configuration Link');
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
+ * containing the corresponding attribute and waits for request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfigurationAndWait(attribute: string): void {
+  clickOnViewInConfiguration(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -296,7 +325,7 @@ export function clickOnViewInConfiguration(attribute: string): void {
  */
 export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
   cy.log('Verify whether View in Configuration Link is displayed');
-  this.checkConflictLinkDisplayed(attribute, 'View in Configuration Link');
+  this.checkConflictLink(attribute, 'View in Configuration Link', true);
 }
 
 /**
@@ -304,35 +333,78 @@ export function checkViewInConfigurationLinkDisplayed(attribute: string): void {
  */
 export function checkConflictDetectedLinkDisplayed(attribute: string): void {
   cy.log('Verify whether Conflict Detected - View Details Link is displayed');
-  this.checkConflictLinkDisplayed(
+  this.checkConflictLink(
     attribute,
-    'Conflict Detected - View Details Link'
+    'Conflict Detected - View Details Link',
+    true
+  );
+}
+
+/**
+ * Verifies whether the view in configuration link is NOT displayed.
+ */
+export function checkViewInConfigurationLinkNotDisplayed(
+  attribute: string
+): void {
+  cy.log('Verify whether View in Configuration Link is NOT displayed');
+  this.checkConflictLink(attribute, 'View in Configuration Link', false);
+}
+
+/**
+ * Verifies whether the conflict detected - view details link is NOT displayed.
+ */
+export function checkConflictDetectedLinkNotDisplayed(attribute: string): void {
+  cy.log(
+    'Verify whether Conflict Detected - View Details Link is NOT displayed'
+  );
+  this.checkConflictLink(
+    attribute,
+    'Conflict Detected - View Details Link',
+    false
   );
 }
 
 /**
  * Verifies whether the conflict link is displayed.
  */
-export function checkConflictLinkDisplayed(
+export function checkConflictLink(
   attribute: string,
-  linkName: string
+  linkName: string,
+  isLinkDisplayed: boolean
 ): void {
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+  cy.get(
+    `cx-configurator-attribute-header #cx-configurator--attribute-msg--${attribute}`
+  ).within(() => {
+    if (isLinkDisplayed) {
       cy.get('a.cx-action-link').should('be.visible');
       cy.log(linkName + ' is displayed');
-    });
+    } else {
+      cy.get('a.cx-action-link').should('not.to.exist');
+      cy.log(linkName + ' is NOT displayed');
+    }
   });
 }
 
 /**
- * Navigates to the conflict group that contains an attribute which is involved in a conflict.
+ * Assuming the given attribute is involved in the conflict, it navigates from the standard group
+ * to the conflict group containing the corresponding attribute.
  *
  * @param attribute - Attribute name
  */
 export function clickOnConflictDetected(attribute: string): void {
   cy.log('Click Conflict Detected - View Details Link');
   clickOnConflictSolverLink(attribute, 'Conflict Detected - View Details Link');
+}
+
+/**
+ * Assuming the given attribute is involved in the conflict, it navigates from the standard group
+ * to the conflict group containing the corresponding attribute and waits for the request to finish.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnConflictDetectedAndWait(attribute: string): void {
+  clickOnConflictDetected(attribute);
+  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -384,6 +456,29 @@ export function selectConflictingValue(
 }
 
 /**
+ * Selects a conflicting value, namely selects a value and waits for the request to finish.
+ * Then verifies whether the conflict detected message under the attribute name is displayed,
+ * The conflict header group in the group menu is displayed and
+ * Finally verifies whether the expected number of conflicts is accurate.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ * @param {number} numberOfConflicts - Expected number of conflicts
+ */
+export function selectConflictingValueAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string,
+  numberOfConflicts: number
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
+  this.checkConflictDetectedMsgDisplayed(attributeName);
+  checkConflictHeaderGroupDisplayed();
+  verifyNumberOfConflicts(numberOfConflicts);
+}
+
+/**
  * Deselects a conflicting value, namely deselects a value.
  * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
  * the conflict header group in the group menu is not displayed either.
@@ -398,6 +493,25 @@ export function deselectConflictingValue(
   valueName: string
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName);
+  this.checkConflictDetectedMsgNotDisplayed(attributeName);
+  checkConflictHeaderGroupNotDisplayed();
+}
+
+/**
+ * Deselects a conflicting value, namely deselects a value and waits for the request to finish.
+ * Then verifies whether the conflict detected message under the attribute name is not displayed anymore and
+ * the conflict header group in the group menu is not displayed either.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {configuration.uiType} uiType - UI type
+ * @param {string} valueName - Value name
+ */
+export function deselectConflictingValueAndWait(
+  attributeName: string,
+  uiType: configuration.uiType,
+  valueName: string
+): void {
+  selectAttributeAndWait(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -430,6 +544,16 @@ export function clickOnGroup(groupIndex: number): void {
 }
 
 /**
+ * Clicks on the group via its index in the group menu and wait for the request to finish.
+ *
+ * @param {number} groupIndex - Group index
+ */
+export function clickOnGroupAndWait(groupIndex: number): void {
+  clickOnGroup(groupIndex);
+  cy.wait(GET_CONFIG_ALIAS);
+}
+
+/**
  * Scrolls to the bottom of the window and
  * clicks on the 'Add to cart' button.
  */
@@ -458,30 +582,40 @@ export function registerConfigurationUpdateRoute() {
 }
 
 /**
+ * Register configuration update route using name @see UPDATE_CONFIG_ALIAS
+ */
+export function registerConfigurationPricingRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*/pricing*`,
+  }).as(CONFIG_PRICING_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
  * Selects a corresponding attribute value and waits for the patch request to complete.
  * Assumes that @see registerConfigurationUpdateRoute was called beforehand.
  *
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName, false);
   cy.wait(UPDATE_CONFIG_ALIAS);
 }
 
 /**
  * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
- * @param {string} nextGroup - Expected next group name
+ * @param {string} nextGroup - optional - expected next group name
  */
-export function clickOnNextBtnAndWait(nextGroup: string): void {
+export function clickOnNextBtnAndWait(nextGroup?: string): void {
   configuration.clickOnNextBtn(nextGroup);
   cy.wait(GET_CONFIG_ALIAS);
 }
@@ -489,9 +623,46 @@ export function clickOnNextBtnAndWait(nextGroup: string): void {
 /**
  * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
- * @param {string} previousGroup - Expected previous group name
+ * @param {string} previousGroup - optional - expected previous group name
  */
-export function clickOnPreviousBtnAndWait(previousGroup: string): void {
+export function clickOnPreviousBtnAndWait(previousGroup?: string): void {
   configuration.clickOnPreviousBtn(previousGroup);
   cy.wait(GET_CONFIG_ALIAS);
+}
+
+export class CommerceRelease {
+  isAtLeast2205?: boolean;
+  isAtLeast2211?: boolean;
+}
+
+export function checkCommerceRelease(
+  shop: string,
+  product: string,
+  commerceRelease
+) {
+  cy.request(
+    'GET',
+    Cypress.env('API_URL') +
+      Cypress.env('OCC_PREFIX') +
+      '/' +
+      shop +
+      '/products/' +
+      product +
+      '/configurators/ccpconfigurator'
+  ).then(({ body }) => {
+    cy.wrap(body).as('responseBodyVersionCheck');
+  });
+  cy.get('@responseBodyVersionCheck').then((responseBody) => {
+    const responseAsString = JSON.stringify(responseBody);
+    commerceRelease.isAtLeast2205 = responseAsString.includes('retractBlocked');
+    commerceRelease.isAtLeast2211 = responseAsString.includes(
+      'immediateConflictResolution'
+    );
+    cy.log(
+      'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
+    );
+    cy.log(
+      'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211
+    );
+  });
 }

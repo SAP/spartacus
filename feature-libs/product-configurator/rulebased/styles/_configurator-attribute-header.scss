@@ -5,9 +5,7 @@
   margin-inline-end: 17px;
   margin-block-end: 17px;
 
-  @include forVersion(5.1) {
-    margin-block-end: 0px;
-  }
+  margin-block-end: 0px;
 
   label {
     @include type('5');
@@ -46,10 +44,8 @@
     cursor: pointer;
   }
 
-  @include forVersion(5.1) {
-    a.cx-action-link {
-      cursor: pointer;
-    }
+  a.cx-action-link {
+    cursor: pointer;
   }
 
   img {

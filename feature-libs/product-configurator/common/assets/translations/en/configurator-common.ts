@@ -14,7 +14,9 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
+      resolveIssue: 'Resolve Issue',
       resolveConflicts: 'Resolve Conflicts',
+      conflictWarning: 'Conflict must be resolved to continue',
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
@@ -153,6 +155,8 @@ export const configurator = {
         'Selected value {{ value }} of attribute {{ attribute }}',
       selectedValueOfAttributeFullWithPrice:
         'Selected value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
+      readOnlyValueOfAttributeFullWithPrice:
+        'Read-only value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
@@ -250,6 +254,7 @@ export const configurator = {
         'Filter configuration overview by your selections',
       filterOverviewByGroup:
         'Filter configuration overview by group {{groupName}}',
+      closeConflictSolverModal: 'Close conflict solver modal',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
