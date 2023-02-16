@@ -43,12 +43,14 @@ export function migrateComponentMigration(
       const sourceRoot = getSourceRoot(tree);
       const allHtmlFiles = getHtmlFiles(tree, '.html', sourceRoot);
       for (const htmlFile of allHtmlFiles) {
-        overwriteRemovedProperties(htmlFile, deprecatedComponent);
+        overwriteRemovedProperties(tree, htmlFile, deprecatedComponent);
       }
 
       // check for usages of the deprecated component properties in the .ts and the corresponding template (.html) files
       if (isInheriting(nodes, deprecatedComponent.componentClassName)) {
         overwriteInheritedRemovedProperties(
+          tree,
+          angularCompiler,
           sourcePath,
           sourceRoot,
           deprecatedComponent
@@ -58,95 +60,99 @@ export function migrateComponentMigration(
   }
 
   return tree;
+}
 
-  function overwriteRemovedProperties(
-    htmlFile: string,
-    deprecatedComponent: ComponentData
-  ) {
-    for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
-      []) {
-      const buffer = tree.read(htmlFile);
+function overwriteRemovedProperties(
+  tree: Tree,
+  htmlFile: string,
+  deprecatedComponent: ComponentData
+) {
+  for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
+    []) {
+    const buffer = tree.read(htmlFile);
+    if (!buffer) {
+      context.logger.warn(`Could not read file (${htmlFile}).`);
+      continue;
+    }
+    const content = buffer.toString(UTF_8);
+
+    const contentChange = insertComponentSelectorComment(
+      content,
+      deprecatedComponent.selector,
+      removedProperty
+    );
+
+    overwriteChanges(tree, htmlFile, contentChange);
+  }
+}
+
+function overwriteInheritedRemovedProperties(
+  tree: Tree,
+  angularCompiler: typeof import('@angular/compiler'),
+  sourcePath: string,
+  sourceRoot: string | undefined,
+  deprecatedComponent: ComponentData
+) {
+  for (const removedProperty of deprecatedComponent.removedProperties || []) {
+    // 'source' has to be reloaded after each committed change
+    const source = getTsSourceFile(tree, sourcePath);
+    const changes = insertCommentAboveIdentifier(
+      sourcePath,
+      source,
+      removedProperty.name,
+      buildSpartacusComment(removedProperty.comment)
+    );
+
+    const templateInfo = getTemplateInfo(source);
+    if (!templateInfo) {
+      commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+      continue;
+    }
+
+    const htmlFileName = templateInfo.templateUrl;
+    if (htmlFileName) {
+      const htmlFilePath = getHtmlFiles(tree, htmlFileName, sourceRoot)[0];
+      const buffer = tree.read(htmlFilePath);
       if (!buffer) {
-        context.logger.warn(`Could not read file (${htmlFile}).`);
+        context.logger.warn(`Could not read file (${htmlFilePath}).`);
+        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
         continue;
       }
       const content = buffer.toString(UTF_8);
 
-      const contentChange = insertComponentSelectorComment(
+      const contentChange = insertHtmlComment(
         content,
-        deprecatedComponent.selector,
-        removedProperty
+        removedProperty,
+        angularCompiler
       );
-
-      overwriteChanges(htmlFile, contentChange);
-    }
-  }
-
-  function overwriteInheritedRemovedProperties(
-    sourcePath: string,
-    sourceRoot: string | undefined,
-    deprecatedComponent: ComponentData
-  ) {
-    for (const removedProperty of deprecatedComponent.removedProperties || []) {
-      // 'source' has to be reloaded after each committed change
-      const source = getTsSourceFile(tree, sourcePath);
-      const changes = insertCommentAboveIdentifier(
-        sourcePath,
-        source,
-        removedProperty.name,
-        buildSpartacusComment(removedProperty.comment)
+      overwriteChanges(tree, htmlFilePath, contentChange);
+    } else if (templateInfo.inlineTemplateContent) {
+      const oldContent = templateInfo.inlineTemplateContent;
+      const contentChange = insertHtmlComment(
+        oldContent,
+        removedProperty,
+        angularCompiler
       );
-
-      const templateInfo = getTemplateInfo(source);
-      if (!templateInfo) {
-        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        continue;
-      }
-
-      const htmlFileName = templateInfo.templateUrl;
-      if (htmlFileName) {
-        const htmlFilePath = getHtmlFiles(tree, htmlFileName, sourceRoot)[0];
-        const buffer = tree.read(htmlFilePath);
-        if (!buffer) {
-          context.logger.warn(`Could not read file (${htmlFilePath}).`);
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-          continue;
-        }
-        const content = buffer.toString(UTF_8);
-
-        const contentChange = insertHtmlComment(
-          content,
-          removedProperty,
-          angularCompiler
-        );
-        overwriteChanges(htmlFilePath, contentChange);
-      } else if (templateInfo.inlineTemplateContent) {
-        const oldContent = templateInfo.inlineTemplateContent;
-        const contentChange = insertHtmlComment(
+      if (contentChange) {
+        const replaceChange = new ReplaceChange(
+          sourcePath,
+          templateInfo.inlineTemplateStart || 0,
           oldContent,
-          removedProperty,
-          angularCompiler
+          contentChange
         );
-        if (contentChange) {
-          const replaceChange = new ReplaceChange(
-            sourcePath,
-            templateInfo.inlineTemplateStart || 0,
-            oldContent,
-            contentChange
-          );
-          changes.push(replaceChange);
-        }
+        changes.push(replaceChange);
       }
-      commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
     }
+    commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
   }
+}
 
-  function overwriteChanges(
-    htmlFile: string,
-    contentChange: string | Buffer | undefined
-  ) {
-    if (contentChange) {
-      tree.overwrite(htmlFile, contentChange);
-    }
+function overwriteChanges(
+  tree: Tree,
+  htmlFile: string,
+  contentChange: string | Buffer | undefined
+) {
+  if (contentChange) {
+    tree.overwrite(htmlFile, contentChange);
   }
 }
