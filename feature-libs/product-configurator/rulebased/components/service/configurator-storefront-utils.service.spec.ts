@@ -23,6 +23,7 @@ class MockConfiguratorGroupsService {
 
 class MockKeyboardFocusService {
   findFocusable() {}
+
   set() {}
 }
 
@@ -54,6 +55,12 @@ function createFocusedElements(
   return focusedElements;
 }
 
+function remove(element: HTMLElement | undefined): void {
+  if (element) {
+    element.remove();
+  }
+}
+
 @Component({
   selector: 'cx-configurator',
   template: `
@@ -66,9 +73,10 @@ function createFocusedElements(
 })
 class MockComponent {}
 
-describe('ConfigUtilsService', () => {
+fdescribe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
   let fixture: ComponentFixture<MockComponent>;
+  let htmlElem: HTMLElement;
   let focusedElements: any;
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
@@ -95,6 +103,7 @@ describe('ConfigUtilsService', () => {
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
+    htmlElem = fixture.nativeElement;
     windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
@@ -104,6 +113,7 @@ describe('ConfigUtilsService', () => {
 
   afterEach(() => {
     document.querySelector = querySelectorOriginal;
+    document.body.removeChild(htmlElem);
   });
 
   it('should be created', () => {
@@ -539,6 +549,258 @@ describe('ConfigUtilsService', () => {
       const result = Array.from(classUnderTest.getElements('section'));
       expect(result.length).toEqual(elements.length);
       expect(result).toEqual(elements);
+    });
+  });
+
+  describe('getScrollY', () => {
+    it('should return undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getScrollY()).toBeUndefined();
+    });
+
+    it('should return number of pixels that the document is currently scrolled vertically', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      spyOnProperty(window, 'scrollY').and.returnValue(250);
+      const nativeWindow = windowRef.nativeWindow;
+      if (nativeWindow) {
+        expect(classUnderTest.getScrollY()).toBe(250);
+      }
+    });
+  });
+
+  describe('isScrollBox', () => {
+    it('should return false because element is undefined', () => {
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      expect(classUnderTest.isScrollBox('elementMock')).toBe(false);
+    });
+
+    it('should return false because element scrollHeight is not larger than element clientHeight', () => {
+      const form = htmlElem.querySelector(
+        'cx-configurator-form'
+      ) as HTMLElement;
+      const labels: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('label')
+      );
+      labels.forEach((label) => {
+        label.style.padding = '5px';
+        label.style.height = '10px';
+      });
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      expect(classUnderTest.isScrollBox('cx-configurator-form')).toBe(false);
+    });
+
+    it('should return true because element scrollHeight is larger than element clientHeight', () => {
+      const form = htmlElem.querySelector(
+        'cx-configurator-form'
+      ) as HTMLElement;
+      const labels: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('label')
+      );
+      labels.forEach((label) => {
+        label.style.padding = '25px';
+        label.style.height = '50px';
+      });
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      expect(classUnderTest.isScrollBox('cx-configurator-form')).toBe(true);
+    });
+  });
+
+  describe('isInViewport', () => {
+    let form;
+    let labels: HTMLElement[];
+
+    beforeEach(() => {
+      form = htmlElem.querySelector('cx-configurator-form') as HTMLElement;
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.border = 'thick double #32a1ce;';
+
+      labels = Array.from(htmlElem.querySelectorAll('label'));
+      labels.forEach((label) => {
+        label.style.padding = '25px';
+        label.style.height = '50px';
+      });
+
+      spyOn(form, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 250, 500)
+      );
+    });
+
+    it('should return false because the method gets undefined as parameter', () => {
+      expect(classUnderTest['isInViewport'](undefined)).toBe(false);
+    });
+
+    it('should return false', () => {
+      labels.forEach((label) => {
+        label.style.padding = '5px';
+        label.style.height = '10px';
+      });
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(false);
+    });
+
+    it("should return true because window's innerWith is known", () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+
+    it('should return true because clientHeight of element is known', () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+  });
+
+  describe('getElementHeight', () => {
+    let form;
+
+    beforeEach(() => {
+      form = htmlElem.querySelector('cx-configurator-form') as HTMLElement;
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.border = 'thick double #32a1ce;';
+
+      spyOn(form, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 250, 500)
+      );
+    });
+
+    it('should return zero because no element is found by a selector query', () => {
+      expect(classUnderTest['getElementHeight']('unknown-query')).toBe(0);
+    });
+
+    it('should return zero because form is not im viewport', () => {
+      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+
+      expect(classUnderTest['getElementHeight']('cx-configurator-form')).toBe(
+        0
+      );
+    });
+
+    it('should return offsetHeight of the element because form is not im viewport', () => {
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+
+      expect(
+        classUnderTest['getElementHeight']('cx-configurator-form')
+      ).toBeGreaterThan(0);
+    });
+  });
+
+  describe('getViewportHeight', () => {
+    let spaHeader;
+    let ovHeader;
+    let addToCart;
+
+    afterEach(() => {
+      remove(spaHeader);
+      remove(ovHeader);
+      remove(addToCart);
+    });
+
+    function createTestData() {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      spaHeader = document.createElement('header');
+      document.body.append(spaHeader);
+
+      ovHeader = document.createElement('cx-page-slot');
+      ovHeader.className = 'VariantConfigOverviewHeader';
+      document.body.append(ovHeader);
+
+      addToCart = document.createElement('cx-configurator-add-to-cart-button');
+      document.body.append(addToCart);
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+    }
+
+    it('should return zero because isBrowser is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getViewportHeight()).toBe(0);
+    });
+
+    it('should return viewport height when addToCartHeight equals zero', () => {
+      createTestData();
+      expect(classUnderTest.getViewportHeight()).toBeGreaterThan(0);
+    });
+
+    it('should return viewport height when addToCartHeight is greater than zero', () => {
+      createTestData();
+      addToCart.style.padding = '20px';
+      addToCart.style.height = '80px';
+      spyOn(addToCart, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 1000, 80)
+      );
+
+      expect(classUnderTest.getViewportHeight()).toBeGreaterThan(0);
+    });
+  });
+
+  describe('syncScroll', () => {
+    let ovMenu;
+    let menuItem;
+
+    afterEach(() => {
+      remove(ovMenu);
+      remove(menuItem);
+    });
+
+    function createTestData(offsetHeight: number, offsetTop: number) {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      ovMenu = document.createElement('cx-configurator-overview-menu');
+      document.body.append(ovMenu);
+      spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
+      spyOnProperty(ovMenu, 'offsetHeight').and.returnValue(offsetHeight);
+      spyOnProperty(ovMenu, 'scrollTop').and.returnValue(150);
+
+      menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      menuItem.className = 'cx-menu-item';
+
+      spyOn(menuItem, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 100, 25)
+      );
+      spyOnProperty(menuItem, 'offsetTop').and.returnValue(offsetTop);
+      spyOnProperty(menuItem, 'offsetHeight').and.returnValue(50);
+    }
+
+    it('should not sync scrolling', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      ovMenu = document.createElement('cx-configurator-overview-menu');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(ovMenu);
+      classUnderTest.syncScroll('cx-configurator-overview-menu', undefined);
+      expect(ovMenu.scrollTop).toBe(0);
+    });
+
+    it('should sync scrolling when element.offsetTop is less than container.scrollTop', () => {
+      createTestData(150, 50);
+      classUnderTest.syncScroll('cx-configurator-overview-menu', menuItem);
+      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      expect(ovMenu.scrollTop).toBeGreaterThan(0);
+    });
+
+    it('should sync scrolling when element.offsetTop is greater than container.scrollTop', () => {
+      createTestData(100, 250);
+      classUnderTest.syncScroll('cx-configurator-overview-menu', menuItem);
+      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
   });
 });

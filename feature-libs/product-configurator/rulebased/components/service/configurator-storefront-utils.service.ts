@@ -93,19 +93,6 @@ export class ConfiguratorStorefrontUtilsService {
     this.windowRef.nativeWindow?.scroll(0, topOffset);
   }
 
-  scrollTo(element: Element | HTMLElement | undefined): void {
-    if (element) {
-      let topOffset = 0;
-      if (element instanceof HTMLElement) {
-        topOffset = element.offsetTop;
-      }
-      this.windowRef.nativeWindow?.scrollTo({
-        top: topOffset,
-        behavior: 'smooth',
-      });
-    }
-  }
-
   /**
    * Scrolls to the corresponding configuration element in the HTML tree.
    *
@@ -375,12 +362,10 @@ export class ConfiguratorStorefrontUtilsService {
         bounding.top >= -height &&
         bounding.left >= -width &&
         bounding.right <=
-          (this.windowRef.nativeWindow?.innerWidth ||
-            document.documentElement.clientWidth) +
+          (this.windowRef.nativeWindow?.innerWidth || element.clientWidth) +
             width &&
         bounding.bottom <=
-          (this.windowRef.nativeWindow?.innerHeight ||
-            document.documentElement.clientHeight) +
+          (this.windowRef.nativeWindow?.innerHeight || element.clientHeight) +
             height
       ) {
         return true;
