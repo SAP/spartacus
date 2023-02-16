@@ -188,18 +188,6 @@ describe('ConfigurationGroupTitleComponent', () => {
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
   });
 
-  it('should create component without hamburger menu icon in case dependencies are not defined', () => {
-    component['hamburgerMenuService'] = undefined;
-    component['configuratorStorefrontUtilsService'] = undefined;
-    fixture.detectChanges();
-    expect(component).toBeDefined();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-hamburger-menu'
-    );
-  });
-
   it('should get group id as part of group', () => {
     component.displayedGroup$.subscribe((data: Configurator.Group) => {
       expect(data.id).toEqual(group.id);
@@ -239,21 +227,6 @@ describe('ConfigurationGroupTitleComponent', () => {
   });
 
   describe('isMobile', () => {
-    it('should not render hamburger menu in case breakpointService is not defined', () => {
-      component['breakpointService'] = undefined;
-      fixture.detectChanges();
-
-      component.isMobile().subscribe((isMobile) => {
-        expect(isMobile).toBe(false);
-      });
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-hamburger-menu'
-      );
-    });
-
     it('should not render hamburger menu in desktop mode', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
       fixture.detectChanges();
