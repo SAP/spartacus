@@ -21,6 +21,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { SourceFile } from 'ts-morph';
 import {
   CMS_CONFIG,
   I18N_CONFIG,
@@ -379,51 +380,7 @@ function addFeatureModule<T extends LibraryOptions>(
           continue;
         }
 
-        const configFeatures = ([] as Module[]).concat(config.featureModule);
-        for (let i = 0; i < configFeatures.length; i++) {
-          const featureModule = configFeatures[i];
-
-          // if it's already in a wrapper module
-          if (findFeatureModule(featureModule, appSourceFiles)) {
-            break;
-          }
-
-          let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
-            featureModules: {`;
-          if (options.lazy) {
-            let lazyLoadingChunkName = config.moduleName;
-            if (config.lazyLoadingChunk) {
-              const namedImportsContent =
-                config.lazyLoadingChunk.namedImports[i];
-              lazyLoadingChunkName = `[${namedImportsContent}]`;
-              createImports(sourceFile, config.lazyLoadingChunk);
-            }
-            content =
-              content +
-              `${lazyLoadingChunkName}: {
-                module: () =>
-                  import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
-              },`;
-
-            addModuleProvider(sourceFile, {
-              import: [
-                {
-                  moduleSpecifier: SPARTACUS_CORE,
-                  namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
-                },
-              ],
-              content: content + `}})`,
-            });
-          } else {
-            addModuleImport(sourceFile, {
-              import: {
-                moduleSpecifier: featureModule.importPath,
-                namedImports: [featureModule.name],
-              },
-              content: featureModule.content || featureModule.name,
-            });
-          }
-        }
+        addToFeatureModule(sourceFile, appSourceFiles);
 
         saveAndFormat(sourceFile);
         break;
@@ -431,6 +388,56 @@ function addFeatureModule<T extends LibraryOptions>(
     }
     return tree;
   };
+
+  function addToFeatureModule(
+    sourceFile: SourceFile,
+    appSourceFiles: SourceFile[]
+  ) {
+    const configFeatures = ([] as Module[]).concat(config.featureModule);
+    for (let i = 0; i < configFeatures.length; i++) {
+      const featureModule = configFeatures[i];
+
+      // if it's already in a wrapper module
+      if (findFeatureModule(featureModule, appSourceFiles)) {
+        break;
+      }
+
+      let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
+            featureModules: {`;
+      if (options.lazy) {
+        let lazyLoadingChunkName = config.moduleName;
+        if (config.lazyLoadingChunk) {
+          const namedImportsContent = config.lazyLoadingChunk.namedImports[i];
+          lazyLoadingChunkName = `[${namedImportsContent}]`;
+          createImports(sourceFile, config.lazyLoadingChunk);
+        }
+        content =
+          content +
+          `${lazyLoadingChunkName}: {
+                module: () =>
+                  import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
+              },`;
+
+        addModuleProvider(sourceFile, {
+          import: [
+            {
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
+            },
+          ],
+          content: content + `}})`,
+        });
+      } else {
+        addModuleImport(sourceFile, {
+          import: {
+            moduleSpecifier: featureModule.importPath,
+            namedImports: [featureModule.name],
+          },
+          content: featureModule.content || featureModule.name,
+        });
+      }
+    }
+  }
 }
 
 export function addFeatureTranslations<T extends LibraryOptions>(
@@ -891,5 +898,3 @@ export function finalizeInstallation<OPTIONS extends LibraryOptions>(
     }
   };
 }
-
-// CHECK SONAR
