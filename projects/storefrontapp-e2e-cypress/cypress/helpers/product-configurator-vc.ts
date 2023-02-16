@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PRODUCT_NO_PRICING } from '../sample-data/b2b-bulk-pricing';
 import * as configuration from './product-configurator';
 
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
