@@ -10,9 +10,7 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
   ICON_TYPE,
@@ -20,7 +18,7 @@ import {
   BREAKPOINT,
   BreakpointService,
 } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -47,75 +45,36 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
         )
       )
     );
-
   iconTypes = ICON_TYPE;
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService
-  );
-
-  /**
-   *
-   *  TODO(CXSPA-1014): make ConfiguratorExpertModeService, BreakpointService, ConfiguratorStorefrontUtilsService, HamburgerMenuService required dependencies
-   *  Make featureConfigService are required dependency and for major releases, remove featureConfigService from constructor in 6.0.
-   */
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configuratorGroupsService: ConfiguratorGroupsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    breakpointService: BreakpointService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    hamburgerMenuService: HamburgerMenuService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService,
-    @Optional()
-    protected breakpointService?: BreakpointService,
-    @Optional()
-    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService,
-    @Optional()
-    protected hamburgerMenuService?: HamburgerMenuService,
-    @Optional()
-    protected featureConfigService?: FeatureConfigService
+    protected configExpertModeService: ConfiguratorExpertModeService,
+    protected breakpointService: BreakpointService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
+    protected hamburgerMenuService: HamburgerMenuService
   ) {}
 
   ngOnInit(): void {
-    if (this.hamburgerMenuService && this.configuratorStorefrontUtilsService) {
-      this.subscription.add(
-        this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
-          if (!isExpanded) {
-            this.configuratorStorefrontUtilsService?.changeStyling(
-              '.PreHeader',
-              'display',
-              'none'
-            );
-          } else {
-            this.configuratorStorefrontUtilsService?.changeStyling(
-              '.PreHeader',
-              'display',
-              'block'
-            );
-          }
-        })
-      );
-    }
+    this.subscription.add(
+      this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
+        if (!isExpanded) {
+          this.configuratorStorefrontUtilsService.changeStyling(
+            '.PreHeader',
+            'display',
+            'none'
+          );
+        } else {
+          this.configuratorStorefrontUtilsService.changeStyling(
+            '.PreHeader',
+            'display',
+            'block'
+          );
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -126,7 +85,7 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
     let title = group.description;
     if (group.groupType !== Configurator.GroupType.CONFLICT_GROUP) {
       this.configExpertModeService
-        ?.getExpModeActive()
+        .getExpModeActive()
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {
@@ -143,8 +102,6 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
    * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
   isMobile(): Observable<boolean> {
-    return this.breakpointService
-      ? this.breakpointService.isDown(BREAKPOINT.md)
-      : of(false);
+    return this.breakpointService.isDown(BREAKPOINT.md);
   }
 }

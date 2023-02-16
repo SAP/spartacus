@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -26,13 +21,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   @Input() group: String;
   @Input() expMode: boolean;
 
-  //TODO(CXSPA-1014): make TranslationService a required dependency
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    translationService: TranslationService
-  );
-
-  constructor(@Optional() protected translationService?: TranslationService) {
+  constructor(protected translationService: TranslationService) {
     super();
   }
 
@@ -93,27 +82,23 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     formattedPrice?: string
   ): string {
     let ariaLabel: string = '';
-    if (this.translationService) {
-      const options = formattedPrice
-        ? {
-            value: valueName,
-            attribute: attribute.label,
-            price: formattedPrice,
-          }
-        : {
-            value: valueName,
-            attribute: attribute.label,
-          };
 
-      this.translationService
-        .translate(resourceKey, options)
-        .pipe(take(1))
-        .subscribe((text) => (ariaLabel = text));
-    } else {
-      throw new Error(
-        'At this point we expect the translation service to be defined (for SPA <= 5.1 the method will not be called)'
-      );
-    }
+    const options = formattedPrice
+      ? {
+          value: valueName,
+          attribute: attribute.label,
+          price: formattedPrice,
+        }
+      : {
+          value: valueName,
+          attribute: attribute.label,
+        };
+
+    this.translationService
+      .translate(resourceKey, options)
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
+
     return ariaLabel;
   }
 
