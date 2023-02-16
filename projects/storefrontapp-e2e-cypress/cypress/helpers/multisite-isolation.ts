@@ -1,4 +1,7 @@
+import { user } from '../sample-data/checkout-flow';
+import { register } from './auth-forms';
 import { ELECTRONICS_CURRENCY } from './checkout-flow';
+import * as login from './login';
 
 /**
  * Set specific baseSite configuration for test scenario.
@@ -18,4 +21,17 @@ export function setBaseSiteConfig(
       currency: [currency],
     },
   });
+}
+
+export function verifyUserSession() {
+  cy.visit('/login/register');
+
+  register(user);
+
+  login.listenForTokenAuthenticationRequest();
+  login.loginUser();
+
+  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 200);
+
+  cy.get(login.userGreetSelector).should('exist');
 }
