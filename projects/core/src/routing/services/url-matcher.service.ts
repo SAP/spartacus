@@ -96,7 +96,7 @@ export class UrlMatcherService {
 
       if (
         route.pathMatch === 'full' &&
-        (segmentGroup.hasChildren() || parts.length < segments.length)
+        segmentGroupHasChildrenOr(segmentGroup, parts.length < segments.length)
       ) {
         // The config is longer than the actual URL but we are looking for a full match, return null
         return null;
@@ -131,11 +131,18 @@ export class UrlMatcherService {
     ) {
       if (
         route.pathMatch === 'full' &&
-        (segmentGroup.hasChildren() || segments.length > 0)
+        segmentGroupHasChildrenOr(segmentGroup, segments.length > 0)
       ) {
         return null;
       }
       return { consumed: [], posParams: {} };
+    }
+
+    function segmentGroupHasChildrenOr(
+      segmentGroup: UrlSegmentGroup,
+      condition: boolean
+    ) {
+      return segmentGroup.hasChildren() || condition;
     }
   }
 
