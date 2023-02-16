@@ -234,5 +234,3 @@ export class CustomSerializer
 
   constructor(private routingConfig: RoutingConfigService) {}
 }
-
-// CHECK SONAR
