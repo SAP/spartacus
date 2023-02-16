@@ -10,5 +10,31 @@
     "entryPoint": "@spartacus/feature2/components",
     "memberName": "order",
     "migrationComment": "Use the property currentOrder instead.  (note: this example won't appear in the migration material because the ExampleComponentName class does not exist)"
-  }
+  },  
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "updateConfiguration",
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  },  
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "displayConflictDescription",
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  },  
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "createGroupId",
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  },
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "expMode",     
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  }     
+
+  
 ]

@@ -5,12 +5,7 @@
  */
 
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
 
 export interface ConfiguratorPriceComponentOptions {
@@ -28,18 +23,10 @@ export interface ConfiguratorPriceComponentOptions {
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
-  //TODO(CXSPA-1014): make DirectionService a required dependency
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    directionService: DirectionService
-  );
-  constructor(
-    @Optional()
-    protected directionService?: DirectionService
-  ) {}
+  constructor(protected directionService: DirectionService) {}
 
   protected isRTLDirection(): boolean {
-    return this.directionService?.getDirection() === DirectionMode.RTL;
+    return this.directionService.getDirection() === DirectionMode.RTL;
   }
 
   protected removeSign(value: string | undefined, sign: string): string {
