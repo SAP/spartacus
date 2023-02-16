@@ -1,12 +1,15 @@
 import { loginUser } from '../../../../helpers/checkout-flow';
-import { cdcB2BDelegateAdminUser } from '../../../../helpers/vendor/cdc/cdc';
+import {
+  cdcB2BDelegateAdminUser,
+  waitForCmsComponentsToLoad,
+} from '../../../../helpers/vendor/cdc/cdc';
 import * as alerts from '../../../../helpers/global-message';
 
-describe('Manage Users in CDC B2B scenario', () => {
+describe('Manage Users in CDC-B2B scenario', () => {
   beforeEach(() => {
     cy.visit('/powertools-spa/en/USD/login');
     loginUser(cdcB2BDelegateAdminUser);
-    cy.wait(3000);
+    waitForCmsComponentsToLoad('powertools-spa');
   });
   it('should show My Company option', () => {
     cy.get('cx-navigation-ui.accNavComponent.flyout')
@@ -26,7 +29,7 @@ describe('Manage Users in CDC B2B scenario', () => {
   });
   it('should show Manage Users Button', () => {
     cy.visit('/powertools-spa/en/USD/organization/users');
-    cy.wait(3000);
+    waitForCmsComponentsToLoad('powertools-spa');
     cy.get('button.button.primary.create').contains('Manage Users').click();
   });
 
@@ -34,7 +37,7 @@ describe('Manage Users in CDC B2B scenario', () => {
     cy.visit(
       `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}`
     );
-    cy.wait(3000);
+    waitForCmsComponentsToLoad('powertools-spa');
     cy.get('a.link.edit').should('not.exist');
     cy.get('button.button.active').should('not.exist');
     cy.get('div.orgUnit').should('exist');
@@ -50,10 +53,14 @@ describe('Manage Users in CDC B2B scenario', () => {
     cy.visit('/powertools-spa/en/USD/organization/users/create');
     alerts.getWarningAlert().should('contain', 'This item does not exist');
 
-    cy.visit('/powertools-spa/en/USD/organization/users/1002/edit');
+    cy.visit(
+      `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}/edit`
+    );
     alerts.getWarningAlert().should('contain', 'This item does not exist');
 
-    cy.visit('/powertools-spa/en/USD/organization/users/1002/change-password');
+    cy.visit(
+      `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}/change-password`
+    );
     alerts.getWarningAlert().should('contain', 'This item does not exist');
   });
 });
