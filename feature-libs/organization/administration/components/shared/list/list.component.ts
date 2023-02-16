@@ -22,6 +22,7 @@ import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
 import { ListService } from './list.service';
+import { CreateButtonType } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
@@ -46,6 +47,8 @@ export class ListComponent<T = any, P = PaginationModel> {
   sortCode: string | undefined;
 
   iconTypes = ICON_TYPE;
+
+  createButtonAllTypes = CreateButtonType;
 
   createButtonType = this.service.getCreateButtonType();
 

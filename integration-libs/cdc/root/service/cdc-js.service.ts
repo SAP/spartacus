@@ -271,16 +271,16 @@ export class CdcJsService implements OnDestroy {
    *
    */
   getOrganizationContext(): Observable<{ orgId: string }> {
-    return new Observable<{ orgId: string }>((gotContext) => {
+    return new Observable<{ orgId: string }>((subscriber) => {
       (this.winRef.nativeWindow as { [key: string]: any })?.[
         'gigya'
       ]?.accounts?.b2b?.getOrganizationContext({
         callback: (response: any) => {
           if (response?.status === 'OK') {
-            gotContext.next(response);
-            gotContext.complete();
+            subscriber.next(response);
+            subscriber.complete();
           } else {
-            gotContext.error(response);
+            subscriber.error(response);
           }
         },
       });

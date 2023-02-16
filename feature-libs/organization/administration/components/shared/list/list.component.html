@@ -51,7 +51,7 @@
 
           <ng-content select="[actions]"></ng-content>
 
-          <ng-container *ngIf="createButtonType === 'LINK'; else showButton">
+          <ng-container *ngIf="createButtonType === createButtonAllTypes.LINK; else showButton">
             <a
               *ngIf="!hideAddButton"
               class="button primary create"
