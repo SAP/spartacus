@@ -84,13 +84,7 @@ export class UrlMatcherService {
 
       // use function's argument, not the `route.path`
       if (path === '') {
-        if (
-          route.pathMatch === 'full' &&
-          (segmentGroup.hasChildren() || segments.length > 0)
-        ) {
-          return null;
-        }
-        return { consumed: [], posParams: {} };
+        return useFunctionArgument(segments, segmentGroup, route);
       }
 
       const parts = path.split('/'); // use function's argument, not the `route.path`
@@ -108,20 +102,6 @@ export class UrlMatcherService {
         return null;
       }
 
-      const posParams = getPosParams(parts, segments);
-
-      if (!posParams) {
-        return null;
-      }
-
-      return { consumed: segments.slice(0, parts.length), posParams };
-    };
-    if (isDevMode()) {
-      matcher['_path'] = path; // property added for easier debugging of routes
-    }
-    return matcher;
-
-    function getPosParams(parts: string | any[], segments: any[]) {
       const posParams: { [key: string]: UrlSegment } = {};
 
       // Check each config part against the actual URL
@@ -137,7 +117,25 @@ export class UrlMatcherService {
         }
       }
 
-      return posParams;
+      return { consumed: segments.slice(0, parts.length), posParams };
+    };
+    if (isDevMode()) {
+      matcher['_path'] = path; // property added for easier debugging of routes
+    }
+    return matcher;
+
+    function useFunctionArgument(
+      segments: UrlSegment[],
+      segmentGroup: UrlSegmentGroup,
+      route: Route
+    ) {
+      if (
+        route.pathMatch === 'full' &&
+        (segmentGroup.hasChildren() || segments.length > 0)
+      ) {
+        return null;
+      }
+      return { consumed: [], posParams: {} };
     }
   }
 
@@ -181,5 +179,3 @@ export class UrlMatcherService {
     return matcher;
   }
 }
-
-// CHECK SONAR
