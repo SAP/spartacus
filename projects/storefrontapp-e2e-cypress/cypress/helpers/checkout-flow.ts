@@ -470,16 +470,31 @@ export function fillPaymentFormWithCheapProduct(
 
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
-  cy.intercept({
-    method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/payment/sop/response*`,
-  }).as('submitPayment');
+  cy.intercept(
+    {
+      method: 'POST',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/**/payment/sop/response*`,
+    }
+    // ,
+    // (req) => {
+    //   req.on('response', (res) => {
+    //     Cypress.log('flo request:', JSON.stringify(req));
+    //     Cypress.log('flo response:', JSON.stringify(res));
+    //   });
+    // }
+  ).as('submitPayment');
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
+  cy.wait('@submitPayment').then(($obj) => {
+    cy.log('Flo Request');
+    cy.log(JSON.stringify($obj.request));
+    cy.log('Flo Response');
+    cy.log(JSON.stringify($obj.response));
+  });
+  // cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
