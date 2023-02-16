@@ -470,28 +470,33 @@ export function fillPaymentFormWithCheapProduct(
 
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
-  cy.intercept(
-    {
-      method: 'POST',
-      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/**/payment/sop/response*`,
-    }
-    // ,
-    // (req) => {
-    //   req.on('response', (res) => {
-    //     Cypress.log('flo request:', JSON.stringify(req));
-    //     Cypress.log('flo response:', JSON.stringify(res));
-    //   });
-    // }
-  ).as('submitPayment');
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/request*`,
+  }).as('requestPayment');
+
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPayment');
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  cy.wait('@submitPayment').then(($obj) => {
-    cy.log('Flo Request');
+  cy.wait('@requestPayment').then(($obj) => {
+    cy.log('Flo1 Request');
     cy.log(JSON.stringify($obj.request));
-    cy.log('Flo Response');
+    cy.log('Flo2 Response');
+    cy.log(JSON.stringify($obj.response));
+  });
+
+  cy.wait('@submitPayment').then(($obj) => {
+    cy.log('Flo3 Request');
+    cy.log(JSON.stringify($obj.request));
+    cy.log('Flo4 Response');
     cy.log(JSON.stringify($obj.response));
   });
   // cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
