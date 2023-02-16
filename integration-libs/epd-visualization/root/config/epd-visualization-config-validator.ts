@@ -111,10 +111,7 @@ function invalidUsageIds(
       'epdVisualization.usageIds.folderUsageId.name'
     );
   }
-  if (
-    !epdVisualization.usageIds.folderUsageId.keys ||
-    !epdVisualization.usageIds.folderUsageId.keys.length
-  ) {
+  if (!epdVisualization.usageIds.folderUsageId.keys?.length) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.folderUsageId.keys'
     );
