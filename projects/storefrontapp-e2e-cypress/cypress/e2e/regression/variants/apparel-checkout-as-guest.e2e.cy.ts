@@ -9,7 +9,7 @@ import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
 import * as checkoutVariants from '../../../helpers/checkout-variants';
 import * as loginHelper from '../../../helpers/login';
-import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
+import { clearCacheTestIsolationBeforeOnly } from '../../../helpers/utils-cypress-legacy';
 import {
   APPAREL_BASESITE,
   configureProductWithVariants,
@@ -23,7 +23,7 @@ import {
 
 context('Apparel - checkout as guest', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
-    clearCacheTestIsolation();
+    clearCacheTestIsolationBeforeOnly();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
@@ -43,7 +43,7 @@ context('Apparel - checkout as guest', { testIsolation: false }, () => {
     checkoutVariants.testCheckoutVariantAsGuest();
   });
   viewportContext(['desktop'], () => {
-    clearCacheTestIsolation();
+    clearCacheTestIsolationBeforeOnly();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
@@ -52,12 +52,12 @@ context('Apparel - checkout as guest', { testIsolation: false }, () => {
 
     beforeEach(() => {
       configureProductWithVariants();
-      cy.restoreLocalStorage();
+      //  cy.restoreLocalStorage();
     });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
+    // afterEach(() => {
+    //   cy.saveLocalStorage();
+    // });
 
     // Core e2e test.
     checkoutVariants.testCheckoutVariantAsGuest();
