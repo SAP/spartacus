@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CdcLogoutGuard } from '@spartacus/cdc/root';
 import {
   CmsConfig,
   I18nModule,
@@ -18,7 +17,6 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  LogoutGuard,
   PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -42,7 +40,6 @@ import { CDCUpdateEmailComponentService } from './cdc-update-email-component.ser
       cmsComponents: {
         UpdateEmailComponent: {
           providers: [
-            { provide: LogoutGuard, useExisting: CdcLogoutGuard },
             {
               provide: UpdateEmailComponentService,
               useClass: CDCUpdateEmailComponentService,

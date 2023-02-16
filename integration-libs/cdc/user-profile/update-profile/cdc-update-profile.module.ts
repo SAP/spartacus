@@ -11,7 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
@@ -46,7 +45,6 @@ import { CDCUpdateProfileComponentService } from './cdc-update-profile-component
       cmsComponents: {
         UpdateProfileComponent: {
           component: UpdateProfileComponent,
-          guards: [AuthGuard],
           providers: [
             {
               provide: UpdateProfileComponentService,

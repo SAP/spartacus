@@ -6,7 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
-import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import {
+  AuthRedirectService,
+  AuthService,
+  GlobalMessageService,
+  RoutingService,
+} from '@spartacus/core';
 import { UpdatePasswordComponentService } from '@spartacus/user/profile/components';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 
@@ -16,9 +21,17 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService,
+    protected authService: AuthService,
     protected cdcJsService: CdcJsService
   ) {
-    super(userPasswordService, routingService, globalMessageService);
+    super(
+      userPasswordService,
+      routingService,
+      globalMessageService,
+      authRedirectService,
+      authService
+    );
   }
 
   /**
