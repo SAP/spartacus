@@ -44,21 +44,8 @@
         border-top: solid 1px var(--cx-color-light);
         border-left-style: none;
         border-right-style: none;
-        background: none;
         text-transform: none;
-        padding-inline-start: 32px;
-        padding-inline-end: 32px;
-        padding-block-start: 16px;
-        padding-block-end: 16px;
-
-        @include media-breakpoint-down(sm) {
-          padding-inline-start: 16px;
-          padding-inline-end: 16px;
-          padding-block-start: 16px;
-          padding-block-end: 16px;
-        }
-
-        background-color: var(--cx-color-inverse);
+        background: var(--cx-color-inverse) none;
 
         @include media-breakpoint-down(sm) {
           position: sticky;
@@ -81,18 +68,6 @@
       }
 
       h2 {
-        padding-inline-start: 32px;
-        padding-inline-end: 32px;
-        padding-block-start: 16px;
-        padding-block-end: 16px;
-
-        @include media-breakpoint-down(sm) {
-          padding-inline-start: 16px;
-          padding-inline-end: 16px;
-          padding-block-start: 16px;
-          padding-block-end: 16px;
-        }
-
         font-size: 1rem;
         font-weight: normal;
         text-transform: uppercase;
@@ -101,10 +76,6 @@
 
         @include media-breakpoint-down(sm) {
           position: sticky;
-        }
-
-        span {
-          @include cx-configurator-truncate-content();
         }
       }
     }
