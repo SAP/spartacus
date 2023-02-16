@@ -21,8 +21,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
-import { ListService } from './list.service';
-import { CreateButtonType } from './list.service';
+import { ListService, CreateButtonType } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
