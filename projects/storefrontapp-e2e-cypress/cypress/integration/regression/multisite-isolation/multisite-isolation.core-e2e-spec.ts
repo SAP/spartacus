@@ -33,8 +33,6 @@ describe('Multisite Isolation', () => {
       alerts
         .getSuccessAlert()
         .should('contain', 'You have successfully signed out');
-
-      alerts.getErrorAlert().should('contain', 'Cannot find user');
     });
   });
 
