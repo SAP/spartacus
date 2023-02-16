@@ -42,7 +42,9 @@ export function migrateComponentMigration(
       // check for usages of inputs / outputs of the deprecated component
       const sourceRoot = getSourceRoot(tree);
       const allHtmlFiles = getHtmlFiles(tree, '.html', sourceRoot);
-      handleHtmlFiles(allHtmlFiles, deprecatedComponent);
+      for (const htmlFile of allHtmlFiles) {
+        overwriteRemovedProperties(htmlFile, deprecatedComponent);
+      }
 
       // check for usages of the deprecated component properties in the .ts and the corresponding template (.html) files
       if (isInheriting(nodes, deprecatedComponent.componentClassName)) {
@@ -83,9 +85,7 @@ export function migrateComponentMigration(
               removedProperty,
               angularCompiler
             );
-            if (contentChange) {
-              tree.overwrite(htmlFilePath, contentChange);
-            }
+            overwriteChanges(htmlFilePath, contentChange);
           } else if (templateInfo.inlineTemplateContent) {
             const oldContent = templateInfo.inlineTemplateContent;
             const contentChange = insertHtmlComment(
@@ -111,28 +111,26 @@ export function migrateComponentMigration(
 
   return tree;
 
-  function handleHtmlFiles(
-    allHtmlFiles: string[],
+  function overwriteRemovedProperties(
+    htmlFile: string,
     deprecatedComponent: ComponentData
   ) {
-    for (const htmlFile of allHtmlFiles) {
-      for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
-        []) {
-        const buffer = tree.read(htmlFile);
-        if (!buffer) {
-          context.logger.warn(`Could not read file (${htmlFile}).`);
-          continue;
-        }
-        const content = buffer.toString(UTF_8);
-
-        const contentChange = insertComponentSelectorComment(
-          content,
-          deprecatedComponent.selector,
-          removedProperty
-        );
-
-        overwriteChanges(htmlFile, contentChange);
+    for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
+      []) {
+      const buffer = tree.read(htmlFile);
+      if (!buffer) {
+        context.logger.warn(`Could not read file (${htmlFile}).`);
+        continue;
       }
+      const content = buffer.toString(UTF_8);
+
+      const contentChange = insertComponentSelectorComment(
+        content,
+        deprecatedComponent.selector,
+        removedProperty
+      );
+
+      overwriteChanges(htmlFile, contentChange);
     }
   }
 
