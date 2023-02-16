@@ -6,8 +6,10 @@
 
 import { CheckoutConfig } from '@spartacus/storefront';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
+import { clearCacheTestIsolationBeforeOnly } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
-context('Checkout as guest', () => {
+context('Checkout as guest', { testIsolation: false }, () => {
+  clearCacheTestIsolationBeforeOnly();
   viewportContext(['desktop'], () => {
     before(() => {
       guestCheckout.generateGuestUser();
