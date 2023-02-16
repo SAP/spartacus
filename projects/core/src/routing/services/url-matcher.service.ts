@@ -108,6 +108,20 @@ export class UrlMatcherService {
         return null;
       }
 
+      const posParams = getPosParams(parts, segments);
+
+      if (!posParams) {
+        return null;
+      }
+
+      return { consumed: segments.slice(0, parts.length), posParams };
+    };
+    if (isDevMode()) {
+      matcher['_path'] = path; // property added for easier debugging of routes
+    }
+    return matcher;
+
+    function getPosParams(parts: string | any[], segments: any[]) {
       const posParams: { [key: string]: UrlSegment } = {};
 
       // Check each config part against the actual URL
@@ -123,12 +137,8 @@ export class UrlMatcherService {
         }
       }
 
-      return { consumed: segments.slice(0, parts.length), posParams };
-    };
-    if (isDevMode()) {
-      matcher['_path'] = path; // property added for easier debugging of routes
+      return posParams;
     }
-    return matcher;
   }
 
   /**

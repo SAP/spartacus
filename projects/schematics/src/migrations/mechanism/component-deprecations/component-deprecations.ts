@@ -130,10 +130,18 @@ export function migrateComponentMigration(
           deprecatedComponent.selector,
           removedProperty
         );
-        if (contentChange) {
-          tree.overwrite(htmlFile, contentChange);
-        }
+
+        overwriteChanges(htmlFile, contentChange);
       }
+    }
+  }
+
+  function overwriteChanges(
+    htmlFile: string,
+    contentChange: string | Buffer | undefined
+  ) {
+    if (contentChange) {
+      tree.overwrite(htmlFile, contentChange);
     }
   }
 }
