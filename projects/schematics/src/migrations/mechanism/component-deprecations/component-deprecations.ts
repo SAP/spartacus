@@ -48,63 +48,11 @@ export function migrateComponentMigration(
 
       // check for usages of the deprecated component properties in the .ts and the corresponding template (.html) files
       if (isInheriting(nodes, deprecatedComponent.componentClassName)) {
-        for (const removedProperty of deprecatedComponent.removedProperties ||
-          []) {
-          // 'source' has to be reloaded after each committed change
-          const source = getTsSourceFile(tree, sourcePath);
-          const changes = insertCommentAboveIdentifier(
-            sourcePath,
-            source,
-            removedProperty.name,
-            buildSpartacusComment(removedProperty.comment)
-          );
-
-          const templateInfo = getTemplateInfo(source);
-          if (!templateInfo) {
-            commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-            continue;
-          }
-
-          const htmlFileName = templateInfo.templateUrl;
-          if (htmlFileName) {
-            const htmlFilePath = getHtmlFiles(
-              tree,
-              htmlFileName,
-              sourceRoot
-            )[0];
-            const buffer = tree.read(htmlFilePath);
-            if (!buffer) {
-              context.logger.warn(`Could not read file (${htmlFilePath}).`);
-              commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-              continue;
-            }
-            const content = buffer.toString(UTF_8);
-
-            const contentChange = insertHtmlComment(
-              content,
-              removedProperty,
-              angularCompiler
-            );
-            overwriteChanges(htmlFilePath, contentChange);
-          } else if (templateInfo.inlineTemplateContent) {
-            const oldContent = templateInfo.inlineTemplateContent;
-            const contentChange = insertHtmlComment(
-              oldContent,
-              removedProperty,
-              angularCompiler
-            );
-            if (contentChange) {
-              const replaceChange = new ReplaceChange(
-                sourcePath,
-                templateInfo.inlineTemplateStart || 0,
-                oldContent,
-                contentChange
-              );
-              changes.push(replaceChange);
-            }
-          }
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        }
+        overwriteInheritedRemovedProperties(
+          sourcePath,
+          sourceRoot,
+          deprecatedComponent
+        );
       }
     }
   }
@@ -131,6 +79,65 @@ export function migrateComponentMigration(
       );
 
       overwriteChanges(htmlFile, contentChange);
+    }
+  }
+
+  function overwriteInheritedRemovedProperties(
+    sourcePath: string,
+    sourceRoot: string | undefined,
+    deprecatedComponent: ComponentData
+  ) {
+    for (const removedProperty of deprecatedComponent.removedProperties || []) {
+      // 'source' has to be reloaded after each committed change
+      const source = getTsSourceFile(tree, sourcePath);
+      const changes = insertCommentAboveIdentifier(
+        sourcePath,
+        source,
+        removedProperty.name,
+        buildSpartacusComment(removedProperty.comment)
+      );
+
+      const templateInfo = getTemplateInfo(source);
+      if (!templateInfo) {
+        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+        continue;
+      }
+
+      const htmlFileName = templateInfo.templateUrl;
+      if (htmlFileName) {
+        const htmlFilePath = getHtmlFiles(tree, htmlFileName, sourceRoot)[0];
+        const buffer = tree.read(htmlFilePath);
+        if (!buffer) {
+          context.logger.warn(`Could not read file (${htmlFilePath}).`);
+          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+          continue;
+        }
+        const content = buffer.toString(UTF_8);
+
+        const contentChange = insertHtmlComment(
+          content,
+          removedProperty,
+          angularCompiler
+        );
+        overwriteChanges(htmlFilePath, contentChange);
+      } else if (templateInfo.inlineTemplateContent) {
+        const oldContent = templateInfo.inlineTemplateContent;
+        const contentChange = insertHtmlComment(
+          oldContent,
+          removedProperty,
+          angularCompiler
+        );
+        if (contentChange) {
+          const replaceChange = new ReplaceChange(
+            sourcePath,
+            templateInfo.inlineTemplateStart || 0,
+            oldContent,
+            contentChange
+          );
+          changes.push(replaceChange);
+        }
+      }
+      commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
     }
   }
 
