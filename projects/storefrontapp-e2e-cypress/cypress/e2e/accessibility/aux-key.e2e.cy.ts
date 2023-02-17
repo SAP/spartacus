@@ -6,10 +6,9 @@
 
 import { clearCacheTestIsolation } from '../../helpers/utils-cypress-legacy';
 
-context('Auxiliary Keys', { testIsolation: false }, () => {
+context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
-    clearCacheTestIsolation();
-    before(() => {
+    beforeEach(() => {
       loadPageWithComponenents('/');
     });
 
@@ -53,7 +52,7 @@ context('Auxiliary Keys', { testIsolation: false }, () => {
   });
 
   describe('My Account Navigation', () => {
-    before(() => {
+    beforeEach(() => {
       cy.requireLoggedIn();
       loadPageWithComponenents('/');
     });
@@ -91,7 +90,8 @@ context('Auxiliary Keys', { testIsolation: false }, () => {
     });
   });
 
-  describe('Search Bar', () => {
+  describe('Search Bar', { testIsolation: false }, () => {
+    clearCacheTestIsolation;
     before(() => {
       loadPageWithComponenents('/');
     });
@@ -156,7 +156,8 @@ context('Auxiliary Keys', { testIsolation: false }, () => {
     it('should go to link with Enter key', () => {});
   });
 
-  describe('Skip Links', () => {
+  describe('Skip Links', { testIsolation: false }, () => {
+    clearCacheTestIsolation();
     before(() => {
       loadPageWithComponenents('/');
       cy.get('body').focus();

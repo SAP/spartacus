@@ -9,10 +9,6 @@ import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', { testIsolation: false }, () => {
-  // beforeEach(() => {
-  //   cy.clearLocalStorage();
-  //   cy.clearCookies();
-  // });
   clearCacheTestIsolation();
 
   viewportContext(['mobile', 'desktop'], () => {
