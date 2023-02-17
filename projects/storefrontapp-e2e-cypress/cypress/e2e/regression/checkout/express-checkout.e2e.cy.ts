@@ -19,14 +19,14 @@ context('Express checkout', { testIsolation: false }, () => {
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
       checkout.visitHomePage();
     });
-    // restore and save not needed when TestIsolation is off
-    // beforeEach(() => {
-    //   cy.restoreLocalStorage();
-    // });
 
-    // afterEach(() => {
-    //   cy.saveLocalStorage();
-    // });
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
 
     // Core e2e test. Run in mobile as well.
     expressCheckout.testExpressCheckout();
