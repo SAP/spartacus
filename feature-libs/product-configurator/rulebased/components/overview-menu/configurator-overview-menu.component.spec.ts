@@ -38,14 +38,14 @@ class MockConfiguratorStorefrontUtilsService {
   createOvGroupId(prefix: string, groupId: string): string {
     return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
   }
-  scrollToConfigurationElement(): void {}
-  changeStyling(): void {}
-  getViewportHeight(): void {}
   syncScroll(): void {}
-  isScrollBox(): void {}
   getElement(): void {}
   getElements(): void {}
-  getScrollY(): void {}
+  hasScrollbar(): void {}
+  changeStyling(): void {}
+  getSpareViewportHeight(): void {}
+  getVerticallyScrolledPixels(): void {}
+  scrollToConfigurationElement(): void {}
 }
 
 @Component({
@@ -81,7 +81,7 @@ function initialize() {
 
   spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
 
-  spyOn(configuratorStorefrontUtilsService, 'getViewportHeight');
+  spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
 
   spyOn(configuratorStorefrontUtilsService, 'syncScroll');
 
@@ -115,6 +115,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
       }).compileComponents();
     })
   );
+
+  afterEach(() => {
+    document.body.removeChild(htmlElem);
+  });
 
   it('should create component', () => {
     initialize();
@@ -196,7 +200,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.onScroll();
 
       expect(
-        configuratorStorefrontUtilsService.getViewportHeight
+        configuratorStorefrontUtilsService.getSpareViewportHeight
       ).toHaveBeenCalledTimes(1);
 
       expect(
@@ -214,7 +218,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.onResize();
 
       expect(
-        configuratorStorefrontUtilsService.getViewportHeight
+        configuratorStorefrontUtilsService.getSpareViewportHeight
       ).toHaveBeenCalledTimes(1);
 
       expect(
@@ -224,6 +228,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
   });
 
   describe('getMenuItemToHighlight', () => {
+    let groups;
+
     function createElement(
       id: string,
       tagName: string,
@@ -255,6 +261,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
+    afterEach(() => {
+      groups?.forEach((group) => {
+        ConfiguratorTestUtils.remove(group);
+      });
+    });
+
     it('should not get menu item to highlight because getElements method return undefined', () => {
       spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
         undefined
@@ -265,7 +277,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should not get menu item to highlight because getScrollY method return undefined', () => {
-      const groups = createElements('div');
+      groups = createElements('div');
 
       document.querySelectorAll = jasmine
         .createSpy('div.cx-group')
@@ -275,9 +287,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
         groups
       );
 
-      spyOn(configuratorStorefrontUtilsService, 'getScrollY').and.returnValue(
-        undefined
-      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getVerticallyScrolledPixels'
+      ).and.returnValue(undefined);
 
       fixture.detectChanges();
 
@@ -285,7 +298,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should get menu item to highlight', () => {
-      const groups = createElements('div');
+      groups = createElements('div');
 
       document.querySelectorAll = jasmine
         .createSpy('div.cx-group')
@@ -295,9 +308,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
         groups
       );
 
-      spyOn(configuratorStorefrontUtilsService, 'getScrollY').and.returnValue(
-        123
-      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getVerticallyScrolledPixels'
+      ).and.returnValue(123);
 
       let menuItems = htmlElem.querySelectorAll('.cx-menu-item');
       let menuItem = menuItems[menuItems.length - 1] as HTMLElement;
@@ -360,10 +374,10 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should not syncScroll because elementToHighlight is undefined', () => {
-      spyOn(configuratorStorefrontUtilsService, 'isScrollBox');
+      spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
       component['syncScroll'](undefined);
       expect(
-        configuratorStorefrontUtilsService.isScrollBox
+        configuratorStorefrontUtilsService.hasScrollbar
       ).toHaveBeenCalledTimes(0);
       expect(
         configuratorStorefrontUtilsService.syncScroll
@@ -375,12 +389,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
       const element = menuItems[menuItems.length - 1];
-      spyOn(configuratorStorefrontUtilsService, 'isScrollBox').and.returnValue(
+      spyOn(configuratorStorefrontUtilsService, 'hasScrollbar').and.returnValue(
         false
       );
       component['syncScroll'](element);
       expect(
-        configuratorStorefrontUtilsService.isScrollBox
+        configuratorStorefrontUtilsService.hasScrollbar
       ).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.syncScroll
@@ -392,12 +406,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
       const element = menuItems[menuItems.length - 1];
-      spyOn(configuratorStorefrontUtilsService, 'isScrollBox').and.returnValue(
+      spyOn(configuratorStorefrontUtilsService, 'hasScrollbar').and.returnValue(
         true
       );
       component['syncScroll'](element);
       expect(
-        configuratorStorefrontUtilsService.isScrollBox
+        configuratorStorefrontUtilsService.hasScrollbar
       ).toHaveBeenCalledTimes(1);
       expect(
         configuratorStorefrontUtilsService.syncScroll

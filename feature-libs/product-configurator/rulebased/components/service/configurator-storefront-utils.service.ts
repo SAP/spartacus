@@ -48,7 +48,7 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Assemble an attribute value with the currently selected values from a checkbox list.
    *
-   * @param {FormControl[]} controlArray - Control array
+   * @param {UntypedFormControl[]} controlArray - Control array
    * @param {Configurator.Attribute} attribute -  Configuration attribute
    * @return {Configurator.Value[]} - list of configurator values
    */
@@ -313,18 +313,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Retrieves a number of pixels that the document is currently scrolled vertically.
-   *
-   * @returns {number | undefined} - Number of pixels that the document is currently scrolled vertically.
-   */
-  getScrollY(): number | undefined {
-    if (this.windowRef.isBrowser()) {
-      return this.windowRef.nativeWindow?.scrollY;
-    }
-    return undefined;
-  }
-
-  /**
    * Retrieves a list of HTML elements based on querySelector when running in browser
    *
    * @param {string} querySelector - querySelector
@@ -339,12 +327,24 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Retrieves a number of pixels that the document is currently scrolled vertically.
+   *
+   * @returns {number | undefined} - Number of pixels that the document is currently scrolled vertically.
+   */
+  getVerticallyScrolledPixels(): number | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.nativeWindow?.scrollY;
+    }
+    return undefined;
+  }
+
+  /**
    * Verifies whether the element has a scrollbar.
    *
    * @param {string} querySelector - Element query selector
    * @returns {boolean} - 'True', if the element has a scrollbar, otherwise 'false'
    */
-  isScrollBox(querySelector: string): boolean {
+  hasScrollbar(querySelector: string): boolean {
     const element = this.getElement(querySelector);
     if (element) {
       return element.scrollHeight > element.clientHeight;
@@ -358,7 +358,7 @@ export class ConfiguratorStorefrontUtilsService {
       const height = element.offsetHeight;
       const width = element.offsetWidth;
 
-      if (
+      return (
         bounding.top >= -height &&
         bounding.left >= -width &&
         bounding.right <=
@@ -367,16 +367,12 @@ export class ConfiguratorStorefrontUtilsService {
         bounding.bottom <=
           (this.windowRef.nativeWindow?.innerHeight || element.clientHeight) +
             height
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      );
     }
     return false;
   }
 
-  protected getElementHeight(querySelector: string): number {
+  protected getHeight(querySelector: string): number {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
     if (isElementInViewport && element?.offsetHeight) {
@@ -386,19 +382,17 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Retrieves the actual height of the viewport.
+   * Retrieves the actual height of the spare viewport.
    *
    * @returns {number} - Height of the viewport.
    */
-  getViewportHeight(): number {
+  getSpareViewportHeight(): number {
     if (this.windowRef.isBrowser()) {
-      const spaHeaderHeight = this.getElementHeight('header');
-      const ovHeaderHeight = this.getElementHeight(
-        '.VariantConfigOverviewHeader'
-      );
+      const spaHeaderHeight = this.getHeight('header');
+      const ovHeaderHeight = this.getHeight('.VariantConfigOverviewHeader');
       const addToCartHeight =
-        this.getElementHeight('cx-configurator-add-to-cart-button') !== 0
-          ? this.getElementHeight('cx-configurator-add-to-cart-button')
+        this.getHeight('cx-configurator-add-to-cart-button') !== 0
+          ? this.getHeight('cx-configurator-add-to-cart-button')
           : 82;
 
       const occupiedHeight =

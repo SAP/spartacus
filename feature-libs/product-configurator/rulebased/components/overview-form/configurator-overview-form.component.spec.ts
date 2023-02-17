@@ -60,10 +60,9 @@ let htmlElem: HTMLElement;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    const obs: Observable<RouterState> = routerStateObservable
+    return routerStateObservable
       ? routerStateObservable
       : defaultRouterStateObservable;
-    return obs;
   }
 }
 
@@ -72,19 +71,15 @@ class MockConfiguratorCommonsService {
     productCode: string
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
-    const obs: Observable<Configurator.Configuration> = configurationObservable
+    return configurationObservable
       ? configurationObservable
       : defaultConfigObservable;
-    return obs;
   }
 
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    const obs: Observable<Configurator.Configuration> = overviewObservable
-      ? overviewObservable
-      : of(configuration);
-    return obs;
+    return overviewObservable ? overviewObservable : of(configuration);
   }
 
   removeConfiguration(): void {}
@@ -520,16 +515,6 @@ describe('ConfigurationOverviewFormComponent', () => {
       initialize();
       const result = component.getGroupLevelStyleClasses(3, group.subGroups);
       expect(result).toEqual('cx-group subgroup subgroupLevel3');
-    });
-  });
-
-  describe('createOvGroupId', () => {
-    it('should create a group id from its 1 parameter', () => {
-      expect(component['createOvGroupId'](undefined, 'B')).toBe('B-ovGroup');
-    });
-
-    it('should create a group id from its 2 parameters', () => {
-      expect(component['createOvGroupId']('A', 'B')).toBe(OV_GROUP_ID);
     });
   });
 });

@@ -56,7 +56,9 @@ export class ConfiguratorOverviewMenuComponent {
   }
 
   protected getHeight(): string {
-    return this.configuratorStorefrontUtilsService.getViewportHeight() + 'px';
+    return (
+      this.configuratorStorefrontUtilsService.getSpareViewportHeight() + 'px'
+    );
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {
@@ -64,10 +66,14 @@ export class ConfiguratorOverviewMenuComponent {
     const groups = this.configuratorStorefrontUtilsService.getElements(
       this.CX_GROUPS
     );
-    const scrollY = this.configuratorStorefrontUtilsService.getScrollY();
+    const verticallyScrolledPixels =
+      this.configuratorStorefrontUtilsService.getVerticallyScrolledPixels();
 
     groups?.forEach((group) => {
-      if (scrollY && scrollY >= group.offsetTop) {
+      if (
+        verticallyScrolledPixels &&
+        verticallyScrolledPixels >= group.offsetTop
+      ) {
         const id = group.id.replace(this.OV_GROUP, this.OV_MENU_ITEM);
         if (id) {
           const querySelector = '#' + id;
@@ -96,7 +102,7 @@ export class ConfiguratorOverviewMenuComponent {
   protected syncScroll(element: HTMLElement | undefined): void {
     if (
       element &&
-      this.configuratorStorefrontUtilsService.isScrollBox(
+      this.configuratorStorefrontUtilsService.hasScrollbar(
         this.CX_CONFIGURATOR_OVERVIEW_MENU
       )
     ) {

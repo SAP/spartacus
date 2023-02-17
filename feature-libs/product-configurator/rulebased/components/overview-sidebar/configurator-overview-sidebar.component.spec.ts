@@ -45,7 +45,7 @@ function initTestComponent() {
   spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
   spyOn(
     configuratorStorefrontUtilsService,
-    'getViewportHeight'
+    'getSpareViewportHeight'
   ).and.callThrough();
 }
 
@@ -62,10 +62,10 @@ class MockConfiguratorRouterExtractorService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  changeStyling() {}
   getElement() {}
+  changeStyling() {}
   createOvMenuItemId() {}
-  getViewportHeight() {}
+  getSpareViewportHeight() {}
 }
 
 @Component({
