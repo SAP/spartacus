@@ -168,7 +168,7 @@ describe('ExportOrderEntriesComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement
-        .query(By.css('button.cx-action-link'))
+        .query(By.css('button.cx-export-btn'))
         .nativeElement.innerText.trim()
     ).toEqual('exportEntries.exportProductToCsv');
   });
