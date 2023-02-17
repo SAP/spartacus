@@ -5,11 +5,11 @@
  */
 
 import * as appliedPromotions from '../../../helpers/applied-promotions';
-import { clearCacheTestIsolation } from '../../../helpers/utils-cypress-legacy';
+import { clearCacheTestIsolationBeforeOnly } from '../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Applied promotions', { testIsolation: false }, () => {
-  clearCacheTestIsolation();
+  clearCacheTestIsolationBeforeOnly();
   viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => {

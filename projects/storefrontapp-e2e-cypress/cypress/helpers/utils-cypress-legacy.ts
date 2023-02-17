@@ -5,24 +5,31 @@
  */
 
 // Used by tests not suporting TestIsolation introduced in Cypress12
+function clearLocalStorageAndCookies() {
+  cy.clearLocalStorage();
+  cy.clearCookies();
+}
 export function clearCacheTestIsolation() {
-  // before(() => {
-  //   cy.log('testIsolate1');
-  //   cy.clearLocalStorage();
-  //   cy.clearCookies();
-  // });
+  before(() => {
+    cy.log('testIsolate1');
+    clearLocalStorageAndCookies();
+  });
   beforeEach(() => {
     cy.log('testIsolate2');
-    cy.clearLocalStorage();
-    cy.clearCookies();
+    clearLocalStorageAndCookies();
   });
 }
 
 export function clearCacheTestIsolationBeforeOnly() {
   before(() => {
     cy.log('testIsolate3');
-    cy.clearLocalStorage();
-    cy.clearCookies();
+    clearLocalStorageAndCookies();
+  });
+}
+export function clearCacheTestIsolationAfterOnly() {
+  after(() => {
+    cy.log('testIsolate4');
+    clearLocalStorageAndCookies;
   });
 }
 

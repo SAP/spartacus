@@ -32,12 +32,12 @@ context('Apparel - checkout as guest', { testIsolation: false }, () => {
 
     beforeEach(() => {
       configureProductWithVariants();
-      //    cy.restoreLocalStorage();
+      cy.restoreLocalStorage();
     });
 
-    // afterEach(() => {
-    //   cy.saveLocalStorage();
-    // });
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
 
     // Core e2e test. Repeat in mobile.
     checkoutVariants.testCheckoutVariantAsGuest();
@@ -52,12 +52,12 @@ context('Apparel - checkout as guest', { testIsolation: false }, () => {
 
     beforeEach(() => {
       configureProductWithVariants();
-      //  cy.restoreLocalStorage();
+      cy.restoreLocalStorage();
     });
 
-    // afterEach(() => {
-    //   cy.saveLocalStorage();
-    // });
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
 
     // Core e2e test.
     checkoutVariants.testCheckoutVariantAsGuest();

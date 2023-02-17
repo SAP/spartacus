@@ -11,19 +11,19 @@ import {
   verifyGlobalMessageAfterRegistration,
   verifyTabbingOrder,
 } from '../../../../helpers/b2b/b2b-user-registration';
-import { clearCacheTestIsolation } from '../../../../helpers/utils-cypress-legacy';
+import { clearCacheTestIsolationBeforeOnly } from '../../../../helpers/utils-cypress-legacy';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import { getSampleUser } from '../../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - User Registration', () => {
+  clearCacheTestIsolationBeforeOnly();
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
     });
 
     describe('Registration form', { testIsolation: false }, () => {
-      clearCacheTestIsolation();
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cy.visit('/');
