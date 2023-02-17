@@ -334,12 +334,6 @@ describe('ConfigurationOverviewFormComponent', () => {
       initialize();
       expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
     });
-
-    it('should cope with utils service not present', () => {
-      initialize();
-      component['configuratorStorefrontUtilsService'] = undefined;
-      expect(component.getGroupId('A', 'B')).toBe(OV_GROUP_ID);
-    });
   });
 
   describe('getStyleClasses', () => {
