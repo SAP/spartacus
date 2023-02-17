@@ -29,7 +29,8 @@ const mockRouterState: any = {
   },
 };
 
-const config: Configurator.Configuration = {
+let config: Configurator.Configuration;
+const defaultConfig: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     '1234-56-7890',
     ConfiguratorModelUtils.createInitialOwner()
@@ -54,6 +55,7 @@ const config: Configurator.Configuration = {
       formattedValue: '22.900 €',
     },
   },
+
   pricingEnabled: true,
 };
 
@@ -63,7 +65,6 @@ class MockRoutingService {
     return routerStateObservable;
   }
 }
-
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
@@ -102,6 +103,7 @@ describe('ConfigPriceSummaryComponent', () => {
     })
   );
   beforeEach(() => {
+    config = { ...defaultConfig };
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -138,6 +140,49 @@ describe('ConfigPriceSummaryComponent', () => {
       expect,
       htmlElem,
       '.cx-price-summary-container'
+    );
+  });
+
+  it('should render selected and options price when no setting specified', () => {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
+  });
+
+  it('should render selected and options price when requested', () => {
+    config.hideBasePriceAndSelectedOptions = false;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
+    );
+  });
+
+  it('should not render selected and options price when requested', () => {
+    config.hideBasePriceAndSelectedOptions = true;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-selected-options'
+    );
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-base-price'
     );
   });
 });

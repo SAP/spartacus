@@ -10,6 +10,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
+  FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   User,
@@ -91,6 +93,15 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
+/**
+ * TODO: (#CXSPA-53) Remove MockFeatureConfigService in 6.0
+ */
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
@@ -105,6 +116,7 @@ describe('AddressBookComponent', () => {
           I18nTestingModule,
           CardModule,
           RouterTestingModule,
+          FeaturesConfigModule,
         ],
         providers: [
           {
@@ -112,6 +124,10 @@ describe('AddressBookComponent', () => {
             useClass: MockComponentService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
       }).compileComponents();
@@ -231,6 +247,26 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.deleteUserAddress
       ).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('Header', () => {
+    it('should set correct header for add new address', () => {
+      component.showEditAddressForm = false;
+      component.showAddAddressForm = true;
+      fixture.detectChanges();
+
+      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+        'addressBook.addNewDeliveryAddress'
+      );
+    });
+    it('should set correct header for edit address', () => {
+      component.editAddressButtonHandle(mockAddress);
+      fixture.detectChanges();
+
+      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+        'addressBook.editDeliveryAddress'
+      );
     });
   });
 });

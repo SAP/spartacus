@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -134,26 +134,16 @@ export class ConfiguratorAttributeNumericInputFieldService {
       return undefined;
     }
 
-    let minVal: string = '';
-    let maxVal: string = '';
+    let minVal: string;
+    let maxVal: string;
 
     // standard interval a - b
     if (value.name.includes(' - ')) {
-      ({ minVal, maxVal } = this.handleStandardInterval(
-        value.name,
-        minVal,
-        maxVal,
-        interval
-      ));
+      ({ minVal, maxVal } = this.handleStandardInterval(value.name, interval));
 
       // infinite interval or single value
     } else {
-      ({ minVal, maxVal } = this.handleSingleOrInfinite(
-        value.name,
-        minVal,
-        interval,
-        maxVal
-      ));
+      ({ minVal, maxVal } = this.handleSingleOrInfinite(value.name, interval));
     }
 
     if (minVal && minVal.length > 0) {
@@ -168,10 +158,10 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   protected handleSingleOrInfinite(
     valueName: string,
-    minVal: string,
-    interval: ConfiguratorAttributeNumericInterval,
-    maxVal: string
+    interval: ConfiguratorAttributeNumericInterval
   ) {
+    let minVal = '';
+    let maxVal = '';
     if (valueName.includes('>')) {
       minVal = valueName;
       interval.minValueIncluded = false;
@@ -206,13 +196,11 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   protected handleStandardInterval(
     valueName: string,
-    minVal: string,
-    maxVal: string,
     interval: ConfiguratorAttributeNumericInterval
   ) {
-    let index = valueName.indexOf(' - ');
-    minVal = valueName.substring(0, index);
-    maxVal = valueName.substring(index + 3, valueName.length);
+    const index = valueName.indexOf(' - ');
+    let minVal = valueName.substring(0, index);
+    let maxVal = valueName.substring(index + 3, valueName.length);
     interval.minValueIncluded = true;
     interval.maxValueIncluded = true;
     if (minVal.includes('>')) {

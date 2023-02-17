@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -207,5 +207,12 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   resetCancelOrderProcessState(): void {
     return this.store.dispatch(new OrderActions.ResetCancelOrderProcess());
+  }
+
+  /**
+   * Returns the order details loading flag
+   */
+  getOrderDetailsLoading(): Observable<boolean> {
+    return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
   }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,16 +58,15 @@ export function testList(
       data.pagination?.currentPage < data.pagination?.totalPages - 1 &&
       data.pagination?.currentPage < MAX_PAGES
     ) {
+      const NEXT_PAGE = data.pagination.currentPage + 2;
       testList(
         config,
         {
-          trigger: () =>
-            cy
-              .get(`cx-pagination a.page`)
-              .contains(data.pagination.currentPage + 2)
-              .click(),
+          trigger: () => {
+            cy.get(`cx-pagination a.page`).contains(NEXT_PAGE).click();
+          },
         },
-        data.pagination.currentPage + 2
+        NEXT_PAGE
       );
     }
   }
@@ -110,42 +109,46 @@ function ngSelect(sortKey: string): void {
 export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
   configs.forEach((config) => {
     if (config.showInTable) {
-      cy.get('th').should('contain.text', config.label);
+      cy.get('cx-table th').should('contain.text', config.label);
     }
   });
 }
 
 export function checkRows(rows): void {
-  let j = 1; // Skip header table row at 0
+  let rowIndex = 1;
   rows.forEach((row: any) => {
     if (row.text.length) {
-      cy.get('tr')
-        .eq(j)
-        .within(() => {
-          for (let i = 0; i < row.text.length; i++) {
-            if (row.text[i]) {
-              if (Array.isArray(row.text[i])) {
-                // Used in user roles array
-                // Because we can't use translate pipe, have to check per case
-                row.text[i].forEach((text) => {
-                  switch (text) {
-                    case 'b2bcustomergroup':
-                      return cy.get('td').eq(i).contains('Customer');
-                    case 'b2bmanagergroup':
-                      return cy.get('td').eq(i).contains('Manager');
-                    case 'b2bapprovergroup':
-                      return cy.get('td').eq(i).contains('Approver');
-                    case 'b2badmingroup':
-                      return cy.get('td').eq(i).contains('Admin');
-                  }
-                });
-              } else {
-                cy.get('td').eq(i).contains(row.text[i]);
-              }
-            }
+      for (let columnIndex = 0; columnIndex < row.text.length; columnIndex++) {
+        if (row.text[columnIndex]) {
+          if (Array.isArray(row.text[columnIndex])) {
+            const ROLES = {
+              b2bcustomergroup: 'Customer',
+              b2bmanagergroup: 'Manager',
+              b2bapprovergroup: 'Approver',
+              b2badmingroup: 'Admin',
+            };
+
+            // should to be filtered out, as we don't show them
+            const RIGHTS = ['unitorderviewergroup'];
+
+            // Used in user roles and rights array
+            // Because we can't use translate pipe, have to check per case
+            row.text[columnIndex]
+              .filter((text: string) => !RIGHTS.includes(text))
+              .forEach((text) => {
+                cy.get(
+                  `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+                ).should('include.text', ROLES[text]);
+              });
+          } else {
+            cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
+              'include.text',
+              row.text[columnIndex]
+            );
           }
-        });
-      j++;
+        }
+      }
+      rowIndex++;
     }
   });
 }
@@ -162,6 +165,10 @@ export function getListRowsFromBody(
         if (Array.isArray(row.variableName)) {
           row.variableName.forEach((variable) => {
             // TODO: Think of a way to use some sort of tranformation function/config
+            /**
+             * TODO: There is a disrepency between local and server time which can cause failure when testing dates locally.
+             * We could take this into account somehow in our tests or simply keep it in mind when backend is in another timezone.
+             */
             if (variable === 'startDate') {
               let foundText = getVariableFromName(variable, data);
               if (row.useDatePipe) {
@@ -246,10 +253,8 @@ export function getRootRowsFromBody(body: any, config: MyCompanyConfig) {
 }
 
 export function verifyList(rows, rowConfig): void {
-  cy.get('cx-table').within(() => {
-    checkRowHeaders(rowConfig);
-    checkRows(rows);
-  });
+  checkRowHeaders(rowConfig);
+  checkRows(rows);
 }
 
 function getVariableFromName(name: string, dataset: any) {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,13 +11,16 @@ import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
 import { SampleUser } from '../sample-data/checkout-flow';
-import { interceptGet, interceptPost } from '../support/utils/intercept';
+import {
+  interceptGet,
+  interceptPatch,
+  interceptPost,
+} from '../support/utils/intercept';
 import { login } from './auth-forms';
 import * as loginHelper from './login';
 import {
   navigateToAMyAccountPage,
   navigateToCategory,
-  navigateToHomepage,
   waitForPage,
 } from './navigation';
 
@@ -59,6 +62,11 @@ export function listenForCartBindingRequest(): string {
     '/assistedservicewebservices/bind-cart?*',
     false
   );
+}
+
+export function listenForCartSaveRequest(options?: { cartId: string }): string {
+  const cartId = options?.cartId ?? '*';
+  return interceptPatch('cartSaving', `/users/*/carts/${cartId}/save?*`, true);
 }
 
 export function listenForListOfAddressesRequest(): string {
@@ -236,7 +244,8 @@ export function loginCustomerInStorefront(customer) {
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias).its('response.statusCode').should('eq', 200);
+  // When the agent signs out, there are two revocations made simultaneously - the second one occasionally fails, though it is not necessary. We therefore are not interested in the status code of the second one.
+  cy.wait(tokenRevocationAlias);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }
@@ -347,7 +356,7 @@ export function testCustomerEmulation() {
 
     // CXSPA-301/GH-14914
     // Must ensure that site is still functional after service agent logout
-    navigateToHomepage();
+    checkout.visitHomePage();
     cy.get('cx-storefront.stop-navigating').should('exist');
     navigateToCategory('Brands', 'brands', false);
     cy.get('cx-product-list-item').should('exist');
@@ -396,10 +405,37 @@ export function testCustomerEmulation() {
   });
 }
 
-export function bindCart() {
+export function bindCart(options?: {
+  /** Providing an action expects dialog to appear */
+  dialogAction?: 'replace' | 'cancel';
+  /** Expected cart ID for save request */
+  previousCart?: string;
+}) {
   const bindingRequest = listenForCartBindingRequest();
+  const saveCartRequest = listenForCartSaveRequest({
+    cartId: options?.previousCart,
+  });
+
   //click button
   cy.findByText(/Assign Cart to Customer/i).click();
-  //make call
-  cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
+
+  if (options?.dialogAction) {
+    // click dialog button
+    cy.get('.cx-asm-bind-cart-dialog')
+      .findByText(new RegExp(options.dialogAction, 'i'), { selector: 'button' })
+      .click();
+
+    // verify action
+    if (options.dialogAction !== 'cancel') {
+      if (options.dialogAction === 'replace' && options?.previousCart) {
+        cy.wait(saveCartRequest).its('response.statusCode').should('eq', 200);
+      }
+
+      //make call
+      cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
+    }
+  } else {
+    //make call
+    cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
+  }
 }

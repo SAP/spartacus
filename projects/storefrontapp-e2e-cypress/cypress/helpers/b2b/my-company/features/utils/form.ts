@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,7 +37,12 @@ export function completeForm(
   const valueKey = getValueKey(formType);
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
-      getFieldByLabel(input).then((el) => {
+      if (input.selector) {
+        getFieldBySelector(input.selector).as('el');
+      } else {
+        getFieldByLabel(input).as('el');
+      }
+      cy.get('@el').then((el) => {
         if (!el.html().includes('disabled')) {
           switch (input.inputType) {
             case INPUT_TYPE.TEXT:
@@ -92,9 +97,13 @@ export function completeForm(
   function fillNgSelect(input: MyCompanyRowConfig) {
     // First check if `valueKey` is defined. For example select should be omitted if `updateValue` is empty.
     if (input[valueKey]) {
-      getFieldByLabel(input).within(() => {
-        cy.get(`ng-select`).click();
-      });
+      if (input.selector) {
+        getFieldBySelector(input.selector).click();
+      } else {
+        getFieldByLabel(input).within(() => {
+          cy.get(`ng-select`).click();
+        });
+      }
       cy.wait(1000); // Allow time for options to draw
       cy.get('ng-dropdown-panel')
         .contains(input[valueKey])

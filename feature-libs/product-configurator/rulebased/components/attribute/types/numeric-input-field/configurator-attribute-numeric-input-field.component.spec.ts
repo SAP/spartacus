@@ -43,13 +43,14 @@ class MockCxIconComponent {
 let DEBOUNCE_TIME: number;
 
 const userInput = '345.00';
+const NUMBER_DECIMAL_PLACES = 2;
 
 const attribute: Configurator.Attribute = {
   name: 'attributeName',
   label: 'attributeName',
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
-  numDecimalPlaces: 2,
+  numDecimalPlaces: NUMBER_DECIMAL_PLACES,
   numTotalLength: 10,
   negativeAllowed: false,
 };
@@ -178,7 +179,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       expect(
         configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
       ).toHaveBeenCalledWith(
-        component.attribute.numDecimalPlaces,
+        NUMBER_DECIMAL_PLACES,
         component.attribute.numTotalLength,
         component.attribute.negativeAllowed,
         'en'

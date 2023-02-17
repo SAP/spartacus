@@ -1,87 +1,89 @@
 <ng-container *ngIf="order$ | async as order">
-  <ng-container
-    *ngIf="
-      order.consignments?.length ||
-      order.unconsignedEntries?.length ||
-      order.replenishmentOrderCode
-    "
-  >
-    <cx-promotions
-      [promotions]="order.appliedOrderPromotions || []"
-    ></cx-promotions>
-  </ng-container>
+  <ng-container *ngIf="!(isOrderLoading$ | async)">
+    <ng-container
+      *ngIf="
+        order.consignments?.length ||
+        order.unconsignedEntries?.length ||
+        order.replenishmentOrderCode
+      "
+    >
+      <cx-promotions
+        [promotions]="order.appliedOrderPromotions || []"
+      ></cx-promotions>
+    </ng-container>
 
-  <!-- consigned entries -->
-  <ng-container *ngIf="order.consignments?.length">
-    <cx-order-consigned-entries
-      *ngIf="others$ | async as others"
-      [order]="order"
-      [consignments]="others"
-      [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
-    ></cx-order-consigned-entries>
+    <!-- consigned entries -->
+    <ng-container *ngIf="order.consignments?.length">
+      <cx-order-consigned-entries
+        *ngIf="others$ | async as others"
+        [order]="order"
+        [consignments]="others"
+        [enableAddToCart]="enableAddToCart$ | async"
+        [buyItAgainTranslation]="buyItAgainTranslation$ | async"
+      ></cx-order-consigned-entries>
 
-    <cx-order-consigned-entries
-      *ngIf="completed$ | async as completed"
-      [order]="order"
-      [consignments]="completed"
-      [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
-    ></cx-order-consigned-entries>
+      <cx-order-consigned-entries
+        *ngIf="completed$ | async as completed"
+        [order]="order"
+        [consignments]="completed"
+        [enableAddToCart]="enableAddToCart$ | async"
+        [buyItAgainTranslation]="buyItAgainTranslation$ | async"
+      ></cx-order-consigned-entries>
 
-    <cx-order-consigned-entries
-      *ngIf="cancel$ | async as cancel"
-      [order]="order"
-      [consignments]="cancel"
-      [enableAddToCart]="enableAddToCart$ | async"
-      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
-    ></cx-order-consigned-entries>
-  </ng-container>
+      <cx-order-consigned-entries
+        *ngIf="cancel$ | async as cancel"
+        [order]="order"
+        [consignments]="cancel"
+        [enableAddToCart]="enableAddToCart$ | async"
+        [buyItAgainTranslation]="buyItAgainTranslation$ | async"
+      ></cx-order-consigned-entries>
+    </ng-container>
 
-  <!-- unconsigned entries OR any entries -->
-  <ng-container
-    *ngIf="
-      order?.unconsignedEntries?.length ||
-      (order?.entries && order?.replenishmentOrderCode)
-    "
-  >
-    <div class="cx-list row">
-      <div *ngIf="order?.statusDisplay" class="cx-list-header col-12">
-        <div class="cx-list-status">
-          {{
-            'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate
-          }}
+    <!-- unconsigned entries OR any entries -->
+    <ng-container
+      *ngIf="
+        order?.unconsignedEntries?.length ||
+        (order?.entries && order?.replenishmentOrderCode)
+      "
+    >
+      <div class="cx-list row">
+        <div *ngIf="order?.statusDisplay" class="cx-list-header col-12">
+          <div class="cx-list-status">
+            {{
+              'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate
+            }}
+          </div>
+        </div>
+        <div class="cx-list-item col-12">
+          <ng-template
+            [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+            [cxOutletContext]="{
+              items: order?.unconsignedEntries
+                ? order.unconsignedEntries
+                : order.entries,
+              readonly: true,
+              promotionLocation: promotionLocation,
+              options: {
+                displayAddToCart: enableAddToCart$ | async,
+                addToCartString: (buyItAgainTranslation$ | async),
+                optionalBtn: addToCartBtn
+              }
+            }"
+          >
+          </ng-template>
         </div>
       </div>
-      <div class="cx-list-item col-12">
-        <ng-template
-          [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-          [cxOutletContext]="{
-            items: order?.unconsignedEntries
-              ? order.unconsignedEntries
-              : order.entries,
-            readonly: true,
-            promotionLocation: promotionLocation,
-            options: {
-              displayAddToCart: enableAddToCart$ | async,
-              addToCartString: (buyItAgainTranslation$ | async),
-              optionalBtn: addToCartBtn
-            }
-          }"
-        >
-        </ng-template>
-      </div>
-    </div>
+    </ng-container>
   </ng-container>
-</ng-container>
 
-<ng-template let-ctx #addToCartBtn>
-  <cx-add-to-cart
-    [productCode]="ctx.item.product?.code"
-    [product]="ctx.item.product"
-    [showQuantity]="false"
-    [options]="ctx.options"
-    class="add-to-cart"
-  >
-  </cx-add-to-cart>
-</ng-template>
+  <ng-template let-ctx #addToCartBtn>
+    <cx-add-to-cart
+      [productCode]="ctx.item.product?.code"
+      [product]="ctx.item.product"
+      [showQuantity]="false"
+      [options]="ctx.options"
+      class="add-to-cart"
+    >
+    </cx-add-to-cart>
+  </ng-template>
+</ng-container>

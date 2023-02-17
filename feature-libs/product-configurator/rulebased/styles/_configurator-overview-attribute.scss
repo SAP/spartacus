@@ -8,11 +8,10 @@
   .cx-attribute-value {
     width: 50%;
     font-weight: 600;
-    line-break: anywhere;
+    line-break: normal;
     padding-inline-end: 10px;
-    @include forVersion(5.1) {
-      z-index: -6;
-    }
+
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 40%;
@@ -22,11 +21,10 @@
   .cx-attribute-label {
     width: 100%;
     padding-inline-end: 10px;
-    line-break: anywhere;
+    line-break: normal;
     color: var(--cx-color-secondary);
-    @include forVersion(5.1) {
-      z-index: -6;
-    }
+
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 30%;
@@ -37,9 +35,7 @@
     align-self: flex-start;
     color: var(--cx-color-secondary);
     width: 50%;
-    @include forVersion(5.1) {
-      z-index: -6;
-    }
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 30%;

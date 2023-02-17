@@ -1,7 +1,12 @@
 <ng-container *ngIf="displayedGroup$ | async as group; else ghostGroup">
   <div class="cx-group-title">
+    <ng-container *ngIf="isMobile() | async">
+      <cx-hamburger-menu></cx-hamburger-menu>
+    </ng-container>
+
     {{ getGroupTitle(group) }}
-  </div> </ng-container
-><ng-template #ghostGroup>
+  </div>
+</ng-container>
+<ng-template #ghostGroup>
   <div class="cx-ghost-group-title"></div>
 </ng-template>

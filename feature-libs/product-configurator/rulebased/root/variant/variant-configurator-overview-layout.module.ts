@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,20 +21,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {
-            lg: {
-              slots: [
-                'SiteLogo',
-                'VariantConfigOverviewExitButton',
-                'MiniCart',
-              ],
-            },
-            xs: {
-              slots: [
-                'SiteLogo',
-                'VariantConfigOverviewExitButton',
-                'MiniCart',
-              ],
-            },
+            slots: ['SiteLogo', 'VariantConfigOverviewExitButton', 'MiniCart'],
           },
           headerDisplayOnly: {
             lg: {
@@ -52,9 +39,19 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
+          lg: {
+            slots: [
+              'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
+              'VariantConfigOverviewNavigation',
+              'VariantConfigOverviewContent',
+              'VariantConfigOverviewBottombar',
+            ],
+          },
           slots: [
             'VariantConfigOverviewHeader',
             'VariantConfigOverviewBanner',
+            'VariantConfigOverviewFilterButton',
             'VariantConfigOverviewContent',
             'VariantConfigOverviewBottombar',
           ],

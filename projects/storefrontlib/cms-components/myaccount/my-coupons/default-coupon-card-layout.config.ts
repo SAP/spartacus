@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DIALOG_TYPE, LayoutConfig } from '../../../layout/index';
 import { CouponDialogComponent } from './coupon-card/coupon-dialog/coupon-dialog.component';
 
 export const defaultCouponLayoutConfig: LayoutConfig = {
   launch: {
     COUPON: {
-      inline: true,
+      inlineRoot: true,
       component: CouponDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },

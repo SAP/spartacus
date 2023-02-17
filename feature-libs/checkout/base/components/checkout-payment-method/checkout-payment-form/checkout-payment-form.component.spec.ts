@@ -371,6 +371,20 @@ describe('CheckoutPaymentFormComponent', () => {
     ]);
   });
 
+  it('should call getAddressCardContent(address, true)', (done) => {
+    component.getAddressCardContent(mockAddress, true).subscribe((card) => {
+      expect(card?.textBold).toEqual('John Doe');
+      expect(card?.text).toEqual([
+        'Toyosaki 2 create on cart',
+        'line2',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+      done();
+    });
+  });
+
   it('should call toggleSameAsDeliveryAddress()', () => {
     spyOn(component, 'toggleSameAsDeliveryAddress').and.callThrough();
     component.sameAsDeliveryAddress = true;

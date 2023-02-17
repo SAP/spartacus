@@ -37,7 +37,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should return true for conflict group with more than one attribute', () => {
+  it('should return true for conflict group with at least one attribute', () => {
     const conflictGroup1: Configurator.Group = {
       ...ConfiguratorTestUtils.createGroup('1'),
       groupType: Configurator.GroupType.CONFLICT_GROUP,
@@ -48,7 +48,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       attributes: [{ name: '1' }],
     };
-    expect(component.displayConflictSuggestion(conflictGroup2)).toBe(false);
+    expect(component.displayConflictSuggestion(conflictGroup2)).toBe(true);
     const conflictGroup3 = {
       ...ConfiguratorTestUtils.createGroup('3'),
 

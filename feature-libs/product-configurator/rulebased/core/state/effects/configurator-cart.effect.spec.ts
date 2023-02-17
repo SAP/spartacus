@@ -15,7 +15,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { CONFIG_ID } from '../../../testing/configurator-test-data';
+import { CONFIG_ID, GROUP_ID_1 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
@@ -33,6 +33,8 @@ const userId = 'theUser';
 const quantity = 1;
 const entryNumber = 0;
 const emptyStatus = '';
+const ATTRIBUTE_NAME = 'attr_name';
+const GROUP_ID_CONFLICT = Configurator.ConflictIdPrefix + '62541';
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
@@ -78,7 +80,33 @@ const productConfiguration: Configurator.Configuration = {
       },
     ],
   },
-  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+  groups: [
+    { id: groupId, attributes: [{ name: ATTRIBUTE_NAME }], subGroups: [] },
+  ],
+};
+
+const productConfigurationWithConflict: Configurator.Configuration = {
+  ...productConfiguration,
+  groups: [
+    {
+      id: 'CONFLICT_HEADER',
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      subGroups: [
+        {
+          id: GROUP_ID_CONFLICT,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: [{ name: ATTRIBUTE_NAME }],
+        },
+      ],
+    },
+    {
+      id: GROUP_ID_1,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      subGroups: [],
+      attributes: [{ name: ATTRIBUTE_NAME }],
+    },
+  ],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
@@ -105,10 +133,12 @@ let entitiesInConfigurationState: {
 } = {};
 let configurationState: any;
 
+let readFromCartEntryObs: Observable<Configurator.Configuration>;
+
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
-  let readConfigurationForCartEntryMock: jasmine.Spy;
+
   let readConfigurationForOrderEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
 
@@ -119,9 +149,7 @@ describe('ConfiguratorCartEffect', () => {
     updateCartEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(cartModification));
-    readConfigurationForCartEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
+
     readConfigurationForOrderEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
@@ -129,7 +157,7 @@ describe('ConfiguratorCartEffect', () => {
     class MockConnector {
       addToCart = addToCartMock;
       updateConfigurationForCartEntry = updateCartEntryMock;
-      readConfigurationForCartEntry = readConfigurationForCartEntryMock;
+      readConfigurationForCartEntry = () => readFromCartEntryObs;
       readConfigurationForOrderEntry = readConfigurationForOrderEntryMock;
     }
     TestBed.configureTestingModule({
@@ -326,6 +354,7 @@ describe('ConfiguratorCartEffect', () => {
     );
 
     it('should emit a success action and also trigger the price update and variant search', () => {
+      readFromCartEntryObs = of(productConfiguration);
       const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
         ...productConfiguration,
         interactionState: { currentGroup: groupId },
@@ -343,28 +372,75 @@ describe('ConfiguratorCartEffect', () => {
       );
     });
 
-    it('should trigger the price update without group specified in case service is not present', () => {
-      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
-        ...productConfiguration,
-      });
+    it('should trigger the price action for the first group with attributes even if it is a conflict group', () => {
+      readFromCartEntryObs = of(productConfigurationWithConflict);
+
+      const updatePriceActionForConflict =
+        new ConfiguratorActions.UpdatePriceSummary({
+          ...productConfigurationWithConflict,
+          interactionState: { currentGroup: GROUP_ID_CONFLICT },
+        });
+
+      const readCartEntrySuccessActionForConflict =
+        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+          productConfigurationWithConflict
+        );
+
+      const searchVariantsActionForConflict =
+        new ConfiguratorActions.SearchVariants(
+          productConfigurationWithConflict
+        );
 
       actions$ = cold('-a', { a: action });
       const expected = cold('-(bcd)', {
-        b: readCartEntrySuccessAction,
-        c: updatePriceAction,
-        d: searchVariantsAction,
+        b: readCartEntrySuccessActionForConflict,
+        c: updatePriceActionForConflict,
+        d: searchVariantsActionForConflict,
       });
 
-      configCartEffects['configuratorBasicEffectService'] = undefined;
+      expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should trigger the price action for the first non-conflict attribute group if immediateConflictResolution is active', () => {
+      const productConfigImmediateConflictResolution: Configurator.Configuration =
+        {
+          ...productConfigurationWithConflict,
+          immediateConflictResolution: true,
+        };
+      readFromCartEntryObs = of(productConfigImmediateConflictResolution);
+
+      const updatePriceActionForConflict =
+        new ConfiguratorActions.UpdatePriceSummary({
+          ...productConfigImmediateConflictResolution,
+          interactionState: { currentGroup: GROUP_ID_1 },
+        });
+
+      const readCartEntrySuccessActionForConflict =
+        new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+          productConfigImmediateConflictResolution
+        );
+
+      const searchVariantsActionForConflict =
+        new ConfiguratorActions.SearchVariants(
+          productConfigImmediateConflictResolution
+        );
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: readCartEntrySuccessActionForConflict,
+        c: updatePriceActionForConflict,
+        d: searchVariantsActionForConflict,
+      });
+
       expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
         expected
       );
     });
 
     it('should emit a fail action if something goes wrong', () => {
-      readConfigurationForCartEntryMock.and.returnValue(
-        throwError(errorResponse)
-      );
+      readFromCartEntryObs = throwError(errorResponse);
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {

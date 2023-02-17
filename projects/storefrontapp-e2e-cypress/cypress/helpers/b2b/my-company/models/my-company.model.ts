@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ export enum ASSIGNMENT_LABELS {
   CREATE = 'Create',
   EDIT = 'Edit',
   UPDATE_SUCCESS = ' updated successfully',
-  ROLES = 'Roles',
+  ROLES_AND_RIGHTS = 'Roles and Rights',
   ROLE_UPDATED_SUCCESS = 'Roles successfully updated for ',
 }
 

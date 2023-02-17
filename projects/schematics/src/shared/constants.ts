@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -142,6 +142,8 @@ export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
+export const UNIT_LEVEL_ORDER_HISTORY_COMPONENT =
+  'UnitLevelOrderHistoryComponent';
 export const ORDER_OVERVIEW_COMPONENT = 'OrderOverviewComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
@@ -222,6 +224,7 @@ export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
+export const REGISTER_COMPONENT_SERVICE = 'RegisterComponentService';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
@@ -1136,3 +1139,5 @@ export const CSS_V5_DOCS_URL =
 export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
+
+export const CDC_JS_SERVICE = 'CdcJsService';

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -28,6 +29,8 @@ import { ExportOrderEntriesComponent } from './export-order-entries.component';
         },
       },
     }),
+    // TODO:(CXSPA-1695) for next major release remove below feature config
+    FeaturesConfigModule,
   ],
   exports: [ExportOrderEntriesComponent],
   declarations: [ExportOrderEntriesComponent],

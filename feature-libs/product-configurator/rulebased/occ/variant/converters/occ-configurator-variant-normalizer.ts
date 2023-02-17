@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,6 +42,8 @@ export class OccConfiguratorVariantNormalizer
       flatGroups: [],
       kbKey: source.kbKey ?? undefined,
       pricingEnabled: source.pricingEnabled ?? true,
+      hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
+      immediateConflictResolution: source.immediateConflictResolution ?? false,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>

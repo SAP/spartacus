@@ -397,6 +397,12 @@ describe('CpqConfiguratorNormalizer', () => {
       checkMessagePresent(mappedConfiguration.warningMessages, VALIDATION_MSG);
       checkMessagePresent(mappedConfiguration.warningMessages, INCOMPLETE_MSG);
     });
+
+    it('should enable pricing', () => {
+      const mappedConfiguration =
+        cpqConfiguratorNormalizer.convert(cpqConfiguration);
+      expect(mappedConfiguration.pricingEnabled).toBe(true);
+    });
   });
   describe('convertValue', () => {
     it('should convert values', () => {

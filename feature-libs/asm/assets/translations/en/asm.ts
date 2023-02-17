@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,8 +60,11 @@ export const asm = {
       },
       noOfCustomers: '{{count}} Customers',
       noCustomers: 'There are currently no customers in this customer list.',
+      noLists:
+        'There are currently no customer lists available. Contact your system administrator.',
+      listsError:
+        'The customer lists could not be retrieved. Please try again later.',
     },
-
     bindCart: {
       cartNumber: 'Cart Number',
       bindCartToCustomer: 'Assign Cart to Customer',
@@ -69,6 +72,13 @@ export const asm = {
       assignCartId: 'Assign a cart id to customer',
       enterCartId: 'Enter cart id',
       resetCartId: 'Reset',
+      dialog: {
+        title: 'Assign Anonymous Cart',
+        body: 'Do you want to replace the current active cart with the anonymous cart? If you replace the current active cart, it is saved as a saved cart.',
+        actions: {
+          replace: 'Replace Cart',
+        },
+      },
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',

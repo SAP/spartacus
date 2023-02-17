@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,9 @@ import {
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('@spartacus/user/account').then((m) => m.UserAccountModule),
+            import('./user-account-wrapper.module').then(
+              (m) => m.UserAccountWrapperModule
+            ),
         },
       },
     }),
@@ -45,7 +47,9 @@ import {
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+            import('./user-profile-wrapper.module').then(
+              (m) => m.UserProfileWrapperModule
+            ),
         },
       },
     }),

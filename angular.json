@@ -80,6 +80,14 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-customer-ticketing.scss",
+                "bundleName": "customer-ticketing"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
+                "bundleName": "s4om"
               }
             ],
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
@@ -177,6 +185,10 @@
             "tsConfig": "projects/storefrontapp/tsconfig.server.json"
           },
           "configurations": {
+            "development": {
+              "sourceMap": true,
+              "optimization": false
+            },
             "production": {
               "outputHashing": "media",
               "fileReplacements": [
@@ -189,31 +201,39 @@
               "optimization": true,
               "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "storefrontapp:build:development",
+              "serverTarget": "storefrontapp:server:development"
+            },
+            "production": {
+              "browserTarget": "storefrontapp:build:production",
+              "serverTarget": "storefrontapp:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "storefrontapp:build",
-            "serverTarget": "storefrontapp:server"
+            "routes": ["/"]
           },
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production",
               "serverTarget": "storefrontapp:server:production"
+            },
+            "development": {
+              "browserTarget": "storefrontapp:build:development",
+              "serverTarget": "storefrontapp:server:development"
             }
-          }
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "browserTarget": "storefrontapp:build:production",
-            "serverTarget": "storefrontapp:server:production",
-            "routes": ["/"]
           },
-          "configurations": {
-            "production": {}
-          }
+          "defaultConfiguration": "production"
         }
       }
     },
@@ -622,14 +642,6 @@
             }
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "core-libs/setup/test.ts",
-            "tsConfig": "core-libs/setup/tsconfig.spec.json",
-            "karmaConfig": "core-libs/setup/karma.conf.js"
-          }
-        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -972,6 +984,74 @@
             "lintFilePatterns": [
               "feature-libs/order/**/*.ts",
               "feature-libs/order/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "s4om": {
+      "projectType": "library",
+      "root": "integration-libs/s4om",
+      "sourceRoot": "integration-libs/s4om/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "integration-libs/s4om/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "integration-libs/s4om/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "integration-libs/s4om/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "integration-libs/s4om/test.ts",
+            "tsConfig": "integration-libs/s4om/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/s4om/karma.conf.js"
+          }
+        }
+      }
+    },
+    "customer-ticketing": {
+      "projectType": "library",
+      "root": "feature-libs/customer-ticketing",
+      "sourceRoot": "feature-libs/customer-ticketing",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.json",
+            "project": "feature-libs/customer-ticketing/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/customer-ticketing/test.ts",
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/customer-ticketing/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/customer-ticketing/**/*.ts",
+              "feature-libs/customer-ticketing/**/*.html"
             ]
           }
         }

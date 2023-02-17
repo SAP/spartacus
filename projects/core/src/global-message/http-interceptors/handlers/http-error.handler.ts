@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Applicable, Priority } from '../../../util/applicable';
 import { GlobalMessageService } from '../../facade/global-message.service';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -42,6 +41,21 @@ export abstract class HttpErrorHandler implements Applicable {
    */
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return errorResponse.status === this.responseStatus;
+  }
+
+  /**
+   * Converts error description to translation key format.
+   *
+   * Example: 'User is disabled' will be transformed to 'user_is_disabled'.
+   */
+  getErrorTranslationKey(reason: string): string {
+    const translationPrefix = `httpHandlers.badRequest`;
+
+    if (!reason) {
+      return `${translationPrefix}PleaseLoginAgain`;
+    }
+
+    return `${translationPrefix}.${reason.toLowerCase().replace(/ /g, '_')}`;
   }
 
   abstract getPriority?(): Priority;
