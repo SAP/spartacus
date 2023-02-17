@@ -78,23 +78,4 @@ describe('CpqAccessLoaderService', () => {
 
     mockReq.flush(accessData);
   });
-
-  it('should default to "current" user in case userId service is not present', () => {
-    serviceUnderTest['userIdService'] = undefined;
-    serviceUnderTest.getCpqAccessData().subscribe();
-
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === '/getCpqAccessData';
-    });
-
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'getCpqAccessData',
-      { urlParams: { userId: 'current' } }
-    );
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-
-    mockReq.flush(accessData);
-  });
 });

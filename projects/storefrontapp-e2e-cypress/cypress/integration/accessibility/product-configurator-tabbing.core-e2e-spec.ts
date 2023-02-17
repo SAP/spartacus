@@ -36,6 +36,16 @@ const CAMERA_PIXELS_P8 = 'P8';
 const SPECIFICATION = 'Specification';
 
 context('Product Configuration', () => {
+  const commerceRelease: configurationVc.CommerceRelease = {};
+
+  before(() => {
+    configurationVc.checkCommerceRelease(
+      electronicsShop,
+      testProduct,
+      commerceRelease
+    );
+  });
+
   beforeEach(() => {
     configurationVc.registerConfigurationRoute();
     configurationVc.registerConfigurationUpdateRoute();
@@ -44,8 +54,7 @@ context('Product Configuration', () => {
   });
 
   describe('Product Config Tabbing', () => {
-    xit('should allow to navigate with tab key', () => {
-      const commerceIsAtLeast2211 = false;
+    it('should allow to navigate with tab key', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
@@ -63,7 +72,7 @@ context('Product Configuration', () => {
       configurationVc.checkGlobalMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationVc.checkGhostAnimationNotDisplayed();
-      if (commerceIsAtLeast2211) {
+      if (commerceRelease.isAtLeast2211) {
         cy.log('Post 2211: product configuration overview page');
         verifyTabbingOrder(
           containerSelectorOverviewForm,
