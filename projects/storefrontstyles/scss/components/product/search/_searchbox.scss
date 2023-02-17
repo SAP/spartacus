@@ -102,7 +102,7 @@
     padding-inline-start: 10px;
 
     @include media-breakpoint-up(md) {
-      border: 1px solid var(--cx-color-secondary);
+      border: 1px solid var(--cx-color-medium);
       width: 27vw;
       min-width: 300px;
       max-width: 550px;
