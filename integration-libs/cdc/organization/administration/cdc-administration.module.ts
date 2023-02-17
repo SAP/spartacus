@@ -8,10 +8,8 @@ import { NgModule } from '@angular/core';
 
 import { UserListService } from '@spartacus/organization/administration/components';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import {
-  CdcB2BUserService,
-  CdcUserListService,
-} from '@spartacus/cdc/organization/administration';
+import { CdcB2BUserService } from './cdc-b2b-user.service';
+import { CdcUserListService } from './cdc-user-list.service';
 
 @NgModule({
   providers: [
