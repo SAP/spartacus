@@ -43,7 +43,7 @@ describe('Order History with orders', () => {
   });
 });
 
-describe.only('Order details page', { testIsolation: false }, () => {
+describe('Order details page', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     clearCacheTestIsolationBeforeOnly();
     let formattedValue: any;

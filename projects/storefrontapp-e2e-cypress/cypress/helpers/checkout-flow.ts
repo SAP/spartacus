@@ -486,14 +486,14 @@ export function fillPaymentFormWithCheapProduct(
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  cy.wait('@requestPayment').then(($obj) => {
+  cy.wait('@requestPayment', { timeout: 30000 }).then(($obj) => {
     cy.log('Flo1 Request');
     cy.log(JSON.stringify($obj.request));
     cy.log('Flo2 Response');
     cy.log(JSON.stringify($obj.response));
   });
 
-  cy.wait('@submitPayment').then(($obj) => {
+  cy.wait('@submitPayment', { timeout: 30000 }).then(($obj) => {
     cy.log('Flo3 Request');
     cy.log(JSON.stringify($obj.request));
     cy.log('Flo4 Response');

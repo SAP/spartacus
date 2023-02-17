@@ -19,8 +19,8 @@ export function clearCacheTestIsolation() {
 }
 
 export function clearCacheTestIsolationBeforeOnly() {
-  cy.log('testIsolate3');
   before(() => {
+    cy.log('testIsolate3');
     cy.clearLocalStorage();
     cy.clearCookies();
   });
