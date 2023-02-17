@@ -43,13 +43,19 @@ export function migrateComponentMigration(
       const sourceRoot = getSourceRoot(tree);
       const allHtmlFiles = getHtmlFiles(tree, '.html', sourceRoot);
       for (const htmlFile of allHtmlFiles) {
-        overwriteRemovedProperties(tree, htmlFile, deprecatedComponent);
+        overwriteRemovedProperties(
+          tree,
+          context,
+          htmlFile,
+          deprecatedComponent
+        );
       }
 
       // check for usages of the deprecated component properties in the .ts and the corresponding template (.html) files
       if (isInheriting(nodes, deprecatedComponent.componentClassName)) {
         overwriteInheritedRemovedProperties(
           tree,
+          context,
           angularCompiler,
           sourcePath,
           sourceRoot,
@@ -64,6 +70,7 @@ export function migrateComponentMigration(
 
 function overwriteRemovedProperties(
   tree: Tree,
+  context: SchematicContext,
   htmlFile: string,
   deprecatedComponent: ComponentData
 ) {
@@ -88,6 +95,7 @@ function overwriteRemovedProperties(
 
 function overwriteInheritedRemovedProperties(
   tree: Tree,
+  context: SchematicContext,
   angularCompiler: typeof import('@angular/compiler'),
   sourcePath: string,
   sourceRoot: string | undefined,
