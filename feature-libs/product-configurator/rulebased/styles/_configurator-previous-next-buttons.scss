@@ -30,11 +30,11 @@
     .btn-action {
       &.disabled,
       &:disabled {
-        &:hover {
-          @extend .btn-outline-text !optional;
-          border-width: 2px;
-          border-style: solid;
-        }
+        color: var(--cx-color-light);
+        border-width: 2px;
+        border-style: solid;
+        border-color: var(--cx-color-light);
+        opacity: 1;
       }
     }
   }

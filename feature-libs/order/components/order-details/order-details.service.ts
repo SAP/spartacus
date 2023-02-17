@@ -44,6 +44,10 @@ export class OrderDetailsService {
     );
   }
 
+  isOrderDetailsLoading(): Observable<boolean> {
+    return this.orderHistoryFacade.getOrderDetailsLoading();
+  }
+
   getOrderDetails(): Observable<Order> {
     return this.orderLoad$.pipe(
       switchMap(() => this.orderHistoryFacade.getOrderDetails())

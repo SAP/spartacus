@@ -194,6 +194,7 @@ const configuration: OccConfigurator.Configuration = {
   consistent: true,
   rootProduct: 'CONF_PRODUCT',
   hideBasePriceAndSelectedOptions: true,
+  immediateConflictResolution: true,
   groups: [
     {
       attributes: [occAttributeWithValues],
@@ -353,6 +354,23 @@ describe('OccConfiguratorVariantNormalizer', () => {
     it('should convert "hideBasePriceAndSelectedOptions" setting', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.hideBasePriceAndSelectedOptions).toBe(true);
+    });
+
+    it('should convert "immediateConflictResolution" setting to true', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.immediateConflictResolution).toBe(true);
+    });
+
+    it('should convert "immediateConflictResolution" setting to false', () => {
+      configuration.immediateConflictResolution = false;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.immediateConflictResolution).toBe(false);
+    });
+
+    it('should convert "immediateConflictResolution" setting from undefined to false', () => {
+      configuration.immediateConflictResolution = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.immediateConflictResolution).toBe(false);
     });
 
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {

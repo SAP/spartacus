@@ -43,6 +43,31 @@ function assertExistenceOfNoPermissionMessage() {
 
 function assertCommonFieldsOfOrderDetails(order) {
   const entry = order.entries[0];
+  // assert order summary
+  cy.get('.cx-summary-card').should('have.length', 3);
+  cy.get('.cx-summary-card')
+    .eq(0)
+    .within(() => {
+      cy.get('.cx-card .cx-card-label')
+        .first()
+        .should('contain', sampleData.ORDER_CODE);
+    });
+
+  cy.get('.cx-summary-card')
+    .eq(1)
+    .within(() => {
+      cy.get('.cx-card .cx-card-label')
+        .first()
+        .should('contain', order.orgCustomer.orgUnit.name);
+    });
+  cy.get('.cx-summary-card')
+    .eq(2)
+    .within(() => {
+      cy.get('.cx-card .cx-card-label')
+        .first()
+        .should('contain', order.deliveryAddress.formattedAddress);
+    });
+
   // assert order status
   cy.get('cx-order-details-items .cx-list-status').should(
     'contain',

@@ -118,8 +118,7 @@ export class VisualPickingProductListService implements OnDestroy {
       filter(
         (productReferences: ProductReference[]) =>
           productReferences !== undefined
-      ),
-      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y))
+      )
     );
   }
 

@@ -41,6 +41,9 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 class MockOrderDetailsService {
+  isOrderDetailsLoading(): Observable<boolean> {
+    return of(false);
+  }
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }

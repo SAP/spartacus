@@ -1,0 +1,57 @@
+cx-reorder-dialog {
+  .cx-modal-container {
+    .cx-modal-content {
+      .cx-dialog-title {
+        @include type('3');
+      }
+
+      .cx-dialog-body {
+        .cx-reorder-dialog-areyousure-section {
+          display: flex;
+          flex-direction: column;
+        }
+
+        p {
+          .cx-cart-mod-entry-container {
+            display: block;
+            .alert-icon {
+              vertical-align: initial;
+              cx-icon {
+                padding-inline-end: 5px;
+                &.success {
+                  color: var(--cx-color-success);
+                }
+                &.warning {
+                  color: var(--cx-color-warning);
+                }
+                &.error {
+                  color: var(--cx-color-danger);
+                }
+              }
+            }
+          }
+        }
+      }
+      .cx-reorder-dialog-footer {
+        justify-content: center;
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+    }
+  }
+}
