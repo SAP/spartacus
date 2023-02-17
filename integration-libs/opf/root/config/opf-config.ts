@@ -14,6 +14,7 @@ import { Config } from '@spartacus/core';
 export abstract class OpfConfig implements Config {
   opf?: {
     baseUrl?: string;
+    commerceCloudPublicKey?: string;
   };
 }
 

@@ -12,10 +12,16 @@ import {
   OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
 } from '@spartacus/opf/core';
-import { ActiveConfiguration } from '@spartacus/opf/root';
+import { ActiveConfiguration, OpfConfig } from '@spartacus/opf/root';
 import { OccOpfAdapter } from './occ-opf.adapter';
 
 const mockResponse: ActiveConfiguration[] = [];
+const mockOpfConfig: OpfConfig = {
+  opf: {
+    baseUrl: 'testUrl',
+    commerceCloudPublicKey: 'testKey',
+  },
+};
 
 export class MockOpfEndpointsService implements Partial<OpfEndpointsService> {
   buildUrl(
@@ -54,6 +60,10 @@ describe('OccOpfAdapter', () => {
           provide: OpfEndpointsService,
           useClass: MockOpfEndpointsService,
         },
+        {
+          provide: OpfConfig,
+          useValue: mockOpfConfig,
+        },
       ],
     });
 
@@ -78,10 +88,9 @@ describe('OccOpfAdapter', () => {
     });
 
     expect(opfEndpointsService.buildUrl).toHaveBeenCalled();
-
     expect(
-      mockReq.request.headers.has('sap-commerce-cloud-public-key')
-    ).toEqual(true);
+      mockReq.request.headers.get('sap-commerce-cloud-public-key')
+    ).toEqual(mockOpfConfig.opf?.commerceCloudPublicKey);
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockResponse);

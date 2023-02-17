@@ -5,9 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
+import { opfConfidValidator } from './config/opf-config-validator';
 
 @NgModule({
   imports: [],
@@ -16,6 +17,7 @@ import { defaultOpfConfig } from './config/default-opf-config';
     provideDefaultConfig(defaultOPFCheckoutConfig),
     // TODO OPF: uncomment once proper type and routing is set up
     // provideDefaultConfig(defaultOPFRoutingConfig),
+    provideConfigValidator(opfConfidValidator),
   ],
 })
 export class OpfRootModule {}
