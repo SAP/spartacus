@@ -89,18 +89,17 @@ export class UrlMatcherService {
 
       const parts = path.split('/'); // use function's argument, not the `route.path`
 
-      if (parts.length > segments.length) {
-        // The actual URL is shorter than the config, no match
-        return null;
-      }
-
       if (
-        and(
-          route.pathMatch === 'full',
-          or(segmentGroup.hasChildren(), parts.length < segments.length)
+        or(
+          // The actual URL is shorter than the config, no match
+          parts.length > segments.length,
+          // The config is longer than the actual URL but we are looking for a full match, return null
+          and(
+            route.pathMatch === 'full',
+            or(segmentGroup.hasChildren(), parts.length < segments.length)
+          )
         )
       ) {
-        // The config is longer than the actual URL but we are looking for a full match, return null
         return null;
       }
 
