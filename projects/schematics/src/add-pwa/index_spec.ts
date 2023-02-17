@@ -47,36 +47,31 @@ describe('Spartacus Schematics: add-pwa', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
   });
 
   describe('should add PWA properly', () => {
     it('should not touch app.module.ts', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            pwa: true,
-          },
-          appTree
-        )
-        .toPromise();
+      const tree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          pwa: true,
+        },
+        appTree
+      );
 
       const appModule = tree.readContent(
         '/projects/schematics-test/src/app/app.module.ts'
@@ -85,34 +80,30 @@ describe('Spartacus Schematics: add-pwa', () => {
     });
 
     it('should modify package.json', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            pwa: true,
-          },
-          appTree
-        )
-        .toPromise();
+      const tree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          pwa: true,
+        },
+        appTree
+      );
 
       const packageJson = tree.readContent('/package.json');
       expect(packageJson).toMatchSnapshot();
     });
 
     it('should modify angular.json', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            pwa: true,
-          },
-          appTree
-        )
-        .toPromise();
+      const tree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...defaultOptions,
+          name: 'schematics-test',
+          pwa: true,
+        },
+        appTree
+      );
 
       const packageJson = tree.readContent('/angular.json');
       expect(packageJson).toMatchSnapshot();
@@ -120,9 +111,12 @@ describe('Spartacus Schematics: add-pwa', () => {
   });
 
   it('Add PWA/ServiceWorker support for your project', async () => {
-    appTree = await schematicRunner
-      .runSchematicAsync('add-pwa', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runSchematic(
+      'add-pwa',
+      defaultOptions,
+      appTree
+    );
+
     const packageJson = appTree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
@@ -140,17 +134,18 @@ describe('Spartacus Schematics: add-pwa', () => {
   });
 
   it('should remove the existing SW setup and add Spartacus PWA support', async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@angular/pwa',
-        'ng-add',
-        { project: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-pwa', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@angular/pwa',
+      'ng-add',
+      { project: 'schematics-test' },
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-pwa',
+      defaultOptions,
+      appTree
+    );
 
     const packageJson = appTree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
