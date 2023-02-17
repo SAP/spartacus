@@ -24,9 +24,3 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: false },
   }
 );
-// And load the modules.
-context
-  .keys()
-  // filter tests from node_modules
-  .filter((key) => !key.startsWith('@'))
-  .forEach(context);
