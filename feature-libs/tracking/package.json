@@ -24,9 +24,9 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^14.2.3",
-    "@angular/common": "^14.2.3",
-    "@angular/core": "^14.2.3",
+    "@angular-devkit/schematics": "^15.1.4",
+    "@angular/common": "^15.1.4",
+    "@angular/core": "^15.1.4",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "rxjs": "^6.6.0"
