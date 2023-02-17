@@ -22,13 +22,13 @@ context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
-  // beforeEach(() => {
-  //   cy.restoreLocalStorage();
-  // });
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
 
-  // afterEach(() => {
-  //   cy.saveLocalStorage();
-  // });
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
 
   it('should login to b2b user', () => {
     b2bCheckout.loginB2bUser();
