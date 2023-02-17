@@ -14,6 +14,7 @@ import {
   CDC_FEATURE_NAME,
   LibraryOptions as SpartacusCdcOptions,
   organizationAdministrationFeatureModulePath,
+  organizationAdministrationWrapperModulePath,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_ASM,
@@ -220,6 +221,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
           userProfileWrapperModulePath
         );
         expect(userProfileWrapperModule).toMatchSnapshot();
+
+        const administrationWrapperModule = appTree.readContent(
+          organizationAdministrationWrapperModulePath
+        );
+        expect(administrationWrapperModule).toMatchSnapshot();
 
         const administrationFeatureModule = appTree.readContent(
           organizationAdministrationFeatureModulePath
