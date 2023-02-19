@@ -99,6 +99,22 @@ export class UserProfileWrapperModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 3`] = `
 "import { NgModule } from '@angular/core';
+import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
+import { AdministrationModule } from "@spartacus/organization/administration";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AdministrationModule,
+    CdcAdministrationModule
+  ]
+})
+export class AdministrationWrapperModule { }
+"
+`;
+
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 4`] = `
+"import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 import { organizationTranslationChunksConfig, organizationTranslations } from "@spartacus/organization/administration/assets";
 import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from "@spartacus/organization/administration/root";
