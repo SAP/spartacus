@@ -40,6 +40,78 @@ jobs:
         run: |         
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+  unit_tests_core:
+    needs: no_retries
+    name: Unit tests for core Spartacus libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@14
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run unit tests for Spartacus libs
+        run: |
+          ci-scripts/unit-tests-core-lib.sh
+  unit_tests_libs:
+    needs: no_retries
+    name: Unit tests for integration libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@14
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run unit tests for integration libs
+        run: |
+          ci-scripts/unit-tests.sh
+  sonarqube_scan:
+    needs: no_retries
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.projectKey=composable-storefront
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonar.tools.sap
+    if: github.event_name == 'pull_request'
   linting:
     needs: no_retries
     name: Validations and static code checks
