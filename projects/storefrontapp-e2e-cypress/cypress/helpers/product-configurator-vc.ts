@@ -579,6 +579,7 @@ export function registerConfigurationUpdateRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
+  registerConfigurationPricingRoute(); // implicitly register config pricing route
 }
 
 /**
@@ -600,14 +601,19 @@ export function registerConfigurationPricingRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  isPricingEnabled?: boolean
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
   cy.wait(UPDATE_CONFIG_ALIAS);
+  if (isPricingEnabled) {
+    cy.wait(CONFIG_PRICING_ALIAS);
+  }
 }
 
 /**
@@ -633,6 +639,7 @@ export function clickOnPreviousBtnAndWait(previousGroup?: string): void {
 export class CommerceRelease {
   isAtLeast2205?: boolean;
   isAtLeast2211?: boolean;
+  isPricingEnabled?: boolean;
 }
 
 export function checkCommerceRelease(
@@ -658,11 +665,15 @@ export function checkCommerceRelease(
     commerceRelease.isAtLeast2211 = responseAsString.includes(
       'immediateConflictResolution'
     );
+    commerceRelease.isPricingEnabled = responseAsString.includes(
+      '"pricingEnabled" : true'
+    );
     cy.log(
       'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
     );
     cy.log(
       'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211
     );
+    cy.log('Is pricing enabled: ' + commerceRelease.isPricingEnabled);
   });
 }
