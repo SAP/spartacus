@@ -218,9 +218,95 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
 }"
 `;
 
-exports[`Spartacus Product schematics: ng-add FutureStock feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Product schematics: ng-add FutureStock feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { FutureStockModule } from "@spartacus/product/future-stock";
+import { futureStockTranslationChunksConfig, futureStockTranslations } from "@spartacus/product/future-stock/assets";
+import { FutureStockRootModule } from "@spartacus/product/future-stock/root";
 
-exports[`Spartacus Product schematics: ng-add FutureStock feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    FutureStockRootModule,
+    FutureStockModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: futureStockTranslations,
+      chunks: futureStockTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductFutureStockFeatureModule { }
+"
+`;
+
+exports[`Spartacus Product schematics: ng-add FutureStock feature general setup b2b features configuration should be added 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from "@spartacus/assets";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { defaultB2bOccConfig } from "@spartacus/setup";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {},
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '4.1'
+    }
+  }), provideConfig(defaultB2bOccConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+exports[`Spartacus Product schematics: ng-add FutureStock feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { futureStockTranslationChunksConfig, futureStockTranslations } from "@spartacus/product/future-stock/assets";
+import { FutureStockRootModule, PRODUCT_FUTURE_STOCK_FEATURE } from "@spartacus/product/future-stock/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    FutureStockRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_FUTURE_STOCK_FEATURE]: {
+        module: () =>
+          import('@spartacus/product/future-stock').then((m) => m.FutureStockModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: futureStockTranslations,
+      chunks: futureStockTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class ProductFutureStockFeatureModule { }
+"
+`;
 
 exports[`Spartacus Product schematics: ng-add FutureStock feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";

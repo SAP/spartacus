@@ -147,20 +147,21 @@ export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: SchematicConfig = {
   },
 };
 
-export const FUTURE_STOCK_MODULE = 'ProductFutureStockModule';
-export const FUTURE_STOCK_ROOT_MODULE = 'ProductFutureStockRootModule';
+export const FUTURE_STOCK_MODULE = 'FutureStockModule';
+export const FUTURE_STOCK_ROOT_MODULE = 'FutureStockRootModule';
 export const FUTURE_STOCK_MODULE_NAME = 'ProductFutureStock';
 export const FUTURE_STOCK_FEATURE_NAME_CONSTANT =
   'PRODUCT_FUTURE_STOCK_FEATURE';
-export const FUTURE_STOCK_TRANSLATIONS = 'productFutureStockTranslations';
+export const FUTURE_STOCK_TRANSLATIONS = 'futureStockTranslations';
 export const FUTURE_STOCK_TRANSLATION_CHUNKS_CONFIG =
-  'productFutureStockTranslationChunksConfig';
+  'futureStockTranslationChunksConfig';
 
 export const PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: PRODUCT_FUTURE_STOCK_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_FUTURE_STOCK,
+    b2b: true,
   },
   folderName: PRODUCT_FOLDER_NAME,
   moduleName: FUTURE_STOCK_MODULE_NAME,

@@ -321,6 +321,15 @@ describe('Spartacus Product schematics: ng-add', () => {
           expect(content).toMatchSnapshot();
         });
       });
+
+      describe('b2b features', () => {
+        it('configuration should be added', () => {
+          const configurationModule = appTree.readContent(
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+          );
+          expect(configurationModule).toMatchSnapshot();
+        });
+      });
     });
 
     describe('eager loading', () => {
