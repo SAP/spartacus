@@ -30,7 +30,7 @@ describe('Future Stock', () => {
       cy.visit(`/product/${productIdWithFutureStock}`);
       cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.get('cx-future-stock').should('not.exist');
+      cy.get('cx-future-stock-accordion').should('not.exist');
     });
 
     it('when logged in, future stock dropdown should be visible', () => {
@@ -47,7 +47,7 @@ describe('Future Stock', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
       login(b2bUser.email, b2bUser.password);
 
-      cy.get('cx-future-stock').should('be.visible');
+      cy.get('cx-future-stock-accordion').should('be.visible');
     });
 
     it('should contain proper quantity', () => {
@@ -63,7 +63,7 @@ describe('Future Stock', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
       login(b2bUser.email, b2bUser.password);
 
-      cy.get('cx-future-stock').should('be.visible');
+      cy.get('cx-future-stock-accordion').should('be.visible');
       cy.get('cx-future-stock-accordion button').click();
       cy.contains(
         'cx-future-stock-accordion',
