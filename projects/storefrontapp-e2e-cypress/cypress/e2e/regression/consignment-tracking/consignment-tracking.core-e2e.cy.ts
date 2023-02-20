@@ -27,6 +27,7 @@ describe('consignment tracking', () => {
       cy.get('.close').click();
       cy.get('.cx-list')
         .next()
+        .first()
         .within(() => {
           cy.get('.cx-code').should('contain', '1992693');
           cy.get('.btn-track').click();

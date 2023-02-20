@@ -15,6 +15,7 @@ import {
   visitPaymentDetailsPage,
 } from '../../../helpers/payment-methods';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 describe('Payment Methods', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -30,7 +31,8 @@ describe('Payment Methods', () => {
       });
     });
 
-    describe('Authenticated user', () => {
+    describe('Authenticated user', { testIsolation: false }, () => {
+      isolateTests();
       before(() => {
         visitHomePage();
       });
@@ -114,3 +116,6 @@ describe('Payment Methods', () => {
     });
   });
 });
+function clearCacheTestIsolation() {
+  throw new Error('Function not implemented.');
+}

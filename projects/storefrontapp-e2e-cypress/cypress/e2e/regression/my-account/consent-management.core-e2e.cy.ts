@@ -10,6 +10,7 @@ import {
 } from '../../../helpers/consent-management';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 viewportContext(['mobile', 'desktop'], () => {
   describe('My Account - Consent Management', () => {
@@ -21,29 +22,34 @@ viewportContext(['mobile', 'desktop'], () => {
       verifyAsAnonymous();
     });
 
-    describe('consent management test for logged in user', () => {
-      before(() => {
-        cy.requireLoggedIn();
-        cy.reload();
-        cy.visit('/');
-        cy.selectUserMenuOption({
-          option: 'Consent Management',
+    describe(
+      'consent management test for logged in user',
+      { testIsolation: false },
+      () => {
+        isolateTests();
+        before(() => {
+          cy.requireLoggedIn();
+          cy.reload();
+          cy.visit('/');
+          cy.selectUserMenuOption({
+            option: 'Consent Management',
+          });
         });
-      });
 
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-      });
+        beforeEach(() => {
+          cy.restoreLocalStorage();
+        });
 
-      consentManagementTest();
+        consentManagementTest();
 
-      afterEach(() => {
-        cy.saveLocalStorage();
-      });
+        afterEach(() => {
+          cy.saveLocalStorage();
+        });
 
-      after(() => {
-        login.signOutUser();
-      });
-    });
+        after(() => {
+          login.signOutUser();
+        });
+      }
+    );
   });
 });

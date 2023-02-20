@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTests } from '../../support/utils/test-isolation';
+
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
-    before(() => {
+    beforeEach(() => {
       loadPageWithComponenents('/');
     });
 
@@ -50,7 +52,7 @@ context('Auxiliary Keys', () => {
   });
 
   describe('My Account Navigation', () => {
-    before(() => {
+    beforeEach(() => {
       cy.requireLoggedIn();
       loadPageWithComponenents('/');
     });
@@ -88,7 +90,8 @@ context('Auxiliary Keys', () => {
     });
   });
 
-  describe('Search Bar', () => {
+  describe('Search Bar', { testIsolation: false }, () => {
+    isolateTests();
     before(() => {
       loadPageWithComponenents('/');
     });
@@ -153,7 +156,8 @@ context('Auxiliary Keys', () => {
     it('should go to link with Enter key', () => {});
   });
 
-  describe('Skip Links', () => {
+  describe('Skip Links', { testIsolation: false }, () => {
+    isolateTests();
     before(() => {
       loadPageWithComponenents('/');
       cy.get('body').focus();

@@ -11,7 +11,7 @@ Cypress 12 has introduced Test isolation: https://docs.cypress.io/guides/referen
   - Clearing cookies in all domains
   - Clearing localStorage in all domains
   - Clearing sessionStorage in all domains
-For existing Sparatcus test not supporting TestIsolation, utils functions can simulates pre-Cy12 behavior:
+For existing Spartacus e2e tests not supporting TestIsolation, utils functions can simulates pre-Cy12 behavior:
 https://docs.cypress.io/guides/references/migration-guide#Simulating-Pre-Test-Isolation-Behavior
 */
 

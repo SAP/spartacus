@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-context('Homepage', () => {
+import { isolateTests } from '../../../../support/utils/test-isolation';
+
+context('Homepage', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
     cy.visit('/');
   });

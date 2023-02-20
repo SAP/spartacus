@@ -11,6 +11,7 @@ import * as alerts from '../../../helpers/global-message';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
@@ -29,7 +30,8 @@ describe('My Account - Close Account', () => {
       });
     });
 
-    describe('Logged in user', () => {
+    describe('Logged in user', { testIsolation: false }, () => {
+      isolateTests();
       before(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),

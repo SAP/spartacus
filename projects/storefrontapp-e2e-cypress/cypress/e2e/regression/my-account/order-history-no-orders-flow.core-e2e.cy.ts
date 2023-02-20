@@ -10,9 +10,11 @@ import { orderHistoryTest } from '../../../helpers/order-history';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('Order History with no orders', () => {
+describe('Order History with no orders', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    isolateTests();
     before(() => {
       clearAllStorage();
       cy.visit('/');

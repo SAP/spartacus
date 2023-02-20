@@ -7,6 +7,7 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { Address } from '../../../helpers/checkout-forms';
 import { user } from '../../../sample-data/checkout-flow';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 const canadaAddress: Address = {
   city: 'Montreal',
@@ -25,7 +26,8 @@ const polandAddress: Address = {
   postal: '50-203',
 };
 
-context('Payment billing address', () => {
+context('Payment billing address', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });

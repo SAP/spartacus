@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
-import { viewportContext } from '../../../../helpers/viewport-context';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
   fillOrganizationUserRegistrationForm,
   navigateToOrganizationUserRegisterPage,
@@ -16,7 +13,11 @@ import {
   verifyRedirectionToLoginPage,
   verifyTabbingOrder,
 } from '../../../../helpers/b2b/b2b-user-registration';
+import { viewportContext } from '../../../../helpers/viewport-context';
+import { getSampleUser } from '../../../../sample-data/checkout-flow';
 import { myCompanyAdminUser } from '../../../../sample-data/shared-users';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
 context('B2B - User Registration', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -24,7 +25,8 @@ context('B2B - User Registration', () => {
       clearAllStorage();
     });
 
-    describe('Registration form', () => {
+    describe('Registration form', { testIsolation: false }, () => {
+      isolateTests();
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cy.visit('/');

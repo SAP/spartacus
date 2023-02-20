@@ -5,7 +5,9 @@
  */
 
 import * as storeFinder from '../../../helpers/store-finder';
-context('Store finder', () => {
+import { isolateTests } from '../../../support/utils/test-isolation';
+context('Store finder', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
     cy.visit('/store-finder');
   });

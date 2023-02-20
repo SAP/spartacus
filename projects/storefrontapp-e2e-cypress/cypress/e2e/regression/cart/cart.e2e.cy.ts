@@ -53,6 +53,7 @@ describe('Cart', () => {
       });
 
       it('should keep cart on page refresh', () => {
+        cy.visit('/cart');
         cart.addProductAsAnonymous();
         cy.reload();
         cart.verifyCartNotEmpty();

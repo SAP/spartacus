@@ -10,7 +10,7 @@ import * as expressCheckout from '../../../helpers/express-checkout';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-context('Express checkout', () => {
+context('Express checkout', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       clearAllStorage();

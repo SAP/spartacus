@@ -6,9 +6,11 @@
 
 import * as productSearchFlow from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-context('Product search', () => {
+context('Product search', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    isolateTests();
     before(() => {
       cy.visit('/');
     });

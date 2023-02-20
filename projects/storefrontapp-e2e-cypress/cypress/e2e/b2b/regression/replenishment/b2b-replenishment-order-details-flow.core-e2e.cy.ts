@@ -11,8 +11,10 @@ import {
   POWERTOOLS_BASESITE,
   USER_REQUEST_ENDPOINT,
 } from '../../../../sample-data/b2b-checkout';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
-describe('Replenishment order details', () => {
+describe('Replenishment order details', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

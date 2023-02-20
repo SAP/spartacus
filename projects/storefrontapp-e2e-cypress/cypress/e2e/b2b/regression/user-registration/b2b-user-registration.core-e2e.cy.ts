@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getSampleUser } from './../../../../sample-data/checkout-flow';
-import { viewportContext } from '../../../../helpers/viewport-context';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
   fillOrganizationUserRegistrationForm,
   navigateToOrganizationUserRegisterPage,
@@ -14,9 +11,14 @@ import {
   verifyGlobalMessageAfterRegistration,
   verifyTabbingOrder,
 } from '../../../../helpers/b2b/b2b-user-registration';
+import { viewportContext } from '../../../../helpers/viewport-context';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import { isolateTests } from '../../../../support/utils/test-isolation';
+import { getSampleUser } from './../../../../sample-data/checkout-flow';
 
-context('B2B - User Registration', () => {
+context('B2B - User Registration', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    isolateTests();
     beforeEach(() => {
       clearAllStorage();
     });

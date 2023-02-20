@@ -13,8 +13,10 @@ import {
   products,
 } from '../../../../sample-data/b2b-checkout';
 import { user } from '../../../../sample-data/checkout-flow';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
-context('B2B - Credit Card Checkout flow', () => {
+context('B2B - Credit Card Checkout flow', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

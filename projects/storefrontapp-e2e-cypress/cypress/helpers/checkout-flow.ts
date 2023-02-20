@@ -471,6 +471,13 @@ export function fillPaymentFormWithCheapProduct(
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
   cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/request*`,
+  }).as('requestPayment');
+
+  cy.intercept({
     method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
@@ -479,7 +486,12 @@ export function fillPaymentFormWithCheapProduct(
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
+  cy.wait('@requestPayment', { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+  cy.wait('@submitPayment', { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
@@ -553,12 +565,12 @@ export function verifyOrderConfirmationPageWithCheapProduct(
         cy.get('.cx-card-label').should('not.be.empty');
       });
     });
-    cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
+    cy.get('.cx-summary-card:nth-child(2)').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
       cy.contains('Standard Delivery');
     });
-    cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
+    cy.get('.cx-summary-card:nth-child(3)').within(() => {
       cy.contains(sampleUser.fullName);
       cy.contains(sampleUser.address.line1);
     });

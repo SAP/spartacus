@@ -6,13 +6,14 @@
 
 import { waitForProductPage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 const productId = '1990255';
 
-describe('Image zoom', () => {
+describe('Image zoom', { testIsolation: false }, () => {
   viewportContext(['desktop'], () => {
     let hasGallery = false;
-
+    isolateTests();
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

@@ -5,8 +5,10 @@
  */
 
 import * as orderCancellationReturn from '../../../helpers/order-cancellations-returns';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('Order Cancellations and Returns', () => {
+describe('Order Cancellations and Returns', { testIsolation: false }, () => {
+  isolateTests();
   before(() => {
     cy.requireLoggedIn();
     cy.saveLocalStorage();

@@ -14,9 +14,11 @@ import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('My Account - Address Book', () => {
+describe('My Account - Address Book', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    isolateTests();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

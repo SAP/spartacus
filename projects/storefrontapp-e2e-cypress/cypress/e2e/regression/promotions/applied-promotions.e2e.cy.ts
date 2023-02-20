@@ -6,9 +6,11 @@
 
 import * as appliedPromotions from '../../../helpers/applied-promotions';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-context('Applied promotions', () => {
+context('Applied promotions', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
+    isolateTests();
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

@@ -9,17 +9,18 @@ import {
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
-  doPlaceOrder,
-  orderHistoryTest,
-  interceptCartPageEndpoint,
-  verifyActionLinkHasText,
   clickOnActionLink,
-  waitForResponse,
+  doPlaceOrder,
   interceptAddToCartEndpoint,
+  interceptCartPageEndpoint,
+  orderHistoryTest,
+  verifyActionLinkHasText,
+  waitForResponse,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
@@ -42,8 +43,9 @@ describe('Order History with orders', () => {
   });
 });
 
-describe('Order details page', () => {
+describe('Order details page', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    isolateTestsBefore();
     let formattedValue: any;
 
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
