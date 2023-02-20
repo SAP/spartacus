@@ -3,7 +3,7 @@ on:
     branches:
       - 'release/4.**'
       - 'epic/**'
-      - 'develop'
+      - 'develop2'
 name: Installation
 jobs:
   install:

@@ -2,7 +2,7 @@ on:
   pull_request:
     types: [ready_for_review]
     branches:
-      - develop
+      - develop2
       - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow

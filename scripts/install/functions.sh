@@ -235,7 +235,7 @@ function publish_package {
 function restore_clone {
     projects=$@
 
-    if [ ${BRANCH} == 'develop' ]; then
+    if [ ${BRANCH} == 'develop2' ]; then
         pushd ../.. > /dev/null
         for path in ${projects[@]}
         do

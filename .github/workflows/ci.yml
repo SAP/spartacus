@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - develop
+      - develop2
       - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
@@ -329,4 +329,4 @@ jobs:
         if: | 
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' && 
-          github.ref_name == 'develop'
+          github.ref_name == 'develop2'

@@ -23,7 +23,7 @@ if [[ -z ${SPARTACUS_VERSION} ]]; then
 fi
 
 if [[ -z ${BRANCH} ]]; then
-    BRANCH="develop"
+    BRANCH="develop2"
 fi
 
 if [[ -z ${CSR_APP_NAME} ]]; then

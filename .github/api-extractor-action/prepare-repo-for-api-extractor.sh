@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-BRANCH=develop
+BRANCH=develop2
 if [ "$1" != "" ] ; then
   BRANCH=$1
 fi
