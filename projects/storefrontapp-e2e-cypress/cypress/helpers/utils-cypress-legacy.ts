@@ -1,4 +1,10 @@
 /*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/*
 Cypress 12 has introduced Test isolation: https://docs.cypress.io/guides/references/migration-guide#Test-Isolation
  By default, before each test this mechanism takes place:
   - Clearing the dom state by visiting about:blank
