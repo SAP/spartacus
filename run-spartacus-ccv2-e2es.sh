@@ -12,8 +12,8 @@ CYPRESS_SSR_FOLDER="$CYPRESS_ROOT_FOLDER/ssr"
 CYPRESS_VENDOR_FOLDER="$CYPRESS_ROOT_FOLDER/vendor"
 
 
-export E2ES_TO_RUN="$CYPRESS_B2C_FOLDER/checkout/checkout-flow.core-e2e-spec.ts,
-$CYPRESS_B2C_FOLDER/homepage/homepage.core-e2e-spec.ts
+export E2ES_TO_RUN="$CYPRESS_B2C_FOLDER/checkout/checkout-flow.core-e2e.cy.ts,
+$CYPRESS_B2C_FOLDER/homepage/homepage.core-e2e.cy.ts
 "
 
 # install cypress standlone dependencies
