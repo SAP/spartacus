@@ -116,7 +116,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         COLOUR_HT,
         single_selection_image,
-        WHITE
+        WHITE,
+        commerceRelease.isPricingEnabled
       );
       configurationVc.checkImageSelected(
         single_selection_image,
@@ -126,7 +127,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         COLOUR_HT,
         single_selection_image,
-        TITAN
+        TITAN,
+        commerceRelease.isPricingEnabled
       );
       configurationVc.checkImageSelected(
         single_selection_image,
@@ -143,7 +145,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         CAMERA_SD_CARD,
         checkBoxList,
-        SDHC
+        SDHC,
+        commerceRelease.isPricingEnabled
       );
       configurationVc.clickOnPreviousBtnAndWait(BASICS);
       configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
@@ -182,7 +185,12 @@ context('Product Configuration', () => {
       configurationVc.checkStatusIconNotDisplayed(OPTIONS);
 
       // complete group Display, navigate back, is status changes to Complete
-      configurationVc.selectAttributeAndWait(CAMERA_DISPLAY, radioGroup, P5);
+      configurationVc.selectAttributeAndWait(
+        CAMERA_DISPLAY,
+        radioGroup,
+        P5,
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.clickOnPreviousBtnAndWait(SPECIFICATION);
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
       configurationVc.checkStatusIconDisplayed(SPECIFICATION, ERROR);
@@ -195,7 +203,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         CAMERA_FORMAT_PICTURES,
         radioGroup,
-        JPEG
+        JPEG,
+        commerceRelease.isPricingEnabled
       );
       configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
       configurationVc.checkStatusIconDisplayed(SPECIFICATION, COMPLETE);
@@ -366,15 +375,28 @@ context('Product Configuration', () => {
 
     it('should de-select the currently selected value when selecting the retract option', () => {
       //Select another value and verify whether a corresponding value is selected
-      configurationVc.selectAttributeAndWait(CAMERA_MODE, radioGroup, 'S');
+      configurationVc.selectAttributeAndWait(
+        CAMERA_MODE,
+        radioGroup,
+        'S',
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');
-      configurationVc.selectAttributeAndWait(CAMERA_MODE, radioGroup, 'P');
+
+      configurationVc.selectAttributeAndWait(
+        CAMERA_MODE,
+        radioGroup,
+        'P',
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'P');
+
       // Select a retract value and verify whether it is selected
       configurationVc.selectAttributeAndWait(
         CAMERA_MODE,
         radioGroup,
-        '###RETRACT_VALUE_CODE###'
+        '###RETRACT_VALUE_CODE###',
+        commerceRelease.isPricingEnabled
       );
       configuration.checkValueSelected(
         radioGroup,
@@ -410,7 +432,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
-        PROJECTOR_LCD
+        PROJECTOR_LCD,
+        commerceRelease.isPricingEnabled
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
       configurationVc.clickOnGroupAndWait(3);
