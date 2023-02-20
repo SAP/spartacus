@@ -400,6 +400,21 @@ describe('MultiCartService', () => {
           userId: 'userId',
           productCode: 'productCode',
           quantity: 2,
+          pickupStore: undefined,
+        })
+      );
+    });
+
+    it('should dispatch addEntry action with pickupStore', () => {
+      service.addEntry('userId', 'cartId', 'productCode', 2, 'pickupStore');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartAddEntry({
+          cartId: 'cartId',
+          userId: 'userId',
+          productCode: 'productCode',
+          quantity: 2,
+          pickupStore: 'pickupStore',
         })
       );
     });
@@ -455,6 +470,38 @@ describe('MultiCartService', () => {
           cartId: 'cartId',
           entryNumber: '0',
           quantity: 2,
+          pickupStore: undefined,
+          pickupToDelivery: false,
+        })
+      );
+    });
+
+    it('should dispatch UpdateEntry action for updating pickupStore', () => {
+      service.updateEntry('userId', 'cartId', 0, undefined, 'pickupStore');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartUpdateEntry({
+          userId: 'userId',
+          cartId: 'cartId',
+          entryNumber: '0',
+          quantity: undefined,
+          pickupStore: 'pickupStore',
+          pickupToDelivery: false,
+        })
+      );
+    });
+
+    it('should dispatch UpdateEntry action for switch from pickup to delivery', () => {
+      service.updateEntry('userId', 'cartId', 0, 4, undefined, true);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.CartUpdateEntry({
+          userId: 'userId',
+          cartId: 'cartId',
+          entryNumber: '0',
+          quantity: 4,
+          pickupStore: undefined,
+          pickupToDelivery: true,
         })
       );
     });
