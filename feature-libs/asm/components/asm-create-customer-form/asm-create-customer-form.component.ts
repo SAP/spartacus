@@ -11,7 +11,7 @@ Validators,
 } from '@angular/forms';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { AsmCreateCustomerFacade, CustomerRegistrationForm } from '@spartacus/asm/root';
-import { CreatedCustomer } from './asm-create-customer-form.model'
+import { CreatedCustomer } from './asm-create-customer-form.model';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -44,15 +44,15 @@ export class AsmCreateCustomerFormComponent implements OnInit {
     },
   );
 
-  constructor( 
+  constructor(
     protected launchDialogService: LaunchDialogService,
     protected fb: UntypedFormBuilder,
     protected asmCreateCustomerFacade: AsmCreateCustomerFacade,
     protected globalMessageService: GlobalMessageService,
-    ) { 
+    ) {
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
   }
 
   submitForm(): void {
@@ -81,8 +81,8 @@ export class AsmCreateCustomerFormComponent implements OnInit {
       firstName,
       lastName,
       email,
-    }
-  } 
+    };
+  }
   collectDataFromRegisterForm(): CustomerRegistrationForm {
     return {
       firstName: this.createdCustomer.firstName,
@@ -91,7 +91,10 @@ export class AsmCreateCustomerFormComponent implements OnInit {
     };
   }
 
-  protected onRegisterUserSuccess(): void {    
+  closeModal(reason?: any): void {
+    this.launchDialogService.closeDialog(reason);
+  }
+  protected onRegisterUserSuccess(): void {
     this.launchDialogService.closeDialog(this.createdCustomer);
     this.globalMessageService.add(
       { key: 'asm.createCustomerForm.postRegisterMessage' },
@@ -99,15 +102,11 @@ export class AsmCreateCustomerFormComponent implements OnInit {
     );
   }
 
-  protected onRegisterUserFail(error: HttpErrorModel): void {    
+  protected onRegisterUserFail(error: HttpErrorModel): void {
     this.launchDialogService.closeDialog('');
     this.globalMessageService.add(
       error.details?.[0].message ?? '',
       GlobalMessageType.MSG_TYPE_ERROR
     );
-  }
-  
-  closeModal(reason?: any): void {
-    this.launchDialogService.closeDialog(reason);
   }
 }

@@ -137,7 +137,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             this.startCustomerEmulationSession(result.selectedUser);
             if (
               result.actionType === CustomerListColumnActionType.ORDER_HISTORY
-            ) { 
+            ) {
               this.routingService.go({ cxRoute: 'orders' });
             }
           } else if (result.email){

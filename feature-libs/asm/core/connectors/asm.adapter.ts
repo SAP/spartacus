@@ -30,8 +30,8 @@ export abstract class AsmAdapter {
    */
   abstract bindCart(options: BindCartParams): Observable<unknown>;
 
-   /**
+  /**
    * Abstract function used to create an account for customers.
    */
-   abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
+  abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
 }

@@ -30,7 +30,7 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model'
+import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -150,7 +150,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       this.createCustomerLink
     );
 
-    
     this.subscription.add(
       this.launchDialogService?.dialogClose
         .pipe(filter((result) => Boolean(result)))

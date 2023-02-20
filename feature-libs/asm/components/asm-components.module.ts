@@ -87,7 +87,6 @@ import { defaultAsmCreateCustomerFormLayoutConfig } from './asm-create-customer-
     provideDefaultConfig(defaultBindCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
     provideDefaultConfig(defaultAsmCreateCustomerFormLayoutConfig),
-    
   ],
 })
 export class AsmComponentsModule {}

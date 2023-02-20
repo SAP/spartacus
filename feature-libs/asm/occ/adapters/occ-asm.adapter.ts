@@ -153,7 +153,7 @@ export class OccAsmAdapter implements AsmAdapter {
       new HttpHeaders()
     );
     const params: HttpParams = new HttpParams()
-      .set('baseSite', this.activeBaseSite)
+      .set('baseSite', this.activeBaseSite);
 
     const url = this.occEndpointsService.buildUrl(
       'asmCreateCustomer',
@@ -163,7 +163,6 @@ export class OccAsmAdapter implements AsmAdapter {
         prefix: false,
       }
     );
-    
     return this.http
       .post<User>(url, user, { headers, params })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
