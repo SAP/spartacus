@@ -150,9 +150,7 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": [
-              "projects/storefrontapp/src/styles.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
@@ -164,9 +162,7 @@
                 "output": "assets/"
               }
             ],
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ]
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -225,9 +221,7 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {
@@ -267,13 +261,9 @@
             "main": "projects/storefrontlib/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ],
+            "codeCoverageExclude": ["dist/**/*"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects/storefrontstyles/scss"]
             }
           }
         },
@@ -370,9 +360,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/schematics/**/*.ts"
-            ]
+            "lintFilePatterns": ["projects/schematics/**/*.ts"]
           }
         }
       }
@@ -1068,14 +1056,6 @@
           }
         }
       }
-    }
-  },
-  "schematics": {
-    "@angular-eslint/schematics:application": {
-      "setParserOptionsProject": true
-    },
-    "@angular-eslint/schematics:library": {
-      "setParserOptionsProject": true
     }
   }
 }
