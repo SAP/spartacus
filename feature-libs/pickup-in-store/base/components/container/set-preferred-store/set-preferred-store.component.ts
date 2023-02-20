@@ -6,10 +6,8 @@
 
 import { Component, Input, OnInit, Optional } from '@angular/core';
 
-import {
-  PointOfServiceNames,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/base/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/base/core';
+import { PointOfServiceNames } from '@spartacus/pickup-in-store/base/root';
 import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
 
 @Component({

@@ -8,12 +8,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideDefaultConfig } from '@spartacus/core';
 import {
-  // CartPickupOptionsContainerModule,
+  CartPickupOptionsContainerModule,
   CheckoutPickUpInStoreDetailsModule,
   defaultPickupOptionsDialogLayoutConfig,
   MyPreferredStoreModule,
   OrderConfirmationPickupInStoreModule,
-  // PdpPickupOptionsContainerModule,
+  PdpPickupOptionsContainerModule,
   PickupInfoContainerModule,
   PickupInStoreDetailsReviewModule,
 } from './container/index';
@@ -21,8 +21,8 @@ import {
 @NgModule({
   imports: [
     ReactiveFormsModule,
-    // CartPickupOptionsContainerModule,
-    // PdpPickupOptionsContainerModule,
+    CartPickupOptionsContainerModule,
+    PdpPickupOptionsContainerModule,
     PickupInfoContainerModule,
     MyPreferredStoreModule,
     CheckoutPickUpInStoreDetailsModule,

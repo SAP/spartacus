@@ -5,17 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory, PointOfServiceStock } from '@spartacus/core';
-import {
-  PickRequiredDeep,
-  PICKUP_IN_STORE_CORE_FEATURE,
-} from '@spartacus/pickup-in-store/base/root';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-
-export type PointOfServiceNames = PickRequiredDeep<
-  PointOfServiceStock,
-  'name' | 'displayName'
->;
+import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
+import { PointOfServiceNames } from '../model/point-of-service-names.model';
 
 /**
  * Service to store the user's preferred store for Pickup in Store in local storage.

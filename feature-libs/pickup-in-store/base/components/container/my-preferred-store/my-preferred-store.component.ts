@@ -5,21 +5,21 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {
   CmsService,
   Page,
   PointOfService,
   RoutingService,
 } from '@spartacus/core';
-import {
-  PointOfServiceNames,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/base/core';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/base/root';
-import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { StoreFinderService } from '@spartacus/storefinder/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/base/core';
+import {
+  PickupLocationsSearchFacade,
+  PointOfServiceNames,
+} from '@spartacus/pickup-in-store/base/root';
 
 @Component({
   selector: 'cx-my-preferred-store',

@@ -5,7 +5,7 @@
  */
 
 import { createAction, props } from '@ngrx/store';
-import { PointOfServiceNames } from '../../services/index';
+import { PointOfServiceNames } from '@spartacus/pickup-in-store/base/root';
 
 export const LOAD_DEFAULT_POINT_OF_SERVICE =
   '[Default Point Of Service] Load Default Point Of Service';
