@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
 import * as paymentMethods from '../../../helpers/payment-methods';

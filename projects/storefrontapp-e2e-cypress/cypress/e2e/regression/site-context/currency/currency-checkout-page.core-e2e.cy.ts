@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { waitForCartPageData } from '../../../../helpers/b2b/b2b-saved-cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 import { product } from '../../../../sample-data/checkout-flow';

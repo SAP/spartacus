@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as wishList from '../../../helpers/wish-list';
 import * as login from '../../../helpers/login';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';

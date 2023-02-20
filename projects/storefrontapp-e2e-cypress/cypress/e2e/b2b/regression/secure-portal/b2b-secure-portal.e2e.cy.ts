@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { RoutingConfig } from '@spartacus/core';
 import * as securePortal from '../../../../helpers/b2b/b2b-secure-portal';
 

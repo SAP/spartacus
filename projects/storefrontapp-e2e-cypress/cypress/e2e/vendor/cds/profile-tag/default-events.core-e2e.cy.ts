@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as anonymousConsents from '../../../../helpers/anonymous-consents';
 import { goToCart } from '../../../../helpers/cart';
 import * as checkoutFlowPersistentUser from '../../../../helpers/checkout-as-persistent-user';
