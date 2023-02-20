@@ -105,6 +105,8 @@
     border-radius: 4px;
     width: 100%;
     max-width: 50vw;
+    max-height: 70vh;
+    overflow-y: auto;
 
     @media (max-width: 1200px) {
       max-width: calc(100% - 4rem);
@@ -132,6 +134,10 @@
 
       @media (min-width: 767px) {
         flex-direction: row;
+      }
+      &.active {
+        color: #32363a;
+        background-color: #d3d6db;
       }
 
       &:hover {

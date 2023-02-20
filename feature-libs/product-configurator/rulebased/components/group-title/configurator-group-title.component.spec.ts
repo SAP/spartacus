@@ -3,13 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  FeatureConfigService,
-  FeatureLevelDirective,
-  FeaturesConfig,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   IconLoaderService,
@@ -24,7 +18,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 const config: Configurator.Configuration =
@@ -81,12 +75,6 @@ class MockBreakpointService {
 })
 class MockHamburgerMenuComponent {}
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
@@ -106,7 +94,6 @@ describe('ConfigurationGroupTitleComponent', () => {
         declarations: [
           ConfiguratorGroupTitleComponent,
           MockHamburgerMenuComponent,
-          FeatureLevelDirective,
         ],
         providers: [
           HamburgerMenuService,
@@ -134,16 +121,6 @@ describe('ConfigurationGroupTitleComponent', () => {
           },
           {
             provide: ConfiguratorStorefrontUtilsService,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.2' },
-            },
           },
         ],
       }).compileComponents();
@@ -211,18 +188,6 @@ describe('ConfigurationGroupTitleComponent', () => {
     ).toHaveBeenCalledWith('.PreHeader', 'display', 'none');
   });
 
-  it('should create component without hamburger menu icon in case dependencies are not defined', () => {
-    component['hamburgerMenuService'] = undefined;
-    component['configuratorStorefrontUtilsService'] = undefined;
-    fixture.detectChanges();
-    expect(component).toBeDefined();
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-hamburger-menu'
-    );
-  });
-
   it('should get group id as part of group', () => {
     component.displayedGroup$.subscribe((data: Configurator.Group) => {
       expect(data.id).toEqual(group.id);
@@ -262,21 +227,6 @@ describe('ConfigurationGroupTitleComponent', () => {
   });
 
   describe('isMobile', () => {
-    it('should not render hamburger menu in case breakpointService is not defined', () => {
-      component['breakpointService'] = undefined;
-      fixture.detectChanges();
-
-      component.isMobile().subscribe((isMobile) => {
-        expect(isMobile).toBe(false);
-      });
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-hamburger-menu'
-      );
-    });
-
     it('should not render hamburger menu in desktop mode', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
       fixture.detectChanges();

@@ -14,7 +14,9 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
+      resolveIssue: 'Resolve Issue',
       resolveConflicts: 'Resolve Conflicts',
+      conflictWarning: 'Conflict must be resolved to continue',
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
@@ -252,6 +254,7 @@ export const configurator = {
         'Filter configuration overview by your selections',
       filterOverviewByGroup:
         'Filter configuration overview by group {{groupName}}',
+      closeConflictSolverModal: 'Close conflict solver modal',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
