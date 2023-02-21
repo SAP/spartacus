@@ -22,6 +22,8 @@ import { Order } from '../model/order.model';
         'clearPlacedOrder',
         'setPlacedOrder',
         'placeOrder',
+        'getPickupEntries',
+        'getDeliveryEntries',
       ],
     }),
 })
