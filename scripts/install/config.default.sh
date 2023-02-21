@@ -32,6 +32,7 @@ SPARTACUS_PROJECTS=(
         "dist/tracking:feature-libs/tracking"
         "dist/qualtrics:feature-libs/qualtrics"
         "dist/smartedit:feature-libs/smartedit"
+        "dist/customer-ticketing:feature-libs/customer-ticketing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/epd-visualization:integration-libs/epd-visualization"
@@ -76,7 +77,7 @@ EPD_VISUALIZATION_BASE_URL=
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
 NPM_TOKEN=
-NPM_URL= 
+NPM_URL=
 NPM_ALWAYS_AUTH=true
 
 SKIP_SANITY=false

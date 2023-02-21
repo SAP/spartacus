@@ -24,27 +24,27 @@ context('B2B - User Registration', () => {
         cy.visit('/');
       });
 
-      it('should navigate to organization user registration page', () => {
+      it('should navigate to organization user registration page (CXSPA-215)', () => {
         navigateToOrganizationUserRegisterPage();
       });
 
-      it('should fill registration form and register user', () => {
+      it('should fill registration form and register user (CXSPA-215)', () => {
         fillOrganizationUserRegistrationForm(
           getSampleUser(),
           'Please register my account'
         );
       });
 
-      it('should verify tabbing order', () => {
+      it('should verify tabbing order (CXSPA-215)', () => {
         // Accessibility
         verifyTabbingOrder();
       });
 
-      it('should submit the form filled with data', () => {
+      it('should submit the form filled with data (CXSPA-215)', () => {
         submitOrganizationUserRegistrationForm();
       });
 
-      it('should verify global message after successful registration', () => {
+      it('should verify global message after successful registration (CXSPA-215)', () => {
         const message =
           'Thank you for registering! A representative will contact you shortly and confirm your access information.';
         verifyGlobalMessageAfterRegistration(message);
@@ -57,7 +57,7 @@ context('B2B - User Registration', () => {
           cy.visit('/');
         });
 
-        it('should display validation errors if form is empty', () => {
+        it('should display validation errors if form is empty (CXSPA-215)', () => {
           navigateToOrganizationUserRegisterPage();
 
           /*
@@ -67,7 +67,7 @@ context('B2B - User Registration', () => {
           verifyFormErrors();
         });
 
-        it('should display error global message if user exists', () => {
+        it('should display error global message if user exists (CXSPA-215)', () => {
           let user = getSampleUser();
           user.email = myCompanyAdminUser.registrationData?.email;
 

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -13,13 +18,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, getAddressNumbers } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -65,6 +71,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
+  /**
+   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
+   */
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -73,7 +82,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -88,12 +98,21 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     selected: any,
     textDefaultDeliveryAddress: string,
     textShipToThisAddress: string,
-    textSelected: string
+    textSelected: string,
+    textPhone: string,
+    textMobile: string
   ): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
+
+    /**
+     * TODO: (#CXSPA-53) Remove feature config check in 6.0
+     */
+    const numbers = this.featureConfigService?.isLevel('5.2')
+      ? getAddressNumbers(address, textPhone, textMobile)
+      : address.phone;
 
     return {
       role: 'region',
@@ -104,7 +123,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.line2,
         address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
-        address.phone,
+        numbers,
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
@@ -182,29 +201,41 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected createCards(): Observable<CardWithAddress[]> {
-    return combineLatest([
+    const addresses$ = combineLatest([
       this.getSupportedAddresses(),
       this.selectedAddress$,
+    ]);
+    const translations$ = combineLatest([
       this.translationService.translate(
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
+      this.translationService.translate('addressCard.phoneNumber'),
+      this.translationService.translate('addressCard.mobileNumber'),
+    ]);
+
+    return combineLatest([addresses$, translations$]).pipe(
+      tap(([[addresses, selected]]) =>
         this.selectDefaultAddress(addresses, selected)
       ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
+      map(
+        ([
+          [addresses, selected],
+          [textDefault, textShipTo, textSelected, textPhone, textMobile],
+        ]) =>
+          addresses?.map((address) => ({
             address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
+            card: this.getCardContent(
+              address,
+              selected,
+              textDefault,
+              textShipTo,
+              textSelected,
+              textPhone,
+              textMobile
+            ),
+          }))
       )
     );
   }
