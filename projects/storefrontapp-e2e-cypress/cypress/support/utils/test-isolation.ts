@@ -33,7 +33,4 @@ export function isolateTestsBefore(): void {
   before(() => {
     clearLocalStorageAndCookies();
   });
-  beforeEach(() => {
-    clearLocalStorageAndCookies();
-  });
 }
