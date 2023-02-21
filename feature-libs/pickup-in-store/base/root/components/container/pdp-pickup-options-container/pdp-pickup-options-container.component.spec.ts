@@ -3,27 +3,27 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/base/core';
-import {
-  AugmentedPointOfService,
-  IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
-  PickupOption,
-} from '@spartacus/pickup-in-store/base/root';
+
 import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
+import { MockPreferredStoreService } from '../../../../core/services/preferred-store.service.spec';
 import { Observable, of, Subscription } from 'rxjs';
-import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
+import { MockIntendedPickupLocationService } from '../../../../core/facade/intended-pickup-location.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
-import { CurrentLocationService } from '../../services/current-location.service';
-import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
+import { CurrentLocationService } from '../../../../components/services/current-location.service';
+import { MockLaunchDialogService } from '../../../../components/container/pickup-option-dialog/pickup-option-dialog.component.spec';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
 import createSpy = jasmine.createSpy;
+import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+  PreferredStoreFacade,
+} from '../../../facade';
+import { AugmentedPointOfService, PickupOption } from '../../../model';
 
 class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   startSearch = createSpy();
@@ -86,7 +86,7 @@ describe('PickupOptionsComponent', () => {
   let launchDialogService: LaunchDialogService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   let currentProductService: CurrentProductService;
-  let preferredStoreService: PreferredStoreService;
+  let preferredStoreFacade: PreferredStoreFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -111,7 +111,7 @@ describe('PickupOptionsComponent', () => {
         },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         {
-          provide: PreferredStoreService,
+          provide: PreferredStoreFacade,
           useClass: MockPreferredStoreService,
         },
         {
@@ -128,7 +128,7 @@ describe('PickupOptionsComponent', () => {
     intendedPickupLocationService = TestBed.inject(
       IntendedPickupLocationFacade
     );
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     currentProductService = TestBed.inject(CurrentProductService);
 
@@ -199,7 +199,7 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('onPickupOptionChange where option is pickup and display name is not set', () => {
-      spyOn(preferredStoreService, 'getPreferredStore$').and.callThrough();
+      spyOn(preferredStoreFacade, 'getPreferredStore$').and.callThrough();
       component['displayNameIsSet'] = true;
       fixture.detectChanges();
       component.onPickupOptionChange('pickup');
@@ -210,7 +210,7 @@ describe('PickupOptionsComponent', () => {
         pickupOption: 'pickup',
       };
       expect(
-        preferredStoreService
+        preferredStoreFacade
           .getPreferredStore$()
           .subscribe(() =>
             expect(
@@ -251,14 +251,14 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('onPickupOptionChange where option is pickup and display name is not set', () => {
-      spyOn(preferredStoreService, 'getPreferredStore$');
+      spyOn(preferredStoreFacade, 'getPreferredStore$');
       spyOn(component, 'openDialog');
       component['productCode'] = 'productCode';
       component.onPickupOptionChange('pickup');
 
       component['displayNameIsSet'] = false;
 
-      expect(preferredStoreService.getPreferredStore$).not.toHaveBeenCalled();
+      expect(preferredStoreFacade.getPreferredStore$).not.toHaveBeenCalled();
 
       expect(component.openDialog).toHaveBeenCalled();
     });
@@ -298,9 +298,9 @@ describe('PickupOptionsComponent', () => {
     });
 
     it('should not call getPreferredStore if display name is set', () => {
-      spyOn(preferredStoreService, 'getPreferredStore$');
+      spyOn(preferredStoreFacade, 'getPreferredStore$');
 
-      expect(preferredStoreService.getPreferredStore$).not.toHaveBeenCalled();
+      expect(preferredStoreFacade.getPreferredStore$).not.toHaveBeenCalled();
     });
   });
 });

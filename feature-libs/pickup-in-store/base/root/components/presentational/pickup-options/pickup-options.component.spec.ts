@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
-import { PickupOption } from '@spartacus/pickup-in-store/base/root';
+import { PickupOption } from '../../../model';
 import { PickupOptionsComponent } from './pickup-options.component';
 
 describe('PickupOptionsComponent', () => {

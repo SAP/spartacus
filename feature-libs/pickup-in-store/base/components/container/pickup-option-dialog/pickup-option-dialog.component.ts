@@ -27,7 +27,7 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { cartWithIdAndUserId } from '../cart-pickup-options-container/cart-pickup-options-container.component';
+import { cartWithIdAndUserId } from '../../../root/components/container/cart-pickup-options-container/cart-pickup-options-container.component';
 
 /**
  * The dialog box to select the pickup location for a product.

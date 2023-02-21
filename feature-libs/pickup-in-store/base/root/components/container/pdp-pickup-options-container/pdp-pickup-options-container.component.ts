@@ -13,16 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import {
-  getProperty,
-} from '@spartacus/pickup-in-store/base/core';
-import {
-  IntendedPickupLocationFacade,
-  PickupOption,
-  PickupOptionFacade,
-  RequiredDeepPath,
-  PreferredStoreFacade,
-} from '@spartacus/pickup-in-store/base/root';
+
 import {
   CurrentProductService,
   LaunchDialogService,
@@ -30,6 +21,9 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { IntendedPickupLocationFacade, PickupOptionFacade, PreferredStoreFacade } from '../../../facade/index';
+import { PickupOption } from '../../../model/index';
+import { getProperty, RequiredDeepPath } from '../../../utils/index';
 
 /** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(

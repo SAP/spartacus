@@ -2,23 +2,23 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsService, I18nTestingModule, Page } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/base/core';
 import {
   PickupLocationsSearchFacade,
   PickupOptionFacade,
+  PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/base/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
+import { MockPickupLocationsSearchService } from '../../../../core/facade/pickup-locations-search.service.spec';
+import { MockPreferredStoreService } from '../../../../core/services/preferred-store.service.spec';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
+import { MockPickupOptionFacade } from '../../../../core/facade/pickup-option.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
-import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
+import { MockLaunchDialogService } from '../../../../components/container/pickup-option-dialog/pickup-option-dialog.component.spec';
 import {
   CartPickupOptionsContainerComponent,
   cartWithIdAndUserId,
@@ -107,7 +107,7 @@ describe('CartPickupOptionsContainerComponent', () => {
           useClass: MockLaunchDialogService,
         },
         {
-          provide: PreferredStoreService,
+          provide: PreferredStoreFacade,
           useClass: MockPreferredStoreService,
         },
         {
