@@ -11,11 +11,13 @@ import {
 } from '@spartacus/organization/account-summary/root';
 
 const PURCHASE_ORDER = 'Purchase Order';
-const JAN_24 = '2022-01-24';
-const JAN_26 = '2022-01-26';
-const FEB_25 = '2022-02-25';
 const EMAIL = 'carla.torres@rustic-hw.com';
 const CUSTOM_RETAIL_NAME = 'Custom Retail';
+const DATES = {
+  JAN_24: '2022-01-24',
+  JAN_26: '2022-01-26',
+  FEB_25: '2022-02-25',
+};
 
 export const mockAccountSummaryList: AccountSummaryList = {
   orgDocumentTypes: [
@@ -72,7 +74,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: JAN_24,
+      dueAtDate: DATES.JAN_24,
       formattedAmount: '$656,105.00',
       formattedOpenAmount: '$656,105.00',
       id: 'CRNPG-0000002',
@@ -111,7 +113,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'POPG-00100006',
         },
       ],
-      createdAtDate: JAN_24,
+      createdAtDate: DATES.JAN_24,
       currency: {
         active: true,
         isocode: 'USD',
@@ -135,7 +137,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'POPG-00006009',
         },
       ],
-      createdAtDate: JAN_24,
+      createdAtDate: DATES.JAN_24,
       currency: {
         active: true,
         isocode: 'USD',
@@ -180,14 +182,14 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'INPG-00100001',
         },
       ],
-      createdAtDate: JAN_26,
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: FEB_25,
+      dueAtDate: DATES.FEB_25,
       formattedAmount: '$35,189.00',
       formattedOpenAmount: '$35,189.00',
       id: 'INPG-00100001',
@@ -205,14 +207,14 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'INPG-00100002',
         },
       ],
-      createdAtDate: JAN_26,
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: FEB_25,
+      dueAtDate: DATES.FEB_25,
       formattedAmount: '$19,779.00',
       formattedOpenAmount: '$19,779.00',
       id: 'INPG-00100002',
@@ -230,7 +232,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'POPG-00006012',
         },
       ],
-      createdAtDate: JAN_26,
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
@@ -254,14 +256,14 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'INPG-00100003',
         },
       ],
-      createdAtDate: JAN_26,
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: FEB_25,
+      dueAtDate: DATES.FEB_25,
       formattedAmount: '$25,069.00',
       formattedOpenAmount: '$25,069.00',
       id: 'INPG-00100003',
