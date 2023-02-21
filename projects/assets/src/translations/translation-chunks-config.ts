@@ -25,6 +25,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'assistiveMessage',
     'passwordVisibility',
     'generalErrors',
+    'chatMessaging',
   ],
   address: [
     'addressForm',

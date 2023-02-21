@@ -62,7 +62,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
         consignment.code
       );
     }
-    let modalInstanceData = {
+    const modalInstanceData = {
       tracking$: this.consignmentTracking$,
       shipDate: consignment.statusDate,
     };
