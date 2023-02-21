@@ -55,9 +55,9 @@ export class ProfileTagEventService {
     this.baseSiteService
       .getActive()
       .pipe(take(1))
-      .subscribe((data) => {
+      .subscribe((baseSite) => {
         this.latestConsentReference = new BehaviorSubject(
-          profileTagMetadata.cr[`${data}-consentReference`]?.consentReference
+          profileTagMetadata.cr[`${baseSite}-consentReference`]?.consentReference
         );
       });
   }
