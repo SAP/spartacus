@@ -22,7 +22,7 @@ jobs:
         run: |
           git remote set-url origin https://git:${{ secrets.GH_TEMPORARY_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
   
-          yarn generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
+          npm run generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
   tag_sampledata:
     name: Tagging sample data
     runs-on: ubuntu-latest
