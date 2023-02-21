@@ -6,7 +6,11 @@
 
 import { NgModule } from '@angular/core';
 
-import { UserListService } from '@spartacus/organization/administration/components';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import {
+  userCmsConfig,
+  UserListService,
+} from '@spartacus/organization/administration/components';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { CdcB2BUserService } from './cdc-b2b-user.service';
 import { CdcUserListService } from './cdc-user-list.service';
@@ -14,7 +18,20 @@ import { CdcUserListService } from './cdc-user-list.service';
 @NgModule({
   providers: [
     { provide: B2BUserService, useClass: CdcB2BUserService },
-    { provide: UserListService, useClass: CdcUserListService },
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ManageUsersListComponent: {
+          providers: [
+            {
+              provide: UserListService,
+              useExisting: CdcUserListService,
+            },
+            userCmsConfig.cmsComponents?.ManageUsersListComponent?.providers ||
+              [],
+          ],
+        },
+      },
+    }),
   ],
 })
 export class CdcAdministrationModule {}
