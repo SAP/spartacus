@@ -21,7 +21,11 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { IntendedPickupLocationFacade, PickupOptionFacade, PreferredStoreFacade } from '../../../facade/index';
+import {
+  IntendedPickupLocationFacade,
+  PickupOptionFacade,
+  PreferredStoreFacade,
+} from '../../../facade/index';
 import { PickupOption } from '../../../model/index';
 import { getProperty, RequiredDeepPath } from '../../../utils/index';
 

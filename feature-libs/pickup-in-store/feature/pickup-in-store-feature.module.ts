@@ -9,9 +9,4 @@ import { NgModule } from '@angular/core';
 @NgModule({
   imports: [],
 })
-export class PickupInStoreFeatureModule {
-
-  constructor() {
-    console.log('###### lazy load Feature Module')
-  }
-}
+export class PickupInStoreFeatureModule {}

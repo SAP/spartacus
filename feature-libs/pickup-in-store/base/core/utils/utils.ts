@@ -17,4 +17,3 @@ export function isInStock(stockInfo: Stock | undefined): boolean {
 export function storeHasStock({ stockInfo }: PointOfServiceStock): boolean {
   return isInStock(stockInfo);
 }
-

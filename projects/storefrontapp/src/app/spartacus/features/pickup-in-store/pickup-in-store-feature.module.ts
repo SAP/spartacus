@@ -20,12 +20,10 @@ import { PICKUP_IN_STORE_FEATURE } from 'feature-libs/pickup-in-store/base/root/
     provideConfig({
       featureModules: {
         [PICKUP_IN_STORE_FEATURE]: {
-          module: () => {
-            console.log('############## Lazy Load the feature module');
-            return import('@spartacus/pickup-in-store/base').then(
+          module: () =>
+            import('@spartacus/pickup-in-store/base').then(
               (m) => m.PickupInStoreBaseModule
-            );
-          },
+            ),
         },
       },
     }),
@@ -38,8 +36,4 @@ import { PICKUP_IN_STORE_FEATURE } from 'feature-libs/pickup-in-store/base/root/
     }),
   ],
 })
-export class PickupInStoreFeatureModule {
-  constructor() {
-    console.log('+++++++ Store Front Module');
-  }
-}
+export class PickupInStoreFeatureModule {}

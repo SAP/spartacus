@@ -265,6 +265,9 @@
       "@spartacus/pickup-in-store/feature": [
         "../../feature-libs/pickup-in-store/feature/public_api"
       ],
+      "@spartacus/pickup-in-store": [
+        "../../feature-libs/pickup-in-store/public_api"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "../../feature-libs/product-configurator/common/assets/public_api"
       ],

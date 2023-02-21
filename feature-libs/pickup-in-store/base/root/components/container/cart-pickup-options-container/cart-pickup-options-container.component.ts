@@ -30,7 +30,11 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { PickupLocationsSearchFacade, PickupOptionFacade, PreferredStoreFacade } from '../../../facade/index';
+import {
+  PickupLocationsSearchFacade,
+  PickupOptionFacade,
+  PreferredStoreFacade,
+} from '../../../facade/index';
 import { PickupOption } from '../../../model/index';
 import { RequiredDeepPath } from '../../../utils/index';
 

@@ -1,1 +1,1 @@
-export * from './pickup-options/index'
+export * from './pickup-options/index';
