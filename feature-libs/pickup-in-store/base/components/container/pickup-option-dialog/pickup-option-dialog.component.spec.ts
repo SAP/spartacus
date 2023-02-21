@@ -19,11 +19,11 @@ import {
   LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
-import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
+import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
+import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
+import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupOptionDialogComponent } from './pickup-option-dialog.component';

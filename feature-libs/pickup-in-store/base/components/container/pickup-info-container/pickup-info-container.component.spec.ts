@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import { PickupLocationsSearchFacade } from 'feature-libs/pickup-in-store/root/public_api';
+import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/base/root';
 import { Observable, of } from 'rxjs';
 import { PickupInfoStubComponent } from '../../presentational/pickup-info/pickup-info.component.spec';
 import { PickupInfoContainerComponent } from './pickup-info-container.component';

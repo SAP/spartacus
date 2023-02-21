@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/base/root';
+import {
+  PickupLocationsSearchFacade,
+  PointOfServiceNames,
+} from '@spartacus/pickup-in-store/base/root';
 import { Observable, of } from 'rxjs';
 import { PickupInStoreConfig } from '../config';
 import { MockPickupLocationsSearchService } from '../facade/pickup-locations-search.service.spec';
@@ -9,10 +12,7 @@ import { MockPickupLocationsSearchService } from '../facade/pickup-locations-sea
 import * as fromReducers from '../../core/store/reducers/index';
 import { StateWithPickupLocations } from '../store';
 import { SetDefaultPointOfService } from '../store/actions/default-point-of-service-name.action';
-import {
-  PointOfServiceNames,
-  PreferredStoreService,
-} from './preferred-store.service';
+import { PreferredStoreService } from './preferred-store.service';
 
 export class MockConsentService {
   checkConsentGivenByTemplateId(_templateId: string): Observable<boolean> {

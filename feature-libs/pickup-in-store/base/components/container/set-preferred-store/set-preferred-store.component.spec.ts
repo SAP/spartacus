@@ -4,17 +4,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   PointOfServiceNames,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/base/core';
+  PreferredStoreFacade,
+} from '@spartacus/pickup-in-store/base/root';
 import { IconTestingModule, OutletContextData } from '@spartacus/storefront';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { of } from 'rxjs';
+import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
 
 describe('SetPreferredStoreComponent without outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
-  let preferredStoreService: PreferredStoreService;
+  let preferredStoreService: PreferredStoreFacade;
 
   const pointOfServiceName = {
     name: 'London School',
@@ -26,12 +26,12 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
       declarations: [SetPreferredStoreComponent],
       imports: [I18nTestingModule, IconTestingModule, CommonModule],
       providers: [
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    preferredStoreService = TestBed.inject(PreferredStoreFacade);
 
     component.pointOfServiceName = pointOfServiceName;
     fixture.detectChanges();
@@ -61,7 +61,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
 describe('SetPreferredStoreComponent with outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
-  let preferredStoreService: PreferredStoreService;
+  let preferredStoreService: PreferredStoreFacade;
 
   const pointOfServiceName: PointOfServiceNames = {
     name: 'London School',
@@ -75,13 +75,13 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
       declarations: [SetPreferredStoreComponent],
       imports: [I18nTestingModule, IconTestingModule, CommonModule],
       providers: [
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         { provide: OutletContextData, useValue: { context$ } },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    preferredStoreService = TestBed.inject(PreferredStoreFacade);
 
     component.pointOfServiceName = pointOfServiceName;
     fixture.detectChanges();
