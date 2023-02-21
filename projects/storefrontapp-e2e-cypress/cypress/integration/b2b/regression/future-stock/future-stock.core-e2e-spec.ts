@@ -1,9 +1,9 @@
 import {
   waitForPage,
   waitForProductPage,
-} from '../../../helpers/checkout-flow';
-import { viewportContext } from '../../../helpers/viewport-context';
-import { login } from '../../../helpers/auth-forms';
+} from '../../../../helpers/checkout-flow';
+import { viewportContext } from '../../../../helpers/viewport-context';
+import { login } from '../../../../helpers/auth-forms';
 
 const productIdWithFutureStock = '3318057';
 const productIdWithoutFutureStock = '3755219';
