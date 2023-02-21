@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "4.0.0-rc.1",
+  "version": "5.0.0",
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",
@@ -15,9 +15,9 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cds",
   "license": "Apache-2.0",
   "scripts": {
-    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean:schematics": "../../node_modules/.bin/rimraf \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
-    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "tslib": "^2.4.0"
@@ -28,12 +28,12 @@
     "@angular/core": "^15.1.4",
     "@angular/router": "^15.1.4",
     "@ngrx/store": "^14.3.0",
-    "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/order": "4.2.0",
-    "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/tracking": "4.1.0-next.0",
+    "@spartacus/cart": "5.0.0",
+    "@spartacus/core": "5.0.0",
+    "@spartacus/order": "5.0.0",
+    "@spartacus/schematics": "5.0.0",
+    "@spartacus/storefront": "5.0.0",
+    "@spartacus/tracking": "5.0.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
