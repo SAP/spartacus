@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, FeaturesConfigModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -62,7 +62,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           ConfiguratorAttributeReadOnlyComponent,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
           set: {
@@ -331,14 +331,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           );
         });
       });
-    });
-  });
-  describe('translate', () => {
-    it('should throw an error in case translation service is not present', () => {
-      component['translationService'] = undefined;
-      expect(() =>
-        component['translate']('huhu', 'valueName', { name: 'attributeName' })
-      ).toThrowError();
     });
   });
 });

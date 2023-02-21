@@ -201,7 +201,6 @@ describe('ConfigProductTitleComponent', () => {
             useClass: MockProductService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-
           {
             provide: ConfiguratorExpertModeService,
             useClass: MockConfiguratorExpertModeService,
