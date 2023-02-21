@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
@@ -40,30 +40,11 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 export class VariantConfiguratorOccAdapter
   implements RulebasedConfiguratorAdapter
 {
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
-  constructor(
-    http: HttpClient,
-    occEndpointsService: OccEndpointsService,
-    converterService: ConverterService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    http: HttpClient,
-    occEndpointsService: OccEndpointsService,
-    converterService: ConverterService
-  );
-
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   getConfiguratorType(): string {
@@ -73,14 +54,14 @@ export class VariantConfiguratorOccAdapter
   protected getExpModeRequested(): boolean {
     let expMode = false;
     this.configExpertModeService
-      ?.getExpModeRequested()
+      .getExpModeRequested()
       .pipe(take(1))
       .subscribe((mode) => (expMode = mode));
     return expMode;
   }
 
   protected setExpModeActive(expMode: boolean) {
-    this.configExpertModeService?.setExpModeActive(expMode);
+    this.configExpertModeService.setExpModeActive(expMode);
   }
 
   createConfiguration(
