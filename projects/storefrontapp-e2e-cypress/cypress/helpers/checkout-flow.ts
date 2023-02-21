@@ -479,6 +479,11 @@ export function fillPaymentFormWithCheapProduct(
 
   cy.intercept({
     method: 'POST',
+    path: `**/sop-mock/process`,
+  }).as('processPayment');
+
+  cy.intercept({
+    method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
@@ -489,6 +494,11 @@ export function fillPaymentFormWithCheapProduct(
   cy.wait('@requestPayment', { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
+
+  cy.wait('@processPayment', { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+
   cy.wait('@submitPayment', { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
