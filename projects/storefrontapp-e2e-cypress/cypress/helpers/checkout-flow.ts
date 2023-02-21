@@ -477,11 +477,6 @@ export function fillPaymentFormWithCheapProduct(
     )}/**/payment/sop/request*`,
   }).as('requestPayment');
 
-  // cy.intercept({
-  //   method: 'POST',
-  //   path: `**/sop-mock/process`,
-  // }).as('processPayment');
-
   cy.intercept({
     method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -491,18 +486,21 @@ export function fillPaymentFormWithCheapProduct(
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  cy.wait('@requestPayment', { timeout: 30000 }).its('response.statusCode');
+  cy.wait('@requestPayment', { timeout: 30000 }).then(($obj) => {
+    cy.log('Flo1 Request');
+    cy.log(JSON.stringify($obj.request));
+    cy.log('Flo2 Response');
+    cy.log(JSON.stringify($obj.response));
+  });
 
-  // cy.wait('@processPayment', { timeout: 30000 })
-  //   .its('response.statusCode')
-  //   .should('eq', 200);
-
-  cy.wait('@submitPayment', { timeout: 30000 })
-    .its('response.statusCode')
-    .should('eq', 200);
-  cy.wait(`@${reviewPage}`, { timeout: 30000 })
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait('@submitPayment', { timeout: 30000 }).then(($obj) => {
+    cy.log('Flo3 Request');
+    cy.log(JSON.stringify($obj.request));
+    cy.log('Flo4 Response');
+    cy.log(JSON.stringify($obj.response));
+  });
+  // cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function placeOrderWithCheapProduct(
