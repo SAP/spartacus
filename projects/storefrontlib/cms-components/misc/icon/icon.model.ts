@@ -59,6 +59,7 @@ export enum ICON_TYPE {
   ATTACHMENT = 'ATTACHMENT',
   UPLOAD = 'UPLOAD',
   USER = 'USER',
+  USER_PLUS = 'USER_PLUS',
 }
 
 @Injectable({

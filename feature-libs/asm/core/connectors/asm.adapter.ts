@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
+import { BindCartParams, CustomerListsPage, CustomerRegistrationForm } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
+import { User } from '@spartacus/core';
+
 export abstract class AsmAdapter {
   /**
    * Abstract function used to search for customers.
@@ -27,4 +29,9 @@ export abstract class AsmAdapter {
    * Used to bind an anonymous cart to a registered user.
    */
   abstract bindCart(options: BindCartParams): Observable<unknown>;
+
+  /**
+   * Abstract function used to create an account for customers.
+   */
+  abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
 }

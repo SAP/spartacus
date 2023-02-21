@@ -60,6 +60,7 @@ export const fontawesomeIconConfig: IconConfig = {
       ATTACHMENT: 'fas fa-paperclip',
       UPLOAD: 'fas fa-upload',
       USER: 'fas fa-user',
+      USER_PLUS: 'fas fa-user-plus',
     },
     resources: [
       {
