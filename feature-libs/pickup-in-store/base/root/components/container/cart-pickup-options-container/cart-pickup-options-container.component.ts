@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsService, Page } from '@spartacus/core';
 import {
   LaunchDialogService,
@@ -36,7 +36,7 @@ import {
   PreferredStoreFacade,
 } from '../../../facade/index';
 import { PickupOption } from '../../../model/index';
-import { RequiredDeepPath } from '../../../utils/index';
+import { cartWithIdAndUserId, RequiredDeepPath } from '../../../utils/index';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'
@@ -60,21 +60,6 @@ export function orderEntryWithRequiredFields(
     orderEntry.product !== undefined &&
     orderEntry.product.code !== undefined &&
     orderEntry.product.availableForPickup !== undefined
-  );
-}
-
-/** A cart with the required ids */
-type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid' | 'code'>;
-/** Custom type guard to ensure we have a cart with the required ids */
-export function cartWithIdAndUserId(
-  cart: Cart | undefined
-): cart is CartWithIdAndUserId {
-  return (
-    !!cart &&
-    cart.guid !== undefined &&
-    cart.user !== undefined &&
-    cart.user.uid !== undefined &&
-    cart.code !== undefined
   );
 }
 

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Cart } from '@spartacus/cart/base/root';
+
 /** A utility type that represents the type of items in an array without the first item */
 type Shift<T extends any[]> = ((...t: T) => any) extends (
   first: any,
@@ -81,4 +83,11 @@ export type RequiredDeepPath<T, P extends string> = RequiredDeepArray<
 export type PickRequiredDeep<T, P extends string> = PickRequiredDeepArray<
   T,
   PathToStringArray<P>
+>;
+
+// TODO move to model
+/** A cart with the required ids */
+export type CartWithIdAndUserId = RequiredDeepPath<
+  Cart,
+  'guid' | 'user.uid' | 'code'
 >;

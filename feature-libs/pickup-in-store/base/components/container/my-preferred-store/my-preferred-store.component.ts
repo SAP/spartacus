@@ -15,10 +15,10 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/base/core';
 import {
   PickupLocationsSearchFacade,
   PointOfServiceNames,
+  PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/base/root';
 
 @Component({
@@ -41,7 +41,7 @@ export class MyPreferredStoreComponent implements OnInit {
   isStoreFinder = false;
 
   constructor(
-    private preferredStoreService: PreferredStoreService,
+    private preferredStoreService: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
     protected storeFinderService: StoreFinderService,
