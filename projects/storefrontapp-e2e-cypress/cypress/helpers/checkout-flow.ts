@@ -488,7 +488,9 @@ export function fillPaymentFormWithCheapProduct(
 
   cy.wait('@requestPayment', { timeout: 30000 });
 
-  cy.wait('@submitPayment', { timeout: 30000 });
+  cy.wait('@submitPayment', { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
