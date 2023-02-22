@@ -93,9 +93,9 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        npm run e2e:run:ci:core"${SUITE}"
-    else
+    # if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+    #     npm run e2e:run:ci:core"${SUITE}"
+    # else
         npm run e2e:run:ci"${SUITE}"
-    fi
+    # fi
 fi
