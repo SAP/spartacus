@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
- * Public API Surface of pickup-in-store
+/**
+ * Public API surface of pickup-in-store
  */
-
-export {};
+export * from './pickup-in-store.module';
