@@ -107,7 +107,7 @@ export function addB2bProductToCartAndCheckout() {
   const code = products[0].code;
   const productPage = waitForProductPage(code, 'getProductPage');
 
-  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}/dummy-label`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-product-intro').within(() => {
