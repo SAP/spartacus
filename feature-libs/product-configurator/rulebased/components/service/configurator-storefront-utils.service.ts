@@ -384,7 +384,11 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Retrieves the actual height of the spare viewport.
    *
-   * @returns {number} - Height of the viewport.
+   * SPA header, variant configuration overview header and "Add to cart" button occupy certain height of the viewport, that's why
+   * if SPA header, variant configuration overview header and "Add to cart" button are in the viewport,
+   * they will be subtracted from the actual viewport height.
+   *
+   * @returns {number} - Height of the spare viewport.
    */
   getSpareViewportHeight(): number {
     if (this.windowRef.isBrowser()) {
