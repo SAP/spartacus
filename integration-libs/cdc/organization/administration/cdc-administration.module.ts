@@ -18,7 +18,7 @@ import { CdcUserListService } from './cdc-user-list.service';
 
 @NgModule({
   providers: [
-    { provide: B2BUserService, useClass: CdcB2BUserService },
+    //to override UserListService in ListComponent
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ManageUsersListComponent: {
@@ -33,6 +33,9 @@ import { CdcUserListService } from './cdc-user-list.service';
         },
       },
     }),
+    //to override B2BUserService in UserDetailsComponent, UnitUserListComponent
+    { provide: B2BUserService, useClass: CdcB2BUserService },
+    //to override B2BUserService in UnitUserRolesCellComponent
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ManageUnitsListComponent: {
