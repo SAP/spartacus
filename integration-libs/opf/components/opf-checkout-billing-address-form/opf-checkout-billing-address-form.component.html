@@ -5,7 +5,7 @@
         <input
           type="checkbox"
           class="form-check-input"
-          [checked]="sameAsDeliveryAddress"
+          [checked]="sameAsDeliveryAddress$ | async"
           (change)="toggleSameAsDeliveryAddress()"
           [attr.aria-label]="
             'paymentForm.billingAddressSameAsShipping' | cxTranslate
@@ -20,12 +20,20 @@
 </ng-container>
 
 <ng-container
-  *ngIf="sameAsDeliveryAddress && (deliveryAddress$ | async) as deliveryAddress"
+  *ngIf="
+    (sameAsDeliveryAddress$ | async) &&
+    (deliveryAddress$ | async) as deliveryAddress
+  "
 >
   <cx-card [content]="getAddressCardContent(deliveryAddress)"></cx-card>
 </ng-container>
 
-<ng-container *ngIf="userCustomBillingAddress && !editBillingAddress">
+<ng-container
+  *ngIf="
+    !(editBillingAddress$ | async) &&
+    (userCustomBillingAddress$ | async) as userCustomBillingAddress
+  "
+>
   <div class="cx-custom-address-info">
     <cx-card
       [content]="getAddressCardContent(userCustomBillingAddress)"
@@ -39,12 +47,13 @@
 
 <ng-container
   *ngIf="
-    (!sameAsDeliveryAddress && !userCustomBillingAddress) ||
-    (userCustomBillingAddress && editBillingAddress)
+    (!(sameAsDeliveryAddress$ | async) &&
+      !(userCustomBillingAddress$ | async)) ||
+    ((userCustomBillingAddress$ | async) && (editBillingAddress$ | async))
   "
 >
   <cx-address-form
-    [addressData]="userCustomBillingAddress"
+    [addressData]="userCustomBillingAddress$ | async"
     class="cx-form"
     [showTitleCode]="true"
     [showCancelBtn]="true"

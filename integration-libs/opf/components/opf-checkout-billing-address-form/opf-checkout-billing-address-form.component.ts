@@ -12,7 +12,7 @@ import {
 import { Address, Country, UserPaymentService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { tap, filter, map, shareReplay } from 'rxjs/operators';
+import { tap, filter, map, shareReplay, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
@@ -36,18 +36,6 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     protected userPaymentService: UserPaymentService,
     protected checkoutPaymentService: CheckoutPaymentFacade
   ) {}
-
-  get sameAsDeliveryAddress(): boolean {
-    return this.sameAsDeliveryAddress$.getValue();
-  }
-
-  get userCustomBillingAddress(): Address | undefined {
-    return this.userCustomBillingAddress$.getValue();
-  }
-
-  get editBillingAddress(): boolean {
-    return this.editBillingAddress$.getValue();
-  }
 
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
@@ -88,13 +76,20 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   }
 
   toggleSameAsDeliveryAddress(): void {
-    this.sameAsDeliveryAddress$.next(!this.sameAsDeliveryAddress);
+    this.sameAsDeliveryAddress$
+      .pipe(
+        take(1),
+        tap((isSameAsDeliveryAddress) => {
+          this.sameAsDeliveryAddress$.next(!isSameAsDeliveryAddress);
 
-    if (this.sameAsDeliveryAddress) {
-      this.userCustomBillingAddress$.next(undefined);
-    } else {
-      this.editBillingAddress$.next(true);
-    }
+          if (isSameAsDeliveryAddress) {
+            this.userCustomBillingAddress$.next(undefined);
+          } else {
+            this.editBillingAddress$.next(true);
+          }
+        })
+      )
+      .subscribe();
   }
 
   getAddressCardContent(address: Address): Card {
@@ -116,28 +111,42 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   }
 
   verifyAddress(address: Address): void {
-    if (!this.sameAsDeliveryAddress) {
-      // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
-      // this.checkoutPaymentService
-      //   .setPaymentDetails({ billingAddress: address })
-      //   .subscribe({
-      //     complete: () => {
-      //       console.log('success');
-      //       // we don't call onSuccess here, because it can cause a spinner flickering
-      //     },
-      //     error: () => {},
-      //   });
-      this.userCustomBillingAddress$.next(address);
-      this.editBillingAddress$.next(false);
-    }
+    this.sameAsDeliveryAddress$
+      .pipe(
+        take(1),
+        tap((isSameAsDeliveryAddress) => {
+          if (!isSameAsDeliveryAddress) {
+            // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
+            // this.checkoutPaymentService
+            //   .setPaymentDetails({ billingAddress: address })
+            //   .subscribe({
+            //     complete: () => {
+            //       console.log('success');
+            //       // we don't call onSuccess here, because it can cause a spinner flickering
+            //     },
+            //     error: () => {},
+            //   });
+            this.userCustomBillingAddress$.next(address);
+            this.editBillingAddress$.next(false);
+          }
+        })
+      )
+      .subscribe();
   }
 
   cancelAndHideForm() {
-    if (this.editBillingAddress) {
-      this.editBillingAddress$.next(false);
-    } else {
-      this.toggleSameAsDeliveryAddress();
-    }
+    this.editBillingAddress$
+      .pipe(
+        take(1),
+        tap((isEditBillingAddress) => {
+          if (isEditBillingAddress) {
+            this.editBillingAddress$.next(false);
+          } else {
+            this.toggleSameAsDeliveryAddress();
+          }
+        })
+      )
+      .subscribe();
   }
 
   editCustomBillingAddress() {
