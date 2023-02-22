@@ -50,12 +50,11 @@
       <cx-promotions [promotions]="item.promotions"></cx-promotions>
 
       <!-- Item Delivery Details Outlet -->
-      <ng-container *cxFeatureLevel="'5.1'">
-        <ng-template
-          [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
-          [cxOutletContext]="item"
-        ></ng-template>
-      </ng-container>
+      <ng-template
+        *ngIf="!readonly"
+        [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
+        [cxOutletContext]="item"
+      ></ng-template>
     </div>
 
     <!-- Variants -->
