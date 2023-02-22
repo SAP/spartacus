@@ -1,5 +1,5 @@
 <div class="cx-order-items container" *ngIf="order$ | async as order">
-  <ng-container *ngIf="!showItemList || entries.length > 0">
+  <ng-container *ngIf="!showItemList || entries?.length > 0">
     <h2 class="cx-review-header">
       {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
     </h2>

@@ -95,7 +95,7 @@ mkdir -p "$CCV2_B2B_STOREFRONT_PATH/dist/$B2B_STORE/server"
 
 echo "------------------------------------------------------------------"
 echo "Build Spartacus libraries"
-yarn build:libs
+npm run build:libs
 
 echo "------------------------------------------------------------------"
 echo "update server.ts for B2C storefront"
@@ -118,12 +118,12 @@ fi
 echo "------------------------------------------------------------------"
 echo "Build SSR for B2C storefront"
 
-yarn build:ssr:ci
+npm run build:ssr:ci
 
 echo "------------------------------------------------------------------"
 echo "Build CSR for B2C storefront"
 
-yarn build
+npm run build
 
 echo "------------------------------------------------------------------"
 echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for B2C storefront"
@@ -152,12 +152,12 @@ echo "------------------------------------------------------------------"
 echo "Build SSR for B2B storefront"
 
 export SPA_ENV='b2b'
-yarn build:ssr:ci
+npm run build:ssr:ci
 
 echo "------------------------------------------------------------------"
 echo "Build CSR for B2B storefront"
 
-yarn build
+npm run build
 
 echo "------------------------------------------------------------------"
 echo "Copy server and browser files to js-storefront to adhere to the ccv2 dist structure for B2B storefront"
