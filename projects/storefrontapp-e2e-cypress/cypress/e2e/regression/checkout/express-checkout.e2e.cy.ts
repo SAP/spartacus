@@ -9,9 +9,11 @@ import * as checkout from '../../../helpers/checkout-flow';
 import * as expressCheckout from '../../../helpers/express-checkout';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 context('Express checkout', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
+    isolateTestsBefore();
     before(() => {
       clearAllStorage();
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
