@@ -233,10 +233,7 @@ export class AnonymousConsentsEffects {
                 );
               }
             }
-            if (actions.length > 0) {
-              return actions;
-            }
-            return EMPTY;
+            return actions.length > 0 ? actions : EMPTY;
           })
         )
       )
