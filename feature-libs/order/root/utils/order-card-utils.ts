@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Address, PaymentDetails } from '@spartacus/core';
+import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import { Address } from '@spartacus/core';
 import { Card, getAddressNumbers } from '@spartacus/storefront';
 
 /**
