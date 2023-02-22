@@ -23,4 +23,9 @@ module.exports = {
       prefix: '<rootDir>/',
     }
   ),
+  //Will become default in v29, and can be removed. See: https://jestjs.io/docs/upgrading-to-jest29
+  snapshotFormat: {
+    escapeString: false,
+    printBasicPrototype: false,
+  },
 };

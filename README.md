@@ -49,7 +49,8 @@ If you are working with Spartacus 5.x, your Angular development environment shou
 
 - [Angular CLI](https://angular.io/): Version **14.2.3** or newer, < 15.
 - [Node.js](https://nodejs.org/en/): Version **14.15** or newer (but **less than** version 15), or **16.10** or newer.
-- [Yarn](https://classic.yarnpkg.com/lang/en/): Version **1.15** or newer.
+- [Yarn](https://classic.yarnpkg.com/lang/en/): Version **1.15** or newer (**OR** from Spartacus 5.2 [npm](https://www.npmjs.com/): Version **6.14** or newer.)
+
 
 For the back end, SAP Commerce Cloud version 2105 or higher is required.
 
