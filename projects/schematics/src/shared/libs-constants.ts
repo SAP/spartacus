@@ -31,9 +31,9 @@ export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
-export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store/base';
-export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/base/assets`;
-export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/base/root`;
+export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
+export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
+export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
 
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;

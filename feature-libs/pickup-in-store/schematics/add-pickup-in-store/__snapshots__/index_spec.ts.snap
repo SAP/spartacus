@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Pick up In Store schematics: ng-add Pick Up In Store feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature eager loading should import appropriate modules 1`] = `""`;
 
-exports[`Spartacus Pick up In Store schematics: ng-add Pick Up In Store feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
 
-exports[`Spartacus Pick up In Store schematics: ng-add Pick Up In Store feature general setup styling should create a proper scss file 1`] = `
-"@import "..\\..\\styles-config";
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
 @import "@spartacus/pickup-in-store";
 "
 `;
 
-exports[`Spartacus Pick up In Store schematics: ng-add Pick Up In Store feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should update angular.json 1`] = `
 "{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
