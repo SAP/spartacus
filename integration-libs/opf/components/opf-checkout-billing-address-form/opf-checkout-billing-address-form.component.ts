@@ -77,19 +77,16 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   toggleSameAsDeliveryAddress(): void {
     this.sameAsDeliveryAddress$
-      .pipe(
-        take(1),
-        tap((isSameAsDeliveryAddress) => {
-          this.sameAsDeliveryAddress$.next(!isSameAsDeliveryAddress);
+      .pipe(take(1))
+      .subscribe((isSameAsDeliveryAddress) => {
+        this.sameAsDeliveryAddress$.next(!isSameAsDeliveryAddress);
 
-          if (isSameAsDeliveryAddress) {
-            this.userCustomBillingAddress$.next(undefined);
-          } else {
-            this.editBillingAddress$.next(true);
-          }
-        })
-      )
-      .subscribe();
+        if (isSameAsDeliveryAddress) {
+          this.userCustomBillingAddress$.next(undefined);
+        } else {
+          this.editBillingAddress$.next(true);
+        }
+      });
   }
 
   getAddressCardContent(address: Address): Card {
@@ -112,41 +109,33 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   verifyAddress(address: Address): void {
     this.sameAsDeliveryAddress$
-      .pipe(
-        take(1),
-        tap((isSameAsDeliveryAddress) => {
-          if (!isSameAsDeliveryAddress) {
-            // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
-            // this.checkoutPaymentService
-            //   .setPaymentDetails({ billingAddress: address })
-            //   .subscribe({
-            //     complete: () => {
-            //       console.log('success');
-            //       // we don't call onSuccess here, because it can cause a spinner flickering
-            //     },
-            //     error: () => {},
-            //   });
-            this.userCustomBillingAddress$.next(address);
-            this.editBillingAddress$.next(false);
-          }
-        })
-      )
-      .subscribe();
+      .pipe(take(1))
+      .subscribe((isSameAsDeliveryAddress) => {
+        if (!isSameAsDeliveryAddress) {
+          // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
+          // this.checkoutPaymentService
+          //   .setPaymentDetails({ billingAddress: address })
+          //   .subscribe({
+          //     complete: () => {
+          //       console.log('success');
+          //       // we don't call onSuccess here, because it can cause a spinner flickering
+          //     },
+          //     error: () => {},
+          //   });
+          this.userCustomBillingAddress$.next(address);
+          this.editBillingAddress$.next(false);
+        }
+      });
   }
 
   cancelAndHideForm() {
-    this.editBillingAddress$
-      .pipe(
-        take(1),
-        tap((isEditBillingAddress) => {
-          if (isEditBillingAddress) {
-            this.editBillingAddress$.next(false);
-          } else {
-            this.toggleSameAsDeliveryAddress();
-          }
-        })
-      )
-      .subscribe();
+    this.editBillingAddress$.pipe(take(1)).subscribe((isEditBillingAddress) => {
+      if (isEditBillingAddress) {
+        this.editBillingAddress$.next(false);
+      } else {
+        this.toggleSameAsDeliveryAddress();
+      }
+    });
   }
 
   editCustomBillingAddress() {
