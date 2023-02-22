@@ -11,7 +11,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { Address, Country, UserPaymentService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { tap, filter, map, shareReplay } from 'rxjs/operators';
 
 @Component({
@@ -19,19 +19,35 @@ import { tap, filter, map, shareReplay } from 'rxjs/operators';
   templateUrl: './opf-checkout-billing-address-form.component.html',
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
+  iconTypes = ICON_TYPE;
+
   deliveryAddress$: Observable<Address | undefined>;
   countries$: Observable<Country[]>;
-  sameAsDeliveryAddress = true;
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
-  userCustomBillingAddress: Address | undefined;
-  editBillingAddress = false;
-  iconTypes = ICON_TYPE;
+
+  sameAsDeliveryAddress$ = new BehaviorSubject(true);
+  userCustomBillingAddress$ = new BehaviorSubject<Address | undefined>(
+    undefined
+  );
+  editBillingAddress$ = new BehaviorSubject(false);
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected checkoutPaymentService: CheckoutPaymentFacade
   ) {}
+
+  get sameAsDeliveryAddress(): boolean {
+    return this.sameAsDeliveryAddress$.getValue();
+  }
+
+  get userCustomBillingAddress(): Address | undefined {
+    return this.userCustomBillingAddress$.getValue();
+  }
+
+  get editBillingAddress(): boolean {
+    return this.editBillingAddress$.getValue();
+  }
 
   ngOnInit(): void {
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
@@ -66,18 +82,18 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
         );
       }),
       tap((shouldShowCheckbox) => {
-        this.sameAsDeliveryAddress = shouldShowCheckbox;
+        this.sameAsDeliveryAddress$.next(shouldShowCheckbox);
       })
     );
   }
 
   toggleSameAsDeliveryAddress(): void {
-    this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
+    this.sameAsDeliveryAddress$.next(!this.sameAsDeliveryAddress);
 
     if (this.sameAsDeliveryAddress) {
-      this.userCustomBillingAddress = undefined;
+      this.userCustomBillingAddress$.next(undefined);
     } else {
-      this.editBillingAddress = true;
+      this.editBillingAddress$.next(true);
     }
   }
 
@@ -111,20 +127,20 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
       //     },
       //     error: () => {},
       //   });
-      this.userCustomBillingAddress = address;
-      this.editBillingAddress = false;
+      this.userCustomBillingAddress$.next(address);
+      this.editBillingAddress$.next(false);
     }
   }
 
   cancelAndHideForm() {
     if (this.editBillingAddress) {
-      this.editBillingAddress = false;
+      this.editBillingAddress$.next(false);
     } else {
       this.toggleSameAsDeliveryAddress();
     }
   }
 
   editCustomBillingAddress() {
-    this.editBillingAddress = true;
+    this.editBillingAddress$.next(true);
   }
 }
