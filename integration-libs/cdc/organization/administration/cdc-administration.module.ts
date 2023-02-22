@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import {
+  unitsCmsConfig,
   userCmsConfig,
   UserListService,
 } from '@spartacus/organization/administration/components';
@@ -27,6 +28,20 @@ import { CdcUserListService } from './cdc-user-list.service';
               useExisting: CdcUserListService,
             },
             userCmsConfig.cmsComponents?.ManageUsersListComponent?.providers ||
+              [],
+          ],
+        },
+      },
+    }),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ManageUnitsListComponent: {
+          providers: [
+            {
+              provide: B2BUserService,
+              useExisting: CdcB2BUserService,
+            },
+            unitsCmsConfig.cmsComponents?.ManageUnitsListComponent?.providers ||
               [],
           ],
         },

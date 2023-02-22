@@ -13,7 +13,6 @@ import {
   cdcFeatureModulePath,
   CDC_FEATURE_NAME,
   LibraryOptions as SpartacusCdcOptions,
-  organizationAdministrationFeatureModulePath,
   organizationAdministrationWrapperModulePath,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   SpartacusOptions,
@@ -226,11 +225,6 @@ describe('Spartacus CDC schematics: ng-add', () => {
           organizationAdministrationWrapperModulePath
         );
         expect(administrationWrapperModule).toMatchSnapshot();
-
-        const administrationFeatureModule = appTree.readContent(
-          organizationAdministrationFeatureModulePath
-        );
-        expect(administrationFeatureModule).toMatchSnapshot();
       });
     });
 
