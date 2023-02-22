@@ -19,9 +19,11 @@ import {
   products,
   variantProduct,
 } from '../../../sample-data/apparel-checkout-flow';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-context('Apparel - checkout as guest', () => {
+context('Apparel - checkout as guest', { testIsolation: false }, () => {
   viewportContext(['mobile'], () => {
+    isolateTests();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
@@ -41,6 +43,7 @@ context('Apparel - checkout as guest', () => {
     checkoutVariants.testCheckoutVariantAsGuest();
   });
   viewportContext(['desktop'], () => {
+    isolateTests();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);

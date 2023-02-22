@@ -10,16 +10,19 @@ import * as alerts from '../../../helpers/global-message';
 import { clickHamburger } from '../../../helpers/homepage';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
-describe('Cart', () => {
+describe('Cart', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
-    context('Anonymous user', () => {
+    context('Anonymous user', { testIsolation: false }, () => {
+      isolateTests();
       it('should add and remove products', () => {
         cart.checkBasicCart();
       });
     });
 
-    context('Registered user', () => {
+    context('Registered user', { testIsolation: false }, () => {
+      isolateTests();
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.loginRegisteredUser();
@@ -47,7 +50,8 @@ describe('Cart', () => {
   });
 
   viewportContext(['desktop'], () => {
-    context('Anonymous user', () => {
+    context('Anonymous user', { testIsolation: false }, () => {
+      isolateTests();
       it('should be unable to add out of stock products to cart', () => {
         cart.outOfStock();
       });
@@ -60,7 +64,8 @@ describe('Cart', () => {
       });
     });
 
-    context('Registered user', () => {
+    context('Registered user', { testIsolation: false }, () => {
+      isolateTests();
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.loginRegisteredUser();
