@@ -4,7 +4,7 @@
 # Remove all reference to MCs e2es/scripts from the repo when sample data from MCs and our core sample data aligns.
 
 # install cypress standlone dependencies
-(cd projects/storefrontapp-e2e-cypress && yarn install)
+(cd projects/storefrontapp-e2e-cypress && npm install)
 
 # run spartacus mcs e2es for b2c
-yarn e2e:run:ci:mcs
+npm run e2e:run:ci:mcs
