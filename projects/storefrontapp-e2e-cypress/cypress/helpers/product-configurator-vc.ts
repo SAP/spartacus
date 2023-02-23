@@ -32,15 +32,23 @@ export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
  *
  * @param {string} shopName - shop name
  * @param {string} productId - Product ID
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(shopName: string, productId: string) {
+export function goToConfigurationPage(
+  shopName: string,
+  productId: string,
+  isPricingEnabled?: boolean
+) {
   //TODO: remove registerConfigurationRoute
   //registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
   //cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
+  if (isPricingEnabled) {
+    waitForPricing();
+  }
 }
 
 /**
@@ -296,17 +304,6 @@ export function isConflictLinkAttached(attribute: string): void {
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
   clickOnConflictSolverLink(attribute, 'View in Configuration Link');
-}
-
-/**
- * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
- * containing the corresponding attribute and waits for request to finish.
- *
- * @param attribute - Attribute name
- */
-export function clickOnViewInConfigurationAndWait(attribute: string): void {
-  clickOnViewInConfiguration(attribute);
-  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -612,28 +609,50 @@ export function selectAttributeAndWait(
   configuration.selectAttribute(attributeName, uiType, valueName, false);
   cy.wait(UPDATE_CONFIG_ALIAS);
   if (isPricingEnabled) {
-    cy.wait(CONFIG_PRICING_ALIAS);
+    waitForPricing();
   }
+}
+
+function waitForPricing() {
+  // Give the pricing request some time to fire, otherwise cy matches the wait against the last pricing request
+  // in case this last request had not already been waited for. In other words, we could remove the cy.wait(100),
+  // if we ensure that we wait for every pricing request happening before. However not all TC do this, yet.
+  cy.wait(100);
+  cy.wait(CONFIG_PRICING_ALIAS);
 }
 
 /**
  * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
  * @param {string} nextGroup - optional - expected next group name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnNextBtnAndWait(nextGroup?: string): void {
+export function clickOnNextBtnAndWait(
+  nextGroup?: string,
+  isPricingEnabled?: boolean
+): void {
   configuration.clickOnNextBtn(nextGroup);
   cy.wait(GET_CONFIG_ALIAS);
+  if (isPricingEnabled) {
+    waitForPricing();
+  }
 }
 
 /**
  * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
  * @param {string} previousGroup - optional - expected previous group name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnPreviousBtnAndWait(previousGroup?: string): void {
+export function clickOnPreviousBtnAndWait(
+  previousGroup?: string,
+  isPricingEnabled?: boolean
+): void {
   configuration.clickOnPreviousBtn(previousGroup);
   cy.wait(GET_CONFIG_ALIAS);
+  if (isPricingEnabled) {
+    waitForPricing();
+  }
 }
 
 export class CommerceRelease {
@@ -659,15 +678,13 @@ export function checkCommerceRelease(
   ).then(({ body }) => {
     cy.wrap(body).as('responseBodyVersionCheck');
   });
-  cy.get('@responseBodyVersionCheck').then((responseBody) => {
+  cy.get('@responseBodyVersionCheck').then((responseBody: any) => {
     const responseAsString = JSON.stringify(responseBody);
     commerceRelease.isAtLeast2205 = responseAsString.includes('retractBlocked');
     commerceRelease.isAtLeast2211 = responseAsString.includes(
       'immediateConflictResolution'
     );
-    commerceRelease.isPricingEnabled = responseAsString.includes(
-      '"pricingEnabled" : true'
-    );
+    commerceRelease.isPricingEnabled = responseBody.pricingEnabled;
     cy.log(
       'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
     );
