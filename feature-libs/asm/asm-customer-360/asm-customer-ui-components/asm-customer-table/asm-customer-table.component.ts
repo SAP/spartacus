@@ -135,11 +135,11 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     sortProperty: string,
     listSortOrder: SortOrder
   ): string {
-    return columnProperty === sortProperty
-      ? listSortOrder === SortOrder.ASC
-        ? 'ascending'
-        : 'descending'
-      : 'none';
+    if (columnProperty === sortProperty) {
+      return listSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+    } else {
+      return 'none';
+    }
   }
   /**
    * returns tabIndex value
@@ -175,42 +175,45 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     let knownKeyPressed = true;
     let updatePageNumber = false;
 
-    if (this.isBackNavigation(event)) {
-      columnIndex = Math.max(0, columnIndex - 1);
-    } else if (this.isForwardsNavigation(event)) {
-      columnIndex = Math.min(maxColumn, columnIndex + 1);
-    } else if (event.code === 'ArrowDown') {
-      rowIndex = Math.min(maxRow, rowIndex + 1);
-    } else if (event.code === 'ArrowUp') {
-      rowIndex = Math.max(0, rowIndex - 1);
-    } else if (event.code === 'Home') {
-      columnIndex = 0;
-      if (event.ctrlKey) {
-        rowIndex = 0;
-      }
-    } else if (event.code === 'End') {
-      columnIndex = maxColumn;
-      if (event.ctrlKey) {
-        rowIndex = maxRow;
-      }
-    } else if (
-      event.code === 'PageDown' &&
-      this.entryPages.length > 1 &&
-      this.currentPageNumber < maxPage
-    ) {
-      updatePageNumber = true;
-      const pageNumber = Math.min(maxPage, this.currentPageNumber + 1);
-      this.setPageNumber(pageNumber, true);
-    } else if (
-      event.code === 'PageUp' &&
-      this.entryPages.length > 1 &&
-      this.currentPageNumber > 0
-    ) {
-      updatePageNumber = true;
-      const pageNumber = Math.max(0, this.currentPageNumber - 1);
-      this.setPageNumber(pageNumber, true);
-    } else {
-      knownKeyPressed = false;
+    switch (event.code) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        if (this.isBackNavigation(event)) {
+          columnIndex = Math.max(0, columnIndex - 1);
+        } else {
+          columnIndex = Math.min(maxColumn, columnIndex + 1);
+        }
+        break;
+      case 'ArrowDown':
+        rowIndex = Math.min(maxRow, rowIndex + 1);
+        break;
+      case 'ArrowUp':
+        rowIndex = Math.max(0, rowIndex - 1);
+        break;
+      case 'Home':
+        columnIndex = 0;
+        rowIndex = event.ctrlKey ? 0 : rowIndex;
+        break;
+      case 'End':
+        columnIndex = maxColumn;
+        rowIndex = event.ctrlKey ? maxRow : rowIndex;
+        break;
+      case 'PageDown':
+        if (this.shouldHandlePageDown()) {
+          updatePageNumber = true;
+          const pageNumber = Math.min(maxPage, this.currentPageNumber + 1);
+          this.setPageNumber(pageNumber, true);
+        }
+        break;
+      case 'PageUp':
+        if (this.shouldHandlePageUp()) {
+          updatePageNumber = true;
+          const pageNumber = Math.max(0, this.currentPageNumber - 1);
+          this.setPageNumber(pageNumber, true);
+        }
+        break;
+      default:
+        knownKeyPressed = false;
     }
     if (knownKeyPressed) {
       if (!updatePageNumber) {
@@ -219,6 +222,13 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       event.stopPropagation();
       event.preventDefault();
     }
+  }
+  private shouldHandlePageDown(): boolean {
+    const maxPage = this.entryPages.length - 1;
+    return this.entryPages.length > 1 && this.currentPageNumber < maxPage;
+  }
+  private shouldHandlePageUp(): boolean {
+    return this.entryPages.length > 1 && this.currentPageNumber > 0;
   }
   /**
    * Update selected cell's tabIndex (change tabIndex to 0).
@@ -263,19 +273,6 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
         tableCell.tabIndex = -1;
       }
     }
-  }
-  /**
-   * Verifies whether the user navigates into a subgroup of the main group menu.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
-   * @protected
-   */
-  protected isForwardsNavigation(event: KeyboardEvent): boolean {
-    return (
-      (event.code === 'ArrowRight' && this.isLTRDirection()) ||
-      (event.code === 'ArrowLeft' && this.isRTLDirection())
-    );
   }
   /**
    * Verifies whether the user navigates from a subgroup back to the main group menu.

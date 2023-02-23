@@ -33,7 +33,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({ name: 'args' })
 export class ArgsPipe implements PipeTransform {
   transform<A extends Array<any>, R>(
-    projectionFunction: (...args: A) => R,
+    projectionFunction: (...arglist: A) => R,
     ...args: A
   ): R {
     return projectionFunction(...args);
