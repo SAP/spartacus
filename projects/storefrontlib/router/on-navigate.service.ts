@@ -56,6 +56,8 @@ export class OnNavigateService {
       /**
        * @deprecated since 5.1
        * this feature level check should be removed in Major release
+       *
+       * Extra note: Removing this feature flag  will reduce cognitive complexity to pass sonar (CXSPA-1118)
        */
       if (isFeatureLevel(this.config, '5.1')) {
         this.viewportScroller.setHistoryScrollRestoration('manual');

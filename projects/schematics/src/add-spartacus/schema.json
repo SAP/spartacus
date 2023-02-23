@@ -38,6 +38,7 @@
           "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
+          "Future-Stock",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
@@ -65,6 +66,7 @@
         "Saved-Cart",
         "Quick-Order",
         "Image-Zoom",
+        "Future-Stock",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -163,6 +165,10 @@
           {
             "value": "Image-Zoom",
             "label": "Product - Image Zoom"
+          },
+          {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock"
           },
           {
             "value": "VC-Configurator",

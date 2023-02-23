@@ -80,6 +80,7 @@ import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
+import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
@@ -99,7 +100,8 @@ if (environment.b2b) {
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
     OrganizationUserRegistrationFeatureModule,
-    UnitOrderFeatureModule
+    UnitOrderFeatureModule,
+    FutureStockFeatureModule
   );
 }
 
