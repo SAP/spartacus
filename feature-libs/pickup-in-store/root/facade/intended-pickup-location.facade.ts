@@ -26,6 +26,8 @@ import {
         'getIntendedLocation',
         'setIntendedLocation',
         'removeIntendedLocation',
+        'getPickupOption',
+        'setPickupOption',
       ],
       async: true,
     }),

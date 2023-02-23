@@ -8,18 +8,15 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideDefaultConfig } from '@spartacus/core';
 import {
-  CartPickupOptionsContainerModule,
   defaultPickupOptionsDialogLayoutConfig,
   MyPreferredStoreModule,
-  PdpPickupOptionsContainerModule,
   PickupInfoContainerModule,
 } from './container/index';
+
 import { PickUpItemsDetailsModule } from './container/pickup-items-details';
 @NgModule({
   imports: [
     ReactiveFormsModule,
-    CartPickupOptionsContainerModule,
-    PdpPickupOptionsContainerModule,
     PickupInfoContainerModule,
     MyPreferredStoreModule,
     PickUpItemsDetailsModule,

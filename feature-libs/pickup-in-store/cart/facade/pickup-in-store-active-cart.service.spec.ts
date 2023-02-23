@@ -6,8 +6,8 @@ import {
   MultiCartFacadeStub,
   UserIdServiceStub,
 } from 'feature-libs/cart/base/core/facade/active-cart.service.spec';
-import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { BehaviorSubject, of } from 'rxjs';
+import { MockIntendedPickupLocationService } from '../../core/facade/intended-pickup-location.service.spec';
 import { PickupInStoreActiveCartService } from './pickup-in-store-active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);

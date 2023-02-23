@@ -165,7 +165,7 @@ function handleTestConfigs(
   options: ProgramOptions
 ): void {
   if (options.fix) {
-    reportProgress('Updating test tsconig json files');
+    reportProgress('Updating test tsconfig json files');
   } else {
     reportProgress('Checking test tsconfig json files');
   }

@@ -6,10 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PointOfServiceStock, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import {
-  PickRequiredDeep,
   PickupLocationsSearchFacade,
+  PointOfServiceNames,
+  PreferredStoreFacade,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
@@ -25,16 +26,11 @@ import {
 } from '../store/actions/default-point-of-service-name.action';
 import { isInStock } from '../utils';
 
-export type PointOfServiceNames = PickRequiredDeep<
-  PointOfServiceStock,
-  'name' | 'displayName'
->;
-
 /**
  * Service to store the user's preferred store for Pickup in Store in local storage.
  */
 @Injectable()
-export class PreferredStoreService {
+export class PreferredStoreService implements PreferredStoreFacade {
   constructor(
     protected config: PickupInStoreConfig,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,

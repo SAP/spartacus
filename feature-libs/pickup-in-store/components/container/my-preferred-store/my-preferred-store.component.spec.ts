@@ -10,14 +10,16 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { StoreModule } from '@spartacus/pickup-in-store/components';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  PickupLocationsSearchFacade,
+  PreferredStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
-import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
-import { PickupLocationsSearchFacade } from 'feature-libs/pickup-in-store/root/facade';
 import { MockStoreFinderService } from 'feature-libs/storefinder/components/abstract-store-item/abstract-store-item.component.spec';
 import { Observable, of } from 'rxjs';
+import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
+import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -56,7 +58,7 @@ describe('MyPreferredStoreComponent', () => {
         } as CmsConfig),
       ],
       providers: [
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchService,

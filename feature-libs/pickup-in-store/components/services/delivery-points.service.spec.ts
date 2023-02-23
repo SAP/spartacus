@@ -2,8 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
-import { DeliveryPointOfServiceItems } from 'feature-libs/pickup-in-store/root/model';
+import {
+  DeliveryPointOfServiceItems,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
 import { DeliveryPointsService } from './delivery-points.service';
 

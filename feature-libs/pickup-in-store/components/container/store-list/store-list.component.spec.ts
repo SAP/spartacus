@@ -11,8 +11,8 @@ import {
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
-import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
+import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
+import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { StoreListComponent } from './store-list.component';
 
 describe('StoreListComponent', () => {

@@ -12,15 +12,8 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsService, Page } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
-import {
-  PickupLocationsSearchFacade,
-  PickupOption,
-  PickupOptionFacade,
-  RequiredDeepPath,
-} from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -37,6 +30,13 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import {
+  PickupLocationsSearchFacade,
+  PickupOptionFacade,
+  PreferredStoreFacade,
+} from '../../../facade/index';
+import { PickupOption } from '../../../model/index';
+import { cartWithIdAndUserId, RequiredDeepPath } from '../../../utils/index';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'
@@ -60,21 +60,6 @@ export function orderEntryWithRequiredFields(
     orderEntry.product !== undefined &&
     orderEntry.product.code !== undefined &&
     orderEntry.product.availableForPickup !== undefined
-  );
-}
-
-/** A cart with the required ids */
-type CartWithIdAndUserId = RequiredDeepPath<Cart, 'guid' | 'user.uid' | 'code'>;
-/** Custom type guard to ensure we have a cart with the required ids */
-export function cartWithIdAndUserId(
-  cart: Cart | undefined
-): cart is CartWithIdAndUserId {
-  return (
-    !!cart &&
-    cart.guid !== undefined &&
-    cart.user !== undefined &&
-    cart.user.uid !== undefined &&
-    cart.code !== undefined
   );
 }
 
@@ -105,7 +90,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreService: PreferredStoreService,
+    protected preferredStoreFacade: PreferredStoreFacade,
     protected vcr: ViewContainerRef,
     protected cmsService: CmsService,
     @Optional() protected outlet: OutletContextData<OrderEntry>
@@ -174,7 +159,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
             ),
             filter((storeDetails) => !!storeDetails)
           ),
-          this.preferredStoreService.getPreferredStoreWithProductInStock(
+          this.preferredStoreFacade.getPreferredStoreWithProductInStock(
             productCode
           )
         )

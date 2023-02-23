@@ -4,17 +4,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   PointOfServiceNames,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/core';
+  PreferredStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, OutletContextData } from '@spartacus/storefront';
-import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { of } from 'rxjs';
+import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
 
 describe('SetPreferredStoreComponent without outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
-  let preferredStoreService: PreferredStoreService;
+  let preferredStoreFacade: PreferredStoreFacade;
 
   const pointOfServiceName = {
     name: 'London School',
@@ -26,12 +26,12 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
       declarations: [SetPreferredStoreComponent],
       imports: [I18nTestingModule, IconTestingModule, CommonModule],
       providers: [
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     component.pointOfServiceName = pointOfServiceName;
     fixture.detectChanges();
@@ -41,16 +41,16 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
     expect(component).toBeDefined();
   });
 
-  it('should call setPreferredStore on preferredStoreService with pointOfServiceName', () => {
-    spyOn(preferredStoreService, 'setPreferredStore');
+  it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
+    spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
-    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
+    expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
       pointOfServiceName
     );
   });
 
-  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreService', () => {
+  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreFacade', () => {
     component.storeSelected$.subscribe((item) => {
       expect(item?.name).toBe('London School');
       expect(item?.displayName).toBe('London School');
@@ -61,7 +61,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
 describe('SetPreferredStoreComponent with outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
-  let preferredStoreService: PreferredStoreService;
+  let preferredStoreFacade: PreferredStoreFacade;
 
   const pointOfServiceName: PointOfServiceNames = {
     name: 'London School',
@@ -75,13 +75,13 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
       declarations: [SetPreferredStoreComponent],
       imports: [I18nTestingModule, IconTestingModule, CommonModule],
       providers: [
-        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         { provide: OutletContextData, useValue: { context$ } },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     component.pointOfServiceName = pointOfServiceName;
     fixture.detectChanges();
@@ -91,16 +91,16 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
     expect(component).toBeDefined();
   });
 
-  it('should call setPreferredStore on preferredStoreService with pointOfServiceName', () => {
-    spyOn(preferredStoreService, 'setPreferredStore');
+  it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
+    spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
-    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
+    expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
       pointOfServiceName
     );
   });
 
-  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreService', () => {
+  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreFacade', () => {
     component.storeSelected$.subscribe((item) => {
       expect(item?.name).toBe('London School');
       expect(item?.displayName).toBe('London School');

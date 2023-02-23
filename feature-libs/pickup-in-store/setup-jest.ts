@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './pickup-info/index';
-export * from './store/index';
+import 'jest-preset-angular/setup-jest';
+import 'zone.js';

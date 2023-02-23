@@ -5,8 +5,10 @@
  */
 
 import { PointOfService } from '@spartacus/core';
-import { AugmentedPointOfService } from '@spartacus/pickup-in-store/root';
-import { PointOfServiceNames } from '../services';
+import {
+  AugmentedPointOfService,
+  PointOfServiceNames,
+} from '@spartacus/pickup-in-store/root';
 
 export const PICKUP_LOCATIONS_FEATURE = 'pickup-locations';
 

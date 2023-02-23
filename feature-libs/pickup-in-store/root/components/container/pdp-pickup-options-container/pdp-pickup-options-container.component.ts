@@ -13,16 +13,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import {
-  getProperty,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/core';
-import {
-  IntendedPickupLocationFacade,
-  PickupOption,
-  PickupOptionFacade,
-  RequiredDeepPath,
-} from '@spartacus/pickup-in-store/root';
+
 import {
   CurrentProductService,
   LaunchDialogService,
@@ -30,6 +21,13 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import {
+  IntendedPickupLocationFacade,
+  PickupOptionFacade,
+  PreferredStoreFacade,
+} from '../../../facade/index';
+import { PickupOption } from '../../../model/index';
+import { getProperty, RequiredDeepPath } from '../../../utils/index';
 
 /** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(
@@ -61,7 +59,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreService: PreferredStoreService,
+    protected preferredStoreFacade: PreferredStoreFacade,
     protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
@@ -98,7 +96,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
             getProperty(intendedLocation, 'pickupOption') === 'pickup' &&
             !!intendedLocation.displayName,
           of(getProperty(intendedLocation, 'displayName')),
-          this.preferredStoreService
+          this.preferredStoreFacade
             .getPreferredStoreWithProductInStock(productCode)
             .pipe(map(({ displayName }) => displayName))
         )
@@ -156,7 +154,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscription.add(
-      this.preferredStoreService
+      this.preferredStoreFacade
         .getPreferredStore$()
         .pipe(
           filter((preferredStore) => !!preferredStore),

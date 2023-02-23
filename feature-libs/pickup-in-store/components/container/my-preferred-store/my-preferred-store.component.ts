@@ -12,10 +12,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  PickupLocationsSearchFacade,
   PointOfServiceNames,
-  PreferredStoreService,
-} from '@spartacus/pickup-in-store/core';
-import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
+  PreferredStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -41,13 +41,13 @@ export class MyPreferredStoreComponent implements OnInit {
   isStoreFinder = false;
 
   constructor(
-    private preferredStoreService: PreferredStoreService,
+    private preferredStoreFacade: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
     protected storeFinderService: StoreFinderService,
     protected cmsService: CmsService
   ) {
-    this.preferredStore$ = this.preferredStoreService.getPreferredStore$().pipe(
+    this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
       filter((preferredStore) => preferredStore !== null),
       map((preferredStore) => preferredStore as PointOfServiceNames),
       filter((preferredStore) => !!preferredStore.name),

@@ -15,6 +15,14 @@ import {
 
 const MockCmsConfig: CmsConfig = {
   featureModules: {
+    [PICKUP_IN_STORE_FEATURE]: {
+      cmsComponents: [
+        'CheckoutReviewPickup',
+        'MyPreferredStoreComponent',
+        'OrderConfirmationPickUpComponent',
+        'PickupInStoreDeliveryModeComponent',
+      ],
+    },
     [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
   },
 };
@@ -36,7 +44,7 @@ describe('PickupInStoreRootModule', () => {
     expect(module).toBeDefined();
   });
 
-  it('defaultPersonalizationComponentsConfig', () => {
+  it('has CmsConfig for components and the core feature', () => {
     const result = defaultPickupInStoreComponentsConfig();
     expect(result).toEqual(MockCmsConfig);
   });

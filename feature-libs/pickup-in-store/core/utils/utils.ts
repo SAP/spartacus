@@ -17,16 +17,3 @@ export function isInStock(stockInfo: Stock | undefined): boolean {
 export function storeHasStock({ stockInfo }: PointOfServiceStock): boolean {
   return isInStock(stockInfo);
 }
-
-export const getProperty = (
-  o: Record<string, any> | undefined | null,
-  property: string
-): any | null => {
-  if (!o) {
-    return null;
-  }
-  if (o.hasOwnProperty(property)) {
-    return o[property];
-  }
-  return null;
-};

@@ -9,7 +9,9 @@ import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOptionFacade,
+  PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
+import { PreferredStoreService } from '../services';
 import { IntendedPickupLocationService } from './intended-pickup-location.service';
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 import { PickupOptionService } from './pickup-option.service';
@@ -30,4 +32,6 @@ export const facadeProviders: Provider[] = [
     provide: PickupOptionFacade,
     useExisting: PickupOptionService,
   },
+  PreferredStoreService,
+  { provide: PreferredStoreFacade, useExisting: PreferredStoreService },
 ];

@@ -1,5 +1,5 @@
 import { PointOfServiceStock } from '@spartacus/core';
-import { getProperty, storeHasStock } from './utils';
+import { storeHasStock } from './utils';
 
 describe('Pickup in Store utils', () => {
   it('storeHasStock returns true if the store has stock', () => {
@@ -32,20 +32,5 @@ describe('Pickup in Store utils', () => {
       },
     };
     expect(storeHasStock(store)).toBe(false);
-  });
-});
-
-describe('Object Utils - getProperty', () => {
-  it('should return null if arg is null', () => {
-    const received = getProperty(null, 'key');
-    expect(received).toBeNull();
-  });
-  it('should return null if key is not present in object', () => {
-    const received = getProperty({}, 'key');
-    expect(received).toBeNull();
-  });
-  it('should return key value if key is present in object', () => {
-    const received = getProperty({ key: 'value' }, 'key');
-    expect(received).toEqual('value');
   });
 });

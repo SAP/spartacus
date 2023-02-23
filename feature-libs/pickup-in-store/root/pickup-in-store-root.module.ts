@@ -6,6 +6,10 @@
 
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  CartPickupOptionsContainerModule,
+  PdpPickupOptionsContainerModule,
+} from './components/index';
 
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
@@ -15,12 +19,21 @@ import {
 export function defaultPickupInStoreComponentsConfig(): CmsConfig {
   return {
     featureModules: {
+      [PICKUP_IN_STORE_FEATURE]: {
+        cmsComponents: [
+          'CheckoutReviewPickup',
+          'MyPreferredStoreComponent',
+          'OrderConfirmationPickUpComponent',
+          'PickupInStoreDeliveryModeComponent',
+        ],
+      },
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },
   };
 }
 
 @NgModule({
+  imports: [CartPickupOptionsContainerModule, PdpPickupOptionsContainerModule],
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
   ],
