@@ -20,6 +20,11 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
       cmsComponents: {
         CheckoutDeliveryMode: {
           component: CheckoutDeliveryModeComponent,
+          data: {
+            composition: {
+              inner: ['PickupInStoreDeliveryModeComponent'],
+            },
+          },
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
