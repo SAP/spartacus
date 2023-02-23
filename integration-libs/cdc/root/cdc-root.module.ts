@@ -9,21 +9,15 @@ import {
   CmsConfig,
   Config,
   ConfigInitializerService,
-  GlobalMessageService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  UserAddressService,
 } from '@spartacus/core';
-import {
-  AddressBookComponent,
-  AddressBookComponentService,
-  LogoutGuard,
-} from '@spartacus/storefront';
+import { LogoutGuard } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
+import { CdcStoreModule } from '../core/store/cdc-store.module';
 import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
-import { CDCAddressBookComponentService } from './service/cdc-address-book.component.service';
 import { CdcJsService } from './service/cdc-js.service';
 
 export function cdcJsFactory(
@@ -56,6 +50,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
+  imports: [CdcStoreModule],
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
@@ -66,20 +61,20 @@ export function defaultCdcComponentsConfig(): CmsConfig {
       multi: true,
     },
     provideDefaultConfig(defaultCdcRoutingConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountAddressBookComponent: {
-          component: AddressBookComponent,
-          providers: [
-            {
-              provide: AddressBookComponentService,
-              useClass: CDCAddressBookComponentService,
-              deps: [UserAddressService, GlobalMessageService, CdcJsService],
-            },
-          ],
-        },
-      },
-    }),
+    // provideDefaultConfig(<CmsConfig>{
+    //   cmsComponents: {
+    //     AccountAddressBookComponent: {
+    //       component: AddressBookComponent,
+    //       providers: [
+    //         {
+    //           provide: AddressBookComponentService,
+    //           useClass: CDCAddressBookComponentService,
+    //           deps: [UserAddressService, GlobalMessageService, CdcJsService],
+    //         },
+    //       ],
+    //     },
+    //   },
+    // }),
   ],
 })
 export class CdcRootModule {}

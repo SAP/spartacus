@@ -16,6 +16,8 @@ export function registerUser() {
 const user = getSampleUser();
 const nativeUser = getSampleUser();
 
+const b2bUser = getSampleB2BUser();
+
 export function registerCDC() {
   fillAndSubmitRegistrationForm();
 }
@@ -80,8 +82,20 @@ export function loginWithoutScreenSet() {
   login(nativeUser.email, nativeUser.password);
 }
 
+export function loginB2BUser() {
+  cy.get('[id="gigya-login-form"]').within(() => {
+    cy.get('[placeholder="Email *"]').type(b2bUser.email);
+    cy.get('[placeholder="Password *"]').type(b2bUser.password);
+    cy.get('[class="gigya-input-submit"]').click();
+  });
+}
+
+export function loginB2BWithoutScreenSet() {
+  login(b2bUser.email, b2bUser.password);
+}
+
 export function verifyLoginOrRegistrationSuccess() {
-  cy.get('[class="cx-login-greet"]').should('contain', user.fullName);
+  cy.get('[class="cx-login-greet"]').should('contain', b2bUser.fullName);
 }
 
 export function updateUserProfile() {
@@ -96,4 +110,33 @@ export function verifyProfileUpdateSuccess() {
     'contain',
     user.fullName + UPDATED_NAME
   );
+}
+
+export function getSampleB2BUser() {
+  return {
+    titleCode: 'Mr',
+    firstName: 'Spartacus',
+    lastName: 'B2BAdmin',
+    fullName: 'Spartacus B2BAdmin',
+    password: 'Password123.',
+    email: 'spartacusb2b@mailinator.com',
+    phone: '555 555 555',
+    address: {
+      city: 'Los Angeles',
+      line1: '1111 S Figueroa St',
+      line2: 'US-CA',
+      country: 'United States',
+      state: 'California',
+      postal: '90015',
+    },
+    payment: {
+      card: 'Visa',
+      number: '4111111111111111',
+      expires: {
+        month: '12',
+        year: '2027',
+      },
+      cvv: '123',
+    },
+  };
 }

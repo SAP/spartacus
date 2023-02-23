@@ -24,6 +24,7 @@
                   ariaLabel: 'addressForm.country' | cxTranslate
                 }"
               >
+                <input type="hidden" formControlName="name" bindValue="name" />
               </ng-select>
               <cx-form-errors
                 [control]="addressForm.get('country.isocode')"
@@ -179,10 +180,16 @@
                   bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
                   placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
                   id="region-select"
+                  (change)="regionSelected($event)"
                   [cxNgSelectA11y]="{
                     ariaLabel: 'addressForm.state' | cxTranslate
                   }"
                 >
+                  <input
+                    type="hidden"
+                    formControlName="name"
+                    bindValue="region.name"
+                  />
                 </ng-select>
                 <cx-form-errors
                   [control]="addressForm.get('region.isocode')"

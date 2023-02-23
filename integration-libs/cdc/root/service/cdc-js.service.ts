@@ -508,18 +508,22 @@ export class CdcJsService implements OnDestroy {
    * @param address
    */
   updateAddressWithoutScreenSet(
-    address: string
+    formattedAddress: string,
+    zipCode?: string,
+    city?: string,
+    country?: string
   ): Observable<{ status: string }> {
-    if (!address || address?.length === 0) {
-      return throwError(null);
+    if (!formattedAddress || formattedAddress?.length === 0) {
+      return throwError({ errorMessage: 'No address provided' });
     } else {
       let profileObj = {
-        profile: {
-          address: address,
-        },
+        address: formattedAddress,
+        ...(city && { city: city }),
+        ...(country && { country: country }),
+        ...(zipCode && { zip: zipCode }),
       };
       return this.invokeCDCAPI('accounts.setAccountInfo', {
-        ...profileObj,
+        profile: profileObj,
       });
     }
   }
