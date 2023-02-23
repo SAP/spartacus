@@ -157,7 +157,7 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       : -1;
   }
   /**
-   * Update cell focus When keyboard key is pressed:
+   * Update cell's focus When keyboard key is pressed:
    * handles arrowUp, arrowDown, arrowRight, arrowLeft, Home, End, Home+Ctrl, End+Ctrl
    * PageDown, PageUp
    * @param event KeyboardEvent
@@ -221,7 +221,7 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     }
   }
   /**
-   * Update selected cell's tabIndex (change to tabIndex to 0).
+   * Update selected cell's tabIndex (change tabIndex to 0).
    * if cell contains link(button) then update link
    * @param columnIndex selected column index of table
    * @param rowIndex selected row index of table
@@ -247,7 +247,7 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     elementToFocus.focus();
   }
   /**
-   * Remove selected tab index (change to tabIndex to -1)
+   * Remove selected tab index (change tabIndex to -1)
    * if cell has link(button) then update link
    * @param columnIndex selected column index of table
    * @param rowIndex selected row index of table

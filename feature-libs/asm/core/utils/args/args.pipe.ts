@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -7,11 +6,10 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 /**
- * Use this pipe when you want to apply a (peferably) pure function (i.e. a function that doesn't use "this")
- * to some arguments directly in a template file.
+ * Use this pipe when you want to apply a (preferably) pure function (i.e. a function that doesn't use "this")
  *
  * Doing so is more efficient than directly calling the function in the template file because
- * the pipe will know whether or not to re-execute when a new change detection cycle is in progress.
+ * the pipe will re-execute during a detection cycle only when the arguments have changed.
  *
  * ex:
  *
@@ -25,11 +23,10 @@ import { Pipe, PipeTransform } from '@angular/core';
  *   }
  * ```
  *
- * my-component.html:
+ * my-component.component.html:
  * ```
  *   <div *ngFor="let targetString of targetStrings">
- *    <app-some-component [filteredArray]="filterArrayByString | args: unfilteredArray : filterArrayByString : targetString">
- *    </app-some-component>
+ *     <app-some-component [filteredArray]="filterArrayByString | args: unfilteredArray : targetString">
  *  </div>
  * ```
  */
