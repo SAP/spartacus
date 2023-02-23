@@ -37,7 +37,7 @@ const baseSite = environment.epdVisualization
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: baseSite,
-        theme: ['santorini']
+        theme: ['santorini'],
       },
     }),
     provideConfig(<PWAModuleConfig>{
