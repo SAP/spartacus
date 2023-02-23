@@ -16,7 +16,7 @@ import {
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { ArgsPipe } from 'feature-libs/asm/core/utils/args/args.pipe';
+import { ArgsPipe } from '@spartacus/asm/core';
 import { GeneralEntry } from '../../sections/asm-customer-activity/asm-customer-activity.model';
 
 import { AsmCustomerTableComponent } from './asm-customer-table.component';

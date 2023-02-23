@@ -22,7 +22,7 @@ import {
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { ArgsPipe } from 'feature-libs/asm/core/utils/args/args.pipe';
+import { ArgsPipe } from '@spartacus/asm/core';
 import { Observable, of } from 'rxjs';
 import { AsmCustomerTableComponent } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
