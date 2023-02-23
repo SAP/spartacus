@@ -63,9 +63,11 @@ class MockConfiguratorRouterExtractorService {
 
 class MockConfiguratorStorefrontUtilsService {
   getElement() {}
+  getElements() {}
   changeStyling() {}
   createOvMenuItemId() {}
   getSpareViewportHeight() {}
+  getVerticallyScrolledPixels() {}
 }
 
 @Component({
