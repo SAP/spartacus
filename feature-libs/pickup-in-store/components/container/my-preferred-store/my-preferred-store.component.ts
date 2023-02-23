@@ -41,13 +41,13 @@ export class MyPreferredStoreComponent implements OnInit {
   isStoreFinder = false;
 
   constructor(
-    private preferredStoreService: PreferredStoreFacade,
+    private preferredStoreFacade: PreferredStoreFacade,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected routingService: RoutingService,
     protected storeFinderService: StoreFinderService,
     protected cmsService: CmsService
   ) {
-    this.preferredStore$ = this.preferredStoreService.getPreferredStore$().pipe(
+    this.preferredStore$ = this.preferredStoreFacade.getPreferredStore$().pipe(
       filter((preferredStore) => preferredStore !== null),
       map((preferredStore) => preferredStore as PointOfServiceNames),
       filter((preferredStore) => !!preferredStore.name),

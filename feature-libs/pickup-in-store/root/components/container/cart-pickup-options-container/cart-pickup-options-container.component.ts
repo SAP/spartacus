@@ -90,7 +90,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected launchDialogService: LaunchDialogService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreService: PreferredStoreFacade,
+    protected preferredStoreFacade: PreferredStoreFacade,
     protected vcr: ViewContainerRef,
     protected cmsService: CmsService,
     @Optional() protected outlet: OutletContextData<OrderEntry>
@@ -159,7 +159,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
             ),
             filter((storeDetails) => !!storeDetails)
           ),
-          this.preferredStoreService.getPreferredStoreWithProductInStock(
+          this.preferredStoreFacade.getPreferredStoreWithProductInStock(
             productCode
           )
         )

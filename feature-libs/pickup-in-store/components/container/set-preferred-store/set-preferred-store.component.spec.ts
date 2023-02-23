@@ -14,7 +14,7 @@ import { SetPreferredStoreComponent } from './set-preferred-store.component';
 describe('SetPreferredStoreComponent without outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
-  let preferredStoreService: PreferredStoreFacade;
+  let preferredStoreFacade: PreferredStoreFacade;
 
   const pointOfServiceName = {
     name: 'London School',
@@ -31,7 +31,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
-    preferredStoreService = TestBed.inject(PreferredStoreFacade);
+    preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     component.pointOfServiceName = pointOfServiceName;
     fixture.detectChanges();
@@ -41,16 +41,16 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
     expect(component).toBeDefined();
   });
 
-  it('should call setPreferredStore on preferredStoreService with pointOfServiceName', () => {
-    spyOn(preferredStoreService, 'setPreferredStore');
+  it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
+    spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
-    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
+    expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
       pointOfServiceName
     );
   });
 
-  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreService', () => {
+  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreFacade', () => {
     component.storeSelected$.subscribe((item) => {
       expect(item?.name).toBe('London School');
       expect(item?.displayName).toBe('London School');
@@ -61,7 +61,7 @@ describe('SetPreferredStoreComponent without outlet.context$', () => {
 describe('SetPreferredStoreComponent with outlet.context$', () => {
   let component: SetPreferredStoreComponent;
   let fixture: ComponentFixture<SetPreferredStoreComponent>;
-  let preferredStoreService: PreferredStoreFacade;
+  let preferredStoreFacade: PreferredStoreFacade;
 
   const pointOfServiceName: PointOfServiceNames = {
     name: 'London School',
@@ -81,7 +81,7 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(SetPreferredStoreComponent);
     component = fixture.componentInstance;
-    preferredStoreService = TestBed.inject(PreferredStoreFacade);
+    preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     component.pointOfServiceName = pointOfServiceName;
     fixture.detectChanges();
@@ -91,16 +91,16 @@ describe('SetPreferredStoreComponent with outlet.context$', () => {
     expect(component).toBeDefined();
   });
 
-  it('should call setPreferredStore on preferredStoreService with pointOfServiceName', () => {
-    spyOn(preferredStoreService, 'setPreferredStore');
+  it('should call setPreferredStore on preferredStoreFacade with pointOfServiceName', () => {
+    spyOn(preferredStoreFacade, 'setPreferredStore');
 
     component.setAsPreferred();
-    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
+    expect(preferredStoreFacade.setPreferredStore).toHaveBeenCalledWith(
       pointOfServiceName
     );
   });
 
-  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreService', () => {
+  it('should set storeSelected$ to the return value of getPreferredStore on preferredStoreFacade', () => {
     component.storeSelected$.subscribe((item) => {
       expect(item?.name).toBe('London School');
       expect(item?.displayName).toBe('London School');

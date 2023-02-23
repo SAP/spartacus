@@ -59,7 +59,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreService: PreferredStoreFacade,
+    protected preferredStoreFacade: PreferredStoreFacade,
     protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
@@ -96,7 +96,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
             getProperty(intendedLocation, 'pickupOption') === 'pickup' &&
             !!intendedLocation.displayName,
           of(getProperty(intendedLocation, 'displayName')),
-          this.preferredStoreService
+          this.preferredStoreFacade
             .getPreferredStoreWithProductInStock(productCode)
             .pipe(map(({ displayName }) => displayName))
         )
@@ -154,7 +154,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscription.add(
-      this.preferredStoreService
+      this.preferredStoreFacade
         .getPreferredStore$()
         .pipe(
           filter((preferredStore) => !!preferredStore),

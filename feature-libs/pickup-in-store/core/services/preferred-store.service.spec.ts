@@ -54,7 +54,7 @@ describe('PreferredStoreService', () => {
     name: 'London School',
     displayName: 'London School',
   };
-  let preferredStoreService: PreferredStoreService;
+  let preferredStoreFacade: PreferredStoreService;
   let windowRef: WindowRef;
   let pickupLocationSearchService: PickupLocationsSearchFacade;
   let store: Store<StateWithPickupLocations>;
@@ -79,7 +79,7 @@ describe('PreferredStoreService', () => {
       ],
     });
 
-    preferredStoreService = TestBed.inject(PreferredStoreService);
+    preferredStoreFacade = TestBed.inject(PreferredStoreService);
     windowRef = TestBed.inject(WindowRef);
     pickupLocationSearchService = TestBed.inject(PickupLocationsSearchFacade);
 
@@ -94,19 +94,19 @@ describe('PreferredStoreService', () => {
     });
 
     it('should be created', () => {
-      expect(preferredStoreService).toBeDefined();
+      expect(preferredStoreFacade).toBeDefined();
     });
 
     describe('getPreferredStore$', () => {
       it('should get the preferred store ', () => {
-        preferredStoreService.getPreferredStore$();
+        preferredStoreFacade.getPreferredStore$();
         expect(store.pipe).toHaveBeenCalled();
       });
     });
 
     describe('setPreferredStore', () => {
       it('should dispatch action to set default point of service', () => {
-        preferredStoreService.setPreferredStore(preferredStore);
+        preferredStoreFacade.setPreferredStore(preferredStore);
         expect(store.dispatch).toHaveBeenCalledWith(
           SetDefaultPointOfService({ payload: preferredStore })
         );
@@ -116,7 +116,7 @@ describe('PreferredStoreService', () => {
     describe('clearPreferredStore', () => {
       it('should clear the preferred store', () => {
         windowRef.localStorage?.setItem('preferred_store', 'preferredStore');
-        preferredStoreService.clearPreferredStore();
+        preferredStoreFacade.clearPreferredStore();
         expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
       });
     });
@@ -128,7 +128,7 @@ describe('PreferredStoreService', () => {
       };
       const productCode = 'P001';
 
-      spyOn(preferredStoreService, 'getPreferredStore$').and.returnValue(
+      spyOn(preferredStoreFacade, 'getPreferredStore$').and.returnValue(
         of(preferredStore)
       );
       spyOn(pickupLocationSearchService, 'stockLevelAtStore').and.callThrough();
@@ -138,7 +138,7 @@ describe('PreferredStoreService', () => {
       ).and.returnValue(of({ stockLevelStatus: 'inStock' }));
 
       const preferredStoreWithStock =
-        preferredStoreService.getPreferredStoreWithProductInStock(productCode);
+        preferredStoreFacade.getPreferredStoreWithProductInStock(productCode);
 
       preferredStoreWithStock.subscribe((value) =>
         expect(value).toEqual(preferredStore)
@@ -153,7 +153,7 @@ describe('PreferredStoreService', () => {
   });
 
   it('clearPreferredStore should be void', () => {
-    expect(preferredStoreService.clearPreferredStore()).toBeUndefined();
+    expect(preferredStoreFacade.clearPreferredStore()).toBeUndefined();
   });
 
   describe('without localStorage', () => {
@@ -161,8 +161,8 @@ describe('PreferredStoreService', () => {
       configureTestingModule(false, false);
     });
     it('clearPreferredStore should be void', () => {
-      preferredStoreService.clearPreferredStore();
-      expect(preferredStoreService.clearPreferredStore()).toBeUndefined();
+      preferredStoreFacade.clearPreferredStore();
+      expect(preferredStoreFacade.clearPreferredStore()).toBeUndefined();
     });
   });
 });

@@ -20,10 +20,10 @@ export class SetPreferredStoreComponent implements OnInit {
   readonly ICON_TYPE = ICON_TYPE;
   @Input() pointOfServiceName: PointOfServiceNames;
 
-  public storeSelected$ = this.preferredStoreService.getPreferredStore$();
+  public storeSelected$ = this.preferredStoreFacade.getPreferredStore$();
 
   constructor(
-    protected preferredStoreService: PreferredStoreFacade,
+    protected preferredStoreFacade: PreferredStoreFacade,
     @Optional() protected outlet: OutletContextData<PointOfServiceNames>
   ) {}
 
@@ -34,7 +34,7 @@ export class SetPreferredStoreComponent implements OnInit {
   }
 
   setAsPreferred(): boolean {
-    this.preferredStoreService.setPreferredStore(this.pointOfServiceName);
+    this.preferredStoreFacade.setPreferredStore(this.pointOfServiceName);
     return false;
   }
 }
