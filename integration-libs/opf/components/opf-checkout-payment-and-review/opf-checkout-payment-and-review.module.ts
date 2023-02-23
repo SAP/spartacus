@@ -20,6 +20,13 @@ import {
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
+import {
+  CardModule,
+  IconModule,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
 
 @NgModule({
   declarations: [OPFCheckoutPaymentAndReviewComponent],
@@ -30,6 +37,11 @@ import { RouterModule } from '@angular/router';
     UrlModule,
     ReactiveFormsModule,
     RouterModule,
+    OpfCheckoutBillingAddressFormModule,
+    OutletModule,
+    PromotionsModule,
+    IconModule,
+    CardModule,
   ],
 
   providers: [

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   DebugElement,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -11,10 +12,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  FormErrorsModule,
+  IconTestingModule,
+  OutletDirective,
+  PromotionsModule,
+} from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { OPFCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
@@ -24,13 +32,18 @@ const mockCart = {
     code: 'PAYMENT_GATEWAY',
   },
 };
+const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 const cart$ = new BehaviorSubject<any>({});
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return cart$.asObservable();
   }
+  getEntries(): Observable<OrderEntry[]> {
+    return of(mockEntries);
+  }
 }
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -47,6 +60,46 @@ class MockOpfCheckoutPaymentsComponent {
   disabled = false;
 }
 
+@Component({
+  template: '',
+  selector: 'cx-opf-checkout-billing-address-form',
+})
+class MockOpfCheckoutBillingAddressFormComponent {}
+
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: string;
+}
+
+const mockCheckoutStep: CheckoutStep = {
+  id: 'step',
+  name: 'name',
+  routeName: '/route',
+  type: [CheckoutStepType.DELIVERY_ADDRESS],
+};
+class MockCheckoutStepService {
+  steps$ = of([
+    {
+      id: 'step1',
+      name: 'step1',
+      routeName: 'route1',
+      type: [CheckoutStepType.PAYMENT_TYPE],
+    },
+    {
+      id: 'step2',
+      name: 'step2',
+      routeName: 'route2',
+      type: [CheckoutStepType.REVIEW_ORDER],
+    },
+  ]);
+  getCheckoutStep(): CheckoutStep {
+    return mockCheckoutStep;
+  }
+}
+
 describe('OPFCheckoutPaymentReviewComponent', () => {
   let component: OPFCheckoutPaymentAndReviewComponent;
   let fixture: ComponentFixture<OPFCheckoutPaymentAndReviewComponent>;
@@ -61,14 +114,22 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
         I18nTestingModule,
         FormErrorsModule,
         RouterTestingModule,
+        PromotionsModule,
+        IconTestingModule,
       ],
       declarations: [
         OPFCheckoutPaymentAndReviewComponent,
         MockOpfCheckoutPaymentsComponent,
         MockUrlPipe,
+        MockOpfCheckoutBillingAddressFormComponent,
+        MockOutletDirective,
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
       ],
     }).compileComponents();
 

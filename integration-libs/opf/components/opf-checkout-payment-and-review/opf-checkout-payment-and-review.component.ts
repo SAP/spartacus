@@ -11,6 +11,16 @@ import {
   UntypedFormBuilder,
 } from '@angular/forms';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import {
+  CheckoutReviewSubmitComponent,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/base/root';
+import { TranslationService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -19,7 +29,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OPFCheckoutPaymentAndReviewComponent {
+export class OPFCheckoutPaymentAndReviewComponent extends CheckoutReviewSubmitComponent {
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
@@ -27,13 +37,28 @@ export class OPFCheckoutPaymentAndReviewComponent {
   get termsAndConditionInvalid(): boolean {
     return this.checkoutSubmitForm.invalid;
   }
+
   constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected fb: UntypedFormBuilder
-  ) {}
+    protected fb: UntypedFormBuilder,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected activeCartFacade: ActiveCartFacade,
+    protected translationService: TranslationService,
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+  ) {
+    super(
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
+      activeCartFacade,
+      translationService,
+      checkoutStepService,
+      checkoutDeliveryModesFacade
+    );
+  }
 
   get paymentType$(): Observable<PaymentType | undefined> {
-    return this.activeCartService
+    return this.activeCartFacade
       .getActive()
       .pipe(map((cart) => cart.paymentType));
   }
