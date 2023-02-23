@@ -1,4 +1,4 @@
-import { defineConfig } from 'cypress'
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   defaultCommandTimeout: 10000,
@@ -10,7 +10,7 @@ export default defineConfig({
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
-    API_URL: 'https://40.76.109.9:9002',
+    API_URL: 'https://20.127.192.33:9002',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
@@ -22,8 +22,8 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config)
+      return require('./cypress/plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:4200',
   },
-})
+});
