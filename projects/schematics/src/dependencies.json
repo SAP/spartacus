@@ -142,7 +142,6 @@
     "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@angular/forms": "^14.2.3",
-    "@angular/platform-browser-dynamic": "^14.2.3",
     "@angular/router": "^14.2.3",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/store": "^14.3.0",
@@ -155,8 +154,7 @@
     "@spartacus/styles": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0",
     "bootstrap": "^4.6.1",
-    "rxjs": "^6.6.0",
-    "zone.js": "~0.11.8"
+    "rxjs": "^6.6.0"
   },
   "@spartacus/product": {
     "@angular-devkit/schematics": "^14.2.3",

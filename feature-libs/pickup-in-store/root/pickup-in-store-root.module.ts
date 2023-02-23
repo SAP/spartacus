@@ -20,7 +20,7 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
   return {
     featureModules: {
       [PICKUP_IN_STORE_FEATURE]: {
-        cmsComponents: [],
+        cmsComponents: [], // TODO add CMS components here
       },
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },

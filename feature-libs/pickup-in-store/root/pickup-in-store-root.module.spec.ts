@@ -11,12 +11,12 @@ import {
 import {
   defaultPickupInStoreComponentsConfig,
   PickupInStoreRootModule,
-} from './pickup-in-store-base-root.module';
+} from './pickup-in-store-root.module';
 
 const MockCmsConfig: CmsConfig = {
   featureModules: {
     [PICKUP_IN_STORE_FEATURE]: {
-      cmsComponents: [],
+      cmsComponents: [], // TODO add CMS components here
     },
     [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
   },

@@ -85,8 +85,7 @@ export type PickRequiredDeep<T, P extends string> = PickRequiredDeepArray<
   PathToStringArray<P>
 >;
 
-// TODO move to model
-/** A cart with the required ids */
+/** A cart with the ids required for pickup in store */
 export type CartWithIdAndUserId = RequiredDeepPath<
   Cart,
   'guid' | 'user.uid' | 'code'

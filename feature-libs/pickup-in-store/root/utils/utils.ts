@@ -20,7 +20,7 @@ export const getProperty = (
   return null;
 };
 
-/** Custom type guard to ensure we have a cart with the required ids */
+/** Custom type guard to ensure we have a cart with the required ids for pickup in store */
 export function cartWithIdAndUserId(
   cart: Cart | undefined
 ): cart is CartWithIdAndUserId {
