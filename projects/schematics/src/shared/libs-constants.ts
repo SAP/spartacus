@@ -260,6 +260,6 @@ export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 /***** Feature name start *****/
 export const PICKUP_IN_STORE_FEATURE_NAME = 'Pickup-In-Store';
 export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
-export const PICKUP_IN_STORE_MODULE = 'PickupInStoreBaseModule';
+export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
 export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/
