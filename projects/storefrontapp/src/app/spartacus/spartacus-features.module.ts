@@ -99,7 +99,8 @@ if (environment.b2b) {
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
     OrganizationUserRegistrationFeatureModule,
-    UnitOrderFeatureModule
+    UnitOrderFeatureModule,
+    FutureStockFeatureModule
   );
 }
 
@@ -216,7 +217,7 @@ if (environment.s4om) {
 
     VariantsFeatureModule,
     ImageZoomFeatureModule,
-    FutureStockFeatureModule,
+
     CustomerTicketingFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
