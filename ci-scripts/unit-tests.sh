@@ -82,7 +82,7 @@ ng test pickup-in-store --source-map --watch=false --code-coverage --browsers=Ch
 
 echo "Running schematics unit tests and code coverage for pickup-in-store library"
 
-npm --cwd feature-libs/pickup-in-store run test:schematics --coverage=true
+npm --prefix feature-libs/pickup-in-store run test:schematics --coverage=true
 
 echo "Running unit tests and code coverage for customer-ticketing"
 
