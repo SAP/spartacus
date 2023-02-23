@@ -269,7 +269,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '5.0'
+      level: '5.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
