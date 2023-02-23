@@ -59,7 +59,7 @@
     "e2e:run:ci:ccv2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",
     "e2e:run:ci:ccv2-cpq": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-cpq",
-    "e2e:run:ci:mcs": "npm --prefix ./projects/storefrontapp-e2e-cypress run run cy:run:ci:mcs",
+    "e2e:run:ci:mcs": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:mcs",
     "generate:docs": "npx @compodoc/compodoc@1.1.13 -p tsconfig.compodoc.json",
     "generate:publish:docs": "npm run generate:docs && npm run publish:docs",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/**/*.html feature-libs/**/*.html integration-libs/**/*.html -a alt,title,placeholder,aria-label",
