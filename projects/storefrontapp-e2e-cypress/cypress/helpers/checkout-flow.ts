@@ -477,9 +477,24 @@ export function fillPaymentFormWithCheapProduct(
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
 
-  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPaymentTest');
 
-  cy.wait('@submitPayment').its('response.statusCode').should('eq', 200);
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.log('FLO TIMESTAMP1', new Date().toISOString());
+  cy.wait('@submitPaymentTest').then(($obj) => {
+    cy.log('FLO TIMESTAMP2', new Date().toISOString());
+    cy.log('FLO REQUEST', JSON.stringify($obj.request));
+    cy.log('FLO RESPONSE', JSON.stringify($obj.response));
+  });
+
+  cy.wait('@submitPayment', { timeout: 60000 })
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 

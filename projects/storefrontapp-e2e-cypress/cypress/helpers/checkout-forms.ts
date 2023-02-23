@@ -134,6 +134,9 @@ export function fillPaymentDetails(
   billingAddress?: AddressData,
   submitForm: boolean = true
 ) {
+  cy.log('FLO payment details', JSON.stringify(paymentDetails));
+  cy.log('FLO billingAddress', billingAddress ?? 'none');
+  cy.log('FLO submitForm', submitForm);
   cy.get('cx-payment-form').within(() => {
     if (paymentDetails) {
       paymentDetails?.payment?.card &&
