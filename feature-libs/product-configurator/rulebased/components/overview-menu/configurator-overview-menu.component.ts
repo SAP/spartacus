@@ -5,6 +5,7 @@
  */
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   HostBinding,
@@ -20,7 +21,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorOverviewMenuComponent {
+export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   @HostBinding('style.height') height = this.getHeight();
 
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -40,6 +41,11 @@ export class ConfiguratorOverviewMenuComponent {
   constructor(
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.menuItem = this.getMenuItemToHighlight();
+    this.highlight(this.menuItem);
+  }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(): void {

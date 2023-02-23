@@ -125,6 +125,31 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(component).toBeDefined();
   });
 
+  it('should call ngAfterViewInit', () => {
+    initialize();
+    spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
+
+    spyOn(configuratorStorefrontUtilsService, 'getElements').and.callThrough();
+
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'getVerticallyScrolledPixels'
+    ).and.returnValue(0);
+
+    component.ngAfterViewInit();
+    fixture.detectChanges();
+    expect(component).toBeDefined();
+    expect(
+      configuratorStorefrontUtilsService.getElements
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      configuratorStorefrontUtilsService.getVerticallyScrolledPixels
+    ).toHaveBeenCalledTimes(1);
+    expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
+      0
+    );
+  });
+
   it('should provide the overview groups', () => {
     initialize();
     expect(component.config.overview?.groups?.length).toBe(2);
