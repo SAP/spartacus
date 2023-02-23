@@ -86,6 +86,9 @@ export const customer360 = {
     activeCartCode: 'Active Cart {{code}}',
     recentOrderCode: 'Last Order {{code}}',
   },
+  pagination: 'Pagination',
+  page: 'Page {{number}}',
+  emptyCellValue: '---',
 };
 
 export const asm = {

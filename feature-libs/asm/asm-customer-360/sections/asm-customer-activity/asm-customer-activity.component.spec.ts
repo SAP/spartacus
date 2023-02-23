@@ -16,7 +16,13 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
-import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  FocusConfig,
+  ICON_TYPE,
+} from '@spartacus/storefront';
+import { ArgsPipe } from 'feature-libs/asm/core/utils/args/args.pipe';
 import { Observable, of } from 'rxjs';
 import { AsmCustomerTableComponent } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
@@ -159,6 +165,13 @@ describe('AsmCustomerActivityComponent', () => {
       return of('test');
     }
   }
+
+  class MockDirectionService {
+    getDirection() {
+      return DirectionMode.LTR;
+    }
+  }
+
   let component: AsmCustomerActivityComponent;
   let fixture: ComponentFixture<AsmCustomerActivityComponent>;
   let el: DebugElement;
@@ -172,6 +185,7 @@ describe('AsmCustomerActivityComponent', () => {
         MockTranslatePipe,
         MockCxIconComponent,
         AsmCustomerTableComponent,
+        ArgsPipe,
       ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
@@ -179,6 +193,10 @@ describe('AsmCustomerActivityComponent', () => {
         {
           provide: Customer360SectionContext,
           useExisting: Customer360SectionContextSource,
+        },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
         },
       ],
     }).compileComponents();
@@ -223,6 +241,7 @@ describe('AsmCustomerActivityComponent', () => {
 
     it('should display table', () => {
       const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
+      console.log(tableBody);
       const tableRows = tableBody?.queryAll(By.css('tr'));
       expect(tableRows.length).toBe(5);
     });
