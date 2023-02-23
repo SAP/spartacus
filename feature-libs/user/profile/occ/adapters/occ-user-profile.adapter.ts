@@ -26,6 +26,11 @@ import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
+const CONTENT_TYPE_URLENCODED_HEADER = {
+  'Content-Type': 'application/x-www-form-urlencoded',
+};
+
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
   constructor(
@@ -48,7 +53,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   register(user: UserSignUp): Observable<User> {
     const url: string = this.occEndpoints.buildUrl('userRegister');
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
@@ -62,7 +67,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   registerGuest(guid: string, password: string): Observable<User> {
     const url: string = this.occEndpoints.buildUrl('userRegister');
     let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      ...CONTENT_TYPE_URLENCODED_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
@@ -83,7 +88,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       userEmailAddress
     );
     let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      ...CONTENT_TYPE_URLENCODED_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     return this.http
@@ -94,7 +99,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   resetPassword(token: string, newPassword: string): Observable<unknown> {
     const url = this.occEndpoints.buildUrl('userResetPassword');
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
@@ -115,7 +120,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       .set('password', currentPassword)
       .set('newLogin', newUserId);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      ...CONTENT_TYPE_URLENCODED_HEADER,
     });
     return this.http
       .put(url, httpParams, { headers })
@@ -134,7 +139,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       .set('old', oldPassword)
       .set('new', newPassword);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      ...CONTENT_TYPE_URLENCODED_HEADER,
     });
     return this.http
       .put(url, httpParams, { headers })

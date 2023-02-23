@@ -92,6 +92,10 @@ export const common = {
     pageViewUpdated: 'Page view updated with your selected options.',
   },
   httpHandlers: {
+    badRequest: {
+      bad_credentials: '{{ errorMessage }}. Please login again.',
+      user_is_disabled: '{{ errorMessage }}. Please contact administration.',
+    },
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
@@ -199,6 +203,7 @@ export const common = {
       tooLarge: 'File size should not exceed {{ maxSize }} MB',
       tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
       notParsable: 'File is not parsable',
+      fileNotAllowed: 'This file type is not allowed',
     },
   },
   errorHandlers: {
@@ -214,5 +219,15 @@ export const common = {
   },
   generalErrors: {
     pageFailure: 'The page could not be loaded. Please try again later.',
+  },
+  chatMessaging: {
+    charactersLeft: 'characters left: {{count}}',
+    addNewMessage: 'Add New Message',
+    send: 'Send',
+    uploadFile: 'Upload File',
+    informationLabel: '{{author}}. {{text}} at {{date}}',
+    messages: 'Messages',
+    addMessagePlaceHolder: 'Start Typing...',
+    characterLimitAlert: 'Characters limit reached.',
   },
 };
