@@ -79,6 +79,14 @@ if (environment.b2b) {
       },
     }),
     ...extensionProviders,
+
+    // TODO OPF: remove this config before final review.
+    // Currently provided for development and testing purposes
+    provideConfig({
+      checkout: {
+        guest: true,
+      },
+    }),
   ],
 })
 export class CheckoutFeatureModule {}
