@@ -63,7 +63,8 @@
       "@spartacus/cdc",
       "@spartacus/cds",
       "@spartacus/digital-payments",
-      "@spartacus/epd-visualization"
+      "@spartacus/epd-visualization",
+      "@spartacus/customer-ticketing"
     ]
   },
   "schematics": "./src/collection.json"

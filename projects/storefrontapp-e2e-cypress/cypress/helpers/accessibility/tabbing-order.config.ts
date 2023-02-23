@@ -251,6 +251,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Basics',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },

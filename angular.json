@@ -82,6 +82,10 @@
                 "bundleName": "epd-visualization"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-customer-ticketing.scss",
+                "bundleName": "customer-ticketing"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-pickup-in-store.scss",
                 "bundleName": "pickup-in-store"
               },
@@ -1065,6 +1069,43 @@
             "main": "integration-libs/s4om/test.ts",
             "tsConfig": "integration-libs/s4om/tsconfig.spec.json",
             "karmaConfig": "integration-libs/s4om/karma.conf.js"
+          }
+        }
+      }
+    },
+    "customer-ticketing": {
+      "projectType": "library",
+      "root": "feature-libs/customer-ticketing",
+      "sourceRoot": "feature-libs/customer-ticketing",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.json",
+            "project": "feature-libs/customer-ticketing/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/customer-ticketing/test.ts",
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/customer-ticketing/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/customer-ticketing/**/*.ts",
+              "feature-libs/customer-ticketing/**/*.html"
+            ]
           }
         }
       }

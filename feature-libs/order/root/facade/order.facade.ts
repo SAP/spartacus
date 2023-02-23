@@ -21,6 +21,8 @@ import { Order } from '../model/order.model';
         'clearPlacedOrder',
         'setPlacedOrder',
         'placeOrder',
+        //Todo Use this once checkout refractor branch is merged -->
+        // 'getPickupEntries',
       ],
     }),
 })

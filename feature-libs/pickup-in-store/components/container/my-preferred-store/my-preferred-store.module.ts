@@ -19,7 +19,7 @@ import { MyPreferredStoreComponent } from './my-preferred-store.component';
     IconModule,
     ConfigModule.withConfig({
       cmsComponents: {
-        MyPreferredStore: {
+        MyPreferredStoreComponent: {
           component: MyPreferredStoreComponent,
         },
       },

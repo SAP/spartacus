@@ -26,9 +26,16 @@ const featureLibsFolders: string[] = [
   'storefinder',
   'tracking',
   'user',
+  'customer-ticketing',
 ];
 
-const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments', 'epd-visualization', 's4om'];
+const integrationLibsFolders: string[] = [
+  'cdc',
+  'cds',
+  'digital-payments',
+  'epd-visualization',
+  's4om',
+];
 
 const commands = [
   'publish',
@@ -52,6 +59,7 @@ const commands = [
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
+  'build customer-ticketing/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -215,6 +223,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build storefinder/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
+    case 'build customer-ticketing/schematics':
       const lib =
         buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
       buildSchematicsAndPublish(`yarn build:${lib}`);

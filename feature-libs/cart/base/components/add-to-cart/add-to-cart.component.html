@@ -18,9 +18,19 @@
       >
     </div>
   </div>
-  <ng-container *cxFeatureLevel="'5.1'">
-    <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
+  <ng-container *ngIf="hasStock">
+    <ng-container *cxFeatureLevel="'5.1'">
+      <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
+    </ng-container>
   </ng-container>
+
+  <!-- Todo Use this instead of above once checkout refractor branch is merged -->
+  <!-- <ng-container *ngIf="hasStock">
+    <ng-template
+      [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
+      [(cxComponentRef)]="pickupOptionCompRef"
+    ></ng-template>
+  </ng-container> -->
 
   <button
     *ngIf="hasStock"

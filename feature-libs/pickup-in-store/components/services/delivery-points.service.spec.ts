@@ -10,6 +10,14 @@ import { Observable, of } from 'rxjs';
 import { DeliveryPointsService } from './delivery-points.service';
 
 class MockActiveCartFacade {
+  getPickupEntries() {
+    const entries = [
+      { deliveryPointOfService: { name: 'A Store' } },
+      { deliveryPointOfService: { name: 'B Store' } },
+      {},
+    ];
+    return of(entries);
+  }
   getActive(): Observable<Cart> {
     const CART: Cart = {
       entries: [
@@ -37,6 +45,14 @@ export class DeliveryPointsServiceMock {
 }
 
 export class MockOrderFacade {
+  getPickupEntries() {
+    const entries = [
+      { deliveryPointOfService: { name: 'A Store' } },
+      { deliveryPointOfService: { name: 'B Store' } },
+      {},
+    ];
+    return of(entries);
+  }
   getOrderDetails(): Observable<Order> {
     const ORDER: Order = {
       entries: [
@@ -71,9 +87,14 @@ describe('DeliveryPointsService', () => {
     orderFacade = TestBed.inject(OrderFacade);
 
     spyOn(activeCartFacade, 'getActive').and.callThrough();
+    //Todo Use this once checkout refractor branch is merged -->
+    // spyOn(activeCartFacade, 'getPickupEntries').and.callThrough();
     spyOn(pickupLocationsSearchService, 'loadStoreDetails').and.callThrough();
     spyOn(pickupLocationsSearchService, 'getStoreDetails').and.callThrough();
     spyOn(orderFacade, 'getOrderDetails').and.callThrough();
+
+    //Todo Use this once checkout refractor branch is merged -->
+    // spyOn(orderFacade, 'getPickupEntries').and.callThrough();
   });
 
   it('should be created', () => {
@@ -84,6 +105,9 @@ describe('DeliveryPointsService', () => {
     deliveryPointsService.getDeliveryPointsOfServiceFromCart().subscribe();
 
     expect(activeCartFacade.getActive).toHaveBeenCalled();
+
+    //Todo Use this once checkout refractor branch is merged -->
+    // expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
       2
     );
@@ -109,6 +133,9 @@ describe('DeliveryPointsService', () => {
     deliveryPointsService.getDeliveryPointsOfServiceFromOrder().subscribe();
 
     expect(orderFacade.getOrderDetails).toHaveBeenCalled();
+
+    //Todo Use this once checkout refractor branch is merged -->
+    // expect(orderFacade.getPickupEntries).toHaveBeenCalled();
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
       2
     );

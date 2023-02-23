@@ -32,6 +32,7 @@ SPARTACUS_PROJECTS=(
         "dist/tracking:feature-libs/tracking"
         "dist/qualtrics:feature-libs/qualtrics"
         "dist/smartedit:feature-libs/smartedit"
+        "dist/customer-ticketing:feature-libs/customer-ticketing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/epd-visualization:integration-libs/epd-visualization"

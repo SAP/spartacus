@@ -93,6 +93,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }),
     postalCode: ['', Validators.required],
     phone: '',
+    cellphone: '',
     defaultAddress: [false],
   });
 

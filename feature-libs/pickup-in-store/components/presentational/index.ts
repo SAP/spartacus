@@ -5,5 +5,4 @@
  */
 
 export * from './pickup-info/index';
-export * from './pickup-items-details/index';
 export * from './store/index';

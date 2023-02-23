@@ -67,6 +67,25 @@ export class DeliveryPointsService {
     );
   }
 
+  //Todo Use this once checkout refractor branch is merged -->
+  // getDeliveryPointsOfServiceFromCart(): Observable<
+  //   Array<DeliveryPointOfService>
+  // > {
+  //   return this.activeCartFacade.getPickupEntries().pipe(
+  //     filter((entries) => !!entries && !!entries.length),
+  //     switchMap((entries) => this.getDeliveryPointsOfService(entries))
+  //   );
+  // }
+
+  // getDeliveryPointsOfServiceFromOrder(): Observable<
+  //   Array<DeliveryPointOfService>
+  // > {
+  //   return this.orderFacade.getPickupEntries().pipe(
+  //     filter((entries) => !!entries && !!entries.length),
+  //     switchMap((entries) => this.getDeliveryPointsOfService(entries))
+  //   );
+  // }
+
   getDeliveryPointsOfService(
     entries: Array<OrderEntry>
   ): Observable<Array<DeliveryPointOfService>> {

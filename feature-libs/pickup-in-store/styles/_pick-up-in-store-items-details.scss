@@ -20,14 +20,18 @@ cx-pick-up-in-store-items-details {
   }
 
   .cx-delivery-pointof-service-item {
-    border: 1px solid #d3d6db;
+    border-bottom: 1px solid #d3d6db;
     padding: 1rem 1rem 1rem 2rem;
+    min-height: 10rem;
   }
   .cx-delivery-pointof-service-item-header {
     font-size: var(--cx-font-size, 0.9rem);
-    font-weight: var(--cx-font-weight-bold);
-    margin: 0;
+    font-weight: var(--cx-font-weight-semi);
+    margin: 0.5rem 0;
     padding: 0.5rem;
+    border-top: 1px solid #d3d6db;
+    border-bottom: 1px solid #d3d6db;
+
     .cx-price-header {
       text-align: var(--cx-text-align, center);
       padding: 0;
@@ -43,12 +47,11 @@ cx-pick-up-in-store-items-details {
   }
 
   .cx-pickup-items-details-heading {
-    border: 1px solid #d3d6db;
-    border-top: none;
-    border-bottom: none;
-    margin: 0;
+    margin: 1rem 0;
     padding: 1rem 1rem 1rem 2rem;
     font-size: var(--cx-font-size, 1.125rem);
+    font-weight: 600;
+    background-color: var(--cx-color-background);
   }
 
   .cx-total {
@@ -67,6 +70,7 @@ cx-pick-up-in-store-items-details {
     padding: 0 1rem 1rem 2rem;
     min-height: 5vh;
     border: 1px solid #d3d6db;
+    border-radius: 0.75rem;
 
     > div {
       display: flex;
