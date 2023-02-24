@@ -60,7 +60,7 @@
     border-radius: 10px;
     padding: 16px;
     .cx-asm-product-item-media {
-      margin-right: 16px;
+      margin-inline-end: 16px;
       width: 100px;
     }
   }
@@ -111,7 +111,7 @@
     }
 
     &-total-no-items {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 }

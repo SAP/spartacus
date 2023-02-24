@@ -180,7 +180,7 @@ describe('AsmCustomer360Component', () => {
   it("should show a label with information on the emulated user's most recent order", () => {
     const label = el.query(By.css('.header-account-details-recent-order'));
     expect(label.nativeElement.textContent).toEqual(
-      ' asm.customer360.header.recentOrderLabel price:$10.00  00001088 , 11-21-2022 '
+      ' asm.customer360.header.recentOrderLabel price:$10.00  00001088, 11-21-2022 '
     );
   });
 

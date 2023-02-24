@@ -7,6 +7,9 @@
       "@spartacus/schematics": ["../../projects/schematics/index"],
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
+      "@spartacus/asm/asm-customer-360": [
+        "../../feature-libs/asm/asm-customer-360/public_api"
+      ],
       "@spartacus/asm/assets": ["../../feature-libs/asm/assets/public_api"],
       "@spartacus/asm/components": [
         "../../feature-libs/asm/components/public_api"

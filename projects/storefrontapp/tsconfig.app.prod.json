@@ -4,6 +4,7 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/asm/asm-customer-360": ["dist/asm/asm-customer-360"],
       "@spartacus/asm/assets": ["dist/asm/assets"],
       "@spartacus/asm/components": ["dist/asm/components"],
       "@spartacus/asm/core": ["dist/asm/core"],
@@ -134,6 +135,22 @@
       "@spartacus/organization/order-approval/root": [
         "dist/organization/order-approval/root"
       ],
+      "@spartacus/organization/unit-order/assets": [
+        "dist/organization/unit-order/assets"
+      ],
+      "@spartacus/organization/unit-order/components": [
+        "dist/organization/unit-order/components"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "dist/organization/unit-order/core"
+      ],
+      "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
+      "@spartacus/organization/unit-order/occ": [
+        "dist/organization/unit-order/occ"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "dist/organization/unit-order/root"
+      ],
       "@spartacus/organization/user-registration/assets": [
         "dist/organization/user-registration/assets"
       ],
@@ -151,22 +168,6 @@
       ],
       "@spartacus/organization/user-registration/root": [
         "dist/organization/user-registration/root"
-      ],
-      "@spartacus/organization/unit-order/assets": [
-        "dist/organization/unit-order/assets"
-      ],
-      "@spartacus/organization/unit-order/components": [
-        "dist/organization/unit-order/components"
-      ],
-      "@spartacus/organization/unit-order/core": [
-        "dist/organization/unit-order/core"
-      ],
-      "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
-      "@spartacus/organization/unit-order/occ": [
-        "dist/organization/unit-order/occ"
-      ],
-      "@spartacus/organization/unit-order/root": [
-        "dist/organization/unit-order/root"
       ],
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"

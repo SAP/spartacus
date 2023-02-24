@@ -10,7 +10,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { I18nTestingModule } from '@spartacus/core';
-import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  FocusConfig,
+  ICON_TYPE,
+} from '@spartacus/storefront';
+import { ArgsPipe } from '@spartacus/asm/core';
 import { GeneralEntry } from '../../sections/asm-customer-activity/asm-customer-activity.model';
 
 import { AsmCustomerTableComponent } from './asm-customer-table.component';
@@ -37,6 +43,13 @@ describe('AsmCustomerTableComponent', () => {
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
+
+  class MockDirectionService {
+    getDirection() {
+      return DirectionMode.LTR;
+    }
+  }
+
   const mockColumns: Array<CustomerTableColumn> = [
     {
       property: 'type',
@@ -164,6 +177,13 @@ describe('AsmCustomerTableComponent', () => {
         AsmCustomerTableComponent,
         MockTranslatePipe,
         MockCxIconComponent,
+        ArgsPipe,
+      ],
+      providers: [
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
       ],
     }).compileComponents();
   });
@@ -272,16 +292,113 @@ describe('AsmCustomerTableComponent', () => {
     });
 
     it('should sort when click a column header', () => {
-      const headers = el.queryAll(By.css('.cx-asm-customer-table-header'));
-      const tableRows = el.queryAll(By.css('tbody tr'));
-      const cells = tableRows[0].queryAll(By.css('td'));
+      const tableRows = component.table.nativeElement.rows;
+      const childElement = tableRows[0].cells[0].firstChild;
 
-      expect(cells[0].nativeElement.innerText).toBe('Cart');
+      expect(tableRows[1].cells[0].innerText).toBe('Cart');
 
-      headers[0].nativeElement.click();
-      const newTableRows = el.queryAll(By.css('tbody tr'));
-      const newCells = newTableRows[0].queryAll(By.css('td'));
-      expect(newCells[0].nativeElement.innerText).toBe('Ticket');
+      childElement.click();
+      expect(tableRows[1].cells[0].innerText).toBe('Ticket');
+    });
+  });
+
+  describe('table cell focus', () => {
+    beforeEach(() => {
+      testHost.columns = mockColumns;
+      testHost.pageSize = 5;
+      testHost.emptyStateText = mockEmptyText;
+      testHost.sortProperty = mockColumns[0].property;
+      testHost.headerText = mockHeaderText;
+      testHost.entries = mockEntries;
+
+      fixture.autoDetectChanges(true);
+    });
+    afterEach(() => {
+      fixture.autoDetectChanges(false);
+    });
+
+    it('should change focus by key input', () => {
+      let event = {
+        code: 'ArrowRight',
+        ctrlKey: false,
+        stopPropagation: () => {},
+        preventDefault: () => {},
+      };
+
+      const tableCell = component.table.nativeElement.rows[0].cells[0];
+      const childElement = tableCell.firstChild;
+      childElement.tabIndex = 0;
+      childElement.focus();
+
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(0);
+
+      event.code = 'ArrowRight';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 0);
+
+      expect(component.focusedTableColumnIndex).toBe(1);
+      expect(component.focusedTableRowIndex).toBe(0);
+
+      event.code = 'ArrowLeft';
+      component.onKeyDownCell(event as KeyboardEvent, 1, 0);
+
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(0);
+
+      event.code = 'ArrowUp';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 0);
+
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(0);
+
+      event.code = 'ArrowDown';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 0);
+
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(1);
+
+      event.code = 'Home';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 1);
+
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(1);
+
+      event.code = 'End';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 1);
+
+      expect(component.focusedTableColumnIndex).toBe(mockColumns.length - 1);
+      expect(component.focusedTableRowIndex).toBe(1);
+
+      event.code = 'Home';
+      event.ctrlKey = true;
+      component.onKeyDownCell(event as KeyboardEvent, 1, 1);
+
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(0);
+
+      event.code = 'End';
+      event.ctrlKey = true;
+      component.onKeyDownCell(event as KeyboardEvent, 1, 1);
+
+      expect(component.focusedTableColumnIndex).toBe(mockColumns.length - 1);
+      expect(component.focusedTableRowIndex).toBe(5);
+
+      expect(component.currentPageNumber).toBe(0);
+      event.code = 'PageDown';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 1);
+      fixture.detectChanges();
+
+      expect(component.currentPageNumber).toBe(1);
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(1);
+
+      event.code = 'PageUp';
+      component.onKeyDownCell(event as KeyboardEvent, 0, 1);
+      fixture.detectChanges();
+
+      expect(component.currentPageNumber).toBe(0);
+      expect(component.focusedTableColumnIndex).toBe(0);
+      expect(component.focusedTableRowIndex).toBe(1);
     });
   });
 });
