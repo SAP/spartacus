@@ -169,66 +169,93 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     columnIndex: number,
     rowIndex: number
   ): void {
-    const maxColumn = this.columns.length - 1;
-    const maxRow = this.table.nativeElement.rows.length - 1;
-    const maxPage = this.entryPages.length - 1;
     let knownKeyPressed = true;
-    let updatePageNumber = false;
-
     switch (event.code) {
       case 'ArrowLeft':
       case 'ArrowRight':
-        if (this.isBackNavigation(event)) {
-          columnIndex = Math.max(0, columnIndex - 1);
-        } else {
-          columnIndex = Math.min(maxColumn, columnIndex + 1);
-        }
+        this.moveFocusLeftRight(event, columnIndex, rowIndex);
         break;
       case 'ArrowDown':
-        rowIndex = Math.min(maxRow, rowIndex + 1);
+        this.moveFocusDown(columnIndex, rowIndex);
         break;
       case 'ArrowUp':
-        rowIndex = Math.max(0, rowIndex - 1);
+        this.moveFocusUp(columnIndex, rowIndex);
         break;
       case 'Home':
-        columnIndex = 0;
-        rowIndex = event.ctrlKey ? 0 : rowIndex;
+        this.moveFocusHome(event, columnIndex, rowIndex);
         break;
       case 'End':
-        columnIndex = maxColumn;
-        rowIndex = event.ctrlKey ? maxRow : rowIndex;
+        this.moveFocusEnd(event, columnIndex, rowIndex);
         break;
       case 'PageDown':
-        if (this.shouldHandlePageDown()) {
-          updatePageNumber = true;
-          const pageNumber = Math.min(maxPage, this.currentPageNumber + 1);
-          this.setPageNumber(pageNumber, true);
-        }
+        this.handlePageDown();
         break;
       case 'PageUp':
-        if (this.shouldHandlePageUp()) {
-          updatePageNumber = true;
-          const pageNumber = Math.max(0, this.currentPageNumber - 1);
-          this.setPageNumber(pageNumber, true);
-        }
+        this.handlePageUp();
         break;
       default:
         knownKeyPressed = false;
     }
     if (knownKeyPressed) {
-      if (!updatePageNumber) {
-        this.setSelectedTabIndex(columnIndex, rowIndex);
-      }
       event.stopPropagation();
       event.preventDefault();
     }
   }
-  private shouldHandlePageDown(): boolean {
-    const maxPage = this.entryPages.length - 1;
-    return this.entryPages.length > 1 && this.currentPageNumber < maxPage;
+  private handlePageUp(): void {
+    if (this.entryPages.length > 1 && this.currentPageNumber > 0) {
+      const pageNumber = Math.max(0, this.currentPageNumber - 1);
+      this.setPageNumber(pageNumber, true);
+    }
   }
-  private shouldHandlePageUp(): boolean {
-    return this.entryPages.length > 1 && this.currentPageNumber > 0;
+  private handlePageDown(): void {
+    const maxPage = this.entryPages.length - 1;
+    if (this.entryPages.length > 1 && this.currentPageNumber < maxPage) {
+      const pageNumber = Math.min(maxPage, this.currentPageNumber + 1);
+      this.setPageNumber(pageNumber, true);
+    }
+  }
+  private moveFocusEnd(
+    event: KeyboardEvent,
+    columnIndex: number,
+    rowIndex: number
+  ): void {
+    const maxColumn = this.columns.length - 1;
+    const maxRow = this.table.nativeElement.rows.length - 1;
+    columnIndex = maxColumn;
+    rowIndex = event.ctrlKey ? maxRow : rowIndex;
+    this.setSelectedTabIndex(columnIndex, rowIndex);
+  }
+  private moveFocusHome(
+    event: KeyboardEvent,
+    columnIndex: number,
+    rowIndex: number
+  ): void {
+    columnIndex = 0;
+    rowIndex = event.ctrlKey ? 0 : rowIndex;
+    this.setSelectedTabIndex(columnIndex, rowIndex);
+  }
+  private moveFocusUp(columnIndex: number, rowIndex: number): void {
+    rowIndex = Math.max(0, rowIndex - 1);
+    this.setSelectedTabIndex(columnIndex, rowIndex);
+  }
+  private moveFocusDown(columnIndex: number, rowIndex: number): void {
+    const maxRow = this.table.nativeElement.rows.length - 1;
+    rowIndex = Math.min(maxRow, rowIndex + 1);
+    this.setSelectedTabIndex(columnIndex, rowIndex);
+  }
+
+  private moveFocusLeftRight(
+    event: KeyboardEvent,
+    columnIndex: number,
+    rowIndex: number
+  ): void {
+    const maxColumn = this.columns.length - 1;
+    if (this.isBackNavigation(event)) {
+      columnIndex = Math.max(0, columnIndex - 1);
+    } else {
+      columnIndex = Math.min(maxColumn, columnIndex + 1);
+    }
+    this.setSelectedTabIndex(columnIndex, rowIndex);
   }
   /**
    * Update selected cell's tabIndex (change tabIndex to 0).
@@ -274,6 +301,19 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       }
     }
   }
+  /**
+   * Verifies whether the user navigates into a subgroup of the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
+   * @protected
+   */
+  // protected isForwardsNavigation(event: KeyboardEvent): boolean {
+  //   return (
+  //     (event.code === 'ArrowRight' && this.isLTRDirection()) ||
+  //     (event.code === 'ArrowLeft' && this.isRTLDirection())
+  //   );
+  // }
   /**
    * Verifies whether the user navigates from a subgroup back to the main group menu.
    *
