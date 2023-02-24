@@ -241,7 +241,6 @@ describe('AsmCustomerActivityComponent', () => {
 
     it('should display table', () => {
       const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
-      console.log(tableBody);
       const tableRows = tableBody?.queryAll(By.css('tr'));
       expect(tableRows.length).toBe(5);
     });
