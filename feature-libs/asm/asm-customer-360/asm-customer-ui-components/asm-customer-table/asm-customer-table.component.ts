@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -32,7 +31,6 @@ import {
 } from '@spartacus/asm/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
 
 @Component({
@@ -290,19 +288,6 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       }
     }
   }
-  /**
-   * Verifies whether the user navigates into a subgroup of the main group menu.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
-   * @protected
-   */
-  // protected isForwardsNavigation(event: KeyboardEvent): boolean {
-  //   return (
-  //     (event.code === 'ArrowRight' && this.isLTRDirection()) ||
-  //     (event.code === 'ArrowLeft' && this.isRTLDirection())
-  //   );
-  // }
   /**
    * Verifies whether the user navigates from a subgroup back to the main group menu.
    *
