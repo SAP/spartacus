@@ -67,7 +67,7 @@ function createFocusedElements(
 })
 class MockComponent {}
 
-fdescribe('ConfigUtilsService', () => {
+describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
   let fixture: ComponentFixture<MockComponent>;
   let htmlElem: HTMLElement;
