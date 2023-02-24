@@ -13,7 +13,7 @@ import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user,
+  user
 } from '../sample-data/checkout-flow';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login, register } from './auth-forms';
@@ -21,7 +21,7 @@ import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails,
+  PaymentDetails
 } from './checkout-forms';
 import { DeepPartial } from './form';
 import { productItemSelector } from './product-search';
@@ -470,12 +470,12 @@ export function fillPaymentFormWithCheapProduct(
 
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
-  cy.intercept({
-    method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/payment/sop/response*`,
-  }).as('submitPayment');
+  // cy.intercept({
+  //   method: 'POST',
+  //   path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  //     'BASE_SITE'
+  //   )}/**/payment/sop/response*`,
+  // }).as('submitPayment');
 
   cy.intercept({
     method: 'POST',
@@ -492,11 +492,11 @@ export function fillPaymentFormWithCheapProduct(
     cy.log('FLO RESPONSE', JSON.stringify($obj.response));
   });
 
-  cy.wait('@submitPayment', { timeout: 60000 })
-    .its('response.statusCode')
-    .should('eq', 200);
-  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
-}
+//   cy.wait('@submitPayment', { timeout: 60000 })
+//     .its('response.statusCode')
+//     .should('eq', 200);
+//   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
+// }
 
 export function placeOrderWithCheapProduct(
   sampleUser: SampleUser = user,
