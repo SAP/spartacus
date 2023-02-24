@@ -11,8 +11,8 @@ export const POWERTOOLS_BASESITE = 'powertools-spa';
 export const USER_REQUEST_ENDPOINT = 'orgUsers';
 export const ORDER_REQUEST_ENDPOINT = 'replenishmentOrders';
 export const poNumber = '123';
-export const costCenter = 'Retail';
-export const b2bUnit = 'Rustic Retail';
+export const costCenter = 'PunchOut Organization';
+export const b2bUnit = 'PunchOut Organization';
 export const replenishmentDay = '8';
 export const replenishmentDate = '2100-01-01';
 export const convertedReplenishmentDate = 'Jan 01 2100';
@@ -85,10 +85,10 @@ export const cartWithB2bProduct: SampleCartProduct = {
 export const b2bAccountShipToUser: SampleUser = {
   email: 'powertools-test-user-with-orders@sap.cx.com',
   password: 'pw4all',
-  fullName: 'Anil Gupta',
+  fullName: 'PunchOut Customer',
   address: {
-    city: 'San Francisco',
-    line1: '3000 Lombard Street',
+    city: 'Chicago',
+    line1: '999 South Wacker Drive',
   },
 };
 
