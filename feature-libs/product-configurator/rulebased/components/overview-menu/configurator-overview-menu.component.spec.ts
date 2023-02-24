@@ -125,7 +125,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should call ngAfterViewInit', () => {
+  it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
     spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
 

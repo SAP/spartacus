@@ -227,15 +227,13 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('createOvGroupId', () => {
-    it('should create a group id from its 2 parameters', () => {
+    it('should create a group id for a child group with prefix', () => {
       expect(classUnderTest.createOvGroupId('A', 'B')).toBe('A--B-ovGroup');
     });
   });
 
   describe('createOvMenuItemId', () => {
-    it('should create a menu item id from its 1 parameter', () => {});
-
-    it('should create a group id for a child group with prefix', () => {
+    it('should create a menu item id for a child group with prefix', () => {
       expect(classUnderTest.createOvMenuItemId('A', 'B')).toBe(
         'A--B-ovMenuItem'
       );

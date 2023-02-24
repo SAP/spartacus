@@ -18,6 +18,8 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
+
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected windowRef: WindowRef,
@@ -397,7 +399,7 @@ export class ConfiguratorStorefrontUtilsService {
       const addToCartHeight =
         this.getHeight('cx-configurator-add-to-cart-button') !== 0
           ? this.getHeight('cx-configurator-add-to-cart-button')
-          : 82;
+          : this.ADD_TO_CART_BUTTON_HEIGHT;
 
       const occupiedHeight =
         spaHeaderHeight + ovHeaderHeight + addToCartHeight * 2;
