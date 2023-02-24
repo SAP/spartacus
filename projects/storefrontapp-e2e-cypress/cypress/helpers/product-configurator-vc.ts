@@ -40,15 +40,10 @@ export function goToConfigurationPage(
   productId: string,
   isPricingEnabled?: boolean
 ) {
-  //TODO: remove registerConfigurationRoute
-  //registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  //cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
-  if (isPricingEnabled) {
-    waitForPricing();
-  }
+  waitForRequest('', isPricingEnabled);
 }
 
 /**
@@ -607,18 +602,28 @@ export function selectAttributeAndWait(
   isPricingEnabled?: boolean
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
-  cy.wait(UPDATE_CONFIG_ALIAS);
-  if (isPricingEnabled) {
-    waitForPricing();
-  }
+  waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
 }
 
-function waitForPricing() {
-  // Give the pricing request some time to fire, otherwise cy matches the wait against the last pricing request
+/**
+ * wait for the given request alias and the following pricing requests if pricing is enabled
+ * @param {string} requestAlias - request alias to wait for
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
+ */
+export function waitForRequest(
+  requestAlias: string,
+  isPricingEnabled?: boolean
+) {
+  if (requestAlias) {
+    cy.wait(requestAlias);
+  }
+  // Give the pricing request some time to fire, otherwise cy matches the wait against the last pricing request,
   // in case this last request had not already been waited for. In other words, we could remove the cy.wait(100),
-  // if we ensure that we wait for every pricing request happening before. However not all TC do this, yet.
-  cy.wait(100);
-  cy.wait(CONFIG_PRICING_ALIAS);
+  // if we ensure that we wait for every pricing request happened before. However not all TC do this, yet.
+  if (isPricingEnabled) {
+    cy.wait(100);
+    cy.wait(CONFIG_PRICING_ALIAS);
+  }
 }
 
 /**
@@ -632,10 +637,7 @@ export function clickOnNextBtnAndWait(
   isPricingEnabled?: boolean
 ): void {
   configuration.clickOnNextBtn(nextGroup);
-  cy.wait(GET_CONFIG_ALIAS);
-  if (isPricingEnabled) {
-    waitForPricing();
-  }
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
 }
 
 /**
@@ -649,10 +651,7 @@ export function clickOnPreviousBtnAndWait(
   isPricingEnabled?: boolean
 ): void {
   configuration.clickOnPreviousBtn(previousGroup);
-  cy.wait(GET_CONFIG_ALIAS);
-  if (isPricingEnabled) {
-    waitForPricing();
-  }
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
 }
 
 export class CommerceRelease {
