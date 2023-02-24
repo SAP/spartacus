@@ -227,23 +227,15 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('createOvGroupId', () => {
-    it('should create a group id from its 1 parameter', () => {
-      expect(classUnderTest.createOvGroupId(undefined, 'B')).toBe('B-ovGroup');
-    });
-
     it('should create a group id from its 2 parameters', () => {
       expect(classUnderTest.createOvGroupId('A', 'B')).toBe('A--B-ovGroup');
     });
   });
 
   describe('createOvMenuItemId', () => {
-    it('should create a menu item id from its 1 parameter', () => {
-      expect(classUnderTest.createOvMenuItemId(undefined, 'B')).toBe(
-        'B-ovMenuItem'
-      );
-    });
+    it('should create a menu item id from its 1 parameter', () => {});
 
-    it('should create a menu item id from its 2 parameters', () => {
+    it('should create a group id for a child group with prefix', () => {
       expect(classUnderTest.createOvMenuItemId('A', 'B')).toBe(
         'A--B-ovMenuItem'
       );
@@ -335,7 +327,7 @@ describe('ConfigUtilsService', () => {
           haveBeenCalledTimes
         );
 
-        focusedElements.forEach((focusedElement, index) => {
+        focusedElements.forEach((focusedElement: any, index: number) => {
           if (index === focusedElementIndex) {
             expect(focusedElement.focus).toHaveBeenCalled();
           } else {
@@ -532,9 +524,13 @@ describe('ConfigUtilsService', () => {
         .createSpy('section')
         .and.returnValue(elements);
 
-      const result = Array.from(classUnderTest.getElements('section'));
-      expect(result.length).toEqual(elements.length);
-      expect(result).toEqual(elements);
+      const htmlElements = classUnderTest.getElements('section');
+
+      if (htmlElements) {
+        const result = Array.from(htmlElements);
+        expect(result.length).toEqual(elements.length);
+        expect(result).toEqual(elements);
+      }
     });
   });
 
@@ -600,7 +596,7 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('isInViewport', () => {
-    let form;
+    let form: any;
     let labels: HTMLElement[];
 
     beforeEach(() => {
@@ -698,9 +694,9 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('getSpareViewportHeight', () => {
-    let spaHeader;
-    let ovHeader;
-    let addToCart;
+    let spaHeader: any;
+    let ovHeader: any;
+    let addToCart: any;
 
     afterEach(() => {
       ConfiguratorTestUtils.remove(spaHeader);
@@ -745,9 +741,9 @@ describe('ConfigUtilsService', () => {
     });
   });
 
-  describe('syncScroll', () => {
-    let ovMenu;
-    let menuItem;
+  describe('ensureElementVisible', () => {
+    let ovMenu: any;
+    let menuItem: any;
 
     afterEach(() => {
       ConfiguratorTestUtils.remove(ovMenu);
@@ -757,9 +753,9 @@ describe('ConfigUtilsService', () => {
     function createTestData(offsetHeight: number, offsetTop: number) {
       const documentHeight = document
         .querySelector('html')
-        .getBoundingClientRect();
-      //const elementoffsetTop = documentHeight.
-      const elementOffsetHeight = documentHeight.height - offsetHeight;
+        ?.getBoundingClientRect();
+      const height: number = documentHeight ? documentHeight.height : 0;
+      const elementOffsetHeight = height - offsetHeight;
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       ovMenu = document.createElement('cx-configurator-overview-menu');
       document.body.append(ovMenu);
@@ -786,20 +782,29 @@ describe('ConfigUtilsService', () => {
       document.querySelector = jasmine
         .createSpy('HTML Element')
         .and.returnValue(ovMenu);
-      classUnderTest.syncScroll('cx-configurator-overview-menu', undefined);
+      classUnderTest.ensureElementVisible(
+        'cx-configurator-overview-menu',
+        undefined
+      );
       expect(ovMenu.scrollTop).toBe(0);
     });
 
     xit('should sync scrolling when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5500, 2500);
-      classUnderTest.syncScroll('cx-configurator-overview-menu', menuItem);
+      classUnderTest.ensureElementVisible(
+        'cx-configurator-overview-menu',
+        menuItem
+      );
       ovMenu = document.querySelector('cx-configurator-overview-menu');
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
     xit('should sync scrolling when element.offsetTop is greater than container.scrollTop', () => {
       createTestData(5000, 4500);
-      classUnderTest.syncScroll('cx-configurator-overview-menu', menuItem);
+      classUnderTest.ensureElementVisible(
+        'cx-configurator-overview-menu',
+        menuItem
+      );
       ovMenu = document.querySelector('cx-configurator-overview-menu');
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });

@@ -410,12 +410,15 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Syncs scrolling.
+   * Ensure that the element is always visible.
    *
    * @param {string} querySelector - Element query selector
    * @param {HTMLElement | undefined} element - Element that should be visible within the scrollable element.
    */
-  syncScroll(querySelector: string, element: HTMLElement | undefined): void {
+  ensureElementVisible(
+    querySelector: string,
+    element: HTMLElement | undefined
+  ): void {
     const container = this.getElement(querySelector);
     if (element && container) {
       if (element.offsetTop > container.scrollTop) {

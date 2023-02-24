@@ -52,13 +52,13 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     this.menuItem = this.getMenuItemToHighlight();
     this.highlight(this.menuItem);
     this.height = this.getHeight();
-    this.syncScroll(this.menuItem);
+    this.ensureElementVisible(this.menuItem);
   }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.height = this.getHeight();
-    this.syncScroll(this.menuItem);
+    this.ensureElementVisible(this.menuItem);
   }
 
   protected getHeight(): string {
@@ -105,14 +105,14 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     }
   }
 
-  protected syncScroll(element: HTMLElement | undefined): void {
+  protected ensureElementVisible(element: HTMLElement | undefined): void {
     if (
       element &&
       this.configuratorStorefrontUtilsService.hasScrollbar(
         this.CX_CONFIGURATOR_OVERVIEW_MENU
       )
     ) {
-      this.configuratorStorefrontUtilsService.syncScroll(
+      this.configuratorStorefrontUtilsService.ensureElementVisible(
         this.CX_CONFIGURATOR_OVERVIEW_MENU,
         element
       );

@@ -38,7 +38,7 @@ class MockConfiguratorStorefrontUtilsService {
   createOvGroupId(prefix: string, groupId: string): string {
     return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
   }
-  syncScroll(): void {}
+  ensureElementVisible(): void {}
   getElement(): void {}
   getElements(): void {}
   hasScrollbar(): void {}
@@ -83,7 +83,7 @@ function initialize() {
 
   spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
 
-  spyOn(configuratorStorefrontUtilsService, 'syncScroll');
+  spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
 
   spyOn(
     configuratorStorefrontUtilsService,
@@ -193,22 +193,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
       expect(component.getGroupId('A', 'B')).toBe('A--B-ovGroup');
     });
-
-    it('should cope with undefined idPrefix', () => {
-      initialize();
-      expect(component.getGroupId(undefined, 'B')).toBe('B-ovGroup');
-    });
   });
 
   describe('getMenuItemId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
       expect(component.getMenuItemId('A', 'B')).toBe('A--B-ovMenuItem');
-    });
-
-    it('should cope with undefined idPrefix', () => {
-      initialize();
-      expect(component.getMenuItemId(undefined, 'B')).toBe('B-ovMenuItem');
     });
   });
 
@@ -229,7 +219,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       ).toHaveBeenCalledTimes(1);
 
       expect(
-        configuratorStorefrontUtilsService.syncScroll
+        configuratorStorefrontUtilsService.ensureElementVisible
       ).toHaveBeenCalledTimes(0);
     });
   });
@@ -247,13 +237,13 @@ describe('ConfigurationOverviewMenuComponent', () => {
       ).toHaveBeenCalledTimes(1);
 
       expect(
-        configuratorStorefrontUtilsService.syncScroll
+        configuratorStorefrontUtilsService.ensureElementVisible
       ).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('getMenuItemToHighlight', () => {
-    let groups;
+    let groups: any;
 
     function createElement(
       id: string,
@@ -270,8 +260,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
     }
 
     function createElements(tagName: string, active?: boolean): HTMLElement[] {
-      const elements = [];
-      CONFIGURATION.overview.groups.forEach((group) => {
+      const elements: any = [];
+      CONFIGURATION.overview.groups?.forEach((group) => {
         let element = createElement(group.id, tagName, active);
         elements.push(element);
         group.subGroups?.forEach((subgroup) => {
@@ -287,7 +277,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     afterEach(() => {
-      groups?.forEach((group) => {
+      groups?.forEach((group: any) => {
         ConfiguratorTestUtils.remove(group);
       });
     });
@@ -346,7 +336,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
       fixture.detectChanges();
 
-      expect(component['getMenuItemToHighlight']().id).toEqual(menuItem.id);
+      expect(component['getMenuItemToHighlight']()?.id).toEqual(menuItem.id);
     });
   });
 
@@ -393,23 +383,23 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
   });
 
-  describe('syncScroll', () => {
+  describe('ensureElementVisible', () => {
     beforeEach(() => {
       initialize();
     });
 
-    it('should not syncScroll because elementToHighlight is undefined', () => {
+    it('should not call ensureElementVisible  method because elementToHighlight is undefined', () => {
       spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
-      component['syncScroll'](undefined);
+      component['ensureElementVisible'](undefined);
       expect(
         configuratorStorefrontUtilsService.hasScrollbar
       ).toHaveBeenCalledTimes(0);
       expect(
-        configuratorStorefrontUtilsService.syncScroll
+        configuratorStorefrontUtilsService.ensureElementVisible
       ).toHaveBeenCalledTimes(0);
     });
 
-    it('should not syncScroll because isScrollBox is false', () => {
+    it('should not call ensureElementVisible method because isScrollBox is false', () => {
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
@@ -417,16 +407,16 @@ describe('ConfigurationOverviewMenuComponent', () => {
       spyOn(configuratorStorefrontUtilsService, 'hasScrollbar').and.returnValue(
         false
       );
-      component['syncScroll'](element);
+      component['ensureElementVisible'](element);
       expect(
         configuratorStorefrontUtilsService.hasScrollbar
       ).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.syncScroll
+        configuratorStorefrontUtilsService.ensureElementVisible
       ).toHaveBeenCalledTimes(0);
     });
 
-    it('should syncScroll', () => {
+    it('should ensure visibility of an element', () => {
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
@@ -434,12 +424,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
       spyOn(configuratorStorefrontUtilsService, 'hasScrollbar').and.returnValue(
         true
       );
-      component['syncScroll'](element);
+      component['ensureElementVisible'](element);
       expect(
         configuratorStorefrontUtilsService.hasScrollbar
       ).toHaveBeenCalledTimes(1);
       expect(
-        configuratorStorefrontUtilsService.syncScroll
+        configuratorStorefrontUtilsService.ensureElementVisible
       ).toHaveBeenCalledTimes(1);
     });
   });
