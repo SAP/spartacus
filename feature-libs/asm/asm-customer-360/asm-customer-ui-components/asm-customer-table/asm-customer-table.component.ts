@@ -182,10 +182,10 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
         this.moveFocusUp(columnIndex, rowIndex);
         break;
       case 'Home':
-        this.moveFocusHome(event, columnIndex, rowIndex);
+        this.moveFocusHome(event, rowIndex);
         break;
       case 'End':
-        this.moveFocusEnd(event, columnIndex, rowIndex);
+        this.moveFocusEnd(event, rowIndex);
         break;
       case 'PageDown':
         this.handlePageDown();
@@ -214,25 +214,14 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       this.setPageNumber(pageNumber, true);
     }
   }
-  private moveFocusEnd(
-    event: KeyboardEvent,
-    columnIndex: number,
-    rowIndex: number
-  ): void {
-    const maxColumn = this.columns.length - 1;
+  private moveFocusEnd(event: KeyboardEvent, rowIndex: number): void {
     const maxRow = this.table.nativeElement.rows.length - 1;
-    columnIndex = maxColumn;
     rowIndex = event.ctrlKey ? maxRow : rowIndex;
-    this.setSelectedTabIndex(columnIndex, rowIndex);
+    this.setSelectedTabIndex(this.columns.length - 1, rowIndex);
   }
-  private moveFocusHome(
-    event: KeyboardEvent,
-    columnIndex: number,
-    rowIndex: number
-  ): void {
-    columnIndex = 0;
+  private moveFocusHome(event: KeyboardEvent, rowIndex: number): void {
     rowIndex = event.ctrlKey ? 0 : rowIndex;
-    this.setSelectedTabIndex(columnIndex, rowIndex);
+    this.setSelectedTabIndex(0, rowIndex);
   }
   private moveFocusUp(columnIndex: number, rowIndex: number): void {
     rowIndex = Math.max(0, rowIndex - 1);
