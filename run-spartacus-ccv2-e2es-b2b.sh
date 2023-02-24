@@ -6,8 +6,8 @@
 CYPRESS_ROOT_FOLDER="cypress/integration"
 CYPRESS_B2C_FOLDER="$CYPRESS_ROOT_FOLDER/regression"
 
-export E2ES_TO_RUN="$CYPRESS_B2C_FOLDER/homepage.e2e-spec.ts,
-$CYPRESS_ROOT_FOLDER/b2b/smoke/checkout/b2b-account-checkout-flow.e2e-spec.ts
+export E2ES_TO_RUN="$CYPRESS_ROOT_FOLDER/cx_ccv2/regression/b2b/homepage.e2e-spec.ts,
+$CYPRESS_ROOT_FOLDER/cx_ccv2/regression/b2b/b2b-account-checkout-flow.e2e-spec.ts
 "
 # install cypress standlone dependencies
 (cd projects/storefrontapp-e2e-cypress && yarn install)
