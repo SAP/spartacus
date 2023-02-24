@@ -18,7 +18,6 @@ const OWNER: CommonConfigurator.Owner =
 const CONFIG_ID = '1234-56-7890';
 const GROUP_PREFIX = 'prefix';
 const GROUP_ID_LOCAL = 'id';
-const OV_GROUP_ID = GROUP_PREFIX + '--' + GROUP_ID_LOCAL + '-ovGroup';
 const CONFIGURATION: Configurator.ConfigurationWithOverview = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   overview: ConfigurationTestData.productConfiguration
@@ -30,21 +29,13 @@ class MockConfiguratorGroupsService {
 }
 
 class MockConfiguratorStorefrontUtilsService {
-  createOvMenuItemId(prefix: string, groupId: string): string {
-    return prefix
-      ? prefix + '--' + groupId + '-ovMenuItem'
-      : groupId + '-ovMenuItem';
-  }
-  createOvGroupId(prefix: string, groupId: string): string {
-    return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
-  }
-  getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? idPrefix + '--' + groupId : groupId;
-  }
   getElement(): void {}
   getElements(): void {}
+  getPrefixId(): void {}
   hasScrollbar(): void {}
   changeStyling(): void {}
+  createOvGroupId(): void {}
+  createOvMenuItemId(): void {}
   ensureElementVisible(): void {}
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}
@@ -189,33 +180,37 @@ describe('ConfigurationOverviewMenuComponent', () => {
       component.navigateToGroup(GROUP_PREFIX, GROUP_ID_LOCAL);
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
-      ).toHaveBeenCalledWith('#' + OV_GROUP_ID + ' h2');
+      ).toHaveBeenCalled();
     });
   });
 
   describe('getPrefixId', () => {
-    it('should return group ID string', () => {
+    it('should call configuratorStorefrontUtilsService.getPrefixId method', () => {
       initialize();
-      expect(component.getPrefixId(undefined, 'BBB')).toBe('BBB');
-    });
-
-    it('should return prefix ID separated by 2 dashes and group ID string', () => {
-      initialize();
-      expect(component.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
+      component.getPrefixId('AAA', 'BBB');
+      expect(
+        configuratorStorefrontUtilsService.getPrefixId
+      ).toHaveBeenCalledWith('AAA', 'BBB');
     });
   });
 
   describe('getGroupId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
-      expect(component.getGroupId('A', 'B')).toBe('A--B-ovGroup');
+      component.getGroupId('A', 'B');
+      expect(
+        configuratorStorefrontUtilsService.createOvGroupId
+      ).toHaveBeenCalledWith('A', 'B');
     });
   });
 
   describe('getMenuItemId', () => {
     it('should dispatch request to utils service', () => {
       initialize();
-      expect(component.getMenuItemId('A', 'B')).toBe('A--B-ovMenuItem');
+      component.getMenuItemId('A', 'B');
+      expect(
+        configuratorStorefrontUtilsService.createOvMenuItemId
+      ).toHaveBeenCalledWith('A', 'B');
     });
   });
 

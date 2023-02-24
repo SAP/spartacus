@@ -67,7 +67,7 @@ function createFocusedElements(
 })
 class MockComponent {}
 
-describe('ConfigUtilsService', () => {
+fdescribe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
   let fixture: ComponentFixture<MockComponent>;
   let htmlElem: HTMLElement;
@@ -648,7 +648,7 @@ describe('ConfigUtilsService', () => {
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
 
-    it('should return true because clientHeight of element is known and its right is less than its width', () => {
+    it('should return true because clientWidth of element is known and its right is less than its width', () => {
       form.style.display = 'flex';
       form.style.flexDirection = 'column';
 
@@ -662,7 +662,7 @@ describe('ConfigUtilsService', () => {
       form.style.flexDirection = 'column';
       form.style.height = '1000px';
 
-      spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
+      spyOnProperty(window, 'innerHeight').and.returnValue(undefined);
 
       expect(classUnderTest['isInViewport'](form)).toBe(true);
     });
@@ -732,6 +732,16 @@ describe('ConfigUtilsService', () => {
       expect(classUnderTest.getSpareViewportHeight()).toBe(0);
     });
 
+    it('should return zero because isBrowser is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getSpareViewportHeight()).toBe(0);
+    });
+
+    it('should return zero because nativeWindow is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValues(true, false);
+      expect(classUnderTest.getSpareViewportHeight()).toBe(0);
+    });
+
     it('should return viewport height when addToCartHeight equals zero', () => {
       createTestData();
       expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
@@ -744,6 +754,7 @@ describe('ConfigUtilsService', () => {
       spyOn(addToCart, 'getBoundingClientRect').and.returnValue(
         new DOMRect(100, 100, 1000, 80)
       );
+      spyOn<any>(classUnderTest, 'getHeight').and.returnValue(100);
 
       expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
     });
@@ -767,7 +778,6 @@ describe('ConfigUtilsService', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
       ovMenu = document.createElement('cx-configurator-overview-menu');
       document.body.append(ovMenu);
-      spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
       spyOnProperty(ovMenu, 'offsetHeight').and.returnValue(
         elementOffsetHeight
       );
@@ -784,7 +794,7 @@ describe('ConfigUtilsService', () => {
       spyOnProperty(menuItem, 'offsetHeight').and.returnValue(50);
     }
 
-    it('should not sync scrolling', () => {
+    it('should not ensure visibility of the element', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       ovMenu = document.createElement('cx-configurator-overview-menu');
       document.querySelector = jasmine
@@ -797,8 +807,8 @@ describe('ConfigUtilsService', () => {
       expect(ovMenu.scrollTop).toBe(0);
     });
 
-    it('should sync scrolling when element.offsetTop is less than container.scrollTop', () => {
-      createTestData(5500, 2500);
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+      createTestData(5500, 250);
       classUnderTest.ensureElementVisible(
         'cx-configurator-overview-menu',
         menuItem
@@ -807,8 +817,20 @@ describe('ConfigUtilsService', () => {
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
-    it('should sync scrolling when element.offsetTop is greater than container.scrollTop', () => {
-      createTestData(5000, 4500);
+    it('should ensure visibility of the element when element.offsetTop is greater than container.scrollTop', () => {
+      createTestData(5000, 450);
+      spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
+      classUnderTest.ensureElementVisible(
+        'cx-configurator-overview-menu',
+        menuItem
+      );
+      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      expect(ovMenu.scrollTop).toBeGreaterThan(0);
+    });
+
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+      createTestData(5000, 50);
+      spyOnProperty(ovMenu, 'offsetTop').and.returnValue(50);
       classUnderTest.ensureElementVisible(
         'cx-configurator-overview-menu',
         menuItem

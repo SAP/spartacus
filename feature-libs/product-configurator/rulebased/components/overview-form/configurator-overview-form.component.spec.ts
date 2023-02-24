@@ -328,7 +328,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
   });
 
-  describe('check getPrefixId', () => {
+  describe('getPrefixId', () => {
     it('should return group ID string', () => {
       initialize();
       expect(component.getPrefixId(undefined, 'BBB')).toBe('BBB');

@@ -268,9 +268,7 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - generated group ID
    */
   createOvGroupId(prefix: string, groupId: string): string {
-    return prefix
-      ? prefix + this.SEPARATOR + groupId + '-ovGroup'
-      : groupId + '-ovGroup';
+    return this.getPrefixId(prefix, groupId) + '-ovGroup';
   }
 
   /**
@@ -282,9 +280,7 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - generated group ID
    */
   createOvMenuItemId(prefix: string, groupId: string): string {
-    return prefix
-      ? prefix + this.SEPARATOR + groupId + '-ovMenuItem'
-      : groupId + '-ovMenuItem';
+    return this.getPrefixId(prefix, groupId) + '-ovMenuItem';
   }
 
   /**
