@@ -18,6 +18,7 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  protected readonly SEPARATOR = '--';
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
 
   constructor(
@@ -170,7 +171,7 @@ export class ConfiguratorStorefrontUtilsService {
     attributeId: string,
     valueId: string
   ): string {
-    return attributeId + '--' + valueId;
+    return attributeId + this.SEPARATOR + valueId;
   }
 
   /**
@@ -236,6 +237,17 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Retrieves a unique prefix ID.
+   *
+   * @param {string | undefined} prefix - prefix that we need to make the ID unique
+   * @param {string} groupId - group ID
+   * @returns {string} - prefix ID
+   */
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return idPrefix ? idPrefix + this.SEPARATOR + groupId : groupId;
+  }
+
+  /**
    * Generates a group ID.
    *
    * @param {string} groupId - group ID
@@ -256,7 +268,9 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - generated group ID
    */
   createOvGroupId(prefix: string, groupId: string): string {
-    return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
+    return prefix
+      ? prefix + this.SEPARATOR + groupId + '-ovGroup'
+      : groupId + '-ovGroup';
   }
 
   /**
@@ -269,7 +283,7 @@ export class ConfiguratorStorefrontUtilsService {
    */
   createOvMenuItemId(prefix: string, groupId: string): string {
     return prefix
-      ? prefix + '--' + groupId + '-ovMenuItem'
+      ? prefix + this.SEPARATOR + groupId + '-ovMenuItem'
       : groupId + '-ovMenuItem';
   }
 

@@ -38,11 +38,14 @@ class MockConfiguratorStorefrontUtilsService {
   createOvGroupId(prefix: string, groupId: string): string {
     return prefix ? prefix + '--' + groupId + '-ovGroup' : groupId + '-ovGroup';
   }
-  ensureElementVisible(): void {}
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return idPrefix ? idPrefix + '--' + groupId : groupId;
+  }
   getElement(): void {}
   getElements(): void {}
   hasScrollbar(): void {}
   changeStyling(): void {}
+  ensureElementVisible(): void {}
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}
   scrollToConfigurationElement(): void {}
@@ -94,6 +97,8 @@ function initialize() {
     configuratorStorefrontUtilsService,
     'createOvMenuItemId'
   ).and.callThrough();
+
+  spyOn(configuratorStorefrontUtilsService, 'getPrefixId').and.callThrough();
 }
 
 describe('ConfigurationOverviewMenuComponent', () => {
@@ -185,6 +190,18 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledWith('#' + OV_GROUP_ID + ' h2');
+    });
+  });
+
+  describe('getPrefixId', () => {
+    it('should return group ID string', () => {
+      initialize();
+      expect(component.getPrefixId(undefined, 'BBB')).toBe('BBB');
+    });
+
+    it('should return prefix ID separated by 2 dashes and group ID string', () => {
+      initialize();
+      expect(component.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
     });
   });
 

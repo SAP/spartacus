@@ -83,7 +83,7 @@
             context: {
               overviewGroups: group.subGroups,
               level: level + 1,
-              idPrefix: idPrefix ? idPrefix + '--' + group.id : group.id
+              idPrefix: getPrefixId(idPrefix, group.id)
             }
           "
         ></ng-container>

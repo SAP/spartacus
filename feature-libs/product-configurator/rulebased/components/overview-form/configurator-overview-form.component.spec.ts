@@ -89,6 +89,10 @@ class MockConfiguratorStorefrontUtilsService {
   createOvGroupId(): string {
     return OV_GROUP_ID;
   }
+
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return idPrefix ? idPrefix + '--' + groupId : groupId;
+  }
 }
 
 function initialize() {
@@ -321,6 +325,18 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toBe(true);
       result = component.isSameAttribute(attributes, 1);
       expect(result).toBe(true);
+    });
+  });
+
+  describe('check getPrefixId', () => {
+    it('should return group ID string', () => {
+      initialize();
+      expect(component.getPrefixId(undefined, 'BBB')).toBe('BBB');
+    });
+
+    it('should return prefix ID separated by 2 dashes and group ID string', () => {
+      initialize();
+      expect(component.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
     });
   });
 

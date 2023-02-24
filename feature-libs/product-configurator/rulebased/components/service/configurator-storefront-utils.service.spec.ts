@@ -428,6 +428,16 @@ describe('ConfigUtilsService', () => {
     });
   });
 
+  describe('getPrefixId', () => {
+    it('should return group ID string', () => {
+      expect(classUnderTest.getPrefixId(undefined, 'BBB')).toBe('BBB');
+    });
+
+    it('should return prefix ID separated by 2 dashes and group ID string', () => {
+      expect(classUnderTest.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
+    });
+  });
+
   describe('createGroupId', () => {
     it('should return empty string because group ID is undefined', () => {
       expect(classUnderTest.createGroupId(undefined)).toBeUndefined();
