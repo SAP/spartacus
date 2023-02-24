@@ -255,6 +255,10 @@
 %cx-navigation-ui {
   display: flex;
 
+  @include media-breakpoint-up(lg) {
+    background-color: var(--cx-color-text);
+  }
+
   @extend %nav-heading;
   @extend %nav-icon;
   @extend %nav-wrapper;

@@ -7,7 +7,7 @@ $space: 0.5rem;
   @include media-breakpoint-up(lg) {
     background: linear-gradient(
       to top,
-      var(--cx-color-text) $header-height,
+      var(--cx-color-background-dark) $header-height,
       var(--cx-color-light) 0
     );
   }
@@ -53,7 +53,7 @@ $space: 0.5rem;
         height: 100%;
         top: 0;
         left: 0;
-        background-color: var(--cx-color-dark);
+        background-color: var(--cx-background-dark);
         z-index: 2;
       }
     }
@@ -158,6 +158,10 @@ $space: 0.5rem;
     }
     .cx-hamburger {
       display: none;
+
+      &.is-active {
+        background-color: var(--cx-color-primary);
+      }
     }
 
     .SiteContext,
@@ -189,9 +193,19 @@ $space: 0.5rem;
     }
   }
 
+  .cx-hamburger {
+    &.is-active {
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        background-color: var(--cx-color-primary);
+      }
+    }
+  }
+
   .hamburger-inner,
   .hamburger-inner::before,
   .hamburger-inner::after {
-    background-color: var(--cx-color-primary);
+    background-color: var(--cx-color-primary);   
   }
 }
