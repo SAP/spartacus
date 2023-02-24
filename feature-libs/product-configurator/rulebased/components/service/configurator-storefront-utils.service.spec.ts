@@ -797,7 +797,7 @@ describe('ConfigUtilsService', () => {
       expect(ovMenu.scrollTop).toBe(0);
     });
 
-    xit('should sync scrolling when element.offsetTop is less than container.scrollTop', () => {
+    it('should sync scrolling when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5500, 2500);
       classUnderTest.ensureElementVisible(
         'cx-configurator-overview-menu',
@@ -807,7 +807,7 @@ describe('ConfigUtilsService', () => {
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
-    xit('should sync scrolling when element.offsetTop is greater than container.scrollTop', () => {
+    it('should sync scrolling when element.offsetTop is greater than container.scrollTop', () => {
       createTestData(5000, 4500);
       classUnderTest.ensureElementVisible(
         'cx-configurator-overview-menu',
