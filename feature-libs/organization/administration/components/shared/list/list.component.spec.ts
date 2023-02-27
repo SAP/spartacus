@@ -11,7 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
+import {
+  EntitiesModel,
+  I18nTestingModule,
+  Translatable,
+} from '@spartacus/core';
 import { OrganizationTableType } from '@spartacus/organization/administration/components';
 import { PopoverModule, Table } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -66,6 +70,11 @@ class MockBaseListService {
   }
   hasGhostData() {
     return false;
+  }
+  onCreateButtonClick(): void {}
+  getCreateButtonType = createSpy('getCreateButtonType');
+  getCreateButtonLabel(): Translatable {
+    return { key: 'organization.add' };
   }
 }
 
@@ -249,7 +258,21 @@ describe('ListComponent', () => {
     });
   });
 
-  describe('hideAddButton', () => {
+  describe('onCreateButtonClick', () => {
+    beforeEach(() => {
+      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      fixture = TestBed.createComponent(MockListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    it('should process click of create button', () => {
+      spyOn(service, 'onCreateButtonClick').and.callThrough();
+      component.onCreateButtonClick();
+      expect(service.onCreateButtonClick).toHaveBeenCalled();
+    });
+  });
+
+  describe('Hide/Show a Link/Button with appropriate Label ', () => {
     let el: DebugElement;
 
     beforeEach(() => {
@@ -260,17 +283,64 @@ describe('ListComponent', () => {
       fixture.detectChanges();
     });
 
-    it('it should show add button by default', () => {
-      fixture.detectChanges();
-      const addBtn = el.query(By.css('a'));
-      expect(addBtn).toBeTruthy();
+    describe('it should show create functionality by default', () => {
+      it('it should show Hyperlink with correct label and not Button', () => {
+        service.getCreateButtonType = createSpy().and.returnValue('LINK');
+        service.getCreateButtonLabel = createSpy().and.returnValue({
+          key: 'organization.add',
+        });
+        component.createButtonType = service.getCreateButtonType();
+        component.hideAddButton = false;
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeTruthy();
+        expect(hlink.nativeElement.innerText).toBe('organization.add');
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeNull();
+      });
+
+      it('it should show Button with correct label and not Hyperlink', () => {
+        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
+        service.getCreateButtonLabel = createSpy().and.returnValue({
+          key: 'organization.manageUsers',
+        });
+        component.createButtonType = service.getCreateButtonType();
+        component.hideAddButton = false;
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeNull();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeTruthy();
+        expect(button.nativeElement.innerText).toBe('organization.manageUsers');
+      });
     });
 
-    it('it should hide add button', () => {
-      component.hideAddButton = true;
-      fixture.detectChanges();
-      const addBtn = el.query(By.css('a'));
-      expect(addBtn).toBeNull();
+    describe('it should not show create functionality', () => {
+      it('it should not show Hyperlink', () => {
+        service.getCreateButtonType = createSpy().and.returnValue('LINK');
+        component.hideAddButton = true;
+        component.createButtonType = service.getCreateButtonType();
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeNull();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeNull();
+      });
+
+      it('it should not show Button', () => {
+        service.getCreateButtonType = createSpy().and.returnValue('BUTTON');
+        component.createButtonType = service.getCreateButtonType();
+        component.hideAddButton = true;
+        fixture.detectChanges();
+
+        let hlink = el.query(By.css('a.button.primary.create'));
+        expect(hlink).toBeNull();
+        let button = el.query(By.css('button.button.primary.create'));
+        expect(button).toBeNull();
+      });
     });
   });
 });

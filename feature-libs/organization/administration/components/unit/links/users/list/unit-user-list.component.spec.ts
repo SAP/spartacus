@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import {
   DisableInfoModule,
   ItemService,
@@ -14,6 +15,12 @@ import { UnitUserListComponent } from './unit-user-list.component';
 class MockUnitUserListService {}
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {}
+
+class MockB2BUserService implements Partial<B2BUserService> {
+  isUpdatingUserAllowed(): boolean {
+    return true;
+  }
+}
 
 class MockItemService {
   current$ = of();
@@ -39,6 +46,10 @@ describe('UnitUserListComponent', () => {
         {
           provide: CurrentUnitService,
           useClass: MockCurrentUnitService,
+        },
+        {
+          provide: B2BUserService,
+          useClass: MockB2BUserService,
         },
         {
           provide: ItemService,
