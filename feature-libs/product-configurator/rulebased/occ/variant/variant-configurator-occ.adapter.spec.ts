@@ -251,24 +251,6 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(productConfigurationOcc);
     });
 
-    it('should mark a just created configuration as new', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
-
-      occConfiguratorVariantAdapter
-        .createConfiguration(configuration.owner)
-        .subscribe((resultConfiguration) => {
-          expect(resultConfiguration.newConfiguration).toBe(true);
-          done();
-        });
-
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET' && req.url === 'createVariantConfiguration';
-      });
-
-      mockReq.flush(productConfigurationOcc);
-    });
-
-
     it('should call createConfiguration endpoint for expert mode', (done) => {
       spyOn(converterService, 'pipeable').and.callThrough();
       productConfigurationOcc.kbKey = kbKeyOcc;
