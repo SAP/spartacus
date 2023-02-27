@@ -33,7 +33,7 @@
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.9.1",
     "@testing-library/cypress": "^8.0.1",
-    "cypress": "^8.5.0",
+    "cypress": "8.5.0",
     "cypress-file-upload": "^5.0.8",
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
