@@ -12,9 +12,11 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusProductOptions,
   productBulkPricingFeatureModulePath,
+  productFutureStockFeatureModulePath,
   productImageZoomFeatureModulePath,
   productVariantsFeatureModulePath,
   PRODUCT_BULK_PRICING_FEATURE_NAME,
+  PRODUCT_FUTURE_STOCK_FEATURE_NAME,
   PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
   PRODUCT_VARIANTS_FEATURE_NAME,
   SpartacusOptions,
@@ -78,6 +80,11 @@ describe('Spartacus Product schematics: ng-add', () => {
     features: [PRODUCT_IMAGE_ZOOM_FEATURE_NAME],
   };
 
+  const futureStockOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [PRODUCT_FUTURE_STOCK_FEATURE_NAME],
+  };
+
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
@@ -120,6 +127,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       expect(appTree.exists(productBulkPricingFeatureModulePath)).toBeFalsy();
       expect(appTree.exists(productVariantsFeatureModulePath)).toBeFalsy();
       expect(appTree.exists(productImageZoomFeatureModulePath)).toBeFalsy();
+      expect(appTree.exists(productFutureStockFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -284,6 +292,59 @@ describe('Spartacus Product schematics: ng-add', () => {
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(productImageZoomFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('FutureStock feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', futureStockOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(productFutureStockFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+
+      describe('b2b features', () => {
+        it('configuration should be added', () => {
+          const configurationModule = appTree.readContent(
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+          );
+          expect(configurationModule).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...futureStockOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(productFutureStockFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
