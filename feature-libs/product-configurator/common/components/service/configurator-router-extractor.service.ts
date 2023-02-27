@@ -101,7 +101,7 @@ export class ConfiguratorRouterExtractorService {
     } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {
       return semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
     } else {
-      throw new Error('Not able to detemine configurator type');
+      throw new Error('Not able to determine configurator type');
     }
   }
 }
