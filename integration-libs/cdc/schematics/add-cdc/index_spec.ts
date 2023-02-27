@@ -13,6 +13,8 @@ import {
   cdcFeatureModulePath,
   CDC_FEATURE_NAME,
   LibraryOptions as SpartacusCdcOptions,
+  organizationAdministrationWrapperModulePath,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
@@ -130,7 +132,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
           'ng-add',
           {
             ...cdcFeatureOptions,
-            features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
+            features: [
+              USER_ACCOUNT_FEATURE_NAME,
+              USER_PROFILE_FEATURE_NAME,
+              ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+            ],
           },
           appTree
         );
@@ -154,7 +160,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
           'ng-add',
           {
             ...cdcFeatureOptions,
-            features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
+            features: [
+              USER_ACCOUNT_FEATURE_NAME,
+              USER_PROFILE_FEATURE_NAME,
+              ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+            ],
           },
           appTree
         );
@@ -206,6 +216,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
           userProfileWrapperModulePath
         );
         expect(userProfileWrapperModule).toMatchSnapshot();
+
+        const administrationWrapperModule = appTree.readContent(
+          organizationAdministrationWrapperModulePath
+        );
+        expect(administrationWrapperModule).toMatchSnapshot();
       });
     });
 
@@ -215,7 +230,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
           'ng-add',
           {
             ...cdcFeatureOptions,
-            features: [USER_ACCOUNT_FEATURE_NAME, USER_PROFILE_FEATURE_NAME],
+            features: [
+              USER_ACCOUNT_FEATURE_NAME,
+              USER_PROFILE_FEATURE_NAME,
+              ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+            ],
           },
           appTree
         );

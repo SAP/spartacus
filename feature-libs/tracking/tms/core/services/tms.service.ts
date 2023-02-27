@@ -70,7 +70,7 @@ export class TmsService implements OnDestroy {
             );
           }
 
-          event = collector.map ? collector.map(event) : event;
+          event = collector.map?.(event) ?? event;
           collector.pushEvent(
             collectorConfig,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
