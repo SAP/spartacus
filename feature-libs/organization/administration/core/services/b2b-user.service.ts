@@ -410,4 +410,8 @@ export class B2BUserService {
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getUserList(params));
   }
+
+  isUpdatingUserAllowed(): boolean {
+    return true;
+  }
 }

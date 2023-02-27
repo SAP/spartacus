@@ -89,7 +89,7 @@ function compareFiles(options: {
       fs.unlinkSync(options.name);
     }
     console.error(
-      `The ${fileName} file is not up to date. Please re-generate it by running: yarn generate:deps`
+      `The ${fileName} file is not up to date. Please re-generate it by running: npm run generate:deps`
     );
     process.exit(1);
   }

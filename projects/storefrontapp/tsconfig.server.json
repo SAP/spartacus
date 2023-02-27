@@ -225,24 +225,6 @@
       "@spartacus/organization/order-approval/root": [
         "../../feature-libs/organization/order-approval/root/public_api"
       ],
-      "@spartacus/organization/user-registration/assets": [
-        "../../feature-libs/organization/user-registration/assets/public_api"
-      ],
-      "@spartacus/organization/user-registration/components": [
-        "../../feature-libs/organization/user-registration/components/public_api"
-      ],
-      "@spartacus/organization/user-registration/core": [
-        "../../feature-libs/organization/user-registration/core/public_api"
-      ],
-      "@spartacus/organization/user-registration": [
-        "../../feature-libs/organization/user-registration/public_api"
-      ],
-      "@spartacus/organization/user-registration/occ": [
-        "../../feature-libs/organization/user-registration/occ/public_api"
-      ],
-      "@spartacus/organization/user-registration/root": [
-        "../../feature-libs/organization/user-registration/root/public_api"
-      ],
       "@spartacus/organization/unit-order/assets": [
         "../../feature-libs/organization/unit-order/assets/public_api"
       ],
@@ -260,6 +242,24 @@
       ],
       "@spartacus/organization/unit-order/root": [
         "../../feature-libs/organization/unit-order/root/public_api"
+      ],
+      "@spartacus/organization/user-registration/assets": [
+        "../../feature-libs/organization/user-registration/assets/public_api"
+      ],
+      "@spartacus/organization/user-registration/components": [
+        "../../feature-libs/organization/user-registration/components/public_api"
+      ],
+      "@spartacus/organization/user-registration/core": [
+        "../../feature-libs/organization/user-registration/core/public_api"
+      ],
+      "@spartacus/organization/user-registration": [
+        "../../feature-libs/organization/user-registration/public_api"
+      ],
+      "@spartacus/organization/user-registration/occ": [
+        "../../feature-libs/organization/user-registration/occ/public_api"
+      ],
+      "@spartacus/organization/user-registration/root": [
+        "../../feature-libs/organization/user-registration/root/public_api"
       ],
       "@spartacus/product-configurator/common/assets": [
         "../../feature-libs/product-configurator/common/assets/public_api"
@@ -302,6 +302,24 @@
       ],
       "@spartacus/product/bulk-pricing/root": [
         "../../feature-libs/product/bulk-pricing/root/public_api"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "../../feature-libs/product/future-stock/assets/public_api"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "../../feature-libs/product/future-stock/components/public_api"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "../../feature-libs/product/future-stock/core/public_api"
+      ],
+      "@spartacus/product/future-stock": [
+        "../../feature-libs/product/future-stock/public_api"
+      ],
+      "@spartacus/product/future-stock/occ": [
+        "../../feature-libs/product/future-stock/occ/public_api"
+      ],
+      "@spartacus/product/future-stock/root": [
+        "../../feature-libs/product/future-stock/root/public_api"
       ],
       "@spartacus/product/image-zoom/assets": [
         "../../feature-libs/product/image-zoom/assets/public_api"
@@ -425,6 +443,9 @@
       ],
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
+      ],
+      "@spartacus/cdc/organization/administration": [
+        "../../integration-libs/cdc/organization/administration/public_api"
       ],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [

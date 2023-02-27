@@ -39,7 +39,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@14
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Update ccv2 environment with source
         env: 
           CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch }}

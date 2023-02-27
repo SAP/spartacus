@@ -20,11 +20,7 @@ export class CdsEndpointsService {
     urlParams: object = {},
     queryParams?: object
   ): string {
-    if (
-      this.cdsConfig &&
-      this.cdsConfig.cds &&
-      this.cdsConfig.cds.endpoints[endpoint]
-    ) {
+    if (this.cdsConfig?.cds?.endpoints[endpoint]) {
       endpoint = this.cdsConfig.cds.endpoints[endpoint];
     }
 
