@@ -244,6 +244,32 @@ describe('ConfigRouterExtractorService', () => {
         })
         .unsubscribe();
     });
+
+    it('should set displayResumeConfigDialog to true if requested via query parameter', () => {
+      mockRouterState.state.queryParams = {
+        displayResumeConfigDialog: 'true',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.displayResumeConfigDialog).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should set displayResumeConfigDialog to false if the corresponding query parameter is missing', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.displayResumeConfigDialog).toBe(false);
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createOwnerFromRouterState', () => {
