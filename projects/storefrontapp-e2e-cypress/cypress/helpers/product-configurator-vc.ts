@@ -32,15 +32,18 @@ export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
  *
  * @param {string} shopName - shop name
  * @param {string} productId - Product ID
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(shopName: string, productId: string) {
-  //TODO: remove registerConfigurationRoute
-  //registerConfigurationRoute();
+export function goToConfigurationPage(
+  shopName: string,
+  productId: string,
+  isPricingEnabled?: boolean
+) {
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
-  //cy.wait('@configure_product');
   this.checkConfigPageDisplayed();
+  waitForRequest('', isPricingEnabled);
 }
 
 /**
@@ -296,17 +299,6 @@ export function isConflictLinkAttached(attribute: string): void {
 export function clickOnViewInConfiguration(attribute: string): void {
   cy.log('Click View in Configuration Link');
   clickOnConflictSolverLink(attribute, 'View in Configuration Link');
-}
-
-/**
- * Assuming the given attribute is involved in the conflict, it navigates from the conflict group to standard group
- * containing the corresponding attribute and waits for request to finish.
- *
- * @param attribute - Attribute name
- */
-export function clickOnViewInConfigurationAndWait(attribute: string): void {
-  clickOnViewInConfiguration(attribute);
-  cy.wait(GET_CONFIG_ALIAS);
 }
 
 /**
@@ -579,6 +571,7 @@ export function registerConfigurationUpdateRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(UPDATE_CONFIG_ALIAS.substring(1)); // strip the '@'
+  registerConfigurationPricingRoute(); // implicitly register config pricing route
 }
 
 /**
@@ -600,39 +593,71 @@ export function registerConfigurationPricingRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  isPricingEnabled?: boolean
 ): void {
   configuration.selectAttribute(attributeName, uiType, valueName, false);
-  cy.wait(UPDATE_CONFIG_ALIAS);
+  waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
+}
+
+/**
+ * wait for the given request alias and the following pricing requests if pricing is enabled
+ * @param {string} requestAlias - request alias to wait for
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
+ */
+export function waitForRequest(
+  requestAlias: string,
+  isPricingEnabled?: boolean
+) {
+  if (requestAlias) {
+    cy.wait(requestAlias);
+  }
+  // Give the pricing request some time to fire, otherwise cy matches the wait against the last pricing request,
+  // in case this last request had not already been waited for. In other words, we could remove the cy.wait(100),
+  // if we ensure that we wait for every pricing request happened before. However not all TC do this, yet.
+  if (isPricingEnabled) {
+    cy.wait(100);
+    cy.wait(CONFIG_PRICING_ALIAS);
+  }
 }
 
 /**
  * Clicks on the next group Button and verifies that an element of the next group is displayed.
  *
  * @param {string} nextGroup - optional - expected next group name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnNextBtnAndWait(nextGroup?: string): void {
+export function clickOnNextBtnAndWait(
+  nextGroup?: string,
+  isPricingEnabled?: boolean
+): void {
   configuration.clickOnNextBtn(nextGroup);
-  cy.wait(GET_CONFIG_ALIAS);
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
 }
 
 /**
  * Clicks on the previous group Button and verifies that an element of the previous group is displayed.
  *
  * @param {string} previousGroup - optional - expected previous group name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
-export function clickOnPreviousBtnAndWait(previousGroup?: string): void {
+export function clickOnPreviousBtnAndWait(
+  previousGroup?: string,
+  isPricingEnabled?: boolean
+): void {
   configuration.clickOnPreviousBtn(previousGroup);
-  cy.wait(GET_CONFIG_ALIAS);
+  waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
 }
 
 export class CommerceRelease {
   isAtLeast2205?: boolean;
   isAtLeast2211?: boolean;
+  isPricingEnabled?: boolean;
 }
 
 export function checkCommerceRelease(
@@ -652,17 +677,19 @@ export function checkCommerceRelease(
   ).then(({ body }) => {
     cy.wrap(body).as('responseBodyVersionCheck');
   });
-  cy.get('@responseBodyVersionCheck').then((responseBody) => {
+  cy.get('@responseBodyVersionCheck').then((responseBody: any) => {
     const responseAsString = JSON.stringify(responseBody);
     commerceRelease.isAtLeast2205 = responseAsString.includes('retractBlocked');
     commerceRelease.isAtLeast2211 = responseAsString.includes(
       'immediateConflictResolution'
     );
+    commerceRelease.isPricingEnabled = responseBody.pricingEnabled;
     cy.log(
       'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
     );
     cy.log(
       'Is at least 22.11 commerce release: ' + commerceRelease.isAtLeast2211
     );
+    cy.log('Is pricing enabled: ' + commerceRelease.isPricingEnabled);
   });
 }
