@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import {
@@ -34,11 +34,13 @@ export class UnitUserRolesCellComponent extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected itemService: ItemService<B2BUnit>,
-    protected b2bUserService: B2BUserService
+    @Optional() protected b2bUserService: B2BUserService
   ) {
     super(outlet);
   }
-  isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
+  isUpdatingUserAllowed = this.b2bUserService
+    ? this.b2bUserService.isUpdatingUserAllowed()
+    : true;
   getRouterModel(uid: string): any {
     return { ...this.outlet.context, uid };
   }
