@@ -124,16 +124,16 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
     spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
-
     spyOn(configuratorStorefrontUtilsService, 'getElements').and.callThrough();
-
     spyOn(
       configuratorStorefrontUtilsService,
       'getVerticallyScrolledPixels'
     ).and.returnValue(0);
+    spyOn(configuratorStorefrontUtilsService, 'hasScrollbar');
 
     component.ngAfterViewInit();
     fixture.detectChanges();
+
     expect(component).toBeDefined();
     expect(
       configuratorStorefrontUtilsService.getElements
@@ -144,6 +144,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(configuratorStorefrontUtilsService.getElement).toHaveBeenCalledTimes(
       0
     );
+    expect(
+      configuratorStorefrontUtilsService.getSpareViewportHeight
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      configuratorStorefrontUtilsService.hasScrollbar
+    ).toHaveBeenCalledTimes(0);
   });
 
   it('should provide the overview groups', () => {

@@ -43,8 +43,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.menuItem = this.getMenuItemToHighlight();
-    this.highlight(this.menuItem);
+    this.onScroll();
   }
 
   @HostListener('window:scroll', ['$event'])
