@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@angular/pwa": "^15.1.6",
-    "@nguniversal/express-engine": "^14.0.0",
+    "@nguniversal/express-engine": "^15.1.0",
     "semver": "^7.3.5",
     "ts-morph": "^9.1.0",
     "tslib": "^2.4.0"
