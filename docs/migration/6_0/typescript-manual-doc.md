@@ -61,6 +61,8 @@ If explicitly set, this option will take precedence over the express server.
 ### CheckoutPaymentFormComponent
 
 - `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+- `getAddressCardContent()` method has now return type `Observable<Card>`.
+- Added `TranslationService` to constructor.
 
 ### CheckoutReviewSubmitComponent
 
