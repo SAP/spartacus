@@ -81,7 +81,7 @@ If explicitly set, this option will take precedence over the express server.
 
 ### ConfiguratorOverviewMenuComponent
 
-- By navigation to a certain overview group via overview menu the browser does not scroll anymore to the container of the group  `'#' + ovGroupId`, namely to the title of the corresponding group `'#' + ovGroupId+ ' h2'`.
+- By navigation to a certain overview group via overview menu the browser does not scroll anymore to the container of the group  `'#' + ovGroupId`, but to the title of the corresponding group `'#' + ovGroupId+ ' h2'`.
 
 ### ConfiguratorStorefrontUtilsService
 
