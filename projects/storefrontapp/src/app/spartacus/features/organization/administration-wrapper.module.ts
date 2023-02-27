@@ -4,17 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule, Type } from '@angular/core';
-import { CdcAdministrationModule } from '@spartacus/cdc/organization/administration';
+import { NgModule } from '@angular/core';
 import { AdministrationModule } from '@spartacus/organization';
-import { environment } from '../../../../environments/environment';
 
-const extensions: Type<any>[] = [];
-
-if (environment.cdc) {
-  extensions.push(CdcAdministrationModule);
-}
 @NgModule({
-  imports: [AdministrationModule, ...extensions],
+  imports: [AdministrationModule],
 })
 export class AdministrationWrapperModule {}
