@@ -115,6 +115,4 @@ export class ConfiguratorFormComponent implements OnInit {
   isDialogActive(configuration: Configurator.Configuration): boolean {
     return configuration.interactionState.showConflictSolverDialog ?? false;
   }
-
-
 }

@@ -5,7 +5,7 @@ import { Configurator } from '../../core/model/configurator.model';
 @Injectable()
 export class ConfiguratorAttributeCompositionContext {
   componentKey: string;
-  attribute: Configurator.Attribute;  
+  attribute: Configurator.Attribute;
   owner: CommonConfigurator.Owner;
   group: Configurator.Group;
   language?: string;

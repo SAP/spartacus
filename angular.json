@@ -1057,8 +1057,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

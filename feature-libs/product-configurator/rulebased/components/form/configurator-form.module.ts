@@ -51,7 +51,7 @@ import { ConfiguratorGroupModule } from '../group/configurator-group.module';
     ConfiguratorAttributeMultiSelectionImageModule,
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
-   
+
     ConfiguratorGroupModule,
   ],
   providers: [
