@@ -257,7 +257,7 @@ describe('OccConfigurationVariantAdapter', () => {
       occConfiguratorVariantAdapter
         .createConfiguration(configuration.owner)
         .subscribe((resultConfiguration) => {
-          expect(resultConfiguration.isNewConfiguration).toBe(true);
+          expect(resultConfiguration.newConfiguration).toBe(true);
           done();
         });
 

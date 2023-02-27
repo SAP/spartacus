@@ -118,6 +118,7 @@ export class VariantConfiguratorOccAdapter
           return {
             ...resultConfiguration,
             owner: configurationOwner,
+            newConfiguration: false,
           };
         })
       );

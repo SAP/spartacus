@@ -44,6 +44,7 @@ export class OccConfiguratorVariantNormalizer
       pricingEnabled: source.pricingEnabled ?? true,
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
       immediateConflictResolution: source.immediateConflictResolution ?? false,
+      newConfiguration: source.newConfiguration ?? false,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
