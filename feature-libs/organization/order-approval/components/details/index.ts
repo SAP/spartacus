@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './order-approval-detail-form/order-approval-detail-form.component';
 export * from './order-approval-detail.service';
 export * from './order-approval-details.module';

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input, NgModule } from '@angular/core';
 import { IconLoaderService } from '../icon-loader.service';
 
@@ -7,17 +13,25 @@ import { IconLoaderService } from '../icon-loader.service';
   template: `{{ type || cxIcon }}`,
 })
 export class MockIconComponent {
-  @Input() cxIcon;
-  @Input() type;
+  @Input() cxIcon: any;
+  @Input() type: any;
 }
 
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
-  getHtml() {}
-  getStyleClasses() {}
-  addStyleClasses() {}
-  addLinkResource() {}
+  getHtml() {
+    // Intentional empty method
+  }
+  getStyleClasses() {
+    // Intentional empty method
+  }
+  addStyleClasses() {
+    // Intentional empty method
+  }
+  addLinkResource() {
+    // Intentional empty method
+  }
 }
 
 @NgModule({

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ComponentFactoryResolver, Injectable, Type } from '@angular/core';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 import { TableConfig } from './config/table.config';
@@ -64,7 +70,7 @@ export class TableRendererService {
   protected getHeaderRenderer(
     structure: TableStructure,
     field: string
-  ): Type<any> {
+  ): Type<any> | undefined {
     return (
       structure.options?.cells?.[field]?.headerComponent ||
       structure.options?.headerComponent ||
@@ -78,7 +84,7 @@ export class TableRendererService {
   protected getDataRenderer(
     structure: TableStructure,
     field: string
-  ): Type<any> {
+  ): Type<any> | undefined {
     return (
       structure.options?.cells?.[field]?.dataComponent ||
       structure.options?.dataComponent ||
@@ -101,7 +107,7 @@ export class TableRendererService {
    */
   getHeaderOutletContext(
     type: string,
-    options: TableOptions,
+    options: TableOptions | undefined,
     i18nRoot: string,
     field: string
   ): TableHeaderOutletContext {
@@ -128,7 +134,7 @@ export class TableRendererService {
    */
   getDataOutletContext(
     type: string,
-    options: TableOptions,
+    options: TableOptions | undefined,
     i18nRoot: string,
     field: string,
     data: any

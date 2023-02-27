@@ -95,5 +95,9 @@ describe('AnchorPipe', () => {
         `${currentUrlWithoutFragment}#`
       );
     });
+
+    it('should return empty string for undefined html', () => {
+      expect(pipe.transform(undefined)).toBe('');
+    });
   });
 });

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Country } from '../../../model/address.model';
 import { UserActions } from '../actions/index';
 import { DeliveryCountriesState } from '../user-state';
@@ -17,7 +23,7 @@ export function reducer(
         (countryEntities: { [isocode: string]: Country }, country: Country) => {
           return {
             ...countryEntities,
-            [country.isocode]: country,
+            [country.isocode ?? '']: country,
           };
         },
         {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { B2BUser, ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
   B2B_USER_APPROVERS,
@@ -101,8 +107,8 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
     super(
       B2B_USER_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((orgUnitCustomer) => orgUnitCustomer?.customerId)
-        : payload?.customerId
+        ? payload.map((orgUnitCustomer) => orgUnitCustomer?.customerId ?? '')
+        : payload?.customerId ?? ''
     );
   }
 }
@@ -110,7 +116,7 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
 export class CreateB2BUser extends StateUtils.EntityLoadAction {
   readonly type = CREATE_B2B_USER;
   constructor(public payload: { userId: string; orgCustomer: B2BUser }) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId);
+    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? null);
   }
 }
 
@@ -124,7 +130,7 @@ export class CreateB2BUserFail extends StateUtils.EntityFailAction {
 export class CreateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_B2B_USER_SUCCESS;
   constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.customerId, payload);
+    super(B2B_USER_ENTITIES, payload.customerId ?? null, payload);
   }
 }
 
@@ -137,7 +143,7 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
       orgCustomer: B2BUser;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId);
+    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? '');
   }
 }
 
@@ -151,7 +157,7 @@ export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
 export class UpdateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_B2B_USER_SUCCESS;
   constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.customerId, payload);
+    super(B2B_USER_ENTITIES, payload.customerId ?? '', payload);
   }
 }
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
 import { addProductToCart as addToCart } from '../applied-promotions';
@@ -136,9 +142,11 @@ export function claimCoupon(couponCode: string) {
 const cartCouponInput = 'input.input-coupon-code';
 const cartCouponButton = 'button.apply-coupon-button';
 const applyCartCoupon = (code: string) => {
+  interceptVoucherPostRequest();
   cy.get('cx-cart-coupon').within(() => {
     cy.get(cartCouponInput).type(code);
     cy.get(cartCouponButton).click();
+    cy.wait('@fetchVoucher');
   });
 };
 
@@ -345,7 +353,7 @@ export function getCouponItemOrderSummary(couponCode: string) {
 }
 
 export function verifyProductInCart(productCode: string) {
-  cy.get('cx-cart-item').within(() => {
+  cy.get('.cx-table-item-container').within(() => {
     cy.get('.cx-code').should('contain', productCode);
   });
 }
@@ -469,4 +477,13 @@ function verifyLoginPageForGuestCheckout() {
   const loginPage = checkout.waitForPage('login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+}
+
+function interceptVoucherPostRequest() {
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*/vouchers?voucherId=*&lang=en&curr=USD`,
+  }).as(`fetchVoucher`);
 }

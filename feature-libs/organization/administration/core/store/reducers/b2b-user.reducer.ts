@@ -1,17 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { B2BUser, ListModel, StateUtils } from '@spartacus/core';
 import {
   B2BUserActions,
   OrgUnitActions,
   UserGroupActions,
 } from '../actions/index';
-import { B2BUser, StateUtils } from '@spartacus/core';
 
-export const b2bUserInitialState = undefined;
-export const b2bUsersInitialState = undefined;
+export const b2bUserInitialState: B2BUser | undefined = undefined;
+export const b2bUsersInitialState: ListModel | undefined = undefined;
 
 export function b2bUserEntitiesReducer(
-  state: B2BUser = b2bUserInitialState,
+  state = b2bUserInitialState,
   action: StateUtils.LoaderAction
-): B2BUser {
+): B2BUser | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_SUCCESS:
     case B2BUserActions.CREATE_B2B_USER_SUCCESS:
@@ -49,7 +55,7 @@ export function b2bUserEntitiesReducer(
 export function userListReducer(
   state = b2bUsersInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USERS_SUCCESS:
       return action.payload.page;
@@ -60,7 +66,7 @@ export function userListReducer(
 export function b2bUserApproverListReducer(
   state = b2bUsersInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_APPROVERS_SUCCESS:
       return action.payload.page;
@@ -71,7 +77,7 @@ export function b2bUserApproverListReducer(
 export function b2bUserPermissionListReducer(
   state = b2bUsersInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_PERMISSIONS_SUCCESS:
       return action.payload.page;
@@ -82,7 +88,7 @@ export function b2bUserPermissionListReducer(
 export function b2bUserUserGroupListReducer(
   state = b2bUsersInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_USER_GROUPS_SUCCESS:
       return action.payload.page;

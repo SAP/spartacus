@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
@@ -10,7 +16,7 @@ import { getCmsState } from './feature.selectors';
 const getPageEntitiesSelector = (state: PageState) => state.pageData.entities;
 const getIndexByType = (
   index: IndexType,
-  type: PageType
+  type?: PageType
 ): StateUtils.EntityLoaderState<string> => {
   switch (type) {
     case PageType.CONTENT_PAGE: {
@@ -25,8 +31,10 @@ const getIndexByType = (
     case PageType.CATALOG_PAGE: {
       return index.catalog;
     }
+    default: {
+      return { entities: {} };
+    }
   }
-  return { entities: {} };
 };
 
 const getPageComponentTypesSelector: (page: Page) => string[] = (
@@ -36,7 +44,7 @@ const getPageComponentTypesSelector: (page: Page) => string[] = (
   if (page && page.slots) {
     for (const slot of Object.keys(page.slots)) {
       for (const component of page.slots[slot].components || []) {
-        componentTypes.add(component.flexType);
+        componentTypes.add(component.flexType ?? '');
       }
     }
   }
@@ -97,10 +105,10 @@ export const getPageComponentTypes = (
 export const getCurrentSlotSelectorFactory = (
   pageContext: PageContext,
   position: string
-): MemoizedSelector<StateWithCms, ContentSlotData> => {
+): MemoizedSelector<StateWithCms, ContentSlotData | undefined> => {
   return createSelector(getPageData(pageContext), (entity) => {
     if (entity) {
-      return entity.slots[position] || { components: [] };
+      return entity.slots?.[position] || { components: [] };
     }
   });
 };

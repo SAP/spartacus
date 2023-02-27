@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * intercepts and alias a GET request
  * @param alias intercept alias
@@ -25,6 +31,21 @@ export function interceptPost(
   baseSitePrefix?: boolean
 ): string {
   return interceptAndAlias('POST', alias, path, baseSitePrefix);
+}
+
+/**
+ * intercepts and alias a PATCH request
+ * @param alias intercept alias
+ * @param path  xhr relative path
+ * @param baseSitePrefix if false, it does not prefix `path` with /occ/v2/{BASE_SITE}
+ * @returns alias
+ */
+export function interceptPatch(
+  alias: string,
+  path: string,
+  baseSitePrefix?: boolean
+): string {
+  return interceptAndAlias('PATCH', alias, path, baseSitePrefix);
 }
 
 /**

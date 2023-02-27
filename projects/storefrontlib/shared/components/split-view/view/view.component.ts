@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -29,7 +35,7 @@ import { SplitViewService } from '../split-view.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewComponent implements OnInit, OnDestroy {
-  protected _hidden;
+  protected _hidden: boolean | undefined;
 
   @Input()
   @HostBinding('attr.position')
@@ -39,7 +45,7 @@ export class ViewComponent implements OnInit, OnDestroy {
   /**
    * The disappeared flag is added to the
    */
-  @HostBinding('attr.disappeared') disappeared = true;
+  @HostBinding('attr.disappeared') disappeared: boolean | undefined = true;
 
   /**
    * The hidden input is used to set the initial visible state of the view.

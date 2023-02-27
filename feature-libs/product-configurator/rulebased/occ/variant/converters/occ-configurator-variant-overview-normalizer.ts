@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Converter,
@@ -59,6 +65,7 @@ export class OccConfiguratorVariantOverviewNormalizer
               attributeId: characteristic.characteristicId,
               value: characteristic.value,
               valueId: characteristic.valueId,
+              valuePrice: characteristic.price,
             };
           })
         : [],

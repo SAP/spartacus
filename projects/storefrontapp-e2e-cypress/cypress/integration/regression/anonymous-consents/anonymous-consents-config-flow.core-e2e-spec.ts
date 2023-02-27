@@ -5,17 +5,17 @@ import {
   MARKETING_NEWSLETTER,
   noLegalDescriptionInDialog,
   PROFILE,
+  seeBannerAsAnonymous,
   sessionLogin,
   showAnonymousConfigTest,
   STORE_USER_INFORMATION,
 } from '../../../helpers/anonymous-consents';
+import { waitForPage } from '../../../helpers/checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Anonymous consents - config flow', () => {
   beforeEach(() => {
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-      win.localStorage.clear();
-    });
+    clearAllStorage();
   });
 
   describe('when config legalDescription is false and showAnonymousConsents is false', () => {
@@ -30,8 +30,18 @@ context('Anonymous consents - config flow', () => {
         }
       );
 
-      sessionLogin();
+      const homePage = waitForPage('homepage', 'getHomePage');
       cy.visit('/');
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+
+      // Make sure anonymous user is loaded
+      cy.get('cx-login [role="link"]').should('be.visible');
+      seeBannerAsAnonymous();
+
+      // Make sure user is logged in after saving it in storage
+      sessionLogin();
+      cy.reload();
+      cy.get('cx-login .cx-login-greet').should('be.visible');
     });
 
     showAnonymousConfigTest();
@@ -48,7 +58,9 @@ context('Anonymous consents - config flow', () => {
           hideConsents: [STORE_USER_INFORMATION],
         }
       );
+      const homePage = waitForPage('homepage', 'getHomePage');
       cy.visit('/');
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
     });
 
     anonymousConfigTestFlow();

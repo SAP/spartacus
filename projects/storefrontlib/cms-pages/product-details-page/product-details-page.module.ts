@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideDefaultConfig, RoutingConfig } from '@spartacus/core';
@@ -9,6 +15,7 @@ import { PRODUCT_DETAILS_URL_MATCHER } from './product-details-url-matcher';
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,

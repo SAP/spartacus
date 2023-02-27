@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input } from '@angular/core';
 import {
   CartOutlets,
@@ -13,6 +19,9 @@ import { Consignment, Order } from '@spartacus/order/root';
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
+  @Input() enableAddToCart: boolean | undefined;
+  @Input() buyItAgainTranslation: string;
+
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
   readonly CartOutlets = CartOutlets;

@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
@@ -9,6 +15,11 @@ import {
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
+
+export enum CreateButtonType {
+  LINK = 'LINK',
+  BUTTON = 'BUTTON',
+}
 
 /**
  * The `ListService` deals with the table structure, list data and
@@ -90,7 +101,7 @@ export abstract class ListService<T, P = PaginationModel> {
    * The load method is streamed from the `pagination$` stream, which is initialized
    * with default pagination and structure drive properties.
    */
-  getData(...args: any): Observable<EntitiesModel<T>> {
+  getData(...args: any): Observable<EntitiesModel<T> | undefined> {
     return this.pagination$.pipe(
       // we merge any configured pagination from the table structure
       switchMap((pagination) =>
@@ -140,7 +151,7 @@ export abstract class ListService<T, P = PaginationModel> {
    * while sorting and paginating, where as the initial loading state
    * only happens at the very first load.
    */
-  hasGhostData(data: EntitiesModel<T>): boolean {
+  hasGhostData(data: EntitiesModel<T> | undefined): boolean {
     return data === this.ghostData;
   }
 
@@ -151,5 +162,24 @@ export abstract class ListService<T, P = PaginationModel> {
   protected abstract load(
     pagination: PaginationModel,
     ...args: any
-  ): Observable<EntitiesModel<T>>;
+  ): Observable<EntitiesModel<T> | undefined>;
+
+  /**
+   * This method will return what kind of UI element to be used for create option in UI
+   */
+  getCreateButtonType(): CreateButtonType {
+    return CreateButtonType.LINK;
+  }
+
+  /**
+   * This method will be called when the button to create new item is clicked.
+   */
+  onCreateButtonClick(): void {}
+
+  /**
+   * This method will return the label for create button
+   */
+  getCreateButtonLabel(): Translatable {
+    return { key: 'organization.add' };
+  }
 }

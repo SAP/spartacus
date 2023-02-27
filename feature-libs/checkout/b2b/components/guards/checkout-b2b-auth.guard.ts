@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -81,6 +87,6 @@ export class CheckoutB2BAuthGuard
       { key: 'checkoutB2B.invalid.accountType' },
       GlobalMessageType.MSG_TYPE_WARNING
     );
-    return this.router.parseUrl(this.semanticPathService.get('home'));
+    return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
   }
 }

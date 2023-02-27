@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
@@ -181,7 +187,7 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    let numberOfIssues: number =
+    const numberOfIssues: number =
       (source.incompleteAttributes?.length ?? 0) +
       (source.incompleteMessages?.length ?? 0) +
       (source.invalidMessages?.length ?? 0) +

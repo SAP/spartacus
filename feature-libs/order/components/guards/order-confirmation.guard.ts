@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
@@ -21,7 +27,9 @@ export class OrderConfirmationGuard implements CanActivate {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {
           return true;
         } else {
-          return this.router.parseUrl(this.semanticPathService.get('orders'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('orders') ?? ''
+          );
         }
       })
     );

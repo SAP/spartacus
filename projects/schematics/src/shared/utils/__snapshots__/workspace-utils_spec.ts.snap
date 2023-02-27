@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Workspace utils getProject should return project 1`] = `
-Object {
-  "architect": Object {
-    "build": Object {
+{
+  "architect": {
+    "build": {
       "builder": "@angular-devkit/build-angular:browser",
-      "configurations": Object {
-        "development": Object {
+      "configurations": {
+        "development": {
           "buildOptimizer": false,
           "extractLicenses": false,
           "namedChunks": true,
@@ -14,21 +14,21 @@ Object {
           "sourceMap": true,
           "vendorChunk": true,
         },
-        "production": Object {
-          "budgets": Array [
-            Object {
+        "production": {
+          "budgets": [
+            {
               "maximumError": "2.5mb",
               "maximumWarning": "500kb",
               "type": "initial",
             },
-            Object {
+            {
               "maximumError": "4kb",
               "maximumWarning": "2kb",
               "type": "anyComponentStyle",
             },
           ],
-          "fileReplacements": Array [
-            Object {
+          "fileReplacements": [
+            {
               "replace": "src/environments/environment.ts",
               "with": "src/environments/environment.prod.ts",
             },
@@ -37,8 +37,8 @@ Object {
         },
       },
       "defaultConfiguration": "production",
-      "options": Object {
-        "assets": Array [
+      "options": {
+        "assets": [
           "src/favicon.ico",
           "src/assets",
         ],
@@ -47,40 +47,40 @@ Object {
         "main": "src/main.ts",
         "outputPath": "dist/schematics-test",
         "polyfills": "src/polyfills.ts",
-        "scripts": Array [],
-        "stylePreprocessorOptions": Object {
-          "includePaths": Array [
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
             "node_modules/",
           ],
         },
-        "styles": Array [
+        "styles": [
           "src/styles.scss",
         ],
         "tsConfig": "tsconfig.app.json",
       },
     },
-    "extract-i18n": Object {
+    "extract-i18n": {
       "builder": "@angular-devkit/build-angular:extract-i18n",
-      "options": Object {
+      "options": {
         "browserTarget": "schematics-test:build",
       },
     },
-    "serve": Object {
+    "serve": {
       "builder": "@angular-devkit/build-angular:dev-server",
-      "configurations": Object {
-        "development": Object {
+      "configurations": {
+        "development": {
           "browserTarget": "schematics-test:build:development",
         },
-        "production": Object {
+        "production": {
           "browserTarget": "schematics-test:build:production",
         },
       },
       "defaultConfiguration": "development",
     },
-    "test": Object {
+    "test": {
       "builder": "@angular-devkit/build-angular:karma",
-      "options": Object {
-        "assets": Array [
+      "options": {
+        "assets": [
           "src/favicon.ico",
           "src/assets",
         ],
@@ -88,13 +88,13 @@ Object {
         "karmaConfig": "karma.conf.js",
         "main": "src/test.ts",
         "polyfills": "src/polyfills.ts",
-        "scripts": Array [],
-        "stylePreprocessorOptions": Object {
-          "includePaths": Array [
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
             "node_modules/",
           ],
         },
-        "styles": Array [
+        "styles": [
           "src/styles.scss",
         ],
         "tsConfig": "tsconfig.spec.json",
@@ -104,11 +104,8 @@ Object {
   "prefix": "app",
   "projectType": "application",
   "root": "",
-  "schematics": Object {
-    "@schematics/angular:application": Object {
-      "strict": true,
-    },
-    "@schematics/angular:component": Object {
+  "schematics": {
+    "@schematics/angular:component": {
       "style": "scss",
     },
   },
@@ -117,11 +114,11 @@ Object {
 `;
 
 exports[`Workspace utils getProjectTargets should return project targets 1`] = `
-Object {
-  "build": Object {
+{
+  "build": {
     "builder": "@angular-devkit/build-angular:browser",
-    "configurations": Object {
-      "development": Object {
+    "configurations": {
+      "development": {
         "buildOptimizer": false,
         "extractLicenses": false,
         "namedChunks": true,
@@ -129,21 +126,21 @@ Object {
         "sourceMap": true,
         "vendorChunk": true,
       },
-      "production": Object {
-        "budgets": Array [
-          Object {
+      "production": {
+        "budgets": [
+          {
             "maximumError": "2.5mb",
             "maximumWarning": "500kb",
             "type": "initial",
           },
-          Object {
+          {
             "maximumError": "4kb",
             "maximumWarning": "2kb",
             "type": "anyComponentStyle",
           },
         ],
-        "fileReplacements": Array [
-          Object {
+        "fileReplacements": [
+          {
             "replace": "src/environments/environment.ts",
             "with": "src/environments/environment.prod.ts",
           },
@@ -152,8 +149,8 @@ Object {
       },
     },
     "defaultConfiguration": "production",
-    "options": Object {
-      "assets": Array [
+    "options": {
+      "assets": [
         "src/favicon.ico",
         "src/assets",
       ],
@@ -162,40 +159,40 @@ Object {
       "main": "src/main.ts",
       "outputPath": "dist/schematics-test",
       "polyfills": "src/polyfills.ts",
-      "scripts": Array [],
-      "stylePreprocessorOptions": Object {
-        "includePaths": Array [
+      "scripts": [],
+      "stylePreprocessorOptions": {
+        "includePaths": [
           "node_modules/",
         ],
       },
-      "styles": Array [
+      "styles": [
         "src/styles.scss",
       ],
       "tsConfig": "tsconfig.app.json",
     },
   },
-  "extract-i18n": Object {
+  "extract-i18n": {
     "builder": "@angular-devkit/build-angular:extract-i18n",
-    "options": Object {
+    "options": {
       "browserTarget": "schematics-test:build",
     },
   },
-  "serve": Object {
+  "serve": {
     "builder": "@angular-devkit/build-angular:dev-server",
-    "configurations": Object {
-      "development": Object {
+    "configurations": {
+      "development": {
         "browserTarget": "schematics-test:build:development",
       },
-      "production": Object {
+      "production": {
         "browserTarget": "schematics-test:build:production",
       },
     },
     "defaultConfiguration": "development",
   },
-  "test": Object {
+  "test": {
     "builder": "@angular-devkit/build-angular:karma",
-    "options": Object {
-      "assets": Array [
+    "options": {
+      "assets": [
         "src/favicon.ico",
         "src/assets",
       ],
@@ -203,13 +200,13 @@ Object {
       "karmaConfig": "karma.conf.js",
       "main": "src/test.ts",
       "polyfills": "src/polyfills.ts",
-      "scripts": Array [],
-      "stylePreprocessorOptions": Object {
-        "includePaths": Array [
+      "scripts": [],
+      "stylePreprocessorOptions": {
+        "includePaths": [
           "node_modules/",
         ],
       },
-      "styles": Array [
+      "styles": [
         "src/styles.scss",
       ],
       "tsConfig": "tsconfig.spec.json",

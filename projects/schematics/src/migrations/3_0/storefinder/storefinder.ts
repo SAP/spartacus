@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   noop,
@@ -135,29 +141,3 @@ function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   ];
   return addPackageJsonDependencies(dependencies, packageJson);
 }
-
-// function addStorefinderFeature(): Rule {
-//   return addLibraryFeature(
-//     { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
-//     {
-//       name: STOREFINDER_FEATURE_NAME,
-//       featureModule: {
-//         name: STOREFINDER_MODULE,
-//         importPath: SPARTACUS_STOREFINDER,
-//       },
-//       rootModule: {
-//         name: STOREFINDER_ROOT_MODULE,
-//         importPath: SPARTACUS_STOREFINDER_ROOT,
-//       },
-//       i18n: {
-//         resources: STOREFINDER_TRANSLATIONS,
-//         chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-//         importPath: SPARTACUS_STOREFINDER_ASSETS,
-//       },
-//       styles: {
-//         scssFileName: STORE_FINDER_SCSS_FILE_NAME,
-//         importStyle: SPARTACUS_STOREFINDER,
-//       },
-//     }
-//   );
-// }

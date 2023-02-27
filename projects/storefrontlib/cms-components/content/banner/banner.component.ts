@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerComponent,
   CmsService,
-  PageType,
-  SemanticPathService,
   Image,
   ImageGroup,
+  PageType,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
@@ -53,7 +59,7 @@ export class BannerComponent {
         })
         .pipe(take(1))
         .subscribe((page) => {
-          this.routerLink = page.label;
+          this.routerLink = page?.label;
         });
     } else if (data.product) {
       this.routerLink = this.urlService.transform({

@@ -1,33 +1,26 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  DIGITAL_PAYMENTS_MODULE,
+  analyzeApplication,
+  analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   readPackageJson,
-  shouldAddFeature,
-  SPARTACUS_CHECKOUT,
-  SPARTACUS_CHECKOUT_BASE_ROOT,
-  SPARTACUS_DIGITAL_PAYMENTS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  DIGITAL_PAYMENTS_FOLDER_NAME,
-  DIGITAL_PAYMENTS_MODULE_NAME,
-  DIGITAL_PAYMENTS_TRANSLATIONS,
-  DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG,
-  SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
-} from '../constants';
 
 export function addDigitalPaymentsFeature(
   options: SpartacusDigitalPaymentsOptions
@@ -36,38 +29,17 @@ export function addDigitalPaymentsFeature(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+
     return chain([
+      analyzeApplication(options, features),
+
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_DIGITAL_PAYMENTS_FEATURE, options.features)
-        ? addDigitalPayments(options)
-        : noop(),
+      finalizeInstallation(options, features),
     ]);
   };
-}
-
-function addDigitalPayments(options: SpartacusDigitalPaymentsOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: DIGITAL_PAYMENTS_FOLDER_NAME,
-    moduleName: DIGITAL_PAYMENTS_MODULE_NAME,
-    featureModule: {
-      name: DIGITAL_PAYMENTS_MODULE,
-      importPath: SPARTACUS_DIGITAL_PAYMENTS,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
-      namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: DIGITAL_PAYMENTS_TRANSLATIONS,
-      chunks: DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
-    },
-    dependencyManagement: {
-      featureName: CLI_DIGITAL_PAYMENTS_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
-      },
-    },
-  });
 }

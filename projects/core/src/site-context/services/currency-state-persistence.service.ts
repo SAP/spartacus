@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
@@ -24,7 +30,7 @@ export class CurrencyStatePersistenceService {
     return this.initialized$;
   }
 
-  protected onRead(valueFromStorage: string): void {
+  protected onRead(valueFromStorage: string | undefined): void {
     if (!this.currencyService.isInitialized() && valueFromStorage) {
       this.currencyService.setActive(valueFromStorage);
     }

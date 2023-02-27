@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CxEvent, Suggestion } from '@spartacus/core';
 
 /**
@@ -10,7 +16,7 @@ export class SearchBoxSuggestionSelectedEvent extends CxEvent {
   static readonly type = 'SearchBoxSuggestionSelectedEvent';
   freeText: string;
   selectedSuggestion: string;
-  searchSuggestions: Suggestion[];
+  searchSuggestions: (Suggestion | string)[];
 }
 
 /**

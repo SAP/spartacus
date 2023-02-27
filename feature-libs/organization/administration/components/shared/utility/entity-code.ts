@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { AbstractControl } from '@angular/forms';
 
 export function createCodeForEntityName(
-  name: AbstractControl,
-  code: AbstractControl
+  name: AbstractControl | null,
+  code: AbstractControl | null
 ): void {
-  if (!code.value) {
-    const codeFromName = name.value?.replace(/\s+/g, '-').toLowerCase();
-    code.patchValue(codeFromName);
+  if (!code?.value) {
+    const codeFromName = name?.value?.replace(/\s+/g, '-').toLowerCase();
+    code?.patchValue(codeFromName);
   }
 }

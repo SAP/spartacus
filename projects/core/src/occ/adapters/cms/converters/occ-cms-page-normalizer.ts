@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   CMS_FLEX_COMPONENT_TYPE,
@@ -80,14 +86,20 @@ export class OccCmsPageNormalizer
     if (!source?.contentSlots) {
       return;
     }
-    if (!Array.isArray(source.contentSlots.contentSlot)) {
+    if (
+      source.contentSlots.contentSlot &&
+      !Array.isArray(source.contentSlots.contentSlot)
+    ) {
       source.contentSlots.contentSlot = [source.contentSlots.contentSlot];
     }
+    target.page = target.page ?? {};
     target.page.slots = {};
-    for (const slot of source.contentSlots.contentSlot) {
-      target.page.slots[slot.position] = {} as ContentSlotData;
-      if (slot.properties) {
-        target.page.slots[slot.position].properties = slot.properties;
+    for (const slot of source.contentSlots.contentSlot ?? []) {
+      if (slot.position) {
+        target.page.slots[slot.position] = {} as ContentSlotData;
+        if (slot.properties) {
+          target.page.slots[slot.position].properties = slot.properties;
+        }
       }
     }
   }
@@ -104,7 +116,7 @@ export class OccCmsPageNormalizer
     }
     for (const slot of source.contentSlots.contentSlot) {
       if (Array.isArray(slot.components?.component)) {
-        for (const component of slot.components.component) {
+        for (const component of slot.components?.component ?? []) {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
@@ -113,20 +125,32 @@ export class OccCmsPageNormalizer
             comp.properties = component.properties;
           }
 
-          if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
-            comp.flexType = component.flexType;
-          } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
-            comp.flexType = component.uid;
-          } else {
-            comp.flexType = component.typeCode;
+          comp.flexType = this.getFlexTypeFromComponent(component);
+
+          if (slot.position) {
+            const targetSlot = target.page?.slots?.[slot.position];
+            if (targetSlot) {
+              if (!targetSlot.components) {
+                targetSlot.components = [];
+              }
+              targetSlot.components.push(comp);
+            }
           }
-          if (!target.page.slots[slot.position].components) {
-            target.page.slots[slot.position].components = [];
-          }
-          target.page.slots[slot.position].components.push(comp);
         }
       }
     }
+  }
+
+  /**
+   * Returns the flex type based on the configuration of component properties
+   */
+  protected getFlexTypeFromComponent(component: Occ.Component | any): string {
+    if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
+      return component.flexType;
+    } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
+      return component.uid;
+    }
+    return component.typeCode;
   }
 
   /**
@@ -144,24 +168,22 @@ export class OccCmsPageNormalizer
     }
 
     for (const slot of source.contentSlots.contentSlot) {
-      if (Array.isArray(slot.components?.component)) {
-        for (const component of slot.components.component as any) {
-          // while we're hoping to get this right from the backend api,
-          // the OCC api stills seems out of sync with the right model.
-          if (component.modifiedtime) {
-            component.modifiedTime = component.modifiedtime;
-            delete component.modifiedtime;
-          }
-
-          // we don't put properties into component state
-          if (component.properties) {
-            component.properties = undefined;
-          }
-          if (!target.components) {
-            target.components = [];
-          }
-          target.components.push(component);
+      for (const component of slot.components?.component ?? []) {
+        // while we're hoping to get this right from the backend api,
+        // the OCC api stills seems out of sync with the right model.
+        if (component.modifiedtime) {
+          component.modifiedTime = component.modifiedtime;
+          delete component.modifiedtime;
         }
+
+        // we don't put properties into component state
+        if (component.properties) {
+          component.properties = undefined;
+        }
+        if (!target.components) {
+          target.components = [];
+        }
+        target.components.push(component);
       }
     }
   }

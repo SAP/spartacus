@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   NotificationType,
@@ -14,6 +20,7 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { isNotUndefined } from '../../util';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
@@ -62,7 +69,9 @@ export class UserInterestsService {
    * Returns product interests
    */
   getProductInterests(): Observable<ProductInterestSearchResult> {
-    return this.store.pipe(select(UsersSelectors.getInterests));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getInterests)
+    );
   }
 
   /**
@@ -72,7 +81,7 @@ export class UserInterestsService {
   getAndLoadProductInterests(
     pageSize?: number
   ): Observable<ProductInterestSearchResult> {
-    return this.store.pipe(
+    return (<Store<StateWithUser>>this.store).pipe(
       select(UsersSelectors.getInterestsState),
       tap((interestListState) => {
         const attemptedLoad =
@@ -83,7 +92,8 @@ export class UserInterestsService {
           this.loadProductInterests(pageSize);
         }
       }),
-      map((interestListState) => interestListState.value)
+      map((interestListState) => interestListState.value),
+      filter(isNotUndefined)
     );
   }
 
@@ -91,7 +101,9 @@ export class UserInterestsService {
    * Returns a loading flag for product interests
    */
   getProdutInterestsLoading(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getInterestsLoading));
+    return (<Store<StateWithUser>>this.store).pipe(
+      select(UsersSelectors.getInterestsLoading)
+    );
   }
 
   /**
@@ -118,7 +130,7 @@ export class UserInterestsService {
    * Returns a loading flag for removing product interests.
    */
   getRemoveProdutInterestLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessLoadingFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID))
     );
   }
@@ -127,7 +139,7 @@ export class UserInterestsService {
    * Returns a success flag for removing a product interests.
    */
   getRemoveProdutInterestSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(REMOVE_PRODUCT_INTERESTS_PROCESS_ID))
     );
   }
@@ -157,7 +169,7 @@ export class UserInterestsService {
    * Returns a success flag for adding a product interest.
    */
   getAddProductInterestSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessSuccessFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
     );
   }
@@ -166,7 +178,7 @@ export class UserInterestsService {
    * Returns a error flag for adding a product interest.
    */
   getAddProductInterestError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(getProcessErrorFactory(ADD_PRODUCT_INTEREST_PROCESS_ID))
     );
   }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config, Image } from '@spartacus/core';
 import { MediaConfig } from './media.config';
@@ -52,7 +58,7 @@ export class MediaService {
       : this.resolveMedia(mediaContainer as MediaContainer, format);
 
     return {
-      src: this.resolveAbsoluteUrl(mainMedia?.url),
+      src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
       srcset: this.resolveSrcSet(mediaContainer, format),
@@ -77,13 +83,16 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    if (!this._sortedFormats && this.config?.mediaFormats) {
-      this._sortedFormats = Object.keys(this.config.mediaFormats)
+    const mediaFormats = this.config?.mediaFormats;
+    if (!this._sortedFormats && mediaFormats) {
+      this._sortedFormats = Object.keys(mediaFormats)
         .map((key) => ({
           code: key,
-          size: this.config.mediaFormats[key],
+          size: mediaFormats[key],
         }))
-        .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
+        .sort((a, b) =>
+          a.size.width && b.size.width && a.size.width > b.size.width ? 1 : -1
+        );
     }
     return this._sortedFormats ?? [];
   }
@@ -125,7 +134,9 @@ export class MediaService {
   /**
    * Returns the media format code with the best size.
    */
-  protected resolveBestFormat(media: MediaContainer | Image): string {
+  protected resolveBestFormat(
+    media: MediaContainer | Image
+  ): string | undefined {
     return this.reversedFormats.find((format) =>
       media.hasOwnProperty(format.code)
     )?.code;
@@ -154,11 +165,12 @@ export class MediaService {
     }
 
     const srcset = formats.reduce((set, format) => {
-      if (!!media[format.code]) {
+      const image = (media as MediaContainer)[format.code];
+      if (!!image) {
         if (set) {
           set += ', ';
         }
-        set += `${this.resolveAbsoluteUrl(media[format.code].url)} ${
+        set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
           format.size.width
         }w`;
       }

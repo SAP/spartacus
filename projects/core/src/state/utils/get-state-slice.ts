@@ -1,15 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateTransferType, StorageSyncType } from '../config/state-config';
 
 const OBJECT_SEPARATOR = '.';
 
 export function getStateSliceValue<T, E>(keys: string, state: T): E {
-  return keys
+  const stateSliceValue = keys
     .split(OBJECT_SEPARATOR)
     .reduce(
-      (previous, current) => (previous ? previous[current] : undefined),
+      (previous: any, current) => (previous ? previous[current] : undefined),
       state
     );
+
+  return stateSliceValue as E;
 }
 
 export function createShellObject<T, E>(
@@ -22,7 +30,7 @@ export function createShellObject<T, E>(
   }
 
   const shell = key.split(OBJECT_SEPARATOR).reduceRight((acc, previous) => {
-    return { [previous]: acc } as unknown as T;
+    return { [previous]: acc } as unknown as NonNullable<T>;
   }, value);
   return handleExclusions(key, excludeKeys, shell);
 }

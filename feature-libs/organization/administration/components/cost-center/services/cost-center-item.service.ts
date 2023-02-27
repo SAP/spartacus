@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import {
@@ -28,18 +34,18 @@ export class CostCenterItemService extends ItemService<CostCenter> {
   }
 
   update(
-    code,
+    code: string,
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.update(code, value);
-    return this.costCenterService.getLoadingStatus(value.code);
+    return this.costCenterService.getLoadingStatus(value.code ?? '');
   }
 
   protected create(
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.create(value);
-    return this.costCenterService.getLoadingStatus(value.code);
+    return this.costCenterService.getLoadingStatus(value.code ?? '');
   }
 
   protected getDetailsRoute(): string {

@@ -18,6 +18,8 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurato
 
 class MockGroupService {}
 
+const VALUE_NAME_3 = 'val3';
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -93,7 +95,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     const images: Configurator.Image[] = [image, image, image];
     value1 = createValue('1', 'val1', false, images);
     const value2 = createValue('2', 'val2', true, images);
-    const value3 = createValue('3', 'val3', true, images);
+    const value3 = createValue('3', VALUE_NAME_3, true, images);
     const value4 = createValue('4', 'val4', false, images);
     const values: Configurator.Value[] = [value1, value2, value3, value4];
 
@@ -166,7 +168,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[2].valueDisplay
+          VALUE_NAME_3
       );
     });
 

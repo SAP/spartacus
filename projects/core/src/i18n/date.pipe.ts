@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DatePipe, getLocaleId } from '@angular/common';
 import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 import { LanguageService } from '../site-context/facade/language.service';
@@ -6,7 +12,7 @@ import { LanguageService } from '../site-context/facade/language.service';
 @Pipe({ name: 'cxDate' })
 export class CxDatePipe extends DatePipe implements PipeTransform {
   constructor(protected language: LanguageService) {
-    super(null);
+    super('');
   }
 
   // TODO: Replace `any` to match strict types from angular in 4.0
@@ -29,7 +35,7 @@ export class CxDatePipe extends DatePipe implements PipeTransform {
   }
 
   private getActiveLang(): string {
-    let result;
+    let result = '';
     this.language
       .getActive()
       .subscribe((lang) => (result = lang))

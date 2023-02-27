@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
@@ -21,7 +27,7 @@ export const getRegionsDataAndLoading: MemoizedSelector<
     loaded: boolean;
     loading: boolean;
     regions: Region[];
-    country: string;
+    country: string | null;
   }
 > = createSelector(
   getRegionsLoaderState,
@@ -33,7 +39,7 @@ export const getRegionsDataAndLoading: MemoizedSelector<
   })
 );
 
-export const getRegionsCountry: MemoizedSelector<StateWithUser, string> =
+export const getRegionsCountry: MemoizedSelector<StateWithUser, string | null> =
   createSelector(
     getRegionsLoaderState,
     (state: LoaderState<RegionsState>) =>

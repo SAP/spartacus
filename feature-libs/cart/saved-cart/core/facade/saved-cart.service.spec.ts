@@ -7,8 +7,8 @@ import {
   StateUtils,
   User,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';
 import { SavedCartService } from './saved-cart.service';
@@ -59,7 +59,7 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get = createSpy().and.returnValue(of(mockUser));
 }
 
@@ -82,7 +82,7 @@ describe('SavedCartService', () => {
       providers: [
         SavedCartService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
       ],
     });
@@ -163,7 +163,7 @@ describe('SavedCartService', () => {
       })
     );
 
-    let result: StateUtils.ProcessesLoaderState<Cart> | undefined;
+    let result: StateUtils.ProcessesLoaderState<Cart | undefined> | undefined;
 
     service
       .getSavedCart(mockCartId)

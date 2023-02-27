@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -28,7 +34,7 @@ export class OccAnonymousConsentTemplatesAdapter
     const url = this.occEndpoints.buildUrl('anonymousConsentTemplates');
     return this.http.get<Occ.ConsentTemplateList>(url).pipe(
       catchError((error) => throwError(error)),
-      map((consentList) => consentList.consentTemplates),
+      map((consentList) => consentList.consentTemplates ?? []),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
   }
@@ -40,7 +46,9 @@ export class OccAnonymousConsentTemplatesAdapter
       .head<Occ.ConsentTemplateList>(url, { observe: 'response' })
       .pipe(
         catchError((error) => throwError(error)),
-        map((response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER)),
+        map(
+          (response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER) ?? ''
+        ),
         this.converter.pipeable(ANONYMOUS_CONSENT_NORMALIZER)
       );
   }

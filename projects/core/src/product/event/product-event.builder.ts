@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, pairwise } from 'rxjs/operators';
@@ -35,7 +41,9 @@ export class ProductEventBuilder {
    * these 2 searches must have the same 'freeTextSearch'; and if they are category
    * searches, they must have the same root (in the same category or brand).
    */
-  protected buildFacetChangedEvent(): Observable<FacetChangedEvent> {
+  protected buildFacetChangedEvent(): Observable<
+    FacetChangedEvent | undefined
+  > {
     return this.productSearchService.getResults().pipe(
       pairwise(),
       filter(([prev, curr]) => this.compareSearchResults(prev, curr)),
@@ -49,7 +57,10 @@ export class ProductEventBuilder {
             name: toggled.facetName,
             valueCode: toggled.facetValueCode,
             valueName: toggled.facetValueName,
-            selected: curr.breadcrumbs.length > prev.breadcrumbs.length,
+            selected:
+              curr.breadcrumbs &&
+              prev.breadcrumbs &&
+              curr.breadcrumbs.length > prev.breadcrumbs.length,
           });
         }
       })
@@ -73,14 +84,15 @@ export class ProductEventBuilder {
 
       // for category searches, they must have the same root
       const sameCategoryRoot =
-        curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
-        prev.breadcrumbs[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
+        curr.breadcrumbs?.[0]?.facetCode === 'allCategories' &&
+        prev.breadcrumbs?.[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
         // same category or brand
         prev.breadcrumbs[0].facetValueCode ===
           curr.breadcrumbs[0].facetValueCode;
 
       return sameFreeTextSearch || sameCategoryRoot;
     }
+    return false;
   }
 
   /**
@@ -88,10 +100,10 @@ export class ProductEventBuilder {
    * only can have one different solr filter term.
    */
   private getToggledBreadcrumb(
-    bc1: Breadcrumb[],
-    bc2: Breadcrumb[]
-  ): Breadcrumb {
-    if (bc1.length - bc2.length === 1) {
+    bc1: Breadcrumb[] | undefined,
+    bc2: Breadcrumb[] | undefined
+  ): Breadcrumb | undefined {
+    if (bc1 && bc2 && bc1.length - bc2.length === 1) {
       return bc1.find(
         (x) =>
           !bc2.find(

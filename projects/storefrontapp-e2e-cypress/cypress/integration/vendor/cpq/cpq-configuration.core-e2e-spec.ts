@@ -7,9 +7,9 @@ import * as configurationCartCpq from '../../../helpers/product-configurator-car
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq03@sap.com';
-const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq03';
+const EMAIL = 'gi.sun@pronto-hw.com';
+const PASSWORD = '12341234';
+const CPQ_USER = 'Gi Sun';
 
 // UI types
 const RADGRP = 'radioGroup';
@@ -361,14 +361,14 @@ context('CPQ Configuration', () => {
 
       configurationCpq.checkPrice(
         CHKBOX_PROD,
-        '1x($100.00) + $100.00',
+        '1x($100.00) +$100.00',
         ATTR_CAM_MC,
         VAL_CAM_MC_128
       );
       configurationCpq.setQuantity(CHKBOX_PROD, 2, ATTR_CAM_MC, VAL_CAM_MC_128);
       configurationCpq.checkPrice(
         CHKBOX_PROD,
-        '2x($100.00) + $200.00',
+        '2x($100.00) +$200.00',
         ATTR_CAM_MC,
         VAL_CAM_MC_128
       );
@@ -433,21 +433,21 @@ context('CPQ Configuration', () => {
           name: 'Camera Body',
           value: 'Nikon D850',
           type: 'product',
-          price: '+ $1,500.00',
+          price: '+$1,500.00',
         },
         {
           name: 'Memory Card',
           value: 'SanDisk Extreme Pro',
           type: 'product',
-          price: '2x($100.00) + $200.00',
+          price: '2x($100.00) +$200.00',
         },
         {
           name: 'Lenses',
           value: 'Sigma 85mm F1.4 DG HS',
           type: 'product',
-          price: '+ $800.00',
+          price: '+$800.00',
         },
-        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '+ $700.00' },
+        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '+$700.00' },
         {
           name: 'professional photographer?',
           value: 'yes',
@@ -457,7 +457,7 @@ context('CPQ Configuration', () => {
           name: 'Insurance',
           value: 'Pro 4 years',
           type: 'product',
-          price: '+ $600.00',
+          price: '+$600.00',
         },
       ];
       ovContent.forEach((line, idx) => {

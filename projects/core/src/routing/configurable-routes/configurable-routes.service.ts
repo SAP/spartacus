@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, InjectionToken, Injector, isDevMode } from '@angular/core';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherService } from '../services/url-matcher.service';
@@ -104,13 +110,12 @@ export class ConfigurableRoutesService {
     route: Route,
     matchersOrFactories: RouteConfig['matchers']
   ): UrlMatcher {
-    const matchers: UrlMatcher[] = matchersOrFactories.map(
-      (matcherOrFactory) => {
+    const matchers: UrlMatcher[] =
+      matchersOrFactories?.map((matcherOrFactory) => {
         return typeof matcherOrFactory === 'function'
           ? matcherOrFactory // matcher
           : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
-      }
-    );
+      }) ?? [];
     return this.urlMatcherService.getCombined(matchers);
   }
 
@@ -137,7 +142,7 @@ export class ConfigurableRoutesService {
   }
 
   protected validateRouteConfig(
-    routeConfig: RouteConfig,
+    routeConfig: RouteConfig | null | undefined,
     routeName: string,
     route: Route
   ) {
@@ -164,7 +169,7 @@ export class ConfigurableRoutesService {
     }
   }
 
-  private warn(...args) {
+  private warn(...args: any[]) {
     if (isDevMode()) {
       console.warn(...args);
     }

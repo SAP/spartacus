@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
 
@@ -9,7 +15,9 @@ export const LOAD_DELIVERY_COUNTRIES_SUCCESS =
 
 export class LoadDeliveryCountries implements Action {
   readonly type = LOAD_DELIVERY_COUNTRIES;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export class LoadDeliveryCountriesFail implements Action {

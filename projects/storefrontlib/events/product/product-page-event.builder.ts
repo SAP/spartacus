@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   createFrom,
@@ -51,10 +57,10 @@ export class ProductPageEventBuilder {
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
               navigation: navigationEvent,
-              categories: product.categories,
-              code: product.code,
-              name: product.name,
-              price: product.price,
+              categories: product?.categories,
+              code: product?.code,
+              name: product?.name,
+              price: product?.price,
             })
           )
         )

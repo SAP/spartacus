@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpHeaders, HttpRequest } from '@angular/common/http';
 
 export const USE_CLIENT_TOKEN = 'cx-use-client-token';
@@ -27,7 +33,10 @@ export class InterceptorUtil {
     return request.clone({ headers: updatedHeaders });
   }
 
-  static getInterceptorParam<T>(headerName: string, headers: HttpHeaders): T {
+  static getInterceptorParam<T>(
+    headerName: string,
+    headers: HttpHeaders
+  ): T | undefined {
     const rawValue = headers.get(headerName);
     if (rawValue) {
       return JSON.parse(rawValue);

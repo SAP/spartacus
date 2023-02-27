@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Language } from '../../model/misc.model';
+import { isNotNullable } from '../../util/type-guards';
 import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
@@ -32,7 +39,7 @@ export class LanguageService implements SiteContext<Language> {
           this.store.dispatch(new SiteContextActions.LoadLanguages());
         }
       }),
-      filter((languages) => Boolean(languages))
+      filter(isNotNullable)
     );
   }
 
@@ -42,7 +49,7 @@ export class LanguageService implements SiteContext<Language> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveLanguage),
-      filter((active) => Boolean(active))
+      filter(isNotNullable)
     );
   }
 

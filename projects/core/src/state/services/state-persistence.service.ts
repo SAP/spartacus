@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
@@ -40,7 +46,9 @@ export class StatePersistenceService {
     state$,
     context$ = of(''),
     storageType = StorageSyncType.LOCAL_STORAGE,
-    onRead = () => {},
+    onRead = () => {
+      // Intentional empty arrow function
+    },
   }: {
     key: string;
     state$: Observable<T>;
@@ -57,25 +65,29 @@ export class StatePersistenceService {
       context$
         .pipe(
           map((context) => {
-            return readFromStorage(
-              storage,
-              this.generateKeyWithContext(context, key)
-            ) as T | undefined;
+            return storage
+              ? (readFromStorage(
+                  storage,
+                  this.generateKeyWithContext(context, key)
+                ) as T | undefined)
+              : undefined;
           }),
           tap((state) => onRead(state))
         )
         .subscribe()
     );
 
-    subscriptions.add(
-      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-        persistToStorage(
-          this.generateKeyWithContext(context, key),
-          state,
-          storage
-        );
-      })
-    );
+    if (storage) {
+      subscriptions.add(
+        state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
+          persistToStorage(
+            this.generateKeyWithContext(context, key),
+            state,
+            storage
+          );
+        })
+      );
+    }
 
     return subscriptions;
   }
@@ -101,10 +113,12 @@ export class StatePersistenceService {
   }): T | undefined {
     const storage = getStorage(storageType, this.winRef);
 
-    return readFromStorage(
-      storage,
-      this.generateKeyWithContext(context, key)
-    ) as T | undefined;
+    if (storage) {
+      return readFromStorage(
+        storage,
+        this.generateKeyWithContext(context, key)
+      ) as T | undefined;
+    }
   }
 
   protected generateKeyWithContext(

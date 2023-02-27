@@ -19,7 +19,7 @@ To run all the schematics unit tests:
 To run schematics tests for a specific library:
 
 1. navigate to the library / project you want to test - e.g. `$ cd feature-libs/asm`
-2. Run `$ yarn test:schematics`. _NOTE_ that when testing `projects/schematics`, the command which to run is `$ yarn test`.
+2. Run `$ npm run test:schematics`. _NOTE_ that when testing `projects/schematics`, the command which to run is `$ npm run test`.
 
 The schematics already have unit tests to cover the migration tasks they were designed to perform. However, you might want to test if the new schematics configuration you added will produce the expected result when a user will perform a migration with the help of the schematics without running a full migration on an app, which would be very time consuming. A convenient way to test your new config is to temporarily modify a schematics unit test case and use an example that will use your new config instead. After you assess your migration scenario plays out as expected, you can revert the changes you did in the unit test.
 
@@ -36,12 +36,22 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ## Developing schematics
 
+### Glossary
+
+Here are some terms you might hear or find in the code:
+
+- installing a feature vs. configuring a features: by _installing_ a feature, we mean specifying a spartacus library in the customers' package.json, and running `yarn` or `npm install` which will download the library into the `node_modules`. By _configuring_ a feature, we mean generating its feature module (e.g. `checkout-feature.module.ts`) where are all features' configuration lives.
+
+- Spartacus library vs. Spartacus feature - a library is a top-level Spartacus library (e.g. `@spartacus/checkout`). A feature is contained withing that library, and it could have its own secondary entry-point (e.g. `@spartacus/checkout/base`). Feature usually have their own menu item in the schematics prompt.
+
+- "wrapper" modules - refers to our feature extension mechanism, as described [here](https://wiki.one.int.sap/wiki/x/bwAfsw) and mentioned [in schematics ADR](https://wiki.one.int.sap/wiki/x/PJhbsQ).
+
 ### Preparing setup
 
 - Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.
-- Create new angular project `ng new schematics-test --style=scss`
+- Create new angular project `ng new schematics-test --style scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally).
 
 ### Publishing to verdaccio
@@ -52,15 +62,42 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ### Workflow for testing schematics
 
-- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
+- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules/@spartacus && <your-schematics-command>`)
 - try until everything is perfect
 
 ### Workflow for testing migrations
 
-- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
+- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
 - commit the changes, if any.
 - run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
 - try until everything is perfect
+
+### Creating and configuring feature schematics
+
+One of the common tasks a library author has to do is to create schematics for the library they are developing.
+
+To start creating the schematics configuration, a developer has to first create a configuration file in  the `projects/schematics/src/shared/lib-configs/*` directory.
+
+The objects has to conform to the `SchematicsConfig` interface:
+
+- `library.featureName` - corresponds to the CLI's feature name defined in `projects/schematics/src/add-spartacus/schema.json`'s `features.items.enum` array.
+- `library.mainScope` - represents the Spartacus library's main scope, e.g. `@spartacus/checkout`.
+- `library.featureScope` - if the library has multiple features organized in secondary entry-points, the entry pont's name should be defined here - e.g. `@spartacus/checkout/base/b2b`.
+- `library.b2b` - if the feature is a b2b feature, it will provide the b2b configuration. 
+- `folderName` - the name of the folder where the feature will be created.
+- `moduleName` - the name of the generated feature module.
+- `featureModule` - the feature module's configuration, e.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
+- `rootModule` - the root module's configuration, e.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`. Omit if your feature doesn't have a root module (e.g. `DigitalPayments` doesn't have it).
+- `lazyLoadingChunk` - if the feature is being installed in a LL manner, this config will be used to provide the LL configuration.
+- `i18n` - configuration for the translations.
+- `styles` - configuration for the styles.
+- `assets` - configuration for the assets - e.g. Smartedit has to provide some configuration to the angular.json's assets.
+- `customConfig` - generates some non-standard configuration providers in the feature module.
+- `dependencyFeatures` - should configure the runtime features on which your library depends on. This prevents Spartacus to install e.g. `Checkout` feature without configuring its dependency feature module - `Order`. In this case, `Checkout` depends on the `User` features as well, which _don't have to be specified_, as they're the transitive dependencies of the already specified `Order` feature.
+- `importAfter` - related to wrapper modules, and specifies after which module (aka "marker" module) should the given module be imported. E.g. the `CheckoutB2BModule` should be imported after the base checkout's `CheckoutModule`.
+
+The finished configuration file needs to imported to `projects/schematics/src/shared/schematics-config-mappings.ts`' `SCHEMATICS_CONFIGS` array. `SCHEMATICS_CONFIGS`' order follows the order in which features are sorted in the file explorer's tree.
+
 
 ## Update schematics
 

@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -8,8 +14,8 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
-import { UserGroupItemService } from '../services/user-group-item.service';
 import { createCodeForEntityName } from '../../shared/utility/entity-code';
+import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
   selector: 'cx-org-user-group-form',
@@ -24,16 +30,18 @@ import { createCodeForEntityName } from '../../shared/utility/entity-code';
   ],
 })
 export class UserGroupFormComponent implements OnInit {
-  form: FormGroup = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
 
   // getList ???
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
-    tap((units) => {
-      if (units.length === 1) {
-        this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
-      }
-    })
-  );
+  units$: Observable<B2BUnitNode[] | undefined> = this.unitService
+    .getActiveUnitList()
+    .pipe(
+      tap((units) => {
+        if (units && units.length === 1) {
+          this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
+        }
+      })
+    );
 
   constructor(
     protected itemService: ItemService<UserGroup>,
@@ -44,7 +52,10 @@ export class UserGroupFormComponent implements OnInit {
     this.unitService.loadList();
   }
 
-  createUidWithName(name: AbstractControl, code: AbstractControl): void {
+  createUidWithName(
+    name: AbstractControl | null,
+    code: AbstractControl | null
+  ): void {
     createCodeForEntityName(name, code);
   }
 }

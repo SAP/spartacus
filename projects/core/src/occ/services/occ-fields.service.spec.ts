@@ -1,10 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   OccFieldsModel,
   OccFieldsService,
   ScopedDataWithUrl,
 } from './occ-fields.service';
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('OccFieldsService', () => {
   let service: OccFieldsService;
@@ -58,10 +58,12 @@ describe('OccFieldsService', () => {
         {
           url: 'https://test/url?fields=ala&c=a',
           scopedData: { scope: 'scope1' },
+          fields: {},
         },
         {
           url: 'https://test/url?fields=ma,kota',
           scopedData: { scope: 'scope2' },
+          fields: {},
         },
       ];
       expect(service.getOptimalUrlGroups(distinctModels)).toEqual({

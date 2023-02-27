@@ -35,7 +35,11 @@
           {{ content.textBold }}
         </div>
         <div *ngFor="let line of content.text">
-          <div *ngIf="!truncateText; else truncate" class="cx-card-label">
+          <div
+            *ngIf="!truncateText; else truncate"
+            class="cx-card-label"
+            [ngClass]="content.customClass"
+          >
             {{ line }}
           </div>
 
@@ -43,6 +47,7 @@
             <cx-truncate-text-popover
               [charactersLimit]="charactersLimit"
               [content]="line"
+              [customClass]="content.customClass"
             ></cx-truncate-text-popover>
           </ng-template>
         </div>
@@ -80,46 +85,48 @@
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
-        <div [ngSwitch]="action.event">
-          <button
-            type="button"
-            *ngSwitchCase="'delete'"
-            class="link cx-action-link"
-            (click)="delete()"
-          >
-            {{ action.name }}
-          </button>
-          <button
-            type="button"
-            *ngSwitchCase="'default'"
-            class="link cx-action-link"
-            (click)="setDefault()"
-          >
-            {{ action.name }}
-          </button>
-          <button
-            type="button"
-            *ngSwitchCase="'send'"
-            class="link cx-action-link"
-            (click)="send()"
-            [attr.aria-describedby]="
-              index >= 0 && content.header && !editMode
-                ? 'content-header-' + index
-                : null
-            "
-          >
-            {{ action.name }}
-          </button>
-          <button
-            type="button"
-            *ngSwitchCase="'edit'"
-            class="link cx-action-link"
-            (click)="edit()"
-          >
-            {{ action.name }}
-          </button>
+        <div>
+          <ng-container *ngIf="isCardAction(action)" [ngSwitch]="action.event">
+            <button
+              type="button"
+              *ngSwitchCase="'delete'"
+              class="link cx-action-link"
+              (click)="delete()"
+            >
+              {{ action.name }}
+            </button>
+            <button
+              type="button"
+              *ngSwitchCase="'default'"
+              class="link cx-action-link"
+              (click)="setDefault()"
+            >
+              {{ action.name }}
+            </button>
+            <button
+              type="button"
+              *ngSwitchCase="'send'"
+              class="link cx-action-link"
+              (click)="send()"
+              [attr.aria-describedby]="
+                index >= 0 && content.header && !editMode
+                  ? 'content-header-' + index
+                  : null
+              "
+            >
+              {{ action.name }}
+            </button>
+            <button
+              type="button"
+              *ngSwitchCase="'edit'"
+              class="link cx-action-link"
+              (click)="edit()"
+            >
+              {{ action.name }}
+            </button>
+          </ng-container>
           <a
-            *ngSwitchDefault
+            *ngIf="isCardLinkAction(action)"
             href="{{ action.link }}"
             class="link cx-action-link"
           >

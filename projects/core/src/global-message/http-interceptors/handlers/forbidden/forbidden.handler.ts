@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
 import { OccEndpointsService } from '../../../../occ/services/occ-endpoints.service';
@@ -13,7 +20,7 @@ import { HttpErrorHandler } from '../http-error.handler';
 export class ForbiddenHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.FORBIDDEN;
 
-  handleError(request) {
+  handleError(request: HttpRequest<any>) {
     if (
       request.url.endsWith(
         this.occEndpoints.buildUrl('user', {

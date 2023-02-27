@@ -24,34 +24,15 @@
   >
     <option
       *ngFor="let item of attribute.values"
-      [label]="item.valueDisplay"
       [selected]="item.selected"
-      [attr.aria-label]="
-        item.valuePrice && item.valuePrice?.value !== 0
-          ? item.valuePriceTotal && item.valuePriceTotal?.value !== 0
-            ? ('configurator.a11y.selectedValueOfAttributeFullWithPrice'
-              | cxTranslate
-                : {
-                    value: item.valueDisplay,
-                    attribute: attribute.label,
-                    price: item.valuePriceTotal.formattedValue
-                  })
-            : ('configurator.a11y.selectedValueOfAttributeFullWithPrice'
-              | cxTranslate
-                : {
-                    value: item.valueDisplay,
-                    attribute: attribute.label,
-                    price: item.valuePrice.formattedValue
-                  })
-          : ('configurator.a11y.selectedValueOfAttributeFull'
-            | cxTranslate
-              : { value: item.valueDisplay, attribute: attribute.label })
-      "
+      [label]="getLabel(expMode, item.valueDisplay, item.valueCode, item)"
+      [attr.aria-label]="getAriaLabel(item, attribute)"
       [value]="item.valueCode"
     >
-      {{ item.valueDisplay }}
+      {{ getLabel(expMode, item.valueDisplay, item.valueCode, item) }}
     </option>
   </select>
+
   <div
     *ngIf="!withQuantity && getSelectedValue()?.valuePrice"
     class="cx-value-price"
@@ -70,3 +51,25 @@
     [formula]="extractPriceFormulaParameters()"
   ></cx-configurator-price>
 </div>
+
+<cx-configurator-attribute-numeric-input-field
+  *ngIf="isAdditionalValueNumeric"
+  class="cx-configurator-attribute-additional-value"
+  [attribute]="attribute"
+  [ownerType]="ownerType"
+  [ownerKey]="ownerKey"
+  [language]="language"
+  (inputChange)="onSelectAdditionalValue($event)"
+  [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
+></cx-configurator-attribute-numeric-input-field>
+
+<cx-configurator-attribute-input-field
+  *ngIf="isAdditionalValueAlphaNumeric"
+  class="cx-configurator-attribute-additional-value"
+  [attribute]="attribute"
+  [ownerType]="ownerType"
+  [ownerKey]="ownerKey"
+  (inputChange)="onSelectAdditionalValue($event)"
+  [attr.aria-label]="'configurator.a11y.additionalValue' | cxTranslate"
+>
+</cx-configurator-attribute-input-field>

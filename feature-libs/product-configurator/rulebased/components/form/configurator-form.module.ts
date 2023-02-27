@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,10 +23,10 @@ import { ConfiguratorAttributeReadOnlyModule } from '../attribute/types/read-onl
 import { ConfiguratorAttributeSingleSelectionBundleDropdownModule } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.module';
 import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.module';
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
-import { ConfiguratorAttributeCompositionModule } from '../composition/configurator-attribute-composition.module';
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { ConfiguratorGroupModule } from '../group/configurator-group.module';
 
 @NgModule({
   imports: [
@@ -45,7 +51,8 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
     ConfiguratorAttributeMultiSelectionImageModule,
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
-    ConfiguratorAttributeCompositionModule,
+   
+    ConfiguratorGroupModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

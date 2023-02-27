@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   externalSchematic,
@@ -10,24 +16,15 @@ import {
   ArrayLiteralExpression,
   CallExpression,
   Expression,
-  Identifier,
   Node,
   ObjectLiteralElementLike,
   SourceFile,
   ts as tsMorph,
 } from 'ts-morph';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
-import { packageFeatureConfigMapping } from '../updateable-constants';
-import {
-  getSpartacusProviders,
-  isSpartacusConfigDuplicate,
-} from './config-utils';
+import { isSpartacusConfigDuplicate } from './config-utils';
 import { getTsSourceFile } from './file-utils';
-import {
-  getImportDeclaration,
-  isImportedFrom,
-  isImportedFromSpartacusLibs,
-} from './import-utils';
+import { createImports, isImportedFrom } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
 
 export type ModuleProperty =
@@ -41,10 +38,14 @@ export interface Import {
 }
 
 export function ensureModuleExists(options: {
+  /** module's name */
   name: string;
+  /** path where to create the module */
   path: string;
-  module: string;
+  /** project name */
   project: string;
+  /** the declaring module */
+  module: string;
 }): Rule {
   return (host: Tree): Rule => {
     const modulePath = `${getSourceRoot(host, { project: options.project })}/${
@@ -165,12 +166,7 @@ function addToModuleInternal(
   }
 
   const imports = ([] as Import[]).concat(insertOptions.import);
-  imports.forEach((specifiedImport) =>
-    sourceFile.addImportDeclaration({
-      moduleSpecifier: specifiedImport.moduleSpecifier,
-      namedImports: specifiedImport.namedImports,
-    })
-  );
+  createImports(sourceFile, imports);
 
   let createdNode: Expression | undefined;
   if (insertOptions.order || insertOptions.order === 0) {
@@ -285,179 +281,4 @@ function getModuleProperty(
   }
 
   return arg.getProperty(propertyName);
-}
-
-export function collectInstalledModules(spartacusFeaturesModule: SourceFile):
-  | {
-      spartacusCoreModules: (Expression | Identifier)[];
-      featureModules: {
-        spartacusLibrary: string;
-        moduleNode: Expression | Identifier;
-      }[];
-      unrecognizedModules: (Expression | Identifier)[];
-      warnings: string[];
-    }
-  | undefined {
-  const initializer = getModulePropertyInitializer(
-    spartacusFeaturesModule,
-    'imports',
-    false
-  );
-  if (!initializer) {
-    return undefined;
-  }
-
-  const warnings: string[] = [];
-  const spartacusCoreModules: (Expression | Identifier)[] = [];
-  const featureModules: {
-    spartacusLibrary: string;
-    moduleNode: Expression | Identifier;
-  }[] = [];
-  const unrecognizedModules: (Expression | Identifier)[] = [];
-
-  for (const element of initializer.getElements()) {
-    const moduleIdentifier = getModuleIdentifier(element);
-    if (!moduleIdentifier) {
-      warnings.push(
-        `Skipping ${element.print()} as it is not recognized as a module.`
-      );
-      continue;
-    }
-
-    const importDeclaration = getImportDeclaration(moduleIdentifier);
-    if (!importDeclaration) {
-      warnings.push(
-        `Skipping ${element.print()} as there is no import found for it.`
-      );
-      continue;
-    }
-
-    const importPath = importDeclaration.getModuleSpecifierValue();
-    if (isImportedFromSpartacusLibs(importPath)) {
-      spartacusCoreModules.push(element);
-      continue;
-    }
-
-    const potentialFeatureModule =
-      importDeclaration.getModuleSpecifierSourceFile();
-    if (!potentialFeatureModule) {
-      warnings.push(
-        `Skipping ${element.print()} as there is no file found for ${importDeclaration.print()}.`
-      );
-      continue;
-    }
-
-    const spartacusLibrary = recognizeFeatureModule(potentialFeatureModule);
-    if (spartacusLibrary) {
-      featureModules.push({ spartacusLibrary, moduleNode: element });
-    } else {
-      unrecognizedModules.push(element);
-    }
-  }
-
-  return {
-    spartacusCoreModules,
-    featureModules,
-    unrecognizedModules,
-    warnings,
-  };
-}
-
-function getModuleIdentifier(element: Node): Identifier | undefined {
-  if (Node.isIdentifier(element)) {
-    return element;
-  }
-
-  if (Node.isCallExpression(element)) {
-    const propertyAccessExpression = element.getFirstChild();
-    if (Node.isPropertyAccessExpression(propertyAccessExpression)) {
-      const firstIdentifier = propertyAccessExpression.getFirstChild();
-      if (Node.isIdentifier(firstIdentifier)) {
-        return firstIdentifier;
-      }
-    }
-  }
-
-  return undefined;
-}
-
-/**
- * Function attempts to recognize the given feature module by either:
- * - looking at the import path
- * - or by looking at the module used in the dynamic import
- *
- * If the feature module is recognized, the corresponding Spartacus library is returned.
- */
-function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
-  return (
-    recognizeFeatureModuleByImports(featureModule) ??
-    recognizeFeatureModuleByDynamicImport(featureModule)
-  );
-}
-
-function recognizeFeatureModuleByImports(
-  featureModule: SourceFile
-): string | undefined {
-  const elements =
-    getModulePropertyInitializer(
-      featureModule,
-      'imports',
-      false
-    )?.getElements() ?? [];
-
-  for (const element of elements) {
-    const moduleName = getModuleIdentifier(element)?.getText() ?? '';
-    const spartacusLibrary = getSpartacusLibraryByModule(moduleName);
-    if (spartacusLibrary) {
-      return spartacusLibrary;
-    }
-  }
-
-  return undefined;
-}
-
-/**
- * TODO:#schematics:
- * Improvements for dynamic imports detection:
- * 1. collect all dynamic imports from the feature module
- * 2. filter the dynamic imports that have a relative import
- * 3. peek into those relative modules, and check their NgModule imports.
- * 4. if it contains the "main" module import, skip the addition of dynamic import that would point to a spartacus lib
- */
-function recognizeFeatureModuleByDynamicImport(
-  featureModule: SourceFile
-): string | undefined {
-  const providers = getSpartacusProviders(featureModule, false);
-
-  for (const element of providers) {
-    const moduleName =
-      element
-        /** e.g.: () => import('@spartacus/digital-payments').then((m) => m.DigitalPaymentsModule)
-         */
-        .getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
-        /** e.g.: (m) => m.DigitalPaymentsModule */
-        ?.getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
-        /** e.g.: m.DigitalPaymentsModule */
-        ?.getFirstDescendantByKind(tsMorph.SyntaxKind.PropertyAccessExpression)
-        /** e.g.: DigitalPaymentsModule */
-        ?.getLastChildByKind(tsMorph.SyntaxKind.Identifier)
-        ?.getText() ?? '';
-
-    const spartacusLibrary = getSpartacusLibraryByModule(moduleName);
-    if (spartacusLibrary) {
-      return spartacusLibrary;
-    }
-  }
-
-  return undefined;
-}
-
-function getSpartacusLibraryByModule(moduleName: string): string | undefined {
-  for (const spartacusLibrary of Object.keys(packageFeatureConfigMapping)) {
-    if (packageFeatureConfigMapping[spartacusLibrary].includes(moduleName)) {
-      return spartacusLibrary;
-    }
-  }
-
-  return undefined;
 }

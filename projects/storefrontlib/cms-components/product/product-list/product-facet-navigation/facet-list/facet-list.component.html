@@ -3,11 +3,12 @@
   *ngIf="(facetList$ | async)?.facets as facets"
   [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
   [cxFocus]="isDialog ? dialogFocusConfig : {}"
-  tabindex="-1"
+  [tabindex]="-1"
   (esc)="close($event)"
   (click)="block($event)"
 >
-  <h4>
+  <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
+  <h4 *cxFeatureLevel="'!5.1'">
     {{ 'productList.filterBy.label' | cxTranslate }}
     <button
       type="button"
@@ -19,9 +20,23 @@
     </button>
   </h4>
 
-  <!-- 
-      Here we'd like to introduce configurable facet components, 
-      either by using specific configuration or generic sproutlets 
+  <div class="list-header" *cxFeatureLevel="'5.1'">
+    <h4>
+      {{ 'productList.filterBy.label' | cxTranslate }}
+    </h4>
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      (click)="close()"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+
+  <!--
+      Here we'd like to introduce configurable facet components,
+      either by using specific configuration or generic sproutlets
   -->
   <cx-facet
     *ngFor="let facet of facets"

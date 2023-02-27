@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
@@ -29,18 +35,18 @@ export class PermissionItemService extends ItemService<Permission> {
   }
 
   update(
-    code,
+    code: string,
     value: Permission
   ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.update(code, value);
-    return this.permissionService.getLoadingStatus(value.code);
+    return this.permissionService.getLoadingStatus(value.code ?? '');
   }
 
   protected create(
     value: Permission
   ): Observable<OrganizationItemStatus<Permission>> {
     this.permissionService.create(value);
-    return this.permissionService.getLoadingStatus(value.code);
+    return this.permissionService.getLoadingStatus(value.code ?? '');
   }
 
   protected getDetailsRoute(): string {

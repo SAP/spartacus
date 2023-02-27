@@ -1,12 +1,11 @@
 on:
-  push:
+  pull_request:
+    types: [ready_for_review]
     branches:
       - develop
-      - epic/**
       - release/**
-      - integration-libs/**
-  pull_request:
-    types: [opened, synchronize]
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
@@ -37,9 +36,9 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@14
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Run lighthouse score validation
         run: |
           ci-scripts/lhci.sh

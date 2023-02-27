@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
-  CARD_TYPE_NORMALIZER,
   CheckoutPaymentAdapter,
+  PAYMENT_CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
 import {
@@ -111,18 +117,20 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     });
   }
 
-  getCardTypes(): Observable<CardType[]> {
-    return this.http.get<Occ.CardTypeList>(this.getCardTypesEndpoint()).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
-      backOff({
-        shouldRetry: isJaloError,
-      }),
-      map((cardTypeList) => cardTypeList.cardTypes ?? []),
-      this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
-    );
+  getPaymentCardTypes(): Observable<CardType[]> {
+    return this.http
+      .get<Occ.CardTypeList>(this.getPaymentCardTypesEndpoint())
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        map((cardTypeList) => cardTypeList.cardTypes ?? []),
+        this.converter.pipeableMany(PAYMENT_CARD_TYPE_NORMALIZER)
+      );
   }
 
-  protected getCardTypesEndpoint(): string {
+  protected getPaymentCardTypesEndpoint(): string {
     return this.occEndpoints.buildUrl('cardTypes');
   }
 

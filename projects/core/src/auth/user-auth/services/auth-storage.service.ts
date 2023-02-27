@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -90,7 +96,7 @@ export class AuthStorageService extends OAuthStorage {
    * @param key
    */
   removeItem(key: string): void {
-    const val = { ...(this._token$ as BehaviorSubject<AuthToken>).value };
+    const val: any = { ...(this._token$ as BehaviorSubject<AuthToken>).value };
     delete val[key];
     (this._token$ as BehaviorSubject<AuthToken>).next({
       ...val,

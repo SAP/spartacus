@@ -1,9 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Address, Country, Region } from '../../model/address.model';
-import { PaymentDetails } from '../../model/payment.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { CostCenter } from '../../model/org-unit.model';
+import { PaymentDetails } from '../../model/payment.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
 import { StateUtils } from '../../state/utils/index';
 
@@ -52,7 +58,7 @@ export interface UserState {
 
 export interface RegionsState {
   entities: Region[];
-  country: string;
+  country: string | null;
 }
 
 export interface BillingCountryEntities {

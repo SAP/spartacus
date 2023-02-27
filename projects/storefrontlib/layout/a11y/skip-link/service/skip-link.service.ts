@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { KeyboardFocusService } from '../../keyboard-focus/services/keyboard-focus.service';
@@ -19,7 +25,7 @@ export class SkipLinkService {
   }
 
   add(key: string, target: HTMLElement): void {
-    const found: SkipLink = this.config.skipLinks.find(
+    const found: SkipLink | undefined = this.config.skipLinks?.find(
       (skipLink) => skipLink.key === key
     );
 
@@ -36,7 +42,7 @@ export class SkipLinkService {
   }
 
   remove(key: string): void {
-    const found: SkipLink = this.config.skipLinks.find(
+    const found: SkipLink | undefined = this.config.skipLinks?.find(
       (skipLink) => skipLink.key === key
     );
 
@@ -51,34 +57,33 @@ export class SkipLinkService {
     const target =
       skipLink.target instanceof HTMLElement
         ? skipLink.target
-        : (skipLink.target as Element).parentElement;
+        : (skipLink.target as Element | undefined)?.parentElement;
 
     // focus first focusable element in the
     const firstFocusable =
       this.keyboardFocusService.findFirstFocusable(target) || target;
 
     // we force a tabindex if not available, to ensure we can focus into the element
-    const hasTabindex = firstFocusable.hasAttribute('tabindex');
+    const hasTabindex = firstFocusable?.hasAttribute('tabindex');
     if (!hasTabindex) {
-      firstFocusable.setAttribute('tabindex', '-1');
+      firstFocusable?.setAttribute('tabindex', '-1');
     }
 
-    firstFocusable.focus();
+    firstFocusable?.focus();
 
     // drop the tmp tabindex
     if (!hasTabindex) {
-      firstFocusable.removeAttribute('tabindex');
+      firstFocusable?.removeAttribute('tabindex');
     }
   }
 
   protected getSkipLinkIndexInArray(key: string): number {
-    let index: number = this.config.skipLinks.findIndex(
-      (skipLink) => skipLink.key === key
-    );
+    let index: number =
+      this.config.skipLinks?.findIndex((skipLink) => skipLink.key === key) ?? 0;
 
     while (index > 0) {
       index--;
-      const previous: SkipLink = this.config.skipLinks[index];
+      const previous: SkipLink | undefined = this.config.skipLinks?.[index];
       if (previous) {
         const existing: SkipLink[] = this.skipLinks$.value;
         const found: number = existing.findIndex(

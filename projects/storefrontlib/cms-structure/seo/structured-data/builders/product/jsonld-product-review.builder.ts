@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -19,7 +25,7 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
   ) {}
 
   build(product: Product): Observable<any> {
-    return this.reviewService.getByProductCode(product.code).pipe(
+    return this.reviewService.getByProductCode(product.code ?? '').pipe(
       map((reviews: Review[]) =>
         reviews?.length > 0
           ? {

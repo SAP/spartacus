@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DecimalPipe, getLocaleId } from '@angular/common';
 import { isDevMode, Pipe, PipeTransform } from '@angular/core';
 import { LanguageService } from '../site-context/facade/language.service';
@@ -5,7 +11,7 @@ import { LanguageService } from '../site-context/facade/language.service';
 @Pipe({ name: 'cxNumeric' })
 export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   constructor(protected language: LanguageService) {
-    super(null);
+    super('');
   }
 
   transform(value: any | number | string, digitsInfo?: string): string | null;
@@ -26,7 +32,7 @@ export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   }
 
   protected getActiveLang(): string {
-    let result;
+    let result = '';
     this.language
       .getActive()
       .subscribe((lang) => (result = lang))

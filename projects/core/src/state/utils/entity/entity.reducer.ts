@@ -1,5 +1,10 @@
-import { Action } from '@ngrx/store';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
+import { Action } from '@ngrx/store';
 import { EntityState } from './entity-state';
 import { EntityAction } from './entity.action';
 
@@ -10,40 +15,28 @@ export const initialEntityState: EntityState<any> = { entities: {} };
  *
  * Utilizes entityId meta field to target entity by id in actions
  */
-export function entityReducer<T>(
+export function entityReducer<T, V extends Action = Action>(
   entityType: string,
-  reducer: (state: T, action: Action) => T
+  reducer: (state: T, action: Action | V) => T
 ) {
   return (
     state: EntityState<T> = initialEntityState,
     action: EntityAction
   ): EntityState<T> => {
-    let ids: string[];
+    let ids: string[] = [];
     let partitionPayload = false;
     if (
       action.meta &&
       action.meta.entityType === entityType &&
       action.meta.entityId !== undefined
     ) {
-      ids = [].concat(action.meta.entityId);
+      if (action.meta.entityId !== null) {
+        ids = ([] as string[]).concat(action.meta.entityId);
+      }
 
       // remove selected entities
       if (action.meta.entityRemove) {
-        if (action.meta.entityId === null) {
-          return initialEntityState;
-        } else {
-          let removed = false;
-          const newEntities = Object.keys(state.entities).reduce((acc, cur) => {
-            if (ids.includes(cur)) {
-              removed = true;
-            } else {
-              acc[cur] = state.entities[cur];
-            }
-            return acc;
-          }, {});
-
-          return removed ? { entities: newEntities } : state;
-        }
+        return removeSelectedEntities(action, state, ids);
       }
 
       partitionPayload =
@@ -74,4 +67,29 @@ export function entityReducer<T>(
 
     return state;
   };
+
+  function removeSelectedEntities(
+    action: EntityAction,
+    state: EntityState<T>,
+    ids: string | string[]
+  ) {
+    if (action?.meta?.entityId === null) {
+      return initialEntityState;
+    } else {
+      let removed = false;
+      const newEntities = Object.keys(state.entities).reduce(
+        (acc: any, cur) => {
+          if (ids.includes(cur)) {
+            removed = true;
+          } else {
+            acc[cur] = state.entities[cur];
+          }
+          return acc;
+        },
+        {}
+      );
+
+      return removed ? { entities: newEntities } : state;
+    }
+  }
 }

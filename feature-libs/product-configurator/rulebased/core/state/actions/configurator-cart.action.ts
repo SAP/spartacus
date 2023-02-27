@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { StateUtils } from '@spartacus/core';
@@ -99,7 +105,9 @@ export class AddNextOwner implements Action {
 
 export class RemoveCartBoundConfigurations implements Action {
   readonly type = REMOVE_CART_BOUND_CONFIGURATIONS;
-  constructor() {}
+  constructor() {
+    // Intentional Empty Constructor
+  }
 }
 
 export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {

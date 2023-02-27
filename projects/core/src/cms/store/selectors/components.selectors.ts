@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
 import { StateUtils } from '../../../state/utils/index';
@@ -11,7 +17,7 @@ export const getComponentsState: MemoizedSelector<
 
 export const componentsContextSelectorFactory = (
   uid: string
-): MemoizedSelector<StateWithCms, ComponentsContext> => {
+): MemoizedSelector<StateWithCms, ComponentsContext | undefined> => {
   return createSelector(getComponentsState, (componentsState) =>
     StateUtils.entitySelector(componentsState, uid)
   );
@@ -43,7 +49,7 @@ export const componentsLoaderStateSelectorFactory = (
 export const componentsContextExistsSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, boolean | undefined> => {
+): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
     (loaderState) => StateUtils.loaderValueSelector(loaderState)

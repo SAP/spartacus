@@ -1,19 +1,26 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { filter, first, switchMap, take } from 'rxjs/operators';
-import {
-  OutletContextData,
-  TableDataOutletContext,
-} from '@spartacus/storefront';
 import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
+import {
+  OutletContextData,
+  TableDataOutletContext,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
-import { SubListService } from './sub-list.service';
+import { BaseItem } from '../organization.model';
 import { CellComponent } from '../table/cell.component';
-import { Observable } from 'rxjs';
+import { SubListService } from './sub-list.service';
 
 @Component({
   selector: 'cx-org-assign-cell',
@@ -24,7 +31,7 @@ import { Observable } from 'rxjs';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignCellComponent<T> extends CellComponent {
+export class AssignCellComponent<T extends BaseItem> extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: ItemService<T>,
@@ -45,7 +52,7 @@ export class AssignCellComponent<T> extends CellComponent {
         first(),
         switchMap((key) =>
           isAssigned
-            ? this.unassign(key, this.link)
+            ? this.unassign?.(key, this.link)
             : this.assign(key, this.link)
         ),
         take(1),
@@ -63,9 +70,11 @@ export class AssignCellComponent<T> extends CellComponent {
     key: string,
     linkKey: string
   ): Observable<OrganizationItemStatus<T>> {
-    return (this.organizationSubListService as SubListService<T>).assign(
-      key,
-      linkKey
+    return (
+      (this.organizationSubListService as SubListService<T>).assign?.(
+        key,
+        linkKey
+      ) ?? of()
     );
   }
 
@@ -73,9 +82,11 @@ export class AssignCellComponent<T> extends CellComponent {
     key: string,
     linkKey: string
   ): Observable<OrganizationItemStatus<T>> {
-    return (this.organizationSubListService as SubListService<T>).unassign(
-      key,
-      linkKey
+    return (
+      (this.organizationSubListService as SubListService<T>).unassign?.(
+        key,
+        linkKey
+      ) ?? of()
     );
   }
 
@@ -95,7 +106,7 @@ export class AssignCellComponent<T> extends CellComponent {
     );
   }
 
-  protected notify(item, state) {
+  protected notify(item: any, state: string) {
     this.messageService.add({
       message: {
         key: `${this.organizationSubListService.viewType}.${state}`,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
@@ -15,7 +21,7 @@ export class CostCenterAssignedBudgetListService extends CostCenterBudgetListSer
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<Budget>> {
+  ): Observable<EntitiesModel<Budget> | undefined> {
     return super
       .load(pagination, code)
       .pipe(map((budgets) => this.filterSelected(budgets)));

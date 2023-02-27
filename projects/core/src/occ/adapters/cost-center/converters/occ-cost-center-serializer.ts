@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CostCenter } from '../../../../model/org-unit.model';
 import { Converter } from '../../../../util/converter.service';
@@ -11,7 +17,7 @@ export class OccCostCenterSerializer
 {
   convert(source: CostCenter, target?: Occ.CostCenter): Occ.CostCenter {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Occ.CostCenter;
     }
     target.activeFlag = source.active;
     delete target.active;

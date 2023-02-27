@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -57,6 +63,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       )
       .pipe(
         pluck('component'),
+        map((components) => components ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }
@@ -79,7 +86,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize?: number,
     sort?: string
   ): { [key: string]: string } {
-    const requestParams = {};
+    const requestParams: { [key: string]: string } = {};
     if (currentPage !== undefined) {
       requestParams['currentPage'] = currentPage.toString();
     }

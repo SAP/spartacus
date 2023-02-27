@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { PaginationConfig } from './config/pagination.config';
 import {
@@ -83,14 +89,16 @@ export class PaginationBuilder {
     current: number
   ): void {
     const start = this.getStartOfRange(pageCount, current);
-    const max = Math.min(this.config.rangeCount, pageCount);
-    Array.from(Array(max)).forEach((_, i) => {
-      pages.push({
-        number: i + start,
-        label: String(i + start + 1),
-        type: PaginationItemType.PAGE,
+    if (this.config.rangeCount !== undefined && start !== null) {
+      const max = Math.min(this.config.rangeCount, pageCount);
+      Array.from(Array(max)).forEach((_, i) => {
+        pages.push({
+          number: i + start,
+          label: String(i + start + 1),
+          type: PaginationItemType.PAGE,
+        });
       });
-    });
+    }
   }
 
   /**
@@ -106,67 +114,78 @@ export class PaginationBuilder {
       return;
     }
 
-    const addFirstGap = () => {
-      const firstItemNumber = pages[0].number;
-      const gapNumber = this.config.addFirst ? 1 : 0;
-      if (firstItemNumber > gapNumber) {
-        const isGap =
-          !this.config.substituteDotsForSingularPage ||
-          firstItemNumber !== gapNumber + 1;
-        const isSubstituted =
-          this.config.addFirst &&
-          this.config.substituteDotsForSingularPage &&
-          gapNumber === 0;
-        const type = isGap
-          ? PaginationItemType.GAP
-          : isSubstituted
-          ? PaginationItemType.FIRST
-          : PaginationItemType.PAGE;
-        return [
-          Object.assign(
-            {
-              label: isGap ? this.config.dotsLabel : String(gapNumber + 1),
-              type,
-            },
-            isGap ? null : { number: gapNumber }
-          ),
-        ];
-      } else return [];
-    };
+    pages.unshift(...this.addFirstGapToDots(pages));
+    pages.push(...this.addLastGapToDots(pages, pageCount));
+  }
 
-    const addLastGap = () => {
-      const nextPageNumber = pages[pages.length - 1].number + 1;
-      const last = pageCount - (this.config.addLast ? 2 : 1);
-      if (nextPageNumber <= last) {
-        const isSubstituted =
-          this.config.addLast &&
-          this.config.substituteDotsForSingularPage &&
-          nextPageNumber === last;
-        const isGap =
-          nextPageNumber <
-          pageCount -
-            (this.config.substituteDotsForSingularPage ? 1 : 0) -
-            (this.config.addLast ? 1 : 0);
+  /**
+   * Helper method for addDots() whether to add the first gap.
+   */
+  protected addFirstGapToDots(pages: PaginationItem[]) {
+    const firstItemNumber = pages[0].number;
+    const gapNumber = Number(this.config.addFirst);
+    if (firstItemNumber !== undefined && firstItemNumber > gapNumber) {
+      const isGap =
+        !this.config.substituteDotsForSingularPage ||
+        firstItemNumber !== gapNumber + 1;
+      const isSubstituted =
+        this.config.addFirst &&
+        this.config.substituteDotsForSingularPage &&
+        gapNumber === 0;
+      const type = isGap
+        ? PaginationItemType.GAP
+        : isSubstituted
+        ? PaginationItemType.FIRST
+        : PaginationItemType.PAGE;
+      return [
+        Object.assign(
+          {
+            label: isGap ? this.config.dotsLabel : String(gapNumber + 1),
+            type,
+          },
+          isGap ? null : { number: gapNumber }
+        ),
+      ];
+    } else {
+      return [];
+    }
+  }
 
-        const type = isGap
-          ? PaginationItemType.GAP
-          : isSubstituted
-          ? PaginationItemType.LAST
-          : PaginationItemType.PAGE;
-        return [
-          Object.assign(
-            {
-              label: isGap ? this.config.dotsLabel : String(nextPageNumber + 1),
-              type,
-            },
-            isGap ? null : { number: nextPageNumber }
-          ),
-        ];
-      } else return [];
-    };
+  /**
+   * Helper method for addDots() whether to add the last gap.
+   */
+  protected addLastGapToDots(pages: PaginationItem[], pageCount: number) {
+    const pageNumber = pages[pages.length - 1].number;
+    const nextPageNumber = pageNumber ? pageNumber + 1 : undefined;
+    const last = pageCount - (Number(this.config.addLast) + 1);
+    if (nextPageNumber && nextPageNumber <= last) {
+      const isSubstituted =
+        this.config.addLast &&
+        this.config.substituteDotsForSingularPage &&
+        nextPageNumber === last;
+      const isGap =
+        nextPageNumber <
+        pageCount -
+          Number(this.config.substituteDotsForSingularPage) -
+          Number(this.config.addLast);
 
-    pages.unshift(...addFirstGap());
-    pages.push(...addLastGap());
+      const type = isGap
+        ? PaginationItemType.GAP
+        : isSubstituted
+        ? PaginationItemType.LAST
+        : PaginationItemType.PAGE;
+      return [
+        Object.assign(
+          {
+            label: isGap ? this.config.dotsLabel : String(nextPageNumber + 1),
+            type,
+          },
+          isGap ? null : { number: nextPageNumber }
+        ),
+      ];
+    } else {
+      return [];
+    }
   }
 
   /**
@@ -203,8 +222,8 @@ export class PaginationBuilder {
    * The `PaginationNavigationPosition` allows for 3 flavours:
    *
    * - by default the pagination starts with start and previous and ends with the next and end links
-   * - BEFORE – all navigation links are added in the front of the pagination list
-   * - AFTER – all navigation links are pushed to the end of the pagination list
+   * - BEFORE – all navigation links are added in the front of the pagination list
+   * - AFTER – all navigation links are pushed to the end of the pagination list
    *
    * @param pages The list of page items that is used to amend
    * @param pageCount The total number of pages
@@ -309,18 +328,21 @@ export class PaginationBuilder {
    * @param pageCount The total number of pages.
    * @param current The current page number, 0-index based.
    */
-  protected getStartOfRange(pageCount: number, current: number): number {
-    const count = this.config.rangeCount - 1;
-    // the least number of pages before and after the current
-    const delta = Math.round(count / 2);
+  protected getStartOfRange(pageCount: number, current: number): number | null {
+    if (this.config.rangeCount !== undefined) {
+      const count = this.config.rangeCount - 1;
+      // the least number of pages before and after the current
+      const delta = Math.round(count / 2);
 
-    // ensure that we start with at least the first page
-    const minStart = Math.max(0, current - delta);
-    // ensures that we start with at least 1 and do not pass the last range
-    const maxStart = Math.max(0, pageCount - count - 1);
+      // ensure that we start with at least the first page
+      const minStart = Math.max(0, current - delta);
+      // ensures that we start with at least 1 and do not pass the last range
+      const maxStart = Math.max(0, pageCount - count - 1);
 
-    // ensure that we get at least a full range at the end
-    return Math.min(maxStart, minStart);
+      // ensure that we get at least a full range at the end
+      return Math.min(maxStart, minStart);
+    }
+    return null;
   }
 
   /**

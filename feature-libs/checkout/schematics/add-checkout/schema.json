@@ -43,11 +43,11 @@
           },
           {
             "value": "Checkout-B2B",
-            "label": "Checkout (b2b feature, includes Base Checkout)"
+            "label": "Checkout B2B (b2b feature, requires Base Checkout)"
           },
           {
             "value": "Checkout-Scheduled-Replenishment",
-            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
+            "label": "Checkout Scheduled Replenishment (b2b feature, requires Base and B2B Checkout)"
           }
         ]
       }

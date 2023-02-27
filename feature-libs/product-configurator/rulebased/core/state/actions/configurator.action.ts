@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Action } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
@@ -42,6 +49,13 @@ export const GET_CONFIGURATION_OVERVIEW_FAIL =
 export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
   '[Configurator] Get Configuration Overview success';
 
+export const UPDATE_CONFIGURATION_OVERVIEW =
+  '[Configurator] Update Configuration Overview';
+export const UPDATE_CONFIGURATION_OVERVIEW_FAIL =
+  '[Configurator] Update Configuration Overview fail';
+export const UPDATE_CONFIGURATION_OVERVIEW_SUCCESS =
+  '[Configurator] Update Configuration Overview success';
+
 export const SET_INTERACTION_STATE = '[Configurator] Set interaction state';
 export const SET_CURRENT_GROUP = '[Configurator] Set current group to State';
 export const SET_MENU_PARENT_GROUP =
@@ -49,10 +63,22 @@ export const SET_MENU_PARENT_GROUP =
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 
+export const REMOVE_PRODUCT_BOUND_CONFIGURATIONS =
+  '[Configurator] Remove product bound configurations';
+
+export const DISMISS_CONFLICT_DIALOG = '[Configurator] Dismiss conflict dialog';
+
+export const CHECK_CONFLICT_DIALOG = '[Configurator] Check conflict dialog';
+
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public payload: CommonConfigurator.Owner) {
-    super(CONFIGURATOR_DATA, payload.key);
+  constructor(
+    public payload: {
+      owner: CommonConfigurator.Owner;
+      configIdTemplate?: string;
+    }
+  ) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -174,6 +200,7 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
        * Id of parent group. Can be undefined for groups on root level
        */
       parentGroupId?: string;
+      conflictResolutionMode?: boolean;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
@@ -210,6 +237,29 @@ export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
 
 export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
+  constructor(
+    public payload: { ownerKey: string; overview: Configurator.Overview }
+  ) {
+    super(CONFIGURATOR_DATA, payload.ownerKey);
+  }
+}
+
+export class UpdateConfigurationOverview extends StateUtils.EntityLoadAction {
+  readonly type = UPDATE_CONFIGURATION_OVERVIEW;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATOR_DATA, payload.owner.key);
+  }
+}
+
+export class UpdateConfigurationOverviewFail extends StateUtils.EntityFailAction {
+  readonly type = UPDATE_CONFIGURATION_OVERVIEW_FAIL;
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
+  }
+}
+
+export class UpdateConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = UPDATE_CONFIGURATION_OVERVIEW_SUCCESS;
   constructor(
     public payload: { ownerKey: string; overview: Configurator.Overview }
   ) {
@@ -263,6 +313,27 @@ export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   }
 }
 
+export class RemoveProductBoundConfigurations implements Action {
+  readonly type = REMOVE_PRODUCT_BOUND_CONFIGURATIONS;
+  constructor() {
+    // Intentional Empty Constructor
+  }
+}
+
+export class DissmissConflictDialoge extends StateUtils.EntitySuccessAction {
+  readonly type = DISMISS_CONFLICT_DIALOG;
+  constructor(public ownerKey: string) {
+    super(CONFIGURATOR_DATA, ownerKey);
+  }
+}
+
+export class CheckConflictDialoge extends StateUtils.EntitySuccessAction {
+  readonly type = CHECK_CONFLICT_DIALOG;
+  constructor(public ownerKey: string) {
+    super(CONFIGURATOR_DATA, ownerKey);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -283,8 +354,14 @@ export type ConfiguratorAction =
   | GetConfigurationOverview
   | GetConfigurationOverviewFail
   | GetConfigurationOverviewSuccess
+  | UpdateConfigurationOverview
+  | UpdateConfigurationOverviewFail
+  | UpdateConfigurationOverviewSuccess
   | RemoveConfiguration
   | SetInteractionState
   | SetMenuParentGroup
   | SetCurrentGroup
-  | SetGroupsVisited;
+  | SetGroupsVisited
+  | RemoveProductBoundConfigurations
+  | CheckConflictDialoge
+  | DissmissConflictDialoge;

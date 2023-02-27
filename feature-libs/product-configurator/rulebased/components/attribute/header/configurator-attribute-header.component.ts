@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,6 +38,8 @@ export class ConfiguratorAttributeHeaderComponent
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
+  @Input() expMode: boolean;
+  @Input() isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
@@ -45,7 +53,7 @@ export class ConfiguratorAttributeHeaderComponent
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
-    this.owner = attributeComponentContext.configuration.owner;
+    this.owner = attributeComponentContext.owner;
     this.groupId = attributeComponentContext.group.id;
     this.groupType =
       attributeComponentContext.group.groupType ??
@@ -57,9 +65,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
-      );
+      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
   }
 
   /**
@@ -68,8 +74,10 @@ export class ConfiguratorAttributeHeaderComponent
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
-      return 'configurator.attribute.singleSelectRequiredMessage';
-    } else if (this.isMultiSelection()) {
+      return this.isWithAdditionalValues(this.attribute)
+        ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
+        : 'configurator.attribute.singleSelectRequiredMessage';
+    } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
       //input attribute types
@@ -77,7 +85,7 @@ export class ConfiguratorAttributeHeaderComponent
     }
   }
 
-  protected isMultiSelection(): boolean {
+  protected get isMultiSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
@@ -91,9 +99,11 @@ export class ConfiguratorAttributeHeaderComponent
   protected isSingleSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
@@ -124,6 +134,15 @@ export class ConfiguratorAttributeHeaderComponent
       return true;
     }
     return false;
+  }
+
+  /**
+   * Verifies whether the conflict resolution is active.
+   *
+   * @return {boolean} - 'true' if the conflict resolution is active otherwise 'false'
+   */
+  isConflictResolutionActive(): boolean {
+    return this.isAttributeGroup() && this.isNavigationToGroupEnabled;
   }
 
   /**
@@ -179,7 +198,9 @@ export class ConfiguratorAttributeHeaderComponent
           this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
-          this.logWarning('Attribute was not found in any conflict group');
+          this.logError(
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+          );
         }
       });
   }
@@ -212,9 +233,9 @@ export class ConfiguratorAttributeHeaderComponent
       })?.id;
   }
 
-  protected logWarning(text: string): void {
+  protected logError(text: string): void {
     if (isDevMode()) {
-      console.warn(text);
+      console.error(text);
     }
   }
 
@@ -249,12 +270,16 @@ export class ConfiguratorAttributeHeaderComponent
       .subscribe(callback);
   }
   /**
-   * @returns true only if navigation to conflict groups is enabled.
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
     return (
-      this.configuratorUiSettings.productConfigurator
-        ?.enableNavigationToConflict ?? false
+      (this.isNavigationToGroupEnabled &&
+        this.configuratorUiSettings.productConfigurator
+          ?.enableNavigationToConflict) ??
+      false
     );
   }
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import {
@@ -34,7 +40,7 @@ export class RoutingService {
    * active child routes.
    */
   getParams(): Observable<{ [key: string]: string }> {
-    return this.routingParamsService?.getParams();
+    return this.routingParamsService.getParams();
   }
 
   /**
@@ -54,7 +60,7 @@ export class RoutingService {
   /**
    * Get the next `PageContext` from the state
    */
-  getNextPageContext(): Observable<PageContext> {
+  getNextPageContext(): Observable<PageContext | undefined> {
     return this.store.pipe(select(RoutingSelector.getNextPageContext));
   }
 
@@ -133,9 +139,11 @@ export class RoutingService {
    * Navigating back
    */
   back(): void {
-    const isLastPageInApp = this.winRef.document.referrer.includes(
-      this.winRef.nativeWindow.location.origin
-    );
+    const isLastPageInApp =
+      this.winRef.nativeWindow &&
+      this.winRef.document.referrer.includes(
+        this.winRef.nativeWindow.location.origin
+      );
     if (isLastPageInApp) {
       this.location.back();
       return;

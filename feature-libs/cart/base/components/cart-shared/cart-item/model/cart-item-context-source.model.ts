@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
   CartItemContext,
@@ -21,7 +27,7 @@ export class CartItemContextSource implements CartItemContext {
 
   readonly item$ = new ReplaySubject<OrderEntry>(1);
 
-  readonly quantityControl$ = new ReplaySubject<FormControl>(1);
+  readonly quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
 
   readonly location$ = new ReplaySubject<PromotionLocation>(1);
 

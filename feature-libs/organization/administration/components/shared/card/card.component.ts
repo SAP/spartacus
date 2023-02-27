@@ -1,16 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewChild,
 } from '@angular/core';
-import { ViewComponent } from '@spartacus/storefront';
+import { ICON_TYPE, ViewComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-org-card',
@@ -25,11 +30,11 @@ export class CardComponent<T extends BaseItem> {
   @Input() subtitle?: string;
   @Input() showHint? = false;
 
-  protected itemKey;
+  protected itemKey: string | undefined;
 
   iconTypes = ICON_TYPE;
 
-  item$: Observable<T> = this.itemService.current$.pipe(
+  item$: Observable<T | undefined> = this.itemService.current$.pipe(
     tap((item) => this.refreshMessages(item))
   );
 
@@ -50,7 +55,7 @@ export class CardComponent<T extends BaseItem> {
     this.view.toggle(true);
 
     setTimeout(() => {
-      (event.target as HTMLElement)?.parentElement.click();
+      (event.target as HTMLElement)?.parentElement?.click();
     }, 500);
 
     return false;
@@ -60,7 +65,7 @@ export class CardComponent<T extends BaseItem> {
     return this.previous as string;
   }
 
-  protected refreshMessages(item: T) {
+  protected refreshMessages(item: T | undefined) {
     if (
       this.itemKey !== undefined &&
       item?.code !== this.itemKey &&

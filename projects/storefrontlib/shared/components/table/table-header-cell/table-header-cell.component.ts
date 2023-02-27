@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
@@ -17,7 +23,7 @@ export class TableHeaderCellComponent {
   /**
    * Returns the static label for the given field, if available.
    */
-  get header(): string {
+  get header(): string | undefined {
     if (typeof this.fieldOptions?.label === 'string') {
       return <string>this.fieldOptions.label;
     }
@@ -40,7 +46,7 @@ export class TableHeaderCellComponent {
     );
   }
 
-  protected get fieldOptions(): TableFieldOptions {
+  protected get fieldOptions(): TableFieldOptions | undefined {
     return this.outlet?.context._options?.cells?.[this.field];
   }
 
@@ -52,7 +58,7 @@ export class TableHeaderCellComponent {
     return this.outlet?.context?._type;
   }
 
-  protected get i18nRoot(): string {
+  protected get i18nRoot(): string | undefined {
     return this.outlet?.context?._i18nRoot;
   }
 }

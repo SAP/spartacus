@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface SearchBoxConfig {
-  displaySuggestions?: boolean;
-  displayProducts?: boolean;
-  displayProductImages?: boolean;
+  displaySuggestions?: boolean | string;
+  displayProducts?: boolean | string;
+  displayProductImages?: boolean | string;
   maxProducts?: number;
   maxSuggestions?: number;
   minCharactersBeforeRequest?: number;

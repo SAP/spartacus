@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -33,9 +39,9 @@ export class ProductService {
   get(
     productCode: string,
     scopes: (ProductScope | string)[] | ProductScope | string = DEFAULT_SCOPE
-  ): Observable<Product> {
+  ): Observable<Product | undefined> {
     return productCode
-      ? this.productLoading.get(productCode, [].concat(scopes))
+      ? this.productLoading.get(productCode, ([] as string[]).concat(scopes))
       : of(undefined);
   }
 

@@ -11,15 +11,20 @@ import * as path from 'path';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
+  SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/libs-constants';
+import { spartacusFeaturesModulePath } from '../shared/utils/test-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('add-spartacus', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -153,6 +158,15 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
 
+    it('should create the styles config file.', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      expect(
+        tree.exists('/projects/schematics-test/src/styles-config.scss')
+      ).toBe(true);
+    });
+
     it('should set styleVersion based on featureLevel', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
@@ -162,9 +176,19 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/styles.scss'
+        '/projects/schematics-test/src/styles-config.scss'
       );
       expect(appModule.includes(`$styleVersion: 5.5`)).toBe(true);
+    });
+
+    it('Main styles should import the styles config.', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      const mainStylesContent = tree.readContent(
+        '/projects/schematics-test/src/styles.scss'
+      );
+      expect(mainStylesContent.includes("@import 'styles-config';")).toBe(true);
     });
 
     describe('context config', () => {
@@ -227,7 +251,7 @@ describe('add-spartacus', () => {
     });
 
     describe('currency', () => {
-      it('should set the default currency when not provided', async () => {
+      it('should set no currency when not provided', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
             'add-spartacus',
@@ -241,7 +265,7 @@ describe('add-spartacus', () => {
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`currency: ['USD']`)).toBe(true);
+        expect(appModule.includes(`currency: `)).toBe(false);
       });
       it('should set the single currency', async () => {
         const tree = await schematicRunner
@@ -279,7 +303,7 @@ describe('add-spartacus', () => {
       });
     });
     describe('language', () => {
-      it('should set the default language when not provided', async () => {
+      it('should set no language when not provided', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
             'add-spartacus',
@@ -293,7 +317,7 @@ describe('add-spartacus', () => {
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: ['en']`)).toBe(true);
+        expect(appModule.includes(`language: `)).toBe(false);
       });
       it('should set the single language', async () => {
         const tree = await schematicRunner
@@ -408,7 +432,7 @@ describe('add-spartacus', () => {
     const stylesFile = tree.readContent(
       '/projects/schematics-test/src/styles.scss'
     );
-    expect(stylesFile.includes(`@import '~@spartacus/styles/index';`)).toBe(
+    expect(stylesFile.includes(`@import '@spartacus/styles/index';`)).toBe(
       true
     );
   });
@@ -425,7 +449,7 @@ describe('add-spartacus', () => {
       '/projects/schematics-test/src/styles.scss'
     );
     expect(
-      stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)
+      stylesFile.includes(`@import '@spartacus/styles/scss/theme/santorini';`)
     ).toBe(true);
   });
 
@@ -533,7 +557,7 @@ describe('add-spartacus', () => {
         .toPromise();
 
       const featureModuleContent = appTree.readContent(
-        '/projects/schematics-test/src/app/spartacus/spartacus-features.module.ts'
+        `/projects/schematics-test/${spartacusFeaturesModulePath}`
       );
       const importModuleOccurrences =
         featureModuleContent.match(/AuthModule.forRoot()/gm)?.length ?? -1;

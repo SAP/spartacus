@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, Occ, TimeUtils } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
@@ -8,7 +14,7 @@ import { Budget } from '@spartacus/organization/administration/core';
 export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
   convert(source: Occ.Budget, target?: Budget): Budget {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Budget;
     }
 
     if (source.startDate) {

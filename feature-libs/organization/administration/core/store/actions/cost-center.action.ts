@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CostCenter,
   ListModel,
@@ -64,8 +70,8 @@ export class LoadCostCenterSuccess extends StateUtils.EntitySuccessAction {
     super(
       COST_CENTER_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((costCenter) => costCenter?.code)
-        : payload?.code
+        ? payload.map((costCenter) => costCenter?.code ?? '')
+        : payload?.code ?? ''
     );
   }
 }
@@ -108,7 +114,7 @@ export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
 export class CreateCostCenter extends StateUtils.EntityLoadAction {
   readonly type = CREATE_COST_CENTER;
   constructor(public payload: { userId: string; costCenter: CostCenter }) {
-    super(COST_CENTER_ENTITIES, payload.costCenter.code);
+    super(COST_CENTER_ENTITIES, payload.costCenter.code ?? null);
   }
 }
 
@@ -122,7 +128,7 @@ export class CreateCostCenterFail extends StateUtils.EntityFailAction {
 export class CreateCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_COST_CENTER_SUCCESS;
   constructor(public payload: CostCenter) {
-    super(COST_CENTER_ENTITIES, payload.code, payload);
+    super(COST_CENTER_ENTITIES, payload.code ?? null, payload);
   }
 }
 
@@ -135,7 +141,7 @@ export class UpdateCostCenter extends StateUtils.EntityLoadAction {
       costCenter: CostCenter;
     }
   ) {
-    super(COST_CENTER_ENTITIES, payload.costCenter.code);
+    super(COST_CENTER_ENTITIES, payload.costCenter.code ?? '');
   }
 }
 
@@ -149,7 +155,7 @@ export class UpdateCostCenterFail extends StateUtils.EntityFailAction {
 export class UpdateCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_COST_CENTER_SUCCESS;
   constructor(public payload: CostCenter) {
-    super(COST_CENTER_ENTITIES, payload.code, payload);
+    super(COST_CENTER_ENTITIES, payload.code ?? '', payload);
   }
 }
 

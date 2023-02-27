@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Currency } from '../../model/misc.model';
+import { isNotNullable } from '../../util/type-guards';
 import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
@@ -32,7 +39,7 @@ export class CurrencyService implements SiteContext<Currency> {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter((currencies) => Boolean(currencies))
+      filter(isNotNullable)
     );
   }
 
@@ -42,7 +49,7 @@ export class CurrencyService implements SiteContext<Currency> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveCurrency),
-      filter((active) => Boolean(active))
+      filter(isNotNullable)
     );
   }
 

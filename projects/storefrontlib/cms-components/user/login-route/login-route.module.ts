@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -18,6 +24,7 @@ import { LoginGuard } from './login.guard';
     PageLayoutModule,
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [LoginGuard],
         component: PageLayoutComponent,

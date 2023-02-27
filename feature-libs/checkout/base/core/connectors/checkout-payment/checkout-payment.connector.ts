@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
@@ -23,7 +29,7 @@ export class CheckoutPaymentConnector {
     return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
   }
 
-  getCardTypes(): Observable<CardType[]> {
-    return this.adapter.getCardTypes();
+  getPaymentCardTypes(): Observable<CardType[]> {
+    return this.adapter.getPaymentCardTypes();
   }
 }

@@ -1,62 +1,12 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
-  <ng-container *ngIf="currentGroup$ | async as currentGroup">
-    <div id="{{ createGroupId(currentGroup.id) }}" role="tabpanel">
-      <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
-        <cx-configurator-conflict-description
-          [currentGroup]="currentGroup"
-        ></cx-configurator-conflict-description>
-      </ng-container>
-      <div
-        class="cx-group-attribute"
-        *ngFor="
-          let attribute of currentGroup.attributes;
-          let indexOfAttribute = index
-        "
-      >
-        <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
-          <cx-configurator-conflict-suggestion
-            [currentGroup]="currentGroup"
-            [attribute]="attribute"
-            [suggestionNumber]="indexOfAttribute"
-          ></cx-configurator-conflict-suggestion>
-        </ng-container>
-
-        <div
-          [cxConfiguratorAttributeComponent]="{
-            componentKey: 'Header',
-            attribute: attribute,
-            configuration: configuration,
-            group: currentGroup
-          }"
-        ></div>
-
-        <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
-          <div
-            [cxConfiguratorAttributeComponent]="{
-              componentKey: getComponentKey(attribute),
-              attribute: attribute,
-              configuration: configuration,
-              group: currentGroup,
-              language: activeLanguage$
-            }"
-          ></div>
-        </ng-container>
-
-        <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{
-          'configurator.attribute.notSupported' | cxTranslate
-        }}</em>
-
-        <div
-          [cxConfiguratorAttributeComponent]="{
-            componentKey: 'Footer',
-            attribute: attribute,
-            configuration: configuration,
-            group: currentGroup
-          }"
-        ></div>
-      </div>
-    </div>
-  </ng-container>
+  <ng-container *ngIf="!isDialogActive(configuration); else ghostForm">
+    <cx-configurator-group
+      [group]="currentGroup$ | async"
+      [owner]="configuration.owner"
+      [isNavigationToGroupEnabled]="isNavigationToGroupEnabled(configuration)"
+    >
+    </cx-configurator-group
+  ></ng-container>
 </ng-container>
 
 <ng-template #ghostForm>

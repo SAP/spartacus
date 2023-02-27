@@ -1,12 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnInit,
+  Optional,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -19,17 +30,18 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   Card,
+  getAddressNumbers,
   ICON_TYPE,
-  ModalRef,
-  ModalService,
-  SuggestedAddressDialogComponent,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -40,7 +52,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
 
@@ -73,7 +84,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
-  paymentForm: FormGroup = this.fb.group({
+  paymentForm: UntypedFormGroup = this.fb.group({
     cardType: this.fb.group({
       code: [null, Validators.required],
     }),
@@ -85,7 +96,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     defaultPayment: [false],
   });
 
-  billingAddressForm: FormGroup = this.fb.group({
+  billingAddressForm: UntypedFormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -100,14 +111,43 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(
+    checkoutPaymentFacade: CheckoutPaymentFacade,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    userPaymentService: UserPaymentService,
+    globalMessageService: GlobalMessageService,
+    fb: UntypedFormBuilder,
+    userAddressService: UserAddressService,
+    launchDialogService: LaunchDialogService
+  );
+
+  /**
+   * TODO: (#CXSPA-53) Make translationService a required dependency in 6.0
+   */
+  constructor(
+    checkoutPaymentFacade: CheckoutPaymentFacade,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    userPaymentService: UserPaymentService,
+    globalMessageService: GlobalMessageService,
+    fb: UntypedFormBuilder,
+    userAddressService: UserAddressService,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    translationService?: TranslationService
+  );
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder,
-    protected modalService: ModalService,
-    protected userAddressService: UserAddressService
+    protected fb: UntypedFormBuilder,
+    protected userAddressService: UserAddressService,
+    protected launchDialogService: LaunchDialogService,
+    @Optional() protected translationService?: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -125,7 +165,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
       })
     );
 
-    this.cardTypes$ = this.checkoutPaymentFacade.getCardTypes();
+    this.cardTypes$ = this.checkoutPaymentFacade.getPaymentCardTypes();
 
     this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()
@@ -193,43 +233,70 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
 
-  getAddressCardContent(address: Address): Card {
-    let region = '';
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
-    }
+  /**
+   * TODO: (CXSPA-53) Remove synchronous overload signature and return only an observable.
+   */
+  getAddressCardContent(address: Address): Card;
+  getAddressCardContent(address: Address, returnAsync: true): Observable<Card>;
+  getAddressCardContent(
+    address: Address,
+    returnAsync?: true
+  ): Card | Observable<Card> {
+    if (returnAsync) {
+      return this.translationService
+        ? combineLatest([
+            this.translationService.translate('addressCard.phoneNumber'),
+            this.translationService.translate('addressCard.mobileNumber'),
+          ]).pipe(
+            map(([textPhone, textMobile]) => {
+              let region = '';
+              if (address.region && address.region.isocode) {
+                region = address.region.isocode + ', ';
+              }
+              const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-    return {
-      textBold: address.firstName + ' ' + address.lastName,
-      text: [
-        address.line1,
-        address.line2,
-        address.town + ', ' + region + address.country?.isocode,
-        address.postalCode,
-        address.phone,
-      ],
-    } as Card;
+              return {
+                textBold: address.firstName + ' ' + address.lastName,
+                text: [
+                  address.line1,
+                  address.line2,
+                  address.town + ', ' + region + address.country?.isocode,
+                  address.postalCode,
+                  numbers,
+                ],
+              } as Card;
+            })
+          )
+        : EMPTY;
+    } else {
+      let region = '';
+      if (address.region && address.region.isocode) {
+        region = address.region.isocode + ', ';
+      }
+      return {
+        textBold: address.firstName + ' ' + address.lastName,
+        text: [
+          address.line1,
+          address.line2,
+          address.town + ', ' + region + address.country?.isocode,
+          address.postalCode,
+          address.phone,
+        ],
+      } as Card;
+    }
   }
 
+  //TODO: Add elementRef to trigger button when verifyAddress is used.
   openSuggestedAddress(results: AddressValidation): void {
-    if (!this.suggestedAddressModalRef) {
-      this.suggestedAddressModalRef = this.modalService.open(
-        SuggestedAddressDialogComponent,
-        { centered: true, size: 'lg' }
-      );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress =
-        this.billingAddressForm.value;
-      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
-        results.suggestedAddresses;
-      this.suggestedAddressModalRef.result
-        .then(() => {
-          this.suggestedAddressModalRef = null;
-        })
-        .catch(() => {
-          // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.suggestedAddressModalRef = null;
-        });
-    }
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.SUGGESTED_ADDRESSES,
+      undefined,
+      {
+        enteredAddress: this.billingAddressForm.value,
+        suggestedAddresses: results.suggestedAddresses,
+      }
+    );
+    //TODO: Add logic that handle dialog's actions. Scope of CXSPA-1276
   }
 
   close(): void {
@@ -239,7 +306,11 @@ export class CheckoutPaymentFormComponent implements OnInit {
   back(): void {
     this.goBack.emit();
   }
-
+  /**
+   *TODO: This method is not used, but should be. It triggers suggested addresses modal under the hood.
+   *
+   * See ticket CXSPA-1276
+   */
   verifyAddress(): void {
     if (this.sameAsDeliveryAddress) {
       this.next();

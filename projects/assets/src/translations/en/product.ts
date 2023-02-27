@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const product = {
   productDetails: {
     id: 'ID',
@@ -93,6 +99,8 @@ export const product = {
     selectStyleAndSize: 'Select style and size to check stock',
     removeFromCart: 'Remove Product from Cart',
     closeModal: 'Close Modal',
+    buyItAgain: 'Buy It Again',
+    addToActiveCart: 'Add To Active Cart',
   },
   TabPanelContainer: {
     tabs: {

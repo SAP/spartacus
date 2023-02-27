@@ -1,4 +1,10 @@
-import { HttpParams } from '@angular/common/http';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HttpParams, HttpParamsOptions } from '@angular/common/http';
 import { Injectable, isDevMode, Optional } from '@angular/core';
 import { StringTemplate } from '../../config/utils/string-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
@@ -110,7 +116,7 @@ export class OccEndpointsService {
       const { urlParams, queryParams } = attributes;
 
       if (urlParams) {
-        url = StringTemplate.resolve(url, attributes.urlParams, true);
+        url = StringTemplate.resolve(url, urlParams, true);
       }
 
       if (queryParams) {
@@ -125,17 +131,10 @@ export class OccEndpointsService {
           };
         }
 
-        let httpParams = new HttpParams(httpParamsOptions);
-        Object.keys(queryParams).forEach((key) => {
-          const value = queryParams[key];
-          if (value !== undefined) {
-            if (value === null) {
-              httpParams = httpParams.delete(key);
-            } else {
-              httpParams = httpParams.set(key, value);
-            }
-          }
-        });
+        const httpParams = this.getHttpParamsFromQueryParams(
+          queryParams,
+          httpParamsOptions
+        );
 
         const params = httpParams.toString();
         if (params.length) {
@@ -145,6 +144,24 @@ export class OccEndpointsService {
     }
 
     return this.buildUrlFromEndpointString(url, propertiesToOmit);
+  }
+
+  protected getHttpParamsFromQueryParams(
+    queryParams: any,
+    options: HttpParamsOptions
+  ) {
+    let httpParams = new HttpParams(options);
+    Object.keys(queryParams).forEach((key) => {
+      const value = queryParams[key as keyof object];
+      if (value !== undefined) {
+        if (value === null) {
+          httpParams = httpParams.delete(key);
+        } else {
+          httpParams = httpParams.set(key, value);
+        }
+      }
+    });
+    return httpParams;
   }
 
   private getEndpointFromConfig(
@@ -157,7 +174,8 @@ export class OccEndpointsService {
       return undefined;
     }
 
-    const endpointConfig = endpointsConfig[endpoint];
+    const endpointConfig: any =
+      endpointsConfig[endpoint as keyof typeof endpointsConfig];
 
     if (scope) {
       if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
@@ -175,11 +193,12 @@ export class OccEndpointsService {
   private getEndpointForScope(endpoint: string, scope?: string): string {
     const endpointsConfig = this.config.backend?.occ?.endpoints;
 
-    if (!Boolean(endpointsConfig)) {
+    if (!endpointsConfig) {
       return '';
     }
 
-    const endpointConfig = endpointsConfig[endpoint];
+    const endpointConfig: any =
+      endpointsConfig[endpoint as keyof typeof endpointsConfig];
 
     if (scope) {
       if (endpointConfig?.[scope]) {
@@ -225,3 +244,5 @@ export class OccEndpointsService {
     return this.config?.backend?.occ?.prefix ?? '';
   }
 }
+
+// CHECK SONAR

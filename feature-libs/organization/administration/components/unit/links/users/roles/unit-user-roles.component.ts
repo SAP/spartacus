@@ -1,6 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole } from '@spartacus/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import {
   B2BUserService,
   LoadStatus,
@@ -9,9 +15,9 @@ import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';
 import { MessageService } from '../../../../shared/message/services/message.service';
+import { UserItemService } from '../../../../user/services/user-item.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 import { UnitUserRolesItemService } from './unit-user-roles-item.service';
-import { UserItemService } from '../../../../user/services/user-item.service';
 
 @Component({
   selector: 'cx-org-unit-user-roles',
@@ -26,17 +32,17 @@ import { UserItemService } from '../../../../user/services/user-item.service';
   ],
 })
 export class UnitUserRolesFormComponent {
-  protected item: B2BUser;
+  protected item: B2BUser | undefined;
 
   @ViewChild(MessageService, { read: MessageService })
   messageService: MessageService;
 
-  form$: Observable<FormGroup> = this.itemService.current$.pipe(
+  form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     tap((item) => {
       if (!this.item) {
         this.item = item;
       }
-      if (this.item.roles?.join() !== item.roles?.join()) {
+      if (this.item?.roles?.join() !== item?.roles?.join()) {
         this.item = { ...this.item, ...item };
       }
     }),
@@ -44,6 +50,7 @@ export class UnitUserRolesFormComponent {
   );
 
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
+  availableRights: B2BUserRight[] = this.userService.getAllRights();
 
   constructor(
     protected itemService: ItemService<B2BUser>,
@@ -52,11 +59,15 @@ export class UnitUserRolesFormComponent {
     protected userItemService: UserItemService
   ) {}
 
-  save(form: FormGroup) {
+  save(form: UntypedFormGroup) {
     form.disable();
-    const roles = [...this.availableRoles].filter((r) => !!form.get(r).value);
+    const rolesAndRights: (B2BUserRole | B2BUserRight)[] = [
+      ...this.availableRoles,
+      ...this.availableRights,
+    ].filter((role: B2BUserRole | B2BUserRight) => !!form.get(role)?.value);
+
     this.userItemService
-      .update(this.item.customerId, { roles })
+      .update(this.item?.customerId ?? '', { roles: rolesAndRights })
       .pipe(
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)

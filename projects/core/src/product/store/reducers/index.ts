@@ -1,14 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { PRODUCT_DETAIL_ENTITY, ProductsState } from '../product-state';
+import { entityScopedLoaderReducer } from '../../../state/utils/scoped-loader/entity-scoped-loader.reducer';
+import { ProductsState, PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProductReferences from './product-references.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
 import * as fromProductsSearch from './product-search.reducer';
-import { entityScopedLoaderReducer } from '../../../state/utils/scoped-loader/entity-scoped-loader.reducer';
 
-export function getReducers(): ActionReducerMap<ProductsState> {
+export function getReducers(): ActionReducerMap<ProductsState, any> {
   return {
     search: fromProductsSearch.reducer,
     details: entityScopedLoaderReducer<Product>(PRODUCT_DETAIL_ENTITY),

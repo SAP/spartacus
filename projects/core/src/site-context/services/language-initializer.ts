@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -50,10 +56,12 @@ export class LanguageInitializer implements OnDestroy {
    * unless the active language has been already initialized.
    */
   protected setDefaultFromConfig(config: SiteContextConfig): void {
-    if (!this.languageService.isInitialized()) {
-      this.languageService.setActive(
-        getContextParameterDefault(config, LANGUAGE_CONTEXT_ID)
-      );
+    const contextParam = getContextParameterDefault(
+      config,
+      LANGUAGE_CONTEXT_ID
+    );
+    if (!this.languageService.isInitialized() && contextParam) {
+      this.languageService.setActive(contextParam);
     }
   }
 

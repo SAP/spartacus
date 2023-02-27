@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
@@ -25,7 +31,7 @@ export class ConfiguratorExitButtonComponent {
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
-    product: Product;
+    product: Product | undefined;
   }> = this.configRouterExtractorService.extractRouterData().pipe(
     switchMap((routerData) =>
       this.configuratorCommonsService

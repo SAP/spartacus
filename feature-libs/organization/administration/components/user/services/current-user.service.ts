@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -10,8 +16,8 @@ import { CurrentItemService } from '../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentUserService extends CurrentItemService<B2BUser> {
-  readonly name$: Observable<string> = this.item$.pipe(
-    map((user: B2BUser) => user.name)
+  readonly name$: Observable<string | undefined> = this.item$.pipe(
+    map((user: B2BUser | undefined) => user?.name)
   );
 
   constructor(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SpinnerModule } from '@spartacus/storefront';
 import { DpPaymentFormComponent } from './dp-payment-form.component';
 import { CommonModule } from '@angular/common';

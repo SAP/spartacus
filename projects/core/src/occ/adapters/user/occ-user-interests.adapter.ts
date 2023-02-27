@@ -1,17 +1,23 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { Observable, throwError, forkJoin } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 import {
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
-import { OccConfig } from '../../config/occ-config';
-import { ConverterService } from '../../../util/converter.service';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
+import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -69,9 +75,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     item: ProductInterestEntryRelation
   ): Observable<any[]> {
     const r: Observable<any>[] = [];
-    item.productInterestEntry.forEach((entry: any) => {
+    item.productInterestEntry?.forEach((entry: any) => {
       const params: HttpParams = new HttpParams()
-        .set('productCode', item.product.code)
+        .set('productCode', item.product?.code ?? '')
         .set('notificationType', entry.interestType);
       r.push(
         this.http

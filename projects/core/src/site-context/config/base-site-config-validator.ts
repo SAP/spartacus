@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SiteContextConfig } from './site-context-config';
 import { getContextParameterDefault } from './context-config-utils';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';

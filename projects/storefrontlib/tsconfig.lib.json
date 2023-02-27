@@ -10,7 +10,7 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "strict": false, // TODO: Fix strict errors and remove this option
+    "strict": true,
     "types": [],
     "lib": ["es2020", "dom"],
     "paths": {
@@ -22,7 +22,8 @@
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictTemplates": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]
 }

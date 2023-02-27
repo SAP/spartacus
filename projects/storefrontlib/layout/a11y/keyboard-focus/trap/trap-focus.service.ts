@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   MOVE_FOCUS,
@@ -57,11 +63,11 @@ export class TrapFocusService extends TabFocusService {
     }
   }
 
-  protected getTrapStart(trap: TrapFocusType): boolean {
+  protected getTrapStart(trap: TrapFocusType | undefined): boolean {
     return trap === true || trap === TrapFocus.start;
   }
 
-  protected getTrapEnd(trap: TrapFocusType): boolean {
+  protected getTrapEnd(trap: TrapFocusType | undefined): boolean {
     return trap === true || trap === TrapFocus.end;
   }
 }

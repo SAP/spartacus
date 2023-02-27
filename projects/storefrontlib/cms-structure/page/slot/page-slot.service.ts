@@ -1,19 +1,25 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DeferLoadingStrategy } from '@spartacus/core';
+import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { CmsComponentsService } from '../../services/cms-components.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PageSlotService {
-  protected prerenderedSlots: string[] | undefined;
+  protected prerenderedSlots: (string | null)[] | undefined;
 
   constructor(
     protected cmsComponentsService: CmsComponentsService,
     @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document
+    @Inject(DOCUMENT) protected document: Document
   ) {
     this.resolvePrerenderedSlots();
   }
@@ -55,10 +61,10 @@ export class PageSlotService {
    * page slot is prerendered, we would ignore the defer options altogether.
    */
   getComponentDeferOptions(
-    slot: string,
+    slot: string | undefined,
     componentType: string
   ): IntersectionOptions {
-    if (this.shouldNotDefer(slot)) {
+    if (slot && this.shouldNotDefer(slot)) {
       return { deferLoading: DeferLoadingStrategy.INSTANT };
     }
     const deferLoading =

@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn } from 'rxjs/operators';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { isNotUndefined } from '../../../util/type-guards';
 import { ClientToken } from '../models/client-token.model';
 import { ClientAuthActions } from '../store/actions/index';
 import { StateWithClientAuth } from '../store/client-auth-state';
@@ -21,7 +28,7 @@ export class ClientTokenService {
    * Returns a client token. The client token from the store is returned if there is one.
    * Otherwise a new token is fetched from the backend and saved in the store.
    */
-  getClientToken(): Observable<ClientToken> {
+  getClientToken(): Observable<ClientToken | undefined> {
     return this.store.pipe(
       select(ClientAuthSelectors.getClientTokenState),
       observeOn(queueScheduler),
@@ -51,11 +58,12 @@ export class ClientTokenService {
       filter((state: LoaderState<ClientToken>) =>
         this.isClientTokenLoaded(state)
       ),
-      map((state: LoaderState<ClientToken>) => state.value)
+      map((state: LoaderState<ClientToken>) => state.value),
+      filter(isNotUndefined)
     );
   }
 
   protected isClientTokenLoaded(state: LoaderState<ClientToken>): boolean {
-    return (state.success || state.error) && !state.loading;
+    return Boolean((state.success || state.error) && !state.loading);
   }
 }

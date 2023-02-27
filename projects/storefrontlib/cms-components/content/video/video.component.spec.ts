@@ -13,8 +13,8 @@ import {
   UrlCommand,
 } from '@spartacus/core';
 import { CmsComponentData, Media } from '@spartacus/storefront';
-import { MediaService } from '../../../shared/components/media/media.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { MediaService } from '../../../shared/components/media/media.service';
 import { VideoComponent } from './video.component';
 
 @Pipe({
@@ -106,10 +106,33 @@ describe('VideoComponent', () => {
       expect(videoComponent.source).toEqual(mockCmsBannerComponentMedia.url);
     });
 
-    it('should set thubmnail', () => {
+    it('should set thumbnail with videoMedia property when containerBackground is defined', () => {
       expect(videoComponent.thumbnail?.src).toEqual(
         mockCmsBannerComponentMedia.url
       );
+    });
+
+    it('should set thumbnail with thumbnail property when thumbnailSelector is defined', () => {
+      data$.next({
+        video: mockCmsBannerComponentMedia,
+        thumbnail: {
+          ...mockCmsBannerComponentMedia,
+          url: 'test thumbnail url',
+        },
+        thumbnailSelector: ContainerBackgroundOptions.UPLOAD_THUMBNAIL,
+      });
+      expect(videoComponent.thumbnail?.src).toEqual('test thumbnail url');
+    });
+
+    it('should not use previous thumbnail when new video as no thumbnail', () => {
+      data$.next({
+        ...mockComponentData,
+      });
+      data$.next({
+        ...mockComponentData,
+        containerBackground: undefined,
+      });
+      expect(videoComponent.thumbnail?.src).toBeUndefined();
     });
   });
 

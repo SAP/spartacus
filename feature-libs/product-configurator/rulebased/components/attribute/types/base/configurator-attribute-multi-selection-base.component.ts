@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,6 +22,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
+  @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
@@ -24,7 +31,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
-    this.ownerKey = attributeComponentContext.configuration.owner.key;
+    this.ownerKey = attributeComponentContext.owner.key;
   }
 
   /**

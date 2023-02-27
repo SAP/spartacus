@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -37,7 +43,7 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**
    * resolves the current item.
    */
-  current$: Observable<T> = this.itemService.current$;
+  current$: Observable<T | undefined> = this.itemService.current$;
 
   iconTypes = ICON_TYPE;
 

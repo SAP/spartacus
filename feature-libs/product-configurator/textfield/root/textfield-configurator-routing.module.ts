@@ -1,17 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import {
-  provideDefaultConfig,
-  RoutingModule as CoreRoutingModule,
-} from '@spartacus/core';
-import { CmsRouteModule } from '@spartacus/storefront';
+import { provideDefaultConfig } from '@spartacus/core';
 import { defaultTextfieldRoutingConfig } from './default-textfield-routing-config';
 
 /**
  * Provides the default cx routing configuration for the textfield configurator
  */
-@NgModule({
-  imports: [CoreRoutingModule.forRoot(), CmsRouteModule],
-})
+@NgModule({})
 export class TextfieldConfiguratorRoutingModule {
   static forRoot(): ModuleWithProviders<TextfieldConfiguratorRoutingModule> {
     return {

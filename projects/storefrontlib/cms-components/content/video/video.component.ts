@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -59,13 +65,22 @@ export class VideoComponent {
     }
 
     if (
-      data.containerBackground ===
+      data?.containerBackground ===
         ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE &&
-      data.videoMedia
+      data?.videoMedia
     ) {
       this.thumbnail = this.mediaService.getMedia(
         data.videoMedia as MediaContainer
       );
+    } else if (
+      data?.thumbnailSelector === ContainerBackgroundOptions.UPLOAD_THUMBNAIL &&
+      data?.thumbnail
+    ) {
+      this.thumbnail = this.mediaService.getMedia(
+        data.thumbnail as MediaContainer
+      );
+    } else {
+      this.thumbnail = undefined;
     }
   }
 
@@ -86,7 +101,7 @@ export class VideoComponent {
         })
         .pipe(take(1))
         .subscribe((page) => {
-          this.routerLink = page.label;
+          this.routerLink = page?.label;
           this.cd.markForCheck();
         });
     } else if (data.product) {

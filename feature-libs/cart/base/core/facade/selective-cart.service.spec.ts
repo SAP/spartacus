@@ -8,11 +8,11 @@ import {
   StateWithProcess,
   User,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
+import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
 import * as fromReducers from '../store/reducers/index';
 import { SelectiveCartService } from './selective-cart.service';
@@ -55,7 +55,7 @@ class MultiCartFacadeStub {
   }
 }
 
-class UserServiceStub implements Partial<UserService> {
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get(): Observable<User> {
     return of(testUser);
   }
@@ -72,7 +72,7 @@ describe('Selective Cart Service', () => {
   let multiCartFacade: MultiCartFacade;
   let store: Store<StateWithMultiCart | StateWithProcess<void>>;
   let userIdService: UserIdService;
-  let userService: UserService;
+  let userProfileFacade: UserProfileFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,7 +88,7 @@ describe('Selective Cart Service', () => {
         SelectiveCartService,
         { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: UserService, useClass: UserServiceStub },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
       ],
     });
@@ -96,7 +96,7 @@ describe('Selective Cart Service', () => {
     service = TestBed.inject(SelectiveCartService);
     userIdService = TestBed.inject(UserIdService);
     multiCartFacade = TestBed.inject(MultiCartFacade);
-    userService = TestBed.inject(UserService);
+    userProfileFacade = TestBed.inject(UserProfileFacade);
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -148,7 +148,7 @@ describe('Selective Cart Service', () => {
 
   it('should not load selective cart for if customerId not exist', () => {
     spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
-    spyOn(userService, 'get').and.returnValue(of({}));
+    spyOn(userProfileFacade, 'get').and.returnValue(of({}));
     spyOn(multiCartFacade, 'loadCart').and.stub();
     service.getCart().subscribe().unsubscribe();
     expect(multiCartFacade.loadCart).not.toHaveBeenCalled();

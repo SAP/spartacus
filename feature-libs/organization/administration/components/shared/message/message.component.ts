@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -54,7 +60,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 
     this.subscription.add(
       msg.events
-        .pipe(filter((event: MessageEventData) => !!event.close))
+        ?.pipe(filter((event: MessageEventData) => !!event.close))
         .subscribe(() => this.terminate(ref))
     );
   }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
@@ -332,6 +338,10 @@ export class MultiCartService implements MultiCartFacade {
         email,
       })
     );
+  }
+
+  removeCart(cartId: string): void {
+    this.store.dispatch(new CartActions.RemoveCart({ cartId }));
   }
 
   /**

@@ -1,4 +1,15 @@
-import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
 import { SourceFile } from 'ts-morph';
 import {
   FEATURES_CONFIG,
@@ -21,7 +32,11 @@ import { parseCSV } from '../shared/utils/transform-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
-  return (tree: Tree): Tree => {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Setting up Spartacus configuration module...`);
+    }
+
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     if (!buildPaths.length) {
@@ -33,6 +48,10 @@ export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
     const basePath = process.cwd();
     for (const tsconfigPath of buildPaths) {
       addConfiguration(tree, tsconfigPath, basePath, options);
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅ Spartacus configuration module setup complete.`);
     }
     return tree;
   };
@@ -55,7 +74,6 @@ function addConfiguration(
       addCommonConfiguration(sourceFile, options);
 
       saveAndFormat(sourceFile);
-
       break;
     }
   }
@@ -103,12 +121,18 @@ function addCommonConfiguration(
 }
 
 function createSiteContextConfig(options: SpartacusOptions): string {
-  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
-  const language = parseCSV(options.language, ['en']).toLowerCase();
   let contextConfig = `
-      context: {
-        currency: [${currency}],
-        language: [${language}],`;
+      context: {`;
+
+  if (options.currency) {
+    const currency = parseCSV(options.currency).toUpperCase();
+    contextConfig += `\ncurrency: [${currency}],`;
+  }
+
+  if (options.language) {
+    const language = parseCSV(options.language).toLowerCase();
+    contextConfig += `\nlanguage: [${language}],`;
+  }
 
   if (options.baseSite) {
     const baseSites = parseCSV(options.baseSite);

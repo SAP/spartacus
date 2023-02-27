@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
@@ -34,6 +40,10 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
+      kbKey: source.kbKey ?? undefined,
+      pricingEnabled: source.pricingEnabled ?? true,
+      hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
+      immediateConflictResolution: source.immediateConflictResolution ?? false,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -94,8 +104,8 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
   ): void {
-    const numberOfConflicts = sourceAttribute?.conflicts
-      ? sourceAttribute?.conflicts?.length
+    const numberOfConflicts = sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length
       : 0;
 
     const attributeImages: Configurator.Image[] = [];
@@ -114,14 +124,20 @@ export class OccConfiguratorVariantNormalizer
         this.convertValue(value, attributeValues)
       );
     }
-
+    const uiType = this.convertAttributeType(sourceAttribute);
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(sourceAttribute),
+      uiType: uiType,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
-      userInput: sourceAttribute.formattedValue,
+      userInput:
+        uiType === Configurator.UiType.NUMERIC ||
+        uiType === Configurator.UiType.STRING
+          ? sourceAttribute.formattedValue
+            ? sourceAttribute.formattedValue
+            : ''
+          : undefined,
       maxlength:
         (sourceAttribute.maxlength ?? 0) +
         (sourceAttribute.negativeAllowed ? 1 : 0),
@@ -134,6 +150,8 @@ export class OccConfiguratorVariantNormalizer
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,
       key: sourceAttribute.key,
+      validationType: sourceAttribute.validationType,
+      visible: sourceAttribute.visible,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -292,8 +310,16 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
       }
+      case OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+        break;
+      }
       case OccConfigurator.UiType.DROPDOWN: {
         uiType = Configurator.UiType.DROPDOWN;
+        break;
+      }
+      case OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
       case OccConfigurator.UiType.STRING: {
@@ -411,6 +437,8 @@ export class OccConfiguratorVariantNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||

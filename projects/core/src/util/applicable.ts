@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const enum Priority {
   /**
    * Used as fallback, when there is no other matches
@@ -27,7 +33,7 @@ export interface Applicable {
   /**
    * Returns true if applicable can be used to handle specified condition
    */
-  hasMatch?(...params): boolean;
+  hasMatch?(...params: any[]): boolean;
 
   /**
    * Returns priority or score for specified applicable.
@@ -35,7 +41,7 @@ export interface Applicable {
    * If multiple applicables can be applied to specified condition, the one
    * with highest priority or score wins.
    */
-  getPriority?(...params): Priority | number;
+  getPriority?(...params: any[]): Priority | number;
 }
 
 /**
@@ -68,7 +74,7 @@ export function resolveApplicable<T extends Applicable>(
   }
 
   let lastPriority = -Infinity;
-  return matchedApplicables.reduce((acc, curr) => {
+  return matchedApplicables.reduce((acc: T | undefined, curr: T) => {
     const currPriority = curr.getPriority
       ? curr.getPriority(...priorityParams)
       : Priority.NORMAL;

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -39,7 +45,7 @@ export class JsonLdBaseProductBuilder implements JsonLdBuilder<Product> {
    * If the image is not available, an empty object is returned.
    */
   protected getProductImage(product: Product): { image?: string } {
-    const image = product.images?.PRIMARY?.['zoom']?.url;
+    const image = (<any>product.images?.PRIMARY)?.zoom?.url;
     return image ? { image } : {};
   }
 

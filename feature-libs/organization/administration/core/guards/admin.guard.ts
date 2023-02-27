@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import {
@@ -5,9 +11,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  User,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { filter, map, pluck } from 'rxjs/operators';
 
@@ -16,16 +21,16 @@ import { filter, map, pluck } from 'rxjs/operators';
 })
 export class AdminGuard implements CanActivate {
   constructor(
-    protected userService: UserService,
+    protected userAccountFacade: UserAccountFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.userService.get().pipe(
-      filter((user: User) => user && Object.keys(user).length > 0),
+    return this.userAccountFacade.get().pipe(
+      filter((user) => !!user && Object.keys(user).length > 0),
       pluck('roles'),
-      map((roles: string[]) => {
+      map((roles) => {
         const hasRole =
           Array.isArray(roles) && roles.includes(B2BUserRole.ADMIN);
 

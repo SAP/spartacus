@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Tree } from '@angular-devkit/schematics';
 import { ImportDeclarationStructure } from 'ts-morph';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';

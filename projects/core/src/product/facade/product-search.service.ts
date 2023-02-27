@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,13 +19,15 @@ import { ProductSelectors } from '../store/selectors/index';
 export class ProductSearchService {
   constructor(protected store: Store<StateWithProduct>) {}
 
-  search(query: string, searchConfig?: SearchConfig): void {
-    this.store.dispatch(
-      new ProductActions.SearchProducts({
-        queryText: query,
-        searchConfig: searchConfig,
-      })
-    );
+  search(query: string | undefined, searchConfig?: SearchConfig): void {
+    if (query) {
+      this.store.dispatch(
+        new ProductActions.SearchProducts({
+          queryText: query,
+          searchConfig: searchConfig,
+        })
+      );
+    }
   }
 
   getResults(): Observable<ProductSearchPage> {

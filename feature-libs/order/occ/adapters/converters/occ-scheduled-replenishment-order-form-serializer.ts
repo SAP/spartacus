@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, Occ, TimeUtils } from '@spartacus/core';
 import { ScheduleReplenishmentForm } from '@spartacus/order/root';
@@ -35,7 +41,7 @@ export class OccScheduledReplenishmentOrderFormSerializer
     const localTime = new Date().toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false,
+      hourCycle: 'h23',
     });
     return `${date}T${localTime}:00${TimeUtils.getLocalTimezoneOffset()}`;
   }

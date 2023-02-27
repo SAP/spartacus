@@ -1,9 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   NotificationPreference,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -37,7 +43,7 @@ export class NotificationPreferenceComponent implements OnInit {
   }
 
   updatePreference(preference: NotificationPreference) {
-    const updatedPreferences = [];
+    const updatedPreferences: NotificationPreference[] = [];
     this.preferences.forEach((p) => {
       if (p.channel === preference.channel) {
         updatedPreferences.push({

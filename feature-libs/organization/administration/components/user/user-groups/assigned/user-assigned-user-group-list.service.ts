@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { UserGroup } from '@spartacus/organization/administration/core';
@@ -15,7 +21,7 @@ export class UserAssignedUserGroupListService extends UserUserGroupListService {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<UserGroup>> {
+  ): Observable<EntitiesModel<UserGroup> | undefined> {
     return super.load(pagination, code).pipe(
       filter((list) => Boolean(list)),
       map((userGroups) => this.filterSelected(userGroups))

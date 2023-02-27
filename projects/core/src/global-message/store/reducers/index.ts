@@ -1,9 +1,15 @@
-import { InjectionToken, Provider } from '@angular/core';
-import * as fromGlobalMessage from './global-message.reducer';
-import { GlobalMessageState } from '../global-message-state';
-import { ActionReducer } from '@ngrx/store';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-export function getReducers(): ActionReducer<GlobalMessageState> {
+import { InjectionToken, Provider } from '@angular/core';
+import { ActionReducer } from '@ngrx/store';
+import { GlobalMessageState } from '../global-message-state';
+import * as fromGlobalMessage from './global-message.reducer';
+
+export function getReducers(): ActionReducer<GlobalMessageState, any> {
   return fromGlobalMessage.reducer;
 }
 

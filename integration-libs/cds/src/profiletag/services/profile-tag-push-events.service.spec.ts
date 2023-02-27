@@ -7,6 +7,7 @@ import {
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
+  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
@@ -68,6 +69,10 @@ function setVariables() {
   eventServiceEvents.set(
     CartUpdateEntrySuccessEvent,
     new ReplaySubject<CartUpdateEntrySuccessEvent>()
+  );
+  eventServiceEvents.set(
+    MergeCartSuccessEvent,
+    new ReplaySubject<MergeCartSuccessEvent>()
   );
 
   getPersonalizationContext = new ReplaySubject<PersonalizationContext>();
@@ -196,6 +201,31 @@ describe('profileTagPushEventsService', () => {
       expect(calledWith[0].name).toBe('AddedToCart');
       expect(calledWith[1].name).toBe('CartSnapshot');
       expect(calledWith[1].data.cart.entries.length).toBe(1);
+    });
+
+    it(`Should transform MergeCartSuccessEvent to CartSnapshotEvents`, () => {
+      let timesCalled = 0;
+      let calledWith = [];
+      const subscription = profileTagPushEventsService
+        .getPushEvents()
+        .pipe(
+          tap((item) => {
+            timesCalled++;
+            calledWith.push(item);
+          })
+        )
+        .subscribe();
+      eventServiceEvents
+        .get(MergeCartSuccessEvent)
+        .next({ entry: { product: { categories: [{}] } } });
+      activeCartBehavior.next({
+        entries: [{ product: { code: 'xyz' }, quantity: 1 }],
+        code: 'CustomCart',
+      });
+      subscription.unsubscribe();
+      expect(timesCalled).toEqual(1);
+      expect(calledWith[0].name).toBe('CartSnapshot');
+      expect(calledWith[0].data.cart.entries.length).toBe(1);
     });
   });
 

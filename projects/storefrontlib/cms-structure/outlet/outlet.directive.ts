@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ComponentFactory,
   ComponentRef,
@@ -28,7 +34,7 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]',
 })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
-  private renderedTemplate = [];
+  private renderedTemplate: any[] = [];
   public renderedComponents = new Map<
     OutletPosition,
     Array<ComponentRef<any> | EmbeddedViewRef<any>>
@@ -51,7 +57,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    */
   @Input() cxOutletDefer: IntersectionOptions;
 
-  @Output() loaded: EventEmitter<Boolean> = new EventEmitter<Boolean>(true);
+  @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>(true);
 
   subscription = new Subscription();
 
@@ -135,10 +141,12 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
       templates = [templates];
     }
 
-    const components = [];
+    const components: (ComponentRef<any> | EmbeddedViewRef<any>)[] = [];
     templates.forEach((obj) => {
       const component = this.create(obj, position);
-      components.push(component);
+      if (component) {
+        components.push(component);
+      }
     });
 
     this.renderedComponents.set(position, components);
@@ -150,7 +158,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   private create(
     tmplOrFactory: any,
     position: OutletPosition
-  ): ComponentRef<any> | EmbeddedViewRef<any> {
+  ): ComponentRef<any> | EmbeddedViewRef<any> | undefined {
     this.renderedTemplate.push(tmplOrFactory);
 
     if (tmplOrFactory instanceof ComponentFactory) {
@@ -212,7 +220,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
     if (element instanceof HTMLElement) {
       return element;
     }
-    return this.getHostElement(element.parentNode);
+    return this.getHostElement(<HTMLElement>element.parentNode);
   }
 
   ngOnDestroy() {

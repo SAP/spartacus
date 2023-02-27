@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, NgModuleRef } from '@angular/core';
 import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
@@ -48,10 +54,10 @@ export class FeatureModulesService {
 
         this.features.set(
           featureName,
-          this.resolveDependencies(featureConfig.dependencies).pipe(
+          this.resolveDependencies(featureConfig?.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                featureConfig.module,
+                featureConfig?.module as () => Promise<any>,
                 featureName,
                 deps
               )

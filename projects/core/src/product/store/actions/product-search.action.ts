@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { ErrorModel } from '../../../model/misc.model';
 import {
@@ -21,14 +27,17 @@ export const CLEAR_PRODUCT_SEARCH_RESULT =
 export class SearchProducts implements Action {
   readonly type = SEARCH_PRODUCTS;
   constructor(
-    public payload: { queryText: string; searchConfig: SearchConfig },
+    public payload: { queryText: string; searchConfig?: SearchConfig },
     public auxiliary?: boolean
   ) {}
 }
 
 export class SearchProductsFail implements Action {
   readonly type = SEARCH_PRODUCTS_FAIL;
-  constructor(public payload: ErrorModel, public auxiliary?: boolean) {}
+  constructor(
+    public payload: ErrorModel | undefined,
+    public auxiliary?: boolean
+  ) {}
 }
 
 export class SearchProductsSuccess implements Action {
@@ -38,7 +47,7 @@ export class SearchProductsSuccess implements Action {
 
 export class GetProductSuggestions implements Action {
   readonly type = GET_PRODUCT_SUGGESTIONS;
-  constructor(public payload: { term: string; searchConfig: SearchConfig }) {}
+  constructor(public payload: { term: string; searchConfig?: SearchConfig }) {}
 }
 
 export class GetProductSuggestionsSuccess implements Action {
@@ -48,7 +57,7 @@ export class GetProductSuggestionsSuccess implements Action {
 
 export class GetProductSuggestionsFail implements Action {
   readonly type = GET_PRODUCT_SUGGESTIONS_FAIL;
-  constructor(public payload: ErrorModel) {}
+  constructor(public payload: ErrorModel | undefined) {}
 }
 
 export class ClearProductSearchResult implements Action {

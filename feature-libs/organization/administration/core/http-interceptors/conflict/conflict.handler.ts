@@ -1,5 +1,11 @@
-import { Injectable } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
   ErrorModel,
   GlobalMessageType,
@@ -25,26 +31,33 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
     return this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      // Handle budget conflict
-      this.handleConflict(message, this.budgetMask, 'budget');
-      // Handle user email conflict
-      this.handleConflict(message, this.userMask, 'user', request?.body?.email);
-      // Handle user group conflict
-      this.handleConflict(
-        message,
-        this.userGroupMask,
-        'userGroup',
-        request?.body?.uid
-      );
-      // Handle unit conflict
-      this.handleConflict(message, this.unitMask, 'unit');
+      if (message) {
+        // Handle budget conflict
+        this.handleConflict(message, this.budgetMask, 'budget');
+        // Handle user email conflict
+        this.handleConflict(
+          message,
+          this.userMask,
+          'user',
+          request?.body?.email
+        );
+        // Handle user group conflict
+        this.handleConflict(
+          message,
+          this.userGroupMask,
+          'userGroup',
+          request?.body?.uid
+        );
+        // Handle unit conflict
+        this.handleConflict(message, this.unitMask, 'unit');
+      }
     });
   }
 
   protected matchMask(response: HttpErrorResponse): boolean {
     return this.getErrors(response).some((error) =>
       [this.budgetMask, this.userMask, this.userGroupMask, this.unitMask].some(
-        (mask) => mask.test(error.message)
+        (mask) => mask.test(error.message ?? '')
       )
     );
   }
@@ -54,7 +67,7 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
     mask: RegExp,
     key: string,
     code?: string
-  ) {
+  ): void {
     const result = message.match(mask);
     const params = { code: result?.[1] ?? code };
     if (result) {
@@ -67,7 +80,7 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) => error.type === 'AlreadyExistsError'
+      (error: any) => error.type === 'AlreadyExistsError'
     );
   }
 

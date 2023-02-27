@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
 import {
@@ -30,7 +36,7 @@ export const getAllDeliveryCountries: MemoizedSelector<
 
 export const countrySelectorFactory = (
   isocode: string
-): MemoizedSelector<StateWithUser, Country> =>
+): MemoizedSelector<StateWithUser, Country | null> =>
   createSelector(getDeliveryCountriesEntites, (entities) =>
     Object.keys(entities).length !== 0 ? entities[isocode] : null
   );

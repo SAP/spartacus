@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -74,11 +80,13 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an observable with the `PageConfig`.
    */
-  protected getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
+  protected getPageFromConfig(
+    pageId: string
+  ): Observable<CmsPageConfig | undefined> {
     return of(
       this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
         ? this.cmsDataConfig.cmsStructure.pages.find((p) => p.pageId === pageId)
-        : null
+        : undefined
     );
   }
 
@@ -124,11 +132,7 @@ export abstract class CmsStructureConfigService {
     slots?: CmsPageSlotsConfig
   ): Observable<CmsStructureModel> {
     // if no slots have been given, we use the global configured slots
-    if (
-      !slots &&
-      this.cmsDataConfig.cmsStructure &&
-      this.cmsDataConfig.cmsStructure.slots
-    ) {
+    if (!slots && this.cmsDataConfig.cmsStructure?.slots) {
       slots = this.cmsDataConfig.cmsStructure.slots;
     }
 
@@ -137,22 +141,24 @@ export abstract class CmsStructureConfigService {
     }
 
     for (const position of Object.keys(slots)) {
-      if (!Object.keys(pageStructure.page.slots).includes(position)) {
+      if (
+        pageStructure.page?.slots &&
+        !Object.keys(pageStructure.page.slots).includes(position)
+      ) {
         // the global slot isn't yet part of the page structure
         pageStructure.page.slots[position] = {};
 
         for (const component of this.getComponentsByPosition(slots, position)) {
-          if (!pageStructure.page.slots[position].components) {
-            pageStructure.page.slots[position].components = [];
-          }
-          pageStructure.page.slots[position].components.push({
+          pageStructure.page.slots[position].components =
+            pageStructure.page.slots[position].components ?? [];
+
+          pageStructure.page.slots[position].components?.push({
             uid: component.uid,
             flexType: component.flexType,
             typeCode: component.typeCode,
           });
-          if (!pageStructure.components) {
-            pageStructure.components = [];
-          }
+
+          pageStructure.components = pageStructure.components ?? [];
 
           pageStructure.components.push(component);
         }
@@ -168,7 +174,7 @@ export abstract class CmsStructureConfigService {
   ): ContentSlotComponentData[] {
     const components = [];
     if (slots[position] && slots[position].componentIds) {
-      for (const componentId of slots[position].componentIds) {
+      for (const componentId of slots[position].componentIds ?? []) {
         if (
           this.cmsDataConfig.cmsStructure &&
           this.cmsDataConfig.cmsStructure.components

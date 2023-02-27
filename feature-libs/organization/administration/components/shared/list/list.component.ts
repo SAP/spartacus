@@ -1,17 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { Table, TableStructure } from '@spartacus/storefront';
+import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  Table,
+  TableStructure,
+  TrapFocus,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
-import { ListService } from './list.service';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ListService, CreateButtonType } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
@@ -19,6 +29,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent<T = any, P = PaginationModel> {
+  readonly trapFocus = TrapFocus;
+
   @HostBinding('class.ghost') hasGhostData = false;
 
   constructor(
@@ -31,9 +43,13 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   domainType = this.service.domainType;
 
-  sortCode: string;
+  sortCode: string | undefined;
 
   iconTypes = ICON_TYPE;
+
+  createButtonAllTypes = CreateButtonType;
+
+  createButtonType = this.service.getCreateButtonType();
 
   /**
    * The current key represents the current selected item from the dataset.
@@ -44,29 +60,33 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   readonly structure$: Observable<TableStructure> = this.service.getStructure();
 
-  readonly listData$: Observable<EntitiesModel<T>> = this.service
+  readonly listData$: Observable<EntitiesModel<T> | undefined> = this.service
     .getData()
     .pipe(
       tap((data) => {
-        this.sortCode = data.pagination?.sort;
+        this.sortCode = data?.pagination?.sort;
         this.hasGhostData = this.service.hasGhostData(data);
       })
     );
 
   @Input() key = this.service.key();
 
+  @Input() hideAddButton = false;
+
   /**
    * Returns the total number of items.
    */
-  getListCount(dataTable: Table): number {
+  getListCount(dataTable: Table | EntitiesModel<T>): number | undefined {
     return dataTable.pagination?.totalResults;
   }
 
   /**
    * Browses to the given page number
    */
-  browse(pagination: P, pageNumber: number) {
-    this.service.view(pagination, pageNumber);
+  browse(pagination: P | undefined, pageNumber: number) {
+    if (pagination) {
+      this.service.view(pagination, pageNumber);
+    }
   }
 
   /**
@@ -79,10 +99,26 @@ export class ListComponent<T = any, P = PaginationModel> {
   /**
    * Sorts the list.
    */
-  sort(pagination: P): void {
-    this.service.sort({
-      ...pagination,
-      ...({ sort: this.sortCode } as PaginationModel),
-    });
+  sort(pagination: P | undefined): void {
+    if (pagination) {
+      this.service.sort({
+        ...pagination,
+        ...({ sort: this.sortCode } as PaginationModel),
+      });
+    }
+  }
+
+  /**
+   * Function to call when 'Manage Users' button is clicked
+   */
+  onCreateButtonClick(): void {
+    this.service.onCreateButtonClick();
+  }
+
+  /**
+   * Returns the label for Create button
+   */
+  getCreateButtonLabel(): Translatable {
+    return this.service.getCreateButtonLabel();
   }
 }

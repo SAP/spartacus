@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ElementRef,
@@ -28,7 +34,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  showLegalDescription = true;
+  showLegalDescription: boolean | undefined = true;
   iconTypes = ICON_TYPE;
   requiredConsents: string[] = [];
 
@@ -57,10 +63,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     protected el: ElementRef,
     protected launchDialogService: LaunchDialogService
   ) {
-    if (Boolean(this.config.anonymousConsents)) {
+    if (this.config.anonymousConsents) {
       this.showLegalDescription =
         this.config.anonymousConsents.showLegalDescriptionInDialog;
-      if (Boolean(this.config.anonymousConsents.requiredConsents)) {
+      if (this.config.anonymousConsents.requiredConsents) {
         this.requiredConsents = this.config.anonymousConsents.requiredConsents;
       }
     }
@@ -85,12 +91,17 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
           tap(([templates, consents]) =>
             templates.forEach((template) => {
               const consent = this.getCorrespondingConsent(template, consents);
-              if (this.anonymousConsentsService.isConsentGiven(consent)) {
+              if (
+                consent &&
+                this.anonymousConsentsService.isConsentGiven(consent)
+              ) {
                 if (this.isRequiredConsent(template)) {
                   return;
                 }
 
-                this.anonymousConsentsService.withdrawConsent(template.id);
+                if (template.id) {
+                  this.anonymousConsentsService.withdrawConsent(template.id);
+                }
               }
             })
           )
@@ -110,14 +121,17 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
             templates.forEach((template) => {
               const consent = this.getCorrespondingConsent(template, consents);
               if (
-                (consent && consent.consentState == null) ||
-                this.anonymousConsentsService.isConsentWithdrawn(consent)
+                consent &&
+                (consent.consentState == null ||
+                  this.anonymousConsentsService.isConsentWithdrawn(consent))
               ) {
                 if (this.isRequiredConsent(template)) {
                   return;
                 }
 
-                this.anonymousConsentsService.giveConsent(template.id);
+                if (template.id) {
+                  this.anonymousConsentsService.giveConsent(template.id);
+                }
               }
             })
           )
@@ -128,10 +142,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
-    return (
-      Boolean(this.config.anonymousConsents) &&
-      Boolean(this.config.anonymousConsents.requiredConsents) &&
-      this.config.anonymousConsents.requiredConsents.includes(template.id)
+    return Boolean(
+      template.id &&
+        this.config.anonymousConsents?.requiredConsents &&
+        this.config.anonymousConsents.requiredConsents.includes(template.id)
     );
   }
 
@@ -142,17 +156,19 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     given: boolean;
     template: ConsentTemplate;
   }): void {
-    if (given) {
-      this.anonymousConsentsService.giveConsent(template.id);
-    } else {
-      this.anonymousConsentsService.withdrawConsent(template.id);
+    if (template.id) {
+      if (given) {
+        this.anonymousConsentsService.giveConsent(template.id);
+      } else {
+        this.anonymousConsentsService.withdrawConsent(template.id);
+      }
     }
   }
 
   getCorrespondingConsent(
     template: ConsentTemplate,
     consents: AnonymousConsent[] = []
-  ): AnonymousConsent {
+  ): AnonymousConsent | null {
     for (const consent of consents) {
       if (template.id === consent.templateCode) {
         return consent;

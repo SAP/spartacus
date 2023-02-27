@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -47,27 +53,29 @@ export class MultiCartEffects {
       CartActions.CREATE_CART,
       CartActions.SET_ACTIVE_CART_ID
     ),
-    map((action: any) => {
+    map((action: CartActions.CartAction | CartActions.SetActiveCartId) => {
       switch (action.type) {
         case CartActions.LOAD_CART: {
-          if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
-            return new CartActions.SetCartTypeIndex({
-              cartType: CartType.ACTIVE,
-              cartId: '',
-            });
-          }
-          break;
+          return this.getActiveCartTypeOnLoad(action);
         }
-        case CartActions.LOAD_CART_SUCCESS:
-        // point to `temp-${uuid}` when we are creating/merging cart
-        case CartActions.CREATE_CART: {
+        case CartActions.LOAD_CART_SUCCESS: {
           if (action?.payload?.extraData?.active) {
+            // saved cart is not active cart
+            if (action.payload?.cart.saveTime) {
+              return new CartActions.SetCartTypeIndex({
+                cartType: CartType.ACTIVE,
+                cartId: '',
+              });
+            }
             return new CartActions.SetCartTypeIndex({
               cartType: CartType.ACTIVE,
               cartId: action.meta.entityId as string,
             });
           }
           break;
+        }
+        case CartActions.CREATE_CART: {
+          return this.getActiveCartTypeOnCreate(action);
         }
         case CartActions.CREATE_CART_SUCCESS: {
           return new CartActions.SetCartTypeIndex({
@@ -83,9 +91,44 @@ export class MultiCartEffects {
             cartId: action.payload,
           });
       }
+      return undefined;
     }),
     filter(isNotUndefined)
   );
+
+  /**
+   * Verifies if cart is the current cart and returns the appropriate cart type
+   * @param action
+   * @returns cart type needed on load
+   */
+  private getActiveCartTypeOnLoad(
+    action: CartActions.LoadCart
+  ): CartActions.SetCartTypeIndex | undefined {
+    if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
+      return new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: '',
+      });
+    }
+    return undefined;
+  }
+
+  /**
+   * Verifies if cart is active and returns the appropriate cart type
+   * @param action
+   * @returns cart type needed on creation
+   */
+  private getActiveCartTypeOnCreate(
+    action: CartActions.CreateCart
+  ): CartActions.SetCartTypeIndex | undefined {
+    if (action?.payload?.extraData?.active) {
+      return new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: action.meta.entityId as string,
+      });
+    }
+    return undefined;
+  }
 
   constructor(private actions$: Actions) {}
 }

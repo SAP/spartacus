@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   DefaultRoutePageMetaResolver,
@@ -16,7 +22,7 @@ export class PermissionRoutePageMetaResolver extends DefaultRoutePageMetaResolve
     super(translation);
   }
 
-  protected getParams(): Observable<Permission> {
+  protected getParams(): Observable<Permission | undefined> {
     return this.currentItemService.item$;
   }
 }

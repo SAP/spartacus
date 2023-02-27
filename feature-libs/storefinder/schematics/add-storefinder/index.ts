@@ -1,33 +1,26 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_STOREFINDER_FEATURE,
+  analyzeApplication,
+  analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
-  shouldAddFeature,
-  SPARTACUS_STOREFINDER,
-  STOREFINDER_MODULE,
-  STOREFINDER_ROOT_MODULE,
-  STORE_FINDER_SCSS_FILE_NAME,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  SPARTACUS_STOREFINDER_ASSETS,
-  SPARTACUS_STOREFINDER_ROOT,
-  STOREFINDER_FEATURE_NAME_CONSTANT,
-  STOREFINDER_FOLDER_NAME,
-  STOREFINDER_MODULE_NAME,
-  STOREFINDER_TRANSLATIONS,
-  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-} from '../constants';
 
 export function addStorefinderFeatures(
   options: SpartacusStorefinderOptions
@@ -36,40 +29,17 @@ export function addStorefinderFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+
     return chain([
+      analyzeApplication(options, features),
+
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
-        ? addStorefinderFeature(options)
-        : noop(),
+      finalizeInstallation(options, features),
     ]);
   };
-}
-
-function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: STOREFINDER_FOLDER_NAME,
-    moduleName: STOREFINDER_MODULE_NAME,
-    featureModule: {
-      name: STOREFINDER_MODULE,
-      importPath: SPARTACUS_STOREFINDER,
-    },
-    rootModule: {
-      name: STOREFINDER_ROOT_MODULE,
-      importPath: SPARTACUS_STOREFINDER_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_STOREFINDER_ROOT,
-      namedImports: [STOREFINDER_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: STOREFINDER_TRANSLATIONS,
-      chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_STOREFINDER_ASSETS,
-    },
-    styles: {
-      scssFileName: STORE_FINDER_SCSS_FILE_NAME,
-      importStyle: SPARTACUS_STOREFINDER,
-    },
-  });
 }

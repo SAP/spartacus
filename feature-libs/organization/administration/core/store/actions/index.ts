@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as BudgetActions from './budget.action';
 import * as OrgUnitActions from './org-unit.action';
 import * as UserGroupActions from './user-group.action';

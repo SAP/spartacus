@@ -1,9 +1,9 @@
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
+import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
+import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverview from '../../helpers/product-configurator-overview';
 import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configuration from '../../helpers/product-configurator';
-import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
  * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
@@ -36,65 +36,77 @@ const CAMERA_PIXELS_P8 = 'P8';
 const SPECIFICATION = 'Specification';
 
 context('Product Configuration', () => {
+  const commerceRelease: configurationVc.CommerceRelease = {};
+
+  before(() => {
+    configurationVc.checkCommerceRelease(
+      electronicsShop,
+      testProduct,
+      commerceRelease
+    );
+  });
+
   beforeEach(() => {
+    configurationVc.registerConfigurationRoute();
+    configurationVc.registerConfigurationUpdateRoute();
     cy.visit('/');
   });
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
         tabConfig.productConfigurationPage
       );
 
-      configuration.selectAttribute(
+      configurationVc.selectAttributeAndWait(
         CAMERA_MODE,
         RADIO_GROUP,
-        CAMERA_MODE_PROFESSIONAL
+        CAMERA_MODE_PROFESSIONAL,
+        commerceRelease.isPricingEnabled
       );
       configuration.navigateToOverviewPage();
       configurationVc.checkGlobalMessageNotDisplayed();
-      configuration.checkUpdatingMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationVc.checkGhostAnimationNotDisplayed();
-      verifyTabbingOrder(
-        containerSelectorOverviewForm,
-        tabConfig.productConfigurationOverview
-      );
+      if (commerceRelease.isAtLeast2211) {
+        cy.log('Post 2211: product configuration overview page');
+        verifyTabbingOrder(
+          containerSelectorOverviewForm,
+          tabConfig.productConfigurationOverviewPost2211
+        ); //post 2211
+      } else {
+        cy.log('Pre 2211: product configuration overview page');
+        verifyTabbingOrder(
+          containerSelectorOverviewForm,
+          tabConfig.productConfigurationOverview
+        ); // pre 2211
+      }
     });
   });
 
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
-
-      cy.intercept({
-        method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*/pricing*`,
-      }).as('priceUpdate');
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-
-      cy.wait('@priceUpdate');
-
-      configuration.selectAttribute(
-        CAMERA_COLOR,
-        RADIO_GROUP,
-        CAMERA_COLOR_METALLIC
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
       );
 
-      cy.wait('@updateConfig');
-      cy.wait('@priceUpdate');
+      configurationVc.selectAttributeAndWait(
+        CAMERA_COLOR,
+        RADIO_GROUP,
+        CAMERA_COLOR_METALLIC,
+        commerceRelease.isPricingEnabled
+      );
 
       configuration.checkFocus(
         CAMERA_COLOR,
@@ -102,17 +114,18 @@ context('Product Configuration', () => {
         CAMERA_COLOR_METALLIC
       );
 
-      configuration.clickOnNextBtn(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkFocus(CAMERA_PIXELS, RADIO_GROUP, CAMERA_PIXELS_P8);
 
-      configuration.selectAttribute(
+      configurationVc.selectAttributeAndWait(
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
-        CAMERA_SD_CARD_SDXC
+        CAMERA_SD_CARD_SDXC,
+        commerceRelease.isPricingEnabled
       );
-
-      cy.wait('@updateConfig');
-      cy.wait('@priceUpdate');
 
       configuration.checkFocus(
         CAMERA_SD_CARD,

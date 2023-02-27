@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CostCenter } from '../../../../model/org-unit.model';
 import { Converter } from '../../../../util/converter.service';
@@ -11,7 +17,7 @@ export class OccCostCenterNormalizer
 {
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as CostCenter;
     }
     target.active = this.normalizeBoolean(source.active);
 
@@ -22,7 +28,10 @@ export class OccCostCenterNormalizer
    * Returns the boolean value for a string property that is supposed
    * to be of type boolean.
    */
-  protected normalizeBoolean(property: string | boolean): boolean {
+  protected normalizeBoolean(property: string | boolean | undefined): boolean {
+    if (property === undefined) {
+      return false;
+    }
     return typeof property === 'string' ? property === 'true' : property;
   }
 }

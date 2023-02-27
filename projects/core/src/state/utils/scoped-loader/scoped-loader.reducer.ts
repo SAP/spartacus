@@ -1,7 +1,13 @@
-import { loaderReducer } from '../loader/loader.reducer';
-import { EntityScopedLoaderAction } from '../../../product/store/actions/product.action';
-import { ScopedLoaderState } from './scoped-loader.state';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
+import { EntityScopedLoaderAction } from '../../../product/store/actions/product.action';
+import { loaderReducer } from '../loader/loader.reducer';
+import { ScopedLoaderState } from './scoped-loader.state';
 
 export const initialScopedLoaderState: ScopedLoaderState<any> = {};
 
@@ -13,7 +19,7 @@ export const initialScopedLoaderState: ScopedLoaderState<any> = {};
  */
 export function scopedLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T, action: Action) => T
+  reducer?: (state: T | undefined, action: Action) => T
 ): (
   state: ScopedLoaderState<T>,
   action: EntityScopedLoaderAction
@@ -27,7 +33,10 @@ export function scopedLoaderReducer<T>(
     if (action && action.meta && action.meta.entityType === entityType) {
       return {
         ...state,
-        [action.meta.scope ?? '']: loader(state[action.meta.scope], action),
+        [action.meta.scope ?? '']: loader(
+          state[action.meta.scope ?? ''],
+          action
+        ),
       };
     }
     return state;

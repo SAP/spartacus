@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, Occ } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
@@ -10,7 +16,7 @@ export class OccPermissionNormalizer
 {
   convert(source: Occ.Permission, target?: Permission): Permission {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Permission;
     }
     return target;
   }

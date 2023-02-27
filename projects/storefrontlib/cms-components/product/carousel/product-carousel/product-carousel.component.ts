@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CmsProductCarouselComponent as model,
@@ -15,16 +21,20 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  protected readonly PRODUCT_SCOPE = ProductScope.LIST;
+  protected readonly PRODUCT_SCOPE = [
+    ProductScope.LIST,
+    ProductScope.PRICE,
+    ProductScope.STOCK,
+  ];
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean)
+    filter((data) => Boolean(data))
   );
 
   /**
    * returns an Observable string for the title.
    */
-  title$: Observable<string> = this.componentData$.pipe(
+  title$: Observable<string | undefined> = this.componentData$.pipe(
     map((data) => data.title)
   );
 
@@ -33,14 +43,15 @@ export class ProductCarouselComponent {
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
-  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
-    map((data) => data.productCodes?.trim().split(' ') ?? []),
-    map((codes) =>
-      codes.map((code) =>
-        this.productService.get(code, [this.PRODUCT_SCOPE, ProductScope.PRICE])
+  items$: Observable<Observable<Product | undefined>[]> =
+    this.componentData$.pipe(
+      map((data) => data.productCodes?.trim().split(' ') ?? []),
+      map((codes) =>
+        codes.map((code) =>
+          this.productService.get(code, [...this.PRODUCT_SCOPE])
+        )
       )
-    )
-  );
+    );
 
   constructor(
     protected componentData: CmsComponentData<model>,

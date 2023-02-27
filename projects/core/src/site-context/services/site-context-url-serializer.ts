@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { SiteContextParamsService } from './site-context-params.service';
@@ -74,13 +80,13 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     url: string;
     params: SiteContextUrlParams;
   } {
-    const [, urlPart, queryPart] = url.match(this.URL_SPLIT);
+    const [, urlPart, queryPart] = url.match(this.URL_SPLIT) ?? [, '', ''];
 
-    const segments = urlPart.split('/');
+    const segments = urlPart?.split('/') ?? [];
     if (segments[0] === '') {
       segments.shift();
     }
-    const params = {};
+    const params: SiteContextUrlParams = {};
 
     let paramId = 0;
     let segmentId = 0;

@@ -97,6 +97,8 @@
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="returnRequests.pagination.sort"
+              [ariaLabel]="'returnRequestList.sortReturns' | cxTranslate"
+              ariaControls="order-return-table"
             ></cx-sorting>
           </label>
           <div class="cx-order-history-pagination">

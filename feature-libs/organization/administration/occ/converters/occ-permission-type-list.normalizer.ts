@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Converter,
@@ -23,10 +29,10 @@ export class OccPermissionTypeListNormalizer
     source: Occ.OrderApprovalPermissionTypeList,
     target?: OrderApprovalPermissionType[]
   ): OrderApprovalPermissionType[] {
-    target = source.orderApprovalPermissionTypes.map((permissionType) =>
+    target = source.orderApprovalPermissionTypes?.map((permissionType) =>
       this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
     );
 
-    return target;
+    return target ?? [];
   }
 }

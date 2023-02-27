@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import {
   LoaderMeta,
@@ -10,7 +16,7 @@ export const PROCESSES_LOADER_RESET_ACTION = '[PROCESSES LOADER] RESET';
 
 export interface ProcessesLoaderMeta extends LoaderMeta {
   entityType: string;
-  processesCountDiff?: number;
+  processesCountDiff?: number | null;
 }
 
 export interface ProcessesLoaderAction extends Action {

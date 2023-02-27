@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectorRef,
   ComponentRef,
@@ -17,9 +23,10 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
   EventService,
+  isNotUndefined,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { filter, finalize, tap } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';
 import {
   ComponentCreateEvent,
@@ -40,13 +47,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Output() cxComponentRef = new EventEmitter<ComponentRef<any>>();
 
   /**
-   * @deprecated since 2.0
-   *
    * This property in unsafe, i.e.
    * - cmpRef can be set later because of lazy loading or deferred loading
    * - cmpRef can be not set at all if for example, web components are used as cms components
    */
-  cmpRef?: ComponentRef<any>;
+  protected cmpRef?: ComponentRef<any>;
 
   private launcherResource?: Subscription;
 
@@ -63,11 +68,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cmsComponentsService
-      .determineMappings([this.cxComponentWrapper.flexType])
+      .determineMappings([this.cxComponentWrapper.flexType ?? ''])
       .subscribe(() => {
         if (
           this.cmsComponentsService.shouldRender(
-            this.cxComponentWrapper.flexType
+            this.cxComponentWrapper.flexType ?? ''
           )
         ) {
           this.launchComponent();
@@ -77,7 +82,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private launchComponent() {
     const componentMapping = this.cmsComponentsService.getMapping(
-      this.cxComponentWrapper.flexType
+      this.cxComponentWrapper.flexType ?? ''
     );
 
     if (!componentMapping) {
@@ -89,13 +94,16 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         componentMapping,
         this.vcr,
         this.cmsInjector.getInjector(
-          this.cxComponentWrapper.flexType,
-          this.cxComponentWrapper.uid,
+          this.cxComponentWrapper.flexType ?? '',
+          this.cxComponentWrapper.uid ?? '',
           this.injector
         ),
-        this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
+        this.cmsComponentsService.getModule(
+          this.cxComponentWrapper.flexType ?? ''
+        )
       )
-      .pipe(
+      ?.pipe(
+        filter(isNotUndefined),
         tap(({ elementRef, componentRef }) => {
           this.cmpRef = componentRef;
 

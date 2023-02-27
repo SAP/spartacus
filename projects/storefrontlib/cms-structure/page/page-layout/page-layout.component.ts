@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -12,7 +18,7 @@ export class PageLayoutComponent {
   @Input() set section(value: string) {
     this.section$.next(value);
   }
-  readonly section$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  readonly section$ = new BehaviorSubject<string | undefined>(undefined);
 
   readonly templateName$: Observable<string> =
     this.pageLayoutService.templateName$;
@@ -25,12 +31,13 @@ export class PageLayoutComponent {
     switchMap((section) => this.pageLayoutService.getSlots(section))
   );
 
-  readonly pageFoldSlot$: Observable<string> = this.templateName$.pipe(
-    switchMap((templateName) =>
-      this.pageLayoutService.getPageFoldSlot(templateName)
-    ),
-    distinctUntilChanged()
-  );
+  readonly pageFoldSlot$: Observable<string | undefined> =
+    this.templateName$.pipe(
+      switchMap((templateName) =>
+        this.pageLayoutService.getPageFoldSlot(templateName)
+      ),
+      distinctUntilChanged()
+    );
 
   constructor(protected pageLayoutService: PageLayoutService) {}
 }

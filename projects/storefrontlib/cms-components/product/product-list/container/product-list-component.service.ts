@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -18,8 +24,8 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
 /**
  * The `ProductListComponentService` is used to search products. The service is used

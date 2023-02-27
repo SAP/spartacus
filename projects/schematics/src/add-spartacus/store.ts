@@ -1,13 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { NGRX_EFFECTS, NGRX_STORE } from '../shared/constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
+import { Schema as SpartacusOptions } from './schema';
 
 /** Migration that ensures that we have correct Store modules set */
-export function setupStoreModules(project: string): Rule {
-  return (tree: Tree): Tree => {
-    const { buildPaths } = getProjectTsConfigPaths(tree, project);
+export function setupStoreModules(options: SpartacusOptions): Rule {
+  return (tree: Tree, context): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Setting up store module...`);
+    }
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     if (!buildPaths.length) {
       throw new SchematicsException(
@@ -18,6 +29,10 @@ export function setupStoreModules(project: string): Rule {
     const basePath = process.cwd();
     for (const tsconfigPath of buildPaths) {
       configureStoreModules(tree, tsconfigPath, basePath);
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅ Store module setup complete`);
     }
     return tree;
   };

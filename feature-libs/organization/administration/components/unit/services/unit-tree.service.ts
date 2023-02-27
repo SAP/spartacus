@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   B2BUnitNode,
@@ -19,7 +25,7 @@ export class UnitTreeService {
    */
   protected minimalExpanded = 1;
 
-  protected globalToggle$: BehaviorSubject<TREE_TOGGLE> = new BehaviorSubject(
+  protected globalToggle$ = new BehaviorSubject<TREE_TOGGLE | undefined>(
     undefined
   );
 
@@ -87,8 +93,8 @@ export class UnitTreeService {
   toggle(unit: B2BUnitTreeNode) {
     const currentState = this.treeToggle$.value;
     currentState.set(
-      unit.id,
-      this.isExpanded(unit.id, unit.depthLevel)
+      unit.id ?? '',
+      this.isExpanded(unit.id ?? '', unit.depthLevel)
         ? TREE_TOGGLE.COLLAPSED
         : TREE_TOGGLE.EXPANDED
     );
@@ -109,12 +115,12 @@ export class UnitTreeService {
 
     const findInvolvedTreeNodes = (
       n: B2BUnitNode,
-      activeItems = []
+      activeItems: string[] = []
     ): string[] => {
       if (hasActiveChild(n, activeUnitId)) {
-        activeItems.push(n.id);
+        activeItems.push(n.id ?? '');
       }
-      n.children.forEach((child) => {
+      n.children?.forEach((child) => {
         findInvolvedTreeNodes(child, activeItems);
       });
       return activeItems;

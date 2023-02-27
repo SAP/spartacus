@@ -1,6 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import {
-  CheckoutRootModule,
   CHECKOUT_BASE_CMS_COMPONENTS,
   CHECKOUT_FEATURE,
 } from '@spartacus/checkout/base/root';
@@ -35,7 +40,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [CheckoutRootModule, CheckoutB2BEventModule],
+  imports: [CheckoutB2BEventModule],
   providers: [
     provideDefaultConfig(defaultB2BCheckoutConfig),
     provideDefaultConfig(defaultCheckoutB2BRoutingConfig),

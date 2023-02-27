@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -50,10 +56,12 @@ export class CurrencyInitializer implements OnDestroy {
    * unless the active currency has been already initialized.
    */
   protected setDefaultFromConfig(config: SiteContextConfig): void {
-    if (!this.currencyService.isInitialized()) {
-      this.currencyService.setActive(
-        getContextParameterDefault(config, CURRENCY_CONTEXT_ID)
-      );
+    const contextParam = getContextParameterDefault(
+      config,
+      CURRENCY_CONTEXT_ID
+    );
+    if (!this.currencyService.isInitialized() && contextParam) {
+      this.currencyService.setActive(contextParam);
     }
   }
 

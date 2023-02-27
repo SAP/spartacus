@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login } from './auth-forms';
 import * as cart from './cart';
@@ -172,7 +178,7 @@ export function testLoggedInUserSaveForLater() {
         addProductToCart(products[2]);
         moveItem(products[2], ItemList.SaveForLater);
         validateCart(0, 1);
-        cart.logOutAndEmptyCart();
+        cart.logOutAndNavigateToEmptyCart();
         const loginPage = waitForPage('/login', 'getLoginPage');
         cy.visit('/login');
         cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);

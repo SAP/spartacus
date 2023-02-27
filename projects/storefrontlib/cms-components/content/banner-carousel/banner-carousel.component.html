@@ -1,5 +1,6 @@
 <cx-carousel
-  [items]="getItems() | async"
+  *ngIf="getItems() | async as items"
+  [items]="items"
   [template]="template"
   itemWidth="100%"
   class="inline-navigation"

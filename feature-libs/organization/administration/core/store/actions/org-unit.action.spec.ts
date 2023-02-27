@@ -82,13 +82,43 @@ describe('OrgUnit Actions', () => {
     });
 
     describe('LoadOrgUnitSuccess', () => {
-      it('should create the action', () => {
+      it('should create the action: payload is an array', () => {
         const action = new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]);
 
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNIT_SUCCESS,
           payload: [orgUnit],
           meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, [orgUnitId]),
+        });
+      });
+
+      it('should create the action: payload has list of undefined unit id', () => {
+        const action = new OrgUnitActions.LoadOrgUnitSuccess([{}]);
+
+        expect({ ...action }).toEqual({
+          type: OrgUnitActions.LOAD_ORG_UNIT_SUCCESS,
+          payload: [{}],
+          meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, ['']),
+        });
+      });
+
+      it('should create the action: payload is not an array', () => {
+        const action = new OrgUnitActions.LoadOrgUnitSuccess(orgUnit);
+
+        expect({ ...action }).toEqual({
+          type: OrgUnitActions.LOAD_ORG_UNIT_SUCCESS,
+          payload: orgUnit,
+          meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, orgUnitId),
+        });
+      });
+
+      it('should create the action: payload has undefined unit id', () => {
+        const action = new OrgUnitActions.LoadOrgUnitSuccess({});
+
+        expect({ ...action }).toEqual({
+          type: OrgUnitActions.LOAD_ORG_UNIT_SUCCESS,
+          payload: {},
+          meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, ''),
         });
       });
     });

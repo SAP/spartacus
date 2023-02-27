@@ -1,10 +1,10 @@
+import { CostCenter, StateUtils } from '@spartacus/core';
 import {
+  BUDGET_ENTITIES,
+  COST_CENTER_ASSIGNED_BUDGETS,
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
-  COST_CENTER_ASSIGNED_BUDGETS,
-  BUDGET_ENTITIES,
 } from '../organization-state';
-import { CostCenter, StateUtils } from '@spartacus/core';
 import { CostCenterActions } from './index';
 
 const costCenterCode = 'testCostCenterId';
@@ -58,7 +58,7 @@ describe('CostCenter Actions', () => {
     });
 
     describe('LoadCostCenterSuccess', () => {
-      it('should create the action', () => {
+      it('should create the action: payload is an array', () => {
         const action = new CostCenterActions.LoadCostCenterSuccess([
           costCenter,
         ]);
@@ -69,6 +69,39 @@ describe('CostCenter Actions', () => {
           meta: StateUtils.entitySuccessMeta(COST_CENTER_ENTITIES, [
             costCenterCode,
           ]),
+        });
+      });
+
+      it('should create the action: payload has list of undefined cost center codes', () => {
+        const action = new CostCenterActions.LoadCostCenterSuccess([{}]);
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.LOAD_COST_CENTER_SUCCESS,
+          payload: [{}],
+          meta: StateUtils.entitySuccessMeta(COST_CENTER_ENTITIES, ['']),
+        });
+      });
+
+      it('should create the action: payload is not an array', () => {
+        const action = new CostCenterActions.LoadCostCenterSuccess(costCenter);
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.LOAD_COST_CENTER_SUCCESS,
+          payload: costCenter,
+          meta: StateUtils.entitySuccessMeta(
+            COST_CENTER_ENTITIES,
+            costCenterCode
+          ),
+        });
+      });
+
+      it('should create the action: payload has undefined cost center code', () => {
+        const action = new CostCenterActions.LoadCostCenterSuccess({});
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.LOAD_COST_CENTER_SUCCESS,
+          payload: {},
+          meta: StateUtils.entitySuccessMeta(COST_CENTER_ENTITIES, ''),
         });
       });
     });

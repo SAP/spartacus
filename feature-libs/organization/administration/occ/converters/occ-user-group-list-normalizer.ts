@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Converter,
@@ -23,7 +29,7 @@ export class OccUserGroupListNormalizer
     target?: EntitiesModel<UserGroup>
   ): EntitiesModel<UserGroup> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<UserGroup>;
     }
     target.values = source.orgUnitUserGroups.map((userGroup) => ({
       ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),

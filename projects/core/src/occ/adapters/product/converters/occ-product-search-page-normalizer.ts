@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   Facet,
@@ -64,7 +70,8 @@ export class OccProductSearchPageNormalizer
             facet.values &&
             facet.values.find((value) => {
               return (
-                value.selected || value.count < target.pagination.totalResults
+                value.selected ||
+                (value.count ?? 0) < (target.pagination?.totalResults ?? 0)
               );
             }))
         );
@@ -86,7 +93,9 @@ export class OccProductSearchPageNormalizer
       target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;
         facetTarget.topValueCount =
-          topValues?.length > 0 ? topValues.length : this.DEFAULT_TOP_VALUES;
+          topValues && topValues.length > 0
+            ? topValues.length
+            : this.DEFAULT_TOP_VALUES;
         return facetTarget;
       });
     }

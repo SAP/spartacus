@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -9,7 +15,6 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
@@ -34,7 +39,7 @@ import { getItemStatus } from '../utils/get-item-status';
 @Injectable({ providedIn: 'root' })
 export class OrgUnitService {
   constructor(
-    protected store: Store<StateWithOrganization | StateWithProcess<void>>,
+    protected store: Store<StateWithOrganization>,
     protected userIdService: UserIdService
   ) {}
 
@@ -131,7 +136,9 @@ export class OrgUnitService {
   }
 
   private getOrgUnitValue(orgUnitId: string): Observable<B2BUnit> {
-    return this.store.select(getOrgUnitValue(orgUnitId)).pipe(filter(Boolean));
+    return this.store
+      .select(getOrgUnitValue(orgUnitId))
+      .pipe(filter((orgUnit) => Boolean(orgUnit)));
   }
 
   private getTreeState(): Observable<StateUtils.LoaderState<B2BUnitNode>> {
@@ -145,7 +152,7 @@ export class OrgUnitService {
   private getAddressesState(
     orgUnitId: string
   ): Observable<StateUtils.LoaderState<EntitiesModel<Address>>> {
-    return this.store.select(getB2BAddresses(orgUnitId, null));
+    return this.store.select(getB2BAddresses(orgUnitId));
   }
 
   private getAddressState(
@@ -193,12 +200,12 @@ export class OrgUnitService {
   }
 
   protected findUnitChildrenInTree(
-    orginitId,
+    orginitId: string,
     unit: B2BUnitNode
   ): B2BUnitNode[] {
     return unit.id === orginitId
-      ? unit.children
-      : unit.children.flatMap((child) =>
+      ? unit.children ?? []
+      : (unit.children ?? []).flatMap((child) =>
           this.findUnitChildrenInTree(orginitId, child)
         );
   }
@@ -206,12 +213,12 @@ export class OrgUnitService {
   getChildUnits(orgUnitId: string): Observable<EntitiesModel<B2BUnitNode>> {
     return this.getTree().pipe(
       map((tree) => ({
-        values: this.findUnitChildrenInTree(orgUnitId, tree),
+        values: tree ? this.findUnitChildrenInTree(orgUnitId, tree) : [],
       }))
     );
   }
 
-  getTree(): Observable<B2BUnitNode> {
+  getTree(): Observable<B2BUnitNode | undefined> {
     return this.getTreeState().pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<B2BUnitNode>) => {
@@ -219,15 +226,14 @@ export class OrgUnitService {
           this.loadTree();
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<B2BUnitNode>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<B2BUnitNode>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
   }
 
-  getApprovalProcesses(): Observable<B2BApprovalProcess[]> {
+  getApprovalProcesses(): Observable<B2BApprovalProcess[] | undefined> {
     return this.getApprovalProcessesList().pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<B2BApprovalProcess[]>) => {
@@ -235,15 +241,14 @@ export class OrgUnitService {
           this.loadApprovalProcesses();
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<B2BApprovalProcess[]>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<B2BApprovalProcess[]>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
   }
 
-  getList(): Observable<B2BUnitNode[]> {
+  getList(): Observable<B2BUnitNode[] | undefined> {
     return this.getOrgUnitsList().pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<B2BUnitNode[]>) => {
@@ -251,25 +256,24 @@ export class OrgUnitService {
           this.loadList();
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<B2BUnitNode[]>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<B2BUnitNode[]>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
   }
 
-  getActiveUnitList(): Observable<B2BUnitNode[]> {
+  getActiveUnitList(): Observable<B2BUnitNode[] | undefined> {
     return this.getList().pipe(
-      map((units) => units.filter((unit) => unit.active)),
-      map((units) => units.sort(this.sortUnitList))
+      map((units) => units?.filter((unit) => unit.active)),
+      map((units) => units?.sort(this.sortUnitList))
     );
   }
 
   protected sortUnitList(a: B2BUnitNode, b: B2BUnitNode) {
-    return a.id.toLowerCase() < b.id.toLowerCase()
+    return (a.id ?? '').toLowerCase() < (b.id ?? '').toLowerCase()
       ? -1
-      : a.id.toLowerCase() > b.id.toLowerCase()
+      : (a.id ?? '').toLowerCase() > (b.id ?? '').toLowerCase()
       ? 1
       : 0;
   }
@@ -278,7 +282,7 @@ export class OrgUnitService {
     orgUnitId: string,
     roleId: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.getAssignedUsers(orgUnitId, roleId, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) => {
@@ -286,17 +290,16 @@ export class OrgUnitService {
           this.loadUsers(orgUnitId, roleId, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<B2BUser>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
   }
 
-  getErrorState(orgCustomerId): Observable<boolean> {
+  getErrorState(orgCustomerId: string): Observable<boolean> {
     return this.getOrgUnitState(orgCustomerId).pipe(
-      map((state) => state.error)
+      map((state) => state.error ?? false)
     );
   }
 
@@ -418,7 +421,9 @@ export class OrgUnitService {
     );
   }
 
-  getAddresses(orgUnitId: string): Observable<EntitiesModel<Address>> {
+  getAddresses(
+    orgUnitId: string
+  ): Observable<EntitiesModel<Address> | undefined> {
     return this.getAddressesState(orgUnitId).pipe(
       observeOn(queueScheduler),
       tap((state) => {
@@ -426,12 +431,15 @@ export class OrgUnitService {
           this.loadAddresses(orgUnitId);
         }
       }),
-      filter((state) => state.success || state.error),
+      filter((state) => Boolean(state.success || state.error)),
       map((state) => state.value)
     );
   }
 
-  getAddress(orgUnitId: string, addressId: string): Observable<Address> {
+  getAddress(
+    orgUnitId: string,
+    addressId: string
+  ): Observable<Address | undefined> {
     return this.getAddressState(addressId).pipe(
       observeOn(queueScheduler),
       tap((state) => {
@@ -439,7 +447,7 @@ export class OrgUnitService {
           this.loadAddresses(orgUnitId);
         }
       }),
-      filter((state) => state.success || state.error),
+      filter((state) => Boolean(state.success || state.error)),
       map((state) => state.value)
     );
   }

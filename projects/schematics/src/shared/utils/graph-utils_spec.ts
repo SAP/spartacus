@@ -4,19 +4,32 @@ import {
   SPARTACUS_ASM,
   SPARTACUS_CART,
   SPARTACUS_CDC,
+  SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
+  SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_ESLINT_PLUGIN,
   SPARTACUS_ORDER,
+  SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
+  SPARTACUS_S4OM,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
+  SPARTACUS_TRACKING,
   SPARTACUS_USER,
 } from '../libs-constants';
-import { Graph, kahnsAlgorithm } from './graph-utils';
+import {
+  crossFeatureInstallationOrder,
+  crossLibraryInstallationOrder,
+  Graph,
+  kahnsAlgorithm,
+} from './graph-utils';
 
 describe('Graph utils', () => {
-  describe('graph', () => {
+  describe('library dependency graph', () => {
     it('scenario #1 - should be able to find a correct installation order', () => {
       const graph = new Graph([
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -107,6 +120,75 @@ describe('Graph utils', () => {
       } catch (e: any) {
         expect(e.message).toEqual('Circular dependency detected.');
       }
+    });
+
+    it('should have generated the correct order', () => {
+      expect(crossLibraryInstallationOrder).toEqual([
+        SPARTACUS_USER,
+        SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_CHECKOUT,
+        SPARTACUS_TRACKING,
+        SPARTACUS_ORGANIZATION,
+        SPARTACUS_ASM,
+        SPARTACUS_S4OM,
+        SPARTACUS_EPD_VISUALIZATION,
+        SPARTACUS_DIGITAL_PAYMENTS,
+        SPARTACUS_CDS,
+        SPARTACUS_CDC,
+        SPARTACUS_STOREFINDER,
+        SPARTACUS_SMARTEDIT,
+        SPARTACUS_QUALTRICS,
+        SPARTACUS_PRODUCT_CONFIGURATOR,
+        SPARTACUS_PRODUCT,
+        SPARTACUS_CUSTOMER_TICKETING,
+        SPARTACUS_ESLINT_PLUGIN,
+      ]);
+    });
+  });
+
+  describe('feature dependency graph', () => {
+    it('should generate the correct installation order', () => {
+      expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
+        [
+          "User-Account",
+          "User-Profile",
+          "Cart",
+          "Saved-Cart",
+          "WishList",
+          "Quick-Order",
+          "Import-Export",
+          "Order",
+          "Checkout",
+          "Checkout-B2B",
+          "Checkout-Scheduled-Replenishment",
+          "Personalization",
+          "TMS-AEPL",
+          "TMS-GTM",
+          "Administration",
+          "Account-Summary",
+          "Unit-Order",
+          "Organization-User-Registration",
+          "Order-Approval",
+          "VC-Configurator",
+          "CPQ-Configurator",
+          "Textfield-Configurator",
+          "S4HANA-Order-Management",
+          "EPD-Visualization",
+          "Digital-Payments",
+          "CDS",
+          "CDC",
+          "Customer-Ticketing",
+          "Store-Finder",
+          "SmartEdit",
+          "Qualtrics",
+          "Future-Stock",
+          "Product-Variants",
+          "Image-Zoom",
+          "Bulk-Pricing",
+          "ASM",
+        ]
+      `);
     });
   });
 });

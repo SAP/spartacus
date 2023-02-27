@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { OutletModule } from '../../outlet/outlet.module';
@@ -12,5 +18,7 @@ import { PageSlotService } from './page-slot.service';
 })
 export class PageSlotModule {
   // instantiate PageSlotService ASAP, so it can examine SSR pre-rendered DOM
-  constructor(_pageSlot: PageSlotService) {}
+  constructor(_pageSlot: PageSlotService) {
+    // Intentional empty constructor
+  }
 }

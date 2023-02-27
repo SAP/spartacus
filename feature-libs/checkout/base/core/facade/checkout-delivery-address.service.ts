@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -13,7 +19,6 @@ import {
   CommandService,
   CommandStrategy,
   EventService,
-  LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
   UserIdService,
@@ -34,14 +39,6 @@ export class CheckoutDeliveryAddressService
             return this.checkoutDeliveryAddressConnector
               .createAddress(userId, cartId, payload)
               .pipe(
-                tap(() => {
-                  if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.eventService.dispatch(
-                      { userId },
-                      LoadUserAddressesEvent
-                    );
-                  }
-                }),
                 map((address) => {
                   address.titleCode = payload.titleCode;
                   if (payload.region?.isocodeShort) {
@@ -54,11 +51,7 @@ export class CheckoutDeliveryAddressService
                 }),
                 tap((address) =>
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      address,
-                    },
+                    { userId, cartId, address },
                     CheckoutDeliveryAddressCreatedEvent
                   )
                 )

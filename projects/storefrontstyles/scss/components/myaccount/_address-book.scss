@@ -11,6 +11,12 @@
     padding-top: 30px;
   }
 
+  @include forVersion(5.1) {
+    .cx-section-msg {
+      margin-bottom: 1.5rem;
+    }
+  }
+
   @include forVersion(4.2) {
     .cx-address-card {
       padding-bottom: 30px;

@@ -1,0 +1,55 @@
+<div id="{{ createGroupId(group.id) }}" role="tabpanel">
+  <ng-container *ngIf="displayConflictDescription(group)">
+    <cx-configurator-conflict-description
+      [currentGroup]="group"
+    ></cx-configurator-conflict-description>
+  </ng-container>
+  <div
+    class="cx-group-attribute"
+    [class.cx-hidden]="!attribute.visible"
+    *ngFor="let attribute of group.attributes; let indexOfAttribute = index"
+  >
+    <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
+      <ng-container *ngIf="isConflictGroupType(group.groupType)">
+        <cx-configurator-conflict-suggestion
+          [currentGroup]="group"
+          [attribute]="attribute"
+          [suggestionNumber]="indexOfAttribute"
+        ></cx-configurator-conflict-suggestion>
+      </ng-container>     
+      <div
+      [cxConfiguratorAttributeComponent]="{
+        componentKey: 'Header',
+        attribute: attribute,         
+        owner: owner,
+        group: group
+      }"
+    ></div>
+
+    <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
+      <div
+        [cxConfiguratorAttributeComponent]="{
+          componentKey: getComponentKey(attribute),
+          attribute: attribute,           
+          owner: owner,
+          group: group,
+          language: activeLanguage$
+        }"
+      ></div>
+    </ng-container>
+
+    <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{
+      'configurator.attribute.notSupported' | cxTranslate
+    }}</em>
+
+    <div
+      [cxConfiguratorAttributeComponent]="{
+        componentKey: 'Footer',
+        attribute: attribute,         
+        owner: owner,
+        group: group
+      }"
+    ></div>
+    </ng-container>
+  </div>
+</div>

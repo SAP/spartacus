@@ -1,9 +1,15 @@
-import { Component, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { ProductSearchPage } from '@spartacus/core';
-import { ViewModes } from '../../product-view/product-view.component';
 import { Subscription } from 'rxjs';
-import { ProductListComponentService } from '../product-list-component.service';
 import { ViewConfig } from '../../../../../shared/config/view-config';
+import { ViewModes } from '../../product-view/product-view.component';
+import { ProductListComponentService } from '../product-list-component.service';
 
 @Component({
   selector: 'cx-product-scroll',
@@ -39,8 +45,8 @@ export class ProductScrollComponent implements OnDestroy {
   }
 
   viewMode: ViewModes;
-  productLimit: number;
-  maxProducts: number;
+  productLimit: number | undefined;
+  maxProducts: number | undefined;
 
   ViewModes = ViewModes;
   appendProducts = false;
@@ -82,7 +88,7 @@ export class ProductScrollComponent implements OnDestroy {
     if (this.appendProducts) {
       this.model = {
         ...inputModel,
-        products: this.model.products.concat(inputModel.products),
+        products: this.model.products?.concat(inputModel.products ?? []),
       };
     } else {
       this.model = inputModel;
@@ -103,17 +109,20 @@ export class ProductScrollComponent implements OnDestroy {
     this.isEmpty = !this.model.products || this.model.products.length === 0;
 
     this.isLastPage =
-      this.model.pagination.currentPage ===
-      this.model.pagination.totalPages - 1;
+      this.model.pagination?.currentPage ===
+      (this.model.pagination?.totalPages ?? 0) - 1;
 
-    this.isMaxProducts =
-      this.productLimit &&
-      this.productLimit !== 0 &&
-      this.model.products.length >= this.maxProducts;
+    if (this.model.products) {
+      this.isMaxProducts =
+        this.productLimit !== undefined &&
+        this.productLimit !== 0 &&
+        this.model.products.length >= (this.maxProducts ?? 0);
 
-    //Add the productLimit to the current number of products to determine the next max number of products
-    if (this.isMaxProducts) {
-      this.maxProducts = this.model.products.length + this.productLimit;
+      //Add the productLimit to the current number of products to determine the next max number of products
+      if (this.isMaxProducts) {
+        this.maxProducts =
+          this.model.products.length + (this.productLimit ?? 0);
+      }
     }
 
     //Only change viewMode once the new model is set

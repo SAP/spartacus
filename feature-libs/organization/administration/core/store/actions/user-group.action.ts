@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { UserGroup } from '../../model/user-group.model';
 import {
@@ -92,8 +98,8 @@ export class LoadUserGroupSuccess extends StateUtils.EntitySuccessAction {
     super(
       USER_GROUP_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((userGroup) => userGroup?.uid)
-        : payload?.uid
+        ? payload.map((userGroup) => userGroup?.uid ?? '')
+        : payload?.uid ?? ''
     );
   }
 }
@@ -234,7 +240,7 @@ export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAc
 export class CreateUserGroup extends StateUtils.EntityLoadAction {
   readonly type = CREATE_USER_GROUP;
   constructor(public payload: { userId: string; userGroup: UserGroup }) {
-    super(USER_GROUP_ENTITIES, payload.userGroup.uid);
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid ?? null);
   }
 }
 
@@ -248,7 +254,7 @@ export class CreateUserGroupFail extends StateUtils.EntityFailAction {
 export class CreateUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_USER_GROUP_SUCCESS;
   constructor(public payload: UserGroup) {
-    super(USER_GROUP_ENTITIES, payload.uid, payload);
+    super(USER_GROUP_ENTITIES, payload.uid ?? null, payload);
   }
 }
 
@@ -327,7 +333,7 @@ export class UpdateUserGroup extends StateUtils.EntityLoadAction {
       userGroup: UserGroup;
     }
   ) {
-    super(USER_GROUP_ENTITIES, payload.userGroup.uid);
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid ?? '');
   }
 }
 
@@ -341,7 +347,7 @@ export class UpdateUserGroupFail extends StateUtils.EntityFailAction {
 export class UpdateUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_USER_GROUP_SUCCESS;
   constructor(public payload: UserGroup) {
-    super(USER_GROUP_ENTITIES, payload.uid, payload);
+    super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
   }
 }
 
@@ -367,7 +373,7 @@ export class DeleteUserGroupFail extends StateUtils.EntityFailAction {
 export class DeleteUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = DELETE_USER_GROUP_SUCCESS;
   constructor(public payload: UserGroup) {
-    super(USER_GROUP_ENTITIES, payload.uid, payload);
+    super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
   }
 }
 
@@ -426,7 +432,7 @@ export class UnassignAllMembersFail extends StateUtils.EntityFailAction {
 export class UnassignAllMembersSuccess extends StateUtils.EntitySuccessAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS;
   constructor(public payload: UserGroup) {
-    super(USER_GROUP_ENTITIES, payload.uid, payload);
+    super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
   }
 }
 

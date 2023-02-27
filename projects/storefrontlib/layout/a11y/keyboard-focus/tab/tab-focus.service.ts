@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { AutoFocusService } from '../autofocus/auto-focus.service';
 import { MOVE_FOCUS, TabFocusConfig } from '../keyboard-focus.model';
@@ -37,7 +43,7 @@ export class TabFocusService extends AutoFocusService {
     host: HTMLElement,
     config: TabFocusConfig,
     increment: MOVE_FOCUS
-  ): HTMLElement {
+  ): HTMLElement | undefined {
     const active = this.getActiveChild(host, config);
 
     if (!active) {
@@ -75,7 +81,7 @@ export class TabFocusService extends AutoFocusService {
     host: HTMLElement,
     config: TabFocusConfig,
     increment: MOVE_FOCUS
-  ): HTMLElement {
+  ): HTMLElement | undefined {
     const childs = this.getChildren(host, config);
     let activeIndex = childs?.findIndex(
       (c) => c === this.getActiveChild(host, config)
@@ -143,11 +149,12 @@ export class TabFocusService extends AutoFocusService {
 
   protected isActive(el: HTMLElement): boolean {
     const child = document.activeElement;
-    const selector = child.tagName;
+    const selector = child?.tagName;
 
     return (
       el === child ||
-      !!Array.from(el.querySelectorAll(selector)).find((e) => e === child)
+      (!!selector &&
+        !!Array.from(el.querySelectorAll(selector)).find((e) => e === child))
     );
   }
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const orgUser = {
   header: 'All users ({{count}})',
   disabled: '(disabled)',
@@ -10,6 +16,7 @@ export const orgUser = {
   orgUnit: 'Unit',
   unit: 'Unit',
   roles: 'Roles',
+  rights: 'Rights',
   title: 'Title',
   hint: 'Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Each user belongs to a unit, and they have access to all child units of their primary unit.',
 
@@ -42,6 +49,7 @@ export const orgUser = {
     approvers: 'Approvers',
     userGroup: 'User groups',
     permission: 'Purchase limits',
+    rolesAndRights: 'Roles and Rights',
   },
 
   messages: {

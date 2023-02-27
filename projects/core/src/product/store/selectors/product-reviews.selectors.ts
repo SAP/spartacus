@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Review } from '../../../model/product.model';
 import {
@@ -13,11 +19,12 @@ export const getProductReviewsState: MemoizedSelector<
 > = createSelector(getProductsState, (state: ProductsState) => state.reviews);
 
 export const getSelectedProductReviewsFactory = (
-  productCode
-): MemoizedSelector<StateWithProduct, Review[]> => {
+  productCode: string
+): MemoizedSelector<StateWithProduct, Review[] | undefined> => {
   return createSelector(getProductReviewsState, (reviewData) => {
     if (reviewData.productCode === productCode) {
       return reviewData.list;
     }
+    return undefined;
   });
 };

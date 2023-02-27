@@ -6,12 +6,8 @@ import {
   StateWithMultiCart,
 } from '@spartacus/cart/base/core';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  User,
-  UserIdService,
-  UserService,
-} from '@spartacus/core';
+import { OCC_USER_ID_ANONYMOUS, User, UserIdService } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { getMultiCartReducers } from 'feature-libs/cart/base/core/store/reducers';
 import { Observable, of } from 'rxjs';
 import { WishListActions } from '../store/actions/index';
@@ -56,7 +52,7 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get() {
     return of(user);
   }
@@ -77,7 +73,7 @@ describe('WishListService', () => {
   let store: Store<StateWithMultiCart>;
   let multiCartFacade: MultiCartFacade;
   let userIdService: UserIdService;
-  let userService: UserService;
+  let userAccountFacade: UserAccountFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -89,7 +85,7 @@ describe('WishListService', () => {
         WishListService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
       ],
     });
 
@@ -97,7 +93,7 @@ describe('WishListService', () => {
     service = TestBed.inject(WishListService);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     userIdService = TestBed.inject(UserIdService);
-    userService = TestBed.inject(UserService);
+    userAccountFacade = TestBed.inject(UserAccountFacade);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -154,7 +150,7 @@ describe('WishListService', () => {
 
     it('should not load wishlist if custoemr not exist', () => {
       spyOn(service, 'loadWishList');
-      spyOn(userService, 'get').and.returnValue(of({}));
+      spyOn(userAccountFacade, 'get').and.returnValue(of({}));
       service.getWishList().subscribe();
 
       expect(service.loadWishList).not.toHaveBeenCalled();

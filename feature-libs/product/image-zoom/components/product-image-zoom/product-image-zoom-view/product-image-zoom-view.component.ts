@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -208,9 +214,9 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
       this.zoomedImage?.nativeElement?.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage?.nativeElement?.firstChild;
 
-    if (!this.startCoords)
+    if (!this.startCoords) {
       this.startCoords = { x: touch.clientX, y: touch.clientY };
-
+    }
     this.left += touch.clientX - this.startCoords.x;
     this.top += touch.clientY - this.startCoords.y;
 

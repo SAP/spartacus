@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
@@ -31,5 +37,5 @@ export abstract class CheckoutPaymentAdapter {
   /**
    * Abstract method used to get available card types
    */
-  abstract getCardTypes(): Observable<CardType[]>;
+  abstract getPaymentCardTypes(): Observable<CardType[]>;
 }

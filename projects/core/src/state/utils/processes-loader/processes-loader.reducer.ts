@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isDevMode } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
@@ -13,7 +19,7 @@ export const initialProcessesState: ProcessesLoaderState<any> = {
  */
 export function processesLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T, action: Action) => T
+  reducer?: (state: T | undefined, action: Action) => T
 ): (
   state: ProcessesLoaderState<T>,
   action: ProcessesLoaderAction
@@ -28,7 +34,12 @@ export function processesLoaderReducer<T>(
     const loaderState = loaderReducer(entityType, reducer)(state, action);
     if (action.meta && action.meta.entityType === entityType) {
       const processesCountDiff = action.meta.processesCountDiff;
-      if (isDevMode() && state.processesCount + processesCountDiff < 0) {
+      if (
+        isDevMode() &&
+        state.processesCount &&
+        processesCountDiff &&
+        state.processesCount + processesCountDiff < 0
+      ) {
         console.error(
           `Action '${action.type}' sets processesCount to value < 0!\n` +
             'Make sure to keep processesCount in sync.\n' +

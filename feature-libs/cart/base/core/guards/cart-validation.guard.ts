@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import {
@@ -72,7 +78,9 @@ export class CartValidationGuard implements CanActivate {
                 this.GLOBAL_MESSAGE_TIMEOUT
               );
               this.activeCartService.reloadActiveCart();
-              return this.router.parseUrl(this.semanticPathService.get('cart'));
+              return this.router.parseUrl(
+                this.semanticPathService.get('cart') ?? ''
+              );
             }
 
             return true;

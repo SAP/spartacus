@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Injector, isDevMode } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
@@ -34,7 +40,7 @@ export class SiteContextParamsService {
     return getContextParameterValues(this.config, param);
   }
 
-  getParamDefaultValue(param: string): string {
+  getParamDefaultValue(param: string): string | undefined {
     return getContextParameterDefault(this.config, param);
   }
 
@@ -51,7 +57,7 @@ export class SiteContextParamsService {
     }
   }
 
-  getValue(param: string): string {
+  getValue(param: string): string | undefined {
     let value: string | undefined;
 
     const service = this.getSiteContextService(param);

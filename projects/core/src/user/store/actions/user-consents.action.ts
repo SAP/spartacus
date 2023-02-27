@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ConsentTemplate } from '../../../model/consent.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateUtils } from '../../../state/utils/index';
@@ -59,8 +65,8 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      consentTemplateId: string;
-      consentTemplateVersion: number;
+      consentTemplateId: string | undefined;
+      consentTemplateVersion: number | undefined;
     }
   ) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
@@ -93,8 +99,8 @@ export class TransferAnonymousConsent {
   constructor(
     public payload: {
       userId: string;
-      consentTemplateId: string;
-      consentTemplateVersion: number;
+      consentTemplateId: string | undefined;
+      consentTemplateVersion: number | undefined;
     }
   ) {}
 }

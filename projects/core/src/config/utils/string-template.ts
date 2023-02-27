@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export class StringTemplate {
   /**
    * Populates the given template with the variables provided
@@ -17,8 +23,8 @@ export class StringTemplate {
         placeholder,
         // TODO 4.0: default to encodeVariable = true
         encodeVariable
-          ? encodeURIComponent(templateVariables[variableLabel])
-          : templateVariables[variableLabel]
+          ? encodeURIComponent(templateVariables[variableLabel as keyof object])
+          : templateVariables[variableLabel as keyof object]
       );
     }
     return templateString;

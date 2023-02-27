@@ -8,16 +8,20 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
-import { CsAgentAuthService } from '@spartacus/asm/root';
+import {
+  CsAgentAuthService,
+  CustomerListColumnActionType,
+} from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
   User,
-  UserService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { UserAccountFacade } from '@spartacus/user/account/root';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -40,9 +44,31 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   startCustomerEmulationSession(_customerId: string) {}
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
     return of({});
+  }
+}
+
+export class MockNgbModalRef {
+  componentInstance = {
+    selectedUserGroupId: '',
+    customerSearchPage$: of({}),
+    customerListsPage$: of({}),
+    selectedCustomer: {},
+    fetchCustomers: () => {},
+    closeModal: (_reason?: any) => {},
+  };
+  result: Promise<any> = new Promise(() => {});
+}
+
+const dialogClose$ = new BehaviorSubject<any>('');
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return of();
+  }
+  get dialogClose() {
+    return dialogClose$.asObservable();
   }
 }
 
@@ -114,12 +140,13 @@ describe('AsmMainUiComponent', () => {
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
   let csAgentAuthService: CsAgentAuthService;
-  let userService: UserService;
+  let userAccountFacade: UserAccountFacade;
   let el: DebugElement;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -136,11 +163,12 @@ describe('AsmMainUiComponent', () => {
         providers: [
           { provide: AuthService, useClass: MockAuthService },
           { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: AsmService, useClass: MockAsmService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
       }).compileComponents();
     })
@@ -150,11 +178,12 @@ describe('AsmMainUiComponent', () => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
     authService = TestBed.inject(AuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
-    userService = TestBed.inject(UserService);
+    userAccountFacade = TestBed.inject(UserAccountFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -243,7 +272,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(userService, 'get').and.returnValue(of({}));
+    spyOn(userAccountFacade, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
@@ -259,7 +288,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(userService, 'get').and.returnValue(of({}));
+    spyOn(userAccountFacade, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
@@ -275,7 +304,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -293,7 +322,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -383,5 +412,24 @@ describe('AsmMainUiComponent', () => {
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmComponentService.unload).toHaveBeenCalled();
+  });
+
+  it('should be able to open dialog', () => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    component.showCustomList();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CUSTOMER_LIST,
+      component.element
+    );
+  });
+
+  it('should be able to navigate to Order history', () => {
+    spyOn(routingService, 'go').and.callThrough();
+    component.showCustomList();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: CustomerListColumnActionType.ORDER_HISTORY,
+    });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
 });

@@ -30,22 +30,28 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
+          "Organization-User-Registration",
+          "Unit-Order",
+          "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
+          "Future-Stock",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
           "TMS-GTM",
           "TMS-AEPL",
-          "Account",
-          "Profile"
+          "User-Account",
+          "User-Profile"
         ],
         "type": "string"
       },
@@ -59,15 +65,16 @@
         "Saved-Cart",
         "Quick-Order",
         "Image-Zoom",
+        "Future-Stock",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
         "Personalization",
-        "Account",
-        "Profile"
+        "User-Account",
+        "User-Profile"
       ],
       "x-prompt": {
-        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
+        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the User-Account feature is required.",
         "type": "list",
         "items": [
           {
@@ -100,11 +107,11 @@
           },
           {
             "value": "Checkout-B2B",
-            "label": "Checkout (b2b feature, includes Base Checkout)"
+            "label": "Checkout B2B (b2b feature, requires Base Checkout)"
           },
           {
             "value": "Checkout-Scheduled-Replenishment",
-            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
+            "label": "Checkout Scheduled Replenishment (b2b feature, requires Base and B2B Checkout)"
           },
           {
             "value": "Cart",
@@ -135,6 +142,18 @@
             "label": "Organization - Order Approval (b2b feature)"
           },
           {
+            "value": "Organization-User-Registration",
+            "label": "Organization - User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
+            "value": "Account-Summary",
+            "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
+          },
+          {
             "value": "Bulk-Pricing",
             "label": "Product - Bulk Pricing (b2b feature)"
           },
@@ -145,6 +164,10 @@
           {
             "value": "Image-Zoom",
             "label": "Product - Image Zoom"
+          },
+          {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock"
           },
           {
             "value": "VC-Configurator",
@@ -161,6 +184,10 @@
           {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
           },
           {
             "value": "SmartEdit",
@@ -183,12 +210,16 @@
             "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
-            "value": "Account",
+            "value": "User-Account",
             "label": "User - Account"
           },
           {
-            "value": "Profile",
+            "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
           }
         ]
       }
@@ -218,13 +249,11 @@
     },
     "currency": {
       "type": "string",
-      "description": "A comma-separated list of currencies to use in Spartacus",
-      "default": "USD"
+      "description": "A comma-separated list of currencies to use in Spartacus"
     },
     "language": {
       "type": "string",
-      "description": "A comma-separated list of languages to use in Spartacus",
-      "default": "en"
+      "description": "A comma-separated list of languages to use in Spartacus"
     },
     "urlParameters": {
       "type": "string",

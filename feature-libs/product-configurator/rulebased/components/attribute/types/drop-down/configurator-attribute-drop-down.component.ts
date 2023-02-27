@@ -1,13 +1,22 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
+import { UntypedFormControl } from '@angular/forms';
+import { TranslationService } from '@spartacus/core';
+
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
@@ -20,18 +29,20 @@ export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeDropDownForm = new FormControl('');
+  attributeDropDownForm = new UntypedFormControl('');
   @Input() group: string;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected translation: TranslationService
   ) {
     super(
       quantityService,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      translation
     );
   }
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const myAccount = {
   closeAccount: {
     confirmAccountClosure: 'Confirm Account Closure',
@@ -100,10 +106,13 @@ export const myAccount = {
     sortInterests: 'Sort interests',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
-    remove: 'REMOVE',
+    remove: 'Remove',
     sorting: {
       byNameAsc: 'Name (ascending)',
       byNameDesc: 'Name (descending)',
     },
+    actions: 'ACTIONS',
+    caption: 'My Interests contents.',
+    itemRemoved: 'Selected item has been removed.',
   },
 };

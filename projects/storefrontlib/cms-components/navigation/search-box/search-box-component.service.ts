@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   EventService,
+  isNotUndefined,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -73,7 +80,7 @@ export class SearchBoxComponentService {
     ]).pipe(
       map(([productResults, suggestions, message]) => {
         return {
-          products: productResults ? productResults.products : null,
+          products: productResults ? productResults.products : undefined,
           suggestions,
           message,
         };
@@ -181,7 +188,9 @@ export class SearchBoxComponentService {
       return of([]);
     } else {
       return this.searchService.getSuggestionResults().pipe(
-        map((res) => res.map((suggestion) => suggestion.value)),
+        map((res) =>
+          res.map((suggestion) => suggestion.value).filter(isNotUndefined)
+        ),
         switchMap((suggestions) => {
           if (suggestions.length === 0) {
             return this.getExactSuggestion(config).pipe(
@@ -199,14 +208,16 @@ export class SearchBoxComponentService {
    * Whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
-  protected getExactSuggestion(config: SearchBoxConfig): Observable<string> {
+  protected getExactSuggestion(
+    config: SearchBoxConfig
+  ): Observable<string | undefined> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
-          : of(null);
+          : of(undefined);
       })
     );
   }
@@ -215,7 +226,9 @@ export class SearchBoxComponentService {
    * Emits a 'no match' message, in case the product search results and search suggestions are empty.
    * Otherwise it emits null.
    */
-  protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
+  protected getSearchMessage(
+    config: SearchBoxConfig
+  ): Observable<string | undefined> {
     return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),
@@ -230,7 +243,7 @@ export class SearchBoxComponentService {
         ) {
           return this.fetchTranslation('searchBox.help.noMatch');
         } else {
-          return of(null);
+          return of(undefined);
         }
       })
     );

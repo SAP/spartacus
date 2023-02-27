@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,9 +11,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
@@ -40,7 +46,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    */
   i18n: string;
 
-  form$: Observable<FormGroup> = this.itemService.current$.pipe(
+  form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     map((item) => {
       this.setI18nRoot(item);
 
@@ -56,7 +62,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    * To handle the case of receiving a negative response during creation an item
    */
   disabled$ = this.form$.pipe(
-    switchMap((form) => form.statusChanges),
+    switchMap((form) => form?.statusChanges ?? of()),
     map((status) => status === DISABLED_STATUS)
   );
 
@@ -65,7 +71,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     protected messageService: MessageService
   ) {}
 
-  save(form: FormGroup): void {
+  save(form: UntypedFormGroup): void {
     this.itemService.key$
       .pipe(
         first(),
@@ -89,7 +95,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
       });
   }
 
-  protected notify(item: T, action: string) {
+  protected notify(item: T | undefined, action: string) {
     this.messageService.add({
       message: {
         key: `${this.i18nRoot}.messages.${action}`,
@@ -100,7 +106,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     });
   }
 
-  protected setI18nRoot(item: T): void {
+  protected setI18nRoot(item?: T): void {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
   }

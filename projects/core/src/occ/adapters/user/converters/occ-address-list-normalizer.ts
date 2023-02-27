@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Address } from '../../../../model/address.model';
 import { EntitiesModel } from '../../../../model/misc.model';
@@ -21,11 +27,12 @@ export class OccAddressListNormalizer
     target?: EntitiesModel<Address>
   ): EntitiesModel<Address> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<Address>;
     }
-    target.values = source.addresses.map((address) => ({
-      ...this.converter.convert(address, ADDRESS_NORMALIZER),
-    }));
+    target.values =
+      source.addresses?.map((address) => ({
+        ...this.converter.convert(address, ADDRESS_NORMALIZER),
+      })) ?? [];
 
     return target;
   }

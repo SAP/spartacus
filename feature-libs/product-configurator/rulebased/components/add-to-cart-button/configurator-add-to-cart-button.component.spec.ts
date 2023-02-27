@@ -15,7 +15,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
-import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { OrderHistoryFacade } from 'feature-libs/order/root/facade';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
@@ -453,6 +453,35 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(
         configuratorCommonsService.removeConfiguration
       ).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('navigateForProductBound', () => {
+    it('should navigate to OV in case configuration is product bound and we are on product config page', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      ensureProductBound();
+
+      component['navigateForProductBound'](
+        mockProductConfiguration,
+        mockOwner.configuratorType,
+        false
+      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
+    });
+
+    it('should handle case that next owner is not defined', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      ensureProductBound();
+
+      component['navigateForProductBound'](
+        { ...mockProductConfiguration, nextOwner: undefined },
+        mockOwner.configuratorType,
+        false
+      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        ...navParamsOverview,
+        params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
+      });
     });
   });
 

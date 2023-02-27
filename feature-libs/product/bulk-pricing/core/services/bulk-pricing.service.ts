@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { Price, Product, ProductService, ProductScope } from '@spartacus/core';
+import { Price, Product, ProductScope, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BulkPrice } from '../model/bulk-price.model';
@@ -20,7 +26,9 @@ export class BulkPricingService {
     );
   }
 
-  protected convert(productPriceScope: Product): BulkPrice[] | undefined {
+  protected convert(
+    productPriceScope: Product | undefined
+  ): BulkPrice[] | undefined {
     let bulkPrices: BulkPrice[] | undefined = [];
 
     if (productPriceScope) {

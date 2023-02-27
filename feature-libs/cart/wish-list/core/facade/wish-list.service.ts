@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StateWithMultiCart } from '@spartacus/cart/base/core';
@@ -8,11 +14,8 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  UserIdService,
-  UserService,
-} from '@spartacus/core';
+import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -30,7 +33,7 @@ import { getWishlistName } from '../utils/utils';
 export class WishListService implements WishListFacade {
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected userService: UserService,
+    protected userAccountFacade: UserAccountFacade,
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService
   ) {}
@@ -44,7 +47,7 @@ export class WishListService implements WishListFacade {
   getWishList(): Observable<Cart> {
     return combineLatest([
       this.getWishListId(),
-      this.userService.get(),
+      this.userAccountFacade.get(),
       this.userIdService.getUserId(),
     ]).pipe(
       distinctUntilChanged(),
@@ -102,9 +105,12 @@ export class WishListService implements WishListFacade {
   private getWishListIdWithUserId(): Observable<string[]> {
     return this.getWishListId().pipe(
       distinctUntilChanged(),
-      withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
+      withLatestFrom(
+        this.userIdService.getUserId(),
+        this.userAccountFacade.get()
+      ),
       tap(([wishListId, userId, user]) => {
-        if (!Boolean(wishListId) && user && user.customerId) {
+        if (!Boolean(wishListId) && user?.customerId) {
           this.loadWishList(userId, user.customerId);
         }
       }),

@@ -5,7 +5,7 @@ set -o pipefail
 function validateStylesLint {
     echo "----"
     echo "Running styleslint"
-    yarn lint:styles
+    npm run lint:styles
 }
 
 function validateTsConfigFile {
@@ -23,7 +23,7 @@ function validateTsConfigFile {
 
 function validateNoHardCodedText {
     echo "Validating no hard-coded text (usint i18n-lint)"
-    yarn i18n-lint
+    npm run i18n-lint
 }
 
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/public_api"
@@ -40,12 +40,12 @@ else
     exit 1
 fi
 
-echo "Validating that no 'decsribe.only(' occurrences are present in tests..."
+echo "Validating that no 'describe.only(' occurrences are present in tests..."
 results=$(grep -rl --include "*spec.ts" 'decsribe.only(' projects feature-libs intergration-libs core-libs || true)
 if [[ -z "$results" ]]; then
-    echo "Success: No 'decsribe.only(' occurrences detected in tests."
+    echo "Success: No 'describe.only(' occurrences detected in tests."
 else
-    echo "ERROR: Detected 'decsribe.only(' occurrence(s) in these files:"
+    echo "ERROR: Detected 'describe.only(' occurrence(s) in these files:"
     echo "$results"
     exit 1
 fi
@@ -88,7 +88,7 @@ node --max_old_space_size=3584 ./node_modules/@angular/cli/bin/ng lint
 echo "-----"
 
 echo "Validating code formatting (using prettier)"
-yarn prettier 2>&1 |  tee prettier.log
+npm run prettier 2>&1 |  tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)
 if [[ -z "$results" ]]; then
     echo "Success: Codebase has been prettified correctly"

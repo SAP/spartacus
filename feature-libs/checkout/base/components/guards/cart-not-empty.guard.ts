@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -19,7 +25,9 @@ export class CartNotEmptyGuard implements CanActivate {
     return this.activeCartFacade.takeActive().pipe(
       map((cart) => {
         if (this.isEmpty(cart)) {
-          return this.router.parseUrl(this.semanticPathService.get('home'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('home') ?? ''
+          );
         }
         return true;
       })

@@ -10,33 +10,33 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CART_BASE_FEATURE,
-  CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_QUICK_ORDER_FEATURE,
-  CLI_CART_SAVED_CART_FEATURE,
-  CLI_CART_WISHLIST_FEATURE,
+  cartBaseFeatureModulePath,
+  CART_BASE_FEATURE_NAME,
+  CART_IMPORT_EXPORT_FEATURE_NAME,
+  CART_QUICK_ORDER_FEATURE_NAME,
+  CART_SAVED_CART_FEATURE_NAME,
+  CART_WISHLIST_FEATURE_NAME,
+  importExportFeatureModulePath,
   LibraryOptions as SpartacusCartOptions,
+  quickOrderFeatureModulePath,
+  savedCartFeatureModulePath,
   SpartacusOptions,
+  SPARTACUS_CART,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
+  wishListFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const savedCartFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
-const cartBaseFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-base-feature.module.ts';
-const wishListFeatureModulePath =
-  'src/app/spartacus/features/cart/wish-list-feature.module.ts';
-const quickOrderFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-quick-order-feature.module.ts';
-const importExportFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_CART,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -69,27 +69,27 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   const savedCartFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_SAVED_CART_FEATURE],
+    features: [CART_SAVED_CART_FEATURE_NAME],
   };
 
   const cartBaseFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_BASE_FEATURE],
+    features: [CART_BASE_FEATURE_NAME],
   };
 
   const wishListFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_WISHLIST_FEATURE],
+    features: [CART_WISHLIST_FEATURE_NAME],
   };
 
   const quickOrderFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_QUICK_ORDER_FEATURE],
+    features: [CART_QUICK_ORDER_FEATURE_NAME],
   };
 
   const cartImportExportFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_IMPORT_EXPORT_FEATURE],
+    features: [CART_IMPORT_EXPORT_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -166,50 +166,6 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Saved Cart feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', savedCartFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(savedCartFeatureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-
-      describe('styling', () => {
-        it('should create a proper scss file', () => {
-          const scssContent = appTree.readContent(scssFilePath);
-          expect(scssContent).toMatchSnapshot();
-        });
-
-        it('should update angular.json', async () => {
-          const content = appTree.readContent('/angular.json');
-          expect(content).toMatchSnapshot();
-        });
-      });
-    });
-
-    describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...savedCartFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
-      });
-
-      it('should import appropriate modules', async () => {
-        const module = appTree.readContent(savedCartFeatureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-    });
-  });
-
   describe('Cart Base feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
@@ -221,6 +177,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(cartBaseFeatureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -254,16 +215,16 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Wish List feature', () => {
+  describe('Cart Import Export feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', wishListFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', cartImportExportFeatureOptions, appTree)
           .toPromise();
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(wishListFeatureModulePath);
+        const module = appTree.readContent(importExportFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -285,14 +246,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...wishListFeatureOptions, lazy: false },
+            { ...cartImportExportFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(wishListFeatureModulePath);
+        const module = appTree.readContent(importExportFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -340,52 +301,112 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
     });
+  });
 
-    describe('Cart Import Export feature', () => {
-      describe('general setup', () => {
-        beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              cartImportExportFeatureOptions,
-              appTree
-            )
-            .toPromise();
-        });
-
-        it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(importExportFeatureModulePath);
-          expect(module).toMatchSnapshot();
-        });
-
-        describe('styling', () => {
-          it('should create a proper scss file', () => {
-            const scssContent = appTree.readContent(scssFilePath);
-            expect(scssContent).toMatchSnapshot();
-          });
-
-          it('should update angular.json', async () => {
-            const content = appTree.readContent('/angular.json');
-            expect(content).toMatchSnapshot();
-          });
-        });
+  describe('Saved Cart feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', savedCartFeatureOptions, appTree)
+          .toPromise();
       });
 
-      describe('eager loading', () => {
-        beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...cartImportExportFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(savedCartFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const baseCartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
+        );
+        expect(baseCartFeatureModule).toBeFalsy();
+
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
         });
 
-        it('should import appropriate modules', async () => {
-          const module = appTree.readContent(importExportFeatureModulePath);
-          expect(module).toMatchSnapshot();
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
         });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...savedCartFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(savedCartFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('Wish List feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', wishListFeatureOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(wishListFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const baseCartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
+        );
+        expect(baseCartFeatureModule).toBeFalsy();
+
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...wishListFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(wishListFeatureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });

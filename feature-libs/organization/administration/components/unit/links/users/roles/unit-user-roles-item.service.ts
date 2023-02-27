@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
@@ -25,12 +31,12 @@ export class UnitUserRolesItemService extends ItemService<B2BUser> {
   }
 
   save(
-    form: FormGroup,
+    form: UntypedFormGroup,
     key?: string
   ): Observable<OrganizationItemStatus<B2BUser>> {
     // we enable the unit so that the underlying
     // save method can read the complete form.value.
-    form.get('orgUnit').enable();
+    form.get('orgUnit')?.enable();
     return super.save(form, key);
   }
 
@@ -48,7 +54,7 @@ export class UnitUserRolesItemService extends ItemService<B2BUser> {
   protected create(
     _customer: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    return this.b2bUserService.getLoadingStatus(null);
+    return this.b2bUserService.getLoadingStatus('');
   }
 
   protected getDetailsRoute(): string {

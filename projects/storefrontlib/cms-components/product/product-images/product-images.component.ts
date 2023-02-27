@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
@@ -26,9 +32,10 @@ export class ProductImagesComponent {
     map((p: Product) => this.createThumbs(p))
   );
 
-  mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
-    map(([, container]) => container)
-  );
+  mainImage$: Observable<any> = combineLatest([
+    this.product$,
+    this.mainMediaContainer,
+  ]).pipe(map(([, container]) => container));
 
   constructor(protected currentProductService: CurrentProductService) {}
 

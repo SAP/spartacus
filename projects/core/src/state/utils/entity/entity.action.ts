@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 
 export const ENTITY_REMOVE_ACTION = '[ENTITY] REMOVE';
@@ -5,11 +11,14 @@ export const ENTITY_REMOVE_ALL_ACTION = '[ENTITY] REMOVE ALL';
 
 export interface EntityMeta {
   entityType: string;
-  entityId?: string | string[];
+  entityId?: string | string[] | null;
   entityRemove?: boolean;
 }
 
-export function entityMeta(type: string, id?: string | string[]): EntityMeta {
+export function entityMeta(
+  type: string,
+  id?: string | string[] | null
+): EntityMeta {
   return {
     entityType: type,
     entityId: id,
@@ -18,7 +27,7 @@ export function entityMeta(type: string, id?: string | string[]): EntityMeta {
 
 export function entityRemoveMeta(
   type: string,
-  id: string | string[]
+  id: string | string[] | null
 ): EntityMeta {
   return {
     entityId: id,
@@ -43,7 +52,7 @@ export interface EntityAction extends Action {
 export class EntityRemoveAction implements EntityAction {
   type = ENTITY_REMOVE_ACTION;
   readonly meta: EntityMeta;
-  constructor(entityType: string, id: string | string[]) {
+  constructor(entityType: string, id: string | string[] | null) {
     this.meta = entityRemoveMeta(entityType, id);
   }
 }

@@ -1,27 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
-  CUSTOMER_COUPONS,
-  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
-} from '../user-state';
-import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction,
-  LoaderResetAction,
-} from '../../../state/utils/loader/loader.action';
-import {
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
   CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+import { PROCESS_FEATURE } from '../../../process/store';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntityLoaderResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { PROCESS_FEATURE } from '../../../process/store';
+import {
+  LoaderFailAction,
+  LoaderLoadAction,
+  LoaderResetAction,
+  LoaderSuccessAction,
+} from '../../../state/utils/loader/loader.action';
+import {
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  CUSTOMER_COUPONS,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+} from '../user-state';
 
 export const LOAD_CUSTOMER_COUPONS = '[User] Load Customer Coupons';
 export const LOAD_CUSTOMER_COUPONS_FAIL = '[User] Load Customer Coupons Fail';
@@ -158,7 +164,7 @@ export class ClaimCustomerCoupon extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      couponCode;
+      couponCode: string;
     }
   ) {
     super(PROCESS_FEATURE, CLAIM_CUSTOMER_COUPON_PROCESS_ID);

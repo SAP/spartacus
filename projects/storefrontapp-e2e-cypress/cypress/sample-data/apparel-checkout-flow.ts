@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { generateMail, randomString } from '../helpers/user';
 import { SampleCartProduct, SampleProduct, SampleUser } from './checkout-flow';
 
@@ -22,8 +28,8 @@ export function getApparelCheckoutUser() {
       card: 'Visa',
       number: '4111111111111111',
       expires: {
-        month: '07',
-        year: '2022',
+        month: '12',
+        year: '2027',
       },
       cvv: '123',
     },

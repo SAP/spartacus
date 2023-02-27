@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import Chainable = Cypress.Chainable;
 import * as configurationOverview from './product-configurator-overview';
 import * as configurationVc from './product-configurator-vc';
@@ -23,6 +29,7 @@ export function goToConfigOverviewPage(
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
     configurationOverview.checkConfigOverviewPageDisplayed();
     configurationVc.checkGhostAnimationNotDisplayed();
+    cy.wait(READ_CONFIG_OV_ALIAS);
   });
 }
 
@@ -43,6 +50,17 @@ export function clickOnResolveIssuesLinkOnOP(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/cartEntry/entityKey/');
+    });
+}
+
+/**
+ * Clicks on 'Resolve Issues' link on the product overview page in case overview still refers to product bound configuration
+ */
+export function clickOnResolveIssuesLinkOnOPProductBound(): void {
+  cy.get(resolveIssuesLinkSelector)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/product/entityKey/');
     });
 }
 
@@ -93,33 +111,145 @@ export function verifyNotificationBannerOnOP(
   numberOfIssues?: number,
   numberOfConflicts?: number
 ): void {
-  cy.wait('@configure_overview');
+  cy.wait(READ_CONFIG_OV_ALIAS);
   let element = cy.get('cx-configurator-overview-notification-banner', {
     timeout: 10000,
   });
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, 'ISSUE', numberOfIssues);
   } else {
-    element.should('not.contain.html', 'div.cx-error-msg');
+    element.get('.cx-error-msg').should('not.exist');
   }
-  element = cy.get('cx-configurator-overview-notification-banner', {
-    timeout: 10000,
-  });
   if (numberOfConflicts) {
     this.checkNotificationBannerOnOP(element, 'CONFLICT', numberOfConflicts);
   } else {
-    element.should('not.contain.html', 'div.cx-conflict-msg');
+    element.get('.cx-conflict-msg').should('not.exist');
   }
 }
 
 /**
- * Registers OCC call for OV page in order to wait for it
+ * Cypress alias for Config OV update OCC call.
  */
-export function registerConfigurationOvOCC() {
+export const UPDATE_CONFIG_OV_ALIAS = '@updateConfigOverview';
+
+/**
+ * Cypress alias for Config OV read OCC call.
+ */
+export const READ_CONFIG_OV_ALIAS = '@readConfigOverview';
+
+/**
+ * Registers OCC call for OV page in order to wait for it sing alias @see READ_CONFIG_OV_ALIAS
+ */
+export function registerConfigurationOverviewRoute() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
-  ).as('configure_overview');
+  ).as(READ_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Registers OCC call for updating OV page in order to wait for it using alias @see UPDATE_CONFIG_OV_ALIAS
+ */
+export function registerConfigurationOverviewUpdateRoute() {
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*`,
+  }).as(UPDATE_CONFIG_OV_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Verifies whether the product overview side bar is displayed.
+ */
+export function checkSidebarDisplayed(): void {
+  cy.get('cx-configurator-overview-sidebar').should('be.visible');
+}
+
+/**
+ * Verifies whether the product overview menu is displayed.
+ */
+export function checkMenuDisplayed(): void {
+  cy.get('cx-configurator-overview-menu').should('exist');
+  cy.get('cx-configurator-overview-filter').should('not.exist');
+}
+
+/**
+ * Verifies whether the product overview filter is displayed.
+ */
+export function checkFilterDisplayed(): void {
+  cy.get('cx-configurator-overview-filter').should('exist');
+  cy.get('cx-configurator-overview-menu').should('not.exist');
+}
+
+/**
+ * Toggles configuration overview side bar from menu -> filter or from filter -> menu
+ */
+export function toggleSidebar(): void {
+  cy.get(
+    'cx-configurator-overview-sidebar .cx-menu-bar button:not(.active)'
+  ).click();
+}
+
+/**
+ * Toggles the given configuration overview group filter
+ * @param {string} groupId - id of group filter to toggle
+ */
+export function toggleGroupFilterAndWait(groupId: string): void {
+  cy.get(`#cx-configurator-overview-filter-option-group-${groupId}`).click();
+  cy.wait(UPDATE_CONFIG_OV_ALIAS);
+}
+
+/**
+ * Toggles the given configuration overview attribute filter
+ * @param {'mySelections' | 'price'} filter - type of attribute filter to toggle
+ */
+export function toggleAttributeFilterAndWait(
+  filter: 'mySelections' | 'price'
+): void {
+  cy.get(`#cx-configurator-overview-filter-option-${filter}`).click();
+  cy.wait(UPDATE_CONFIG_OV_ALIAS);
+}
+
+/**
+ * Removes given configuration overview filter by name
+ * @param {'Remove All' | string} filterName - name of the overview filter or 'Remove All'
+ */
+export function removeFilterByNameAndWait(filterName: string) {
+  cy.get('button.cx-overview-filter-applied').contains(filterName).click();
+  cy.wait(UPDATE_CONFIG_OV_ALIAS);
+}
+
+/**
+ * Verifies the the current number of displayed menu items.
+ * @param {number} num expected number
+ */
+export function checkNumberOfMenuEntriesDisplayed(num: number) {
+  cy.get('.cx-menu-item').should('have.length', num);
+}
+
+/**
+ * Clicks on the menu item with the given index. Does not wait, but returns immediately.
+ * @param {number} index index of the menu item
+ */
+export function clickMenuItem(index: number) {
+  cy.get('.cx-menu-item').eq(index).click();
+}
+
+/**
+ * Checks that the ov group with given index is placed in the top area of the view port,
+ * or in other words that the screen has ben scrolled to this group.
+ * @param {number} groupIdx index of the ov group
+ */
+export function checkViewPortScrolledToGroup(groupIdx: number) {
+  cy.get('cx-configurator-overview-form .cx-group h2')
+    .eq(groupIdx)
+    .then((elem) => {
+      // due to rounding errors top will be between -1px..1px
+      expect(elem[0].getBoundingClientRect().top)
+        .to.be.greaterThan(-1)
+        .and.to.be.below(1);
+    });
 }

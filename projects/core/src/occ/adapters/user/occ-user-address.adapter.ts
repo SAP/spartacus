@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -18,6 +24,8 @@ import {
 } from '../../utils/interceptor-util';
 import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
+const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
+
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
   constructor(
@@ -31,12 +39,12 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       urlParams: { userId },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http.get<Occ.AddressList>(url, { headers }).pipe(
       catchError((error: any) => throwError(error)),
-      map((addressList) => addressList.addresses),
+      map((addressList) => addressList.addresses ?? []),
       this.converter.pipeableMany(ADDRESS_NORMALIZER)
     );
   }
@@ -46,7 +54,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       urlParams: { userId },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
@@ -60,7 +68,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       urlParams: { userId, addressId },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
@@ -74,7 +82,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       urlParams: { userId },
     });
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
     if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
@@ -92,7 +100,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       urlParams: { userId, addressId },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http

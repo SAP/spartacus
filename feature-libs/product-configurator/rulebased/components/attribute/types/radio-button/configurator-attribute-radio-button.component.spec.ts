@@ -14,7 +14,11 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+
+const VALUE_NAME_2 = 'val2';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -61,7 +65,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const initialSelectedValue = 'initialSelectedValue';
 
   const value1 = createValue('1', 'val1', true);
-  const value2 = createValue('2', 'val2', false);
+  const value2 = createValue('2', VALUE_NAME_2, false);
   const value3 = createValue('3', 'val3', false);
 
   const values: Configurator.Value[] = [value1, value2, value3];
@@ -71,6 +75,8 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeRadioButtonComponent,
+          ConfiguratorAttributeInputFieldComponent,
+          ConfiguratorAttributeNumericInputFieldComponent,
           ItemCounterComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
@@ -222,10 +228,10 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'form-check-input',
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:' +
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[1].valueDisplay
+          VALUE_NAME_2
       );
     });
 
@@ -250,7 +256,35 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         1,
         'aria-hidden',
         'true',
-        component.attribute.values[1].valueDisplay
+        VALUE_NAME_2
+      );
+    });
+  });
+
+  describe('Rendering for additional value', () => {
+    it('should provide input field for alpha numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should provide input field for numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-numeric-input-field'
       );
     });
   });

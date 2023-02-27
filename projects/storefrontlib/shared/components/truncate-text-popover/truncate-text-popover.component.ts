@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
@@ -15,6 +21,8 @@ export class TruncateTextPopoverComponent {
    * The maximum length of the characters after which the text will be truncated
    */
   @Input() charactersLimit: number = 100;
+
+  @Input() customClass?: string;
 
   get isTruncated(): boolean {
     return this.content.length > +this.charactersLimit;

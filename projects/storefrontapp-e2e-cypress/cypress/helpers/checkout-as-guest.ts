@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';
+import { waitForPage } from './checkout-flow';
 import { validateUpdateProfileForm } from './update-profile';
 
 export let guestUser;
@@ -85,9 +92,11 @@ export function testCheckoutAsGuest() {
 }
 
 export function createAccountFromGuest(password: string) {
+  const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 }
