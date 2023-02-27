@@ -163,24 +163,6 @@
       "@spartacus/organization/order-approval/root": [
         "../../dist/organization/order-approval/root"
       ],
-      "@spartacus/organization/user-registration/assets": [
-        "../../dist/organization/user-registration/assets"
-      ],
-      "@spartacus/organization/user-registration/components": [
-        "../../dist/organization/user-registration/components"
-      ],
-      "@spartacus/organization/user-registration/core": [
-        "../../dist/organization/user-registration/core"
-      ],
-      "@spartacus/organization/user-registration": [
-        "../../dist/organization/user-registration"
-      ],
-      "@spartacus/organization/user-registration/occ": [
-        "../../dist/organization/user-registration/occ"
-      ],
-      "@spartacus/organization/user-registration/root": [
-        "../../dist/organization/user-registration/root"
-      ],
       "@spartacus/organization/unit-order/assets": [
         "../../dist/organization/unit-order/assets"
       ],
@@ -198,6 +180,24 @@
       ],
       "@spartacus/organization/unit-order/root": [
         "../../dist/organization/unit-order/root"
+      ],
+      "@spartacus/organization/user-registration/assets": [
+        "../../dist/organization/user-registration/assets"
+      ],
+      "@spartacus/organization/user-registration/components": [
+        "../../dist/organization/user-registration/components"
+      ],
+      "@spartacus/organization/user-registration/core": [
+        "../../dist/organization/user-registration/core"
+      ],
+      "@spartacus/organization/user-registration": [
+        "../../dist/organization/user-registration"
+      ],
+      "@spartacus/organization/user-registration/occ": [
+        "../../dist/organization/user-registration/occ"
+      ],
+      "@spartacus/organization/user-registration/root": [
+        "../../dist/organization/user-registration/root"
       ],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
@@ -305,6 +305,9 @@
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
+      "@spartacus/cdc/organization/administration": [
+        "../../dist/cdc/organization/administration"
+      ],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
