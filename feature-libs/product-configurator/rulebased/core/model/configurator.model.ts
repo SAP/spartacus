@@ -115,6 +115,7 @@ export namespace Configurator {
     issueNavigationDone?: boolean;
     isConflictResolutionMode?: boolean;
     showConflictSolverDialog?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface Overview {
