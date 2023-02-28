@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule, Type } from '@angular/core';
-import { CdcAdministrationModule } from '@spartacus/cdc/organization/administration';
+import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   organizationTranslationChunksConfig,
@@ -15,16 +14,10 @@ import {
   AdministrationRootModule,
   ORGANIZATION_ADMINISTRATION_FEATURE,
 } from '@spartacus/organization/administration/root';
-import { environment } from '../../../../environments/environment';
 
-const extensions: Type<any>[] = [];
-
-if (environment.cdc) {
-  extensions.push(CdcAdministrationModule);
-}
 @NgModule({
   declarations: [],
-  imports: [AdministrationRootModule, ...extensions],
+  imports: [AdministrationRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
