@@ -280,7 +280,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const header = fixture.debugElement.query(
-      By.css('.cx-order-history-thead-mobile')
+      By.css('.cx-order-history-thead-mobile > tr[role="row"')
     );
     expect(header.children.length).toEqual(4);
 
@@ -288,7 +288,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const headerPO = fixture.debugElement.query(
-      By.css('.cx-order-history-thead-mobile')
+      By.css('.cx-order-history-thead-mobile > tr[role="row"]')
     );
     expect(headerPO.children.length).toEqual(6);
     expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(
