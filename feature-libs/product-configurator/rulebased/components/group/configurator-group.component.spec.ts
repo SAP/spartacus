@@ -224,11 +224,16 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
         Header: ConfiguratorAttributeHeaderComponent,
         Footer: ConfiguratorAttributeFooterComponent,
         AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
+        AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
         AttributeType_checkBoxList: ConfiguratorAttributeCheckBoxListComponent,
         AttributeType_string: ConfiguratorAttributeInputFieldComponent,
         AttributeType_numeric: ConfiguratorAttributeNumericInputFieldComponent,
         AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
         AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,
+        AttributeType_single_selection_image:
+          ConfiguratorAttributeSingleSelectionImageComponent,
+        AttributeType_multi_selection_image:
+          ConfiguratorAttributeMultiSelectionImageComponent,
       },
     },
   };
@@ -435,8 +440,8 @@ describe('ConfiguratorGroupComponent', () => {
         'cx-configurator-attribute-radio-button'
       );
     });
-    //TODO CHHI enable once implemented
-    xit('should support single selection image attribute type', () => {
+
+    it('should support single selection image attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -444,8 +449,7 @@ describe('ConfiguratorGroupComponent', () => {
       );
     });
 
-    //TODO CHHI enable once implemented
-    xit('should support multi selection image attribute type', () => {
+    it('should support multi selection image attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -461,8 +465,7 @@ describe('ConfiguratorGroupComponent', () => {
       );
     });
 
-    //TODO CHHI enable once implemented
-    xit('should support checkbox attribute type', () => {
+    it('should support checkbox attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

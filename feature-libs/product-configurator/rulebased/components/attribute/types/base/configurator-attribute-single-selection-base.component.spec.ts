@@ -9,7 +9,6 @@ import { ConfigFormUpdateEvent } from '../../../form';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { StoreModule } from '@ngrx/store';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';

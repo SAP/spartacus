@@ -7,14 +7,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -33,7 +32,15 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   @Input() ownerKey: string;
   @Input() expMode: boolean;
 
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  constructor(
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
+    super();
+
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.owner.key;
+  }
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
@@ -45,14 +52,14 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
    * @param {string} value - Selected value
    */
   onClick(value: string): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         selectedSingleValue: value,
       },
-    };
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   extractValuePriceFormulaParameters(
