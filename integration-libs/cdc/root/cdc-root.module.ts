@@ -11,9 +11,11 @@ import {
   ConfigInitializerService,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { UserGuard } from '@spartacus/organization/administration/core';
 import { LogoutGuard } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
+import { CdcUserGuard } from './guards';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
 
@@ -50,6 +52,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
+    { provide: UserGuard, useExisting: CdcUserGuard },
     {
       provide: APP_INITIALIZER,
       useFactory: cdcJsFactory,
