@@ -33,11 +33,11 @@ export class UnitUserListComponent {
     : of({ active: true });
 
   isUpdatingUserAllowed = this.b2bUserService
-    ? this.b2bUserService.isUpdatingUserAllowed()
+    ? this.b2bUserService?.isUpdatingUserAllowed()
     : true;
 
   constructor(
     protected currentUnitService: CurrentUnitService,
-    @Optional() protected b2bUserService: B2BUserService
+    @Optional() protected b2bUserService?: B2BUserService
   ) {}
 }
