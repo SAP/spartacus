@@ -327,7 +327,7 @@ describe('MyInterestsComponent', () => {
     ).toEqual(2);
   });
 
-  fit("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+  it("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
