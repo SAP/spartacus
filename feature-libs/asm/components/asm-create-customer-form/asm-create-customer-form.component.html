@@ -1,8 +1,8 @@
-
 <div
   class="cx-asm-customers cx-modal-container cx-asm-dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
+  *ngIf="!(isLoading$ | async); else loading"
 >
   <div class="cx-modal-content">
     <ng-container>
@@ -29,7 +29,8 @@
                     type="text"
                     name="firstname"
                     placeholder="{{
-                      'asm.createCustomerForm.firstName.placeholder' | cxTranslate
+                      'asm.createCustomerForm.firstName.placeholder'
+                        | cxTranslate
                     }}"
                     formControlName="firstName"
                   />
@@ -50,7 +51,8 @@
                     type="text"
                     name="lastname"
                     placeholder="{{
-                      'asm.createCustomerForm.lastName.placeholder' | cxTranslate
+                      'asm.createCustomerForm.lastName.placeholder'
+                        | cxTranslate
                     }}"
                     formControlName="lastName"
                   />
@@ -71,7 +73,8 @@
                     type="email"
                     name="email"
                     placeholder="{{
-                      'asm.createCustomerForm.emailAddress.placeholder' | cxTranslate
+                      'asm.createCustomerForm.emailAddress.placeholder'
+                        | cxTranslate
                     }}"
                     formControlName="email"
                   />
@@ -88,7 +91,11 @@
           <button type="submit" class="btn btn-primary">
             {{ 'asm.createCustomerForm.createAccount' | cxTranslate }}
           </button>
-          <button type="button" class="btn btn-secondary" (click)="closeModal('Cancel click')">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeModal('Cancel click')"
+          >
             {{ 'asm.createCustomerForm.cancel' | cxTranslate }}
           </button>
         </div>
@@ -109,5 +116,7 @@
     </span>
   </button>
 </ng-template>
-  
 
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>

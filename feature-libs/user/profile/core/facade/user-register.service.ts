@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   AuthService,
   Command,
@@ -12,16 +13,15 @@ import {
   UserActions,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
 import {
   Title,
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { UserProfileConnector } from '../connectors/user-profile.connector';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { UserProfileService } from './user-profile.service';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {

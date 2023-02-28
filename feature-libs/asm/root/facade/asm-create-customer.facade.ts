@@ -6,10 +6,10 @@
 
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
 import { CustomerRegistrationForm } from '../model/create-customer.model';
-import { User } from '@spartacus/user/account/root';
 
 @Injectable({
   providedIn: 'root',

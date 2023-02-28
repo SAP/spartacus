@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
 import { AsmConfig as AsmConfigRoot } from '@spartacus/asm/root';
+import { Config } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

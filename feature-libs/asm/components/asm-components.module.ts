@@ -24,6 +24,8 @@ import {
 } from '@spartacus/storefront';
 import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
+import { AsmCreateCustomerFormComponent } from './asm-create-customer-form/asm-create-customer-form.component';
+import { defaultAsmCreateCustomerFormLayoutConfig } from './asm-create-customer-form/default-asm-create-customer-form-layout.config';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -36,8 +38,6 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
-import { AsmCreateCustomerFormComponent } from './asm-create-customer-form/asm-create-customer-form.component';
-import { defaultAsmCreateCustomerFormLayoutConfig } from './asm-create-customer-form/default-asm-create-customer-form-layout.config';
 
 @NgModule({
   imports: [

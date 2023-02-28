@@ -51,7 +51,7 @@ export const asm = {
         label: 'Email address',
         placeholder: 'Email address',
       },
-      postRegisterMessage: "The customer account was created."
+      postRegisterMessage: 'The customer account was created.',
     },
     customerList: {
       title: 'Customer List',

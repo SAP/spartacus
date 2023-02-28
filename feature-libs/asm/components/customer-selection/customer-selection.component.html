@@ -51,17 +51,16 @@
     [class.active]="activeFocusedButtonIndex === 0"
     [attr.aria-selected]="activeFocusedButtonIndex === 0"
     *ngIf="
-        !(searchResultsLoading$ | async) &&
-        searchTerm.value.length >= 3 &&
-        !!results.entries &&
-        results.entries.length <= 0
+      !(searchResultsLoading$ | async) &&
+      searchTerm.value.length >= 3 &&
+      !!results.entries &&
+      results.entries.length <= 0
     "
   >
     {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-    <a #createCustomerLink class="link"
-    (click)="createCustomer()"
-    >{{ 'asm.customerSearch.createCustomer' | cxTranslate }}</a
-  >
+    <a #createCustomerLink class="link" (click)="createCustomer()">{{
+      'asm.customerSearch.createCustomer' | cxTranslate
+    }}</a>
   </button>
 </div>
 

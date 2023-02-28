@@ -19,11 +19,11 @@
         *ngIf="customerSupportAgentLoggedIn$ | async"
       >
         <a
-        #addNewCustomerLinkElement
-        tabindex="0"
-        role="button"
-        class="cx-asm-create-customer-link"
-        (click)="createCustomer()"
+          #addNewCustomerLinkElement
+          tabindex="0"
+          role="button"
+          class="cx-asm-create-customer-link"
+          (click)="createCustomer()"
         >
           <cx-icon [type]="iconTypes.USER_PLUS"></cx-icon>
           <span>{{ 'asm.createCustomer' | cxTranslate }}</span></a
@@ -39,7 +39,6 @@
           <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
           <span>{{ 'asm.customers' | cxTranslate }}</span></a
         >
-        
       </div>
     </ng-container>
 

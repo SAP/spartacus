@@ -14,15 +14,19 @@ import {
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { BindCartParams, CustomerListsPage, CustomerRegistrationForm} from '@spartacus/asm/root';
+import {
+  BindCartParams,
+  CustomerListsPage,
+  CustomerRegistrationForm,
+} from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
   normalizeHttpError,
   OccEndpointsService,
-  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
   User,
+  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -147,13 +151,11 @@ export class OccAsmAdapter implements AsmAdapter {
   }
 
   createCustomer(user: CustomerRegistrationForm): Observable<User> {
-    const headers = InterceptorUtil.createHeader(
-      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-      true,
-      new HttpHeaders()
+    const headers = this.getHeaders();
+    const params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
     );
-    const params: HttpParams = new HttpParams()
-      .set('baseSite', this.activeBaseSite);
 
     const url = this.occEndpointsService.buildUrl(
       'asmCreateCustomer',

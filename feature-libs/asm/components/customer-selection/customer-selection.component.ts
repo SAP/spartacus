@@ -10,10 +10,10 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   QueryList,
   ViewChild,
-  Optional,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -23,13 +23,14 @@ import {
 } from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
 import {
+  DirectionMode,
+  DirectionService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
 
 @Component({
@@ -64,7 +65,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected config: AsmConfig,
     protected directionService: DirectionService,
-    @Optional() protected launchDialogService?: LaunchDialogService,
+    @Optional() protected launchDialogService?: LaunchDialogService
   ) {}
 
   ngOnInit(): void {

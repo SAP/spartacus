@@ -5,18 +5,27 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CustomerRegistrationForm, AsmCreateCustomerFacade } from '@spartacus/asm/root';
+import {
+  AsmCreateCustomerFacade,
+  CustomerRegistrationForm,
+} from '@spartacus/asm/root';
+import { Command, CommandService, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { AsmConnector } from '../connectors';
-import { User } from '@spartacus/core';
 
 @Injectable()
 export class AsmCreateCustomerService implements AsmCreateCustomerFacade {
+  protected createCustomerCommand: Command<
+    { user: CustomerRegistrationForm },
+    User
+  > = this.command.create(({ user }) => this.asmConnector.createCustomer(user));
+
   constructor(
     protected asmConnector: AsmConnector,
+    protected command: CommandService
   ) {}
 
-  createCustomer(user: CustomerRegistrationForm): Observable<User>{
-    return this.asmConnector.createCustomer(user);
+  createCustomer(user: CustomerRegistrationForm): Observable<User> {
+    return this.createCustomerCommand.execute({ user });
   }
 }

@@ -40,9 +40,9 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-// import { CustomerListAction } from '../customer-list/customer-list.model';
+import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
+import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-// import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model'
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
@@ -132,16 +132,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService?.dialogClose
         .pipe(filter((result) => Boolean(result)))
-        .subscribe((result) => {
-          if (result.selectedUser) {
+        .subscribe((result: CustomerListAction | CreatedCustomer) => {
+          if ('selectedUser' in result) {
             this.startCustomerEmulationSession(result.selectedUser);
             if (
               result.actionType === CustomerListColumnActionType.ORDER_HISTORY
             ) {
               this.routingService.go({ cxRoute: 'orders' });
             }
-          } else if (result.email){
-              this.startCustomerEmulationSession({ customerId: result.email });
+          } else if ('email' in result) {
+            this.startCustomerEmulationSession({ customerId: result.email });
           }
         })
     );
