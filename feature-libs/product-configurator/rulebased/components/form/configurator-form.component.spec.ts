@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -152,7 +158,9 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
-class MockLaunchDialogService {}
+class MockLaunchDialogService {
+  openDialogAndSubscribe() {}
+}
 
 function checkConfigurationObs(
   routerMarbels: string,
@@ -222,8 +230,19 @@ function createComponentWithData(): ConfiguratorFormComponent {
   return component;
 }
 
+function mockRouterStateWithQueryParams(queryParams: {}): Observable<RouterState> {
+  return of({
+    ...mockRouterState,
+    state: {
+      ...mockRouterState.state,
+      queryParams: queryParams,
+    },
+  });
+}
+
 let configuratorCommonsService: ConfiguratorCommonsService;
 let configuratorGroupsService: ConfiguratorGroupsService;
+let launchDialogService: LaunchDialogService;
 let fixture: ComponentFixture<ConfiguratorFormComponent>;
 let component: ConfiguratorFormComponent;
 let htmlElem: HTMLElement;
@@ -278,6 +297,15 @@ describe('ConfigurationFormComponent', () => {
     );
 
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
+    spyOn(
+      configuratorGroupsService,
+      'navigateToConflictSolver'
+    ).and.callThrough();
+
+    spyOn(
+      configuratorGroupsService,
+      'navigateToFirstIncompleteGroup'
+    ).and.callThrough();
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
@@ -285,6 +313,15 @@ describe('ConfigurationFormComponent', () => {
     spyOn(
       configuratorCommonsService,
       'isConfigurationLoading'
+    ).and.callThrough();
+    spyOn(
+      configuratorCommonsService,
+      'getOrCreateConfiguration'
+    ).and.callThrough();
+    spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
+    spyOn(
+      configuratorCommonsService,
+      'checkConflictSolverDialog'
     ).and.callThrough();
 
     isConfigurationLoadingObservable = of(false);
@@ -295,18 +332,15 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
 
     hasConfigurationConflictsObservable = of(false);
+
+    launchDialogService = TestBed.inject(
+      LaunchDialogService as Type<LaunchDialogService>
+    );
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
   });
 
   describe('resolve issues navigation', () => {
     it('should go to neither conflict solver nor first incomplete group', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
       routerStateObservable = of({
         ...mockRouterState,
       });
@@ -322,22 +356,8 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should go to conflict solver in case the router requires this - has conflicts', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
-
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true' },
-        },
+      routerStateObservable = mockRouterStateWithQueryParams({
+        resolveIssues: 'true',
       });
 
       hasConfigurationConflictsObservable = of(true);
@@ -352,20 +372,9 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should go to first incomplete group in case the router requires this - has conflicts, but should be skipped', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true', skipConflicts: 'true' },
-        },
+      routerStateObservable = mockRouterStateWithQueryParams({
+        resolveIssues: 'true',
+        skipConflicts: 'true',
       });
       hasConfigurationConflictsObservable = of(true);
       createComponentWithData();
@@ -378,20 +387,8 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true' },
-        },
+      routerStateObservable = mockRouterStateWithQueryParams({
+        resolveIssues: 'true',
       });
       createComponentWithData();
 
@@ -404,14 +401,10 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should not call setExpMode method', () => {
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { expMode: 'false' },
-        },
-      });
-      createComponentWithData().ngOnInit();
+      (routerStateObservable = mockRouterStateWithQueryParams({
+        expMode: 'false',
+      })),
+        createComponentWithData().ngOnInit();
       expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
         0
       );
@@ -465,10 +458,6 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should forward configuration template ID to facade service', () => {
-      spyOn(
-        configuratorCommonsService,
-        'getOrCreateConfiguration'
-      ).and.callThrough();
       checkConfigurationObs('b', 'x', 'x');
       expect(
         configuratorCommonsService.getOrCreateConfiguration
@@ -506,7 +495,6 @@ describe('ConfigurationFormComponent', () => {
       routerStateObservable = of({
         ...mockRouterState,
       });
-      spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
       createComponentWithData();
       expect(configuratorCommonsService.getConfiguration).toHaveBeenCalledTimes(
         1
@@ -518,14 +506,47 @@ describe('ConfigurationFormComponent', () => {
         ...mockRouterState,
       });
       configurationCreateObservable = of(configRead);
-      spyOn(
-        configuratorCommonsService,
-        'checkConflictSolverDialog'
-      ).and.callThrough();
       createComponentWithData();
       expect(
         configuratorCommonsService.checkConflictSolverDialog
       ).toHaveBeenCalledTimes(1);
     });
+
+    it('should launch the resume config dialog if requested and not a new config', fakeAsync(() => {
+      routerStateObservable = mockRouterStateWithQueryParams({
+        displayResumeConfigDialog: 'true',
+      });
+      const config: Configurator.Configuration = structuredClone(configRead);
+      config.interactionState.newConfiguration = false;
+      configurationCreateObservable = of(config);
+      createComponentWithData();
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+      tick(500);
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    }));
+
+    it('should NOT launch the resume config dialog if not requested and not a new config', fakeAsync(() => {
+      routerStateObservable = mockRouterStateWithQueryParams({});
+      const config: Configurator.Configuration = structuredClone(configRead);
+      config.interactionState.newConfiguration = false;
+      configurationCreateObservable = of(config);
+      createComponentWithData();
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+      tick(500);
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+    }));
+
+    it('should NOT launch the resume config dialog if requested but a new config', fakeAsync(() => {
+      routerStateObservable = mockRouterStateWithQueryParams({
+        displayResumeConfigDialog: 'true',
+      });
+      const config: Configurator.Configuration = structuredClone(configRead);
+      config.interactionState.newConfiguration = true;
+      configurationCreateObservable = of(config);
+      createComponentWithData();
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+      tick(500);
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+    }));
   });
 });

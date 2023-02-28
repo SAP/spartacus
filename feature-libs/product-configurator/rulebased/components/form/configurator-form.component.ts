@@ -82,7 +82,7 @@ export class ConfiguratorFormComponent implements OnInit {
         take(1),
         filter(
           (configuration) =>
-            configuration.interactionState.newConfiguration === true
+            configuration.interactionState.newConfiguration === false
         ),
         delay(500) //TODO: without this the dialog closes immediately
       )
