@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   isNotUndefined,
   RoutingService,
@@ -33,7 +29,7 @@ export class OrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
   ) {}
 
   private PAGE_SIZE = 5;
