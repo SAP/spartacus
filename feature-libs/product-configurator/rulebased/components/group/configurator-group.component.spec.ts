@@ -11,7 +11,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  LanguageService,
+  Product,
+  ProductService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -41,12 +46,14 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import {
-  ConfiguratorAttributeCompositionConfig,
-  ConfiguratorAttributeCompositionDirective,
-} from '../composition';
+import { ConfiguratorAttributeCompositionConfig } from '../composition/configurator-attribute-composition.config';
+import { ConfiguratorAttributeCompositionDirective } from '../composition/configurator-attribute-composition.directive';
 import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../attribute/types/numeric-input-field/configurator-attribute-numeric-input-field.component';
+import { ConfiguratorAttributeMultiSelectionBundleComponent } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component';
+import { ConfiguratorAttributeSingleSelectionBundleComponent } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component';
+import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component';
+import { ConfiguratorAttributeProductCardComponentOptions } from '@spartacus/product-configurator/rulebased';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -84,42 +91,11 @@ class MockConfiguratorPriceComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
+  selector: 'cx-configurator-attribute-product-card',
   template: '',
 })
-class MockConfiguratorAttributeSingleSelectionBundleDropdownComponent {
-  @Input() group: string;
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-single-selection-bundle',
-  template: '',
-})
-class MockConfiguratorAttributeSingleSelectionBundleComponent {
-  @Input() group: string;
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-multi-selection-bundle',
-  template: '',
-})
-class MockConfiguratorAttributeMultiSelectionBundleComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+class MockProductCardComponent {
+  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 }
 
 @Component({
@@ -217,6 +193,36 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
+const product: Product = {
+  name: 'Product Name',
+  code: 'PRODUCT_CODE',
+  images: {
+    PRIMARY: {
+      thumbnail: {
+        url: 'url',
+        altText: 'alt',
+      },
+    },
+  },
+  price: {
+    formattedValue: '$1.500',
+  },
+  priceRange: {
+    maxPrice: {
+      formattedValue: '$1.500',
+    },
+    minPrice: {
+      formattedValue: '$1.000',
+    },
+  },
+};
+
+class MockProductService {
+  get(): Observable<Product> {
+    return of(product);
+  }
+}
+
 const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =
   {
     productConfigurator: {
@@ -234,6 +240,10 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
           ConfiguratorAttributeSingleSelectionImageComponent,
         AttributeType_multi_selection_image:
           ConfiguratorAttributeMultiSelectionImageComponent,
+        AttributeType_radioGroupProduct:
+          ConfiguratorAttributeSingleSelectionBundleComponent,
+        AttributeType_checkBoxListProduct:
+          ConfiguratorAttributeMultiSelectionBundleComponent,
       },
     },
   };
@@ -262,6 +272,7 @@ describe('ConfiguratorGroupComponent', () => {
           MockConfiguratorPriceComponent,
           MockFocusDirective,
           MockFeatureLevelDirective,
+          MockProductCardComponent,
           ConfiguratorAttributeCompositionDirective,
           ConfiguratorGroupComponent,
           MockConfiguratorConflictDescriptionComponent,
@@ -277,9 +288,9 @@ describe('ConfiguratorGroupComponent', () => {
           ConfiguratorAttributeSingleSelectionImageComponent,
           MockConfiguratorAttributeInputFieldComponent,
           MockConfiguratorAttributeNumericInputFieldComponent,
-          MockConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          MockConfiguratorAttributeSingleSelectionBundleComponent,
-          MockConfiguratorAttributeMultiSelectionBundleComponent,
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+          ConfiguratorAttributeSingleSelectionBundleComponent,
+          ConfiguratorAttributeMultiSelectionBundleComponent,
         ],
         providers: [
           {
@@ -302,6 +313,10 @@ describe('ConfiguratorGroupComponent', () => {
           {
             provide: ConfiguratorAttributeCompositionConfig,
             useValue: mockConfiguratorAttributeCompositionConfig,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
           },
         ],
       })
@@ -480,8 +495,8 @@ describe('ConfiguratorGroupComponent', () => {
         'cx-configurator-attribute-checkbox-list'
       );
     });
-    //TODO CHHI enable once implemented
-    xit('should support single selection bundle attribute type', () => {
+
+    it('should support single selection bundle attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -497,8 +512,8 @@ describe('ConfiguratorGroupComponent', () => {
         'cx-configurator-attribute-single-selection-bundle-dropdown'
       );
     });
-    //TODO CHHI enable once implemented
-    xit('should support multi selection bundle attribute type', () => {
+
+    it('should support multi selection bundle attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
