@@ -8,10 +8,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  Optional,
 } from '@angular/core';
 import {
-  FeatureConfigService,
   isNotUndefined,
   RoutingService,
   TranslationService,
