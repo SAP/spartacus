@@ -165,7 +165,6 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       By.css(singleSelectionImageId)
     ).nativeElement;
     expect(valueToSelect.checked).toBe(false);
-    spyOn(component.selectionChange, 'emit').and.callThrough();
     component.onClick(value2.valueCode);
     fixture.detectChanges();
     expect(
