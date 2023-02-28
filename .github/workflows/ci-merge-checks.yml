@@ -10,6 +10,7 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   GH_TOKEN: ${{ github.token }}
+  NODE_VERSION: '16'
 
 concurrency: 
   group: ci-merge-checks-${{ github.head_ref || github.run_id }}
@@ -59,6 +60,10 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
@@ -88,6 +93,10 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
@@ -120,6 +129,10 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
