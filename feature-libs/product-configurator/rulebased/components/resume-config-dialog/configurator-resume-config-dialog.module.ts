@@ -6,15 +6,16 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorResumeConfigDialogComponent } from './configurator-resume-config-dialog.component';
 import { defaultConfiguratorResumeConfigDialogLayoutConfig } from './default-configurator-resume-config-dialog-layout.config';
 
 @NgModule({
   declarations: [ConfiguratorResumeConfigDialogComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
   providers: [
     provideDefaultConfig(defaultConfiguratorResumeConfigDialogLayoutConfig),
   ],
 })
-export class ResumeConfigDialogModule {}
+export class ConfiguratorResumeConfigDialogModule {}

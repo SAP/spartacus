@@ -27,6 +27,7 @@ import { ConfiguratorUpdateMessageModule } from './update-message/configurator-u
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
 import { ConfiguratorConflictSolverDialogModule } from './conflict-solver-dialog/configurator-conflict-solver-dialog.module';
 import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurator-overview-sidebar.module';
+import { ConfiguratorResumeConfigDialogModule } from './resume-config-dialog/configurator-resume-config-dialog.module';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurat
     ConfiguratorOverviewFilterDialogModule,
     ConfiguratorOverviewSidebarModule,
     ConfiguratorConflictSolverDialogModule,
+    ConfiguratorResumeConfigDialogModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
