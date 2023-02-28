@@ -72,7 +72,6 @@ export class ConfiguratorFormComponent implements OnInit {
 
     this.routerData$
       .pipe(
-        take(1),
         filter((routingData) => routingData.displayResumeConfigDialog === true),
         switchMap((routerData) => {
           return this.configuratorCommonsService.getConfiguration(
