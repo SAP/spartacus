@@ -98,7 +98,8 @@ export class AsmCreateCustomerFormComponent {
   }
 
   protected onRegisterUserFail(error: HttpErrorModel): void {
-    this.isLoading$.next(false), this.launchDialogService.closeDialog('Error');
+    this.isLoading$.next(false);
+    this.launchDialogService.closeDialog('Error');
     this.globalMessageService.add(
       error.details?.[0].message ?? '',
       GlobalMessageType.MSG_TYPE_ERROR
