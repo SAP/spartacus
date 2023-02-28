@@ -10,6 +10,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -21,8 +22,14 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
   @Input() group: String;
   @Input() expMode: boolean;
 
-  constructor(protected translationService: TranslationService) {
+  constructor(
+    protected translationService: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.expMode = attributeComponentContext.expMode ?? false;
   }
 
   protected getCurrentValueName(

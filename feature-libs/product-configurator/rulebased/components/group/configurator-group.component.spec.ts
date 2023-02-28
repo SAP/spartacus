@@ -228,6 +228,7 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
         AttributeType_string: ConfiguratorAttributeInputFieldComponent,
         AttributeType_numeric: ConfiguratorAttributeNumericInputFieldComponent,
         AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
+        AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,
       },
     },
   };
@@ -402,8 +403,8 @@ describe('ConfiguratorGroupComponent', () => {
         'configurator.attribute.notSupported'
       );
     });
-    //TODO CHHI enable once implemented
-    xit('should support read only attribute type', () => {
+
+    it('should support read only attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

@@ -6,6 +6,8 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -61,6 +63,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         declarations: [
           ConfiguratorAttributeReadOnlyComponent,
           MockConfiguratorPriceComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
         ],
         imports: [ReactiveFormsModule, I18nTestingModule],
       })

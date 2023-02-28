@@ -27,7 +27,6 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('CHHI ngOnInit directive');
     const componentKey = this.context.componentKey;
 
     const composition =
@@ -35,7 +34,11 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
         ?.assignment;
     if (composition) {
       this.renderComponent(composition[componentKey]);
+      if (composition[componentKey] === undefined) {
+        console.warn('CHHI No component available for: ' + componentKey);
+      }
     }
+
     //TODO CHHI log warn in dev mode if no config available
   }
 
