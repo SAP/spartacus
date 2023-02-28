@@ -15,7 +15,6 @@ import {
   I18nModule,
   UrlModule,
   NotAuthGuard,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
