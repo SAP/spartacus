@@ -29,8 +29,6 @@ import { ExportOrderEntriesComponent } from './export-order-entries.component';
         },
       },
     }),
-    // TODO:(CXSPA-1695) for next major release remove below feature config
-    FeaturesConfigModule,
   ],
   exports: [ExportOrderEntriesComponent],
   declarations: [ExportOrderEntriesComponent],

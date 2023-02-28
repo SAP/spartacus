@@ -36,8 +36,6 @@ import { UserRegistrationFormService } from './user-registration-form.service';
     FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
-    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         OrganizationUserRegistrationComponent: {

@@ -1,15 +1,7 @@
 <div *ngIf="interests$ | async as interests" class="container">
-  <!-- TODO:(CXSPA-1695) for next major releasee remove below container with h3 and feature flag-->
-  <ng-container *cxFeatureLevel="'!5.1'">
-    <div class="cx-product-interests-title h3">
-      <h3>{{ 'myInterests.header' | cxTranslate }}</h3>
-    </div>
-  </ng-container>
-  <ng-container *cxFeatureLevel="'5.1'">
-    <div class="cx-product-interests-title">
-      <h2>{{ 'myInterests.header' | cxTranslate }}</h2>
-    </div>
-  </ng-container>
+  <div class="cx-product-interests-title">
+    <h2>{{ 'myInterests.header' | cxTranslate }}</h2>
+  </div>
   <div
     class="cx-product-interests-body"
     *ngIf="!(getInterestsloading$ | async); else loading"

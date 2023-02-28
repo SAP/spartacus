@@ -39,7 +39,6 @@ import { UpdateProfileComponent } from './update-profile.component';
     UrlModule,
     NgSelectModule,
     NgSelectA11yModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
