@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,6 +62,7 @@ export const organization = {
     cancel: 'Cancel',
 
     add: 'Add',
+    manageUsers: 'Manage Users',
     create: 'Create {{name}}',
     edit: 'Edit',
     save: 'Save {{name}}',
@@ -81,6 +82,10 @@ export const organization = {
       b2bapprovergroup: 'Approver',
       b2bmanagergroup: 'Manager',
       b2badmingroup: 'Admin',
+    },
+
+    userRights: {
+      unitorderviewergroup: 'View Unit-Level Orders',
     },
 
     breadcrumb: 'Organization',
@@ -109,6 +114,7 @@ export const organization = {
         unknown: 'Server validation error.',
       },
     },
+    information: 'Information',
   },
 
   // sub feature labels are added below

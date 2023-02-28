@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,11 +132,7 @@ export abstract class CmsStructureConfigService {
     slots?: CmsPageSlotsConfig
   ): Observable<CmsStructureModel> {
     // if no slots have been given, we use the global configured slots
-    if (
-      !slots &&
-      this.cmsDataConfig.cmsStructure &&
-      this.cmsDataConfig.cmsStructure.slots
-    ) {
+    if (!slots && this.cmsDataConfig.cmsStructure?.slots) {
       slots = this.cmsDataConfig.cmsStructure.slots;
     }
 
@@ -153,17 +149,16 @@ export abstract class CmsStructureConfigService {
         pageStructure.page.slots[position] = {};
 
         for (const component of this.getComponentsByPosition(slots, position)) {
-          if (!pageStructure.page.slots[position].components) {
-            pageStructure.page.slots[position].components = [];
-          }
+          pageStructure.page.slots[position].components =
+            pageStructure.page.slots[position].components ?? [];
+
           pageStructure.page.slots[position].components?.push({
             uid: component.uid,
             flexType: component.flexType,
             typeCode: component.typeCode,
           });
-          if (!pageStructure.components) {
-            pageStructure.components = [];
-          }
+
+          pageStructure.components = pageStructure.components ?? [];
 
           pageStructure.components.push(component);
         }

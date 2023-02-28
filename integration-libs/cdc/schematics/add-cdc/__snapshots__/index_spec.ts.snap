@@ -2,11 +2,12 @@
 
 exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcModule } from \\"@spartacus/cdc\\";
-import { CdcConfig, CdcRootModule } from \\"@spartacus/cdc/root\\";
-import { CDCUserAccountModule } from \\"@spartacus/cdc/user-account\\";
-import { CDCUserProfileModule } from \\"@spartacus/cdc/user-profile\\";
-import { provideConfig } from \\"@spartacus/core\\";
+import { CdcModule } from "@spartacus/cdc";
+import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
+import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
+import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
+import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
+import { provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -14,7 +15,8 @@ import { provideConfig } from \\"@spartacus/core\\";
     CdcRootModule,
     CdcModule,
     CDCUserAccountModule,
-    CDCUserProfileModule
+    CDCUserProfileModule,
+    CdcAdministrationModule
   ],
   providers: [provideConfig(<CdcConfig>{
     cdc: [
@@ -32,8 +34,8 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@spartacus/cdc/root\\";
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from "@spartacus/cdc/root";
+import { CmsConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -65,8 +67,8 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 1`] = `
 "import { NgModule } from '@angular/core';
-import { CDCUserAccountModule } from \\"@spartacus/cdc/user-account\\";
-import { UserAccountModule } from \\"@spartacus/user/account\\";
+import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
+import { UserAccountModule } from "@spartacus/user/account";
 
 @NgModule({
   declarations: [],
@@ -81,8 +83,8 @@ export class UserAccountWrapperModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 2`] = `
 "import { NgModule } from '@angular/core';
-import { CDCUserProfileModule } from \\"@spartacus/cdc/user-profile\\";
-import { UserProfileModule } from \\"@spartacus/user/profile\\";
+import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
+import { UserProfileModule } from "@spartacus/user/profile";
 
 @NgModule({
   declarations: [],
@@ -95,10 +97,26 @@ export class UserProfileWrapperModule { }
 "
 `;
 
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 3`] = `
+"import { NgModule } from '@angular/core';
+import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
+import { AdministrationModule } from "@spartacus/organization/administration";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AdministrationModule,
+    CdcAdministrationModule
+  ]
+})
+export class AdministrationWrapperModule { }
+"
+`;
+
 exports[`Spartacus CDC schematics: ng-add CDC feature validation of jsSDKUrl should set the given javascriptUrl 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@spartacus/cdc/root\\";
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from "@spartacus/cdc/root";
+import { CmsConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],

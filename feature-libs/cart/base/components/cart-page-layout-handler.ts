@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,9 +34,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
       return combineLatest([
         slots$,
         this.activeCartService.getActive(),
-        this.cartConfig.isSelectiveCartEnabled()
-          ? this.selectiveCartService.getCart().pipe(startWith(null))
-          : of({} as Cart),
+        this.getSelectiveCart(),
         this.activeCartService.getLoading(),
       ]).pipe(
         map(([slots, cart, selectiveCart, loadingCart]) => {
@@ -60,5 +58,11 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
       );
     }
     return slots$;
+  }
+
+  protected getSelectiveCart(): Observable<Cart | null> {
+    return this.cartConfig.isSelectiveCartEnabled()
+      ? this.selectiveCartService.getCart().pipe(startWith(null))
+      : of({} as Cart);
   }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright Google LLC All Rights Reserved.
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,13 +36,8 @@ export function getProjectTsConfigPaths(
           'test'
         );
 
-        if (buildPath) {
-          buildPaths.add(buildPath);
-        }
-
-        if (testPath) {
-          testPaths.add(testPath);
-        }
+        addBuildPath(buildPath);
+        addTestPath(testPath);
       }
     } else {
       const projects = Object.keys(workspace.projects).map(
@@ -52,13 +47,8 @@ export function getProjectTsConfigPaths(
         const buildPath = getTargetTsconfigPath(workspaceProject, 'build');
         const testPath = getTargetTsconfigPath(workspaceProject, 'test');
 
-        if (buildPath) {
-          buildPaths.add(buildPath);
-        }
-
-        if (testPath) {
-          testPaths.add(testPath);
-        }
+        addBuildPath(buildPath);
+        addTestPath(testPath);
       }
     }
   }
@@ -68,6 +58,18 @@ export function getProjectTsConfigPaths(
     buildPaths: Array.from(buildPaths).filter((p) => tree.exists(p)),
     testPaths: Array.from(testPaths).filter((p) => tree.exists(p)),
   };
+
+  function addBuildPath(path: string | null) {
+    if (path) {
+      buildPaths.add(path);
+    }
+  }
+
+  function addTestPath(path: string | null) {
+    if (path) {
+      testPaths.add(path);
+    }
+  }
 }
 
 /** Gets the tsconfig path from the given target within the specified project. */

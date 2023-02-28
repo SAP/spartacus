@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
 const cmsComponents: string[] = [
   'ConfiguratorForm',
   'ConfiguratorOverviewForm',
+  'ConfiguratorOverviewMenu',
   'ConfiguratorUpdateMessage',
   'ConfiguratorAddToCartButton',
   'ConfiguratorMenu',
@@ -23,6 +24,9 @@ const cmsComponents: string[] = [
   'ConfiguratorExitButton',
   'ConfiguratorVariantCarousel',
   'CpqConfiguratorConflictAndErrorMessagesComponent',
+  'ConfiguratorOverviewFilterButton',
+  'ConfiguratorOverviewFilter',
+  'ConfiguratorOverviewSidebar',
 ];
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries

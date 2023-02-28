@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -97,6 +97,12 @@ export namespace Configurator {
     variants?: Variant[];
     kbKey?: KB;
     pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
+  }
+
+  export interface ConfigurationWithOverview extends Configuration {
+    overview: Overview;
   }
 
   export interface InteractionState {
@@ -106,6 +112,8 @@ export namespace Configurator {
       [id: string]: boolean;
     };
     issueNavigationDone?: boolean;
+    isConflictResolutionMode?: boolean;
+    showConflictSolverDialog?: boolean;
   }
 
   export interface Overview {
@@ -116,6 +124,9 @@ export namespace Configurator {
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode: string;
+    attributeFilters?: OverviewFilter[];
+    groupFilters?: string[];
+    possibleGroups?: GroupOverview[];
   }
 
   export interface GroupOverview {
@@ -254,4 +265,12 @@ export namespace Configurator {
     NONE = 'NONE',
     NUMERIC = 'NUMERIC',
   }
+  export enum OverviewFilter {
+    VISIBLE = 'PRIMARY',
+    USER_INPUT = 'USER_INPUT',
+    PRICE_RELEVANT = 'PRICE_RELEVANT',
+  }
+
+  export const ConflictIdPrefix = 'CONFLICT';
+  export const ConflictHeaderId = 'CONFLICT_HEADER';
 }

@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
@@ -25,6 +25,12 @@ import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
+
+type readConfigurationForCartEntryResultType =
+  | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+  | ConfiguratorActions.UpdatePriceSummary
+  | ConfiguratorActions.SearchVariants
+  | ConfiguratorActions.ReadCartEntryConfigurationFail;
 
 export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
   'Entry number is required in addToCart response';
@@ -125,51 +131,46 @@ export class ConfiguratorCartEffects {
     )
   );
 
-  readConfigurationForCartEntry$: Observable<
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
-    | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SearchVariants
-    | ConfiguratorActions.ReadCartEntryConfigurationFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
-      switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
-        const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-          action.payload;
-        return this.configuratorCommonsConnector
-          .readConfigurationForCartEntry(parameters)
-          .pipe(
-            switchMap((result: Configurator.Configuration) => {
-              const updatePriceSummaryAction = this
-                .configuratorBasicEffectService
-                ? new ConfiguratorActions.UpdatePriceSummary({
+  readConfigurationForCartEntry$: Observable<readConfigurationForCartEntryResultType> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
+        switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
+          const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+            action.payload;
+          return this.configuratorCommonsConnector
+            .readConfigurationForCartEntry(parameters)
+            .pipe(
+              switchMap((result: Configurator.Configuration) => {
+                const updatePriceSummaryAction =
+                  new ConfiguratorActions.UpdatePriceSummary({
                     ...result,
                     interactionState: {
                       currentGroup:
                         this.configuratorBasicEffectService.getFirstGroupWithAttributes(
-                          result
+                          result,
+                          !result.immediateConflictResolution
                         ),
                     },
-                  })
-                : new ConfiguratorActions.UpdatePriceSummary(result);
-              return [
-                new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
-                  result
-                ),
-                updatePriceSummaryAction,
-                new ConfiguratorActions.SearchVariants(result),
-              ];
-            }),
-            catchError((error) => [
-              new ConfiguratorActions.ReadCartEntryConfigurationFail({
-                ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error),
+                  });
+                return [
+                  new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+                    result
+                  ),
+                  updatePriceSummaryAction,
+                  new ConfiguratorActions.SearchVariants(result),
+                ];
               }),
-            ])
-          );
-      })
-    )
-  );
+              catchError((error) => [
+                new ConfiguratorActions.ReadCartEntryConfigurationFail({
+                  ownerKey: action.payload.owner.key,
+                  error: normalizeHttpError(error),
+                }),
+              ])
+            );
+        })
+      )
+    );
 
   readConfigurationForOrderEntry$: Observable<
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess
@@ -276,35 +277,12 @@ export class ConfiguratorCartEffects {
     )
   );
 
-  //TODO(CXSPA-1014): make ConfiguratorBasicEffectService a required dependency
-  constructor(
-    actions$: Actions,
-    configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    commonConfigUtilsService: CommonConfiguratorUtilsService,
-    configuratorGroupUtilsService: ConfiguratorUtilsService,
-    store: Store<StateWithConfigurator>,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configuratorBasicEffectService: ConfiguratorBasicEffectService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    actions$: Actions,
-    configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    commonConfigUtilsService: CommonConfiguratorUtilsService,
-    configuratorGroupUtilsService: ConfiguratorUtilsService,
-    store: Store<StateWithConfigurator>
-  );
-
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfigurator>,
-    @Optional()
-    protected configuratorBasicEffectService?: ConfiguratorBasicEffectService
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
   ) {}
 }

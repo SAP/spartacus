@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -92,12 +92,10 @@ export class ConfiguratorCommonsService {
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
-      case CommonConfigurator.OwnerType.PRODUCT: {
-        return this.getOrCreateConfigurationForProduct(owner);
-      }
       case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
           owner
@@ -107,6 +105,9 @@ export class ConfiguratorCommonsService {
         return this.configuratorCartService.readConfigurationForOrderEntry(
           owner
         );
+      }
+      default: {
+        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }
     }
   }
@@ -191,6 +192,17 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Updates configuration overview according to group and attribute filters
+   *
+   * @param configuration - Configuration. Can contain filters in its overview facet
+   */
+  updateConfigurationOverview(configuration: Configurator.Configuration): void {
+    this.store.dispatch(
+      new ConfiguratorActions.UpdateConfigurationOverview(configuration)
+    );
+  }
+
+  /**
    * Removes a configuration.
    *
    * @param owner - Configuration owner
@@ -202,7 +214,31 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Checks if the configuration contains conflicts
+   * Dismisses conflict solver dialog
+   *
+   * @param owner - Configuration owner
+   */
+  dismissConflictSolverDialog(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.DissmissConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Check if we need to launch conflict solver dialog
+   *
+   * @param owner - Configuration owner
+   */
+  checkConflictSolverDialog(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CheckConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Checks if the configuration contains conflicts that are displayed as conflict groups. Note
+   * that in case conflicts are displayed by the conflict solver dialog, they are not taken into
+   * account for this method
    *
    * @param owner - Configuration owner
    *
@@ -213,14 +249,16 @@ export class ConfiguratorCommonsService {
       map(
         (configuration) =>
           //We expect that the first group must always be the conflict group
+          configuration.immediateConflictResolution === false &&
           configuration.groups[0]?.groupType ===
-          Configurator.GroupType.CONFLICT_HEADER_GROUP
+            Configurator.GroupType.CONFLICT_HEADER_GROUP
       )
     );
   }
 
   protected getOrCreateConfigurationForProduct(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -238,7 +276,10 @@ export class ConfiguratorCommonsService {
           configurationState.error !== true
         ) {
           this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
+            new ConfiguratorActions.CreateConfiguration({
+              owner,
+              configIdTemplate,
+            })
           );
         }
       }),

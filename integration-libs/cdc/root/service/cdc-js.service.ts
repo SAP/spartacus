@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -265,6 +266,39 @@ export class CdcJsService implements OnDestroy {
       });
     });
   }
+  /**
+   * Retrieves the organization selected by the logged in user
+   *
+   */
+  getOrganizationContext(): Observable<{ orgId: string }> {
+    return new Observable<{ orgId: string }>((subscriber) => {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.b2b?.getOrganizationContext({
+        callback: (response: any) => {
+          if (response?.status === 'OK') {
+            subscriber.next(response);
+            subscriber.complete();
+          } else {
+            subscriber.error(response);
+          }
+        },
+      });
+    });
+  }
+  /**
+   * Opens the Organization Management dashboard and logs in the user
+   * if they currently have a valid Gigya session on the site
+   *
+   * @param orgId
+   */
+  openDelegatedAdminLogin(orgId: string) {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.b2b?.openDelegatedAdminLogin({
+      orgId: orgId,
+    });
+  }
 
   /**
    * Show failure message to the user in case registration fails.
@@ -273,7 +307,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected handleRegisterError(response: any) {
     if (response && response.status === 'FAIL') {
-      let errorMessage =
+      const errorMessage =
         (response.validationErrors &&
           response.validationErrors.length > 0 &&
           response.validationErrors[response.validationErrors.length - 1]

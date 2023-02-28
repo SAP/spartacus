@@ -17,6 +17,7 @@ const CART_ENTRY_NUMBER = '0';
 const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 const OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
+const CONFIG_ID_TEMPLATE = 'abcd';
 
 let mockRouterState: any;
 
@@ -214,6 +215,32 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.expMode).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a configuration template ID has been passed', () => {
+      mockRouterState.state.queryParams = {
+        configIdTemplate: CONFIG_ID_TEMPLATE,
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.configIdTemplate).toBe(CONFIG_ID_TEMPLATE);
+        })
+        .unsubscribe();
+    });
+
+    it('should be fine with configuration template ID not provided', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.configIdTemplate).toBe(undefined);
         })
         .unsubscribe();
     });

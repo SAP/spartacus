@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,11 +22,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OCC_HTTP_TOKEN } from '../../utils';
-
-const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-  pageSize: 20,
-};
-
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
@@ -35,9 +30,13 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     protected converter: ConverterService
   ) {}
 
+  readonly DEFAULT_SEARCH_CONFIG: SearchConfig = {
+    pageSize: 20,
+  };
+
   search(
     query: string,
-    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+    searchConfig: SearchConfig = this.DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,

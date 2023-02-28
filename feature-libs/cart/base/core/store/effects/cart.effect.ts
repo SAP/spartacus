@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -98,35 +98,7 @@ export class CartEffects {
                 }
                 return actions;
               }),
-              catchError((error) => {
-                if (error?.error?.errors) {
-                  const couponExpiredErrors = error.error.errors.filter(
-                    (err: any) => err.reason === 'invalid'
-                  );
-                  if (couponExpiredErrors.length > 0) {
-                    // Reload in case of expired coupon.
-                    return of(new CartActions.LoadCart({ ...payload }));
-                  }
-
-                  const cartNotFoundErrors = error.error.errors.filter(
-                    (err: any) =>
-                      isCartNotFoundError(err) ||
-                      err.reason === 'UnknownResourceError'
-                  );
-                  if (cartNotFoundErrors.length > 0) {
-                    // Remove cart as it doesn't exist on backend (selective cart always exists).
-                    return of(
-                      new CartActions.RemoveCart({ cartId: payload.cartId })
-                    );
-                  }
-                }
-                return of(
-                  new CartActions.LoadCartFail({
-                    ...payload,
-                    error: normalizeHttpError(error),
-                  })
-                );
-              })
+              catchError((error) => this.handleLoadCartError(payload, error))
             );
           })
         )
@@ -134,6 +106,33 @@ export class CartEffects {
       withdrawOn(this.contextChange$)
     )
   );
+
+  protected handleLoadCartError(payload: any, error: any) {
+    if (error?.error?.errors) {
+      const couponExpiredErrors = error.error.errors.filter(
+        (err: any) => err.reason === 'invalid'
+      );
+      if (couponExpiredErrors.length > 0) {
+        // Reload in case of expired coupon.
+        return of(new CartActions.LoadCart({ ...payload }));
+      }
+
+      const cartNotFoundErrors = error.error.errors.filter(
+        (err: any) =>
+          isCartNotFoundError(err) || err.reason === 'UnknownResourceError'
+      );
+      if (cartNotFoundErrors.length > 0) {
+        // Remove cart as it doesn't exist on backend (selective cart always exists).
+        return of(new CartActions.RemoveCart({ cartId: payload.cartId }));
+      }
+    }
+    return of(
+      new CartActions.LoadCartFail({
+        ...payload,
+        error: normalizeHttpError(error),
+      })
+    );
+  }
 
   createCart$: Observable<
     | CartActions.MergeCartSuccess

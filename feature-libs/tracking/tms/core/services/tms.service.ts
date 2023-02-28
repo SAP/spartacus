@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,7 +70,7 @@ export class TmsService implements OnDestroy {
             );
           }
 
-          event = collector.map ? collector.map(event) : event;
+          event = collector.map?.(event) ?? event;
           collector.pushEvent(
             collectorConfig,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,6 +40,7 @@ export const order = {
     deliveryStatus_PICKUP_COMPLETE: 'Pickup Complete',
     deliveryStatus_DELIVERY_COMPLETED: 'Delivery Complete',
     deliveryStatus_PAYMENT_NOT_CAPTURED: 'Payment Issue',
+    deliveryStatus_IN_PROCESS: 'In Process',
     deliveryStatus_READY: 'In Process',
     deliveryStatus_DELIVERY_REJECTED: 'Delivery Rejected',
     deliveryStatus_SHIPPED: 'Shipped',
@@ -180,5 +181,25 @@ export const order = {
     note: 'The totals are estimated and may not include applicable taxes or other charges.',
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
     caption: 'Order contents.',
+  },
+  reorder: {
+    button: 'Reorder',
+    dialog: {
+      reorderProducts: 'Reorder products',
+      messages: {
+        reviewConfiguration:
+          'An error occurred with "{{ productCode}}" configuration.',
+        lowStock:
+          'Quantity for {{ productName }}: {{ quantity }} has been reduced to {{ quantityAdded }}.',
+        noStock: '{{ productName }} is currently out of stock.',
+        pricingError: 'Pricing problem with "{{ productCode }}".',
+        unresolvableIssues: 'Unrecognized problem with "{{ productCode }}".',
+        success: 'Products have been successfully added to the cart',
+      },
+      areYouSureToReplaceCart:
+        'Current cart will be replaced with new items. Do you wish to continue?',
+      cancel: 'Cancel',
+      continue: 'Continue',
+    },
   },
 };

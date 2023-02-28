@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,20 +75,19 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       tap((event) => {
-        if (event instanceof HttpResponse) {
-          if (
-            this.requestHeader &&
-            event.headers.keys().includes(this.requestHeader)
-          ) {
-            const receivedId = event.headers.get(this.requestHeader);
-            if (this.personalizationId !== receivedId) {
-              this.personalizationId = receivedId;
-              if (this.personalizationId) {
-                this.winRef.localStorage?.setItem(
-                  this.PERSONALIZATION_ID_KEY,
-                  this.personalizationId
-                );
-              }
+        if (
+          event instanceof HttpResponse &&
+          this.requestHeader &&
+          event.headers.keys().includes(this.requestHeader)
+        ) {
+          const receivedId = event.headers.get(this.requestHeader);
+          if (this.personalizationId !== receivedId) {
+            this.personalizationId = receivedId;
+            if (this.personalizationId) {
+              this.winRef.localStorage?.setItem(
+                this.PERSONALIZATION_ID_KEY,
+                this.personalizationId
+              );
             }
           }
         }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -226,11 +226,11 @@ export class AccountSummaryDocumentFilterComponent
       return this.fb.group(
         {
           from: [
-            filterByKey === filterByOption && startRange ? startRange : '',
+            filterByKey === filterByOption && (startRange ?? ''),
             validator?.startRange,
           ],
           to: [
-            filterByKey === filterByOption && endRange ? endRange : '',
+            filterByKey === filterByOption && (endRange ?? ''),
             validator?.endRange,
           ],
         },
@@ -268,31 +268,36 @@ export class AccountSummaryDocumentFilterComponent
 
         if (from.pristine || from.invalid || to.pristine || to.invalid) {
           return null;
-        } else if (type === 'date' && from.value > to.value) {
+        }
+        if (type === 'date' && from.value > to.value) {
           return { toDateMustComeAfterFrom: true };
-        } else if (type === 'number') {
-          const fromValue = parseFloat(from.value) || 0;
-          const toValue = parseFloat(to.value) || 0;
-          return !isNaN(from.value) && !isNaN(to.value) && fromValue > toValue
+        }
+        if (type === 'number') {
+          return isFromLargerThanTo(from, to)
             ? { toAmountMustBeLargeThanFrom: true }
             : null;
-        } else {
-          return null;
         }
+        return null;
       };
     };
+
+    function isFromLargerThanTo(
+      from: AbstractControl<any, any>,
+      to: AbstractControl<any, any>
+    ) {
+      const fromValue = parseFloat(from.value) || 0;
+      const toValue = parseFloat(to.value) || 0;
+      return !isNaN(from.value) && !isNaN(to.value) && fromValue > toValue;
+    }
 
     this.filterForm = this.fb.group({
       status: status || DocumentStatus.OPEN,
       filterBy: filterByKey || FilterByOptions.DOCUMENT_NUMBER,
       documentType:
-        filterByKey === FilterByOptions.DOCUMENT_TYPE && filterByValue
-          ? filterByValue
-          : '',
+        filterByKey === FilterByOptions.DOCUMENT_TYPE && (filterByValue ?? ''),
       documentNumber:
-        filterByKey === FilterByOptions.DOCUMENT_NUMBER && filterByValue
-          ? filterByValue
-          : '',
+        filterByKey === FilterByOptions.DOCUMENT_NUMBER &&
+        (filterByValue ?? ''),
       documentNumberRange: generateRangeGroup(
         FilterByOptions.DOCUMENT_NUMBER_RANGE
       ),

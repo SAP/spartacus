@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,17 +62,16 @@ export class ClientTokenInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
           catchError((errResponse: any) => {
-            if (errResponse instanceof HttpErrorResponse) {
-              if (errResponse.status === 401) {
-                if (isClientTokenRequest) {
-                  if (this.isExpiredToken(errResponse)) {
-                    return this.clientErrorHandlingService.handleExpiredClientToken(
-                      request,
-                      next
-                    );
-                  }
-                }
-              }
+            if (
+              errResponse instanceof HttpErrorResponse &&
+              errResponse.status === 401 &&
+              isClientTokenRequest &&
+              this.isExpiredToken(errResponse)
+            ) {
+              return this.clientErrorHandlingService.handleExpiredClientToken(
+                request,
+                next
+              );
             }
             return throwError(errResponse);
           })

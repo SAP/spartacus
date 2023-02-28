@@ -1,0 +1,30 @@
+@import './customer-ticketing-actions';
+@import './customer-ticketing-details';
+@import './customer-ticketing-dialog';
+@import './customer-ticketing-list';
+
+$customer-ticketing-allowlist: cx-customer-ticketing-create-dialog,
+  cx-customer-ticketing-reopen-dialog, cx-customer-ticketing-close-dialog,
+  cx-customer-ticketing-reopen, cx-customer-ticketing-close,
+  cx-customer-ticketing-create, cx-customer-ticketing-details,
+  cx-customer-ticketing-list !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $customer-ticketing-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $customer-ticketing-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

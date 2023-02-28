@@ -15,9 +15,8 @@
     [autoplay]="autoPlay"
     [muted]="mute"
     [attr.aria-label]="'player.label' | cxTranslate"
-  >
-    <source src="{{ source }}" type="{{ data.video?.mime }}" />
-  </video>
+    [src]="source"
+  ></video>
 </div>
 
 <ng-template #loading>

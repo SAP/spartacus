@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,21 @@ export function registerUser() {
 
 const user = getSampleUser();
 const nativeUser = getSampleUser();
+
+export const cdcB2BDelegateAdminUser = {
+  userId: '1002',
+  fullName: 'Anjana BL',
+  email: 'anjana.b.l+1@sap.com',
+  password: 'Anjana1201!',
+};
+
+export function waitForCmsComponentsToLoad(baseSite: string) {
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/cms/components`,
+  }).as('getComponents');
+  cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
+}
 
 export function registerCDC() {
   fillAndSubmitRegistrationForm();

@@ -5,7 +5,7 @@ set -o pipefail
 function validateStylesLint {
     echo "----"
     echo "Running styleslint"
-    yarn lint:styles
+    npm run lint:styles
 }
 
 function validateTsConfigFile {
@@ -23,7 +23,7 @@ function validateTsConfigFile {
 
 function validateNoHardCodedText {
     echo "Validating no hard-coded text (usint i18n-lint)"
-    yarn i18n-lint
+    npm run i18n-lint
 }
 
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/public_api"
@@ -88,7 +88,7 @@ node --max_old_space_size=3584 ./node_modules/@angular/cli/bin/ng lint
 echo "-----"
 
 echo "Validating code formatting (using prettier)"
-yarn prettier 2>&1 |  tee prettier.log
+npm run prettier 2>&1 |  tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)
 if [[ -z "$results" ]]; then
     echo "Success: Codebase has been prettified correctly"
