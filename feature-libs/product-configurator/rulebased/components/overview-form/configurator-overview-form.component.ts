@@ -168,6 +168,20 @@ export class ConfiguratorOverviewFormComponent {
   }
 
   /**
+   * Retrieves a unique prefix ID.
+   *
+   * @param {string | undefined} prefix - prefix that we need to make the ID unique
+   * @param {string} groupId - group ID
+   * @returns {string} - prefix ID
+   */
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return this.configuratorStorefrontUtilsService.getPrefixId(
+      idPrefix,
+      groupId
+    );
+  }
+
+  /**
    * Retrieves the ids for the overview group headers
    *
    * @param {string} idPrefix - Prefix (reflects the parent groups in the hierarchy)
