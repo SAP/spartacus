@@ -360,4 +360,10 @@ export class ConfiguratorTestUtils {
     valuePrice: this.createPrice(price),
     selected: isSelected,
   });
+
+  static remove(element: HTMLElement | undefined): void {
+    if (element) {
+      element.remove();
+    }
+  }
 }
