@@ -9,46 +9,44 @@
     [class.cx-hidden]="!attribute.visible"
     *ngFor="let attribute of group.attributes; let indexOfAttribute = index"
   >
-    <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
-      <ng-container *ngIf="isConflictGroupType(group.groupType)">
-        <cx-configurator-conflict-suggestion
-          [currentGroup]="group"
-          [attribute]="attribute"
-          [suggestionNumber]="indexOfAttribute"
-        ></cx-configurator-conflict-suggestion>
-      </ng-container>
-
-      <div
-        [cxConfiguratorAttributeComponent]="{
-          componentKey: 'Header',
-          attribute: attribute,
-          owner: owner,
-          group: group
-        }"
-      ></div>
-
-      <div
-        [cxConfiguratorAttributeComponent]="{
-          componentKey: getComponentKey(attribute),
-          attribute: attribute,
-          owner: owner,
-          group: group,
-          language: activeLanguage$ | async,
-          expMode: expMode | async
-        }"
-      ></div>
-
-      <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{
-        'configurator.attribute.notSupported' | cxTranslate
-      }}</em>
-      <div
-        [cxConfiguratorAttributeComponent]="{
-          componentKey: 'Footer',
-          attribute: attribute,
-          owner: owner,
-          group: group
-        }"
-      ></div>
+    <ng-container *ngIf="isConflictGroupType(group.groupType)">
+      <cx-configurator-conflict-suggestion
+        [currentGroup]="group"
+        [attribute]="attribute"
+        [suggestionNumber]="indexOfAttribute"
+      ></cx-configurator-conflict-suggestion>
     </ng-container>
+
+    <div
+      [cxConfiguratorAttributeComponent]="{
+        componentKey: 'Header',
+        attribute: attribute,
+        owner: owner,
+        group: group
+      }"
+    ></div>
+
+    <div
+      [cxConfiguratorAttributeComponent]="{
+        componentKey: getComponentKey(attribute),
+        attribute: attribute,
+        owner: owner,
+        group: group,
+        language: activeLanguage$ | async,
+        expMode: expMode | async
+      }"
+    ></div>
+
+    <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{
+      'configurator.attribute.notSupported' | cxTranslate
+    }}</em>
+    <div
+      [cxConfiguratorAttributeComponent]="{
+        componentKey: 'Footer',
+        attribute: attribute,
+        owner: owner,
+        group: group
+      }"
+    ></div>
   </div>
 </div>

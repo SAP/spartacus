@@ -8,6 +8,7 @@ import {
   Directive,
   Injector,
   Input,
+  isDevMode,
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
@@ -33,22 +34,22 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
       this.configuratorAttributeCompositionConfig.productConfigurator
         ?.assignment;
     if (composition) {
-      this.renderComponent(composition[componentKey]);
-      if (composition[componentKey] === undefined) {
-        console.warn('CHHI No component available for: ' + componentKey);
-      }
+      this.renderComponent(composition[componentKey], componentKey);
     }
-
-    //TODO CHHI log warn in dev mode if no config available
   }
 
-  protected renderComponent(component: any) {
+  protected renderComponent(component: any, componentKey: string) {
     if (component) {
       this.vcr.createComponent(component, {
         injector: this.getComponentInjector(),
       });
+    } else {
+      if (isDevMode()) {
+        console.warn(
+          'No attribute type component available for: ' + componentKey
+        );
+      }
     }
-    //TODO CHHI log warn in dev mode if component is undefined, missing in config
   }
 
   protected getComponentInjector(): Injector {
