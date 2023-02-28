@@ -20,6 +20,9 @@
       "@spartacus/schematics": ["../../projects/schematics/index"],
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
+      "@spartacus/asm/asm-customer-360": [
+        "../../feature-libs/asm/asm-customer-360/public_api"
+      ],
       "@spartacus/asm/assets": ["../../feature-libs/asm/assets/public_api"],
       "@spartacus/asm/components": [
         "../../feature-libs/asm/components/public_api"
@@ -448,15 +451,15 @@
       ],
       "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
+      "@spartacus/cdc/organization/administration": [
+        "../../integration-libs/cdc/organization/administration/public_api"
+      ],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
-      ],
-      "@spartacus/cdc/organization/administration": [
-        "../../integration-libs/cdc/organization/administration/public_api"
       ],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
