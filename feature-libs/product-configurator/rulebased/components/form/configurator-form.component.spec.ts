@@ -20,6 +20,7 @@ import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/config
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -151,6 +152,8 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
+class MockLaunchDialogService {}
+
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -253,6 +256,10 @@ describe('ConfigurationFormComponent', () => {
           {
             provide: ConfiguratorExpertModeService,
             useClass: MockConfiguratorExpertModeService,
+          },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
           },
         ],
       })
