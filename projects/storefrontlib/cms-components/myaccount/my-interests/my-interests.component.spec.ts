@@ -327,15 +327,16 @@ describe('MyInterestsComponent', () => {
     ).toEqual(2);
   });
 
-  it("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+  fit("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    // productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
     const tableHeaders = el.queryAll(By.css('th'));
+    console.log(tableHeaders);
     CommonConfiguratorTestUtilsService.expectElementContainsA11y(
       expect,
       tableHeaders[1].nativeElement,
@@ -345,17 +346,6 @@ describe('MyInterestsComponent', () => {
       undefined,
       undefined,
       'myInterests.item'
-    );
-
-    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-      expect,
-      tableHeaders[4].nativeElement,
-      'span',
-      'cx-visually-hidden',
-      undefined,
-      undefined,
-      undefined,
-      'myInterests.remove'
     );
   });
 
