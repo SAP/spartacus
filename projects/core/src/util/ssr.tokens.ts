@@ -19,3 +19,10 @@ export const SERVER_REQUEST_URL = new InjectionToken<string>(
 export const SERVER_REQUEST_ORIGIN = new InjectionToken<string>(
   'SERVER_REQUEST_ORIGIN'
 );
+
+/**
+ * ssr request logging service
+ */
+export const SSR_REQUEST_LOGGING = new InjectionToken<any>(
+  'SSR_REQUEST_LOGGING'
+);
