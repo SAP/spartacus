@@ -5,9 +5,15 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  fromEvent,
+  merge,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -29,7 +35,8 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagEventService {
+export class ProfileTagEventService implements OnDestroy {
+  protected subscription: Subscription = new Subscription();
   latestConsentReference: BehaviorSubject<string | null>;
   profileTagDebug = false;
   private consentReference$: Observable<string | null>;
@@ -52,16 +59,18 @@ export class ProfileTagEventService {
     const profileTagMetadata = JSON.parse(
       localStorage.getItem('profiletag') || '{"cr":{}}'
     );
-    this.baseSiteService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((baseSite) => {
-        this.latestConsentReference = new BehaviorSubject(
-          profileTagMetadata.cr[
-            `${baseSite}-consentReference`
-          ]?.consentReference
-        );
-      });
+    this.subscription.add(
+      this.baseSiteService
+        .getActive()
+        .pipe(take(1))
+        .subscribe((baseSite) => {
+          this.latestConsentReference = new BehaviorSubject(
+            profileTagMetadata.cr[
+              `${baseSite}-consentReference`
+            ]?.consentReference
+          );
+        })
+    );
   }
 
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
@@ -174,5 +183,11 @@ export class ProfileTagEventService {
     }
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
