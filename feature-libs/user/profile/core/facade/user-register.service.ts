@@ -9,14 +9,14 @@ import {
   AuthService,
   Command,
   CommandService,
-  UserActions
+  UserActions,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import {
   Title,
   UserRegisterFacade,
-  UserSignUp
+  UserSignUp,
 } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { tap } from 'rxjs/operators';
