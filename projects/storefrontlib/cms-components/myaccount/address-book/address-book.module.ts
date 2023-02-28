@@ -38,12 +38,10 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
         AccountAddressBookComponent: {
           component: AddressBookComponent,
           guards: [AuthGuard],
-          providers: [
-            {
-              provide: AddressBookComponentService,
-              useClass: AddressBookComponentService,
-            },
-          ],
+          providers: [ {
+            provide: AddressBookComponentService,
+            useClass: AddressBookComponentService,
+          }]
         },
       },
     }),
