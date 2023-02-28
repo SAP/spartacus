@@ -17,9 +17,9 @@ const user = getSampleUser();
 const nativeUser = getSampleUser();
 
 export const cdcB2BDelegateAdminUser = {
-  userId: '80dfa58b-e24e-40a1-97c6-5e7f0c2bdd09',
+  userId: '991b7846-8ee3-49d9-8600-37fed93f445c',
   fullName: 'Spartacus B2BAdmin',
-  email: 'spartacusb2b@mailinator.com',
+  email: 'spartacusb2b@hybris.com',
   password: 'Password123.',
 };
 
