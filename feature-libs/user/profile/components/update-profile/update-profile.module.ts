@@ -12,7 +12,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
