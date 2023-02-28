@@ -193,23 +193,7 @@
         </ng-container>
       </div>
 
-      <!-- TODO: (#CXSPA-53) Remove feature config check in 6.0. -->
-      <div class="form-group" *cxFeatureLevel="'!5.2'">
-        <label>
-          <span class="label-content">{{
-            'addressForm.phoneNumber.label' | cxTranslate
-          }}</span>
-          <input
-            type="tel"
-            class="form-control"
-            placeholder="{{
-              'addressForm.phoneNumber.placeholder' | cxTranslate
-            }}"
-            formControlName="phone"
-          />
-        </label>
-      </div>
-      <div class="row" *cxFeatureLevel="'5.2'">
+      <div class="row">
         <div class="form-group col-md-6">
           <label>
             <span class="label-content">{{
