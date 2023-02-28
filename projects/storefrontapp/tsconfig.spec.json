@@ -5,6 +5,6 @@
     "types": ["jasmine", "node"],
     "module": "es2020"
   },
-  "files": ["src/test.ts", "src/polyfills.ts"],
+  "files": ["src/test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }
