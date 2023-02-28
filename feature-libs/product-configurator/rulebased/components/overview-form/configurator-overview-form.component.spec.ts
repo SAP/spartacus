@@ -24,8 +24,8 @@ const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
-const OV_GROUP_ID = 'idAB-ovGroup';
-const OV_GROUP_ID_2 = 'idCD-ovGroup';
+const OV_GROUP_ID = 'A--B-ovGroup';
+const OV_GROUP_ID_2 = 'C--D-ovGroup';
 const OV_ATTRIBUTE: Configurator.AttributeOverview = {
   attribute: 'Colour',
   value: 'RED',
@@ -60,10 +60,9 @@ let htmlElem: HTMLElement;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    const obs: Observable<RouterState> = routerStateObservable
+    return routerStateObservable
       ? routerStateObservable
       : defaultRouterStateObservable;
-    return obs;
   }
 }
 
@@ -72,19 +71,15 @@ class MockConfiguratorCommonsService {
     productCode: string
   ): Observable<Configurator.Configuration> {
     configCreate.productCode = productCode;
-    const obs: Observable<Configurator.Configuration> = configurationObservable
+    return configurationObservable
       ? configurationObservable
       : defaultConfigObservable;
-    return obs;
   }
 
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    const obs: Observable<Configurator.Configuration> = overviewObservable
-      ? overviewObservable
-      : of(configuration);
-    return obs;
+    return overviewObservable ? overviewObservable : of(configuration);
   }
 
   removeConfiguration(): void {}
@@ -93,6 +88,10 @@ class MockConfiguratorCommonsService {
 class MockConfiguratorStorefrontUtilsService {
   createOvGroupId(): string {
     return OV_GROUP_ID;
+  }
+
+  getPrefixId(idPrefix: string | undefined, groupId: string): string {
+    return idPrefix ? idPrefix + '--' + groupId : groupId;
   }
 }
 
@@ -187,10 +186,10 @@ describe('ConfigurationOverviewFormComponent', () => {
     defaultConfigObservable = of(configCreate2);
     initialize();
 
-    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(2);
+    expect(htmlElem.querySelectorAll('.cx-group').length).toBe(10);
 
     expect(htmlElem.querySelectorAll('.cx-attribute-value-pair').length).toBe(
-      3
+      11
     );
   });
 
@@ -326,6 +325,18 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toBe(true);
       result = component.isSameAttribute(attributes, 1);
       expect(result).toBe(true);
+    });
+  });
+
+  describe('getPrefixId', () => {
+    it('should return group ID string', () => {
+      initialize();
+      expect(component.getPrefixId(undefined, 'BBB')).toBe('BBB');
+    });
+
+    it('should return prefix ID separated by 2 dashes and group ID string', () => {
+      initialize();
+      expect(component.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
     });
   });
 
