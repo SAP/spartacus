@@ -8,7 +8,7 @@ on:
     # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  NODE_VERSION: '16'
+  NODE_VERSION: '18'
 
 concurrency: 
   group: lighthouse-${{ github.head_ref || github.run_id }}
@@ -36,7 +36,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@14
+        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run lighthouse score validation
