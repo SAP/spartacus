@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
-  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
