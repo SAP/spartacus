@@ -12,6 +12,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorAttributeCompositionContext } from '../components/composition/configurator-attribute-composition.model';
 import { Configurator } from '../core/model/configurator.model';
 
 export class ConfiguratorTestUtils {
@@ -360,4 +361,13 @@ export class ConfiguratorTestUtils {
     valuePrice: this.createPrice(price),
     selected: isSelected,
   });
+
+  static getAttributeContext(): ConfiguratorAttributeCompositionContext {
+    return {
+      componentKey: '',
+      attribute: { name: 'attributeName' },
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+      group: { id: 'id', subGroups: [] },
+    };
+  }
 }

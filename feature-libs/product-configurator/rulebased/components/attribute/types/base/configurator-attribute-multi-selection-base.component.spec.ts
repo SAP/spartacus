@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 
 const createTestValue = (
   price: number | undefined,
@@ -28,8 +30,11 @@ const createTestValue = (
   selector: 'cx-configurator-attribute-multi-selection',
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
+    super(quantityService, attributeComponentContext);
   }
 }
 
@@ -41,7 +46,13 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-        providers: [ConfiguratorAttributeQuantityService],
+        providers: [
+          ConfiguratorAttributeQuantityService,
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+        ],
       }).compileComponents();
     })
   );

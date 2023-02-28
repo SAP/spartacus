@@ -23,7 +23,7 @@ import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-f
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
-        attributeComponentAssignment: {
+        assignment: {
           Footer: ConfiguratorAttributeFooterComponent,
         },
       },

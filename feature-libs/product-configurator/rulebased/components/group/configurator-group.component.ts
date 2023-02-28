@@ -21,6 +21,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupComponent {
+  protected readonly typePrefix = 'AttributeType_';
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled: boolean;
@@ -95,6 +96,6 @@ export class ConfiguratorGroupComponent {
   }
 
   getComponentKey(attribute: Configurator.Attribute): string {
-    return 'AttributeType_' + attribute.uiType;
+    return this.typePrefix + attribute.uiType;
   }
 }

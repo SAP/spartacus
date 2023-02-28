@@ -24,6 +24,8 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 
 @Directive({
   selector: '[cxFocus]',
@@ -111,6 +113,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: configuratorUISettingsConfig,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
         ],
       })

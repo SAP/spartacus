@@ -27,7 +27,7 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
-        attributeComponentAssignment: {
+        assignment: {
           AttributeType_checkBoxList:
             ConfiguratorAttributeCheckBoxListComponent,
         },

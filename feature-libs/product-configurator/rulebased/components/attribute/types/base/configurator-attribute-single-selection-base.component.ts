@@ -68,17 +68,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   onSelect(value: string): void {
     this.loading$.next(true);
-
-    // const event: ConfigFormUpdateEvent = {
-    //   changedAttribute: {
-    //     ...this.attribute,
-    //     selectedSingleValue: value,
-    //   },
-    //   ownerKey: this.ownerKey,
-    //   updateType: Configurator.UpdateType.ATTRIBUTE,
-    // };
-
-    //this.selectionChange.emit(event);
     this.configuratorCommonsService.updateConfiguration(
       this.ownerKey,
       {

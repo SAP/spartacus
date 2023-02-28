@@ -12,7 +12,7 @@ export interface AttributeComponentAssignment {
 }
 
 export interface ConfiguratorAttributeComposition {
-  attributeComponentAssignment?: AttributeComponentAssignment;
+  assignment?: AttributeComponentAssignment;
 }
 
 @Injectable({

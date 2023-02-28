@@ -15,6 +15,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 
 @Directive({
   selector: '[cxFocus]',
@@ -45,6 +47,10 @@ describe('ConfigAttributeInputFieldComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: defaultConfiguratorUISettingsConfig,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
         ],
       })

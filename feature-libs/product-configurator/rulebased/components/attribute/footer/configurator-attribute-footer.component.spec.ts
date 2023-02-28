@@ -13,8 +13,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -39,6 +41,7 @@ class MockConfigUtilsService {
 
 const attributeName = '123';
 const attrLabel = 'attLabel';
+
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfiguratorAttributeFooterComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeFooterComponent>;
@@ -65,6 +68,10 @@ describe('ConfigAttributeFooterComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
         ],
       })

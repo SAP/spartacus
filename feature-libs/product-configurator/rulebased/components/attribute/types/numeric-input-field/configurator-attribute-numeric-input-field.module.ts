@@ -24,7 +24,7 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
-        attributeComponentAssignment: {
+        assignment: {
           AttributeType_numeric:
             ConfiguratorAttributeNumericInputFieldComponent,
         },

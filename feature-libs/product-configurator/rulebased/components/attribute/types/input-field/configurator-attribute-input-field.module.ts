@@ -23,7 +23,7 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
-        attributeComponentAssignment: {
+        assignment: {
           AttributeType_string: ConfiguratorAttributeInputFieldComponent,
         },
       },

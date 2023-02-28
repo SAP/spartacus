@@ -25,7 +25,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
-        attributeComponentAssignment: {
+        assignment: {
           Header: ConfiguratorAttributeHeaderComponent,
         },
       },

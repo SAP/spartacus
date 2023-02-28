@@ -27,11 +27,12 @@ export class ConfiguratorAttributeCompositionDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('CHHI ngOnInit directive');
     const componentKey = this.context.componentKey;
 
     const composition =
       this.configuratorAttributeCompositionConfig.productConfigurator
-        ?.attributeComponentAssignment;
+        ?.assignment;
     if (composition) {
       this.renderComponent(composition[componentKey]);
     }

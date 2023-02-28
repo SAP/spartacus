@@ -27,7 +27,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
