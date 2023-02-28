@@ -125,6 +125,10 @@
 
 - Contains <cx-hamburger-menu> for mobile resolutions
 
+#### ConfiguratorOverviewMenuComponent
+
+- Overview menu is wrapped in an unordered list`<ul>` for accessibility improvements
+
 #### ConfiguratorOverviewFormComponent
 
 - Overview group style class is now compiled by component `<div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">`

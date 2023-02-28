@@ -51,6 +51,10 @@
 - ` &.subgroup` styling added in `.cx-group`
 - Styling added for subgroups on `sm` resolutions
 
+#### ConfiguratorOverviewMenuComponent
+
+- `ul` wraps the content of `cx-configurator-overview-menu`.
+
 #### ConfiguratorVariantOverviewPage
 
 - Handles a new slot `VariantConfigOverviewNavigation`; previously it only got one slot, so no specific styling was required besides
