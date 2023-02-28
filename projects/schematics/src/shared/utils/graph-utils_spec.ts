@@ -182,6 +182,7 @@ describe('Graph utils', () => {
           "Store-Finder",
           "SmartEdit",
           "Qualtrics",
+          "Future-Stock",
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
