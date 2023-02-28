@@ -11,6 +11,7 @@ export const asm = {
     logout: 'Sign Out',
     hideUi: 'Close ASM',
     customers: 'Customers',
+    createCustomer: 'Add New Customer',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -31,7 +32,26 @@ export const asm = {
         label: 'Customer Name/Email Address',
       },
       submit: 'Start Session',
-      noMatch: 'No customer found.',
+      noMatch: 'This account cannot be found. ',
+      createCustomer: 'Create Customer',
+    },
+    createCustomerForm: {
+      title: 'Create Customer Account',
+      createAccount: 'Create Account',
+      cancel: 'Cancel',
+      firstName: {
+        label: 'First name',
+        placeholder: 'First name',
+      },
+      lastName: {
+        label: 'Last name',
+        placeholder: 'Last name',
+      },
+      emailAddress: {
+        label: 'Email address',
+        placeholder: 'Email address',
+      },
+      postRegisterMessage: 'The customer account was created.',
     },
     customerList: {
       title: 'Customer List',

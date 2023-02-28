@@ -1,0 +1,122 @@
+<div
+  class="cx-asm-customers cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+  *ngIf="!(isLoading$ | async); else loading"
+>
+  <div class="cx-modal-content">
+    <ng-container>
+      <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
+        <!-- Modal Header -->
+        <div class="cx-dialog-header modal-header">
+          <h2 class="title modal-title">
+            {{ 'asm.createCustomerForm.title' | cxTranslate }}
+          </h2>
+          <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>
+                  <span class="label-content">{{
+                    'asm.createCustomerForm.firstName.label' | cxTranslate
+                  }}</span>
+                  <input
+                    required="true"
+                    class="form-control"
+                    type="text"
+                    name="firstname"
+                    placeholder="{{
+                      'asm.createCustomerForm.firstName.placeholder'
+                        | cxTranslate
+                    }}"
+                    formControlName="firstName"
+                  />
+                  <cx-form-errors
+                    [control]="registerForm.get('firstName')"
+                  ></cx-form-errors>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <span class="label-content">{{
+                    'asm.createCustomerForm.lastName.label' | cxTranslate
+                  }}</span>
+                  <input
+                    required="true"
+                    class="form-control"
+                    type="text"
+                    name="lastname"
+                    placeholder="{{
+                      'asm.createCustomerForm.lastName.placeholder'
+                        | cxTranslate
+                    }}"
+                    formControlName="lastName"
+                  />
+                  <cx-form-errors
+                    [control]="registerForm.get('lastName')"
+                  ></cx-form-errors>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <span class="label-content">{{
+                    'asm.createCustomerForm.emailAddress.label' | cxTranslate
+                  }}</span>
+                  <input
+                    required="true"
+                    class="form-control"
+                    type="email"
+                    name="email"
+                    placeholder="{{
+                      'asm.createCustomerForm.emailAddress.placeholder'
+                        | cxTranslate
+                    }}"
+                    formControlName="email"
+                  />
+                  <cx-form-errors
+                    [control]="registerForm.get('email')"
+                  ></cx-form-errors>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">
+            {{ 'asm.createCustomerForm.createAccount' | cxTranslate }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeModal('Cancel click')"
+          >
+            {{ 'asm.createCustomerForm.cancel' | cxTranslate }}
+          </button>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #closeButton>
+  <button
+    type="button"
+    class="close"
+    attr.aria-label="{{ 'common.close' | cxTranslate }}"
+    (click)="closeModal('Cross click')"
+  >
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+</ng-template>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>

@@ -1,0 +1,35 @@
+$sapFioriTextColor: #1d2d3e;
+
+%cx-asm-create-customer-form {
+  $modal-max-width-asm-create-customer: 25% !important;
+  $modal-min-width-asm-create-customer: 25% !important;
+
+  .cx-asm-dialog {
+    @include media-breakpoint-up(lg) {
+      max-width: $modal-max-width-asm-create-customer;
+      min-width: $modal-min-width-asm-create-customer;
+    }
+
+    .cx-modal-content {
+      border-radius: 16px;
+    }
+  }
+
+  .cx-dialog-header {
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 2rem;
+    padding-inline-start: 2.3rem;
+    border-width: 0;
+    display: flex;
+    border-bottom: 1px solid #dee2e6;
+    .title {
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+    .close {
+      font-size: 1rem;
+      color: $sapFioriTextColor;
+    }
+  }
+}

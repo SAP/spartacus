@@ -5,7 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
+import {
+  BindCartParams,
+  CustomerListsPage,
+  CustomerRegistrationForm,
+} from '@spartacus/asm/root';
+import { User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
@@ -31,5 +36,9 @@ export class AsmConnector {
 
   bindCart(options: BindCartParams): Observable<unknown> {
     return this.asmAdapter.bindCart(options);
+  }
+
+  createCustomer(user: CustomerRegistrationForm): Observable<User> {
+    return this.asmAdapter.createCustomer(user);
   }
 }
