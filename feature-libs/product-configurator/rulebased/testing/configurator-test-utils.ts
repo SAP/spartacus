@@ -370,4 +370,10 @@ export class ConfiguratorTestUtils {
       group: { id: 'id', subGroups: [] },
     };
   }
+
+  static remove(element: HTMLElement | undefined): void {
+    if (element) {
+      element.remove();
+    }
+  }
 }
