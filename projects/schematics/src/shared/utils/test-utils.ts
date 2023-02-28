@@ -23,6 +23,8 @@ export const cartBaseFeatureModulePath =
   'src/app/spartacus/features/cart/cart-base-feature.module.ts';
 export const cartWrapperModulePath =
   'src/app/spartacus/features/cart/cart-base-wrapper.module.ts';
+export const customerTicketingFeatureModulePath =
+  'src/app/spartacus/features/customer-ticketing/customer-ticketing-feature.module.ts';
 export const importExportFeatureModulePath =
   'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 export const quickOrderFeatureModulePath =
@@ -53,6 +55,8 @@ export const productImageZoomFeatureModulePath =
   'src/app/spartacus/features/product/product-image-zoom-feature.module.ts';
 export const productVariantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
+export const productFutureStockFeatureModulePath =
+  'src/app/spartacus/features/product/product-future-stock-feature.module.ts';
 export const productConfiguratorFeatureModulePath =
   'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
 export const productConfiguratorRulebasedWrapperModulePath =

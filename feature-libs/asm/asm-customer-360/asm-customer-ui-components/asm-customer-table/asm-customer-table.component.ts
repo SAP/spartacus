@@ -130,7 +130,7 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
    */
   sortDirection(
     columnProperty: string,
-    sortProperty: string,
+    sortProperty: keyof TableEntry,
     listSortOrder: SortOrder
   ): string {
     if (columnProperty === sortProperty) {
@@ -199,6 +199,32 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       event.preventDefault();
     }
   }
+  /**
+   * Update selected cell's tabIndex (change tabIndex to 0).
+   * if cell contains link(button) then update link
+   * @param columnIndex selected column index of table
+   * @param rowIndex selected row index of table
+   */
+  setSelectedTabIndex(columnIndex: number, rowIndex: number): void {
+    const maxColumn = this.columns.length - 1;
+    const maxRow = this.table.nativeElement.rows.length - 1;
+    if (columnIndex > maxColumn || rowIndex > maxRow) {
+      return;
+    }
+    this.removeCellTabIndex(
+      this.focusedTableColumnIndex,
+      this.focusedTableRowIndex
+    );
+    this.focusedTableColumnIndex = columnIndex;
+    this.focusedTableRowIndex = rowIndex;
+    const tableCell =
+      this.table.nativeElement.rows[rowIndex].cells[columnIndex];
+    const childElement = tableCell.firstChild;
+    const elementToFocus =
+      childElement.tagName === 'BUTTON' ? childElement : tableCell;
+    elementToFocus.tabIndex = 0;
+    elementToFocus.focus();
+  }
   private handlePageUp(): void {
     if (this.entryPages.length > 1 && this.currentPageNumber > 0) {
       const pageNumber = Math.max(0, this.currentPageNumber - 1);
@@ -243,32 +269,6 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       columnIndex = Math.min(maxColumn, columnIndex + 1);
     }
     this.setSelectedTabIndex(columnIndex, rowIndex);
-  }
-  /**
-   * Update selected cell's tabIndex (change tabIndex to 0).
-   * if cell contains link(button) then update link
-   * @param columnIndex selected column index of table
-   * @param rowIndex selected row index of table
-   */
-  private setSelectedTabIndex(columnIndex: number, rowIndex: number): void {
-    const maxColumn = this.columns.length - 1;
-    const maxRow = this.table.nativeElement.rows.length - 1;
-    if (columnIndex > maxColumn || rowIndex > maxRow) {
-      return;
-    }
-    this.removeCellTabIndex(
-      this.focusedTableColumnIndex,
-      this.focusedTableRowIndex
-    );
-    this.focusedTableColumnIndex = columnIndex;
-    this.focusedTableRowIndex = rowIndex;
-    const tableCell =
-      this.table.nativeElement.rows[rowIndex].cells[columnIndex];
-    const childElement = tableCell.firstChild;
-    const elementToFocus =
-      childElement.tagName === 'BUTTON' ? childElement : tableCell;
-    elementToFocus.tabIndex = 0;
-    elementToFocus.focus();
   }
   /**
    * Remove selected tab index (change tabIndex to -1)

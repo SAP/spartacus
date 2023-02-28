@@ -156,6 +156,24 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "../../feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "../../feature-libs/customer-ticketing/assets/public_api"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "../../feature-libs/customer-ticketing/components/public_api"
+      ],
+      "@spartacus/customer-ticketing/core": [
+        "../../feature-libs/customer-ticketing/core/public_api"
+      ],
+      "@spartacus/customer-ticketing": [
+        "../../feature-libs/customer-ticketing/public_api"
+      ],
+      "@spartacus/customer-ticketing/occ": [
+        "../../feature-libs/customer-ticketing/occ/public_api"
+      ],
+      "@spartacus/customer-ticketing/root": [
+        "../../feature-libs/customer-ticketing/root/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"
@@ -287,6 +305,24 @@
       ],
       "@spartacus/product/bulk-pricing/root": [
         "../../feature-libs/product/bulk-pricing/root/public_api"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "../../feature-libs/product/future-stock/assets/public_api"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "../../feature-libs/product/future-stock/components/public_api"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "../../feature-libs/product/future-stock/core/public_api"
+      ],
+      "@spartacus/product/future-stock": [
+        "../../feature-libs/product/future-stock/public_api"
+      ],
+      "@spartacus/product/future-stock/occ": [
+        "../../feature-libs/product/future-stock/occ/public_api"
+      ],
+      "@spartacus/product/future-stock/root": [
+        "../../feature-libs/product/future-stock/root/public_api"
       ],
       "@spartacus/product/image-zoom/assets": [
         "../../feature-libs/product/image-zoom/assets/public_api"

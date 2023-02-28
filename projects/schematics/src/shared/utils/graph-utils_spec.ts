@@ -6,6 +6,7 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ESLINT_PLUGIN,
@@ -140,6 +141,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_CUSTOMER_TICKETING,
         SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
@@ -176,9 +178,11 @@ describe('Graph utils', () => {
           "Digital-Payments",
           "CDS",
           "CDC",
+          "Customer-Ticketing",
           "Store-Finder",
           "SmartEdit",
           "Qualtrics",
+          "Future-Stock",
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",

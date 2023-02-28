@@ -35,8 +35,10 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
+const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
+
 @Component({
-  selector: 'cx-configurator-add-to-cart-button',
+  selector: CX_SELECTOR,
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -339,7 +341,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     // From the technical point of view it is controlled by checking whether the add-to-cart button intersects the price-summary or not:
     // the add-to-cart button has to be shown sticky, if intersects, and fixed, if not.
     // To avoid the situation where the add-to-cart button is shown fixed below the footer view
-    // when the configutation view is scrolled out to the top on small mobile screens, we use the rootMargin parameter.
+    // when the configuration view is scrolled out to the top on small mobile screens, we use the rootMargin parameter.
     // The first field of the rootMargin controls the delay in pixel after them the add-to-cart button has to be shown fixed again.
     // We set this value very high, so the add-to-cart button will never appear below the footer view even in case of small screens.
     const options: IntersectionOptions = {
@@ -361,17 +363,9 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         )
         .subscribe((isIntersecting) => {
           if (isIntersecting) {
-            this.configUtils.changeStyling(
-              'cx-configurator-add-to-cart-button',
-              'position',
-              'sticky'
-            );
+            this.configUtils.changeStyling(CX_SELECTOR, 'position', 'sticky');
           } else {
-            this.configUtils.changeStyling(
-              'cx-configurator-add-to-cart-button',
-              'position',
-              'fixed'
-            );
+            this.configUtils.changeStyling(CX_SELECTOR, 'position', 'fixed');
           }
         })
     );

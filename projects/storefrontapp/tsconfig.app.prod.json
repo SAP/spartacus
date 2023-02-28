@@ -83,6 +83,16 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "dist/checkout/scheduled-replenishment/root"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "dist/customer-ticketing/assets"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "dist/customer-ticketing/components"
+      ],
+      "@spartacus/customer-ticketing/core": ["dist/customer-ticketing/core"],
+      "@spartacus/customer-ticketing": ["dist/customer-ticketing"],
+      "@spartacus/customer-ticketing/occ": ["dist/customer-ticketing/occ"],
+      "@spartacus/customer-ticketing/root": ["dist/customer-ticketing/root"],
       "@spartacus/order/assets": ["dist/order/assets"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/core": ["dist/order/core"],
@@ -204,6 +214,20 @@
       "@spartacus/product/bulk-pricing/occ": ["dist/product/bulk-pricing/occ"],
       "@spartacus/product/bulk-pricing/root": [
         "dist/product/bulk-pricing/root"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "dist/product/future-stock/assets"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "dist/product/future-stock/components"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "dist/product/future-stock/core"
+      ],
+      "@spartacus/product/future-stock": ["dist/product/future-stock"],
+      "@spartacus/product/future-stock/occ": ["dist/product/future-stock/occ"],
+      "@spartacus/product/future-stock/root": [
+        "dist/product/future-stock/root"
       ],
       "@spartacus/product/image-zoom/assets": [
         "dist/product/image-zoom/assets"

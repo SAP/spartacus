@@ -22,6 +22,8 @@ export class TruncateTextPopoverComponent {
    */
   @Input() charactersLimit: number = 100;
 
+  @Input() customClass?: string;
+
   get isTruncated(): boolean {
     return this.content.length > +this.charactersLimit;
   }
