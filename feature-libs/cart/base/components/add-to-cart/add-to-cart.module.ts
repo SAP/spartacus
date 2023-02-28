@@ -7,12 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ItemCounterModule, OutletModule } from '@spartacus/storefront';
 import { AddToCartComponent } from './add-to-cart.component';
 
@@ -23,7 +18,6 @@ import { AddToCartComponent } from './add-to-cart.component';
     I18nModule,
     ItemCounterModule,
     OutletModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

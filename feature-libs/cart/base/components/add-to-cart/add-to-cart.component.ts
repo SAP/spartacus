@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   Input,
   OnDestroy,
   OnInit,
@@ -43,6 +44,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
   @Input() showQuantity = true;
   @Input() options: CartItemComponentOptions;
+  @Input() pickupStore: string | undefined;
   /**
    * As long as we do not support #5026, we require product input, as we need
    *  a reference to the product model to fetch the stock data.
@@ -66,6 +68,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   });
 
   readonly CartOutlets = CartOutlets;
+
+  pickupOptionCompRef: any;
 
   constructor(
     protected currentProductService: CurrentProductService,
@@ -143,11 +147,20 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.pickupOptionCompRef instanceof ComponentRef) {
+      // get pickup store name from this.pickupOptionCompRef.instance
+      // and set this.pickupStore
+    }
+
     this.activeCartService
       .getEntries()
       .pipe(take(1))
       .subscribe((cartEntries) => {
-        this.activeCartService.addEntry(this.productCode, quantity);
+        this.activeCartService.addEntry(
+          this.productCode,
+          quantity,
+          this.pickupStore
+        );
 
         // A CartUiEventAddToCart is dispatched.  This event is intended for the UI
         // responsible to provide feedback about what was added to the cart, like
@@ -159,7 +172,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.createCartUiEventAddToCart(
             this.productCode,
             quantity,
-            cartEntries.length
+            cartEntries.length,
+            this.pickupStore
           )
         );
       });
@@ -168,12 +182,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   protected createCartUiEventAddToCart(
     productCode: string,
     quantity: number,
-    numberOfEntriesBeforeAdd: number
+    numberOfEntriesBeforeAdd: number,
+    storeName?: string
   ) {
     const newEvent = new CartUiEventAddToCart();
     newEvent.productCode = productCode;
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    newEvent.pickupStoreName = storeName;
     return newEvent;
   }
 

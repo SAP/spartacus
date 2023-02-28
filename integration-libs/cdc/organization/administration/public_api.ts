@@ -4,5 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './order-overview.component';
-export * from './order-overview.module';
+export * from './cdc-b2b-user.service';
+export * from './cdc-user-list.service';
+export * from './cdc-administration.module';

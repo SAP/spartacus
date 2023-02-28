@@ -118,7 +118,9 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.entryNumber,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore,
+            payload.pickupToDelivery
           )
           .pipe(
             map(() => {

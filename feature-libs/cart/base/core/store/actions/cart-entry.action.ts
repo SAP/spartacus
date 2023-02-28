@@ -58,11 +58,12 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(
     public payload: {
+      error: any;
       userId: string;
       cartId: string;
       productCode: string;
       quantity: number;
-      error: any;
+      pickupStore?: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -108,7 +109,9 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
       userId: string;
       cartId: string;
       entryNumber: string;
-      quantity: number;
+      quantity?: number;
+      pickupStore?: string;
+      pickupToDelivery?: boolean;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -123,6 +126,8 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
       cartId: string;
       entryNumber: string;
       quantity?: number;
+      pickupStore?: string;
+      pickupToDelivery?: boolean;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -138,6 +143,8 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
       cartId: string;
       entryNumber: string;
       quantity?: number;
+      pickupStore?: string;
+      pickupToDelivery?: boolean;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
