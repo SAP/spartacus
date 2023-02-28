@@ -214,6 +214,20 @@
       "@spartacus/product/bulk-pricing/root": [
         "dist/product/bulk-pricing/root"
       ],
+      "@spartacus/product/future-stock/assets": [
+        "dist/product/future-stock/assets"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "dist/product/future-stock/components"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "dist/product/future-stock/core"
+      ],
+      "@spartacus/product/future-stock": ["dist/product/future-stock"],
+      "@spartacus/product/future-stock/occ": ["dist/product/future-stock/occ"],
+      "@spartacus/product/future-stock/root": [
+        "dist/product/future-stock/root"
+      ],
       "@spartacus/product/image-zoom/assets": [
         "dist/product/image-zoom/assets"
       ],
