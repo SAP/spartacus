@@ -90,6 +90,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.detectUserChange();
   }
 
+  protected generateEmptyCartValue() {
+    return {} as Cart;
+  }
+
   protected initActiveCart() {
     // Stream for getting the cart value
     const cartValue$ = this.cartEntity$.pipe(
@@ -124,12 +128,23 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       })
     );
 
+    let emptyCart = this.generateEmptyCartValue();
     this.activeCart$ = using(
       () => loading.subscribe(),
       () => cartValue$
     ).pipe(
-      // Normalization for empty cart value returned as empty object.
-      map(({ cart }) => (cart ? cart : {})),
+      // normalize empty carts to a stable value so distinctUntilChanged() can filter repeated emits
+      map(({ cart }) => {
+        if (cart) {
+          // regenerate empty cart value for next time cart is empty
+          emptyCart = this.generateEmptyCartValue();
+
+          return cart;
+        } else {
+          // use stable, last generated empty cart value
+          return emptyCart;
+        }
+      }),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
     );

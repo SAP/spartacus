@@ -15,6 +15,8 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartChangeEvent,
+  CartEvent,
   CartRemoveEntryFailEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
@@ -25,10 +27,11 @@ import {
   DeleteCartEvent,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  MergeCartSuccessEvent,
+  RemoveCartEvent,
   RemoveCartVoucherEvent,
   RemoveCartVoucherFailEvent,
   RemoveCartVoucherSuccessEvent,
-  MergeCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
   ActionToEventMapping,
@@ -36,8 +39,17 @@ import {
   EventService,
   StateEventService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, merge, Observable, of } from 'rxjs';
+import {
+  buffer,
+  delay,
+  filter,
+  map,
+  pairwise,
+  startWith,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CartActions } from '../store/index';
 
 /**
@@ -62,6 +74,7 @@ export class CartEventBuilder {
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
+    this.registerCartChangeEvent();
     this.registerDeleteCart();
     this.registerAddCartVoucher();
     this.registerRemoveCartVoucher();
@@ -233,6 +246,55 @@ export class CartEventBuilder {
       )
     );
     return this.event.register(mapping.event as Type<T>, eventStream$);
+  }
+
+  /**
+   * List of events to include in `CartChangeEvent`
+   *
+   * Note: `DeleteCartSuccessEvent` is required and will be added if not in the list
+   */
+  protected getCartChangeEventList(): Array<Type<CartEvent>> {
+    return [
+      DeleteCartSuccessEvent,
+      CreateCartSuccessEvent,
+      RemoveCartEvent,
+      CartAddEntrySuccessEvent,
+      CartRemoveEntrySuccessEvent,
+      CartUpdateEntrySuccessEvent,
+    ];
+  }
+
+  protected registerCartChangeEvent(): void {
+    const eventTypes = this.getCartChangeEventList().filter(
+      (e) => e !== DeleteCartSuccessEvent
+    );
+    const cartStream$ = this.activeCartService.getActive();
+
+    // must use same delete event stream observable for proper event timing
+    const deleteCart$ = this.event.get(DeleteCartSuccessEvent);
+
+    const cartChangeStream$ = merge(
+      ...eventTypes.map(<T>(e: Type<T>) => this.event.get(e) as Observable<T>),
+      deleteCart$ as Observable<CartEvent>
+    ).pipe(
+      buffer(
+        combineLatest([cartStream$, deleteCart$.pipe(startWith(''), delay(0))])
+      ),
+      withLatestFrom(cartStream$.pipe(pairwise())),
+      filter(([events]) => events.length > 0),
+      map(([events, [previousCart, currentCart]]) =>
+        createFrom(CartChangeEvent, {
+          cartCode: currentCart.code ?? '',
+          cartId: currentCart.guid ?? '',
+          userId: currentCart.user?.uid ?? '',
+          previousCart,
+          currentCart,
+          changes: events,
+        })
+      )
+    );
+
+    this.event.register(CartChangeEvent, cartChangeStream$);
   }
 
   /**

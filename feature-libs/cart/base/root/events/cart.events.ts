@@ -5,7 +5,7 @@
  */
 
 import { CxEvent } from '@spartacus/core';
-import { OrderEntry } from '../models/cart.model';
+import { Cart, OrderEntry } from '../models/cart.model';
 
 /**
  * Base cart event. Most cart events should have these properties.
@@ -183,6 +183,17 @@ export class DeleteCartSuccessEvent extends CartEvent {
    * Event's type
    */
   static readonly type = 'DeleteCartSuccessEvent';
+}
+
+export class CartChangeEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartChangeEvent';
+
+  previousCart: Cart;
+  currentCart: Cart;
+  changes: CartEvent[];
 }
 
 export class DeleteCartFailEvent extends CartEvent {

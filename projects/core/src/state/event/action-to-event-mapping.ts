@@ -15,7 +15,7 @@ export interface ActionToEventMapping<T> {
   /**
    * Event class type (constructor)
    */
-  event: Type<T> | null;
+  event: Type<T>;
 
   /**
    * Function mapping the instance of the action to the event
