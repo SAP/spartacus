@@ -61,20 +61,6 @@ export function defaultCdcComponentsConfig(): CmsConfig {
       multi: true,
     },
     provideDefaultConfig(defaultCdcRoutingConfig),
-    // provideDefaultConfig(<CmsConfig>{
-    //   cmsComponents: {
-    //     AccountAddressBookComponent: {
-    //       component: AddressBookComponent,
-    //       providers: [
-    //         {
-    //           provide: AddressBookComponentService,
-    //           useClass: CDCAddressBookComponentService,
-    //           deps: [UserAddressService, GlobalMessageService, CdcJsService],
-    //         },
-    //       ],
-    //     },
-    //   },
-    // }),
   ],
 })
 export class CdcRootModule {}

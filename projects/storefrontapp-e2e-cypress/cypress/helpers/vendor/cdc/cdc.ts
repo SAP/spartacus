@@ -119,7 +119,7 @@ export function getSampleB2BUser() {
     lastName: 'B2BAdmin',
     fullName: 'Spartacus B2BAdmin',
     password: 'Password123.',
-    email: 'spartacusb2b@mailinator.com',
+    email: 'spartacusb2b@hybris.com',
     phone: '555 555 555',
     address: {
       city: 'Los Angeles',

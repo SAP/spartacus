@@ -308,6 +308,22 @@ describe('CdcJsService', () => {
       );
     });
 
+    it('should NOT login user when on login event is triggered with RESET_EMAIL context in response', () => {
+      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
+
+      const response = {
+        UID: 'UID',
+        UIDSignature: 'UIDSignature',
+        signatureTimestamp: 'signatureTimestamp',
+        id_token: 'id_token',
+        context: 'RESET_EMAIL',
+      };
+
+      service['onLoginEventHandler']('electronics-spa', response);
+
+      expect(cdcAuth.loginWithCustomCdcFlow).not.toHaveBeenCalled();
+    });
+
     it('should not login user when on login event have empty payload', () => {
       spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
@@ -425,10 +441,33 @@ describe('CdcJsService', () => {
         winRef.nativeWindow['gigya'].accounts.login
       ).not.toHaveBeenCalled();
     });
+
+    it('should pass the additional context given as input ', (done) => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'OK' });
+        }
+      );
+      expect(service.loginUserWithoutScreenSet).toBeTruthy();
+      service
+        .loginUserWithoutScreenSet('uid', 'password', 'RESET_EMAIL')
+        .subscribe(() => {
+          expect(
+            winRef.nativeWindow['gigya'].accounts.login
+          ).toHaveBeenCalledWith({
+            loginID: 'uid',
+            password: 'password',
+            context: 'RESET_EMAIL',
+            sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
+            callback: jasmine.any(Function),
+          });
+          done();
+        });
+    });
   });
 
   describe('resetPasswordWithoutScreenSet', () => {
-    it('should not call reset password', (done) => {
+    it('should not call accounts.resetPassword', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'resetPassword'
@@ -440,11 +479,11 @@ describe('CdcJsService', () => {
         expect(
           winRef.nativeWindow['gigya'].accounts.resetPassword
         ).not.toHaveBeenCalled();
+        done();
       });
-      done();
     });
 
-    it('should call reset password', (done) => {
+    it('should call accounts.resetPassword', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'resetPassword'
@@ -609,7 +648,7 @@ describe('CdcJsService', () => {
   });
 
   describe('updateProfileWithoutScreenSet', () => {
-    it('should not call update profile', (done) => {
+    it('should not call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -621,11 +660,11 @@ describe('CdcJsService', () => {
         expect(
           winRef.nativeWindow['gigya'].accounts.setAccountInfo
         ).not.toHaveBeenCalled();
+        done();
       });
-      done();
     });
 
-    it('should call update profile', (done) => {
+    it('should call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -654,14 +693,14 @@ describe('CdcJsService', () => {
             lastName: sampleUser.lastName,
             titleCode: sampleUser.titleCode,
           });
+          done();
         });
       });
-      done();
     });
   });
 
   describe('updateUserPasswordWithoutScreenSet', () => {
-    it('should not call updateUserPasswordWithoutScreenSet', (done) => {
+    it('should not call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -673,11 +712,11 @@ describe('CdcJsService', () => {
         expect(
           winRef.nativeWindow['gigya'].accounts.setAccountInfo
         ).not.toHaveBeenCalled();
+        done();
       });
-      done();
     });
 
-    it('should call updateUserPasswordWithoutScreenSet', (done) => {
+    it('should call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -698,13 +737,13 @@ describe('CdcJsService', () => {
             newPassword: newPass,
             callback: jasmine.any(Function),
           });
+          done();
         });
-      done();
     });
   });
 
   describe('updateUserEmailWithoutScreenSet', () => {
-    it('should not call updateUserEmailWithoutScreenSet', (done) => {
+    it('should not call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -716,11 +755,11 @@ describe('CdcJsService', () => {
         expect(
           winRef.nativeWindow['gigya'].accounts.setAccountInfo
         ).not.toHaveBeenCalled();
+        done();
       });
-      done();
     });
 
-    it('should call updateUserEmailWithoutScreenSet', (done) => {
+    it('should call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -748,8 +787,8 @@ describe('CdcJsService', () => {
         expect(userProfileFacade.update).toHaveBeenCalledWith({
           uid: newEmail,
         });
+        done();
       });
-      done();
     });
   });
 
@@ -770,7 +809,7 @@ describe('CdcJsService', () => {
   });
 
   describe('updateAddressWithoutScreenSet', () => {
-    it('should not call updateAddressWithoutScreenSet', (done) => {
+    it('should not call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -782,11 +821,11 @@ describe('CdcJsService', () => {
         expect(
           winRef.nativeWindow['gigya'].accounts.setAccountInfo
         ).not.toHaveBeenCalled();
+        done();
       });
-      done();
     });
 
-    it('should call updateAddressWithoutScreenSet', (done) => {
+    it('should call accounts.setAccountInfo', (done) => {
       spyOn(
         winRef.nativeWindow['gigya'].accounts,
         'setAccountInfo'
@@ -804,8 +843,8 @@ describe('CdcJsService', () => {
           },
           callback: jasmine.any(Function),
         });
+        done();
       });
-      done();
     });
   });
 

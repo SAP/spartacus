@@ -25,7 +25,7 @@ import {
   Subscription,
   throwError,
 } from 'rxjs';
-import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -163,7 +163,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
-      if (response?.context !== 'RESET_EMAIL') {
+      if (!response?.context?.skipOccAuth) {
         //skip re-authentication during reset email
         this.cdcAuth.loginWithCustomCdcFlow(
           response.UID,
@@ -187,7 +187,7 @@ export class CdcJsService implements OnDestroy {
     if (!user.uid || !user.password) {
       return throwError(null);
     } else {
-      return this.invokeCDCAPI('accounts.initRegistration', {}).pipe(
+      return this.invokeAPI('accounts.initRegistration', {}).pipe(
         switchMap((response) => this.onInitRegistrationHandler(user, response))
       );
     }
@@ -207,7 +207,7 @@ export class CdcJsService implements OnDestroy {
       return throwError(null);
     } else {
       let regSource: string = this.winRef.nativeWindow?.location?.href || '';
-      return this.invokeCDCAPI('accounts.register', {
+      return this.invokeAPI('accounts.register', {
         email: user.uid,
         password: user.password,
         profile: {
@@ -235,11 +235,11 @@ export class CdcJsService implements OnDestroy {
   loginUserWithoutScreenSet(
     email: string,
     password: string,
-    context?: string
+    context?: any
   ): Observable<{ status: string }> {
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
-        return this.invokeCDCAPI('accounts.login', {
+        return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
           ...(context && { context: context }),
@@ -323,7 +323,7 @@ export class CdcJsService implements OnDestroy {
     if (!email || email?.length === 0) {
       return throwError(null);
     } else {
-      return this.invokeCDCAPI('accounts.resetPassword', {
+      return this.invokeAPI('accounts.resetPassword', {
         loginID: email,
       }).pipe(
         tap({
@@ -374,7 +374,7 @@ export class CdcJsService implements OnDestroy {
           lastName: user.lastName,
         },
       };
-      return this.invokeCDCAPI('accounts.setAccountInfo', {
+      return this.invokeAPI('accounts.setAccountInfo', {
         ...profileObj,
       }).pipe(
         tap(() =>
@@ -404,7 +404,7 @@ export class CdcJsService implements OnDestroy {
     ) {
       return throwError(null);
     } else {
-      return this.invokeCDCAPI('accounts.setAccountInfo', {
+      return this.invokeAPI('accounts.setAccountInfo', {
         password: oldPassword,
         newPassword: newPassword,
       }).pipe(
@@ -451,36 +451,47 @@ export class CdcJsService implements OnDestroy {
       !newEmail ||
       newEmail?.length === 0
     ) {
-      return throwError(null);
+      return throwError('Email or password not provided');
     } else {
       //Verify the password by attempting to login
-      let email = this.getLoggedInUserEmail();
-      return this.loginUserWithoutScreenSet(
-        email,
-        password,
-        'RESET_EMAIL'
-      ).pipe(
-        switchMap(() =>
-          this.invokeCDCAPI('accounts.setAccountInfo', {
-            profile: {
-              email: newEmail,
-            },
+      return this.getLoggedInUserEmail().pipe(
+        switchMap((user) => {
+          let email = user?.uid;
+          if (!email || email?.length === 0) {
+            return throwError('Email or password not provided');
+          }
+          // Verify the password by attempting to login
+          // - CDC doesn't require to verify password before changing an email, but the default Spartacus requires it.
+          // - CDC doesn't have any specific api, for verifying a password, so as a _workaround_ we call the login API of CDC.
+          //   We pass a special `context` parameter `'{ skipOccAuth: true}'`, which doens't mean instruct the CDC API to reset email,
+          //   but only conditionally avoid the full CDC login flow.
+          //   Instead we want only half of the CDC login flow, just to verify if the password was correct.
+          return this.loginUserWithoutScreenSet(email, password, {
+            skipOccAuth: true,
           }).pipe(
-            tap({
-              next: () =>
-                this.userProfileFacade.update({ uid: newEmail }).pipe(
-                  tap({
-                    error: (error) => of(error),
-                  })
-                ),
-              complete: () => {
-                this.auth.coreLogout();
-                this.invokeCDCAPI('accounts.logout', {});
-              },
-            })
-          )
-        ),
-        catchError((error) => of(error))
+            switchMap(() =>
+              this.invokeAPI('accounts.setAccountInfo', {
+                profile: {
+                  email: newEmail,
+                },
+              }).pipe(
+                tap({
+                  next: () =>
+                    this.userProfileFacade.update({ uid: newEmail }).pipe(
+                      tap({
+                        error: (error) => of(error),
+                      })
+                    ),
+                  complete: () => {
+                    this.auth.coreLogout();
+                    this.invokeAPI('accounts.logout', {});
+                  },
+                })
+              )
+            ),
+            catchError((error) => of(error))
+          );
+        })
       );
     }
   }
@@ -489,17 +500,11 @@ export class CdcJsService implements OnDestroy {
    * Obtain the email of the currently logged in user
    * @returns emailID of the loggedIn user
    */
-  protected getLoggedInUserEmail() {
-    let email: string = '';
-    this.userProfileFacade
-      .get()
-      .pipe(take(1))
-      .subscribe((user?: User) => {
-        if (user && user.uid) {
-          email = user.uid;
-        }
-      });
-    return email;
+  protected getLoggedInUserEmail(): Observable<User> {
+    return this.userProfileFacade.get().pipe(
+      take(1),
+      filter((user): user is User => Boolean(user))
+    );
   }
 
   /**
@@ -522,7 +527,7 @@ export class CdcJsService implements OnDestroy {
         ...(country && { country: country }),
         ...(zipCode && { zip: zipCode }),
       };
-      return this.invokeCDCAPI('accounts.setAccountInfo', {
+      return this.invokeAPI('accounts.setAccountInfo', {
         profile: profileObj,
       });
     }
@@ -533,7 +538,7 @@ export class CdcJsService implements OnDestroy {
    * @param methodName
    * @returns CDC SDK Function
    */
-  protected getCDCSDKFunctionFromName(
+  protected getSdkFunctionFromName(
     methodName: string
   ): (payload: Object) => void {
     //accounts.setAccountInfo or accounts.b2b.openDelegatedAdmin
@@ -554,12 +559,12 @@ export class CdcJsService implements OnDestroy {
    * @param payload - Object payload
    * @returns - Observable with the response
    */
-  protected invokeCDCAPI(
+  protected invokeAPI(
     methodName: string,
     payload: Object
   ): Observable<{ status: string }> {
     return new Observable<{ status: string }>((result) => {
-      let actualAPI = this.getCDCSDKFunctionFromName(methodName);
+      let actualAPI = this.getSdkFunctionFromName(methodName);
 
       actualAPI({
         ...payload,
