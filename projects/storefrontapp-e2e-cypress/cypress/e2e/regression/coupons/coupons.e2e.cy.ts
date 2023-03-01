@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CheckoutConfig } from '@spartacus/storefront';
 import { getStateAuth } from '../../../helpers/auth';
 import * as cart from '../../../helpers/cart';

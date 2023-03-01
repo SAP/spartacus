@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as b2bBulkPricing from '../../../../helpers/b2b/b2b-bulk-pricing';
 import * as sampleData from '../../../../sample-data/b2b-bulk-pricing';
 

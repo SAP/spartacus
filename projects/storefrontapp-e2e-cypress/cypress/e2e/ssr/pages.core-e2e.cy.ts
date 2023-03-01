@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 describe('SSR', () => {
   const plpUrl = '/Brands/Sony/c/brand_5';
   const pdpUrl = '/product/3965240/np-fv-70';
