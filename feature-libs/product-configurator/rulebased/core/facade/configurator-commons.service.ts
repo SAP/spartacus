@@ -88,12 +88,13 @@ export class ConfiguratorCommonsService {
    * available
    *
    * @param owner - Configuration owner
-   *
+   * @param forceReset optional - if true, wil force creation of a new default configuration, instead of returning a product bound configuration
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
       case CommonConfigurator.OwnerType.CART_ENTRY: {
@@ -107,7 +108,11 @@ export class ConfiguratorCommonsService {
         );
       }
       default: {
-        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
+        return this.getOrCreateConfigurationForProduct(
+          owner,
+          configIdTemplate,
+          forceReset
+        );
       }
     }
   }
@@ -258,7 +263,8 @@ export class ConfiguratorCommonsService {
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -268,7 +274,8 @@ export class ConfiguratorCommonsService {
       ),
       tap((configurationState) => {
         if (
-          (configurationState.value === undefined ||
+          (forceReset ||
+            configurationState.value === undefined ||
             !this.configuratorUtils.isConfigurationCreated(
               configurationState.value
             )) &&
@@ -279,6 +286,7 @@ export class ConfiguratorCommonsService {
             new ConfiguratorActions.CreateConfiguration({
               owner,
               configIdTemplate,
+              forceReset,
             })
           );
         }

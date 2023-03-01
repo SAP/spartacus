@@ -76,6 +76,7 @@ export class CreateConfiguration extends StateUtils.EntityLoadAction {
     public payload: {
       owner: CommonConfigurator.Owner;
       configIdTemplate?: string;
+      forceReset?: boolean;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.owner.key);

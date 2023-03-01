@@ -66,7 +66,8 @@ export class VariantConfiguratorOccAdapter
 
   createConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     const expMode = this.getExpModeRequested();
@@ -75,8 +76,8 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
           queryParams: configIdTemplate
-            ? { configIdTemplate, expMode }
-            : { expMode },
+            ? { configIdTemplate, expMode, forceReset }
+            : { expMode, forceReset },
         }),
         { context: this.indicateSendUserForAsm() }
       )
