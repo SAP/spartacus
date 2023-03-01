@@ -75,16 +75,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       : false;
   }
 
-  /**
-   * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
-   *
-   * @deprecated since 5.0 - method not used anymore
-   * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
-   */
-  isDesktop(): Observable<boolean> {
-    return this.breakpointService.isUp(BREAKPOINT.md);
-  }
-
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
     this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
