@@ -14,7 +14,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { delay, switchMap } from 'rxjs/operators';
+import { delay, switchMap, takeWhile } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -51,10 +51,21 @@ export class ConfiguratorConflictSolverDialogLauncherService
       this.conflictGroup$.subscribe((conflictGroup) => {
         if (conflictGroup) {
           this.openModal();
-        } else {
-          this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
+          this.subscribeToCloseDialog();
         }
       })
+    );
+  }
+
+  protected subscribeToCloseDialog() {
+    this.subscription.add(
+      this.conflictGroup$
+        .pipe(takeWhile((conflictGroup) => !!conflictGroup, true)) // stop listening, after we closed once
+        .subscribe((conflictGroup) => {
+          if (!conflictGroup) {
+            this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
+          }
+        })
     );
   }
 

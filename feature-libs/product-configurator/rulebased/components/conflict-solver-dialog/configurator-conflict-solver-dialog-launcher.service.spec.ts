@@ -1,16 +1,16 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { Observable, of, Subject } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
 
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
@@ -54,13 +54,13 @@ function createConflictGroup(): Configurator.Group {
 }
 
 let group: Configurator.Group;
-let conflictGroup$: Observable<Configurator.Group | undefined>;
+let groupSubject: Subject<Configurator.Group | undefined>;
 
 class MockConfiguratorGroupsService {
   getConflictGroupForImmediateConflictResolution(): Observable<
     Configurator.Group | undefined
   > {
-    return conflictGroup$;
+    return groupSubject.asObservable();
   }
 }
 
@@ -94,8 +94,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       ],
     });
     group = createConflictGroup();
-    conflictGroup$ = of(group);
-
+    groupSubject = new Subject<Configurator.Group | undefined>();
     mockRouterData = structuredClone(defaultMockRouterData);
     routerData$ = of(mockRouterData);
   });
@@ -112,32 +111,56 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
     });
 
-    it('should emit group data', () => {
+    it('should emit group data', (done) => {
       routerData$ = of(configRouterData);
-      conflictGroup$ = of(group);
-
       initLauncherService();
-      listener.conflictGroup$.subscribe((data) => expect(data).toEqual(group));
+      listener.conflictGroup$.subscribe((data) => {
+        expect(data).toEqual(group);
+        done();
+      });
+      groupSubject.next(group);
     });
   });
 
   describe('controlDialog', () => {
     it('should open conflict solver dialog because there are some conflict groups', fakeAsync(() => {
       initLauncherService();
-      listener['controlDialog']();
+      groupSubject.next(group);
       tick(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
     }));
 
     it('should close conflict solver dialog because there are not any conflict groups', fakeAsync(() => {
       initLauncherService();
-      conflictGroup$ = of(undefined);
-      listener['controlDialog']();
+      groupSubject.next(group);
+      tick(0);
+      groupSubject.next(undefined);
       tick(0);
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_NO_CONFLICTS_EXIST'
       );
+    }));
+
+    it('should NOT close conflict solver dialog because it has not been opened yet', fakeAsync(() => {
+      initLauncherService();
+      groupSubject.next(undefined);
+      tick(0);
+      expect(launchDialogService.closeDialog).not.toHaveBeenCalled();
+    }));
+
+    it('should close conflict solver dialog only once unless it is not opened again', fakeAsync(() => {
+      initLauncherService();
+      groupSubject.next(group);
+      tick(0);
+
+      groupSubject.next(undefined);
+      tick(0);
+      expect(launchDialogService.closeDialog).toHaveBeenCalledTimes(1);
+
+      groupSubject.next(undefined);
+      tick(0);
+      expect(launchDialogService.closeDialog).toHaveBeenCalledTimes(1);
     }));
   });
 
