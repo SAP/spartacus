@@ -54,6 +54,8 @@ export class VisualPickingProductListService implements OnDestroy {
         this.activeSlideStartIndex = 0;
       });
 
+    this.visualPickingProductFilterService.filter = '';
+
     this.filteredItemsSubscription = this.filteredItems$.subscribe((items) => {
       const firstSelectedItemIndex = items.findIndex((item) => item.selected);
       if (firstSelectedItemIndex !== -1) {
