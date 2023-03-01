@@ -14,10 +14,10 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -35,9 +35,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(quantityService, attributeComponentContext);
+    super(
+      quantityService,
+      attributeComponentContext,
+      configuratorCommonsService
+    );
   }
 
   ngOnInit(): void {
@@ -69,16 +74,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
         this.attribute
       );
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: selectedValues,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   onChangeValueQuantity(
@@ -109,16 +112,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     value.quantity = eventObject;
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: [value],
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.VALUE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.VALUE_QUANTITY
+    );
   }
 
   onChangeQuantity(eventObject: any): void {

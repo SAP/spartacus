@@ -87,23 +87,25 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     if (userInput) {
       this.loading$.next(true);
       event.changedAttribute.selectedSingleValue = userInput;
-      this.selectionChange.emit(event);
+      this.configuratorCommonsService.updateConfiguration(
+        event.ownerKey,
+        event.changedAttribute,
+        Configurator.UpdateType.ATTRIBUTE
+      );
     }
   }
 
   onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         quantity,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+    );
   }
 
   onChangeQuantity(eventObject: any, form?: UntypedFormControl): void {

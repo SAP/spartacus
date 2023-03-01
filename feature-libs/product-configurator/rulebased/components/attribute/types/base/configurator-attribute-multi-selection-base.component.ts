@@ -14,6 +14,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -27,7 +28,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -95,16 +97,14 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   protected onHandleAttributeQuantity(quantity: number): void {
     this.loading$.next(true);
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         quantity,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+    );
   }
 
   /**
