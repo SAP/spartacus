@@ -10,7 +10,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
