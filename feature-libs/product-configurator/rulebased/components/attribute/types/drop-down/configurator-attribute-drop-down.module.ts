@@ -37,6 +37,7 @@ import { ConfiguratorAttributeInputFieldModule } from '../input-field/configurat
       productConfigurator: {
         assignment: {
           AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
+          AttributeType_dropdown_add: ConfiguratorAttributeDropDownComponent,
         },
       },
     }),

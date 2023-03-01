@@ -33,6 +33,8 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
       productConfigurator: {
         assignment: {
           AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
+          AttributeType_radioGroup_add:
+            ConfiguratorAttributeRadioButtonComponent,
         },
       },
     }),

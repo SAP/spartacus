@@ -230,11 +230,13 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
         Header: ConfiguratorAttributeHeaderComponent,
         Footer: ConfiguratorAttributeFooterComponent,
         AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
+        AttributeType_dropdown_add: ConfiguratorAttributeDropDownComponent,
         AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
         AttributeType_checkBoxList: ConfiguratorAttributeCheckBoxListComponent,
         AttributeType_string: ConfiguratorAttributeInputFieldComponent,
         AttributeType_numeric: ConfiguratorAttributeNumericInputFieldComponent,
         AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
+        AttributeType_radioGroup_add: ConfiguratorAttributeRadioButtonComponent,
         AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,
         AttributeType_single_selection_image:
           ConfiguratorAttributeSingleSelectionImageComponent,
@@ -248,7 +250,7 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
     },
   };
 
-describe('ConfiguratorGroupComponent', () => {
+fdescribe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
@@ -456,6 +458,28 @@ describe('ConfiguratorGroupComponent', () => {
       );
     });
 
+    it('should support radio button attribute type with additional numeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--radioGroup_add--ATTRIBUTE_2_RADIOBUTTON_NUMERIC_ADDITIONAL_INPUT'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+
+    it('should support radio button attribute type with additional alphanumeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--radioGroup_add--ATTRIBUTE_2_RADIOBUTTON_ALPHANUMERIC_ADDITIONAL_INPUT'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
     it('should support single selection image attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -477,6 +501,28 @@ describe('ConfiguratorGroupComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-drop-down'
+      );
+    });
+
+    it('should support drop-down attribute type with additional numeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_NUMERIC_ADDITIONAL_INPUT'
+      ).parentElement.parentElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+
+    it('should support drop-down attribute type with additional alphanumeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_ALPHANUMERIC_ADDITIONAL_INPUT'
+      ).parentElement.parentElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-input-field'
       );
     });
 
