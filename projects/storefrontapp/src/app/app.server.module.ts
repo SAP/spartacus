@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
-import { LoggingInterceptor, provideServer } from '@spartacus/setup/ssr';
+import { provideServer } from '@spartacus/setup/ssr';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppModule } from './app.module';
 
@@ -25,11 +24,6 @@ import { AppModule } from './app.module';
     ...provideServer({
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoggingInterceptor,
-      multi: true,
-    },
   ],
 })
 export class AppServerModule {}

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StaticProvider } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import {
@@ -13,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
+import { LoggingInterceptor } from '../optimized-engine/logging.interceptor';
 import { RequestLoggingService } from '../optimized-engine/request-logging.service';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
@@ -30,6 +32,12 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: SERVER_REQUEST_URL,
       useFactory: serverRequestUrlFactory(options),
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoggingInterceptor,
+      deps: [SSR_REQUEST_LOGGING],
+      multi: true,
     },
   ];
 }
