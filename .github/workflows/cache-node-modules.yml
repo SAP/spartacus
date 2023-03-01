@@ -7,7 +7,7 @@ on:
 name: Cache node modules
 
 env:
-  NODE_VERSION: '16'
+  NODE_VERSION: '18'
 
 jobs:
   cacheNodeModules:   
