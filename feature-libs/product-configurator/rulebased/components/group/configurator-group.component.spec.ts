@@ -250,7 +250,7 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
     },
   };
 
-fdescribe('ConfiguratorGroupComponent', () => {
+describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
