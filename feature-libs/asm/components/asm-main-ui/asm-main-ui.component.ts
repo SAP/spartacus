@@ -10,7 +10,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
@@ -61,30 +60,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   @ViewChild('customerListLink') element: ElementRef;
 
-  // TODO(#206): make LaunchDialogService are required dependency
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    launchDialogService: LaunchDialogService
-  );
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade
-  );
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -93,7 +68,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    @Optional() protected launchDialogService?: LaunchDialogService
+    protected launchDialogService?: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
