@@ -90,8 +90,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.detectUserChange();
   }
 
-  protected generateEmptyCartValue() {
-    return {} as Cart;
+  protected generateEmptyCartValue(i: number) {
+    return { emptyCart: i } as Cart;
   }
 
   protected initActiveCart() {
@@ -128,7 +128,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       })
     );
 
-    let emptyCart = this.generateEmptyCartValue();
+    let i = 0;
+    let emptyCart = this.generateEmptyCartValue(++i);
     this.activeCart$ = using(
       () => loading.subscribe(),
       () => cartValue$
@@ -137,7 +138,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       map(({ cart }) => {
         if (cart) {
           // regenerate empty cart value for next time cart is empty
-          emptyCart = this.generateEmptyCartValue();
+          emptyCart = this.generateEmptyCartValue(++i);
 
           return cart;
         } else {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import {
   cartBaseTranslationChunksConfig,
   cartBaseTranslations,
@@ -12,14 +12,30 @@ import {
 import {
   ADD_TO_CART_FEATURE,
   CartBaseRootModule,
+  CartChangeEvent,
   CART_BASE_FEATURE,
   MINI_CART_FEATURE,
 } from '@spartacus/cart/base/root';
-import { provideConfig } from '@spartacus/core';
+import { EventService, provideConfig } from '@spartacus/core';
+
+/**
+ * DELETE ME
+ *
+ * Development class for listening to new change event
+ */
+@Injectable()
+class ChangeCartListener {
+  constructor(service: EventService) {
+    service.get(CartChangeEvent).subscribe((x) => {
+      console.log('CartChangeEvent event emitted', x);
+    });
+  }
+}
 
 @NgModule({
   imports: [CartBaseRootModule],
   providers: [
+    ChangeCartListener,
     provideConfig({
       featureModules: {
         [CART_BASE_FEATURE]: {
@@ -57,4 +73,8 @@ import { provideConfig } from '@spartacus/core';
     }),
   ],
 })
-export class CartBaseFeatureModule {}
+export class CartBaseFeatureModule {
+  constructor(changeCartListener: ChangeCartListener) {
+    console.log('eager instantiation', this, '->', changeCartListener);
+  }
+}

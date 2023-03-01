@@ -48,6 +48,7 @@ import {
   pairwise,
   startWith,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CartActions } from '../store/index';
@@ -281,6 +282,36 @@ export class CartEventBuilder {
         combineLatest([cartStream$, deleteCart$.pipe(startWith(''), delay(0))])
       ),
       withLatestFrom(cartStream$.pipe(pairwise())),
+      // DEBUGGING START
+      tap({
+        next: ([events, [previousCart, newCart]]) => {
+          {
+            console.group(`Cart Change Event ${events.length}`);
+
+            {
+              console.groupCollapsed(
+                `old cart (${previousCart.totalUnitCount})`
+              );
+              console.log(previousCart);
+              console.groupEnd();
+            }
+
+            events.forEach((event) => {
+              console.log(event.constructor.name, event);
+            });
+
+            {
+              console.groupCollapsed(`new cart (${newCart.totalUnitCount})`);
+              console.log(newCart);
+              console.groupEnd();
+            }
+
+            console.groupEnd();
+          }
+        },
+        error: (x) => console.log('n', x),
+        complete: () => console.log('c', '???'),
+      }), // DEBUGGING END
       filter(([events]) => events.length > 0),
       map(([events, [previousCart, currentCart]]) =>
         createFrom(CartChangeEvent, {
