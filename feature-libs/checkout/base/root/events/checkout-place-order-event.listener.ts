@@ -26,8 +26,6 @@ export class CheckoutPlaceOrderEventListener implements OnDestroy {
       this.eventService
         .get(OrderPlacedEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutQueryResetEvent);
-
           this.eventService.dispatch(
             {
               userId,
@@ -36,6 +34,8 @@ export class CheckoutPlaceOrderEventListener implements OnDestroy {
             },
             RemoveCartEvent
           );
+
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }

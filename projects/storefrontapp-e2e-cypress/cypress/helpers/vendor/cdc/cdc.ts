@@ -16,6 +16,21 @@ export function registerUser() {
 const user = getSampleUser();
 const nativeUser = getSampleUser();
 
+export const cdcB2BDelegateAdminUser = {
+  userId: '991b7846-8ee3-49d9-8600-37fed93f445c',
+  fullName: 'Spartacus B2BAdmin',
+  email: 'spartacusb2b@hybris.com',
+  password: 'Password123.',
+};
+
+export function waitForCmsComponentsToLoad(baseSite: string) {
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/cms/components`,
+  }).as('getComponents');
+  cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
+}
+
 export function registerCDC() {
   fillAndSubmitRegistrationForm();
 }
