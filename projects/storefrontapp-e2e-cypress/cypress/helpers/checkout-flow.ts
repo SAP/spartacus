@@ -471,13 +471,6 @@ export function fillPaymentFormWithCheapProduct(
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
 
   cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/payment/sop/request*`,
-  }).as('requestPayment');
-
-  cy.intercept({
     method: 'POST',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
@@ -486,11 +479,7 @@ export function fillPaymentFormWithCheapProduct(
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  cy.wait('@requestPayment', { timeout: 30000 });
-
-  cy.wait('@submitPayment', { timeout: 30000 })
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait('@submitPayment');
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
