@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -50,7 +51,8 @@ export class ConfiguratorAttributeInputFieldComponent
 
   constructor(
     protected config: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -81,16 +83,16 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   onChange(): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
-
     if (!this.attributeInputForm.invalid) {
-      this.inputChange.emit(event);
+      this.configuratorCommonsService.updateConfiguration(
+        this.ownerKey,
+        {
+          ...this.attribute,
+          userInput: this.attributeInputForm.value,
+          selectedSingleValue: this.attributeInputForm.value,
+        },
+        Configurator.UpdateType.ATTRIBUTE
+      );
     }
   }
 
