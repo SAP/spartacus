@@ -633,4 +633,34 @@ describe('ConfiguratorGroupComponent', () => {
       }
     });
   });
+
+  describe('getComponentKey', () => {
+    it('should compile key for standard attribute type', () => {
+      expect(
+        component.getComponentKey(ConfigurationTestData.attributeDropDown)
+      ).toBe(component['typePrefix'] + Configurator.UiType.DROPDOWN);
+    });
+
+    it('should compile custom key in case attribute belongs to a custom variation', () => {
+      const customUiType = 'DROPDOWN___CUSTOM';
+      const attribute: Configurator.Attribute = {
+        ...ConfigurationTestData.attributeDropDown,
+        uiTypeVariation: customUiType,
+      };
+      expect(component.getComponentKey(attribute)).toBe(
+        component['typePrefix'] + customUiType
+      );
+    });
+
+    it('should fall back to standard UI type if custom key is not of correct format', () => {
+      const customUiType = 'DROPDOWN__CUSTOM';
+      const attribute: Configurator.Attribute = {
+        ...ConfigurationTestData.attributeDropDown,
+        uiTypeVariation: customUiType,
+      };
+      expect(component.getComponentKey(attribute)).toBe(
+        component['typePrefix'] + Configurator.UiType.DROPDOWN
+      );
+    });
+  });
 });
