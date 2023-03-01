@@ -1,0 +1,79 @@
+CHHI radio Group
+<fieldset>
+  <legend style="display: none">{{ attribute.label }}</legend>
+  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
+      <cx-configurator-attribute-quantity
+        (changeQuantity)="onChangeQuantity($event)"
+        [quantityOptions]="extractQuantityParameters()"
+      ></cx-configurator-attribute-quantity>
+      <cx-configurator-price
+        [formula]="extractPriceFormulaParameters()"
+      ></cx-configurator-price>
+    </div>
+
+    <div class="form-check" *ngFor="let value of attribute.values">
+      <div class="cx-value-label-pair">
+        <input
+          id="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          class="form-check-input"
+          type="radio"
+          formcontrolname="attributeRadioButtonForm"
+          [formControl]="attributeRadioButtonForm"
+          [attr.required]="attribute.required"
+          [value]="value.valueCode"
+          name="{{ createAttributeIdForConfigurator(attribute) }}"
+          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+          [attr.aria-label]="getAriaLabel(value, attribute)"
+          [attr.checked]="
+            attributeRadioButtonForm.value === value.valueCode
+              ? 'checked'
+              : null
+          "
+          [attr.aria-describedby]="
+            createAttributeUiKey('label', attribute.name)
+          "
+          (change)="onSelect(value.valueCode)"
+        />
+        <label
+          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+          for="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          aria-hidden="true"
+          class="form-check-label form-radio-label"
+          >{{ getLabel(expMode, value.valueDisplay, value.valueCode) }}</label
+        >
+      </div>
+
+      <div class="cx-value-price">
+        <cx-configurator-price
+          [formula]="extractValuePriceFormulaParameters(value)"
+        ></cx-configurator-price>
+      </div>
+    </div>
+
+    <cx-configurator-attribute-numeric-input-field
+      *ngIf="isAdditionalValueNumeric"
+      class="cx-configurator-attribute-additional-value"
+      [attribute]="attribute"
+      [ownerType]="ownerType"
+      [ownerKey]="ownerKey"
+      [language]="language"
+      (inputChange)="onSelectAdditionalValue($event)"
+    ></cx-configurator-attribute-numeric-input-field>
+
+    <cx-configurator-attribute-input-field
+      *ngIf="isAdditionalValueAlphaNumeric"
+      class="cx-configurator-attribute-additional-value"
+      [attribute]="attribute"
+      [ownerType]="ownerType"
+      [ownerKey]="ownerKey"
+      (inputChange)="onSelectAdditionalValue($event)"
+    >
+    </cx-configurator-attribute-input-field>
+  </div>
+</fieldset>

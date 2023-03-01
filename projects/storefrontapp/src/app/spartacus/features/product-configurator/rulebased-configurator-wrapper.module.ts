@@ -8,6 +8,8 @@ import { NgModule, Type } from '@angular/core';
 import { RulebasedConfiguratorModule } from '@spartacus/product-configurator/rulebased';
 import { RulebasedCpqConfiguratorModule } from '@spartacus/product-configurator/rulebased/cpq';
 import { environment } from '../../../../environments/environment';
+import { CustomAttributeFooterModule } from '../../../custom/components/custom-attribute-footer.module';
+import { CustomAttributeRadioButtonModule } from '../../../custom/components/custom-attribute-radio-button.module';
 
 const extensions: Type<any>[] = [];
 
@@ -16,6 +18,11 @@ if (environment.cpq) {
 }
 
 @NgModule({
-  imports: [RulebasedConfiguratorModule, ...extensions],
+  imports: [
+    RulebasedConfiguratorModule,
+    CustomAttributeFooterModule,
+    CustomAttributeRadioButtonModule,
+    ...extensions,
+  ],
 })
 export class RulebasedConfiguratorWrapperModule {}
