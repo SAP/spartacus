@@ -18,6 +18,7 @@ import { ConfiguratorAttributeInputFieldModule } from '../attribute/types/input-
 import { ConfiguratorAttributeMultiSelectionBundleModule } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.module';
 import { ConfiguratorAttributeMultiSelectionImageModule } from '../attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.module';
 import { ConfiguratorAttributeNumericInputFieldModule } from '../attribute/types/numeric-input-field/configurator-attribute-numeric-input-field.module';
+import { ConfiguratorAttributeNotSupportedModule } from '../attribute/types/not-supported/configurator-attribute-not-supported.module';
 import { ConfiguratorAttributeRadioButtonModule } from '../attribute/types/radio-button/configurator-attribute-radio-button.module';
 import { ConfiguratorAttributeReadOnlyModule } from '../attribute/types/read-only/configurator-attribute-read-only.module';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownModule } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.module';
@@ -35,6 +36,7 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     CommonModule,
     I18nModule,
     NgSelectModule,
+    ConfiguratorAttributeNotSupportedModule,
     ConfiguratorAttributeInputFieldModule,
     ConfiguratorAttributeFooterModule,
     ConfiguratorAttributeNumericInputFieldModule,
