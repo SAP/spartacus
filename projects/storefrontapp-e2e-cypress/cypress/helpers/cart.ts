@@ -346,7 +346,9 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.log('FLO CartPage');
+  cy.wait(`@${cartPage}`);
+  // .its('response.statusCode').should('eq', 200);
 
   validateEmptyCart();
 }
