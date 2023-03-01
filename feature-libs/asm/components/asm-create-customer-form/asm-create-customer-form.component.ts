@@ -95,6 +95,7 @@ export class AsmCreateCustomerFormComponent {
   closeModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
   }
+
   protected onRegisterUserSuccess(): void {
     this.launchDialogService.closeDialog(this.createdCustomer);
     this.globalMessageService.add(
