@@ -1,4 +1,6 @@
 %cx-configurator-resume-config-dialog {
+  &:not(:empty) {
+  z-index: 3000;
   .cx-modal-content {
     margin: auto;
     @include media-breakpoint-down(sm) {
@@ -13,7 +15,6 @@
     display: flex;
     top: 0px;
     position: sticky;
-    z-index: 9999;
     background-color: var(--cx-color-inverse);
 
     .cx-dialog-title {
@@ -33,6 +34,6 @@
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
-
+  }
   }
 }
