@@ -27,7 +27,11 @@ export class PickupInStoreActiveCartService extends ActiveCartService {
     super(multiCartFacade, userIdService);
   }
 
-  addEntry(productCode: string, quantity: number): void {
+  addEntry(
+    productCode: string,
+    quantity: number,
+    pickupInStore?: string
+  ): void {
     this.requireLoadedCart()
       .pipe(
         withLatestFrom(
@@ -41,7 +45,9 @@ export class PickupInStoreActiveCartService extends ActiveCartService {
           getCartIdByUserId(cart, userId),
           productCode,
           quantity,
-          location && location.pickupOption === 'pickup'
+          pickupInStore
+            ? pickupInStore
+            : location && location.pickupOption === 'pickup'
             ? location.name
             : undefined
         );
