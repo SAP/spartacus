@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { login } from '../../../../helpers/auth-forms';
 import {
   waitForPage,
   waitForProductPage,
 } from '../../../../helpers/checkout-flow';
 import { viewportContext } from '../../../../helpers/viewport-context';
-import { login } from '../../../../helpers/auth-forms';
+import { isolateTests } from '../../../../support/utils/test-isolation';
 
 const productIdWithFutureStock = '3318057';
 const productIdWithoutFutureStock = '3755219';
@@ -19,8 +20,9 @@ const b2bUser = {
   password: 'pw4all',
 };
 
-describe('Future Stock', () => {
+describe('Future Stock', { testIsolation: false }, () => {
   viewportContext(['desktop'], () => {
+    isolateTests();
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
