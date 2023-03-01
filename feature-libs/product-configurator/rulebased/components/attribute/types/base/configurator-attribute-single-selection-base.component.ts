@@ -28,6 +28,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() language: string;
   @Input() ownerType: string;
   @Input() expMode: boolean;
+  group: string;
+
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
@@ -40,6 +42,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.group = attributeComponentContext.group.id;
   }
 
   /**

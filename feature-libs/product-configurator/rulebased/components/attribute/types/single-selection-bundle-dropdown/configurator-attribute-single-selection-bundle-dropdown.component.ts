@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
@@ -27,8 +22,6 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 {
   attributeDropDownForm = new UntypedFormControl('');
   selectionValue: Configurator.Value;
-
-  @Input() group: string;
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);

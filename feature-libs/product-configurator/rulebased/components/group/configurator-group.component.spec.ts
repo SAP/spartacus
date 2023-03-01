@@ -249,6 +249,8 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
           ConfiguratorAttributeSingleSelectionBundleComponent,
         AttributeType_checkBoxListProduct:
           ConfiguratorAttributeMultiSelectionBundleComponent,
+        AttributeType_dropdownProduct:
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
       },
     },
   };
@@ -554,8 +556,7 @@ describe('ConfiguratorGroupComponent', () => {
       );
     });
 
-    //TODO CHHI enable once implemented
-    xit('should support single selection bundle dropdown attribute type', () => {
+    it('should support single selection bundle dropdown attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
