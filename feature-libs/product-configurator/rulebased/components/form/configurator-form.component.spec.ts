@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -512,7 +506,7 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should launch the resume config dialog if requested and not a new config', fakeAsync(() => {
+    it('should launch the resume config dialog if requested and not a new config', () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayResumeConfigDialog: 'true',
       });
@@ -520,23 +514,19 @@ describe('ConfigurationFormComponent', () => {
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-      tick(500);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
-    }));
+    });
 
-    it('should NOT launch the resume config dialog if not requested and not a new config', fakeAsync(() => {
+    it('should NOT launch the resume config dialog if not requested and not a new config', () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-      tick(500);
-      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should NOT launch the resume config dialog if requested but a new config', fakeAsync(() => {
+    it('should NOT launch the resume config dialog if requested but a new config', () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayResumeConfigDialog: 'true',
       });
@@ -545,8 +535,6 @@ describe('ConfigurationFormComponent', () => {
       configurationCreateObservable = of(config);
       createComponentWithData();
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-      tick(500);
-      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    }));
+    });
   });
 });
