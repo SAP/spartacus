@@ -30,6 +30,7 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
+  ICON_TYPE,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -70,6 +71,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   readonly CartOutlets = CartOutlets;
 
   pickupOptionCompRef: any;
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected currentProductService: CurrentProductService,

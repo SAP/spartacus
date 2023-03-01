@@ -42,9 +42,17 @@
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
     <span
+      *ngIf="options?.addToCartString === 'Buy It Again'"
+      class="repeat-icon"
+      ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
+    ></span>
+    <span
       attr.aria-label="{{
         options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
       }}"
+      [ngClass]="
+        options?.addToCartString === 'Buy It Again' ? 'buyItAgainLink' : ''
+      "
     >
       {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
     </span>
