@@ -72,8 +72,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
 
-## Feature lib product-configurator 
-
 ### ConfiguratorFormComponent
 
 - The view that display the current group has been carved out into a new component ConfiguratorGroupComponent. Reason: We need to display a group
@@ -81,14 +79,19 @@ If explicitly set, this option will take precedence over the express server.
   is much smaller and includes `configurator-group.component.html`, moreover many methods previously residing in `configurator-form.component.ts` have
   been moved to `configurator-group.component.ts`
 
-## BadRequestHandler
+### BadRequestHandler
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
 
-## OrderHistoryService
+### OrderHistoryService
 
 - The method `getOrderDetailsLoading()` has been added and returning order details loading state.
 
-## OrderDetailsService
+### OrderDetailsService
 
 - Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
+
+
+### AsmMainUiComponent
+
+- Added `LaunchDialogService` to constructor.
