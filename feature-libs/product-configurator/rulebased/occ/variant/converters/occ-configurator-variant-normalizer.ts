@@ -130,6 +130,7 @@ export class OccConfiguratorVariantNormalizer
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
       uiType: uiType,
+      uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput:
         uiType === Configurator.UiType.NUMERIC ||
@@ -305,7 +306,11 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute
   ): Configurator.UiType {
     let uiType: Configurator.UiType;
-    switch (sourceAttribute.type) {
+
+    const sourceType: string = sourceAttribute.type?.toString() ?? '';
+    const coreSourceType = this.determineCoreUiType(sourceType);
+
+    switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
@@ -359,6 +364,17 @@ export class OccConfiguratorVariantNormalizer
       }
     }
     return uiType;
+  }
+
+  protected determineCoreUiType(sourceType: string) {
+    const indexCustomSeparator = sourceType.indexOf(
+      Configurator.CustomUiTypeIndicator
+    );
+    const coreSourceType =
+      indexCustomSeparator > 0
+        ? sourceType.substring(0, indexCustomSeparator)
+        : sourceType;
+    return coreSourceType;
   }
 
   convertGroupType(

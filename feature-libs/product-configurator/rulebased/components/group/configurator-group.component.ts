@@ -96,6 +96,10 @@ export class ConfiguratorGroupComponent {
   }
 
   getComponentKey(attribute: Configurator.Attribute): string {
-    return this.typePrefix + attribute.uiType;
+    return attribute.uiTypeVariation?.includes(
+      Configurator.CustomUiTypeIndicator
+    )
+      ? this.typePrefix + attribute.uiTypeVariation
+      : this.typePrefix + attribute.uiType;
   }
 }
