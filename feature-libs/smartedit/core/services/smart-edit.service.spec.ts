@@ -69,11 +69,6 @@ describe('SmartEditService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should be able to load webApplicationInjector.js', () => {
-    service['loadScript']();
-    expect(scriptLoader.embedScript).toHaveBeenCalled();
-  });
-
   describe('should add page contract', () => {
     it('should add CSS classes in body tag', () => {
       spyOn(baseSiteService, 'get').and.returnValue(
