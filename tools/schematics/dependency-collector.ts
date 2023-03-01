@@ -136,7 +136,7 @@ program
   .description('Collect dependencies from all libraries')
   .option(
     '--compare',
-    'Compare with the old file, and fail the process if there are differences.'
+    'Compare with the olsd file, and fail the process if there are differences.'
   );
 
 program.parse(process.argv);
