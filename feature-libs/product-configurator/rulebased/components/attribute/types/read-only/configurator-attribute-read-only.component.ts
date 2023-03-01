@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -18,9 +18,9 @@ import { ConfiguratorAttributeCompositionContext } from '../../../composition/co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: String;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  group: String;
+  expMode: boolean;
 
   constructor(
     protected translationService: TranslationService,
@@ -29,7 +29,7 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     super();
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
-    this.expMode = attributeComponentContext.expMode ?? false;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   protected getCurrentValueName(

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -28,9 +23,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 {
   attributeRadioButtonForm = new UntypedFormControl('');
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  expMode: boolean;
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,

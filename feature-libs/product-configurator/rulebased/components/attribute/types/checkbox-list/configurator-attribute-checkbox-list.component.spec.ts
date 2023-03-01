@@ -237,12 +237,17 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
-  it('should not call emit of selectionChange onChangeValueQuantity if value does not exist', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should not call facade update onChangeValueQuantity if value does not exist', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.onChangeValueQuantity(1, 'NOT_EXISTING', 0);
 
-    expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(0);
   });
 
   it('should call facade update onChangeQuantity', () => {

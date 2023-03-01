@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { Directive } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -23,14 +23,12 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  language: string;
+  ownerType: string;
+  expMode: boolean;
   group: string;
-
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,

@@ -157,9 +157,14 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       changedAttribute: { name: 'Attr' },
     };
     it('should not call emit of selectionChange in case no user input is present', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onSelectAdditionalValue(configFormUpdateEvent);
-      expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledTimes(0);
     });
 
     it('should call facade update in case user input is present', () => {

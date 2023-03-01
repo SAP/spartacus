@@ -8,7 +8,6 @@ import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   isDevMode,
   OnDestroy,
   OnInit,
@@ -48,7 +47,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   iconType = ICON_TYPE;
   intervals: ConfiguratorAttributeNumericInterval[] = [];
 
-  @Input() language: string;
+  language: string;
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
@@ -58,6 +57,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super(config, attributeComponentContext, configuratorCommonsService);
+    this.language = attributeComponentContext.language;
   }
 
   /**
