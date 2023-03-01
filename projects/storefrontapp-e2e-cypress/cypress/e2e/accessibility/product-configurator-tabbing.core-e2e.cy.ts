@@ -55,14 +55,17 @@ context('Product Configuration', () => {
   beforeEach(() => {
     configurationVc.registerConfigurationRoute();
     configurationVc.registerConfigurationUpdateRoute();
-    configurationVc.registerConfigurationPricingRoute();
     cy.visit('/');
   });
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
@@ -72,7 +75,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         CAMERA_MODE,
         RADIO_GROUP,
-        CAMERA_MODE_PROFESSIONAL
+        CAMERA_MODE_PROFESSIONAL,
+        commerceRelease.isPricingEnabled
       );
       configuration.navigateToOverviewPage();
       configurationVc.checkGlobalMessageNotDisplayed();
@@ -97,17 +101,18 @@ context('Product Configuration', () => {
   describe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
       clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-
-      cy.wait(configurationVc.CONFIG_PRICING_ALIAS);
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProduct,
+        commerceRelease.isPricingEnabled
+      );
 
       configurationVc.selectAttributeAndWait(
         CAMERA_COLOR,
         RADIO_GROUP,
-        CAMERA_COLOR_METALLIC
+        CAMERA_COLOR_METALLIC,
+        commerceRelease.isPricingEnabled
       );
-
-      cy.wait(configurationVc.CONFIG_PRICING_ALIAS);
 
       configuration.checkFocus(
         CAMERA_COLOR,
@@ -115,16 +120,18 @@ context('Product Configuration', () => {
         CAMERA_COLOR_METALLIC
       );
 
-      configurationVc.clickOnNextBtnAndWait(SPECIFICATION);
+      configurationVc.clickOnNextBtnAndWait(
+        SPECIFICATION,
+        commerceRelease.isPricingEnabled
+      );
       configuration.checkFocus(CAMERA_PIXELS, RADIO_GROUP, CAMERA_PIXELS_P8);
 
       configurationVc.selectAttributeAndWait(
         CAMERA_SD_CARD,
         CHECKBOX_LIST,
-        CAMERA_SD_CARD_SDXC
+        CAMERA_SD_CARD_SDXC,
+        commerceRelease.isPricingEnabled
       );
-
-      cy.wait(configurationVc.CONFIG_PRICING_ALIAS);
 
       configuration.checkFocus(
         CAMERA_SD_CARD,

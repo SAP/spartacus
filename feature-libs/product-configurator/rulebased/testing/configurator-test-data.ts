@@ -38,6 +38,7 @@ export const VALUE_02 = 'VALUE_02';
 export const VALUE_03 = 'VALUE_03';
 
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+export const DESCRIPTION_FOR = 'Description for ';
 
 export const mockRouterState: any = {
   state: {
@@ -67,7 +68,7 @@ const groupsWithoutIssues: Configurator.Group = {
 export const subGroupWith2Attributes: Configurator.Group = {
   id: GROUP_ID_4,
   configurable: true,
-  description: 'Description for ' + GROUP_ID_4,
+  description: DESCRIPTION_FOR + GROUP_ID_4,
   subGroups: [],
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -515,7 +516,7 @@ export const productConfigurationWithoutBasePrice: Configurator.Configuration =
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -575,7 +576,7 @@ export const mockProductConfigurationWithoutTotalPrice: Configurator.Configurati
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -635,7 +636,7 @@ export const mockProductConfigurationWithPriceSummaryButNoPrices: Configurator.C
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -695,7 +696,7 @@ export const productConfigurationWithoutSelectedOptions: Configurator.Configurat
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -747,7 +748,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_1,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_1,
+      description: DESCRIPTION_FOR + GROUP_ID_1,
       name: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
@@ -779,7 +780,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_3,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_3,
+      description: DESCRIPTION_FOR + GROUP_ID_3,
       attributes: [
         {
           name: 'ATTRIBUTE_3_SINGLE_SELECTION_IMAGE',
@@ -793,7 +794,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_5,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_5,
+      description: DESCRIPTION_FOR + GROUP_ID_5,
       attributes: [
         {
           name: 'ATTRIBUTE_5_STRING',
@@ -812,7 +813,7 @@ export const productConfiguration: Configurator.Configuration = {
         {
           id: GROUP_ID_6,
           configurable: true,
-          description: 'Description for ' + GROUP_ID_6,
+          description: DESCRIPTION_FOR + GROUP_ID_6,
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           subGroups: [],
           attributes: [
@@ -826,12 +827,12 @@ export const productConfiguration: Configurator.Configuration = {
         },
         {
           id: GROUP_ID_7,
-          description: 'Description for ' + GROUP_ID_7,
+          description: DESCRIPTION_FOR + GROUP_ID_7,
           subGroups: [
             {
               id: GROUP_ID_8,
               configurable: false,
-              description: 'Description for ' + GROUP_ID_8,
+              description: DESCRIPTION_FOR + GROUP_ID_8,
               subGroups: [],
               attributes: [],
             },
@@ -843,12 +844,12 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_9,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_9,
+      description: DESCRIPTION_FOR + GROUP_ID_9,
       subGroups: [
         {
           id: GROUP_ID_10,
           configurable: true,
-          description: 'Description for ' + GROUP_ID_10,
+          description: DESCRIPTION_FOR + GROUP_ID_10,
           attributes: [
             {
               name: 'ATTRIBUTE_10_DROPDOWN',
@@ -919,6 +920,94 @@ export const productConfiguration: Configurator.Configuration = {
           {
             attribute: 'C3',
             value: 'V3',
+          },
+        ],
+        subGroups: [
+          {
+            id: '2.1',
+            groupDescription: 'Group 2.1',
+            attributes: [
+              {
+                attribute: 'C2.1',
+                value: 'V2.1',
+              },
+            ],
+          },
+          {
+            id: '2.2',
+            groupDescription: 'Group 2.2',
+            attributes: [
+              {
+                attribute: 'C2.2',
+                value: 'V2.2',
+              },
+            ],
+            subGroups: [
+              {
+                id: '3.1',
+                groupDescription: 'Group 3.1',
+                attributes: [
+                  {
+                    attribute: 'C3.1',
+                    value: 'V3.1',
+                  },
+                ],
+              },
+              {
+                id: '3.2',
+                groupDescription: 'Group 3.2',
+                attributes: [
+                  {
+                    attribute: 'C3.2',
+                    value: 'V3.2',
+                  },
+                ],
+                subGroups: [
+                  {
+                    id: '4.1',
+                    groupDescription: 'Group 4.1',
+                    attributes: [
+                      {
+                        attribute: 'C4.1',
+                        value: 'V4.1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '4.2',
+                    groupDescription: 'Group 4.2',
+                    attributes: [
+                      {
+                        attribute: 'C4.2',
+                        value: 'V4.2',
+                      },
+                    ],
+                    subGroups: [
+                      {
+                        id: '5.1',
+                        groupDescription: 'Group 5.1',
+                        attributes: [
+                          {
+                            attribute: 'C5.1',
+                            value: 'V5.1',
+                          },
+                        ],
+                      },
+                      {
+                        id: '5.2',
+                        groupDescription: 'Group 5.2',
+                        attributes: [
+                          {
+                            attribute: 'C5.2',
+                            value: 'V5.2',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
