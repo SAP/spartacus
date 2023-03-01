@@ -95,3 +95,7 @@ If explicitly set, this option will take precedence over the express server.
 ### AsmMainUiComponent
 
 - Added `LaunchDialogService` to constructor.
+
+### SmartEditLauncherService
+
+- Added `ScriptLoader` to constructor.
