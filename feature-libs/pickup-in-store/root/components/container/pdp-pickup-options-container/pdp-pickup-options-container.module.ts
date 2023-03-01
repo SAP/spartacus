@@ -18,9 +18,7 @@ import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-contain
   declarations: [PdpPickupOptionsContainerComponent],
   providers: [
     provideOutlet({
-      id: CartOutlets.ADD_TO_CART_CONTAINER,
-      //Todo Use this instead of above once checkout refractor branch is merged -->
-      // id: CartOutlets.ADD_TO_CART_PICKUP_OPTION,
+      id: CartOutlets.ADD_TO_CART_PICKUP_OPTION,
       position: OutletPosition.REPLACE,
       component: PdpPickupOptionsContainerComponent,
     }),

@@ -24,18 +24,12 @@
     </ng-container>
   </ng-container>
 
-  <!-- Todo Use this instead of above once checkout refractor branch is merged -->
-  <!-- <ng-container *ngIf="hasStock">
+  <ng-container *ngIf="hasStock">
     <ng-template
       [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
       [(cxComponentRef)]="pickupOptionCompRef"
     ></ng-template>
-  </ng-container> -->
-
-  <ng-template
-    [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
-    [(cxComponentRef)]="pickupOptionCompRef"
-  ></ng-template>
+  </ng-container>
 
   <button
     *ngIf="hasStock"

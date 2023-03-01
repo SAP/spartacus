@@ -22,4 +22,12 @@ export class OrderConsignedEntriesComponent {
 
   readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
+
+  normalizeFormattedAddress(formattedAddress: string): string {
+    const addresses = formattedAddress
+      .split(',')
+      .map((address) => address.trim());
+
+    return addresses.filter(Boolean).join(', ');
+  }
 }
