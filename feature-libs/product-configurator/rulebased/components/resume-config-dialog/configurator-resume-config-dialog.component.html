@@ -1,42 +1,45 @@
-<div
-  class="cx-configurator-resume-config-dialog cx-modal-container"
-  (click)="closeModal()"
->
-  <div
-    class="cx-modal-content"
-    (click)="$event.stopPropagation()"
-    [cxFocus]="focusConfig"
-    (esc)="closeModal()"
-  >
-    <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
-        {{ 'configurator.resumeConfig.title' | cxTranslate }}
-      </div>
-      <button
-        title="{{ 'configurator.a11y.resumeConfig.closeButton' | cxTranslate }}"
-        type="button"
-        class="close"
-        (click)="closeModal()"
+<div class="cx-configurator-resume-config-dialog cx-modal-container">
+  <ng-container *ngIf="data$ | async as data">
+    <ng-container *ngIf="product$ | async as product">
+      <div
+        class="cx-modal-content"
+        [cxFocus]="focusConfig"
+        (esc)="backToPDP(product)"
       >
-        <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-        </span>
-      </button>
-    </div>
-    <ng-container *ngIf="data$ | async as data">
-      <div class="cx-dialog-body modal-body">
-        <div class="cx-configurator-dialog-description">{{ 'configurator.resumeConfig.description' | cxTranslate }}</div>
-        <button
-          type="button"
-          class="cx-configurator-dialog-discard"
-          (click)="discardConfig(data.previousOwner)"
-        >
-          {{ 'configurator.resumeConfig.discardButton' | cxTranslate }}
-        </button>
-        <button class="cx-configurator-dialog-resume" (click)="resumeConfig()">
-          {{ 'configurator.resumeConfig.resumeButton' | cxTranslate }}
-        </button>
+        <div class="cx-dialog-header modal-header">
+          <div class="cx-dialog-title modal-title">
+            {{ 'configurator.resumeConfigDialog.title' | cxTranslate }}
+          </div>
+          <button
+            title="{{
+              'configurator.a11y.resumeConfigDialog.closeButton' | cxTranslate
+            }}"
+            type="button"
+            class="close"
+            (click)="backToPDP(product)"
+          >
+            <span aria-hidden="true">
+              <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            </span>
+          </button>
+        </div>
+
+        <div class="cx-dialog-body modal-body">
+          <button
+            type="button"
+            class="cx-configurator-dialog-discard"
+            (click)="discardConfig(data.previousOwner)"
+          >
+            {{ 'configurator.resumeConfigDialog.discardButton' | cxTranslate }}
+          </button>
+          <button
+            class="cx-configurator-dialog-resume"
+            (click)="resumeConfig()"
+          >
+            {{ 'configurator.resumeConfigDialog.resumeButton' | cxTranslate }}
+          </button>
+        </div>
       </div>
     </ng-container>
-  </div>
+  </ng-container>
 </div>

@@ -5,6 +5,7 @@
  */
 
 import { Component } from '@angular/core';
+import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
@@ -12,7 +13,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
@@ -22,13 +23,19 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 export class ConfiguratorResumeConfigDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected routingService: RoutingService,
+    protected productService: ProductService
   ) {}
 
   data$: Observable<{ previousOwner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(
       filter((data) => data && data.previousOwner)
     );
+
+  product$ = this.data$.pipe(
+    switchMap((data) => this.productService.get(data.previousOwner.id))
+  );
 
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
@@ -64,5 +71,16 @@ export class ConfiguratorResumeConfigDialogComponent {
       true
     );
     this.closeModal();
+  }
+
+  /**
+   * navigates back product detail page without making a decision
+   */
+  backToPDP(product: Product) {
+    this.closeModal();
+    this.routingService.go({
+      cxRoute: 'product',
+      params: product,
+    });
   }
 }

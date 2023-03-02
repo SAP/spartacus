@@ -132,6 +132,12 @@ export const configurator = {
       conflictDetected: 'Conflict Detected',
       viewConfigurationDetails: 'View In Configuration',
     },
+    resumeConfigDialog: {
+      title:
+        'There is an unfinished configuration from a previous session. Would you like to resume?',
+      discardButton: 'Start New',
+      resumeButton: 'Resume',
+    },
     a11y: {
       configureProduct: 'Configure product',
       cartEntryBundleInfo: 'There is an item ',
