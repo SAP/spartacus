@@ -142,7 +142,7 @@ exports[`Spartacus Schematics: add-pwa should add PWA properly should modify pac
     "@angular/platform-browser": "^15.1.0",
     "@angular/platform-browser-dynamic": "^15.1.0",
     "@angular/router": "^15.1.0",
-    "@angular/service-worker": "^15.1.5",
+    "@angular/service-worker": "^15.2.0",
     "@ng-select/ng-select": "^10.0.3",
     "@ngrx/effects": "^15.3.0",
     "@ngrx/router-store": "^15.3.0",
@@ -151,7 +151,7 @@ exports[`Spartacus Schematics: add-pwa should add PWA properly should modify pac
     "@spartacus/core": "~5.0.0",
     "@spartacus/storefront": "~5.0.0",
     "@spartacus/styles": "~5.0.0",
-    "angular-oauth2-oidc": "^13.0.1",
+    "angular-oauth2-oidc": "^15.0.1",
     "bootstrap": "^4.6.1",
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",
@@ -161,7 +161,7 @@ exports[`Spartacus Schematics: add-pwa should add PWA properly should modify pac
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.1.6",
+    "@angular-devkit/build-angular": "^15.1.5",
     "@angular/cli": "~0.5.0",
     "@angular/compiler-cli": "^15.1.0",
     "@types/jasmine": "~4.3.0",
