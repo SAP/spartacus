@@ -19,7 +19,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../../composition/co
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   attribute: Configurator.Attribute;
-  group: String;
+  group: string;
   expMode: boolean;
 
   constructor(
