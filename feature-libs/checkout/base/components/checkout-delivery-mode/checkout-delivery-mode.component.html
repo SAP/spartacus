@@ -1,18 +1,3 @@
-<ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
-  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
-  </h2>
-
-  <ng-template
-    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-    [cxOutletContext]="{
-      items: activeCartFacade.getDeliveryEntries() | async,
-      readonly: true
-    }"
-  >
-  </ng-template>
-</ng-container>
-
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
   {{ 'checkoutMode.deliveryMethod' | cxTranslate }}
 </h2>
@@ -25,7 +10,7 @@
   "
 >
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-  <div [formGroup]="mode">
+  <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
     <div class="row">
       <div class="col-md-12 col-lg-9" role="radiogroup">
         <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
@@ -53,6 +38,21 @@
       </div>
     </div>
   </div>
+</ng-container>
+
+<ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+  </h2>
+
+  <ng-template
+    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: activeCartFacade.getDeliveryEntries() | async,
+      readonly: true
+    }"
+  >
+  </ng-template>
 </ng-container>
 
 <ng-template #loading>
