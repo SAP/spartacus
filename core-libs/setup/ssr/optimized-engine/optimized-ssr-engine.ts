@@ -239,6 +239,7 @@ export class OptimizedSsrEngine {
 
     // use crypto.randomUUID() if node > v14.17.0
     request.uuid = crypto.randomBytes(20).toString('hex');
+    request.startTime = Date.now();
     const logger = new RequestLoggingService(request);
 
     if (this.returnCachedRender(request, callback)) {

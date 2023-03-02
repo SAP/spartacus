@@ -7,7 +7,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { SSR_REQUEST_LOGGING } from '@spartacus/core';
+import { SSR_LOG_BEFORE_TIMEOUT, SSR_REQUEST_LOGGING } from '@spartacus/core';
 import {
   NgExpressEngineDecorator,
   RequestLoggingService,
@@ -26,8 +26,9 @@ const express = require('express');
 const ssrOptions: SsrOptimizationOptions = {
   concurrency: 20,
   timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
-  reuseCurrentRendering: true,
+  reuseCurrentRendering: false,
   debug: true,
+  logBeforeTimeout: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -53,6 +54,10 @@ export function app() {
               provide: SSR_REQUEST_LOGGING,
               useClass: RequestLoggingService,
               deps: [REQUEST],
+            },
+            {
+              provide: SSR_LOG_BEFORE_TIMEOUT,
+              useValue: ssrOptions.logBeforeTimeout,
             },
           ]
         : [],

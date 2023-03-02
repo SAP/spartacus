@@ -26,3 +26,10 @@ export const SERVER_REQUEST_ORIGIN = new InjectionToken<string>(
 export const SSR_REQUEST_LOGGING = new InjectionToken<any>(
   'SSR_REQUEST_LOGGING'
 );
+
+/**
+ * whether log before timeout when running SSR
+ */
+export const SSR_LOG_BEFORE_TIMEOUT = new InjectionToken<string[]>(
+  'SSR_LOG_BEFORE_TIMEOUT'
+);

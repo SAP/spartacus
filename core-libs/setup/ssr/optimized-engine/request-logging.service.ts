@@ -13,6 +13,11 @@ export class RequestLoggingService {
   constructor(@Optional() @Inject(REQUEST) private req: Request) {}
 
   log(message: string) {
-    console.log(this.req.uuid + '--' + message + ' (' + Date.now() + ')');
+    const time =
+      this.req.startTime !== undefined
+        ? Date.now() - this.req.startTime
+        : new Date();
+
+    console.log(this.req.uuid + ' - ' + message + ' (ms:' + time + ')');
   }
 }
