@@ -9,7 +9,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
@@ -41,7 +41,14 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
   let mockLaunchDialogService: LaunchDialogService;
   let mockConfigCommonsService: ConfiguratorCommonsService;
 
+  let dataSender: BehaviorSubject<
+    { previousOwner: CommonConfigurator.Owner } | undefined
+  >;
+
   function initialize() {
+    dataSender = new BehaviorSubject<
+      { previousOwner: CommonConfigurator.Owner } | undefined
+    >({ previousOwner: owner });
     fixture = TestBed.createComponent(ConfiguratorResumeConfigDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -52,7 +59,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
 
   class MockLaunchDialogService {
     closeDialog(): void {}
-    data$ = of({ previousOwner: owner });
+    data$ = dataSender;
   }
 
   function initializeMocks() {
@@ -61,10 +68,6 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       'getOrCreateConfiguration',
     ]);
   }
-
-  //function asSpy(f: any) {
-  //  return <jasmine.Spy>f;
-  //}
 
   beforeEach(
     waitForAsync(() => {
@@ -93,6 +96,15 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should ignore invalid dialog data', (done) => {
+    component.data$.subscribe({
+      next: (data) => expect(data).toBeDefined(),
+      complete: done,
+    });
+    dataSender.next(undefined);
+    dataSender.complete();
   });
 
   it('should render title, description, discard button and resume button', () => {

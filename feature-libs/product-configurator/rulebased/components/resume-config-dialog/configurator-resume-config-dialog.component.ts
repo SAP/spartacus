@@ -12,6 +12,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
@@ -25,7 +26,9 @@ export class ConfiguratorResumeConfigDialogComponent {
   ) {}
 
   data$: Observable<{ previousOwner: CommonConfigurator.Owner }> =
-    this.launchDialogService.data$;
+    this.launchDialogService.data$.pipe(
+      filter((data) => data && data.previousOwner)
+    );
 
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
@@ -40,6 +43,13 @@ export class ConfiguratorResumeConfigDialogComponent {
    */
   closeModal(): void {
     this.launchDialogService.closeDialog('Close Resume Config Modal');
+  }
+
+  /**
+   *resume with current config
+   */
+  resumeConfig(): void {
+    this.closeModal();
   }
 
   /**
