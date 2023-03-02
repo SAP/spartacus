@@ -29,15 +29,15 @@ export class ConfiguratorAttributeDropDownComponent
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected translation: TranslationService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super(
       quantityService,
+      translation,
       attributeComponentContext,
-      configuratorCommonsService,
-      translation
+      configuratorCommonsService
     );
     this.group = attributeComponentContext.group.id;
   }

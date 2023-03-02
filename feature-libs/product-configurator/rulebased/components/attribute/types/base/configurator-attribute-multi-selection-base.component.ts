@@ -33,6 +33,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     super();
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   /**

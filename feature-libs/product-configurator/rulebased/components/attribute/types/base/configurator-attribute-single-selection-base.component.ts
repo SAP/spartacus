@@ -31,9 +31,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected translation: TranslationService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
 
