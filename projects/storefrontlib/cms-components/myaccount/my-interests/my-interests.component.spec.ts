@@ -11,7 +11,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfig,
   FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
@@ -215,12 +214,6 @@ describe('MyInterestsComponent', () => {
           { provide: UserInterestsService, useValue: productInterestService },
           { provide: ProductService, useValue: productService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
         ],
         declarations: [
           MyInterestsComponent,
