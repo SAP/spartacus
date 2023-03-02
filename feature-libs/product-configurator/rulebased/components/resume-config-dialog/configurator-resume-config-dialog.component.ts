@@ -41,7 +41,7 @@ export class ConfiguratorResumeConfigDialogComponent {
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: 'button',
+    autofocus: '.btn-primary',
     focusOnEscape: true,
   };
 
