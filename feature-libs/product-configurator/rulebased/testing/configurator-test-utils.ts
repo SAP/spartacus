@@ -370,6 +370,7 @@ export class ConfiguratorTestUtils {
       group: { id: 'id', subGroups: [] },
       expMode: false,
       language: 'en',
+      isNavigationToGroupEnabled: false,
     };
   }
 
