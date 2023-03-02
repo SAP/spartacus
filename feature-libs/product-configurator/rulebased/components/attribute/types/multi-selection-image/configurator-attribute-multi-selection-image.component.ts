@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -27,9 +22,9 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  expMode: boolean;
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
@@ -40,6 +35,7 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

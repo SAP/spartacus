@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { Directive } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -23,23 +23,25 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  language: string;
+  ownerType: string;
+  expMode: boolean;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected translation: TranslationService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.language = attributeComponentContext.language;
+    this.ownerType = attributeComponentContext.owner.type;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   /**
@@ -84,23 +86,25 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     if (userInput) {
       this.loading$.next(true);
       event.changedAttribute.selectedSingleValue = userInput;
-      this.selectionChange.emit(event);
+      this.configuratorCommonsService.updateConfiguration(
+        event.ownerKey,
+        event.changedAttribute,
+        Configurator.UpdateType.ATTRIBUTE
+      );
     }
   }
 
   onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         quantity,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+    );
   }
 
   onChangeQuantity(eventObject: any, form?: UntypedFormControl): void {

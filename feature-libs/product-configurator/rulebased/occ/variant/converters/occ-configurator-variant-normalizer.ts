@@ -370,11 +370,9 @@ export class OccConfiguratorVariantNormalizer
     const indexCustomSeparator = sourceType.indexOf(
       Configurator.CustomUiTypeIndicator
     );
-    const coreSourceType =
-      indexCustomSeparator > 0
-        ? sourceType.substring(0, indexCustomSeparator)
-        : sourceType;
-    return coreSourceType;
+    return indexCustomSeparator > 0
+      ? sourceType.substring(0, indexCustomSeparator)
+      : sourceType;
   }
 
   convertGroupType(

@@ -7,20 +7,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -35,12 +33,10 @@ export class ConfiguratorAttributeInputFieldComponent
   attributeInputForm = new UntypedFormControl('');
   protected sub: Subscription;
 
-  @Input() ownerType: CommonConfigurator.OwnerType;
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-
-  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+  ownerType: CommonConfigurator.OwnerType;
+  attribute: Configurator.Attribute;
+  group: string;
+  ownerKey: string;
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,
@@ -50,12 +46,14 @@ export class ConfiguratorAttributeInputFieldComponent
 
   constructor(
     protected config: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
-    this.attribute = attributeComponentContext.attribute;
-    this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.ownerKey = attributeComponentContext.owner.key;
   }
 
   ngOnInit() {
@@ -81,16 +79,16 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   onChange(): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
-
     if (!this.attributeInputForm.invalid) {
-      this.inputChange.emit(event);
+      this.configuratorCommonsService.updateConfiguration(
+        this.ownerKey,
+        {
+          ...this.attribute,
+          userInput: this.attributeInputForm.value,
+          selectedSingleValue: this.attributeInputForm.value,
+        },
+        Configurator.UpdateType.ATTRIBUTE
+      );
     }
   }
 

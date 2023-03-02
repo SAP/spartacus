@@ -35,6 +35,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
+import { ConfiguratorAttributeNotSupportedComponent } from '../attribute/types/not-supported/configurator-attribute-not-supported.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
 import { ConfiguratorAttributeDropDownComponent } from '../attribute/types/drop-down/configurator-attribute-drop-down.component';
@@ -51,9 +52,9 @@ import { ConfiguratorAttributeCompositionDirective } from '../composition/config
 import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../attribute/types/numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component';
+import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '@spartacus/product-configurator/rulebased';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -229,6 +230,8 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
       assignment: {
         Header: ConfiguratorAttributeHeaderComponent,
         Footer: ConfiguratorAttributeFooterComponent,
+        AttributeType_not_implemented:
+          ConfiguratorAttributeNotSupportedComponent,
         AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
         AttributeType_dropdown_add: ConfiguratorAttributeDropDownComponent,
         AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
@@ -246,11 +249,13 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
           ConfiguratorAttributeSingleSelectionBundleComponent,
         AttributeType_checkBoxListProduct:
           ConfiguratorAttributeMultiSelectionBundleComponent,
+        AttributeType_dropdownProduct:
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
       },
     },
   };
 
-fdescribe('ConfiguratorGroupComponent', () => {
+describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
@@ -281,6 +286,7 @@ fdescribe('ConfiguratorGroupComponent', () => {
           ConfiguratorConflictSuggestionComponent,
           ConfiguratorAttributeHeaderComponent,
           ConfiguratorAttributeFooterComponent,
+          ConfiguratorAttributeNotSupportedComponent,
           ConfiguratorAttributeRadioButtonComponent,
           ConfiguratorAttributeDropDownComponent,
           ConfiguratorAttributeReadOnlyComponent,
@@ -550,8 +556,7 @@ fdescribe('ConfiguratorGroupComponent', () => {
       );
     });
 
-    //TODO CHHI enable once implemented
-    xit('should support single selection bundle dropdown attribute type', () => {
+    it('should support single selection bundle dropdown attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
@@ -26,10 +21,10 @@ export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  group: string;
+  ownerKey: string;
+  expMode: boolean;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
@@ -38,9 +33,10 @@ export class ConfiguratorAttributeCheckBoxComponent
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
-
     this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   ngOnInit() {

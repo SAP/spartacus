@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -30,20 +25,21 @@ export class ConfiguratorAttributeDropDownComponent
   implements OnInit
 {
   attributeDropDownForm = new UntypedFormControl('');
-  @Input() group: string;
+  group: string;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected translation: TranslationService
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super(
       quantityService,
+      translation,
       attributeComponentContext,
-      configuratorCommonsService,
-      translation
+      configuratorCommonsService
     );
+    this.group = attributeComponentContext.group.id;
   }
 
   ngOnInit() {

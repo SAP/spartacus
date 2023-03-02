@@ -368,6 +368,8 @@ export class ConfiguratorTestUtils {
       attribute: { name: 'attributeName' },
       owner: ConfiguratorModelUtils.createInitialOwner(),
       group: { id: 'id', subGroups: [] },
+      expMode: false,
+      language: 'en',
     };
   }
 

@@ -17,12 +17,16 @@ import { defaultConfiguratorUISettingsConfig } from '../../../config/default-con
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Directive({
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
 }
 
 describe('ConfigAttributeInputFieldComponent', () => {
@@ -52,6 +56,10 @@ describe('ConfigAttributeInputFieldComponent', () => {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
@@ -79,10 +87,13 @@ describe('ConfigAttributeInputFieldComponent', () => {
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     component.ownerKey = ownerKey;
     fixture.detectChanges();
-    spyOn(component.inputChange, 'emit');
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
   });
 
   it('should create', () => {
@@ -111,19 +122,19 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(component.attributeInputForm.touched).toEqual(true);
   });
 
-  it('should emit inputValue onChange', () => {
+  it('should update configuration onChange', () => {
     component.attributeInputForm.setValue(userInput);
     component.onChange();
-    expect(component.inputChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          uiType: Configurator.UiType.STRING,
-          groupId: groupId,
-          userInput: userInput,
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      ownerKey,
+      {
+        ...component.attribute,
+        userInput: userInput,
+        selectedSingleValue: userInput,
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 
@@ -134,48 +145,62 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(component.attributeInputForm.value).toEqual(userInput);
   });
 
-  it('should delay emit inputValue for debounce period', fakeAsync(() => {
+  it('should delay update for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   }));
 
-  it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
+  it('should only update once with last value if inputValue is changed within debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
     component.attributeInputForm.setValue('testValue123');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          userInput: 'testValue123',
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      ownerKey,
+      {
+        ...component.attribute,
+        userInput: 'testValue123',
+        selectedSingleValue: 'testValue123',
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   }));
 
-  it('should emit twice if inputValue is changed after debounce period', fakeAsync(() => {
+  it('should update twice if inputValue is changed after debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
     component.attributeInputForm.setValue('testValue123');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalledTimes(2);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(2);
   }));
 
-  it('should not emit inputValue after destroy', fakeAsync(() => {
+  it('should not update inputValue after destroy', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     component.ngOnDestroy();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
   }));
 
   describe('Accessibility', () => {

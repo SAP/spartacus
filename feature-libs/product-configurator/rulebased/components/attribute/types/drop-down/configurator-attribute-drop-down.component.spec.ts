@@ -143,7 +143,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
-  it('should call emit of selectionChange onSelect', () => {
+  it('should call updateConfiguration on select', () => {
     component.ownerKey = ownerKey;
     spyOn(
       component['configuratorCommonsService'],

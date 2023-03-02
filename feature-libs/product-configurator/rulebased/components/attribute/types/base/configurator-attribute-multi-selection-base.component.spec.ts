@@ -6,6 +6,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -32,10 +33,18 @@ const createTestValue = (
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(quantityService, attributeComponentContext);
+    super(
+      quantityService,
+      attributeComponentContext,
+      configuratorCommonsService
+    );
   }
+}
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
 }
 
 describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
@@ -51,6 +60,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
           },
         ],
       }).compileComponents();
@@ -154,19 +167,19 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   });
 
   describe('onHandleAttributeQuantity', () => {
-    it('should call emit of selectionChange', () => {
+    it('should call facade update onHandleAttributeQuantity', () => {
       const quantity = 2;
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component['onHandleAttributeQuantity'](quantity);
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            ...component.attribute,
-            quantity,
-          }),
-          ownerKey: component.ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-        })
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        component.ownerKey,
+        { ...component.attribute, quantity: 2 },
+        Configurator.UpdateType.ATTRIBUTE_QUANTITY
       );
     });
   });

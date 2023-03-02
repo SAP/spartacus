@@ -14,6 +14,6 @@ export class ConfiguratorAttributeCompositionContext {
   attribute: Configurator.Attribute;
   owner: CommonConfigurator.Owner;
   group: Configurator.Group;
-  language?: string;
-  expMode?: boolean;
+  language: string;
+  expMode: boolean;
 }
