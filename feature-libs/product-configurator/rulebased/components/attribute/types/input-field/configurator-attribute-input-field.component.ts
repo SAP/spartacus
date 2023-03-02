@@ -33,10 +33,10 @@ export class ConfiguratorAttributeInputFieldComponent
   attributeInputForm = new UntypedFormControl('');
   protected sub: Subscription;
 
-  ownerType: CommonConfigurator.OwnerType;
   attribute: Configurator.Attribute;
   group: string;
   ownerKey: string;
+  ownerType: CommonConfigurator.OwnerType;
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,
@@ -50,10 +50,10 @@ export class ConfiguratorAttributeInputFieldComponent
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
-    this.ownerType = attributeComponentContext.owner.type;
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.ownerType = attributeComponentContext.owner.type;
   }
 
   ngOnInit() {

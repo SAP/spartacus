@@ -18,6 +18,7 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  protected readonly CX_PREFIX = 'cx';
   protected readonly SEPARATOR = '--';
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
 
@@ -244,7 +245,9 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - prefix ID
    */
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? idPrefix + this.SEPARATOR + groupId : groupId;
+    return idPrefix
+      ? idPrefix + this.SEPARATOR + groupId
+      : this.CX_PREFIX + this.SEPARATOR + groupId;
   }
 
   /**
@@ -384,7 +387,7 @@ export class ConfiguratorStorefrontUtilsService {
     return false;
   }
 
-  protected getHeight(querySelector: string): number {
+  public getHeight(querySelector: string): number {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
     if (isElementInViewport && element?.offsetHeight) {

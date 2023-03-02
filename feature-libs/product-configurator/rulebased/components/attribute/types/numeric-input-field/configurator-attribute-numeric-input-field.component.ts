@@ -46,7 +46,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   locale: string;
   iconType = ICON_TYPE;
   intervals: ConfiguratorAttributeNumericInterval[] = [];
-
   language: string;
 
   constructor(

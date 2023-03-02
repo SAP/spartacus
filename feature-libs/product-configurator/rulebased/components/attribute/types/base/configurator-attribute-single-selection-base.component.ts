@@ -25,8 +25,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   attribute: Configurator.Attribute;
   ownerKey: string;
-  language: string;
   ownerType: string;
+  language: string;
   expMode: boolean;
 
   constructor(
@@ -39,8 +39,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
-    this.language = attributeComponentContext.language;
     this.ownerType = attributeComponentContext.owner.type;
+    this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
   }
 
