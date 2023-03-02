@@ -261,6 +261,16 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  forceNewConfiguration(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CreateConfiguration({
+        owner: owner,
+        configIdTemplate: undefined,
+        forceReset: true,
+      })
+    );
+  }
+
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner,
     configIdTemplate?: string,
@@ -281,6 +291,9 @@ export class ConfiguratorCommonsService {
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
+          console.log(
+            'CHHI will create new config with forceReset: ' + forceReset
+          );
           this.store.dispatch(
             new ConfiguratorActions.CreateConfiguration({
               owner,
