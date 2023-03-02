@@ -32,9 +32,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
-
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   ngOnInit(): void {

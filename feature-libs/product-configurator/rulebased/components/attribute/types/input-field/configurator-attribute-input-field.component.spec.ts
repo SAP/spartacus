@@ -57,14 +57,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
             useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
           {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            use: ConfiguratorTestUtils.getAttributeContext(),
-          },
-          {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },

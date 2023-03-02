@@ -50,9 +50,10 @@ export class ConfiguratorAttributeInputFieldComponent
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
-    this.attribute = attributeComponentContext.attribute;
-    this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.ownerKey = attributeComponentContext.owner.key;
   }
 
   ngOnInit() {
