@@ -1,8 +1,12 @@
 on:
+  # We will remove 'develop' from the push event branches when we
+  # can asses the success of the schedule trigger
   push:
     branches:
       - develop
       - release/**
+  schedule:
+    - cron: "0 4 * * *"
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
@@ -146,7 +150,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -179,7 +183,7 @@ jobs:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -215,7 +219,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
@@ -328,5 +332,5 @@ jobs:
             }
         if: | 
           needs.build_conclusion.result == 'failure' &&
-          github.event_name == 'push' && 
+          ( github.event_name == 'push'  || github.event_name == 'schedule')&& 
           github.ref_name == 'develop'
