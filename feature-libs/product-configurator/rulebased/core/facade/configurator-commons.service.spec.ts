@@ -587,7 +587,7 @@ describe('ConfiguratorCommonsService', () => {
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
-    it('should still create a new configuration even if existing when forceReset is set', () => {
+    it('should create a new configuration with forceReset', () => {
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
           loading: false,

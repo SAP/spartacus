@@ -274,8 +274,7 @@ export class ConfiguratorCommonsService {
       ),
       tap((configurationState) => {
         if (
-          (forceReset ||
-            configurationState.value === undefined ||
+          (configurationState.value === undefined ||
             !this.configuratorUtils.isConfigurationCreated(
               configurationState.value
             )) &&
