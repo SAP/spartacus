@@ -17,10 +17,10 @@ const user = getSampleUser();
 const nativeUser = getSampleUser();
 
 export const cdcB2BDelegateAdminUser = {
-  userId: '1002',
-  fullName: 'Anjana BL',
-  email: 'anjana.b.l+1@sap.com',
-  password: 'Anjana1201!',
+  userId: '991b7846-8ee3-49d9-8600-37fed93f445c',
+  fullName: 'Spartacus B2BAdmin',
+  email: 'spartacusb2b@hybris.com',
+  password: 'Password123.',
 };
 
 export function waitForCmsComponentsToLoad(baseSite: string) {
