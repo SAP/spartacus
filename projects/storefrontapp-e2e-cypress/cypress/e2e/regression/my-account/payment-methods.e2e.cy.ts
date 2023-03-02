@@ -116,6 +116,3 @@ describe('Payment Methods', () => {
     });
   });
 });
-function clearCacheTestIsolation() {
-  throw new Error('Function not implemented.');
-}
