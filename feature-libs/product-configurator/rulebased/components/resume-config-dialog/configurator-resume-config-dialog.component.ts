@@ -6,15 +6,22 @@
 
 import { Component } from '@angular/core';
 import { Product, ProductService, RoutingService } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { delay, filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-resume-config-dialog',
@@ -25,7 +32,9 @@ export class ConfiguratorResumeConfigDialogComponent {
     protected launchDialogService: LaunchDialogService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected routingService: RoutingService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configuratorGroupsService: ConfiguratorGroupsService
   ) {}
 
   data$: Observable<{ previousOwner: CommonConfigurator.Owner }> =
@@ -36,6 +45,20 @@ export class ConfiguratorResumeConfigDialogComponent {
   product$ = this.data$.pipe(
     switchMap((data) => this.productService.get(data.previousOwner.id))
   );
+
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
+
+  conflictGroup$: Observable<Configurator.Group | undefined> =
+    this.routerData$.pipe(
+      switchMap((routerData) => {
+        return this.configuratorGroupsService.getConflictGroupForImmediateConflictResolution(
+          routerData.owner
+        );
+      }),
+      //Delay because we first want the form to react on data changes
+      delay(0)
+    );
 
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
@@ -57,6 +80,18 @@ export class ConfiguratorResumeConfigDialogComponent {
    */
   resumeConfig(): void {
     this.closeModal();
+    this.conflictGroup$.pipe(take(1)).subscribe((conflictGroup) => {
+      if (conflictGroup) {
+        this.launchDialogService.openDialogAndSubscribe(
+          LAUNCH_CALLER.CONFLICT_SOLVER,
+          undefined,
+          {
+            conflictGroup: this.conflictGroup$,
+            routerData: this.routerData$,
+          }
+        );
+      }
+    });
   }
 
   /**
