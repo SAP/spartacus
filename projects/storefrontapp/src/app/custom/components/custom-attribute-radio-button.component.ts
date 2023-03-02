@@ -28,9 +28,9 @@ export class CustomAttributeRadioButtonComponent extends ConfiguratorAttributeRa
   ) {
     super(
       quantityService,
+      translation,
       attributeComponentContext,
-      configuratorCommonsService,
-      translation
+      configuratorCommonsService,     
     );
   }
 }
