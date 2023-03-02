@@ -65,8 +65,12 @@ export class AsmCreateCustomerFormComponent {
 
   registerUser(): void {
     this.isLoading$.next(true);
-    this.setCreatedCustomer(this.registerForm.value);
-
+    const { firstName, lastName, email } = this.registerForm.value;
+    this.createdCustomer = {
+      firstName,
+      lastName,
+      email,
+    };
     this.asmCreateCustomerFacade
       .createCustomer(this.collectDataFromRegisterForm())
       .subscribe({
@@ -76,14 +80,6 @@ export class AsmCreateCustomerFormComponent {
       });
   }
 
-  setCreatedCustomer(formData: any) {
-    const { firstName, lastName, email } = formData;
-    this.createdCustomer = {
-      firstName,
-      lastName,
-      email,
-    };
-  }
   collectDataFromRegisterForm(): CustomerRegistrationForm {
     return {
       firstName: this.createdCustomer.firstName,
@@ -92,7 +88,7 @@ export class AsmCreateCustomerFormComponent {
     };
   }
 
-  closeModal(reason?: any): void {
+  closeModal(reason?: unknown): void {
     this.launchDialogService.closeDialog(reason);
   }
 
