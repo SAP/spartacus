@@ -28,7 +28,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   language: string;
   ownerType: string;
   expMode: boolean;
-  group: string;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -40,7 +39,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
-    this.group = attributeComponentContext.group.id;
+    this.language = attributeComponentContext.language;
+    this.ownerType = attributeComponentContext.owner.type;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   /**

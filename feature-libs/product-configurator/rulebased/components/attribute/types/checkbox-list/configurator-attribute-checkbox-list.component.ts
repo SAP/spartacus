@@ -42,6 +42,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       attributeComponentContext,
       configuratorCommonsService
     );
+    this.group = attributeComponentContext.group.id;
   }
 
   ngOnInit(): void {

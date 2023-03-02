@@ -25,6 +25,7 @@ export class ConfiguratorAttributeDropDownComponent
   implements OnInit
 {
   attributeDropDownForm = new UntypedFormControl('');
+  group: string;
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -38,6 +39,7 @@ export class ConfiguratorAttributeDropDownComponent
       configuratorCommonsService,
       translation
     );
+    this.group = attributeComponentContext.group.id;
   }
 
   ngOnInit() {
