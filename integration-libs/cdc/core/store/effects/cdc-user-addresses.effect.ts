@@ -11,67 +11,37 @@ import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
-  normalizeHttpError,
   UserActions,
   UserAddressConnector,
   UserAddressService,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAddressesEffects {
   addressFieldKeys = ['line1', 'line2', 'region.name', 'town', 'postalCode'];
-
-  loadUserAddresses$: Observable<UserActions.UserAddressesAction> =
-    createEffect(() =>
-      this.actions$.pipe(
-        ofType(UserActions.LOAD_USER_ADDRESSES),
-        map((action: UserActions.LoadUserAddresses) => action.payload),
-        mergeMap((payload) => {
-          return this.userAddressConnector.getAll(payload).pipe(
-            tap((addresses) => {
-              for (let address of addresses) {
-                if (address.defaultAddress) {
-                  this.sendAddressToCDC(address);
-                  break;
-                }
-              }
-            }),
-            map((addresses: Address[]) => {
-              return new UserActions.LoadUserAddressesSuccess(addresses);
-            }),
-            catchError((error) =>
-              of(
-                new UserActions.LoadUserAddressesFail(normalizeHttpError(error))
-              )
-            )
-          );
-        })
-      )
-    );
 
   addUserAddress$: Observable<UserActions.UserAddressesAction> = createEffect(
     () =>
       this.actions$.pipe(
         ofType(UserActions.ADD_USER_ADDRESS),
         map((action: UserActions.AddUserAddress) => action.payload),
-        mergeMap((payload) => {
-          if (payload.address && payload.address.defaultAddress) {
-            this.sendAddressToCDC(payload.address);
-          }
-          return this.userAddressConnector
-            .add(payload.userId, payload.address)
-            .pipe(
-              map((data: any) => {
-                return new UserActions.AddUserAddressSuccess(data);
-              }),
-              catchError((error) =>
-                of(
-                  new UserActions.AddUserAddressFail(normalizeHttpError(error))
-                )
-              )
-            );
+        switchMap(() => {
+          return this.updateDefaultAdressInCDC().pipe(
+            map((data: any) => {
+              return new UserActions.AddUserAddressSuccess(data);
+            }),
+            catchError((error) => {
+              let errorMessage = error?.errorMessage || ' ';
+              this.messageService.add(
+                errorMessage,
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+              return of(new UserActions.AddUserAddressFail(error));
+            })
+          );
         })
       )
   );
@@ -81,33 +51,20 @@ export class CdcUserAddressesEffects {
       this.actions$.pipe(
         ofType(UserActions.UPDATE_USER_ADDRESS),
         map((action: UserActions.UpdateUserAddress) => action.payload),
-        mergeMap((payload) => {
-          return this.userAddressConnector
-            .update(payload.userId, payload.addressId, payload.address)
-            .pipe(
-              map((data) => {
-                // don't show the message if just setting address as default
-                if (
-                  payload.address &&
-                  Object.keys(payload.address).length === 1 &&
-                  payload.address.defaultAddress
-                ) {
-                  return new UserActions.LoadUserAddresses(payload.userId);
-                } else {
-                  if (payload.address && payload.address.defaultAddress) {
-                    this.sendAddressToCDC(payload.address);
-                  }
-                  return new UserActions.UpdateUserAddressSuccess(data);
-                }
-              }),
-              catchError((error) =>
-                of(
-                  new UserActions.UpdateUserAddressFail(
-                    normalizeHttpError(error)
-                  )
-                )
-              )
-            );
+        switchMap(() => {
+          return this.updateDefaultAdressInCDC().pipe(
+            map((data: any) => {
+              return new UserActions.UpdateUserAddressSuccess(data);
+            }),
+            catchError((error) => {
+              let errorMessage = error?.errorMessage || ' ';
+              this.messageService.add(
+                errorMessage,
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+              return of(new UserActions.UpdateUserAddressFail(error));
+            })
+          );
         })
       )
     );
@@ -117,123 +74,69 @@ export class CdcUserAddressesEffects {
       this.actions$.pipe(
         ofType(UserActions.DELETE_USER_ADDRESS),
         map((action: UserActions.DeleteUserAddress) => action.payload),
-        mergeMap((payload) => {
-          if (payload.address && payload.address.defaultAddress) {
-            this.sendAddressToCDC({});
-          }
-          return this.userAddressConnector
-            .delete(payload.userId, payload.addressId)
-            .pipe(
-              map((data) => {
-                return new UserActions.DeleteUserAddressSuccess(data);
-              }),
-              catchError((error) =>
-                of(
-                  new UserActions.DeleteUserAddressFail(
-                    normalizeHttpError(error)
-                  )
-                )
-              )
-            );
+        switchMap(() => {
+          return this.updateDefaultAdressInCDC().pipe(
+            map((data: any) => {
+              return new UserActions.DeleteUserAddressSuccess(data);
+            }),
+            catchError((error) => {
+              let errorMessage = error?.errorMessage || ' ';
+              this.messageService.add(
+                errorMessage,
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+              return of(new UserActions.DeleteUserAddressFail(error));
+            })
+          );
         })
       )
     );
 
-  /**
-   *  Reload addresses and notify about add success
-   */
+  getAddresses(): Observable<Address[]> {
+    return this.userIdService.takeUserId().pipe(
+      take(1),
+      switchMap((userId) => this.userAddressConnector.getAll(userId))
+    );
+  }
 
-  showGlobalMessageOnAddSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
-        tap(() => {
-          this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressAddSuccess');
-        })
-      ),
-    { dispatch: false }
-  );
+  getDefaultAddress(addresses: Address[]) {
+    return addresses.find((address) => address?.defaultAddress === true);
+  }
 
-  /**
-   *  Reload addresses and notify about update success
-   */
+  updateDefaultAdressInCDC() {
+    return this.getAddresses().pipe(
+      take(1),
+      switchMap((addresses: Address[]) => {
+        let defaultAddress = this.getDefaultAddress(addresses) || {};
+        return this.sendAddressToCDC(defaultAddress);
+      })
+    );
+  }
 
-  showGlobalMessageOnUpdateSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
-        tap(() => {
-          this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
-        })
-      ),
-    { dispatch: false }
-  );
-
-  /**
-   *  Reload addresses and notify about delete success
-   */
-
-  showGlobalMessageOnDeleteSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
-        tap(() => {
-          this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
-        })
-      ),
-    { dispatch: false }
-  );
-
-  sendAddressToCDC(address: Address) {
+  sendAddressToCDC(address: Address): Observable<{ status: string }> {
     //send to CDC
     let formattedAddress =
       address.formattedAddress || this.getFormattedAddress(address);
-    this.cdcJsService
-      .updateAddressWithoutScreenSet(
-        formattedAddress,
-        address.postalCode,
-        address.town,
-        address.country?.name
-      )
-      .subscribe({
-        error: (error: { errorMessage: string }) => {
-          let errorMessage = error?.errorMessage || ' ';
-          this.messageService.add(
-            errorMessage,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
-      });
+    return this.cdcJsService.updateAddressWithoutScreenSet(
+      formattedAddress,
+      address.postalCode,
+      address.town,
+      address.country?.name
+    );
   }
 
   constructor(
     protected actions$: Actions,
+    protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
     protected userAddressService: UserAddressService,
     protected messageService: GlobalMessageService,
     protected cdcJsService: CdcJsService
   ) {}
 
-  /**
-   * Show global confirmation message with provided text
-   */
-  private showGlobalMessage(text: string) {
-    this.messageService.add(
-      { key: text },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-  }
-
-  private loadAddresses() {
-    this.userAddressService.loadAddresses();
-  }
-
   //Similar implementation of SingleLineAddressFormatPopulator.java
   getFormattedAddress(address: Address): string {
-    let formattedAddress = '';
+    let formattedAddress = ' ';
     let addressComponents: Array<string> = [];
 
     this.addressFieldKeys.forEach((addressField) => {
