@@ -64,12 +64,7 @@ export class ConfiguratorResumeConfigDialogComponent {
    * @parameter previousOwner owner of the current configuration thats will be reused for next configuration
    */
   discardConfig(previousOwner: CommonConfigurator.Owner): void {
-    this.configuratorCommonsService.removeConfiguration(previousOwner);
-    this.configuratorCommonsService.getOrCreateConfiguration(
-      previousOwner,
-      undefined,
-      true
-    );
+    this.configuratorCommonsService.forceNewConfiguration(previousOwner);
     this.closeModal();
   }
 

@@ -71,6 +71,7 @@ export class VariantConfiguratorOccAdapter
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     const expMode = this.getExpModeRequested();
+    console.log('CHHI createConfiguration in OCC, forceReset: ' + forceReset);
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
