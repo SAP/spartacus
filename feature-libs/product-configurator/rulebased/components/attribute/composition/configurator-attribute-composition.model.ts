@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Configurator } from '../../core/model/configurator.model';
+import { Configurator } from '../../../core/model/configurator.model';
 
 @Injectable()
 export class ConfiguratorAttributeCompositionContext {

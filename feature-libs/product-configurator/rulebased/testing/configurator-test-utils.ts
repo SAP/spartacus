@@ -12,7 +12,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorAttributeCompositionContext } from '../components/composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeCompositionContext } from '../components/attribute/composition/configurator-attribute-composition.model';
 import { Configurator } from '../core/model/configurator.model';
 
 export class ConfiguratorTestUtils {

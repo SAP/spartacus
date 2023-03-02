@@ -16,7 +16,7 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';

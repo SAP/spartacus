@@ -22,3 +22,4 @@ export * from './types/read-only/index';
 export * from './types/single-selection-bundle-dropdown/index';
 export * from './types/single-selection-bundle/index';
 export * from './types/single-selection-image/index';
+export * from './composition/index';

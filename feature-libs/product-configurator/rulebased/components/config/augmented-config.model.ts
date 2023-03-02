@@ -5,7 +5,7 @@
  */
 
 import '@spartacus/product-configurator/common';
-import { ConfiguratorAttributeComposition } from '../composition/configurator-attribute-composition.config';
+import { ConfiguratorAttributeComposition } from '../attribute/composition/configurator-attribute-composition.config';
 import { ProductConfiguratorCoreConfig } from './../../core/config/configurator-core.config';
 import { ProductConfiguratorMessageConfig } from './configurator-message.config';
 import { ProductConfiguratorUISettingsConfig } from './configurator-ui-settings.config';
