@@ -99,3 +99,7 @@ If explicitly set, this option will take precedence over the express server.
 ### SmartEditLauncherService
 
 - Added `ScriptLoader` to constructor.
+
+### MyInterestsComponent
+
+- Added `GlobalMessageService` to constructor.
