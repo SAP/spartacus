@@ -261,6 +261,10 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  /**
+   * forces the creation of a new default configuration for the given owner
+   * @param owner - Configuration owner
+   */
   forceNewConfiguration(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
       new ConfiguratorActions.CreateConfiguration({
@@ -291,9 +295,6 @@ export class ConfiguratorCommonsService {
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
-          console.log(
-            'CHHI will create new config with forceReset: ' + forceReset
-          );
           this.store.dispatch(
             new ConfiguratorActions.CreateConfiguration({
               owner,

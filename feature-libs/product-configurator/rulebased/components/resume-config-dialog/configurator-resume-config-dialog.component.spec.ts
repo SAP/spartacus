@@ -72,10 +72,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
   }
 
   function initializeMocks() {
-    mockConfigCommonsService = jasmine.createSpyObj([
-      'removeConfiguration',
-      'getOrCreateConfiguration',
-    ]);
+    mockConfigCommonsService = jasmine.createSpyObj(['forceNewConfiguration']);
     mockRoutingService = jasmine.createSpyObj(['go']);
     mockProductService = jasmine.createSpyObj(['get']);
     asSpy(mockProductService.get).and.returnValue(of(product));
@@ -166,9 +163,8 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       .query(By.css('.cx-configurator-dialog-resume'))
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
-    expect(mockConfigCommonsService.removeConfiguration).not.toHaveBeenCalled();
     expect(
-      mockConfigCommonsService.getOrCreateConfiguration
+      mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
     expect(mockRoutingService.go).not.toHaveBeenCalled();
   });
@@ -178,10 +174,9 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       .query(By.css('.cx-configurator-dialog-discard'))
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
-    expect(mockConfigCommonsService.removeConfiguration).toHaveBeenCalled();
-    expect(
-      mockConfigCommonsService.getOrCreateConfiguration
-    ).toHaveBeenCalledWith(owner, undefined, true);
+    expect(mockConfigCommonsService.forceNewConfiguration).toHaveBeenCalledWith(
+      owner
+    );
     expect(mockRoutingService.go).not.toHaveBeenCalled();
   });
 
@@ -199,9 +194,8 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
 
   function checkBackToPDPBehavior() {
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
-    expect(mockConfigCommonsService.removeConfiguration).not.toHaveBeenCalled();
     expect(
-      mockConfigCommonsService.getOrCreateConfiguration
+      mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
     expect(mockRoutingService.go).toHaveBeenCalledWith({
       cxRoute: 'product',
