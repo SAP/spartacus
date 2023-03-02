@@ -84,9 +84,11 @@ export class ConfiguratorFormComponent implements OnInit {
             configuration.interactionState.newConfiguration === false
         )
       )
-      .subscribe(() => {
+      .subscribe((configuration) => {
         this.launchDialogService.openDialogAndSubscribe(
-          LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG
+          LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG,
+          undefined,
+          { previousOwner: configuration.owner }
         );
       });
 

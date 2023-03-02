@@ -23,18 +23,20 @@
         </span>
       </button>
     </div>
-    <div class="cx-dialog-body modal-body">
-      <div>  {{ 'configurator.resumeConfig.description' | cxTranslate }}</div>
-      <button
-        type="button"
-        class="cx-configurator-discard"
-        (click)="discardConfig()"
-      >
-        {{ 'configurator.resumeConfig.discardButton' | cxTranslate }}
-      </button>
-      <button class="cx-configurator-resume" (click)="closeModal()">
-        {{ 'configurator.resumeConfig.resumeButton' | cxTranslate }}
-      </button>
-    </div>
+    <ng-container *ngIf="data$ | async as data">
+      <div class="cx-dialog-body modal-body">
+        <div class="cx-configurator-dialog-description">{{ 'configurator.resumeConfig.description' | cxTranslate }}</div>
+        <button
+          type="button"
+          class="cx-configurator-dialog-discard"
+          (click)="discardConfig(data.previousOwner)"
+        >
+          {{ 'configurator.resumeConfig.discardButton' | cxTranslate }}
+        </button>
+        <button class="cx-configurator-dialog-resume" (click)="closeModal()">
+          {{ 'configurator.resumeConfig.resumeButton' | cxTranslate }}
+        </button>
+      </div>
+    </ng-container>
   </div>
 </div>

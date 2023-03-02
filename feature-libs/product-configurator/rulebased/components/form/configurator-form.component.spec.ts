@@ -20,7 +20,7 @@ import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/config
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -506,7 +506,7 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should launch the resume config dialog if requested and not a new config', () => {
+    it('should launch the resume config dialog with data if requested and when the config is not new', () => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayResumeConfigDialog: 'true',
       });
@@ -514,7 +514,11 @@ describe('ConfigurationFormComponent', () => {
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
-      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG,
+        undefined,
+        { previousOwner: config.owner }
+      );
     });
 
     it('should NOT launch the resume config dialog if not requested and not a new config', () => {

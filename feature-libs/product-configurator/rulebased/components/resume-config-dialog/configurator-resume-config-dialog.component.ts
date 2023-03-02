@@ -4,28 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+import { Component } from '@angular/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-resume-config-dialog',
   templateUrl: './configurator-resume-config-dialog.component.html',
 })
-export class ConfiguratorResumeConfigDialogComponent implements OnInit {
+export class ConfiguratorResumeConfigDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
+
+  data$: Observable<{ previousOwner: CommonConfigurator.Owner }> =
+    this.launchDialogService.data$;
 
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
@@ -35,8 +35,6 @@ export class ConfiguratorResumeConfigDialogComponent implements OnInit {
     focusOnEscape: true,
   };
 
-  ngOnInit(): void {}
-
   /**
    * closes the  modal
    */
@@ -45,21 +43,16 @@ export class ConfiguratorResumeConfigDialogComponent implements OnInit {
   }
 
   /**
-   * closes the  modal
+   * discards current configuration and requests a new default configuration
+   * @parameter previousOwner owner of the current configuration thats will be reused for next configuration
    */
-  discardConfig(): void {
-    this.closeModal();
-    const owner: CommonConfigurator.Owner =
-      ConfiguratorModelUtils.createInitialOwner();
-    owner.key = 'CONF_CAMERA_SL';
-    owner.id = 'CONF_CAMERA_SL';
-    owner.configuratorType = ConfiguratorType.VARIANT;
-    console.log('discard');
-    this.configuratorCommonsService.removeProductBoundConfigurations();
+  discardConfig(previousOwner: CommonConfigurator.Owner): void {
+    this.configuratorCommonsService.removeConfiguration(previousOwner);
     this.configuratorCommonsService.getOrCreateConfiguration(
-      owner,
+      previousOwner,
       undefined,
       true
     );
+    this.closeModal();
   }
 }
