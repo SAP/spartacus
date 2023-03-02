@@ -107,9 +107,6 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
-          /**
-           * TODO: (#CXSPA-53) Remove feature config check in 6.0
-           */
           const numbers = getAddressNumbers(address, textPhone, textMobile);
 
           return {
