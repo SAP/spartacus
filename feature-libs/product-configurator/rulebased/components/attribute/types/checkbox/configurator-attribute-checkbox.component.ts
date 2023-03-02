@@ -34,7 +34,9 @@ export class ConfiguratorAttributeCheckBoxComponent
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   ngOnInit() {
