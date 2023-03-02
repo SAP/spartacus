@@ -161,7 +161,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     );
   });
 
-  it('resume should close the dialog when selecting resume', () => {
+  it('should close the dialog on resume', () => {
     fixture.debugElement
       .query(By.css('.cx-configurator-dialog-resume'))
       .triggerEventHandler('click');
@@ -173,7 +173,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     expect(mockRoutingService.go).not.toHaveBeenCalled();
   });
 
-  it('discardConfig should create a new default config', () => {
+  it('should create a new default config on discard', () => {
     fixture.debugElement
       .query(By.css('.cx-configurator-dialog-discard'))
       .triggerEventHandler('click');
@@ -185,8 +185,19 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     expect(mockRoutingService.go).not.toHaveBeenCalled();
   });
 
-  it('close should navigate back to PDP', () => {
+  it('close should navigate back to PDP on close', () => {
     fixture.debugElement.query(By.css('.close')).triggerEventHandler('click');
+    checkBackToPDPBehavior();
+  });
+
+  it('should navigate back to PDP on escape', () => {
+    fixture.debugElement
+      .query(By.css('.cx-modal-content'))
+      .triggerEventHandler('esc');
+    checkBackToPDPBehavior();
+  });
+
+  function checkBackToPDPBehavior() {
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(mockConfigCommonsService.removeConfiguration).not.toHaveBeenCalled();
     expect(
@@ -196,5 +207,5 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       cxRoute: 'product',
       params: product,
     });
-  });
+  }
 });
