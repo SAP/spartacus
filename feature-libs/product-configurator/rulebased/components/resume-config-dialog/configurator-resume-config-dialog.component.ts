@@ -55,8 +55,15 @@ export class ConfiguratorResumeConfigDialogComponent {
   /**
    *resume with current config
    */
-  resumeConfig(): void {
+  resumeConfig(product: Product): void {
     this.closeModal();
+    this.routingService.go({
+      cxRoute: 'configure' + product.configuratorType,
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: product.code,
+      },
+    });
   }
 
   /**

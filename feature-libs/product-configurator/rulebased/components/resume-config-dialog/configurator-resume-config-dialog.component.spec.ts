@@ -166,7 +166,13 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     expect(
       mockConfigCommonsService.forceNewConfiguration
     ).not.toHaveBeenCalled();
-    expect(mockRoutingService.go).not.toHaveBeenCalled();
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
+      cxRoute: 'configure' + product.configuratorType,
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: product.code,
+      },
+    });
   });
 
   it('should create a new default config on discard', () => {
