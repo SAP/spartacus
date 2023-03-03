@@ -16,7 +16,6 @@ module.exports = {
       'jest-preset-angular',
       {
         ...defaultTransformerOptions,
-        tsconfig: '<rootDir>/tsconfig.schematics.json',
       },
     ],
   },
