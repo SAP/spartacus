@@ -62,12 +62,13 @@ export const defaultAsmConfig: AsmConfig = {
             {
               component: 'AsmCustomer360ActiveCartComponent',
             },
-            {
-              component: 'AsmCustomer360ProductInterestsComponent',
-              requestData: {
-                type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
-              },
-            },
+            // disabled until API is ready
+            // {
+            //   component: 'AsmCustomer360ProductInterestsComponent',
+            //   requestData: {
+            //     type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
+            //   },
+            // },
           ],
         },
         {
@@ -103,7 +104,8 @@ export const defaultAsmConfig: AsmConfig = {
                 type: AsmCustomer360Type.STORE_LOCATION,
               },
               config: {
-                googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                // this key should provide from the customer
+                // googleMapsApiKey: '',
                 storefinderRadius: 10000000,
                 pageSize: 10,
               },

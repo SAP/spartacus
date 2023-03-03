@@ -8,7 +8,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Address,
-  PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -22,6 +21,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerProfileData } from './asm-customer-profile.model';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-asm-customer-profile',
