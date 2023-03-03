@@ -67,9 +67,18 @@
 </ng-template>
 
 <ng-template let-consignment="consignment" #deliveryPointOfServiceDetails>
-  <div class="cx-consignment-details-header">Items To Be Pick-Up</div>
+  <div class="cx-consignment-details-header">
+    {{
+      'orderDetails.deliveryPointOfServiceDetails.itemsToBePickUp' | cxTranslate
+    }}
+  </div>
   <div class="cx-deliveryPointOfService-address">
-    <div class="cx-deliveryPointOfService-heading">Pick Up Store Address</div>
+    <div class="cx-deliveryPointOfService-heading">
+      {{
+        'orderDetails.deliveryPointOfServiceDetails.pickUpInStoreAddress'
+          | cxTranslate
+      }}
+    </div>
     <div class="cx-deliveryPointOfService-storeName">
       {{ consignment?.deliveryPointOfService?.displayName }}
     </div>
@@ -94,11 +103,21 @@
 </ng-template>
 
 <ng-template let-consignment="consignment" #shippingDetails>
-  <div class="cx-consignment-details-header">Items To Be Shipped</div>
+  <div class="cx-consignment-details-header">
+    {{
+      'orderDetails.deliveryPointOfServiceDetails.itemsToBeShipped'
+        | cxTranslate
+    }}
+  </div>
 
   <div class="cx-consignment-details-body">
     <div class="cx-shipping-address">
-      <div class="cx-shipping-address-header">Shipping Address</div>
+      <div class="cx-shipping-address-header">
+        {{
+          'orderDetails.deliveryPointOfServiceDetails.shippingAddress'
+            | cxTranslate
+        }}
+      </div>
       <div>
         {{ consignment?.shippingAddress?.firstName }}
         {{ consignment?.shippingAddress?.lastName }}
@@ -126,7 +145,12 @@
     </div>
 
     <div class="cx-delivery-mode">
-      <div class="cx-delivery-mode-header">Delivery Method</div>
+      <div class="cx-delivery-mode-header">
+        {{
+          'orderDetails.deliveryPointOfServiceDetails.deliveryMethod'
+            | cxTranslate
+        }}
+      </div>
       <div>
         {{ order?.deliveryMode?.name }}
       </div>
