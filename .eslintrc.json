@@ -31,7 +31,6 @@
         "@angular-eslint/no-input-rename": "off",
         "curly": "off",
         "no-var": "off",
-        "no-console": "off",
         "@typescript-eslint/ban-types": "off",
         "jsdoc/newline-after-description": "off",
         "no-shadow": "off",
