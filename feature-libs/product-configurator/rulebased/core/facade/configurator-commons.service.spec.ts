@@ -538,7 +538,6 @@ describe('ConfiguratorCommonsService', () => {
         new ConfiguratorActions.CreateConfiguration({
           owner: OWNER_PRODUCT,
           configIdTemplate: undefined,
-          forceReset: false,
         })
       );
     });
@@ -564,7 +563,6 @@ describe('ConfiguratorCommonsService', () => {
         new ConfiguratorActions.CreateConfiguration({
           owner: OWNER_PRODUCT,
           configIdTemplate: CONFIG_ID_TEMPLATE,
-          forceReset: false,
         })
       );
     });
@@ -585,33 +583,6 @@ describe('ConfiguratorCommonsService', () => {
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should create a new configuration with forceReset', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: false,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
-      });
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.callThrough();
-
-      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        OWNER_PRODUCT,
-        undefined,
-        true
-      );
-      expect(configurationObs).toBeObservable(cold('', {}));
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration({
-          owner: OWNER_PRODUCT,
-          configIdTemplate: undefined,
-          forceReset: true,
-        })
-      );
     });
 
     it('should not create a new configuration if existing yet but erroneous', () => {
