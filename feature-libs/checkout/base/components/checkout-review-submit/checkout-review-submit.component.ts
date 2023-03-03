@@ -113,9 +113,6 @@ export class CheckoutReviewSubmitComponent {
           region = deliveryAddress.region.isocode + ', ';
         }
 
-        /**
-         * TODO: (#CXSPA-53) Remove feature config check in 6.0.
-         */
         const numbers = getAddressNumbers(
           deliveryAddress,
           textPhone,
