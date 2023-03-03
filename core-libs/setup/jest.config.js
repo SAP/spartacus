@@ -1,5 +1,5 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
-const { compilerOptions } = require('./tsconfig.schematics.json');
+const { compilerOptions } = require('./tsconfig.spec.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
@@ -10,7 +10,6 @@ module.exports = {
     prefix: '<rootDir>/',
   }),
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testMatch: ['**/+(*_)+(spec).+(ts)'],
   transform: {
     '^.+\\.(ts|js|mjs|html|svg)$': [
       'jest-preset-angular',
@@ -30,5 +29,10 @@ module.exports = {
       functions: 90,
       lines: 90,
     },
+  },
+  //Will become default in v29, and can be removed. See: https://jestjs.io/docs/upgrading-to-jest29
+  snapshotFormat: {
+    escapeString: false,
+    printBasicPrototype: false,
   },
 };
