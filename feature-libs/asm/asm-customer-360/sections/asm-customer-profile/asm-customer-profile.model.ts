@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, PaymentDetails } from '@spartacus/core';
-
+import { Address } from '@spartacus/core';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 export interface CustomerProfileData {
   billingAddress?: Address;
   deliveryAddress?: Address;

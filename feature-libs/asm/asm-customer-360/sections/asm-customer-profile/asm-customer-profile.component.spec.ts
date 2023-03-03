@@ -14,12 +14,14 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Address,
   I18nTestingModule,
-  PaymentDetails,
   Price,
   Product,
   User,
   UserPaymentService,
 } from '@spartacus/core';
+
+import { PaymentDetails } from '@spartacus/cart/base/root';
+
 import {
   AddressBookComponentService,
   CardComponent,
