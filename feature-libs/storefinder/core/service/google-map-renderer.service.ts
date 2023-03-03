@@ -36,7 +36,7 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): void {
     if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
-      if (this.googleMap === null) {
+      if (this.googleMap === null && this.config.googleMaps?.apiKey) {
         this.scriptLoader.embedScript({
           src: this.config.googleMaps.apiUrl,
           params: { key: this.config.googleMaps.apiKey },
