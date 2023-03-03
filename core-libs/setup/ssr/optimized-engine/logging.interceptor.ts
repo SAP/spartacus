@@ -24,11 +24,11 @@ export class LoggingInterceptor implements HttpInterceptor {
   constructor(
     @Optional()
     @Inject(SSR_REQUEST_LOGGING)
-    private logger: RequestLoggingService,
+    private logger?: RequestLoggingService,
     @Optional()
     @Inject(SSR_LOG_BEFORE_TIMEOUT)
-    private logBeforeTimeout: boolean,
-    @Inject(RESPONSE) private res: Response
+    private logBeforeTimeout?: boolean,
+    @Inject(RESPONSE) private res?: Response
   ) {}
 
   intercept(
@@ -39,7 +39,7 @@ export class LoggingInterceptor implements HttpInterceptor {
       tap(
         (_event) => {
           if (_event.type === HttpEventType.Response) {
-            if (this.res.headersSent) {
+            if (this.res?.headersSent) {
               this.logger?.log(request.url + ' FINISHED AFTER TIMEOUT');
             } else {
               if (this.logBeforeTimeout) {
