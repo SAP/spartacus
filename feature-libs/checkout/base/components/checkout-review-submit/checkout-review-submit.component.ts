@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -21,11 +21,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  FeatureConfigService,
-  TranslationService,
-} from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { Card, getAddressNumbers, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -46,17 +42,13 @@ export class CheckoutReviewSubmitComponent {
 
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  /**
-   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0.
-   */
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -124,9 +116,11 @@ export class CheckoutReviewSubmitComponent {
         /**
          * TODO: (#CXSPA-53) Remove feature config check in 6.0.
          */
-        const numbers = this.featureConfigService?.isLevel('5.2')
-          ? getAddressNumbers(deliveryAddress, textPhone, textMobile)
-          : deliveryAddress.phone;
+        const numbers = getAddressNumbers(
+          deliveryAddress,
+          textPhone,
+          textMobile
+        );
 
         return {
           title: textTitle,
