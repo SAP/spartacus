@@ -486,9 +486,7 @@ describe('ConfigurationFormComponent', () => {
 
   describe('ngOnInit()', () => {
     it('should call getConfiguration in order to prepare conflict check', () => {
-      routerStateObservable = of({
-        ...mockRouterState,
-      });
+      routerStateObservable = mockRouterStateWithQueryParams({});
       createComponentWithData();
       expect(configuratorCommonsService.getConfiguration).toHaveBeenCalledTimes(
         1
@@ -496,9 +494,7 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should call checkConflictSolverDialog on facade in order to launch conflict check', () => {
-      routerStateObservable = of({
-        ...mockRouterState,
-      });
+      routerStateObservable = mockRouterStateWithQueryParams({});
       configurationCreateObservable = of(configRead);
       createComponentWithData();
       expect(
