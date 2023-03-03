@@ -19,11 +19,13 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
+    "@angular/common": "^14.2.3",
     "@angular/core": "^14.2.3",
     "@spartacus/cart": "5.0.0",
     "@spartacus/core": "5.0.0",
     "@spartacus/order": "5.0.0",
-    "@spartacus/user": "5.0.0"
+    "@spartacus/user": "5.0.0",
+    "rxjs": "^6.6.0"
   },
   "optionalDependencies": {
     "@angular/platform-server": "^14.2.3",
