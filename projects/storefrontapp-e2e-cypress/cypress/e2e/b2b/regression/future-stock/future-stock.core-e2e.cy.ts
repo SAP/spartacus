@@ -29,7 +29,7 @@ describe('Future Stock', { testIsolation: false }, () => {
       });
     });
 
-    it('when not logged in, future stock dropdown should not be visible', () => {
+    it('when not logged in, future stock dropdown should not be visible (CXSPA-236)', () => {
       const productPage = waitForProductPage(
         productIdWithFutureStock,
         'getProductPage'
@@ -41,7 +41,7 @@ describe('Future Stock', { testIsolation: false }, () => {
       cy.get('cx-future-stock-accordion').should('not.exist');
     });
 
-    it('when logged in, future stock dropdown should be visible', () => {
+    it('when logged in, future stock dropdown should be visible (CXSPA-236)', () => {
       const loginPage = waitForPage('/login', 'getLoginPage');
       const productPage = waitForProductPage(
         productIdWithFutureStock,
@@ -58,12 +58,12 @@ describe('Future Stock', { testIsolation: false }, () => {
       cy.get('cx-future-stock-accordion').should('be.visible');
     });
 
-    it('should contain proper quantity', () => {
+    it('should contain proper quantity (CXSPA-236)', () => {
       cy.get('cx-future-stock-accordion button').click();
       cy.contains('cx-future-stock-accordion', '3/10/18 - Qty 50');
     });
 
-    it('when choosing other product, future stock dropdown should contain no information', () => {
+    it('when choosing other product, future stock dropdown should contain no information (CXSPA-236)', () => {
       const loginPage = waitForPage('/login', 'getLoginPage');
 
       cy.visit(`/product/${productIdWithoutFutureStock}`);
