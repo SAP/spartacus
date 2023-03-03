@@ -22,7 +22,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
-  @HostBinding('style.height') height: string;
+  @HostBinding('style.height') height = this.getHeight();
 
   @Input() config: Configurator.ConfigurationWithOverview;
 
@@ -61,17 +61,6 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   }
 
   protected getHeight(): string {
-    /**
-    const menuHeight = this.configuratorStorefrontUtilsService.getHeight(this.CX_CONFIGURATOR_OVERVIEW_MENU);
-    console.log('menu height: ' + menuHeight);
-    const spareViewportHeight = this.configuratorStorefrontUtilsService.getSpareViewportHeight();
-    console.log('spare viewport height: ' + spareViewportHeight);
-    if(menuHeight > spareViewportHeight) {
-      console.log('menuHeight > spareViewportHeight');
-      return spareViewportHeight + 'px';
-    }
-    return '';
-     */
     return (
       this.configuratorStorefrontUtilsService.getSpareViewportHeight() + 'px'
     );
