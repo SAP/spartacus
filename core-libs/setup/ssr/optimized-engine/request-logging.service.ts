@@ -10,14 +10,15 @@ import { Request } from 'express';
 
 @Injectable()
 export class RequestLoggingService {
-  constructor(@Optional() @Inject(REQUEST) private req: Request) {}
+  constructor(@Optional() @Inject(REQUEST) private req?: Request) {}
 
   log(message: string) {
     const time =
-      this.req.startTime !== undefined
+      this.req?.startTime !== undefined
         ? Date.now() - this.req.startTime
         : new Date();
 
-    console.log(this.req.uuid + ' - ' + message + ' (ms:' + time + ')');
+    // eslint-disable-next-line no-console
+    console.log(this.req?.uuid + ' - ' + message + ' (ms:' + time + ')');
   }
 }

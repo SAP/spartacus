@@ -5,6 +5,7 @@
  */
 
 /* webpackIgnore: true */
+import * as crypto from 'crypto';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
@@ -31,8 +32,6 @@ export type SsrCallbackFn = (
    */
   html?: string | undefined
 ) => void;
-
-const crypto = require('crypto');
 
 /**
  * The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the
@@ -312,6 +311,7 @@ export class OptimizedSsrEngine {
     debug = true
   ): void {
     if (!debug || this.ssrOptions?.debug) {
+      // eslint-disable-next-line no-console
       logger ? logger.log(message) : console.log(message);
     }
   }
