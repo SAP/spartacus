@@ -78,8 +78,16 @@ If explicitly set, this option will take precedence over the express server.
   also as part of the new conflict solver dialog that is introduced for the AVC configurator. This means that `configurator-form.component.html`
   is much smaller and includes `configurator-group.component.html`, moreover many methods previously residing in `configurator-form.component.ts` have
   been moved to `configurator-group.component.ts`
+  
+### ConfiguratorOverviewMenuComponent
 
-### BadRequestHandler
+- By navigation to a certain overview group via overview menu the browser does not scroll anymore to the container of the group  `'#' + ovGroupId`, but to the title of the corresponding group `'#' + ovGroupId+ ' h2'`.
+
+### ConfiguratorStorefrontUtilsService
+
+- For readability purposes `--` separate is added between `prefix` and `groupId` in `createOvGroupId(prefix: string, groupId: string)` method.
+
+## BadRequestHandler
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
 
