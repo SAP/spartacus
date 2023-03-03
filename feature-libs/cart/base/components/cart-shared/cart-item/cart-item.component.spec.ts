@@ -17,10 +17,9 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 
@@ -93,11 +92,6 @@ describe('CartItemComponent', () => {
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
-  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -105,7 +99,6 @@ describe('CartItemComponent', () => {
           RouterTestingModule,
           ReactiveFormsModule,
           I18nTestingModule,
-          FeaturesConfigModule,
           OutletModule,
         ],
         declarations: [
@@ -114,7 +107,6 @@ describe('CartItemComponent', () => {
           MockItemCounterComponent,
           MockPromotionsComponent,
           MockUrlPipe,
-          MockFeatureLevelDirective,
           MockOutletDirective,
         ],
         providers: [
@@ -232,16 +224,6 @@ describe('CartItemComponent', () => {
         cartItemComponent.options
       );
     });
-  });
-
-  it('should create cart details component', () => {
-    featureConfig.isEnabled.and.returnValue(true);
-    expect(cartItemComponent).toBeTruthy();
-
-    fixture.detectChanges();
-
-    featureConfig.isEnabled.and.returnValue(false);
-    expect(cartItemComponent).toBeTruthy();
   });
 
   it('should call removeItem()', () => {
