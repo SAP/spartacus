@@ -480,12 +480,12 @@ export class CdcJsService implements OnDestroy {
                     this.userProfileFacade.update({ uid: newEmail }).pipe(
                       tap({
                         error: (error) => of(error),
+                        complete: () => {
+                          this.auth.coreLogout();
+                          this.invokeAPI('accounts.logout', {});
+                        },
                       })
                     ),
-                  complete: () => {
-                    this.auth.coreLogout();
-                    this.invokeAPI('accounts.logout', {});
-                  },
                 })
               )
             ),
