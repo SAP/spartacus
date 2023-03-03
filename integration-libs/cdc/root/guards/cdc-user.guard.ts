@@ -5,21 +5,21 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { GlobalMessageService, SemanticPathService } from '@spartacus/core';
+import { CanActivate, UrlTree } from '@angular/router';
+import { GlobalMessageType } from '@spartacus/core';
 import { UserGuard } from '@spartacus/organization/administration/core';
-import { CdcB2BUserService } from '../../organization/administration/public_api';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CdcUserGuard extends UserGuard {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected cdcB2bUserService: CdcB2BUserService,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {
-    super(globalMessageService, cdcB2bUserService, semanticPathService, router);
+export class CdcUserGuard extends UserGuard implements CanActivate {
+  canActivate(): boolean | UrlTree {
+    this.globalMessageService.add(
+      { key: 'organization.notification.notExist' },
+      GlobalMessageType.MSG_TYPE_WARNING
+    );
+    return this.router.parseUrl(
+      this.semanticPathService.get('organization') ?? ''
+    );
   }
 }
