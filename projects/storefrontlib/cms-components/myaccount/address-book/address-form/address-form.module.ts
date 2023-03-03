@@ -18,9 +18,6 @@ import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @NgModule({
-  /**
-   * TODO: (#CXSPA-53) Remove FeaturesConfigModule in 6.0
-   */
   imports: [
     NgSelectA11yModule,
     CommonModule,
