@@ -132,7 +132,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     expect(mockProductService.get).toHaveBeenCalledWith(owner.id);
   });
 
-  it('should render title and close, discard and resume buttons', () => {
+  it('should render title, description and close, discard and resume buttons', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -143,6 +143,12 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       expect,
       htmlElem,
       '.close'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-configurator-dialog-description'
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(

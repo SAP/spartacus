@@ -133,7 +133,8 @@ export const configurator = {
       viewConfigurationDetails: 'View In Configuration',
     },
     resumeConfigDialog: {
-      title:
+      title: 'Unfinished Configuration',
+      description:
         'There is an unfinished configuration from a previous session. Would you like to resume?',
       discardButton: 'Start New',
       resumeButton: 'Resume',

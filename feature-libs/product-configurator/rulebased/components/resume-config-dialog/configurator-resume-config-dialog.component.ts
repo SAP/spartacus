@@ -30,6 +30,7 @@ export class ConfiguratorResumeConfigDialogComponent {
 
   data$: Observable<{ previousOwner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(
+      // in case conflict solver opens as well we need to filter out is data
       filter((data) => data && data.previousOwner)
     );
 
@@ -53,10 +54,13 @@ export class ConfiguratorResumeConfigDialogComponent {
   }
 
   /**
-   *resume with current config
+   * resume with current config
+   * @parameter product owning this configuration
    */
   resumeConfig(product: Product): void {
     this.closeModal();
+    // in case conflict solver was open as well, it was closed by the call above.
+    // By navigating again we ensure it will open again
     this.routingService.go({
       cxRoute: 'configure' + product.configuratorType,
       params: {
@@ -77,6 +81,7 @@ export class ConfiguratorResumeConfigDialogComponent {
 
   /**
    * navigates back product detail page without making a decision
+   * @parameter product owning this configuration
    */
   backToPDP(product: Product) {
     this.closeModal();
