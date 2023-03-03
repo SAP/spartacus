@@ -110,7 +110,8 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         PROJECTOR_TYPE,
         radioGroup,
-        PROJECTOR_LCD
+        PROJECTOR_LCD,
+        commerceRelease.isPricingEnabled
       );
       configurationVc.clickOnPreviousBtnAndWait(GENERAL);
       configurationVc.clickOnGroupAndWait(3);
@@ -119,7 +120,8 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
-        1
+        1,
+        commerceRelease.isPricingEnabled
       );
 
       cy.log('Conflict has been triggered');
@@ -128,7 +130,8 @@ context('Product Configuration', () => {
       configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
-        GAMING_CONSOLE_NO
+        GAMING_CONSOLE_NO,
+        commerceRelease.isPricingEnabled
       );
 
       cy.log('Conflicting value has been de-selected');
@@ -138,7 +141,8 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
-        1
+        1,
+        commerceRelease.isPricingEnabled
       );
 
       cy.log('Conflicting value again has been selected');
@@ -190,7 +194,8 @@ context('Product Configuration', () => {
       configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
-        GAMING_CONSOLE_NO
+        GAMING_CONSOLE_NO,
+        commerceRelease.isPricingEnabled
       );
 
       cy.log('Conflicting value again has been de-selected');
@@ -206,7 +211,12 @@ context('Product Configuration', () => {
     it('should support the issue solving process', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-      configurationVc.selectAttributeAndWait(CAMERA_MODE, radioGroup, 'S');
+      configurationVc.selectAttributeAndWait(
+        CAMERA_MODE,
+        radioGroup,
+        'S',
+        commerceRelease.isPricingEnabled
+      );
 
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(2, 0);
@@ -215,13 +225,19 @@ context('Product Configuration', () => {
       configurationVc.selectAttributeAndWait(
         CAMERA_FORMAT_PICTURES,
         radioGroup,
-        'JPEG'
+        'JPEG',
+        commerceRelease.isPricingEnabled
       );
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(1, 0);
 
       configurationOverviewVc.clickOnResolveIssuesLinkOnOPProductBound();
-      configurationVc.selectAttributeAndWait(CAMERA_DISPLAY, radioGroup, 'P5');
+      configurationVc.selectAttributeAndWait(
+        CAMERA_DISPLAY,
+        radioGroup,
+        'P5',
+        commerceRelease.isPricingEnabled
+      );
       configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(0, 0);
     });

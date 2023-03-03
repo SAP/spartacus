@@ -457,14 +457,16 @@ export function selectConflictingValue(
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {number} numberOfConflicts - Expected number of conflicts
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function selectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  numberOfConflicts: number
+  numberOfConflicts: number,
+  isPricingEnabled?: boolean
 ): void {
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgDisplayed(attributeName);
   checkConflictHeaderGroupDisplayed();
   verifyNumberOfConflicts(numberOfConflicts);
@@ -478,13 +480,20 @@ export function selectConflictingValueAndWait(
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function deselectConflictingValue(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  isPricingEnabled?: boolean
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName);
+  configuration.selectAttribute(
+    attributeName,
+    uiType,
+    valueName,
+    isPricingEnabled
+  );
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -497,13 +506,15 @@ export function deselectConflictingValue(
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function deselectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  isPricingEnabled?: boolean
 ): void {
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
