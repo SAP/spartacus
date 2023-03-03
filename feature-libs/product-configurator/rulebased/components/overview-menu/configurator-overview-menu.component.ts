@@ -34,6 +34,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
+  protected readonly MENU_ITEM_HEIGHT = 39.5;
 
   iconTypes = ICON_TYPE;
   menuItem: HTMLElement | undefined;
@@ -61,9 +62,19 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   }
 
   protected getHeight(): string {
-    return (
-      this.configuratorStorefrontUtilsService.getSpareViewportHeight() + 'px'
+    const menuItems = this.configuratorStorefrontUtilsService.getElements(
+      this.CX_MENU_ITEM_BUTTONS
     );
+    const menuItemsHeight =
+      (menuItems && menuItems.length >= 1)
+        ? menuItems.length * this.MENU_ITEM_HEIGHT
+        : 0;
+    const spareViewportHeight =
+      this.configuratorStorefrontUtilsService.getSpareViewportHeight();
+    if (menuItemsHeight === 0 || menuItemsHeight > spareViewportHeight) {
+      return spareViewportHeight + 'px';
+    }
+    return '';
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {
