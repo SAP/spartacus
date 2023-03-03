@@ -8,7 +8,7 @@ import {
   GlobalMessageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { CdcB2BUserService } from 'integration-libs/cdc/organization/administration/cdc-b2b-user.service';
+import { CdcB2BUserService } from '../../organization/administration/public_api';
 
 import { CdcUserGuard } from './cdc-user.guard';
 import createSpy = jasmine.createSpy;
