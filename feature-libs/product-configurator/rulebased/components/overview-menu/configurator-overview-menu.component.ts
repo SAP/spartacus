@@ -66,7 +66,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
       this.CX_MENU_ITEM_BUTTONS
     );
     const menuItemsHeight =
-      (menuItems && menuItems.length >= 1)
+      menuItems && menuItems.length >= 1
         ? menuItems.length * this.MENU_ITEM_HEIGHT
         : 0;
     const spareViewportHeight =
