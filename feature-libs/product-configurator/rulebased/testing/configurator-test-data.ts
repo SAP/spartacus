@@ -922,6 +922,94 @@ export const productConfiguration: Configurator.Configuration = {
             value: 'V3',
           },
         ],
+        subGroups: [
+          {
+            id: '2.1',
+            groupDescription: 'Group 2.1',
+            attributes: [
+              {
+                attribute: 'C2.1',
+                value: 'V2.1',
+              },
+            ],
+          },
+          {
+            id: '2.2',
+            groupDescription: 'Group 2.2',
+            attributes: [
+              {
+                attribute: 'C2.2',
+                value: 'V2.2',
+              },
+            ],
+            subGroups: [
+              {
+                id: '3.1',
+                groupDescription: 'Group 3.1',
+                attributes: [
+                  {
+                    attribute: 'C3.1',
+                    value: 'V3.1',
+                  },
+                ],
+              },
+              {
+                id: '3.2',
+                groupDescription: 'Group 3.2',
+                attributes: [
+                  {
+                    attribute: 'C3.2',
+                    value: 'V3.2',
+                  },
+                ],
+                subGroups: [
+                  {
+                    id: '4.1',
+                    groupDescription: 'Group 4.1',
+                    attributes: [
+                      {
+                        attribute: 'C4.1',
+                        value: 'V4.1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '4.2',
+                    groupDescription: 'Group 4.2',
+                    attributes: [
+                      {
+                        attribute: 'C4.2',
+                        value: 'V4.2',
+                      },
+                    ],
+                    subGroups: [
+                      {
+                        id: '5.1',
+                        groupDescription: 'Group 5.1',
+                        attributes: [
+                          {
+                            attribute: 'C5.1',
+                            value: 'V5.1',
+                          },
+                        ],
+                      },
+                      {
+                        id: '5.2',
+                        groupDescription: 'Group 5.2',
+                        attributes: [
+                          {
+                            attribute: 'C5.2',
+                            value: 'V5.2',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
     ],
   },
