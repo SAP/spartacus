@@ -11,30 +11,28 @@
 >
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
-    <div class="row">
-      <div class="col-md-12 col-lg-9" role="radiogroup">
-        <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
-          <input
-            [attr.aria-checked]="getAriaChecked(mode.code)"
-            class="form-check-input"
-            role="radio"
-            type="radio"
-            id="deliveryMode-{{ mode.code }}"
-            (change)="changeMode(mode.code)"
-            [value]="mode.code"
-            formControlName="deliveryModeId"
-          />
-          <label
-            class="cx-delivery-label form-check-label form-radio-label"
-            for="deliveryMode-{{ mode.code }}"
-          >
-            <div class="cx-delivery-mode">{{ mode.name }}</div>
-            <div class="cx-delivery-price">
-              {{ mode.deliveryCost?.formattedValue }}
-            </div>
-            <div class="cx-delivery-details">{{ mode.description }}</div>
-          </label>
-        </div>
+    <div role="radiogroup">
+      <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
+        <input
+          [attr.aria-checked]="getAriaChecked(mode.code)"
+          class="form-check-input"
+          role="radio"
+          type="radio"
+          id="deliveryMode-{{ mode.code }}"
+          (change)="changeMode(mode.code)"
+          [value]="mode.code"
+          formControlName="deliveryModeId"
+        />
+        <label
+          class="cx-delivery-label form-check-label form-radio-label"
+          for="deliveryMode-{{ mode.code }}"
+        >
+          <div class="cx-delivery-mode">{{ mode.name }} ({{ mode.description }})</div>
+          <div class="cx-delivery-price">
+            {{ mode.deliveryCost?.formattedValue }}
+          </div>
+          <div class="cx-delivery-details"></div>
+        </label>
       </div>
     </div>
   </div>

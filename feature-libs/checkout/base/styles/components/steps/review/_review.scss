@@ -3,6 +3,7 @@
 %cx-checkout-review-overview {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
+    background-color: var(--cx-color-inverse);
   }
 
   .cx-review-header {
@@ -42,25 +43,45 @@
       width: 45%;
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
+
+      &:first-child {
+        margin-top: 30px;
+        margin-inline-start: 25px;
+        margin-bottom: 40px;
+        margin-inline-end: 15px;
+      }
+
+      &:last-child {
+        margin-top: 30px;
+        margin-inline-start: 15px;
+        margin-bottom: 40px;
+        margin-inline-end: 25px;
+      }
     }
 
     .cx-review-summary-card-container {
       width: 45%;
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
+
+      &:first-child {
+        margin-top: 0px;
+        margin-inline-start: 0px;
+        margin-bottom: 40px;
+        margin-inline-end: 15px;
+      }
+
+      &:last-child {
+        margin-top: 0px;
+        margin-inline-start: 15px;
+        margin-bottom: 40px;
+        margin-inline-end: 0;
+      }
     }
 
     .cx-review-summary-card {
       display: flex;
       justify-content: space-between;
-
-      @include media-breakpoint-down(md) {
-        background-color: theme-color('inverse');
-        border-style: solid;
-        border-width: 1px;
-        border-color: var(--cx-color-light);
-        min-height: auto;
-      }
 
       .cx-card-title {
         @include type('4');
@@ -81,7 +102,7 @@
   }
 
   .cx-review-shipping-summary {
-    background-color: var(--cx-color-inverse) !important;
+    background-color: var(--cx-color-inverse);
   }
 
   .cx-review-cart-total {
@@ -91,7 +112,6 @@
 
   // ***************************** MEDIA QUERIES *****************************
 
-  @include checkout-media-style();
   .col-md-12 {
     @include media-breakpoint-down(md) {
       padding: 0 3.5rem 3.5rem 3.5rem;

@@ -6,9 +6,18 @@
   }
 
   .cx-delivery-mode-wrapper {
-    border: 1px solid var(--cx-color-background);
+    border: 1px solid var(--cx-color-light);
     border-radius: 10px;
-    padding: 30px 30px 36px;
+    padding: 23px 30px 8px;
+
+    @include media-breakpoint-down(md) {
+      margin: 0 55px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin: 0 22px;
+    }
+    
   }
 
   .form-check {
