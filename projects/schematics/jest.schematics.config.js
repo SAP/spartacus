@@ -1,22 +1,26 @@
+const { pathsToModuleNameMapper } = require('ts-jest');
+const { compilerOptions } = require('./tsconfig.schematics.json');
+const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
-const { pathsToModuleNameMapper } = require( 'ts-jest');
-const { compilerOptions } = require( './tsconfig.schematics.json');
-
+/** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),
-
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   testMatch: ['**/+(*_)+(spec).+(ts)'],
-  globals: {
-    'ts-jest': {
-      // our naming convention deviates from the standard "tsconfig.spec.json"
-      tsconfig: '<rootDir>/tsconfig.schematics.json',
-    },
+  transform: {
+    '^.+\\.(ts|js|mjs|html|svg)$': [
+      'jest-preset-angular',
+      {
+        ...defaultTransformerOptions,
+        tsconfig: '<rootDir>/tsconfig.schematics.json',
+      },
+    ],
   },
+
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
@@ -29,11 +33,7 @@ module.exports = {
       lines: 90,
     },
   },
-  //Will become default in v29, and can be removed. See: https://jestjs.io/docs/upgrading-to-jest29
-  snapshotFormat: {
-    escapeString: false,
-    printBasicPrototype: false,
-  },
+
 };
 
 
