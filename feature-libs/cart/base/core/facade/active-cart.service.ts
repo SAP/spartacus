@@ -10,7 +10,7 @@ import {
   Cart,
   CartType,
   MultiCartFacade,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
@@ -19,7 +19,7 @@ import {
   OCC_USER_ID_GUEST,
   StateUtils,
   User,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
@@ -32,14 +32,14 @@ import {
   switchMapTo,
   take,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   getCartIdByUserId,
   isEmail,
   isEmpty,
   isJustLoggedIn,
-  isTempCartId
+  isTempCartId,
 } from '../utils/utils';
 
 @Injectable()
