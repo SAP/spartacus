@@ -63,20 +63,23 @@ export class MockAnonymousUserActiveCartFacade
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of();
+    return of({ pageId: 'test-page-id' });
   }
 }
 
-const mockOutletContext: OrderEntry = {
-  product: {
-    code: 'productCode1',
-    availableForPickup: true,
+const mockOutletContext: { item: OrderEntry; cartType: string } = {
+  item: {
+    product: {
+      code: 'productCode1',
+      availableForPickup: true,
+    },
+    entryNumber: 1,
+    quantity: 1,
+    deliveryPointOfService: {
+      name: 'London School',
+    },
   },
-  entryNumber: 1,
-  quantity: 1,
-  deliveryPointOfService: {
-    name: 'London School',
-  },
+  cartType: 'cart',
 };
 
 const context$ = of(mockOutletContext);
@@ -193,12 +196,17 @@ describe('CartPickupOptionsContainerComponent', () => {
 
   describe('with context of an order entry for delivery', () => {
     beforeEach(() => {
-      const { deliveryPointOfService: _, ...mockOutletContextForDelivery } =
-        mockOutletContext;
+      const {
+        deliveryPointOfService: _,
+        ...mockOutletContextItemsForDelivery
+      } = mockOutletContext.item;
       configureTestingModule()
         .overrideProvider(OutletContextData, {
           useValue: {
-            context$: of(mockOutletContextForDelivery),
+            context$: of({
+              item: mockOutletContextItemsForDelivery,
+              cartType: 'cart',
+            }),
           },
         })
         .overrideProvider(ActiveCartFacade, {
@@ -224,11 +232,14 @@ describe('CartPickupOptionsContainerComponent', () => {
         .overrideProvider(OutletContextData, {
           useValue: {
             context$: of({
-              ...mockOutletContext,
-              product: {
-                ...mockOutletContext.product,
-                availableForPickup: false,
+              item: {
+                ...mockOutletContext.item,
+                product: {
+                  ...mockOutletContext.item.product,
+                  availableForPickup: false,
+                },
               },
+              cartType: 'cart',
             } as OrderEntry),
           },
         })
