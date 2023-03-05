@@ -612,7 +612,7 @@ export function updateSavedCartAndDelete(
             .then((element) => element.get(1))
             .click();
         } else {
-          cy.get('cx-saved-cart-details-action .btn-action').click();
+          cy.get('cx-saved-cart-details-action .btn-secondary').click();
 
           cy.get('cx-saved-cart-form-dialog').within(() => {
             cy.get('.cx-saved-cart-value').should(

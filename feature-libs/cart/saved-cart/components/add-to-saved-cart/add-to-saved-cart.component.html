@@ -1,6 +1,6 @@
 <ng-container *ngIf="cart$ | async as cart">
   <div class="cx-add-to-saved-cart-container">
-    <button
+    <a
       class="link cx-action-link"
       [routerLink]="
         {
@@ -10,8 +10,8 @@
       cxAutoFocus
     >
       <span>{{ 'addToSavedCart.savedCarts' | cxTranslate }}</span>
-    </button>
-    <button
+    </a>
+    <a
       #element
       class="link cx-action-link"
       [disabled]="disableSaveCartForLater$ | async"
@@ -19,6 +19,6 @@
       cxAutoFocus
     >
       <span>{{ 'addToSavedCart.saveCartForLater' | cxTranslate }}</span>
-    </button>
+    </a>
   </div>
 </ng-container>

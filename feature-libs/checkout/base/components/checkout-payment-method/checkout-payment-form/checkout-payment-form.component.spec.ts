@@ -518,7 +518,8 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   describe('UI close/back button', () => {
-    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+    const getBackBtn = () =>
+      fixture.debugElement.query(By.css('.btn-secondary'));
 
     it('should call "back" function after being clicked', () => {
       component.paymentMethodsCount = 0;
