@@ -74,22 +74,6 @@ describe('Spartacus Schematics: ng-add', () => {
     expect(depPackageList.includes('@spartacus/styles')).toBe(true);
   });
 
-  it('should add spartacus with PWA via passed parameter', async () => {
-    const tree = await schematicRunner.runSchematic(
-      'ng-add',
-      { ...defaultOptions, name: 'schematics-test', pwa: true },
-      appTree
-    );
-
-    const buffer = tree.read('src/manifest.webmanifest');
-    expect(buffer).toBeTruthy();
-
-    if (buffer) {
-      const webmanifestJSON = JSON.parse(buffer.toString(UTF_8));
-      expect(webmanifestJSON.name).toEqual(defaultOptions.project);
-    }
-  });
-
   it('should add spartacus with SSR via passed parameter', async () => {
     const tree = await schematicRunner.runSchematic(
       'ng-add',
@@ -116,13 +100,12 @@ describe('Spartacus Schematics: ng-add', () => {
     }
   });
 
-  it('should add spartacus properly with both PWA and SSR', async () => {
+  it('should add spartacus properly with SSR', async () => {
     const tree = await schematicRunner.runSchematic(
       'ng-add',
       {
         ...defaultOptions,
         name: 'schematics-test',
-        pwa: true,
         ssr: true,
       },
       appTree
