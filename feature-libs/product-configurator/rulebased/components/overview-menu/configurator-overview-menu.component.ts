@@ -34,6 +34,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
+  /**
+   * Height of a CSS box model of a menu item
+   * See _configurator-overview-menu.scss
+   */
   protected readonly MENU_ITEM_HEIGHT = 39.5;
 
   iconTypes = ICON_TYPE;
@@ -61,6 +65,16 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     this.ensureElementVisible(this.menuItem);
   }
 
+  /**
+   * Retrieves the height of the menu in pixels.
+   *
+   * If the menu items are rendered, it will be checked whether
+   * the height of all menu items equals zero or is larger than the actual height of the spare viewport.
+   * If it is a case then the actual height of the spare viewport will be returned, otherwise no height will be returned.
+   *
+   * @returns {string} - Menu height in pixels
+   * @protected
+   */
   protected getHeight(): string {
     const menuItems = this.configuratorStorefrontUtilsService.getElements(
       this.CX_MENU_ITEM_BUTTONS
