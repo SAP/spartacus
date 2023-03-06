@@ -70,14 +70,22 @@ If explicitly set, this option will take precedence over the express server.
 
 - `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
 
-## Feature lib product-configurator 
+## Feature lib product-configurator
 
 ### ConfiguratorFormComponent
 
-- The view that display the current group has been carved out into a new component ConfiguratorGroupComponent. Reason: We need to display a group
-  also as part of the new conflict solver dialog that is introduced for the AVC configurator. This means that `configurator-form.component.html`
-  is much smaller and includes `configurator-group.component.html`, moreover many methods previously residing in `configurator-form.component.ts` have
-  been moved to `configurator-group.component.ts`
+ The view that display the current group has been carved out into a new component ConfiguratorGroupComponent. Reason: We need to display a group also as part of the new conflict solver dialog that is introduced for the AVC configurator. This means that `configurator-form.component.html` is much smaller and includes `configurator-group.component.html`, moreover many methods previously residing in `configurator-form.component.ts` have been moved to `configurator-group.component.ts`
+
+### Handling of attribute types
+Instead of listing all possible attribute type components on `configurator-group.component.html` (SPA 5.2) or `configurator-form.component.html` (SPA 5.1 or lower), the assignment of attribute type components to the attribute UI type is now part of a configuration `ConfiguratorAttributeCompositionConfig`. Each module representing an attribute type, like for example `configurator-attribute-drop-down.module.ts`, provides this configuration and assigns its component to its UI type. This improves extensibility, as it's now possible to replace attribute type components (as well as the attribute header and footer component) by just adding a custom component and registering it for the desired attribute UI type.
+
+#### Consequences for all attribute type components
+This has a couple of consequences for the components representing attribute types.
+- The context for them is no longer provided via specific `@Input()` class members but by an instance of `ConfiguratorAttributeCompositionContext`. The directive `configurator-attribute-composition.directive.ts`is responsible for providing this instance. That means all `@Input()` class members are turned into standard class members, and their initialization happens in the component constructor.
+- The configuration update no longer happens using `ConfigFormUpdateEvent`, but all components that are capable of sending updates got a new dependency to `ConfiguratorCommonsService`, calling its facade method for performing an update. This also means that `@Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>()` has been removed.
+
+#### Working with UI types not known to SPA
+It is now possible to register custom attribute type components for UI types not known to SPA (not part of enumeration `Configurator.UiType`). Those UI types must be based on standard UI types (because business logic is attached to these types both on UI and commerce backend level) and their identifier must follow a convention described in the documentation of `Configurator.Attribute#uiTypeVariation` 
 
 ### ConfiguratorOverviewMenuComponent
 

@@ -5,6 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 
@@ -24,9 +26,16 @@ export class ConfiguratorAttributeRadioButtonComponent
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(quantityService, translation);
+    super(
+      quantityService,
+      translation,
+      attributeComponentContext,
+      configuratorCommonsService
+    );
   }
 
   ngOnInit(): void {

@@ -34,6 +34,11 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   protected readonly OV_MENU_ITEM = '-ovMenuItem';
   protected readonly OV_GROUP = '-ovGroup';
   protected readonly ACTIVE_CLASS = 'active';
+  /**
+   * Height of a CSS box model of a menu item
+   * See _configurator-overview-menu.scss
+   */
+  protected readonly MENU_ITEM_HEIGHT = 39.5;
 
   iconTypes = ICON_TYPE;
   menuItem: HTMLElement | undefined;
@@ -60,10 +65,30 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     this.ensureElementVisible(this.menuItem);
   }
 
+  /**
+   * Retrieves the height of the menu in pixels.
+   *
+   * If the menu items are rendered, it will be checked whether
+   * the height of all menu items equals zero or is larger than the actual height of the spare viewport.
+   * If it is a case then the actual height of the spare viewport will be returned, otherwise no height will be returned.
+   *
+   * @returns {string} - Menu height in pixels
+   * @protected
+   */
   protected getHeight(): string {
-    return (
-      this.configuratorStorefrontUtilsService.getSpareViewportHeight() + 'px'
+    const menuItems = this.configuratorStorefrontUtilsService.getElements(
+      this.CX_MENU_ITEM_BUTTONS
     );
+    const menuItemsHeight =
+      menuItems && menuItems.length >= 1
+        ? menuItems.length * this.MENU_ITEM_HEIGHT
+        : 0;
+    const spareViewportHeight =
+      this.configuratorStorefrontUtilsService.getSpareViewportHeight();
+    if (menuItemsHeight === 0 || menuItemsHeight > spareViewportHeight) {
+      return spareViewportHeight + 'px';
+    }
+    return '';
   }
 
   protected getMenuItemToHighlight(): HTMLElement | undefined {

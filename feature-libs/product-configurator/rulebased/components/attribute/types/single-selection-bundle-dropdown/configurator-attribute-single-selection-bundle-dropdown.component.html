@@ -49,7 +49,7 @@
 </div>
 
 <cx-configurator-attribute-product-card
-  *ngIf="selectionValue?.valueCode !== '0'"
+  *ngIf="selectionValue !== undefined && selectionValue?.valueCode !== '0'"
   id="{{
     createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
   }}"
