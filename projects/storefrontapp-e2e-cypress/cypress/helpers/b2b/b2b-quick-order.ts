@@ -103,7 +103,7 @@ export function clearList() {
 export function removeFirstRow() {
   cy.get(`cx-quick-order .cx-quick-order-table-row`)
     .first()
-    .find('button.link.cx-action-link')
+    .find('button.btn-tertiary')
     .click();
 }
 
@@ -111,7 +111,7 @@ export function removeManyRows(quantity: number = 1) {
   for (let i = 0; i < quantity; i++) {
     cy.get(`cx-quick-order .cx-quick-order-table-row`)
       .first()
-      .find('button.link.cx-action-link')
+      .find('button.btn-tertiary')
       .click();
   }
 }
