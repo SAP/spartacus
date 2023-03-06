@@ -113,7 +113,7 @@ export interface CartItemComponentOptions {
   optionalBtn?: any;
   displayAddToCart?: boolean;
   addToCartString?: string;
-  cartType?: CartType;
+  cartType?: string;
 }
 
 export interface OrderEntry {
