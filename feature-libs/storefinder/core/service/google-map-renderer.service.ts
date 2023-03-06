@@ -35,19 +35,30 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
-      if (this.googleMap === null && this.config.googleMaps?.apiKey) {
-        this.scriptLoader.embedScript({
-          src: this.config.googleMaps.apiUrl,
-          params: { key: this.config.googleMaps.apiKey },
-          attributes: { type: 'text/javascript' },
-          callback: () => {
-            this.drawMap(mapElement, locations, selectMarkerHandler);
-          },
-        });
-      } else {
-        this.drawMap(mapElement, locations, selectMarkerHandler);
+    if (this.config.googleMaps?.apiKey) {
+      if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
+        if (this.googleMap === null) {
+          const apiKey =
+            this.config.googleMaps.apiKey === 'development'
+              ? ''
+              : this.config.googleMaps.apiKey;
+
+          this.scriptLoader.embedScript({
+            src: this.config.googleMaps.apiUrl,
+            params: { key: apiKey },
+            attributes: { type: 'text/javascript' },
+            callback: () => {
+              this.drawMap(mapElement, locations, selectMarkerHandler);
+            },
+          });
+        } else {
+          this.drawMap(mapElement, locations, selectMarkerHandler);
+        }
       }
+    } else {
+      console.warn(
+        'A valid Google Maps api key in the store finder configuration is required to display the Google map.'
+      );
     }
   }
 

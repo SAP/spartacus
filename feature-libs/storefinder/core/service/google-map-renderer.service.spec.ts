@@ -7,6 +7,16 @@ import { GoogleMapRendererService } from './google-map-renderer.service';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 
+const mockStoreFinderConfig: StoreFinderConfig = {
+  googleMaps: {
+    apiUrl: 'https://maps.googleapis.com/maps/api/js',
+    apiKey: 'development',
+    scale: 5,
+    selectedMarkerScale: 17,
+    radius: 50000,
+  }
+};
+
 const locations = [
   {
     geoPoint: {
@@ -69,7 +79,7 @@ describe('GoogleMapRendererService', () => {
         },
         {
           provide: StoreFinderConfig,
-          useValue: config,
+          useValue: mockStoreFinderConfig,
         },
       ],
     });
