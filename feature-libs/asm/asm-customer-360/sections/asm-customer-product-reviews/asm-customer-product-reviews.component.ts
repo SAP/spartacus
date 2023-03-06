@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -12,10 +11,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/root';
-import { Product } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
+import { combineLatest, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { combineStrings, formatEpochTime } from '../../asm-customer-360.utils';
 import {
   CustomerTableColumn,
   TableEntry,
@@ -27,6 +26,7 @@ import { ReviewEntry } from './asm-customer-product-reviews.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-product-reviews',
   templateUrl: './asm-customer-product-reviews.component.html',
+  providers: [CxDatePipe],
 })
 export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
   reviewColumns: Array<CustomerTableColumn> = [
@@ -59,24 +59,29 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
   protected subscription = new Subscription();
 
   constructor(
-    protected context: Customer360SectionContext<AsmCustomer360ReviewList>
+    protected context: Customer360SectionContext<AsmCustomer360ReviewList>,
+    protected datePipe: CxDatePipe,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.context.data$.subscribe((data) => {
-        this.reviewEntries = data.reviews.map((entry) => ({
-          ...entry,
-          item: combineStrings(entry.productName, entry.productCode, ', SKU: '),
-          dateAndStatus: combineStrings(
-            entry.createdAt
-              ? formatEpochTime(Number(new Date(entry.createdAt)))
-              : undefined,
-            entry.reviewStatus,
-            ' / '
-          ),
-        }));
-      })
+      combineLatest([
+        this.context.data$,
+        this.translation.translate('asm.customer360.productReviews.sku'),
+      ])
+        .pipe(
+          map(([data, skuLabel]) => {
+            this.reviewEntries = data.reviews.map((entry) => ({
+              ...entry,
+              item: `${entry.productName}, ${skuLabel}: ${entry.productCode}`,
+              dateAndStatus: `${this.getLongDate(
+                new Date(entry.createdAt)
+              )} / ${entry.reviewStatus}`,
+            }));
+          })
+        )
+        .subscribe()
     );
   }
 
@@ -90,5 +95,12 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
       code: entry.productCode as string,
     };
     this.context.navigate$.next({ cxRoute: 'product', params });
+  }
+
+  private getLongDate(date: Date) {
+    if (!date) {
+      return '';
+    }
+    return this.datePipe.transform(date, 'dd-MM-yy hh:mm a') ?? '';
   }
 }

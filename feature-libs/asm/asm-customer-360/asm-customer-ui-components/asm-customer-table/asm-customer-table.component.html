@@ -113,7 +113,7 @@
             <ng-container
               *ngIf="column?.isDate && entry[column.property]; else tableCell"
               ><span>{{
-                entry[column.property] | cxDate: 'medium'
+                entry[column.property] | cxDate: 'dd-MM-yy hh:mm a'
               }}</span></ng-container
             >
           </ng-template>
