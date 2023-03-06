@@ -268,30 +268,30 @@ context('Assisted Service Module', () => {
     });
 
     // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side. (CXSPA-1355)
-    it.skip("should fetch products in a category based on the emulated user's authentication", () => {
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
+    // it.skip("should fetch products in a category based on the emulated user's authentication", () => {
+    //   cy.cxConfig({
+    //     context: {
+    //       baseSite: ['apparel-uk-spa'],
+    //       currency: ['GBP'],
+    //     },
+    //   });
 
-      cy.visit('/', { qs: { asm: true } });
+    //   cy.visit('/', { qs: { asm: true } });
 
-      const customer = getSampleUser();
-      checkout.registerUser(false, customer);
+    //   const customer = getSampleUser();
+    //   checkout.registerUser(false, customer);
 
-      asm.agentLogin();
+    //   asm.agentLogin();
 
-      asm.startCustomerEmulation(customer);
+    //   asm.startCustomerEmulation(customer);
 
-      navigateToCategory('Brands', 'brands', true);
+    //   navigateToCategory('Brands', 'brands', true);
 
-      cy.get('cx-product-list').should('exist');
+    //   cy.get('cx-product-list').should('exist');
 
-      navigateToCategory('Snow', 'snow', true);
+    //   navigateToCategory('Snow', 'snow', true);
 
-      cy.get('cx-product-list').should('exist');
-    });
+    //   cy.get('cx-product-list').should('exist');
+    // });
   });
 });
