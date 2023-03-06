@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
@@ -42,7 +42,7 @@ export class AsmCreateCustomerFormComponent {
     focusOnEscape: true,
   };
 
-  registerForm: FormGroup = this.fb.group({
+  registerForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, CustomFormValidators.emailValidator]],
@@ -67,9 +67,9 @@ export class AsmCreateCustomerFormComponent {
     this.isLoading$.next(true);
     const { firstName, lastName, email } = this.registerForm.value;
     this.createdCustomer = {
-      firstName,
-      lastName,
-      email,
+      firstName: firstName || '',
+      lastName: lastName || '',
+      email: email || '',
     };
     this.asmCreateCustomerFacade
       .createCustomer(this.collectDataFromRegisterForm())
