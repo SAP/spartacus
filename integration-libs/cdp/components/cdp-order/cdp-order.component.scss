@@ -1,0 +1,29 @@
+.cx-order-container{
+    display: flex;
+    flex-wrap: wrap;
+    .cx-order-summary{
+        a{
+            color: #1772b7;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        width: 50%;
+    }
+    .cx-order-image{
+        margin-left: auto;
+        width:50%;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    hr{
+        width:100%
+    }
+    font-family: 'Times New Roman', Times, serif;
+}
+// ::ng-deep cx-tab-paragraph-container > div > button{
+//     &:hover,&:active,&.active{
+//         color:black;
+//     }
+// }
+
+.cx-all-orders{
+    color: black;
+}

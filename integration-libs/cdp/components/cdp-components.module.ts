@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdpMyAccountModule } from './cdp-my-account';
+import { OrderModule } from './cdp-order/cdp-order.module';
 
 
 
@@ -8,7 +9,8 @@ import { CdpMyAccountModule } from './cdp-my-account';
   declarations: [],
   imports: [
     CommonModule,
-    CdpMyAccountModule
+    CdpMyAccountModule,
+    OrderModule
   ]
 })
 export class CdpComponentsModule { }

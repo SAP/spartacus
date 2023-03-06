@@ -1,0 +1,53 @@
+
+<div class="cx-order-container" *ngFor="let order of result.orders; index as i">
+  <div class="cx-order-summary">
+    <h2>
+        <a [routerLink]="
+        {
+          cxRoute: 'orderDetails',
+          params: order
+        } | cxUrl
+      "> Order # {{ order.code }}</a>
+    </h2>
+    <h4>Purchased In Store |{{ order.placed | cxDate: 'd, MMMM, yyyy' }} | {{ orderDetail[order.code]?.deliveryItemsQuantity }} items |<b>TotalPrice: ${{ order.total.value }}</b></h4>
+    <br>
+    <br>
+    <div *ngFor="let item of  orderStatus[order.code]|keyvalue">
+        <h3><b>&#x2022; {{item.key}} - {{item.value}} items</b></h3>
+        <div *ngIf="item.key === 'READY_FOR_PICKUP';then content"></div>
+        <ng-template #content>
+            <h3>Pickuped Date:</h3>
+        </ng-template>
+        <div *ngIf="item.key === 'SHIPPED';then contentShiped"></div>
+        <ng-template #contentShiped>
+                <h3>Estimated Delivery:</h3>
+                <h3>Tracking Number:</h3>
+        </ng-template>
+        <div *ngIf="item.key === 'Cancelled';then contentCancelled"></div>
+        <ng-template #contentCancelled>
+            <h3 style="color:red">Cancellation Processed: </h3>
+        </ng-template>
+        <div *ngIf="item.key === 'DELIVERY_REJECTED';then deliveryRejected"></div>
+        <ng-template #deliveryRejected>
+            <h3 style="color:red">Delivery Rejected: </h3>
+        </ng-template>
+        <div *ngIf="item.key === 'PICKUP_COMPLETE';then pickUpComplete"></div>
+        <ng-template #pickUpComplete>
+            <h3 style="color:rgb(19, 18, 18)"> </h3>
+        </ng-template>
+        <div *ngIf="item.key === 'DELIVERY_COMPLETED';then deliveryComplete"></div>
+        <ng-template #deliveryComplete>
+            <h3 style="color:rgb(19, 18, 18)">Delivery Completed </h3>
+        </ng-template>
+    </div>
+    <br>
+  </div>
+
+  <div class="cx-order-image">
+    <div *ngFor="let url of  orderUrl[order.code]">
+        <img [src]="url">
+    </div>
+  </div>
+
+  <hr />
+</div>
