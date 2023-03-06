@@ -18,8 +18,15 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  /**
+   * 'CX' prefix is used to generate an alphanumeric prefix ID.
+   */
   protected readonly CX_PREFIX = 'cx';
   protected readonly SEPARATOR = '--';
+  /**
+   * Height of a CSS box model of an 'add-to-cart' button
+   * See _configurator-add-to-cart-button.scss
+   */
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
 
   constructor(
