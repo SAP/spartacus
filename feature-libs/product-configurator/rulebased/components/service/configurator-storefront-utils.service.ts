@@ -394,7 +394,7 @@ export class ConfiguratorStorefrontUtilsService {
     return false;
   }
 
-  protected getHeight(querySelector: string): number {
+  public getHeight(querySelector: string): number {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
     if (isElementInViewport && element?.offsetHeight) {
