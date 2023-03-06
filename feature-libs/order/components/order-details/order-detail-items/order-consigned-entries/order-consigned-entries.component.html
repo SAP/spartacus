@@ -1,35 +1,41 @@
 <div *ngFor="let consignment of consignments" class="cx-list row">
-  <div class="cx-list-header col-12">
-    <div class="cx-consignment-details">
-      <div class="cx-list-status-container">
-        <div *ngIf="consignment" class="cx-list-status">
-          {{
-            'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate
-          }}
+  <ng-template
+    [cxOutlet]="OrderOutlets.ORDER_CONSIGNMENT"
+    [cxOutletContext]="{ item: consignment }"
+  >
+    <div class="cx-list-header col-12">
+      <div class="cx-consignment-details">
+        <div class="cx-list-status-container">
+          <div *ngIf="consignment" class="cx-list-status">
+            {{
+              'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate
+            }}
+          </div>
+          <div *ngIf="consignment?.statusDate" class="cx-list-date">
+            <div>{{ consignment?.statusDate | cxDate }}</div>
+          </div>
         </div>
-        <div *ngIf="consignment?.statusDate" class="cx-list-date">
-          <div>{{ consignment?.statusDate | cxDate }}</div>
-        </div>
+
+        <ng-container
+          [ngTemplateOutlet]="
+            consignment?.deliveryPointOfService?.displayName
+              ? deliveryPointOfServiceDetails
+              : shippingDetails
+          "
+          [ngTemplateOutletContext]="{ consignment: consignment }"
+        >
+        </ng-container>
       </div>
 
-      <ng-container
-        [ngTemplateOutlet]="
-          consignment?.deliveryPointOfService?.displayName
-            ? deliveryPointOfServiceDetails
-            : shippingDetails
-        "
-        [ngTemplateOutletContext]="{ consignment: consignment }"
+      <cx-consignment-tracking
+        [orderCode]="order.code"
+        [consignment]="consignment"
+        *cxFeature="'consignmentTracking'"
       >
-      </ng-container>
+      </cx-consignment-tracking>
     </div>
+  </ng-template>
 
-    <cx-consignment-tracking
-      [orderCode]="order.code"
-      [consignment]="consignment"
-      *cxFeature="'consignmentTracking'"
-    >
-    </cx-consignment-tracking>
-  </div>
   <div class="cx-list-item col-12">
     <ng-template
       [cxOutlet]="CartOutlets.CART_ITEM_LIST"
@@ -54,6 +60,7 @@
     [product]="ctx.item.product"
     [showQuantity]="false"
     [options]="ctx.options"
+    [pickupStore]="ctx.item.deliveryPointOfService?.name"
     class="add-to-cart"
   >
   </cx-add-to-cart>
