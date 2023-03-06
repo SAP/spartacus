@@ -2,6 +2,8 @@ import { fakeAsync, tick } from '@angular/core/testing';
 import { backOff } from '@spartacus/core';
 import { BehaviorSubject, defer, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { HttpErrorModel } from '../../model/misc.model';
+import { isJaloError } from '../occ-http-error-handlers';
 
 const doBackOff = () => true;
 
@@ -143,19 +145,23 @@ describe(`backOff`, () => {
 
       describe(`when it should retry for a specific error, but another error occurs`, () => {
         it(`should stop retrying and re-throw`, fakeAsync(() => {
-          const initialError = 'jalo error';
-          const differentError = '500 internal server error';
+          const initialError: HttpErrorModel = {
+            details: [{ type: 'JaloObjectNoLongerValidError' }],
+          };
+          const differentError: HttpErrorModel = {
+            details: [{ type: '500 internal server error' }],
+          };
 
-          const error$ = new BehaviorSubject<string>(initialError);
+          const error$ = new BehaviorSubject<HttpErrorModel>(initialError);
           const source$ = error$.pipe(switchMap((error) => throwError(error)));
 
-          let errorResult: string | undefined;
-          let result: string | undefined;
+          let errorResult: HttpErrorModel | undefined;
+          let result: HttpErrorModel | undefined;
           const subscription = source$
             .pipe(
               backOff({
                 // we want to handle only the jalo error
-                shouldRetry: (err) => err === initialError,
+                shouldRetry: isJaloError,
               })
             )
             .subscribe({
