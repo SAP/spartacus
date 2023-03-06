@@ -98,3 +98,7 @@ If explicitly set, this option will take precedence over the express server.
 ## OrderDetailsService
 
 - Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
+
+## GoogleMapRendererService
+
+There is a new condition to render the map.  In `StoreFinderConfig`, the config `googleMaps.apiKey` must have a value for the goole maps script to be embedded and display the map.  This change is done to comply with security best practices. 
