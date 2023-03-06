@@ -74,7 +74,7 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
           map(([data, skuLabel]) => {
             this.reviewEntries = data.reviews.map((entry) => ({
               ...entry,
-              item: `${entry.productName}, ${skuLabel} ${entry.productCode}`,
+              item: `${entry.productName}, ${skuLabel}: ${entry.productCode}`,
               dateAndStatus: `${this.getLongDate(
                 new Date(entry.createdAt)
               )} / ${entry.reviewStatus}`,
@@ -101,6 +101,6 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
     if (!date) {
       return '';
     }
-    return this.datePipe.transform(date, 'dd-MM-yy hh:mm a') || '';
+    return this.datePipe.transform(date, 'dd-MM-yy hh:mm a') ?? '';
   }
 }

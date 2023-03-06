@@ -71,7 +71,7 @@ export const customer360 = {
     },
     header: 'Product Reviews',
     emptyDescription: 'There are currently no product review items',
-    sku: 'SKU:',
+    sku: 'SKU',
   },
   maps: {
     storeClosed: 'Close',
