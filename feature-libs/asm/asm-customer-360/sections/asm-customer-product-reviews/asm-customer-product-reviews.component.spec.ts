@@ -3,12 +3,18 @@ import {
   AsmCustomer360ReviewList,
   AsmCustomer360Type,
 } from '@spartacus/asm/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews.component';
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
 describe('AsmCustomerProductReviewsComponent', () => {
   let component: AsmCustomerProductReviewsComponent;
   let fixture: ComponentFixture<AsmCustomerProductReviewsComponent>;
@@ -47,6 +53,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
           provide: Customer360SectionContext,
           useExisting: Customer360SectionContextSource,
         },
+        { provide: LanguageService, useClass: MockLanguageService },
       ],
     }).compileComponents();
   });
@@ -96,7 +103,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
         rating: '3.5',
         reviewStatus: 'Complete',
         reviewText: '',
-        item: 'Shirt, SKU: shirt',
+        item: 'Shirt, asm.customer360.productReviews.sku shirt',
       })
     );
     expect(component.reviewEntries[1]).toEqual(
@@ -108,7 +115,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
         rating: '4',
         reviewStatus: 'Complete',
         reviewText: '',
-        item: 'Shoes, SKU: shoes',
+        item: 'Shoes, asm.customer360.productReviews.sku shoes',
       })
     );
   });
