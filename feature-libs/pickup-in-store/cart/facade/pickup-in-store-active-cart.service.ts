@@ -40,16 +40,17 @@ export class PickupInStoreActiveCartService extends ActiveCartService {
         )
       )
       .subscribe(([cart, userId, location]) => {
+        const pickupInStoreLocation = pickupInStore
+          ? pickupInStore
+          : location && location.pickupOption === 'pickup'
+          ? location.name
+          : undefined;
         this.multiCartFacade.addEntry(
           userId,
           getCartIdByUserId(cart, userId),
           productCode,
           quantity,
-          pickupInStore
-            ? pickupInStore
-            : location && location.pickupOption === 'pickup'
-            ? location.name
-            : undefined
+          pickupInStoreLocation
         );
       });
   }
