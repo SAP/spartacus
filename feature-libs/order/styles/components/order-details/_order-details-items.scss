@@ -14,16 +14,37 @@
     }
   }
 
-  .cx-list-status {
+  .cx-list-status-container {
     margin: 0 0 0.5rem;
     padding: 15px 30px;
     background-color: var(--cx-color-background);
-    @include type('4');
+    display: flex;
+    justify-content: space-between;
+  }
+  .cx-list-status {
     font-weight: bold;
   }
-
-  .cx-list-date {
-    margin: 0.5rem 0 0;
-    padding: 0 30px;
+  .cx-consignment-details {
+    background-color: var(--cx-color-background);
+  }
+  .cx-consignment-details-header {
+    padding: 0 30px 15px 30px;
+    font-weight: bold;
+  }
+  .cx-consignment-details-body {
+    display: flex;
+  }
+  .cx-deliveryPointOfService-address,
+  .cx-shipping-address {
+    padding: 0 30px 15px 30px;
+  }
+  .cx-shipping-address-header,
+  .cx-delivery-mode-header,
+  .cx-deliveryPointOfService-heading {
+    font-weight: var(--cx-font-weight-semi);
+    padding-bottom: 0.5rem;
+  }
+  .cx-delivery-mode {
+    margin-inline-start: 1rem;
   }
 }

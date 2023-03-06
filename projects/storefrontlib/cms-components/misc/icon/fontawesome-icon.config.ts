@@ -46,6 +46,7 @@ export const fontawesomeIconConfig: IconConfig = {
       PDF_FILE: 'fas fa-file-pdf',
       PENCIL: 'fas fa-pencil-alt',
       RESET: 'fas fa-times-circle',
+      REPEAT: 'fas fa-retweet',
       SEARCH: 'fas fa-search',
       SORT_AMOUNT_DOWN: 'fas fa-sort-amount-down',
       SORT_AMOUNT_UP: 'fas fa-sort-amount-up',

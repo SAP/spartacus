@@ -29,6 +29,7 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
+  ICON_TYPE,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -65,6 +66,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
   });
 
+  iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
   constructor(

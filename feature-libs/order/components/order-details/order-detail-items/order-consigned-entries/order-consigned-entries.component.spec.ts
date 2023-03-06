@@ -135,4 +135,11 @@ describe('OrderConsignedEntriesComponent', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
   });
+  it('should normalize formatted address', () => {
+    const addressToBeFormatted: string =
+      '1 high Street, , CityA, 123, United Kingdom';
+    const result: string =
+      component.normalizeFormattedAddress(addressToBeFormatted);
+    expect(result).toEqual('1 high Street, CityA, 123, United Kingdom');
+  });
 });

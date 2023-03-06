@@ -36,4 +36,12 @@ export class OrderConsignedEntriesComponent {
 
     return products;
   }
+
+  normalizeFormattedAddress(formattedAddress: string): string {
+    const addresses = formattedAddress
+      .split(',')
+      .map((address) => address.trim());
+
+    return addresses.filter(Boolean).join(', ');
+  }
 }

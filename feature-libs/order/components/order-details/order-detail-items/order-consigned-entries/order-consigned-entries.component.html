@@ -1,12 +1,26 @@
 <div *ngFor="let consignment of consignments" class="cx-list row">
   <div class="cx-list-header col-12">
-    <div class="cx-list-status">
-      <span *ngIf="consignment">
-        {{ 'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate }}
-      </span>
-    </div>
-    <div *ngIf="consignment?.statusDate" class="cx-list-date">
-      <div>{{ consignment?.statusDate | cxDate }}</div>
+    <div class="cx-consignment-details">
+      <div class="cx-list-status-container">
+        <div *ngIf="consignment" class="cx-list-status">
+          {{
+            'orderDetails.deliveryStatus_' + consignment?.status | cxTranslate
+          }}
+        </div>
+        <div *ngIf="consignment?.statusDate" class="cx-list-date">
+          <div>{{ consignment?.statusDate | cxDate }}</div>
+        </div>
+      </div>
+
+      <ng-container
+        [ngTemplateOutlet]="
+          consignment?.deliveryPointOfService?.displayName
+            ? deliveryPointOfServiceDetails
+            : shippingDetails
+        "
+        [ngTemplateOutletContext]="{ consignment: consignment }"
+      >
+      </ng-container>
     </div>
 
     <cx-consignment-tracking
@@ -43,4 +57,104 @@
     class="add-to-cart"
   >
   </cx-add-to-cart>
+</ng-template>
+
+<ng-template let-consignment="consignment" #deliveryPointOfServiceDetails>
+  <div class="cx-consignment-details-header">
+    {{
+      'orderDetails.deliveryPointOfServiceDetails.itemsToBePickUp' | cxTranslate
+    }}
+  </div>
+  <div class="cx-deliveryPointOfService-address">
+    <div class="cx-deliveryPointOfService-heading">
+      {{
+        'orderDetails.deliveryPointOfServiceDetails.pickUpInStoreAddress'
+          | cxTranslate
+      }}
+    </div>
+    <div class="cx-deliveryPointOfService-storeName">
+      {{ consignment?.deliveryPointOfService?.displayName }}
+    </div>
+    <div *ngIf="consignment?.deliveryPointOfService?.address?.line1">
+      {{ consignment?.deliveryPointOfService?.address?.line1 }}
+    </div>
+    <div *ngIf="consignment?.deliveryPointOfService?.address?.line2">
+      {{ consignment?.deliveryPointOfService?.address?.line2 }}
+    </div>
+    <div *ngIf="consignment?.deliveryPointOfService?.address?.town">
+      <span>
+        {{ consignment?.deliveryPointOfService?.address?.town }}
+      </span>
+      <span>
+        {{ consignment?.deliveryPointOfService?.address?.postalCode }}</span
+      >
+    </div>
+    <div *ngIf="consignment?.deliveryPointOfService?.address?.phone">
+      {{ consignment?.deliveryPointOfService?.address?.phone }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template let-consignment="consignment" #shippingDetails>
+  <div class="cx-consignment-details-header">
+    {{
+      'orderDetails.deliveryPointOfServiceDetails.itemsToBeShipped'
+        | cxTranslate
+    }}
+  </div>
+
+  <div class="cx-consignment-details-body">
+    <div class="cx-shipping-address">
+      <div class="cx-shipping-address-header">
+        {{
+          'orderDetails.deliveryPointOfServiceDetails.shippingAddress'
+            | cxTranslate
+        }}
+      </div>
+      <div>
+        {{ consignment?.shippingAddress?.firstName }}
+        {{ consignment?.shippingAddress?.lastName }}
+      </div>
+      <div>
+        {{ consignment?.shippingAddress?.line1 }}
+      </div>
+      <div>
+        {{ consignment?.shippingAddress?.line2 }}
+      </div>
+      <div>
+        <span>{{
+          normalizeFormattedAddress(
+            consignment?.shippingAddress?.formattedAddress
+          )
+        }}</span>
+      </div>
+      <div>
+        <span>{{ consignment?.shippingAddress?.town }}</span>
+        <span>{{ consignment?.shippingAddress?.postalCode }}</span>
+      </div>
+      <div>
+        {{ consignment?.shippingAddress?.phone }}
+      </div>
+    </div>
+
+    <div class="cx-delivery-mode">
+      <div class="cx-delivery-mode-header">
+        {{
+          'orderDetails.deliveryPointOfServiceDetails.deliveryMethod'
+            | cxTranslate
+        }}
+      </div>
+      <div>
+        {{ order?.deliveryMode?.name }}
+      </div>
+
+      <div>
+        {{ order?.deliveryMode?.description }}
+      </div>
+
+      <div>
+        {{ order.deliveryCost?.formattedValue }}
+      </div>
+    </div>
+  </div>
 </ng-template>

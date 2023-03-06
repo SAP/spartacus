@@ -1,6 +1,8 @@
 <ng-container
   *ngIf="
-    (availableForPickup$ | async) && !(outlet?.context$ | async)?.orderCode
+    (availableForPickup$ | async) &&
+    !(outlet?.context$ | async)?.orderCode &&
+    !(this.cartType === 'savedCart')
   "
 >
   <cx-pickup-options

@@ -108,6 +108,13 @@ export const order = {
         'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
     },
     caption: 'Order contents.',
+    deliveryPointOfServiceDetails: {
+      itemsToBePickUp: 'Items To Be Pick-Up',
+      pickUpInStoreAddress: 'Pick Up Store Address',
+      itemsToBeShipped: 'Items To Be Shipped',
+      shippingAddress: 'Shipping Address',
+      deliveryMethod: 'Delivery Method',
+    },
   },
   orderHistory: {
     orderHistory: 'Order history',

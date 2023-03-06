@@ -13,7 +13,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { ItemCounterModule, OutletModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  ItemCounterModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { AddToCartComponent } from './add-to-cart.component';
 
 @NgModule({
@@ -22,6 +26,7 @@ import { AddToCartComponent } from './add-to-cart.component';
     ReactiveFormsModule,
     I18nModule,
     ItemCounterModule,
+    IconModule,
     OutletModule,
     FeaturesConfigModule,
   ],
