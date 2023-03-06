@@ -430,7 +430,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
   describe('getPrefixId', () => {
     it('should return group ID string', () => {
-      expect(classUnderTest.getPrefixId(undefined, 'BBB')).toBe('BBB');
+      expect(classUnderTest.getPrefixId(undefined, 'BBB')).toBe('cx--BBB');
     });
 
     it('should return prefix ID separated by 2 dashes and group ID string', () => {
