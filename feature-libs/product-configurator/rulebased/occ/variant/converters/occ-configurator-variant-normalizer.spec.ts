@@ -849,6 +849,33 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
   });
 
+  describe('determineCoreUiType', () => {
+    it('should return input in case of a standard UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
+    });
+
+    it('should return standard UI type in case of a variation', () => {
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX +
+            Configurator.CustomUiTypeIndicator +
+            'Custom'
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
+    });
+
+    it('should return input in case variation does not follow our defined pattern', () => {
+      const notKnownUiType = 'WhateverCustom';
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](notKnownUiType)
+      ).toBe(notKnownUiType);
+    });
+  });
+
   describe('convertGroupType', () => {
     it('should convert group types properly', () => {
       expect(

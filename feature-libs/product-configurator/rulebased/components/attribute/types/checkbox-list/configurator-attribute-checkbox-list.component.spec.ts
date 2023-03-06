@@ -14,11 +14,14 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 class MockGroupService {}
 
@@ -49,6 +52,10 @@ class MockConfiguratorPriceComponent {
 const VALUE_1 = 'val1';
 const VALUE_2 = 'val2';
 
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
@@ -71,6 +78,14 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
             useClass: MockGroupService,
           },
           ConfiguratorAttributeQuantityService,
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
@@ -156,78 +171,94 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
-  it('should deselect value onChangeValueQuantity if quantity is set to zero', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should deselect values onChangeValueQuantity if quantity is set to zero', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.onChangeValueQuantity(0, '1', 0);
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          values: [
-            {
-              name: VALUE_1,
-              quantity: undefined,
-              selected: false,
-              valueCode: '1',
-            },
-            {
-              name: VALUE_2,
-              quantity: undefined,
-              selected: false,
-              valueCode: '2',
-            },
-            {
-              name: 'val3',
-              quantity: undefined,
-              selected: true,
-              valueCode: '3',
-            },
-          ],
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      component.ownerKey,
+      {
+        ...component.attribute,
+        values: [
+          {
+            name: VALUE_1,
+            quantity: undefined,
+            selected: false,
+            valueCode: '1',
+          },
+          {
+            name: VALUE_2,
+            quantity: undefined,
+            selected: false,
+            valueCode: '2',
+          },
+          {
+            name: 'val3',
+            quantity: undefined,
+            selected: true,
+            valueCode: '3',
+          },
+        ],
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 
   it('should call emit of selectionChange onChangeValueQuantity if quantity is set to 1', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.onChangeValueQuantity(1, '1', 0);
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          values: [
-            {
-              name: VALUE_1,
-              quantity: 1,
-              selected: true,
-              valueCode: '1',
-            },
-          ],
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.VALUE_QUANTITY,
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      component.ownerKey,
+      {
+        ...component.attribute,
+        values: [
+          {
+            name: VALUE_1,
+            quantity: 1,
+            selected: true,
+            valueCode: '1',
+          },
+        ],
+      },
+      Configurator.UpdateType.VALUE_QUANTITY
     );
   });
 
-  it('should not call emit of selectionChange onChangeValueQuantity if value does not exist', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should not call facade update onChangeValueQuantity if value does not exist', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
 
     component.onChangeValueQuantity(1, 'NOT_EXISTING', 0);
 
-    expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(0);
   });
 
-  it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+  it('should call facade update onChangeQuantity', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
     component.onChangeQuantity(2);
-    expect(component.selectionChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
