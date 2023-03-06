@@ -53,7 +53,7 @@
       <ng-template
         *ngIf="!readonly"
         [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
-        [cxOutletContext]="{item, cartType: options.cartType}"
+        [cxOutletContext]="{item, cartType: options?.cartType}"
       ></ng-template>
     </div>
 
