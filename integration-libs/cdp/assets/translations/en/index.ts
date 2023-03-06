@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { userAccount } from './user-account';
+import { cdp  } from './cdp';
 
 export const en = {
-  userAccount,
+  cdp,
 };

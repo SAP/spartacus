@@ -5,7 +5,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-cdporder-history',
+  selector: 'cx-order-history',
   templateUrl: './cdp-my-account.component.html',
   // styleUrls: ['./cdp-my-account.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

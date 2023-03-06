@@ -5,8 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CdpMyAccountSideComponent } from '@spartacus/cdp/root/components';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import { userAccountTranslations, userAccountTranslationChunksConfig } from '@spartacus/user/account/assets';
+import { cdpTranslations, cdpTranslationChunksConfig } from 'integration-libs/cdp/assets/public_api';
 import { CdpRootModule } from 'integration-libs/cdp/cdp-root.module';
 import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-my-account';
 // import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
@@ -18,14 +19,15 @@ import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-
     provideConfig(<CmsConfig>{
       component: [
         {
-          CdpMyAccountComponent: CdpMyAccountComponent
+          CdpMyAccountComponent: CdpMyAccountComponent,
+          CdpMyAccountSideComponent: CdpMyAccountSideComponent,
         }
       ]
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: userAccountTranslations,
-        chunks: userAccountTranslationChunksConfig,
+        resources: cdpTranslations,
+        chunks: cdpTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

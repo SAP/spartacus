@@ -26,33 +26,6 @@
         <ng-container
           *ngIf="type.orderHistory.pagination.totalResults > 0; else noOrder"
         >
-          <!-- Select Form and Pagination Top
-          <div class="cx-order-history-sort top">
-            <label class="cx-order-history-form-group form-group"
-              ><span>
-                {{ 'orderHistory.sortBy' | cxTranslate }}
-              </span>
-              <cx-sorting
-                [sortOptions]="type.orderHistory.sorts"
-                [sortLabels]="getSortLabels() | async"
-                (sortListEvent)="changeSortCode($event)"
-                [selectedOption]="type.orderHistory.pagination.sort"
-                placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
-                [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
-                ariaControls="order-history-table"
-              ></cx-sorting>
-            </label>
-            <div
-              *ngIf="type.orderHistory.pagination.totalPages > 1"
-              class="cx-order-history-pagination"
-            >
-              <cx-pagination
-                [pagination]="type.orderHistory.pagination"
-                (viewPageEvent)="pageChange($event)"
-              >
-              </cx-pagination>
-            </div>
-          </div> -->
 
           <table
             role="table"
@@ -60,69 +33,14 @@
             class="table cx-order-history-table"
             [ngClass]="{ 'cx-order-history-table-po': hasPONumber }"
           >
-            <!-- <caption class="cx-visually-hidden" *cxFeatureLevel="'5.1'">
-              {{
-                'orderHistory.orderHistory' | cxTranslate
-              }}
-            </caption>
-             TODO:(CXSPA-1695) for next major release update below thead tag
-            <thead
-              class="cx-order-history-thead-mobile"
-              *cxFeatureLevel="'!5.1'"
-            >
-            <thead>
-              <th scope="col">
-                {{ 'orderHistory.orderId' | cxTranslate }}
-              </th>
-              <ng-container *ngIf="hasPONumber">
-                <th scope="col">
-                  {{ 'orderHistory.PONumber' | cxTranslate }}
-                </th>
-                <th scope="col">
-                  {{ 'orderHistory.costCenter' | cxTranslate }}
-                </th>
-              </ng-container>
-              <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
-              <th scope="col">
-                {{ 'orderHistory.status' | cxTranslate }}
-              </th>
-              <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
-            </thead> -->
-            <!-- <thead
-              class="cx-order-history-thead-mobile"
-              *cxFeatureLevel="'5.1'"
-            >
-              <tr role="row">
-                <th role="columnheader">
-                  {{ 'orderHistory.orderId' | cxTranslate }}
-                </th>
-                <ng-container *ngIf="hasPONumber">
-                  <th role="columnheader">
-                    {{ 'orderHistory.PONumber' | cxTranslate }}
-                  </th>
-                  <th role="columnheader">
-                    {{ 'orderHistory.costCenter' | cxTranslate }}
-                  </th>
-                </ng-container>
-                <th role="columnheader">
-                  {{ 'orderHistory.date' | cxTranslate }}
-                </th>
-                <th role="columnheader">
-                  {{ 'orderHistory.status' | cxTranslate }}
-                </th>
-                <th role="columnheader">
-                  {{ 'orderHistory.total' | cxTranslate }}
-                </th>
-              </tr>
-            </thead> -->
             <tbody *ngFor="let order of type.orderHistory.orders">
               <tr
                 role="row"
                 (click)="goToOrderDetail(order)"
               >
-                <td role="cell" class="cx-order-history-code">
+                <td role="cell" class="cx-order-history-purchased">
                   <div class="cx-order-history-label">
-                    {{ 'orderHistory.orderId' | cxTranslate }}
+                    {{ "'orderHistory.orderId'" | cxTranslate }}
                   </div>
                   <a
                     [routerLink]="
@@ -133,7 +51,7 @@
                     "
                     class="cx-order-history-value"
                   >
-                    {{ order?.code }}</a
+                    {{ "Purchased-Store" }}</a
                   >
                 </td>
                 <!-- <ng-container *ngIf="hasPONumber"> -->
@@ -173,7 +91,7 @@
                   </td> -->
                 <!-- </ng-container> -->
 
-                <td role="cell" class="cx-order-history-placed">
+                <!-- <td role="cell" class="cx-order-history-placed">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.date' | cxTranslate }}
                   </div>
@@ -206,8 +124,8 @@
                         | cxTranslate
                     }}</a
                   >
-                </td>
-                <td role="cell" class="cx-order-history-total">
+                </td> -->
+                <td role="cell" class="cx-order-history-ordernumber">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.total' | cxTranslate }}
                   </div>
@@ -220,7 +138,7 @@
                     "
                     class="cx-order-history-value"
                   >
-                    {{ order?.total.formattedValue }}</a
+                    {{ order?.code }}</a
                   >
                 </td>
               </tr>

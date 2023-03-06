@@ -6,4 +6,5 @@
 
 
 export * from './cdp-my-account/index';
+export * from './cdp-my-account-side/index';
 export * from './cdp-components.module';

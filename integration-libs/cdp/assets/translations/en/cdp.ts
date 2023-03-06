@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const userAccount = {
+export const cdp = {
   loginForm: {
     forgotPassword: 'Forgot password?',
     signIn: 'Sign In',

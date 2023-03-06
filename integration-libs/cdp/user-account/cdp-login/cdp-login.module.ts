@@ -6,18 +6,16 @@
 
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { OrderComponentsModule } from '@spartacus/order/components';
-import { CmsPageGuard, PageSlotModule } from '@spartacus/storefront';
+import { PageSlotModule } from '@spartacus/storefront';
 import { LoginComponentService } from '@spartacus/user/account/components';
-import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-my-account';
+// import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-my-account';
 import { CdpConfig } from 'integration-libs/cdp/root/config';
 import { CdpLoginComponent } from './cdp-login.component';
 
@@ -27,15 +25,16 @@ import { CdpLoginComponent } from './cdp-login.component';
            PageSlotModule,
            I18nModule,
            OrderComponentsModule,
-           RouterModule.forChild([
-            {
-              // @ts-ignore
-              path: 'my-account',
-              canActivate: [AuthGuard, CmsPageGuard],
-              component: CdpMyAccountComponent,
-              data: { pageLabel: '/my-account', cxRoute: 'myAccount' },
-            },
-           ])],
+          //  RouterModule.forChild([
+          //   {
+          //     // @ts-ignore
+          //     path: 'my-account',
+          //     canActivate: [AuthGuard, CmsPageGuard],
+          //     component: CdpMyAccountComponent,
+          //     data: { pageLabel: '/my-account', cxRoute: 'myAccount' },
+          //   },
+          //  ])
+          ],
            schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     provideDefaultConfig(<CmsConfig>{

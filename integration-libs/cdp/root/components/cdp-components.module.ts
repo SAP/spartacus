@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdpMyAccountModule } from './cdp-my-account';
 import { CdpPageTitleComponent } from './cdp-page-title/cdp-page-title.component';
-import { CdpMyAccountSideComponent } from './cdp-my-account-side/cdp-my-account-side.component';
+import { CdpMyAccountSideModule } from './cdp-my-account-side/cdp-my-account-side.module';
 
 
 
 @NgModule({
   declarations: [
-    CdpPageTitleComponent,
-    CdpMyAccountSideComponent
+    CdpPageTitleComponent
   ],
   imports: [
     CommonModule,
-    CdpMyAccountModule
+    CdpMyAccountModule,
+    CdpMyAccountSideModule
   ]
 })
 export class CdpComponentsModule { }

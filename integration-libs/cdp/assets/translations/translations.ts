@@ -7,10 +7,10 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const userAccountTranslations: TranslationResources = {
+export const cdpTranslations: TranslationResources = {
   en,
 };
 
-export const userAccountTranslationChunksConfig: TranslationChunksConfig = {
-  userAccount: ['loginForm', 'miniLogin','myAccount','cdpOrderHistory'],
+export const cdpTranslationChunksConfig: TranslationChunksConfig = {
+  cdp: ['loginForm', 'miniLogin','myAccount','cdpOrderHistory'],
 };

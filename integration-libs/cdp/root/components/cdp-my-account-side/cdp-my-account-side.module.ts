@@ -1,19 +1,18 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdpMyAccountComponent } from './cdp-my-account.component';
 import { LayoutConfig, ListNavigationModule, PageSlotModule } from '@spartacus/storefront';
 import { CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-// import { OrderHistoryComponent } from '@spartacus/order/components';
+import { CdpMyAccountSideComponent } from './cdp-my-account-side.component';
 
 
 
 
 @NgModule({
     declarations: [
-        CdpMyAccountComponent
+        CdpMyAccountSideComponent
     ],
     imports: [
         CommonModule,
@@ -27,7 +26,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         FeaturesConfigModule,
         ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
             cmsComponents: {
-              CdpMyAccountComponent: { component: CdpMyAccountComponent },
+              CdpMyAccountSideComponent: { component: CdpMyAccountSideComponent },
             },
             // layoutSlots: {
             //   CdpMyAccountPageTemplate: {
@@ -36,7 +35,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
             // },
           }),
     ],
-    exports: [CdpMyAccountComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    exports: [CdpMyAccountSideComponent]
 })
-export class CdpMyAccountModule { }
+export class CdpMyAccountSideModule { }
