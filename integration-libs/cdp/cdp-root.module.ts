@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CdpComponentsModule } from './root/components/cdp-components.module';
 import { CdpLoginModule } from './user-account/cdp-login';
 
 
@@ -7,7 +8,8 @@ import { CdpLoginModule } from './user-account/cdp-login';
   declarations: [
   ],
   imports: [
-    CdpLoginModule
+    CdpLoginModule,
+    CdpComponentsModule
   ],
   exports: [
   ]

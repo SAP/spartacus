@@ -414,6 +414,9 @@
       "@spartacus/cdp/user-account": [
         "integration-libs/cdp/user-account/public_api"
       ],
+      "@spartacus/cdp/root/components": [
+        "integration-libs/cdp/root/components/public_api"
+      ],
       "@spartacus/cdc/user-profile": [
         "integration-libs/cdc/user-profile/public_api"
       ],

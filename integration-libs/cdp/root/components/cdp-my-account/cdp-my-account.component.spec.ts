@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CdpMyAccountComponent } from "./CdpMyAccountComponent";
+import { CdpMyAccountComponent } from './cdp-my-account.component';
 
 describe('CdpMyAccountComponent', () => {
   let component: CdpMyAccountComponent;
