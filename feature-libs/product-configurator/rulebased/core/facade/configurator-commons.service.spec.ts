@@ -392,7 +392,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getConfigurationWithOverview', () => {
-    it('should get an overview from occ, accessing the store', () => {
+    it('should get an overview from occ, accessing the store', (done) => {
       expect(productConfiguration.overview).toBeUndefined();
       spyOnProperty(ngrxStore, 'select').and.returnValue(
         () => () => of(productConfiguration)
@@ -407,7 +407,7 @@ describe('ConfiguratorCommonsService', () => {
               productConfiguration
             )
           );
-          //TODO: Add "done" callback
+          done();
         })
         .unsubscribe();
     });
