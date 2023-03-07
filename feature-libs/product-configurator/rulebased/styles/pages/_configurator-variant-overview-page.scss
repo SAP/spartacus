@@ -3,6 +3,12 @@
 }
 
 %VariantConfigurationOverviewTemplate {
+  cx-page-slot.VariantConfigOverviewBottombar {
+    cx-configurator-add-to-cart-button {
+      z-index: 10;
+    }
+  }
+
   cx-page-slot.VariantConfigOverviewContent,
   cx-page-slot.VariantConfigOverviewNavigation {
     height: fit-content;
@@ -14,7 +20,7 @@
       position: -webkit-sticky;
       position: sticky;
       top: 0;
-      margin-block-end: 75px;
+      margin-block-end: 268px;
     }
 
     cx-page-slot.VariantConfigOverviewContent {

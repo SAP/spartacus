@@ -11,7 +11,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  LanguageService,
+  Product,
+  ProductService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -30,6 +35,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
+import { ConfiguratorAttributeNotSupportedComponent } from '../attribute/types/not-supported/configurator-attribute-not-supported.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
 import { ConfiguratorAttributeDropDownComponent } from '../attribute/types/drop-down/configurator-attribute-drop-down.component';
@@ -41,6 +47,14 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { ConfiguratorAttributeCompositionConfig } from '../attribute/composition/configurator-attribute-composition.config';
+import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
+import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldComponent } from '../attribute/types/numeric-input-field/configurator-attribute-numeric-input-field.component';
+import { ConfiguratorAttributeMultiSelectionBundleComponent } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component';
+import { ConfiguratorAttributeProductCardComponentOptions } from '../attribute/product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeSingleSelectionBundleComponent } from '../attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component';
+import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -78,42 +92,11 @@ class MockConfiguratorPriceComponent {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
+  selector: 'cx-configurator-attribute-product-card',
   template: '',
 })
-class MockConfiguratorAttributeSingleSelectionBundleDropdownComponent {
-  @Input() group: string;
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-single-selection-bundle',
-  template: '',
-})
-class MockConfiguratorAttributeSingleSelectionBundleComponent {
-  @Input() group: string;
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() language: string;
-  @Input() ownerType: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-}
-
-@Component({
-  selector: 'cx-configurator-attribute-multi-selection-bundle',
-  template: '',
-})
-class MockConfiguratorAttributeMultiSelectionBundleComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+class MockProductCardComponent {
+  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 }
 
 @Component({
@@ -211,6 +194,67 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
+const product: Product = {
+  name: 'Product Name',
+  code: 'PRODUCT_CODE',
+  images: {
+    PRIMARY: {
+      thumbnail: {
+        url: 'url',
+        altText: 'alt',
+      },
+    },
+  },
+  price: {
+    formattedValue: '$1.500',
+  },
+  priceRange: {
+    maxPrice: {
+      formattedValue: '$1.500',
+    },
+    minPrice: {
+      formattedValue: '$1.000',
+    },
+  },
+};
+
+class MockProductService {
+  get(): Observable<Product> {
+    return of(product);
+  }
+}
+
+const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =
+  {
+    productConfigurator: {
+      assignment: {
+        Header: ConfiguratorAttributeHeaderComponent,
+        Footer: ConfiguratorAttributeFooterComponent,
+        AttributeType_not_implemented:
+          ConfiguratorAttributeNotSupportedComponent,
+        AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
+        AttributeType_dropdown_add: ConfiguratorAttributeDropDownComponent,
+        AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
+        AttributeType_checkBoxList: ConfiguratorAttributeCheckBoxListComponent,
+        AttributeType_string: ConfiguratorAttributeInputFieldComponent,
+        AttributeType_numeric: ConfiguratorAttributeNumericInputFieldComponent,
+        AttributeType_radioGroup: ConfiguratorAttributeRadioButtonComponent,
+        AttributeType_radioGroup_add: ConfiguratorAttributeRadioButtonComponent,
+        AttributeType_readonly: ConfiguratorAttributeReadOnlyComponent,
+        AttributeType_single_selection_image:
+          ConfiguratorAttributeSingleSelectionImageComponent,
+        AttributeType_multi_selection_image:
+          ConfiguratorAttributeMultiSelectionImageComponent,
+        AttributeType_radioGroupProduct:
+          ConfiguratorAttributeSingleSelectionBundleComponent,
+        AttributeType_checkBoxListProduct:
+          ConfiguratorAttributeMultiSelectionBundleComponent,
+        AttributeType_dropdownProduct:
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+      },
+    },
+  };
+
 describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
@@ -235,11 +279,14 @@ describe('ConfiguratorGroupComponent', () => {
           MockConfiguratorPriceComponent,
           MockFocusDirective,
           MockFeatureLevelDirective,
+          MockProductCardComponent,
+          ConfiguratorAttributeCompositionDirective,
           ConfiguratorGroupComponent,
           MockConfiguratorConflictDescriptionComponent,
           ConfiguratorConflictSuggestionComponent,
           ConfiguratorAttributeHeaderComponent,
           ConfiguratorAttributeFooterComponent,
+          ConfiguratorAttributeNotSupportedComponent,
           ConfiguratorAttributeRadioButtonComponent,
           ConfiguratorAttributeDropDownComponent,
           ConfiguratorAttributeReadOnlyComponent,
@@ -249,9 +296,9 @@ describe('ConfiguratorGroupComponent', () => {
           ConfiguratorAttributeSingleSelectionImageComponent,
           MockConfiguratorAttributeInputFieldComponent,
           MockConfiguratorAttributeNumericInputFieldComponent,
-          MockConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          MockConfiguratorAttributeSingleSelectionBundleComponent,
-          MockConfiguratorAttributeMultiSelectionBundleComponent,
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+          ConfiguratorAttributeSingleSelectionBundleComponent,
+          ConfiguratorAttributeMultiSelectionBundleComponent,
         ],
         providers: [
           {
@@ -270,6 +317,14 @@ describe('ConfiguratorGroupComponent', () => {
           {
             provide: ConfiguratorExpertModeService,
             useClass: MockConfiguratorExpertModeService,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionConfig,
+            useValue: mockConfiguratorAttributeCompositionConfig,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
           },
         ],
       })
@@ -409,6 +464,28 @@ describe('ConfiguratorGroupComponent', () => {
       );
     });
 
+    it('should support radio button attribute type with additional numeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--radioGroup_add--ATTRIBUTE_2_RADIOBUTTON_NUMERIC_ADDITIONAL_INPUT'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+
+    it('should support radio button attribute type with additional alphanumeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--radioGroup_add--ATTRIBUTE_2_RADIOBUTTON_ALPHANUMERIC_ADDITIONAL_INPUT'
+      );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
     it('should support single selection image attribute type', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -430,6 +507,28 @@ describe('ConfiguratorGroupComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-drop-down'
+      );
+    });
+
+    it('should support drop-down attribute type with additional numeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_NUMERIC_ADDITIONAL_INPUT'
+      ).parentElement.parentElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+
+    it('should support drop-down attribute type with additional alphanumeric value', () => {
+      const element = htmlElem.querySelector(
+        '#cx-configurator--dropdown_add--ATTRIBUTE_2_DROPDOWN_ALPHANUMERIC_ADDITIONAL_INPUT'
+      ).parentElement.parentElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        element,
+        'cx-configurator-attribute-input-field'
       );
     });
 
@@ -601,6 +700,36 @@ describe('ConfiguratorGroupComponent', () => {
           })
           .unsubscribe();
       }
+    });
+  });
+
+  describe('getComponentKey', () => {
+    it('should compile key for standard attribute type', () => {
+      expect(
+        component.getComponentKey(ConfigurationTestData.attributeDropDown)
+      ).toBe(component['typePrefix'] + Configurator.UiType.DROPDOWN);
+    });
+
+    it('should compile custom key in case attribute belongs to a custom variation', () => {
+      const customUiType = 'DROPDOWN___CUSTOM';
+      const attribute: Configurator.Attribute = {
+        ...ConfigurationTestData.attributeDropDown,
+        uiTypeVariation: customUiType,
+      };
+      expect(component.getComponentKey(attribute)).toBe(
+        component['typePrefix'] + customUiType
+      );
+    });
+
+    it('should fall back to standard UI type if custom key is not of correct format', () => {
+      const customUiType = 'DROPDOWN__CUSTOM';
+      const attribute: Configurator.Attribute = {
+        ...ConfigurationTestData.attributeDropDown,
+        uiTypeVariation: customUiType,
+      };
+      expect(component.getComponentKey(attribute)).toBe(
+        component['typePrefix'] + Configurator.UiType.DROPDOWN
+      );
     });
   });
 });

@@ -4,16 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { TranslationService } from '@spartacus/core';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -27,8 +26,23 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 {
   attributeDropDownForm = new UntypedFormControl('');
   selectionValue: Configurator.Value;
+  group: string;
 
-  @Input() group: string;
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
+    super(
+      quantityService,
+      translation,
+      attributeComponentContext,
+      configuratorCommonsService
+    );
+
+    this.group = attributeComponentContext.group.id;
+  }
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);

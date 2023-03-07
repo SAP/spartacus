@@ -265,6 +265,7 @@
     "@ngrx/store": "^14.3.0",
     "@spartacus/asm": "5.0.0",
     "@spartacus/core": "5.0.0",
+    "@spartacus/organization": "5.0.0",
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/user": "5.0.0",
