@@ -203,6 +203,7 @@ export const fillAddressForm = (address: typeof defaultAddress) => {
 
 export function configureApparelProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
+  cy.window().then((win) => win.localStorage.clear());
   cy.cxConfig({
     context: {
       baseSite: ['apparel-uk-spa'],
