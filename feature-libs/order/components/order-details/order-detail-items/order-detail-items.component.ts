@@ -9,7 +9,7 @@ import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
@@ -42,7 +42,9 @@ export class OrderDetailItemsComponent {
   );
 
   isOrderLoading$: Observable<boolean> =
-    this.orderDetailsService.isOrderDetailsLoading();
+    typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+      ? this.orderDetailsService.isOrderDetailsLoading()
+      : of(false);
 
   displayConsignmentDelivery$: Observable<boolean | undefined> =
     this.component.data$.pipe(map((data) => data.displayConsignmentDelivery));

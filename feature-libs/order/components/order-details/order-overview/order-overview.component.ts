@@ -13,7 +13,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -25,7 +25,9 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderOverviewComponent {
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
   isOrderLoading$: Observable<boolean> =
-    this.orderDetailsService.isOrderDetailsLoading();
+    typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+      ? this.orderDetailsService.isOrderDetailsLoading()
+      : of(false);
 
   simple$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.simple)
