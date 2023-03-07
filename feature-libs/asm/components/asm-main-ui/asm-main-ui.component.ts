@@ -68,7 +68,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService?: LaunchDialogService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -103,7 +103,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         )
       );
     this.subscription.add(
-      this.launchDialogService?.dialogClose
+      this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
         .subscribe((result: CustomerListAction) => {
           if (result.selectedUser) {
@@ -163,14 +163,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   showCustomList(): void {
-    this.launchDialogService?.openDialogAndSubscribe(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
       this.element
     );
   }
 
   closeModal(): void {
-    this.launchDialogService?.closeDialog('logout');
+    this.launchDialogService.closeDialog('logout');
   }
 
   ngOnDestroy() {
