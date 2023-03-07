@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, Optional } from '@angular/core';
-import { RoutingService, TranslationService, FeatureConfigService, isNotUndefined} from '@spartacus/core';
+import { RoutingService, TranslationService, FeatureConfigService, isNotUndefined, User} from '@spartacus/core';
 import { Order, OrderHistoryFacade, OrderHistoryList, ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -12,6 +12,8 @@ import { filter, map, take, tap } from 'rxjs/operators';
 })
 
 export class CdpMyAccountComponent implements OnDestroy {
+
+  user$: Observable<User | undefined>;
   // TODO(#630): make featureConfigService are required dependency and for major releases, remove featureConfigService
   constructor(
     routing: RoutingService,

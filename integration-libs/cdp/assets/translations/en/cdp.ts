@@ -24,6 +24,7 @@ export const cdp = {
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
+    signOut: 'Sign Out',
   },
   myAccount: {
     label: 'My Account',

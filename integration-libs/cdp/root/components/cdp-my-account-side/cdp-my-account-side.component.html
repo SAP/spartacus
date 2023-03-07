@@ -1,1 +1,15 @@
-<p>cdp-my-account-side works!</p>
+<cx-page-slot>
+    <ng-container *ngIf="user$ | async ">
+      <div class="cx-login-greet">
+        {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
+      </div>
+      
+  
+    
+    <ng-template #login>
+      <a role="link" [routerLink]="{ cxRoute: 'logout' } | cxUrl">{{
+        'miniLogin.signOut' | cxTranslate
+      }}</a>
+    </ng-template>
+  </ng-container>
+</cx-page-slot>
