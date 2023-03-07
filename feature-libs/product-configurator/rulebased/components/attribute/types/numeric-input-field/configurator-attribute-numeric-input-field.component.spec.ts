@@ -24,6 +24,9 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Directive({
   selector: '[cxFocus]',
@@ -74,6 +77,9 @@ function checkForValidationMessage(
   expect(validationDiv).toBeDefined();
   expect(validationDiv.length).toBe(expectedMessages);
 }
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
@@ -112,6 +118,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             provide: ConfiguratorUISettingsConfig,
             useValue: configuratorUISettingsConfig,
           },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
@@ -136,7 +150,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
-    spyOn(component.inputChange, 'emit');
     spyOn(
       configuratorAttributeNumericInputFieldService,
       'getPatternForValidationMessage'
@@ -144,6 +157,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
   });
 
   function checkForValidity(
@@ -267,31 +285,43 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   it('should raise event in case input was changed', () => {
     component.onChange();
-    expect(component.inputChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   });
 
   it('should raise no event in case input was changed and control is invalid', () => {
     component.ngOnInit();
     component.attributeInputForm.setValue('122A23');
     component.onChange();
-    expect(component.inputChange.emit).toHaveBeenCalledTimes(0);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(0);
   });
 
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   }));
 
   it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', fakeAsync(() => {
     configuratorUISettingsConfig.productConfigurator = undefined;
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
   }));
 
   it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
@@ -301,14 +331,20 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('123456');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          userInput: '123456',
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      'INITIAL',
+      {
+        ...component.attribute,
+        userInput: '123456',
+        selectedSingleValue: '123456',
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   }));
 
@@ -319,7 +355,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.attributeInputForm.setValue('123456');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalledTimes(2);
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledTimes(2);
   }));
 
   it('should not emit inputValue after destroy', fakeAsync(() => {
@@ -327,7 +365,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture.detectChanges();
     component.ngOnDestroy();
     tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).not.toHaveBeenCalled();
   }));
 
   describe('Accessibility', () => {
