@@ -464,39 +464,6 @@ export class OrgUnitEffects {
     )
   );
 
-  // loadAddress$: Observable<
-  //   | OrgUnitActions.LoadAddressSuccess
-  //   | OrgUnitActions.LoadAddressesSuccess
-  //   | OrgUnitActions.LoadAddressesFail
-  // > = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(OrgUnitActions.LOAD_ADDRESSES),
-  //     map((action: OrgUnitActions.LoadAddresses) => action.payload),
-  //     switchMap(({ userId, orgUnitId }) => {
-  //       return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
-  //         switchMap((addresses: EntitiesModel<B2BAddress>) => {
-  //           const { values, page } = StateUtils.normalizeListPage(
-  //             addresses,
-  //             'id'
-  //           );
-  //           return [
-  //             new OrgUnitActions.LoadAddressSuccess(values),
-  //             new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
-  //           ];
-  //         }),
-  //         catchError((error) =>
-  //           of(
-  //             new OrgUnitActions.LoadAddressesFail({
-  //               orgUnitId,
-  //               error: normalizeHttpError(error),
-  //             })
-  //           )
-  //         )
-  //       );
-  //     })
-  //   )
-  // );
-
   constructor(
     private actions$: Actions,
     private orgUnitConnector: OrgUnitConnector
