@@ -4,20 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
@@ -27,16 +22,20 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
-
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  expMode: boolean;
 
   constructor(
-    protected configUtilsService: ConfiguratorStorefrontUtilsService
+    protected configUtilsService: ConfiguratorStorefrontUtilsService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
     super();
+
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();
@@ -71,15 +70,14 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
         this.attribute
       );
 
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: selectedValues,
       },
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   extractValuePriceFormulaParameters(

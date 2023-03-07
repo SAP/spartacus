@@ -88,7 +88,6 @@ class MockProductReferenceService {
 
 class MockVisualPickingProductFilterService {
   set filter(filter: string) {
-    expect(filter).toBe('2');
     this._filter = filter;
   }
   get filter() {
@@ -137,6 +136,18 @@ describe('VisualPickingProductListService', () => {
   });
 
   describe('getProductReferences()', () => {
+    it('should clear filter during initialization', () => {
+      const filterSetterSpy = spyOnProperty(
+        visualPickingProductFilterService,
+        'filter',
+        'set'
+      );
+
+      visualPickingProductListService.initialize();
+
+      expect(filterSetterSpy).toHaveBeenCalledWith('');
+    });
+
     it('should filter out undefined values returned by ProductReferenceService', (done) => {
       visualPickingProductListService['currentProduct$'] = of(currentProduct);
 
@@ -240,6 +251,12 @@ describe('VisualPickingProductListService', () => {
 
   describe('getFilteredProductReferences', () => {
     it('should produce product references for the current product that have been filtered by the VisualPickingProductFilterService', (done) => {
+      const filterSetterSpy = spyOnProperty(
+        visualPickingProductFilterService,
+        'filter',
+        'set'
+      );
+
       visualPickingProductFilterService.filter = '2';
       visualPickingProductListService
         .getFilteredProductReferences()
@@ -254,6 +271,9 @@ describe('VisualPickingProductListService', () => {
           expect(filteredProductReferences[1].target?.code).toBe(
             sparePart3.target?.code
           );
+
+          expect(filterSetterSpy).toHaveBeenCalledWith('2');
+          expect(filterSetterSpy).toHaveBeenCalledTimes(1);
           done();
         });
     });
