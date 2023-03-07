@@ -4,6 +4,7 @@
 
 .form-control {
   margin-bottom: 0.25rem;
+  color: var(--cx-color-text);
   &:focus {
     border-color: var(--cx-color-secondary);
     box-shadow: none;
@@ -346,7 +347,7 @@ input {
 
 .form-group {
   input[type='text']::placeholder {
-    color: var(--cx-color-secondary);
+    color: var(--cx-color-text);
     opacity: 1;
   }
 

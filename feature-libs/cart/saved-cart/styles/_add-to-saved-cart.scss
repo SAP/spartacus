@@ -25,6 +25,11 @@ cx-add-to-saved-cart {
     }
   }
 
+  a.disabled {
+    color: gray;
+    cursor: not-allowed;
+  }
+
   button {
     &:focus {
       @include visible-focus();

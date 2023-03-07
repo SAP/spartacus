@@ -1,4 +1,4 @@
-// SPARTA v0.1
+// SANTORINI v0.1
 // This file is for theme configuration. These variables are used in global and component CSS files.
 //
 // You can:
@@ -19,24 +19,24 @@ $font-family-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont,
 $font-url: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' !default;
 
 // change theme-colors here
-$primary: #fe5757 !default;
-$primary-accent: #ff8b8b !default;
+$primary: #1f7bc0 !default;
+$primary-accent: #055f9f !default;
 $secondary: #6c7079 !default;
-$success-accent: #f0fbe4 !default;
 $success: #38871f !default;
+$success-accent: #f0fbe4 !default;
 $danger: #db0002 !default;
 $danger-accent: #fff1f1 !default;
 $warning: #ffc107 !default;
 $warning-accent: #fff5df !default;
 $info: #17a2b8 !default;
 $info-accent: #deeffe !default;
-$light: #d3d6db !default;
+$light: #f1f1f1 !default;
 $medium: #d3d6db !default;
-$dark: #212738 !default;
+$dark: #6c7079 !default;
 $background: #f4f4f4 !default;
 $background-dark: #212738 !default;
 $inverse: #ffffff !default;
-$text: #212738 !default;
+$text: #14293a !default;
 $transparent: transparent !default;
 $visual-focus: #6d9df7 !default;
 $background-focus: rgba(80, 176, 244, 0.1);
