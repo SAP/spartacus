@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
+import {
+  BindCartParams,
+  CustomerListsPage,
+  CustomerRegistrationForm,
+} from '@spartacus/asm/root';
+import { User } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   CustomerSearchOptions,
@@ -18,6 +23,9 @@ class MockAsmAdapter {
     return EMPTY;
   }
   bindCart(_options: BindCartParams): Observable<unknown> {
+    return EMPTY;
+  }
+  createCustomer(_user: CustomerRegistrationForm): Observable<User> {
     return EMPTY;
   }
 }
@@ -71,6 +79,18 @@ const mockCustomerListPage: CustomerListsPage = {
 const mockBindCartParams = {
   cartId: MOCK_ID,
   customerId: MOCK_USER_ID,
+};
+
+const user: User = {
+  firstName: 'John',
+  lastName: 'Smith',
+  uid: 'john.smith@test.com',
+};
+
+const customerRegistrationForm: CustomerRegistrationForm = {
+  firstName: 'John',
+  lastName: 'Smith',
+  emailAddress: 'john.smith@test.com',
 };
 
 describe('AsmConnector', () => {
@@ -135,5 +155,15 @@ describe('AsmConnector', () => {
       expect(results).toEqual(mockBindCartResponse);
       done();
     });
+  });
+
+  it('should create a new customer', (done) => {
+    spyOn(asmAdapter, 'createCustomer').and.returnValue(of(user));
+    asmConnector
+      .createCustomer(customerRegistrationForm)
+      .subscribe((results) => {
+        expect(results).toEqual(user);
+        done();
+      });
   });
 });

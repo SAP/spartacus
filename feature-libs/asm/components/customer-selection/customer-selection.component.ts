@@ -145,23 +145,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  createCustomer(): void {
-    this.launchDialogService?.openDialogAndSubscribe(
-      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.createCustomerLink
-    );
-
-    this.subscription.add(
-      this.launchDialogService?.dialogClose
-        .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CreatedCustomer) => {
-          if (result.email) {
-            this.submitEvent.emit({ customerId: result.email });
-          }
-        })
-    );
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.asmService.customerSearchReset();
@@ -246,6 +229,23 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   updateItemIndex(selectedIndex: number): void {
     this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
+  }
+
+  createCustomer(): void {
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.createCustomerLink
+    );
+
+    this.subscription.add(
+      this.launchDialogService?.dialogClose
+        .pipe(filter((result) => Boolean(result)))
+        .subscribe((result: CreatedCustomer) => {
+          if (result.email) {
+            this.submitEvent.emit({ customerId: result.email });
+          }
+        })
+    );
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.

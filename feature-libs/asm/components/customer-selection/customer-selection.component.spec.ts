@@ -14,8 +14,10 @@ import {
   DirectionMode,
   DirectionService,
   FormErrorsModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
@@ -67,6 +69,16 @@ const MockAsmConfig: AsmConfig = {
   },
 };
 
+const dialogClose$ = new BehaviorSubject<any>('');
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return of();
+  }
+  get dialogClose() {
+    return dialogClose$.asObservable();
+  }
+}
+
 describe('CustomerSelectionComponent', () => {
   let customerSearchResults: Subject<CustomerSearchPage>;
   let customerSearchResultsLoading: Subject<boolean>;
@@ -90,6 +102,7 @@ describe('CustomerSelectionComponent', () => {
   let asmService: AsmService;
   let el: DebugElement;
   let searchResultItems: Array<ElementRef<HTMLElement>> = [];
+  let launchDialogService: LaunchDialogService;
 
   const validSearchTerm = 'cUstoMer@test.com';
 
@@ -111,8 +124,11 @@ describe('CustomerSelectionComponent', () => {
             provide: DirectionService,
             useClass: MockDirectionService,
           },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         ],
       }).compileComponents();
+
+      launchDialogService = TestBed.inject(LaunchDialogService);
     })
   );
 
@@ -216,7 +232,7 @@ describe('CustomerSelectionComponent', () => {
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
     expect(
       el.query(By.css('div.asm-results button')).nativeElement.innerText
-    ).toEqual('asm.customerSearch.noMatch');
+    ).toEqual('asm.customerSearch.noMatch asm.customerSearch.createCustomer');
     el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
@@ -381,6 +397,15 @@ describe('CustomerSelectionComponent', () => {
       );
       expect(component.searchTerm.nativeElement.selectionEnd).toEqual(
         validSearchTerm.length
+      );
+    });
+
+    it('should be able to open dialog', () => {
+      spyOn(launchDialogService, 'openDialogAndSubscribe');
+      component.createCustomer();
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+        component.createCustomerLink
       );
     });
   });

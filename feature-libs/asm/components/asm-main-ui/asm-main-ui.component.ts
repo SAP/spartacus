@@ -61,7 +61,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   @ViewChild('customerListLink') element: ElementRef;
-  @ViewChild('addNewCustomerLink') addNewCustomerLinkElement: ElementRef;
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   // TODO(#206): make LaunchDialogService are required dependency
   constructor(
@@ -196,10 +196,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     );
   }
 
+  closeModal(): void {
+    this.launchDialogService?.closeDialog('logout');
+  }
+
   createCustomer(): void {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
-      this.addNewCustomerLinkElement
+      this.addNewCustomerLink
     );
 
     this.subscription.add(
@@ -211,10 +215,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
-  }
-
-  closeModal(): void {
-    this.launchDialogService?.closeDialog('logout');
   }
 
   ngOnDestroy() {

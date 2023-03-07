@@ -81,6 +81,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
+    AsmCreateCustomerFormComponent,
   ],
   providers: [
     provideDefaultConfig(defaultAsmLayoutConfig),
