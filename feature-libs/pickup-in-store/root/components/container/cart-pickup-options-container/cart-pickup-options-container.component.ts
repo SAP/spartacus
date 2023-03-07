@@ -78,6 +78,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   availableForPickup$: Observable<boolean>;
 
   cartId: string;
+  cartType: string;
   entryNumber: number;
   productCode: string;
   quantity: number;
@@ -93,15 +94,21 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected preferredStoreFacade: PreferredStoreFacade,
     protected vcr: ViewContainerRef,
     protected cmsService: CmsService,
-    @Optional() protected outlet: OutletContextData<OrderEntry>
+    @Optional()
+    protected outlet: OutletContextData<{ item: OrderEntry; cartType: string }>
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
     const outletContext =
-      this.outlet?.context$?.pipe(filter(orderEntryWithRequiredFields)) ??
-      EMPTY;
+      this.outlet?.context$?.pipe(
+        map((context) => {
+          this.cartType = context.cartType;
+          return context.item;
+        }),
+        filter(orderEntryWithRequiredFields)
+      ) ?? EMPTY;
 
     this.cmsService
       .getCurrentPage()
