@@ -11,9 +11,8 @@ context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
   });
-
+  cy.log('--> test 1');
   describe('Customer Support Agent - Emulation', () => {
-    // test1
     asm.testCustomerEmulation();
   });
 });
