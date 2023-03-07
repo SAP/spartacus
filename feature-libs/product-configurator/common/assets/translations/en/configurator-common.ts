@@ -135,7 +135,7 @@ export const configurator = {
     resumeConfigDialog: {
       title: 'Unfinished Configuration',
       description:
-        'There is an unfinished configuration from a previous session. Would you like to resume?',
+        'There is an unfinished configuration from a previous session. Would you like to resume or start a new configuration?',
       discardButton: 'Start New',
       resumeButton: 'Resume',
     },

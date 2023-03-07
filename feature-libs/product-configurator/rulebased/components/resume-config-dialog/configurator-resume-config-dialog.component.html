@@ -25,12 +25,16 @@
         </div>
 
         <div class="cx-dialog-body modal-body">
-          <div class="cx-configurator-dialog-description">
+          <div
+            class="cx-configurator-dialog-description"
+            id="cx-configurator-restart-dialog-description"
+          >
             {{ 'configurator.resumeConfigDialog.description' | cxTranslate }}
           </div>
           <button
             class="btn btn-primary btn-block cx-configurator-dialog-resume"
             (click)="resumeConfig(product)"
+            aria-describedby="cx-configurator-restart-dialog-description"
           >
             {{ 'configurator.resumeConfigDialog.resumeButton' | cxTranslate }}
           </button>
@@ -38,6 +42,7 @@
             type="button"
             class="btn btn-secondary btn-block cx-configurator-dialog-discard"
             (click)="discardConfig(data.previousOwner)"
+            aria-describedby="cx-configurator-restart-dialog-description"
           >
             {{ 'configurator.resumeConfigDialog.discardButton' | cxTranslate }}
           </button>

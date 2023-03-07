@@ -214,4 +214,39 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       params: product,
     });
   }
+  describe('Accessibility', () => {
+    it("should contain action button element with class name 'close' and 'title' attribute that indicates the text for close button", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'close',
+        0,
+        'title',
+        'configurator.a11y.closeResumeConfigDialog'
+      );
+    });
+    it("should contain action button element with class name 'cx-configurator-dialog-resume' and 'aria-describedby' attribute that points to the text for the resume button", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-configurator-dialog-resume',
+        0,
+        'aria-describedby',
+        'cx-configurator-restart-dialog-description'
+      );
+    });
+    it("should contain action button element with class name 'cx-configurator-dialog-discard' and 'aria-describedby' attribute that points to the text for the start new button", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-configurator-dialog-discard',
+        0,
+        'aria-describedby',
+        'cx-configurator-restart-dialog-description'
+      );
+    });
+  });
 });
