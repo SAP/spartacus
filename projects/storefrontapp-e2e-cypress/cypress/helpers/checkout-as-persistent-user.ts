@@ -185,7 +185,7 @@ export function selectPaymentMethod() {
 }
 
 export function verifyAndPlaceOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  cy.contains('Cart total');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')

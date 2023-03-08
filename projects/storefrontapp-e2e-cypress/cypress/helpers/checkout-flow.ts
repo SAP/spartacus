@@ -258,7 +258,7 @@ export function fillPaymentForm(
 }
 
 export function verifyReviewOrderPage() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  cy.contains('Cart total');
 }
 
 export function placeOrder() {
