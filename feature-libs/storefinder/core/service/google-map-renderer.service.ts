@@ -5,7 +5,7 @@
  */
 
 /// <reference types="@types/google.maps" />
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
@@ -56,9 +56,11 @@ export class GoogleMapRendererService {
         }
       }
     } else {
-      console.warn(
-        'A valid Google Maps api key in the store finder configuration is required to display the Google map.'
-      );
+      if (isDevMode()) {
+        console.warn(
+          'A valid Google Maps api key in the store finder configuration is required to display the Google map.'
+        );
+      }
     }
   }
 
