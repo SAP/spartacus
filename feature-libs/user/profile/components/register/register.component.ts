@@ -99,7 +99,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           if (
             messages &&
-            messages.some((message) => message === 'This field is required.')
+            messages.some(
+              (message) => message.raw === 'This field is required.'
+            )
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
