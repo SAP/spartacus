@@ -10,8 +10,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeatureConfigService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
@@ -25,12 +23,6 @@ import {
 } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -177,16 +169,6 @@ describe('OrderHistoryComponent', () => {
           {
             provide: ReplenishmentOrderHistoryFacade,
             useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
           },
         ],
       }).compileComponents();
