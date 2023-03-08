@@ -101,7 +101,7 @@ describe('GoogleMapRendererService', () => {
     // then
     expect(scriptLoaderMock.embedScript).toHaveBeenCalledWith({
       src: mockStoreFinderConfig.googleMaps?.apiUrl,
-      params: Object({ key: mockStoreFinderConfig.googleMaps?.apiKey }),
+      params: Object({ key: '' }),
       attributes: { type: 'text/javascript' },
       callback: jasmine.any(Function) as any,
     });

@@ -58,7 +58,7 @@ export class GoogleMapRendererService {
     } else {
       if (isDevMode()) {
         console.warn(
-          'A valid Google Maps api key in the store finder configuration is required to display the Google map.'
+          'A Google Maps api key is required in the store finder configuration to display the Google map.'
         );
       }
     }
