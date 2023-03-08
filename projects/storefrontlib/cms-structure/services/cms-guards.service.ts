@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { inject, Injectable, Type } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateFn,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   getLastValueSync,
@@ -14,6 +20,24 @@ import {
 import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
+
+/**
+ * Returns a wrapper function `CanActivateFn` (https://angular.io/api/router/CanActivateFn)
+ * that injects the given guard instance and runs its method `.canActivate()`.
+ *
+ * This function uses the `CmsGuardsService` to inject and run the guard,
+ * allowing the guard's instance to be injected even if it was provided
+ * in a child injector (of some lazy-loaded module).
+ */
+export function resolveCmsGuard(guard: Type<any>): CanActivateFn {
+  return (
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> => {
+    const cmsGuardsService = inject(CmsGuardsService);
+    return cmsGuardsService.canActivateGuard(guard, route, state);
+  };
+}
 
 @Injectable({
   providedIn: 'root',
@@ -33,18 +57,9 @@ export class CmsGuardsService {
     const guards = this.cmsComponentsService.getGuards(componentTypes);
 
     if (guards.length) {
-      const canActivateObservables = guards.map((guardClass) => {
-        const guard = getLastValueSync(
-          this.unifiedInjector.get<CanActivate>(guardClass)
-        );
-        if (isCanActivate(guard)) {
-          return wrapIntoObservable(guard.canActivate(route, state)).pipe(
-            first()
-          );
-        } else {
-          throw new Error('Invalid CanActivate guard in cmsMapping');
-        }
-      });
+      const canActivateObservables = guards.map((guard) =>
+        this.canActivateGuard(guard, route, state)
+      );
 
       return concat(...canActivateObservables).pipe(
         skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
@@ -53,6 +68,21 @@ export class CmsGuardsService {
       );
     } else {
       return of(true);
+    }
+  }
+
+  canActivateGuard(
+    guardClass: any,
+    route: CmsActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    const guard = getLastValueSync(
+      this.unifiedInjector.get<CanActivate>(guardClass)
+    );
+    if (isCanActivate(guard)) {
+      return wrapIntoObservable(guard.canActivate(route, state)).pipe(first());
+    } else {
+      throw new Error('Invalid CanActivate guard in cmsMapping');
     }
   }
 }
