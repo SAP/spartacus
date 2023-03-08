@@ -122,13 +122,15 @@ export class CdcUserAddressesEffects {
 
   sendAddressToCDC(address: Address): Observable<{ status: string }> {
     //send to CDC
-    let formattedAddress = address.formattedAddress || ' ';
-    return this.cdcJsService.updateAddressWithoutScreenSet(
-      formattedAddress,
-      address.postalCode || ' ',
-      address.town || ' ',
-      address.country?.name || ' '
-    );
+    console.log(address);
+    return of({ status: 'x' });
+    // let formattedAddress = address.formattedAddress || ' ';
+    // return this.cdcJsService.updateAddressWithoutScreenSet(
+    //   formattedAddress,
+    //   address.postalCode || ' ',
+    //   address.town || ' ',
+    //   address.country?.name || ' '
+    // );
   }
 
   constructor(

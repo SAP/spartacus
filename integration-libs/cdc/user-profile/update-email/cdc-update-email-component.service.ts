@@ -43,15 +43,15 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
 
     this.busy$.next(true);
 
-    const newEmail = this.form.get('confirmEmail')?.value;
-    const password = this.form.get('password')?.value;
+    // const newEmail = this.form.get('confirmEmail')?.value;
+    // const password = this.form.get('password')?.value;
 
-    this.cdcJsService
-      .updateUserEmailWithoutScreenSet(password, newEmail)
-      .subscribe({
-        next: () => this.onSuccess(newEmail),
-        error: (error: Error) => this.onError(error),
-      });
+    // this.cdcJsService
+    //   .updateUserEmailWithoutScreenSet(password, newEmail)
+    //   .subscribe({
+    //     next: () => this.onSuccess(newEmail),
+    //     error: (error: Error) => this.onError(error),
+    //   });
   }
 
   protected onError(_error: Error): void {

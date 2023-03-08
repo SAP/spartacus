@@ -45,14 +45,14 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
 
     this.busy$.next(true);
 
-    const oldPassword = this.form.get('oldPassword')?.value;
-    const newPassword = this.form.get('newPassword')?.value;
+    // const oldPassword = this.form.get('oldPassword')?.value;
+    // const newPassword = this.form.get('newPassword')?.value;
 
-    this.cdcJsService
-      .updateUserPasswordWithoutScreenSet(oldPassword, newPassword)
-      .subscribe({
-        next: () => this.onSuccess(),
-        error: (error: Error) => this.onError(error),
-      });
+    // this.cdcJsService
+    //   .updateUserPasswordWithoutScreenSet(oldPassword, newPassword)
+    //   .subscribe({
+    //     next: () => this.onSuccess(),
+    //     error: (error: Error) => this.onError(error),
+    //   });
   }
 }

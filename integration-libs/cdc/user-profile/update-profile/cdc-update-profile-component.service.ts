@@ -31,11 +31,11 @@ export class CDCUpdateProfileComponentService extends UpdateProfileComponentServ
 
     this.busy$.next(true);
 
-    let formValue = this.form.value;
-    this.cdcJsService.updateProfileWithoutScreenSet(formValue).subscribe({
-      next: () => this.onSuccess(),
-      error: (error) => this.onError(error),
-    });
+    // let formValue = this.form.value;
+    // this.cdcJsService.updateProfileWithoutScreenSet(formValue).subscribe({
+    //   next: () => this.onSuccess(),
+    //   error: (error) => this.onError(error),
+    // });
   }
 
   protected onError(_error: any): void {
