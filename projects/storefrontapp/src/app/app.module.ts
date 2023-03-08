@@ -23,6 +23,7 @@ import {
   RoutingConfig,
   TestConfigModule,
 } from '@spartacus/core';
+import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -83,6 +84,10 @@ if (!environment.production) {
       features: {
         level: '*',
       },
+    }),
+    provideConfig(<StoreFinderConfig>{
+      // For security compliance, by default, google maps does not display.
+      googleMaps: { apiKey: 'development' },
     }),
   ],
   bootstrap: [StorefrontComponent],
