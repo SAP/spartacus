@@ -256,10 +256,12 @@ export function fillPaymentForm(
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
+export function verifyItemsToBeShippedHeader() {
+  cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+}
 
 export function verifyReviewOrderPage() {
   cy.contains('Cart total');
-  cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
 }
 
 export function placeOrder() {
