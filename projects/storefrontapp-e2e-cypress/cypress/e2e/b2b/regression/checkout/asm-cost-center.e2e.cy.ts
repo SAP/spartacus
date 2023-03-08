@@ -59,6 +59,7 @@ context('B2B - ASM Account Checkout', () => {
       });
     });
     asm.agentSignOut();
+    cy.reload();
   });
 
   it('should not show error on valid cost center', () => {
