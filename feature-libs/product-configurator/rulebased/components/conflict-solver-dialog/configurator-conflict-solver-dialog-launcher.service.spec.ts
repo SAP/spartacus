@@ -15,13 +15,17 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+let lastDialogData: any;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe(
     _caller: LAUNCH_CALLER,
     _openElement?: ElementRef,
     _data?: any
-  ) {}
+  ) {
+    console.log('## openDialogAndSubscribe');
+    lastDialogData = _data;
+  }
 
   closeDialog(_reason: string): void {}
 }
@@ -72,7 +76,7 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     listener = TestBed.inject(ConfiguratorConflictSolverDialogLauncherService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     spyOn(launchDialogService, 'closeDialog').and.stub();
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
   }
 
   beforeEach(() => {
@@ -114,8 +118,8 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
     it('should emit group data', (done) => {
       routerData$ = of(configRouterData);
       initLauncherService();
-      listener.conflictGroup$.subscribe((data) => {
-        expect(data).toEqual(group);
+      listener.conflictGroupAndRouterData$.subscribe((data) => {
+        expect(data.conflictGroup).toEqual(group);
         done();
       });
       groupSubject.next(group);
@@ -128,6 +132,17 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       groupSubject.next(group);
       tick(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    }));
+
+    it('should open conflict solver dialog only once if same conflict groups is emitted', fakeAsync(() => {
+      initLauncherService();
+      groupSubject.next(group);
+      tick(0);
+      groupSubject.next(group);
+      tick(0);
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(
+        1
+      );
     }));
 
     it('should close conflict solver dialog because there are not any conflict groups', fakeAsync(() => {
@@ -169,6 +184,24 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       initLauncherService();
       listener['closeModal']('reason');
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('reason');
+    });
+  });
+
+  describe('openModal', () => {
+    it('should provide conflict data', () => {
+      initLauncherService();
+      listener['conflictGroupAndRouterData$'] = of({
+        conflictGroup: group,
+        routerData: mockRouterData,
+      });
+      listener['openModal']();
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+      expect(lastDialogData.routerData).toBe(listener['routerData$']);
+      lastDialogData.conflictGroup
+        .subscribe((dialogData: any) => {
+          expect(dialogData).toBe(group);
+        })
+        .unsubscribe();
     });
   });
 });

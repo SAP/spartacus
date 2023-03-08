@@ -21,5 +21,6 @@ export namespace ConfiguratorRouter {
     expMode?: boolean;
     configIdTemplate?: string;
     displayResumeConfigDialog?: boolean;
+    navigationId?: number;
   }
 }

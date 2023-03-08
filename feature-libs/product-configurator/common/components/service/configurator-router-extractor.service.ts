@@ -49,6 +49,7 @@ export class ConfiguratorRouterExtractorService {
           displayResumeConfigDialog:
             routingData.state.queryParams?.displayResumeConfigDialog === 'true',
           configIdTemplate: routingData.state.queryParams?.configIdTemplate,
+          navigationId: routingData.navigationId,
           pageType:
             semanticRoute &&
             semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)

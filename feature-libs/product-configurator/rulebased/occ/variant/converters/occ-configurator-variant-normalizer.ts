@@ -43,7 +43,7 @@ export class OccConfiguratorVariantNormalizer
       kbKey: source.kbKey ?? undefined,
       pricingEnabled: source.pricingEnabled ?? true,
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
-      immediateConflictResolution: source.immediateConflictResolution ?? false,
+      immediateConflictResolution: true, //source.immediateConflictResolution ?? false,
       newConfiguration: source.newConfiguration ?? false,
     };
     const flatGroups: Configurator.Group[] = [];

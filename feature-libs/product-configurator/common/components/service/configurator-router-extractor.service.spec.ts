@@ -141,6 +141,18 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
+    it('should map the navigationId', () => {
+      mockRouterState.navigationId = 3;
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigationId).toBe(3);
+        })
+        .unsubscribe();
+    });
+
     it('should tell from the URL if we need to enforce a reload of a configuration', () => {
       mockRouterState.state.queryParams = { forceReload: 'true' };
       let routerData: ConfiguratorRouter.Data;
