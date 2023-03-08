@@ -1,27 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, RoutingService, User } from '@spartacus/core';
-import { LoginComponentService } from '@spartacus/user/account/components';
+import { LoginComponent } from '@spartacus/user/account/components';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-cdp-my-account-side',
+  selector: 'cx-cdp-side',
   templateUrl: './cdp-my-account-side.component.html',
-  styleUrls: ['./cdp-my-account-side.component.css']
+  styleUrls: ['./cdp-my-account-side.component.scss']
 })
-export class CdpMyAccountSideComponent implements OnInit {
+export class CdpMyAccountSideComponent extends LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
-  isCdpEnabled: any;
+  isCdpEnabled: boolean =false;
+
   constructor(
     protected auth: AuthService,
     protected userAccount: UserAccountFacade,
-    protected routing: RoutingService,
-    protected loginComponentService: LoginComponentService
-  ) {}
+    protected routing: RoutingService
+  ) {
+    super(auth,userAccount,routing);
+  }
 
   ngOnInit(): void {
-    this.isCdpEnabled = this.loginComponentService.myAccountForCdp();
     this.user$ = this.auth.isUserLoggedIn().pipe(
       switchMap((isUserLoggedIn) => {
         if (isUserLoggedIn) {
@@ -31,17 +32,6 @@ export class CdpMyAccountSideComponent implements OnInit {
         }
       })
     );
-
   }
-
-  myAccountForCdp(): boolean{
-    return true;
-}
-
-goToMyAccount(): void {
-  this.routing.go({
-    cxRoute: 'myAccount'
-  });
-}
 
 }

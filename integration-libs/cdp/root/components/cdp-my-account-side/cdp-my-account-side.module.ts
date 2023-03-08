@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutConfig, ListNavigationModule, PageSlotModule } from '@spartacus/storefront';
-import { CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import {  ListNavigationModule, PageSlotModule } from '@spartacus/storefront';
+import {  CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule,  UrlModule } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -24,7 +24,7 @@ import { CdpMyAccountSideComponent } from './cdp-my-account-side.component';
         I18nModule,
         PageSlotModule,
         FeaturesConfigModule,
-        ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
+        ConfigModule.withConfig(<CmsConfig>{
             cmsComponents: {
               CdpMyAccountSideComponent: { component: CdpMyAccountSideComponent },
             },
@@ -35,6 +35,12 @@ import { CdpMyAccountSideComponent } from './cdp-my-account-side.component';
             // },
           }),
     ],
+    // providers: [
+    //   {
+    //     provide: AuthService,
+    //     useExisting: AuthService,
+    //   },
+    // ],
     exports: [CdpMyAccountSideComponent]
 })
 export class CdpMyAccountSideModule { }

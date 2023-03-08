@@ -1,15 +1,72 @@
-<cx-page-slot>
-    <ng-container *ngIf="user$ | async ">
-      <div class="cx-login-greet">
-        {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
-      </div>
-      
-  
-    
-    <ng-template #login>
-      <a role="link" [routerLink]="{ cxRoute: 'logout' } | cxUrl">{{
-        'miniLogin.signOut' | cxTranslate
-      }}</a>
-    </ng-template>
-  </ng-container>
-</cx-page-slot>
+<!-- <ng-container *ngIf="user$ | async ">
+  <div class="">
+    {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
+  </div>
+<ng-template #login>
+  <a role="link" [routerLink]="{ cxRoute: 'logout' } | cxUrl">{{
+    'miniLogin.signOut' | cxTranslate
+  }}</a>
+</ng-template>
+</ng-container> -->
+
+
+
+<div class="cx-cdp-side">
+<table class="cx-cdp-side-table">
+  <th>Order Information</th>
+  <tr
+  role="row"
+>
+  <td role="cell" >
+    <div >
+      {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
+    </div>
+    <!-- <a
+      [routerLink]="
+        {
+          cxRoute: 'wishlist'
+        } | cxUrl
+      "></a> -->
+      <!-- <a [routerLink]='/my-account/orders' | cxUrl ></a> -->
+  </td>
+  <tr>
+    <td>{{'cdpOrderHistory.savedCarts' | cxTranslate }}</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.wishlist' | cxTranslate }}</td>
+  </tr>
+</table>
+
+<table class="cx-cdp-side-table">
+  <th>Customer Service</th>
+  <tr>
+    <td>Requests</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.registeredProducts' | cxTranslate }}</td>
+  </tr>
+</table>
+
+<table class="cx-cdp-side-table">
+  <th>Account Information</th>
+  <tr>
+    <td>{{'cdpOrderHistory.personalDetails' | cxTranslate }}</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.addressBook' | cxTranslate }}</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.paymentDetails' | cxTranslate }}</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.communications' | cxTranslate }}</td>
+  </tr>
+  <tr>
+    <td>{{'cdpOrderHistory.settingAndPrivacy' | cxTranslate }}</td>
+  </tr>
+</table>
+</div>
+

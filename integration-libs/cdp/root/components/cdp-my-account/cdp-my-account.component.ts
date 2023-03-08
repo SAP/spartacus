@@ -5,13 +5,13 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-order-history',
+  selector: 'cx-cdp-body',
   templateUrl: './cdp-my-account.component.html',
-  // styleUrls: ['./cdp-my-account.component.css'],
+  styleUrls: ['./cdp-my-account.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CdpMyAccountComponent implements OnDestroy {
+export class CdpMyAccountComponent implements  OnDestroy {
 
   user$: Observable<User | undefined>;
   // TODO(#630): make featureConfigService are required dependency and for major releases, remove featureConfigService
@@ -23,6 +23,7 @@ export class CdpMyAccountComponent implements OnDestroy {
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfigService: FeatureConfigService
   );
+
   /**
    * @deprecated since 5.1
    */
