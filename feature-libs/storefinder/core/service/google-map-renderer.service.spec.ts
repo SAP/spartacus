@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ScriptLoader } from '@spartacus/core';
+import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 import { GoogleMapRendererService } from './google-map-renderer.service';
@@ -116,7 +117,7 @@ describe('GoogleMapRendererService', () => {
   }));
 
   it('should render map when special "development" api key value is provided', fakeAsync(() => {
-    setApiKey('development');
+    setApiKey(GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG);
 
     // given
     spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
@@ -152,7 +153,7 @@ describe('GoogleMapRendererService', () => {
   }));
 
   it('should not create a new map if the map was already created', fakeAsync(() => {
-    setApiKey('development');
+    setApiKey(GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG);
 
     // given the map is already rendered
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);

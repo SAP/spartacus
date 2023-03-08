@@ -7,6 +7,7 @@
 /// <reference types="@types/google.maps" />
 import { Injectable, isDevMode } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
+import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 
@@ -39,7 +40,7 @@ export class GoogleMapRendererService {
       if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
         if (this.googleMap === null) {
           const apiKey =
-            this.config.googleMaps.apiKey === 'development'
+            this.config.googleMaps.apiKey === GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG
               ? ''
               : this.config.googleMaps.apiKey;
 

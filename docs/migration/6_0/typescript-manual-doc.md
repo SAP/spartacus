@@ -109,7 +109,16 @@ It is now possible to register custom attribute type components for UI types not
 
 ## GoogleMapRendererService
 
-There is a new condition to render the map.  In `StoreFinderConfig`, the config `googleMaps.apiKey` must have a value for the goole maps script to be embedded and display the map.  This change is done to comply with security best practices. 
+To comply with security best practices, the Google map does not display by default in the store finder feature. For the map to display, the store finder configuration must have a google maps api key defined. To do this in your spartacus app, define a `StoreFinderConfig` configuration block. Inside, define the property `apiKey` in the object `googleMaps` with the value of the api key.  For example:
+
+```
+    provideConfig(<StoreFinderConfig>{
+      googleMaps: { apiKey: 'your-api-key-goes-here' },
+    }),
+```
+
+For development or demo purposes, the special value 'cx-development' can be provided as the api key value in a Spartacus based application's configuration.  The store finder map component will display the map and send an empty api key value to Google Maps, like in the default behaviour of the component prior to version 6.0.
+
 ## Spartacus PWA schematics
 
 - `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
