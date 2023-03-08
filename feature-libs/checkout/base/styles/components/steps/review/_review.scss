@@ -1,6 +1,7 @@
 %cx-checkout-review-shipping,
 %cx-checkout-review-payment,
-%cx-checkout-review-overview {
+%cx-checkout-review-overview,
+%cx-order-confirmation-shipping {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
     background-color: var(--cx-color-inverse);
@@ -63,6 +64,7 @@
       width: 45%;
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
+      flex-grow: 1;
 
       &:first-child {
         margin-top: 0px;
@@ -85,7 +87,7 @@
 
       .cx-card-title {
         @include type('4');
-        font-weight: bold;
+        font-weight: var(--cx-font-weight-bold);
         margin-bottom: 0.5rem;
       }
 
@@ -110,17 +112,6 @@
     margin: 2rem 0 0.5rem 0;
   }
 
-  // ***************************** MEDIA QUERIES *****************************
-
-  .col-md-12 {
-    @include media-breakpoint-down(md) {
-      padding: 0 3.5rem 3.5rem 3.5rem;
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding: 0 1.25rem 1.25rem 1.25rem;
-    }
-  }
 }
 
 cx-place-order {

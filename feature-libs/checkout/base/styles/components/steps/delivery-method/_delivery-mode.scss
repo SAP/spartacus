@@ -9,6 +9,7 @@
     border: 1px solid var(--cx-color-light);
     border-radius: 10px;
     padding: 23px 30px 8px;
+    background-color: var(--cx-color-inverse);
 
     @include media-breakpoint-down(md) {
       margin: 0 55px;

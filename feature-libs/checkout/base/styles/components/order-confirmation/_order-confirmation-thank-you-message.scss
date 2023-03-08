@@ -5,7 +5,7 @@
 
     h2 {
       font-weight: var(--cx-font-weight-bold);
-      font-size: 1.5rem;
+      font-size: var(--cx-font-size, 1.5rem);
     }
 
     .btn-link {
