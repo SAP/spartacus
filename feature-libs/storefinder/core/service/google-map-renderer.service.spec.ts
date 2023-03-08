@@ -1,6 +1,5 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ScriptLoader } from '@spartacus/core';
-import { defaultStoreFinderConfig as config } from '../config/default-store-finder-config';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 import { GoogleMapRendererService } from './google-map-renderer.service';
@@ -14,7 +13,7 @@ const mockStoreFinderConfig: StoreFinderConfig = {
     scale: 5,
     selectedMarkerScale: 17,
     radius: 50000,
-  }
+  },
 };
 
 const locations = [
@@ -101,8 +100,8 @@ describe('GoogleMapRendererService', () => {
 
     // then
     expect(scriptLoaderMock.embedScript).toHaveBeenCalledWith({
-      src: config.googleMaps.apiUrl,
-      params: Object({ key: config.googleMaps.apiKey }),
+      src: mockStoreFinderConfig.googleMaps?.apiUrl,
+      params: Object({ key: mockStoreFinderConfig.googleMaps?.apiKey }),
       attributes: { type: 'text/javascript' },
       callback: jasmine.any(Function) as any,
     });
