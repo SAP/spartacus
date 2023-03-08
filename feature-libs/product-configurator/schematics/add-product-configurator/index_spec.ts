@@ -78,36 +78,34 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...libraryNoFeaturesOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...libraryNoFeaturesOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -140,9 +138,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('VC', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyVC,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -191,13 +191,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyVC, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyVC, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
@@ -216,12 +214,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('CPQ', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyCPQ, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyVC,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyCPQ,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax, and include VC as well', async () => {
@@ -280,20 +283,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyVC, lazy: false },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyCPQ, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyVC, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyCPQ, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
@@ -312,9 +312,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('Textfield', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyTextfield, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyTextfield,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -372,13 +374,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyTextfield, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyTextfield, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
@@ -397,22 +397,23 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('CPQ and Textfield', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...libraryNoFeaturesOptions,
-                features: [
-                  PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
-                  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
-                ],
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            libraryOptionsOnlyVC,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...libraryNoFeaturesOptions,
+              features: [
+                PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+                PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+              ],
+            },
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax, including VC as well', async () => {
@@ -471,27 +472,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...libraryOptionsOnlyVC, lazy: false },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...libraryNoFeaturesOptions,
-                features: [
-                  PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
-                  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
-                ],
-                lazy: false,
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...libraryOptionsOnlyVC, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...libraryNoFeaturesOptions,
+              features: [
+                PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+                PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+              ],
+              lazy: false,
+            },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {

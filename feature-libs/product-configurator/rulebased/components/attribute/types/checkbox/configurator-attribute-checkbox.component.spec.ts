@@ -14,6 +14,9 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 
 @Directive({
   selector: '[cxFocus]',
@@ -28,6 +31,10 @@ export class MockFocusDirective {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
 }
 
 describe('ConfigAttributeCheckBoxComponent', () => {
@@ -45,6 +52,16 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
           set: {
