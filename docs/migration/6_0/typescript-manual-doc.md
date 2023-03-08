@@ -110,3 +110,7 @@ It is now possible to register custom attribute type components for UI types not
 ## GoogleMapRendererService
 
 There is a new condition to render the map.  In `StoreFinderConfig`, the config `googleMaps.apiKey` must have a value for the goole maps script to be embedded and display the map.  This change is done to comply with security best practices. 
+## Spartacus PWA schematics
+
+- `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
+- If you would like to add the angular pwa to your application, you can run the command `ng add @angular/pwa --project <project-name>` and remove the service worker references in your app.module.ts to have the same output as what our custom pwa schematics did.
