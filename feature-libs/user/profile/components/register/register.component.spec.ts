@@ -200,15 +200,6 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      spyOn(globalMessageService, 'get').and.returnValue(
-        of({
-          [GlobalMessageType.MSG_TYPE_ERROR]: ['This field is required.'],
-        } as GlobalMessageEntities)
-      );
-      component.ngOnInit();
-    });
-    [];
-    it('should load titles', () => {
       component.ngOnInit();
 
       let titleList: Title[];
@@ -218,6 +209,27 @@ describe('RegisterComponent', () => {
         })
         .unsubscribe();
       expect(titleList).toEqual(mockTitlesList);
+    });
+
+    it('should handle error when title code is required from the backend config', () => {
+      spyOn(globalMessageService, 'get').and.returnValue(
+        of({
+          [GlobalMessageType.MSG_TYPE_ERROR]: [
+            { raw: 'This field is required.' },
+          ],
+        } as GlobalMessageEntities)
+      );
+      component.ngOnInit();
+
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'register.titleRequired',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
 
     it('should show spinner when loading = true', () => {
