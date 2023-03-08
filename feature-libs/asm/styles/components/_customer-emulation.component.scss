@@ -1,7 +1,47 @@
 %cx-customer-emulation {
   display: flex;
-}
+  justify-content: flex-start;
+  align-items: baseline;
+  @media (max-width: 940px) {
+    flex-direction: column;
+    > * {
+      margin-bottom: 12px;
+    }
+  }
 
+  button {
+    color: #aa0808;
+    font-weight: 700;
+    background-color: #ffd6ea;
+    border: 1px solid #ffd6ea;
+    border-radius: 8px;
+    padding: 6px 10px;
+
+    @media (max-width: 940px) {
+      width: 100%;
+    }
+  }
+
+  label {
+    margin-inline-end: 10px;
+    margin-inline-start: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #556b82;
+  }
+  .cx-asm-customerInfo {
+    display: flex;
+    flex-direction: column;
+    margin-inline-end: 15px;
+
+    .cx-asm-name {
+      color: #1d2d3e;
+    }
+    .cx-asm-uid {
+      color: #556b82;
+    }
+  }
+}
 //Session-in-progress alert
 .asm-alert {
   padding: 9px 12px;
