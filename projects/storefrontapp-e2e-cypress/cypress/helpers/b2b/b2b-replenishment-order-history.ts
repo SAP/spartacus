@@ -102,7 +102,7 @@ export function verifySorting() {
 export function cancelReplenishmentInHistory() {
   const replenishmentHistoryAlias = visitReplenishmentHistory();
 
-  cy.get(replenishmentHistoryAlias).should((xhr) => {
+  cy.get(replenishmentHistoryAlias).then((xhr) => {
     const body = xhr.response.body;
     expect(body.replenishmentOrders[0].active).to.equal(true);
 

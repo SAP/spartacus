@@ -25,7 +25,7 @@ import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualPickingTabService implements OnDestroy {
   constructor(

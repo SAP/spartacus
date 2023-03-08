@@ -6,21 +6,13 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { ConfiguratorGroupModule } from '../group/configurator-group.module';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    I18nModule,
-    NgSelectModule,
-    ConfiguratorGroupModule,
-  ],
+  imports: [CommonModule, I18nModule, NgSelectModule, ConfiguratorGroupModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

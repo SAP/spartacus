@@ -1,4 +1,4 @@
-import { InjectFlags, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { CombinedInjector } from './combined-injector';
 
 const rootInjector = Injector.create({
@@ -91,11 +91,11 @@ describe('CombinedInjector', () => {
   describe('when using self flag', () => {
     it('should throw error if default value is not provided', () => {
       expect(() =>
-        injector.get('a' as any, undefined, InjectFlags.Self)
+        injector.get('a' as any, undefined, { self: true })
       ).toThrowError();
     });
     it('should return default value', () => {
-      expect(injector.get('a' as any, 'default', InjectFlags.Self)).toEqual(
+      expect(injector.get('a' as any, 'default', { self: true })).toEqual(
         'default'
       );
     });
