@@ -1,15 +1,15 @@
 
-<div class="cx-order-container" *ngFor="let order of result.orders; index as i">
+<div class="cx-order-container" *ngFor="let order of result.orders; index as i ">
   <div class="cx-order-summary">
-    <h2>
-        <a [routerLink]="
+    <h3><a [routerLink]="
         {
           cxRoute: 'orderDetails',
           params: order
         } | cxUrl
-      "> Order # {{ order.code }}</a>
-    </h2>
-    <h4>Purchased In Store |{{ order.placed | cxDate: 'd, MMMM, yyyy' }} | {{ orderDetail[order.code]?.deliveryItemsQuantity }} items |<b>TotalPrice: ${{ order.total.value }}</b></h4>
+      "
+      routerLinkActive="active"
+      > Order # {{ order?.code }}</a></h3>
+    <h4>Purchased In Store | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} | {{ orderDetail[order.code]?.deliveryItemsQuantity }} items | <b>TotalPrice: ${{ order.total.value }}</b></h4>
     <br>
     <br>
     <div *ngFor="let item of  orderStatus[order.code]|keyvalue">
@@ -44,8 +44,12 @@
   </div>
 
   <div class="cx-order-image">
-    <div *ngFor="let url of  orderUrl[order.code]">
-        <img [src]="url">
+     <div *ngFor="let prdt of  orderImage[order.code]">
+        <div *ngFor="let img of prdt.images;let i = index">
+            <div *ngIf="i<1">
+                <img [src]="img.url" width="88" height="88" class="slide active" >
+            </div>
+        </div>
     </div>
   </div>
 

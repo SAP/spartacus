@@ -1,6 +1,7 @@
 .cx-order-container{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     .cx-order-summary{
         a{
             color: #1772b7;
@@ -9,21 +10,17 @@
         width: 50%;
     }
     .cx-order-image{
-        margin-left: auto;
-        width:50%;
-        font-family: 'Times New Roman', Times, serif;
+        //margin-left: 50pc;
+        width:88px;
+        height:88px;
+        display: flex;
+        padding: 0px;
     }
     hr{
         width:100%
     }
     font-family: 'Times New Roman', Times, serif;
 }
-// ::ng-deep cx-tab-paragraph-container > div > button{
-//     &:hover,&:active,&.active{
-//         color:black;
-//     }
-// }
-
 .cx-all-orders{
     color: black;
 }

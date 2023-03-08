@@ -1,11 +1,14 @@
 import { Component, OnInit} from '@angular/core';
-import { CxDatePipe, UserIdService } from '@spartacus/core';
+import { CxDatePipe, OccEndpointsService, RoutingService, UserIdService } from '@spartacus/core';
 //import { Observable } from 'rxjs';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { cdpOrderAdapter } from './adapter/cdp-order-adapter';
 import { finalOrder } from './model/order/finalOrder';
 import { order } from './model/orderDetail/order';
 import { result } from './model/result';
+import {BehaviorSubject} from 'rxjs';
+import { product } from './model/ImageDetail/product';
+
 
 
 @Component({
@@ -16,7 +19,7 @@ import { result } from './model/result';
 })
 export class OrderComponent implements OnInit{
 
-  constructor(private userIdService: UserIdService,private cdpOrderAdapter: cdpOrderAdapter,protected datePipe: CxDatePipe){}
+  constructor(private userIdService: UserIdService,private cdpOrderAdapter: cdpOrderAdapter,protected datePipe: CxDatePipe,protected routing: RoutingService,protected occEndpointsService: OccEndpointsService){}
 
   result: finalOrder={orders:[]};
   totalPrice: number=0;
@@ -25,8 +28,9 @@ export class OrderComponent implements OnInit{
   i: number=0;
   output: result;
   orderStatus: Record<string,Record<string,number>>={};
-  orderUrl: Record<string,string[]>={};
+  orderImage: Record<string,product[]>={};
   userId: string;
+  tabTitleParam$=new BehaviorSubject(0);
 
   ngOnInit(): void {
     this.getMyData();
@@ -38,6 +42,7 @@ export class OrderComponent implements OnInit{
 
    obser.subscribe(res => {
     this.result=res;
+    this.tabTitleParam$.next(res.orders.length);
     this.calculateTotalAmount(this.result);
     this.getItemCount(this.result);
   });
@@ -56,11 +61,6 @@ export class OrderComponent implements OnInit{
 
     for(let orderval of finalResult.orders)
     {
-      // this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,orderval))).subscribe(data=>{
-      //   this.orderDetail[orderval.code]=data;
-      //   this.getDetail();
-      // });
-      //this.orderDetail[orderval.code]
       await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,orderval))).toPromise().then( data=>{
         this.orderDetail[orderval.code]=data;
       });
@@ -68,7 +68,7 @@ export class OrderComponent implements OnInit{
     this.getDetail();
   }
 
-  public getDetail()
+  public async getDetail()
   {
     // eslint-disable-next-line guard-for-in
     for(let orderCode in this.orderDetail){
@@ -80,17 +80,16 @@ export class OrderComponent implements OnInit{
           this.orderStatus[orderCode][ord.status]= this.orderStatus[orderCode][ord.status] + entr.quantity;
         });
       });
-      // this.orderDetail[orderCode].entries.forEach(ord=>{
-      //   this.orderUrl[orderCode]??=[];
-      //   ord.product.images.url.forEach(img=>{
-      //     if(!this.orderUrl[orderCode].includes(img)){
-      //       this.orderUrl[orderCode].push(img);
-      //     }
-      //   });
-      // });
+      this.orderImage[orderCode]??=[];
+      //this.orderImage[orderCode]??={images:[]};
+      this.orderDetail[orderCode].entries.forEach(entr=>{ this.cdpOrderAdapter.getImages(entr.product.code).subscribe(data=>{
+            this.orderImage[orderCode].push(data);
+            data.images.forEach(img=>{
+                img.url=this.occEndpointsService.getBaseUrl({prefix:false,baseSite:false})+img.url;
+            });
+          });
+      });
     }
-    console.log(this.orderStatus);
-    console.log(this.orderUrl);
+    console.log(this.orderImage);
   }
-
 }
