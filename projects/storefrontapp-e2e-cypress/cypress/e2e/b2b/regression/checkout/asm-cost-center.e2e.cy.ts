@@ -59,7 +59,6 @@ context('B2B - ASM Account Checkout', () => {
       });
     });
     asm.agentSignOut();
-    cy.reload();
   });
 
   it('should not show error on valid cost center', () => {
@@ -79,7 +78,7 @@ context('B2B - ASM Account Checkout', () => {
 
     cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReqValid');
     cy.get('cx-cost-center').within(() => {
-      cy.get('select').select(valid_cost_center);
+      cy.get('select').select(valid_cost_center, { force: true });
     });
     cy.wait('@costCenterReqValid').its('response.statusCode').should('eq', 200);
     alerts.getErrorAlert().should('not.exist');
