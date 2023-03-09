@@ -56,6 +56,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with both PW
     "@angular/platform-server": "^14.2.3",
     "@angular/router": "^14.2.0",
     "@angular/service-worker": "^14.2.3",
+    "@fortawesome/fontawesome-free": "5.8.1",
     "@ng-select/ng-select": "^9.0.2",
     "@ngrx/effects": "^14.3.0",
     "@ngrx/router-store": "^14.3.0",
