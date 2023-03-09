@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CdpMyAccountModule } from './cdp-my-account';
 import { CdpPageTitleComponent } from './cdp-page-title/cdp-page-title.component';
 import { CdpMyAccountSideModule } from './cdp-my-account-side/cdp-my-account-side.module';
+import { OrderModule } from '@spartacus/order';
 
 
 
@@ -13,7 +14,8 @@ import { CdpMyAccountSideModule } from './cdp-my-account-side/cdp-my-account-sid
   imports: [
     CommonModule,
     CdpMyAccountModule,
-    CdpMyAccountSideModule
+    CdpMyAccountSideModule,
+    OrderModule
   ]
 })
 export class CdpComponentsModule { }

@@ -1,10 +1,10 @@
-<ng-container
+<!-- <ng-container
   *ngIf="{
     orderHistory: orders$ | async
   } as type"
->
+> -->
 
-<ng-container *ngIf="type.orderHistory">
+<ng-container >
    <!-- HEADER -->
   <div>
     <h2>
@@ -16,10 +16,11 @@
   id="order-history-table"
   class="table cx-cdp-body-table"
 >
-
+*ngIf="order$ | async as order"
   <!-- BODY --> 
-  <tbody *ngFor="let order of type.orderHistory.orders" >
+  <tbody *ngFor="let order of result.orders" >
     <!-- HEADER ROW-->
+    
     <tr
       role="row"
     >

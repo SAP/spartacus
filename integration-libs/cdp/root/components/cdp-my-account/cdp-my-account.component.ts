@@ -1,8 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, Optional } from '@angular/core';
-import { RoutingService, TranslationService, FeatureConfigService, isNotUndefined, User} from '@spartacus/core';
-import { Order, OrderHistoryFacade, OrderHistoryList, ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CxDatePipe, OccEndpointsService, RoutingService, UserIdService} from '@spartacus/core';
+import result from 'postcss/lib/result';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap, mergeMap } from 'rxjs/operators';
+import { finalOrder } from '../cdp-order/model/order/finalOrder';
+import { order } from '../cdp-order/model/orderDetail/order';
+import { product } from '../cdp-order/model/ImageDetail/product';
+import { cdpOrderAdapter } from '../cdp-order/adapter/cdp-order-adapter';
 
 @Component({
   selector: 'cx-cdp-body',
@@ -11,119 +15,79 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CdpMyAccountComponent implements  OnDestroy {
+export class CdpMyAccountComponent implements OnInit{
 
-  user$: Observable<User | undefined>;
-  // TODO(#630): make featureConfigService are required dependency and for major releases, remove featureConfigService
-  constructor(
-    routing: RoutingService,
-    orderHistoryFacade: OrderHistoryFacade,
-    translation: TranslationService,
-    replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
+  constructor(private userIdService: UserIdService,private cdpOrderAdapter: cdpOrderAdapter,protected datePipe: CxDatePipe,protected routing: RoutingService,protected occEndpointsService: OccEndpointsService){}
 
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    routing: RoutingService,
-    orderHistoryFacade: OrderHistoryFacade,
-    translation: TranslationService,
-    replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  );
-  constructor(
-    protected routing: RoutingService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    @Optional() protected featureConfigService?: FeatureConfigService
-  ) {console.log(this);}
+  result: finalOrder={orders:[]};
+  totalPrice: number=0;
+  totalItem: number[]=[];
+  orderDetail: Record<string,order>={};
+  i: number=0;
+  output: result;
+  orderStatus: Record<string,Record<string,number>>={};
+  orderImage: Record<string,product[]>={};
+  userId: string;
+  tabTitleParam$=new BehaviorSubject(0);
 
-  private PAGE_SIZE = 5;
-  sortType: string;
-  hasPONumber: boolean | undefined;
-
-  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.PAGE_SIZE)
-    .pipe(
-      tap((orders: OrderHistoryList | undefined) => {
-        if (orders?.pagination?.sort) {
-          this.sortType = orders.pagination.sort;
-        }
-        // TODO(#630): remove featureConfigService for major releases
-        this.hasPONumber =
-          orders?.orders?.[0]?.purchaseOrderNumber !== undefined &&
-          this.featureConfigService?.isLevel('5.1');
-      })
-    );
-
-  hasReplenishmentOrder$: Observable<boolean> =
-    this.replenishmentOrderHistoryFacade
-      .getReplenishmentOrderDetails()
-      .pipe(map((order) => order && Object.keys(order).length !== 0));
-
-  isLoaded$: Observable<boolean> =
-    this.orderHistoryFacade.getOrderHistoryListLoaded();
-
-  /**
-   * When "Order Return" feature is enabled, this component becomes one tab in
-   * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
-   */
-  tabTitleParam$: Observable<number> = this.orders$.pipe(
-    map((order) => order?.pagination?.totalResults),
-    filter(isNotUndefined),
-    take(1)
-  );
-
-  ngOnDestroy(): void {
-    this.orderHistoryFacade.clearOrderList();
+  ngOnInit(): void {
+    this.getMyData();
   }
 
-  changeSortCode(sortCode: string): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode,
-      currentPage: 0,
-    };
-    this.sortType = sortCode;
-    this.fetchOrders(event);
+  public getMyData(): void{
+
+   const obser= this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
+
+   obser.subscribe(res => {
+    this.result=res;
+    this.tabTitleParam$.next(res.orders.length);
+    this.calculateTotalAmount(this.result);
+    this.getItemCount(this.result);
+  });
   }
 
-  pageChange(page: number): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode: this.sortType,
-      currentPage: page,
-    };
-    this.fetchOrders(event);
+  public calculateTotalAmount(finalResult: finalOrder): void{
+
+    for(var val of finalResult.orders)
+    {
+      this.totalPrice = val.total.value + this.totalPrice;
+      console.log(this.totalPrice);
+    }
   }
 
-  goToOrderDetail(order: Order): void {
-    this.routing.go({
-      cxRoute: 'orderDetails',
-      params: order,
-    });
+  public async getItemCount(finalResult: finalOrder): Promise<void>{
+
+    for(let orderval of finalResult.orders)
+    {
+      await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,orderval))).toPromise().then( data=>{
+        this.orderDetail[orderval.code]=data;
+      });
+    }
+    this.getDetail();
   }
 
-  getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
-    return combineLatest([
-      this.translation.translate('sorting.date'),
-      this.translation.translate('sorting.orderNumber'),
-    ]).pipe(
-      map(([textByDate, textByOrderNumber]) => {
-        return {
-          byDate: textByDate,
-          byOrderNumber: textByOrderNumber,
-        };
-      })
-    );
-  }
-
-  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.orderHistoryFacade.loadOrderList(
-      this.PAGE_SIZE,
-      event.currentPage,
-      event.sortCode
-    );
+  public async getDetail()
+  {
+    // eslint-disable-next-line guard-for-in
+    for(let orderCode in this.orderDetail){
+      this.orderStatus[orderCode]??={};
+      this.orderDetail[orderCode].consignments.forEach(ord=>{
+        this.orderStatus[orderCode][ord.status]??=0;
+        ord.entries.forEach(entr=>{
+          console.log(orderCode +" status "+ord.status + entr.quantity);
+          this.orderStatus[orderCode][ord.status]= this.orderStatus[orderCode][ord.status] + entr.quantity;
+        });
+      });
+      this.orderImage[orderCode]??=[];
+      //this.orderImage[orderCode]??={images:[]};
+      this.orderDetail[orderCode].entries.forEach(entr=>{ this.cdpOrderAdapter.getImages(entr.product.code).subscribe(data=>{
+            this.orderImage[orderCode].push(data);
+            data.images.forEach(img=>{
+                img.url=this.occEndpointsService.getBaseUrl({prefix:false,baseSite:false})+img.url;
+            });
+          });
+      });
+    }
+    console.log(this.orderImage);
   }
 }
