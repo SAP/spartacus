@@ -256,7 +256,7 @@ export function fillPaymentForm(
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
-export function verifyItemsToBeShippedHeader() {
+export function verifyItemsToBeShipped() {
   cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
 }
 
@@ -493,6 +493,7 @@ export function placeOrderWithCheapProduct(
 ) {
   cy.log('🛒 Placing order');
   verifyReviewOrderPage();
+  verifyItemsToBeShipped();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
