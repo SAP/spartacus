@@ -95,6 +95,12 @@ It is now possible to register custom attribute type components for UI types not
 
 - For readability purposes `--` separate is added between `prefix` and `groupId` in `createOvGroupId(prefix: string, groupId: string)` method.
 
+### ConfiguratorAction
+- The type alias changed. Following new actions are included: `UpdateConfigurationOverview | UpdateConfigurationOverviewFail | UpdateConfigurationOverviewSuccess |RemoveProductBoundConfigurations | CheckConflictDialoge | DissmissConflictDialoge`
+
+### Action create configuration
+- Contructor payload gets new additional optional parameter configIdTemplate (ID of a template configuration)
+
 ## BadRequestHandler
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
