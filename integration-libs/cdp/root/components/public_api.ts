@@ -8,3 +8,5 @@
 export * from './cdp-my-account/index';
 export * from './cdp-my-account-side/index';
 export * from './cdp-components.module';
+export * from './cdp-order/index';
+export * from './cdp-order/cdp-order.module';
