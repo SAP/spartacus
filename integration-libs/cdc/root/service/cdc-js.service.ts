@@ -502,8 +502,8 @@ export class CdcJsService implements OnDestroy {
    */
   protected getLoggedInUserEmail(): Observable<User> {
     return this.userProfileFacade.get().pipe(
-      take(1),
       filter((user): user is User => Boolean(user))
+      take(1),
     );
   }
 
