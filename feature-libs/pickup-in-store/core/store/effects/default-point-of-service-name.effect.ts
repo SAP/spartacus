@@ -7,14 +7,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { WindowRef } from '@spartacus/core';
+import { PointOfService, WindowRef } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { iif, of } from 'rxjs';
+import { iif, Observable, of } from 'rxjs';
 
 import {
   catchError,
@@ -61,6 +61,20 @@ export class DefaultPointOfServiceEffect {
             )
           ),
           filter((defaultPointOfService) => defaultPointOfService),
+          map((defaultPointOfService) => defaultPointOfService.name),
+          tap((defaultPointOfService) =>
+            this.storeFinderService.viewStoreById(defaultPointOfService)
+          ),
+          switchMap(
+            (): Observable<PointOfService> =>
+              this.storeFinderService.getFindStoreEntityById() as Observable<PointOfService>
+          ),
+          map(
+            (pointOfService: PointOfService): PointOfServiceNames => ({
+              displayName: pointOfService.displayName as string,
+              name: pointOfService.name as string,
+            })
+          ),
           map((defaultPointOfService: PointOfServiceNames) =>
             DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess({
               payload: defaultPointOfService,
