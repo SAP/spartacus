@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Route, Router } from '@angular/router';
 import {
   CmsComponentChildRoutesConfig,
   CmsRoute,
@@ -15,6 +15,7 @@ import {
 } from '@spartacus/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
+import { resolveCmsGuard } from './cms-guards.service';
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
@@ -75,6 +76,29 @@ export class CmsRoutesImplService {
     return true;
   }
 
+  /**
+   * Wraps guards of each Route with the `resolveCmsGuard()` function.
+   *
+   * It allows for resolving those guards by the Angular Router,
+   * even if those guards are not provided in the root injector,
+   * but provided in a child injector of a lazy-loaded module.
+   */
+  private resolveCmsGuards(routes: Route[]): Route[] {
+    return routes.map((route) => {
+      if (route.children) {
+        route.children = this.resolveCmsGuards(route.children);
+      }
+
+      if (route?.canActivate?.length) {
+        route.canActivate = route.canActivate.map((guard) =>
+          resolveCmsGuard(guard)
+        );
+      }
+
+      return route;
+    });
+  }
+
   private updateRouting(
     pageContext: PageContext,
     pageLabel: string,
@@ -85,10 +109,12 @@ export class CmsRoutesImplService {
       pageLabel.startsWith('/') &&
       pageLabel.length > 1
     ) {
+      const children = this.resolveCmsGuards(childRoutesConfig.children);
+
       const newRoute: CmsRoute = {
         path: pageLabel.substr(1),
         component: PageLayoutComponent,
-        children: childRoutesConfig.children,
+        children,
         data: deepMerge({}, childRoutesConfig?.parent?.data ?? {}, {
           cxCmsRouteContext: {
             type: pageContext.type,

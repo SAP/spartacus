@@ -12,7 +12,6 @@ import {
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import {
   BREAKPOINT,
-  resolveCmsGuard,
   TableConfig,
   TableLayout,
 } from '@spartacus/storefront';
@@ -130,12 +129,12 @@ export const unitsCmsConfig: CmsConfig = {
                   {
                     path: 'create',
                     component: UnitUserCreateComponent,
-                    canActivate: [resolveCmsGuard(UserGuard)],
+                    canActivate: [UserGuard],
                   },
                   {
                     path: `:${ROUTE_PARAMS.userCode}/roles`,
                     component: UnitUserRolesFormComponent,
-                    canActivate: [resolveCmsGuard(UserGuard)],
+                    canActivate: [UserGuard],
                   },
                 ],
               },
