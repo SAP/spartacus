@@ -19,7 +19,7 @@
   "devDependencies": {},
   "peerDependencies": {
     "@fortawesome/fontawesome-free": "5.8.1",
-    "@ng-select/ng-select": "^9.0.2",
+    "@ng-select/ng-select": "^10.0.3",
     "bootstrap": "^4.6.1"
   },
   "publishConfig": {

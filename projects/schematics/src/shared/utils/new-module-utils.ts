@@ -65,6 +65,7 @@ export function ensureModuleExists(options: {
       }
     }
     return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
+      project: options.project,
       name: dasherize(options.name),
       flat: true,
       commonModule: false,
