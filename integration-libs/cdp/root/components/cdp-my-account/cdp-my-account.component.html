@@ -3,10 +3,13 @@
     orderHistory: orders$ | async
   } as type"
 > -->
+<div *ngIf="orders$ | async as orders"> {{ orders.orders.code }}</div>
+<div *ngIf="orders$ | async as orders">{{ orders[0].orders[0].code }}</div>
+
 
 <ng-container >
    <!-- HEADER -->
-  <div>
+  <!-- <div>
     <h2>
       {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
     </h2>
@@ -15,13 +18,12 @@
   role="table"
   id="order-history-table"
   class="table cx-cdp-body-table"
->
-*ngIf="order$ | async as order"
+> -->
   <!-- BODY --> 
-  <tbody *ngFor="let order of result.orders" >
+  <!-- <tbody *ngFor="let order of orders" > -->
     <!-- HEADER ROW-->
     
-    <tr
+    <!-- <tr
       role="row"
     >
     <td role="cell" class="cx-order-history-code">
@@ -35,14 +37,14 @@
         OrderNumber({{ order?.code }})
       </div>
     </td>
-    </tr>
+    </tr> -->
 
     <!-- BODY ROW -->
-    <tr
+    <!-- <tr
     role="row"
-    >
+    > -->
     <!-- IMAGE -->
-    <td role="cell" class="cx-order-history-code">
+    <!-- <td role="cell" class="cx-order-history-code">
       <img [src]="order.url" width="88" height="88" class="slide active" >
     </td>
     <td></td>
@@ -52,10 +54,10 @@
     </div>
     </td>
     </tr>
-    </tbody>
+    </tbody> -->
 
-</table>
-
+<!-- </table> -->
+<!--  -->
 
 
 </ng-container>

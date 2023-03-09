@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {  Component, OnInit } from '@angular/core';
 import { CxDatePipe, OccEndpointsService, RoutingService, UserIdService} from '@spartacus/core';
 import result from 'postcss/lib/result';
 import { BehaviorSubject } from 'rxjs';
@@ -12,7 +12,7 @@ import { cdpOrderAdapter } from '../cdp-order/adapter/cdp-order-adapter';
   selector: 'cx-cdp-body',
   templateUrl: './cdp-my-account.component.html',
   styleUrls: ['./cdp-my-account.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CxDatePipe],
 })
 
 export class CdpMyAccountComponent implements OnInit{
@@ -33,8 +33,11 @@ export class CdpMyAccountComponent implements OnInit{
   ngOnInit(): void {
     this.getMyData();
   }
+  orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
   public getMyData(): void{
+
+  //  const orders$= this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
    const obser= this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
