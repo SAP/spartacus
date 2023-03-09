@@ -63,4 +63,4 @@
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
  
 ### Fonts library
-CSS fonts were downloaded in runtime using Google Fonts. It is now replaced by Fontsource library, a self-hosted solution. The css fonts asset is now bundled with the Spartacus styles. This change is done to comply with security best practices.
+CSS fonts were downloaded in runtime from third party servers using Google Fonts. It is now replaced by Fontsource library, a self-hosted solution. The css fonts asset is now bundled with the Spartacus styles. This change is done to comply with security best practices.
