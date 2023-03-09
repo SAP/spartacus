@@ -24,7 +24,7 @@ These will be the 2 versions compared for breaking changes.
 
 - Build Spartacus libs
 In both ./src/old and ./src/new, run `npm install` and `npm run build:libs`. 
-(Note if old release is < 6.0, it is `yarn install` and `yarn build:libs`>)
+(Note if old release is < 6.0, it is `yarn install` and `yarn build:libs`)
 
 
 - Extract the public API.
