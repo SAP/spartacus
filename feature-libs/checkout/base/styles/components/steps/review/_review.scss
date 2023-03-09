@@ -1,8 +1,10 @@
 %cx-checkout-review-shipping,
 %cx-checkout-review-payment,
-%cx-checkout-review-overview {
+%cx-checkout-review-overview,
+%cx-order-confirmation-shipping {
   @include media-breakpoint-down(md) {
     padding: 20px 0;
+    background-color: var(--cx-color-inverse);
   }
 
   .cx-review-header {
@@ -42,29 +44,50 @@
       width: 45%;
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
+
+      &:first-child {
+        margin-top: 30px;
+        margin-inline-start: 25px;
+        margin-bottom: 40px;
+        margin-inline-end: 15px;
+      }
+
+      &:last-child {
+        margin-top: 30px;
+        margin-inline-start: 15px;
+        margin-bottom: 40px;
+        margin-inline-end: 25px;
+      }
     }
 
     .cx-review-summary-card-container {
       width: 45%;
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
+      flex-grow: 1;
+
+      &:first-child {
+        margin-top: 0px;
+        margin-inline-start: 0px;
+        margin-bottom: 40px;
+        margin-inline-end: 15px;
+      }
+
+      &:last-child {
+        margin-top: 0px;
+        margin-inline-start: 15px;
+        margin-bottom: 40px;
+        margin-inline-end: 0;
+      }
     }
 
     .cx-review-summary-card {
       display: flex;
       justify-content: space-between;
 
-      @include media-breakpoint-down(md) {
-        background-color: theme-color('inverse');
-        border-style: solid;
-        border-width: 1px;
-        border-color: var(--cx-color-light);
-        min-height: auto;
-      }
-
       .cx-card-title {
         @include type('4');
-        font-weight: bold;
+        font-weight: var(--cx-font-weight-bold);
         margin-bottom: 0.5rem;
       }
 
@@ -81,7 +104,7 @@
   }
 
   .cx-review-shipping-summary {
-    background-color: var(--cx-color-inverse) !important;
+    background-color: var(--cx-color-inverse);
   }
 
   .cx-review-cart-total {
@@ -89,18 +112,6 @@
     margin: 2rem 0 0.5rem 0;
   }
 
-  // ***************************** MEDIA QUERIES *****************************
-
-  @include checkout-media-style();
-  .col-md-12 {
-    @include media-breakpoint-down(md) {
-      padding: 0 3.5rem 3.5rem 3.5rem;
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding: 0 1.25rem 1.25rem 1.25rem;
-    }
-  }
 }
 
 cx-place-order {
