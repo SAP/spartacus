@@ -15,7 +15,7 @@ import { WindowRef } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualViewerAnimationSliderService {
   public constructor(
