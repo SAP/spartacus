@@ -6,6 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { STORE_FINDER_FEATURE } from '@spartacus/storefinder/root';
 import {
   CartPickupOptionsContainerModule,
   PdpPickupOptionsContainerModule,
@@ -26,6 +27,7 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
           'OrderConfirmationPickUpComponent',
           'PickupInStoreDeliveryModeComponent',
         ],
+        dependencies: [STORE_FINDER_FEATURE],
       },
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },

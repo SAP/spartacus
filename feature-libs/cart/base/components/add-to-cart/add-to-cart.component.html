@@ -19,9 +19,7 @@
     </div>
   </div>
   <ng-container *ngIf="hasStock">
-    <ng-container *cxFeatureLevel="'5.1'">
-      <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
-    </ng-container>
+    <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasStock">
