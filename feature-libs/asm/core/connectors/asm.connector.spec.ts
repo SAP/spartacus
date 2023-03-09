@@ -4,7 +4,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
+} from '../../root/model/asm.models';
 import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
 

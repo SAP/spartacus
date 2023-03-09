@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { AsmUi } from '../../models/asm.models';
+import { AsmUi } from '../../../root/model/asm.models';
 import { AsmActions } from '../actions/index';
 
 export const initialState: AsmUi = <AsmUi>{ collapsed: false };

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
+} from '../../root/model/asm.models';
 import { AsmAdapter } from './asm.adapter';
 
 @Injectable({

@@ -12,7 +12,7 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
+import { CustomerSearchPage } from '../../../root/model/asm.models';
 import { AsmActions } from '../actions';
 import {
   AsmState,

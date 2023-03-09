@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
+} from '../../root/model/asm.models';
 export abstract class AsmAdapter {
   /**
    * Abstract function used to search for customers.

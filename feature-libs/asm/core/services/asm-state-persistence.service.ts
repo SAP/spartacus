@@ -10,7 +10,7 @@ import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AsmUi } from '../models/asm.models';
+import { AsmUi } from '../../root/model/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 
 /**

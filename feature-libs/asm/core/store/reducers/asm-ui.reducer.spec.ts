@@ -1,4 +1,4 @@
-import { AsmUi } from '../../models/asm.models';
+import { AsmUi } from '../../../root/model/asm.models';
 import { AsmActions } from '../actions';
 import * as fromReducer from './asm-ui.reducer';
 

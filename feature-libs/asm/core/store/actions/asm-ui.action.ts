@@ -5,7 +5,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { AsmUi } from '../../models/asm.models';
+import { AsmUi } from '../../../root/model/asm.models';
 
 export const ASM_UI_UPDATE = '[Asm] UI Update';
 
