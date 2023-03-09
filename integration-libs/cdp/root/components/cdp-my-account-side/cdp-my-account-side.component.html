@@ -11,13 +11,13 @@
         {{user.name}}
       </div>
       <div style="text-align: left;">
-        {{ 'cdpOrderHistory.signOut' | cxTranslate}}
+        
         <a
           [routerLink]="
             {
               cxRoute: 'logOut'
             } | cxUrl
-          "> </a>
+          ">{{ 'cdpOrderHistory.signOut' | cxTranslate}} </a>
         </div>
     </ng-container>  
   </td>

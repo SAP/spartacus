@@ -21,6 +21,9 @@ export const CdpConfig: RoutingConfig = {
         paths: ['my-account/order/:orderCode'],
         paramsMapping: { orderCode: 'code' },
       },
+      logout: {
+        paths: ['logout'],
+      },
   }
 }
 };
