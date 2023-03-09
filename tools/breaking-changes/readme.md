@@ -14,7 +14,7 @@ This major version number will dictate, among other things, various input and ou
 
 # Produce the breaking change list
 
-- `npm install'
+- Run `npm install`
 
 - run clone.sh
 This will clone the Spartacus repo in 2 folders ./src/old and ./src/new
