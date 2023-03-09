@@ -463,8 +463,8 @@ export class CdcJsService implements OnDestroy {
           // Verify the password by attempting to login
           // - CDC doesn't require to verify password before changing an email, but the default Spartacus requires it.
           // - CDC doesn't have any specific api, for verifying a password, so as a _workaround_ we call the login API of CDC.
-          //   We pass a special `context` parameter `'{ skipOccAuth: true}'`, which doens't mean instruct the CDC API to reset email,
-          //   but only conditionally avoid the full CDC login flow.
+          //   We pass a special `context` parameter `'{ skipOccAuth: true }'`
+          //   to avoid the full CDC login flow.
           //   Instead we want only half of the CDC login flow, just to verify if the password was correct.
           return this.loginUserWithoutScreenSet(email, password, {
             skipOccAuth: true,
