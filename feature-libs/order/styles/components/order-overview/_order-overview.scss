@@ -10,7 +10,9 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      padding: 10px 11px;
+      padding: 36px 32px;
+      margin: 0;
+      min-width: 100%;
 
       @include media-breakpoint-down(md) {
         background-color: var(--cx-color-inverse);
@@ -18,6 +20,28 @@
 
       .cx-order-details-cards {
         flex-grow: 1;
+
+        @include media-breakpoint-up(lg) {
+          border-inline-end: 1px solid var(--cx-color-text);
+          margin-inline-end: 10rem;
+
+          cx-card {
+            padding: 10px 0;
+            display: block;
+
+            &:first-child {
+              padding-top: 0;
+            }
+
+            &:last-child {
+              padding-bottom: 0;
+            }
+
+            .cx-card-body {
+              padding: 0;
+            }
+          }
+        }
 
         @include media-breakpoint-down(md) {
           border: 1px solid var(--cx-color-light);
@@ -97,6 +121,25 @@
     }
 
     .cx-review-summary-card {
+      width: 100%;
+
+      @include media-breakpoint-up(lg) {
+        padding: 10px 0;
+        display: block;
+
+        &:first-child {
+          padding-top: 0;
+        }
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        .cx-card-body {
+          padding: 0;
+        }
+      }
+
       .cx-card-title {
         font-size: var(--cx-font-size, 1.125rem);
         margin-bottom: 0;
