@@ -8,7 +8,6 @@ import { inject, Injectable, Type } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  CanActivateFn,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
@@ -29,13 +28,18 @@ import { CmsComponentsService } from './cms-components.service';
  * allowing the guard's instance to be injected even if it was provided
  * in a child injector (of some lazy-loaded module).
  */
-export function resolveCmsGuard(guard: Type<any>): CanActivateFn {
+export function resolveCmsGuard(
+  guardClass: Type<any>
+): (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => Observable<boolean | UrlTree> {
   return (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> => {
     const cmsGuardsService = inject(CmsGuardsService);
-    return cmsGuardsService.canActivateGuard(guard, route, state);
+    return cmsGuardsService.canActivateGuard(guardClass, route, state);
   };
 }
 
