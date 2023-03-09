@@ -14,7 +14,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * Abstract method used to create a configuration
    *
    * @param productCode Root product code
-   * @param forceReset optional - if true, wil force creation of a new default configuration, instead of returning a product bound configuration
+   * @param forceReset optional - if true, creation of a new default configuration will be enforced, instead of returning a product bound configuration
    */
   abstract createConfiguration(
     owner: CommonConfigurator.Owner,

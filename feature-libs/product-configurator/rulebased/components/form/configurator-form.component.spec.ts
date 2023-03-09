@@ -513,7 +513,7 @@ describe('ConfigurationFormComponent', () => {
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG,
         undefined,
-        { previousOwner: config.owner }
+        { owner: config.owner }
       );
     });
 

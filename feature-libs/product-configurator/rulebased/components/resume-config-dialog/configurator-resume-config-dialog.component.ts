@@ -28,14 +28,14 @@ export class ConfiguratorResumeConfigDialogComponent {
     protected productService: ProductService
   ) {}
 
-  data$: Observable<{ previousOwner: CommonConfigurator.Owner }> =
+  dialogData$: Observable<{ owner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(
-      // in case conflict solver opens as well we need to filter out is data
-      filter((data) => data && data.previousOwner)
+      // In case conflict solver opens as well we need to filter out is data
+      filter((dialogData) => dialogData && dialogData.owner)
     );
 
-  product$ = this.data$.pipe(
-    switchMap((data) => this.productService.get(data.previousOwner.id))
+  product$ = this.dialogData$.pipe(
+    switchMap((dialogData) => this.productService.get(dialogData.owner.id))
   );
 
   iconTypes = ICON_TYPE;
@@ -47,20 +47,20 @@ export class ConfiguratorResumeConfigDialogComponent {
   };
 
   /**
-   * closes the  modal
+   * Closes the  modal
    */
   closeModal(): void {
     this.launchDialogService.closeDialog('Close Resume Config Modal');
   }
 
   /**
-   * resume with current config
-   * @parameter product owning this configuration
+   * Resume with current configuration
+   * @param product owning this configuration
    */
-  resumeConfig(product: Product): void {
+  resume(product: Product): void {
     this.closeModal();
-    // in case conflict solver was open as well, it was closed by the call above.
-    // By navigating again we ensure it will open again
+    // In case conflict solver was open as well, it was closed by the call above.
+    // By navigating again we ensure it will open again.
     this.routingService.go({
       cxRoute: 'configure' + product.configuratorType,
       params: {
@@ -71,17 +71,17 @@ export class ConfiguratorResumeConfigDialogComponent {
   }
 
   /**
-   * discards current configuration and requests a new default configuration
-   * @parameter previousOwner owner of the current configuration thats will be reused for next configuration
+   * Discards current configuration and requests a new default configuration
+   * @param owner owner of the current configuration that will be reused for next configuration
    */
-  discardConfig(previousOwner: CommonConfigurator.Owner): void {
-    this.configuratorCommonsService.forceNewConfiguration(previousOwner);
+  discard(owner: CommonConfigurator.Owner): void {
+    this.configuratorCommonsService.forceNewConfiguration(owner);
     this.closeModal();
   }
 
   /**
-   * navigates back product detail page without making a decision
-   * @parameter product owning this configuration
+   * Navigates back to product detail page without making a decision
+   * @param product owning this configuration
    */
   backToPDP(product: Product) {
     this.closeModal();

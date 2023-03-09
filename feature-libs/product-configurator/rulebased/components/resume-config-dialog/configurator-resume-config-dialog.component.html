@@ -1,5 +1,5 @@
-<div class="cx-configurator-resume-config-dialog cx-modal-container">
-  <ng-container *ngIf="data$ | async as data">
+<div class="cx-modal-container">
+  <ng-container *ngIf="dialogData$ | async as dialogData">
     <ng-container *ngIf="product$ | async as product">
       <div
         class="cx-modal-content"
@@ -33,7 +33,7 @@
           </div>
           <button
             class="btn btn-primary btn-block cx-configurator-dialog-resume"
-            (click)="resumeConfig(product)"
+            (click)="resume(product)"
             aria-describedby="cx-configurator-restart-dialog-description"
           >
             {{ 'configurator.resumeConfigDialog.resumeButton' | cxTranslate }}
@@ -41,7 +41,7 @@
           <button
             type="button"
             class="btn btn-secondary btn-block cx-configurator-dialog-discard"
-            (click)="discardConfig(data.previousOwner)"
+            (click)="discard(dialogData.owner)"
             aria-describedby="cx-configurator-restart-dialog-description"
           >
             {{ 'configurator.resumeConfigDialog.discardButton' | cxTranslate }}

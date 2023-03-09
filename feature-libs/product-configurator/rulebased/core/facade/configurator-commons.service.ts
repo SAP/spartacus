@@ -88,7 +88,6 @@ export class ConfiguratorCommonsService {
    * available
    *
    * @param owner - Configuration owner
-   * @param forceReset optional - if true, wil force creation of a new default configuration, instead of returning a product bound configuration
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
@@ -257,7 +256,7 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * forces the creation of a new default configuration for the given owner
+   * Forces the creation of a new default configuration for the given owner
    * @param owner - Configuration owner
    */
   forceNewConfiguration(owner: CommonConfigurator.Owner): void {

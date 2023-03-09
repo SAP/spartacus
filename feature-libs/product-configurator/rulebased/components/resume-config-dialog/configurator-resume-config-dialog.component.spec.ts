@@ -50,14 +50,14 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
   let mockRoutingService: RoutingService;
   let mockProductService: ProductService;
 
-  let dataSender: BehaviorSubject<
-    { previousOwner: CommonConfigurator.Owner } | undefined
+  let dialogDataSender: BehaviorSubject<
+    { owner: CommonConfigurator.Owner } | undefined
   >;
 
   function initialize() {
-    dataSender = new BehaviorSubject<
-      { previousOwner: CommonConfigurator.Owner } | undefined
-    >({ previousOwner: owner });
+    dialogDataSender = new BehaviorSubject<
+      { owner: CommonConfigurator.Owner } | undefined
+    >({ owner: owner });
     fixture = TestBed.createComponent(ConfiguratorResumeConfigDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
@@ -68,7 +68,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
 
   class MockLaunchDialogService {
     closeDialog(): void {}
-    data$ = dataSender;
+    data$ = dialogDataSender;
   }
 
   function initializeMocks() {
@@ -120,12 +120,12 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
   });
 
   it('should ignore invalid dialog data', (done) => {
-    component.data$.subscribe({
-      next: (data) => expect(data).toBeDefined(),
+    component.dialogData$.subscribe({
+      next: (dialogData) => expect(dialogData).toBeDefined(),
       complete: done,
     });
-    dataSender.next(undefined);
-    dataSender.complete();
+    dialogDataSender.next(undefined);
+    dialogDataSender.complete();
   });
 
   it('should query product by owner id', () => {

@@ -88,7 +88,7 @@ export class ConfiguratorFormComponent implements OnInit {
         this.launchDialogService.openDialogAndSubscribe(
           LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG,
           undefined,
-          { previousOwner: configuration.owner }
+          { owner: configuration.owner }
         );
       });
 

@@ -379,10 +379,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(result.newConfiguration).toBe(true);
     });
 
-    it('should convert "newConfiguration" setting by default to false', () => {
+    it('should convert "newConfiguration" setting by default to true', () => {
       configuration.newConfiguration = undefined;
       const result = occConfiguratorVariantNormalizer.convert(configuration);
-      expect(result.newConfiguration).toBe(false);
+      expect(result.newConfiguration).toBe(true);
     });
 
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {

@@ -51,7 +51,7 @@ describe('ConfiguratorActions', () => {
     expect(createAction.payload.configIdTemplate).toBe(CONFIG_ID_TEMPLATE);
   });
 
-  it('should provide create action that carries the forceReset flag as a payload', () => {
+  it('should provide a create action containing the forceReset flag within the payload', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration({
       owner: OWNER,
       forceReset: true,

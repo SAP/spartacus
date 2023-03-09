@@ -263,7 +263,7 @@ export const configurator = {
         'Filter configuration overview by group {{groupName}}',
       closeConflictSolverModal: 'Close conflict solver modal',
       closeResumeConfigDialog:
-        'Close the resume config dialog an navigate back to the product details page',
+        'Close the resume config dialog and navigate back to the product details page',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',
