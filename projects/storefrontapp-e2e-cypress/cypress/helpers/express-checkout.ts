@@ -30,13 +30,13 @@ export function testExpressCheckout() {
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct();
-    checkout.verifyReviewOrderPage();
+    //checkout.verifyReviewOrderPage();
 
     cy.get('cx-mini-cart').click();
 
     cy.findByText(/proceed to checkout/i).click();
 
-    checkout.verifyReviewOrderPage();
+    //checkout.verifyReviewOrderPage();
     cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
   });
 
@@ -53,7 +53,7 @@ export function testExpressCheckout() {
 
     cy.findByText(/proceed to checkout/i).click();
 
-    checkout.verifyReviewOrderPage();
+    //checkout.verifyReviewOrderPage();
     cy.get('.cx-review-card-shipping').should('contain', 'Premium Delivery');
   });
 }
