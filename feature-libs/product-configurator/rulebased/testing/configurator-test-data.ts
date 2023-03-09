@@ -149,13 +149,44 @@ export const attributeRadioButtons: Configurator.Attribute = {
   ],
 };
 
-export const attributeRadioButtonsWithAdditionalInput: Configurator.Attribute =
+export const attributeRadioButtonsWithNumericAdditionalInput: Configurator.Attribute =
   {
-    name: 'ATTRIBUTE_2_RADIOBUTTON_ADDITIONAL_INPUT',
+    name: 'ATTRIBUTE_2_RADIOBUTTON_NUMERIC_ADDITIONAL_INPUT',
     uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
     visible: true,
     required: false,
     incomplete: false,
+    validationType: Configurator.ValidationType.NUMERIC,
+    values: [
+      {
+        name: VALUE_01,
+        valueCode: VALUE_01,
+        valueDisplay: 'Value 01',
+        images: [],
+      },
+      {
+        name: VALUE_02,
+        valueCode: VALUE_02,
+        valueDisplay: 'Value 02',
+        images: [],
+      },
+      {
+        name: VALUE_03,
+        valueCode: VALUE_03,
+        valueDisplay: 'Value 03',
+        images: [],
+      },
+    ],
+  };
+
+export const attributeRadioButtonsWithAlphaNumericAdditionalInput: Configurator.Attribute =
+  {
+    name: 'ATTRIBUTE_2_RADIOBUTTON_ALPHANUMERIC_ADDITIONAL_INPUT',
+    uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+    visible: true,
+    required: false,
+    incomplete: false,
+    validationType: Configurator.ValidationType.NONE,
     values: [
       {
         name: VALUE_01,
@@ -234,33 +265,65 @@ export const attributeDropDown: Configurator.Attribute = {
   ],
 };
 
-export const attributeDropDownWithAdditionalInput: Configurator.Attribute = {
-  name: 'ATTRIBUTE_2_DROPDOWN_ADDITIONAL_INPUT',
-  uiType: Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
-  visible: true,
-  required: false,
-  incomplete: false,
-  values: [
-    {
-      name: VALUE_01,
-      valueCode: VALUE_01,
-      valueDisplay: 'Value 01',
-      images: [],
-    },
-    {
-      name: VALUE_02,
-      valueCode: VALUE_02,
-      valueDisplay: 'Value 02',
-      images: [],
-    },
-    {
-      name: VALUE_03,
-      valueCode: VALUE_03,
-      valueDisplay: 'Value 03',
-      images: [],
-    },
-  ],
-};
+export const attributeDropDownWithNumericAdditionalInput: Configurator.Attribute =
+  {
+    name: 'ATTRIBUTE_2_DROPDOWN_NUMERIC_ADDITIONAL_INPUT',
+    uiType: Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+    visible: true,
+    required: false,
+    incomplete: false,
+    validationType: Configurator.ValidationType.NUMERIC,
+    values: [
+      {
+        name: VALUE_01,
+        valueCode: VALUE_01,
+        valueDisplay: 'Value 01',
+        images: [],
+      },
+      {
+        name: VALUE_02,
+        valueCode: VALUE_02,
+        valueDisplay: 'Value 02',
+        images: [],
+      },
+      {
+        name: VALUE_03,
+        valueCode: VALUE_03,
+        valueDisplay: 'Value 03',
+        images: [],
+      },
+    ],
+  };
+
+export const attributeDropDownWithAlphaNumericAdditionalInput: Configurator.Attribute =
+  {
+    name: 'ATTRIBUTE_2_DROPDOWN_ALPHANUMERIC_ADDITIONAL_INPUT',
+    uiType: Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+    visible: true,
+    required: false,
+    incomplete: false,
+    validationType: Configurator.ValidationType.NONE,
+    values: [
+      {
+        name: VALUE_01,
+        valueCode: VALUE_01,
+        valueDisplay: 'Value 01',
+        images: [],
+      },
+      {
+        name: VALUE_02,
+        valueCode: VALUE_02,
+        valueDisplay: 'Value 02',
+        images: [],
+      },
+      {
+        name: VALUE_03,
+        valueCode: VALUE_03,
+        valueDisplay: 'Value 03',
+        images: [],
+      },
+    ],
+  };
 
 export const attrCode = 123;
 export const groupId = '1';
@@ -759,10 +822,12 @@ export const productConfiguration: Configurator.Configuration = {
         attributeInputField,
         attributeNumericInputField,
         attributeRadioButtons,
-        attributeRadioButtonsWithAdditionalInput,
+        attributeRadioButtonsWithNumericAdditionalInput,
+        attributeRadioButtonsWithAlphaNumericAdditionalInput,
         attributeSingleSelectionImages,
         attributeDropDown,
-        attributeDropDownWithAdditionalInput,
+        attributeDropDownWithNumericAdditionalInput,
+        attributeDropDownWithAlphaNumericAdditionalInput,
         attributeMultiSelectionImages,
         attributeSingleSelectionBundle,
         attributeDropdownSelectionBundle,
