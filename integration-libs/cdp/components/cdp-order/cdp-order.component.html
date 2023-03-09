@@ -1,43 +1,55 @@
 
 <div class="cx-order-container" *ngFor="let order of result.orders; index as i ">
   <div class="cx-order-summary">
-    <h3><a [routerLink]="
+    <span class="cx-order-style"><a [routerLink]="
         {
           cxRoute: 'orderDetails',
           params: order
         } | cxUrl
       "
       routerLinkActive="active"
-      > Order # {{ order?.code }}</a></h3>
-    <h4>Purchased In Store | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} | {{ orderDetail[order.code]?.deliveryItemsQuantity }} items | <b>TotalPrice: ${{ order.total.value }}</b></h4>
+      > Order # {{ order?.code }}</a></span>
+    <br>
+    <span class="cx-details">Purchased In Store | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} | {{ orderDetail[order.code]?.deliveryItemsQuantity }} items | TotalPrice: ${{ order.total.value }}</span>
     <br>
     <br>
     <div *ngFor="let item of  orderStatus[order.code]|keyvalue">
-        <h3><b>&#x2022; {{item.key}} - {{item.value}} items</b></h3>
+        <!-- <span class="cx-consignment-status">{{item.key}} - {{item.value}} items</span><br> -->
         <div *ngIf="item.key === 'READY_FOR_PICKUP';then content"></div>
         <ng-template #content>
-            <h3>Pickuped Date:</h3>
+            <span class="cx-consignment-status">{{item.key}} - {{item.value}} Items</span><br>
+            <span class="cx-ready-for-pickup">Pickup By:</span>
         </ng-template>
         <div *ngIf="item.key === 'SHIPPED';then contentShiped"></div>
         <ng-template #contentShiped>
-                <h3>Estimated Delivery:</h3>
-                <h3>Tracking Number:</h3>
+            <span class="cx-consignment-status">{{item.key}} - {{item.value}} Items</span><br>
+            <sapn class="cx-estimated-delivery">Estimated Delivery:</sapn><br>
+            <span class="cx-tracking-number">Tracking Number:</span>
         </ng-template>
         <div *ngIf="item.key === 'Cancelled';then contentCancelled"></div>
         <ng-template #contentCancelled>
-            <h3 style="color:red">Cancellation Processed: </h3>
+          <span class="cx-consignment-status">{{item.key}} - {{item.value}} Items</span><br>
+          <h3 style="color:red">Cancellation Processed: </h3>
         </ng-template>
         <div *ngIf="item.key === 'DELIVERY_REJECTED';then deliveryRejected"></div>
         <ng-template #deliveryRejected>
+            <span class="cx-consignment-status">{{item.key}} - {{item.value}} Items</span><br>
             <h3 style="color:red">Delivery Rejected: </h3>
         </ng-template>
         <div *ngIf="item.key === 'PICKUP_COMPLETE';then pickUpComplete"></div>
         <ng-template #pickUpComplete>
-            <h3 style="color:rgb(19, 18, 18)"> </h3>
+          <span class="cx-consignment-status">{{item.key}} - {{item.value}} Items</span><br>
+          <h3 style="color:rgb(19, 18, 18)"> </h3>
         </ng-template>
         <div *ngIf="item.key === 'DELIVERY_COMPLETED';then deliveryComplete"></div>
         <ng-template #deliveryComplete>
-            <h3 style="color:rgb(19, 18, 18)">Delivery Completed </h3>
+          <span class="cx-consignment-status">{{item.key}} - {{item.value}} Items</span><br>
+          <h3 style="color:rgb(19, 18, 18)">Delivery Completed </h3>
+        </ng-template>
+        <div *ngIf="item.key === 'CANCELLED';then deliveryCancelled"></div>
+        <ng-template #deliveryCancelled>
+          <span class="cx-consignment-cancelled">{{item.key}} - {{item.value}} Items</span><br>
+          <span class="cx-cancelled-detail">Cancellation Processed: </span>
         </ng-template>
     </div>
     <br>

@@ -24,3 +24,103 @@
 .cx-all-orders{
     color: black;
 }
+.cx-details{
+    font-family: Open Sans;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.cx-consignment-status{
+    width: 150px;
+    height: 25px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    text-transform: capitalize;
+    color: #14293A;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-order-style{
+    width: 215px;
+    height: 30px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+    text-decoration-line: underline;
+    color: #1672B7;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.cx-estimated-delivery{
+    width: 280px;
+    height: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #6C7079;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-tracking-number{
+    width: 229px;
+    height: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #6C7079;
+    flex: none;
+    order: 2;
+}
+.cx-ready-for-pickup{
+    width: 213px;
+    height: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #6C7079;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-consignment-cancelled{
+    width: 164px;
+    height: 25px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    color: #DB0002;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-cancelled-detail{
+    width: 335px;
+    height: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #6C7079;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
