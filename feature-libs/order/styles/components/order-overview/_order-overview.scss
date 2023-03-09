@@ -8,8 +8,18 @@
 
     .container {
       display: flex;
-      flex-wrap: wrap;
-      padding: 15px 0;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 11px;
+
+      .cx-order-details-cards {
+        flex-grow: 1;
+
+        .cx-card-title {
+          font-weight: var(--cx-font-weight-semi);
+          margin-bottom: 0;
+        }
+      }
 
       @include media-breakpoint-down(md) {
         max-width: 100%;
@@ -46,9 +56,25 @@
 
         .cx-card-title {
           @include type('4');
-          font-weight: bold;
+          font-weight: var(--cx-font-weight-bold);
           margin-bottom: 0.5rem;
         }
+      }
+    }
+  }
+
+  cx-order-detail-billing {
+    flex-grow: 1;
+    margin-bottom: 0;
+
+    .cx-review-summary {
+      flex-direction: column;
+    }
+
+    .cx-review-summary-card {
+      .cx-card-title {
+        font-size: var(--cx-font-size, 1.125rem);
+        margin-bottom: 0;
       }
     }
   }
