@@ -50,6 +50,7 @@ export class UserAddressesEffects {
             .add(payload.userId, payload.address)
             .pipe(
               map((data: any) => {
+                this.showGlobalMessage('addressForm.userAddressAddSuccess');
                 return new UserActions.AddUserAddressSuccess(data);
               }),
               catchError((error) =>
@@ -73,15 +74,17 @@ export class UserAddressesEffects {
             .pipe(
               map((data) => {
                 // don't show the message if just setting address as default
-                if (
+                const onlyMarkedAsDefault =
                   payload.address &&
                   Object.keys(payload.address).length === 1 &&
-                  payload.address.defaultAddress
-                ) {
-                  return new UserActions.LoadUserAddresses(payload.userId);
-                } else {
-                  return new UserActions.UpdateUserAddressSuccess(data);
+                  payload.address.defaultAddress;
+
+                if (!onlyMarkedAsDefault) {
+                  this.showGlobalMessage(
+                    'addressForm.userAddressUpdateSuccess'
+                  );
                 }
+                return new UserActions.UpdateUserAddressSuccess(data);
               }),
               catchError((error) =>
                 of(
@@ -105,6 +108,7 @@ export class UserAddressesEffects {
             .delete(payload.userId, payload.addressId)
             .pipe(
               map((data) => {
+                this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
                 return new UserActions.DeleteUserAddressSuccess(data);
               }),
               catchError((error) =>
@@ -129,7 +133,6 @@ export class UserAddressesEffects {
         ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
         tap(() => {
           this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressAddSuccess');
         })
       ),
     { dispatch: false }
@@ -145,7 +148,6 @@ export class UserAddressesEffects {
         ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
         tap(() => {
           this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
         })
       ),
     { dispatch: false }
@@ -161,7 +163,6 @@ export class UserAddressesEffects {
         ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
         tap(() => {
           this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
         })
       ),
     { dispatch: false }
