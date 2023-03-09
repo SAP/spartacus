@@ -271,11 +271,6 @@
       "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
     },
-    "pwa": {
-      "type": "boolean",
-      "description": "Add PWA support to the project.",
-      "default": false
-    },
     "ssr": {
       "type": "boolean",
       "description": "Add Server-side rendering support to the project.",
