@@ -23,7 +23,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _data?: any
   ) {
-    console.log('## openDialogAndSubscribe');
     lastDialogData = _data;
   }
 

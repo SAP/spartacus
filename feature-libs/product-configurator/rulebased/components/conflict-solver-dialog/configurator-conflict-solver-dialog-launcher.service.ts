@@ -21,7 +21,6 @@ import {
   first,
   map,
   switchMap,
-  tap,
 } from 'rxjs/operators';
 
 type ConflictGroupAndRouterData = {
@@ -69,15 +68,13 @@ export class ConfiguratorConflictSolverDialogLauncherService
       this.conflictGroupAndRouterData$
         .pipe(
           filter((data) => !!data.conflictGroup),
-          tap((data) => console.log('## before distinct', data)),
           // subscribeToCloseDialog triggers another emission of conflictGroup$ with the same conflict group and router data
           // so until we get a new navigation id in the router data, we ignore emissions of same conflict group
           distinctUntilChanged(
             (prev, cur) =>
               prev.conflictGroup === cur.conflictGroup &&
               prev.routerData.navigationId === cur.routerData.navigationId
-          ),
-          tap((data) => console.log('## after distinct', data))
+          )
         )
         .subscribe(() => {
           this.openModal();
