@@ -11,8 +11,8 @@ import {
   orderTranslations,
 } from '@spartacus/order/assets';
 import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
-import { CdpComponentsModule } from 'integration-libs/cdp/root/components/cdp-components.module';
-import { OrderModule } from 'integration-libs/cdp/root/components/cdp-order';
+import { CdpComponentsModule } from 'integration-libs/cdp/components/cdp-components.module';
+import { OrderModule } from 'integration-libs/cdp/components/cdp-order';
 import { environment } from 'projects/storefrontapp/src/environments/environment';
 
 
