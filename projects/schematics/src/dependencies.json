@@ -40,6 +40,7 @@
     "rxjs": "^6.6.0"
   },
   "@spartacus/styles": {
+    "@fontsource/open-sans": "^4.5.14",
     "@ng-select/ng-select": "^10.0.3",
     "bootstrap": "^4.6.1"
   },
