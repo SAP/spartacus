@@ -13,6 +13,7 @@ import {
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 import { iif, of } from 'rxjs';
 
 import {
@@ -32,6 +33,7 @@ export class DefaultPointOfServiceEffect {
     private actions$: Actions,
     protected store: Store<StateWithPickupLocations>,
     protected userProfileService: UserProfileFacade,
+    protected storeFinderService: StoreFinderService,
     protected winRef: WindowRef
   ) {}
 
