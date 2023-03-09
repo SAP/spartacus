@@ -68,28 +68,24 @@ describe('Feature utils', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
 
     buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
       .buildPaths[0];
@@ -112,17 +108,15 @@ describe('Feature utils', () => {
 
   describe('getDynamicallyImportedLocalSourceFile', () => {
     it('should return falsy if not local import', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...spartacusDefaultOptions,
-            name: 'schematics-test',
-            features: [USER_ACCOUNT_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...spartacusDefaultOptions,
+          name: 'schematics-test',
+          features: [USER_ACCOUNT_FEATURE_NAME],
+        },
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
       const userFeatureModule = program.getSourceFileOrThrow(
@@ -135,28 +129,25 @@ describe('Feature utils', () => {
     });
 
     it('should return the locally referenced source file', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...spartacusDefaultOptions,
-            name: 'schematics-test',
-            features: [CHECKOUT_BASE_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...spartacusDefaultOptions,
-            name: 'schematics-test',
-            features: [CHECKOUT_B2B_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...spartacusDefaultOptions,
+          name: 'schematics-test',
+          features: [CHECKOUT_BASE_FEATURE_NAME],
+        },
+        appTree
+      );
+
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        {
+          ...spartacusDefaultOptions,
+          name: 'schematics-test',
+          features: [CHECKOUT_B2B_FEATURE_NAME],
+        },
+        appTree
+      );
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
       const checkoutFeatureModule = program.getSourceFileOrThrow(
@@ -172,46 +163,41 @@ describe('Feature utils', () => {
   describe('analyzeApplication', () => {
     describe('dependent features check', () => {
       it('should throw when a feature is not configured in the existing Spartacus application', async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CHECKOUT_BASE_FEATURE_NAME],
+          },
+          appTree
+        );
+
+        try {
+          appTree = await schematicRunner.runSchematic(
             'ng-add',
             {
               ...spartacusDefaultOptions,
               name: 'schematics-test',
-              features: [CHECKOUT_BASE_FEATURE_NAME],
+              features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
             },
             appTree
-          )
-          .toPromise();
-        try {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
-              },
-              appTree
-            )
-            .toPromise();
+          );
         } catch (e) {
           expect(e).toBeTruthy();
         }
       });
 
       it('should throw when a feature is not configured, but library is present in package.json', async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...spartacusDefaultOptions,
-              name: 'schematics-test',
-              features: [ORDER_FEATURE_NAME],
-            },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [ORDER_FEATURE_NAME],
+          },
+          appTree
+        );
 
         const packageJson = JSON.parse(
           appTree.read('package.json')?.toString(UTF_8) ?? ''
@@ -220,17 +206,15 @@ describe('Feature utils', () => {
         appTree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
 
         try {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+            },
+            appTree
+          );
         } catch (e) {
           expect(e).toBeTruthy();
         }
@@ -238,29 +222,26 @@ describe('Feature utils', () => {
 
       describe('when the dependent feature is eagerly configured', () => {
         it('should succeed', async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [CHECKOUT_BASE_FEATURE_NAME],
-                lazy: false,
-              },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CHECKOUT_BASE_FEATURE_NAME],
+              lazy: false,
+            },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+            },
+            appTree
+          );
 
           const { program } = createProgram(
             appTree,
@@ -275,28 +256,25 @@ describe('Feature utils', () => {
       });
       describe('when the dependent feature is lazily configured', () => {
         it('should succeed', async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [CHECKOUT_BASE_FEATURE_NAME],
-              },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-              },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CHECKOUT_BASE_FEATURE_NAME],
+            },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+            },
+            appTree
+          );
 
           const { program } = createProgram(
             appTree,
