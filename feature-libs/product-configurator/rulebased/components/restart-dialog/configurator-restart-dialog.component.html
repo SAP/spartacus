@@ -8,11 +8,11 @@
       >
         <div class="cx-dialog-header modal-header">
           <div class="cx-dialog-title modal-title">
-            {{ 'configurator.resumeConfigDialog.title' | cxTranslate }}
+            {{ 'configurator.restartDialog.title' | cxTranslate }}
           </div>
           <button
             title="{{
-              'configurator.a11y.closeResumeConfigDialog' | cxTranslate
+              'configurator.a11y.closeRestartDialog' | cxTranslate
             }}"
             type="button"
             class="close"
@@ -29,22 +29,22 @@
             class="cx-configurator-dialog-description"
             id="cx-configurator-restart-dialog-description"
           >
-            {{ 'configurator.resumeConfigDialog.description' | cxTranslate }}
+            {{ 'configurator.restartDialog.description' | cxTranslate }}
           </div>
           <button
             class="btn btn-primary btn-block cx-configurator-dialog-resume"
             (click)="resume(product)"
             aria-describedby="cx-configurator-restart-dialog-description"
           >
-            {{ 'configurator.resumeConfigDialog.resumeButton' | cxTranslate }}
+            {{ 'configurator.restartDialog.resumeButton' | cxTranslate }}
           </button>
           <button
             type="button"
-            class="btn btn-secondary btn-block cx-configurator-dialog-discard"
-            (click)="discard(dialogData.owner)"
+            class="btn btn-secondary btn-block cx-configurator-dialog-restart"
+            (click)="restart(dialogData.owner)"
             aria-describedby="cx-configurator-restart-dialog-description"
           >
-            {{ 'configurator.resumeConfigDialog.discardButton' | cxTranslate }}
+            {{ 'configurator.restartDialog.restartButton' | cxTranslate }}
           </button>
         </div>
       </div>

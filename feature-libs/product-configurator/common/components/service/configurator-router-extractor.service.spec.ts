@@ -257,28 +257,28 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should set displayResumeConfigDialog to true if requested via query parameter', () => {
+    it('should set displayRestartDialog to true if requested via query parameter', () => {
       mockRouterState.state.queryParams = {
-        displayResumeConfigDialog: 'true',
+        displayRestartDialog: 'true',
       };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.displayResumeConfigDialog).toBe(true);
+          expect(routerData.displayRestartDialog).toBe(true);
         })
         .unsubscribe();
     });
 
-    it('should set displayResumeConfigDialog to false if the corresponding query parameter is missing', () => {
+    it('should set displayRestartDialog to false if the corresponding query parameter is missing', () => {
       mockRouterState.state.queryParams = {};
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => {
           routerData = data;
-          expect(routerData.displayResumeConfigDialog).toBe(false);
+          expect(routerData.displayRestartDialog).toBe(false);
         })
         .unsubscribe();
     });

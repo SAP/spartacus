@@ -8,14 +8,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorResumeConfigDialogComponent } from './configurator-resume-config-dialog.component';
-import { defaultConfiguratorResumeConfigDialogLayoutConfig } from './default-configurator-resume-config-dialog-layout.config';
+import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
+import { defaultConfiguratorRestartDialogLayoutConfig } from './default-configurator-restart-dialog-layout.config';
 
 @NgModule({
-  declarations: [ConfiguratorResumeConfigDialogComponent],
+  declarations: [ConfiguratorRestartDialogComponent],
   imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
   providers: [
-    provideDefaultConfig(defaultConfiguratorResumeConfigDialogLayoutConfig),
+    provideDefaultConfig(defaultConfiguratorRestartDialogLayoutConfig),
   ],
 })
-export class ConfiguratorResumeConfigDialogModule {}
+export class ConfiguratorRestartDialogModule {}

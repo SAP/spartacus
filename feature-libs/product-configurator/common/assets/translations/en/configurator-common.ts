@@ -132,11 +132,11 @@ export const configurator = {
       conflictDetected: 'Conflict Detected',
       viewConfigurationDetails: 'View In Configuration',
     },
-    resumeConfigDialog: {
+    restartDialog: {
       title: 'Unfinished Configuration',
       description:
         'There is an unfinished configuration from a previous session. Would you like to resume or start a new configuration?',
-      discardButton: 'Start New',
+      restartButton: 'Start New',
       resumeButton: 'Resume',
     },
     a11y: {
@@ -262,8 +262,8 @@ export const configurator = {
       filterOverviewByGroup:
         'Filter configuration overview by group {{groupName}}',
       closeConflictSolverModal: 'Close conflict solver modal',
-      closeResumeConfigDialog:
-        'Close the resume config dialog and navigate back to the product details page',
+      closeRestartDialog:
+        'Close the "Unfinished Configuration" dialog and navigate back to the product details page',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',

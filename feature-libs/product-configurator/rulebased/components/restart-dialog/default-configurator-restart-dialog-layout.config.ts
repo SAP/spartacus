@@ -5,13 +5,13 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { ConfiguratorResumeConfigDialogComponent } from './configurator-resume-config-dialog.component';
+import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
 
-export const defaultConfiguratorResumeConfigDialogLayoutConfig: LayoutConfig = {
+export const defaultConfiguratorRestartDialogLayoutConfig: LayoutConfig = {
   launch: {
-    CONFIGURATOR_RESUME_CONFIG: {
+    CONFIGURATOR_RESTART_DIALOG: {
       inlineRoot: true,
-      component: ConfiguratorResumeConfigDialogComponent,
+      component: ConfiguratorRestartDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

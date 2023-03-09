@@ -502,22 +502,22 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should launch the resume config dialog with data if requested and when the config is not new', () => {
+    it('should launch the restart config dialog with data if requested and when the config is not new', () => {
       routerStateObservable = mockRouterStateWithQueryParams({
-        displayResumeConfigDialog: 'true',
+        displayRestartDialog: 'true',
       });
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
-        LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG,
+        LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
         undefined,
         { owner: config.owner }
       );
     });
 
-    it('should NOT launch the resume config dialog if not requested and not a new config', () => {
+    it('should NOT launch the restart config dialog if not requested and not a new config', () => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = false;
@@ -526,9 +526,9 @@ describe('ConfigurationFormComponent', () => {
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
     });
 
-    it('should NOT launch the resume config dialog if requested but a new config', () => {
+    it('should NOT launch the restart config dialog if requested but a new config', () => {
       routerStateObservable = mockRouterStateWithQueryParams({
-        displayResumeConfigDialog: 'true',
+        displayRestartDialog: 'true',
       });
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = true;

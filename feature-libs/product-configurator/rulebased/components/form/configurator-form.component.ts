@@ -72,7 +72,7 @@ export class ConfiguratorFormComponent implements OnInit {
 
     this.routerData$
       .pipe(
-        filter((routingData) => routingData.displayResumeConfigDialog === true),
+        filter((routingData) => routingData.displayRestartDialog === true),
         switchMap((routerData) => {
           return this.configuratorCommonsService.getConfiguration(
             routerData.owner
@@ -86,7 +86,7 @@ export class ConfiguratorFormComponent implements OnInit {
       )
       .subscribe((configuration) => {
         this.launchDialogService.openDialogAndSubscribe(
-          LAUNCH_CALLER.CONFIGURATOR_RESUME_CONFIG,
+          LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
           undefined,
           { owner: configuration.owner }
         );

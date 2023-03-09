@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './configurator-resume-config-dialog.component';
-export * from './configurator-resume-config-dialog.module';
+export * from './configurator-restart-dialog.component';
+export * from './configurator-restart-dialog.module';

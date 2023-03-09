@@ -17,10 +17,10 @@ import { filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
-  selector: 'cx-configurator-resume-config-dialog',
-  templateUrl: './configurator-resume-config-dialog.component.html',
+  selector: 'cx-configurator-restart-dialog',
+  templateUrl: './configurator-restart-dialog.component.html',
 })
-export class ConfiguratorResumeConfigDialogComponent {
+export class ConfiguratorRestartDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -47,10 +47,10 @@ export class ConfiguratorResumeConfigDialogComponent {
   };
 
   /**
-   * Closes the  modal
+   * Closes the dialog
    */
-  closeModal(): void {
-    this.launchDialogService.closeDialog('Close Resume Config Modal');
+  close(): void {
+    this.launchDialogService.closeDialog('Close restart configuration dialog');
   }
 
   /**
@@ -58,7 +58,7 @@ export class ConfiguratorResumeConfigDialogComponent {
    * @param product owning this configuration
    */
   resume(product: Product): void {
-    this.closeModal();
+    this.close();
     // In case conflict solver was open as well, it was closed by the call above.
     // By navigating again we ensure it will open again.
     this.routingService.go({
@@ -74,9 +74,9 @@ export class ConfiguratorResumeConfigDialogComponent {
    * Discards current configuration and requests a new default configuration
    * @param owner owner of the current configuration that will be reused for next configuration
    */
-  discard(owner: CommonConfigurator.Owner): void {
+  restart(owner: CommonConfigurator.Owner): void {
     this.configuratorCommonsService.forceNewConfiguration(owner);
-    this.closeModal();
+    this.close();
   }
 
   /**
@@ -84,7 +84,7 @@ export class ConfiguratorResumeConfigDialogComponent {
    * @param product owning this configuration
    */
   backToPDP(product: Product) {
-    this.closeModal();
+    this.close();
     this.routingService.go({
       cxRoute: 'product',
       params: product,

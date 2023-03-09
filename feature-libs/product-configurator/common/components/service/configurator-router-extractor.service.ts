@@ -46,8 +46,8 @@ export class ConfiguratorRouterExtractorService {
             routingData.state.queryParams?.skipConflicts === 'true',
           forceReload: routingData.state.queryParams?.forceReload === 'true',
           expMode: routingData.state.queryParams?.expMode === 'true',
-          displayResumeConfigDialog:
-            routingData.state.queryParams?.displayResumeConfigDialog === 'true',
+          displayRestartDialog:
+            routingData.state.queryParams?.displayRestartDialog === 'true',
           configIdTemplate: routingData.state.queryParams?.configIdTemplate,
           navigationId: routingData.navigationId,
           pageType:

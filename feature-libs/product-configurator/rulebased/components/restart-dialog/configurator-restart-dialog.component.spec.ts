@@ -17,8 +17,7 @@ import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configu
 import { BehaviorSubject, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-
-import { ConfiguratorResumeConfigDialogComponent } from './configurator-resume-config-dialog.component';
+import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -40,9 +39,9 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-describe('ConfiguratorResumeConfigDialogComponent', () => {
-  let component: ConfiguratorResumeConfigDialogComponent;
-  let fixture: ComponentFixture<ConfiguratorResumeConfigDialogComponent>;
+describe('ConfiguratorRestartDialogComponent', () => {
+  let component: ConfiguratorRestartDialogComponent;
+  let fixture: ComponentFixture<ConfiguratorRestartDialogComponent>;
   let htmlElem: HTMLElement;
 
   let mockLaunchDialogService: LaunchDialogService;
@@ -58,7 +57,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     dialogDataSender = new BehaviorSubject<
       { owner: CommonConfigurator.Owner } | undefined
     >({ owner: owner });
-    fixture = TestBed.createComponent(ConfiguratorResumeConfigDialogComponent);
+    fixture = TestBed.createComponent(ConfiguratorRestartDialogComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -87,7 +86,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
       initializeMocks();
       TestBed.configureTestingModule({
         declarations: [
-          ConfiguratorResumeConfigDialogComponent,
+          ConfiguratorRestartDialogComponent,
           MockCxIconComponent,
           MockKeyboadFocusDirective,
         ],
@@ -121,7 +120,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
 
   it('should ignore invalid dialog data', (done) => {
     component.dialogData$.subscribe({
-      next: (dialogData) => expect(dialogData).toBeDefined(),
+      next: (dialogData: any) => expect(dialogData).toBeDefined(),
       complete: done,
     });
     dialogDataSender.next(undefined);
@@ -132,7 +131,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     expect(mockProductService.get).toHaveBeenCalledWith(owner.id);
   });
 
-  it('should render title, description and close, discard and resume buttons', () => {
+  it('should render title, description and close, restart and resume buttons', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -154,7 +153,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-dialog-discard'
+      '.cx-configurator-dialog-restart'
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -181,9 +180,9 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
     });
   });
 
-  it('should create a new default config on discard', () => {
+  it('should create a new default config on restart', () => {
     fixture.debugElement
-      .query(By.css('.cx-configurator-dialog-discard'))
+      .query(By.css('.cx-configurator-dialog-restart'))
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(mockConfigCommonsService.forceNewConfiguration).toHaveBeenCalledWith(
@@ -223,7 +222,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
         'close',
         0,
         'title',
-        'configurator.a11y.closeResumeConfigDialog'
+        'configurator.a11y.closeRestartDialog'
       );
     });
     it("should contain action button element with class name 'cx-configurator-dialog-resume' and 'aria-describedby' attribute that points to the text for the resume button", () => {
@@ -242,7 +241,7 @@ describe('ConfiguratorResumeConfigDialogComponent', () => {
         expect,
         htmlElem,
         'button',
-        'cx-configurator-dialog-discard',
+        'cx-configurator-dialog-restart',
         0,
         'aria-describedby',
         'cx-configurator-restart-dialog-description'
