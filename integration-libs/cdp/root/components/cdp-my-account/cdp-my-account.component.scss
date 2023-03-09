@@ -40,29 +40,11 @@
       td {
         width: 25%;
         padding: 1.625rem 0;
-  
-        // @include media-breakpoint-up(md) {
-        //   text-align: start;
-  
-        //   &:last-child {
-        //     text-align: end;
-        //   }
-        // }
-  
-        // @include media-breakpoint-down(sm) {
-        //   width: 100%;
-        //   display: flex;
-        //   border-width: 0;
-        //   padding: 0 1.25rem;
-  
-        //   &:first-child {
-        //     padding-top: 1.25rem;
-        //   }
-  
-        //   &:last-child {
-        //     padding-bottom: 1.25rem;
-        //   }
-        // }
+
+      .cx-right{
+         text-align: right;
+        }
       }
+      
     }
 }

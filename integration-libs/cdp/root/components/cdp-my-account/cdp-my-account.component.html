@@ -1,22 +1,63 @@
-<!-- <div>
-
-<h1>test</h1>
-<table class="cx-cdp-body-table">
-  <th>
-    <h1>purchsedin</h1>
-    <h1>order</h1>
-  </th>
-  <tr>
-<td>
-  <h1>data1</h1>
-  <h1>data1</h1>
-  <h1>data1</h1>
-</td>
-  </tr>
-</table>
-</div> -->
-
 <ng-container
+  *ngIf="{
+    orderHistory: orders$ | async
+  } as type"
+>
+
+<ng-container *ngIf="type.orderHistory">
+   <!-- HEADER -->
+  <div>
+    <h2>
+      {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
+    </h2>
+  </div>
+  <table
+  role="table"
+  id="order-history-table"
+  class="table cx-cdp-body-table"
+>
+
+  <!-- BODY --> 
+  <tbody *ngFor="let order of type.orderHistory.orders" >
+    <!-- HEADER ROW-->
+    <tr
+      role="row"
+    >
+    <td role="cell" class="cx-order-history-code">
+      <div class="cx-order-history-value">
+       PurchasedIn
+      </div>
+    </td>
+    <td></td>
+    <td>
+      <div style="text-align:right;">
+        OrderNumber({{ order?.code }})
+      </div>
+    </td>
+    </tr>
+
+    <!-- BODY ROW -->
+    <tr
+    role="row"
+    >
+    <!-- IMAGE -->
+    <td role="cell" class="cx-order-history-code">
+    </td>
+    <td></td>
+    <td>
+    <div >
+      OrderNumber({{ order?.code }})
+    </div>
+    </td>
+    </tr>
+    </tbody>
+
+</table>
+
+
+
+</ng-container>
+<!-- <ng-container
   *ngIf="{
     orderHistory: orders$ | async,
     replenishmentOrder: hasReplenishmentOrder$ | async
@@ -24,16 +65,16 @@
 >
   <ng-container *ngIf="type.orderHistory">
     <div>
-      <!-- HEADER -->
-      <div
+   <>HEADER -->
+      <!-- <div
         [ngClass]="cx-cdp-body">
         <h2 *ngIf="!type.replenishmentOrder">
-          {{ 'orderHistory.orderHistory' | cxTranslate }}
+          {{ 'cdpOrderHistory.orderHistory' | cxTranslate }}
         </h2>
-      </div>
+      </div> -->
 
       <!-- BODY -->
-      <div class="cx-order-history-body">
+      <!-- <div class="cx-order-history-body">
         <ng-container
           *ngIf="type.orderHistory.pagination.totalResults > 0; else noOrder"
         >
@@ -48,9 +89,9 @@
               {{
                 'orderHistory.orderHistory' | cxTranslate
               }}
-            </caption>
+            </caption> -->
             <!-- TODO:(CXSPA-1695) for next major release update below thead tag-->
-            <thead
+            <!-- <thead
               class="cx-order-history-thead-mobile"
               *cxFeatureLevel="'!5.1'"
             >
@@ -209,10 +250,10 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
 
           <!-- Select Form and Pagination Bottom -->
-          <div class="cx-order-history-sort bottom">
+          <!-- <div class="cx-order-history-sort bottom">
             <div
               *ngIf="type.orderHistory.pagination.totalPages > 1"
               class="cx-order-history-pagination"
@@ -223,10 +264,10 @@
               ></cx-pagination>
             </div>
           </div>
-        </ng-container>
+        </ng-container> -->
 
         <!-- NO ORDER CONTAINER -->
-        <ng-template #noOrder>
+        <!-- <ng-template #noOrder>
           <div
             *ngIf="isLoaded$ | async"
             [ngClass]="
@@ -255,4 +296,4 @@
       </div>
     </div>
   </ng-container>
-</ng-container>
+</ng-container> -->

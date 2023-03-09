@@ -16,7 +16,7 @@ import { CdpLoginModule } from './user-account/cdp-login';
   providers: [
       provideDefaultConfig({ cmsComponents: {
         CdpMyAccountComponent: { component:   CdpMyAccountComponent} ,
-      }
+      },
      }  as CmsConfig),
     ],
   exports: [

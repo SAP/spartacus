@@ -27,9 +27,10 @@ export const cdp = {
     signOut: 'Sign Out',
   },
   myAccount: {
-    label: 'My Account',
+    // label: 'My Account',
   },
   cdpOrderHistory: {
+    signOut: 'Sign Out',
     orderHistory: 'Orders And Returns',
     ordersAndReturns: 'Orders And Returns',
     savedCarts: 'Saved carts',

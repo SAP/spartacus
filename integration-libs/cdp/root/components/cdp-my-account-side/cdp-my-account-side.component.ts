@@ -19,7 +19,7 @@ export class CdpMyAccountSideComponent extends LoginComponent implements OnInit 
     protected userAccount: UserAccountFacade,
     protected routing: RoutingService
   ) {
-    super(auth,userAccount,routing);
+    super(auth,userAccount);
   }
 
   ngOnInit(): void {
