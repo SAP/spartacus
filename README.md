@@ -4,7 +4,7 @@
 
 ## Spartacus and Composable Storefront
 
-Starting with version 5.0, “SAP Commerce Cloud, composable storefront” is the name for the official release of project “Spartacus” libraries published by SAP. The officially supported composable storefront is available to SAP Commerce Cloud customers. Documentation is available on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT?locale=en-US).
+Starting with version 6.0, “SAP Commerce Cloud, composable storefront” is the name for the official release of project “Spartacus” libraries published by SAP. The officially supported composable storefront is available to SAP Commerce Cloud customers. Documentation is available on the [SAP Help Portal](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT?locale=en-US).
 
 Composable storefront is based off the Spartacus open source code, and is included in the SAP Commerce Cloud license at no extra cost. Composable storefront has a roll-forward update policy.
 
@@ -44,6 +44,11 @@ Spartacus provides core storefront features such as:
 See the [Release documentation](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/6c7b98dbe68f4a508cac17a207182f4c/5ebbd2c8478a4874863a6b217c0aa2ba.html) on the SAP Help Portal for more information.
 
 ## Requirements
+
+If you are working with Spartacus 6.x, your Angular development environment should include the following:
+- [Angular CLI](https://angular.io/): Version **15.2.0** or newer, < 16.
+- [Node.js](https://nodejs.org/en/): Version **14.20** or newer (but **less than** version 15), or **16.13**, or newer (but **less than** version 17), or **18.10**, or newer.
+- [Yarn](https://classic.yarnpkg.com/lang/en/): Version **1.15** or newer (**OR** from Spartacus 5.2 [npm](https://www.npmjs.com/): Version **6.14** or newer.)
 
 If you are working with Spartacus 5.x, your Angular development environment should include the following:
 
