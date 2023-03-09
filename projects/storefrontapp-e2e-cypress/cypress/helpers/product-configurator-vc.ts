@@ -696,7 +696,7 @@ export function checkCommerceRelease(
     commerceRelease.isAtLeast2211 = responseAsString.includes(
       'immediateConflictResolution'
     );
-    commerceRelease.isPricingEnabled = responseBody.pricingEnabled;
+    commerceRelease.isPricingEnabled = responseBody.pricingEnabled ?? true;
     cy.log(
       'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
     );
