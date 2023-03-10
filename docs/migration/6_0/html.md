@@ -77,7 +77,7 @@
 
 ### StoreFinderSearchComponent
 
-- Added `tabindex="-1"` to avoid tab stop for accessibility improvements.
+- Added `tabindex"` to control tab stop for accessibility improvements.
 
 ### UpdateProfileComponent
 
@@ -98,3 +98,45 @@
 ### UnitLevelOrderOverviewComponent
 
 - Removed a condition to hide 2nd order summary column
+
+### AddressBookFormComponent
+
+- Added `Cellphone` field to the `addressForm`
+
+### AddressBookFormComponent
+
+- Added `Cellphone` field to adress card
+
+### Feature lib product-configurator 
+
+#### ConfiguratorAttributeDropDownComponent
+
+- Drop down options now can contain the technical attribute value key (if expert mode is active) and the value price if present
+
+#### ConfiguratorAttributeReadOnlyComponent
+
+- Component content now wrapped in `<fieldset>`
+- Label now can contain the technical attribute value key (if expert mode is active)
+- New class `cx-read-only-attribute-label` attached to the label has been introduced
+- Label is wrapped in `<div class="cx-value-label-pair">` for accessibility improvements
+- Value price is displayed in addition to label, wrapped in `<div class="cx-value-price">`
+
+#### ConfiguratorGroupTitleComponent
+
+- Contains <cx-hamburger-menu> for mobile resolutions
+
+#### ConfiguratorOverviewMenuComponent
+
+- Overview menu is wrapped in an unordered list`<ul>` for accessibility improvements
+
+#### ConfiguratorOverviewFormComponent
+
+- Overview group style class is now compiled by component `<div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">`
+
+#### ConfiguratorProductTitleComponent
+
+- Now as well contains information about the knowledge base that was used to run the configuration. This information
+  is only visible in case expert mode is active. The knowledge base related information is enclosed with `<div class="cx-kb-key-details">`
+
+
+

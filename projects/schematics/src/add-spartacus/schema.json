@@ -30,6 +30,7 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
           "Organization-User-Registration",
@@ -37,6 +38,7 @@
           "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
+          "Future-Stock",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
@@ -163,6 +165,10 @@
             "label": "Product - Image Zoom"
           },
           {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock"
+          },
+          {
             "value": "VC-Configurator",
             "label": "Product Configurator - Variant Configurator"
           },
@@ -209,6 +215,10 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
           }
         ]
       }
@@ -260,11 +270,6 @@
       "type": "boolean",
       "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
-    },
-    "pwa": {
-      "type": "boolean",
-      "description": "Add PWA support to the project.",
-      "default": false
     },
     "ssr": {
       "type": "boolean",

@@ -10,6 +10,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
+  Optional,
   Output,
 } from '@angular/core';
 import {
@@ -29,16 +30,18 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   Card,
+  getAddressNumbers,
   ICON_TYPE,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -108,6 +111,34 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(
+    checkoutPaymentFacade: CheckoutPaymentFacade,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    userPaymentService: UserPaymentService,
+    globalMessageService: GlobalMessageService,
+    fb: UntypedFormBuilder,
+    userAddressService: UserAddressService,
+    launchDialogService: LaunchDialogService
+  );
+
+  /**
+   * TODO: (#CXSPA-53) Make translationService a required dependency in 6.0
+   */
+  constructor(
+    checkoutPaymentFacade: CheckoutPaymentFacade,
+    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    userPaymentService: UserPaymentService,
+    globalMessageService: GlobalMessageService,
+    fb: UntypedFormBuilder,
+    userAddressService: UserAddressService,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    translationService?: TranslationService
+  );
+
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -115,7 +146,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    @Optional() protected translationService?: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -201,22 +233,57 @@ export class CheckoutPaymentFormComponent implements OnInit {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
 
-  getAddressCardContent(address: Address): Card {
-    let region = '';
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
-    }
+  /**
+   * TODO: (CXSPA-53) Remove synchronous overload signature and return only an observable.
+   */
+  getAddressCardContent(address: Address): Card;
+  getAddressCardContent(address: Address, returnAsync: true): Observable<Card>;
+  getAddressCardContent(
+    address: Address,
+    returnAsync?: true
+  ): Card | Observable<Card> {
+    if (returnAsync) {
+      return this.translationService
+        ? combineLatest([
+            this.translationService.translate('addressCard.phoneNumber'),
+            this.translationService.translate('addressCard.mobileNumber'),
+          ]).pipe(
+            map(([textPhone, textMobile]) => {
+              let region = '';
+              if (address.region && address.region.isocode) {
+                region = address.region.isocode + ', ';
+              }
+              const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-    return {
-      textBold: address.firstName + ' ' + address.lastName,
-      text: [
-        address.line1,
-        address.line2,
-        address.town + ', ' + region + address.country?.isocode,
-        address.postalCode,
-        address.phone,
-      ],
-    } as Card;
+              return {
+                textBold: address.firstName + ' ' + address.lastName,
+                text: [
+                  address.line1,
+                  address.line2,
+                  address.town + ', ' + region + address.country?.isocode,
+                  address.postalCode,
+                  numbers,
+                ],
+              } as Card;
+            })
+          )
+        : EMPTY;
+    } else {
+      let region = '';
+      if (address.region && address.region.isocode) {
+        region = address.region.isocode + ', ';
+      }
+      return {
+        textBold: address.firstName + ' ' + address.lastName,
+        text: [
+          address.line1,
+          address.line2,
+          address.town + ', ' + region + address.country?.isocode,
+          address.postalCode,
+          address.phone,
+        ],
+      } as Card;
+    }
   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.

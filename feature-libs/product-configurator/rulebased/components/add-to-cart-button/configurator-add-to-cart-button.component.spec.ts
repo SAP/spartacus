@@ -487,7 +487,6 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   describe('performNavigation', () => {
     it('should display message on addToCart ', () => {
-      //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
       component.performNavigation(
         configuratorType,
         mockProductConfiguration.owner,
@@ -498,7 +497,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
     it('should display no message on addToCart in case this is not desired', () => {
-      //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
       component.performNavigation(
         configuratorType,
         mockProductConfiguration.owner,

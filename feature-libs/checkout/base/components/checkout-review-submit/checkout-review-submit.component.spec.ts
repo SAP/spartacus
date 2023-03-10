@@ -16,7 +16,12 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  FeatureConfigService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
@@ -137,6 +142,15 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+/**
+ * TODO: (#CXSPA-53) Remove MockFeatureConfigService in 6.0
+ */
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('CheckoutReviewSubmitComponent', () => {
   let component: CheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<CheckoutReviewSubmitComponent>;
@@ -172,6 +186,10 @@ describe('CheckoutReviewSubmitComponent', () => {
           {
             provide: CheckoutStepService,
             useClass: MockCheckoutStepService,
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
           },
         ],
       }).compileComponents();

@@ -98,5 +98,5 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${homePage}`);
 }

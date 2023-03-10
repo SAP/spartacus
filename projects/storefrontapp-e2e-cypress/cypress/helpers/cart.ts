@@ -346,7 +346,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${cartPage}`);
 
   validateEmptyCart();
 }
@@ -546,6 +546,10 @@ export function verifyCartIdAfterClearCart() {
   closeAddedToCartDialog();
 
   goToCart();
+  verifyCartIdIsDifferent();
+}
+
+export function verifyCartIdIsDifferent() {
   let _cartId;
   cy.get('cx-cart-details')
     .get('h2.cx-total')

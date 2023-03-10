@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/styles",
-  "version": "4.1.0-next.0",
+  "version": "5.0.0",
   "description": "Style library containing global styles",
   "keywords": [
     "spartacus",
@@ -18,7 +18,8 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@ng-select/ng-select": "^9.0.2",
+    "@fortawesome/fontawesome-free": "5.8.1",
+    "@ng-select/ng-select": "^10.0.3",
     "bootstrap": "^4.6.1"
   },
   "publishConfig": {

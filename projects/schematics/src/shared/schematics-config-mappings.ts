@@ -18,6 +18,7 @@ import {
   CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
 } from './lib-configs/checkout-schematics-config';
+import { CUSTOMER_TICKETING_SCHEMATICS_CONFIG } from './lib-configs/customer-ticketing-schematics-config';
 import { CDC_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdc-schematics-config';
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
@@ -40,6 +41,7 @@ import {
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
+  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
@@ -89,6 +91,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
+  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 
   QUALTRICS_SCHEMATICS_CONFIG,
 
@@ -102,6 +105,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
 
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
+
+  CUSTOMER_TICKETING_SCHEMATICS_CONFIG,
 
   // integration libraries start
   CDC_SCHEMATICS_CONFIG,

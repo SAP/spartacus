@@ -21,7 +21,7 @@
   >
     <option
       *ngFor="let item of attribute.values"
-      [label]="item.valueDisplay"
+      [label]="getLabel(false, item.valueDisplay, undefined, item)"
       [selected]="item.selected"
       [value]="item.valueCode"
       [attr.aria-label]="
@@ -43,13 +43,13 @@
       "
       [value]="item.valueCode"
     >
-      {{ item.valueDisplay }}
+      {{ getLabel(false, item.valueDisplay, undefined, item) }}
     </option>
   </select>
 </div>
 
 <cx-configurator-attribute-product-card
-  *ngIf="selectionValue?.valueCode !== '0'"
+  *ngIf="selectionValue !== undefined && selectionValue?.valueCode !== '0'"
   id="{{
     createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
   }}"

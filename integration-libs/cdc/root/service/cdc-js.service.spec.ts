@@ -79,6 +79,11 @@ class MockSubscription {
   add() {}
 }
 
+const b2b = {
+  getOrganizationContext: () => {},
+  openDelegatedAdminLogin: () => {},
+};
+
 const gigya = {
   accounts: {
     addEventHandlers: () => {},
@@ -88,6 +93,7 @@ const gigya = {
     logout: () => {},
     resetPassword: () => {},
     setAccountInfo: () => {},
+    b2b: b2b,
   },
 };
 
@@ -101,6 +107,8 @@ const mockedGlobalMessageService = {
   add: () => {},
   remove: () => {},
 };
+
+const orgId = 'f5fe0023-a8c4-4379-a3e4-5fbda8895f2e';
 
 describe('CdcJsService', () => {
   let service: CdcJsService;
@@ -877,6 +885,43 @@ describe('CdcJsService', () => {
       spyOn(service['subscription'], 'unsubscribe');
       service.ngOnDestroy();
       expect(service['subscription'].unsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('getOrganizationContext', () => {
+    it('should retrieve organization context', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts.b2b,
+        'getOrganizationContext'
+      ).and.returnValue(of({ orgId: orgId }));
+      service.getOrganizationContext().subscribe({
+        next: (response) => {
+          expect(response.orgId).toEqual(orgId);
+          expect(
+            winRef.nativeWindow['gigya'].accounts.b2b.getOrganizationContext
+          ).toHaveBeenCalledWith({ callback: jasmine.any(Function) });
+        },
+      });
+      expect(service.getOrganizationContext).toBeTruthy();
+      done();
+    });
+  });
+
+  describe('openDelegatedAdminLogin', () => {
+    it('should open delegate admin login', (done) => {
+      spyOn(
+        winRef.nativeWindow['gigya'].accounts.b2b,
+        'openDelegatedAdminLogin'
+      ).and.callFake(() => {});
+
+      service.openDelegatedAdminLogin(orgId);
+      expect(
+        winRef.nativeWindow['gigya'].accounts.b2b.openDelegatedAdminLogin
+      ).toHaveBeenCalledWith({
+        orgId: orgId,
+      });
+      expect(service.openDelegatedAdminLogin).toBeTruthy();
+      done();
     });
   });
 });

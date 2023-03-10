@@ -6,8 +6,10 @@
 
 import { NgModule } from '@angular/core';
 import { ConfiguratorAddToCartButtonModule } from './add-to-cart-button/configurator-add-to-cart-button.module';
+import { ConfiguratorAttributeCompositionModule } from './attribute/composition/configurator-attribute-composition.module';
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
+import { ConfiguratorGroupModule } from './group/configurator-group.module';
 import { ConfiguratorFormModule } from './form/configurator-form.module';
 import { ConfiguratorGroupMenuModule } from './group-menu/configurator-group-menu.module';
 import { ConfiguratorGroupTitleModule } from './group-title/configurator-group-title.module';
@@ -24,6 +26,7 @@ import { ConfiguratorProductTitleModule } from './product-title/configurator-pro
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
+import { ConfiguratorConflictSolverDialogModule } from './conflict-solver-dialog/configurator-conflict-solver-dialog.module';
 import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurator-overview-sidebar.module';
 
 @NgModule({
@@ -33,6 +36,7 @@ import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurat
     ConfiguratorGroupMenuModule,
     ConfiguratorProductTitleModule,
     ConfiguratorTabBarModule,
+    ConfiguratorGroupModule,
     ConfiguratorFormModule,
     ConfiguratorGroupTitleModule,
     ConfiguratorUpdateMessageModule,
@@ -43,11 +47,13 @@ import { ConfiguratorOverviewSidebarModule } from './overview-sidebar/configurat
     ConfiguratorOverviewNotificationBannerModule,
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
+    ConfiguratorAttributeCompositionModule,
     ConfiguratorVariantCarouselModule,
     ConfiguratorOverviewFilterModule,
     ConfiguratorOverviewFilterButtonModule,
     ConfiguratorOverviewFilterDialogModule,
     ConfiguratorOverviewSidebarModule,
+    ConfiguratorConflictSolverDialogModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}

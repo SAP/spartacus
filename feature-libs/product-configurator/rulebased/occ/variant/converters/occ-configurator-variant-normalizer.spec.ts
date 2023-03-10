@@ -194,6 +194,7 @@ const configuration: OccConfigurator.Configuration = {
   consistent: true,
   rootProduct: 'CONF_PRODUCT',
   hideBasePriceAndSelectedOptions: true,
+  immediateConflictResolution: true,
   groups: [
     {
       attributes: [occAttributeWithValues],
@@ -353,6 +354,23 @@ describe('OccConfiguratorVariantNormalizer', () => {
     it('should convert "hideBasePriceAndSelectedOptions" setting', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.hideBasePriceAndSelectedOptions).toBe(true);
+    });
+
+    it('should convert "immediateConflictResolution" setting to true', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.immediateConflictResolution).toBe(true);
+    });
+
+    it('should convert "immediateConflictResolution" setting to false', () => {
+      configuration.immediateConflictResolution = false;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.immediateConflictResolution).toBe(false);
+    });
+
+    it('should convert "immediateConflictResolution" setting from undefined to false', () => {
+      configuration.immediateConflictResolution = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.immediateConflictResolution).toBe(false);
     });
 
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {
@@ -828,6 +846,33 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(
         occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+    });
+  });
+
+  describe('determineCoreUiType', () => {
+    it('should return input in case of a standard UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
+    });
+
+    it('should return standard UI type in case of a variation', () => {
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX +
+            Configurator.CustomUiTypeIndicator +
+            'Custom'
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
+    });
+
+    it('should return input in case variation does not follow our defined pattern', () => {
+      const notKnownUiType = 'WhateverCustom';
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](notKnownUiType)
+      ).toBe(notKnownUiType);
     });
   });
 
