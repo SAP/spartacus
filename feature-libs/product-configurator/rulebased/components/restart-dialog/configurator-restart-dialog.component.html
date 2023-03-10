@@ -24,13 +24,12 @@
 
         <div class="cx-dialog-body modal-body">
           <div
-            class="cx-configurator-dialog-description"
             id="cx-configurator-restart-dialog-description"
           >
             {{ 'configurator.restartDialog.description' | cxTranslate }}
           </div>
           <button
-            class="btn btn-primary btn-block cx-configurator-dialog-resume"
+            class="btn btn-primary btn-block"
             (click)="resume(product)"
             aria-describedby="cx-configurator-restart-dialog-description"
           >
@@ -38,7 +37,7 @@
           </button>
           <button
             type="button"
-            class="btn btn-secondary btn-block cx-configurator-dialog-restart"
+            class="btn btn-secondary btn-block"
             (click)="restart(dialogData.owner)"
             aria-describedby="cx-configurator-restart-dialog-description"
           >

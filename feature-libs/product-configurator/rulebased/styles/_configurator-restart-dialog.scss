@@ -45,15 +45,16 @@
         padding-inline-start: 16px;
         padding-inline-end: 16px;
       }
-    }
-    .cx-configurator-dialog-description {
-      margin-block-start: 8px;
-      margin-block-end: 16px;
-    }
-    .cx-configurator-dialog-resume,
-    .cx-configurator-dialog-discard {
-      margin-block-start: 8px;
-      margin-block-end: 8px;
+
+      #cx-configurator-dialog-description {
+        margin-block-start: 8px;
+        margin-block-end: 16px;
+      }
+      .btn-primary,
+      .btn-secondary {
+        margin-block-start: 8px;
+        margin-block-end: 8px;
+      }
     }
   }
 }

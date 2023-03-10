@@ -147,25 +147,25 @@ describe('ConfiguratorRestartDialogComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-dialog-description'
+      '#cx-configurator-restart-dialog-description'
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-dialog-restart'
+      '.btn-primary'
     );
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-configurator-dialog-resume'
+      '.btn-secondary'
     );
   });
 
   it('should close the dialog on resume', () => {
     fixture.debugElement
-      .query(By.css('.cx-configurator-dialog-resume'))
+      .query(By.css('.btn-primary'))
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(
@@ -182,7 +182,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
 
   it('should create a new default config on restart', () => {
     fixture.debugElement
-      .query(By.css('.cx-configurator-dialog-restart'))
+      .query(By.css('.btn-secondary'))
       .triggerEventHandler('click');
     expect(mockLaunchDialogService.closeDialog).toHaveBeenCalled();
     expect(mockConfigCommonsService.forceNewConfiguration).toHaveBeenCalledWith(
@@ -230,7 +230,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         expect,
         htmlElem,
         'button',
-        'cx-configurator-dialog-resume',
+        'btn-primary',
         0,
         'aria-describedby',
         'cx-configurator-restart-dialog-description'
@@ -241,7 +241,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
         expect,
         htmlElem,
         'button',
-        'cx-configurator-dialog-restart',
+        'btn-secondary',
         0,
         'aria-describedby',
         'cx-configurator-restart-dialog-description'
