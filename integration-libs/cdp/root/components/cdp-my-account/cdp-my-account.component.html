@@ -1,29 +1,36 @@
-<!-- <ng-container
+<ng-container
   *ngIf="{
     orderHistory: orders$ | async
   } as type"
-> -->
-<div *ngIf="orders$ | async as orders"> {{ orders.orders.code }}</div>
-<div *ngIf="orders$ | async as orders">{{ orders[0].orders[0].code }}</div>
+>
+
 
 
 <ng-container >
    <!-- HEADER -->
-  <!-- <div>
-    <h2>
+   <div>
+    <h2  style="white-space: nowrap;">
       {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
+      <h3 style="text-align:right">
+        <a style="display: inline-block"
+      [routerLink]="
+        {
+          cxRoute: 'orders'
+        } | cxUrl
+      ">{{ 'cdpOrderHistory.showMore' | cxTranslate}} </a>
+      </h3>
     </h2>
-  </div>
+      
+  </div> 
   <table
   role="table"
   id="order-history-table"
-  class="table cx-cdp-body-table"
-> -->
+  class="table cx-cdp-body-table"> 
   <!-- BODY --> 
-  <!-- <tbody *ngFor="let order of orders" > -->
+  <tbody *ngFor="let order of type.orderHistory.orders" >
     <!-- HEADER ROW-->
     
-    <!-- <tr
+  <tr
       role="row"
     >
     <td role="cell" class="cx-order-history-code">
@@ -37,27 +44,44 @@
         OrderNumber({{ order?.code }})
       </div>
     </td>
-    </tr> -->
+    </tr> 
 
     <!-- BODY ROW -->
-    <!-- <tr
+   <tr
     role="row"
-    > -->
+    >
     <!-- IMAGE -->
-    <!-- <td role="cell" class="cx-order-history-code">
+    <td role="cell" class="cx-order-history-code">
       <img [src]="order.url" width="88" height="88" class="slide active" >
     </td>
-    <td></td>
     <td>
-    <div >
-      OrderNumber({{ order?.code }})
+      <p>
+        PurchasedIn {{order.placed | cxDate: 'd, MMMM, yyyy'}}<br>
+        Ordered Items:<br>
+        <br>
+        <!-- <br> -->
+        TotalPrice
+      </p>
+    </td>
+    <td>
+    <div style="text-align: right;">
+      <br>
+      <br>
+       <a
+      [routerLink]="
+        {
+          cxRoute: 'orderDetails',
+          params: order
+        } | cxUrl
+      ">{{ 'cdpOrderHistory.orderDetails' | cxTranslate}} </a>
+      
     </div>
     </td>
     </tr>
-    </tbody> -->
+    </tbody>
 
-<!-- </table> -->
-<!--  -->
+</table>
+
 
 
 </ng-container>
