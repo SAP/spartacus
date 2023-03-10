@@ -85,7 +85,7 @@ This has a couple of consequences for the components representing attribute type
 - The configuration update no longer happens using `ConfigFormUpdateEvent`, but all components that are capable of sending updates got a new dependency to `ConfiguratorCommonsService`, calling its facade method for performing an update. This also means that `@Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>()` has been removed.
 
 #### Working with UI types not known to SPA
-It is now possible to register custom attribute type components for UI types not known to SPA (not part of enumeration `Configurator.UiType`). Those UI types must be based on standard UI types (because business logic is attached to these types both on UI and commerce backend level) and their identifier must follow a convention described in the documentation of `Configurator.Attribute#uiTypeVariation`
+It is now possible to register custom attribute type components for UI types not known to SPA (not part of enumeration `Configurator.UiType`). Those UI types must be based on standard UI types (because business logic is attached to these types both on UI and commerce backend level) and their identifier must follow a convention described in the documentation of `Configurator.Attribute#uiTypeVariation` 
 
 ### ConfiguratorOverviewMenuComponent
 
