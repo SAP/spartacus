@@ -41,7 +41,7 @@ context('Express checkout', { testIsolation: false }, () => {
 
       cy.get('cx-mini-cart').click();
       cy.findByText(/proceed to checkout/i).click();
-      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     });
   });
 });
