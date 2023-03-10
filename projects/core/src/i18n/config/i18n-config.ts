@@ -38,7 +38,7 @@ export abstract class I18nConfig {
        * (for more, see https://github.com/SAP/spartacus/issues/13460).**
        *
        *
-       * If you really want to use this config, you'll need to additionally provide `I18nextHttpBackendService`
+       * If you still decide to use this config, you have to additionally provide `I18nextHttpBackendService`
        * for `I18nextBackendService`:
        * ```ts
        * { provide: I18nextBackendService, useExisting: I18nextHttpBackendService }
