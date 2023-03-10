@@ -3,7 +3,6 @@
 %cx-checkout-review-overview,
 %cx-order-confirmation-shipping {
   @include media-breakpoint-down(md) {
-    padding: 20px 0;
     background-color: var(--cx-color-inverse);
   }
 
@@ -21,7 +20,6 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-
 
     @include media-breakpoint-up(lg) {
       margin-top: 1.5rem;

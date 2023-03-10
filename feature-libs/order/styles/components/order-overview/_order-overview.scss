@@ -47,6 +47,7 @@
           border: 1px solid var(--cx-color-light);
           background-color: var(--cx-color-inverse);
           margin-inline-end: 15px;
+          border-radius: 10px;
         }
 
         @include media-breakpoint-down(sm) {
@@ -63,11 +64,10 @@
       @include media-breakpoint-down(md) {
         max-width: 100%;
         min-width: 100%;
-        padding: 0 1.25rem;
+        padding: 1.25rem 0;
       }
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        padding: 1.25rem;
       }
 
       .cx-summary-card {
@@ -113,10 +113,7 @@
         border: 1px solid var(--cx-color-light);
         background-color: var(--cx-color-inverse);
         margin-inline-start: 15px;
-      }
-
-      @include media-breakpoint-down(md) {
-        margin-inline-start: 0;
+        border-radius: 10px;
       }
     }
 
