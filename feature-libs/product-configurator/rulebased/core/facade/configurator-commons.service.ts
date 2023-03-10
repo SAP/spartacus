@@ -88,7 +88,6 @@ export class ConfiguratorCommonsService {
    * available
    *
    * @param owner - Configuration owner
-   *
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
@@ -253,6 +252,20 @@ export class ConfiguratorCommonsService {
           configuration.groups[0]?.groupType ===
             Configurator.GroupType.CONFLICT_HEADER_GROUP
       )
+    );
+  }
+
+  /**
+   * Forces the creation of a new default configuration for the given owner
+   * @param owner - Configuration owner
+   */
+  forceNewConfiguration(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CreateConfiguration({
+        owner: owner,
+        configIdTemplate: undefined,
+        forceReset: true,
+      })
     );
   }
 
