@@ -22,6 +22,10 @@
 - `%cx-configurator-attribute-read-only` now only contains `@include cx-configurator-attribute-type();`. This mixin already has all
   the needed styling settings
 
+#### ConfiguratorConflictSolverDialogComponent
+
+- `z-index: 2000` added to `%cx-configurator-conflict-solver-dialog` to control which dialog is rendered on top if multiple open. The new ConfiguratorRestartDialogComponent uses z-index 3000.
+
 #### ConfiguratorConflictSuggestionComponent
 
 - `margin-inline-start` changed to `-15px` instead of `-20px`
@@ -37,6 +41,10 @@
 
 - `line-break` changed to `normal` instead of `anywhere`
 - `z-index: -6;` added to `.cx-attribute-value`, `.cx-attribute-label` and `.cx-attribute-price`
+
+#### ConfiguratorOverviewFilterDialogComponent
+
+- `z-index: 1000` added to `%cx-configurator-overview-filter-dialog` to control which dialog is rendered on top if multiple open
 
 #### ConfiguratorOverviewFormComponent
 
