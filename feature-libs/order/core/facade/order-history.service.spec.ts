@@ -257,4 +257,17 @@ describe('OrderHistoryService', () => {
       new OrderActions.ResetCancelOrderProcess()
     );
   });
+
+  it('should be able to get order details loading flag', () => {
+    store.dispatch(
+      new OrderActions.LoadOrderDetails({
+        userId: 'current',
+        orderCode: 'test',
+      })
+    );
+    userOrderService
+      .getOrderDetailsLoading()
+      .subscribe((data) => expect(data).toEqual(true))
+      .unsubscribe();
+  });
 });

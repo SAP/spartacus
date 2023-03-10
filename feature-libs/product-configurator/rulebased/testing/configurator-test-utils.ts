@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Configurator component test utils service provides helper functions for the component tests.
  */
@@ -6,6 +12,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorAttributeCompositionContext } from '../components/attribute/composition/configurator-attribute-composition.model';
 import { Configurator } from '../core/model/configurator.model';
 
 export class ConfiguratorTestUtils {
@@ -64,6 +71,35 @@ export class ConfiguratorTestUtils {
       groups: [],
       flatGroups: [],
       interactionState: {},
+    };
+    return configuration;
+  }
+
+  static createVariants(): Configurator.Variant[] {
+    const variants: Configurator.Variant[] = [];
+    for (let index = 0; index < 10; index++) {
+      const variant: Configurator.Variant = {
+        productCode: 'productCode' + index,
+      };
+
+      variants.push(variant);
+    }
+
+    return variants;
+  }
+
+  static createConfigurationWithVariants(
+    configId: string,
+    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner()
+  ): Configurator.Configuration {
+    const configuration: Configurator.Configuration = {
+      configId: configId,
+      productCode: '',
+      owner: owner,
+      groups: [],
+      flatGroups: [],
+      interactionState: {},
+      variants: this.createVariants(),
     };
     return configuration;
   }
@@ -159,7 +195,7 @@ export class ConfiguratorTestUtils {
     numberOfSupplements: number,
     numberOfValues: number
   ): Configurator.AttributeSupplement[] {
-    let attributeSupplements: Configurator.AttributeSupplement[] = [];
+    const attributeSupplements: Configurator.AttributeSupplement[] = [];
     for (let i = 0; i < numberOfGroups; i++) {
       const groupNr = i + 1;
       let uiKey = 'group' + groupNr + '@';
@@ -188,11 +224,11 @@ export class ConfiguratorTestUtils {
     attributeNr: number,
     amountOfValues: number
   ): Configurator.Value[] {
-    let values: Configurator.Value[] = [];
+    const values: Configurator.Value[] = [];
     for (let index = 0; index < amountOfValues; index++) {
       const valueNr = index + 1;
       const valueCode: string = 'value_' + attributeNr + '_' + valueNr;
-      let value: Configurator.Value = {
+      const value: Configurator.Value = {
         valueCode: valueCode,
         valuePrice: {
           value: 0,
@@ -236,16 +272,16 @@ export class ConfiguratorTestUtils {
       numberOfSubgroups === 0
         ? Configurator.GroupType.ATTRIBUTE_GROUP
         : Configurator.GroupType.SUB_ITEM_GROUP;
-    let group: Configurator.Group = {
+    const group: Configurator.Group = {
       id: groupId,
       attributes: [],
       groupType: groupType,
       subGroups: [],
     };
     if (numberOfSubgroups > 0) {
-      let subGroupNr = groupNr;
-      let subGroupId = groupId.concat('@subGroup') + subGroupNr;
-      let subGroup = this.createComplexGroup(
+      const subGroupNr = groupNr;
+      const subGroupId = `${groupId}@subGroup${subGroupNr}`;
+      const subGroup = this.createComplexGroup(
         subGroupNr + 1,
         subGroupId,
         numberOfSubgroups - 1,
@@ -276,10 +312,10 @@ export class ConfiguratorTestUtils {
     numberOfAttributes: number,
     numberOfValues: number
   ): Configurator.Group[] {
-    let groups: Configurator.Group[] = [];
+    const groups: Configurator.Group[] = [];
     for (let i = 0; i < numberOfGroups; i++) {
       const groupNr = i + 1;
-      let groupId = 'group' + groupNr;
+      const groupId = 'group' + groupNr;
       const group = this.createComplexGroup(
         groupNr,
         groupId,
@@ -290,5 +326,57 @@ export class ConfiguratorTestUtils {
       groups.push(group);
     }
     return groups;
+  }
+
+  static getFormattedValue(value: number | undefined): string | undefined {
+    if (value !== undefined) {
+      if (value > 0) {
+        return '$' + value;
+      } else if (value < 0) {
+        return '-$' + Math.abs(value);
+      }
+    }
+    return undefined;
+  }
+
+  static createPrice(
+    price: number | undefined
+  ): Configurator.PriceDetails | undefined {
+    if (price !== undefined) {
+      return {
+        currencyIso: '$',
+        formattedValue: this.getFormattedValue(price),
+        value: price,
+      };
+    }
+    return undefined;
+  }
+
+  static createValue = (
+    valueCode: string,
+    price: number | undefined,
+    isSelected = false
+  ): Configurator.Value => ({
+    valueCode: valueCode,
+    valuePrice: this.createPrice(price),
+    selected: isSelected,
+  });
+
+  static getAttributeContext(): ConfiguratorAttributeCompositionContext {
+    return {
+      componentKey: '',
+      attribute: { name: 'attributeName' },
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+      group: { id: 'id', subGroups: [] },
+      expMode: false,
+      language: 'en',
+      isNavigationToGroupEnabled: false,
+    };
+  }
+
+  static remove(element: HTMLElement | undefined): void {
+    if (element) {
+      element.remove();
+    }
   }
 }

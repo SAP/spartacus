@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './anonymous-consents.module';
 export * from './config/anonymous-consents-config';
 export * from './config/default-anonymous-consents-config';

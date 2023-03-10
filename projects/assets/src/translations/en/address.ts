@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const address = {
   addressForm: {
     title: 'Title',
@@ -24,6 +30,10 @@ export const address = {
     },
     phoneNumber: {
       label: 'Phone number (optional)',
+      placeholder: '(555) 555 - 0123',
+    },
+    cellphone: {
+      label: 'Mobile number (optional)',
       placeholder: '(555) 555 - 0123',
     },
     saveAsDefault: 'Save as default',
@@ -55,6 +65,8 @@ export const address = {
     setAsDefault: 'Set as default',
     shipTo: 'Ship To',
     billTo: 'Bill To',
+    phoneNumber: 'P',
+    mobileNumber: 'M',
   },
   addressSuggestion: {
     verifyYourAddress: 'Verify your address',

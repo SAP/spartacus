@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,6 +37,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxSuggestions: 5,
   displayProductImages: true,
 };
+const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 
 @Component({
   selector: 'cx-searchbox',
@@ -109,8 +116,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
             data.state.context?.id === 'search' &&
             data.state.context?.type === PageType.CONTENT_PAGE
           )
-        )
+        ) {
           this.chosenWord = '';
+        }
       });
   }
 
@@ -127,7 +135,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
+    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
   }
 
   /**
@@ -161,10 +169,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   protected blurSearchBox(event: UIEvent): void {
-    this.searchBoxComponentService.toggleBodyClass(
-      'searchbox-is-active',
-      false
-    );
+    this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     if (event && event.target) {
       (<HTMLElement>event.target).blur();
     }
@@ -184,7 +189,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * to focus the input again when it's already open.
    * */
   avoidReopen(event: UIEvent): void {
-    if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
+    if (this.searchBoxComponentService.hasBodyClass(SEARCHBOX_IS_ACTIVE)) {
       this.close(event);
       event.preventDefault();
     }

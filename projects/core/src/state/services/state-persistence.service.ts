@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
@@ -40,7 +46,9 @@ export class StatePersistenceService {
     state$,
     context$ = of(''),
     storageType = StorageSyncType.LOCAL_STORAGE,
-    onRead = () => {},
+    onRead = () => {
+      // Intentional empty arrow function
+    },
   }: {
     key: string;
     state$: Observable<T>;

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   chain,
   Rule,
@@ -179,6 +185,7 @@ export function validateSpartacusInstallation(packageJson: any): void {
 }
 
 export function scaffoldStructure(options: SpartacusOptions): Rule {
+  const APP_PATH = 'app/spartacus';
   return (_tree: Tree, _context: SchematicContext) => {
     return chain([
       debugLogRule(
@@ -188,19 +195,19 @@ export function scaffoldStructure(options: SpartacusOptions): Rule {
 
       ensureModuleExists({
         name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'app',
         project: options.project,
       }),
       ensureModuleExists({
         name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'spartacus',
         project: options.project,
       }),
       ensureModuleExists({
         name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
+        path: APP_PATH,
         module: 'spartacus',
         project: options.project,
       }),

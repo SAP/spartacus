@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export * from './applicable';
 export * from './command-query/index';
 export * from './converter.service';
@@ -6,6 +12,7 @@ export * from './glob.service';
 export * from './http-params-uri.encoder';
 export * from './java-reg-exp-converter/index';
 export * from './normalize-http-error';
+export * from './occ-http-error-constants';
 export * from './occ-http-error-handlers';
 export * from './regex-pattern';
 export * from './rxjs/index';

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -39,8 +45,24 @@ export enum ICON_TYPE {
   OFF = 'OFF',
   LINK_OUT = 'LINK_OUT',
   EXPAND_ARROWS = 'EXPAND_ARROWS',
+  CLIPBOARD_LIST = 'CLIPBOARD_LIST',
+  ADDRESS_BOOK = 'ADDRESS_BOOK',
+  USER_FRIENDS = 'USER_FRIENDS',
+  SORT_AMOUNT_DOWN = 'SORT_AMOUNT_DOWN',
+  SORT_AMOUNT_UP = 'SORT_AMOUNT_UP',
   EYE = 'EYE',
   EYE_SLASH = 'EYE_SLASH',
+  ORDER = 'ORDER',
+  DOWNLOAD = 'DOWNLOAD',
+  FILE = 'FILE',
+  HEADSET = 'HEADSET',
+  ATTACHMENT = 'ATTACHMENT',
+  UPLOAD = 'UPLOAD',
+  USER = 'USER',
+  ARROW_LEFT = 'ARROW_LEFT',
+  ARROW_RIGHT = 'ARROW_RIGHT',
+  ARROW_DOWN = 'ARROW_DOWN',
+  ARROW_UP = 'ARROW_UP',
 }
 
 @Injectable({

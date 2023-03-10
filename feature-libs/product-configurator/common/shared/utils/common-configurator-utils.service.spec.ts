@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   Cart,
@@ -45,7 +45,7 @@ class MockUserIdService {
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<FormControl>(1);
+  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.ActiveCart
   );

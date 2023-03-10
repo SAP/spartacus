@@ -65,12 +65,6 @@
         }
       }
 
-      .cx-actions {
-        button.link {
-          @include type('6');
-        }
-      }
-
       .cx-code {
         @include type('7');
         color: var(--cx-color-secondary);
@@ -88,8 +82,15 @@
       }
 
       .cx-product-interests-product-stock {
-        @include type('8');
         color: var(--cx-color-primary);
+
+        @include forVersion(4.2) {
+          @include type('8');
+        }
+        @include forVersion(5.1) {
+          font-size: var(--cx-font-size, 1.188rem);
+          font-weight: var(--cx-font-weight-bold);
+        }
       }
 
       .cx-product-interests-notification {
@@ -115,6 +116,36 @@
         &:last-child {
           padding-bottom: 1.25rem;
         }
+      }
+    }
+  }
+
+  .cx-product-interests-table-list {
+    th {
+      &:first-child {
+        text-align: start;
+      }
+      &:last-child {
+        text-align: end;
+      }
+    }
+
+    td {
+      &:first-child {
+        padding-inline-end: 0;
+        padding-inline-start: 0;
+      }
+      &:last-child {
+        text-align: end;
+      }
+      .cx-product-interests-cell-wrapper {
+        display: inline-grid;
+        grid-template-columns: 5rem 14rem;
+        gap: 1rem;
+        text-indent: 0;
+      }
+      .cx-product-interests-remove-button {
+        display: inline-block;
       }
     }
   }

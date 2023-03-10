@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
@@ -137,8 +143,9 @@ export class AuthHttpHeaderService implements OnDestroy {
     token?: AuthToken
   ): HttpRequest<any> {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
+    const isBaseSitesRequest = this.isBaseSitesRequest(request);
     const isOccUrl = this.isOccUrl(request.url);
-    if (!hasAuthorizationHeader && isOccUrl) {
+    if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
       return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
@@ -150,6 +157,12 @@ export class AuthHttpHeaderService implements OnDestroy {
 
   protected isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseUrl());
+  }
+
+  protected isBaseSitesRequest(request: HttpRequest<any>): boolean {
+    return request.url.includes(
+      this.occEndpoints.getRawEndpointValue('baseSites')
+    );
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {

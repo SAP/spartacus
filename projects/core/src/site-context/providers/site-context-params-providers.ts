@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Provider } from '@angular/core';
 import { UrlSerializer } from '@angular/router';
 import { SiteContextParamsService } from '../services/site-context-params.service';

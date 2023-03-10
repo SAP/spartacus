@@ -1,10 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
 import {
   ICON_TYPE,
   Table,
@@ -15,7 +21,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
-import { ListService } from './list.service';
+import { ListService, CreateButtonType } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
@@ -41,6 +47,10 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   iconTypes = ICON_TYPE;
 
+  createButtonAllTypes = CreateButtonType;
+
+  createButtonType = this.service.getCreateButtonType();
+
   /**
    * The current key represents the current selected item from the dataset.
    * This key is used to load the item details as well as highlight the item in
@@ -60,6 +70,8 @@ export class ListComponent<T = any, P = PaginationModel> {
     );
 
   @Input() key = this.service.key();
+
+  @Input() hideAddButton = false;
 
   /**
    * Returns the total number of items.
@@ -94,5 +106,19 @@ export class ListComponent<T = any, P = PaginationModel> {
         ...({ sort: this.sortCode } as PaginationModel),
       });
     }
+  }
+
+  /**
+   * Function to call when 'Manage Users' button is clicked
+   */
+  onCreateButtonClick(): void {
+    this.service.onCreateButtonClick();
+  }
+
+  /**
+   * Returns the label for Create button
+   */
+  getCreateButtonLabel(): Translatable {
+    return this.service.getCreateButtonLabel();
   }
 }

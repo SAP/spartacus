@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { ProductVariantsContainerModule } from './product-variants-container/product-variants-container.module';
 import { ProductVariantColorSelectorModule } from './variant-color-selector/product-variant-color-selector.module';

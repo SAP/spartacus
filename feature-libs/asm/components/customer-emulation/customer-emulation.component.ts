@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
@@ -21,7 +27,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription.add(
       this.userAccountFacade.get().subscribe((user) => {
-        if (user) this.customer = user;
+        if (user) {
+          this.customer = user;
+        }
       })
     );
     this.isCustomerEmulationSessionInProgress$ =

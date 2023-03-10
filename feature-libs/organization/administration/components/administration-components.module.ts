@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { BudgetComponentsModule } from './budget/budget-components.module';
 import { CostCenterComponentsModule } from './cost-center/cost-center-components.module';

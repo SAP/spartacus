@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, InjectionToken, Injector, isDevMode } from '@angular/core';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherService } from '../services/url-matcher.service';

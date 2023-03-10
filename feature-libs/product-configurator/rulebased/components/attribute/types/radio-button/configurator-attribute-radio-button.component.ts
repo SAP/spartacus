@@ -1,5 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
@@ -14,13 +22,20 @@ export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
-  attributeRadioButtonForm = new FormControl('');
+  attributeRadioButtonForm = new UntypedFormControl('');
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(quantityService, translation);
+    super(
+      quantityService,
+      translation,
+      attributeComponentContext,
+      configuratorCommonsService
+    );
   }
 
   ngOnInit(): void {

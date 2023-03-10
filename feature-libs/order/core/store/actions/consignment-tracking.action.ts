@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { ConsignmentTracking } from '@spartacus/order/root';
 
@@ -31,7 +37,9 @@ export class LoadConsignmentTrackingSuccess implements Action {
 
 export class ClearConsignmentTracking {
   readonly type = CLEAR_CONSIGNMENT_TRACKING;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export type ConsignmentTrackingAction =

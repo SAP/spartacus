@@ -5,24 +5,25 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-  ConfiguratorUISettingsConfig,
-} from '@spartacus/product-configurator/rulebased';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
+import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import * as ConfigurationTestData from '../../../testing/configurator-test-data';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import {
   IconLoaderService,
   IconModule,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../../testing/configurator-test-data';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -110,7 +111,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, IconModule],
-        declarations: [ConfiguratorAttributeHeaderComponent],
+        declarations: [
+          ConfiguratorAttributeHeaderComponent,
+          MockFeatureLevelDirective,
+        ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
           {
@@ -128,6 +132,10 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
         ],
       })
@@ -148,12 +156,14 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute = currentAttribute;
     component.attribute.label = 'label of attribute';
     component.attribute.name = '123';
+    component.attribute.visible = true;
     component.owner = owner;
     component.groupId = 'testGroup';
     component.attribute.required = false;
     component.attribute.incomplete = true;
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+    component.isNavigationToGroupEnabled = true;
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -235,6 +245,31 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Render corresponding part of the component', () => {
+    it('should not render message for not visible attribute', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+    });
+
+    it('should render message for not visible attribute', () => {
+      component.attribute.visible = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg',
+        'configurator.attribute.notVisibleAttributeMsg'
+      );
+    });
+
     it('should render a label', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -447,7 +482,20 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'a.cx-conflict-msg'
+        'div.cx-conflict-msg a.link.cx-action-link'
+      );
+    });
+
+    it('should not display a conflict text as a link to a configuration group if this is disabled', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-conflict-msg a.link.cx-action-link'
       );
     });
 
@@ -459,7 +507,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div .cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
     });
   });
@@ -473,7 +521,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -584,6 +632,29 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
       expect(component.isAttributeGroup()).toBe(false);
+    });
+  });
+
+  describe('isConflictResolutionActive', () => {
+    it("should return 'false' because the navigation to the group is not enabled", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(false);
+    });
+
+    it("should return 'false' because the group type is a conflict group", () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(false);
+    });
+
+    it("should return 'true'", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = true;
+      fixture.detectChanges();
+      expect(component.isConflictResolutionActive()).toBe(true);
     });
   });
 
@@ -705,52 +776,105 @@ describe('ConfigAttributeHeaderComponent', () => {
         );
       });
 
-      it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'role',
-          'alert'
-        );
-      });
+      describe('Conflict resolution', () => {
+        describe('Enabled', () => {
+          beforeEach(() => {
+            component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+            component.isNavigationToGroupEnabled = true;
+            fixture.detectChanges();
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-live',
-          'assertive'
-        );
-      });
+          it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'role',
+              'alert'
+            );
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-atomic',
-          'true'
-        );
-      });
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-live',
+              'assertive'
+            );
+          });
 
-      it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-conflict-msg',
-          0,
-          'aria-label',
-          'configurator.a11y.conflictDetected'
-        );
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-atomic',
+              'true'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-label',
+              'configurator.a11y.conflictDetected'
+            );
+          });
+        });
+
+        describe('Disabled', () => {
+          beforeEach(() => {
+            component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+            component.isNavigationToGroupEnabled = false;
+            fixture.detectChanges();
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that is set to off", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-live',
+              'off'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that is set to false", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-atomic',
+              'false'
+            );
+          });
+
+          it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that is not defined", () => {
+            CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+              expect,
+              htmlElem,
+              'div',
+              'cx-conflict-msg',
+              0,
+              'aria-label'
+            );
+          });
+        });
       });
 
       it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
@@ -828,14 +952,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logWarning');
+      spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
         0
       );
-      expect(component['logWarning']).toHaveBeenCalled();
+      expect(component['logError']).toHaveBeenCalled();
     });
   });
 
@@ -925,18 +1049,35 @@ describe('ConfigAttributeHeaderComponent', () => {
       uiConfig.productConfigurator = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
+
     it('should return false if enableNavigationToConflict setting is not provided', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
         undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
+
     it('should return true if enableNavigationToConflict setting is true', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
-      expect(component.isNavigationToConflictEnabled()).toBeTruthy();
+      expect(component.isNavigationToConflictEnabled()).toBe(true);
     });
+
     it('should return false if enableNavigationToConflict setting is false', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
-      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+      expect(component.isNavigationToConflictEnabled()).toBe(false);
+    });
+
+    it('should return false if enableNavigationToConflict setting is true and isNavigationToGroupEnabled is false', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      component.isNavigationToGroupEnabled = false;
+      fixture.detectChanges();
+      expect(component.isNavigationToConflictEnabled()).toBe(false);
+    });
+  });
+
+  describe('isRequiredAttributeWithDomain', () => {
+    it('should return false in case optional attribute is not defined', () => {
+      component.attribute.required = undefined;
+      expect(component['isRequiredAttributeWithDomain']()).toBe(false);
     });
   });
 });

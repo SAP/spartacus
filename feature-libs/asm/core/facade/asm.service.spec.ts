@@ -104,4 +104,52 @@ describe('AsmService', () => {
       .unsubscribe();
     expect(result).toEqual(asmUi);
   });
+
+  it('should dispatch proper action for customer list customers search', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const searchOptions: CustomerSearchOptions = {
+      customerListId: 'mock-customer-list-id',
+    };
+
+    service.customerListCustomersSearch(searchOptions);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.CustomerListCustomersSearch(searchOptions)
+    );
+  });
+
+  it('should return customer list customers search result', () => {
+    store.dispatch(
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+    );
+    let result: CustomerSearchPage;
+
+    service
+      .getCustomerListCustomersSearchResults()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(mockCustomerSearchPage);
+  });
+
+  it('should return customer list customers search result loading status', () => {
+    let result: boolean;
+
+    service
+      .getCustomerListCustomersSearchResultsLoading()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(false);
+  });
+
+  it('should dispatch proper action for customer list customers search reset', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.customerListCustomersSearchReset();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.CustomerListCustomersSearchReset()
+    );
+  });
 });

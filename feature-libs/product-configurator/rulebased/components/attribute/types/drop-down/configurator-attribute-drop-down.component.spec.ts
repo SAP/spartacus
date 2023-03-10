@@ -9,12 +9,20 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { StoreModule } from '@ngrx/store';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -50,6 +58,10 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let htmlElem: HTMLElement;
@@ -71,11 +83,30 @@ describe('ConfigAttributeDropDownComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeDropDownComponent,
+          ConfiguratorAttributeInputFieldComponent,
+          ConfiguratorAttributeNumericInputFieldComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
           set: {
@@ -112,20 +143,22 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.attributeDropDownForm.value).toEqual(selectedValue);
   });
 
-  it('should call emit of selectionChange onSelect', () => {
+  it('should call updateConfiguration on select', () => {
     component.ownerKey = ownerKey;
-    spyOn(component.selectionChange, 'emit').and.callThrough();
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
     component.onSelect(component.attributeDropDownForm.value);
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          uiType: Configurator.UiType.DROPDOWN,
-          groupId: groupId,
-          selectedSingleValue: component.attributeDropDownForm.value,
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      ownerKey,
+      {
+        ...component.attribute,
+        selectedSingleValue: component.attributeDropDownForm.value,
+      },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 

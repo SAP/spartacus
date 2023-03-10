@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export class ObjectComparisonUtils {
   static shallowEqualObjects(objA: object, objB: object): boolean {
     if (objA === objB) {
@@ -33,35 +39,39 @@ export class ObjectComparisonUtils {
       // test their constructor.
       return false;
     } else {
-      for (const key in objA) {
-        if (!objA.hasOwnProperty(key)) {
-          continue; // other properties were tested using objA.constructor === y.constructor
-        }
-        if (!objB.hasOwnProperty(key)) {
-          return false; // allows to compare objA[ key ] and objB[ key ] when set to undefined
-        }
-        if (objA[key as keyof Object] === objB[key as keyof Object]) {
-          continue; // if they have the same strict value or identity then they are equal
-        }
-        if (typeof objA[key as keyof Object] !== 'object') {
-          return false; // Numbers, Strings, Functions, Booleans must be strictly equal
-        }
-        if (
-          !this.deepEqualObjects(
-            objA[key as keyof Object],
-            objB[key as keyof Object]
-          )
-        ) {
-          return false;
-        }
-      }
-      for (const key in objB) {
-        if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
-          return false;
-        }
-      }
-      return true;
+      return this.compareObjectProperties(objA, objB);
     }
+  }
+
+  protected static compareObjectProperties(objA: object, objB: object) {
+    for (const key in objA) {
+      if (!objA.hasOwnProperty(key)) {
+        continue; // other properties were tested using objA.constructor === y.constructor
+      }
+      if (!objB.hasOwnProperty(key)) {
+        return false; // allows to compare objA[ key ] and objB[ key ] when set to undefined
+      }
+      if (objA[key as keyof Object] === objB[key as keyof Object]) {
+        continue; // if they have the same strict value or identity then they are equal
+      }
+      if (typeof objA[key as keyof Object] !== 'object') {
+        return false; // Numbers, Strings, Functions, Booleans must be strictly equal
+      }
+      if (
+        !this.deepEqualObjects(
+          objA[key as keyof Object],
+          objB[key as keyof Object]
+        )
+      ) {
+        return false;
+      }
+    }
+    for (const key in objB) {
+      if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   static countOfDeepEqualObjects(obj: any, arr: Array<any>): number {
@@ -81,3 +91,5 @@ export class ObjectComparisonUtils {
     }
   }
 }
+
+// CHECK SONAR

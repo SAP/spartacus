@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
@@ -34,6 +40,10 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
+      kbKey: source.kbKey ?? undefined,
+      pricingEnabled: source.pricingEnabled ?? true,
+      hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
+      immediateConflictResolution: source.immediateConflictResolution ?? false,
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -120,6 +130,7 @@ export class OccConfiguratorVariantNormalizer
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
       uiType: uiType,
+      uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput:
         uiType === Configurator.UiType.NUMERIC ||
@@ -141,6 +152,7 @@ export class OccConfiguratorVariantNormalizer
       intervalInDomain: sourceAttribute.intervalInDomain,
       key: sourceAttribute.key,
       validationType: sourceAttribute.validationType,
+      visible: sourceAttribute.visible,
     };
 
     this.setSelectedSingleValue(attribute);
@@ -294,7 +306,11 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute
   ): Configurator.UiType {
     let uiType: Configurator.UiType;
-    switch (sourceAttribute.type) {
+
+    const sourceType: string = sourceAttribute.type?.toString() ?? '';
+    const coreSourceType = this.determineCoreUiType(sourceType);
+
+    switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
@@ -348,6 +364,15 @@ export class OccConfiguratorVariantNormalizer
       }
     }
     return uiType;
+  }
+
+  protected determineCoreUiType(sourceType: string) {
+    const indexCustomSeparator = sourceType.indexOf(
+      Configurator.CustomUiTypeIndicator
+    );
+    return indexCustomSeparator > 0
+      ? sourceType.substring(0, indexCustomSeparator)
+      : sourceType;
   }
 
   convertGroupType(

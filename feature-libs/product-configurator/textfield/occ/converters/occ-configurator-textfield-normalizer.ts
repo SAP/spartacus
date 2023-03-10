@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -11,7 +17,9 @@ export class OccConfiguratorTextfieldNormalizer
       ConfiguratorTextfield.Configuration
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
   /**
    * Converts addToCart parameters into the generic format
    * @param source Add to cart parameters in OCC format

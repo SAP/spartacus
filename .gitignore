@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/temp
 /out-tsc
 /documentation
 
@@ -19,7 +20,7 @@ docs.zip
 
 # dependencies
 node_modules/
-package-lock.json
+yarn.lock
 
 # verdaccio storage
 scripts/install/storage
@@ -43,6 +44,9 @@ scripts/install/config.sh
 
 # Coverage reports
 **/coverage
+
+# Unit test reports
+**/unit-tests-reports
 
 # misc
 /.angular/cache

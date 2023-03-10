@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Injector, isDevMode, OnDestroy } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -64,7 +70,7 @@ export class TmsService implements OnDestroy {
             );
           }
 
-          event = collector.map ? collector.map(event) : event;
+          event = collector.map?.(event) ?? event;
           collector.pushEvent(
             collectorConfig,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

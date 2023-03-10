@@ -15,7 +15,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
-import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { OrderHistoryFacade } from 'feature-libs/order/root/facade';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
@@ -456,9 +456,37 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 
+  describe('navigateForProductBound', () => {
+    it('should navigate to OV in case configuration is product bound and we are on product config page', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      ensureProductBound();
+
+      component['navigateForProductBound'](
+        mockProductConfiguration,
+        mockOwner.configuratorType,
+        false
+      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
+    });
+
+    it('should handle case that next owner is not defined', () => {
+      mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+      ensureProductBound();
+
+      component['navigateForProductBound'](
+        { ...mockProductConfiguration, nextOwner: undefined },
+        mockOwner.configuratorType,
+        false
+      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        ...navParamsOverview,
+        params: { ...navParamsOverview.params, entityKey: 'INITIAL' },
+      });
+    });
+  });
+
   describe('performNavigation', () => {
     it('should display message on addToCart ', () => {
-      //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
       component.performNavigation(
         configuratorType,
         mockProductConfiguration.owner,
@@ -469,7 +497,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
     it('should display no message on addToCart in case this is not desired', () => {
-      //TODO this TS strict mode issue will be fixed when we have set owner to mandatory with #11217
       component.performNavigation(
         configuratorType,
         mockProductConfiguration.owner,

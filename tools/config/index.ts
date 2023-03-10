@@ -1,12 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /**
  * Set of tools for managing configuration in this repository
  *
  * Currently:
  * - sets paths in tsconfig files
  * - manage dependencies and their versions in libraries
- *
- * To do:
- * - sonar cloud configuration
  */
 
 import chalk from 'chalk';
@@ -52,7 +55,7 @@ function logViolation(
   violation: string,
   [help, ...extraHelp]: string[]
 ): void {
-  let minLength = 76;
+  const minLength = 76;
   console.log(`
 ${chalk.gray(
   `--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`
@@ -126,7 +129,8 @@ const program = new Command();
 program
   .description('Check configuration in repository for inconsistencies')
   .option('--fix', 'Apply automatic fixes when possible')
-  .option('--bump-versions', 'Bump deps versions to match root package.json');
+  .option('--bump-versions', 'Bump deps versions to match root package.json')
+  .option('--generate-deps', 'Re-generate dependencies for all libraries');
 
 program.parse(process.argv);
 
@@ -145,6 +149,10 @@ export type ProgramOptions = {
    * Sets if versions should be bumped. Use for majors only.
    */
   bumpVersions: boolean | undefined;
+  /**
+   * Sets if dependencies should be re-generated for all libraries.
+   */
+  generateDeps: boolean | undefined;
 };
 
 const options: ProgramOptions = program.opts() as any;
@@ -240,8 +248,8 @@ const repository = librariesPaths
     const ngPackageFilesPaths = glob.sync(`${directory}/**/${NG_PACKAGE_JSON}`);
     const entryPoints = ngPackageFilesPaths.map((ngPackagePath) => {
       const ngPackageFileContent = readJsonFile(ngPackagePath);
-      let pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
-      let pathWithoutNgPackage = pathWithoutLibDirectory.substring(
+      const pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
+      const pathWithoutNgPackage = pathWithoutLibDirectory.substring(
         0,
         pathWithoutLibDirectory.length - `/${NG_PACKAGE_JSON}`.length
       );
@@ -274,15 +282,20 @@ manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);
 
-// collect and generate dependencies.json file.
-execSync(`yarn generate:deps --compare=true`);
+if (options.generateDeps) {
+  // re-generate dependencies.json file.
+  execSync(`npm run generate:deps`);
+} else {
+  // collect and generate dependencies.json file.
+  execSync(`npm run generate:deps --compare=true`);
+}
 
 /**
  * Format all files.
  */
 if (options.fix) {
   console.log('\nFormatting files (might take some time)...\n');
-  execSync('yarn prettier:fix');
+  execSync('npm run prettier:fix');
   console.log(`✨ ${chalk.green('Update completed')}`);
 }
 

@@ -1,4 +1,9 @@
-import * as fs from 'fs';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as common from './common';
 
 /**
@@ -12,10 +17,6 @@ import * as common from './common';
  * -----------
  */
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
+const breakingChangesData = common.readBreakingChangeFile();
 
 common.printStats(breakingChangesData);

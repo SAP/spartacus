@@ -11,9 +11,26 @@ module.exports = (on, config) => {
 
       return null;
     },
+
+    deleteFolder(folderName) {
+      return new Promise((resolve, reject) => {
+        fs.rm(
+          folderName,
+          { maxRetries: 3, recursive: true, force: true },
+          (err) => {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            resolve(null);
+          }
+        );
+      });
+    },
   });
 
   /* Set exact timestamp to be shared in all spec files */
   config.env.TIMESTAMP = Date.now() - 1535535333333;
+
   return config;
 };

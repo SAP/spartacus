@@ -1,4 +1,14 @@
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 /**
  * Utils for Angular forms
@@ -24,7 +34,10 @@ export namespace FormUtils {
     control: AbstractControl,
     options: { emitEvent?: boolean } = {}
   ): void {
-    if (control instanceof FormGroup || control instanceof FormArray) {
+    if (
+      control instanceof UntypedFormGroup ||
+      control instanceof UntypedFormArray
+    ) {
       Object.values(control.controls).forEach(
         (childControl: AbstractControl) => {
           deepUpdateValueAndValidity(childControl, options);

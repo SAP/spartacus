@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { of, Subscription } from 'rxjs';
 import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { StatePersistenceService } from '@spartacus/core';

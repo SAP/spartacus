@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import { fakeAsync, flush, tick } from '@angular/core/testing';
 import { Application, Request } from 'express';
 import { IncomingHttpHeaders } from 'http';
@@ -12,6 +14,11 @@ import {
 
 const defaultRenderTime = 100;
 const host = 'my.shop.com';
+
+jest.mock('fs', () => ({
+  readFileSync: () => '',
+}));
+jest.spyOn(console, 'log').mockImplementation();
 
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
@@ -122,16 +129,45 @@ describe('OptimizedSsrEngine', () => {
       });
     });
   });
+  describe('logOptions', () => {
+    it('should log the provided options', () => {
+      new TestEngineRunner({
+        timeout: 50,
+        renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
+      });
+
+      expect(console.log).toMatchInlineSnapshot(`
+        [MockFunction] {
+          "calls": [
+            [
+              "[spartacus] SSR optimization engine initialized with the following options: {
+          "timeout": 50,
+          "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
+        }",
+            ],
+          ],
+          "results": [
+            {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      `);
+    });
+  });
 
   describe('timeout option', () => {
     it('should fallback to CSR if rendering exceeds timeout', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
+
       tick(200);
       expect(engineRunner.renders).toEqual(['']);
     }));
 
     it('should return timed out render in the followup request', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
+
       tick(200);
       expect(engineRunner.renders).toEqual(['']);
 
@@ -141,12 +177,14 @@ describe('OptimizedSsrEngine', () => {
 
     it('should return render if rendering meets timeout', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 150 }).request('a');
+
       tick(200);
       expect(engineRunner.renders).toEqual(['a-0']);
     }));
 
     it('should fallback instantly if is set to 0', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
+
       expect(engineRunner.renders).toEqual(['']);
     });
 
@@ -173,6 +211,7 @@ describe('OptimizedSsrEngine', () => {
   describe('no-store cache control header', () => {
     it('should be applied for a fallback', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
+
       expect(engineRunner.renders).toEqual(['']);
       expect(engineRunner.responseParams).toEqual([
         { 'Cache-Control': 'no-store' },
@@ -181,13 +220,14 @@ describe('OptimizedSsrEngine', () => {
 
     it('should not be applied for a render within time limit', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 200 }).request('a');
+
       tick(200);
       expect(engineRunner.renders).toEqual(['a-0']);
       expect(engineRunner.responseParams).toEqual([{}]);
     }));
-
     it('should not be applied for a render served with next response', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
+
       tick(200);
       engineRunner.request('a');
       expect(engineRunner.renders).toEqual(['', 'a-0']);
@@ -293,7 +333,7 @@ describe('OptimizedSsrEngine', () => {
   describe('ttl option', () => {
     it('should invalidate expired renders', fakeAsync(() => {
       let currentDate = 100;
-      spyOn(Date, 'now').and.callFake(() => currentDate);
+      jest.spyOn(Date, 'now').mockImplementation(() => currentDate);
 
       const engineRunner = new TestEngineRunner({
         cache: true,
@@ -321,11 +361,10 @@ describe('OptimizedSsrEngine', () => {
           timeout: 200,
           cache: true,
         });
-        spyOn(
+        jest.spyOn(
           engineRunner.optimizedSsrEngine as any,
           'isConcurrencyLimitExceeded'
-        ).and.callThrough();
-
+        );
         const route = 'home';
         engineRunner.request(route);
         tick(200);
@@ -340,7 +379,7 @@ describe('OptimizedSsrEngine', () => {
           timeout: 200,
           cache: true,
         });
-        spyOn(
+        jest.spyOn(
           engineRunner.optimizedSsrEngine as any,
           'isConcurrencyLimitExceeded'
         );
@@ -404,7 +443,9 @@ describe('OptimizedSsrEngine', () => {
           renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
           timeout: 0,
           cache: true,
-        }).request('a');
+        });
+
+        engineRunner.request('a');
 
         tick(200);
         expect(engineRunner.renders).toEqual(['a-0']);
@@ -416,10 +457,10 @@ describe('OptimizedSsrEngine', () => {
           timeout: 200,
           reuseCurrentRendering: false,
         });
-        spyOn(
+        jest.spyOn(
           engineRunner.optimizedSsrEngine as any,
           'expressEngine' // 'expressEngine' is a protected property
-        ).and.callThrough();
+        );
 
         engineRunner.request('a');
         expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -450,7 +491,9 @@ describe('OptimizedSsrEngine', () => {
           renderingStrategyResolver: () => RenderingStrategy.ALWAYS_CSR,
           timeout: 200,
           cache: true,
-        }).request('a');
+        });
+
+        engineRunner.request('a');
 
         tick(200);
         engineRunner.request('a');
@@ -464,10 +507,10 @@ describe('OptimizedSsrEngine', () => {
           timeout: 200,
           cache: true,
         });
-        spyOn(
+        jest.spyOn(
           engineRunner.optimizedSsrEngine as any,
           'expressEngine' // 'expressEngine' is a protected property
-        ).and.callThrough();
+        );
 
         engineRunner.request('a');
         expect(engineRunner.renders).toEqual(['']);
@@ -483,7 +526,9 @@ describe('OptimizedSsrEngine', () => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.DEFAULT,
           timeout: 50,
-        }).request('a');
+        });
+
+        engineRunner.request('a');
 
         tick(200);
         engineRunner.request('a');
@@ -541,14 +586,15 @@ describe('OptimizedSsrEngine', () => {
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
         timeout: 50,
         forcedSsrTimeout: 80,
-      }).request('a');
+      });
+
+      engineRunner.request('a');
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
       });
 
       tick(60);
       expect(engineRunner.renders).toEqual([]);
-
       tick(50);
       expect(engineRunner.renders).toEqual(['']);
       expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -566,7 +612,9 @@ describe('OptimizedSsrEngine', () => {
       const engineRunner = new TestEngineRunner({
         timeout: 50,
         forcedSsrTimeout: 80,
-      }).request('a');
+      });
+
+      engineRunner.request('a');
 
       tick(60);
       expect(engineRunner.renders).toEqual(['']);
@@ -576,7 +624,6 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renders).toEqual(['', 'a-0']);
     }));
   });
-
   describe('maxRenderTime option', () => {
     const fiveMinutes = 300000;
 
@@ -586,7 +633,7 @@ describe('OptimizedSsrEngine', () => {
       const engineRunner = new TestEngineRunner({}, renderTime).request(
         requestUrl
       );
-      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
       tick(renderTime + 1);
       expect(engineRunner.renderCount).toEqual(1);
@@ -602,7 +649,7 @@ describe('OptimizedSsrEngine', () => {
       const engineRunner = new TestEngineRunner({}, renderTime).request(
         requestUrl
       );
-      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
       tick(fiveMinutes);
       expect(engineRunner.renderCount).toEqual(0);
@@ -626,7 +673,7 @@ describe('OptimizedSsrEngine', () => {
         },
         renderTime
       ).request(requestUrl);
-      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
       tick(maxRenderTime);
       expect(engineRunner.renderCount).toEqual(0);
@@ -649,7 +696,7 @@ describe('OptimizedSsrEngine', () => {
         { concurrency: 1, maxRenderTime },
         renderTime
       );
-      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
       // issue two requests
       engineRunner.request(hangingRequest);
@@ -698,7 +745,7 @@ describe('OptimizedSsrEngine', () => {
         },
         renderTime
       ).request(requestUrl);
-      spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
       expect(engineRunner.renders).toEqual([]);
 
       tick(fiveMinutes + 101);
@@ -720,7 +767,6 @@ describe('OptimizedSsrEngine', () => {
 
     const getRenderingKey = (requestUrlStr: string): string =>
       `https://${host}${requestUrlStr}`;
-
     const getRenderCallbacksCount = (
       engineRunner: TestEngineRunner,
       requestUrlStr: string
@@ -775,7 +821,7 @@ describe('OptimizedSsrEngine', () => {
             { timeout, reuseCurrentRendering: true },
             400
           );
-          spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
           engineRunner.request(requestUrl);
           tick(200);
@@ -795,15 +841,13 @@ describe('OptimizedSsrEngine', () => {
         }));
 
         it('and honour the timeout option', fakeAsync(() => {
+          const logSpy = jest.fn();
           const timeout = 300;
           const engineRunner = new TestEngineRunner(
             { timeout, reuseCurrentRendering: true },
             1000
           );
-          const logSpy = spyOn<any>(
-            engineRunner.optimizedSsrEngine,
-            'log'
-          ).and.callThrough();
+          engineRunner.optimizedSsrEngine['log'] = logSpy;
 
           engineRunner.request(requestUrl);
 
@@ -817,15 +861,15 @@ describe('OptimizedSsrEngine', () => {
           tick(200);
 
           let renderExceedMessageCount = 0;
-          logSpy.calls.allArgs().forEach((args: unknown[]) => {
-            args.forEach((message: unknown) => {
-              if (
-                message ===
-                `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`
-              ) {
-                renderExceedMessageCount++;
-              }
-            });
+
+          logSpy.mock.calls.forEach((call) => {
+            const messageArg = call[0];
+            if (
+              messageArg ===
+              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`
+            ) {
+              renderExceedMessageCount++;
+            }
           });
 
           expect(renderExceedMessageCount).toBe(2);
@@ -879,7 +923,7 @@ describe('OptimizedSsrEngine', () => {
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
             400
           );
-          spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
           // start 1st request
           engineRunner.request(requestUrl);
@@ -944,7 +988,7 @@ describe('OptimizedSsrEngine', () => {
             timeout: 200,
             concurrency: 1,
           });
-          spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
           engineRunner.request('a');
           engineRunner.request('a');
@@ -964,6 +1008,7 @@ describe('OptimizedSsrEngine', () => {
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
             200
           );
+
           engineRunner
             .request(requestUrl)
             .request(requestUrl)
@@ -1022,7 +1067,7 @@ describe('OptimizedSsrEngine', () => {
             { concurrency: 2, maxRenderTime, reuseCurrentRendering: true },
             renderTime
           );
-          spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
           engineRunner.request(hangingRequest);
           engineRunner.request(hangingRequest);
@@ -1083,7 +1128,7 @@ describe('OptimizedSsrEngine', () => {
           { timeout, reuseCurrentRendering: true },
           400
         );
-        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+        jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
         engineRunner.request(requestUrl);
         tick(200);

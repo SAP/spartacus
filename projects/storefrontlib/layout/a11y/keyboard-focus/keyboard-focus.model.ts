@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /** The element attribute used to store the focus state */
 export const FOCUS_ATTR = 'data-cx-focus';
 /** The element attribute used to store the focus group state */

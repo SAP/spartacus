@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -59,7 +65,9 @@ export class PositioningService {
   protected getPositionStyleProperty(element: HTMLElement): string | undefined {
     const styles = this.getAllStyles(element);
 
-    if (styles) return styles['position'] || undefined;
+    if (styles) {
+      return styles['position'] || undefined;
+    }
   }
 
   protected isStaticPositioned(element: HTMLElement): boolean {

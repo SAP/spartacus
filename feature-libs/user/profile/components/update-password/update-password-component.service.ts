@@ -1,6 +1,18 @@
-import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, Optional } from '@angular/core';
 import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import {
+  AuthRedirectService,
+  AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -12,10 +24,32 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UpdatePasswordComponentService {
+  // TODO(CXSPA-1697): make AuthRedirectService and AuthService a required dependency
+  constructor(
+    userPasswordService: UserPasswordFacade,
+    routingService: RoutingService,
+    globalMessageService: GlobalMessageService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    authRedirectService: AuthRedirectService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    authService: AuthService
+  );
+
+  /*
+   * @deprecated since 5.1
+   */
+  constructor(
+    userPasswordService: UserPasswordFacade,
+    routingService: RoutingService,
+    globalMessageService: GlobalMessageService
+  );
+
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    @Optional() protected authRedirectService?: AuthRedirectService,
+    @Optional() protected authService?: AuthService
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -24,14 +58,14 @@ export class UpdatePasswordComponentService {
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  form: FormGroup = new FormGroup(
+  form: UntypedFormGroup = new UntypedFormGroup(
     {
-      oldPassword: new FormControl('', Validators.required),
-      newPassword: new FormControl('', [
+      oldPassword: new UntypedFormControl('', Validators.required),
+      newPassword: new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
       ]),
-      newPasswordConfirm: new FormControl('', Validators.required),
+      newPasswordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -68,7 +102,15 @@ export class UpdatePasswordComponentService {
     );
     this.busy$.next(false);
     this.form.reset();
-    this.routingService.go({ cxRoute: 'home' });
+
+    // sets the redirect url after login
+    this.authRedirectService?.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService?.coreLogout().then(() => {
+      this.routingService.go({ cxRoute: 'login' });
+    });
   }
 
   protected onError(_error: Error): void {
