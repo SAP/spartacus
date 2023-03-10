@@ -18,7 +18,7 @@ const host = 'my.shop.com';
 jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
-jest.spyOn(console, 'log').mockImplementation();
+const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
@@ -136,23 +136,18 @@ describe('OptimizedSsrEngine', () => {
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
       });
 
-      expect(console.log).toMatchInlineSnapshot(`
-        [MockFunction] {
-          "calls": [
-            [
-              "[spartacus] SSR optimization engine initialized with the following options: {
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+        [
+          "[spartacus] SSR optimization engine initialized with the following options: {
+          "concurrency": 10,
           "timeout": 50,
+          "forcedSsrTimeout": 60000,
+          "maxRenderTime": 300000,
+          "reuseCurrentRendering": true,
+          "debug": false,
           "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
         }",
-            ],
-          ],
-          "results": [
-            {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        }
+        ]
       `);
     });
   });
@@ -786,7 +781,7 @@ describe('OptimizedSsrEngine', () => {
           { timeout, reuseCurrentRendering: false },
           400
         );
-        spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
+        jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
         engineRunner.request(requestUrl);
         expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
