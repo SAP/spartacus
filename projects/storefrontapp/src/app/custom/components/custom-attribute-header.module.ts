@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorAttributeCompositionConfig } from '@spartacus/product-configurator/rulebased';
 import { IconModule } from '@spartacus/storefront';
-
-import { CustomAttributeFooterComponent } from './custom-attribute-footer.component';
+import { ConfiguratorAttributeCompositionConfig } from '@spartacus/product-configurator/rulebased';
+import { CustomAttributeHeaderComponent } from './custom-attribute-header.component';
 
 @NgModule({
   imports: [
@@ -20,17 +20,18 @@ import { CustomAttributeFooterComponent } from './custom-attribute-footer.compon
     CommonModule,
     I18nModule,
     IconModule,
+    NgSelectModule,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
         assignment: {
-          Footer: CustomAttributeFooterComponent,
+          Header: CustomAttributeHeaderComponent,
         },
       },
     }),
   ],
-  declarations: [CustomAttributeFooterComponent],
-  exports: [CustomAttributeFooterComponent],
+  declarations: [CustomAttributeHeaderComponent],
+  exports: [CustomAttributeHeaderComponent],
 })
-export class CustomAttributeFooterModule {}
+export class CustomAttributeHeaderModule {}

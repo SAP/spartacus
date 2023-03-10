@@ -30,7 +30,7 @@ export class CustomAttributeRadioButtonComponent extends ConfiguratorAttributeRa
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService,     
+      configuratorCommonsService
     );
   }
 }
