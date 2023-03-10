@@ -25,6 +25,11 @@
       margin-top: 1.5rem;
     }
 
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      padding: 20px;
+    }
+
     &-wrapper {
       display: flex;
       flex-direction: column;
@@ -48,18 +53,28 @@
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
 
-      &:first-child {
-        margin-top: 30px;
-        margin-inline-start: 25px;
-        margin-bottom: 40px;
-        margin-inline-end: 15px;
+      @include media-breakpoint-up(md) {
+        &:first-child {
+          margin-top: 30px;
+          margin-inline-start: 25px;
+          margin-bottom: 40px;
+          margin-inline-end: 15px;
+        }
+
+        &:last-child {
+          margin-top: 30px;
+          margin-inline-start: 15px;
+          margin-bottom: 40px;
+          margin-inline-end: 25px;
+        }
       }
 
-      &:last-child {
-        margin-top: 30px;
-        margin-inline-start: 15px;
-        margin-bottom: 40px;
-        margin-inline-end: 25px;
+      @include media-breakpoint-down(sm) {
+        margin-top: 0;
+        margin-inline-start: 0;
+        margin-bottom: 0;
+        margin-inline-end: 0;
+        width: 100%;
       }
     }
 
@@ -69,24 +84,40 @@
       border-radius: 10px;
       flex-grow: 1;
 
-      &:first-child {
-        margin-top: 0px;
-        margin-inline-start: 0px;
-        margin-bottom: 40px;
-        margin-inline-end: 15px;
+      @include media-breakpoint-up(md) {
+        &:first-child {
+          margin-top: 0px;
+          margin-inline-start: 0px;
+          margin-bottom: 40px;
+          margin-inline-end: 15px;
+        }
+
+        &:last-child {
+          margin-top: 0px;
+          margin-inline-start: 15px;
+          margin-bottom: 40px;
+          margin-inline-end: 0;
+        }
       }
 
-      &:last-child {
-        margin-top: 0px;
-        margin-inline-start: 15px;
-        margin-bottom: 40px;
+      @include media-breakpoint-down(sm) {
+        margin-top: 0;
+        margin-inline-start: 0;
+        margin-bottom: 20px;
         margin-inline-end: 0;
+        width: 100%;
       }
     }
 
     .cx-review-summary-card {
       display: flex;
       justify-content: space-between;
+
+      @include media-breakpoint-down(sm) {
+        &:first-child {
+          margin-bottom: 20px;
+        }
+      }
 
       .cx-card-title {
         @include type('4');
@@ -146,6 +177,14 @@ cx-place-order {
         margin-bottom: 0.5rem;
         margin-inline-start: 2rem;
       }
+    }
+  }
+}
+
+cx-checkout-review-shipping {
+  .cx-review-summary {
+    @include media-breakpoint-down(sm) {
+      padding: 0px;
     }
   }
 }
