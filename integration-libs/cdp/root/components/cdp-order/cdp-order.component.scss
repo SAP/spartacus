@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: end;
     .cx-order-summary{
         a{
             color: #1772b7;
@@ -10,41 +11,45 @@
         width: 50%;
     }
     .cx-order-image{
-        //margin-left: 50pc;
-        width:88px;
-        height:88px;
         display: flex;
-        padding: 0px;
+        flex-direction: row-reverse	;
+        align-items: flex-end;
+        padding: 10px;
+        width: 88px;
+        height: 88px;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        justify-content: space-between;
     }
     hr{
         width:100%
     }
     font-family: 'Times New Roman', Times, serif;
 }
+
 .cx-all-orders{
     color: black;
 }
 .cx-details{
     font-family: Open Sans;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
     letter-spacing: 0em;
     text-align: left;
-}
-.cx-consignment-status{
-    width: 150px;
-    height: 25px;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 25px;
-    text-transform: capitalize;
-    color: #14293A;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
+    font-family: Open Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    font-family: Open Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
 }
 .cx-order-style{
     width: 215px;
@@ -84,6 +89,7 @@
     color: #6C7079;
     flex: none;
     order: 2;
+    flex-grow: 0;
 }
 .cx-ready-for-pickup{
     width: 213px;
@@ -113,6 +119,86 @@
 }
 .cx-cancelled-detail{
     width: 335px;
+    height: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #6C7079;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-consignment-readforpickup{
+    width: 220px;
+    height: 25px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    text-transform: capitalize;
+    color: #14293A;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-consignment-status{
+    width: 150px;
+    height: 25px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    text-transform: capitalize;
+    color: #14293A;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-consignment-returned{
+    width: 152px;
+    height: 25px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    color: #DB0002;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-returned-detail{
+    width: 273px;
+    height: 22px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #6C7079;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.cx-consignment-pickedup{
+    width: 166px;
+    height: 25px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    text-transform: capitalize;
+    color: #14293A;
+    flex: none;
+    order: 1;
+}
+.cx-pickedup-detail{
+    width: 276px;
     height: 22px;
     font-family: 'Open Sans';
     font-style: normal;
