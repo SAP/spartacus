@@ -21,7 +21,7 @@ export class I18nextDefaultBackendService implements I18nextBackendService {
   initialize(): InitOptions {
     const loader = this.config.i18n?.backend?.loader;
 
-    if (!loader || typeof loader !== 'function') {
+    if (typeof loader !== 'function') {
       throw new Error('The config `i18n.backend.loader` is not a function!');
     }
 
