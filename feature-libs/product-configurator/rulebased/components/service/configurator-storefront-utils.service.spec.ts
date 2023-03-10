@@ -15,6 +15,7 @@ import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-ut
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 let isGroupVisited: Observable<boolean> = of(false);
+const testSelector = 'test-configurator-overview-menu';
 
 class MockConfiguratorGroupsService {
   isGroupVisited(): Observable<boolean> {
@@ -776,7 +777,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       const height: number = documentHeight ? documentHeight.height : 0;
       const elementOffsetHeight = height - offsetHeight;
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      ovMenu = document.createElement('cx-configurator-overview-menu');
+      ovMenu = document.createElement(testSelector);
       document.body.append(ovMenu);
       spyOnProperty(ovMenu, 'offsetHeight').and.returnValue(
         elementOffsetHeight
@@ -807,35 +808,27 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       expect(ovMenu.scrollTop).toBe(0);
     });
 
-    xit('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5500, 250);
-      classUnderTest.ensureElementVisible(
-        'cx-configurator-overview-menu',
-        menuItem
-      );
-      ovMenu = document.querySelector('cx-configurator-overview-menu');
+
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
-    xit('should ensure visibility of the element when element.offsetTop is greater than container.scrollTop', () => {
+    it('should ensure visibility of the element when element.offsetTop is greater than container.scrollTop', () => {
       createTestData(5000, 450);
       spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
-      classUnderTest.ensureElementVisible(
-        'cx-configurator-overview-menu',
-        menuItem
-      );
-      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
-    xit('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5000, 50);
       spyOnProperty(ovMenu, 'offsetTop').and.returnValue(50);
-      classUnderTest.ensureElementVisible(
-        'cx-configurator-overview-menu',
-        menuItem
-      );
-      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
   });

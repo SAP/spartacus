@@ -71,3 +71,6 @@
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
  
 
+### Font Awesome Icons
+
+The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
