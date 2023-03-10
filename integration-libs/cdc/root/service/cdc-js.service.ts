@@ -5,7 +5,13 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  NgZone,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import {
   AuthService,
   BaseSiteService,
@@ -46,6 +52,7 @@ export class CdcJsService implements OnDestroy {
     protected winRef: WindowRef,
     protected cdcAuth: CdcAuthFacade,
     protected auth: AuthService,
+    protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
     protected globalMessageService: GlobalMessageService
@@ -218,6 +225,7 @@ export class CdcJsService implements OnDestroy {
         regToken: response.regToken,
         finalizeRegistration: true,
       }).pipe(
+        take(1),
         tap({
           error: (response) => this.handleRegisterError(response),
         })
@@ -245,6 +253,7 @@ export class CdcJsService implements OnDestroy {
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
         }).pipe(
+          take(1),
           tap({
             error: (response) => this.handleLoginError(response),
           })
@@ -326,6 +335,7 @@ export class CdcJsService implements OnDestroy {
       return this.invokeAPI('accounts.resetPassword', {
         loginID: email,
       }).pipe(
+        take(1),
         tap({
           error: (response) => this.handleResetPassResponse(response),
         })
@@ -377,6 +387,7 @@ export class CdcJsService implements OnDestroy {
       return this.invokeAPI('accounts.setAccountInfo', {
         ...profileObj,
       }).pipe(
+        take(1),
         tap(() =>
           this.userProfileFacade.update(user as User).subscribe({
             error: (error) => of(error),
@@ -409,13 +420,7 @@ export class CdcJsService implements OnDestroy {
         newPassword: newPassword,
       }).pipe(
         tap({
-          error: (error) => {
-            let errorMessage = error.errorMessage;
-            this.globalMessageService.add(
-              errorMessage,
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          },
+          error: (error) => of(error),
         })
       );
     }
@@ -475,9 +480,11 @@ export class CdcJsService implements OnDestroy {
                   email: newEmail,
                 },
               }).pipe(
+                take(1),
                 tap({
                   next: () =>
                     this.userProfileFacade.update({ uid: newEmail }).pipe(
+                      take(1),
                       tap({
                         error: (error) => of(error),
                         complete: () => {
@@ -502,8 +509,8 @@ export class CdcJsService implements OnDestroy {
    */
   protected getLoggedInUserEmail(): Observable<User> {
     return this.userProfileFacade.get().pipe(
-      filter((user): user is User => Boolean(user))
-      take(1),
+      filter((user): user is User => Boolean(user)),
+      take(1)
     );
   }
 
@@ -569,12 +576,14 @@ export class CdcJsService implements OnDestroy {
       actualAPI({
         ...payload,
         callback: (response: any) => {
-          if (response?.status === 'OK') {
-            result.next(response);
-            result.complete();
-          } else {
-            result.error(response);
-          }
+          this.zone.run(() => {
+            if (response?.status === 'OK') {
+              result.next(response);
+              result.complete();
+            } else {
+              result.error(response);
+            }
+          });
         },
       });
     });

@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
-import { CdcStoreModule } from '../core/store/cdc-store.module';
 import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
@@ -50,7 +49,6 @@ export function defaultCdcComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [CdcStoreModule],
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },

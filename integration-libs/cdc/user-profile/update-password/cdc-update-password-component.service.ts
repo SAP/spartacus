@@ -10,6 +10,7 @@ import {
   AuthRedirectService,
   AuthService,
   GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { UpdatePasswordComponentService } from '@spartacus/user/profile/components';
@@ -52,7 +53,16 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
       .updateUserPasswordWithoutScreenSet(oldPassword, newPassword)
       .subscribe({
         next: () => this.onSuccess(),
-        error: (error: Error) => this.onError(error),
+        error: (error) => this.onError(error),
       });
+  }
+
+  protected onError(_error: any): void {
+    let errorMessage = _error?.errorDetails || ' ';
+    this.globalMessageService.add(
+      errorMessage,
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    this.busy$.next(false);
   }
 }

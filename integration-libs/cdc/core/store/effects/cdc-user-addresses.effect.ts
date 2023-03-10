@@ -9,6 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   Address,
+  Country,
   GlobalMessageService,
   GlobalMessageType,
   UserActions,
@@ -29,7 +30,7 @@ export class CdcUserAddressesEffects {
         this.actions$.pipe(
           ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
           mergeMap(() => {
-            return this.updateDefaultAdressInCDC().pipe(
+            return this.updateDefaultAddressInCDC().pipe(
               map((data: any) => {
                 return new UserActions.LoadUserAddressesSuccess(data);
               }),
@@ -57,7 +58,7 @@ export class CdcUserAddressesEffects {
                                              in the scenario where an address is set as default from the address book page */
           ),
           mergeMap(() => {
-            return this.updateDefaultAdressInCDC().pipe(
+            return this.updateDefaultAddressInCDC().pipe(
               map((data: any) => {
                 return new UserActions.LoadUserAddressesSuccess(data);
               }),
@@ -81,7 +82,7 @@ export class CdcUserAddressesEffects {
         this.actions$.pipe(
           ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
           switchMap(() => {
-            return this.updateDefaultAdressInCDC().pipe(
+            return this.updateDefaultAddressInCDC().pipe(
               map((data: any) => {
                 return new UserActions.LoadUserAddressesSuccess(data);
               }),
@@ -110,7 +111,12 @@ export class CdcUserAddressesEffects {
     return addresses.find((address) => address?.defaultAddress === true);
   }
 
-  updateDefaultAdressInCDC() {
+  getCountryName(countries: Country[], countryIsocode: string) {
+    return countries.find((country) => country.isocode === countryIsocode)
+      ?.name;
+  }
+
+  updateDefaultAddressInCDC() {
     return this.getAddresses().pipe(
       take(1),
       switchMap((addresses: Address[]) => {
@@ -123,11 +129,19 @@ export class CdcUserAddressesEffects {
   sendAddressToCDC(address: Address): Observable<{ status: string }> {
     //send to CDC
     let formattedAddress = address.formattedAddress || ' ';
-    return this.cdcJsService.updateAddressWithoutScreenSet(
-      formattedAddress,
-      address.postalCode || ' ',
-      address.town || ' ',
-      address.country?.name || ' '
+    return this.userAddressService.getDeliveryCountries().pipe(
+      take(1),
+      switchMap((countries: Country[]) => {
+        let countryName =
+          this.getCountryName(countries, address.country?.isocode || ' ') ||
+          ' ';
+        return this.cdcJsService.updateAddressWithoutScreenSet(
+          formattedAddress,
+          address.postalCode || ' ',
+          address.town || ' ',
+          countryName
+        );
+      })
     );
   }
 

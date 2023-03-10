@@ -11,8 +11,8 @@ describe('CDC', () => {
     });
 
     it('should register and redirect to home page', () => {
-      cdc.registerUser();
-      cdc.verifyLoginOrRegistrationSuccess();
+      cdc.registerUser(cdc.user);
+      cdc.verifyLoginOrRegistrationSuccess(cdc.user.fullName);
     });
   });
 
@@ -23,37 +23,40 @@ describe('CDC', () => {
     });
 
     it('should register and redirect to home page', () => {
-      cdc.registerUserWithoutScreenSet();
-      cdc.verifyLoginOrRegistrationSuccess();
+      cdc.registerUserWithoutScreenSet(cdc.nativeUser);
+      cdc.verifyLoginOrRegistrationSuccess(cdc.nativeUser.fullName);
     });
   });
 
   describe('Login existing Customer with Screenset', () => {
     before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
     });
 
     it('should login and redirect to home page', () => {
-      cdc.loginUser();
-      cdc.verifyLoginOrRegistrationSuccess();
+      cdc.loginUser(cdc.user.email, cdc.user.password);
+      cdc.verifyLoginOrRegistrationSuccess(cdc.user.fullName);
     });
   });
 
   describe('Login existing Customer with Native UI', () => {
     before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
     });
 
     it('should login and redirect to home page', () => {
-      cdc.loginWithoutScreenSet();
-      cdc.verifyLoginOrRegistrationSuccess();
+      cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
+      cdc.verifyLoginOrRegistrationSuccess(cdc.nativeUser.fullName);
     });
   });
 
   describe('Update profile', () => {
     before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
-      cdc.loginUser();
+      cdc.loginUser(cdc.user.email, cdc.user.password);
     });
 
     it('should update profile', () => {
@@ -62,7 +65,26 @@ describe('CDC', () => {
       });
 
       cdc.updateUserProfile();
-      cdc.verifyProfileUpdateSuccess();
+      cdc.verifyProfileUpdateSuccess(cdc.user);
+      cdc.restoreUserLastName(cdc.user);
+    });
+  });
+
+  describe('Update profile without screenset', () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/login');
+      cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
+    });
+
+    it('should update profile with native UI', () => {
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
+
+      cdc.updateUserProfileWithoutScreenset();
+      cdc.verifyProfileUpdateSuccess(cdc.nativeUser);
+      cdc.restoreUserLastName(cdc.nativeUser);
     });
   });
 });

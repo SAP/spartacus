@@ -81,7 +81,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   addressForm: UntypedFormGroup = this.fb.group({
     country: this.fb.group({
       isocode: [null, Validators.required],
-      name: [null],
     }),
     titleCode: [''],
     firstName: ['', Validators.required],
@@ -91,7 +90,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     town: ['', Validators.required],
     region: this.fb.group({
       isocode: [null, Validators.required],
-      name: [null],
     }),
     postalCode: ['', Validators.required],
     phone: '',
@@ -125,13 +123,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       switchMap((country) => this.userAddressService.getRegions(country)),
       tap((regions: Region[]) => {
         const regionControl = this.addressForm.get('region.isocode');
-        const regionNameControl = this.addressForm.get('region.name');
         if (regions && regions.length > 0) {
           regionControl?.enable();
-          regionNameControl?.enable();
         } else {
           regionControl?.disable();
-          regionNameControl?.disable();
         }
       })
     );
@@ -188,17 +183,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   countrySelected(country: Country | undefined): void {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
-    this.addressForm.get('country')?.get('name')?.setValue(country?.name);
     this.selectedCountry$.next(country?.isocode ?? '');
   }
 
   regionSelected(region: Region): void {
     this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
-    if (region.name) {
-      this.addressForm.get('region')?.get('name')?.setValue(region?.name);
-    } else {
-      this.addressForm.get('region')?.get('name')?.setValue(region?.isocode);
-    }
   }
 
   toggleDefaultAddress(): void {

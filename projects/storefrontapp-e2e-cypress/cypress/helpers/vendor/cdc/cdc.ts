@@ -6,31 +6,40 @@
 
 import { fillRegistrationForm, login } from '../../../helpers/auth-forms';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
-const UPDATED_NAME = ' updated';
-export function registerUser() {
+import { fillShippingAddress } from '../../checkout-forms';
+import { listenForTokenRevocationRequest } from '../../login';
+
+export const updatedName = ' updated';
+export const updatedEmail = 'spartacusb2bupdated@sapcx.com';
+export const updatedPassword = 'NewPassword123.';
+
+export function registerUser(cdcUser) {
   cy.findByText("Don't have an account yet?").click();
   cy.wait(2000);
-  registerCDC();
+  registerCDC(cdcUser);
 }
 
-const user = getSampleUser();
-const nativeUser = getSampleUser();
+export const user = getSampleUser();
+export const nativeUser = getSampleUser();
 
-const b2bUser = getSampleB2BUser();
+export const b2bUser = getSampleB2BUser();
 
-export function registerCDC() {
-  fillAndSubmitRegistrationForm();
+export function registerCDC(cdcUser) {
+  fillAndSubmitRegistrationForm(cdcUser);
 }
 
-export function fillAndSubmitRegistrationForm() {
+export function fillAndSubmitRegistrationForm(cdcUser) {
   cy.get('[id="register-site-login"]').within(() => {
-    cy.get('[placeholder="Email *"]').type(user.email);
-    cy.get('[placeholder="First name"]').type(user.firstName);
-    cy.get('[placeholder="Last name"]').type(user.lastName);
-    cy.get('[placeholder="Password *"]').type(user.password);
-    cy.get('[placeholder="Confirm password *"]').type(user.password);
+    cy.get('[placeholder="Email *"]').type(cdcUser.email);
+    cy.get('[placeholder="First name"]').type(cdcUser.firstName);
+    cy.get('[placeholder="Last name"]').type(cdcUser.lastName);
+    cy.get('[placeholder="Password *"]').type(cdcUser.password);
+    cy.get('[placeholder="Confirm password *"]').type(cdcUser.password);
     cy.get(
       '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]'
+    ).check();
+    cy.get(
+      '[data-gigya-name="preferences.consent.survey.isConsentGranted"]'
     ).check();
     cy.get('[class="gigya-input-submit"]').click();
   });
@@ -48,21 +57,21 @@ export function finalizeRegistration() {
   });
 }
 
-export function registerUserWithoutScreenSet() {
+export function registerUserWithoutScreenSet(cdcUser) {
   cy.findByText(/Sign in \/ Register/i).click();
   cy.get('cx-login-register').findByText('Register').click();
-  fillRegistrationForm(nativeUser, false);
+  fillRegistrationForm(cdcUser, false);
   cy.get('button[type="submit"]').click();
   finalizeRegistration();
 }
 
-export function fillAndSubmitNativeRegistrationForm() {
+export function fillAndSubmitNativeRegistrationForm(cdcUser) {
   cy.get('[id="register-site-login"]').within(() => {
-    cy.get('[placeholder="Enter email"]').type(nativeUser.email);
-    cy.get('[placeholder="First name"]').type(nativeUser.firstName);
-    cy.get('[placeholder="Last name"]').type(nativeUser.lastName);
-    cy.get('[placeholder="Password *"]').type(nativeUser.password);
-    cy.get('[placeholder="Confirm password *"]').type(nativeUser.password);
+    cy.get('[placeholder="Enter email"]').type(cdcUser.email);
+    cy.get('[placeholder="First name"]').type(cdcUser.firstName);
+    cy.get('[placeholder="Last name"]').type(cdcUser.lastName);
+    cy.get('[placeholder="Password *"]').type(cdcUser.password);
+    cy.get('[placeholder="Confirm password *"]').type(cdcUser.password);
     cy.get(
       '[data-gigya-name="preferences.terms.test.terms.of.use.isConsentGranted"]'
     ).check();
@@ -70,46 +79,207 @@ export function fillAndSubmitNativeRegistrationForm() {
   });
 }
 
-export function loginUser() {
+export function loginUser(email: string, password: string) {
   cy.get('[id="gigya-login-form"]').within(() => {
-    cy.get('[placeholder="Email *"]').type(user.email);
-    cy.get('[placeholder="Password *"]').type(user.password);
+    cy.get('[placeholder="Email *"]').type(email);
+    cy.get('[placeholder="Password *"]').type(password);
     cy.get('[class="gigya-input-submit"]').click();
   });
 }
 
-export function loginWithoutScreenSet() {
-  login(nativeUser.email, nativeUser.password);
+export function loginWithoutScreenSet(email: string, password: string) {
+  login(email, password);
 }
 
-export function loginB2BUser() {
-  cy.get('[id="gigya-login-form"]').within(() => {
-    cy.get('[placeholder="Email *"]').type(b2bUser.email);
-    cy.get('[placeholder="Password *"]').type(b2bUser.password);
-    cy.get('[class="gigya-input-submit"]').click();
-  });
+export function verifyLoginOrRegistrationSuccess(fullName: string) {
+  cy.get('[class="cx-login-greet"]').should('contain', fullName);
 }
 
-export function loginB2BWithoutScreenSet() {
-  login(b2bUser.email, b2bUser.password);
+export function interceptCDCSDKMethod(methodName: string) {
+  let cdcInterceptName = 'CDCSdkInvocation';
+  cy.intercept({
+    method: 'POST',
+    path: '/' + methodName,
+  }).as(cdcInterceptName);
+
+  return cdcInterceptName;
 }
 
-export function verifyLoginOrRegistrationSuccess() {
-  cy.get('[class="cx-login-greet"]').should('contain', b2bUser.fullName);
+export function verifyCDCSDKRequestPayload(
+  cdcInterceptName: string,
+  address: any
+) {
+  cy.wait(`@${cdcInterceptName}`)
+    .then((xhr) => {
+      expect(xhr.request.method).to.eq('POST');
+      if (address.line1) {
+        expect(xhr.request.body).to.contain(encodeURI(address.line1));
+      }
+      if (address.line2) {
+        expect(xhr.request.body).to.contain(encodeURI(address.line2));
+      }
+      if (address.state) {
+        expect(xhr.request.body).to.contain(encodeURI(address.state));
+      }
+      if (address.postalCode) {
+        expect(xhr.request.body).to.contain(encodeURI(address.postalCode));
+      }
+      if (address.city) {
+        expect(xhr.request.body).to.contain(encodeURI(address.city));
+      }
+    })
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
-export function updateUserProfile() {
+export function verifyCDCSDKInvocation(cdcInterceptName: string) {
+  cy.wait(`@${cdcInterceptName}`).its('response.statusCode').should('eq', 200);
+}
+
+export function updateUserProfile(lastName: string = updatedName) {
   cy.get('[id="gigya-profile-form"]').within(() => {
-    cy.get('[name="profile.lastName"]').type(UPDATED_NAME);
+    cy.get('[name="profile.lastName"]')
+      .should('be.visible')
+      .invoke('val')
+      .should('not.be.empty'); //not empty
+    cy.get('[name="profile.lastName"]').clear();
+    cy.get('[name="profile.lastName"]').type(lastName);
     cy.get('[class="gigya-input-submit"]').click();
   });
 }
 
-export function verifyProfileUpdateSuccess() {
+export function updateUserProfileWithoutScreenset(
+  lastName: string = updatedName
+) {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  cy.get('cx-update-profile form').within(() => {
+    cy.get('[name="lastName"]')
+      .should('be.visible')
+      .invoke('val')
+      .should('not.be.empty'); //not empty
+    cy.get('[name="lastName"]').clear();
+    cy.get('[name="lastName"]').type(lastName);
+    cy.get('[class="btn btn-block btn-primary"]').click();
+  });
+  verifyCDCSDKInvocation(cdcInterceptName);
+}
+
+export function verifyProfileUpdateSuccess(cdcUser) {
   cy.get('[class="cx-login-greet"]').should(
     'contain',
-    user.fullName + UPDATED_NAME
+    cdcUser.firstName + updatedName
   );
+}
+
+export function restoreUserLastName(cdcUser) {
+  cy.visit('/my-account/update-profile');
+  updateUserProfileWithoutScreenset(cdcUser.lastName);
+}
+
+export function updateEmailWithoutScreenset(
+  email: string = updatedEmail,
+  password: string = b2bUser.password
+) {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  cy.get('cx-update-email form').within(() => {
+    cy.get('[name="email"]').type(email);
+    cy.get('[name="confirmEmail"]').type(email);
+    cy.get('[name="password"]').type(password);
+    cy.get('[class="btn btn-block btn-primary"]').click();
+  });
+  verifyCDCSDKInvocation(cdcInterceptName);
+  listenForTokenRevocationRequest();
+}
+
+export function verifyUpdateEmailSuccess(
+  email: string,
+  password: string,
+  fullName: string
+) {
+  //Login user
+  cy.visit('/login');
+  loginWithoutScreenSet(email, password);
+  verifyLoginOrRegistrationSuccess(fullName);
+}
+
+export function restoreUserEmail(cdcUser) {
+  cy.selectUserMenuOption({
+    option: 'Email Address',
+  });
+  updateEmailWithoutScreenset(cdcUser.email);
+}
+
+export function updatePasswordWithoutScreenset(
+  oldPass: string = b2bUser.password,
+  newPass: string = updatedPassword
+) {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  cy.get('cx-update-password form').within(() => {
+    cy.get('[name="oldPassword"]').type(oldPass);
+    cy.get('[name="newPassword"]').type(newPass);
+    cy.get('[name="newPasswordConfirm"]').type(newPass);
+    cy.get('[class="btn btn-block btn-primary"]').click();
+    verifyCDCSDKInvocation(cdcInterceptName);
+    listenForTokenRevocationRequest();
+  });
+}
+
+export function verifyUpdatePasswordSuccess(
+  email: string,
+  password: string,
+  fullName: string
+) {
+  cy.visit('/login');
+  loginWithoutScreenSet(email, password);
+  verifyLoginOrRegistrationSuccess(fullName);
+}
+
+export function restoreUserPassword(cdcUser) {
+  cy.selectUserMenuOption({
+    option: 'Password',
+  });
+  updatePasswordWithoutScreenset(updatedPassword, cdcUser.password);
+}
+
+export function addAddress(cdcUser) {
+  fillShippingAddress(cdcUser);
+}
+
+export function verifyAddAddressSuccess(cdcUser) {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  verifyCDCSDKRequestPayload(cdcInterceptName, cdcUser.address);
+}
+
+export function updateAddress(cdcUser) {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  let card = cy.get('cx-card').first();
+  card.contains('Edit').click();
+  verifyCDCSDKInvocation(cdcInterceptName);
+  fillShippingAddress(cdcUser);
+}
+
+export function verifyUpdateAddressSuccess(cdcUser) {
+  verifyAddAddressSuccess(cdcUser);
+}
+
+export function deleteAddress() {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  let card = cy.get('cx-card').first();
+  card.contains('Delete').click();
+  cy.get('.cx-card-delete button.btn-primary').click();
+  verifyCDCSDKInvocation(cdcInterceptName);
+}
+
+export function verifyDeleteAddressSuccess() {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  verifyCDCSDKRequestPayload(cdcInterceptName, {
+    city: ' ',
+    line1: ' ',
+    line2: '',
+    country: ' ',
+    state: ' ',
+    postal: ' ',
+  });
 }
 
 export function getSampleB2BUser() {
@@ -119,7 +289,7 @@ export function getSampleB2BUser() {
     lastName: 'B2BAdmin',
     fullName: 'Spartacus B2BAdmin',
     password: 'Password123.',
-    email: 'spartacusb2b@hybris.com',
+    email: 'spartacusb2b@sapcx.com',
     phone: '555 555 555',
     address: {
       city: 'Los Angeles',

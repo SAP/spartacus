@@ -20,10 +20,7 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  UpdateProfileComponent,
-  UpdateProfileComponentService,
-} from '@spartacus/user/profile/components';
+import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
 
 @NgModule({
@@ -43,7 +40,6 @@ import { CDCUpdateProfileComponentService } from './cdc-update-profile-component
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {
-          component: UpdateProfileComponent,
           providers: [
             {
               provide: UpdateProfileComponentService,
