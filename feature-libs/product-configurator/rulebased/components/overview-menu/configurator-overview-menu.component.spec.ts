@@ -30,15 +30,25 @@ class MockConfiguratorGroupsService {
 
 class MockConfiguratorStorefrontUtilsService {
   getElement(): void {}
+
   getElements(): void {}
+
   getPrefixId(): void {}
+
   hasScrollbar(): void {}
+
   changeStyling(): void {}
+
   createOvGroupId(): void {}
+
   createOvMenuItemId(): void {}
+
   ensureElementVisible(): void {}
+
   getSpareViewportHeight(): void {}
+
   getVerticallyScrolledPixels(): void {}
+
   scrollToConfigurationElement(): void {}
 }
 
@@ -74,8 +84,6 @@ function initialize() {
   );
 
   spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
-
-  spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
 
   spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
 
@@ -123,8 +131,9 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
   it('should call ngAfterViewInit after ovMenu is rendered', () => {
     initialize();
-    spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
-    spyOn(configuratorStorefrontUtilsService, 'getElements').and.callThrough();
+    spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
+    spyOn(configuratorStorefrontUtilsService, 'getElement');
+    spyOn(configuratorStorefrontUtilsService, 'getElements');
     spyOn(
       configuratorStorefrontUtilsService,
       'getVerticallyScrolledPixels'
@@ -137,7 +146,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(component).toBeDefined();
     expect(
       configuratorStorefrontUtilsService.getElements
-    ).toHaveBeenCalledTimes(1);
+    ).toHaveBeenCalledTimes(2);
     expect(
       configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).toHaveBeenCalledTimes(1);
@@ -223,10 +232,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('onScroll', () => {
     beforeEach(() => {
       initialize();
-      spyOn(
-        configuratorStorefrontUtilsService,
-        'getElements'
-      ).and.callThrough();
+      spyOn(configuratorStorefrontUtilsService, 'getElements');
+      spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
     });
 
     it('should call onScroll method', () => {
@@ -245,6 +252,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
   describe('onResize', () => {
     beforeEach(() => {
       initialize();
+      spyOn(configuratorStorefrontUtilsService, 'getSpareViewportHeight');
     });
 
     it('should call onResize method', () => {
@@ -257,6 +265,51 @@ describe('ConfigurationOverviewMenuComponent', () => {
       expect(
         configuratorStorefrontUtilsService.ensureElementVisible
       ).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('getHeight', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should return empty string because spare viewport height is larger that menu items height', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        menuItems
+      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getSpareViewportHeight'
+      ).and.returnValue(500);
+      expect(component['getHeight']()).toEqual('');
+    });
+
+    it('should return spare viewport height because menu items height is equal zero', () => {
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        undefined
+      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getSpareViewportHeight'
+      ).and.returnValue(200);
+      expect(component['getHeight']()).toEqual('200px');
+    });
+
+    it('should return spare viewport height because menu items height is larger than spare viewport height', () => {
+      const menuItems: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('button.cx-menu-item')
+      );
+      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
+        menuItems
+      );
+      spyOn(
+        configuratorStorefrontUtilsService,
+        'getSpareViewportHeight'
+      ).and.returnValue(200);
+      expect(component['getHeight']()).toEqual('200px');
     });
   });
 

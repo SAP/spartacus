@@ -7,7 +7,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   isDevMode,
   OnInit,
 } from '@angular/core';
@@ -20,7 +19,7 @@ import {
   ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
@@ -34,12 +33,12 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
-  @Input() groupType: Configurator.GroupType;
-  @Input() expMode: boolean;
-  @Input() isNavigationToGroupEnabled: boolean;
+  attribute: Configurator.Attribute;
+  owner: CommonConfigurator.Owner;
+  groupId: string;
+  groupType: Configurator.GroupType;
+  expMode: boolean;
+  isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
@@ -58,7 +57,11 @@ export class ConfiguratorAttributeHeaderComponent
     this.groupType =
       attributeComponentContext.group.groupType ??
       Configurator.GroupType.ATTRIBUTE_GROUP;
+    this.expMode = attributeComponentContext.expMode;
+    this.isNavigationToGroupEnabled =
+      attributeComponentContext.isNavigationToGroupEnabled;
   }
+
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute has a domain of values
@@ -269,6 +272,7 @@ export class ConfiguratorAttributeHeaderComponent
       )
       .subscribe(callback);
   }
+
   /**
    * Verifies whether the navigation to a conflict group is enabled.
    *

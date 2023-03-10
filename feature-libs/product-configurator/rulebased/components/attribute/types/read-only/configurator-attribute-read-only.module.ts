@@ -11,7 +11,7 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { ConfiguratorAttributeCompositionConfig } from '../../../composition/configurator-attribute-composition.config';
+import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
   imports: [

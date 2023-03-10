@@ -23,7 +23,7 @@ import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mo
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {

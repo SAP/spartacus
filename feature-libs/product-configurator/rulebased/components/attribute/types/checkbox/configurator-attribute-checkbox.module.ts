@@ -15,7 +15,7 @@ import {
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../../composition';
+import { ConfiguratorAttributeCompositionConfig } from '../../composition';
 
 @NgModule({
   imports: [

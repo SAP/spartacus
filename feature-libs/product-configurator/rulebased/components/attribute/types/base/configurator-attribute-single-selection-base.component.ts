@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
@@ -25,8 +25,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   attribute: Configurator.Attribute;
   ownerKey: string;
-  language: string;
   ownerType: string;
+  language: string;
   expMode: boolean;
 
   constructor(
@@ -39,8 +39,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
-    this.language = attributeComponentContext.language;
     this.ownerType = attributeComponentContext.owner.type;
+    this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
   }
 

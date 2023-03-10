@@ -90,36 +90,34 @@ describe('Spartacus CDC schematics: ng-add', () => {
       )
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
@@ -130,27 +128,24 @@ describe('Spartacus CDC schematics: ng-add', () => {
   describe('CDC feature', () => {
     describe('validation of jsSDKUrl', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...cdcFeatureOptions,
-              features: [
-                USER_ACCOUNT_FEATURE_NAME,
-                USER_PROFILE_FEATURE_NAME,
-                ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-              ],
-            },
-            appTree
-          )
-          .toPromise();
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...cdcFeatureOptions,
+            features: [
+              USER_ACCOUNT_FEATURE_NAME,
+              USER_PROFILE_FEATURE_NAME,
+              ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+            ],
+          },
+          appTree
+        );
+
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
+          appTree
+        );
       });
 
       it('should set the given javascriptUrl', async () => {
@@ -161,23 +156,24 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...cdcFeatureOptions,
-              features: [
-                USER_ACCOUNT_FEATURE_NAME,
-                USER_PROFILE_FEATURE_NAME,
-                ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-              ],
-            },
-            appTree
-          )
-          .toPromise();
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...cdcFeatureOptions,
+            features: [
+              USER_ACCOUNT_FEATURE_NAME,
+              USER_PROFILE_FEATURE_NAME,
+              ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+            ],
+          },
+          appTree
+        );
+
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          cdcFeatureOptions,
+          appTree
+        );
       });
 
       it('should install necessary Spartacus libraries', () => {
@@ -230,27 +226,24 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...cdcFeatureOptions,
-              features: [
-                USER_ACCOUNT_FEATURE_NAME,
-                USER_PROFILE_FEATURE_NAME,
-                ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-              ],
-            },
-            appTree
-          )
-          .toPromise();
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...cdcFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          {
+            ...cdcFeatureOptions,
+            features: [
+              USER_ACCOUNT_FEATURE_NAME,
+              USER_PROFILE_FEATURE_NAME,
+              ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+            ],
+          },
+          appTree
+        );
+
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...cdcFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
