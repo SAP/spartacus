@@ -59,7 +59,7 @@
     <td>
       <p>
         PurchasedIn {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>
-        Ordered Items:{{orderDetail[order.code]}}<br>
+        Ordered Items:{{orderDetail[order.code]?.deliveryItemsQuantity}}<br>
         <br>
         <!-- <br> -->
         TotalPrice${{ order.total.value }}
