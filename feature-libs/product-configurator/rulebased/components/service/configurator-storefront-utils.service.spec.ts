@@ -15,7 +15,7 @@ import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-ut
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 let isGroupVisited: Observable<boolean> = of(false);
-const testSelector = "test-configurator-overview-menu";
+const testSelector = 'test-configurator-overview-menu';
 
 class MockConfiguratorGroupsService {
   isGroupVisited(): Observable<boolean> {
@@ -808,13 +808,10 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       expect(ovMenu.scrollTop).toBe(0);
     });
 
-    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {       
-      createTestData(5500, 250);       
-     
-      classUnderTest.ensureElementVisible(
-        testSelector,
-        menuItem
-      );
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+      createTestData(5500, 250);
+
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
       ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
@@ -822,10 +819,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     it('should ensure visibility of the element when element.offsetTop is greater than container.scrollTop', () => {
       createTestData(5000, 450);
       spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
-      classUnderTest.ensureElementVisible(
-        testSelector,
-        menuItem
-      );
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
       ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
@@ -833,10 +827,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5000, 50);
       spyOnProperty(ovMenu, 'offsetTop').and.returnValue(50);
-      classUnderTest.ensureElementVisible(
-        testSelector,
-        menuItem
-      );
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
       ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
