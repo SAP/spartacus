@@ -85,7 +85,7 @@ export function fillShippingAddress(
           .type(shippingAddress.address.postal);
       shippingAddress?.cellphone &&
         cy
-          .get('[formcontrolname="cellphone"]')
+          .get('[formcontrolname="phone"]')
           .clear()
           .type(shippingAddress.cellphone);
     }

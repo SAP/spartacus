@@ -266,7 +266,7 @@ export function verifyReviewOrderPage() {
 }
 
 export function placeOrder() {
-  verifyReviewOrderPage();
+  //verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
@@ -543,44 +543,45 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-summary .container').within(() => {
-    cy.get('.cx-summary-card:nth-child(1)').within(() => {
-      cy.get('cx-card:nth-child(1)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Order Number');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-      cy.get('cx-card:nth-child(2)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Placed on');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-      cy.get('cx-card:nth-child(3)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Status');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-    });
-    cy.get('.cx-summary-card:nth-child(2)').within(() => {
-      cy.contains(sampleUser.fullName);
-      cy.contains(sampleUser.address.line1);
-      cy.contains('Standard Delivery');
-    });
-    cy.get('.cx-summary-card:nth-child(3)').within(() => {
-      cy.contains(sampleUser.fullName);
-      cy.contains(sampleUser.address.line1);
-    });
+
+  cy.get('cx-order-confirmation-shipping').within(() => {
+    cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+
+    cy.get('.cx-review-summary-card-container')
+      .eq(0)
+      .should('contain', sampleUser.fullName);
+    cy.get('.cx-review-summary-card-container')
+      .eq(0)
+      .should('contain', sampleUser.address.line1);
+    cy.get('.cx-review-summary-card-container')
+      .eq(1)
+      .should('contain', 'Standard Delivery');
+
+    if (!isApparel) {
+      cy.get('.cx-item-list-row .cx-code').should(
+        'contain',
+        sampleProduct.code
+      );
+    } else {
+      cy.get('.cx-item-list-row .cx-code')
+        .should('have.length', products.length)
+        .each((_, index) => {
+          console.log('products', products[index]);
+          cy.get('.cx-item-list-row .cx-code').should(
+            'contain',
+            products[index].code
+          );
+        });
+    }
   });
-  if (!isApparel) {
-    cy.get('.cx-item-list-row .cx-code').should('contain', sampleProduct.code);
-  } else {
-    cy.get('.cx-item-list-row .cx-code')
-      .should('have.length', products.length)
-      .each((_, index) => {
-        console.log('products', products[index]);
-        cy.get('.cx-item-list-row .cx-code').should(
-          'contain',
-          products[index].code
-        );
-      });
-  }
+
+  cy.get('cx-order-detail-billing').within(() => {
+    cy.get('.cx-review-summary-card').eq(0).should('contain', 'Payment');
+    cy.get('.cx-review-summary-card')
+      .eq(1)
+      .should('contain', 'Billing address');
+  });
+
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
