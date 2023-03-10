@@ -571,10 +571,10 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   });
 
   cy.get('cx-order-detail-billing').within(() => {
+    cy.get('.cx-review-summary-card').eq(0).should('contain', 'Payment');
     cy.get('.cx-review-summary-card')
-      .eq(0)
+      .eq(1)
       .should('contain', 'Billing address');
-    cy.get('.cx-review-summary-card').eq(1).should('contain', 'Payment');
   });
 
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
