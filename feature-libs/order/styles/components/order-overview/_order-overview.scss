@@ -112,7 +112,6 @@
       @include media-breakpoint-down(md) {
         border: 1px solid var(--cx-color-light);
         background-color: var(--cx-color-inverse);
-        margin-inline-start: 15px;
         border-radius: 10px;
       }
     }
