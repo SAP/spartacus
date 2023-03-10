@@ -88,8 +88,6 @@ export function fillShippingAddress(
           .get('[formcontrolname="cellphone"]')
           .clear()
           .type(shippingAddress.cellphone);
-      shippingAddress?.phone &&
-        cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
     }
     if (submitForm) {
       cy.get('button.btn-primary').click();

@@ -6,6 +6,7 @@
 
 import { product } from '../sample-data/checkout-flow';
 import { addProductToCart as addToCart } from './applied-promotions';
+import { verifyReviewOrderPage } from './checkout-flow';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -185,7 +186,7 @@ export function selectPaymentMethod() {
 }
 
 export function verifyAndPlaceOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
