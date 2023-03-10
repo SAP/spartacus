@@ -19,7 +19,7 @@ export const SERVER_APP_DIST_FOLDER = new InjectionToken<string>(
 );
 
 /**
- * Returns the absolute directory on the server pointing to the `/dist` folder of the application.
+ * Returns the absolute path to the directory on the server pointing to the `/dist` folder of the application.
  * It's retrieved from the `views` setting of the ExpressJS server instance
  *
  * Note: it assumes that the setting `views` has been set for the ExpressJS server,
