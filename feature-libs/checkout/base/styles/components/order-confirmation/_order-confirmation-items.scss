@@ -1,7 +1,5 @@
 %cx-order-confirmation-items {
   .cx-order-items {
-    background-color: var(--cx-color-light); 
-    
     &.container {
       @include media-breakpoint-down(md) {
         max-width: 100%;
