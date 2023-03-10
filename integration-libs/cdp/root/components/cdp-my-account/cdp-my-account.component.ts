@@ -64,6 +64,7 @@ export class CdpMyAccountComponent implements OnInit{
     {
       await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,order))).toPromise().then( data=>{
         this.orderDetail[order.code]=data;
+        //orderDetail->order
       });
     }
     this.getDetail();
@@ -81,7 +82,7 @@ export class CdpMyAccountComponent implements OnInit{
         ord.entries.forEach(entr=>{
           // console.log(orderCode +" status "+ord.status +"quantity" +entr.quantity);
           this.orderStatus[orderCode][ord.status]= this.orderStatus[orderCode][ord.status] + entr.quantity;
-          this.orderDetail[orderCode].deliveryItemsQuantity= this.orderDetail[orderCode].deliveryItemsQuantity + entr.quantity;
+          // this.orderDetail[orderCode].deliveryItemsQuantity= this.orderDetail[orderCode].deliveryItemsQuantity + entr.quantity;
         });
         console.log("quantity",this.orderStatus);
       });
