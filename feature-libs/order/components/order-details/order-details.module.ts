@@ -103,10 +103,10 @@ const moduleComponents = [
             simple: true,
           },
         },
-        AccountOrderDetailsBillingComponent: {
-          component: OrderDetailBillingComponent,
-          guards: [AuthGuard],
-        },
+        // AccountOrderDetailsBillingComponent: {
+        //   component: OrderDetailBillingComponent,
+        //   guards: [AuthGuard],
+        // },
         AccountOrderDetailsReorderComponent: {
           component: OrderDetailReorderComponent,
           guards: [AuthGuard],
