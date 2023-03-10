@@ -681,4 +681,18 @@ describe('ConfiguratorCommonsService', () => {
       );
     });
   });
+
+  describe('forceNewConfiguration', () => {
+    it('should call matching action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.forceNewConfiguration(OWNER_PRODUCT);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.CreateConfiguration({
+          owner: OWNER_PRODUCT,
+          configIdTemplate: undefined,
+          forceReset: true,
+        })
+      );
+    });
+  });
 });

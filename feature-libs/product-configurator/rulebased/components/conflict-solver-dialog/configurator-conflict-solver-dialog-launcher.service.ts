@@ -14,7 +14,19 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { delay, switchMap } from 'rxjs/operators';
+import {
+  delay,
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  switchMap,
+} from 'rxjs/operators';
+
+type ConflictGroupAndRouterData = {
+  conflictGroup?: Configurator.Group;
+  routerData: ConfiguratorRouter.Data;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -27,13 +39,18 @@ export class ConfiguratorConflictSolverDialogLauncherService
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
-  conflictGroup$: Observable<Configurator.Group | undefined> =
+  conflictGroupAndRouterData$: Observable<ConflictGroupAndRouterData> =
     this.routerData$.pipe(
-      switchMap((routerData) => {
-        return this.configuratorGroupsService.getConflictGroupForImmediateConflictResolution(
-          routerData.owner
-        );
-      }),
+      switchMap((routerData) =>
+        this.configuratorGroupsService
+          .getConflictGroupForImmediateConflictResolution(routerData.owner)
+          .pipe(
+            map((conflictGroup) => ({
+              conflictGroup: conflictGroup,
+              routerData: routerData,
+            }))
+          )
+      ),
       //Delay because we first want the form to react on data changes
       delay(0)
     );
@@ -48,13 +65,29 @@ export class ConfiguratorConflictSolverDialogLauncherService
 
   protected controlDialog() {
     this.subscription.add(
-      this.conflictGroup$.subscribe((conflictGroup) => {
-        if (conflictGroup) {
+      this.conflictGroupAndRouterData$
+        .pipe(
+          filter((data) => !!data.conflictGroup),
+          // subscribeToCloseDialog triggers another emission of conflictGroup$ with the same conflict group and router data
+          // so until we get a new navigation id in the router data, we ignore emissions of same conflict group
+          distinctUntilChanged(
+            (prev, cur) =>
+              prev.conflictGroup === cur.conflictGroup &&
+              prev.routerData.navigationId === cur.routerData.navigationId
+          )
+        )
+        .subscribe(() => {
           this.openModal();
-        } else {
-          this.closeModal('CLOSE_NO_CONFLICTS_EXIST');
-        }
-      })
+          this.subscribeToCloseDialog();
+        })
+    );
+  }
+
+  protected subscribeToCloseDialog() {
+    this.subscription.add(
+      this.conflictGroupAndRouterData$
+        .pipe(first((data) => !data.conflictGroup)) // stop listening, after we closed once
+        .subscribe(() => this.closeModal('CLOSE_NO_CONFLICTS_EXIST'))
     );
   }
 
@@ -63,7 +96,9 @@ export class ConfiguratorConflictSolverDialogLauncherService
       LAUNCH_CALLER.CONFLICT_SOLVER,
       undefined,
       {
-        conflictGroup: this.conflictGroup$,
+        conflictGroup: this.conflictGroupAndRouterData$.pipe(
+          map((data) => data.conflictGroup)
+        ),
         routerData: this.routerData$,
       }
     );

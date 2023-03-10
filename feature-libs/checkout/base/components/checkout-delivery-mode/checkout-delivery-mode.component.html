@@ -27,7 +27,9 @@
           class="cx-delivery-label form-check-label form-radio-label"
           for="deliveryMode-{{ mode.code }}"
         >
-          <div class="cx-delivery-mode">{{ mode.name }} ({{ mode.description }})</div>
+          <div class="cx-delivery-mode">
+            {{ mode.name }} ({{ mode.description }})
+          </div>
           <div class="cx-delivery-price">
             {{ mode.deliveryCost?.formattedValue }}
           </div>

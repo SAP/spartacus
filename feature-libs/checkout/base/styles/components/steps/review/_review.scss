@@ -3,7 +3,6 @@
 %cx-checkout-review-overview,
 %cx-order-confirmation-shipping {
   @include media-breakpoint-down(md) {
-    padding: 20px 0;
     background-color: var(--cx-color-inverse);
   }
 
@@ -21,6 +20,10 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 1.5rem;
+    }
 
     &-wrapper {
       display: flex;
@@ -111,7 +114,6 @@
     @include type('4');
     margin: 2rem 0 0.5rem 0;
   }
-
 }
 
 cx-place-order {

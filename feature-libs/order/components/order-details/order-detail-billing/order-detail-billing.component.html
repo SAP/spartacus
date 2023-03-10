@@ -2,13 +2,13 @@
   <div class="cx-review-summary" *ngIf="order.paymentInfo as paymentDetails">
     <div class="cx-review-summary-card cx-review-summary-payment-card">
       <cx-card
-        [content]="getBillingAddressCard(paymentDetails) | async"
+        [content]="getPaymentMethodCard(paymentDetails) | async"
       ></cx-card>
     </div>
 
     <div class="cx-review-summary-card cx-review-summary-payment-card">
       <cx-card
-        [content]="getPaymentMethodCard(paymentDetails) | async"
+        [content]="getBillingAddressCard(paymentDetails) | async"
       ></cx-card>
     </div>
   </div>

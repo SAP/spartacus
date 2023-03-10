@@ -29,11 +29,13 @@ export class RulebasedConfiguratorConnector {
 
   createConfiguration(
     owner: CommonConfigurator.Owner,
-    configIdTemplate?: string
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(owner.configuratorType).createConfiguration(
       owner,
-      configIdTemplate
+      configIdTemplate,
+      forceReset
     );
   }
 
