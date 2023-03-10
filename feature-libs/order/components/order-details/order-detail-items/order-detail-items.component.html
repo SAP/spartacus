@@ -23,7 +23,11 @@
 
     <!-- delivery consignment address and delivery mode -->
     <ng-template
-      *ngIf="displayConsignmentDelivery$ | async"
+      *ngIf="
+        deliveryConsignments &&
+        deliveryConsignments.length > 0 &&
+        (displayConsignmentDelivery$ | async)
+      "
       [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"
       [cxOutletContext]="{
         showItemList: false,

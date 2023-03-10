@@ -5,7 +5,11 @@
  */
 
 import { Component } from '@angular/core';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
+import {
+  CartOutlets,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -30,10 +34,18 @@ export class OrderDetailItemsComponent {
   pickupConsignments: Consignment[] | undefined;
   deliveryConsignments: Consignment[] | undefined;
 
+  pickupUnconsignedEntries: OrderEntry[] | undefined;
+  deliveryUnConsignedEntries: OrderEntry[] | undefined;
+
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
     tap((order) => {
       this.pickupConsignments = this.getGroupedConsignments(order, true);
       this.deliveryConsignments = this.getGroupedConsignments(order, false);
+      this.pickupUnconsignedEntries = this.getUnconsignedEntries(order, true);
+      this.deliveryUnConsignedEntries = this.getUnconsignedEntries(
+        order,
+        false
+      );
     })
   );
 
@@ -60,13 +72,26 @@ export class OrderDetailItemsComponent {
   ): Consignment[] | undefined {
     const consignments = pickup
       ? order.consignments?.filter(
-          (entry) => entry.deliveryPointOfService !== undefined
+          (consignment) => consignment.deliveryPointOfService !== undefined
         )
       : order.consignments?.filter(
-          (entry) => entry.deliveryPointOfService === undefined
+          (consignment) => consignment.deliveryPointOfService === undefined
         );
 
     return this.groupConsignments(consignments);
+  }
+
+  protected getUnconsignedEntries(
+    order: Order,
+    pickup: boolean
+  ): OrderEntry[] | undefined {
+    return pickup
+      ? order.unconsignedEntries?.filter(
+          (entry) => entry.deliveryPointOfService !== undefined
+        )
+      : order.unconsignedEntries?.filter(
+          (entry) => entry.deliveryPointOfService === undefined
+        );
   }
 
   protected groupConsignments(
