@@ -71,8 +71,10 @@ describe('OrderDetailBillingComponent', () => {
     component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
       expect(card.title).toEqual('paymentForm.payment');
       expect(card.text).toEqual([
+        mockPaymentDetails.cardType?.name,
         mockPaymentDetails.accountHolderName,
         mockPaymentDetails.cardNumber,
+        `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
       ]);
     });
   });
@@ -81,7 +83,7 @@ describe('OrderDetailBillingComponent', () => {
     component.getBillingAddressCard(mockPaymentDetails).subscribe((card) => {
       expect(card.title).toEqual('paymentForm.billingAddress');
       expect(card.text).toEqual([
-        '',
+        'addressCard.billTo',
         mockPaymentDetails.billingAddress?.firstName +
           ' ' +
           mockPaymentDetails.billingAddress?.lastName,
