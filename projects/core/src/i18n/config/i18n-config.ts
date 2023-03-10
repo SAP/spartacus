@@ -47,7 +47,7 @@ export abstract class I18nConfig {
       loadPath?: string;
 
       /**
-       * Function that loads asynchronously the translation resources, based on the provided language and namespace.
+       * Function that asynchronously loads the translation resources, based on the provided language and namespace.
        *
        * @example
        * ```ts
