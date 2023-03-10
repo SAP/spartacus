@@ -22,6 +22,11 @@
     justify-content: space-between;
     flex-direction: row;
 
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 1.5rem;
+    }
+
     &-wrapper {
       display: flex;
       flex-direction: column;
