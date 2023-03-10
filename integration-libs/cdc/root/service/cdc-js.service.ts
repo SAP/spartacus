@@ -159,7 +159,7 @@ export class CdcJsService implements OnDestroy {
     ];
     this.gigyaSDK?.accounts?.addEventHandlers({
       onLogin: (...params: any[]) =>
-        this.onLoginEventHandler(baseSite, ...params),
+        this.zone.run(() => this.onLoginEventHandler(baseSite, ...params)),
     });
   }
 
@@ -267,20 +267,7 @@ export class CdcJsService implements OnDestroy {
    *
    */
   getOrganizationContext(): Observable<{ orgId: string }> {
-    return new Observable<{ orgId: string }>((subscriber) => {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.b2b?.getOrganizationContext({
-        callback: (response: any) => {
-          if (response?.status === 'OK') {
-            subscriber.next(response);
-            subscriber.complete();
-          } else {
-            subscriber.error(response);
-          }
-        },
-      });
-    });
+    return this.invokeAPI('accounts.b2b.getOrganizationContext', {});
   }
   /**
    * Opens the Organization Management dashboard and logs in the user
@@ -289,7 +276,7 @@ export class CdcJsService implements OnDestroy {
    * @param orgId
    */
   openDelegatedAdminLogin(orgId: string) {
-    return this.invokeAPI('accounts.b2b.openDelegatedAdminLogin', {
+    return this.gigyaSDK?.accounts?.b2b?.openDelegatedAdminLogin({
       orgId: orgId,
     });
   }
@@ -598,11 +585,8 @@ export class CdcJsService implements OnDestroy {
    * @param payload - Object payload
    * @returns - Observable with the response
    */
-  protected invokeAPI(
-    methodName: string,
-    payload: Object
-  ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((result) => {
+  protected invokeAPI(methodName: string, payload: Object): Observable<any> {
+    return new Observable<any>((result) => {
       let actualAPI = this.getSdkFunctionFromName(methodName);
 
       actualAPI({
