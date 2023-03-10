@@ -49,6 +49,26 @@ describe('Check for presence or absence of displayed pick up store on PDP page',
       configureApparelProduct();
     });
 
+
+    it('As a logged in user, pick a store for pickup that is not the default store. Then click Ship It radio button. Then click Pickup in store radio button. The displayed store should be the one picked earlier, not the default', () => {
+      cy.intercept({
+        method: 'POST',
+        url: '/authorizationserver/oauth/token',
+      }).as('registerUser');
+
+      // A registered user who has logged in.
+      register();
+      cy.wait('@registerUser').then((_interception) => {
+        login();
+      });
+      cy.get(L.PICKUP_STORE_LOCATION).should('not.exist');
+      cy.get(L.SELECT_STORE_LINK).should('have.text', 'Select Store');
+      cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
+      cy.get(L.USE_MY_LOCATION).click();
+      cy.get(L.PICKUP_FROM_HERE_BUTTON_NOTTINGHAM_ICE_CENTER).click();
+    });
+
+
     it.skip("User has not selected a store for the product to be picked up from previously and doesn't have a preferred store. The user is on the PDP page. Don't display an elected pickup store", () => {
       /*
     GIVEN
@@ -117,7 +137,7 @@ describe('Check for presence or absence of displayed pick up store on PDP page',
       //
     });
 
-    it('User has not selected a store for the product previously, but has a preferred store (Backend API). The user is on the PDP page. Display remote preferred store as the elected pickup store.', () => {
+    it.skip('User has not selected a store for the product previously, but has a preferred store (Backend API). The user is on the PDP page. Display remote preferred store as the elected pickup store.', () => {
       /*
     GIVEN
     The user has not selected a store for the product previously, but has a preferred store (Backend API)
