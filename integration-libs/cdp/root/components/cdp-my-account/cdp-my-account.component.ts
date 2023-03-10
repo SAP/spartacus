@@ -23,6 +23,7 @@ export class CdpMyAccountComponent implements OnInit{
   totalPrice: number=0;
   totalItem: number[]=[];
   orderDetail: Record<string,order>={};
+  orderedItems: Record<string,number>={};
   i: number=0;
   output: result;
   orderStatus: Record<string,Record<string,number>>={};
@@ -30,23 +31,22 @@ export class CdpMyAccountComponent implements OnInit{
   userId: string;
   tabTitleParam$=new BehaviorSubject(0);
 
+
+  orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
+
   ngOnInit(): void {
     this.getMyData();
   }
-  orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
   public getMyData(): void{
 
-  //  const orders$= this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
-
-   const obser= this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
-
-   obser.subscribe(res => {
+  this.orders$.subscribe((res)=>{
     this.result=res;
-    this.tabTitleParam$.next(res.orders.length);
+    this.tabTitleParam$.next(res.orders.length-res.orders.length+2);
     this.calculateTotalAmount(this.result);
-    this.getItemCount(this.result);
+    this.getOrderedItems(this.result);
   });
+
   }
 
   public calculateTotalAmount(finalResult: finalOrder): void{
@@ -58,12 +58,13 @@ export class CdpMyAccountComponent implements OnInit{
     }
   }
 
-  public async getItemCount(finalResult: finalOrder): Promise<void>{
+  public async getOrderedItems(finalResult: finalOrder): Promise<void>{
 
-    for(let orderval of finalResult.orders)
+    for(let order of finalResult.orders)
     {
-      await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,orderval))).toPromise().then( data=>{
-        this.orderDetail[orderval.code]=data;
+      await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,order))).toPromise().then( data=>{
+        this.orderDetail[order.code]=data;
+        //orderDetail->order
       });
     }
     this.getDetail();
@@ -73,16 +74,21 @@ export class CdpMyAccountComponent implements OnInit{
   {
     // eslint-disable-next-line guard-for-in
     for(let orderCode in this.orderDetail){
+
+      //OrderedItems
       this.orderStatus[orderCode]??={};
       this.orderDetail[orderCode].consignments.forEach(ord=>{
         this.orderStatus[orderCode][ord.status]??=0;
         ord.entries.forEach(entr=>{
-          console.log(orderCode +" status "+ord.status + entr.quantity);
+          // console.log(orderCode +" status "+ord.status +"quantity" +entr.quantity);
           this.orderStatus[orderCode][ord.status]= this.orderStatus[orderCode][ord.status] + entr.quantity;
+          // this.orderDetail[orderCode].deliveryItemsQuantity= this.orderDetail[orderCode].deliveryItemsQuantity + entr.quantity;
         });
+        console.log("quantity",this.orderStatus);
       });
+
+      //Image
       this.orderImage[orderCode]??=[];
-      //this.orderImage[orderCode]??={images:[]};
       this.orderDetail[orderCode].entries.forEach(entr=>{ this.cdpOrderAdapter.getImages(entr.product.code).subscribe(data=>{
             this.orderImage[orderCode].push(data);
             data.images.forEach(img=>{
@@ -90,7 +96,8 @@ export class CdpMyAccountComponent implements OnInit{
             });
           });
       });
+
     }
-    console.log(this.orderImage);
+    // console.log(this.orderImage);
   }
 }
