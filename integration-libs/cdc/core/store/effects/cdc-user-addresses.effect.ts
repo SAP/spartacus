@@ -52,11 +52,7 @@ export class CdcUserAddressesEffects {
     createEffect(
       () =>
         this.actions$.pipe(
-          ofType(
-            UserActions.UPDATE_USER_ADDRESS_SUCCESS,
-            UserActions.LOAD_USER_ADDRESSES /* needed because `updateUserAddress$` dispatches a LOAD_USER_ADDRESSES
-                                             in the scenario where an address is set as default from the address book page */
-          ),
+          ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
           mergeMap(() => {
             return this.updateDefaultAddressInCDC().pipe(
               map((data: any) => {
