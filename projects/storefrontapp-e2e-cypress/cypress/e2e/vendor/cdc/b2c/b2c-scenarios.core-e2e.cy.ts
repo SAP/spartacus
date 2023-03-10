@@ -7,9 +7,6 @@
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
 
 describe('CDC', () => {
-  Cypress.on('uncaught:exception', (err, runnable) => {
-    return false;
-  });
   describe('Register with Screenset', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

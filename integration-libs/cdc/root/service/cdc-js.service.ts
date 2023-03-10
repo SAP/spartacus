@@ -289,9 +289,7 @@ export class CdcJsService implements OnDestroy {
    * @param orgId
    */
   openDelegatedAdminLogin(orgId: string) {
-    (this.winRef.nativeWindow as { [key: string]: any })?.[
-      'gigya'
-    ]?.accounts?.b2b?.openDelegatedAdminLogin({
+    return this.invokeAPI('accounts.b2b.openDelegatedAdminLogin', {
       orgId: orgId,
     });
   }
