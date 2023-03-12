@@ -37,11 +37,11 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
             cmsComponents: {
                 CdpMyAccountSideComponent: { component: CdpMyAccountSideComponent },
             },
-            // layoutSlots: {
-            //   CdpMyAccountPageTemplate: {
-            //     slots: ['BodyContent', 'SideContent'],
-            //   },
-            // },
+            layoutSlots: {
+              CdpMyAccountPageTemplate: {
+                slots: ['ProductLeftRefinements', 'ProductListSlot'],
+              },
+            },
         }),
         IconModule
     ]

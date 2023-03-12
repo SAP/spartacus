@@ -13,6 +13,7 @@
 @import './page-templates/error-page';
 @import './page-templates/account-page';
 @import './page-templates/search-results-grid';
+@import './page-templates/cdpMyAccount-page';
 
 %CheckoutLoginPageTemplate {
   @extend %LoginPageTemplate !optional;

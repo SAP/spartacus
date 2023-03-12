@@ -1,0 +1,36 @@
+%CdpMyAccountPageTemplate
+ {
+  max-width: var(--cx-page-width-max);
+  margin: auto;
+  display: flex;
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+  .SideContent {
+    max-width: 30%;
+    padding-top: 10px;
+    padding-inline-end: 15px;
+    padding-bottom: 15px;
+    padding-inline-start: 15px;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .BodyContent {
+    max-width: 70%;
+    padding-top: 50px;
+    padding-inline-end: 15px;
+    padding-bottom: 15px;
+    padding-inline-start: 15px;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}
+
+

@@ -29,14 +29,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
             cmsComponents: {
               CdpMyAccountComponent: { component: CdpMyAccountComponent },
             },
+            layoutSlots: {
+              CdpMyAccountPageTemplate: {
+                slots: ['SideContent', 'BodyContent'],
+              },
+            },
           }),
     ],
-    // providers: [
-    //   provideDefaultConfig({ cmsComponents: {
-    //     CdpMyAccountComponent: { component: CdpMyAccountComponent ,
-    //   }
-    //  } } as CmsConfig),
-    // ],
     exports: [CdpMyAccountComponent],
 })
 export class CdpMyAccountModule { }
