@@ -108,7 +108,7 @@ export class ProfileTagEventService implements OnDestroy {
     );
   }
 
-  notifyProfileTagOfEventOccurence(event: ProfileTagPushEvent): void {
+  notifyProfileTagOfEventOccurrence(event: ProfileTagPushEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {
