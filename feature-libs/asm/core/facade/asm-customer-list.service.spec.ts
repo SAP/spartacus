@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import {
   CustomerListsPage,
   CustomerSearchOptions,
@@ -9,7 +9,8 @@ import { QueryService, QueryState, User } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmConnector } from '../connectors';
 import { AsmActions } from '../store/actions/index';
-import { StateWithAsm } from '../store/asm-state';
+import { ASM_FEATURE, StateWithAsm } from '../store/asm-state';
+import * as fromReducers from '../store/reducers/index';
 import { AsmCustomerListService } from './asm-customer-list.service';
 
 const mockCustomerListsPage: CustomerListsPage = {
@@ -46,6 +47,10 @@ describe('AsmCustomerListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
+      ],
       providers: [
         AsmCustomerListService,
         QueryService,
@@ -57,6 +62,7 @@ describe('AsmCustomerListService', () => {
     spyOn(asmConnector, 'customerLists').and.callThrough();
 
     service = TestBed.inject(AsmCustomerListService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
