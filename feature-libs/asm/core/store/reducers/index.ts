@@ -11,8 +11,8 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
+import { CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../../root/model/asm.models';
 import { AsmActions } from '../actions';
 import {
   AsmState,

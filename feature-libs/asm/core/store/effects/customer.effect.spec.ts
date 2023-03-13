@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { CustomerSearchPage } from '@spartacus/asm/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CustomerSearchPage } from '../../../root/model/asm.models';
 import { AsmConnector } from '../../connectors/asm.connector';
 import { AsmActions } from '../actions/index';
 import { CustomerEffects } from './customer.effect';

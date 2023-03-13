@@ -5,7 +5,7 @@
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { AsmUi } from '../../../root/model/asm.models';
+import { AsmUi } from '@spartacus/asm/root';
 import { AsmState, StateWithAsm } from '../asm-state';
 import { getAsmState } from './feature.selector';
 

@@ -6,13 +6,14 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AsmCustomerListFacade, CustomerListsPage } from '@spartacus/asm/root';
-import { Query, QueryService, QueryState } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
+  AsmCustomerListFacade,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../../root/model/asm.models';
+} from '@spartacus/asm/root';
+import { Query, QueryService, QueryState } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { AsmConnector } from '../connectors/asm.connector';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';

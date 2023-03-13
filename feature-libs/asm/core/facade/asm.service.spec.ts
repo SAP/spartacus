@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { User } from '@spartacus/core';
 import {
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../../root/model/asm.models';
+} from '@spartacus/asm/root';
+import { User } from '@spartacus/core';
 import { AsmActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
