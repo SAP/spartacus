@@ -181,7 +181,7 @@ legend {
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    border-color: var(--cx-color-light);
+    border-color: var(--cx-color-medium);
 
     &:checked {
       font-style: normal;
@@ -220,7 +220,7 @@ input[type='radio'] {
   display: inline-block;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--cx-color-light);
+  border-color: var(--cx-color-medium);
   position: absolute;
 
   &::after {

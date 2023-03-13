@@ -62,4 +62,5 @@
   Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
  
-
+#### Forms styling
+- `border-color: var(--cx-color-medium);` changed to `border-color: var(--cx-color-medium);`
