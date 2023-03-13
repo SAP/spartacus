@@ -41,14 +41,11 @@ export class MerchandisingCarouselComponent {
     this.lastEventModelId = '';
   }
 
-  private component$: Observable<model> = this.componentData.data$.pipe(
-    filter((data) => Boolean(data))
-  );
-
   /**
    * returns an Observable string for the title.
    */
-  title$: Observable<string | undefined> = this.component$.pipe(
+  title$: Observable<string | undefined> = this.componentData.data$.pipe(
+    filter((data) => Boolean(data)),
     map((data) => data.title)
   );
 
