@@ -10,6 +10,7 @@ import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
 import {
   interceptCheckoutB2CDetailsEndpoint,
+  verifyReviewOrderPage,
   waitForPage,
   waitForProductPage,
 } from './checkout-flow';
@@ -305,7 +306,7 @@ function fillPaymentForm(
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   for (const product of checkoutProducts) {
     cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);

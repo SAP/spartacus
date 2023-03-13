@@ -36,6 +36,7 @@ import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import { TabbingOrderConfig } from '../accessibility/tabbing-order.model';
 import {
   addCheapProductToCart,
+  verifyReviewOrderPage,
   visitHomePage,
   waitForPage,
   waitForProductPage,
@@ -321,7 +322,7 @@ export function reviewB2bReviewOrderPage(
   orderType: string,
   conf: TabbingOrderConfig = config
 ) {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   if (isAccount) {
     cy.get('.cx-review-summary-card')

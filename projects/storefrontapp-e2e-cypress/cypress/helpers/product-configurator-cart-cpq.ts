@@ -319,7 +319,6 @@ function reviewOrder(): void {
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review').should('be.visible');
       cy.get('.cx-review').should('contain', 'Review');
-      cy.get('.cx-review-title').should('be.visible');
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review-cart-total').should('be.visible');
       cy.get('.cx-review-cart-item').should('be.visible');

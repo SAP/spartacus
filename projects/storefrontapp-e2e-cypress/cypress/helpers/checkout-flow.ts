@@ -257,9 +257,13 @@ export function fillPaymentForm(
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
-// export function verifyReviewOrderPage() {
-//   cy.get('.cx-review-title').should('contain', 'Review');
-// }
+export function verifyItemsToBeShipped() {
+  cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+}
+
+export function verifyReviewOrderPage() {
+  cy.contains('Cart total');
+}
 
 export function placeOrder() {
   //verifyReviewOrderPage();
@@ -489,7 +493,8 @@ export function placeOrderWithCheapProduct(
   currency: string = 'USD'
 ) {
   cy.log('🛒 Placing order');
-  //verifyReviewOrderPage();
+  verifyReviewOrderPage();
+  verifyItemsToBeShipped();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
