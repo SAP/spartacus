@@ -589,7 +589,7 @@ export class CdcJsService implements OnDestroy {
    */
   protected invokeAPI(methodName: string, payload: Object): Observable<any> {
     return new Observable<any>((result) => {
-      let actualAPI = this.getSdkFunctionFromName(methodName);
+      const actualAPI = this.getSdkFunctionFromName(methodName);
       if (typeof actualAPI != 'function') {
         result.error('CDC API name is incorrect');
         return;

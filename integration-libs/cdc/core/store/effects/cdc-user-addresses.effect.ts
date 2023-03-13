@@ -91,7 +91,7 @@ export class CdcUserAddressesEffects {
     return this.getAddresses().pipe(
       take(1),
       switchMap((addresses: Address[]) => {
-        let defaultAddress = this.getDefaultAddress(addresses) || {};
+        const defaultAddress = this.getDefaultAddress(addresses) || {};
         return this.sendAddressToCDC(defaultAddress);
       })
     );
