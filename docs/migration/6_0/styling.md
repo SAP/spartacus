@@ -74,3 +74,23 @@
 ### Font Awesome Icons
 
 The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
+
+### PaymentMethodsComponent
+
+- Removed styling for class `.cx-checkout-title`
+
+### OrderDetailsItemsComponent
+
+- Removed `margin-top: 30px` from `%cx-order-details-items`
+
+### OrderDetailsShippingComponent
+
+- Renamed `%cx-order-details-shipping` to `%cx-order-overview`
+
+### OrderOverviewComponent
+
+- Modifed and added elements to follow the redesign of order overview
+
+### AgnosticTable
+
+- Replaced `border-bottom: 1px solid var(--cx-color-light)` with `border-top: 1px solid var(--cx-color-light)` in the `tr` selector
