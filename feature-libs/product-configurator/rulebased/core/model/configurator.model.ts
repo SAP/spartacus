@@ -104,6 +104,7 @@ export namespace Configurator {
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {
@@ -119,6 +120,7 @@ export namespace Configurator {
     issueNavigationDone?: boolean;
     isConflictResolutionMode?: boolean;
     showConflictSolverDialog?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface Overview {
