@@ -5,7 +5,6 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { getLastValueSync } from '@spartacus/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -14,8 +13,8 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { filter, first, switchMap, take } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
@@ -48,13 +47,11 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
 
   toggleAssign() {
     const isAssigned = this.isAssigned;
-    this.organizationItemService.key$
+    combineLatest([this.organizationItemService.key$, this.link$])
       .pipe(
         first(),
-        switchMap((key) =>
-          isAssigned
-            ? this.unassign?.(key, this.link)
-            : this.assign(key, this.link)
+        switchMap(([key, link]) =>
+          isAssigned ? this.unassign?.(key, link) : this.assign(key, link)
         ),
         take(1),
         filter(
@@ -99,9 +96,10 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
    * to evaluate the context to return the right key for the associated
    * item.
    */
-  protected get link(): string {
-    const context = getLastValueSync(this.outlet.context$);
-    return context?.code ?? context?.customerId ?? context?.uid;
+  protected get link$(): Observable<string> {
+    return this.outlet.context$.pipe(
+      map((context) => context?.code ?? context?.customerId ?? context?.uid)
+    );
   }
 
   protected notify(item: any, state: string) {

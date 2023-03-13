@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { TableHeaderOutletContext, TableOptions } from '../table.model';
+import { TableOptions } from '../table.model';
 import { TableHeaderCellComponent } from './table-header-cell.component';
 
 const mockOptions: TableOptions = {
@@ -34,7 +34,7 @@ describe('TableHeaderCellComponent', () => {
                 _type: 'table',
                 _field: 'name1',
                 _options: mockOptions,
-              }) as unknown as TableHeaderOutletContext,
+              }),
             },
           },
         ],
@@ -70,7 +70,7 @@ describe('TableHeaderCellComponent', () => {
                 _field: 'name2',
                 _i18nRoot: 'i18nRoot',
                 _options: mockOptions,
-              }) as unknown as TableHeaderOutletContext,
+              }),
             },
           },
         ],
@@ -101,7 +101,7 @@ describe('TableHeaderCellComponent', () => {
                 _type: 'table',
                 _field: 'name3',
                 _options: mockOptions,
-              }) as unknown as TableHeaderOutletContext,
+              }),
             },
           },
         ],

@@ -5,12 +5,14 @@
  */
 
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { B2BUnit, getLastValueSync } from '@spartacus/core';
+import { B2BUnit } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
 
@@ -68,16 +70,21 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   // TODO: leverage these methods when available from future PR.
-  get hasItem(): boolean {
-    return !!this.item && Object.keys(this.item).length > 0;
+  get hasItem$(): Observable<boolean> {
+    return this.item$.pipe(
+      map((item) => !!item && Object.keys(item).length > 0)
+    );
   }
 
-  protected get item(): B2BUnit | null {
-    const context = getLastValueSync(this.outlet.context$);
-    if (!context) {
-      return null;
-    }
-    const { _field, _options, _type, _i18nRoot, ...all } = context;
-    return all as B2BUnit;
+  protected get item$(): Observable<B2BUnit | null> {
+    return this.outlet.context$.pipe(
+      map((context) => {
+        if (!context) {
+          return null;
+        }
+        const { _field, _options, _type, _i18nRoot, ...all } = context;
+        return all as B2BUnit;
+      })
+    );
   }
 }
