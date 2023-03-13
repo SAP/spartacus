@@ -31,6 +31,7 @@ export * from './price-summary/index';
 export * from './price/index';
 export * from './product-title/index';
 export * from './rulebased-configurator-components.module';
+export * from './restart-dialog/index';
 export * from './service/index';
 export * from './show-more/index';
 export * from './tab-bar/index';
