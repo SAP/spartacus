@@ -2,14 +2,16 @@
   <div class="cx-login-greet">
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
-  <cx-page-slot *ngIf=(!isCdpEnabled) id="account-nav" position="HeaderLinks"></cx-page-slot>
+  <cx-page-slot *ngIf=(!isCdpEnabled) 
+                id="account-nav" 
+                position="HeaderLinks"></cx-page-slot>
   <button
-  class="link cx-login-greet"
+  class=" cx-login-greet"
   (click)="goToMyAccount()"
   [routerLink]="{ cxRoute: 'my-account' } | cxUrl"
   type="button"
 >
-  {{ 'My Account'}}
+My Account
 </button>
   
 </ng-container>

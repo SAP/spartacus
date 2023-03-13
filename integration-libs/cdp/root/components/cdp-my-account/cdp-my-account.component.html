@@ -22,11 +22,11 @@
     </h2>
   </div>    
   
-  <div>
+  <div class="cx-cdp-body">
     <section *ngIf="orders$ | async as orders">
   <table 
   role="table"
-  id="order-history-table"
+  id="cx-cdp-table"
   class="table cx-cdp-body-table"> 
   <!-- BODY --> 
   <tbody *ngFor="let order of orders.orders" >
@@ -35,9 +35,9 @@
   <tr
       role="row"
     >
-    <td role="cell" class="cx-order-history-code">
-      <div class="cx-order-history-value">
-       PurchasedIn
+    <td role="cell" >
+      <div >
+       Purchased - Store
       </div>
     </td>
     <td></td>
@@ -53,16 +53,16 @@
     role="row"
     >
     <!-- IMAGE -->
-    <td role="cell" class="cx-order-history-code">
+    <td role="cell" >
       <img [src]="order.url" width="88" height="88" class="slide active" >
     </td>
     <td>
       <p>
-        PurchasedIn {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>
+        PurchasedIn Store {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>
         Ordered Items:{{orderDetail[order.code]?.deliveryItemsQuantity}}<br>
         <br>
         <!-- <br> -->
-        TotalPrice${{ order.total.value }}
+        TotalPrice: ${{ order.total.value }}
       </p>
     </td>
     <td>

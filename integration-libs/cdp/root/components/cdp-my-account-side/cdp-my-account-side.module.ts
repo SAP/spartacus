@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  ListNavigationModule, PageSlotModule } from '@spartacus/storefront';
-import {  CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule,  UrlModule } from '@spartacus/core';
+import {  CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';

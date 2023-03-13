@@ -1,14 +1,10 @@
-
-
-
-
 <div class="cx-cdp-side">
 <table class="cx-cdp-side-table">
   <td>
     <ng-container *ngIf="user$| async as user;">
       <div style="text-align: left;">
         <!-- {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }} -->
-        {{user.name}}
+        {{user.title}}. {{user.name}} 
       </div>
       <div style="text-align: left;">
         
@@ -30,8 +26,12 @@
   <td role="cell" >
     <span aria-hidden="true">
       <cx-icon type="ORDER"></cx-icon>
-    </span>
-      {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
+    </span> <a
+    [routerLink]="
+      {
+        cxRoute: 'orders'
+      } | cxUrl
+    ">{{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate}} </a>
 
   </td>
   <tr style="display:none;">
