@@ -101,7 +101,7 @@ export class CmsRoutesImplService {
       const newRoute: CmsRoute = {
         path: pageLabel.substr(1),
         component: PageLayoutComponent,
-        children,
+        children: children,
         data: deepMerge({}, childRoutesConfig?.parent?.data ?? {}, {
           cxCmsRouteContext: {
             type: pageContext.type,
@@ -157,12 +157,11 @@ export class CmsRoutesImplService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ) => Observable<boolean | UrlTree> {
-    const canActivateFn = (
+    return (
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> => {
       return this.cmsGuardsService.canActivateGuard(guardClass, route, state);
     };
-    return canActivateFn;
   }
 }
