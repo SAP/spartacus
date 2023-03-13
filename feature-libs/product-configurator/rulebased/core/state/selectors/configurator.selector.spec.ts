@@ -32,6 +32,7 @@ describe('Configurator selectors', () => {
       menuParentGroup: undefined,
       issueNavigationDone: true,
       showConflictSolverDialog: undefined,
+      newConfiguration: undefined,
     },
   };
   const GROUP_ID = 'currentGroupId';
