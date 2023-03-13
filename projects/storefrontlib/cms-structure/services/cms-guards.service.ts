@@ -5,15 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
+import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   getLastValueSync,
-  UnifiedInjector
+  UnifiedInjector,
 } from '@spartacus/core';
 import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
