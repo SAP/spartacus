@@ -138,5 +138,18 @@
 - Now as well contains information about the knowledge base that was used to run the configuration. This information
   is only visible in case expert mode is active. The knowledge base related information is enclosed with `<div class="cx-kb-key-details">`
 
+#### CustomerTicketingCreateDialogComponent
 
+- Create ticket dailog cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
 
+#### CustomerTicketingReopenDialogComponent
+
+- Reopen ticket dailog cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### CustomerTicketingCloseDialogComponent
+
+- Close ticket dailog cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### CustomerTicketingCloseComponent 
+
+- Customer ticketing cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
