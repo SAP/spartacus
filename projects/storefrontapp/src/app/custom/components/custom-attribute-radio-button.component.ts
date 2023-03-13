@@ -5,12 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
+import { ThemePalette } from '@angular/material/core';
 
 import {
   ConfiguratorAttributeCompositionContext,
   ConfiguratorAttributeQuantityService,
-  ConfiguratorAttributeRadioButtonComponent,
   ConfiguratorCommonsService,
 } from '@spartacus/product-configurator/rulebased';
 
@@ -19,18 +20,16 @@ import {
   templateUrl: './custom-attribute-radio-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomAttributeRadioButtonComponent extends ConfiguratorAttributeRadioButtonComponent {
+export class CustomAttributeRadioButtonComponent {
+  colorCtr = new FormControl(null);
+  disabled = false;
+  touchUi = false;
+  color: ThemePalette = 'primary';
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected translation: TranslationService
-  ) {
-    super(
-      quantityService,
-      translation,
-      attributeComponentContext,
-      configuratorCommonsService
-    );
-  }
+  ) {}
 }
