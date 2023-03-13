@@ -373,6 +373,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(result.immediateConflictResolution).toBe(false);
     });
 
+    it('should convert "newConfiguration" setting', () => {
+      configuration.newConfiguration = true;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.newConfiguration).toBe(true);
+    });
+
+    it('should convert "newConfiguration" setting by default to true', () => {
+      configuration.newConfiguration = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.newConfiguration).toBe(true);
+    });
+
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.complete).toBe(true);

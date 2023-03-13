@@ -17,6 +17,7 @@ context('scroll Position Restoration', () => {
 
     cy.log('Go to product details page');
     cy.get('.ProductDetailsPageTemplate').should('exist');
+    cy.window().scrollTo('bottom');
 
     cy.log('Go back to product list');
     cy.go(-1);
@@ -25,7 +26,8 @@ context('scroll Position Restoration', () => {
     cy.log('Go forward to product details');
     cy.go(1);
     cy.get('.ProductDetailsPageTemplate').should('exist');
-
-    cy.window().its('scrollY').should('be.closeTo', 0, 0);
+    cy.window().then(($window) => {
+      expect($window.scrollY).to.be.greaterThan(0);
+    });
   });
 });
