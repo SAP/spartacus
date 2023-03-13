@@ -329,7 +329,7 @@
     "angular-oauth2-oidc": "^15.0.1",
     "bootstrap": "^4.6.1",
     "comment-json": "^4.2.3",
-    "express": "^4.15.2",
+    "express": "^4.18.2",
     "hamburgers": "^1.1.3",
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",
