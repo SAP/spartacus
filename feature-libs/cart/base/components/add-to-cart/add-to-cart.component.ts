@@ -151,8 +151,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
 
     if (this.pickupOptionCompRef instanceof ComponentRef) {
-      // get pickup store name from this.pickupOptionCompRef.instance
-      // and set this.pickupStore
+      this.pickupOptionCompRef.instance.intendedPickupLocation$
+        .pipe(take(1))
+        .subscribe((intendedPickupLocation: any) => {
+          this.pickupStore =
+            intendedPickupLocation?.pickupOption === 'pickup'
+              ? intendedPickupLocation.name
+              : undefined;
+        });
     }
 
     this.activeCartService

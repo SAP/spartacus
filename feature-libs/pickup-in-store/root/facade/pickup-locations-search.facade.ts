@@ -35,8 +35,6 @@ import { StockLocationSearchParams } from '../model';
         'isSearchRunning',
         'loadStoreDetails',
         'setBrowserLocation',
-        'setPickupOptionToDelivery',
-        'setPickupOptionToPickupInStore',
         'startSearch',
         'stockLevelAtStore',
         'toggleHideOutOfStock',
@@ -64,20 +62,4 @@ export abstract class PickupLocationsSearchFacade {
 
   abstract getStoreDetails(name: string): Observable<PointOfService>;
   abstract loadStoreDetails(name: string): void;
-
-  abstract setPickupOptionToDelivery(
-    cartId: string,
-    entryNumber: number,
-    userId: string,
-    productCode: string,
-    quantity: number,
-    page?: string
-  ): void;
-  abstract setPickupOptionToPickupInStore(
-    cartId: string,
-    entryNumber: number,
-    userId: string,
-    storeName: string,
-    quantity: number
-  ): void;
 }

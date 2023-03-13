@@ -86,7 +86,11 @@ export class PreferredStoreService implements PreferredStoreFacade {
           .getStockLevelAtStore(productCode, preferredStore.name)
           .pipe(
             filter(isInStock),
-            map((_) => preferredStore)
+            map((_) => preferredStore),
+            tap((preferredStore) => ({
+              name: preferredStore.name,
+              displayName: preferredStore.name,
+            }))
           )
       )
     );

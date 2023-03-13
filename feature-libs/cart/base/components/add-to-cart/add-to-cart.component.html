@@ -18,11 +18,6 @@
       >
     </div>
   </div>
-  <ng-container *ngIf="hasStock">
-    <ng-container *cxFeatureLevel="'5.1'">
-      <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
-    </ng-container>
-  </ng-container>
 
   <ng-container *ngIf="hasStock">
     <ng-template
@@ -42,7 +37,9 @@
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
     <span
-      *ngIf="options?.addToCartString === 'Buy It Again'"
+      *ngIf="
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+      "
       class="repeat-icon"
       ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
     ></span>
@@ -51,7 +48,9 @@
         options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
       }}"
       [ngClass]="
-        options?.addToCartString === 'Buy It Again' ? 'buyItAgainLink' : ''
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+          ? 'buyItAgainLink'
+          : ''
       "
     >
       {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}

@@ -12,6 +12,7 @@ import {
   CostCenter,
   TranslationService,
 } from '@spartacus/core';
+import { OrderOutlets } from '@spartacus/order/root';
 import { Card, CmsComponentData } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -33,6 +34,7 @@ export class OrderOverviewComponent {
     map((data) => data.simple)
   );
 
+  readonly OrderOutlets = OrderOutlets;
   constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,

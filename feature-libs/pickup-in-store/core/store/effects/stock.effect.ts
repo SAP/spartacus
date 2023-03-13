@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { StockConnector } from '../../connectors/index';
 import { StockLevelActions } from '../actions/index';
 
@@ -46,7 +46,7 @@ export class StockEffect {
     this.actions$.pipe(
       ofType(StockLevelActions.STOCK_LEVEL_AT_STORE),
       map(({ payload }: StockLevelActions.StockLevelAtStoreAction) => payload),
-      switchMap(({ productCode, storeName }) =>
+      concatMap(({ productCode, storeName }) =>
         this.stockConnector.loadStockLevelAtStore(productCode, storeName).pipe(
           map((stockLevel) =>
             StockLevelActions.StockLevelAtStoreSuccess({
