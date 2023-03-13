@@ -28,7 +28,7 @@
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: model?.orgUnit
+            params: model.orgUnit
           } | cxUrl
         "
       >
@@ -48,5 +48,5 @@
     displayCloseButton: true
   }"
 >
-  {{ model.name }}
+  {{ model?.name }}
 </button>
