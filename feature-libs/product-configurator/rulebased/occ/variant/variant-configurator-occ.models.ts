@@ -31,6 +31,7 @@ export namespace OccConfigurator {
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
     immediateConflictResolution?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface KB {
