@@ -230,7 +230,6 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
-    //globalMessageService = TestBed.inject(GlobalMessageService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
@@ -324,12 +323,11 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.and.returnValue(
       of(mockedInterests)
     );
-    // productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
     productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
     fixture.detectChanges();
 
     const tableHeaders = el.queryAll(By.css('th'));
-    console.log(tableHeaders);
     CommonConfiguratorTestUtilsService.expectElementContainsA11y(
       expect,
       tableHeaders[1].nativeElement,

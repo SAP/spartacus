@@ -36,11 +36,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - When using Spartacus's implementation for Scroll Position Restoration we need to disable automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
 
-### UpdatePasswordComponentService
-
-- Added `AuthRedirectService` to constructor.
-- Added `AuthService` to constructor.
-
 ### ParagraphComponent
 
 - The `handleClick()` method now uses the condition `documentHost === element.host` to recognise external links.
@@ -62,7 +57,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
 - `getAddressCardContent()` method has now return type `Observable<Card>`.
-- Added `TranslationService` to constructor.
 
 ### CheckoutReviewSubmitComponent
 
@@ -113,18 +107,6 @@ It is now possible to register custom attribute type components for UI types not
 
 - Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
 
-
-### AsmMainUiComponent
-
-- Added `LaunchDialogService` to constructor.
-
-### SmartEditLauncherService
-
-- Added `ScriptLoader` to constructor.
-
-### MyInterestsComponent
-
-- Added `GlobalMessageService` to constructor.
 ## Spartacus PWA schematics
 
 - `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
