@@ -20,5 +20,7 @@ export namespace ConfiguratorRouter {
     skipConflicts?: boolean;
     expMode?: boolean;
     configIdTemplate?: string;
+    displayRestartDialog?: boolean;
+    navigationId?: number;
   }
 }

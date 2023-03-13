@@ -1,8 +1,14 @@
-import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as asm from '../../../../helpers/asm';
+import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
+import * as checkout from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import * as checkout from '../../../../helpers/checkout-flow';
 
 context('B2B - ASM Account Checkout', () => {
   const invalid_cost_center = 'Rustic_Global';
@@ -68,13 +74,18 @@ context('B2B - ASM Account Checkout', () => {
     cy.get('cx-payment-type').within(() => {
       cy.findByText('Account').click({ force: true });
     });
+
     cy.get('button.btn-primary').should('be.enabled').click({ force: true });
 
-    cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReqValid');
+    cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
     cy.get('cx-cost-center').within(() => {
+      cy.get('select').select(invalid_cost_center);
+      cy.wait('@costCenterReq');
+
       cy.get('select').select(valid_cost_center);
     });
-    cy.wait('@costCenterReqValid').its('response.statusCode').should('eq', 200);
+
+    cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
     alerts.getErrorAlert().should('not.exist');
 
     cy.log('--> sign out');
