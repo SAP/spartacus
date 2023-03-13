@@ -105,8 +105,7 @@
     "apiElementName": "ConfiguratorBasicEffectService",
     "entryPoint": "@spartacus/product-configurator/rulebased",
     "memberName": "getFirstGroupWithAttributesForList",     
-    "migrationComment": "Got a new parameter 'includeConflicts' which controls if conflict groups are considered"
-  }  
+    "migrationComment": "Got a new parameter 'includeConflicts' which controls if conflict groups are considered" 
   },  
   {
     "apiElementName": "AsmService",
