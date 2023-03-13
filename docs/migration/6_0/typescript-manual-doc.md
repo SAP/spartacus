@@ -99,7 +99,7 @@ It is now possible to register custom attribute type components for UI types not
 - The type alias changed. Following new actions are included: `UpdateConfigurationOverview | UpdateConfigurationOverviewFail | UpdateConfigurationOverviewSuccess |RemoveProductBoundConfigurations | CheckConflictDialoge | DissmissConflictDialoge`
 
 ### Action create configuration
-- Contructor payload gets new additional optional parameter configIdTemplate (ID of a template configuration)
+- Contructor payload gets 2 additional optional parameters `configIdTemplate` (ID of a template configuration) and `forceReset` (to force configuration reset in the backend)
 
 ## BadRequestHandler
 
