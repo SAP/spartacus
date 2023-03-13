@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import {
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
   SelectiveCartFacade,
@@ -78,6 +79,14 @@ export class SelectiveCartService implements SelectiveCartFacade {
     );
   }
 
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.getSelectiveCartId().pipe(
+      switchMap((selectiveId) =>
+        this.multiCartFacade.getEntryGroups(selectiveId)
+      )
+    );
+  }
+
   isStable(): Observable<boolean> {
     return this.getSelectiveCartId().pipe(
       switchMap((selectiveId) => this.multiCartFacade.isStable(selectiveId))
@@ -90,12 +99,38 @@ export class SelectiveCartService implements SelectiveCartFacade {
     });
   }
 
+  addToEntryGroup(
+    entryGroupNumber: number,
+    entry: OrderEntry,
+    quantity: number
+  ): void {
+    this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
+      this.multiCartFacade.addToEntryGroup(
+        userId,
+        selectiveId,
+        entryGroupNumber,
+        entry,
+        quantity
+      );
+    });
+  }
+
   removeEntry(entry: OrderEntry): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
       this.multiCartFacade.removeEntry(
         userId,
         selectiveId,
         entry.entryNumber as number
+      );
+    });
+  }
+
+  removeEntryGroup(entryGroupNumber: number): void {
+    this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
+      this.multiCartFacade.removeEntryGroup(
+        userId,
+        selectiveId,
+        entryGroupNumber
       );
     });
   }

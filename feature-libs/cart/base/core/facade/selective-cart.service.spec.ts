@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  EntryGroup,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
   OCC_USER_ID_ANONYMOUS,
@@ -32,6 +36,10 @@ const mockCartEntry: OrderEntry = {
   quantity: 1,
 };
 
+const mockCartEntryGroup: EntryGroup = {
+  entryGroupNumber: 1,
+};
+
 class UserIdServiceStub implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of(OCC_USER_ID_CURRENT);
@@ -53,6 +61,9 @@ class MultiCartFacadeStub {
   getCartIdByType(): Observable<string> {
     return of('selectivecartelectronics-spa-test-customer-id');
   }
+  getEntryGroups() {}
+  addToEntryGroup() {}
+  removeEntryGroup() {}
 }
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -254,5 +265,55 @@ describe('Selective Cart Service', () => {
           done();
         });
     });
+  });
+
+  it('should return cart entry groups', () => {
+    spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+      of([mockCartEntryGroup])
+    );
+    let result;
+    service
+      .getEntryGroups()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual([mockCartEntryGroup]);
+    expect(multiCartFacade['getEntryGroups']).toHaveBeenCalledWith(
+      'selectivecartelectronics-spa-test-customer-id'
+    );
+  });
+
+  it('should add to entry group one by one ', () => {
+    spyOn(multiCartFacade, 'addToEntryGroup').and.callThrough();
+
+    service.addToEntryGroup(1, { orderCode: '1' }, 1);
+    service.addToEntryGroup(2, { orderCode: '2' }, 2);
+
+    expect(multiCartFacade['addToEntryGroup']).toHaveBeenCalledTimes(2);
+    expect(multiCartFacade['addToEntryGroup']).toHaveBeenCalledWith(
+      OCC_USER_ID_CURRENT,
+      'selectivecartelectronics-spa-test-customer-id',
+      1,
+      { orderCode: '1' },
+      1
+    );
+    expect(multiCartFacade['addToEntryGroup']).toHaveBeenCalledWith(
+      OCC_USER_ID_CURRENT,
+      'selectivecartelectronics-spa-test-customer-id',
+      2,
+      { orderCode: '2' },
+      2
+    );
+  });
+
+  it('should call multiCartFacade delete entry group method with selective cart', () => {
+    spyOn(multiCartFacade, 'removeEntryGroup').and.callThrough();
+
+    service.removeEntryGroup(3);
+    expect(multiCartFacade['removeEntryGroup']).toHaveBeenCalledWith(
+      'current',
+      'selectivecartelectronics-spa-test-customer-id',
+      3
+    );
   });
 });

@@ -72,6 +72,7 @@ export interface Cart {
   deliveryOrderGroups?: DeliveryOrderEntryGroup[];
   description?: string;
   entries?: OrderEntry[];
+  entryGroups?: EntryGroup[];
   expirationTime?: Date;
   guid?: string;
   name?: string;
@@ -198,4 +199,13 @@ export enum CartValidationStatusCode {
   REVIEW_CONFIGURATION = 'reviewConfiguration',
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
+}
+
+export interface EntryGroup {
+  entries?: OrderEntry[];
+  entryGroupNumber?: number;
+  entryGroups?: EntryGroup[];
+  erroneous?: boolean;
+  label?: string;
+  type?: string;
 }

@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { HttpErrorHandler } from '@spartacus/core';
 import { CartPersistenceModule } from './cart-persistence.module';
 import { CartConnector } from './connectors/cart/cart.connector';
+import { CartEntryGroupConnector } from './connectors/entry-group/cart-entry-group.connector';
 import { CartEntryConnector } from './connectors/entry/cart-entry.connector';
 import { CartValidationConnector } from './connectors/validation/cart-validation.connector';
 import { CartVoucherConnector } from './connectors/voucher/cart-voucher.connector';
@@ -28,6 +29,7 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
   providers: [
     CartConnector,
     CartEntryConnector,
+    CartEntryGroupConnector,
     CartVoucherConnector,
     CartValidationConnector,
     ...facadeProviders,

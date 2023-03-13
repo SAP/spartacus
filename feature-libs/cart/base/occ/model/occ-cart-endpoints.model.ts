@@ -38,6 +38,12 @@ export interface CartOccEndpoints {
    */
   addEntries?: string | OccEndpoint;
   /**
+   * Adds a product to an entry group in the cart
+   *
+   * @member {string} [addToEntryGroup]
+   */
+  addToEntryGroup?: string | OccEndpoint;
+  /**
    * Update quantity and store the details of a cart entry
    *
    * @member {string} [updateEntries]
@@ -49,7 +55,12 @@ export interface CartOccEndpoints {
    * @member {string} [removeEntries]
    */
   removeEntries?: string | OccEndpoint;
-
+  /**
+   * Deletes cart entry group
+   *
+   * @member {string} [removeEntryGroup]
+   */
+  removeEntryGroup?: string | OccEndpoint;
   /**
    * Assign email to cart
    *

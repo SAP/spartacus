@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  Cart,
+  EntryGroup,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -48,12 +53,21 @@ class MultiCartFacadStub {
   getCartIdByType(): Observable<string> {
     return of('');
   }
+  getEntryGroups() {
+    return of([]);
+  }
+  removeEntryGroup() {}
+  addToEntryGroup() {}
 }
 
 const mockCartEntry: OrderEntry = {
   entryNumber: 0,
   product: { code: 'code' },
   quantity: 1,
+};
+
+const mockCartEntryGroup: EntryGroup = {
+  entryGroupNumber: 1,
 };
 
 describe('ActiveCartService', () => {
@@ -797,6 +811,59 @@ describe('ActiveCartService', () => {
         });
         done();
       });
+    });
+  });
+
+  describe('getEntryGroups', () => {
+    it('should return cart entry groups', () => {
+      spyOn(multiCartFacade, 'getEntryGroups').and.returnValue(
+        of([mockCartEntryGroup])
+      );
+      service['activeCartId$'] = of('cartId');
+
+      let result;
+      service
+        .getEntryGroups()
+        .subscribe((val) => (result = val))
+        .unsubscribe();
+
+      expect(result).toEqual([mockCartEntryGroup]);
+      expect(multiCartFacade['getEntryGroups']).toHaveBeenCalledWith('cartId');
+    });
+  });
+
+  describe('removeEntryGroup', () => {
+    it('should call multiCartFacade delete entry group method with active cart', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'removeEntryGroup').and.callThrough();
+
+      service.removeEntryGroup(1);
+      expect(multiCartFacade['removeEntryGroup']).toHaveBeenCalledWith(
+        'cartId',
+        'userId',
+        1
+      );
+    });
+  });
+
+  describe('addToEntryGroup', () => {
+    it('should just add entry to entry group after cart is provided', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'code', guid: 'guid' })
+      );
+      spyOn(multiCartFacade, 'addToEntryGroup').and.callThrough();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      service.addToEntryGroup(1, { orderCode: '2' }, 3);
+
+      expect(multiCartFacade['addToEntryGroup']).toHaveBeenCalledWith(
+        'guid',
+        OCC_USER_ID_ANONYMOUS,
+        1,
+        { orderCode: '2' },
+        3
+      );
     });
   });
 });
