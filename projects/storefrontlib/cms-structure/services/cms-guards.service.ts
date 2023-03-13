@@ -4,44 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
-  UrlTree,
+  UrlTree
 } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   getLastValueSync,
-  UnifiedInjector,
+  UnifiedInjector
 } from '@spartacus/core';
 import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
-
-/**
- * Returns a wrapper function `CanActivateFn` (https://angular.io/api/router/CanActivateFn)
- * that injects the given guard instance and runs its method `.canActivate()`.
- *
- * This function uses the `CmsGuardsService` to inject and run the guard,
- * allowing the guard's instance to be injected even if it was provided
- * in a child injector (of some lazy-loaded module).
- */
-export function resolveCmsGuard(
-  guardClass: Type<any>
-): (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => Observable<boolean | UrlTree> {
-  return (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> => {
-    const cmsGuardsService = inject(CmsGuardsService);
-    return cmsGuardsService.canActivateGuard(guardClass, route, state);
-  };
-}
 
 @Injectable({
   providedIn: 'root',
