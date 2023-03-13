@@ -153,3 +153,7 @@
 #### CustomerTicketingCloseComponent 
 
 - Customer ticketing cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### ReplenishmentOrderHistoryComponent
+
+- Replenish order history cancel button class has changed from `class="cx-order-cancel btn btn-link"` to `class="cx-order-cancel btn btn-secondary"`
