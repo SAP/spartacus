@@ -142,7 +142,6 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
         this.activeCartFacade.getActive().pipe(filter(cartWithIdAndUserId))
       ),
       tap(([orderEntry, cart]) => {
-        console.log('orderEntry', orderEntry);
         this.entryNumber = orderEntry.entryNumber;
         this.quantity = orderEntry.quantity;
         this.productCode = orderEntry.product.code;

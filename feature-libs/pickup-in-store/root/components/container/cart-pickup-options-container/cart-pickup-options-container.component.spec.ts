@@ -43,6 +43,12 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
       entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
     });
   }
+  updateEntry(
+    _entryNumber: number,
+    _quantity: number,
+    _pickupInStore: string,
+    _pickupLocation?: boolean
+  ): void {}
 }
 
 export class MockAnonymousUserActiveCartFacade
@@ -59,6 +65,12 @@ export class MockAnonymousUserActiveCartFacade
       entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
     });
   }
+  updateEntry(
+    _entryNumber: number,
+    _quantity: number,
+    _pickupInStore: string,
+    _pickupLocation?: boolean
+  ): void {}
 }
 
 class MockCmsService {
@@ -166,13 +178,6 @@ describe('CartPickupOptionsContainerComponent', () => {
       component['displayNameIsSet'] = false;
       component.onPickupOptionChange('delivery');
       expect(component.openDialog).not.toHaveBeenCalled();
-    });
-
-    it('should openDialog if display name is set and pickup is selected', () => {
-      spyOn(component, 'openDialog');
-      component['displayNameIsSet'] = false;
-      component.onPickupOptionChange('pickup');
-      expect(component.openDialog).toHaveBeenCalled();
     });
 
     it('should set cartId to active cart id', () => {

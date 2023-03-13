@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
@@ -17,6 +17,7 @@ import { tap } from 'rxjs/operators';
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   constructor(
+    @Optional()
     protected outlet: OutletContextData<{ item: Consignment; order: Order }>
   ) {}
   consignment: Consignment;
@@ -33,9 +34,9 @@ export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   }
   normalizeFormattedAddress(formattedAddress: string): string {
     const addresses = formattedAddress
-      .split(',')
-      .map((address) => address.trim());
+      ?.split(',')
+      ?.map((address) => address.trim());
 
-    return addresses.filter(Boolean).join(', ');
+    return addresses?.filter(Boolean).join(', ');
   }
 }

@@ -69,6 +69,12 @@ export class MockActiveCartService {
   getLastEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
+  updateEntry(
+    _entryNumber: number,
+    _quantity: number,
+    _pickupInStore: string,
+    _pickupLocation?: boolean
+  ): void {}
 }
 
 describe('PickupOptionDialogComponent', () => {

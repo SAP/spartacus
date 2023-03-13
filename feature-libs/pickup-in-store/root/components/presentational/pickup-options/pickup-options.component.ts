@@ -27,6 +27,9 @@ export class PickupOptionsComponent implements OnChanges {
   /** The location to display in the pickup option. */
   @Input() displayPickupLocation: string | undefined;
 
+  // /** Disable Radio Buttons */
+  // @Input() disableControls = false;
+
   /** Emitted when the selected option is changed. */
   @Output() pickupOptionChange = new EventEmitter<PickupOption>();
   /** Emitted when a new store should be selected. */
@@ -34,6 +37,13 @@ export class PickupOptionsComponent implements OnChanges {
 
   pickupId = `pickup-id:${Math.random().toString(16)}`;
   deliveryId = `delivery-id:${Math.random().toString(16)}`;
+
+  // pickupOptionsForm = new FormGroup({
+  //   pickupOption: new FormControl<PickupOption | null>({
+  //     value: null,
+  //     disabled: this.disableControls,
+  //   }),
+  // });
 
   pickupOptionsForm = new FormGroup({
     pickupOption: new FormControl<PickupOption | null>(null),

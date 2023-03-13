@@ -81,10 +81,7 @@
         </div>
       </ng-container>
 
-      <ng-template
-        [cxOutlet]="OrderOutlets.ORDER_DELIVERY_OVERVIEW"
-        [cxOutletContext]="{ item: consignment, order: this.order }"
-      >
+      <ng-template [cxOutlet]="OrderOutlets.ORDER_DELIVERY_OVERVIEW">
         <div class="cx-summary-card">
           <ng-container *ngIf="order.deliveryAddress">
             <cx-card

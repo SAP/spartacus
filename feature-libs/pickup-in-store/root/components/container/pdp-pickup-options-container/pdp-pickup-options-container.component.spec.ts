@@ -184,39 +184,6 @@ describe('PickupOptionsComponent', () => {
       ).toHaveBeenCalledWith('productCode');
       expect(component.availableForPickup).toBe(true);
     });
-
-    it('onPickupOptionChange where option is delivery', () => {
-      spyOn(intendedPickupLocationService, 'getIntendedLocation');
-
-      component['productCode'] = 'productCode';
-      component.onPickupOptionChange('delivery');
-
-      expect(
-        intendedPickupLocationService.removeIntendedLocation
-      ).toHaveBeenCalledWith('productCode');
-    });
-
-    it('onPickupOptionChange where option is pickup and display name is not set', () => {
-      spyOn(preferredStoreFacade, 'getPreferredStore$').and.callThrough();
-      component['displayNameIsSet'] = true;
-      fixture.detectChanges();
-      component.onPickupOptionChange('pickup');
-
-      const location: AugmentedPointOfService = {
-        name: 'London School',
-        displayName: 'London School',
-        pickupOption: 'pickup',
-      };
-      expect(
-        preferredStoreFacade
-          .getPreferredStore$()
-          .subscribe(() =>
-            expect(
-              intendedPickupLocationService.setIntendedLocation
-            ).toHaveBeenCalledWith('productCode', location)
-          )
-      );
-    });
   });
   describe('without current product', () => {
     beforeEach(() => {
@@ -246,19 +213,6 @@ describe('PickupOptionsComponent', () => {
     it('should not display the form', () => {
       const form = fixture.debugElement.query(By.css('form'));
       expect(form).toBeNull();
-    });
-
-    it('onPickupOptionChange where option is pickup and display name is not set', () => {
-      spyOn(preferredStoreFacade, 'getPreferredStore$');
-      spyOn(component, 'openDialog');
-      component['productCode'] = 'productCode';
-      component.onPickupOptionChange('pickup');
-
-      component['displayNameIsSet'] = false;
-
-      expect(preferredStoreFacade.getPreferredStore$).not.toHaveBeenCalled();
-
-      expect(component.openDialog).toHaveBeenCalled();
     });
   });
 

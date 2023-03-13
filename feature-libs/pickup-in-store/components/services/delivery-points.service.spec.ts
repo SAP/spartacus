@@ -28,6 +28,12 @@ class MockActiveCartFacade {
     };
     return of(CART);
   }
+  updateEntry(
+    _entryNumber: number,
+    _quantity: number,
+    _pickupInStore: string,
+    _pickupLocation?: boolean
+  ): void {}
 }
 class MockPickupLocationsSearchFacade {
   loadStoreDetails(): void {}
