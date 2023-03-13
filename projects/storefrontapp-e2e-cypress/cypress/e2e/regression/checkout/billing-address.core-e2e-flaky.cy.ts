@@ -41,7 +41,7 @@ context('Payment billing address', { testIsolation: false }, () => {
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct();
-    //checkout.verifyReviewOrderPage();
+    checkout.verifyReviewOrderPage();
   });
 
   it('should add new payment forms', () => {
@@ -51,13 +51,13 @@ context('Payment billing address', { testIsolation: false }, () => {
       ...user,
       address: canadaAddress,
     });
-    //checkout.verifyReviewOrderPage();
+    checkout.verifyReviewOrderPage();
     checkout.goToPaymentDetails();
     checkout.clickAddNewPayment();
     checkout.fillPaymentFormWithCheapProduct(user, {
       ...user,
       address: polandAddress,
     });
-    //checkout.verifyReviewOrderPage();
+    checkout.verifyReviewOrderPage();
   });
 });

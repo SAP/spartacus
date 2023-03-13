@@ -53,7 +53,7 @@ export function testExpressCheckout() {
 
     cy.findByText(/proceed to checkout/i).click();
 
-    //checkout.verifyReviewOrderPage();
+    checkout.verifyReviewOrderPage();
     cy.get('.cx-review-card-address').should('contain', 'Premium Delivery');
   });
 }
