@@ -36,6 +36,8 @@ import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
+const defaultSessionTimeOut = 3600;
+const setAccountInfoAPI = 'accounts.setAccountInfo';
 @Injectable({
   providedIn: 'root',
 })
@@ -170,17 +172,15 @@ export class CdcJsService implements OnDestroy {
    * @param response
    */
   protected onLoginEventHandler(baseSite: string, response?: any) {
-    if (response) {
-      if (!response?.context?.skipOccAuth) {
-        //skip re-authentication during reset email
-        this.cdcAuth.loginWithCustomCdcFlow(
-          response.UID,
-          response.UIDSignature,
-          response.signatureTimestamp,
-          response.id_token !== undefined ? response.id_token : '',
-          baseSite
-        );
-      }
+    if (response && !response?.context?.skipOccAuth) {
+      //skip re-authentication during reset email
+      this.cdcAuth.loginWithCustomCdcFlow(
+        response.UID,
+        response.UIDSignature,
+        response.signatureTimestamp,
+        response.id_token !== undefined ? response.id_token : '',
+        baseSite
+      );
     }
   }
 
@@ -214,7 +214,7 @@ export class CdcJsService implements OnDestroy {
     if (!response?.regToken || !user?.uid || !user?.password) {
       return throwError(null);
     } else {
-      let regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       return this.invokeAPI('accounts.register', {
         email: user.uid,
         password: user.password,
@@ -228,7 +228,7 @@ export class CdcJsService implements OnDestroy {
       }).pipe(
         take(1),
         tap({
-          error: (response) => this.handleRegisterError(response),
+          error: (errorResponse) => this.handleRegisterError(errorResponse),
         })
       );
     }
@@ -276,9 +276,11 @@ export class CdcJsService implements OnDestroy {
    * @param orgId
    */
   openDelegatedAdminLogin(orgId: string) {
-    return this.gigyaSDK?.accounts?.b2b?.openDelegatedAdminLogin({
-      orgId: orgId,
-    });
+    return this.zone.run(() =>
+      this.gigyaSDK?.accounts?.b2b?.openDelegatedAdminLogin({
+        orgId: orgId,
+      })
+    );
   }
 
   /**
@@ -330,7 +332,7 @@ export class CdcJsService implements OnDestroy {
       }
     }
     // Return a default value
-    return of(3600);
+    return of(defaultSessionTimeOut);
   }
 
   private getCurrentBaseSite(): string {
@@ -349,7 +351,7 @@ export class CdcJsService implements OnDestroy {
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
     if (!email || email?.length === 0) {
-      return throwError(null);
+      return throwError('No email provided');
     } else {
       return this.invokeAPI('accounts.resetPassword', {
         loginID: email,
@@ -395,20 +397,20 @@ export class CdcJsService implements OnDestroy {
       !user?.lastName ||
       user?.lastName?.length === 0
     ) {
-      return throwError(null);
+      return throwError('User details not provided');
     } else {
-      let profileObj = {
+      const profileObj = {
         profile: {
           firstName: user.firstName,
           lastName: user.lastName,
         },
       };
-      return this.invokeAPI('accounts.setAccountInfo', {
+      return this.invokeAPI(setAccountInfoAPI, {
         ...profileObj,
       }).pipe(
         take(1),
         tap(() =>
-          this.userProfileFacade.update(user as User).subscribe({
+          this.userProfileFacade.update(user).subscribe({
             error: (error) => of(error),
           })
         )
@@ -432,9 +434,9 @@ export class CdcJsService implements OnDestroy {
       !newPassword ||
       newPassword?.length === 0
     ) {
-      return throwError(null);
+      return throwError('No passwords provided');
     } else {
-      return this.invokeAPI('accounts.setAccountInfo', {
+      return this.invokeAPI(setAccountInfoAPI, {
         password: oldPassword,
         newPassword: newPassword,
       }).pipe(
@@ -480,7 +482,7 @@ export class CdcJsService implements OnDestroy {
       //Verify the password by attempting to login
       return this.getLoggedInUserEmail().pipe(
         switchMap((user) => {
-          let email = user?.uid;
+          const email = user?.uid;
           if (!email || email?.length === 0) {
             return throwError('Email or password not provided');
           }
@@ -494,7 +496,7 @@ export class CdcJsService implements OnDestroy {
             skipOccAuth: true,
           }).pipe(
             switchMap(() =>
-              this.invokeAPI('accounts.setAccountInfo', {
+              this.invokeAPI(setAccountInfoAPI, {
                 profile: {
                   email: newEmail,
                 },
@@ -545,15 +547,15 @@ export class CdcJsService implements OnDestroy {
     country?: string
   ): Observable<{ status: string }> {
     if (!formattedAddress || formattedAddress?.length === 0) {
-      return throwError({ errorMessage: 'No address provided' });
+      return throwError('No address provided');
     } else {
-      let profileObj = {
+      const profileObj = {
         address: formattedAddress,
         ...(city && { city: city }),
         ...(country && { country: country }),
         ...(zipCode && { zip: zipCode }),
       };
-      return this.invokeAPI('accounts.setAccountInfo', {
+      return this.invokeAPI(setAccountInfoAPI, {
         profile: profileObj,
       });
     }
@@ -568,7 +570,7 @@ export class CdcJsService implements OnDestroy {
     methodName: string
   ): (payload: Object) => void {
     //accounts.setAccountInfo or accounts.b2b.openDelegatedAdmin
-    let nestedMethods = methodName.split('.');
+    const nestedMethods = methodName.split('.');
     let cdcAPI: any = this.gigyaSDK;
     nestedMethods.forEach((method) => {
       if (cdcAPI && cdcAPI.hasOwnProperty(method)) {
@@ -588,7 +590,10 @@ export class CdcJsService implements OnDestroy {
   protected invokeAPI(methodName: string, payload: Object): Observable<any> {
     return new Observable<any>((result) => {
       let actualAPI = this.getSdkFunctionFromName(methodName);
-
+      if (typeof actualAPI != 'function') {
+        result.error('CDC API name is incorrect');
+        return;
+      }
       actualAPI({
         ...payload,
         callback: (response: any) => {

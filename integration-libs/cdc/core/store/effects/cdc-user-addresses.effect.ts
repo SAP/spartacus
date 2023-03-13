@@ -17,88 +17,59 @@ import {
   UserAddressService,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { mergeMap, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAddressesEffects {
   addressFieldKeys = ['line1', 'line2', 'region.name', 'town', 'postalCode'];
 
-  cdcAddUserAddress$: Observable<UserActions.UserAddressesAction> =
-    createEffect(
-      () =>
-        this.actions$.pipe(
-          ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
-          mergeMap(() => {
-            return this.updateDefaultAddressInCDC().pipe(
-              map((data: any) => {
-                return new UserActions.LoadUserAddressesSuccess(data);
-              }),
-              catchError((error) => {
-                let errorMessage = error?.errorMessage || ' ';
-                this.messageService.add(
-                  errorMessage,
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-                return of(new UserActions.AddUserAddressFail(error));
-              })
-            );
-          })
-        ),
-      { dispatch: false } //prevent dispatching duplicate events in the case of CDC success / failure
-    );
+  cdcAddUserAddress$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
+        mergeMap(() => {
+          return this.updateDefaultAddressInCDC().pipe(
+            tap((error) => this.showErrorMessage(error))
+          );
+        })
+      ),
+    { dispatch: false }
+  );
 
-  cdcUpdateUserAddress$: Observable<UserActions.UserAddressesAction> =
-    createEffect(
-      () =>
-        this.actions$.pipe(
-          ofType(
-            UserActions.UPDATE_USER_ADDRESS_SUCCESS,
-            UserActions.LOAD_USER_ADDRESSES /* needed because `updateUserAddress$` dispatches a LOAD_USER_ADDRESSES
+  cdcUpdateUserAddress$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          UserActions.UPDATE_USER_ADDRESS_SUCCESS,
+          UserActions.LOAD_USER_ADDRESSES /* needed because `updateUserAddress$` dispatches a LOAD_USER_ADDRESSES
                                              in the scenario where an address is set as default from the address book page */
-          ),
-          mergeMap(() => {
-            return this.updateDefaultAddressInCDC().pipe(
-              map((data: any) => {
-                return new UserActions.LoadUserAddressesSuccess(data);
-              }),
-              catchError((error) => {
-                let errorMessage = error?.errorMessage || ' ';
-                this.messageService.add(
-                  errorMessage,
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-                return of(new UserActions.UpdateUserAddressFail(error));
-              })
-            );
-          })
         ),
-      { dispatch: false } //prevent dispatching duplicate events in the case of CDC success / failure
-    );
+        mergeMap(() => {
+          return this.updateDefaultAddressInCDC().pipe(
+            tap((error) => {
+              this.showErrorMessage(error);
+            })
+          );
+        })
+      ),
+    { dispatch: false }
+  );
 
-  cdcDeleteUserAddress$: Observable<UserActions.UserAddressesAction> =
-    createEffect(
-      () =>
-        this.actions$.pipe(
-          ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
-          switchMap(() => {
-            return this.updateDefaultAddressInCDC().pipe(
-              map((data: any) => {
-                return new UserActions.LoadUserAddressesSuccess(data);
-              }),
-              catchError((error) => {
-                let errorMessage = error?.errorMessage || ' ';
-                this.messageService.add(
-                  errorMessage,
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-                return of(new UserActions.DeleteUserAddressFail(error));
-              })
-            );
-          })
-        ),
-      { dispatch: false } //prevent dispatching duplicate events in the case of CDC success / failure
-    );
+  cdcDeleteUserAddress$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
+        switchMap(() => {
+          return this.updateDefaultAddressInCDC().pipe(
+            tap((error) => {
+              this.showErrorMessage(error);
+            })
+          );
+        })
+      ),
+    { dispatch: false }
+  );
 
   getAddresses(): Observable<Address[]> {
     return this.userIdService.takeUserId().pipe(
@@ -128,11 +99,11 @@ export class CdcUserAddressesEffects {
 
   sendAddressToCDC(address: Address): Observable<{ status: string }> {
     //send to CDC
-    let formattedAddress = address.formattedAddress || ' ';
+    const formattedAddress = address.formattedAddress || ' ';
     return this.userAddressService.getDeliveryCountries().pipe(
       take(1),
       switchMap((countries: Country[]) => {
-        let countryName =
+        const countryName =
           this.getCountryName(countries, address.country?.isocode || ' ') ||
           ' ';
         return this.cdcJsService.updateAddressWithoutScreenSet(
@@ -143,6 +114,11 @@ export class CdcUserAddressesEffects {
         );
       })
     );
+  }
+
+  showErrorMessage(error: any) {
+    const errorMessage = error?.errorMessage || ' ';
+    this.messageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
   }
 
   constructor(

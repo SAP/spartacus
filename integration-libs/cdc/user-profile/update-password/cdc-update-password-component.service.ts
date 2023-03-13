@@ -58,7 +58,7 @@ export class CDCUpdatePasswordComponentService extends UpdatePasswordComponentSe
   }
 
   protected onError(_error: any): void {
-    let errorMessage = _error?.errorDetails || ' ';
+    const errorMessage = _error?.errorDetails || ' ';
     this.globalMessageService.add(
       errorMessage,
       GlobalMessageType.MSG_TYPE_ERROR
