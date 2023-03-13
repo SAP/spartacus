@@ -94,9 +94,9 @@ export class CmsRoutesImplService {
       pageLabel.startsWith('/') &&
       pageLabel.length > 1
     ) {
-      const children = childRoutesConfig.children?.length
-        ? this.resolveCmsGuards(childRoutesConfig.children)
-        : undefined;
+      const children = this.wrapCmsGuardsRecursively(
+        childRoutesConfig.children ?? []
+      );
 
       const newRoute: CmsRoute = {
         path: pageLabel.substr(1),
@@ -118,22 +118,25 @@ export class CmsRoutesImplService {
   }
 
   /**
-   * Wraps guards of each Route within a `CanActivateFn` function.
+   * Traverses recursively the given Routes and wraps each `canActivate`
+   * guard of each Route with a special `CanActivateFn` function.
    *
-   * The implementation of this function allows for resolving
-   * those guards by the Angular Router,
-   * even if those guards are not provided in the root injector,
-   * but provided in a child injector of a lazy-loaded module.
+   * This special wrapper function allows for resolving
+   * those guards by the Angular Router using the `UnifiedInjector`
+   * instead of only root injector.
+   *
+   * This allows Angular Router to inject the guards (and their dependencies)
+   * even when they are provided only in a child injector of a lazy-loaded module.
    */
-  private resolveCmsGuards(routes: Route[]): Route[] {
+  private wrapCmsGuardsRecursively(routes: Route[]): Route[] {
     return routes.map((route) => {
       if (route.children) {
-        route.children = this.resolveCmsGuards(route.children);
+        route.children = this.wrapCmsGuardsRecursively(route.children);
       }
 
       if (route?.canActivate?.length) {
         route.canActivate = route.canActivate.map((guard) =>
-          this.resolveCmsGuard(guard)
+          this.wrapCmsGuard(guard)
         );
       }
 
@@ -145,11 +148,10 @@ export class CmsRoutesImplService {
    * Returns a wrapper function `CanActivateFn` (https://angular.io/api/router/CanActivateFn)
    * that injects the given guard instance and runs its method `.canActivate()`.
    *
-   * This function uses the `CmsGuardsService` to inject and run the guard,
-   * allowing the guard's instance to be injected even if it was provided
-   * in a child injector (of some lazy-loaded module).
+   * It allows to inject the guard's instance (and it's dependencies)
+   * even if it's 'provided only in a child injector of a lazy-loaded module.
    */
-  private resolveCmsGuard(
+  private wrapCmsGuard(
     guardClass: Type<any>
   ): (
     route: ActivatedRouteSnapshot,
