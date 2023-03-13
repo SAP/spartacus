@@ -30,13 +30,13 @@ export function testExpressCheckout() {
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct();
-    //checkout.verifyReviewOrderPage();
+    checkout.verifyReviewOrderPage();
 
     cy.get('cx-mini-cart').click();
 
     cy.findByText(/proceed to checkout/i).click();
 
-    //checkout.verifyReviewOrderPage();
+    checkout.verifyReviewOrderPage();
     cy.get('.cx-review-card-address').should('contain', 'Standard Delivery');
   });
 

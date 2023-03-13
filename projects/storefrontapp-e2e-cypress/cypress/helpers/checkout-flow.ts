@@ -266,7 +266,7 @@ export function verifyReviewOrderPage() {
 }
 
 export function placeOrder() {
-  //verifyReviewOrderPage();
+  verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
