@@ -73,7 +73,7 @@ describe('ImportOrderEntriesComponent', () => {
   });
 
   it('should show import button', () => {
-    const button = el.queryAll(By.css('cx-import-btn'));
+    const button = el.queryAll(By.css('.btn.btn-tertiary.cx-import-btn'));
     expect(button.length).toEqual(1);
   });
 });
