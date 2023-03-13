@@ -308,6 +308,10 @@ export function viewOrderHistory() {
     .should('not.be.empty');
 }
 
+export function clickCheckoutButton() {
+    cy.findByText(/proceed to checkout/i).click();
+}
+
 export function goToPaymentDetails() {
   cy.get('cx-checkout-progress li:nth-child(3) > a').click();
 }
