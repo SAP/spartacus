@@ -93,4 +93,8 @@ The Font Awesome css library, used for icons, is not downloaded at runtime anymo
 
 ### AgnosticTable
 
-- Replaced `border-bottom: 1px solid var(--cx-color-light)` with `border-top: 1px solid var(--cx-color-light)` in the `tr` selector
+- Replaced `border-bottom: 1px solid var(--cx-color-light)` with `border-top: 1px solid var(--cx-color-light)` in the `tr` style class
+
+### OrderConfirmationThankYouMessage
+
+- Replaced `font-weight: $font-weight-normal` with `font-weight: var(--cx-font-weight-bold)` and `font-size: var(--cx-font-size, 1.5rem);` in the `h2` style class
