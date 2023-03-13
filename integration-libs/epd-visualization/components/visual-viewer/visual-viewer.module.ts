@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -18,6 +24,5 @@ import { VisualViewerComponent } from './visual-viewer.component';
   ],
   declarations: [VisualViewerComponent],
   exports: [VisualViewerComponent],
-  entryComponents: [VisualViewerComponent],
 })
 export class VisualViewerModule {}

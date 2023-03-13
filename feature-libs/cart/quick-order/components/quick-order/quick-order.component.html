@@ -164,7 +164,13 @@
 <ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">
   <ng-container *ngIf="entries$ | async as entries">
     <div class="quick-order-header">
-      <h3>{{ 'quickOrderList.header' | cxTranslate }}</h3>
+      <!-- TODO:(CXSPA-1695) for next major release remove below h3 tag and feature level check from the h2 tag-->
+      <h3 *cxFeatureLevel="'!5.1'">
+        {{ 'quickOrderList.header' | cxTranslate }}
+      </h3>
+      <h2 *cxFeatureLevel="'5.1'">
+        {{ 'quickOrderList.header' | cxTranslate }}
+      </h2>
       <p>
         {{
           'quickOrderList.subHeader'

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +36,9 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
 
   selectedIndex: number;
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.subscription.add(

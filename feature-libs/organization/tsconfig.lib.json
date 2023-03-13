@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
-    "target": "es2015",
+    "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
@@ -93,5 +93,5 @@
     "enableResourceInlining": true,
     "strictTemplates": true
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

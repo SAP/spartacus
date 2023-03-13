@@ -16,14 +16,31 @@
           col-sm-12 col-md-4 col-lg-4
         "
       >
-        <cx-sorting
-          [sortOptions]="orderApprovals.sorts"
-          [sortLabels]="sortLabels$ | async"
-          (sortListEvent)="changeSortCode($event)"
-          [selectedOption]="orderApprovals.pagination.sort"
-          [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
-          ariaControls="order-approval-table"
-        ></cx-sorting>
+        <ng-container *cxFeatureLevel="'5.1'">
+          <label>
+            <span class="cx-visually-hidden">{{
+              'orderHistory.sortOrders' | cxTranslate
+            }}</span>
+            <cx-sorting
+              [sortOptions]="orderApprovals.sorts"
+              [sortLabels]="sortLabels$ | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="orderApprovals.pagination.sort"
+              [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+              ariaControls="order-approval-table"
+            ></cx-sorting>
+          </label>
+        </ng-container>
+        <ng-container *cxFeatureLevel="'!5.1'">
+          <cx-sorting
+            [sortOptions]="orderApprovals.sorts"
+            [sortLabels]="sortLabels$ | async"
+            (sortListEvent)="changeSortCode($event)"
+            [selectedOption]="orderApprovals.pagination.sort"
+            [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+            ariaControls="order-approval-table"
+          ></cx-sorting>
+        </ng-container>
       </div>
       <div class="cx-order-approval-pagination">
         <cx-pagination
@@ -33,7 +50,16 @@
       </div>
     </div>
     <!-- TABLE -->
-    <table id="order-approval-table" class="table cx-order-approval-table">
+    <table
+      role="table"
+      id="order-approval-table"
+      class="table cx-order-approval-table"
+    >
+      <caption *cxFeatureLevel="'5.1'" class="cx-visually-hidden">
+        {{
+          'orderApprovalList.orderApprovalList' | cxTranslate
+        }}
+      </caption>
       <thead class="cx-order-approval-thead-mobile">
         <th scope="col">
           {{ 'orderApprovalList.orderCode' | cxTranslate }}
@@ -48,10 +74,11 @@
       </thead>
       <tbody>
         <tr
+          role="row"
           *ngFor="let approval of orderApprovals.values"
           (click)="goToApprovalDetails($event, approval)"
         >
-          <td class="cx-order-approval-code">
+          <td role="cell" class="cx-order-approval-code">
             <div class="d-md-none cx-order-approval-label">
               {{ 'orderApprovalList.orderCode' | cxTranslate }}
             </div>
@@ -67,7 +94,7 @@
               {{ approval.order?.code }}</a
             >
           </td>
-          <td class="cx-order-approval-po-code">
+          <td role="cell" class="cx-order-approval-po-code">
             <div class="d-md-none cx-order-approval-label">
               {{ 'orderApprovalList.POCode' | cxTranslate }}
             </div>
@@ -85,7 +112,7 @@
               }}</a
             >
           </td>
-          <td class="cx-order-approval-placed">
+          <td role="cell" class="cx-order-approval-placed">
             <div class="d-md-none cx-order-approval-label">
               {{ 'orderApprovalList.placedBy' | cxTranslate }}
             </div>
@@ -100,7 +127,7 @@
               >{{ approval.order?.orgCustomer?.name }}</a
             >
           </td>
-          <td class="cx-order-approval-date">
+          <td role="cell" class="cx-order-approval-date">
             <div class="d-md-none cx-order-approval-label">
               {{ 'orderApprovalList.date' | cxTranslate }}
             </div>
@@ -116,7 +143,7 @@
             >
           </td>
 
-          <td class="cx-order-approval-status">
+          <td role="cell" class="cx-order-approval-status">
             <div class="d-md-none cx-order-approval-label">
               {{ 'orderApprovalList.status' | cxTranslate }}
             </div>
@@ -135,7 +162,7 @@
               }}</a
             >
           </td>
-          <td class="cx-order-approval-total">
+          <td role="cell" class="cx-order-approval-total">
             <div class="d-md-none cx-order-approval-label">
               {{ 'orderApprovalList.total' | cxTranslate }}
             </div>
@@ -163,12 +190,29 @@
           col-sm-12 col-md-4 col-lg-4
         "
       >
-        <cx-sorting
-          [sortOptions]="orderApprovals.sorts"
-          [sortLabels]="sortLabels$ | async"
-          (sortListEvent)="changeSortCode($event)"
-          [selectedOption]="orderApprovals.pagination.sort"
-        ></cx-sorting>
+        <ng-container *cxFeatureLevel="'5.1'">
+          <label>
+            <span class="cx-visually-hidden">{{
+              'orderHistory.sortOrders' | cxTranslate
+            }}</span>
+            <cx-sorting
+              [sortOptions]="orderApprovals.sorts"
+              [sortLabels]="sortLabels$ | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="orderApprovals.pagination.sort"
+              [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+              ariaControls="order-approval-table"
+            ></cx-sorting>
+          </label>
+        </ng-container>
+        <ng-container *cxFeatureLevel="'!5.1'">
+          <cx-sorting
+            [sortOptions]="orderApprovals.sorts"
+            [sortLabels]="sortLabels$ | async"
+            (sortListEvent)="changeSortCode($event)"
+            [selectedOption]="orderApprovals.pagination.sort"
+          ></cx-sorting>
+        </ng-container>
       </div>
       <div class="cx-order-approval-pagination">
         <cx-pagination

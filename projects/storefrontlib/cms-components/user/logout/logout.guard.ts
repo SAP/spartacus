@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import {
@@ -7,8 +13,8 @@ import {
   ProtectedRoutesService,
   SemanticPathService,
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 /**
  * Guards the _logout_ route.
@@ -30,39 +36,6 @@ export class LogoutGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.auth.isUserLoggedIn().pipe(
-      take(1),
-      switchMap((isLoggedIn: boolean) => {
-        return this.tryToEnterLogoutRoute(isLoggedIn);
-      })
-    );
-  }
-
-  protected logout(): Promise<any> {
-    return this.auth.coreLogout();
-  }
-
-  protected tryToEnterLogoutRoute(
-    isLoggedIn: boolean
-  ): Observable<boolean | UrlTree> {
-    return isLoggedIn
-      ? this.logoutAndTryToRedirect()
-      : of(this.getRedirectUrl());
-  }
-
-  /**
-   * Whenever there is no specific "logout" page configured in the CMS,
-   * we redirect after the user is logged out.
-   *
-   * The user gets redirected to the homepage, unless the homepage is protected
-   * (in case of a closed shop). We'll redirect to the login page instead.
-   */
-  protected getRedirectUrl(): UrlTree {
-    const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
-    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
-  }
-
-  protected logoutAndTryToRedirect(): Observable<boolean | UrlTree> {
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`
@@ -85,5 +58,21 @@ export class LogoutGuard implements CanActivate {
           );
       })
     );
+  }
+
+  protected logout(): Promise<any> {
+    return this.auth.coreLogout();
+  }
+
+  /**
+   * Whenever there is no specific "logout" page configured in the CMS,
+   * we redirect after the user is logged out.
+   *
+   * The user gets redirected to the homepage, unless the homepage is protected
+   * (in case of a closed shop). We'll redirect to the login page instead.
+   */
+  protected getRedirectUrl(): UrlTree {
+    const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
   }
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,22 +48,53 @@ export class CheckoutPaymentTypeComponent {
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
 
-  typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
-    .getSelectedPaymentTypeState()
-    .pipe(
+  typeSelected$: Observable<PaymentType> = combineLatest([
+    this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
-      map((state) => state.data),
-      filter(isNotUndefined),
-      distinctUntilChanged(),
-      tap((selected) => {
-        this.typeSelected = selected?.code;
-        this.checkoutStepService.resetSteps();
-        this.checkoutStepService.disableEnableStep(
-          CheckoutStepType.PAYMENT_DETAILS,
-          selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
-        );
-      })
-    );
+      map((state) => state.data)
+    ),
+    this.paymentTypes$,
+  ]).pipe(
+    map(
+      ([selectedPaymentType, availablePaymentTypes]: [
+        PaymentType | undefined,
+        PaymentType[]
+      ]) => {
+        if (
+          selectedPaymentType &&
+          availablePaymentTypes.find((availablePaymentType) => {
+            return availablePaymentType.code === selectedPaymentType.code;
+          })
+        ) {
+          return selectedPaymentType;
+        }
+        if (availablePaymentTypes.length) {
+          this.busy$.next(true);
+          this.checkoutPaymentTypeFacade
+            .setPaymentType(
+              availablePaymentTypes[0].code as string,
+              this.poNumberInputElement?.nativeElement?.value
+            )
+            .subscribe({
+              complete: () => this.onSuccess(),
+              error: () => this.onError(),
+            });
+          return availablePaymentTypes[0];
+        }
+        return undefined;
+      }
+    ),
+    filter(isNotUndefined),
+    distinctUntilChanged(),
+    tap((selected) => {
+      this.typeSelected = selected?.code;
+      this.checkoutStepService.resetSteps();
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.PAYMENT_DETAILS,
+        selected?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+      );
+    })
+  );
 
   cartPoNumber$: Observable<string> = this.checkoutPaymentTypeFacade
     .getPurchaseOrderNumberState()

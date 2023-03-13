@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
@@ -31,7 +37,9 @@ export class LoadRegionsSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearRegions implements Action {
   readonly type = CLEAR_REGIONS;
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }
 
 export type RegionsAction =

@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -24,7 +30,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   ],
 })
 export class UserGroupFormComponent implements OnInit {
-  form: FormGroup | null = this.itemService.getForm();
+  form: UntypedFormGroup | null = this.itemService.getForm();
 
   // getList ???
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService

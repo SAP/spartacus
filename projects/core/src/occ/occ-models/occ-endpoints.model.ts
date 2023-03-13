@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
@@ -213,6 +219,12 @@ export interface OccEndpoints {
    * @member {string}
    */
   getVariantConfigurationOverview?: string;
+  /**
+   * Endpoint for configurator variant search
+   *
+   * @member {string}
+   */
+  searchConfiguratorVariants?: string;
   /**
    * Endpoint for coupons
    *

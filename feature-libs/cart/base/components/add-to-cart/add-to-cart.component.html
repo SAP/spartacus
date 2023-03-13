@@ -29,12 +29,6 @@
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    <span
-      attr.aria-label="{{
-        options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
-      }}"
-    >
-      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
-    </span>
+    {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
   </button>
 </form>

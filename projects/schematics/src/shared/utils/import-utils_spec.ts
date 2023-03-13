@@ -72,28 +72,24 @@ describe('Import utils', () => {
   };
 
   beforeEach(async () => {
-    tree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    tree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        tree
-      )
-      .toPromise();
-    tree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        tree
-      )
-      .toPromise();
+    tree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    tree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      tree
+    );
+
+    tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      tree
+    );
 
     buildPath = getProjectTsConfigPaths(tree, BASE_OPTIONS.project)
       .buildPaths[0];

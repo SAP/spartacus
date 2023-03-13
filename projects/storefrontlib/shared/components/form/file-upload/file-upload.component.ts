@@ -1,10 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   Output,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -34,6 +42,10 @@ export class FileUploadComponent implements ControlValueAccessor {
    * Allows selecting multiple files.
    */
   @Input() multiple?: boolean = false;
+  /**
+   * Use custom button html passed from parent.
+   */
+  @ContentChild(TemplateRef) customButton: any;
 
   // TODO: remove this event. Now it's used only to trigger some logic in the parent component.
   // Prerequisites (changes in the parent component):
@@ -51,6 +63,10 @@ export class FileUploadComponent implements ControlValueAccessor {
     this.update.emit(files);
   }
 
+  removeFile(): void {
+    this.fileInput.nativeElement.value = '';
+  }
+
   get selectedFiles(): File[] | undefined {
     if (this.fileInput.nativeElement.files) {
       return Array.from(this.fileInput.nativeElement.files);
@@ -59,8 +75,12 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   // ControlValueAccessor START
-  protected onChangeCallback: Function = () => {};
-  protected onTouchedCallback: Function = () => {};
+  protected onChangeCallback: Function = () => {
+    // Intentional empty arrow function
+  };
+  protected onTouchedCallback: Function = () => {
+    // Intentional empty arrow function
+  };
   registerOnChange(callback: Function): void {
     this.onChangeCallback = callback;
   }

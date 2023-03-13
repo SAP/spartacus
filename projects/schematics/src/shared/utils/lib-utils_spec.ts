@@ -66,6 +66,11 @@ describe('Lib utils', () => {
   const SCSS_FILE_NAME = 'xxx.scss';
   const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
 
+  const STYLES_CONFIG_IMPORT = '@import "../../styles-config";';
+  const STYLES_CONFIG_FILE_PATH = 'src/styles-config.scss';
+
+  const FEATURE_MODULE_STYLE_IMPORT = `@import "${FEATURE_MODULE_IMPORT_PATH}";`;
+
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
   const BASE_FEATURE_CONFIG: SchematicConfig = {
@@ -124,28 +129,24 @@ describe('Lib utils', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('shouldAddFeature', () => {
@@ -258,7 +259,7 @@ describe('Lib utils', () => {
       });
     });
     describe('style', () => {
-      describe('when style config is provided', () => {
+      describe('when the library style file name is provided in the config', () => {
         describe('and the scss file does NOT exist', () => {
           it('should add it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
@@ -266,7 +267,9 @@ describe('Lib utils', () => {
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
-            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
+            expect(content).toEqual(
+              `${STYLES_CONFIG_IMPORT}\n${FEATURE_MODULE_STYLE_IMPORT}\n`
+            );
           });
         });
         describe('and the scss with the same content already exists', () => {
@@ -282,7 +285,7 @@ describe('Lib utils', () => {
 
             expect(appTree.exists(scssFilePath)).toEqual(true);
             const content = appTree.read(scssFilePath)?.toString(UTF_8);
-            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
+            expect(content).toEqual(`${FEATURE_MODULE_STYLE_IMPORT}`);
           });
         });
         describe('and the scss file with a different content already exists', () => {
@@ -302,7 +305,7 @@ describe('Lib utils', () => {
           });
         });
       });
-      describe('when style config is NOT provided', () => {
+      describe('When the library style file name is NOT provided in the config', () => {
         it('should not add it', async () => {
           const rule = addLibraryFeature(BASE_OPTIONS, {
             ...BASE_FEATURE_CONFIG,
@@ -311,6 +314,31 @@ describe('Lib utils', () => {
           appTree = await schematicRunner.callRule(rule, appTree).toPromise();
 
           expect(appTree.exists(scssFilePath)).toEqual(false);
+        });
+      });
+
+      describe('When the global style config file exists, ', () => {
+        it('import the global style config file in the library style file', async () => {
+          expect(appTree.exists(STYLES_CONFIG_FILE_PATH)).toEqual(true);
+          const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+          appTree = await schematicRunner.callRule(rule, appTree).toPromise();
+
+          expect(appTree.exists(scssFilePath)).toEqual(true);
+          const content = appTree.read(scssFilePath)?.toString(UTF_8);
+          expect(content?.startsWith(`${STYLES_CONFIG_IMPORT}\n`)).toBeTruthy();
+        });
+      });
+
+      describe('When the global style config file does NOT exists, ', () => {
+        it('Do NOT import the global style config file in the library style file', async () => {
+          expect(appTree.exists(STYLES_CONFIG_FILE_PATH)).toEqual(true);
+          appTree.delete(STYLES_CONFIG_FILE_PATH);
+          const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+          appTree = await schematicRunner.callRule(rule, appTree).toPromise();
+
+          expect(appTree.exists(scssFilePath)).toEqual(true);
+          const content = appTree.read(scssFilePath)?.toString(UTF_8);
+          expect(content?.startsWith(`${STYLES_CONFIG_IMPORT}\n`)).toBeFalsy();
         });
       });
     });

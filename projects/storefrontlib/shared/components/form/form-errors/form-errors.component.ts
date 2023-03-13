@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,7 +14,7 @@ import {
   KeyValueDiffer,
   KeyValueDiffers,
 } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -33,7 +39,7 @@ export class FormErrorsComponent implements DoCheck {
     protected keyValueDiffers: KeyValueDiffers
   ) {}
 
-  _control: FormControl | AbstractControl;
+  _control: UntypedFormControl | AbstractControl;
 
   /**
    * Emits an array of errors, each represented by a tuple:
@@ -55,7 +61,7 @@ export class FormErrorsComponent implements DoCheck {
   translationParams: { [key: string]: string | null };
 
   @Input()
-  set control(control: AbstractControl | FormControl | null) {
+  set control(control: AbstractControl | UntypedFormControl | null) {
     if (!control) {
       return;
     }
@@ -73,7 +79,7 @@ export class FormErrorsComponent implements DoCheck {
     );
   }
 
-  get control(): FormControl | AbstractControl {
+  get control(): UntypedFormControl | AbstractControl {
     return this._control;
   }
 

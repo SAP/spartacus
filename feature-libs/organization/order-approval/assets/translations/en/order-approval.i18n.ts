@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const orderApprovalDetails = {
   back: 'Back To List',
   showForm_APPROVE: 'Approve Order...',
@@ -42,6 +48,7 @@ export const orderApprovalList = {
   total: 'Total',
   none: 'None',
   emptyList: 'There are no orders to approve at this time.',
+  orderApprovalList: 'Order Approval List',
 };
 
 export const orderApprovalGlobal = {

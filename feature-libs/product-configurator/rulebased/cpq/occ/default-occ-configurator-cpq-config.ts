@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { OccConfig } from '@spartacus/core';
 
 export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
@@ -5,7 +11,7 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          getCpqAccessData: 'users/current/access/cpqconfigurator',
+          getCpqAccessData: 'users/${userId}/access/cpqconfigurator',
           addCpqConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
           readCpqConfigurationForCartEntry:

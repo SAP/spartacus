@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   externalSchematic,
@@ -59,6 +65,7 @@ export function ensureModuleExists(options: {
       }
     }
     return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
+      project: options.project,
       name: dasherize(options.name),
       flat: true,
       commonModule: false,

@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
@@ -12,9 +16,9 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
 import { UserChangePasswordFormService } from './user-change-password-form.service';
 import { MessageService } from '@spartacus/organization/administration/components';
 
-const mockForm = new FormGroup({
-  password: new FormControl(),
-  confirmPassword: new FormControl(),
+const mockForm = new UntypedFormGroup({
+  password: new UntypedFormControl(),
+  confirmPassword: new UntypedFormControl(),
 });
 
 class MockUserItemService {

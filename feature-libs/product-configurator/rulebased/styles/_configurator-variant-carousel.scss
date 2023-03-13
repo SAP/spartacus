@@ -1,0 +1,17 @@
+@import '@spartacus/styles/scss/components/product/carousel/_product-carousel';
+
+%cx-configurator-variant-carousel {
+  &:not(:empty) {
+    .cx-variant-carousel-container {
+      max-width: 1140px;
+      display: flex;
+      margin: 0 auto;
+      margin-block-start: 15px;
+      margin-block-end: 15px;
+      padding-block-start: 16px;
+      padding-block-end: 16px;
+
+      @extend %cx-product-carousel !optional;
+    }
+  }
+}

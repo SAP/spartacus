@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FeatureConfigService, provideDefaultConfig } from '@spartacus/core';
 import { defaultDirectionConfig } from './config/default-direction.config';
@@ -6,7 +12,7 @@ import { DirectionService } from './direction.service';
 export function initHtmlDirAttribute(
   directionService: DirectionService,
   featureConfigService: FeatureConfigService
-) {
+): () => void {
   const result = () => {
     if (featureConfigService.isLevel('2.1')) {
       return directionService.initialize();

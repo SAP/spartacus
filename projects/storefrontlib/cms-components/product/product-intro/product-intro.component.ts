@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
@@ -25,7 +31,7 @@ export class ProductIntroComponent {
   /**
    * Observable that checks the reviews component availability on the page.
    */
-  areReviewsAvailable$ = merge(
+  areReviewsAvailable$: Observable<boolean> = merge(
     // Check if reviews component is already defined:
     defer(() => of(!!this.getReviewsComponent())),
 

@@ -1,6 +1,6 @@
 <ng-container *ngIf="data$ | async as data">
   <div class="pdf-container">
-    <a [href]="url" target="_blank">
+    <a [href]="url" target="_blank" rel="noopener noreferrer">
       <span>{{
         addPdfExtension(
           data?.title ||

@@ -1,5 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -29,7 +35,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
 
-  readonly quantityControl$: Observable<FormControl> =
+  readonly quantityControl$: Observable<UntypedFormControl> =
     this.cartItemContext?.quantityControl$ ?? EMPTY;
 
   readonly readonly$: Observable<boolean> =
@@ -72,6 +78,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   /**
    * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
    *
+   * @deprecated since 5.0 - method not used anymore
    * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
   isDesktop(): Observable<boolean> {

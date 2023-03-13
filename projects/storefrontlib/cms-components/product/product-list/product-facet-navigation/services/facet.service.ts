@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
@@ -149,6 +155,6 @@ export class FacetService {
   }
 
   protected decodeUriComponentSafe(query: string): string {
-    return query.replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25');
+    return query.replace(/%(?![0-9a-fA-F]{2})/g, '%25');
   }
 }

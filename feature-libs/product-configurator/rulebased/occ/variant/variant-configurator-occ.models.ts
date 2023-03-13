@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export namespace OccConfigurator {
   /**
    *
@@ -21,6 +27,18 @@ export namespace OccConfigurator {
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct: string;
+    kbKey?: KB;
+    pricingEnabled?: boolean;
+    hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
+    newConfiguration?: boolean;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
   }
 
   export interface Prices {
@@ -92,6 +110,7 @@ export namespace OccConfigurator {
     intervalInDomain?: boolean;
     retractBlocked?: boolean;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {
@@ -137,6 +156,13 @@ export namespace OccConfigurator {
     groups?: GroupOverview[];
     pricing?: PriceSummary;
     productCode: string;
+    appliedCsticFilter?: OverviewFilter[];
+    groupFilterList?: OverviewFilter[];
+  }
+
+  export interface OverviewFilter {
+    key: string;
+    selected?: boolean;
   }
 
   export interface GroupOverview {
@@ -195,5 +221,11 @@ export namespace OccConfigurator {
   export enum ImageType {
     PRIMARY = 'PRIMARY',
     GALLERY = 'GALLERY',
+  }
+
+  export enum OverviewFilterEnum {
+    VISIBLE = 'PRIMARY',
+    USER_INPUT = 'USER_INPUT',
+    PRICE_RELEVANT = 'PRICE_RELEVANT',
   }
 }

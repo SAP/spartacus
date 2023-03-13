@@ -6,7 +6,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -48,7 +48,7 @@ class MockOrderApprovalDetailService {
   template: '',
 })
 class MockFormErrorsComponent {
-  @Input() control: FormControl;
+  @Input() control: UntypedFormControl;
 }
 
 @Component({

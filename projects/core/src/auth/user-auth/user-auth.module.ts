@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
@@ -19,7 +25,7 @@ import { AuthStorageService } from './services/auth-storage.service';
 export function checkOAuthParamsInUrl(
   authService: AuthService,
   configInit: ConfigInitializerService
-) {
+): () => Promise<void> {
   const result = () =>
     configInit
       .getStable()

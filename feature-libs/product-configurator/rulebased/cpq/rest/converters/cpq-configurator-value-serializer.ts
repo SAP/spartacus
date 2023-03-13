@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
@@ -40,6 +46,8 @@ export class CpqConfiguratorValueSerializer
   ): Configurator.Value {
     if (attribute.values && attribute.values.length > 0) {
       return attribute.values[0];
-    } else throw new Error('No values present');
+    } else {
+      throw new Error('No values present');
+    }
   }
 }

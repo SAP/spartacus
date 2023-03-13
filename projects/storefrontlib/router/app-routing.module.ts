@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideDefaultConfig } from '@spartacus/core';
@@ -8,8 +14,7 @@ import { OnNavigateService } from './on-navigate.service';
   imports: [
     RouterModule.forRoot([], {
       anchorScrolling: 'enabled',
-      relativeLinkResolution: 'corrected',
-      initialNavigation: 'enabled',
+      initialNavigation: 'enabledBlocking',
     }),
   ],
   providers: [
@@ -24,7 +29,9 @@ import { OnNavigateService } from './on-navigate.service';
 })
 export class AppRoutingModule {}
 
-export function onNavigateFactory(onNavigateService: OnNavigateService) {
+export function onNavigateFactory(
+  onNavigateService: OnNavigateService
+): () => void {
   const isReady = () => onNavigateService.initializeWithConfig();
   return isReady;
 }

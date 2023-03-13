@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import {
@@ -28,7 +34,9 @@ export enum CommandStrategy {
 export class CommandService implements OnDestroy {
   protected subscriptions: Subscription = new Subscription();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   create<PARAMS = undefined, RESULT = unknown>(
     commandFactory: (command: PARAMS) => Observable<any>,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectorRef,
   ElementRef,
@@ -9,7 +15,7 @@ import { WindowRef } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualViewerAnimationSliderService {
   public constructor(
@@ -301,21 +307,21 @@ export class VisualViewerAnimationSliderService {
   }
 
   private onTouchMove(event: TouchEvent): void {
-    let touchInitiatedOnSlider = this.findTouch(
+    const touchInitiatedOnSlider = this.findTouch(
       event.changedTouches,
       this.touchIdentifier
     );
     if (touchInitiatedOnSlider === undefined) {
       return;
     }
-    let touch = this.findTouch(event.touches, this.touchIdentifier) as Touch;
+    const touch = this.findTouch(event.touches, this.touchIdentifier) as Touch;
     const position: number =
       touch.clientX - this.sliderClientPosition - this.handleWidth / 2;
     this.applyValue(this.positionToValue(position));
   }
 
   private onTouchEnd(event: TouchEvent): void {
-    let touchInitiatedOnSlider = this.findTouch(
+    const touchInitiatedOnSlider = this.findTouch(
       event.changedTouches,
       this.touchIdentifier
     );
@@ -364,14 +370,18 @@ export class VisualViewerAnimationSliderService {
     keyCode: string,
     rightToLeft: boolean
   ): ((value: number) => number) | undefined {
-    let increaseStep = (currentValue: number) => currentValue + this.stepDelta;
-    let decreaseStep = (currentValue: number) => currentValue - this.stepDelta;
-    let increasePage = (currentValue: number) => currentValue + this.pageDelta;
-    let decreasePage = (currentValue: number) => currentValue - this.pageDelta;
-    let stepLeft = rightToLeft ? increaseStep : decreaseStep;
-    let stepRight = rightToLeft ? decreaseStep : increaseStep;
-    let home = () => 0;
-    let end = () => 1;
+    const increaseStep = (currentValue: number) =>
+      currentValue + this.stepDelta;
+    const decreaseStep = (currentValue: number) =>
+      currentValue - this.stepDelta;
+    const increasePage = (currentValue: number) =>
+      currentValue + this.pageDelta;
+    const decreasePage = (currentValue: number) =>
+      currentValue - this.pageDelta;
+    const stepLeft = rightToLeft ? increaseStep : decreaseStep;
+    const stepRight = rightToLeft ? decreaseStep : increaseStep;
+    const home = () => 0;
+    const end = () => 1;
 
     switch (keyCode) {
       case 'ArrowUp':

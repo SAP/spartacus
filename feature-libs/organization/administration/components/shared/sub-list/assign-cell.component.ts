@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { getLastValueSync } from '@spartacus/core';
 import {
@@ -13,6 +19,7 @@ import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
+import { BaseItem } from '../organization.model';
 import { CellComponent } from '../table/cell.component';
 import { SubListService } from './sub-list.service';
 
@@ -25,7 +32,7 @@ import { SubListService } from './sub-list.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignCellComponent<T> extends CellComponent {
+export class AssignCellComponent<T extends BaseItem> extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: ItemService<T>,

@@ -1,19 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -25,15 +30,13 @@ export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit, OnDestroy
 {
-  attributeInputForm = new FormControl('');
+  attributeInputForm = new UntypedFormControl('');
   protected sub: Subscription;
 
-  @Input() ownerType: CommonConfigurator.OwnerType;
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-
-  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+  attribute: Configurator.Attribute;
+  group: string;
+  ownerKey: string;
+  ownerType: CommonConfigurator.OwnerType;
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,
@@ -41,8 +44,16 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
-  constructor(protected config: ConfiguratorUISettingsConfig) {
+  constructor(
+    protected config: ConfiguratorUISettingsConfig,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.ownerType = attributeComponentContext.owner.type;
   }
 
   ngOnInit() {
@@ -68,16 +79,16 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   onChange(): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
-
     if (!this.attributeInputForm.invalid) {
-      this.inputChange.emit(event);
+      this.configuratorCommonsService.updateConfiguration(
+        this.ownerKey,
+        {
+          ...this.attribute,
+          userInput: this.attributeInputForm.value,
+          selectedSingleValue: this.attributeInputForm.value,
+        },
+        Configurator.UpdateType.ATTRIBUTE
+      );
     }
   }
 

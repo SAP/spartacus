@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import {
   APP_INITIALIZER,
@@ -24,7 +30,7 @@ export function registerOutletsFactory(
   providedOutletOptions: ProvideOutletOptions[],
   componentFactoryResolver: ComponentFactoryResolver,
   outletService: OutletService<ComponentFactory<Type<any>>>
-) {
+): () => void {
   const result = () => {
     (providedOutletOptions ?? []).forEach((options) => {
       const factory = componentFactoryResolver.resolveComponentFactory(

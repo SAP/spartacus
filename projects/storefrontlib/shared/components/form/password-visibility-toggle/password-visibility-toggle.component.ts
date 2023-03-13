@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { PasswordInputState } from './password-input-visibility.model';

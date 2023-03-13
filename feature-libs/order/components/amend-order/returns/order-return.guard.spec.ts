@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SemanticPathService } from '@spartacus/core';
@@ -7,14 +11,16 @@ import { Observable, of } from 'rxjs';
 import { OrderReturnGuard } from './order-return.guard';
 import { OrderReturnService } from './order-return.service';
 
-const mockControl = new FormControl(10, { validators: [Validators.min(100)] });
-const mockForm = new FormGroup({
+const mockControl = new UntypedFormControl(10, {
+  validators: [Validators.min(100)],
+});
+const mockForm = new UntypedFormGroup({
   any: mockControl,
 });
 
 class MockOrderReturnService implements Partial<OrderReturnService> {
-  getForm(): Observable<FormGroup> {
-    return of(new FormGroup({}));
+  getForm(): Observable<UntypedFormGroup> {
+    return of(new UntypedFormGroup({}));
   }
 }
 

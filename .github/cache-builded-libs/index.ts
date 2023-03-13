@@ -1,20 +1,26 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as cache from '@actions/cache';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 import * as github from '@actions/github';
 
 async function run() {
-  core.startGroup('yarn');
-  let exitCode = await exec.exec('yarn', [], {
+  core.startGroup('npm');
+  let exitCode = await exec.exec('npm', ['i'], {
     ignoreReturnCode: true,
   });
   core.endGroup();
   if (exitCode !== 0) {
-    core.setFailed(`Yarn install failed`);
+    core.setFailed(`NPM install failed`);
   }
 
-  core.startGroup('yarn build:libs');
-  exitCode = await exec.exec('yarn', ['build:libs'], {
+  core.startGroup('npm run build:libs');
+  exitCode = await exec.exec('npm', ['run', 'build:libs'], {
     ignoreReturnCode: true,
   });
   core.endGroup();

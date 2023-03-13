@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -25,7 +31,6 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartFacade,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    // TODO:#checkout - handle the breaking changes
     protected checkoutQueryFacade: CheckoutQueryFacade,
     protected userIdService: UserIdService,
     protected configuratorUtilsService: ConfiguratorUtilsService

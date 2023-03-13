@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +13,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
@@ -54,8 +60,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  addToCartForm = new FormGroup({
-    quantity: new FormControl(1, { updateOn: 'blur' }),
+  addToCartForm = new UntypedFormGroup({
+    quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
   });
 
   constructor(

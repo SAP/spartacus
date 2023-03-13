@@ -16,6 +16,7 @@ import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-aaab';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
 const CONFIGURATOR_TYPE = 'cpqconfig';
@@ -70,6 +71,10 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
     of('getConfigurationOverview' + configId)
   );
 
+  searchVariants = createSpy().and.callFake((configId: string) =>
+    of([{ productCode: PRODUCT_CODE + configId }])
+  );
+
   readPriceSummary = createSpy().and.callFake((configId: string) =>
     of('readPriceSummary' + configId)
   );
@@ -81,6 +86,11 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   updateConfiguration = createSpy().and.callFake(
     (configuration: Configurator.Configuration) =>
       of('updateConfiguration' + configuration.configId)
+  );
+
+  updateConfigurationOverview = createSpy().and.callFake(
+    (ovInput: Configurator.Overview) =>
+      of('updateConfigurationOverview' + ovInput.configId)
   );
 
   createConfiguration = createSpy().and.callFake(
@@ -134,38 +144,70 @@ describe('RulebasedConfiguratorConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call adapter on createConfiguration', () => {
-    let result;
-    service
-      .createConfiguration(productConfiguration.owner)
-      .subscribe((res) => (result = res));
-    expect(result).toBe('createConfiguration' + productConfiguration.owner);
+  describe('createConfiguration', () => {
+    it('should call adapter', () => {
+      let result;
+      service
+        .createConfiguration(productConfiguration.owner)
+        .subscribe((res) => (result = res));
+      expect(result).toBe('createConfiguration' + productConfiguration.owner);
 
-    expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
-      productConfiguration.owner
-    );
-  });
-
-  it('should throw an error in case no adapter present for configurator type', () => {
-    expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        'unknown'
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        undefined,
+        false
       );
-      service.createConfiguration(ownerForUnknownConfigurator);
-    }).toThrow();
-  });
+    });
 
-  it('should not throw an error in case an adapter is present for owners configurator type', () => {
-    expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        CONFIGURATOR_TYPE
+    it('should forward configuration template ID', () => {
+      service
+        .createConfiguration(productConfiguration.owner, CONFIG_ID_TEMPLATE)
+        .subscribe();
+
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        CONFIG_ID_TEMPLATE,
+        false
       );
-      service.createConfiguration(ownerForUnknownConfigurator);
-    }).toBeDefined();
+    });
+
+    it('should forward forceReset flag', () => {
+      service
+        .createConfiguration(
+          productConfiguration.owner,
+          CONFIG_ID_TEMPLATE,
+          true
+        )
+        .subscribe();
+
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        CONFIG_ID_TEMPLATE,
+        true
+      );
+    });
+
+    it('should throw an error in case no adapter present for configurator type', () => {
+      expect(function () {
+        const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          PRODUCT_CODE,
+          'unknown'
+        );
+        service.createConfiguration(ownerForUnknownConfigurator);
+      }).toThrow();
+    });
+
+    it('should not throw an error in case an adapter is present for owners configurator type', () => {
+      expect(function () {
+        const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
+          CommonConfigurator.OwnerType.PRODUCT,
+          PRODUCT_CODE,
+          CONFIGURATOR_TYPE
+        );
+        service.createConfiguration(ownerForUnknownConfigurator);
+      }).toBeDefined();
+    });
   });
 
   it('should call adapter on readConfigurationForCartEntry', () => {
@@ -247,6 +289,19 @@ describe('RulebasedConfiguratorConnector', () => {
     );
   });
 
+  it('should call adapter on searchVariants', () => {
+    let result;
+    service
+      .searchVariants(productConfiguration)
+      .subscribe((res) => (result = res));
+    expect(result).toEqual([
+      { productCode: PRODUCT_CODE + productConfiguration.configId },
+    ]);
+    expect(adapter[0].searchVariants).toHaveBeenCalledWith(
+      productConfiguration.configId
+    );
+  });
+
   it('should call adapter on addToCart', () => {
     const parameters: Configurator.AddToCartParameters = {
       userId: USER_ID,
@@ -260,5 +315,40 @@ describe('RulebasedConfiguratorConnector', () => {
     service.addToCart(parameters).subscribe((res) => (result = res));
     expect(adapter[0].addToCart).toHaveBeenCalledWith(parameters);
     expect(result).toBe('addToCart' + parameters);
+  });
+
+  describe('updateConfigurationOverview', () => {
+    it('should forward to adapter', () => {
+      const overview: Configurator.Overview = {
+        configId: productConfiguration.configId,
+        productCode: productConfiguration.productCode,
+      };
+      const configWithOverview: Configurator.Configuration = {
+        ...productConfiguration,
+        overview: overview,
+      };
+      let result;
+      service
+        .updateConfigurationOverview(configWithOverview)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].updateConfigurationOverview).toHaveBeenCalledWith(
+        overview
+      );
+      expect(result).toBe(
+        'updateConfigurationOverview' + productConfiguration.configId
+      );
+    });
+    it('should retrieve overview if not available (exception case)', () => {
+      let result;
+      service
+        .updateConfigurationOverview(productConfiguration)
+        .subscribe((res) => (result = res));
+      expect(adapter[0].getConfigurationOverview).toHaveBeenCalledWith(
+        productConfiguration.configId
+      );
+      expect(result).toBe(
+        'getConfigurationOverview' + productConfiguration.configId
+      );
+    });
   });
 });

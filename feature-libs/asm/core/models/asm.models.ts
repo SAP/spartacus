@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { PaginationModel, SortModel, User } from '@spartacus/core';
 
 export interface CustomerSearchPage {
@@ -9,6 +15,9 @@ export interface CustomerSearchPage {
 export interface CustomerSearchOptions {
   query?: string;
   pageSize?: number;
+  customerListId?: string;
+  currentPage?: number;
+  sort?: string;
 }
 
 export interface AsmUi {

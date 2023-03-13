@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -125,14 +131,13 @@ export class SavedCartEffects {
               },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
-
             return [
               ...actions,
-              new CartActions.SetActiveCartId(cartId),
               new CartActions.LoadCartSuccess({
                 userId,
                 cartId,
                 cart: savedCart,
+                extraData: { active: true },
               }),
               new SavedCartActions.RestoreSavedCartSuccess({ userId, cartId }),
             ];

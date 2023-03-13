@@ -1,5 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -32,13 +42,13 @@ export class ResetPasswordComponentService {
       map((routerState: RouterState) => routerState.state.queryParams['token'])
     );
 
-  form: FormGroup = new FormGroup(
+  form: UntypedFormGroup = new UntypedFormGroup(
     {
-      password: new FormControl('', [
+      password: new UntypedFormControl('', [
         Validators.required,
         CustomFormValidators.passwordValidator,
       ]),
-      passwordConfirm: new FormControl('', Validators.required),
+      passwordConfirm: new UntypedFormControl('', Validators.required),
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
@@ -62,7 +72,7 @@ export class ResetPasswordComponentService {
 
     this.busy$.next(true);
 
-    const password = (this.form.get('password') as FormControl).value;
+    const password = (this.form.get('password') as UntypedFormControl).value;
 
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),

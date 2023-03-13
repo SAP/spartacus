@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CartAdapter } from '@spartacus/cart/base/core';
@@ -57,7 +63,7 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<Cart> {
     const toAdd = JSON.stringify({});
 
-    let params = <any>{};
+    const params = <any>{};
 
     if (oldCartId) {
       params['oldCartId'] = oldCartId;

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action } from '@ngrx/store';
 
 export const ENTITY_REMOVE_ACTION = '[ENTITY] REMOVE';

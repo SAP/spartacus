@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +26,9 @@ export class ConfiguratorConflictSuggestionComponent {
 
   @HostBinding('tabindex') tabindex = '0';
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * Verifies whether the conflict suggestion should be displayed for the current group.
@@ -31,7 +39,7 @@ export class ConfiguratorConflictSuggestionComponent {
   displayConflictSuggestion(group: Configurator.Group): boolean {
     return group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
       group.attributes
-      ? group.attributes?.length > 1
+      ? group.attributes.length > 0
       : false;
   }
 

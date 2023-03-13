@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, Renderer2 } from '@angular/core';
 import { shareReplay } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';

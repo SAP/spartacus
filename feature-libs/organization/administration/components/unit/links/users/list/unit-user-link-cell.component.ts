@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit, getLastValueSync } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -12,12 +19,12 @@ import { CellComponent } from '../../../../shared/table/cell.component';
   selector: 'cx-org-unit-user-link-cell',
   template: `
     <a
-      *ngIf="hasItem && (unitKey$ | async) as uid"
+      *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
       [routerLink]="
         { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      {{ 'orgUser.roles' | cxTranslate }}
+      {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,11 +33,12 @@ export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>
+    protected itemService: ItemService<B2BUnit>,
+    protected b2bUserService: B2BUserService
   ) {
     super(outlet);
   }
-
+  isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
   getRouterModel(uid: string): any {
     const context = getLastValueSync(this.outlet.context$);
     return { ...context, uid };

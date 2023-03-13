@@ -1,7 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
+  AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthService,
   AuthToken,
@@ -31,7 +38,8 @@ export class AsmAuthService extends AuthService {
     protected authStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {
     super(
       store,
@@ -39,7 +47,8 @@ export class AsmAuthService extends AuthService {
       oAuthLibWrapperService,
       authStorageService,
       authRedirectService,
-      routingService
+      routingService,
+      authMultisiteIsolationService
     );
   }
 

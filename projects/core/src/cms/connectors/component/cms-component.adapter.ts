@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Observable } from 'rxjs';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/models/page-context.model';

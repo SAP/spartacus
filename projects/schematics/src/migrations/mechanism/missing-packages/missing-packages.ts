@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getPackageJsonDependency } from '@schematics/angular/utility/dependencies';
 import { createProgram } from '../../../shared/utils/program';
@@ -41,6 +47,12 @@ export function migrateMissingPackage(
   }
 
   if (foundImport) {
+    warnIfPackageNotPresent();
+  }
+
+  return tree;
+
+  function warnIfPackageNotPresent() {
     const packagePresent = getPackageJsonDependency(
       tree,
       missingPackageConfig.package
@@ -52,6 +64,4 @@ export function migrateMissingPackage(
       context.logger.warn(`${comment}\n`);
     }
   }
-
-  return tree;
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -117,7 +123,9 @@ export class CheckoutScheduleReplenishmentOrderComponent
     } else {
       const foundDay = this.currentDaysOfWeek.find((data) => day === data);
 
-      if (!foundDay) return;
+      if (!foundDay) {
+        return;
+      }
 
       const index = this.currentDaysOfWeek.indexOf(foundDay);
       this.currentDaysOfWeek.splice(index, 1);

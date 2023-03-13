@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectorRef, Injectable, OnDestroy } from '@angular/core';
 import {
   GlobalMessageService,
@@ -19,7 +25,7 @@ import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualPickingTabService implements OnDestroy {
   constructor(

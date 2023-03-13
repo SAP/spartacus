@@ -3,32 +3,20 @@ import {
   Component,
   Directive,
   Input,
-  TemplateRef,
-  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-
-@Directive({
-  selector: '[cxFeatureLevel]',
-})
-export class MockFeatureLevelDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
-
-  @Input() set cxFeatureLevel(_feature: string | number) {
-    this.viewContainer.createEmbeddedView(this.templateRef);
-  }
-}
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 
 @Directive({
   selector: '[cxFocus]',
@@ -43,6 +31,10 @@ export class MockFocusDirective {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
 }
 
 describe('ConfigAttributeCheckBoxComponent', () => {
@@ -60,6 +52,16 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
           set: {
@@ -149,7 +151,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'form-check-input',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName'
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
       );
     });
 

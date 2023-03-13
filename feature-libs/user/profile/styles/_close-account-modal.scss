@@ -1,42 +1,51 @@
 %cx-close-account-modal {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  .cx-close-account-modal {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
 
-  .cx-dialog-header {
-    padding-top: 2rem;
-    padding-inline-end: 1.75rem;
-    padding-bottom: 0.85rem;
-    padding-inline-start: 1.75rem;
-    border-width: 0;
-  }
+    .cx-close-account-modal-container {
+      @extend .modal-content;
 
-  h3 {
-    font-weight: var(--cx-font-weight-semi);
-  }
+      .cx-close-account-modal-header {
+        display: flex;
+        justify-content: space-between;
+        .cx-close-account-modal-title {
+          @include type('3');
+        }
+      }
 
-  .cx-row {
-    display: flex;
-  }
+      .cx-close-account-modal-body {
+        @extend .modal-body;
+      }
 
-  .cx-confirmation {
-    margin: 0 0 3em 0;
-  }
+      .cx-confirmation {
+        margin-bottom: 0px;
+      }
 
-  .cx-btn-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    button:first-child {
-      margin: 0 0 1em 0;
-    }
-  }
+      .cx-close-account-modal-footer {
+        display: flex;
 
-  .modal-body {
-    @include media-breakpoint-down(sm) {
-      top: -85px;
-      flex: none;
-      margin: auto 0;
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+          text-transform: lowercase;
+
+          &:first-line {
+            text-transform: capitalize;
+          }
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
     }
   }
 }

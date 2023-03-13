@@ -1,5 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { AuthGuard, CmsConfig } from '@spartacus/core';
-import { AdminGuard } from '@spartacus/organization/administration/core';
+import {
+  AdminGuard,
+  UserGuard,
+} from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE } from '../constants';
@@ -116,10 +125,12 @@ export const unitsCmsConfig: CmsConfig = {
                   {
                     path: 'create',
                     component: UnitUserCreateComponent,
+                    canActivate: [UserGuard],
                   },
                   {
                     path: `:${ROUTE_PARAMS.userCode}/roles`,
                     component: UnitUserRolesFormComponent,
+                    canActivate: [UserGuard],
                   },
                 ],
               },

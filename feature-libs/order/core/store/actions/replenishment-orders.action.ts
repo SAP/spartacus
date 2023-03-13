@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { StateUtils } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';

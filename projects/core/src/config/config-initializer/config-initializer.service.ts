@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
