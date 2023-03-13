@@ -21,10 +21,10 @@ export class AmountCellComponent extends CellComponent {
   }
 
   protected get budget() {
-    return this.model?.budget;
+    return this.model.budget;
   }
 
   protected get currency() {
-    return this.model?.currency?.isocode || this.model?.currency;
+    return this.model.currency?.isocode || this.model.currency;
   }
 }

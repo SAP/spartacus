@@ -18,6 +18,6 @@ export class DateRangeCellComponent extends CellComponent {
   }
 
   get hasRange(): boolean {
-    return !!this.model?.startDate && !!this.model?.endDate;
+    return !!this.model.startDate && !!this.model.endDate;
   }
 }

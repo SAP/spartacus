@@ -11,36 +11,36 @@
           } | cxUrl
         "
       >
-        {{ model?.name }}
+        {{ model.name }}
       </a>
     </div>
 
     <div class="property">
       <label>{{ 'orgBudget.code' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.code }}
+        {{ model.code }}
       </span>
     </div>
 
     <div class="property">
       <label>{{ 'orgBudget.startDate' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.startDate | cxDate }}
+        {{ model.startDate | cxDate }}
       </span>
     </div>
 
     <div class="property">
       <label>{{ 'orgBudget.endDate' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.endDate | cxDate }}
+        {{ model.endDate | cxDate }}
       </span>
     </div>
 
     <div class="property">
       <label>{{ 'orgBudget.active' | cxTranslate }}</label>
-      <span class="value" [class.is-active]="model?.active">
+      <span class="value" [class.is-active]="model.active">
         {{
-          (model?.active ? 'organization.enabled' : 'organization.disabled')
+          (model.active ? 'organization.enabled' : 'organization.disabled')
             | cxTranslate
         }}
       </span>
@@ -49,7 +49,7 @@
     <div class="property">
       <label>{{ 'orgBudget.amount' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.budget }} {{ model?.currency?.isocode }}
+        {{ model.budget }} {{ model.currency?.isocode }}
       </span>
     </div>
 
@@ -60,11 +60,11 @@
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: model?.orgUnit
+            params: model.orgUnit
           } | cxUrl
         "
       >
-        {{ model?.orgUnit?.name }}
+        {{ model.orgUnit?.name }}
       </a>
     </div>
   </div>
@@ -80,5 +80,5 @@
     displayCloseButton: true
   }"
 >
-  {{ model?.name }}
+  {{ model.name }}
 </button>

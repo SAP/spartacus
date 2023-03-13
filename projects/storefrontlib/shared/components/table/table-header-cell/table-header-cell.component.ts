@@ -6,6 +6,8 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { getLastValueSync } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
@@ -15,7 +17,9 @@ import {
 
 @Component({
   selector: 'cx-table-header-cell',
-  template: `{{ header || (localizedHeader | cxTranslate) }}`,
+  template: `{{
+    (header$ | async) || (localizedHeader$ | async | cxTranslate)
+  }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableHeaderCellComponent {
@@ -24,10 +28,14 @@ export class TableHeaderCellComponent {
   /**
    * Returns the static label for the given field, if available.
    */
-  get header(): string | undefined {
-    if (typeof this.fieldOptions?.label === 'string') {
-      return <string>this.fieldOptions.label;
-    }
+  get header$(): Observable<string | undefined> {
+    return this.fieldOptions$.pipe(
+      map((fieldOptions) =>
+        typeof fieldOptions?.label === 'string'
+          ? <string>fieldOptions.label
+          : undefined
+      )
+    );
   }
 
   /**
@@ -40,29 +48,40 @@ export class TableHeaderCellComponent {
    *
    * The localized header can be translated with the `cxTranslate` pipe or `TranslationService`.
    */
-  get localizedHeader(): string {
-    return (
-      (this.fieldOptions?.label as TableHeader)?.i18nKey ||
-      `${this.i18nRoot}.${this.field}`
+  get localizedHeader$(): Observable<string> {
+    return this.fieldOptions$.pipe(
+      map(
+        (fieldOptions) =>
+          (fieldOptions?.label as TableHeader)?.i18nKey ||
+          `${this.i18nRoot}.${this.field}`
+      )
     );
   }
 
-  protected get fieldOptions(): TableFieldOptions | undefined {
-    const context = getLastValueSync(this.outlet.context$);
-    return this.field ? context?._options?.cells?.[this.field] : undefined;
+  protected get fieldOptions$(): Observable<TableFieldOptions | undefined> {
+    // const context = getLastValueSync(this.outlet.context$);
+    return this.outlet.context$.pipe(
+      map((context) =>
+        this.field ? context?._options?.cells?.[this.field] : undefined
+      )
+    );
+    // return this.field ? context?._options?.cells?.[this.field] : undefined;
   }
 
+  // protected get field$(): Observable<string | undefined> {
   protected get field(): string | undefined {
+    // return this.outlet.context$.pipe(map((context) => context?._field));
     const context = getLastValueSync(this.outlet.context$);
     return context?._field;
   }
 
-  protected get type(): string | undefined {
-    const context = getLastValueSync(this.outlet.context$);
-    return context?._type;
+  protected get type$(): Observable<string | undefined> {
+    return this.outlet.context$.pipe(map((context) => context?._type));
   }
 
   protected get i18nRoot(): string | undefined {
+    // protected get i18nRoot$(): Observable<string | undefined> {
+    // return this.outlet.context$.pipe(map((context) => context?._i18nRoot));
     const context = getLastValueSync(this.outlet.context$);
     return context?._i18nRoot;
   }

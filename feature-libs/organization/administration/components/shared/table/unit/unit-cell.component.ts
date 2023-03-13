@@ -14,6 +14,6 @@ import { CellComponent } from '../cell.component';
 })
 export class UnitCellComponent extends CellComponent {
   get property() {
-    return this.model?.unit?.name ?? this.model?.orgUnit?.name;
+    return this.model.unit?.name ?? this.model.orgUnit?.name;
   }
 }

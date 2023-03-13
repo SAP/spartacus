@@ -11,15 +11,15 @@
           } | cxUrl
         "
       >
-        {{ model?.code }}
+        {{ model.code }}
       </a>
     </div>
 
     <div class="property">
       <label>{{ 'orgPurchaseLimit.active' | cxTranslate }}</label>
-      <span class="value" [class.is-active]="model?.active">
+      <span class="value" [class.is-active]="model.active">
         {{
-          (model?.active ? 'organization.enabled' : 'organization.disabled')
+          (model.active ? 'organization.enabled' : 'organization.disabled')
             | cxTranslate
         }}
       </span>
@@ -30,37 +30,37 @@
         'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
       }}</label>
       <span class="value">
-        {{ model?.orderApprovalPermissionType?.name }}
+        {{ model.orderApprovalPermissionType?.name }}
       </span>
     </div>
 
-    <div class="property" *ngIf="model?.threshold || model?.threshold === 0">
+    <div class="property" *ngIf="model.threshold || model.threshold === 0">
       <label>{{ 'orgPurchaseLimit.threshold' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.threshold }} {{ model?.currency?.symbol }}
+        {{ model.threshold }} {{ model.currency?.symbol }}
       </span>
     </div>
 
-    <div class="property" *ngIf="model?.periodRange">
+    <div class="property" *ngIf="model.periodRange">
       <label>{{ 'orgPurchaseLimit.periodRange' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.periodRange }}
+        {{ model.periodRange }}
       </span>
     </div>
 
     <div class="property">
       <label>{{ 'orgPurchaseLimit.unit' | cxTranslate }}</label>
       <a
-        *ngIf="model?.code"
+        *ngIf="model.code"
         class="value"
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: model?.orgUnit
+            params: model.orgUnit
           } | cxUrl
         "
       >
-        {{ model?.orgUnit?.name }}
+        {{ model.orgUnit?.name }}
       </a>
     </div>
   </div>
@@ -76,5 +76,5 @@
     displayCloseButton: true
   }"
 >
-  {{ model?.code }}
+  {{ model.code }}
 </button>

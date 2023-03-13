@@ -11,14 +11,14 @@
           } | cxUrl
         "
       >
-        {{ model?.name }}
+        {{ model.name }}
       </a>
     </div>
 
     <div class="property">
       <label>{{ 'orgCostCenter.code' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.code }}
+        {{ model.code }}
       </span>
     </div>
 
@@ -26,11 +26,11 @@
       <label>{{ 'orgCostCenter.active' | cxTranslate }}</label>
       <span
         class="value"
-        [class.is-active]="model?.active"
-        [class.is-inactive]="!model?.active"
+        [class.is-active]="model.active"
+        [class.is-inactive]="!model.active"
       >
         {{
-          (model?.active ? 'organization.enabled' : 'organization.disabled')
+          (model.active ? 'organization.enabled' : 'organization.disabled')
             | cxTranslate
         }}
       </span>
@@ -40,22 +40,22 @@
       <label>{{ 'orgCostCenter.currency' | cxTranslate }}</label>
 
       <span class="value">
-        {{ model?.currency?.isocode }}
+        {{ model.currency?.isocode }}
       </span>
     </div>
 
-    <div class="property" *ngIf="model?.unit">
+    <div class="property" *ngIf="model.unit">
       <label>{{ 'orgCostCenter.unit' | cxTranslate }}</label>
       <a
         class="value"
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: model?.unit
+            params: model.unit
           } | cxUrl
         "
       >
-        {{ model?.unit?.name }}
+        {{ model.unit?.name }}
       </a>
     </div>
   </div>
@@ -71,5 +71,5 @@
     displayCloseButton: true
   }"
 >
-  {{ model?.name }}
+  {{ model.name }}
 </button>

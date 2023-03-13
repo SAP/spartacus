@@ -9,28 +9,28 @@
 <ng-template #threshold>
   <span
     class="text"
-    title="{{ model?.threshold }} {{ model?.currency?.symbol }} {{
-      'orgPurchaseLimit.per.' + model?.periodRange | cxTranslate
+    title="{{ model.threshold }} {{ model.currency?.symbol }} {{
+      'orgPurchaseLimit.per.' + model.periodRange | cxTranslate
     }}"
     *ngIf="isTimeSpanThreshold"
   >
-    {{ model?.threshold }} {{ model?.currency?.symbol }}
-    {{ 'orgPurchaseLimit.per.' + model?.periodRange | cxTranslate }}
+    {{ model.threshold }} {{ model.currency?.symbol }}
+    {{ 'orgPurchaseLimit.per.' + model.periodRange | cxTranslate }}
   </span>
 
   <span
     class="text"
-    title="{{ model?.threshold }} {{ model?.currency?.symbol }}"
+    title="{{ model.threshold }} {{ model.currency?.symbol }}"
     *ngIf="isOrderThreshold"
   >
-    {{ model?.threshold }} {{ model?.currency?.symbol }}
+    {{ model.threshold }} {{ model.currency?.symbol }}
   </span>
 
   <span
     class="text"
-    title="{{ model?.orderApprovalPermissionType.name }}"
+    title="{{ model.orderApprovalPermissionType.name }}"
     *ngIf="isExceedPermission"
   >
-    {{ model?.orderApprovalPermissionType.name }}
+    {{ model.orderApprovalPermissionType.name }}
   </span>
 </ng-template>

@@ -7,18 +7,18 @@
         [routerLink]="
           {
             cxRoute: 'orgUnitDetails',
-            params: { uid: model?.id }
+            params: { uid: model.id }
           } | cxUrl
         "
       >
-        {{ model?.name }}
+        {{ model.name }}
       </a>
     </div>
 
     <div class="property">
       <label>{{ 'orgUnit.uid' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.id }}
+        {{ model.id }}
       </span>
     </div>
 
@@ -26,16 +26,16 @@
       <label>{{ 'orgUnit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model?.active">
         {{
-          (model?.active ? 'organization.enabled' : 'organization.disabled')
+          (model.active ? 'organization.enabled' : 'organization.disabled')
             | cxTranslate
         }}
       </span>
     </div>
 
-    <div class="property" *ngIf="model?.approvalProcess?.name">
+    <div class="property" *ngIf="model.approvalProcess?.name">
       <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
       <span class="value">
-        {{ model?.approvalProcess?.name }}
+        {{ model.approvalProcess?.name }}
       </span>
     </div>
   </div>
@@ -51,5 +51,5 @@
     displayCloseButton: true
   }"
 >
-  {{ model?.name }}
+  {{ model.name }}
 </button>

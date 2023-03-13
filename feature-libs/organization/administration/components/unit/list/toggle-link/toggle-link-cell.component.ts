@@ -22,7 +22,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
-    return this.model?.depthLevel;
+    return this.model.depthLevel;
   }
 
   constructor(
@@ -41,14 +41,14 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   get expanded() {
-    return this.model?.expanded;
+    return this.model.expanded;
   }
 
   /**
    * Counts the number of descendants
    */
   get count() {
-    return this.model?.count;
+    return this.model.count;
   }
 
   toggleItem(event: Event) {
