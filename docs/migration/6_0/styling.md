@@ -63,4 +63,19 @@
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
  
 #### Forms styling
+
 - `border-color: var(--cx-color-medium);` changed to `border-color: var(--cx-color-medium);`
+
+#### ReplenishmentOrderHistoryComponent
+
+- removed `text-decoration: underline; text-transform: uppercase; color: var(--cx-color-primary);padding-inline-start: 0;  color: var(--cx-color-text);` from `.cx-order-cancel`.
+- removed `tfm 5.1 wrapper ` on line 87. It was giving the wrong color.
+- removed `tfm 5.1 wrapper ` on `.cx-order-cancel`
+
+#### OrderHistoryComponent
+
+- `.cx-order-history-code` added `color: var(--cx-color-primary);`
+
+#### UnitLevelOrderHistoryComponent
+
+-  Added  `(--cx-color-primary)` to `.cx-unit-level-order-history-code .cx-unit-level-order-history-value`
