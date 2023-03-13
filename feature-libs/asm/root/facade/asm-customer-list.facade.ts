@@ -17,7 +17,14 @@ import { CustomerListsPage } from '../model/customer-list.model';
     facadeFactory({
       facade: AsmCustomerListFacade,
       feature: ASM_FEATURE,
-      methods: ['getCustomerLists', 'getCustomerListsState'],
+      methods: [
+        'getCustomerLists',
+        'getCustomerListsState',
+        'customerListCustomersSearch',
+        'getCustomerListCustomersSearchResults',
+        'getCustomerListCustomersSearchResultsLoading',
+        'customerListCustomersSearchReset',
+      ],
     }),
 })
 export abstract class AsmCustomerListFacade {
