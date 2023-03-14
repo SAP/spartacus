@@ -83,11 +83,11 @@ export function fillShippingAddress(
           .get('[formcontrolname="postalCode"]')
           .clear()
           .type(shippingAddress.address.postal);
-      shippingAddress?.cellphone &&
+      shippingAddress?.phone &&
         cy
           .get('[formcontrolname="phone"]')
           .clear()
-          .type(shippingAddress.cellphone);
+          .type(shippingAddress.phone);
     }
     if (submitForm) {
       cy.get('button.btn-primary').click();
