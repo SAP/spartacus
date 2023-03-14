@@ -148,7 +148,10 @@
 
 ### CheckoutTranslations
 
-- Removed `deliveryAddress` translation from `checkoutProgress` and `checkoutAddress`
+- Changed default English translation for key `checkoutProgress.paymentDetails` from `Payment Details` to `Payment`
+- Changed default English translation for key `checkoutProgress.reviewOrder` from `Review Order` to `Review`
+- Changed default English translation for key `checkoutProgress.deliveryAddress` from `Delivery Address` to `Shipping Address`
+- Removed English translation key for `checkoutAddress.deliveryAddress`. In default templates it is replaced with `checkoutAddress.shippingAddress`
 
 ### CheckoutDeliveryModeComponent
 
