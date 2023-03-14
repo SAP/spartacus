@@ -138,5 +138,10 @@
 - Now as well contains information about the knowledge base that was used to run the configuration. This information
   is only visible in case expert mode is active. The knowledge base related information is enclosed with `<div class="cx-kb-key-details">`
 
+#### CSAgentLoginFormComponent
 
+- Replaced `div.spinner` tag with `cx-dot-spinner`. And changing assertions to `expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();` in unit tests.
 
+#### CustomerSelectionComponent
+
+- Replaced `div.spinner` tag with `cx-dot-spinner`. And changing assertions to `expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();` in unit tests.

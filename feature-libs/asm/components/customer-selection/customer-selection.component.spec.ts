@@ -152,7 +152,6 @@ describe('CustomerSelectionComponent', () => {
     customerSearchResultsLoading.next(true);
     fixture.detectChanges();
 
-    // TODO: (CXSPA-1291) Change div.spinner to use cx-dot-spinner component
     expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
   });
