@@ -92,15 +92,15 @@ export class DeliveryPointsService {
   ): Observable<Array<DeliveryPointOfService>> {
     return of(entries).pipe(
       map(
-        (entries): Array<OrderEntry> =>
-          entries.filter((entry) => !!entry.deliveryPointOfService)
+        (items): Array<OrderEntry> =>
+          items.filter((entry) => !!entry.deliveryPointOfService)
       ),
-      switchMap((entries) =>
+      switchMap((elements) =>
         iif(
-          () => !!entries.length,
-          of(entries).pipe(
-            map((_entries): Array<OrderEntry> => {
-              const COPY = [..._entries];
+          () => !!elements.length,
+          of(elements).pipe(
+            map((_elements): Array<OrderEntry> => {
+              const COPY = [..._elements];
               COPY.sort(
                 (a: OrderEntry, b: OrderEntry) =>
                   a.deliveryPointOfService?.name?.localeCompare(

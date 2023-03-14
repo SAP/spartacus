@@ -448,7 +448,8 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
-        1
+        1,
+        commerceRelease.isPricingEnabled
       );
 
       configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
@@ -456,7 +457,8 @@ context('Product Configuration', () => {
       configurationVc.deselectConflictingValueAndWait(
         GAMING_CONSOLE,
         radioGroup,
-        GAMING_CONSOLE_NO
+        GAMING_CONSOLE_NO,
+        commerceRelease.isPricingEnabled
       );
 
       configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
@@ -465,7 +467,8 @@ context('Product Configuration', () => {
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_YES,
-        1
+        1,
+        commerceRelease.isPricingEnabled
       );
 
       // Navigate to a conflict group via clicking on 'Conflict Detected' link
