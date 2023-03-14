@@ -69,11 +69,14 @@
   including the page template `cx-configurator-template`. 
   Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
- 
 
 ### Font Awesome Icons
 
-The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
+- The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
+
+### Fonts library
+
+- CSS fonts were downloaded in runtime from third party servers using Google Fonts. It is now replaced by Fontsource library, a self-hosted solution. The css fonts asset is now bundled with the Spartacus styles. This change is done to comply with security best practices.
 
 ### PaymentMethodsComponent
 
