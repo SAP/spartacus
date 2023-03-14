@@ -95,3 +95,7 @@
 #### QuickOrderComponent
 
 - added `input {height: 47px;}` to fix the input height on focus.
+
+#### AnonymousConsentManagementBannerComponent 
+
+- Added `button {margin-bottom: 10px;}` to line 29.

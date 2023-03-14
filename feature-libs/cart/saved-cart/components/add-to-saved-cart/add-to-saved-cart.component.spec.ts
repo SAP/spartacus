@@ -214,15 +214,14 @@ describe('AddToSavedCartComponent', () => {
         it('when saved cart button is disabled', () => {
           spyOn(routingService, 'go').and.callThrough();
           component.disableSaveCartForLater$ = of(true);
-    
+
           component.saveCart(mockCart);
-    
+
           expect(routingService.go).not.toHaveBeenCalledWith({
             cxRoute: 'login',
-          })
-        })
+          });
+        });
       });
-
     });
   });
 });
