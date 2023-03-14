@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as configurationVc from './product-configurator-vc';
 
 const COMPONENT_SELECTOR = 'cx-configurator-restart-dialog';
