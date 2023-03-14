@@ -18,7 +18,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { mergeMap, switchMap, take, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAddressesEffects {
@@ -28,9 +28,11 @@ export class CdcUserAddressesEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
-        mergeMap(() => {
-          return this.updateDefaultAddressInCDC().pipe(
-            tap((error) => this.showErrorMessage(error))
+        map(() => {
+          this.updateDefaultAddressInCDC().pipe(
+            tap({
+              error: (error) => this.showErrorMessage(error),
+            })
           );
         })
       ),
@@ -47,8 +49,8 @@ export class CdcUserAddressesEffects {
         ),
         mergeMap(() => {
           return this.updateDefaultAddressInCDC().pipe(
-            tap((error) => {
-              this.showErrorMessage(error);
+            tap({
+              error: (error) => this.showErrorMessage(error),
             })
           );
         })
@@ -60,10 +62,10 @@ export class CdcUserAddressesEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
-        switchMap(() => {
-          return this.updateDefaultAddressInCDC().pipe(
-            tap((error) => {
-              this.showErrorMessage(error);
+        map(() => {
+          this.updateDefaultAddressInCDC().pipe(
+            tap({
+              error: (error) => this.showErrorMessage(error),
             })
           );
         })
