@@ -96,6 +96,7 @@ function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add @spartacus/organization@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
+        ng add @spartacus/product --skip-confirmation --no-interactive --features "Future-Stock"
     fi
 }
 
