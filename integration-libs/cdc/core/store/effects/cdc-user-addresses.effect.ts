@@ -18,7 +18,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
+import { mergeMap, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAddressesEffects {
@@ -28,12 +28,9 @@ export class CdcUserAddressesEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
-        map(() => {
-          this.updateDefaultAddressInCDC().pipe(
-            tap({
-              error: (error) => this.showErrorMessage(error),
-            })
-          );
+        mergeMap(() => this.updateDefaultAddressInCDC()),
+        tap({
+          error: (error) => this.showErrorMessage(error),
         })
       ),
     { dispatch: false }
@@ -47,12 +44,9 @@ export class CdcUserAddressesEffects {
           UserActions.LOAD_USER_ADDRESSES /* needed because `updateUserAddress$` dispatches a LOAD_USER_ADDRESSES
                                              in the scenario where an address is set as default from the address book page */
         ),
-        mergeMap(() => {
-          return this.updateDefaultAddressInCDC().pipe(
-            tap({
-              error: (error) => this.showErrorMessage(error),
-            })
-          );
+        mergeMap(() => this.updateDefaultAddressInCDC()),
+        tap({
+          error: (error) => this.showErrorMessage(error),
         })
       ),
     { dispatch: false }
@@ -62,12 +56,9 @@ export class CdcUserAddressesEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
-        map(() => {
-          this.updateDefaultAddressInCDC().pipe(
-            tap({
-              error: (error) => this.showErrorMessage(error),
-            })
-          );
+        mergeMap(() => this.updateDefaultAddressInCDC()),
+        tap({
+          error: (error) => this.showErrorMessage(error),
         })
       ),
     { dispatch: false }

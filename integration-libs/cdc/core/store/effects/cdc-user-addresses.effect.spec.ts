@@ -23,9 +23,7 @@ class MockGlobalMessageService {
 }
 
 class MockCdcJsService implements Partial<CdcJsService> {
-  updateAddressWithoutScreenSet = jasmine
-    .createSpy()
-    .and.returnValue(of({ status: 'OK' }));
+  updateAddressWithoutScreenSet = jasmine.createSpy();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -67,7 +65,7 @@ const mockCountry: Country = {
 
 const mockCountries: Country[] = [mockCountry];
 
-xdescribe('CDC User Addresses effect', () => {
+describe('CDC User Addresses effect', () => {
   let cdcUserAddressesEffect: fromUserAddressesEffect.CdcUserAddressesEffects;
   let userAddressConnector: UserAddressConnector;
   let actions$: Observable<any>;
@@ -115,7 +113,7 @@ xdescribe('CDC User Addresses effect', () => {
   });
 
   describe('cdcAddUserAddress$', () => {
-    it('should send default address to CDC on load addresses success', () => {
+    it('should send default address to CDC on add addresses success', () => {
       const action = new UserActions.AddUserAddressSuccess(mockUserAddresses);
 
       actions$ = hot('-a', { a: action });
@@ -157,7 +155,7 @@ xdescribe('CDC User Addresses effect', () => {
     it('should delete user address', () => {
       const action = new UserActions.DeleteUserAddressSuccess({});
 
-      actions$ = hot('a', { a: action });
+      actions$ = hot('-a', { a: action });
       const expected = cold('');
       expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
         expected
@@ -217,8 +215,11 @@ xdescribe('CDC User Addresses effect', () => {
     });
   });
 
-  describe('updateDefaultAddressInCDC', () => {
+  xdescribe('updateDefaultAddressInCDC', () => {
     it('should invoke CDC JS service', () => {
+      cdcJSService.updateAddressWithoutScreenSet = jasmine
+        .createSpy()
+        .and.returnValue(of({ status: 'OK' }));
       cdcUserAddressesEffect.updateDefaultAddressInCDC();
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
         mockUserAddress.formattedAddress,
@@ -229,8 +230,11 @@ xdescribe('CDC User Addresses effect', () => {
     });
   });
 
-  describe('sendAddressToCDC', () => {
+  xdescribe('sendAddressToCDC', () => {
     it('should invoke CDC JS service', (done) => {
+      cdcJSService.updateAddressWithoutScreenSet = jasmine
+        .createSpy()
+        .and.returnValue(of({ status: 'OK' }));
       cdcUserAddressesEffect.sendAddressToCDC(mockUserAddress);
       expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
       userAddressService.getDeliveryCountries().subscribe((countries) => {
