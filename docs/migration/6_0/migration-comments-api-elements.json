@@ -12,6 +12,6 @@
   {
     "apiElementName": "AsmConfig",
     "entryPoint": "@spartacus/asm/core",
-    "migrationComment": "Use class @spartacus/asm/root/AsmConfig instead."
+    "migrationComment": "Use class 'AsmConfig' from '@spartacus/asm/root' instead."
   }
 ]
