@@ -116,3 +116,12 @@ export enum RenderingStrategy {
   DEFAULT = 0,
   ALWAYS_SSR = 1,
 }
+
+export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+  concurrency: 10,
+  timeout: 3_000,
+  forcedSsrTimeout: 60_000,
+  maxRenderTime: 300_000,
+  reuseCurrentRendering: true,
+  debug: false,
+};
