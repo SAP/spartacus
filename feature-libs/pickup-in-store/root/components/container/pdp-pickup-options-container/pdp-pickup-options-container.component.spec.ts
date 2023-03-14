@@ -184,6 +184,29 @@ describe('PickupOptionsComponent', () => {
       ).toHaveBeenCalledWith('productCode');
       expect(component.availableForPickup).toBe(true);
     });
+
+    it('should call setPickupOption on pickup option change ', () => {
+      spyOn(intendedPickupLocationService, 'setPickupOption');
+      const option = 'pickup';
+      const productCode = 'productCode';
+      component.onPickupOptionChange(option);
+      expect(
+        intendedPickupLocationService.setPickupOption
+      ).toHaveBeenCalledWith(productCode, option);
+    });
+
+    it('should return nothing if pickup option is delivery ', () => {
+      const option = 'delivery';
+      component.onPickupOptionChange(option);
+    });
+
+    it('should open dialog if displayName is not set on pickup option change', () => {
+      spyOn(component, 'openDialog');
+      component['displayNameIsSet'] = false;
+      const option = 'pickup';
+      component.onPickupOptionChange(option);
+      expect(component.openDialog).toHaveBeenCalled();
+    });
   });
   describe('without current product', () => {
     beforeEach(() => {

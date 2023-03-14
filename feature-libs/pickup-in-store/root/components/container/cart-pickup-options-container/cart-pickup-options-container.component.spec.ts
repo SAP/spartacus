@@ -49,6 +49,9 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
     _pickupInStore: string,
     _pickupLocation?: boolean
   ): void {}
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
 }
 
 export class MockAnonymousUserActiveCartFacade
@@ -71,6 +74,9 @@ export class MockAnonymousUserActiveCartFacade
     _pickupInStore: string,
     _pickupLocation?: boolean
   ): void {}
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
 }
 
 class MockCmsService {
@@ -180,6 +186,11 @@ describe('CartPickupOptionsContainerComponent', () => {
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
+    it('should check call update Entry on pickup option change when option is pickup', () => {
+      component['displayNameIsSet'] = false;
+      component.onPickupOptionChange('pickup');
+    });
+
     it('should set cartId to active cart id', () => {
       spyOn(activeCartService, 'getActive').and.callThrough();
       component.ngOnInit();
@@ -265,6 +276,32 @@ describe('CartPickupOptionsContainerComponent', () => {
 
     it('should display nothing', () => {
       expect(fixture.debugElement.children.length).toEqual(0);
+    });
+  });
+
+  describe('with context without order entry', () => {
+    beforeEach(() => {
+      configureTestingModule()
+        .overrideProvider(OutletContextData, {
+          useValue: {
+            context$: of({
+              item: {
+                ...mockOutletContext.item,
+                product: {
+                  ...mockOutletContext.item.product,
+                  availableForPickup: false,
+                },
+              },
+              cartType: 'cart',
+            } as OrderEntry),
+          },
+        })
+        .compileComponents();
+      stubServiceAndCreateComponent();
+    });
+
+    it('should set value for disableControls', () => {
+      component.ngOnInit();
     });
   });
 });
