@@ -19,7 +19,8 @@ export class CustomConfiguratorVariantNormalizer extends OccConfiguratorVariantN
   ): void {
     super.convertAttribute(sourceAttribute, attributeList);
     const currentAttribute = attributeList[attributeList.length - 1];
-    console.log('CHHI current attribute: ' + currentAttribute.name);
-    //currentAttribute.uiTypeVariation = 'RADIO_BUTTON___color';
+    if (currentAttribute.name.includes('CLRX')) {
+      currentAttribute.uiTypeVariation = 'STRING___color';
+    }
   }
 }

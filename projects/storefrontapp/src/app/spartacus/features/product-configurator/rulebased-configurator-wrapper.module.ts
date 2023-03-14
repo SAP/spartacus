@@ -12,7 +12,7 @@ import {
 import { RulebasedCpqConfiguratorModule } from '@spartacus/product-configurator/rulebased/cpq';
 import { environment } from '../../../../environments/environment';
 import { CustomAttributeHeaderModule } from '../../../custom/components/custom-attribute-header.module';
-import { CustomAttributeRadioButtonModule } from '../../../custom/components/custom-attribute-radio-button.module';
+import { CustomAttributeInputFieldModule } from '../../../custom/components/custom-attribute-input-field.module';
 import { CustomConfiguratorVariantNormalizer } from '../../../custom/converters/custom-configurator-variant-normalizer';
 
 const extensions: Type<any>[] = [];
@@ -24,8 +24,7 @@ if (environment.cpq) {
 @NgModule({
   imports: [
     RulebasedConfiguratorModule,
-
-    CustomAttributeRadioButtonModule,
+    CustomAttributeInputFieldModule,
     CustomAttributeHeaderModule,
     ...extensions,
   ],

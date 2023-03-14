@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorAttributeCompositionConfig } from '@spartacus/product-configurator/rulebased';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { CustomAttributeRadioButtonComponent } from './custom-attribute-radio-button.component';
+import { CustomAttributeInputFieldComponent } from './custom-attribute-input-field.component';
 import {
   MAT_COLOR_FORMATS,
   NgxMatColorPickerModule,
@@ -41,13 +41,12 @@ import { MatSelectModule } from '@angular/material/select';
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
       productConfigurator: {
         assignment: {
-          AttributeType_RADIO_BUTTON___color:
-            CustomAttributeRadioButtonComponent,
+          AttributeType_STRING___color: CustomAttributeInputFieldComponent,
         },
       },
     }),
   ],
-  declarations: [CustomAttributeRadioButtonComponent],
-  exports: [CustomAttributeRadioButtonComponent],
+  declarations: [CustomAttributeInputFieldComponent],
+  exports: [CustomAttributeInputFieldComponent],
 })
-export class CustomAttributeRadioButtonModule {}
+export class CustomAttributeInputFieldModule {}
