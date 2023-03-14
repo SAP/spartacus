@@ -88,7 +88,7 @@ export function registerCreateConfigurationRoute() {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-      )}/products/*/configurators/ccpconfigurator*`,
+    )}/products/*/configurators/ccpconfigurator*`,
   }).as(CREATE_CONFIG_ALIAS.substring(1)); // strip the '@'
 }
 
