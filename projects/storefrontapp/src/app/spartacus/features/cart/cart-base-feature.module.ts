@@ -24,9 +24,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [CART_BASE_FEATURE]: {
           module: () =>
-            import('./cart-base-wrapper.module').then(
-              (m) => m.CartBaseWrapperModule
-            ),
+            import('@spartacus/cart/base').then((m) => m.CartBaseModule),
         },
       },
     }),

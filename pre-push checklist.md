@@ -27,4 +27,6 @@ If we have changed other feature libraries we should run the unit tests for thos
 - `npm run generate:deps`
 - `npm run config:update`
 - `npm run config:update --bump-version`
-- `npm --prefix feature-libs/pickup-in-store run test:schematics --coverage=true` (schematics unit tests)
+- `npm --prefix feature-libs/pickup-in-store run test:schematics --coverage=true`
+(schematics unit tests)
+- `npm run build:schematics`

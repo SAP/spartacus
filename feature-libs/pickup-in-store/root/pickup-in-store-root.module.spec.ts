@@ -4,6 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CmsConfig } from '@spartacus/core';
 
+import { STORE_FINDER_FEATURE } from '@spartacus/storefinder/root';
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
   PICKUP_IN_STORE_FEATURE,
@@ -22,6 +23,7 @@ const MockCmsConfig: CmsConfig = {
         'OrderConfirmationPickUpComponent',
         'PickupInStoreDeliveryModeComponent',
       ],
+      dependencies: [STORE_FINDER_FEATURE],
     },
     [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
   },

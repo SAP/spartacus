@@ -13,23 +13,11 @@ import {
   MockPickupLocationConnectorWithError,
 } from '../../connectors/pickup-location.connector.spec';
 import {
-  DeliveryModeSetPickupOptionToDeliverySuccess,
   GetStoreDetailsById,
-  SetPickupOptionToDelivery,
-  SetPickupOptionToDeliverySuccess,
-  SetPickupOptionToPickupInStore,
-  SetPickupOptionToPickupInStoreSuccess,
   SetStoreDetailsFailure,
   SetStoreDetailsSuccess,
 } from '../actions/pickup-location.action';
 import { PickupLocationEffect } from './pickup-location.effect';
-
-const cartId = 'cartId';
-const entryNumber = 1;
-const userId = 'userId';
-const productCode = 'code';
-const storeName = 'storeName';
-const quantity = 1;
 
 describe('PickupLocationEffect', () => {
   let pickupLocationEffects: PickupLocationEffect;
@@ -62,61 +50,6 @@ describe('PickupLocationEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(pickupLocationEffects.storeDetails$).toBeObservable(expected);
-  });
-
-  it('should call the connection on the SET_PICKUP_OPTION_TO_DELIVERY action and create SetPickupOptionDeliverySuccess action', () => {
-    spyOn(
-      pickupLocationConnector,
-      'setPickupOptionToDelivery'
-    ).and.callThrough();
-    const action = SetPickupOptionToDelivery({
-      payload: { cartId, entryNumber, userId, productCode, quantity },
-    });
-    const actionSuccess = SetPickupOptionToDeliverySuccess();
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-(b)', { b: actionSuccess });
-    expect(pickupLocationEffects.setPickupOptionToDelivery$).toBeObservable(
-      expected
-    );
-  });
-
-  it('should call the connection on the SET_PICKUP_OPTION_TO_DELIVERY action and create DeliveryModeSetPickupOptionToDeliverySuccess action', () => {
-    spyOn(
-      pickupLocationConnector,
-      'setPickupOptionToDelivery'
-    ).and.callThrough();
-    const action = SetPickupOptionToDelivery({
-      payload: {
-        cartId,
-        entryNumber,
-        userId,
-        productCode,
-        quantity,
-        page: 'CheckoutDeliveryMode',
-      },
-    });
-    const actionSuccess = DeliveryModeSetPickupOptionToDeliverySuccess();
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-(b)', { b: actionSuccess });
-    expect(pickupLocationEffects.setPickupOptionToDelivery$).toBeObservable(
-      expected
-    );
-  });
-
-  it('should call the connection on the SET_PICKUP_OPTION_TO_PICKUP_IN_STORE action and create SetPickupOptionInStoreSuccess action', () => {
-    spyOn(
-      pickupLocationConnector,
-      'setPickupOptionToPickupInStore'
-    ).and.callThrough();
-    const action = SetPickupOptionToPickupInStore({
-      payload: { cartId, entryNumber, userId, storeName, quantity },
-    });
-    const actionSuccess = SetPickupOptionToPickupInStoreSuccess();
-    actions$ = hot('-a', { a: action });
-    const expected = cold('-(b)', { b: actionSuccess });
-    expect(
-      pickupLocationEffects.setPickupOptionToPickupInStore$
-    ).toBeObservable(expected);
   });
 });
 

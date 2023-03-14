@@ -78,7 +78,7 @@ npm --prefix feature-libs/tracking run test:schematics -- --coverage
 
 echo "Running unit tests and code coverage for pickup-in-store library"
 
-ng test pickup-in-store --source-map --watch=false --code-coverage --browsers=ChromeHeadless
+ng test pickup-in-store --source-map --no-watch --code-coverage --browsers=ChromeHeadless
 
 echo "Running schematics unit tests and code coverage for pickup-in-store library"
 
