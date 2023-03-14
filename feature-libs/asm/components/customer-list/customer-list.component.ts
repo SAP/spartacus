@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/core';
 import {
   AsmCustomerListFacade,
   CustomerListColumnActionType,
@@ -79,7 +79,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected asmService: AsmService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
@@ -124,7 +123,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     );
 
     this.customerSearchError$ =
-      this.asmService.getCustomerListCustomersSearchResultsError();
+      this.asmCustomerListFacade.getCustomerListCustomersSearchResultsError();
 
     this.customerSearchPage$ = this.asmCustomerListFacade
       .getCustomerListCustomersSearchResults()

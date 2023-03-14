@@ -24,6 +24,7 @@ import { CustomerListsPage } from '../model/customer-list.model';
         'getCustomerListCustomersSearchResults',
         'getCustomerListCustomersSearchResultsLoading',
         'customerListCustomersSearchReset',
+        'getCustomerListCustomersSearchResultsError',
       ],
     }),
 })
@@ -34,4 +35,5 @@ export abstract class AsmCustomerListFacade {
   abstract getCustomerListCustomersSearchResults(): Observable<CustomerSearchPage>;
   abstract getCustomerListCustomersSearchResultsLoading(): Observable<boolean>;
   abstract customerListCustomersSearchReset(): void;
+  abstract getCustomerListCustomersSearchResultsError(): Observable<boolean>;
 }

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/core';
 import {
   AsmCustomerListFacade,
   CustomerListColumnActionType,
@@ -155,12 +155,6 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockAsmService implements Partial<AsmService> {
-  getCustomerListCustomersSearchResultsError(): Observable<boolean> {
-    return of(false);
-  }
-}
-
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
     return of(BREAKPOINT.md);
@@ -183,6 +177,10 @@ class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
   getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
     return of(false);
   }
+
+  getCustomerListCustomersSearchResultsError(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 @Directive({
@@ -196,7 +194,6 @@ describe('CustomerListComponent', () => {
   let component: CustomerListComponent;
   let fixture: ComponentFixture<CustomerListComponent>;
   let launchDialogService: LaunchDialogService;
-  let asmService: AsmService;
   let breakpointService: BreakpointService;
   let config: AsmConfig;
   let asmCustomerListFacade: AsmCustomerListFacade;
@@ -211,7 +208,6 @@ describe('CustomerListComponent', () => {
           MockKeyboadFocusDirective,
         ],
         providers: [
-          { provide: AsmService, useClass: MockAsmService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: BreakpointService,
@@ -225,7 +221,6 @@ describe('CustomerListComponent', () => {
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       }).compileComponents();
-      asmService = TestBed.inject(AsmService);
       launchDialogService = TestBed.inject(LaunchDialogService);
       config = TestBed.inject(AsmConfig);
       breakpointService = TestBed.inject(BreakpointService);
@@ -612,7 +607,7 @@ describe('CustomerListComponent', () => {
 
   it('should notify users when customer page fails', () => {
     spyOn(
-      asmService,
+      asmCustomerListFacade,
       'getCustomerListCustomersSearchResultsError'
     ).and.returnValue(of(true));
     spyOn(

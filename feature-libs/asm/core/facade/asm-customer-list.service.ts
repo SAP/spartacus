@@ -72,4 +72,13 @@ export class AsmCustomerListService implements AsmCustomerListFacade {
   customerListCustomersSearchReset(): void {
     this.store.dispatch(new AsmActions.CustomerListCustomersSearchReset());
   }
+
+  /**
+   * Returns the customer list customers search result error status.
+   */
+  getCustomerListCustomersSearchResultsError(): Observable<boolean> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerListCustomersSearchResultsError)
+    );
+  }
 }

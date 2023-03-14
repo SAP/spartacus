@@ -130,5 +130,11 @@
     "entryPoint": "@spartacus/asm/core",
     "memberName": "customerListCustomersSearchReset",     
     "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
+  },
+  {
+    "apiElementName": "AsmService",
+    "entryPoint": "@spartacus/asm/core",
+    "memberName": "getCustomerListCustomersSearchResultsError",     
+    "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
   }
 ]
