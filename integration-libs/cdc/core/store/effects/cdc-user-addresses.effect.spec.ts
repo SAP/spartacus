@@ -13,7 +13,7 @@ import {
   UserAddressConnector,
   UserAddressService,
 } from 'projects/core/src/user';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import * as fromUserAddressesEffect from './cdc-user-addresses.effect';
 import { CdcUserAddressesEffects } from './cdc-user-addresses.effect';
 import createSpy = jasmine.createSpy;
@@ -21,9 +21,7 @@ import createSpy = jasmine.createSpy;
 const mockUserId = 'user@sapcx.com';
 
 class MockCdcJsService implements Partial<CdcJsService> {
-  updateAddressWithoutScreenSet = createSpy().and.callFake(() =>
-    of({ status: 'OK' })
-  );
+  updateAddressWithoutScreenSet = () => of({ status: 'OK' });
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -121,71 +119,52 @@ describe('CDC User Addresses effect', () => {
   });
 
   describe('cdcAddUserAddress$', () => {
-    it('should not update default address in CDC and show error message if add address fails', (done) => {
-      const action = hot('-a', {
+    it('should not update default address in CDC and show error message if add address fails', () => {
+      actions$ = hot('-a', {
         a: new UserActions.AddUserAddressSuccess(mockUserAddress),
       });
+
       const error = {
         status: 'ERROR',
         errorMessage: 'Error adding default address in CDC',
       };
-      const expected = cold('-');
 
-      cdcJSService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
-        of(error)
+      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
+        throwError(error)
       );
 
-      actions$ = action;
+      const expected = cold('-#', null, error);
 
-      cdcUserAddressesEffect.cdcAddUserAddress$.subscribe(() => {
-        expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-        cdcJSService
-          .updateAddressWithoutScreenSet(mockUserAddress.formattedAddress + '')
-          .subscribe({
-            error: (error) => {
-              expect(globalMessageService.add).toHaveBeenCalledWith(
-                { key: error.errorMessage },
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
-              done();
-            },
-          });
-        done();
-      });
-
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
+      expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
         expected
+      );
+
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        error.errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
       );
     });
 
-    it('should send default address to CDC on add user addresses success', (done) => {
-      const action = hot('-a', {
+    it('should send default address to CDC on add user addresses success', () => {
+      actions$ = hot('-a', {
         a: new UserActions.AddUserAddressSuccess(mockUserAddress),
       });
-      const ok = {
-        status: 'OK',
-      };
-      const expected = cold('-');
 
-      cdcJSService.updateAddressWithoutScreenSet = createSpy().and.returnValue(
+      const ok = { status: 'OK' };
+
+      spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
         of(ok)
       );
 
-      actions$ = action;
+      const expected = cold('-b', { b: ok });
 
-      cdcUserAddressesEffect.cdcAddUserAddress$.subscribe(() => {
-        expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-        cdcJSService
-          .updateAddressWithoutScreenSet(mockUserAddress.formattedAddress + '')
-          .subscribe(() => {
-            expect(globalMessageService.add).not.toHaveBeenCalled();
-            done();
-          });
-      });
-
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
+      expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
         expected
       );
+
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
