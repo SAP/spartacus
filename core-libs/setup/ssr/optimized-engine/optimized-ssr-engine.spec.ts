@@ -7,6 +7,7 @@ import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
+  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
@@ -17,7 +18,7 @@ const host = 'my.shop.com';
 jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
-jest.spyOn(console, 'log').mockImplementation();
+const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
@@ -111,6 +112,23 @@ const getCurrentConcurrency = (
 };
 
 describe('OptimizedSsrEngine', () => {
+  describe('SsrOptimizationOptions', () => {
+    it('should use the defaults if an empty object is provided', () => {
+      const engineRunner = new TestEngineRunner({});
+      expect(engineRunner.optimizedSsrEngine['ssrOptions']).toEqual(
+        defaultSsrOptimizationOptions
+      );
+    });
+    it('should override the defaults', () => {
+      const engineRunner = new TestEngineRunner({
+        reuseCurrentRendering: false,
+      });
+      expect(engineRunner.optimizedSsrEngine['ssrOptions']).toEqual({
+        ...defaultSsrOptimizationOptions,
+        reuseCurrentRendering: false,
+      });
+    });
+  });
   describe('logOptions', () => {
     it('should log the provided options', () => {
       new TestEngineRunner({
@@ -118,23 +136,18 @@ describe('OptimizedSsrEngine', () => {
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
       });
 
-      expect(console.log).toMatchInlineSnapshot(`
-        [MockFunction] {
-          "calls": [
-            [
-              "[spartacus] SSR optimization engine initialized with the following options: {
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+        [
+          "[spartacus] SSR optimization engine initialized with the following options: {
+          "concurrency": 10,
           "timeout": 50,
+          "forcedSsrTimeout": 60000,
+          "maxRenderTime": 300000,
+          "reuseCurrentRendering": true,
+          "debug": false,
           "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
         }",
-            ],
-          ],
-          "results": [
-            {
-              "type": "return",
-              "value": undefined,
-            },
-          ],
-        }
+        ]
       `);
     });
   });
@@ -383,7 +396,7 @@ describe('OptimizedSsrEngine', () => {
 
     it('should use custom render key resolver', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
-        renderKeyResolver: (req) => req.originalUrl.substr(0, 2),
+        renderKeyResolver: (req) => req.originalUrl.substring(0, 2),
         timeout: 200,
         cache: true,
       }).request('ala');
@@ -433,10 +446,11 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['a-0']);
       }));
 
-      it('should render each request separately, even if there is already a pending render for the same rendering key', fakeAsync(() => {
+      it('when reuseCurrentRendering is false, it should render each request separately, even if there is already a pending render for the same rendering key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
           timeout: 200,
+          reuseCurrentRendering: false,
         });
         jest.spyOn(
           engineRunner.optimizedSsrEngine as any,
@@ -516,13 +530,12 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['', 'a-0']);
       }));
 
-      it('should fallback to CSR when there is already pending a render for the same rendering key', fakeAsync(() => {
+      it('when reuseCurrentRendering is false, it should fallback to CSR when there is already pending a render for the same rendering key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.DEFAULT,
           timeout: 200,
-        });
-
-        engineRunner.request('a');
+          reuseCurrentRendering: false,
+        }).request('a');
         expect(getCurrentConcurrency(engineRunner)).toEqual({
           currentConcurrency: 1,
         });
@@ -649,7 +662,10 @@ describe('OptimizedSsrEngine', () => {
       const renderTime = 200;
       const maxRenderTime = renderTime - 50; // shorter than the predicted render time
       const engineRunner = new TestEngineRunner(
-        { maxRenderTime },
+        {
+          maxRenderTime,
+          timeout: undefined,
+        },
         renderTime
       ).request(requestUrl);
       jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
@@ -761,7 +777,10 @@ describe('OptimizedSsrEngine', () => {
     describe('when disabled', () => {
       it('should fallback to CSR for parallel subsequent requests for the same rendering key', fakeAsync(() => {
         const timeout = 300;
-        const engineRunner = new TestEngineRunner({ timeout }, 400);
+        const engineRunner = new TestEngineRunner(
+          { timeout, reuseCurrentRendering: false },
+          400
+        );
         jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
 
         engineRunner.request(requestUrl);
