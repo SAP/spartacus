@@ -91,3 +91,7 @@
 #### UnitLevelOrderHistoryComponent
 
 -  Added  `(--cx-color-primary)` to `.cx-unit-level-order-history-code .cx-unit-level-order-history-value`
+
+#### QuickOrderComponent
+
+- added `input {height: 47px;}` to fix the input height on focus.
