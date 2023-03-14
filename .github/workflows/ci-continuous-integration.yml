@@ -5,6 +5,7 @@ on:
       - develop
       - release/**
       - epic/**
+      - double-check-global-broke-local
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   

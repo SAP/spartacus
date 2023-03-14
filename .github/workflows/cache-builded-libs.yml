@@ -4,6 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
+      - double-check-global-broke-local
 name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:
