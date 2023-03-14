@@ -190,8 +190,8 @@ function checkDeliveryAddressDisplayed(): void {
   cy.get('cx-delivery-address').should('be.visible');
   cy.get('cx-delivery-address').within(() => {
     checkLoadingSpinnerNotDisplayed();
-    cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
-    cy.get('p.cx-checkout-text').contains('Select your Delivery Address');
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+    cy.get('p.cx-checkout-text').contains('Select your Shipping Address');
     cy.get('.cx-checkout-body').should('be.visible');
     cy.get('.cx-checkout-btns').should('be.visible');
     cy.get('.cx-checkout-body').within(() => {
