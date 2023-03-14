@@ -18,6 +18,7 @@ const GROUP_ID_1 = 'GROUP';
 const GROUP_ID_2 = 'firstGroup';
 const ATTRIBUTE_NAME = 'ATTR_1';
 const VALUE_CODE = 'VAL';
+const CONFLICT_GUID = '5A6542';
 
 const OWNER: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
@@ -31,7 +32,10 @@ const INTERACTION_STATE: Configurator.InteractionState = {
   groupsVisited: {},
   menuParentGroup: undefined,
   issueNavigationDone: true,
+  showConflictSolverDialog: undefined,
+  newConfiguration: undefined,
 };
+
 const ATTR_VALUE: Configurator.Value = { valueCode: VALUE_CODE };
 const ATTRIBUTE: Configurator.Attribute = {
   name: ATTRIBUTE_NAME,
@@ -59,13 +63,43 @@ const CONFIGURATION: Configurator.Configuration = {
   isCartEntryUpdateRequired: false,
   interactionState: INTERACTION_STATE,
 };
+
+const CONFIGURATION_WITH_CONFLICTS_WO_ATTRIBUTE_GROUP: Configurator.Configuration =
+  {
+    ...CONFIGURATION,
+    flatGroups: [
+      ConfiguratorTestUtils.createGroup(
+        Configurator.ConflictIdPrefix + CONFLICT_GUID
+      ),
+    ],
+    interactionState: {},
+  };
 const CONFIGURATION_WITH_CONFLICTS: Configurator.Configuration = {
   ...CONFIGURATION,
   flatGroups: [
-    ConfiguratorTestUtils.createGroup(Configurator.ConflictIdPrefix + '5A6542'),
+    ConfiguratorTestUtils.createGroup(
+      Configurator.ConflictIdPrefix + CONFLICT_GUID
+    ),
+    {
+      ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
+      attributes: [{ name: ATTRIBUTE_NAME }],
+    },
   ],
   interactionState: {},
 };
+
+const CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION: Configurator.Configuration =
+  {
+    ...CONFIGURATION,
+    immediateConflictResolution: true,
+    consistent: false,
+    flatGroups: [
+      ConfiguratorTestUtils.createGroup(
+        Configurator.ConflictIdPrefix + '5A6542'
+      ),
+    ],
+    interactionState: {},
+  };
 const CONFIGURATION_WITHOUT_OV: Configurator.Configuration = {
   configId: 'ds',
   productCode: PRODUCT_CODE,
@@ -100,6 +134,7 @@ describe('Configurator reducer', () => {
         CONFIGURATION.groups[0].id
       );
     });
+
     it('should take current group from flatGroups if current group in interaction state is undefined', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration('A', OWNER),
@@ -115,6 +150,16 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.configuratorReducer(undefined, action);
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
+    });
+
+    it('should update the new configuration flag in the interaction state', () => {
+      const action = new ConfiguratorActions.CreateConfigurationSuccess({
+        ...CONFIGURATION,
+        newConfiguration: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.newConfiguration).toBe(true);
     });
   });
 
@@ -139,6 +184,24 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.menuParentGroup).toEqual(
         Configurator.ConflictHeaderId
       );
+    });
+
+    it('should set current group to first attribute group in case immediateConflictResolution is active', () => {
+      const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess({
+        ...CONFIGURATION_WITH_CONFLICTS,
+        immediateConflictResolution: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+      expect(state.interactionState.currentGroup).toEqual(GROUP_ID_1);
+    });
+
+    it('should set current group to undefined in case immediateConflictResolution is active but no attribute group exists', () => {
+      const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess({
+        ...CONFIGURATION_WITH_CONFLICTS_WO_ATTRIBUTE_GROUP,
+        immediateConflictResolution: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+      expect(state.interactionState.currentGroup).toBeUndefined();
     });
   });
 
@@ -231,6 +294,36 @@ describe('Configurator reducer', () => {
       );
 
       expect(state.overview).toBeUndefined();
+    });
+
+    it('should check on conflict solver dialog', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.showConflictSolverDialog).toEqual(true);
+    });
+
+    it('should detect that conflict solver dialog is not needed in case immediateConflictResolution is not set but conflicts are present', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        {
+          ...CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
+          immediateConflictResolution: false,
+        }
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.showConflictSolverDialog).toEqual(false);
+    });
+
+    it('should set the new configuration flag in the interaction state to false', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        CONFIGURATION
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.newConfiguration).toBe(false);
     });
   });
 
@@ -597,6 +690,33 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.interactionState.isConflictResolutionMode).toBe(true);
+    });
+  });
+
+  describe('DismissConflictDialog action', () => {
+    it('should discard conflictSolverDialog setting', () => {
+      const action = new ConfiguratorActions.DissmissConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.showConflictSolverDialog).toBe(false);
+    });
+  });
+
+  describe('CheckConflictSolverDialog action', () => {
+    it('should not touch respective setting in case configuration has no conflicts', () => {
+      const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(CONFIGURATION, action);
+
+      expect(state.interactionState.showConflictSolverDialog).toBe(undefined);
+    });
+    it('should set respective setting in case configuration has conflicts and enforces immediate conflict resolution', () => {
+      const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(
+        CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
+        action
+      );
+
+      expect(state.interactionState.showConflictSolverDialog).toBe(true);
     });
   });
 });

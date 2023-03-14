@@ -10,7 +10,7 @@ function configure_project {
     mkdir sub-folder
     mv !(sub-folder) sub-folder
     cd sub-folder
-    yarn --frozen-lockfile && yarn build:libs
+    npm ci && npm run build:libs
 }
 
 # Clear root containing the old package so the next package can be published 

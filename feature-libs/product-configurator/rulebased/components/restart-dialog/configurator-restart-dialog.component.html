@@ -1,0 +1,48 @@
+<div class="cx-modal-container">
+  <ng-container *ngIf="dialogData$ | async as dialogData">
+    <ng-container *ngIf="product$ | async as product">
+      <div
+        class="cx-modal-content"
+        [cxFocus]="focusConfig"
+        (esc)="backToPDP(product)"
+      >
+        <div class="cx-dialog-header modal-header">
+          <div class="cx-dialog-title modal-title">
+            {{ 'configurator.restartDialog.title' | cxTranslate }}
+          </div>
+          <button
+            title="{{ 'configurator.a11y.closeRestartDialog' | cxTranslate }}"
+            type="button"
+            class="close"
+            (click)="backToPDP(product)"
+          >
+            <span aria-hidden="true">
+              <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            </span>
+          </button>
+        </div>
+
+        <div class="cx-dialog-body modal-body">
+          <div id="cx-configurator-restart-dialog-description">
+            {{ 'configurator.restartDialog.description' | cxTranslate }}
+          </div>
+          <button
+            class="btn btn-primary btn-block"
+            (click)="resume(product)"
+            aria-describedby="cx-configurator-restart-dialog-description"
+          >
+            {{ 'configurator.restartDialog.resumeButton' | cxTranslate }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-block"
+            (click)="restart(dialogData.owner)"
+            aria-describedby="cx-configurator-restart-dialog-description"
+          >
+            {{ 'configurator.restartDialog.restartButton' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

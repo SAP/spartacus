@@ -7,7 +7,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   isDevMode,
   OnInit,
 } from '@angular/core';
@@ -20,6 +19,7 @@ import {
   ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
@@ -33,11 +33,12 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
-  @Input() groupType: Configurator.GroupType;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  owner: CommonConfigurator.Owner;
+  groupId: string;
+  groupType: Configurator.GroupType;
+  expMode: boolean;
+  isNavigationToGroupEnabled: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
@@ -46,19 +47,28 @@ export class ConfiguratorAttributeHeaderComponent
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorUiSettings: ConfiguratorUISettingsConfig
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.owner = attributeComponentContext.owner;
+    this.groupId = attributeComponentContext.group.id;
+    this.groupType =
+      attributeComponentContext.group.groupType ??
+      Configurator.GroupType.ATTRIBUTE_GROUP;
+    this.expMode = attributeComponentContext.expMode;
+    this.isNavigationToGroupEnabled =
+      attributeComponentContext.isNavigationToGroupEnabled;
   }
+
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute has a domain of values
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
-      );
+      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
   }
 
   /**
@@ -127,6 +137,15 @@ export class ConfiguratorAttributeHeaderComponent
       return true;
     }
     return false;
+  }
+
+  /**
+   * Verifies whether the conflict resolution is active.
+   *
+   * @return {boolean} - 'true' if the conflict resolution is active otherwise 'false'
+   */
+  isConflictResolutionActive(): boolean {
+    return this.isAttributeGroup() && this.isNavigationToGroupEnabled;
   }
 
   /**
@@ -253,13 +272,18 @@ export class ConfiguratorAttributeHeaderComponent
       )
       .subscribe(callback);
   }
+
   /**
-   * @returns true only if navigation to conflict groups is enabled.
+   * Verifies whether the navigation to a conflict group is enabled.
+   *
+   * @returns {boolean} true only if navigation to conflict groups is enabled.
    */
   isNavigationToConflictEnabled(): boolean {
     return (
-      this.configuratorUiSettings.productConfigurator
-        ?.enableNavigationToConflict ?? false
+      (this.isNavigationToGroupEnabled &&
+        this.configuratorUiSettings.productConfigurator
+          ?.enableNavigationToConflict) ??
+      false
     );
   }
 }

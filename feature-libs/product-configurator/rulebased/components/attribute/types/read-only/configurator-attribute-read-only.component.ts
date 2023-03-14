@@ -4,17 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -22,18 +18,18 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: String;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  group: string;
+  expMode: boolean;
 
-  //TODO(CXSPA-1014): make TranslationService a required dependency
   constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    translationService: TranslationService
-  );
-
-  constructor(@Optional() protected translationService?: TranslationService) {
+    protected translationService: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   protected getCurrentValueName(
@@ -93,27 +89,23 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
     formattedPrice?: string
   ): string {
     let ariaLabel: string = '';
-    if (this.translationService) {
-      const options = formattedPrice
-        ? {
-            value: valueName,
-            attribute: attribute.label,
-            price: formattedPrice,
-          }
-        : {
-            value: valueName,
-            attribute: attribute.label,
-          };
 
-      this.translationService
-        .translate(resourceKey, options)
-        .pipe(take(1))
-        .subscribe((text) => (ariaLabel = text));
-    } else {
-      throw new Error(
-        'At this point we expect the translation service to be defined (for SPA <= 5.1 the method will not be called)'
-      );
-    }
+    const options = formattedPrice
+      ? {
+          value: valueName,
+          attribute: attribute.label,
+          price: formattedPrice,
+        }
+      : {
+          value: valueName,
+          attribute: attribute.label,
+        };
+
+    this.translationService
+      .translate(resourceKey, options)
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
+
     return ariaLabel;
   }
 

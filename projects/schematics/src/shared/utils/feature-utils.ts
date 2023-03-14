@@ -309,9 +309,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       return noop();
     }
 
-    if (options.debug) {
-      context.logger.info(`⌛️ Analyzing application...`);
-    }
+    logDebugInfo(`⌛️ Analyzing application...`);
 
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
@@ -333,11 +331,10 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
           wrapperOptions.markerModuleName,
           markerFeatureConfig
         );
-        if (!markerModuleConfig) {
-          continue;
-        }
-
-        if (markerModuleExists(options, tree, markerModuleConfig)) {
+        if (
+          !markerModuleConfig ||
+          markerModuleExists(options, tree, markerModuleConfig)
+        ) {
           continue;
         }
 
@@ -365,8 +362,12 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       }
     }
 
-    if (options.debug) {
-      context.logger.info(`✅  Application analysis complete.`);
+    logDebugInfo(`✅  Application analysis complete.`);
+
+    function logDebugInfo(message: string) {
+      if (options.debug) {
+        context.logger.info(message);
+      }
     }
   };
 }
