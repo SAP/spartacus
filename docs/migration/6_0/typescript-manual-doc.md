@@ -95,6 +95,12 @@ It is now possible to register custom attribute type components for UI types not
 
 - For readability purposes `--` separate is added between `prefix` and `groupId` in `createOvGroupId(prefix: string, groupId: string)` method.
 
+### ConfiguratorAction
+- The type alias changed. Following new actions are included: `UpdateConfigurationOverview | UpdateConfigurationOverviewFail | UpdateConfigurationOverviewSuccess |RemoveProductBoundConfigurations | CheckConflictDialoge | DissmissConflictDialoge`
+
+### Action create configuration
+- Contructor payload gets 2 additional optional parameters `configIdTemplate` (ID of a template configuration) and `forceReset` (to force configuration reset in the backend)
+
 ## BadRequestHandler
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
@@ -106,3 +112,8 @@ It is now possible to register custom attribute type components for UI types not
 ## OrderDetailsService
 
 - Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
+
+## Spartacus PWA schematics
+
+- `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
+- If you would like to add the angular pwa to your application, you can run the command `ng add @angular/pwa --project <project-name>` and remove the service worker references in your app.module.ts to have the same output as what our custom pwa schematics did.

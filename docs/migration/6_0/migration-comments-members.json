@@ -20,7 +20,7 @@
   {
     "apiElementName": "ConfiguratorFormComponent",
     "entryPoint": "@spartacus/product-configurator/rulebased",
-    "memberName": "displayConflictDescription",
+    "memberName": "activeLanguage$",
     "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
   },  
   {
@@ -32,9 +32,79 @@
   {
     "apiElementName": "ConfiguratorFormComponent",
     "entryPoint": "@spartacus/product-configurator/rulebased",
-    "memberName": "expMode",     
+    "memberName": "configUtils",     
     "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
-  }     
-
-  
+  },
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "languageService",     
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  },
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "isConflictGroupType",     
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  },
+  {
+    "apiElementName": "ConfiguratorFormComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "uiType",     
+    "migrationComment": "Has been moved to new carved out component ConfiguratorGroupComponent"
+  },  
+  {
+    "apiElementName": "CpqConfiguratorNormalizer",
+    "entryPoint": "@spartacus/product-configurator/rulebased/cpq",
+    "memberName": "convertAttributeTypeOld",     
+    "migrationComment": "Has been removed, use convertAttributeType instead"
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeCheckBoxComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "selectionChange",     
+    "migrationComment": "Has been removed, see general migration documentation. Updates are now done via facade service"
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeMultiSelectionBaseComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "selectionChange",     
+    "migrationComment": "Has been removed, see general migration documentation. Updates are now done via facade service"
+  },  
+  {
+    "apiElementName": "ConfiguratorAttributeSingleSelectionBaseComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "selectionChange",     
+    "migrationComment": "Has been removed, see general migration documentation. Updates are now done via facade service"
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeMultiSelectionImageComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "selectionChange",     
+    "migrationComment": "Has been removed, see general migration documentation. Updates are now done via facade service"
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeSingleSelectionImageComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "selectionChange",     
+    "migrationComment": "Has been removed, see general migration documentation. Updates are now done via facade service"
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeInputFieldComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "inputChange",     
+    "migrationComment": "Has been removed, see general migration documentation. Updates are now done via facade service"
+  },
+  {
+    "apiElementName": "ConfiguratorAttributeReadOnlyComponent",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "group",     
+    "migrationComment": "Type has been changed from 'String' to 'string'"
+  },
+  {
+    "apiElementName": "ConfiguratorBasicEffectService",
+    "entryPoint": "@spartacus/product-configurator/rulebased",
+    "memberName": "getFirstGroupWithAttributesForList",     
+    "migrationComment": "Got a new parameter 'includeConflicts' which controls if conflict groups are considered"
+  }  
 ]
