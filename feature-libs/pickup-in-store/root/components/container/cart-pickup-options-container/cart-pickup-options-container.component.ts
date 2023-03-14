@@ -215,14 +215,14 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
                     .getPreferredStoreWithProductInStock(productCode)
                     .pipe(
                       map(({ name }) => name),
-                      tap((storeName) =>
+                      tap((_storeName) =>
                         this.pickupLocationsSearchService.loadStoreDetails(
-                          storeName
+                          _storeName
                         )
                       ),
-                      concatMap((storeName: string) =>
+                      concatMap((_storeName: string) =>
                         this.pickupLocationsSearchService.getStoreDetails(
-                          storeName
+                          _storeName
                         )
                       ),
                       filter((storeDetails) => !!storeDetails),

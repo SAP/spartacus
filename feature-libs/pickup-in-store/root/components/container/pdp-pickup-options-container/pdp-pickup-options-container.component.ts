@@ -181,7 +181,6 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     }
     if (!this.displayNameIsSet) {
       this.openDialog();
-      return;
     }
   }
 }
