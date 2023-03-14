@@ -9,10 +9,7 @@ import {
   OptimizedSsrEngine,
   SsrCallbackFn,
 } from '../optimized-engine/optimized-ssr-engine';
-import {
-  defaultSsrOptimizationOptions,
-  SsrOptimizationOptions,
-} from '../optimized-engine/ssr-optimization-options';
+import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
@@ -45,7 +42,7 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions | null = defaultSsrOptimizationOptions
+  optimizationOptions: SsrOptimizationOptions | null | undefined
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({
