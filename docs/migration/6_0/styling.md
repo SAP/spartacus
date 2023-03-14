@@ -91,3 +91,7 @@
 #### UnitLevelOrderHistoryComponent
 
 -  Added  `(--cx-color-primary)` to `.cx-unit-level-order-history-code .cx-unit-level-order-history-value`
+
+#### AnonymousConsentManagementBannerComponent 
+
+- Added `button {margin-bottom: 10px;}` to line 29.

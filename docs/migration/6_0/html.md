@@ -157,3 +157,7 @@
 #### ReplenishmentOrderHistoryComponent
 
 - Replenish order history cancel button class has changed from `class="cx-order-cancel btn btn-link"` to `class="cx-order-cancel btn btn-secondary"`
+
+#### AnonymousConsentManagementBannerComponent
+
+- Changed bootstrap class on buttons from `col-lg-8` to `col-lg-7` and `col-lg-4` to `col-lg-5`.

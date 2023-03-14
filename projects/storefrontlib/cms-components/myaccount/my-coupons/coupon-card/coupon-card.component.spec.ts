@@ -164,8 +164,8 @@ describe('CouponCardComponent', () => {
       .nativeElement.textContent;
     expect(couponNotificationLabel).toContain('myCoupons.notification');
 
-    const findProductBtn = el.query(By.css('button.btn-secondary')).nativeElement
-      .textContent;
+    const findProductBtn = el.query(By.css('button.btn-secondary'))
+      .nativeElement.textContent;
     expect(findProductBtn).toContain('myCoupons.findProducts');
   });
 
