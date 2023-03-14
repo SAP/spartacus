@@ -4,6 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
+      - cxspa-2141-test-develop-simulate
 name: Cache node modules
 
 env:
