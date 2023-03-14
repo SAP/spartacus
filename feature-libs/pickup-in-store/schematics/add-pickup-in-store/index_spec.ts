@@ -1,4 +1,4 @@
-// /// <reference types="jest" />
+/// <reference types="jest" />
 
 import {
   SchematicTestRunner,
@@ -70,40 +70,34 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...libraryNoFeaturesOptions, features: [] },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...libraryNoFeaturesOptions, features: [] },
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
@@ -139,9 +133,11 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
   describe('Pick Up In Store feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', pickupInStoreFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          pickupInStoreFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -176,13 +172,11 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...pickupInStoreFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...pickupInStoreFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {

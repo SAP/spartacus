@@ -154,9 +154,7 @@
             "polyfills": ["core-js/es/reflect", "zone.js"],
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": [
-              "projects/storefrontapp/src/styles.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
@@ -168,9 +166,7 @@
                 "output": "assets/"
               }
             ],
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ]
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -229,9 +225,7 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {
@@ -272,13 +266,9 @@
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ],
+            "codeCoverageExclude": ["dist/**/*"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects/storefrontstyles/scss"]
             }
           }
         },
@@ -368,9 +358,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/schematics/**/*.ts"
-            ]
+            "lintFilePatterns": ["projects/schematics/**/*.ts"]
           }
         }
       }
@@ -1038,6 +1026,7 @@
           "options": {
             "main": "feature-libs/pickup-in-store/test.ts",
             "tsConfig": "feature-libs/pickup-in-store/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/pickup-in-store/karma.conf.js"
           }
         },
