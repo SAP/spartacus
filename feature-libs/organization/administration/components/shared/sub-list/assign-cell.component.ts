@@ -25,7 +25,12 @@ import { SubListService } from './sub-list.service';
 @Component({
   selector: 'cx-org-assign-cell',
   template: `
-    <button type="button" *ngIf="hasItem" (click)="toggleAssign()" class="link">
+    <button
+      type="button"
+      *ngIf="hasItem$ | async"
+      (click)="toggleAssign()"
+      class="link"
+    >
       {{ isAssigned ? 'unassign' : 'assign' }}
     </button>
   `,
@@ -41,16 +46,20 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
     super(outlet);
   }
 
-  get isAssigned(): boolean {
-    return (this.item as any)?.selected;
+  get isAssigned$(item: any): boolean {
+    return (item as any)?.selected;
   }
 
   toggleAssign() {
-    const isAssigned = this.isAssigned;
-    combineLatest([this.organizationItemService.key$, this.link$])
+    // const isAssigned = this.isAssigned;
+    combineLatest([
+      this.organizationItemService.key$,
+      this.link$,
+      this.isAssigned$,
+    ])
       .pipe(
         first(),
-        switchMap(([key, link]) =>
+        switchMap(([key, link, isAssigned]) =>
           isAssigned ? this.unassign?.(key, link) : this.assign(key, link)
         ),
         take(1),
