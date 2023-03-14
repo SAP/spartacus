@@ -20,7 +20,7 @@ export default defineConfig({
   },
   videoUploadOnPasses: false,
   env: {
-    API_URL: 'https://spartacus-dev0.eastus.cloudapp.azure.com:9002',
+    API_URL: 'https://spartacus-devci7676.eastus.cloudapp.azure.com:9002',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
