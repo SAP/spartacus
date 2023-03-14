@@ -248,9 +248,9 @@ export class StoreFinderService implements OnDestroy {
    * @returns URL for directions to the store
    */
   getDirections(location: PointOfService): string {
-    const google_map_url = 'https://www.google.com/maps/dir/Current+Location/';
+    const url = 'https://www.google.com/maps/dir/Current+Location/';
     const latitude = this.getStoreLatitude(location);
     const longitude = this.getStoreLongitude(location);
-    return google_map_url + latitude + ',' + longitude;
+    return url + latitude + ',' + longitude;
   }
 }

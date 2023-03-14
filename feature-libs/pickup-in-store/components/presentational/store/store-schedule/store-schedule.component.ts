@@ -31,11 +31,11 @@ export class StoreScheduleComponent implements OnChanges {
       this.storeDetails?.openingHours?.weekDayOpeningList?.map(
         ({ weekDay, closed, openingTime, closingTime }) => {
           return {
-            weekDay: weekDay ?? '',
-            closed,
             openingHours: `${openingTime?.formattedHour ?? ''} - ${
               closingTime?.formattedHour ?? ''
             }`,
+            weekDay: weekDay ?? '',
+            closed,
           };
         }
       ) ?? [];
