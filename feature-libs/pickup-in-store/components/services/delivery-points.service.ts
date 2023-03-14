@@ -10,6 +10,7 @@ import { PointOfService } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   DeliveryPointOfService,
+  getProperty,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { combineLatest, iif, Observable, of } from 'rxjs';
@@ -103,7 +104,7 @@ export class DeliveryPointsService {
               COPY.sort(
                 (a: OrderEntry, b: OrderEntry) =>
                   a.deliveryPointOfService?.name?.localeCompare(
-                    b.deliveryPointOfService?.name || ''
+                    getProperty(b.deliveryPointOfService, 'name') || ''
                   ) || 0
               );
               return COPY;

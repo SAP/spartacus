@@ -80,6 +80,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
 
   pickupOption$: Observable<PickupOption | undefined>;
+  disableControls$: Observable<boolean>;
   storeDetails$: Observable<{
     name: string | undefined;
     displayName: string | undefined;
@@ -155,6 +156,20 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
         this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
         return this.pickupOptionFacade.getPickupOption(this.entryNumber);
       })
+    );
+
+    this.disableControls$ = this.activeCartFacade.getEntries().pipe(
+      map((entries) => entries.map((entry) => entry.product?.code)),
+      switchMap((productCodes) =>
+        outletContext.pipe(
+          map((orderEntry) => orderEntry?.product.code),
+          map(
+            (orderEntry) =>
+              productCodes.filter((productCode) => productCode === orderEntry)
+                .length > 1
+          )
+        )
+      )
     );
 
     this.storeDetails$ = outletContext.pipe(
@@ -242,23 +257,25 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
       );
       return;
     }
-    if (pickupOption === 'pickup') {
-      this.subscription.add(
-        this.storeDetails$
-          .pipe(
-            filter(({ name }) => !!name),
-            tap(({ name }) =>
-              this.activeCartFacade.updateEntry(
-                this.entryNumber,
-                this.quantity,
-                name,
-                true
+    [pickupOption]
+      .filter((option) => option === 'pickup')
+      .forEach(() => {
+        this.subscription.add(
+          this.storeDetails$
+            .pipe(
+              filter(({ name }) => !!name),
+              tap(({ name }) =>
+                this.activeCartFacade.updateEntry(
+                  this.entryNumber,
+                  this.quantity,
+                  name,
+                  true
+                )
               )
             )
-          )
-          .subscribe()
-      );
-    }
+            .subscribe()
+        );
+      });
 
     if (!this.displayNameIsSet) {
       this.openDialog();

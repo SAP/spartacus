@@ -6,6 +6,7 @@
   "
 >
   <cx-pickup-options
+    [disableControls]="disableControls$ | async"
     [displayPickupLocation]="(storeDetails$ | async)?.displayName"
     [selectedOption]="pickupOption$ | async"
     (pickupOptionChange)="onPickupOptionChange($event)"
