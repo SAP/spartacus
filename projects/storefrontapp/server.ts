@@ -22,7 +22,6 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  ...defaultSsrOptimizationOptions,
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
