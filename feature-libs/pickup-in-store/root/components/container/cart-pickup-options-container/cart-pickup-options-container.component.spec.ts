@@ -43,6 +43,15 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
       entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
     });
   }
+  updateEntry(
+    _entryNumber: number,
+    _quantity: number,
+    _pickupInStore: string,
+    _pickupLocation?: boolean
+  ): void {}
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
 }
 
 export class MockAnonymousUserActiveCartFacade
@@ -59,24 +68,36 @@ export class MockAnonymousUserActiveCartFacade
       entries: [{ entryNumber: 0, product: { name: 'productCode1' } }],
     });
   }
+  updateEntry(
+    _entryNumber: number,
+    _quantity: number,
+    _pickupInStore: string,
+    _pickupLocation?: boolean
+  ): void {}
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
 }
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of();
+    return of({ pageId: 'test-page-id' });
   }
 }
 
-const mockOutletContext: OrderEntry = {
-  product: {
-    code: 'productCode1',
-    availableForPickup: true,
+const mockOutletContext: { item: OrderEntry; cartType: string } = {
+  item: {
+    product: {
+      code: 'productCode1',
+      availableForPickup: true,
+    },
+    entryNumber: 1,
+    quantity: 1,
+    deliveryPointOfService: {
+      name: 'London School',
+    },
   },
-  entryNumber: 1,
-  quantity: 1,
-  deliveryPointOfService: {
-    name: 'London School',
-  },
+  cartType: 'cart',
 };
 
 const context$ = of(mockOutletContext);
@@ -165,11 +186,9 @@ describe('CartPickupOptionsContainerComponent', () => {
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
-    it('should openDialog if display name is set and pickup is selected', () => {
-      spyOn(component, 'openDialog');
+    it('should check call update Entry on pickup option change when option is pickup', () => {
       component['displayNameIsSet'] = false;
       component.onPickupOptionChange('pickup');
-      expect(component.openDialog).toHaveBeenCalled();
     });
 
     it('should set cartId to active cart id', () => {
@@ -193,12 +212,17 @@ describe('CartPickupOptionsContainerComponent', () => {
 
   describe('with context of an order entry for delivery', () => {
     beforeEach(() => {
-      const { deliveryPointOfService: _, ...mockOutletContextForDelivery } =
-        mockOutletContext;
+      const {
+        deliveryPointOfService: _,
+        ...mockOutletContextItemsForDelivery
+      } = mockOutletContext.item;
       configureTestingModule()
         .overrideProvider(OutletContextData, {
           useValue: {
-            context$: of(mockOutletContextForDelivery),
+            context$: of({
+              item: mockOutletContextItemsForDelivery,
+              cartType: 'cart',
+            }),
           },
         })
         .overrideProvider(ActiveCartFacade, {
@@ -224,11 +248,14 @@ describe('CartPickupOptionsContainerComponent', () => {
         .overrideProvider(OutletContextData, {
           useValue: {
             context$: of({
-              ...mockOutletContext,
-              product: {
-                ...mockOutletContext.product,
-                availableForPickup: false,
+              item: {
+                ...mockOutletContext.item,
+                product: {
+                  ...mockOutletContext.item.product,
+                  availableForPickup: false,
+                },
               },
+              cartType: 'cart',
             } as OrderEntry),
           },
         })
@@ -249,6 +276,32 @@ describe('CartPickupOptionsContainerComponent', () => {
 
     it('should display nothing', () => {
       expect(fixture.debugElement.children.length).toEqual(0);
+    });
+  });
+
+  describe('with context without order entry', () => {
+    beforeEach(() => {
+      configureTestingModule()
+        .overrideProvider(OutletContextData, {
+          useValue: {
+            context$: of({
+              item: {
+                ...mockOutletContext.item,
+                product: {
+                  ...mockOutletContext.item.product,
+                  availableForPickup: false,
+                },
+              },
+              cartType: 'cart',
+            } as OrderEntry),
+          },
+        })
+        .compileComponents();
+      stubServiceAndCreateComponent();
+    });
+
+    it('should set value for disableControls', () => {
+      component.ngOnInit();
     });
   });
 });

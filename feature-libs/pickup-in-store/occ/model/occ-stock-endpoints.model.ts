@@ -21,11 +21,5 @@ declare module '@spartacus/core' {
      * @member {string} [page]
      */
     stockAtStore?: string | OccEndpoint;
-
-    /**
-     * Update the delivery option for a cart entry to pickup or delivery.
-     * @member {string} [page]
-     */
-    updateDeliveryOption?: string | OccEndpoint;
   }
 }

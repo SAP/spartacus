@@ -39,13 +39,7 @@ describe('CartEntryConnector', () => {
     );
   });
 
-  it('add should call adapter with quantity', () => {
-    const adapter = TestBed.inject(CartEntryAdapter);
-    service.add('1', '2', '3', 4).subscribe();
-    expect(adapter.add).toHaveBeenCalledWith('1', '2', '3', 4, undefined);
-  });
-
-  it('add should call adapter with quantity and pickupStore', () => {
+  it('add should call adapter', () => {
     const adapter = TestBed.inject(CartEntryAdapter);
     service.add('1', '2', '3', 4, 'pickupStore').subscribe();
     expect(adapter.add).toHaveBeenCalledWith('1', '2', '3', 4, 'pickupStore');
@@ -54,7 +48,40 @@ describe('CartEntryConnector', () => {
   it('update should call adapter', () => {
     const adapter = TestBed.inject(CartEntryAdapter);
     service.update('1', '2', '3', 4).subscribe();
-    expect(adapter.update).toHaveBeenCalledWith('1', '2', '3', 4, undefined);
+    expect(adapter.update).toHaveBeenCalledWith(
+      '1',
+      '2',
+      '3',
+      4,
+      undefined,
+      false
+    );
+  });
+
+  it('update should call adapter', () => {
+    const adapter = TestBed.inject(CartEntryAdapter);
+    service.update('1', '2', '3', undefined, 'pickupStore').subscribe();
+    expect(adapter.update).toHaveBeenCalledWith(
+      '1',
+      '2',
+      '3',
+      undefined,
+      'pickupStore',
+      false
+    );
+  });
+
+  it('update should call adapter', () => {
+    const adapter = TestBed.inject(CartEntryAdapter);
+    service.update('1', '2', '3', 4, undefined, true).subscribe();
+    expect(adapter.update).toHaveBeenCalledWith(
+      '1',
+      '2',
+      '3',
+      4,
+      undefined,
+      true
+    );
   });
 
   it('remove should call adapter', () => {

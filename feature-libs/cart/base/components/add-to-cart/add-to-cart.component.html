@@ -18,19 +18,13 @@
       >
     </div>
   </div>
-  <ng-container *ngIf="hasStock">
-    <ng-container *cxFeatureLevel="'5.1'">
-      <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
-    </ng-container>
-  </ng-container>
 
-  <!-- Todo Use this instead of above once checkout refractor branch is merged -->
-  <!-- <ng-container *ngIf="hasStock">
+  <ng-container *ngIf="hasStock">
     <ng-template
       [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
       [(cxComponentRef)]="pickupOptionCompRef"
     ></ng-template>
-  </ng-container> -->
+  </ng-container>
 
   <button
     *ngIf="hasStock"
@@ -43,9 +37,21 @@
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
     <span
+      *ngIf="
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+      "
+      class="repeat-icon"
+      ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
+    ></span>
+    <span
       attr.aria-label="{{
         options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
       }}"
+      [ngClass]="
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+          ? 'buyItAgainLink'
+          : ''
+      "
     >
       {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
     </span>

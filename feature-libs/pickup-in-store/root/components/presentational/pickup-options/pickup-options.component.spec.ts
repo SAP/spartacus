@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { PickupOption } from '../../../model';
 import { PickupOptionsComponent } from './pickup-options.component';
 
@@ -49,6 +50,15 @@ describe('PickupOptionsComponent', () => {
     component.onPickupLocationChange();
 
     expect(component.pickupLocationChange.emit).toHaveBeenCalled();
+  });
+
+  it('should call disable on pickupOption', () => {
+    component.disableControls = true;
+    fixture.detectChanges();
+    component.ngOnChanges();
+    expect(component.pickupOptionsForm.get('pickupOption')?.disabled).toBe(
+      true
+    );
   });
 
   describe('template', () => {
@@ -140,4 +150,5 @@ describe('PickupOptionsComponent', () => {
 export class PickupOptionsStubComponent {
   @Input() selectedOption: PickupOption;
   @Input() displayPickupLocation: string | undefined;
+  @Input() disableControls: Observable<boolean>;
 }

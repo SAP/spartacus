@@ -58,22 +58,6 @@ export class MockPickupLocationsSearchService
   }
 
   loadStoreDetails(_name: string): void {}
-
-  setPickupOptionToDelivery(
-    _cartId: string,
-    _entryNumber: number,
-    _userId: string,
-    _productCode: string,
-    _quantity: number
-  ): void {}
-
-  setPickupOptionToPickupInStore(
-    _cartId: string,
-    _entryNumber: number,
-    _userId: string,
-    _storeName: string,
-    _quantity: number
-  ): void {}
 }
 
 describe('PickupLocationsSearchService', () => {
@@ -165,57 +149,6 @@ describe('PickupLocationsSearchService', () => {
         payload: {
           latitude: 1,
           longitude: 1,
-        },
-      })
-    );
-  });
-
-  it('setPickupOptionDelivery', () => {
-    const productCode = 'productCode';
-    const quantity = 1;
-    const page = undefined;
-    service.setPickupOptionToDelivery(
-      'cartID',
-      1,
-      'userID',
-      productCode,
-      quantity
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      PickupLocationActions.SetPickupOptionToDelivery({
-        payload: {
-          cartId: 'cartID',
-          entryNumber: 1,
-          userId: 'userID',
-          productCode,
-          quantity,
-          page,
-        },
-      })
-    );
-  });
-
-  it('setPickupOptionInStore', () => {
-    const cartId = 'cartID';
-    const entryNumber = 1;
-    const userId = 'userID';
-    const storeName = 'name';
-    const quantity = 1;
-    service.setPickupOptionToPickupInStore(
-      cartId,
-      entryNumber,
-      userId,
-      storeName,
-      quantity
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      PickupLocationActions.SetPickupOptionToPickupInStore({
-        payload: {
-          cartId,
-          entryNumber,
-          userId,
-          storeName,
-          quantity,
         },
       })
     );

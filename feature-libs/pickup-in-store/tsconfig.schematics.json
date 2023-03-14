@@ -278,9 +278,6 @@
       "@spartacus/pickup-in-store/assets": [
         "../../feature-libs/pickup-in-store/assets/public_api"
       ],
-      "@spartacus/pickup-in-store/cart": [
-        "../../feature-libs/pickup-in-store/cart/public_api"
-      ],
       "@spartacus/pickup-in-store/components": [
         "../../feature-libs/pickup-in-store/components/public_api"
       ],

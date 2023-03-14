@@ -114,46 +114,4 @@ export class PickupLocationsSearchService
       select(PickupLocationsSelectors.getStoreDetailsByName(name))
     );
   }
-
-  setPickupOptionToDelivery(
-    cartId: string,
-    entryNumber: number,
-    userId: string,
-    productCode: string,
-    quantity: number,
-    page?: string
-  ): void {
-    this.store.dispatch(
-      PickupLocationActions.SetPickupOptionToDelivery({
-        payload: {
-          cartId,
-          entryNumber,
-          userId,
-          productCode,
-          quantity,
-          page,
-        },
-      })
-    );
-  }
-
-  setPickupOptionToPickupInStore(
-    cartId: string,
-    entryNumber: number,
-    userId: string,
-    storeName: string,
-    quantity: number
-  ): void {
-    this.store.dispatch(
-      PickupLocationActions.SetPickupOptionToPickupInStore({
-        payload: {
-          cartId,
-          entryNumber,
-          userId,
-          storeName,
-          quantity,
-        },
-      })
-    );
-  }
 }

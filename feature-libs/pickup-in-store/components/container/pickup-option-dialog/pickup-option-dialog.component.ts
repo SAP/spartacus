@@ -180,12 +180,11 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
         .pipe(
           filter((store) => !this.isPDP && !!store),
           tap((store) =>
-            this.pickupLocationsSearchService.setPickupOptionToPickupInStore(
-              this.cartId,
+            this.activeCartFacade.updateEntry(
               this.entryNumber,
-              this.userId,
+              this.quantity,
               (store as AugmentedPointOfService).name as string,
-              this.quantity
+              false
             )
           )
         )
