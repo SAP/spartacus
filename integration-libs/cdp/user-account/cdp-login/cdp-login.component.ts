@@ -18,7 +18,7 @@ export class CdpLoginComponent extends LoginComponent implements OnInit {
     protected userAccount: UserAccountFacade,
     protected routing: RoutingService,
     protected loginComponentService: LoginComponentService
-  ) {super(auth,userAccount); }
+  ) {super(auth,userAccount);console.log(this); }
 
   ngOnInit(): void {
     this.isCdpEnabled = this.loginComponentService.myAccountForCdp();

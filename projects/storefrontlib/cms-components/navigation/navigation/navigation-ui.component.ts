@@ -17,7 +17,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
+import { RoutingService, WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -64,6 +64,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private openNodes: HTMLElement[] = [];
   private subscriptions = new Subscription();
   private resize = new EventEmitter();
+  protected routing: RoutingService;
+  isCdpEnabled: boolean =true;
 
   @HostListener('window:resize')
   onResize() {
@@ -265,4 +267,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
     this.isOpen = this.openNodes.length > 0;
   }
+  // goToMyAccount(): void {
+  //   this.routing.go({
+  //     cxRoute: 'orders'
+  //   });
+  // }
 }
