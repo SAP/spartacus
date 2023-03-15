@@ -23,14 +23,14 @@
 // Any CSS added later than this version is omitted by default, unless the `$useLatestStyles`
 // or `$styleVersion` are enabled.
 $_fullVersion: (
-  major: 5,
+  major: 6,
   minor: 1,
   patch: 0,
 );
 
 // The _global_ major version. Any (left over) styles from previous stable versions
 // are processed to the final CSS.
-$_majorVersion: 5;
+$_majorVersion: 6;
 
 // The `$styleVersion` can be used by customers to explicitly opt-in to breaking style
 // changes till the given style version. It must contain a floating number, such as `2.1`.
