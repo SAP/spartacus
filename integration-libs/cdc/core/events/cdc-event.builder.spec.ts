@@ -4,7 +4,7 @@ import { CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import { EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcAuthActions } from '../auth/store/actions/index';
+import { CdcAuthActions } from '../store/actions';
 import { CdcEventBuilder } from './cdc-event.builder';
 
 interface ActionWithPayload extends Action {
