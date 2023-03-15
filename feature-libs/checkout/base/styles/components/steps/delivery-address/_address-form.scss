@@ -1,3 +1,12 @@
 %cx-address-form {
   @include checkout-media-style();
+
+  form {
+    padding: 13px 32px 41px 32px;
+    background-color: var(--cx-color-background);
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 3rem;
+    }
+  }
 }

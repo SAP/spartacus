@@ -180,7 +180,7 @@ describe('CompactAddToCartComponent', () => {
 
     addToCartComponent.addToCart();
 
-    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1, undefined);
     expect(listener['openModal']).toHaveBeenCalledTimes(1);
   });
 
