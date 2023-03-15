@@ -13,8 +13,8 @@ import {
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { CdcAuthService } from '../../facade/cdc-auth.service';
-import { CdcUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
+import { CdcAuthService } from '../../auth/facade/cdc-auth.service';
+import { CdcUserAuthenticationTokenService } from '../../auth/services/user-authentication/cdc-user-authentication-token.service';
 import { CdcAuthActions } from '../actions/index';
 
 @Injectable()

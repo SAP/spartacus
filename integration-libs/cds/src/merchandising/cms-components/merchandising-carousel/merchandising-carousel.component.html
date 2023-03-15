@@ -8,7 +8,7 @@
   ></div>
   <cx-carousel
     [items]="merchandisingCarouselModel.items$"
-    [title]="merchandisingCarouselModel.title"
+    [title]="title$ | async"
     [template]="carouselItem"
     itemWidth="285px"
   >
