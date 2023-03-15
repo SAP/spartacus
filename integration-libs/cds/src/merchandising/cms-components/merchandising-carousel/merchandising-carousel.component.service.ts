@@ -99,7 +99,7 @@ export class MerchandisingCarouselComponentService {
       tap((merchandisingCarouselModel) => {
         const carouselEvent: CarouselEvent =
           this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
-        this.profileTagEventService.notifyProfileTagOfEventOccurence(
+        this.profileTagEventService.notifyProfileTagOfEventOccurrence(
           new MerchandisingCarouselViewedEvent(
             carouselEvent,
             merchandisingCarouselModel.productIds
@@ -122,7 +122,7 @@ export class MerchandisingCarouselComponentService {
       ...clickedProduct.metadata,
     };
 
-    this.profileTagEventService.notifyProfileTagOfEventOccurence(
+    this.profileTagEventService.notifyProfileTagOfEventOccurrence(
       new MerchandisingCarouselClickedEvent(
         carouselEvent,
         clickedProduct.metadata.slot,

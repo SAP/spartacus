@@ -3,8 +3,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { AuthToken, GlobalMessageService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CdcAuthService } from '../../facade/cdc-auth.service';
-import { CdcUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
+import { CdcAuthService } from '../../auth/facade/cdc-auth.service';
+import { CdcUserAuthenticationTokenService } from '../../auth/services/user-authentication/cdc-user-authentication-token.service';
 import { CdcAuthActions } from '../actions';
 import { CdcUserTokenEffects } from './cdc-user-token.effect';
 

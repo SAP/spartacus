@@ -13,9 +13,7 @@ import {
 } from '@spartacus/core';
 import { B2BUserService } from '../services';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UserGuard implements CanActivate {
   constructor(
     protected globalMessageService: GlobalMessageService,
