@@ -317,13 +317,24 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.showConflictSolverDialog).toEqual(false);
     });
 
-    it('should set the new configuration flag in the interaction state to false', () => {
+    it('should set the new configuration flag in the interaction state to false, only if it was true before', () => {
+      const testConfig = structuredClone(CONFIGURATION);
+      testConfig.interactionState.newConfiguration = true;
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        testConfig
+      );
+      const state = StateReduce.configuratorReducer(testConfig, action);
+
+      expect(state.interactionState.newConfiguration).toBe(false);
+    });
+
+    it('should set the new configuration flag in the interaction state to undefined, if was undefined before', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
         CONFIGURATION
       );
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state.interactionState.newConfiguration).toBe(false);
+      expect(state.interactionState.newConfiguration).not.toBeDefined();
     });
   });
 
