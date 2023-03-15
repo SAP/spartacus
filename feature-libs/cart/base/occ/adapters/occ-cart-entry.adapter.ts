@@ -26,7 +26,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number = 1
+    quantity: number = 1,
+    pickupStore?: string
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl('addEntries', {
       urlParams: { userId, cartId, quantity },
@@ -50,6 +51,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     const toAdd = {
       quantity,
       product: { code: productCode },
+      ...(pickupStore && { deliveryPointOfService: { name: pickupStore } }),
     };
 
     const headers = new HttpHeaders({
@@ -65,18 +67,10 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     userId: string,
     cartId: string,
     entryNumber: string,
-    qty: number,
-    pickupStore?: string
+    qty?: number,
+    pickupStore?: string,
+    pickupToDelivery: boolean = false
   ): Observable<CartModification> {
-    let params = {};
-    if (pickupStore) {
-      params = {
-        deliveryPointOfService: {
-          name: pickupStore,
-        },
-      };
-    }
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -88,6 +82,22 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         entryNumber,
       },
     });
+
+    // switch from pickup to delivery mode
+    if (pickupStore === undefined && pickupToDelivery) {
+      return this.http
+        .put<CartModification>(url, { quantity: qty }, { headers })
+        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+    }
+
+    let params = {};
+    if (pickupStore) {
+      params = {
+        deliveryPointOfService: {
+          name: pickupStore,
+        },
+      };
+    }
 
     return this.http
       .patch<CartModification>(url, { quantity: qty, ...params }, { headers })

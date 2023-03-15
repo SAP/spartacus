@@ -70,7 +70,10 @@ describe('Currency switch - checkout page', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
       );
-      cy.get('cx-review-submit .cx-price .cx-value').should('contain', '¥');
+      cy.get('cx-checkout-review-shipping .cx-price .cx-value').should(
+        'contain',
+        '¥'
+      );
     });
   });
 });

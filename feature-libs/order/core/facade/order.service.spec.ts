@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
@@ -144,6 +144,37 @@ describe(`OrderService`, () => {
           expect(result).toEqual(newMockOrder);
           done();
         });
+    });
+  });
+
+  describe('getPickupEntries and getDeliveryEntries', () => {
+    const entries: OrderEntry[] = [
+      { orderCode: 'pickupEntry', deliveryPointOfService: { name: 'test' } },
+      { orderCode: 'deliveryEntry' },
+    ];
+
+    it('should be able to get pickup entries', (done) => {
+      service.getOrderDetails = jasmine
+        .createSpy('getOrderDetails')
+        .and.returnValue(of({ code: 'testOrder', entries }));
+
+      service.getPickupEntries().subscribe((pickupEntries) => {
+        expect(pickupEntries.length).toEqual(1);
+        expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
+        done();
+      });
+    });
+
+    it('should be able to get delivery entries', (done) => {
+      service.getOrderDetails = jasmine
+        .createSpy('getOrderDetails')
+        .and.returnValue(of({ code: 'testOrder', entries }));
+
+      service.getDeliveryEntries().subscribe((deliveryEntries) => {
+        expect(deliveryEntries.length).toEqual(1);
+        expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
+        done();
+      });
     });
   });
 });

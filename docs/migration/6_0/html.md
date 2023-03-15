@@ -138,5 +138,21 @@
 - Now as well contains information about the knowledge base that was used to run the configuration. This information
   is only visible in case expert mode is active. The knowledge base related information is enclosed with `<div class="cx-kb-key-details">`
 
+### CheckoutReviewSubmitComponent
 
+- Removed `col-md-12` from `div` tag used to display entries
 
+### CheckoutDeliveryAddressComponent
+
+- Replaced translation text from `checkoutAddress.deliveryAddress` to `checkoutAddress.shippingAddress` in the element `<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">`
+
+### CheckoutTranslations
+
+- Changed default English translation for key `checkoutProgress.paymentDetails` from `Payment Details` to `Payment`
+- Changed default English translation for key `checkoutProgress.reviewOrder` from `Review Order` to `Review`
+- Changed default English translation for key `checkoutProgress.deliveryAddress` from `Delivery Address` to `Shipping Address`
+- Removed English translation key for `checkoutAddress.deliveryAddress`. In default templates it is replaced with `checkoutAddress.shippingAddress`
+
+### CheckoutDeliveryModeComponent
+
+- Changed design and structure of how delivery modes are displayed
