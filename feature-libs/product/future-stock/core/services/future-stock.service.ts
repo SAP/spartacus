@@ -7,7 +7,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_CURRENT,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { FutureStockConnector } from '../connectors';
 import { ProductFutureStock } from '../model';
@@ -20,7 +24,7 @@ export class FutureStockService implements FutureStockFacade {
     this.routingService.getRouterState().pipe(
       withLatestFrom(this.userIdService.takeUserId()),
       switchMap(([{ state }, userId]) => {
-        if (userId !== 'anonymous') {
+        if (userId === OCC_USER_ID_CURRENT) {
           return this.futureStockConnector.getFutureStock(
             userId,
             state.params[this.PRODUCT_KEY]
