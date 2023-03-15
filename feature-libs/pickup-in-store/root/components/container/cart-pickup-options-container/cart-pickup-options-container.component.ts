@@ -203,8 +203,11 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
           this.intendedPickupLocationService
             .getIntendedLocation(productCode)
             .pipe(
-              map((intendedLocation) => ({ intendedLocation, productCode })),
-              switchMap(({ intendedLocation, productCode }) =>
+              map((intendedLocation) => ({
+                intendedLocation,
+                givenProductCode: productCode,
+              })),
+              switchMap(({ intendedLocation, givenProductCode }) =>
                 iif(
                   () => !!intendedLocation && !!intendedLocation.displayName,
                   of({
@@ -228,7 +231,7 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
                       filter((storeDetails) => !!storeDetails),
                       tap((storeDetails) => {
                         this.intendedPickupLocationService.setIntendedLocation(
-                          productCode,
+                          givenProductCode,
                           {
                             ...storeDetails,
                             pickupOption: 'delivery',
