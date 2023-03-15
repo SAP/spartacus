@@ -15,4 +15,5 @@ export enum CartOutlets {
   ITEM_BUNDLE_DETAILS = 'cx-cart-item.bundle-details',
   ORDER_SUMMARY = 'cx-order-summary',
   CART_ITEM_LIST = 'cx-cart-item-list',
+  ADD_TO_CART_PICKUP_OPTION = 'cx-add-to-cart-pickup-option',
 }
