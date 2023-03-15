@@ -1,0 +1,191 @@
+%cx-checkout-review-shipping,
+%cx-checkout-review-payment,
+%cx-checkout-review-overview,
+%cx-order-confirmation-shipping {
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-color-inverse);
+  }
+
+  .cx-review-header {
+    background-color: var(--cx-color-background);
+    font-weight: 600;
+    font-size: 18px;
+    padding: 20px 40px;
+    margin: 10px 0 20px 0;
+  }
+
+  .cx-review-summary {
+    margin: 0;
+    background-color: var(--cx-color-background);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 1.5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      word-break: break-all;
+    }
+
+    &-edit-step {
+      padding: 0 20px 20px;
+
+      @include media-breakpoint-down(md) {
+        padding: 10px 0 0;
+      }
+    }
+
+    .cx-review-summary-payment-card {
+      margin: 30px;
+      background-color: theme-color('inverse');
+      width: 45%;
+      border: 1px solid var(--cx-color-light);
+      border-radius: 10px;
+
+      @include media-breakpoint-up(md) {
+        &:first-child {
+          margin-top: 30px;
+          margin-inline-start: 25px;
+          margin-bottom: 40px;
+          margin-inline-end: 15px;
+        }
+
+        &:last-child {
+          margin-top: 30px;
+          margin-inline-start: 15px;
+          margin-bottom: 40px;
+          margin-inline-end: 25px;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        margin-top: 0;
+        margin-inline-start: 0;
+        margin-bottom: 0;
+        margin-inline-end: 0;
+        width: 100%;
+      }
+    }
+
+    .cx-review-summary-card-container {
+      width: 45%;
+      border: 1px solid var(--cx-color-light);
+      border-radius: 10px;
+      flex-grow: 1;
+
+      @include media-breakpoint-up(md) {
+        &:first-child {
+          margin-top: 0px;
+          margin-inline-start: 0px;
+          margin-bottom: 40px;
+          margin-inline-end: 15px;
+        }
+
+        &:last-child {
+          margin-top: 0px;
+          margin-inline-start: 15px;
+          margin-bottom: 40px;
+          margin-inline-end: 0;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        margin-top: 0;
+        margin-inline-start: 0;
+        margin-bottom: 20px;
+        margin-inline-end: 0;
+        width: 100%;
+      }
+    }
+
+    .cx-review-summary-card {
+      display: flex;
+      justify-content: space-between;
+
+      @include media-breakpoint-down(sm) {
+        &:first-child {
+          margin-bottom: 20px;
+        }
+      }
+
+      .cx-card-title {
+        @include type('4');
+        font-weight: var(--cx-font-weight-bold);
+        margin-bottom: 0.5rem;
+      }
+
+      .cx-card-paragraph-title {
+        font-style: italic;
+      }
+
+      .cx-review-summary-edit-step {
+        align-self: flex-start;
+        padding: 20px;
+        font-size: $h4-font-size;
+      }
+    }
+  }
+
+  .cx-review-shipping-summary {
+    background-color: var(--cx-color-inverse);
+  }
+
+  .cx-review-cart-total {
+    @include type('4');
+    margin: 2rem 0 0.5rem 0;
+  }
+}
+
+cx-place-order {
+  @include media-breakpoint-down(lg) {
+    --cx-flex-basis: 45%;
+  }
+
+  .scaled-input {
+    transform: scale(0.7);
+  }
+
+  .cx-place-order-form {
+    font-size: 12px;
+    padding: 0;
+
+    .form-check {
+      &-input {
+        margin: 0;
+        top: 1rem;
+
+        @include media-breakpoint-down(md) {
+          top: 0.5rem;
+        }
+      }
+
+      &-label {
+        padding: 0;
+        margin-top: 0.3rem;
+        margin-inline-end: 0;
+        margin-bottom: 0.5rem;
+        margin-inline-start: 2rem;
+      }
+    }
+  }
+}
+
+cx-checkout-review-shipping,
+cx-order-confirmation-shipping {
+  .cx-review-summary {
+    @include media-breakpoint-down(md) {
+      padding: 0px;
+    }
+  }
+}
