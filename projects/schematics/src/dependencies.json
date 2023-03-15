@@ -40,6 +40,7 @@
     "rxjs": "^6.6.0"
   },
   "@spartacus/styles": {
+    "@fontsource/open-sans": "^4.5.14",
     "@fortawesome/fontawesome-free": "5.8.1",
     "@ng-select/ng-select": "^10.0.3",
     "bootstrap": "^4.6.1"
@@ -319,6 +320,7 @@
     "@angular/pwa": "^15.2.0",
     "@angular/router": "^15.2.0",
     "@angular/service-worker": "^15.2.0",
+    "@fontsource/open-sans": "^4.5.14",
     "@fortawesome/fontawesome-free": "5.8.1",
     "@ng-select/ng-select": "^10.0.3",
     "@ngrx/effects": "^15.3.0",
@@ -329,7 +331,7 @@
     "angular-oauth2-oidc": "^15.0.1",
     "bootstrap": "^4.6.1",
     "comment-json": "^4.2.3",
-    "express": "^4.15.2",
+    "express": "^4.18.2",
     "hamburgers": "^1.2.1",
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",

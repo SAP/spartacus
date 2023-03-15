@@ -161,3 +161,23 @@
 #### AnonymousConsentManagementBannerComponent
 
 - Changed bootstrap class on buttons from `col-lg-8` to `col-lg-7` and `col-lg-4` to `col-lg-5`.
+
+### CheckoutReviewSubmitComponent
+
+- Removed `col-md-12` from `div` tag used to display entries
+
+### CheckoutDeliveryAddressComponent
+
+- Replaced translation text from `checkoutAddress.deliveryAddress` to `checkoutAddress.shippingAddress` in the element `<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">`
+
+### CheckoutTranslations
+
+- Changed default English translation for key `checkoutProgress.paymentDetails` from `Payment Details` to `Payment`
+- Changed default English translation for key `checkoutProgress.reviewOrder` from `Review Order` to `Review`
+- Changed default English translation for key `checkoutProgress.deliveryAddress` from `Delivery Address` to `Shipping Address`
+- Removed English translation key for `checkoutAddress.deliveryAddress`. In default templates it is replaced with `checkoutAddress.shippingAddress`
+
+### CheckoutDeliveryModeComponent
+
+- Changed design and structure of how delivery modes are displayed
+

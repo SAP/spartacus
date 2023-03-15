@@ -19,6 +19,11 @@
     </div>
   </div>
 
+  <ng-template
+    [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
+    [(cxComponentRef)]="pickupOptionCompRef"
+  ></ng-template>
+
   <button
     *ngIf="hasStock"
     [ngClass]="
