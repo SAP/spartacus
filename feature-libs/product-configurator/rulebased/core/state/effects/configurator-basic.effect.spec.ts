@@ -265,7 +265,32 @@ describe('ConfiguratorEffect', () => {
       });
 
       expect(configEffects.createConfiguration$).toBeObservable(expected);
-      expect(createMock).toHaveBeenCalledWith(owner, CONFIG_ID_TEMPLATE);
+      expect(createMock).toHaveBeenCalledWith(
+        owner,
+        CONFIG_ID_TEMPLATE,
+        undefined
+      );
+    });
+
+    it('should forward configuration forceReset flag', () => {
+      const action = new ConfiguratorActions.CreateConfiguration({
+        owner: productConfiguration.owner,
+        forceReset: true,
+      });
+
+      const configurationSuccessAction =
+        new ConfiguratorActions.CreateConfigurationSuccess(
+          productConfiguration
+        );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: configurationSuccessAction,
+        c: searchVariantsAction,
+      });
+
+      expect(configEffects.createConfiguration$).toBeObservable(expected);
+      expect(createMock).toHaveBeenCalledWith(owner, undefined, true);
     });
 
     it('must not emit anything in case source action is not covered', () => {

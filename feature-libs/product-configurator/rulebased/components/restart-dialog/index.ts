@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './admin.guard';
-export * from './organization-guards.module';
-export * from './user.guard';
+export * from './configurator-restart-dialog.component';
+export * from './configurator-restart-dialog.module';
