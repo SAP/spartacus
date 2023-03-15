@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
-  provideConfig,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FileUploadModule,
@@ -58,6 +58,6 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
     ImportEntriesSummaryComponent,
     ImportToNewSavedCartFormComponent,
   ],
-  providers: [provideConfig(defaultImportEntriesLayoutConfig)],
+  providers: [provideDefaultConfig(defaultImportEntriesLayoutConfig)],
 })
 export class ImportOrderEntriesModule {}

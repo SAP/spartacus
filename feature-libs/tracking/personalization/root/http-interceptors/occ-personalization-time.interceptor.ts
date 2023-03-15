@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,20 +75,19 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       tap((event) => {
-        if (event instanceof HttpResponse) {
-          if (
-            this.requestHeader &&
-            event.headers.keys().includes(this.requestHeader)
-          ) {
-            const receivedTimestamp = event.headers.get(this.requestHeader);
-            if (this.timestamp !== receivedTimestamp) {
-              this.timestamp = receivedTimestamp;
-              if (this.timestamp) {
-                this.winRef.localStorage?.setItem(
-                  this.PERSONALIZATION_TIME_KEY,
-                  this.timestamp
-                );
-              }
+        if (
+          event instanceof HttpResponse &&
+          this.requestHeader &&
+          event.headers.keys().includes(this.requestHeader)
+        ) {
+          const receivedTimestamp = event.headers.get(this.requestHeader);
+          if (this.timestamp !== receivedTimestamp) {
+            this.timestamp = receivedTimestamp;
+            if (this.timestamp) {
+              this.winRef.localStorage?.setItem(
+                this.PERSONALIZATION_TIME_KEY,
+                this.timestamp
+              );
             }
           }
         }
@@ -96,3 +95,5 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     );
   }
 }
+
+// CHECK SONAR

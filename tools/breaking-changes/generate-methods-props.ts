@@ -1,11 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as common from './common';
-import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
+import {
+  getSignatureDoc,
+  printStatsForBreakingChangeList,
+  SCHEMATICS_COMMENT_PREFIX,
+} from './common';
 
 /**
  * This script generates methods and properties schematics code.
@@ -73,7 +77,7 @@ function getSchematicsComment(breakingChange: any): string {
     )} ${migrationComment}`;
   }
   if (breakingChange.changeKind.startsWith('Method')) {
-    return `The '${
+    return `${SCHEMATICS_COMMENT_PREFIX} The '${
       breakingChange.changeElementName
     }' method's signature changed to: '${getSignatureDoc(
       breakingChange.new,
@@ -81,7 +85,7 @@ function getSchematicsComment(breakingChange: any): string {
     )}'`;
   }
   if (breakingChange.changeKind.startsWith('Property')) {
-    return `The type of property '${sanitizePropertyDoc(
+    return `${SCHEMATICS_COMMENT_PREFIX} The type of property '${sanitizePropertyDoc(
       common.getMemberStateDoc(breakingChange.old)
     )}' changed to: '${sanitizePropertyDoc(
       common.getMemberStateDoc(breakingChange.new)

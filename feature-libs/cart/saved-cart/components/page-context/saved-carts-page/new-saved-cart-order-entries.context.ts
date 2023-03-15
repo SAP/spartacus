@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
-  delayWhen,
+  debounce,
   every,
   filter,
   map,
@@ -92,7 +92,7 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
               this.savedCartService.loadSavedCarts();
             }),
             observeOn(queueScheduler),
-            delayWhen(() =>
+            debounce(() =>
               this.savedCartService
                 .getSaveCartProcessLoading()
                 .pipe(filter((loading) => !loading))

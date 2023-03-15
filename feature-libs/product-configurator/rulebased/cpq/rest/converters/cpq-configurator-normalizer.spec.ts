@@ -397,6 +397,12 @@ describe('CpqConfiguratorNormalizer', () => {
       checkMessagePresent(mappedConfiguration.warningMessages, VALIDATION_MSG);
       checkMessagePresent(mappedConfiguration.warningMessages, INCOMPLETE_MSG);
     });
+
+    it('should enable pricing', () => {
+      const mappedConfiguration =
+        cpqConfiguratorNormalizer.convert(cpqConfiguration);
+      expect(mappedConfiguration.pricingEnabled).toBe(true);
+    });
   });
   describe('convertValue', () => {
     it('should convert values', () => {
@@ -663,6 +669,20 @@ describe('CpqConfiguratorNormalizer', () => {
       const attribute: Configurator.Attribute = attributeList[0];
       expect(attributeList.length).toBe(1);
       expect(attribute.label).toBe('AttributeName');
+    });
+
+    it('should mark all attributes visible', () => {
+      const attributeList: Configurator.Attribute[] = [];
+
+      cpqConfiguratorNormalizer['convertAttribute'](
+        cpqAttribute,
+        cpqGroupId,
+        CURRENCY,
+        attributeList
+      );
+      const attribute: Configurator.Attribute = attributeList[0];
+      expect(attributeList.length).toBe(1);
+      expect(attribute.visible).toBe(true);
     });
   });
 

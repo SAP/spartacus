@@ -1,0 +1,43 @@
+%cx-configurator-overview-filter-dialog {
+  &:not(:empty) {
+    z-index: 1000;
+    .cx-modal-content {
+      margin: auto;
+      @include media-breakpoint-down(sm) {
+        min-height: 100%;
+      }
+    }
+    .cx-dialog-header {
+      padding-top: 2rem;
+      padding-inline-end: 1.75rem;
+      padding-bottom: 1.25rem;
+      padding-inline-start: 1.75rem;
+      display: flex;
+      top: 0px;
+      position: sticky;
+      background-color: var(--cx-color-inverse);
+
+      .cx-dialog-title {
+        @include type('3');
+        align-self: flex-start;
+      }
+      &.modal-header .close {
+        padding-bottom: 0rem;
+      }
+    }
+
+    .cx-dialog-body {
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
+
+      @include media-breakpoint-down(sm) {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      cx-configurator-overview-filter {
+        padding: 0px;
+      }
+    }
+  }
+}

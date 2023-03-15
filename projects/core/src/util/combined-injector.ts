@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   AbstractType,
-  InjectFlags,
   InjectionToken,
+  InjectOptions,
   Injector,
   Type,
 } from '@angular/core';
@@ -37,12 +37,12 @@ export class CombinedInjector implements Injector {
   get<T>(
     token: Type<T> | InjectionToken<T> | AbstractType<T>,
     notFoundValue?: T,
-    flags?: InjectFlags
+    optional?: InjectOptions
   ): T;
   get(token: any, notFoundValue?: any): any;
-  get(token: any, notFoundValue?: any, flags?: InjectFlags): any {
+  get(token: any, notFoundValue?: any, optional?: InjectOptions): any {
     // eslint-disable-next-line no-bitwise
-    if (flags && flags & InjectFlags.Self) {
+    if (optional && optional.self) {
       if (notFoundValue !== undefined) {
         return notFoundValue;
       }
@@ -54,7 +54,7 @@ export class CombinedInjector implements Injector {
     for (const injector of this.complementaryInjectors) {
       // First we are resolving providers provided at Self level
       // in all complementary injectors...
-      const service = injector.get(token, NOT_FOUND_SYMBOL, InjectFlags.Self);
+      const service = injector.get(token, NOT_FOUND_SYMBOL, { self: true });
       if (service !== NOT_FOUND_SYMBOL) {
         return service;
       }

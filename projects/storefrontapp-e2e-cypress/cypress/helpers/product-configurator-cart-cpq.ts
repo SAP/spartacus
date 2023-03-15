@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -190,8 +190,8 @@ function checkDeliveryAddressDisplayed(): void {
   cy.get('cx-delivery-address').should('be.visible');
   cy.get('cx-delivery-address').within(() => {
     checkLoadingSpinnerNotDisplayed();
-    cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
-    cy.get('p.cx-checkout-text').contains('Select your Delivery Address');
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+    cy.get('p.cx-checkout-text').contains('Select your Shipping Address');
     cy.get('.cx-checkout-body').should('be.visible');
     cy.get('.cx-checkout-btns').should('be.visible');
     cy.get('.cx-checkout-body').within(() => {
@@ -319,7 +319,6 @@ function reviewOrder(): void {
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review').should('be.visible');
       cy.get('.cx-review').should('contain', 'Review');
-      cy.get('.cx-review-title').should('be.visible');
       cy.get('cx-review-submit').should('be.visible');
       cy.get('.cx-review-cart-total').should('be.visible');
       cy.get('.cx-review-cart-item').should('be.visible');

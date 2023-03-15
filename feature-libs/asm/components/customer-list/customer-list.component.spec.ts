@@ -8,17 +8,17 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  AsmConfig,
   AsmService,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,
 } from '@spartacus/asm/root';
-import { I18nTestingModule, User } from '@spartacus/core';
+import { I18nTestingModule, QueryState, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -170,6 +170,10 @@ class MockAsmService implements Partial<AsmService> {
   getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
     return of(false);
   }
+
+  getCustomerListCustomersSearchResultsError(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockBreakpointService {
@@ -179,8 +183,8 @@ class MockBreakpointService {
 }
 
 class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
-  getCustomerLists(): Observable<CustomerListsPage | undefined> {
-    return of(mockCustomerListPage);
+  getCustomerListsState(): Observable<QueryState<CustomerListsPage>> {
+    return of({ error: false, loading: false, data: mockCustomerListPage });
   }
 }
 
@@ -198,6 +202,7 @@ describe('CustomerListComponent', () => {
   let asmService: AsmService;
   let breakpointService: BreakpointService;
   let config: AsmConfig;
+  let asmCustomerListFacade: AsmCustomerListFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -227,6 +232,7 @@ describe('CustomerListComponent', () => {
       launchDialogService = TestBed.inject(LaunchDialogService);
       config = TestBed.inject(AsmConfig);
       breakpointService = TestBed.inject(BreakpointService);
+      asmCustomerListFacade = TestBed.inject(AsmCustomerListFacade);
 
       spyOn(
         asmService,
@@ -248,6 +254,7 @@ describe('CustomerListComponent', () => {
 
     expect(component).toBeTruthy();
   });
+
   it('should select the first user group from the list', () => {
     fixture.detectChanges();
 
@@ -549,5 +556,51 @@ describe('CustomerListComponent', () => {
     expect(
       fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
     ).toEqual(0);
+  });
+
+  it('should notify users when lists result is empty', () => {
+    const emptyListsState: QueryState<CustomerListsPage> = {
+      error: false,
+      loading: false,
+      data: { userGroups: [] },
+    };
+    spyOn(asmCustomerListFacade, 'getCustomerListsState').and.returnValue(
+      of(emptyListsState)
+    );
+
+    fixture.detectChanges();
+
+    expect(component.listsEmpty).toBe(true);
+  });
+
+  it('should notify users when customer lists request fails ', () => {
+    const errorListsState: QueryState<CustomerListsPage> = {
+      error: new Error('Request failed'),
+      loading: false,
+      data: undefined,
+    };
+    spyOn(asmCustomerListFacade, 'getCustomerListsState').and.returnValue(
+      of(errorListsState)
+    );
+
+    fixture.detectChanges();
+
+    expect(component.listsError).toBe(true);
+  });
+
+  it('should notify users when customer page fails', () => {
+    spyOn(
+      asmService,
+      'getCustomerListCustomersSearchResultsError'
+    ).and.returnValue(of(true));
+    spyOn(asmService, 'getCustomerListCustomersSearchResults').and.returnValue(
+      of(undefined)
+    );
+    let actual: boolean | undefined;
+
+    fixture.detectChanges();
+    component.customerSearchError$.subscribe((isError) => (actual = isError));
+
+    expect(actual).toBe(true);
   });
 });

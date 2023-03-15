@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,6 @@ import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   isDevMode,
   OnDestroy,
   OnInit,
@@ -19,12 +18,14 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -45,15 +46,17 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   locale: string;
   iconType = ICON_TYPE;
   intervals: ConfiguratorAttributeNumericInterval[] = [];
-
-  @Input() language: string;
+  language: string;
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(config);
+    super(config, attributeComponentContext, configuratorCommonsService);
+    this.language = attributeComponentContext.language;
   }
 
   /**
@@ -294,36 +297,37 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     intervalText: string,
     interval: ConfiguratorAttributeNumericInterval
   ) {
+    let textToReturn = intervalText;
     this.translation
       .translate('configurator.a11y.numericIntervalStandard', {
         minValue: formattedMinValue,
         maxValue: formattedMaxValue,
       })
       .pipe(take(1))
-      .subscribe((text) => (intervalText = text));
+      .subscribe((text) => (textToReturn = text));
 
     if (!interval.minValueIncluded || !interval.maxValueIncluded) {
       if (!interval.minValueIncluded && !interval.maxValueIncluded) {
-        intervalText += ' ';
-        intervalText += this.getAdditionalIntervalText(
+        textToReturn += ' ';
+        textToReturn += this.getAdditionalIntervalText(
           'configurator.a11y.numericIntervalStandardOpen'
         );
       } else {
         if (!interval.minValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
             'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
           );
         }
         if (!interval.maxValueIncluded) {
-          intervalText += ' ';
-          intervalText += this.getAdditionalIntervalText(
+          textToReturn += ' ';
+          textToReturn += this.getAdditionalIntervalText(
             'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
           );
         }
       }
     }
-    return intervalText;
+    return textToReturn;
   }
 
   protected getAdditionalIntervalText(key: string): string {

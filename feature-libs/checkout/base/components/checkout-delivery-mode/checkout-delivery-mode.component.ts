@@ -1,28 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DeliveryMode } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -33,12 +29,40 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
-  protected subscriptions = new Subscription();
+export class CheckoutDeliveryModeComponent {
   protected busy$ = new BehaviorSubject(false);
+  readonly CartOutlets = CartOutlets;
 
-  selectedDeliveryModeCode$: Observable<string | undefined>;
-  supportedDeliveryModes$: Observable<DeliveryMode[]>;
+  selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
+    .getSelectedDeliveryModeState()
+    .pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      map((deliveryMode) => deliveryMode?.code)
+    );
+
+  supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
+    .getSupportedDeliveryModes()
+    .pipe(
+      filter((deliveryModes) => !!deliveryModes?.length),
+      withLatestFrom(this.selectedDeliveryModeCode$),
+      tap(([deliveryModes, code]) => {
+        if (
+          !code ||
+          !deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+        ) {
+          code =
+            this.checkoutConfigService.getPreferredDeliveryMode(deliveryModes);
+        }
+        if (code) {
+          this.mode.controls['deliveryModeId'].setValue(code);
+          this.changeMode(code);
+        }
+      }),
+      map(([deliveryModes]) =>
+        deliveryModes.filter((mode) => mode.code !== 'pickup')
+      )
+    );
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -65,49 +89,9 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
-
-  ngOnInit(): void {
-    this.supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
-      .getSupportedDeliveryModes()
-      .pipe(
-        filter((deliveryModes) => !!deliveryModes?.length),
-        distinctUntilChanged((current, previous) => {
-          return JSON.stringify(current) === JSON.stringify(previous);
-        })
-      );
-
-    this.selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
-      .getSelectedDeliveryModeState()
-      .pipe(
-        filter((state) => !state.loading),
-        map((state) => state.data),
-        map((deliveryMode) => deliveryMode?.code)
-      );
-
-    this.subscriptions.add(
-      this.supportedDeliveryModes$
-        .pipe(withLatestFrom(this.selectedDeliveryModeCode$))
-        .subscribe(([deliveryModes, code]) => {
-          if (
-            !(
-              code &&
-              !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
-            )
-          ) {
-            code =
-              this.checkoutConfigService.getPreferredDeliveryMode(
-                deliveryModes
-              );
-          }
-          if (code) {
-            this.mode.controls['deliveryModeId'].setValue(code);
-            this.changeMode(code);
-          }
-        })
-    );
-  }
 
   changeMode(code: string): void {
     this.busy$.next(true);
@@ -119,9 +103,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.mode.valid && this.mode.value) {
-      this.checkoutStepService.next(this.activatedRoute);
-    }
+    this.checkoutStepService.next(this.activatedRoute);
   }
 
   back(): void {
@@ -138,9 +120,5 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.busy$.next(false);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }

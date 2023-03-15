@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,13 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
+
+type readConfigurationForCartEntryResultType =
+  | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+  | ConfiguratorActions.UpdatePriceSummary
+  | ConfiguratorActions.SearchVariants
+  | ConfiguratorActions.ReadCartEntryConfigurationFail;
 
 export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
   'Entry number is required in addToCart response';
@@ -124,35 +131,46 @@ export class ConfiguratorCartEffects {
     )
   );
 
-  readConfigurationForCartEntry$: Observable<
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
-    | ConfiguratorActions.UpdatePriceSummary
-    | ConfiguratorActions.SearchVariants
-    | ConfiguratorActions.ReadCartEntryConfigurationFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
-      switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
-        const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
-          action.payload;
-        return this.configuratorCommonsConnector
-          .readConfigurationForCartEntry(parameters)
-          .pipe(
-            switchMap((result: Configurator.Configuration) => [
-              new ConfiguratorActions.ReadCartEntryConfigurationSuccess(result),
-              new ConfiguratorActions.UpdatePriceSummary(result),
-              new ConfiguratorActions.SearchVariants(result),
-            ]),
-            catchError((error) => [
-              new ConfiguratorActions.ReadCartEntryConfigurationFail({
-                ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error),
+  readConfigurationForCartEntry$: Observable<readConfigurationForCartEntryResultType> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
+        switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
+          const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+            action.payload;
+          return this.configuratorCommonsConnector
+            .readConfigurationForCartEntry(parameters)
+            .pipe(
+              switchMap((result: Configurator.Configuration) => {
+                const updatePriceSummaryAction =
+                  new ConfiguratorActions.UpdatePriceSummary({
+                    ...result,
+                    interactionState: {
+                      currentGroup:
+                        this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                          result,
+                          !result.immediateConflictResolution
+                        ),
+                    },
+                  });
+                return [
+                  new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+                    result
+                  ),
+                  updatePriceSummaryAction,
+                  new ConfiguratorActions.SearchVariants(result),
+                ];
               }),
-            ])
-          );
-      })
-    )
-  );
+              catchError((error) => [
+                new ConfiguratorActions.ReadCartEntryConfigurationFail({
+                  ownerKey: action.payload.owner.key,
+                  error: normalizeHttpError(error),
+                }),
+              ])
+            );
+        })
+      )
+    );
 
   readConfigurationForOrderEntry$: Observable<
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess
@@ -264,6 +282,7 @@ export class ConfiguratorCartEffects {
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfigurator>
+    protected store: Store<StateWithConfigurator>,
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
   ) {}
 }

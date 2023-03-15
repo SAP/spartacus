@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import { WindowRef } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualViewerAnimationSliderService {
   public constructor(

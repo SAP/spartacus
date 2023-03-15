@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,7 +33,7 @@ export class TrackingService {
           this.profileTagLifecycleService.consentChanged().pipe(
             tap((event) => {
               // always notify of consent changes
-              this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
+              this.profileTagEventTracker.notifyProfileTagOfEventOccurrence(
                 event
               );
             })
@@ -41,7 +41,7 @@ export class TrackingService {
         ),
         filter(([_event, consentChanged]) => consentChanged.data.granted), //don't notify other events until consent is granted
         tap(([event]) => {
-          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(event);
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurrence(event);
         })
       )
       .subscribe();

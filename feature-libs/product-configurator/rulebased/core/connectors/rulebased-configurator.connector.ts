@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,9 +28,15 @@ export class RulebasedConfiguratorConnector {
   ) {}
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
-    return this.getAdapter(owner.configuratorType).createConfiguration(owner);
+    return this.getAdapter(owner.configuratorType).createConfiguration(
+      owner,
+      configIdTemplate,
+      forceReset
+    );
   }
 
   readConfiguration(
@@ -97,6 +103,20 @@ export class RulebasedConfiguratorConnector {
     return this.getAdapter(
       configuration.owner.configuratorType
     ).getConfigurationOverview(configuration.configId);
+  }
+
+  updateConfigurationOverview(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Overview> {
+    const overview = configuration.overview;
+
+    return overview
+      ? this.getAdapter(
+          configuration.owner.configuratorType
+        ).updateConfigurationOverview(overview)
+      : this.getAdapter(
+          configuration.owner.configuratorType
+        ).getConfigurationOverview(configuration.configId);
   }
 
   searchVariants(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY } from '@spartacus/organization/account-summary/core';
 import {

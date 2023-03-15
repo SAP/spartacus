@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -116,3 +116,12 @@ export enum RenderingStrategy {
   DEFAULT = 0,
   ALWAYS_SSR = 1,
 }
+
+export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+  concurrency: 10,
+  timeout: 3_000,
+  forcedSsrTimeout: 60_000,
+  maxRenderTime: 300_000,
+  reuseCurrentRendering: true,
+  debug: false,
+};

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -17,7 +18,13 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @NgModule({
-  imports: [CommonModule, CardModule, SpinnerModule, I18nModule],
+  imports: [
+    CommonModule,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    FeaturesConfigModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -463,35 +463,6 @@ export class OrgUnitEffects {
       )
     )
   );
-
-  // @Effect()
-  // loadAddress$: Observable<
-  //   | OrgUnitActions.LoadAddressSuccess
-  //   | OrgUnitActions.LoadAddressesSuccess
-  //   | OrgUnitActions.LoadAddressesFail
-  // > = this.actions$.pipe(
-  //   ofType(OrgUnitActions.LOAD_ADDRESSES),
-  //   map((action: OrgUnitActions.LoadAddresses) => action.payload),
-  //   switchMap(({ userId, orgUnitId }) => {
-  //     return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
-  //       switchMap((addresses: EntitiesModel<B2BAddress>) => {
-  //         const { values, page } = StateUtils.normalizeListPage(addresses, 'id');
-  //         return [
-  //           new OrgUnitActions.LoadAddressSuccess(values),
-  //           new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
-  //         ];
-  //       }),
-  //       catchError(error =>
-  //         of(
-  //           new OrgUnitActions.LoadAddressesFail({
-  //             orgUnitId,
-  //             error: normalizeHttpError(error),
-  //           })
-  //         )
-  //       )
-  //     );
-  //   })
-  // );
 
   constructor(
     private actions$: Actions,

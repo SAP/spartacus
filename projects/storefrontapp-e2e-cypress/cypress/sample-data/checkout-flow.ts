@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ export interface SampleUser {
   password?: string;
   email?: string;
   phone?: string;
+  cellphone?: string;
   address?: {
     city?: string;
     line1?: string;
@@ -59,6 +60,7 @@ export function getSampleUser() {
     password: 'Password123.',
     email: generateMail(randomString(), true),
     phone: '555 555 555',
+    cellphone: '123 456 7899',
     address: {
       city: 'Los Angeles',
       line1: '1111 S Figueroa St',

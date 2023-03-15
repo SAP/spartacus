@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,7 +75,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
 
   cy.wait('@setAddress').its('response.statusCode').should('eq', 200);
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AccountSummaryDetails,
   AccountSummaryList,
@@ -9,23 +15,23 @@ export abstract class AccountSummaryAdapter {
   /**
    * Abstract method to load account summary header data for given
    * @param userId
-   * @param orgUnit
+   * @param orgUnitId
    */
 
   abstract getAccountSummary(
     userId: string,
-    orgUnit: string
+    orgUnitId: string
   ): Observable<AccountSummaryDetails>;
 
   /**
    * Abstract method to load account summary document list for given
    * @param userId
-   * @param orgUnit
+   * @param orgUnitId
    */
 
   abstract getDocumentList(
     userId: string,
-    orgUnit: string,
+    orgUnitId: string,
     params: DocumentQueryParams
   ): Observable<AccountSummaryList>;
 

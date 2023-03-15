@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
+  defaultSsrOptimizationOptions,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
@@ -21,9 +22,9 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  concurrency: 20,
-  timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
-  reuseCurrentRendering: true,
+  timeout: Number(
+    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
+  ),
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);

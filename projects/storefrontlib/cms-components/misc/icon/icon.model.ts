@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,14 @@ export enum ICON_TYPE {
   ORDER = 'ORDER',
   DOWNLOAD = 'DOWNLOAD',
   FILE = 'FILE',
+  HEADSET = 'HEADSET',
+  ATTACHMENT = 'ATTACHMENT',
+  UPLOAD = 'UPLOAD',
+  USER = 'USER',
+  ARROW_LEFT = 'ARROW_LEFT',
+  ARROW_RIGHT = 'ARROW_RIGHT',
+  ARROW_DOWN = 'ARROW_DOWN',
+  ARROW_UP = 'ARROW_UP',
 }
 
 @Injectable({

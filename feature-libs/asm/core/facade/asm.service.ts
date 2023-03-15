@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,6 +75,15 @@ export class AsmService {
   getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
     return this.store.pipe(
       select(AsmSelectors.getCustomerListCustomersSearchResultsLoading)
+    );
+  }
+
+  /**
+   * Returns the customer list customers search result error status.
+   */
+  getCustomerListCustomersSearchResultsError(): Observable<boolean> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerListCustomersSearchResultsError)
     );
   }
 

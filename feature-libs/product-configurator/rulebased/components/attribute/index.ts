@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,9 +15,11 @@ export * from './types/drop-down/index';
 export * from './types/input-field/index';
 export * from './types/multi-selection-bundle/index';
 export * from './types/multi-selection-image/index';
+export * from './types/not-supported/index';
 export * from './types/numeric-input-field/index';
 export * from './types/radio-button/index';
 export * from './types/read-only/index';
 export * from './types/single-selection-bundle-dropdown/index';
 export * from './types/single-selection-bundle/index';
 export * from './types/single-selection-image/index';
+export * from './composition/index';

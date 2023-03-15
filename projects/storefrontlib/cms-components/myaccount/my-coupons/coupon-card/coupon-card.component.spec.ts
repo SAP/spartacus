@@ -9,7 +9,12 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
+import {
+  CustomerCoupon,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -88,12 +93,22 @@ describe('CouponCardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-        imports: [I18nTestingModule, RouterTestingModule],
+        imports: [
+          I18nTestingModule,
+          RouterTestingModule,
+          FeaturesConfigModule.forRoot(),
+        ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: MyCouponsComponentService,
             useValue: couponComponentService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.1' },
+            },
           },
         ],
       }).compileComponents();
@@ -139,7 +154,8 @@ describe('CouponCardComponent', () => {
       .textContent;
     expect(couponEndDate).toBeTruthy();
 
-    const readMoreLink = el.query(By.css('a')).nativeElement.textContent;
+    const readMoreLink = el.query(By.css('.cx-card-read-more')).nativeElement
+      .textContent;
     expect(readMoreLink).toContain('myCoupons.readMore');
 
     const couponNotificationCheckbox = el.queryAll(By.css('.form-check-input'));
@@ -148,14 +164,15 @@ describe('CouponCardComponent', () => {
       .nativeElement.textContent;
     expect(couponNotificationLabel).toContain('myCoupons.notification');
 
-    const findProductBtn = el.query(By.css('button')).nativeElement.textContent;
+    const findProductBtn = el.query(By.css('button.btn-action')).nativeElement
+      .textContent;
     expect(findProductBtn).toContain('myCoupons.findProducts');
   });
 
   it('should be able to open coupon detail dialog', () => {
     spyOn(launchDialogService, 'openDialog').and.stub();
     fixture.detectChanges();
-    const readMoreLink = el.query(By.css('a'));
+    const readMoreLink = el.query(By.css('.cx-card-read-more'));
     readMoreLink.nativeElement.click();
     expect(launchDialogService.openDialog).toHaveBeenCalled();
   });
@@ -197,7 +214,7 @@ describe('CouponCardComponent', () => {
 
   it('should be able to click `Find Product` button', () => {
     fixture.detectChanges();
-    el.query(By.css('button')).triggerEventHandler('click', null);
+    el.query(By.css('button.btn-action')).triggerEventHandler('click', null);
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
       component.coupon
     );

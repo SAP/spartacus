@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -127,36 +127,48 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   onSelect(eventValue: any): void {
     this.loading$.next(true);
-    this.selectionChange.emit(
-      this.updateMultipleSelectionValues(eventValue, true)
+    const changes = this.updateMultipleSelectionValues(eventValue, true);
+
+    this.configuratorCommonsService.updateConfiguration(
+      changes.ownerKey,
+      changes.changedAttribute,
+      changes.updateType
     );
   }
 
   onDeselect(eventValue: any): void {
     this.loading$.next(true);
-    this.selectionChange.emit(
-      this.updateMultipleSelectionValues(eventValue, false)
+    const changes = this.updateMultipleSelectionValues(eventValue, false);
+    this.configuratorCommonsService.updateConfiguration(
+      changes.ownerKey,
+      changes.changedAttribute,
+      changes.updateType
     );
   }
 
   onDeselectAll(): void {
     this.loading$.next(true);
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: [],
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   onChangeValueQuantity(eventValue: any): void {
     this.loading$.next(true);
-    this.selectionChange.emit(
-      this.updateMultipleSelectionValuesQuantity(eventValue)
-    );
+    const changes = this.updateMultipleSelectionValuesQuantity(eventValue);
+
+    if (changes) {
+      this.configuratorCommonsService.updateConfiguration(
+        changes.ownerKey,
+        changes.changedAttribute,
+        changes.updateType
+      );
+    }
   }
 
   onChangeAttributeQuantity(eventObject: any): void {

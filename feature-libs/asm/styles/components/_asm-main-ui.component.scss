@@ -8,6 +8,8 @@
   .close,
   .logout {
     cursor: pointer;
+    padding: 0;
+    flex: none;
     width: 16px;
     height: 16px;
     border: transparent;

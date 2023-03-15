@@ -1,14 +1,29 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   AccountSummaryDetails,
   AccountSummaryList,
   DocumentStatus,
 } from '@spartacus/organization/account-summary/root';
 
+const PURCHASE_ORDER = 'Purchase Order';
+const EMAIL = 'carla.torres@rustic-hw.com';
+const CUSTOM_RETAIL_NAME = 'Custom Retail';
+const DATES = {
+  JAN_24: '2022-01-24',
+  JAN_26: '2022-01-26',
+  FEB_25: '2022-02-25',
+};
+
 export const mockAccountSummaryList: AccountSummaryList = {
   orgDocumentTypes: [
     {
       code: 'PURCHASE_ORDER',
-      name: 'Purchase Order',
+      name: PURCHASE_ORDER,
     },
     {
       code: 'INVOICE',
@@ -59,7 +74,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: '2022-01-24',
+      dueAtDate: DATES.JAN_24,
       formattedAmount: '$656,105.00',
       formattedOpenAmount: '$656,105.00',
       id: 'CRNPG-0000002',
@@ -98,7 +113,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'POPG-00100006',
         },
       ],
-      createdAtDate: '2022-01-24',
+      createdAtDate: DATES.JAN_24,
       currency: {
         active: true,
         isocode: 'USD',
@@ -111,7 +126,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       openAmount: 30599,
       orgDocumentType: {
         code: 'PURCHASE_ORDER',
-        name: 'Purchase Order',
+        name: PURCHASE_ORDER,
       },
       status: DocumentStatus.OPEN,
     },
@@ -122,7 +137,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'POPG-00006009',
         },
       ],
-      createdAtDate: '2022-01-24',
+      createdAtDate: DATES.JAN_24,
       currency: {
         active: true,
         isocode: 'USD',
@@ -135,7 +150,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       openAmount: 17199,
       orgDocumentType: {
         code: 'PURCHASE_ORDER',
-        name: 'Purchase Order',
+        name: PURCHASE_ORDER,
       },
       status: DocumentStatus.OPEN,
     },
@@ -167,14 +182,14 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'INPG-00100001',
         },
       ],
-      createdAtDate: '2022-01-26',
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: '2022-02-25',
+      dueAtDate: DATES.FEB_25,
       formattedAmount: '$35,189.00',
       formattedOpenAmount: '$35,189.00',
       id: 'INPG-00100001',
@@ -192,14 +207,14 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'INPG-00100002',
         },
       ],
-      createdAtDate: '2022-01-26',
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: '2022-02-25',
+      dueAtDate: DATES.FEB_25,
       formattedAmount: '$19,779.00',
       formattedOpenAmount: '$19,779.00',
       id: 'INPG-00100002',
@@ -217,7 +232,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'POPG-00006012',
         },
       ],
-      createdAtDate: '2022-01-26',
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
@@ -230,7 +245,7 @@ export const mockAccountSummaryList: AccountSummaryList = {
       openAmount: 21799,
       orgDocumentType: {
         code: 'PURCHASE_ORDER',
-        name: 'Purchase Order',
+        name: PURCHASE_ORDER,
       },
       status: DocumentStatus.OPEN,
     },
@@ -241,14 +256,14 @@ export const mockAccountSummaryList: AccountSummaryList = {
           id: 'INPG-00100003',
         },
       ],
-      createdAtDate: '2022-01-26',
+      createdAtDate: DATES.JAN_26,
       currency: {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
         symbol: '$',
       },
-      dueAtDate: '2022-02-25',
+      dueAtDate: DATES.FEB_25,
       formattedAmount: '$25,069.00',
       formattedOpenAmount: '$25,069.00',
       id: 'INPG-00100003',
@@ -370,7 +385,7 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
       name: 'United States',
     },
     defaultAddress: false,
-    email: 'carla.torres@rustic-hw.com',
+    email: EMAIL,
     firstName: 'Carla',
     formattedAddress: '1000 Bagby Street, Houston, Texas',
     id: '8796098986007',
@@ -393,7 +408,7 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
           name: 'United States',
         },
         defaultAddress: false,
-        email: 'carla.torres@rustic-hw.com',
+        email: EMAIL,
         firstName: 'Carla',
         formattedAddress: '1000 Bagby Street, Houston, Texas',
         id: '8796098986007',
@@ -410,7 +425,7 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
     approvers: [
       {
         name: 'Carla Torres',
-        uid: 'carla.torres@rustic-hw.com',
+        uid: EMAIL,
         active: true,
         approvers: [],
         currency: {
@@ -420,7 +435,7 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
           symbol: '$',
         },
         customerId: '1df2fe00-7e9c-4e7c-9598-1ae22d83979a',
-        displayUid: 'carla.torres@rustic-hw.com',
+        displayUid: EMAIL,
         firstName: 'Carla',
         lastName: 'Torres',
         orgUnit: {
@@ -429,11 +444,11 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
             {
               active: false,
               code: 'Custom_Retail',
-              name: 'Custom Retail',
+              name: CUSTOM_RETAIL_NAME,
             },
           ],
-          name: 'Custom Retail',
-          uid: 'Custom Retail',
+          name: CUSTOM_RETAIL_NAME,
+          uid: CUSTOM_RETAIL_NAME,
         },
         roles: ['b2bapprovergroup'],
         selected: false,
@@ -451,7 +466,7 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
           name: 'US Dollar',
           symbol: '$',
         },
-        name: 'Custom Retail',
+        name: CUSTOM_RETAIL_NAME,
       },
     ],
     customers: [
@@ -476,11 +491,11 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
             {
               active: false,
               code: 'Custom_Retail',
-              name: 'Custom Retail',
+              name: CUSTOM_RETAIL_NAME,
             },
           ],
-          name: 'Custom Retail',
-          uid: 'Custom Retail',
+          name: CUSTOM_RETAIL_NAME,
+          uid: CUSTOM_RETAIL_NAME,
         },
         roles: ['b2bcustomergroup'],
         selected: false,
@@ -508,11 +523,11 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
             {
               active: false,
               code: 'Custom_Retail',
-              name: 'Custom Retail',
+              name: CUSTOM_RETAIL_NAME,
             },
           ],
-          name: 'Custom Retail',
-          uid: 'Custom Retail',
+          name: CUSTOM_RETAIL_NAME,
+          uid: CUSTOM_RETAIL_NAME,
         },
         roles: ['b2bcustomergroup'],
         selected: false,
@@ -540,11 +555,11 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
             {
               active: false,
               code: 'Custom_Retail',
-              name: 'Custom Retail',
+              name: CUSTOM_RETAIL_NAME,
             },
           ],
-          name: 'Custom Retail',
-          uid: 'Custom Retail',
+          name: CUSTOM_RETAIL_NAME,
+          uid: CUSTOM_RETAIL_NAME,
         },
         roles: ['b2bcustomergroup'],
         selected: false,
@@ -572,11 +587,11 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
             {
               active: false,
               code: 'Custom_Retail',
-              name: 'Custom Retail',
+              name: CUSTOM_RETAIL_NAME,
             },
           ],
-          name: 'Custom Retail',
-          uid: 'Custom Retail',
+          name: CUSTOM_RETAIL_NAME,
+          uid: CUSTOM_RETAIL_NAME,
         },
         roles: ['b2bcustomergroup'],
         selected: false,
@@ -604,11 +619,11 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
             {
               active: false,
               code: 'Custom_Retail',
-              name: 'Custom Retail',
+              name: CUSTOM_RETAIL_NAME,
             },
           ],
-          name: 'Custom Retail',
-          uid: 'Custom Retail',
+          name: CUSTOM_RETAIL_NAME,
+          uid: CUSTOM_RETAIL_NAME,
         },
         roles: ['b2bcustomergroup'],
         selected: false,
@@ -616,12 +631,12 @@ export const mockAccountSummaryDetails: AccountSummaryDetails = {
         titleCode: 'mr',
       },
     ],
-    name: 'Custom Retail',
+    name: CUSTOM_RETAIL_NAME,
     parentOrgUnit: {
       active: true,
       name: 'Rustic Retail',
       uid: 'Rustic Retail',
     },
-    uid: 'Custom Retail',
+    uid: CUSTOM_RETAIL_NAME,
   },
 };

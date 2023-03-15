@@ -68,6 +68,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
       productCode: 'CODE1111',
       quantity: 3,
       numberOfEntriesBeforeAdd: 2,
+      pickupStoreName: 'test',
     });
   }
 

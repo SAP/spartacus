@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,31 +13,34 @@ import { SPARTACUS_ASM, SPARTACUS_CORE } from '../../../shared/libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
 
+const SPARTACUS_STOREFRONT = '@spartacus/storefront';
+const SPARTACUS_STOREFINDER_COMPONENTS = '@spartacus/storefinder/components';
+
 export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   {
     // 1) For import change
     previousNode: 'OtherComponent1',
-    previousImportPath: '@spartacus/storefront',
-    newImportPath: '@spartacus/storefinder/components',
+    previousImportPath: SPARTACUS_STOREFRONT,
+    newImportPath: SPARTACUS_STOREFINDER_COMPONENTS,
   },
   {
     // 2) For import and rename change with alias
     previousNode: 'OtherComponent2',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: SPARTACUS_STOREFRONT,
     newNode: 'OtherComponentTest2',
-    newImportPath: '@spartacus/storefinder/components',
+    newImportPath: SPARTACUS_STOREFINDER_COMPONENTS,
   },
   {
     // 3) For import and rename change
     previousNode: 'OtherComponent3',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: SPARTACUS_STOREFRONT,
     newNode: 'OtherComponentTest3',
-    newImportPath: '@spartacus/storefinder/components',
+    newImportPath: SPARTACUS_STOREFINDER_COMPONENTS,
   },
   {
     // 4) For name change
     previousNode: 'OtherComponent4',
-    previousImportPath: '@spartacus/storefront',
+    previousImportPath: SPARTACUS_STOREFRONT,
     newNode: 'OtherComponentTest4',
   },
   // projects/core/src/asm/services/asm-auth-http-header.service.ts

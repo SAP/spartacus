@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +39,7 @@ export class ConfiguratorConflictSuggestionComponent {
   displayConflictSuggestion(group: Configurator.Group): boolean {
     return group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
       group.attributes
-      ? group.attributes?.length > 1
+      ? group.attributes.length > 0
       : false;
   }
 

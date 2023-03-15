@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
-import { clickFacet } from './product-search';
-import { searchUrlPrefix } from './product-search';
+import { waitForCategoryPage } from './navigation';
+import { clickFacet, searchUrlPrefix } from './product-search';
 
 const scrollDuration = 5000;
 const defaultNumberOfProducts = 12;
@@ -18,7 +18,8 @@ const productScrollButtons = 'cx-product-scroll .btn-action';
 const doubleButton = 'double';
 const singleButton = 'single';
 
-export const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
+export const powerSuppliesCategoryCode = '816';
+export const testUrl = `/Open-Catalogue/Components/Power-Supplies/c/${powerSuppliesCategoryCode}`;
 export const defaultQuery = `query_relevance`;
 export const defaultQueryAlias = `@${defaultQuery}`;
 
@@ -90,7 +91,8 @@ export function scrollToFooter(
 
   for (let i = 1; i < iterations; i++) {
     if (isShowMoreButton) {
-      cy.get('div')
+      cy.scrollTo('bottom');
+      cy.get('div.btn-action')
         .contains('SHOW MORE')
         .click({ force: true })
         .wait(defaultQueryAlias)
@@ -214,7 +216,8 @@ export function goToURLAndWaitTillItLoads(pageName) {
 export function testInfiniteScrollAvoidDisplayShowMoreButton() {
   it("should enable Infinite scroll and NOT display 'Show more' button", () => {
     configScroll(true, 0, false);
-    cy.visit(testUrl);
+
+    visitPowerSupplyListingPage();
 
     cy.intercept({
       method: 'GET',
@@ -235,7 +238,11 @@ export function testInfiniteScrollAvoidDisplayShowMoreButton() {
       },
     }).as('sortQuery');
 
-    cy.wait(defaultQueryAlias).then((waitXHR) => {
+    cy.wait(defaultQueryAlias).its('response.statusCode').should('eq', 200);
+
+    verifyInfiniteScrollConfigSetProperly(true, 0, false);
+
+    cy.get(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;
       isPaginationNotVisible();
 

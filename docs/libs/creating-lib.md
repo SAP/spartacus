@@ -15,12 +15,14 @@ This document can also serve as the guideline for the future schematic that can 
   - [Aligning with the other libs](#aligning-with-the-other-libs)
     - [Modifying the generated files](#modifying-the-generated-files)
     - [Additional changes to existing files](#additional-changes-to-existing-files)
+    - [Sample data release entry ONLY if applicable](#sample-data-release-entry-only-if-applicable)
   - [Multi-entry point library](#multi-entry-point-library)
     - [Process](#process)
   - [Testing](#testing)
   - [Schematics](#schematics)
     - [Configuring Schematics](#configuring-schematics)
     - [Testing Schematics](#testing-schematics)
+  - [Installation script](#installation-script)
 
 ## Naming conventions
 
@@ -28,7 +30,7 @@ These are some naming guidelines for libraries:
 
 - library names should be abbreviated, if possible (e.g. _cds_)
 - library names should use kebab-case (e.g. `my-account`)
-- the scripts added to `package.json` should _not_ use kebab-case (e.g. `yarn build:myaccount`)
+- the scripts added to `package.json` should _not_ use kebab-case (e.g. `npm run build:myaccount`)
 
 ## Generating a library
 
@@ -57,8 +59,9 @@ Just copy paste the following and and make sure to rename `TODO:` to you lib's n
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
+      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
@@ -66,24 +69,28 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter'),
     ],
+    parallelOptions: {
+      executors: 2,
+      shardStrategy: 'round-robin',
+    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-   reporters: ['progress', 'kjhtml', 'dots', 'junit'],
+    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
       outputFile: 'unit-test-<lib-name>.xml',
-      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),      
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/TODO:'),
+      dir: require('path').join(__dirname, '../../coverage/TODO'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
-          statements: 80,
-          lines: 80,
-          branches: 70,
-          functions: 80,
+          statements: 90,
+          lines: 90,
+          branches: 75,
+          functions: 85,
         },
       },
     },
@@ -142,7 +149,7 @@ Use the following template:
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/TODO",
   "dependencies": {
     "tslib": "^2.0.0"
   },
@@ -186,6 +193,8 @@ Use the following template:
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
+    "declarationMap": true,
+    "strict": true,
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
@@ -223,7 +232,7 @@ Use the following template:
 }
 ```
 
-- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
+- run `npm run config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tslint.json` - remove
 - the rest of the generated files should be removed
@@ -236,7 +245,7 @@ Use the following template:
       }
     },
   ```
-  and then run `yarn config:update` (to fix the formatting)
+  and then run `npm run config:update` (to fix the formatting)
 
 ### Additional changes to existing files
 
@@ -254,7 +263,7 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --configuration production",
+"build:asm": "npm --prefix feature-libs/asm run build:schematics && ng build asm --configuration production",
 "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
@@ -267,24 +276,7 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 Replace `TODO:` with the appropriate name.
 Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
 
-- `scripts/changelog.ts`
-
-In the `const libraryPaths` object, add the following (and replace the `my-account` with your lib's name):
-
-```ts
-const libraryPaths = {
-  ...,
-  '@spartacus/my-account': 'feature-libs/my-account',
-};
-```
-
-Also make sure to add the lib to the `switch` statement at the end of the file.
-
-- `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
-
 - `projects/schematics/package.json` - add the library to the package group
-
-- `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
 - `ci-scripts/unit-tests.sh`
 
@@ -303,6 +295,16 @@ fi
 
 Replace `TODO:` with the appropriate name.
 
+### Sample data release entry ONLY if applicable
+
+If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then the following is applicable to you.
+
+1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script. This input is the target branch that we would want to release.
+2. `publish-sample-data.sh`:
+   1. create a variable at the top to use $STOREFRONT_FILE_NAME as a prefix, which is used to name the zip/tar.
+   2. create one function that utilize downloading the assets (zip/tar) of your sample data like the `download_sample_data` function.
+   3. add a note for the `gh release` that mentions what that zip is. For example, if the zip is called spartacussampledata-TODO.zip, then make sure it mentions what that TODO is.
+
 ## Multi-entry point library
 
 Sources:
@@ -317,7 +319,7 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
-- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
+- run `npm run config:update` script to update `compilerOptions.path` property in tsconfig files
 
 ## Testing
 
@@ -327,8 +329,8 @@ Don't forget to:
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
 - build the generated library (without Ivy) - `ng build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
-  - `yarn build:libs` (build all the libs)
-  - `yarn build`
+  - `npm run build:libs` (build all the libs)
+  - `npm run build`
 
 ## Schematics
 
@@ -346,20 +348,78 @@ There are couple of required changes to make sure schematics will work properly
   - `projects/storefrontapp/tsconfig.server.prod.json`,
   - `projects/storefrontapp/tsconfig.server.json`,
   - `projects/storefrontapp/tsconfig.app.prod.json`
-- add new feature lib consts in schematics folder - `feature-libs\<lib-name>\schematics\constants.ts` where the `lib-name` is the name of the new library
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
-- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file. 
-
+- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file.
 
 ### Testing Schematics
+
+IMPORTANT : DO NOT PUSH any changed done under this step.
 
 - Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
-- Create new angular project `ng new schematics-test --style scss`
+- Create new angular project `ng new schematics-test --style scss --routing=false`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
-- Build all libs (if it is first time, if not just build your new lib)
+- Build all libs (if it is first time, if not just build your new lib) or run a command `npm run build:libs`
 - Publish
 - Add spartacus to new angular project `ng add @spartacus/schematics@latest --base-url https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --base-site=electronics-spa
+
+## Installation script
+
+[Installation Script for Spartacus](https://github.com/SAP/spartacus/blob/develop/scripts/install/README.md)
+
+If your library is an integration library (that requires a separate integration servers), a separate toggle flag should be implemented in the Installation Script.
+
+In the following examples please replace `TODO` and `todo` with your appropriate library name:
+
+- In `scripts/install/config.default.ts` add a new flag `ADD_TODO=false` (similar to `ADD_CDC=false`)
+
+In `scripts/install/functions.ts`:
+
+- add a switch-case inside the `function parseInstallArgs` (similar to the case `cdc)`):
+
+  ```bash
+  function parseInstallArgs {
+    ...
+
+    todo)
+        ADD_TODO=true
+        echo "➖ Added TODO"
+        shift
+        ;;
+  ```
+
+- create a new function `add_todo` for installing your library (similar to `function add_cdc`):
+
+  ```bash
+  function add_todo {
+    if [ "$ADD_TODO" = true ] ; then
+          ng add @spartacus/todo@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+      fi
+  }
+  ```
+
+- invoke your installation function `add_todo` in 3 other functions (similar to `add_cdc`):
+  - CSR installation:
+    ```bash
+    function install_spartacus_csr {
+        ...
+        add_todo
+    }
+    ```
+  - SSR installation:
+    ```bash
+    function install_spartacus_ssr {
+        ...
+        add_todo
+    }
+    ```
+  - SSR PWA installation:
+    ```bash
+    function add_spartacus_ssr_pwa {
+        ...
+        add_todo
+    }
+    ```

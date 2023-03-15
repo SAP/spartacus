@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
+import { CmsMerchandisingCarouselComponent as model } from '../../../cds-models/cms.model';
 import { MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
@@ -32,7 +32,7 @@ export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;
 
   constructor(
-    protected componentData: CmsComponentData<CmsMerchandisingCarouselComponent>,
+    protected componentData: CmsComponentData<model>,
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
@@ -40,6 +40,14 @@ export class MerchandisingCarouselComponent {
   ) {
     this.lastEventModelId = '';
   }
+
+  /**
+   * returns an Observable string for the title.
+   */
+  title$: Observable<string | undefined> = this.componentData.data$.pipe(
+    filter((data) => Boolean(data)),
+    map((data) => data.title)
+  );
 
   private fetchProducts$: Observable<MerchandisingCarouselModel> =
     this.componentData.data$.pipe(

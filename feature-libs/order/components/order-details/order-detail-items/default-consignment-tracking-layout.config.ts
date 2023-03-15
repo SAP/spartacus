@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { LayoutConfig, DIALOG_TYPE } from '@spartacus/storefront';
 import { TrackingEventsComponent } from './consignment-tracking/tracking-events/tracking-events.component';
 

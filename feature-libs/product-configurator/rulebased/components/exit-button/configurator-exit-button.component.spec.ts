@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BreakpointService } from '@spartacus/storefront';
 import {
   I18nTestingModule,
   Product,
@@ -15,15 +16,12 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorExitButtonComponent,
-} from '@spartacus/product-configurator/rulebased';
-import { BreakpointService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { Observable, of } from 'rxjs';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
@@ -191,6 +189,22 @@ describe('ConfiguratorExitButton', () => {
       );
     });
 
+    it('should render long text tooltip in mobile mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      setRouterTestDataProduct();
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-config-exit-button',
+        0,
+        'title',
+        'configurator.button.exit'
+      );
+    });
+
     it('should render long text in desktop mode', () => {
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
@@ -204,8 +218,20 @@ describe('ConfiguratorExitButton', () => {
       );
     });
 
+    it('should render long text tooltip in desktop mode', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      setRouterTestDataProduct();
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-exit-button',
+        'configurator.button.exit'
+      );
+    });
+
     it('should render short text  when navigate from cart', () => {
-      console.log('test');
       spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       spyOn(breakpointService, 'isUp').and.returnValue(of(false));
       setRouterTestDataCartEntry();
@@ -218,6 +244,22 @@ describe('ConfiguratorExitButton', () => {
       );
     });
 
+    it('should render long text tooltip when navigate from cart in mobile mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      setRouterTestDataCartEntry();
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-config-exit-button',
+        0,
+        'title',
+        'configurator.button.cancelConfiguration'
+      );
+    });
+
     it('should render long text  when navigate from cart', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
@@ -227,6 +269,22 @@ describe('ConfiguratorExitButton', () => {
         expect,
         htmlElem,
         '.cx-config-exit-button',
+        'configurator.button.cancelConfiguration'
+      );
+    });
+
+    it('should render long text tooltip when navigate from cart in desktop mode', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      setRouterTestDataCartEntry();
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-config-exit-button',
+        0,
+        'title',
         'configurator.button.cancelConfiguration'
       );
     });

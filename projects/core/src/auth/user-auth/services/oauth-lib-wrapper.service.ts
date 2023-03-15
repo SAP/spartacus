@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -83,10 +83,10 @@ export class OAuthLibWrapperService {
   revokeAndLogout(): Promise<void> {
     return new Promise((resolve) => {
       this.oAuthService
-        .revokeTokenAndLogout()
+        .revokeTokenAndLogout(true)
         .catch(() => {
           // when there would be some kind of error during revocation we can't do anything else, so at least we logout user.
-          this.oAuthService.logOut();
+          this.oAuthService.logOut(true);
         })
         .finally(() => {
           resolve();
@@ -98,7 +98,7 @@ export class OAuthLibWrapperService {
    * Clear tokens in library state (no revocation).
    */
   logout(): void {
-    this.oAuthService.logOut();
+    this.oAuthService.logOut(true);
   }
 
   /**

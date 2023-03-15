@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,13 +24,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import {
-  Title,
-  UserRegisterFacade,
-  UserSignUp,
-} from '@spartacus/user/profile/root';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { RegisterComponentService } from './register-component.service';
 
 @Component({
   selector: 'cx-register',
@@ -74,17 +71,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
     protected fb: UntypedFormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    protected registerComponentService: RegisterComponentService
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userRegister.getTitles().pipe(
+    this.titles$ = this.registerComponentService.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
@@ -102,7 +99,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           if (
             messages &&
-            messages.some((message) => message === 'This field is required.')
+            messages.some(
+              (message) => message.raw === 'This field is required.'
+            )
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
@@ -151,11 +150,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerUser(): void {
     this.isLoading$.next(true);
-    this.userRegister
+    this.registerComponentService
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
+        error: () => this.isLoading$.next(false),
       });
   }
 
@@ -192,17 +192,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onRegisterUserSuccess(): void {
+  protected onRegisterUserSuccess(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
     }
-    this.globalMessageService.add(
-      { key: 'register.postRegisterMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    this.registerComponentService.postRegisterMessage();
   }
 
   toggleAnonymousConsent(): void {

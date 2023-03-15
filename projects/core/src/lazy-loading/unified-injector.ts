@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,14 +7,13 @@
 import {
   AbstractType,
   Injectable,
-  InjectFlags,
   InjectionToken,
   Injector,
   Type,
 } from '@angular/core';
-import { LazyModulesService } from './lazy-modules.service';
 import { Observable } from 'rxjs';
 import { filter, map, scan, startWith } from 'rxjs/operators';
+import { LazyModulesService } from './lazy-modules.service';
 
 const NOT_FOUND_SYMBOL: any = {};
 
@@ -61,7 +60,7 @@ export class UnifiedInjector {
           notFoundValue ?? NOT_FOUND_SYMBOL,
           // we want to get only Self instances from all injectors except the
           // first one, which is a root injector
-          index ? InjectFlags.Self : undefined
+          index ? { self: true } : undefined
         )
       ),
       filter((instance) => instance !== NOT_FOUND_SYMBOL)

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -107,8 +113,8 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
       .getDocumentAttachment(documentId, attachmentId)
       .pipe(take(1))
       .subscribe((data) => {
-        let file = new Blob([data], { type: data.type });
-        let url = URL.createObjectURL(file);
+        const file = new Blob([data], { type: data.type });
+        const url = URL.createObjectURL(file);
         this.downloadService.download(url, attachmentId);
       });
   }

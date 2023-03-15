@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,8 @@ import {
 } from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
@@ -107,7 +109,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       urlParams: { userId, orderId: orderCode },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http
@@ -123,7 +125,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       urlParams: { userId },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     returnRequestInput = this.converter.convert(
@@ -186,7 +188,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       urlParams: { userId, returnRequestCode },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http

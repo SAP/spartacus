@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
   I18nModule,
-  provideConfig,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -22,6 +22,7 @@ import {
   SortingModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -33,6 +34,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { defaultCustomerListLayoutConfig } from './customer-list/default-customer-list-layout.config';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
+import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 
 @NgModule({
@@ -52,6 +54,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     FeaturesConfigModule,
   ],
   declarations: [
+    AsmBindCartDialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -64,6 +67,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     DotSpinnerComponent,
   ],
   exports: [
+    AsmBindCartDialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -76,8 +80,9 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     DotSpinnerComponent,
   ],
   providers: [
-    provideConfig(defaultAsmLayoutConfig),
-    provideConfig(defaultCustomerListLayoutConfig),
+    provideDefaultConfig(defaultAsmLayoutConfig),
+    provideDefaultConfig(defaultBindCartLayoutConfig),
+    provideDefaultConfig(defaultCustomerListLayoutConfig),
   ],
 })
 export class AsmComponentsModule {}

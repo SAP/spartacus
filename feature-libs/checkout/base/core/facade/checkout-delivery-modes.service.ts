@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
@@ -172,6 +172,7 @@ export class CheckoutDeliveryModesService
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return this.getSupportedDeliveryModesState().pipe(
+      filter((state) => !state.loading),
       map((state) => state.data ?? [])
     );
   }

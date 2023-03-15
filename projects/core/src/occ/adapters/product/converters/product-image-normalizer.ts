@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,16 +43,11 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
             images[image.imageType] = isList ? [] : {};
           }
 
-          let imageContainer: ImageGroup;
-          if (isList) {
-            const imageGroups = images[image.imageType] as ImageGroup[];
-            if (!imageGroups[image.galleryIndex as number]) {
-              imageGroups[image.galleryIndex as number] = {};
-            }
-            imageContainer = imageGroups[image.galleryIndex as number];
-          } else {
-            imageContainer = images[image.imageType] as ImageGroup;
-          }
+          const imageContainer: ImageGroup = this.getImageContainer(
+            isList,
+            images,
+            image
+          );
 
           const targetImage = { ...image };
           targetImage.url = this.normalizeImageUrl(targetImage.url ?? '');
@@ -64,6 +59,28 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
     }
     return images;
   }
+
+  protected getImageContainer(
+    isList: boolean,
+    images: Images,
+    image: Occ.Image | any
+  ) {
+    if (isList) {
+      const imageGroups = this.getImageGroups(images, image);
+      return imageGroups[image.galleryIndex as number];
+    } else {
+      return images[image.imageType] as ImageGroup;
+    }
+  }
+
+  protected getImageGroups(images: Images, image: Occ.Image | any) {
+    const imageGroups = images[image.imageType] as ImageGroup[];
+    if (!imageGroups[image.galleryIndex as number]) {
+      imageGroups[image.galleryIndex as number] = {};
+    }
+    return imageGroups;
+  }
+
   /**
    * Traditionally, in an on-prem world, medias and other backend related calls
    * are hosted at the same platform, but in a cloud setup, applications are are

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,13 +27,14 @@ export class ConsentReferenceInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (
       !this.profileTagEventTracker.latestConsentReference ||
+      !this.profileTagEventTracker.latestConsentReference.value ||
       !this.isOccUrl(request.url)
     ) {
       return next.handle(request);
     }
     const cdsHeaders = request.headers.set(
       'X-Consent-Reference',
-      this.profileTagEventTracker.latestConsentReference
+      this.profileTagEventTracker.latestConsentReference.value
     );
     const cdsRequest = request.clone({ headers: cdsHeaders });
     return next.handle(cdsRequest);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,7 +40,8 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.productCode,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore
           )
           .pipe(
             map(
@@ -117,7 +118,9 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.entryNumber,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore,
+            payload.pickupToDelivery
           )
           .pipe(
             map(() => {

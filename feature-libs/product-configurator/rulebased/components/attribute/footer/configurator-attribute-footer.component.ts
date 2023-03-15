@@ -1,20 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
@@ -27,12 +23,18 @@ export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() owner: CommonConfigurator.Owner;
-  @Input() groupId: string;
+  attribute: Configurator.Attribute;
+  owner: CommonConfigurator.Owner;
+  groupId: string;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+  constructor(
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.owner = attributeComponentContext.owner;
+    this.groupId = attributeComponentContext.group.id;
   }
 
   iconType = ICON_TYPE;

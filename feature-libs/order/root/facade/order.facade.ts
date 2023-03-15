@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ORDER_CORE_FEATURE } from '../feature-name';
@@ -21,6 +22,8 @@ import { Order } from '../model/order.model';
         'clearPlacedOrder',
         'setPlacedOrder',
         'placeOrder',
+        'getPickupEntries',
+        'getDeliveryEntries',
       ],
     }),
 })
@@ -41,4 +44,13 @@ export abstract class OrderFacade {
    * Places an order
    */
   abstract placeOrder(termsChecked: boolean): Observable<Order>;
+  /**
+   * Return order's pickup entries
+   */
+  abstract getPickupEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Return order's delivery entries
+   */
+  abstract getDeliveryEntries(): Observable<OrderEntry[]>;
 }

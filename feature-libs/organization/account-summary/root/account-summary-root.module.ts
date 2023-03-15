@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -8,6 +15,7 @@ import {
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultAccountSummaryRoutingConfig } from './config';
 import { ORGANIZATION_ACCOUNT_SUMMARY_FEATURE } from './feature-name';
+import { BlobErrorInterceptor } from './http-interceptors/blob-error.interceptor';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultAccountSummaryComponentsConfig(): CmsConfig {
@@ -41,6 +49,11 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfig(defaultAccountSummaryRoutingConfig),
     provideDefaultConfigFactory(defaultAccountSummaryComponentsConfig),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useExisting: BlobErrorInterceptor,
+      multi: true,
+    },
   ],
 })
 export class AccountSummaryRootModule {}

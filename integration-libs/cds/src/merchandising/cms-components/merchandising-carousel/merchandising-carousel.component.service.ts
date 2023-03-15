@@ -1,14 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { ProductService } from '@spartacus/core';
+import { ProductService, ProductScope } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent } from '../../../cds-models';
+import {
+  CmsMerchandisingCarouselComponent,
+  StrategyRequest,
+} from '../../../cds-models';
 import { CdsConfig } from '../../../config';
 import { ProfileTagEventService } from '../../../profiletag';
 import { CdsMerchandisingProductService } from '../../facade';
@@ -24,7 +27,6 @@ import {
   MerchandisingCarouselModel,
   MerchandisingCarouselViewedEvent,
 } from './model';
-import { StrategyRequest } from '../../../cds-models';
 
 const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
 
@@ -32,8 +34,6 @@ const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
-  protected readonly PRODUCT_SCOPE = 'details';
-
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
     protected productService: ProductService,
@@ -99,7 +99,7 @@ export class MerchandisingCarouselComponentService {
       tap((merchandisingCarouselModel) => {
         const carouselEvent: CarouselEvent =
           this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
-        this.profileTagEventService.notifyProfileTagOfEventOccurence(
+        this.profileTagEventService.notifyProfileTagOfEventOccurrence(
           new MerchandisingCarouselViewedEvent(
             carouselEvent,
             merchandisingCarouselModel.productIds
@@ -122,7 +122,7 @@ export class MerchandisingCarouselComponentService {
       ...clickedProduct.metadata,
     };
 
-    this.profileTagEventService.notifyProfileTagOfEventOccurence(
+    this.profileTagEventService.notifyProfileTagOfEventOccurrence(
       new MerchandisingCarouselClickedEvent(
         carouselEvent,
         clickedProduct.metadata.slot,
@@ -154,15 +154,17 @@ export class MerchandisingCarouselComponentService {
   ): Observable<MerchandisingProduct>[] {
     return strategyProducts && strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) =>
-          this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
-            map((product) => ({
-              ...product,
-              metadata: this.getCarouselItemMetadata(
-                strategyProduct,
-                index + 1
-              ),
-            }))
-          )
+          this.productService
+            .get(strategyProduct.id, [ProductScope.DETAILS, ProductScope.PRICE])
+            .pipe(
+              map((product) => ({
+                ...product,
+                metadata: this.getCarouselItemMetadata(
+                  strategyProduct,
+                  index + 1
+                ),
+              }))
+            )
         )
       : [EMPTY];
   }

@@ -1,18 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { basename, strings } from '@angular-devkit/core';
+import { basename, normalize, strings } from '@angular-devkit/core';
 import {
+  apply,
+  applyTemplates,
   chain,
   externalSchematic,
+  MergeStrategy,
+  mergeWith,
+  move,
   noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
+  url,
 } from '@angular-devkit/schematics';
 import {
   getDecoratorMetadata,
@@ -408,6 +414,14 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
     const createCmsModule = !Boolean(declareCmsModule);
     const skipImport = createCmsModule;
 
+    const templateSource = apply(url('./files'), [
+      applyTemplates({
+        ...strings,
+        ...options,
+      }),
+      move(normalize(`/${options.path}/${strings.dasherize(options.name)}`)),
+    ]);
+
     return chain([
       // we are creating a new module if the declared module is not provided
       createCmsModule
@@ -440,6 +454,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         viewEncapsulation,
         skipImport,
       }),
+      mergeWith(templateSource, MergeStrategy.Overwrite),
       updateModule(options),
       updateComponent(options),
       updateTemplate(options),
