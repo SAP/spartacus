@@ -8,7 +8,10 @@ import { Injectable } from '@angular/core';
 import { ProductService, ProductScope } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent, StrategyRequest } from '../../../cds-models';
+import {
+  CmsMerchandisingCarouselComponent,
+  StrategyRequest,
+} from '../../../cds-models';
 import { CdsConfig } from '../../../config';
 import { ProfileTagEventService } from '../../../profiletag';
 import { CdsMerchandisingProductService } from '../../facade';
