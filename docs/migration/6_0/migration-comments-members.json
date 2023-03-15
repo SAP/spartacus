@@ -106,5 +106,35 @@
     "entryPoint": "@spartacus/product-configurator/rulebased",
     "memberName": "getFirstGroupWithAttributesForList",     
     "migrationComment": "Got a new parameter 'includeConflicts' which controls if conflict groups are considered"
-  }  
+  },  
+  {
+    "apiElementName": "AsmService",
+    "entryPoint": "@spartacus/asm/core",
+    "memberName": "customerListCustomersSearch",
+    "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
+  },  
+  {
+    "apiElementName": "AsmService",
+    "entryPoint": "@spartacus/asm/core",
+    "memberName": "getCustomerListCustomersSearchResults",
+    "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
+  },  
+  {
+    "apiElementName": "AsmService",
+    "entryPoint": "@spartacus/asm/core",
+    "memberName": "getCustomerListCustomersSearchResultsLoading",
+    "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
+  },
+  {
+    "apiElementName": "AsmService",
+    "entryPoint": "@spartacus/asm/core",
+    "memberName": "customerListCustomersSearchReset",     
+    "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
+  },
+  {
+    "apiElementName": "AsmService",
+    "entryPoint": "@spartacus/asm/core",
+    "memberName": "getCustomerListCustomersSearchResultsError",     
+    "migrationComment": "Has been moved to correct service AsmCustomerListFacade"
+  }
 ]

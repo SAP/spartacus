@@ -13,8 +13,9 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
