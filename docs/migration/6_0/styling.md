@@ -99,3 +99,7 @@
 #### AnonymousConsentManagementBannerComponent 
 
 - Added `button {margin-bottom: 10px;}` to line 29.
+
+#### AddedToCartDialogComponent
+
+- Added `.cx-modal-content {height: 100%;}` on line 4.
