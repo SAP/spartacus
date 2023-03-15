@@ -59,9 +59,8 @@ export class OnNavigateService {
        *
        * Extra note: Removing this feature flag  will reduce cognitive complexity to pass sonar (CXSPA-1118)
        */
-      if (isFeatureLevel(this.config, '5.1')) {
-        this.viewportScroller.setHistoryScrollRestoration('manual');
-      }
+      this.setHistoryScrollRestoration();
+
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),
@@ -124,5 +123,14 @@ export class OnNavigateService {
       previousRoute.routerEvent.urlAfterRedirects.split('?')[0] ===
       currentRoute.routerEvent.urlAfterRedirects.split('?')[0]
     );
+  }
+
+  /**
+   * Set history scroll restoration to manual if it is feature enabled
+   */
+  private setHistoryScrollRestoration() {
+    if (isFeatureLevel(this.config, '5.1')) {
+      this.viewportScroller.setHistoryScrollRestoration('manual');
+    }
   }
 }
