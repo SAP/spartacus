@@ -117,3 +117,6 @@ It is now possible to register custom attribute type components for UI types not
 
 - `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
 - If you would like to add the angular pwa to your application, you can run the command `ng add @angular/pwa --project <project-name>` and remove the service worker references in your app.module.ts to have the same output as what our custom pwa schematics did.
+
+## OrderApprovalDetailsModule
+- Replaced `OrderDetailShippingComponent` with `OrderOverviewComponent` for `OrderApprovalDetailShippingComponent`
