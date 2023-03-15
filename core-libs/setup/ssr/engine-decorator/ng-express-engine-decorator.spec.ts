@@ -1,3 +1,4 @@
+import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 import {
   decorateExpressEngine,
@@ -14,9 +15,9 @@ describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
     let originalEngine: NgExpressEngine;
     let originalEngineInstance: NgExpressEngineInstance;
-    let mockEngineOptions;
+    let mockEngineOptions: Readonly<NgSetupOptions>;
 
-    let mockOptions;
+    let mockOptions: RenderOptions;
     const mockPath = 'testPath';
     const mockCallback = () => {};
 
@@ -78,12 +79,12 @@ describe('NgExpressEngineDecorator', () => {
 describe('decorateExpressEngine', () => {
   let originalEngine: NgExpressEngine;
   let originalEngineInstance: NgExpressEngineInstance;
-  let mockEngineOptions;
+  let mockEngineOptions: Readonly<NgSetupOptions>;
 
-  let mockOptions;
+  let mockOptions: RenderOptions;
   const mockPath = 'testPath';
   const mockCallback = () => {};
-  let engineInstance;
+  let engineInstance: NgExpressEngineInstance;
 
   beforeEach(() => {
     const app = {
@@ -189,7 +190,7 @@ describe('decorateExpressEngine', () => {
     });
 
     it(`should apply optimization wrapper`, () => {
-      // we check, that callback is not the original one
+      // we check that callback is not the original one
       expect(originalEngineInstance).not.toHaveBeenCalledWith(
         mockPath,
         mockOptions,
