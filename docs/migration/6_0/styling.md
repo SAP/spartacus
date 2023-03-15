@@ -132,3 +132,106 @@
 
 - Replaced `font-weight: $font-weight-normal` with `font-weight: var(--cx-font-weight-bold)` and `font-size: var(--cx-font-size, 1.5rem);` in the `h2` style class
 
+### CartItemListRowComponent
+
+- Replaced line 21 and 22 `text-align: end; width: 100%;` to `margin-inline-start: auto;`
+
+### MiniCartComponent 
+
+- Replaced line 12 `min-width: 70px;` with `min-width: 90px;`
+- Removed line 21 `color: currentColor;`
+
+### QuickOrderFormComponent
+
+- Added `input { height: 47px;}` to line 16
+- Changed line 20 from `color: var(--cx-color-light);` to `color: var(--cx-color-medium);`
+
+### AddToSavedCartComponent
+
+- Added on line 28 `a.disabled {color: gray; cursor: not-allowed; text-decoration: underline;}`
+
+### SavedCartListComponent
+
+- Removed line 129 to 135 `.cx-saved-cart-list-make-cart-active {.cx-saved-cart-make-active {text-decoration: underline;text-transform: capitalize;}} `
+
+### PaymentMethodsComponent
+
+- Changed class `.btn-action` to `.btn-secondary` and `@include media-breakpoint-down(sm)` to `@include media-breakpoint-down(md)`
+
+### checkout-media-style.scss
+
+- Changed class `.btn-action` to `.btn-secondary` and `@include media-breakpoint-down(sm)` to `@include media-breakpoint-down(md)`
+
+### OrderDetailActionsComponent
+
+- Changed class `.btn-action` to `.btn-secondary` and `@include media-breakpoint-down(sm)` to `@include media-breakpoint-down(md)`
+
+### OrderHistoryComponent
+
+- Added `color: var(--cx-color-primary);` to line 82
+
+### ReplenishmentOrderHistoryComponent
+
+- Removed from line 88 ` @include forVersion(5.1) {color: var(--cx-color-text);}`
+- Removed 
+
+### ReplenishmentOrderHistoryService
+
+- Replaced  .cx-order-cancel `{text-decoration: underline;text-transform: uppercase;color: var(--cx-color-primary);padding-inline-start: 0;@include forVersion(5.1) {@include type('7');text-transform: var(--cx-button-text-transform);color: var(--cx-color-text); }` with `font-size: var(--cx-font-size, 0.875rem);`
+
+### ReturnRequestOverviewComponent
+
+- Changed line 10 `.btn-action` to `.btn-secondary`
+
+### ReplenishmentOrderCancellationDialogComponent
+
+- Changed line 6 `.btn-action` to `.btn-secondary`
+
+### buttons.scss
+
+- Changed line 78 `background-color: var(--cx-color-primary);border-color: var(--cx-color-primary);` to `background-color: var(--cx-color-primary-accent);border-color: var(--cx-color-primary-accent);`
+
+### company-page-template.scss
+
+- Changed line 18 from `--cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)brightness(110%) contrast(99%);` to `--cx-img-filter: invert(34%) sepia(61%) saturate(1353%) hue-rotate(178deg)brightness(90%) contrast(90%);`
+
+### UnitLevelOrderHistoryComponent
+
+- Added line 146 `color: var(--cx-color-primary);`
+
+### ConfiguratorPreviousNextButtonsComponent
+
+- Removed `.btn-action` from line 21 and 30. 
+- Added `.btn-secondary` to line 29
+
+### _login.scss
+
+- Added to line 2 `color: var(--cx-color-text);`
+- Changed `color: var(--cx-color-inverse);` to `color: var(--cx-color-text);`
+
+### _theme.scss
+
+- Added `@import 'theme/santorini/variables';` and commented out `@import 'theme/sparta/variables';`. This makes Santorini theme the main theme.
+
+### BreadcrumbComponent
+
+- Added `box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark); @include media-breakpoint-up(lg) {box-shadow: none;}`
+
+### FooterNavigationComponent 
+
+- Added to line 2 `background-color: var(--cx-color-background-dark);`
+
+### _link.scss
+
+- Added to link 8 `text-decoration: underline;` 
+
+### NavigationUIComponent
+
+- Line 27 replaced hex color with color variable `color: var(--cx-color-text);`
+- Line 37 replaced hex color with color variable `color: var(--cx-color-inverse);`
+- Line 258 - 261 added `@include media-breakpoint-up(lg) {background-color: var(--cx-color-text);}`
+- Added `&.accNavComponent { background-color: transparent;}` to Line 383
+
+### ScrollToTopComponent 
+
+- Changed line 21 to `background-color: var(--cx-color-primary);` and added `border-radius: 12px`
