@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -20,29 +20,30 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { RegisterComponentService } from '@spartacus/user/profile/components';
-import { CDCRegisterComponentService } from './cdc-register-component.service';
+import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
+import { CDCUpdateProfileComponentService } from './cdc-update-profile-component.service';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
+    SpinnerModule,
+    I18nModule,
+    FormErrorsModule,
     RouterModule,
     UrlModule,
-    I18nModule,
-    SpinnerModule,
-    FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        RegisterCustomerComponent: {
+        UpdateProfileComponent: {
           providers: [
             {
-              provide: RegisterComponentService,
-              useClass: CDCRegisterComponentService,
+              provide: UpdateProfileComponentService,
+              useClass: CDCUpdateProfileComponentService,
             },
           ],
         },
@@ -50,4 +51,4 @@ import { CDCRegisterComponentService } from './cdc-register-component.service';
     }),
   ],
 })
-export class CDCRegisterModule {}
+export class CDCUpdateProfileModule {}

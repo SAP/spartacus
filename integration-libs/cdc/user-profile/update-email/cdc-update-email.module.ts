@@ -1,4 +1,5 @@
 /*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -6,9 +7,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
   I18nModule,
@@ -17,32 +17,32 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  NgSelectA11yModule,
+  PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { RegisterComponentService } from '@spartacus/user/profile/components';
-import { CDCRegisterComponentService } from './cdc-register-component.service';
+import { UpdateEmailComponentService } from '@spartacus/user/profile/components';
+import { CDCUpdateEmailComponentService } from './cdc-update-email-component.service';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
     SpinnerModule,
+    UrlModule,
+    RouterModule,
+    I18nModule,
     FormErrorsModule,
-    NgSelectModule,
-    NgSelectA11yModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        RegisterCustomerComponent: {
+        UpdateEmailComponent: {
           providers: [
             {
-              provide: RegisterComponentService,
-              useClass: CDCRegisterComponentService,
+              provide: UpdateEmailComponentService,
+              useClass: CDCUpdateEmailComponentService,
             },
           ],
         },
@@ -50,4 +50,4 @@ import { CDCRegisterComponentService } from './cdc-register-component.service';
     }),
   ],
 })
-export class CDCRegisterModule {}
+export class CDCUpdateEmailModule {}

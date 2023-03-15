@@ -6,12 +6,12 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  AsmConfig,
   AsmService,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,
