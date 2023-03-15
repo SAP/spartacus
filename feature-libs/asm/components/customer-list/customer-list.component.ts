@@ -5,8 +5,8 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,

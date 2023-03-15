@@ -5,7 +5,6 @@
  */
 
 export * from './asm-core.module';
-export * from './config/asm-config';
 export * from './connectors/index';
 export * from './facade/index';
 export * from './services/index';

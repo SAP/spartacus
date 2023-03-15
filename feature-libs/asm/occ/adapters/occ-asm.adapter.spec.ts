@@ -5,11 +5,11 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  AsmConfig,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
