@@ -8,14 +8,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CdcJsService } from '@spartacus/cdc/root';
 import {
-  AuthConfigService,
   CmsConfig,
-  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
-  RoutingService,
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
@@ -23,7 +19,6 @@ import {
   ForgotPasswordComponent,
   ForgotPasswordComponentService,
 } from '@spartacus/user/profile/components';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { CDCForgotPasswordComponentService } from './cdc-forgot-password-component.service';
 
 @NgModule({
@@ -45,13 +40,6 @@ import { CDCForgotPasswordComponentService } from './cdc-forgot-password-compone
             {
               provide: ForgotPasswordComponentService,
               useClass: CDCForgotPasswordComponentService,
-              deps: [
-                UserPasswordFacade,
-                RoutingService,
-                AuthConfigService,
-                GlobalMessageService,
-                CdcJsService,
-              ],
             },
           ],
         },

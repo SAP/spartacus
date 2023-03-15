@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import { EventService, StateEventService } from '@spartacus/core';
-import { CdcAuthActions } from '../auth/store/actions/index';
+import { CdcAuthActions } from '../store/actions';
 
 @Injectable({
   providedIn: 'root',

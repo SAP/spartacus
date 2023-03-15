@@ -14,7 +14,7 @@ This major version number will dictate, among other things, various input and ou
 
 # Produce the breaking change list
 
-- npm run install
+- Run `npm install`
 
 - run clone.sh
 This will clone the Spartacus repo in 2 folders ./src/old and ./src/new
@@ -23,7 +23,8 @@ This will clone the Spartacus repo in 2 folders ./src/old and ./src/new
 These will be the 2 versions compared for breaking changes.
 
 - Build Spartacus libs
-In both ./src/old and ./src/new, run `npm run install` and `npm run build:libs`.
+In both ./src/old and ./src/new, run `npm install` and `npm run build:libs`. 
+(Note if old release is < 6.0, it is `yarn install` and `yarn build:libs`)
 
 
 - Extract the public API.

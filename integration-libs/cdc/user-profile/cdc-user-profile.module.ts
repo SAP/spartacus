@@ -7,8 +7,17 @@
 import { NgModule } from '@angular/core';
 import { CDCForgotPasswordModule } from './forgot-password/cdc-forgot-password.module';
 import { CDCRegisterModule } from './register/cdc-register.module';
+import { CDCUpdateEmailModule } from './update-email/cdc-update-email.module';
+import { CDCUpdatePasswordModule } from './update-password/cdc-update-password.module';
+import { CDCUpdateProfileModule } from './update-profile/cdc-update-profile.module';
 
 @NgModule({
-  imports: [CDCRegisterModule, CDCForgotPasswordModule],
+  imports: [
+    CDCRegisterModule,
+    CDCForgotPasswordModule,
+    CDCUpdateProfileModule,
+    CDCUpdatePasswordModule,
+    CDCUpdateEmailModule,
+  ],
 })
 export class CDCUserProfileModule {}

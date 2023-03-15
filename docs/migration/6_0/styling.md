@@ -22,6 +22,10 @@
 - `%cx-configurator-attribute-read-only` now only contains `@include cx-configurator-attribute-type();`. This mixin already has all
   the needed styling settings
 
+#### ConfiguratorConflictSolverDialogComponent
+
+- `z-index: 2000` added to `%cx-configurator-conflict-solver-dialog` to control which dialog is rendered on top if multiple open. The new ConfiguratorRestartDialogComponent uses z-index 3000.
+
 #### ConfiguratorConflictSuggestionComponent
 
 - `margin-inline-start` changed to `-15px` instead of `-20px`
@@ -37,6 +41,10 @@
 
 - `line-break` changed to `normal` instead of `anywhere`
 - `z-index: -6;` added to `.cx-attribute-value`, `.cx-attribute-label` and `.cx-attribute-price`
+
+#### ConfiguratorOverviewFilterDialogComponent
+
+- `z-index: 1000` added to `%cx-configurator-overview-filter-dialog` to control which dialog is rendered on top if multiple open
 
 #### ConfiguratorOverviewFormComponent
 
@@ -61,5 +69,11 @@
   including the page template `cx-configurator-template`. 
   Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
- 
 
+### Font Awesome Icons
+
+- The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
+
+### Fonts library
+
+- CSS fonts were downloaded in runtime from third party servers using Google Fonts. It is now replaced by Fontsource library, a self-hosted solution. The css fonts asset is now bundled with the Spartacus styles. This change is done to comply with security best practices.
