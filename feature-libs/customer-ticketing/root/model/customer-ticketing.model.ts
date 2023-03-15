@@ -32,6 +32,7 @@ export interface TicketDetails {
   subject?: string;
   ticketCategory?: Category;
   ticketEvents?: Array<TicketEvent>;
+  hello?: any;
 }
 
 export interface Status {
