@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -98,5 +98,27 @@ export class OrderService implements OrderFacade {
 
   setPlacedOrder(order: Order): void {
     this.placedOrder$.next(order);
+  }
+
+  getPickupEntries(): Observable<OrderEntry[]> {
+    return this.getOrderDetails().pipe(
+      map(
+        (order) =>
+          order?.entries?.filter(
+            (entry) => entry.deliveryPointOfService !== undefined
+          ) || []
+      )
+    );
+  }
+
+  getDeliveryEntries(): Observable<OrderEntry[]> {
+    return this.getOrderDetails().pipe(
+      map(
+        (order) =>
+          order?.entries?.filter(
+            (entry) => entry.deliveryPointOfService === undefined
+          ) || []
+      )
+    );
   }
 }
