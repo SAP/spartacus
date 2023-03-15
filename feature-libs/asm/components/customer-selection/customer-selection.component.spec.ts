@@ -8,7 +8,8 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/root';
 import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import {
   DirectionMode,
