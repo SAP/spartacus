@@ -20,13 +20,22 @@ import {
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
-import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import {
+  concatMap,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import {
   IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
   PickupOptionFacade,
   PreferredStoreFacade,
 } from '../../../facade/index';
-import { PickupOption } from '../../../model/index';
+import { AugmentedPointOfService, PickupOption } from '../../../model/index';
 import { getProperty, RequiredDeepPath } from '../../../utils/index';
 
 /** Custom type guard to ensure we have a product a defined code */
@@ -50,7 +59,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   availableForPickup = false;
   displayPickupLocation$: Observable<string | undefined>;
   pickupOption$: Observable<PickupOption>;
-
+  intendedPickupLocation$: Observable<AugmentedPointOfService | undefined>;
   private productCode: string;
   private displayNameIsSet = false;
 
@@ -60,6 +69,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected pickupOptionFacade: PickupOptionFacade,
     protected preferredStoreFacade: PreferredStoreFacade,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected vcr: ViewContainerRef
   ) {
     // Intentional empty constructor
@@ -91,17 +101,40 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       ),
       switchMap(({ intendedLocation, productCode }) =>
         iif(
-          () =>
-            !!intendedLocation &&
-            getProperty(intendedLocation, 'pickupOption') === 'pickup' &&
-            !!intendedLocation.displayName,
+          () => !!intendedLocation && !!intendedLocation.displayName,
           of(getProperty(intendedLocation, 'displayName')),
           this.preferredStoreFacade
             .getPreferredStoreWithProductInStock(productCode)
-            .pipe(map(({ displayName }) => displayName))
+            .pipe(
+              map(({ name }) => name),
+              tap((storeName) =>
+                this.pickupLocationsSearchService.loadStoreDetails(storeName)
+              ),
+              concatMap((storeName: string) =>
+                this.pickupLocationsSearchService.getStoreDetails(storeName)
+              ),
+              filter((storeDetails) => !!storeDetails),
+              tap((storeDetails) => {
+                this.intendedPickupLocationService.setIntendedLocation(
+                  productCode,
+                  {
+                    ...storeDetails,
+                    pickupOption: 'delivery',
+                  }
+                );
+              })
+            )
         )
       ),
       tap(() => (this.displayNameIsSet = true))
+    );
+
+    this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
+      filter(isProductWithCode),
+      map((product) => product.code),
+      switchMap((productCode) =>
+        this.intendedPickupLocationService.getIntendedLocation(productCode)
+      )
     );
 
     this.subscription.add(
@@ -144,31 +177,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       option
     );
     if (option === 'delivery') {
-      this.intendedPickupLocationService.removeIntendedLocation(
-        this.productCode
-      );
       return;
     }
     if (!this.displayNameIsSet) {
       this.openDialog();
-      return;
     }
-    this.subscription.add(
-      this.preferredStoreFacade
-        .getPreferredStore$()
-        .pipe(
-          filter((preferredStore) => !!preferredStore),
-          tap((preferredStore) =>
-            this.intendedPickupLocationService.setIntendedLocation(
-              this.productCode,
-              {
-                ...preferredStore,
-                pickupOption: 'pickup',
-              }
-            )
-          )
-        )
-        .subscribe()
-    );
   }
 }

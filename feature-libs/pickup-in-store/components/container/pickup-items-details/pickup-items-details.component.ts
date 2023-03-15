@@ -34,7 +34,7 @@ export class PickUpItemsDetailsComponent implements OnInit {
     protected deliveryPointsService: DeliveryPointsService
   ) {}
   ngOnInit() {
-    this.component?.data$
+    this.component.data$
       .pipe(
         tap((data: CmsPickupItemDetails) => {
           this.showEdit = data.showEdit;

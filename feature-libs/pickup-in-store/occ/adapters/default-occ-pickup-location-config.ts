@@ -14,8 +14,6 @@ export const defaultOccPickupLocationConfig: OccConfig = {
     occ: {
       endpoints: {
         storeDetails: 'stores/${storeName}',
-        updateDeliveryOption:
-          'users/${userId}/carts/${cartId}/entries/${entryNumber}',
       },
     },
   },

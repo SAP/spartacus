@@ -193,6 +193,33 @@ describe('OccCartEntryAdapter', () => {
         }
       );
     });
+
+    it(`should be able to switch from pickup to delivery`, () => {
+      occCartEntryAdapter
+        .update(userId, cartId, '12345', 5, undefined, true)
+        .subscribe()
+        .unsubscribe();
+
+      const mockReq = httpMock.expectOne({
+        method: 'PUT',
+        url: 'updateEntries',
+      });
+
+      expect(mockReq.request.body).toEqual({
+        quantity: 5,
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'updateEntries',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '12345',
+          },
+        }
+      );
+    });
   });
 
   describe('remove an entry from cart', () => {

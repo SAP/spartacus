@@ -195,7 +195,9 @@ export abstract class MultiCartFacade {
     userId: string,
     cartId: string,
     entryNumber: number,
-    quantity: number
+    quantity?: number,
+    pickupStore?: string,
+    pickupToDelivery?: boolean
   ): void;
 
   /**

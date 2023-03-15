@@ -6,9 +6,12 @@
 
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { STORE_FINDER_FEATURE } from '@spartacus/storefinder/root';
 import {
   CartPickupOptionsContainerModule,
+  OrderConsignmentContainerModule,
   PdpPickupOptionsContainerModule,
+  PickupInStoreOrderOverviewContainerModule,
 } from './components/index';
 
 import {
@@ -26,6 +29,7 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
           'OrderConfirmationPickUpComponent',
           'PickupInStoreDeliveryModeComponent',
         ],
+        dependencies: [STORE_FINDER_FEATURE],
       },
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },
@@ -33,7 +37,12 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [CartPickupOptionsContainerModule, PdpPickupOptionsContainerModule],
+  imports: [
+    CartPickupOptionsContainerModule,
+    PdpPickupOptionsContainerModule,
+    OrderConsignmentContainerModule,
+    PickupInStoreOrderOverviewContainerModule,
+  ],
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
   ],

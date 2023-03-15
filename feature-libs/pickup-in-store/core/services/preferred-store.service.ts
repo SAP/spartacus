@@ -81,12 +81,16 @@ export class PreferredStoreService implements PreferredStoreFacade {
           preferredStore.name
         );
       }),
-      switchMap((preferredStore) =>
+      switchMap((store) =>
         this.pickupLocationsSearchService
-          .getStockLevelAtStore(productCode, preferredStore.name)
+          .getStockLevelAtStore(productCode, store.name)
           .pipe(
             filter(isInStock),
-            map((_) => preferredStore)
+            map((_) => store),
+            tap((preferredStore) => ({
+              name: preferredStore.name,
+              displayName: preferredStore.name,
+            }))
           )
       )
     );

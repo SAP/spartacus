@@ -27,6 +27,9 @@ export class PickupOptionsComponent implements OnChanges {
   /** The location to display in the pickup option. */
   @Input() displayPickupLocation: string | undefined;
 
+  // /** Disable Radio Buttons */
+  @Input() disableControls = false;
+
   /** Emitted when the selected option is changed. */
   @Output() pickupOptionChange = new EventEmitter<PickupOption>();
   /** Emitted when a new store should be selected. */
@@ -40,6 +43,9 @@ export class PickupOptionsComponent implements OnChanges {
   });
 
   ngOnChanges(): void {
+    if (this.disableControls) {
+      this.pickupOptionsForm.get('pickupOption')?.disable();
+    }
     this.pickupOptionsForm.get('pickupOption')?.setValue(this.selectedOption);
   }
 

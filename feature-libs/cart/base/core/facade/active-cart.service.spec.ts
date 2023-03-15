@@ -415,7 +415,26 @@ describe('ActiveCartService', () => {
         OCC_USER_ID_ANONYMOUS,
         'guid',
         'productCode',
-        2
+        2,
+        undefined
+      );
+    });
+
+    it('should handle pickup in store', () => {
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ code: 'code', guid: 'guid' })
+      );
+      spyOn(multiCartFacade, 'addEntry').and.callThrough();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      service.addEntry('productCode', 2, 'pickupStore');
+
+      expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS,
+        'guid',
+        'productCode',
+        2,
+        'pickupStore'
       );
     });
   });
@@ -448,7 +467,41 @@ describe('ActiveCartService', () => {
         'userId',
         'cartId',
         1,
-        2
+        2,
+        undefined,
+        false
+      );
+    });
+
+    it('should handle pickup in store', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+
+      service.updateEntry(1, 2, 'pickupStore');
+      expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
+        'userId',
+        'cartId',
+        1,
+        2,
+        'pickupStore',
+        false
+      );
+    });
+
+    it('should switch from pickup to delivery', () => {
+      userId$.next('userId');
+      service['activeCartId$'] = of('cartId');
+      spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+
+      service.updateEntry(1, 2, undefined, true);
+      expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
+        'userId',
+        'cartId',
+        1,
+        2,
+        undefined,
+        true
       );
     });
   });
@@ -795,6 +848,91 @@ describe('ActiveCartService', () => {
             active: true,
           },
         });
+        done();
+      });
+    });
+  });
+
+  describe('hasPickupItems and hasDeliveryItems', () => {
+    it('should be able to get whether cart has pickup items', (done) => {
+      let mockCart: Cart = {
+        pickupItemsQuantity: 1,
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasPickupItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeTruthy();
+        done();
+      });
+
+      mockCart = {
+        code: 'test',
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasPickupItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeFalsy();
+        done();
+      });
+    });
+
+    it('should be able to get whether cart has delivery items', (done) => {
+      let mockCart: Cart = {
+        deliveryItemsQuantity: 1,
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasDeliveryItems().subscribe((hasDelivery) => {
+        expect(hasDelivery).toBeTruthy();
+        done();
+      });
+
+      mockCart = {
+        code: 'test',
+      };
+      service.getActive = jasmine
+        .createSpy('getActive')
+        .and.returnValue(of(mockCart));
+
+      service.hasDeliveryItems().subscribe((hasPickup) => {
+        expect(hasPickup).toBeFalsy();
+        done();
+      });
+    });
+  });
+
+  describe('getPickupEntries and getDeliveryEntries', () => {
+    const entries: OrderEntry[] = [
+      { orderCode: 'pickupEntry', deliveryPointOfService: { name: 'test' } },
+      { orderCode: 'deliveryEntry' },
+    ];
+
+    it('should be able to get pickup entries', (done) => {
+      service.getEntries = jasmine
+        .createSpy('getEntries')
+        .and.returnValue(of(entries));
+
+      service.getPickupEntries().subscribe((pickupEntries) => {
+        expect(pickupEntries.length).toEqual(1);
+        expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
+        done();
+      });
+    });
+
+    it('should be able to get delivery entries', (done) => {
+      service.getEntries = jasmine
+        .createSpy('getEntries')
+        .and.returnValue(of(entries));
+
+      service.getDeliveryEntries().subscribe((deliveryEntries) => {
+        expect(deliveryEntries.length).toEqual(1);
+        expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
         done();
       });
     });

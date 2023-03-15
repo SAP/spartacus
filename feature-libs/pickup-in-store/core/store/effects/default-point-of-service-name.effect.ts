@@ -9,6 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
 import {
+  getProperty,
   PointOfServiceNames,
   PREFERRED_STORE_LOCAL_STORAGE_KEY,
 } from '@spartacus/pickup-in-store/root';
@@ -45,7 +46,7 @@ export class DefaultPointOfServiceEffect {
               () =>
                 !!preferredStore && !!preferredStore.defaultPointOfServiceName,
               of({
-                name: preferredStore?.defaultPointOfServiceName,
+                name: getProperty(preferredStore, 'defaultPointOfServiceName'),
                 displayName: '',
               }),
               (() => {

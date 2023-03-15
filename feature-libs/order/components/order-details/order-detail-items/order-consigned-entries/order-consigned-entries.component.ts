@@ -5,12 +5,8 @@
  */
 
 import { Component, Input } from '@angular/core';
-import {
-  CartOutlets,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/base/root';
-import { Consignment, Order } from '@spartacus/order/root';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
+import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-order-consigned-entries',
@@ -24,16 +20,14 @@ export class OrderConsignedEntriesComponent {
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
 
+  readonly OrderOutlets = OrderOutlets;
   readonly CartOutlets = CartOutlets;
 
-  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
-    const products: OrderEntry[] = [];
-    consignment.entries?.forEach((element) => {
-      if (element.orderEntry) {
-        products.push(element.orderEntry);
-      }
-    });
+  normalizeFormattedAddress(formattedAddress: string): string {
+    const addresses = formattedAddress
+      .split(',')
+      .map((address) => address.trim());
 
-    return products;
+    return addresses.filter(Boolean).join(', ');
   }
 }

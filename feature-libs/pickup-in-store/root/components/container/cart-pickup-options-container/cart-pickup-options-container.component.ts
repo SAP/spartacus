@@ -7,6 +7,7 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Optional,
   ViewChild,
@@ -19,7 +20,7 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { EMPTY, iif, Observable, of } from 'rxjs';
+import { EMPTY, iif, Observable, of, Subscription } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -31,12 +32,17 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import {
+  IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOptionFacade,
   PreferredStoreFacade,
 } from '../../../facade/index';
 import { PickupOption } from '../../../model/index';
-import { cartWithIdAndUserId, RequiredDeepPath } from '../../../utils/index';
+import {
+  cartWithIdAndUserId,
+  getProperty,
+  RequiredDeepPath,
+} from '../../../utils/index';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'
@@ -70,14 +76,19 @@ export function orderEntryWithRequiredFields(
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
 })
-export class CartPickupOptionsContainerComponent implements OnInit {
+export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
 
   pickupOption$: Observable<PickupOption | undefined>;
-  displayName$: Observable<string>;
+  disableControls$: Observable<boolean>;
+  storeDetails$: Observable<{
+    name: string | undefined;
+    displayName: string | undefined;
+  }>;
   availableForPickup$: Observable<boolean>;
-
+  subscription = new Subscription();
   cartId: string;
+  cartType: string;
   entryNumber: number;
   productCode: string;
   quantity: number;
@@ -93,15 +104,22 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected preferredStoreFacade: PreferredStoreFacade,
     protected vcr: ViewContainerRef,
     protected cmsService: CmsService,
-    @Optional() protected outlet: OutletContextData<OrderEntry>
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    @Optional()
+    protected outlet: OutletContextData<{ item: OrderEntry; cartType: string }>
   ) {
     // Intentional empty constructor
   }
 
   ngOnInit() {
     const outletContext =
-      this.outlet?.context$?.pipe(filter(orderEntryWithRequiredFields)) ??
-      EMPTY;
+      this.outlet?.context$?.pipe(
+        map((context) => {
+          this.cartType = context.cartType;
+          return context.item;
+        }),
+        filter(orderEntryWithRequiredFields)
+      ) ?? EMPTY;
 
     this.cmsService
       .getCurrentPage()
@@ -140,7 +158,21 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       })
     );
 
-    this.displayName$ = outletContext.pipe(
+    this.disableControls$ = this.activeCartFacade.getEntries().pipe(
+      map((entries) => entries.map((entry) => entry.product?.code)),
+      switchMap((productCodes) =>
+        outletContext.pipe(
+          map((orderEntry) => orderEntry?.product.code),
+          map(
+            (orderEntry) =>
+              productCodes.filter((productCode) => productCode === orderEntry)
+                .length > 1
+          )
+        )
+      )
+    );
+
+    this.storeDetails$ = outletContext.pipe(
       map((orderEntry) => ({
         storeName: orderEntry.deliveryPointOfService?.name,
         productCode: orderEntry.product.code,
@@ -157,15 +189,62 @@ export class CartPickupOptionsContainerComponent implements OnInit {
             concatMap((_storeName) =>
               this.pickupLocationsSearchService.getStoreDetails(_storeName)
             ),
-            filter((storeDetails) => !!storeDetails)
+            filter((storeDetails) => !!storeDetails),
+            tap((storeDetails) => {
+              this.intendedPickupLocationService.setIntendedLocation(
+                productCode,
+                {
+                  ...storeDetails,
+                  pickupOption: 'pickup',
+                }
+              );
+            })
           ),
-          this.preferredStoreFacade.getPreferredStoreWithProductInStock(
-            productCode
-          )
+          this.intendedPickupLocationService
+            .getIntendedLocation(productCode)
+            .pipe(
+              map((intendedLocation) => ({
+                intendedLocation,
+                givenProductCode: productCode,
+              })),
+              switchMap(({ intendedLocation, givenProductCode }) =>
+                iif(
+                  () => !!intendedLocation && !!intendedLocation.displayName,
+                  of({
+                    displayName: getProperty(intendedLocation, 'displayName'),
+                    name: getProperty(intendedLocation, 'name'),
+                  }),
+                  this.preferredStoreFacade
+                    .getPreferredStoreWithProductInStock(productCode)
+                    .pipe(
+                      map(({ name }) => name),
+                      tap((_storeName) =>
+                        this.pickupLocationsSearchService.loadStoreDetails(
+                          _storeName
+                        )
+                      ),
+                      concatMap((_storeName: string) =>
+                        this.pickupLocationsSearchService.getStoreDetails(
+                          _storeName
+                        )
+                      ),
+                      filter((storeDetails) => !!storeDetails),
+                      tap((storeDetails) => {
+                        this.intendedPickupLocationService.setIntendedLocation(
+                          givenProductCode,
+                          {
+                            ...storeDetails,
+                            pickupOption: 'delivery',
+                          }
+                        );
+                      })
+                    )
+                )
+              )
+            )
         )
       ),
-      map(({ displayName }) => displayName),
-      filter((displayName): displayName is string => !!displayName),
+      map(({ displayName, name }) => ({ displayName, name })),
       tap((_) => (this.displayNameIsSet = true))
     );
   }
@@ -173,21 +252,41 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   onPickupOptionChange(pickupOption: PickupOption): void {
     this.pickupOptionFacade.setPickupOption(this.entryNumber, pickupOption);
     if (pickupOption === 'delivery') {
-      this.pickupLocationsSearchService.setPickupOptionToDelivery(
-        this.cartId,
+      this.activeCartFacade.updateEntry(
         this.entryNumber,
-        this.userId,
-        this.productCode,
         this.quantity,
-        this.page
+        undefined,
+        true
       );
-
       return;
     }
+    [pickupOption]
+      .filter((option) => option === 'pickup')
+      .forEach(() => {
+        this.subscription.add(
+          this.storeDetails$
+            .pipe(
+              filter(({ name }) => !!name),
+              tap(({ name }) =>
+                this.activeCartFacade.updateEntry(
+                  this.entryNumber,
+                  this.quantity,
+                  name,
+                  true
+                )
+              )
+            )
+            .subscribe()
+        );
+      });
 
     if (!this.displayNameIsSet) {
       this.openDialog();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   openDialog(): void {
