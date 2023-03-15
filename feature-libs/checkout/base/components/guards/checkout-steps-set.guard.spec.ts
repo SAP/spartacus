@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -59,11 +60,18 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
   },
 ];
 
+const testStep: CheckoutStep = {
+  id: 'test',
+  name: 'test',
+  routeName: 'test',
+  type: [CheckoutStepType.PAYMENT_DETAILS],
+};
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
   disableEnableStep = createSpy();
+  getCheckoutStep = createSpy().and.returnValue(testStep);
 }
 
 class MockCheckoutDeliveryAddressFacade
@@ -80,6 +88,7 @@ class MockCheckoutDeliveryModesFacade
   getSelectedDeliveryModeState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
+  setDeliveryMode = createSpy();
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
@@ -88,11 +97,17 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   );
 }
 
+const hasDeliveryItems$ = new BehaviorSubject<boolean>(false);
+class MockCartService implements Partial<ActiveCartFacade> {
+  hasDeliveryItems = () => hasDeliveryItems$.asObservable();
+}
+
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutPaymentFacade: CheckoutPaymentFacade;
+  let checkoutStepService: CheckoutStepService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -113,6 +128,7 @@ describe(`CheckoutStepsSetGuard`, () => {
           useClass: MockCheckoutPaymentFacade,
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: ActiveCartFacade, useClass: MockCartService },
       ],
     });
 
@@ -122,6 +138,34 @@ describe(`CheckoutStepsSetGuard`, () => {
     );
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+    checkoutStepService = TestBed.inject(CheckoutStepService);
+  });
+
+  describe('should be able to disable/enable delivery address and delivery mode step', () => {
+    it('should disable delivery address step', () => {
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_ADDRESS,
+        true
+      );
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
+        true
+      );
+      expect(testStep.nameMultiLine).toBeFalsy();
+    });
+
+    it('should enable delivery address step', () => {
+      hasDeliveryItems$.next(true);
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_ADDRESS,
+        false
+      );
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.DELIVERY_MODE,
+        false
+      );
+      expect(testStep.nameMultiLine).toBeTruthy();
+    });
   });
 
   describe('there is no checkout data set yet', () => {
@@ -244,6 +288,16 @@ describe(`CheckoutStepsSetGuard`, () => {
           expect(result).toBeTruthy();
           done();
         });
+    });
+
+    it('before go to review step, if delivery mode step is disabled, should set it to pickup', (done) => {
+      testStep.disabled = true;
+      guard.canActivate(<any>{ url: ['checkout', 'route4'] }).subscribe((_) => {
+        expect(
+          checkoutDeliveryModesFacade.setDeliveryMode
+        ).toHaveBeenCalledWith('pickup');
+        done();
+      });
     });
   });
 });
