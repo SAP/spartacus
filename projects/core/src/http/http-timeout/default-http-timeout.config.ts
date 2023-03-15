@@ -9,7 +9,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 export const defaultBackendHttpTimeoutConfig: OccConfig = {
   backend: {
     timeout: {
-      server: 10_000,
+      server: 20_000,
     },
   },
 };
