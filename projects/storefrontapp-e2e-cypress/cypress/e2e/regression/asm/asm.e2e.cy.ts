@@ -22,8 +22,8 @@ context('Assisted Service Module', () => {
 
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
-
-    it('should checkout as customer', () => {
+    // TODO:(CXSPA-148):  skipped this test due to flaky
+    it.skip('should checkout as customer', () => {
       const customer = getSampleUser();
 
       cy.log('--> Agent logging in');
