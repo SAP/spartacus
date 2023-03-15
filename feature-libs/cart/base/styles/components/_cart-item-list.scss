@@ -1,6 +1,18 @@
 %cx-cart-item-list {
   @extend .cx-agnostic-table;
 
+  .cx-item-list-header {
+    border-bottom: none;
+  }
+
+  .cx-item-list-items {
+    tr {
+      &:last-child {
+        border-bottom: 1px solid var(--cx-color-light);
+      }
+    }
+  }
+
   td.cx-actions {
     cx-add-to-cart,
     button {
