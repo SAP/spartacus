@@ -32,6 +32,7 @@ const mockEvent = new CartUiEventAddToCart();
 mockEvent.productCode = 'test';
 mockEvent.quantity = 3;
 mockEvent.numberOfEntriesBeforeAdd = 1;
+mockEvent.pickupStoreName = 'testStore';
 
 const mockFailEvent = new CartAddEntryFailEvent();
 mockFailEvent.error = {};

@@ -8,17 +8,66 @@
 
     .container {
       display: flex;
-      flex-wrap: wrap;
-      padding: 15px 0;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 36px 32px;
+      margin: 0;
+      min-width: 100%;
+
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-inverse);
+      }
+
+      .cx-order-details-cards {
+        flex-grow: 1;
+
+        @include media-breakpoint-up(lg) {
+          border-inline-end: 1px solid var(--cx-color-text);
+          margin-inline-end: 10rem;
+
+          cx-card {
+            padding: 10px 0;
+            display: block;
+
+            &:first-child {
+              padding-top: 0;
+            }
+
+            &:last-child {
+              padding-bottom: 0;
+            }
+
+            .cx-card-body {
+              padding: 0;
+            }
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          border: 1px solid var(--cx-color-light);
+          background-color: var(--cx-color-inverse);
+          margin-inline-end: 15px;
+          border-radius: 10px;
+        }
+
+        @include media-breakpoint-down(sm) {
+          margin-inline-end: 0;
+          margin-bottom: 30px;
+        }
+
+        .cx-card-title {
+          font-weight: var(--cx-font-weight-semi);
+          margin-bottom: 0;
+        }
+      }
 
       @include media-breakpoint-down(md) {
         max-width: 100%;
         min-width: 100%;
-        padding: 0 1.25rem;
+        padding: 1.25rem 0;
       }
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        padding: 1.25rem;
       }
 
       .cx-summary-card {
@@ -46,9 +95,50 @@
 
         .cx-card-title {
           @include type('4');
-          font-weight: bold;
+          font-weight: var(--cx-font-weight-bold);
           margin-bottom: 0.5rem;
         }
+      }
+    }
+  }
+
+  cx-order-detail-billing {
+    flex-grow: 1;
+    margin-bottom: 0;
+
+    .cx-review-summary {
+      flex-direction: column;
+
+      @include media-breakpoint-down(md) {
+        border: 1px solid var(--cx-color-light);
+        background-color: var(--cx-color-inverse);
+        border-radius: 10px;
+      }
+    }
+
+    .cx-review-summary-card {
+      width: 100%;
+
+      @include media-breakpoint-up(lg) {
+        padding: 10px 0;
+        display: block;
+
+        &:first-child {
+          padding-top: 0;
+        }
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        .cx-card-body {
+          padding: 0;
+        }
+      }
+
+      .cx-card-title {
+        font-size: var(--cx-font-size, 1.125rem);
+        margin-bottom: 0;
       }
     }
   }
