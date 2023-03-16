@@ -116,19 +116,22 @@
     </div>
 
     <div *ngIf="simple$ | async" class="container">
-      <cx-card
-        [content]="getOrderCodeCardContent(order?.code) | async"
-      ></cx-card>
+      <div class="cx-order-details-cards">
+        <cx-card
+          [content]="getOrderCodeCardContent(order?.code) | async"
+        ></cx-card>
 
-      <cx-card
-        [content]="
-          getOrderCurrentDateCardContent(order?.created | cxDate) | async
-        "
-      ></cx-card>
+        <cx-card
+          [content]="
+            getOrderCurrentDateCardContent(order?.created | cxDate) | async
+          "
+        ></cx-card>
 
-      <cx-card
-        [content]="getOrderStatusCardContent(order.statusDisplay) | async"
-      ></cx-card>
+        <cx-card
+          [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+        ></cx-card>
+      </div>
+      <cx-order-detail-billing></cx-order-detail-billing>
     </div>
   </ng-container>
 </div>

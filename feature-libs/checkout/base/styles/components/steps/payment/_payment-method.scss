@@ -30,12 +30,6 @@
     }
   }
 
-  .cx-checkout-title {
-    text-transform: uppercase;
-    margin: 0 auto;
-    padding: 2.375rem 0 1.75rem 0;
-  }
-
   .cx-checkout-text {
     @include media-breakpoint-down(md) {
       padding-inline-start: 3.5rem;

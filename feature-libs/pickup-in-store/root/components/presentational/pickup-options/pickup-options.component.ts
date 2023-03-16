@@ -46,6 +46,7 @@ export class PickupOptionsComponent implements OnChanges {
     if (this.disableControls) {
       this.pickupOptionsForm.get('pickupOption')?.disable();
     }
+    this.pickupOptionsForm.markAllAsTouched();
     this.pickupOptionsForm.get('pickupOption')?.setValue(this.selectedOption);
   }
 

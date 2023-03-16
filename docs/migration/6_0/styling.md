@@ -69,8 +69,35 @@
   including the page template `cx-configurator-template`. 
   Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
- 
 
 ### Font Awesome Icons
 
-The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
+- The Font Awesome css library, used for icons, is not downloaded at runtime anymore.  The default icon configuration is still based on the same Font Awesome icons.  However, the Font Awesome css is now bundled with the Spartacus styles.  This change is done to comply with security best practices.
+
+### Fonts library
+
+- CSS fonts were downloaded in runtime from third party servers using Google Fonts. It is now replaced by Fontsource library, a self-hosted solution. The css fonts asset is now bundled with the Spartacus styles. This change is done to comply with security best practices.
+
+### PaymentMethodsComponent
+
+- Removed styling for class `.cx-checkout-title`
+
+### OrderDetailsItemsComponent
+
+- Removed `margin-top: 30px` from `%cx-order-details-items`
+
+### OrderDetailsShippingComponent
+
+- Renamed `%cx-order-details-shipping` to `%cx-order-overview`
+
+### OrderOverviewComponent
+
+- Modifed and added elements to follow the redesign of order overview
+
+### AgnosticTable
+
+- Replaced `border-bottom: 1px solid var(--cx-color-light)` with `border-top: 1px solid var(--cx-color-light)` in the `tr` style class
+
+### OrderConfirmationThankYouMessage
+
+- Replaced `font-weight: $font-weight-normal` with `font-weight: var(--cx-font-weight-bold)` and `font-size: var(--cx-font-size, 1.5rem);` in the `h2` style class
