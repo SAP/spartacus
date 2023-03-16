@@ -19,6 +19,7 @@ import {
   IconModule,
   ListNavigationModule,
   SpinnerModule,
+  TabModule,
 } from '@spartacus/storefront';
 import { ScheduleComponent } from './schedule-component/schedule.component';
 import { StoreFinderGridComponent } from './store-finder-grid/store-finder-grid.component';
@@ -44,6 +45,7 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
+    TabModule,
     // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
     FeaturesConfigModule,
   ],

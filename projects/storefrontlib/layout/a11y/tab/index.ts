@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './keyboard-focus/index';
-export * from './skip-link/index';
-export * from './tab/index';
+export * from './tab-list.directive';
+
+export * from './tab.directive';
+
+export * from './tab.module';
