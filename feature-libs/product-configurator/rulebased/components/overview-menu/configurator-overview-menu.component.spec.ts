@@ -6,7 +6,10 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
+import {
+  ConfiguratorOverviewMenuComponent,
+  ConfiguratorOverviewStyle,
+} from './configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Component, Input, Type } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -38,6 +41,8 @@ class MockConfiguratorStorefrontUtilsService {
   hasScrollbar(): void {}
 
   changeStyling(): void {}
+
+  removeStyling(): void {}
 
   createOvGroupId(): void {}
 
@@ -86,6 +91,10 @@ function initialize() {
   spyOn(configuratorStorefrontUtilsService, 'scrollToConfigurationElement');
 
   spyOn(configuratorStorefrontUtilsService, 'ensureElementVisible');
+
+  spyOn(configuratorStorefrontUtilsService, 'changeStyling');
+
+  spyOn(configuratorStorefrontUtilsService, 'removeStyling');
 
   spyOn(
     configuratorStorefrontUtilsService,
@@ -146,7 +155,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
     expect(component).toBeDefined();
     expect(
       configuratorStorefrontUtilsService.getElements
-    ).toHaveBeenCalledTimes(2);
+    ).toHaveBeenCalledTimes(1);
     expect(
       configuratorStorefrontUtilsService.getVerticallyScrolledPixels
     ).toHaveBeenCalledTimes(1);
@@ -164,6 +173,162 @@ describe('ConfigurationOverviewMenuComponent', () => {
   it('should provide the overview groups', () => {
     initialize();
     expect(component.config.overview?.groups?.length).toBe(2);
+  });
+
+  describe('getAmount', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should return zero because there are no groups', () => {
+      const configuration: Configurator.Configuration = structuredClone(
+        ConfigurationTestData.productConfigurationWithoutIssues
+      );
+      expect(component['getAmount'](configuration)).toEqual(0);
+    });
+
+    it('should return zero because there are no groups', () => {
+      expect(component['getAmount'](component.config)).toEqual(10);
+    });
+  });
+
+  describe('getMenuItemsHeight', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should return zero because amount is zero', () => {
+      component.amount = 0;
+      fixture.detectChanges();
+      expect(component['getMenuItemsHeight']()).toEqual(0);
+    });
+
+    it('should return the total height of all menu items', () => {
+      component.amount = 10;
+      fixture.detectChanges();
+      expect(component['getMenuItemsHeight']()).toEqual(395);
+    });
+  });
+
+  describe('changeStyling', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should not call changeStyling because the list of styles is undefined', () => {
+      const styles: ConfiguratorOverviewStyle[] = undefined;
+      component['changeStyling'](
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles
+      );
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not call changeStyling because the list of styles is empty', () => {
+      const styles: ConfiguratorOverviewStyle[] = [];
+      component['changeStyling'](
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles
+      );
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call changeStyling', () => {
+      const styles: ConfiguratorOverviewStyle[] = [
+        { property: 'position', value: 'sticky' },
+      ];
+      component['changeStyling'](
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles
+      );
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalledWith(
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles[0].property,
+        styles[0].value
+      );
+    });
+  });
+
+  describe('removeStyling', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should not call removeStyling because the list of styles is undefined', () => {
+      const styles: ConfiguratorOverviewStyle[] = undefined;
+      component['changeStyling'](
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles
+      );
+      expect(
+        configuratorStorefrontUtilsService.removeStyling
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should not call removeStyling because the list of styles is empty', () => {
+      const styles: ConfiguratorOverviewStyle[] = [];
+      component['changeStyling'](
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles
+      );
+      expect(
+        configuratorStorefrontUtilsService.removeStyling
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should call removeStyling', () => {
+      const styles: ConfiguratorOverviewStyle[] = [
+        { property: 'position', value: 'sticky' },
+      ];
+      component['removeStyling'](
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles
+      );
+      expect(
+        configuratorStorefrontUtilsService.removeStyling
+      ).toHaveBeenCalled();
+      expect(
+        configuratorStorefrontUtilsService.removeStyling
+      ).toHaveBeenCalledWith(
+        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
+        styles[0].property
+      );
+    });
+  });
+
+  describe('adjustStyling', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it('should change styling', () => {
+      component.amount = 1;
+      component.styles = [{ property: 'position', value: 'sticky' }];
+      fixture.detectChanges();
+      component['adjustStyling']();
+      expect(
+        configuratorStorefrontUtilsService.changeStyling
+      ).toHaveBeenCalled();
+    });
+
+    it('should removeStyling styling', () => {
+      component.amount = 0;
+      component.styles = [{ property: 'position', value: 'sticky' }];
+      fixture.detectChanges();
+      component['adjustStyling']();
+      expect(
+        configuratorStorefrontUtilsService.removeStyling
+      ).toHaveBeenCalled();
+    });
   });
 
   it('should render group descriptions', () => {
@@ -274,37 +439,18 @@ describe('ConfigurationOverviewMenuComponent', () => {
     });
 
     it('should return empty string because spare viewport height is larger that menu items height', () => {
-      const menuItems: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('button.cx-menu-item')
-      );
-      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        menuItems
-      );
+      component.menuItemsHeight = 400;
+      fixture.detectChanges();
       spyOn(
         configuratorStorefrontUtilsService,
         'getSpareViewportHeight'
-      ).and.returnValue(500);
+      ).and.returnValue(600);
       expect(component['getHeight']()).toEqual('');
     });
 
     it('should return spare viewport height because menu items height is equal zero', () => {
-      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        undefined
-      );
-      spyOn(
-        configuratorStorefrontUtilsService,
-        'getSpareViewportHeight'
-      ).and.returnValue(200);
-      expect(component['getHeight']()).toEqual('200px');
-    });
-
-    it('should return spare viewport height because menu items height is larger than spare viewport height', () => {
-      const menuItems: HTMLElement[] = Array.from(
-        htmlElem.querySelectorAll('button.cx-menu-item')
-      );
-      spyOn(configuratorStorefrontUtilsService, 'getElements').and.returnValue(
-        menuItems
-      );
+      component.menuItemsHeight = 400;
+      fixture.detectChanges();
       spyOn(
         configuratorStorefrontUtilsService,
         'getSpareViewportHeight'
@@ -416,15 +562,7 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should not highlight any element because elementToHighlight is undefined', () => {
-      spyOn(configuratorStorefrontUtilsService, 'getElements');
-      component['highlight'](undefined);
-      expect(
-        configuratorStorefrontUtilsService.getElements
-      ).toHaveBeenCalledTimes(0);
-    });
-
-    it('should not highlight any element because getElements method returns undefined', () => {
+    it('should not highlight any element because the list of menu items is empty', () => {
       const menuItems: HTMLElement[] = Array.from(
         htmlElem.querySelectorAll('button.cx-menu-item')
       );
@@ -434,8 +572,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
       );
       component['highlight'](elementToHighlight);
       expect(
-        configuratorStorefrontUtilsService.getElements
-      ).toHaveBeenCalledTimes(1);
+        elementToHighlight.classList.contains(component['ACTIVE_CLASS'])
+      ).toBe(false);
     });
 
     it('should highlight an element', () => {
@@ -448,9 +586,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
       );
       component['highlight'](elementToHighlight);
       expect(
-        configuratorStorefrontUtilsService.getElements
-      ).toHaveBeenCalledTimes(1);
-      expect(elementToHighlight.classList.contains('active')).toBe(true);
+        elementToHighlight.classList.contains(component['ACTIVE_CLASS'])
+      ).toBe(true);
     });
   });
 
