@@ -5,12 +5,15 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { AsmConfig, CustomerListsPage } from '@spartacus/asm/root';
+import {
+  AsmConfig,
+  CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
