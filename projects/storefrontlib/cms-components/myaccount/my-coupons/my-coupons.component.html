@@ -3,11 +3,7 @@
     <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <ng-container *ngIf="couponResult$ | async as couponResult">
       <div class="cx-my-coupons-header">
-        <!-- TODO:(CXSPA-1695) for next major releasee remove below h3 tag and feature level check from the h2 tag-->
-        <h3 *cxFeatureLevel="'!5.1'">
-          {{ 'myCoupons.myCoupons' | cxTranslate }}
-        </h3>
-        <h2 *cxFeatureLevel="'5.1'">
+        <h2>
           {{ 'myCoupons.myCoupons' | cxTranslate }}
         </h2>
       </div>
