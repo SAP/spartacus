@@ -261,19 +261,3 @@ export function verifyCartPageTabbingOrder() {
 export function verifyQuickOrderPageTabbingOrder() {
   tabbingOrder('cx-quick-order', config.quickOrder);
 }
-
-export function verifyCloseResultBoxByTab() {
-  this.getQuickOrderResultBox(sampleData.b2bProduct.code);
-  cy.get('.quick-order-results').should('be.visible');
-  cy.get('.quick-order-form-input input').focus();
-  cy.pressTab();
-  cy.get('.quick-order-results').should('not.be.visible');
-}
-
-export function verifyCloseResultBoxByClickOutside() {
-  this.getQuickOrderResultBox(sampleData.b2bProduct.code);
-  cy.get('.quick-order-results').should('be.visible');
-  cy.get('.quick-order-form-input input').focus();
-  cy.get('.quick-order-header').click();
-  cy.get('.quick-order-results').should('not.be.visible');
-}
