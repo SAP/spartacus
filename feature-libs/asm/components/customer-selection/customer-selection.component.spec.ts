@@ -8,8 +8,8 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AsmService, CustomerSearchPage } from '@spartacus/asm/core';
-import { AsmConfig } from '@spartacus/asm/root';
+import { AsmService } from '@spartacus/asm/core';
+import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import {
   DirectionMode,
@@ -153,8 +153,7 @@ describe('CustomerSelectionComponent', () => {
     customerSearchResultsLoading.next(true);
     fixture.detectChanges();
 
-    // TODO: (CXSPA-1291) Change div.spinner to use cx-dot-spinner component
-    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
   });
 
