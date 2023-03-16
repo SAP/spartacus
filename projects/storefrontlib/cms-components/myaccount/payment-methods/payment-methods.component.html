@@ -1,11 +1,7 @@
 <ng-container *ngIf="paymentMethods$ | async as paymentMethods">
   <div class="cx-payment container">
     <div class="cx-header">
-      <!-- TODO:(CXSPA-1695) for next major releasee remove below h3 tag and feature level check from the h2 tag-->
-      <h3 *cxFeatureLevel="'!5.1'">
-        {{ 'paymentMethods.paymentMethods' | cxTranslate }}
-      </h3>
-      <h2 *cxFeatureLevel="'5.1'">
+      <h2>
         {{ 'paymentMethods.paymentMethods' | cxTranslate }}
       </h2>
     </div>

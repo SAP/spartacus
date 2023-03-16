@@ -10,11 +10,11 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
@@ -61,30 +61,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   @ViewChild('customerListLink') element: ElementRef;
 
-  // TODO(#206): make LaunchDialogService are required dependency
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    launchDialogService: LaunchDialogService
-  );
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    authService: AuthService,
-    csAgentAuthService: CsAgentAuthService,
-    asmComponentService: AsmComponentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    asmService: AsmService,
-    userAccountFacade: UserAccountFacade
-  );
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -93,7 +69,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    @Optional() protected launchDialogService?: LaunchDialogService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -128,7 +104,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         )
       );
     this.subscription.add(
-      this.launchDialogService?.dialogClose
+      this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
         .subscribe((result: CustomerListAction) => {
           if (result.selectedUser) {
@@ -188,14 +164,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   showCustomList(): void {
-    this.launchDialogService?.openDialogAndSubscribe(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_LIST,
       this.element
     );
   }
 
   closeModal(): void {
-    this.launchDialogService?.closeDialog('logout');
+    this.launchDialogService.closeDialog('logout');
   }
 
   ngOnDestroy() {
