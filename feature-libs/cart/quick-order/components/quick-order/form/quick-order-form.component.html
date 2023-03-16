@@ -68,7 +68,7 @@
       >
         <button
           (blur)="onBlur($event)"
-          (click)="add(product, $event)"
+          (mousedown)="add(product, $event)"
           (keydown.arrowdown)="focusNextChild($event)"
           (keydown.arrowup)="focusPreviousChild($event)"
           (keydown.enter)="add(product, $event)"
