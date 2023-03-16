@@ -22,7 +22,8 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { Address, TranslationService } from '@spartacus/core';
-import { Card, getAddressNumbers, ICON_TYPE } from '@spartacus/storefront';
+import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -99,58 +100,22 @@ export class CheckoutReviewSubmitComponent {
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
     ]).pipe(
-      map(([textTitle, textPhone, textMobile]) => {
-        if (!countryName) {
-          countryName = deliveryAddress?.country?.name as string;
-        }
-
-        let region = '';
-        if (
-          deliveryAddress &&
-          deliveryAddress.region &&
-          deliveryAddress.region.isocode
-        ) {
-          region = deliveryAddress.region.isocode + ', ';
-        }
-
-        const numbers = getAddressNumbers(
-          deliveryAddress,
+      map(([textTitle, textPhone, textMobile]) =>
+        deliveryAddressCard(
+          textTitle,
           textPhone,
-          textMobile
-        );
-
-        return {
-          title: textTitle,
-          textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-          text: [
-            deliveryAddress.line1,
-            deliveryAddress.line2,
-            deliveryAddress.town + ', ' + region + countryName,
-            deliveryAddress.postalCode,
-            numbers,
-          ],
-        } as Card;
-      })
+          textMobile,
+          deliveryAddress,
+          countryName
+        )
+      )
     );
   }
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
       this.translationService.translate('checkoutMode.deliveryMethod'),
-    ]).pipe(
-      map(([textTitle]) => {
-        return {
-          title: textTitle,
-          textBold: deliveryMode.name,
-          text: [
-            deliveryMode.description,
-            deliveryMode.deliveryCost?.formattedValue
-              ? deliveryMode.deliveryCost?.formattedValue
-              : '',
-          ],
-        } as Card;
-      })
-    );
+    ]).pipe(map(([textTitle]) => deliveryModeCard(textTitle, deliveryMode)));
   }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {

@@ -1,6 +1,14 @@
 %cx-order-details-items {
-  margin-top: 30px;
   margin-bottom: 15px;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 30px;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-top: 10px;
+  }
+
   .cx-list-header {
     @include media-breakpoint-down(sm) {
       padding: 0;

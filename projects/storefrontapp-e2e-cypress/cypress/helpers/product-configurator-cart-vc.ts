@@ -72,7 +72,7 @@ export function verifyNotificationBannerInCart(
  */
 export function checkout(): void {
   cy.log('Complete checkout process');
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.log('Fulfill shipping address form');
   fillShippingAddress(shippingAddressData, false);
 

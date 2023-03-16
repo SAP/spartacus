@@ -20,7 +20,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
+import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
+
 import { User } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
