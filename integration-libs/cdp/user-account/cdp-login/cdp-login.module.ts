@@ -7,12 +7,14 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import {
+  CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { OrderComponentsModule } from '@spartacus/order/components';
 import { PageSlotModule } from '@spartacus/storefront';
+import { LoginComponentService } from '@spartacus/user/account/components';
 // import { CdpMyAccountComponent } from 'integration-libs/cdp/root/components/cdp-my-account';
 import { CdpConfig } from 'integration-libs/cdp/root/config';
 import { CdpLoginComponent } from './cdp-login.component';
@@ -35,19 +37,19 @@ import { CdpLoginComponent } from './cdp-login.component';
           ],
            schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
-    // provideDefaultConfig(<CmsConfig>{
-    //   cmsComponents: {
-    //     LoginComponent: {
-    //       component: CdpLoginComponent,
-    //       providers: [
-    //         {
-    //           provide: LoginComponentService,
-    //           useClass: LoginComponentService,
-    //         }
-    //      ]
-    //     },
-    //   },
-    // }),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        LoginComponent: {
+          component: CdpLoginComponent,
+          providers: [
+            {
+              provide: LoginComponentService,
+              useClass: LoginComponentService,
+            }
+         ]
+        },
+      },
+    }),
     provideDefaultConfig(CdpConfig),
   ],
   declarations: [CdpLoginComponent],

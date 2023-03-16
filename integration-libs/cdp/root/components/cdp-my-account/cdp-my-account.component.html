@@ -8,7 +8,7 @@
 
 <ng-container >
    <!-- HEADER -->
-   <div class="cx-ordersAndReturns">
+   <div>
     <h2  style="white-space: nowrap;">
       {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
       <h3 style="text-align:right">
@@ -22,21 +22,20 @@
     </h2>
       
   </div> 
-  <div *ngFor="let order of type.orderHistory.orders" class="table cx-cdp-body">
   <table
   role="table"
-  id="cx-cdp-table"
+  id="order-history-table"
   class="table cx-cdp-body-table"> 
   <!-- BODY --> 
-  <tbody  >
+  <tbody *ngFor="let order of type.orderHistory.orders" >
     <!-- HEADER ROW-->
     
-  <tr style=" background-color: var(--cx-color-background);"
+  <tr
       role="row"
-    class="cx-header">
-    <td role="cell">
-      <div >
-       PurchasedIn-Store
+    >
+    <td role="cell" class="cx-order-history-code">
+      <div class="cx-order-history-value">
+       PurchasedIn
       </div>
     </td>
     <td></td>
@@ -52,15 +51,16 @@
     role="row"
     >
     <!-- IMAGE -->
-    <td role="cell" >
+    <td role="cell" class="cx-order-history-code">
       <img [src]="order.url" width="88" height="88" class="slide active" >
     </td>
     <td>
       <p>
         PurchasedIn {{order.placed | cxDate: 'd, MMMM, yyyy'}}<br>
-        Ordered Items: <br>
+        Ordered Items:<br>
         <br>
-        TotalPrice:
+        <!-- <br> -->
+        TotalPrice
       </p>
     </td>
     <td>
@@ -81,7 +81,6 @@
     </tbody>
 
 </table>
-</div>
 
 
 

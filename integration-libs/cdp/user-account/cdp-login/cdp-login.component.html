@@ -1,35 +1,23 @@
-<!-- <ng-container *ngIf="user$ | async as user; else login">
+<ng-container *ngIf="user$ | async as user; else login">
   <div class="cx-login-greet">
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
-  <cx-page-slot *ngIf=(isCdpEnabled)
-               
-                id="nav" 
-                position="HeaderLinks">
-                (click)="goToMyAccount()" >
-  </cx-page-slot> -->
-  <!-- <button
+  <cx-page-slot *ngIf=(!isCdpEnabled) id="account-nav" position="HeaderLinks"></cx-page-slot>
+  <button
   class="link cx-login-greet"
   (click)="goToMyAccount()"
   [routerLink]="{ cxRoute: 'my-account' } | cxUrl"
   type="button"
 >
   {{ 'My Account'}}
-</button> -->
+</button>
   
-<!-- </ng-container> -->
+</ng-container>
 
-<!-- <ng-template #login>
+<ng-template #login>
   <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
     'miniLogin.signInRegister' | cxTranslate
   }}</a>
-</ng-template> -->
-
-<ng-template #cdp>
-  <!-- <div *ngIf=(isCdpEnabled) (click)="goToMyAccount()">
-    button
-  </div> -->
-  <h1>test</h1>
 </ng-template>
 
   

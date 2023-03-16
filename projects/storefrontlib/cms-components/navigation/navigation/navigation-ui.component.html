@@ -55,28 +55,16 @@
           (keydown.esc)="back()"
         >
           <ng-container *ngIf="!node.url">
-            <div *ngIf="(!isCdpEnabled); else cdp">
             {{ node.title }}
-          </div>
           </ng-container>
           <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
         </button>
       </ng-container>
-
       <ng-template #title>
         <span [attr.tabindex]="-1">
           {{ node.title }}
         </span>
       </ng-template>
-
-       <ng-template #cdp> -->
-        <!-- <div *ngIf=(isCdpEnabled) (click)="goToMyAccount()">
-          {{ node.title }}
-        </div> -->
-        <div id="cdp" > 
-        </div>
-      </ng-template>
-      
     </ng-template>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
