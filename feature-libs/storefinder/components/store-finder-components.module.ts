@@ -8,12 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
 import {
   IconModule,
@@ -44,8 +39,6 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
-    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig({
