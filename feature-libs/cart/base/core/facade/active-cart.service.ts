@@ -386,9 +386,9 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
-  addEntry(productCode: string, quantity: number): void {
-    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
+  addEntry(productCode: string, quantity: number, pickupStore?: string): void {
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
@@ -396,7 +396,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           userId,
           getCartIdByUserId(cart, userId),
           productCode,
-          quantity
+          quantity,
+          pickupStore
         );
       });
   }
@@ -423,12 +424,26 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param entryNumber
    * @param quantity
+   * @param pickupStore
+   * @param pickupToDelivery
    */
-  updateEntry(entryNumber: number, quantity: number): void {
+  updateEntry(
+    entryNumber: number,
+    quantity?: number,
+    pickupStore?: string,
+    pickupToDelivery: boolean = false
+  ): void {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.updateEntry(userId, cartId, entryNumber, quantity);
+        this.multiCartFacade.updateEntry(
+          userId,
+          cartId,
+          entryNumber,
+          quantity,
+          pickupStore,
+          pickupToDelivery
+        );
       });
   }
 
@@ -525,6 +540,38 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         })
       )
       .subscribe();
+  }
+
+  hasPickupItems(): Observable<boolean> {
+    return this.getActive().pipe(
+      map((cart) =>
+        cart.pickupItemsQuantity ? cart.pickupItemsQuantity > 0 : false
+      )
+    );
+  }
+
+  hasDeliveryItems(): Observable<boolean> {
+    return this.getActive().pipe(
+      map((cart) =>
+        cart.deliveryItemsQuantity ? cart.deliveryItemsQuantity > 0 : false
+      )
+    );
+  }
+
+  getPickupEntries(): Observable<OrderEntry[]> {
+    return this.getEntries().pipe(
+      map((entries) =>
+        entries.filter((entry) => entry.deliveryPointOfService !== undefined)
+      )
+    );
+  }
+
+  getDeliveryEntries(): Observable<OrderEntry[]> {
+    return this.getEntries().pipe(
+      map((entries) =>
+        entries.filter((entry) => entry.deliveryPointOfService === undefined)
+      )
+    );
   }
 
   ngOnDestroy(): void {

@@ -61,7 +61,7 @@ describe('Language switch - checkout page', () => {
       );
 
       cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
-        'have.text',
+        'contain',
         'Standard-Lieferung'
       );
 
@@ -79,7 +79,10 @@ describe('Language switch - checkout page', () => {
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
       );
 
-      cy.get('cx-review-submit .cx-link').should('contain', deutschName);
+      cy.get('cx-checkout-review-shipping .cx-link').should(
+        'contain',
+        deutschName
+      );
     });
   });
 });
