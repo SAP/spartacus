@@ -86,6 +86,7 @@ export class CdpMyAccountComponent implements OnInit{
             this.orderStatus[orderCode][ord.status] + entr.quantity;
             if(entr.orderEntry.product && entr.orderEntry.product.images)
             {
+              console.log("img", entr.orderEntry.product.images[0]);
               entr.orderEntry.product.images.forEach((img)=>{
                 img.url =
                         this.occEndpointsService.getBaseUrl({
@@ -94,8 +95,10 @@ export class CdpMyAccountComponent implements OnInit{
                         }) + img.url;
               });
               this.orderImage[orderCode].push(entr.orderEntry.product);
+              // this.orderImage[orderCode].product.= entr.orderEntry.product.images[0];
             }
         });
+        console.log(this.orderImage);
       });
       this.loading$.next(false);
     }
