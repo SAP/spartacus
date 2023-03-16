@@ -15,7 +15,7 @@
           placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
         />
         <button
-          class="btn btn-block btn-action apply-coupon-button"
+          class="btn btn-block btn-secondary apply-coupon-button"
           type="submit"
           [disabled]="cartIsLoading$ | async"
           [class.disabled]="cartIsLoading$ | async"

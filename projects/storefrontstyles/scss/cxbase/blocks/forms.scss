@@ -4,6 +4,7 @@
 
 .form-control {
   margin-bottom: 0.25rem;
+  color: var(--cx-color-text);
   &:focus {
     border-color: var(--cx-color-secondary);
     box-shadow: none;
@@ -180,7 +181,7 @@ legend {
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    border-color: var(--cx-color-light);
+    border-color: var(--cx-color-medium);
 
     &:checked {
       font-style: normal;
@@ -219,7 +220,7 @@ input[type='radio'] {
   display: inline-block;
   border-style: solid;
   border-width: 2px;
-  border-color: var(--cx-color-light);
+  border-color: var(--cx-color-medium);
   position: absolute;
 
   &::after {
@@ -346,7 +347,7 @@ input {
 
 .form-group {
   input[type='text']::placeholder {
-    color: var(--cx-color-secondary);
+    color: var(--cx-color-text);
     opacity: 1;
   }
 
