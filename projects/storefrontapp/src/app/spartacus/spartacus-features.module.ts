@@ -121,9 +121,7 @@ if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
 
-if (environment.pickupInStore) {
-  featureModules.push(PickupInStoreFeatureModule);
-}
+featureModules.push(PickupInStoreFeatureModule);
 
 @NgModule({
   imports: [
