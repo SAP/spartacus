@@ -69,6 +69,54 @@
   including the page template `cx-configurator-template`. 
   Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
+ 
+#### CustomerSelectionComponent
+
+- `.spinner` styling removed from `%cx-customer-selection`
+- `cx-dot-spinner` styling added in `.asm-results`
+
+#### CSAgentLoginFormComponent
+
+- `cx-dot-spinner` styling added in `%cx-csagent-login-form`
+
+#### AsmMainUiComponent
+
+- `.spinner` styling removed from `%cx-asm-main-ui`
+
+### Feature lib asm 
+
+#### AsmMainUiComponent
+
+- Added property `background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z'/%3E%3C/svg%3E");` to `.close`
+- Added property `background-image: url("[...IMAGE_URI...]");` to `.logout`
+- Added property `color: inherit; background-color: #ffffff; box-shadow: 2px 2px rgba(85, 107, 130, 0.1), inset 0px -1px 0px rgba(85, 107, 130, 0.2);` to `.asm-bar`
+
+#### AsmSessionTimerComponent
+
+- Added property `background: url("[...IMAGE_URI...]") no-repeat center center;` to `.reset`
+
+#### AsmToggleUiComponent
+
+- Added property `color: #d50101;` to `.label`
+- Added property `background: url("[...IMAGE_URI...]") center center no-repeat;` to `.collapseIcon`
+- Added property `background: url("[...IMAGE_URI...]") center center no-repeat;` to `.expandIcon`
+
+#### CustomerEmulationComponent
+
+- Added property `justify-content: flex-start; align-items: baseline; @media (max-width: 940px) { flex-direction: column; > * { margin-bottom: 12px; } }` to `%cx-customer-emulation`
+- Added selector `button`
+- Added property `color: #aa0808; font-weight: 700; background-color: #ffd6ea; border: 1px solid #ffd6ea; border-radius: 8px; padding: 6px 10px; @media (max-width: 940px) { width: 100%; }` to `button`
+- Added selector `label`
+- Added property `margin-inline-end: 10px; margin-inline-start: 0; margin-top: 0; margin-bottom: 0; color: #556b82;` to `label`
+- Added selector `.cx-asm-customerInfo`
+- Added property `display: flex; flex-direction: column; margin-inline-end: 15px;  .cx-asm-name { color: #1d2d3e; } .cx-asm-uid { color: #556b82; }` to `.cx-asm-customerInfo`
+
+#### CustomerSelectionComponent
+
+- Added property `.input-contaier { display: flex; .icon-wrapper { display: flex; outline: 0; border: 1px solid #89919a; color: #ffffff; background-color: #1672b7; padding: 0 12px; height: 36px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-right-width: 0px; cursor: pointer; } input { border: none; border-radius: 4px; background-color: #eff1f2; box-shadow: 0px 4px 4px rgb(0 0 0 / 25%); } } .searchTermLabel { display: flex; align-items: center; color: #556b82; min-width: auto; margin: 0 15px 0 0; }` to `label`
+- Changed property `@media (min-width: 575px)` from `{ margin-inline-end: 15px; min-width: 20rem; }` to `{ margin-inline-end: 15px; min-width: 20rem; margin-bottom: 0; min-width: 25rem; }` in `label`
+- Added selector `button[type='submit']`
+- Added property `background-color: #ebf5cb; opacity: 0.4; border: 1px solid #ebf5cb; border-radius: 8px; color: #256f3a; font-weight: 700; transition: opacity 0.3s; &.active { opacity: 1; }` to `button[type='submit]'`
 
 ### Font Awesome Icons
 
