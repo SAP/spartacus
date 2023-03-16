@@ -9,7 +9,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
@@ -118,15 +117,6 @@ class MockCheckoutDeliveryModesFacade
   clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
 }
 
-/**
- * TODO: (#CXSPA-53) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('CheckoutDeliveryAddressComponent', () => {
   let component: CheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
@@ -160,10 +150,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
           {
             provide: CheckoutDeliveryModesFacade,
             useClass: MockCheckoutDeliveryModesFacade,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
           },
         ],
       })
