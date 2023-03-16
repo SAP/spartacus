@@ -77,6 +77,28 @@ describe('Cart effect', () => {
 
       expect(entryEffects.addEntry$).toBeObservable(expected);
     });
+
+    it('should add an entry with pickup in store', () => {
+      const action = new CartActions.CartAddEntry({
+        userId: userId,
+        cartId: cartId,
+        productCode: 'testProductCode',
+        quantity: 1,
+        pickupStore: 'pickupStore',
+      });
+      const completion = new CartActions.CartAddEntrySuccess({
+        userId,
+        cartId,
+        productCode: 'testProductCode',
+        pickupStore: 'pickupStore',
+        ...mockCartModification,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.addEntry$).toBeObservable(expected);
+    });
   });
 
   describe('removeEntry$', () => {
@@ -106,6 +128,24 @@ describe('Cart effect', () => {
         cartId: cartId,
         entryNumber: 'testEntryNumber',
         quantity: 1,
+      };
+      const action = new CartActions.CartUpdateEntry(payload);
+      const completion = new CartActions.CartUpdateEntrySuccess(payload);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.updateEntry$).toBeObservable(expected);
+    });
+
+    it('should update an entry from pickup to delivery mode', () => {
+      const payload = {
+        userId: userId,
+        cartId: cartId,
+        entryNumber: 'testEntryNumber',
+        quantity: 1,
+        pickupStore: undefined,
+        pickupToDelivery: true,
       };
       const action = new CartActions.CartUpdateEntry(payload);
       const completion = new CartActions.CartUpdateEntrySuccess(payload);

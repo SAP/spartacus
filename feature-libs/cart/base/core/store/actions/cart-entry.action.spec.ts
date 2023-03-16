@@ -29,6 +29,7 @@ describe('Cart-entry Actions', () => {
           cartId,
           productCode,
           quantity: 1,
+          pickupStore: 'pickupStore',
         };
         const action = new CartActions.CartAddEntry(payload);
         expect({ ...action }).toEqual({
@@ -146,6 +147,8 @@ describe('Cart-entry Actions', () => {
           cartId: cartId,
           entryNumber,
           quantity: 1,
+          pickupStore: undefined,
+          pickupToDelivery: true,
         };
         const action = new CartActions.CartUpdateEntry(payload);
         expect({ ...action }).toEqual({
