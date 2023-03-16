@@ -16,11 +16,6 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
-export interface ConfiguratorOverviewStyle {
-  property: string;
-  value: string;
-}
-
 @Component({
   selector: 'cx-configurator-overview-menu',
   templateUrl: './configurator-overview-menu.component.html',
@@ -51,11 +46,11 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   menuItem: HTMLElement | undefined;
   amount: number;
   menuItemsHeight: number;
-  styles = [
-    { property: 'margin-block-end', value: '268px' },
-    { property: 'position', value: '-webkit-sticky' },
-    { property: 'position', value: 'sticky' },
-    { property: 'top', value: '0' },
+  styles: readonly [property: string, value: string][] = [
+    ['margin-block-end', '268px'],
+    ['position', '-webkit-sticky'],
+    ['position', 'sticky'],
+    ['top', '0'],
   ];
 
   constructor(
@@ -135,15 +130,9 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
    */
   protected adjustStyling(): void {
     if (this.amount >= 1) {
-      this.changeStyling(
-        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
-        this.styles
-      );
+      this.changeStyling();
     } else {
-      this.removeStyling(
-        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
-        this.styles
-      );
+      this.removeStyling();
     }
   }
 
@@ -170,19 +159,14 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   /**
    * Applies the styling of element according to the passed list of CSS styles.
    *
-   * @param {string} querySelector - querySelector
-   * @param {ConfiguratorOverviewStyle[]} styles - list of styles
    * @protected
    */
-  protected changeStyling(
-    querySelector: string,
-    styles: ConfiguratorOverviewStyle[]
-  ): void {
-    styles?.forEach((style) => {
+  protected changeStyling(): void {
+    this.styles.forEach((style) => {
       this.configuratorStorefrontUtilsService.changeStyling(
-        querySelector,
-        style.property,
-        style.value
+        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
+        style[0],
+        style[1]
       );
     });
   }
@@ -190,18 +174,13 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   /**
    * Removes the styling of element according to the passed list of CSS styles.
    *
-   * @param {string} querySelector - querySelector
-   * @param {ConfiguratorOverviewStyle[]} styles - list of styles
    * @protected
    */
-  protected removeStyling(
-    querySelector: string,
-    styles: ConfiguratorOverviewStyle[]
-  ): void {
-    styles?.forEach((style) => {
+  protected removeStyling(): void {
+    this.styles.forEach((style) => {
       this.configuratorStorefrontUtilsService.removeStyling(
-        querySelector,
-        style.property
+        this.VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT,
+        style[0]
       );
     });
   }

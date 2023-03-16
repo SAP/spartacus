@@ -6,10 +6,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import {
-  ConfiguratorOverviewMenuComponent,
-  ConfiguratorOverviewStyle,
-} from './configurator-overview-menu.component';
+import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { Component, Input, Type } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -215,46 +212,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should not call changeStyling because the list of styles is undefined', () => {
-      const styles: ConfiguratorOverviewStyle[] = undefined;
-      component['changeStyling'](
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles
-      );
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).not.toHaveBeenCalled();
-    });
-
-    it('should not call changeStyling because the list of styles is empty', () => {
-      const styles: ConfiguratorOverviewStyle[] = [];
-      component['changeStyling'](
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles
-      );
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).not.toHaveBeenCalled();
-    });
-
     it('should call changeStyling', () => {
-      const styles: ConfiguratorOverviewStyle[] = [
-        { property: 'position', value: 'sticky' },
-      ];
-      component['changeStyling'](
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles
-      );
+      component['changeStyling']();
       expect(
         configuratorStorefrontUtilsService.changeStyling
-      ).toHaveBeenCalled();
-      expect(
-        configuratorStorefrontUtilsService.changeStyling
-      ).toHaveBeenCalledWith(
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles[0].property,
-        styles[0].value
-      );
+      ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
 
@@ -263,45 +225,11 @@ describe('ConfigurationOverviewMenuComponent', () => {
       initialize();
     });
 
-    it('should not call removeStyling because the list of styles is undefined', () => {
-      const styles: ConfiguratorOverviewStyle[] = undefined;
-      component['changeStyling'](
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles
-      );
-      expect(
-        configuratorStorefrontUtilsService.removeStyling
-      ).not.toHaveBeenCalled();
-    });
-
-    it('should not call removeStyling because the list of styles is empty', () => {
-      const styles: ConfiguratorOverviewStyle[] = [];
-      component['changeStyling'](
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles
-      );
-      expect(
-        configuratorStorefrontUtilsService.removeStyling
-      ).not.toHaveBeenCalled();
-    });
-
     it('should call removeStyling', () => {
-      const styles: ConfiguratorOverviewStyle[] = [
-        { property: 'position', value: 'sticky' },
-      ];
-      component['removeStyling'](
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles
-      );
+      component['removeStyling']();
       expect(
         configuratorStorefrontUtilsService.removeStyling
-      ).toHaveBeenCalled();
-      expect(
-        configuratorStorefrontUtilsService.removeStyling
-      ).toHaveBeenCalledWith(
-        component['VARIANT_CONFIG_OVERVIEW_NAVIGATION_SLOT'],
-        styles[0].property
-      );
+      ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
 
@@ -312,22 +240,20 @@ describe('ConfigurationOverviewMenuComponent', () => {
 
     it('should change styling', () => {
       component.amount = 1;
-      component.styles = [{ property: 'position', value: 'sticky' }];
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
         configuratorStorefrontUtilsService.changeStyling
-      ).toHaveBeenCalled();
+      ).toHaveBeenCalledTimes(component.styles.length);
     });
 
     it('should removeStyling styling', () => {
       component.amount = 0;
-      component.styles = [{ property: 'position', value: 'sticky' }];
       fixture.detectChanges();
       component['adjustStyling']();
       expect(
         configuratorStorefrontUtilsService.removeStyling
-      ).toHaveBeenCalled();
+      ).toHaveBeenCalledTimes(component.styles.length);
     });
   });
 
