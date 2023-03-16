@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
-import { EMPTY, Observable, of } from 'rxjs';
 import {
+  BindCartParams,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
+} from '@spartacus/asm/root';
+import { EMPTY, Observable, of } from 'rxjs';
 import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
 
