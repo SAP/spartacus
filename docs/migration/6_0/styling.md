@@ -69,6 +69,19 @@
   including the page template `cx-configurator-template`. 
   Now, however, it needs to define the relative and absolute sizes of the two slots involved. The new slot `VariantConfigOverviewNavigation` gets
   `30%`, the other slot `VariantConfigOverviewContent` `70%` of the available space.
+ 
+#### CustomerSelectionComponent
+
+- `.spinner` styling removed from `%cx-customer-selection`
+- `cx-dot-spinner` styling added in `.asm-results`
+
+#### CSAgentLoginFormComponent
+
+- `cx-dot-spinner` styling added in `%cx-csagent-login-form`
+
+#### AsmMainUiComponent
+
+- `.spinner` styling removed from `%cx-asm-main-ui`
 
 ### Feature lib asm 
 
