@@ -25,15 +25,7 @@
           </div>
         </div>
       </div>
-      <!-- TODO:(CXSPA-1695) for next major releasee remove below anchor tag and feature level check from the button tag-->
-      <a
-        *cxFeatureLevel="'!5.1'"
-        (click)="readMore()"
-        class="cx-card-read-more"
-        >{{ 'myCoupons.readMore' | cxTranslate }}</a
-      >
       <button
-        *cxFeatureLevel="'5.1'"
         class="cx-card-read-more link cx-action-link"
         (click)="readMore()"
       >
