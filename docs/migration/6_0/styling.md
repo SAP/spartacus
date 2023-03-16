@@ -149,4 +149,3 @@
 ### OrderConfirmationThankYouMessage
 
 - Replaced `font-weight: $font-weight-normal` with `font-weight: var(--cx-font-weight-bold)` and `font-size: var(--cx-font-size, 1.5rem);` in the `h2` style class
-
