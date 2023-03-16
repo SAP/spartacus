@@ -197,7 +197,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 export function clickSavedCartButtonsFromCartPage(position: number) {
   // 0 = Saved Carts 'link' button
   // 1 = Save Cart For Later 'link' button
-  cy.get(`cx-add-to-saved-cart button`).eq(position).should('exist').click();
+  cy.get(`cx-add-to-saved-cart a`).eq(position).should('exist').click();
 }
 
 export function waitForCartPageData(product: SampleProduct) {

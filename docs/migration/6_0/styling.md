@@ -284,3 +284,21 @@
 ### ScrollToTopComponent 
 
 - Changed line 21 to `background-color: var(--cx-color-primary);` and added `border-radius: 12px`
+
+### TabParagraphContainerComponent
+
+- Changed line 24 to `color: var(--cx-color-secondary);`
+- Changed line 89 `color: var(--cx-color-primary-accent);`
+- Changed line 109 to `height: 3px;` from `height: 5px;`
+- Changed line 110 to `color: var(--cx-color-primary-accent);`
+
+### Header.scss
+
+- Cahnged line 4 to `background-color: var(--cx-color-light);`
+- Added `@include media-breakpoint-up(lg) {background: linear-gradient(to top,var(--cx-color-background-dark) $header-height,va(--cx-color-light) 0);` to line 7.
+- Added  line 31 `.SiteLinks {font-weight: var(--cx-font-weight-semi);`
+- Changed `background-color: var(--cx-color-dark);` to `background-color: var(--cx-background-dark);` on line 56
+- Changed line 71 to `color: var(--cx-color-medium);`
+- Added line 162 `background-color: var(--cx-color-primary);`
+- Added `color: var(--cx-color-primary);` to line 188
+- Added `.cx-hamburger` and `.hamburger-inner` styling
