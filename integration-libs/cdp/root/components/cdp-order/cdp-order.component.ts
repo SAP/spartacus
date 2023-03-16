@@ -5,7 +5,6 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-//import { Observable } from 'rxjs';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { cdpOrderAdapter } from './adapter/cdp-order-adapter';
 import { finalOrder } from './model/order/finalOrder';
@@ -36,9 +35,10 @@ export class OrderComponent implements OnInit {
   i: number = 0;
   output: result;
   orderStatus: Record<string, Record<string, number>> = {};
-  orderImage: Record<string, product[]> = {};
+  orderImage: Record<string,product[]>={};
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
+  public loading$ = new BehaviorSubject<boolean>(true);
 
   ngOnInit(): void {
     this.getMyData();
@@ -79,34 +79,36 @@ export class OrderComponent implements OnInit {
         });
     }
     this.getDetail();
+    console.log(this.orderDetail);
   }
 
   public async getDetail() {
+
+    this.loading$.next(true);
     // eslint-disable-next-line guard-for-in
     for (let orderCode in this.orderDetail) {
       this.orderStatus[orderCode] ??= {};
+      this.orderImage[orderCode]??=[];
       this.orderDetail[orderCode].consignments.forEach((ord) => {
         this.orderStatus[orderCode][ord.status] ??= 0;
         ord.entries.forEach((entr) => {
           console.log(orderCode + ' status ' + ord.status + entr.quantity);
           this.orderStatus[orderCode][ord.status] =
             this.orderStatus[orderCode][ord.status] + entr.quantity;
+            if(entr.orderEntry.product && entr.orderEntry.product.images)
+            {
+              entr.orderEntry.product.images.forEach((img)=>{
+                img.url =
+                        this.occEndpointsService.getBaseUrl({
+                          prefix: false,
+                          baseSite: false,
+                        }) + img.url;
+              });
+              this.orderImage[orderCode].push(entr.orderEntry.product);
+            }
         });
       });
-      this.orderImage[orderCode] ??= [];
-      //this.orderImage[orderCode]??={images:[]};
-      this.orderDetail[orderCode].entries.forEach((entr) => {
-        this.cdpOrderAdapter.getImages(entr.product.code).subscribe((data) => {
-          this.orderImage[orderCode].push(data);
-          data.images.forEach((img) => {
-            img.url =
-              this.occEndpointsService.getBaseUrl({
-                prefix: false,
-                baseSite: false,
-              }) + img.url;
-          });
-        });
-      });
+      this.loading$.next(false);
     }
     console.log(this.orderImage);
   }

@@ -1,6 +1,6 @@
-import { product } from "./product";
+import { orderEntry } from "../ImageDetail/orderEntry";
 
 export interface entries{
-    product: product;
+    orderEntry: orderEntry;
     quantity: number;
 }

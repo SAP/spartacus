@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { finalOrder } from '../model/order/finalOrder';
 import { orders } from '../model/order/orders';
 import { order } from '../model/orderDetail/order';
-import { product } from '../model/ImageDetail/product';
+// import { product } from '../model/ImageDetail/product';
 
 @Injectable(
     {
@@ -23,12 +23,8 @@ export class cdpOrderAdapter{
     }
 
     getOrderDetail(userId: string, ord: orders): Observable<order>{
-        let URL= this.occEndpointsService.buildUrl('/users/'+userId+'/orders/'+ord.code+'?fields=DEFAULT');
+        let URL= this.occEndpointsService.buildUrl('/users/'+userId+'/orders/'+ord.code+'?fields=FULL');
         return this.httpClient.get<order>(URL);
     }
 
-    getImages(productId: string): Observable<product>{
-        let URL = this.occEndpointsService.buildUrl('/products/'+productId+'?fields=images');
-        return this.httpClient.get<product>(URL);
-    }
 }
