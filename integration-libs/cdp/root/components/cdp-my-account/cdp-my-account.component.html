@@ -24,12 +24,12 @@
   
   <div class="cx-cdp-body">
     <section *ngIf="orders$ | async as orders">
-  <table 
+  <table   *ngFor="let order of orders.orders"
   role="table"
   id="cx-cdp-table"
   class="table cx-cdp-body-table"> 
   <!-- BODY --> 
-  <tbody *ngFor="let order of orders.orders" >
+  <tbody >
     <!-- HEADER ROW-->
     
   <tr
