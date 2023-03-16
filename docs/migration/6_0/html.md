@@ -146,6 +146,14 @@
 
 - Replaced translation text from `checkoutAddress.deliveryAddress` to `checkoutAddress.shippingAddress` in the element `<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">`
 
+#### CSAgentLoginFormComponent
+
+- Replaced `div.spinner` tag with `cx-dot-spinner`. And changing assertions to `expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();` in unit tests.
+
+#### CustomerSelectionComponent
+
+- Replaced `div.spinner` tag with `cx-dot-spinner`. And changing assertions to `expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();` in unit tests.
+
 ### CheckoutTranslations
 
 - Changed default English translation for key `checkoutProgress.paymentDetails` from `Payment Details` to `Payment`

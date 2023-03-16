@@ -71,11 +71,6 @@
     }
   }
 
-  .spinner {
-    height: 42px;
-    align-items: center;
-  }
-
   .asm-results {
     border: solid 1px #89919a;
     position: absolute;
@@ -93,6 +88,11 @@
 
     @media (max-width: 1200px) {
       max-width: calc(100% - 4rem);
+    }
+
+    cx-dot-spinner {
+      height: 42px;
+      color: #0a6ed1;
     }
 
     button {
