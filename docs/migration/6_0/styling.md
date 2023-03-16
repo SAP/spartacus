@@ -4,6 +4,7 @@
 ### ActiveFacetsComponent
 
 - Replaced `h4` style class with `h2` style class
+- Removed styling for `h4` tag
 
 ### Feature lib product-configurator 
 

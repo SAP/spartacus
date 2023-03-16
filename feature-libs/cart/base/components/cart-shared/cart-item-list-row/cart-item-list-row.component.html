@@ -4,11 +4,9 @@
     <ng-template
       [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"
     ></ng-template>
-    <ng-container *cxFeatureLevel="'4.2'">
-      <cx-cart-item-validation-warning
-        [code]="item.product?.code"
-      ></cx-cart-item-validation-warning>
-    </ng-container>
+    <cx-cart-item-validation-warning
+      [code]="item.product?.code"
+    ></cx-cart-item-validation-warning>
     <div class="cx-table-item-container">
       <!-- Item Image -->
       <a
