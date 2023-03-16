@@ -188,7 +188,13 @@ describe('ConfiguratorRestartDialogComponent', () => {
     expect(mockConfigCommonsService.forceNewConfiguration).toHaveBeenCalledWith(
       owner
     );
-    expect(mockRoutingService.go).not.toHaveBeenCalled();
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
+      cxRoute: 'configure' + product.configuratorType,
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: product.code,
+      },
+    });
   });
 
   it('close should navigate back to PDP on close', () => {

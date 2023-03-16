@@ -74,9 +74,16 @@ export class ConfiguratorRestartDialogComponent {
    * Discards current configuration and requests a new default configuration
    * @param owner owner of the current configuration that will be reused for next configuration
    */
-  restart(owner: CommonConfigurator.Owner): void {
+  restart(product: Product, owner: CommonConfigurator.Owner): void {
     this.configuratorCommonsService.forceNewConfiguration(owner);
     this.close();
+    this.routingService.go({
+      cxRoute: 'configure' + product.configuratorType,
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: product.code,
+      },
+    });
   }
 
   /**
