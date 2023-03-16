@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -21,11 +21,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  FeatureConfigService,
-  TranslationService,
-} from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -47,17 +43,13 @@ export class CheckoutReviewSubmitComponent {
 
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  /**
-   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0.
-   */
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   get cart$(): Observable<Cart> {

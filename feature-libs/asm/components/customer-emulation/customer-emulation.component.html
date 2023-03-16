@@ -1,19 +1,9 @@
 <ng-container *ngIf="isCustomerEmulationSessionInProgress$ | async">
-  <ng-container *cxFeatureLevel="'!5.1'">
-    <input
-      formcontrolname="customer"
-      type="text"
-      disabled="true"
-      placeholder="{{ customer?.name }}, {{ customer?.uid }}"
-    />
-  </ng-container>
-  <ng-container *cxFeatureLevel="'5.1'">
-    <div class="cx-asm-customerInfo">
-      <label class="cx-asm-name">{{ customer?.name }}</label>
-      <label class="cx-asm-uid">{{ customer?.uid }}</label>
-    </div>
-    <cx-asm-bind-cart></cx-asm-bind-cart>
-  </ng-container>
+  <div class="cx-asm-customerInfo">
+    <label class="cx-asm-name">{{ customer?.name }}</label>
+    <label class="cx-asm-uid">{{ customer?.uid }}</label>
+  </div>
+  <cx-asm-bind-cart></cx-asm-bind-cart>
   <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>

@@ -5,8 +5,8 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, Optional } from '@angular/core';
-import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
+import { Injectable } from '@angular/core';
+import { ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
 /**
@@ -23,30 +23,10 @@ export class SmartEditLauncherService {
     return this._cmsTicketId;
   }
 
-  // TODO: make scriptLoader as required dependency and remove featureModules
-  constructor(
-    config: SmartEditConfig,
-    location: Location,
-    featureModules: FeatureModulesService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    scriptLoader: ScriptLoader
-  );
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(
-    config: SmartEditConfig,
-    location: Location,
-    featureModules: FeatureModulesService
-  );
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    /**
-     * @deprecated since 5.2
-     */
-    protected featureModules: FeatureModulesService,
-    @Optional() protected scriptLoader?: ScriptLoader
+    protected scriptLoader: ScriptLoader
   ) {}
 
   /**

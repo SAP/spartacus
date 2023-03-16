@@ -11,7 +11,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfig,
   FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
@@ -215,12 +214,6 @@ describe('MyInterestsComponent', () => {
           { provide: UserInterestsService, useValue: productInterestService },
           { provide: ProductService, useValue: productService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
         ],
         declarations: [
           MyInterestsComponent,
@@ -237,7 +230,6 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
-    //globalMessageService = TestBed.inject(GlobalMessageService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
@@ -345,17 +337,6 @@ describe('MyInterestsComponent', () => {
       undefined,
       undefined,
       'myInterests.item'
-    );
-
-    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-      expect,
-      tableHeaders[4].nativeElement,
-      'span',
-      'cx-visually-hidden',
-      undefined,
-      undefined,
-      undefined,
-      'myInterests.remove'
     );
   });
 
