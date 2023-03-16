@@ -30,6 +30,7 @@ export class CdpMyAccountComponent implements OnInit{
   orderImage: Record<string,product[]>={};
   userId: string;
   tabTitleParam$=new BehaviorSubject(0);
+  public loading$ = new BehaviorSubject<boolean>(true);
 
 
   orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
@@ -70,34 +71,35 @@ export class CdpMyAccountComponent implements OnInit{
     this.getDetail();
   }
 
-  public async getDetail()
-  {
+  public async getDetail() {
+
+    this.loading$.next(true);
     // eslint-disable-next-line guard-for-in
-    for(let orderCode in this.orderDetail){
-
-      //OrderedItems
-      this.orderStatus[orderCode]??={};
-      this.orderDetail[orderCode].consignments.forEach(ord=>{
-        this.orderStatus[orderCode][ord.status]??=0;
-        ord.entries.forEach(entr=>{
-          // console.log(orderCode +" status "+ord.status +"quantity" +entr.quantity);
-          this.orderStatus[orderCode][ord.status]= this.orderStatus[orderCode][ord.status] + entr.quantity;
-          // this.orderDetail[orderCode].deliveryItemsQuantity= this.orderDetail[orderCode].deliveryItemsQuantity + entr.quantity;
-        });
-        console.log("quantity",this.orderStatus);
-      });
-
-      //Image
+    for (let orderCode in this.orderDetail) {
+      this.orderStatus[orderCode] ??= {};
       this.orderImage[orderCode]??=[];
-      this.orderDetail[orderCode].entries.forEach(entr=>{ this.cdpOrderAdapter.getImages(entr.product.code).subscribe(data=>{
-            this.orderImage[orderCode].push(data);
-            data.images.forEach(img=>{
-                img.url=this.occEndpointsService.getBaseUrl({prefix:false,baseSite:false})+img.url;
-            });
-          });
+      this.orderDetail[orderCode].consignments.forEach((ord) => {
+        this.orderStatus[orderCode][ord.status] ??= 0;
+        ord.entries.forEach((entr) => {
+          console.log(orderCode + ' status ' + ord.status + entr.quantity);
+          this.orderStatus[orderCode][ord.status] =
+            this.orderStatus[orderCode][ord.status] + entr.quantity;
+            if(entr.orderEntry.product && entr.orderEntry.product.images)
+            {
+              entr.orderEntry.product.images.forEach((img)=>{
+                img.url =
+                        this.occEndpointsService.getBaseUrl({
+                          prefix: false,
+                          baseSite: false,
+                        }) + img.url;
+              });
+              this.orderImage[orderCode].push(entr.orderEntry.product);
+            }
+        });
       });
-
+      this.loading$.next(false);
     }
-    // console.log(this.orderImage);
+    console.log(this.orderImage);
   }
+
 }
