@@ -73,6 +73,7 @@ export class ConfiguratorRestartDialogComponent {
   /**
    * Discards current configuration and requests a new default configuration
    * @param owner owner of the current configuration that will be reused for next configuration
+   * @param product owning this configuration
    */
   restart(product: Product, owner: CommonConfigurator.Owner): void {
     this.configuratorCommonsService.forceNewConfiguration(owner);
