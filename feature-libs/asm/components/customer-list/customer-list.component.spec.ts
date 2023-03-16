@@ -8,12 +8,12 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  AsmConfig,
   AsmService,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,
