@@ -24,6 +24,14 @@ context('B2B - Quick Order', () => {
         quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code);
       });
 
+      it('should hide result box when tab press', () => {
+        quickOrder.verifyCloseResultBoxByTab();
+      });
+
+      it('should hide result box when click outside', () => {
+        quickOrder.verifyCloseResultBoxByClickOutside();
+      });
+
       it('should add product to the cart', () => {
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         quickOrder.addToCart();
