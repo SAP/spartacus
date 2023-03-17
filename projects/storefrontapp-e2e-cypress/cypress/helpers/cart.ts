@@ -346,7 +346,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${cartPage}`);
 
   validateEmptyCart();
 }
@@ -411,7 +411,7 @@ export function goToCart() {
 export function cancelClearCart() {
   getClearCartDialog().then(() => {
     checkClearCartDialog();
-    cy.get('.cx-clear-cart-footer .btn-action').click();
+    cy.get('.cx-clear-cart-footer .btn-secondary').click();
   });
 }
 

@@ -60,11 +60,15 @@ export const fontawesomeIconConfig: IconConfig = {
       ATTACHMENT: 'fas fa-paperclip',
       UPLOAD: 'fas fa-upload',
       USER: 'fas fa-user',
+      ARROW_LEFT: 'fas fa-arrow-left',
+      ARROW_RIGHT: 'fas  fa-arrow-right',
+      ARROW_DOWN: 'fas  fa-arrow-down',
+      ARROW_UP: 'fas  fa-arrow-up',
     },
     resources: [
       {
         type: IconResourceType.LINK,
-        url: 'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+        url: '',
       },
     ],
   },

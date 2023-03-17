@@ -88,7 +88,6 @@ export class ConfiguratorCommonsService {
    * available
    *
    * @param owner - Configuration owner
-   *
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
@@ -214,7 +213,31 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Checks if the configuration contains conflicts
+   * Dismisses conflict solver dialog
+   *
+   * @param owner - Configuration owner
+   */
+  dismissConflictSolverDialog(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.DissmissConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Check if we need to launch conflict solver dialog
+   *
+   * @param owner - Configuration owner
+   */
+  checkConflictSolverDialog(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CheckConflictDialoge(owner.key)
+    );
+  }
+
+  /**
+   * Checks if the configuration contains conflicts that are displayed as conflict groups. Note
+   * that in case conflicts are displayed by the conflict solver dialog, they are not taken into
+   * account for this method
    *
    * @param owner - Configuration owner
    *
@@ -225,9 +248,24 @@ export class ConfiguratorCommonsService {
       map(
         (configuration) =>
           //We expect that the first group must always be the conflict group
+          configuration.immediateConflictResolution === false &&
           configuration.groups[0]?.groupType ===
-          Configurator.GroupType.CONFLICT_HEADER_GROUP
+            Configurator.GroupType.CONFLICT_HEADER_GROUP
       )
+    );
+  }
+
+  /**
+   * Forces the creation of a new default configuration for the given owner
+   * @param owner - Configuration owner
+   */
+  forceNewConfiguration(owner: CommonConfigurator.Owner): void {
+    this.store.dispatch(
+      new ConfiguratorActions.CreateConfiguration({
+        owner: owner,
+        configIdTemplate: undefined,
+        forceReset: true,
+      })
     );
   }
 

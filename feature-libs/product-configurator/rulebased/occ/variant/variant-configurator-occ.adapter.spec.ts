@@ -64,6 +64,7 @@ class MockTranslationService {
 const productCode = 'CONF_LAPTOP';
 const kbLogSys = 'RR5CLNT910';
 let expMode = true;
+let forceReset = false;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
 const CONFIG_ID_TEMPLATE = '1234-56-abcd';
@@ -213,7 +214,7 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             productCode,
           },
-          queryParams: { expMode },
+          queryParams: { expMode, forceReset },
         }
       );
 
@@ -245,7 +246,11 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             productCode,
           },
-          queryParams: { configIdTemplate: CONFIG_ID_TEMPLATE, expMode },
+          queryParams: {
+            configIdTemplate: CONFIG_ID_TEMPLATE,
+            expMode,
+            forceReset,
+          },
         }
       );
       mockReq.flush(productConfigurationOcc);
@@ -281,7 +286,7 @@ describe('OccConfigurationVariantAdapter', () => {
           urlParams: {
             productCode,
           },
-          queryParams: { expMode },
+          queryParams: { expMode, forceReset },
         }
       );
 
@@ -290,6 +295,36 @@ describe('OccConfigurationVariantAdapter', () => {
       expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
         sendUserIdAsHeader: true,
       });
+      mockReq.flush(productConfigurationOcc);
+    });
+
+    it('should set forceReset flag if requested', (done) => {
+      forceReset = true;
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .createConfiguration(configuration.owner, undefined, true)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === 'createVariantConfiguration';
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVariantConfiguration',
+        {
+          urlParams: {
+            productCode,
+          },
+          queryParams: {
+            expMode,
+            forceReset,
+          },
+        }
+      );
       mockReq.flush(productConfigurationOcc);
     });
   });

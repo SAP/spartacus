@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, isDevMode, Optional } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -26,11 +26,7 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import {
-  FeatureConfigService,
-  Product,
-  ProductConnector,
-} from '@spartacus/core';
+import { Product, ProductConnector } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +38,7 @@ export class QuickOrderOrderEntriesContext
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    protected productConnector: ProductConnector,
-    // TODO: (CXSPA-612) Remove FeatureConfigService for 6.0
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected productConnector: ProductConnector
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {
@@ -55,11 +49,7 @@ export class QuickOrderOrderEntriesContext
     return merge(
       productsData.map((productData) =>
         this.quickOrderService
-          .canAdd(
-            productData.productCode,
-            // TODO: (CXSPA-612) Remove feature flag and use productsData parameter for 6.0
-            this.featureConfigService?.isLevel('5.2') ? productsData : undefined
-          )
+          .canAdd(productData.productCode, productsData)
           .pipe(
             switchMap((canAdd) => {
               if (canAdd) {

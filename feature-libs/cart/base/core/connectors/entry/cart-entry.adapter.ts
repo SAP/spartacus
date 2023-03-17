@@ -20,7 +20,8 @@ export abstract class CartEntryAdapter {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity?: number
+    quantity?: number,
+    pickupStore?: string
   ): Observable<CartModification>;
 
   /**
@@ -35,8 +36,9 @@ export abstract class CartEntryAdapter {
     userId: string,
     cartId: string,
     entryNumber: string,
-    qty: number,
-    pickupStore?: string
+    qty?: number,
+    pickupStore?: string,
+    pickupToDelivery?: boolean
   ): Observable<CartModification>;
 
   /**

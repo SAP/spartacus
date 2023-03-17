@@ -52,7 +52,7 @@
     <ng-container *ngFor="let _ of items; let i = index">
       <button
         *ngIf="i % size === 0"
-        (focus)="activeSlide = i"
+        (click)="activeSlide = i"
         [disabled]="i === activeSlide"
         [attr.aria-label]="
           'carousel.slideNumber'

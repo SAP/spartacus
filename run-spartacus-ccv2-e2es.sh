@@ -17,9 +17,9 @@ $CYPRESS_B2C_FOLDER/homepage/homepage.core-e2e-spec.ts
 "
 
 # install cypress standlone dependencies
-(cd projects/storefrontapp-e2e-cypress && yarn install)
+(cd projects/storefrontapp-e2e-cypress && npm install)
 
 # run spartacus ccv2 e2es for b2c
-yarn e2e:run:ci:ccv2
+npm run e2e:run:ci:ccv2
 
 
