@@ -67,9 +67,9 @@ export class AsmCreateCustomerFormComponent {
     this.isLoading$.next(true);
     const { firstName, lastName, email } = this.registerForm.value;
     this.createdCustomer = {
-      firstName: firstName || '',
-      lastName: lastName || '',
-      email: email || '',
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
+      email: email ?? '',
     };
     this.asmCreateCustomerFacade
       .createCustomer(this.collectDataFromRegisterForm())
