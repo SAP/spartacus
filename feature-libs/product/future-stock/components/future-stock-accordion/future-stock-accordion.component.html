@@ -6,13 +6,9 @@
   >
     {{ 'futureStockDropdown.header' | cxTranslate }}
     <cx-icon
-      *ngIf="expanded; else notExpanded"
-      [type]="iconType.CARET_UP"
+      [type]="expanded ? iconType.CARET_UP : iconType.CARET_DOWN"
+      aria-hidden="true"
     ></cx-icon>
-
-    <ng-template #notExpanded>
-      <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
-    </ng-template>
   </button>
 
   <ng-container *ngIf="expanded">
