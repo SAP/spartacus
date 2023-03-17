@@ -6,7 +6,7 @@
 
 
 
-<ng-container >
+<ng-container *ngIf="!(loading$ | async);else loading">
    <!-- HEADER -->
    <div >
     <h2  style="white-space: nowrap;">
@@ -52,12 +52,21 @@
    <tr
     role="row"
     >
+    
     <!-- IMAGE -->
-    <td role="cell" >
-      <img [src]="order.url" width="88" height="88" class="slide active" >
+    <td role="cell"  >
+      <div *ngFor="let prdt of  orderImage[order.code]" >
+        <div *ngFor="let img of prdt.images;" >
+
+          <img *ngIf=" img.format === 'thumbnail' " [src]="img.url" width="88" height="88" class="slide active" >
+        </div>
+        </div>
+
     </td>
-    <td>
+    <td >
+      <div *ngFor="let prdt of  orderImage[order.code]" >{{prdt.name}}</div>
       <p>
+        <!-- {{prdt.name}}<br> -->
         PurchasedIn Store {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>
         Ordered Items:{{orderDetail[order.code]?.deliveryItemsQuantity}}<br>
         <br>
@@ -88,4 +97,9 @@
 
 
 </ng-container>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
 
