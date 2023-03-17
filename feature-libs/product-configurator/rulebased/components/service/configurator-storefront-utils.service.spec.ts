@@ -15,6 +15,7 @@ import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-ut
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 let isGroupVisited: Observable<boolean> = of(false);
+const testSelector = 'test-configurator-overview-menu';
 
 class MockConfiguratorGroupsService {
   isGroupVisited(): Observable<boolean> {
@@ -468,7 +469,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
-  describe('change styling of selected element', () => {
+  describe('getElement', () => {
     it('should not get HTML element based on query selector', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       expect(classUnderTest.getElement('elementMock')).toBeUndefined();
@@ -483,7 +484,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
+  });
 
+  describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
       document.querySelector = jasmine
@@ -502,6 +505,32 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
+    });
+  });
+
+  describe('removeStyling', () => {
+    it('should not remove styling of HTML element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      classUnderTest.removeStyling('elementMock', 'position');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+
+    it('should remove styling of HTML element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      classUnderTest.removeStyling('elementMock', 'position');
+      expect(theElement.style.position).toBe('');
     });
   });
 
@@ -776,7 +805,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
       const height: number = documentHeight ? documentHeight.height : 0;
       const elementOffsetHeight = height - offsetHeight;
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      ovMenu = document.createElement('cx-configurator-overview-menu');
+      ovMenu = document.createElement(testSelector);
       document.body.append(ovMenu);
       spyOnProperty(ovMenu, 'offsetHeight').and.returnValue(
         elementOffsetHeight
@@ -809,33 +838,25 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
     it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5500, 250);
-      classUnderTest.ensureElementVisible(
-        'cx-configurator-overview-menu',
-        menuItem
-      );
-      ovMenu = document.querySelector('cx-configurator-overview-menu');
+
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
     it('should ensure visibility of the element when element.offsetTop is greater than container.scrollTop', () => {
       createTestData(5000, 450);
       spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
-      classUnderTest.ensureElementVisible(
-        'cx-configurator-overview-menu',
-        menuItem
-      );
-      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
 
     it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
       createTestData(5000, 50);
       spyOnProperty(ovMenu, 'offsetTop').and.returnValue(50);
-      classUnderTest.ensureElementVisible(
-        'cx-configurator-overview-menu',
-        menuItem
-      );
-      ovMenu = document.querySelector('cx-configurator-overview-menu');
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
       expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
   });

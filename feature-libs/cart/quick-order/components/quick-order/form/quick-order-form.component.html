@@ -4,45 +4,23 @@
     role="search"
     [attr.aria-label]="'quickOrderForm.quickOrderSearch' | cxTranslate"
   >
-    <!-- TODO:(CXSPA-1695) for next major release update below feature level check, we renamed aria-controls-->
-    <ng-container *cxFeatureLevel="'!5.1'">
-      <input
-        (blur)="onBlur($event)"
-        (focus)="open()"
-        (keydown.arrowdown)="focusNextChild($event)"
-        (keydown.arrowup)="focusPreviousChild($event)"
-        (keydown.enter)="addProduct($event)"
-        (keydown.escape)="clear($event)"
-        [attr.aria-label]="
-          'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
-        "
-        aria-controls="results"
-        aria-describedby="quickOrderFormInitialDescription"
-        class="form-control"
-        formControlName="product"
-        placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
-        type="text"
-      />
-    </ng-container>
-    <ng-container *cxFeatureLevel="'5.1'">
-      <input
-        (blur)="onBlur($event)"
-        (focus)="open()"
-        (keydown.arrowdown)="focusNextChild($event)"
-        (keydown.arrowup)="focusPreviousChild($event)"
-        (keydown.enter)="addProduct($event)"
-        (keydown.escape)="clear($event)"
-        [attr.aria-label]="
-          'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
-        "
-        aria-controls="quick-order-search-results"
-        aria-describedby="quickOrderFormInitialDescription"
-        class="form-control"
-        formControlName="product"
-        placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
-        type="text"
-      />
-    </ng-container>
+    <input
+      (blur)="onBlur($event)"
+      (focus)="open()"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.enter)="addProduct($event)"
+      (keydown.escape)="clear($event)"
+      [attr.aria-label]="
+        'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
+      "
+      aria-controls="quick-order-search-results"
+      aria-describedby="quickOrderFormInitialDescription"
+      class="form-control"
+      formControlName="product"
+      placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
+      type="text"
+    />
 
     <button
       *ngIf="form.get('product')?.value; else searchIcon"
@@ -73,122 +51,61 @@
     </span>
   </div>
 
-  <!-- TODO:(CXSPA-1695) for next major release update below feature level check, we renamed id-->
-  <ng-container *cxFeatureLevel="'!5.1'">
-    <div
-      *ngIf="isResultsBoxOpen()"
-      class="quick-order-results"
-      role="dialog"
-      id="results"
+  <div
+    *ngIf="isResultsBoxOpen()"
+    class="quick-order-results"
+    role="dialog"
+    id="quick-order-search-results"
+  >
+    <ul
+      *ngIf="results.length"
+      class="quick-order-results-products"
+      role="listbox"
     >
-      <ul
-        *ngIf="results.length"
-        class="quick-order-results-products"
-        role="listbox"
+      <li
+        *ngFor="let product of results; let i = index"
+        class="quick-order-results-product-container"
       >
-        <li
-          *ngFor="let product of results; let i = index"
-          class="quick-order-results-product-container"
+        <button
+          (blur)="onBlur($event)"
+          (mousedown)="add(product, $event)"
+          (keydown.arrowdown)="focusNextChild($event)"
+          (keydown.arrowup)="focusPreviousChild($event)"
+          (keydown.enter)="add(product, $event)"
+          (keydown.escape)="clear($event)"
+          [class.has-media]="
+            config?.quickOrder?.searchForm?.displayProductImages
+          "
+          class="quick-order-results-product"
+          role="option"
         >
-          <button
-            (blur)="onBlur($event)"
-            (click)="add(product, $event)"
-            (keydown.arrowdown)="focusNextChild($event)"
-            (keydown.arrowup)="focusPreviousChild($event)"
-            (keydown.enter)="add(product, $event)"
-            (keydown.escape)="clear($event)"
-            [class.has-media]="
-              config?.quickOrder?.searchForm?.displayProductImages
-            "
-            class="quick-order-results-product"
-            role="option"
-          >
-            <cx-media
-              *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
-              [alt]="product.name"
-              [container]="product.images?.PRIMARY"
-              class="media"
-              format="thumbnail"
-              role="presentation"
-            ></cx-media>
-            <div class="name" [innerHTML]="product.name"></div>
-            <span class="id">
-              {{
-                'quickOrderForm.id'
-                  | cxTranslate
-                    : {
-                        id: product.code
-                      }
-              }}
-            </span>
-            <span class="price">{{ product.price?.formattedValue }}</span>
-          </button>
-        </li>
-      </ul>
+          <cx-media
+            *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+            [alt]="product.name"
+            [container]="product.images?.PRIMARY"
+            class="media"
+            format="thumbnail"
+            role="presentation"
+          ></cx-media>
+          <div class="name" [innerHTML]="product.name"></div>
+          <span class="id">
+            {{
+              'quickOrderForm.id'
+                | cxTranslate
+                  : {
+                      id: product.code
+                    }
+            }}
+          </span>
+          <span class="price">{{ product.price?.formattedValue }}</span>
+        </button>
+      </li>
+    </ul>
 
-      <span *ngIf="noResults" class="quick-order-no-results">
-        {{ 'quickOrderForm.noResults' | cxTranslate }}
-      </span>
-    </div>
-  </ng-container>
-
-  <ng-container *cxFeatureLevel="'5.1'">
-    <div
-      *ngIf="isResultsBoxOpen()"
-      class="quick-order-results"
-      role="dialog"
-      id="quick-order-search-results"
-    >
-      <ul
-        *ngIf="results.length"
-        class="quick-order-results-products"
-        role="listbox"
-      >
-        <li
-          *ngFor="let product of results; let i = index"
-          class="quick-order-results-product-container"
-        >
-          <button
-            (blur)="onBlur($event)"
-            (click)="add(product, $event)"
-            (keydown.arrowdown)="focusNextChild($event)"
-            (keydown.arrowup)="focusPreviousChild($event)"
-            (keydown.enter)="add(product, $event)"
-            (keydown.escape)="clear($event)"
-            [class.has-media]="
-              config?.quickOrder?.searchForm?.displayProductImages
-            "
-            class="quick-order-results-product"
-            role="option"
-          >
-            <cx-media
-              *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
-              [alt]="product.name"
-              [container]="product.images?.PRIMARY"
-              class="media"
-              format="thumbnail"
-              role="presentation"
-            ></cx-media>
-            <div class="name" [innerHTML]="product.name"></div>
-            <span class="id">
-              {{
-                'quickOrderForm.id'
-                  | cxTranslate
-                    : {
-                        id: product.code
-                      }
-              }}
-            </span>
-            <span class="price">{{ product.price?.formattedValue }}</span>
-          </button>
-        </li>
-      </ul>
-
-      <span *ngIf="noResults" class="quick-order-no-results">
-        {{ 'quickOrderForm.noResults' | cxTranslate }}
-      </span>
-    </div>
-  </ng-container>
+    <span *ngIf="noResults" class="quick-order-no-results">
+      {{ 'quickOrderForm.noResults' | cxTranslate }}
+    </span>
+  </div>
 </form>
 
 <label

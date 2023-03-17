@@ -9,13 +9,11 @@ import {
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
+  CustomerSearchOptions,
+  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '../models/asm.models';
 import { AsmAdapter } from './asm.adapter';
 
 @Injectable({

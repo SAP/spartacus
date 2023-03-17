@@ -8,16 +8,16 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
-  AsmConfig,
-  CustomerSearchOptions,
-  CustomerSearchPage,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
+  CustomerSearchOptions,
+  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
   BaseSiteService,

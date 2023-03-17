@@ -8,7 +8,10 @@ import { Injectable } from '@angular/core';
 import { ProductService, ProductScope } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent } from '../../../cds-models';
+import {
+  CmsMerchandisingCarouselComponent,
+  StrategyRequest,
+} from '../../../cds-models';
 import { CdsConfig } from '../../../config';
 import { ProfileTagEventService } from '../../../profiletag';
 import { CdsMerchandisingProductService } from '../../facade';
@@ -24,7 +27,6 @@ import {
   MerchandisingCarouselModel,
   MerchandisingCarouselViewedEvent,
 } from './model';
-import { StrategyRequest } from '../../../cds-models';
 
 const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
 
@@ -97,7 +99,7 @@ export class MerchandisingCarouselComponentService {
       tap((merchandisingCarouselModel) => {
         const carouselEvent: CarouselEvent =
           this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
-        this.profileTagEventService.notifyProfileTagOfEventOccurence(
+        this.profileTagEventService.notifyProfileTagOfEventOccurrence(
           new MerchandisingCarouselViewedEvent(
             carouselEvent,
             merchandisingCarouselModel.productIds
@@ -120,7 +122,7 @@ export class MerchandisingCarouselComponentService {
       ...clickedProduct.metadata,
     };
 
-    this.profileTagEventService.notifyProfileTagOfEventOccurence(
+    this.profileTagEventService.notifyProfileTagOfEventOccurrence(
       new MerchandisingCarouselClickedEvent(
         carouselEvent,
         clickedProduct.metadata.slot,
