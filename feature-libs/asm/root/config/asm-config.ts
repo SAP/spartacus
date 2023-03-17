@@ -7,7 +7,6 @@
 import { User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
-import { AsmCustomer360TabsConfig } from '../model/customer-360-tabs-config';
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 
 export abstract class AsmConfig {
@@ -43,7 +42,6 @@ export abstract class AsmConfig {
        */
       enable?: boolean;
     };
-    customer360?: AsmCustomer360TabsConfig;
   };
 }
 

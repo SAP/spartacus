@@ -6,7 +6,6 @@
 
 import { ICON_TYPE } from '@spartacus/storefront';
 
-import { AsmCustomer360Type } from '../model/customer-360.model';
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 import { AsmConfig } from './asm-config';
 
@@ -48,69 +47,6 @@ export const defaultAsmConfig: AsmConfig = {
             captionLocalizationKey: 'asm.customerList.tableHeader.order',
           },
           actionType: CustomerListColumnActionType.ORDER_HISTORY,
-        },
-      ],
-    },
-    customer360: {
-      tabs: [
-        {
-          i18nNameKey: 'asm.customer360.overviewTab',
-          components: [
-            {
-              component: 'AsmCustomer360SavedCartComponent',
-            },
-            {
-              component: 'AsmCustomer360ActiveCartComponent',
-            },
-            // disabled until API is ready
-            // {
-            //   component: 'AsmCustomer360ProductInterestsComponent',
-            //   requestData: {
-            //     type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
-            //   },
-            // },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.profileTab',
-          components: [
-            {
-              component: 'AsmCustomer360ProfileComponent',
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.activityTab',
-          components: [
-            {
-              component: 'AsmCustomer360CustomerActivityComponent',
-              config: { pageSize: 5 },
-            },
-            {
-              component: 'AsmCustomer360ProductReviewsComponent',
-              requestData: {
-                type: AsmCustomer360Type.REVIEW_LIST,
-              },
-              config: { pageSize: 5 },
-            },
-          ],
-        },
-        {
-          i18nNameKey: 'asm.customer360.mapsTab',
-          components: [
-            {
-              component: 'AsmCustomer360MapComponent',
-              requestData: {
-                type: AsmCustomer360Type.STORE_LOCATION,
-              },
-              config: {
-                // this key should provide from the customer
-                // googleMapsApiKey: '',
-                storefinderRadius: 10000000,
-                pageSize: 10,
-              },
-            },
-          ],
         },
       ],
     },

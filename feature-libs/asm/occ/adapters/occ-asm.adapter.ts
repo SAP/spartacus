@@ -14,12 +14,7 @@ import {
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import {
-  AsmCustomer360Request,
-  AsmCustomer360Response,
-  BindCartParams,
-  CustomerListsPage,
-} from '@spartacus/asm/root';
+import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
@@ -148,37 +143,5 @@ export class OccAsmAdapter implements AsmAdapter {
     return this.http
       .post<void>(url, {}, { headers, params })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
-  }
-
-  getCustomer360Data(
-    request: AsmCustomer360Request
-  ): Observable<AsmCustomer360Response> {
-    const headers = InterceptorUtil.createHeader(
-      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-      true,
-      new HttpHeaders()
-    );
-
-    const url = this.occEndpointsService.buildUrl(
-      'asmCustomer360',
-      {
-        urlParams: {
-          baseSiteId: this.activeBaseSite,
-          userId: request.options.userId ?? '',
-        },
-      },
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-
-    const requestBody = {
-      customer360Queries: request.queries,
-    };
-
-    return this.http.post<AsmCustomer360Response>(url, requestBody, {
-      headers,
-    });
   }
 }

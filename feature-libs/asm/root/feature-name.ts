@@ -5,4 +5,3 @@
  */
 
 export const ASM_FEATURE = 'asm';
-export const ASM_360_FEATURE = 'asm360';

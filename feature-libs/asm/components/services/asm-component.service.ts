@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import {
   AsmDialogActionEvent,
   AsmDialogActionType,
+} from '@spartacus/asm/customer-360/root';
+import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';

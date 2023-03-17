@@ -5,12 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  AsmCustomer360Request,
-  AsmCustomer360Response,
-  BindCartParams,
-  CustomerListsPage,
-} from '@spartacus/asm/root';
+import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 
 import {
@@ -37,11 +32,5 @@ export class AsmConnector {
 
   bindCart(options: BindCartParams): Observable<unknown> {
     return this.asmAdapter.bindCart(options);
-  }
-
-  getCustomer360Data(
-    request: AsmCustomer360Request
-  ): Observable<AsmCustomer360Response> {
-    return this.asmAdapter.getCustomer360Data(request);
   }
 }
