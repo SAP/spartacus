@@ -21,7 +21,7 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-  occBaseUrl: 'https://spartacus-dev0.eastus.cloudapp.azure.com:9002',
+  occBaseUrl: buildProcess.env.CX_BASE_URL,
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,
@@ -29,6 +29,6 @@ export const environment: Environment = {
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
-  pickupInStore: buildProcess.env.CX_PICKUP_IN_STORE ?? true,
+  pickupInStore: buildProcess.env.CX_PICKUP_IN_STORE ?? false,
   s4om: buildProcess.env.CX_S4OM ?? false,
 };

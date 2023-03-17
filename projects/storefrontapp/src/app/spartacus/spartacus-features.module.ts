@@ -121,10 +121,6 @@ if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
 }
 
-if (environment.pickupInStore) {
-  featureModules.push(PickupInStoreFeatureModule);
-}
-
 @NgModule({
   imports: [
     // Auth Core
@@ -227,7 +223,7 @@ if (environment.pickupInStore) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-
+    PickupInStoreFeatureModule,
     ...featureModules,
   ],
 })

@@ -4,11 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CmsParagraphComponent,
-  CmsComponent,
-  FeatureConfigService,
-} from '@spartacus/core';
+import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
@@ -16,15 +12,6 @@ import { Router } from '@angular/router';
 export class MockAnchorPipe implements PipeTransform {
   public transform(html: string): string {
     return html;
-  }
-}
-
-/**
- * TODO: (#CXSPA-778) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
   }
 }
 
@@ -59,10 +46,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
           {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
           },
         ],
       }).compileComponents();
