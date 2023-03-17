@@ -198,8 +198,8 @@ function checkDeliveryAddressDisplayed(): void {
       checkShipToThisAddressDisplayed();
     });
     cy.get('.cx-checkout-btns').within(() => {
-      cy.get('button.btn-action').should('be.visible');
-      cy.get('button.btn-action').contains('Back');
+      cy.get('button.btn-secondary').should('be.visible');
+      cy.get('button.btn-secondary').contains('Back');
       cy.get('button.btn-primary').should('be.visible');
       cy.get('button.btn-primary').contains('Continue');
     });

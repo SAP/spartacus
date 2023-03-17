@@ -49,10 +49,12 @@
 ### AddressBookComponent
 
 - Replaced p tag with h2 tag for `header` for accessibility improvements.
+- Changed `btn btn-block btn-action` to `btn btn-block btn-secondary`
 
 ### CouponCardComponent
 
 - Replaced anchor tag with button tag for `read more` link for accesibility tabbing improvements.
+- Changed line 60 `btn btn-block btn-action` to `btn btn-block btn-secondary`
 
 
 ### QuickOrderFormComponent
@@ -133,6 +135,32 @@
 - Now as well contains information about the knowledge base that was used to run the configuration. This information
   is only visible in case expert mode is active. The knowledge base related information is enclosed with `<div class="cx-kb-key-details">`
 
+#### CustomerTicketingCreateDialogComponent
+
+- Create ticket dailog cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### CustomerTicketingReopenDialogComponent
+
+- Reopen ticket dailog cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### CustomerTicketingCloseDialogComponent
+
+- Close ticket dailog cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### CustomerTicketingCloseComponent 
+
+- Customer ticketing cancel button class has been changed to `class="btn btn-secondary"` from `class="btn btn-action"`
+
+#### ReplenishmentOrderHistoryComponent
+
+- Replenish order history cancel button class has changed from `class="cx-order-cancel btn btn-link"` to `class="cx-order-cancel btn btn-secondary"`
+
+#### AnonymousConsentManagementBannerComponent
+
+- Changed bootstrap class on buttons from `col-lg-8` to `col-lg-7` and `col-lg-4` to `col-lg-5`. 
+- Changed bootstrap class `col-lg-4 col-xs-12 cx-banner-buttons` to `col-lg-5 col-xs-12 cx-banner-buttons`
+- Changed `btn btn-action` to `btn btn-secondary`
+
 ### CheckoutReviewSubmitComponent
 
 - Removed `col-md-12` from `div` tag used to display entries
@@ -175,3 +203,177 @@
 ### ReplenishmentOrderCancellationDialogComponent 
 
 - Icon button has been added with closing dialog functionality inside `<div class="cx-cancel-replenishment-dialog-header">`
+
+### AddToCartComponent
+
+- Changed line 31 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+
+### CartCouponComponent
+
+- Changed line 18 class `btn-action` to `btn-secondary` to update to UX specifications.
+
+### CartItemListRowComponent
+
+- Changed class on line 155 `link cx-action-link` to `btn btn-tertiary` 
+
+### ClearCartComponent
+
+- Changed line 161 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+
+### ClearCartDialogComponent
+
+- Changed line 42 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### SaveForLaterComponent
+
+- Changed line 34 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+
+### ExportOrderEntriesComponent
+
+- Changed line 5 classes from `'link cx-action-link'` to `'btn btn-tertiary cx-export-btn'`
+- Changed line 14 classes from `'link cx-action-link'` to `'btn btn-tertiary cx-export-btn'`
+
+### ImportEntriesFormComponent
+
+- Changed line 20 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### ImportEntriesSummaryComponent
+
+- Changed line 33 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+- Changed line 61 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+- Changed line 83 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### ImportToNewSavedCartFormComponent
+
+- Changed line 64 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### ImportOrderEntriesComponent
+
+- Changed line 3 classes from `'link cx-action-link'` to `'btn btn-tertiary cx-import-btn'`
+
+### CartQuickOrderFormComponent
+
+- Changed line 44 classes from `'btn btn-block btn-action apply-quick-order-button'` to `'btn btn-block btn-secondary apply-quick-order-button'`
+
+### QuickOrderComponent
+
+- Changed line 195 classes from `col-xs-12 col-md-5 col-lg-4` to `col-xs-12 col-md-5 col-lg-3` 
+- Changed line 201 classes from `btn btn-block btn-action clear-button` to `btn btn-block btn-secondary clear-button` 
+- Changed line 208 classes from `col-xs-12 col-md-5 col-lg-4` to `col-xs-12 col-md-5 col-lg-3` 
+
+### QuickOrderItemComponent
+
+- Changed line 61 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+
+### AddToSavedCartComponent
+
+- Changed line 3 `<button>` to `<a>` 
+- Changed line 14 `<button>` to `<a>` 
+
+### SavedCartDetailsActionComponent 
+
+- Changed line 6 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### SavedCartListComponent 
+
+- Changed line 123 classes from `'link cx-action-link cx-saved-cart-make-active'` to `'btn btn-tertiary cx-saved-cart-make-active'`
+
+### SavedCartFormDialogOptions
+
+- Changed line 146 classes from `'mr-2 btn btn-action'` to `'mr-2 btn btn-secondary'`
+- Changed line 244 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### B2BCheckoutDeliveryAddressComponent
+
+- Changed line 24 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 54 classes from `'cx-btn btn btn-block btn-action'` to `'cx-btn btn btn-block btn-secondary'`
+
+### CheckoutPaymentTypeComponent
+
+- Changed line 66 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+
+### CheckoutDeliveryAddressComponent 
+
+- Changed line 24 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 54 classes from `'cx-btn btn btn-block btn-action'` to `'cx-btn btn btn-block btn-secondary'`
+
+### CheckoutPaymentFormComponent
+
+- Changed line 410 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 417 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### CheckoutPaymentMethodComponent
+
+- Changed line 23 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 51 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### AmendOrderActionsComponent 
+
+- Changed line 9 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### OrderDetailActionsComponent
+
+- Changed line 6 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 21 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 34 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### ConsignmentTrackingComponent
+
+- Changed line 5 classes from `'btn btn-action btn-track'` to `'btn btn-secondary btn-track'`
+
+### ReplenishmentOrderCancellationDialogComponent
+
+- Changed line 32 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### ReplenishmentOrderCancellationComponent
+
+- Changed line 4 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 18 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### ReturnRequestOverviewComponent
+
+- Changed line 4 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### ConfiguratorAttributeProductCardComponent
+
+- Changed line 72 classes from `'btn btn-action'` to `'btn btn-secondary'`
+- Changed line 133 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
+### ConfiguratorPreviousNextButtonsComponent 
+
+- Changed line 4 classes from `'cx-btn btn btn-action'` to `'cx-btn btn btn-secondary cx-previous'`
+- Changed line 12 classes from `'cx-btn btn btn-secondary'` to `'cx-btn btn btn-secondary cx-next'`
+
+### StoreFinderListItemComponent
+
+- Changed line 45 classes from `'btn btn-sm btn-action btn-block cx-button'` to `'btn btn-sm btn-secondary btn-block cx-button'`
+
+### StoreFinderStoreComponent 
+
+- Changed line 14 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### DpPaymentMethodComponent
+
+- Changed line 24 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+- Changed line 50 classes from `'btn btn-block btn-action'` to `'btn btn-block btn-secondary'`
+
+### SiteContextSelectorComponent
+
+- Added `:` 
+
+### ProductScrollComponent
+
+- Changed line 29 `btn btn-block btn-action` to `btn btn-block btn-secondary`
+- Changed line 36 `btn btn-block btn-action align-btn` to `btn btn-block btn-secondary align-btn`
+- Changed line 73 `btn btn-block btn-action` to `btn btn-block btn-secondary`
+- Changed line 80 `btn btn-block btn-action align-btn` to `btn btn-block btn-secondary align-btn`
+
+### ProductFacetNavigationComponent 
+
+- Changed line 3 `btn btn-action btn-block dialog-trigger` to `btn btn-secondary btn-block dialog-trigger`
+
+### FileUploadComponent
+
+- Changed line 12 classes from `'btn btn-action'` to `'btn btn-secondary'`
+
