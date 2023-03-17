@@ -81,19 +81,23 @@
         </div>
       </ng-container>
 
-      <div class="cx-summary-card">
-        <ng-container *ngIf="order.deliveryAddress">
-          <cx-card
-            [content]="getAddressCardContent(order?.deliveryAddress) | async"
-          ></cx-card>
-        </ng-container>
+      <ng-template [cxOutlet]="OrderOutlets.ORDER_DELIVERY_OVERVIEW">
+        <div class="cx-summary-card">
+          <ng-container *ngIf="order.deliveryAddress">
+            <cx-card
+              [content]="getAddressCardContent(order?.deliveryAddress) | async"
+            ></cx-card>
+          </ng-container>
 
-        <ng-container *ngIf="order.deliveryMode">
-          <cx-card
-            [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
-          ></cx-card>
-        </ng-container>
-      </div>
+          <ng-container *ngIf="order.deliveryMode">
+            <cx-card
+              [content]="
+                getDeliveryModeCardContent(order?.deliveryMode) | async
+              "
+            ></cx-card>
+          </ng-container>
+        </div>
+      </ng-template>
 
       <ng-container *ngIf="order.paymentInfo">
         <div class="cx-summary-card">

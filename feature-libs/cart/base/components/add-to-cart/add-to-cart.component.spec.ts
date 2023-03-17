@@ -13,6 +13,7 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
+  FeaturesConfigModule,
   I18nTestingModule,
   Product,
 } from '@spartacus/core';
@@ -132,6 +133,7 @@ describe('AddToCartComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
+        FeaturesConfigModule,
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
@@ -169,7 +171,7 @@ describe('AddToCartComponent', () => {
   }
 
   function getTextFromAddToCartButton(): string {
-    return getButton().nativeElement.innerText;
+    return getButton().query(By.css('span')).nativeElement.innerText;
   }
 
   function getButton(): DebugElement {
