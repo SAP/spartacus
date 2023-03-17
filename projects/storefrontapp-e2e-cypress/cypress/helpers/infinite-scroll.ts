@@ -12,7 +12,7 @@ const scrollDuration = 5000;
 const defaultNumberOfProducts = 12;
 let defaultProductLimit = 12;
 
-const productScrollButtons = 'cx-product-scroll .btn-action';
+const productScrollButtons = 'cx-product-scroll .btn-secondary';
 
 const doubleButton = 'double';
 const singleButton = 'single';
@@ -113,7 +113,7 @@ export function scrollToFooter(
   for (let i = 1; i < iterations; i++) {
     if (isShowMoreButton) {
       cy.scrollTo('bottom');
-      cy.get('div.btn-action')
+      cy.get('div.cx-single-btn-container')
         .contains('SHOW MORE')
         .click({ force: true })
         .wait(defaultQueryAlias)
