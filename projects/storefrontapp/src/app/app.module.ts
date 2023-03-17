@@ -23,6 +23,8 @@ import {
   RoutingConfig,
   TestConfigModule,
 } from '@spartacus/core';
+import { StoreFinderConfig } from '@spartacus/storefinder/core';
+import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -83,6 +85,12 @@ if (!environment.production) {
       features: {
         level: '*',
       },
+    }),
+    provideConfig(<StoreFinderConfig>{
+      // For security compliance, by default, google maps does not display.
+      // Using special key value 'cx-development' allows google maps to display
+      // without a key, for development or demo purposes.
+      googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
   ],
   bootstrap: [StorefrontComponent],
