@@ -64,7 +64,9 @@ describe('A user who has a cart with multiple entries checkout with BOPIS are ru
 
       //The user selects which store they want to collect from (by default the last store they selected, falling back to the nearest store).
       cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).first().click();
-      cy.get(L.PICKUP_STORE_LOCATION).invoke('text').as('firstStoreName');
+      cy.get(L.PICKUP_STORE_LOCATION)
+        .invoke('attr', 'data-pickup-location')
+        .then((firstStoreName) => cy.wrap(firstStoreName).as('firstStoreName'));
 
       // The user adds the product to the cart. (The cart entries post call will have the "deliveryPointOfService" field).
       cy.get(L.ADD_TO_CART).click();
