@@ -31,7 +31,6 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartFacade,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    // TODO:#checkout - handle the breaking changes
     protected checkoutQueryFacade: CheckoutQueryFacade,
     protected userIdService: UserIdService,
     protected configuratorUtilsService: ConfiguratorUtilsService

@@ -27,12 +27,6 @@ exports[`Workspace utils getProject should return project 1`] = `
               "type": "anyComponentStyle",
             },
           ],
-          "fileReplacements": [
-            {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.prod.ts",
-            },
-          ],
           "outputHashing": "all",
         },
       },
@@ -46,7 +40,9 @@ exports[`Workspace utils getProject should return project 1`] = `
         "inlineStyleLanguage": "scss",
         "main": "src/main.ts",
         "outputPath": "dist/schematics-test",
-        "polyfills": "src/polyfills.ts",
+        "polyfills": [
+          "zone.js",
+        ],
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
@@ -85,9 +81,10 @@ exports[`Workspace utils getProject should return project 1`] = `
           "src/assets",
         ],
         "inlineStyleLanguage": "scss",
-        "karmaConfig": "karma.conf.js",
-        "main": "src/test.ts",
-        "polyfills": "src/polyfills.ts",
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing",
+        ],
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
@@ -139,12 +136,6 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
             "type": "anyComponentStyle",
           },
         ],
-        "fileReplacements": [
-          {
-            "replace": "src/environments/environment.ts",
-            "with": "src/environments/environment.prod.ts",
-          },
-        ],
         "outputHashing": "all",
       },
     },
@@ -158,7 +149,9 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       "inlineStyleLanguage": "scss",
       "main": "src/main.ts",
       "outputPath": "dist/schematics-test",
-      "polyfills": "src/polyfills.ts",
+      "polyfills": [
+        "zone.js",
+      ],
       "scripts": [],
       "stylePreprocessorOptions": {
         "includePaths": [
@@ -197,9 +190,10 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
         "src/assets",
       ],
       "inlineStyleLanguage": "scss",
-      "karmaConfig": "karma.conf.js",
-      "main": "src/test.ts",
-      "polyfills": "src/polyfills.ts",
+      "polyfills": [
+        "zone.js",
+        "zone.js/testing",
+      ],
       "scripts": [],
       "stylePreprocessorOptions": {
         "includePaths": [
