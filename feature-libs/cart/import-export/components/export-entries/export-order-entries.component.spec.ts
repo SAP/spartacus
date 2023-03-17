@@ -154,7 +154,7 @@ describe('ExportOrderEntriesComponent', () => {
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
-    const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
+    const btn = fixture.debugElement.query(By.css('button.cx-export-btn'));
 
     expect(btn.nativeElement).toBeTruthy();
 
@@ -168,7 +168,7 @@ describe('ExportOrderEntriesComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement
-        .query(By.css('button.cx-action-link'))
+        .query(By.css('button.cx-export-btn'))
         .nativeElement.innerText.trim()
     ).toEqual('exportEntries.exportProductToCsv');
   });

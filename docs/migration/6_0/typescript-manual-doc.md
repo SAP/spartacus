@@ -36,11 +36,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - When using Spartacus's implementation for Scroll Position Restoration we need to disable automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
 
-### UpdatePasswordComponentService
-
-- Added `AuthRedirectService` to constructor.
-- Added `AuthService` to constructor.
-
 ### ParagraphComponent
 
 - The `handleClick()` method now uses the condition `documentHost === element.host` to recognise external links.
@@ -61,6 +56,7 @@ If explicitly set, this option will take precedence over the express server.
 ### CheckoutPaymentFormComponent
 
 - `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+- `getAddressCardContent()` method has now return type `Observable<Card>`.
 
 ### CheckoutReviewSubmitComponent
 
@@ -69,8 +65,6 @@ If explicitly set, this option will take precedence over the express server.
 ### AddressBookComponent
 
 - `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
-
-## Feature lib product-configurator
 
 ### ConfiguratorFormComponent
 
@@ -105,11 +99,11 @@ It is now possible to register custom attribute type components for UI types not
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
 
-## OrderHistoryService
+### OrderHistoryService
 
 - The method `getOrderDetailsLoading()` has been added and returning order details loading state.
 
-## OrderDetailsService
+### OrderDetailsService
 
 - Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
 
@@ -117,3 +111,6 @@ It is now possible to register custom attribute type components for UI types not
 
 - `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
 - If you would like to add the angular pwa to your application, you can run the command `ng add @angular/pwa --project <project-name>` and remove the service worker references in your app.module.ts to have the same output as what our custom pwa schematics did.
+
+## OrderApprovalDetailsModule
+- Replaced `OrderDetailShippingComponent` with `OrderOverviewComponent` for `OrderApprovalDetailShippingComponent`
