@@ -127,7 +127,9 @@ function handleActionUpdateConfigurationFinalizeSuccess(
   checkConflictSolverDialog(result);
   result.isCartEntryUpdateRequired = true;
   result.overview = undefined;
-  result.interactionState.newConfiguration = false;
+  if (state.interactionState.newConfiguration !== undefined) {
+    result.interactionState.newConfiguration = false;
+  }
   return result;
 }
 

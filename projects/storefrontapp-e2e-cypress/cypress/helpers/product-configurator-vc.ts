@@ -23,6 +23,11 @@ export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 export const GET_CONFIG_ALIAS = '@readConfig';
 
 /**
+ * Alias used for reading the config
+ */
+export const CREATE_CONFIG_ALIAS = '@createConfig';
+
+/**
  * Alias used for reading the config prices
  */
 export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
@@ -73,6 +78,18 @@ export function registerConfigurationRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(GET_CONFIG_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Register configuration route.
+ */
+export function registerCreateConfigurationRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/configurators/ccpconfigurator*`,
+  }).as(CREATE_CONFIG_ALIAS.substring(1)); // strip the '@'
 }
 
 /**

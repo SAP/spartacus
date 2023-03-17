@@ -7,14 +7,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AsmConfig,
-  AsmService,
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '@spartacus/asm/core';
-import {
   AsmCustomerListFacade,
   CustomerListColumnActionType,
   CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { SortModel, TranslationService, User } from '@spartacus/core';
 import {
@@ -82,7 +79,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected asmService: AsmService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
@@ -118,16 +114,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         })
       ) ?? NEVER;
 
-    this.customerSearchLoading$ = this.asmService
+    this.customerSearchLoading$ = this.asmCustomerListFacade
       .getCustomerListCustomersSearchResultsLoading()
       .pipe(tap((loading) => (this.loaded = !loading)));
     this.teardown.add(this.customerSearchLoading$.subscribe());
-    this.teardown.add(() => this.asmService.customerListCustomersSearchReset());
+    this.teardown.add(() =>
+      this.asmCustomerListFacade.customerListCustomersSearchReset()
+    );
 
     this.customerSearchError$ =
-      this.asmService.getCustomerListCustomersSearchResultsError();
+      this.asmCustomerListFacade.getCustomerListCustomersSearchResultsError();
 
-    this.customerSearchPage$ = this.asmService
+    this.customerSearchPage$ = this.asmCustomerListFacade
       .getCustomerListCustomersSearchResults()
       .pipe(
         tap((result) => {
@@ -159,9 +157,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         options.sort = this.sortCode;
       }
 
-      this.asmService.customerListCustomersSearchReset();
+      this.asmCustomerListFacade.customerListCustomersSearchReset();
 
-      this.asmService.customerListCustomersSearch(options);
+      this.asmCustomerListFacade.customerListCustomersSearch(options);
     }
   }
 

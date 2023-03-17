@@ -164,8 +164,8 @@ describe('CouponCardComponent', () => {
       .nativeElement.textContent;
     expect(couponNotificationLabel).toContain('myCoupons.notification');
 
-    const findProductBtn = el.query(By.css('button.btn-action')).nativeElement
-      .textContent;
+    const findProductBtn = el.query(By.css('button.btn-secondary'))
+      .nativeElement.textContent;
     expect(findProductBtn).toContain('myCoupons.findProducts');
   });
 
@@ -214,7 +214,7 @@ describe('CouponCardComponent', () => {
 
   it('should be able to click `Find Product` button', () => {
     fixture.detectChanges();
-    el.query(By.css('button.btn-action')).triggerEventHandler('click', null);
+    el.query(By.css('button.btn-secondary')).triggerEventHandler('click', null);
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
       component.coupon
     );
