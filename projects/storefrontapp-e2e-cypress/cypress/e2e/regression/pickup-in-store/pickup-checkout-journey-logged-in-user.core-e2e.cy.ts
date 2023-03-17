@@ -7,14 +7,14 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
   configureApparelProduct,
-  defaultAddress,
+  defaultBillingAddress,
   defaultPaymentDetails,
-  fillAddressForm,
-  fillPaymentForm,
   LOCATORS as L,
   login,
+  paymentDetails,
   register,
 } from '../../../helpers/pickup-in-store-utils';
+import { fillPaymentDetails } from '../../../helpers/checkout-forms';
 
 /*
 
@@ -69,7 +69,9 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
 
       //The user selects which store they want to collect from (by default the last store they selected, falling back to the nearest store).
       cy.get(L.ACTIVE_PICK_UP_IN_STORE_BUTTON).first().click();
-      cy.get(L.PICKUP_STORE_LOCATION).invoke('text').as('firstStoreName');
+      cy.get(L.PICKUP_STORE_LOCATION)
+        .invoke('attr', 'data-pickup-location')
+        .then((firstStoreName) => cy.wrap(firstStoreName).as('firstStoreName'));
 
       // The user adds the product to the cart. (The cart entries post call will have the "deliveryPointOfService" field).
       cy.get(L.ADD_TO_CART).click();
@@ -109,15 +111,9 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
       cy.log('The logged in user checks out.');
 
       cy.get(L.PROCEED_TO_CHECKOUT_BUTTON).click();
-      fillAddressForm(defaultAddress);
-      cy.get(L.CHECKOUT_ADDRESS_FORM_SUBMIT_BUTTON).click();
-      cy.get(L.CHECKOUT_DELIVERY_MODE_CONTINUE_BUTTON).click();
 
-      cy.log('During checkout, the user cannot change the pickup location');
-      cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('not.exist');
-      cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('not.exist');
+      fillPaymentDetails(paymentDetails, defaultBillingAddress);
 
-      fillPaymentForm(defaultPaymentDetails);
       cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
       cy.log(
         'During the order review, the user cannot change the pickup location.'

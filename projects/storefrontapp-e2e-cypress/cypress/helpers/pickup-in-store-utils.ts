@@ -149,17 +149,34 @@ export const defaultPaymentDetails = {
   expiryMonth: '12',
   expiryYear: '2027',
   cvv: '123',
-  billingAddress: {
-    firstName: 'test',
-    lastName: 'test',
-    titleCode: 'mr',
-    line1: 'test',
-    line2: '',
-    town: 'test',
-    postalCode: 'H4B3L4',
-    country: { isocode: 'UK' },
-  },
+
 };
+
+
+export const paymentDetails = {
+  fullName: 'Test User',
+  payment: {
+    card: 'visa',
+    number: 4111111111111111,
+    expires: {
+      month: '12',
+      year: '2027',
+    },
+    cvv: '123'
+  }
+};
+
+export const defaultBillingAddress = {
+  firstName: 'test',
+  lastName: 'test',
+  titleCode: 'mr',
+  line1: 'test',
+  line2: '',
+  town: 'test',
+  postalCode: 'H4B3L4',
+  country: { isocode: 'UK' },
+};
+
 export const fillPaymentForm = (payment) => {
   cy.get(LOCATORS.PAYMENT_CARD_TYPE)
     .should('be.visible')
