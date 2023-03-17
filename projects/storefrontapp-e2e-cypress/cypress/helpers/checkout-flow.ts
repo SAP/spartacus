@@ -313,7 +313,7 @@ export function viewOrderHistory() {
 }
 
 export function clickCheckoutButton() {
-    cy.findByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
 }
 
 export function goToPaymentDetails() {

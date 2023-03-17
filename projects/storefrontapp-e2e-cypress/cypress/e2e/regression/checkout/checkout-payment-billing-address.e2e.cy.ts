@@ -18,7 +18,6 @@ const canadaAddress: Address = {
 };
 
 context('Checkout - Payment billing address', () => {
-
   it('should add new payment forms in checkout', () => {
     cy.requireLoggedIn();
     cy.visit('/');
