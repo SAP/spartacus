@@ -241,7 +241,7 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   describe('UI back button', () => {
     const getBackBtn = () =>
-      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-secondary'));
 
     it('should call "back" function after being clicked', () => {
       supportedDeliveryModes$.next(mockSupportedDeliveryModes);

@@ -26,14 +26,14 @@
           (model?.pagination?.currentPage ?? 0) > 0
         "
         (click)="scrollToTop()"
-        class="btn btn-block btn-action"
+        class="btn btn-block btn-secondary"
       >
         {{ 'productList.backToTopBtn' | cxTranslate }}
       </div>
       <div
         *ngIf="isMaxProducts && !isLastPage"
         (click)="loadNextPage((model?.pagination?.currentPage ?? 0) + 1)"
-        class="btn btn-block btn-action align-btn"
+        class="btn btn-block btn-secondary align-btn"
       >
         {{ 'productList.showMoreBtn' | cxTranslate }}
       </div>
@@ -70,14 +70,14 @@
           (model?.pagination?.currentPage ?? 0) > 0
         "
         (click)="scrollToTop()"
-        class="btn btn-block btn-action"
+        class="btn btn-block btn-secondary"
       >
         {{ 'productList.backToTopBtn' | cxTranslate }}
       </div>
       <div
         *ngIf="isMaxProducts && !isLastPage"
         (click)="loadNextPage((model?.pagination?.currentPage ?? 0) + 1)"
-        class="btn btn-block btn-action align-btn"
+        class="btn btn-block btn-secondary align-btn"
       >
         {{ 'productList.showMoreBtn' | cxTranslate }}
       </div>
