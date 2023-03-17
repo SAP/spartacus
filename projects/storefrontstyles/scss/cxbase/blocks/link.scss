@@ -19,13 +19,14 @@ a {
 }
 
 .cx-action-link {
-  @include type('7');
+  @include type('6');
   text-transform: var(--cx-button-text-transform);
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
+  color: var(--cx-color-primary);
   &:hover {
-    color: var(--cx-color-primary);
+    color: var(--cx-color-primary-accent);
     text-decoration: none;
   }
 }

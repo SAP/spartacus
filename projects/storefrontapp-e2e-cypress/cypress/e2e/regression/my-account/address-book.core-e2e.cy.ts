@@ -116,8 +116,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         );
 
         // click cancel
-        cy.get('.btn-secondary').should('contain', 'Cancel');
-        cy.get('.btn-secondary').click();
+        cy.get('cx-card .btn-secondary').should('contain', 'Cancel').click();
         cy.get('.cx-card-delete-msg').should('not.exist');
 
         // click delete

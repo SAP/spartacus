@@ -1,24 +1,24 @@
 <ng-container *ngIf="futureStocks$ | async as futureStocks">
   <button
+    id="cx-future-stock-accordion-header"
     class="cx-future-stock-accordion-header"
+    aria-controls="cx-future-stock-accordion-content"
     [attr.aria-expanded]="expanded"
     (click)="toggle()"
   >
     {{ 'futureStockDropdown.header' | cxTranslate }}
     <cx-icon
-      *ngIf="expanded; else notExpanded"
-      [type]="iconType.CARET_UP"
+      [type]="expanded ? iconType.CARET_UP : iconType.CARET_DOWN"
+      aria-hidden="true"
     ></cx-icon>
-
-    <ng-template #notExpanded>
-      <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
-    </ng-template>
   </button>
 
   <ng-container *ngIf="expanded">
     <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
       <div
+        id="cx-future-stock-accordion-content"
         class="cx-future-stock-accordion-content"
+        aria-labelledby="cx-future-stock-accordion-header"
         *ngFor="let futureStock of futureStocks.futureStocks"
       >
         {{ futureStock.formattedDate }} -
@@ -28,7 +28,11 @@
     </ng-container>
 
     <ng-template #noStocks>
-      <div class="cx-future-stock-accordion-content">
+      <div
+        id="cx-future-stock-accordion-content"
+        class="cx-future-stock-accordion-content"
+        aria-labelledby="cx-future-stock-accordion-header"
+      >
         {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
       </div>
     </ng-template>
