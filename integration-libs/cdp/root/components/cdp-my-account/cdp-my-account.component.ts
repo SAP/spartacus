@@ -44,19 +44,10 @@ export class CdpMyAccountComponent implements OnInit{
   this.orders$.subscribe((res)=>{
     this.result=res;
     this.tabTitleParam$.next(res.orders.length-res.orders.length+2);
-    this.calculateTotalAmount(this.result);
+    // this.calculateTotalAmount(this.result);
     this.getOrderedItems(this.result);
   });
 
-  }
-
-  public calculateTotalAmount(finalResult: finalOrder): void{
-
-    for(var val of finalResult.orders)
-    {
-      this.totalPrice = val.total.value + this.totalPrice;
-      console.log(this.totalPrice);
-    }
   }
 
   public async getOrderedItems(finalResult: finalOrder): Promise<void>{
@@ -69,6 +60,7 @@ export class CdpMyAccountComponent implements OnInit{
       });
     }
     this.getDetail();
+    console.log(this.orderDetail);
   }
 
   public async getDetail() {
@@ -81,12 +73,12 @@ export class CdpMyAccountComponent implements OnInit{
       this.orderDetail[orderCode].consignments.forEach((ord) => {
         this.orderStatus[orderCode][ord.status] ??= 0;
         ord.entries.forEach((entr) => {
-          console.log(orderCode + ' status ' + ord.status + entr.quantity);
+
           this.orderStatus[orderCode][ord.status] =
             this.orderStatus[orderCode][ord.status] + entr.quantity;
             if(entr.orderEntry.product && entr.orderEntry.product.images)
             {
-              console.log("img", entr.orderEntry.product.images[0]);
+              // console.log("img", entr.orderEntry.product.images[0]);
               entr.orderEntry.product.images.forEach((img)=>{
                 img.url =
                         this.occEndpointsService.getBaseUrl({
@@ -95,10 +87,8 @@ export class CdpMyAccountComponent implements OnInit{
                         }) + img.url;
               });
               this.orderImage[orderCode].push(entr.orderEntry.product);
-              // this.orderImage[orderCode].product.= entr.orderEntry.product.images[0];
             }
         });
-        console.log(this.orderImage);
       });
       this.loading$.next(false);
     }

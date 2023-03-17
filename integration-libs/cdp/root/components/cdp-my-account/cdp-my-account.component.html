@@ -1,105 +1,84 @@
-<!-- <ng-container
-  *ngIf="{
-    orderHistory: orders$ | async
-  } as type"
-> -->
-
-
-
-<ng-container *ngIf="!(loading$ | async);else loading">
-   <!-- HEADER -->
-   <div >
-    <h2  style="white-space: nowrap;">
-      {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
-      <h3 style="text-align:right">
-        <a style="display: inline-block"
-      [routerLink]="
-        {
-          cxRoute: 'orders'
-        } | cxUrl
-      ">{{ 'cdpOrderHistory.showMore' | cxTranslate}} </a>
-      </h3>
-    </h2>
-  </div>    
-  
-  <div class="cx-cdp-body">
-    <section *ngIf="orders$ | async as orders">
-  <table   *ngFor="let order of orders.orders"
-  role="table"
-  id="cx-cdp-table"
-  class="table cx-cdp-body-table"> 
-  <!-- BODY --> 
-  <tbody >
-    <!-- HEADER ROW-->
-    
-  <tr
-      role="row"
-    >
-    <td role="cell" >
-      <div >
-       Purchased - Store
-      </div>
-    </td>
-    <td></td>
-    <td>
-      <div style="text-align:right;">
-        OrderNumber({{ order?.code }})
-      </div>
-    </td>
-    </tr> 
-
-    <!-- BODY ROW -->
-   <tr
-    role="row"
-    >
-    
-    <!-- IMAGE -->
-    <td role="cell"  >
-      <div *ngFor="let prdt of  orderImage[order.code]" >
-        <div *ngFor="let img of prdt.images;" >
-
-          <img *ngIf=" img.format === 'thumbnail' " [src]="img.url" width="88" height="88" class="slide active" >
-        </div>
-        </div>
-
-    </td>
-    <td >
-      <div *ngFor="let prdt of  orderImage[order.code]" >{{prdt.name}}</div>
-      <p>
-        <!-- {{prdt.name}}<br> -->
-        PurchasedIn Store {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>
-        Ordered Items:{{orderDetail[order.code]?.deliveryItemsQuantity}}<br>
-        <br>
-        <!-- <br> -->
-        TotalPrice: ${{ order.total.value }}
-      </p>
-    </td>
-    <td>
-    <div style="text-align: right;">
-      <br>
-      <br>
-       <a
-      [routerLink]="
-        {
-          cxRoute: 'orderDetails',
-          params: order
-        } | cxUrl
-      ">{{ 'cdpOrderHistory.orderDetails' | cxTranslate}} </a>
-      
+   <ng-container *ngIf="!(loading$ | async);else loading">
+    <!-- HEADER -->
+    <div >
+       <h2  style="white-space: nowrap;">
+          {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
+          <h3 style="text-align:right">
+             <a style="display: inline-block"
+                [routerLink]="
+                {
+                cxRoute: 'orders'
+                } | cxUrl
+                ">{{ 'cdpOrderHistory.showMore' | cxTranslate}} </a>
+          </h3>
+       </h2>
     </div>
-    </td>
-    </tr>
-    </tbody>
-
-  </table>
-</section>
-</div>
-
-
-</ng-container>
-<ng-template #loading>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
-  </div>
-</ng-template>
-
+    <div class="cx-cdp-body">
+       <section *ngIf="orders$ | async as orders">
+          <table   *ngFor="let order of orders.orders"
+             role="table"
+             id="cx-cdp-table"
+             class="table cx-cdp-body-table">
+             <!-- BODY --> 
+             <tbody >
+                <!-- HEADER ROW-->
+                <tr
+                   role="row"
+                   >
+                   <td role="cell" >
+                      <div >
+                         Purchased - Store
+                      </div>
+                   </td>
+                   <td></td>
+                   <td>
+                      <div style="text-align:right;">
+                         OrderNumber({{ order?.code }})
+                      </div>
+                   </td>
+                </tr>
+                <!-- BODY ROW -->
+                <tr
+                   role="row"
+                   >
+                   <!-- IMAGE -->
+                   <td role="cell"  >
+                      <div *ngFor="let prdt of  orderImage[order.code]" >
+                         <div *ngFor="let img of prdt.images;" >
+                            <img *ngIf=" img.format === 'thumbnail' " [src]="img.url" width="88" height="88" class="slide active" >
+                         </div>
+                      </div>
+                   </td>
+                   <td >
+                      <div *ngFor="let prdt of  orderImage[order.code]" >{{prdt.name}}</div>
+                      <p>
+                         PurchasedIn Store {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>
+                         Ordered Items:{{orderDetail[order.code]?.deliveryItemsQuantity}}<br>
+                         <br>
+                         TotalPrice: ${{ order.total.value }}
+                      </p>
+                   </td>
+                   <td>
+                      <div style="text-align: right;">
+                         <br>
+                         <br>
+                         <a
+                            [routerLink]="
+                            {
+                            cxRoute: 'orderDetails',
+                            params: order
+                            } | cxUrl
+                            ">{{ 'cdpOrderHistory.orderDetails' | cxTranslate}} </a>
+                      </div>
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </section>
+    </div>
+ </ng-container>
+ <ng-template #loading>
+    <div class="cx-spinner">
+       <cx-spinner></cx-spinner>
+    </div>
+ </ng-template>
