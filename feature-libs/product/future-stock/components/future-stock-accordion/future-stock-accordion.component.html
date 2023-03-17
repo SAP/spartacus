@@ -1,8 +1,8 @@
 <ng-container *ngIf="futureStocks$ | async as futureStocks">
   <button
-    id="accordion-header"
+    id="cx-future-stock-accordion-header"
     class="cx-future-stock-accordion-header"
-    aria-controls="accordion-content"
+    aria-controls="cx-future-stock-accordion-content"
     [attr.aria-expanded]="expanded"
     (click)="toggle()"
   >
@@ -16,9 +16,9 @@
   <ng-container *ngIf="expanded">
     <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
       <div
-        id="accordion-content"
+        id="cx-future-stock-accordion-content"
         class="cx-future-stock-accordion-content"
-        aria-labelledby="accordion-header"
+        aria-labelledby="cx-future-stock-accordion-header"
         *ngFor="let futureStock of futureStocks.futureStocks"
       >
         {{ futureStock.formattedDate }} -
@@ -29,9 +29,9 @@
 
     <ng-template #noStocks>
       <div
-        id="accordion-content"
+        id="cx-future-stock-accordion-content"
         class="cx-future-stock-accordion-content"
-        aria-labelledby="accordion-header"
+        aria-labelledby="cx-future-stock-accordion-header"
       >
         {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
       </div>
