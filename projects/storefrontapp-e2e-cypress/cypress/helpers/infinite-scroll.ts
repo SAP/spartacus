@@ -27,7 +27,8 @@ export const homepage = '/';
 export const SONY_CAMERA_URL_PATH = 'product/358639/dsc-n1';
 export const PRODUCT_DETAILS_HEADER = `[role="region"] > :nth-child(1)`;
 export const BACK_TO_TOP_BUTTON = `.cx-scroll-to-top-btn`;
-export const POWER_SUPPLY_LIST_PAGE = '/Open-Catalogue/Components/Power-Supplies/c/816';
+export const POWER_SUPPLY_LIST_PAGE =
+  '/Open-Catalogue/Components/Power-Supplies/c/816';
 
 export function configScroll(
   active: boolean,
@@ -149,19 +150,23 @@ export function verifyGridResetsList() {
 }
 
 export function acceptPrivaryTerm() {
-  cy.get('.anonymous-consent-banner .btn-primary', {timeout: 10000}).then(() => {
-    cy.get('.anonymous-consent-banner .btn-primary').click();
-  });
+  cy.get('.anonymous-consent-banner .btn-primary', { timeout: 10000 }).then(
+    () => {
+      cy.get('.anonymous-consent-banner .btn-primary').click();
+    }
+  );
 }
 
 export function addToCartFromList(numberOfItems) {
-  for(let i = 1; i <= numberOfItems;i++){
-    cy.get(`:nth-child(${i}) > :nth-child(1) > .col-md-8 > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn`).click({ force: true });
-        cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
-          'contain',
-          'Item(s) added to your cart'
-        );
-        cy.get('.cx-dialog-header .close').click();
+  for (let i = 1; i <= numberOfItems; i++) {
+    cy.get(
+      `:nth-child(${i}) > :nth-child(1) > .col-md-8 > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn`
+    ).click({ force: true });
+    cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
+      'contain',
+      'Item(s) added to your cart'
+    );
+    cy.get('.cx-dialog-header .close').click();
   }
   cy.get('cx-mini-cart .count').should('contain', numberOfItems);
 }
@@ -170,7 +175,7 @@ export function clickCartIcon() {
   cy.get('cx-mini-cart > a').click();
 }
 
-export function scrollToBottomOfPageAndClickBackToTopButton(){
+export function scrollToBottomOfPageAndClickBackToTopButton() {
   cy.get(`.cx-scroll-to-top-btn`).should('not.be.visible');
   cy.scrollTo('bottom');
   cy.get(`.cx-scroll-to-top-btn`).should('be.visible');
@@ -179,31 +184,31 @@ export function scrollToBottomOfPageAndClickBackToTopButton(){
   cy.window().its('scrollY').should('equal', 0);
 }
 
-export function verifyBackToTopButtonIsNotVisible(){
+export function verifyBackToTopButtonIsNotVisible() {
   cy.get(`.cx-scroll-to-top-btn`).should('not.be.visible');
 }
 
-export function verifyBackToTopButtonIsVisible(){
+export function verifyBackToTopButtonIsVisible() {
   cy.get(`.cx-scroll-to-top-btn`).should('be.visible');
 }
 
-export function scrollToTopOfPage(){
+export function scrollToTopOfPage() {
   cy.scrollTo('top');
 }
 
-export function scrollToBottomOfPage(){
+export function scrollToBottomOfPage() {
   cy.scrollTo('bottom');
 }
 
-export function scrollToSpecificSectionOfPage(location){
+export function scrollToSpecificSectionOfPage(location) {
   cy.scrollTo(location);
 }
 
-export function clickSpecficComponentOfPage(css_selector){
+export function clickSpecficComponentOfPage(css_selector) {
   cy.get(css_selector).click();
 }
 
-export function verifyBackToTopButtonTakesPageToTop(){
+export function verifyBackToTopButtonTakesPageToTop() {
   cy.window().its('scrollY').should('equal', 0);
 }
 
@@ -259,15 +264,14 @@ export function testInfiniteScrollAvoidDisplayShowMoreButton() {
   });
 }
 
-export function visitHomePage(){
+export function visitHomePage() {
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.visit(homepage);
   cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function interceptSpecificPage(pagename: string){
+export function interceptSpecificPage(pagename: string) {
   cy.intercept(pagename).as('getProductListPage');
   cy.visit(pagename);
   cy.wait(`@getProductListPage`).its('response.statusCode').should('eq', 200);
 }
-

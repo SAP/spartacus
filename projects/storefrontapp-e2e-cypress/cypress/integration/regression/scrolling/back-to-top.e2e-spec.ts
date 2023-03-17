@@ -12,11 +12,10 @@ import {
   PRODUCT_DETAILS_HEADER,
   BACK_TO_TOP_BUTTON,
   SONY_CAMERA_URL_PATH,
-  POWER_SUPPLY_LIST_PAGE
+  POWER_SUPPLY_LIST_PAGE,
 } from '../../../helpers/infinite-scroll';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-
 
 context('Back to the Top', () => {
   viewportContext(['desktop', 'mobile'], () => {
@@ -34,8 +33,7 @@ context('Back to the Top', () => {
         cy.clearCookies();
       });
 
-      it("back to top button should work on homepage (CXSPA-2407)", () => {
-
+      it('back to top button should work on homepage (CXSPA-2407)', () => {
         visitHomePage();
         acceptPrivaryTerm();
         verifyBackToTopButtonIsNotVisible();
@@ -45,8 +43,7 @@ context('Back to the Top', () => {
         verifyBackToTopButtonTakesPageToTop();
       });
 
-      it("back to top button should work on product list page (CXSPA-2407)", () => {
-
+      it('back to top button should work on product list page (CXSPA-2407)', () => {
         interceptSpecificPage(POWER_SUPPLY_LIST_PAGE);
         acceptPrivaryTerm();
         verifyBackToTopButtonIsNotVisible();
@@ -56,7 +53,7 @@ context('Back to the Top', () => {
         verifyBackToTopButtonTakesPageToTop();
       });
 
-      it("back to top button should work when page is scrolled dynamically (CXSPA-2407)", () => {
+      it('back to top button should work when page is scrolled dynamically (CXSPA-2407)', () => {
         interceptSpecificPage(SONY_CAMERA_URL_PATH);
         acceptPrivaryTerm();
         verifyBackToTopButtonIsNotVisible();
@@ -67,8 +64,7 @@ context('Back to the Top', () => {
         verifyBackToTopButtonTakesPageToTop();
       });
 
-      it("back to top should work on Cart page with items (CXSPA-2407)", () => {
-
+      it('back to top should work on Cart page with items (CXSPA-2407)', () => {
         interceptSpecificPage(POWER_SUPPLY_LIST_PAGE);
         acceptPrivaryTerm();
         addToCartFromList(6);
@@ -80,8 +76,5 @@ context('Back to the Top', () => {
         verifyBackToTopButtonTakesPageToTop();
       });
     });
-    });
   });
-
-
-
+});
