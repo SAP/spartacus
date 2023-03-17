@@ -7,10 +7,7 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
   configureApparelProduct,
-  defaultAddress,
-  defaultPaymentDetails,
-  fillAddressForm,
-  fillPaymentForm,
+  fillPaymentFormAndBillingAdress,
   LOCATORS as L,
   login,
   register,
@@ -50,10 +47,12 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.checked');
-
+      cy.wait(1000); // allow time for event handlers to be attached
       // The user selects pickup in store.
+
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).click();
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.checked');
+      cy.wait(1000); // allow time for event handlers to be attached
       cy.get(L.USE_MY_LOCATION).click();
 
       //The user selects which store they want to collect from (by default the last store they selected, falling back to the nearest store).
@@ -103,10 +102,7 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
       const clickLoginLink = false;
       register(clickLoginLink);
       login(clickLoginLink);
-      fillAddressForm(defaultAddress);
-      cy.get(L.CHECKOUT_ADDRESS_FORM_SUBMIT_BUTTON).click();
-      cy.get(L.CHECKOUT_DELIVERY_MODE_CONTINUE_BUTTON).click();
-      fillPaymentForm(defaultPaymentDetails);
+      fillPaymentFormAndBillingAdress();
       cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
 
       //

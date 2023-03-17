@@ -63,6 +63,7 @@ export const LOCATORS = {
   FIND_STORES_BUTTON: '#btnFindStores',
   SELECT_STORE_LINK: `${BOPIS_TAG} a.cx-action-link`,
   DIALOG_CLOSE: 'button.cx-dialog-close',
+  ADD_CART_DIALOG_CLOSE: '.close',
   ALLOW_COOKIES_BUTTON: `cx-anonymous-consent-management-banner button.btn-primary`,
   ACTIVE_PICK_UP_IN_STORE_BUTTON: `div.cx-store-pick-up-from-here button[data-pickup-in-store-button]:not([disabled])`,
   CHANGE_STORE_LINK: `a[data-store-location-link=change]`,
@@ -149,32 +150,34 @@ export const defaultPaymentDetails = {
   expiryMonth: '12',
   expiryYear: '2027',
   cvv: '123',
-
 };
-
 
 export const paymentDetails = {
   fullName: 'Test User',
   payment: {
-    card: 'visa',
+    card: 'Visa',
     number: 4111111111111111,
     expires: {
       month: '12',
       year: '2027',
     },
-    cvv: '123'
-  }
+  },
+  cvv: '123',
 };
 
 export const defaultBillingAddress = {
-  firstName: 'test',
-  lastName: 'test',
-  titleCode: 'mr',
-  line1: 'test',
-  line2: '',
-  town: 'test',
-  postalCode: 'H4B3L4',
-  country: { isocode: 'UK' },
+  firstName: 'Test',
+  lastName: 'Test',
+  phone: '737479029437',
+  cellphone: '737479029437',
+  address: {
+    city: 'Los Angeles',
+    line1: '1111 S Figueroa St',
+    line2: 'US-CA',
+    country: 'United States',
+    state: 'California',
+    postal: '90015',
+  },
 };
 
 export const fillPaymentForm = (payment) => {
@@ -194,6 +197,58 @@ export const fillPaymentForm = (payment) => {
   cy.get(LOCATORS.CARD_EXPIRY_YEAR_OPTION).click();
 
   cy.get(LOCATORS.CARD_CVV).type(payment.cvv);
+};
+
+export const fillPaymentFormAndBillingAdress = () => {
+  cy.get(LOCATORS.PAYMENT_CARD_TYPE)
+    .should('be.visible')
+    .type(paymentDetails.payment.card);
+
+  cy.get(LOCATORS.PAYMENT_CARD_TYPE_OPTION).click();
+
+  cy.get(LOCATORS.ACCOUNT_HOLDER_NAME).type(paymentDetails.fullName);
+  cy.get(LOCATORS.CARD_NUMBER).type(`${paymentDetails.payment.number}`);
+
+  cy.get(LOCATORS.CARD_EXPIRY_MONTH)
+    .type(paymentDetails.payment.expires.month)
+    .click();
+  cy.get(LOCATORS.CARD_EXPIRY_MONTH_OPTION).click();
+
+  cy.get(LOCATORS.CARD_EXPIRY_YEAR)
+    .type(paymentDetails.payment.expires.year)
+    .click();
+  cy.get(LOCATORS.CARD_EXPIRY_YEAR_OPTION).click();
+
+  cy.get(LOCATORS.CARD_CVV).type(paymentDetails.cvv);
+  cy.get('[formcontrolname="isocode"]').ngSelect(
+    defaultBillingAddress.address.country
+  );
+
+  cy.get('[formcontrolname="firstName"]')
+    .clear()
+    .type(defaultBillingAddress.firstName);
+  cy.get('[formcontrolname="lastName"]')
+    .clear()
+    .type(defaultBillingAddress.lastName);
+  cy.get('[formcontrolname="line1"]')
+    .clear()
+    .type(defaultBillingAddress.address.line1);
+  if (defaultBillingAddress.address.line2) {
+    cy.get('[formcontrolname="line2"]')
+      .clear()
+      .type(defaultBillingAddress.address.line2);
+  }
+  cy.get('[formcontrolname="town"]')
+    .clear()
+    .type(defaultBillingAddress.address.city);
+
+  cy.get('[formcontrolname="postalCode"]')
+    .clear()
+    .type(defaultBillingAddress.address.postal);
+
+  cy.get('[formcontrolname="isocodeShort"]').ngSelect(
+    defaultBillingAddress.address.state
+  );
 };
 
 export const defaultAddress = {

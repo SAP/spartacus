@@ -7,14 +7,11 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
   configureApparelProduct,
-  defaultBillingAddress,
-  defaultPaymentDetails,
+  fillPaymentFormAndBillingAdress,
   LOCATORS as L,
   login,
-  paymentDetails,
   register,
 } from '../../../helpers/pickup-in-store-utils';
-import { fillPaymentDetails } from '../../../helpers/checkout-forms';
 
 /*
 
@@ -112,8 +109,7 @@ describe('Pickup Delivery Option - A logged in user which checkout with BOPIS', 
 
       cy.get(L.PROCEED_TO_CHECKOUT_BUTTON).click();
 
-      fillPaymentDetails(paymentDetails, defaultBillingAddress);
-
+      fillPaymentFormAndBillingAdress();
       cy.get(L.CHECKOUT_PAYMENT_FORM_CONTINUE_BUTTON).click();
       cy.log(
         'During the order review, the user cannot change the pickup location.'

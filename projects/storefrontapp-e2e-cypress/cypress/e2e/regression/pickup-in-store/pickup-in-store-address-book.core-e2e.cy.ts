@@ -60,7 +60,7 @@ describe('Preferred Store for pickup In Address Book', () => {
       cy.get(L.SELECTED_STORE).should('exist');
       cy.get(L.SELECTED_STORE)
         .invoke('attr', 'data-preferred-store')
-        .as('firstStoreName');
+        .then((firstStoreName) => cy.wrap(firstStoreName).as('firstStoreName'));
       cy.get(L.DIALOG_CLOSE).click();
 
       /** Navigating to Address Book and validating if preferred store was populated  */
@@ -95,7 +95,9 @@ describe('Preferred Store for pickup In Address Book', () => {
       cy.get(L.STORE_FINDER_SET_PREFERRED_STORE_CONTAINER)
         .first()
         .invoke('attr', 'data-preferred-store')
-        .as('ChangedStoreName');
+        .then((ChangedStoreName) =>
+          cy.wrap(ChangedStoreName).as('ChangedStoreName')
+        );
 
       cy.get(L.STORE_FINDER_SET_PREFERRED_STORE_CONTAINER).first().click();
 
