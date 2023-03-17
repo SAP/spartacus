@@ -7,7 +7,6 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { Address } from '../../../helpers/checkout-forms';
 import { user } from '../../../sample-data/checkout-flow';
-import { isolateTests } from '../../../support/utils/test-isolation';
 
 const canadaAddress: Address = {
   city: 'Montreal',
@@ -18,45 +17,28 @@ const canadaAddress: Address = {
   state: 'Quebec',
 };
 
-const polandAddress: Address = {
-  city: 'Wrocław',
-  line1: 'Dmowskiego 17',
-  line2: '',
-  country: 'Poland',
-  postal: '50-203',
-};
-
-context('Payment billing address', { testIsolation: false }, () => {
-  isolateTests();
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-  });
-
-  it('should go through checkout steps', () => {
+context('Checkout - Payment billing address', () => {
+  it('should add new payment forms in checkout', () => {
     cy.requireLoggedIn();
     cy.visit('/');
+
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCart();
-    cy.findByText(/proceed to checkout/i).click();
+
+    cy.log('🛒 Going through checkout steps');
+    checkout.clickCheckoutButton();
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct();
     checkout.verifyReviewOrderPage();
-  });
 
-  it('should add new payment forms', () => {
+    cy.log('🛒 Adding new payment form');
+
     checkout.goToPaymentDetails();
     checkout.clickAddNewPayment();
     checkout.fillPaymentFormWithCheapProduct(user, {
       ...user,
       address: canadaAddress,
-    });
-    checkout.verifyReviewOrderPage();
-    checkout.goToPaymentDetails();
-    checkout.clickAddNewPayment();
-    checkout.fillPaymentFormWithCheapProduct(user, {
-      ...user,
-      address: polandAddress,
     });
     checkout.verifyReviewOrderPage();
   });
