@@ -258,7 +258,9 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cart.clickAddToCart();
   cy.wait(['@refreshCart', '@addToCart']);
   // there is only one btn-primary which is "View Cart" button
-  cy.get('cx-added-to-cart-dialog a.btn-primary').should('be.visible');
+  cy.get('cx-added-to-cart-dialog a.btn-primary')
+    .scrollIntoView()
+    .should('be.visible');
 }
 
 /**
