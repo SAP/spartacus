@@ -11,7 +11,6 @@ import {
   CartPickupOptionsContainerModule,
   OrderConsignmentContainerModule,
   PdpPickupOptionsContainerModule,
-  PickupInStoreOrderOverviewContainerModule,
 } from './components/index';
 
 import {
@@ -41,7 +40,6 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
     CartPickupOptionsContainerModule,
     PdpPickupOptionsContainerModule,
     OrderConsignmentContainerModule,
-    PickupInStoreOrderOverviewContainerModule,
   ],
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),

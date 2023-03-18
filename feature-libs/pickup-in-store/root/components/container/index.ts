@@ -7,4 +7,3 @@
 export * from './cart-pickup-options-container/index';
 export * from './pdp-pickup-options-container/index';
 export * from './pickup-in-store-order-consignment/index';
-export * from './pickup-in-store-order-overview/index';
