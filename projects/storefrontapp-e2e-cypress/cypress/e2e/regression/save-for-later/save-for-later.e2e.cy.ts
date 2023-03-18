@@ -101,9 +101,7 @@ context('Save for later', () => {
 
         cy.get('button').contains('Save For Later').should('not.exist');
 
-        cy.get('cx-add-to-saved-cart')
-          .contains('Save cart for later')
-          .should('have.class.disabled');
+        cy.get('cx-add-to-saved-cart a').eq(1).should('have.class', 'disabled');
       });
     });
   });
