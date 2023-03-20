@@ -15,8 +15,8 @@ import {
   FormErrorsModule,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
-import { CdpUpdateProfileComponent } from './cdp-update-profile.component';
-import { CdpUpdateProfileService } from './cdp-update-profile.service';
+import { CDPUpdateProfileComponent } from './cdp-update-profile.component';
+import { CDPUpdateProfileService } from './cdp-update-profile.service';
 
 @NgModule({
   imports: [
@@ -34,13 +34,13 @@ import { CdpUpdateProfileService } from './cdp-update-profile.service';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {
-          component: CdpUpdateProfileComponent,
+          component: CDPUpdateProfileComponent,
         },
       },
     }),
   ],
-  providers:[CdpUpdateProfileService],
-  declarations: [CdpUpdateProfileComponent],
-  exports: [CdpUpdateProfileComponent],
+  providers:[CDPUpdateProfileService],
+  declarations: [CDPUpdateProfileComponent],
+  exports: [CDPUpdateProfileComponent],
 })
-export class CdpUpdateProfileModule {}
+export class CDPUpdateProfileModule {}

@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { UntypedFormGroup } from '@angular/forms';
+import { //FormControl,
+  UntypedFormGroup,
+  //Validators
+} from '@angular/forms';
 import { UpdateProfileComponent, UpdateProfileComponentService } from '@spartacus/user/profile/components';
-import { Observable } from 'rxjs';
-import { Title } from '@spartacus/user/profile/root';
-import { CdpUpdateProfileService } from './cdp-update-profile.service';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CDPUpdateProfileService } from './cdp-update-profile.service';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+//import { CustomFormValidators } from '@spartacus/storefront';
 
 
 @Component({
@@ -18,31 +21,46 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form' },
 })
-export class CdpUpdateProfileComponent extends UpdateProfileComponent {
+export class CDPUpdateProfileComponent extends UpdateProfileComponent implements OnInit, OnDestroy{
 
   constructor(
-    protected cdpUpdateProfileService: CdpUpdateProfileService,
-    protected profileUpdateComponentService: UpdateProfileComponentService
+    protected cdpUpdateProfileService: CDPUpdateProfileService,
+    protected updateProfileComponentService: UpdateProfileComponentService
     ) {
-    super(profileUpdateComponentService);
-    this.setOldEmail();
+    super(updateProfileComponentService);
   }
 
   form: UntypedFormGroup = this.cdpUpdateProfileService.form;
+  subscription: Subscription;
 
   isUpdating$ = this.cdpUpdateProfileService.isUpdating$;
-  titles$: Observable<Title[]> = this.service.titles$;
 
   onSubmit(): void {
     this.cdpUpdateProfileService.updateProfile();
   }
 
-  setOldEmail(): void{
-    const y = this.form.get('email');
-    console.log(y);
-    const x = y?.value;
-    console.log("x"+ x);
-    this.cdpUpdateProfileService.oldEmail = this.form.get('email')?.value;
+  ngOnInit(): void {
+    /*const email = <FormControl>this.form.get('email');
+    const confirmEmail = <FormControl>this.form.get('confirmEmail');
+    const password = <FormControl>this.form.get('password');
+
+    this.subscription = email.valueChanges.subscribe(value => {
+      if (value) {
+        confirmEmail.setValidators([Validators.required,
+         // CustomFormValidators.emailsMustMatch('email', 'confirmEmail')
+        ]);
+        password.setValidators([Validators.required, ]);
+      }
+      else {
+        email.setValidators([Validators.required, ]);
+      }
+
+    });*/
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

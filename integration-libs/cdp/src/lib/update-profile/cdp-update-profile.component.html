@@ -65,10 +65,14 @@
     />
     <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
   </label>
-
+  <label class="form-group">
+    <span class="label-content">{{
+      'register.emailAddress.myEmailAddress' | cxTranslate
+    }}</span>
+    
   <label>
     <span class="label-content">{{
-      'updateEmailForm.newEmailAddress.label' | cxTranslate
+      'register.emailAddress.label' | cxTranslate
     }}</span>
     <input
       required="true"
@@ -82,13 +86,28 @@
     />
     <cx-form-errors [control]="form.get('email')"></cx-form-errors>
   </label>
-
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
+    }}</span>
+    <input
+      required="false"
+      type="email"
+      name="confirmEmail"
+      formControlName="confirmEmail"
+      placeholder="{{
+        'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
+      }}"
+      class="form-control"
+    />
+    <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
+  </label>
   <label>
     <span class="label-content">{{
       'updateEmailForm.password.label' | cxTranslate
     }}</span>
     <input
-      required="true"
+      required="false"
       type="password"
       name="password"
       formControlName="password"
@@ -100,7 +119,7 @@
     />
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
-
+</label>
   <a
     class="btn btn-block btn-secondary"
     [routerLink]="{ cxRoute: 'home' } | cxUrl"

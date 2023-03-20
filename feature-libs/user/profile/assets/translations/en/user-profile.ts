@@ -48,6 +48,7 @@ export const userProfile = {
     emailAddress: {
       label: 'Email address',
       placeholder: 'Email address',
+      myEmailAddress: 'My Email Address',
     },
     password: {
       label: 'Password',
