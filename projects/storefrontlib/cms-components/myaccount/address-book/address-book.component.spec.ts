@@ -149,7 +149,7 @@ describe('AddressBookComponent', () => {
   });
 
   it('should be able to add new address', () => {
-    el.query(By.css('.btn-action')).nativeElement.click();
+    el.query(By.css('.btn-secondary')).nativeElement.click();
     expect(component.addAddressButtonHandle).toHaveBeenCalled();
   });
 

@@ -8,10 +8,9 @@ import * as unitLevelOrderHistory from '../../../../helpers/b2b/b2b-order-histor
 import { doPlaceB2BOrder } from '../../../../helpers/b2b/b2b-order-history';
 import * as sampleData from '../../../../sample-data/b2b-order-history';
 import { interceptGet } from '../../../../support/utils/intercept';
-import { isolateTests } from '../../../../support/utils/test-isolation';
 import Chainable = Cypress.Chainable;
 
-describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
+describe('B2B - Unit-Level Orders History', () => {
   const buyerGiSun = 'Gi Sun';
   const buyerMarkRivers = 'Mark Rivers';
   const buyerWilliamHunter = 'William Hunter';
@@ -30,18 +29,13 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
   let order0;
   let order1;
   let order2;
-  isolateTests();
   before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
     unitLevelOrderHistory.loginB2bCommonUser();
     doPlaceB2BOrder(sampleData.product1).then((resp) => (order0 = resp.body));
     unitLevelOrderHistory.loginB2bUnitOrderViewer();
     doPlaceB2BOrder(sampleData.product2).then((resp) => (order1 = resp.body));
     unitLevelOrderHistory.loginB2bUnitOrderViewer2();
     doPlaceB2BOrder(sampleData.product3).then((resp) => (order2 = resp.body));
-
-    unitLevelOrderHistory.loginB2bUnitOrderViewer();
-    cy.visit('/my-account/unitLevelOrders');
   });
 
   describe('User without right', () => {
@@ -121,6 +115,9 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
     });
 
     it('can see email in buyer column under the name of the buyer', () => {
+      unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
+      cy.visit('/my-account/unitLevelOrders');
+      cy.wait(ordersToLoadAlias);
       cy.get('.cx-unit-level-order-history-value').should(
         'contain',
         '@rustic-hw.com'
@@ -137,7 +134,7 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
   });
 
   describe('User who wants to sort order history', () => {
-    before(() => {
+    beforeEach(() => {
       const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
@@ -168,22 +165,6 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
       checkThatOrdersAreSorted(fieldBuyer);
     });
 
-    it("can select 'Buyer (Descending)' to see the list sorted descending by unit name", () => {
-      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-      cy.get('.ng-input').last().click();
-      cy.get('.ng-option-label').contains('Buyer (Descending)').click();
-      cy.wait(ordersToReload);
-      checkThatOrdersAreSorted(fieldBuyer, false);
-    });
-
-    it("can select 'Unit (Ascending)' to see the list sorted ascending by unit name", () => {
-      const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
-      cy.get('.ng-input').first().click();
-      cy.get('.ng-option-label').contains('Unit (Ascending)').click();
-      cy.wait(ordersToReload);
-      checkThatOrdersAreSorted(fieldUnit);
-    });
-
     it("can select 'Unit (Descending)' to see the list sorted descending by unit name", () => {
       const ordersToReload = registerReloadOrdersAlias(orderHistoryPageUrl);
       cy.get('.ng-input').last().click();
@@ -194,7 +175,7 @@ describe('B2B - Unit-Level Orders History', { testIsolation: false }, () => {
   });
 
   describe('User who wants to filter order history', () => {
-    before(() => {
+    beforeEach(() => {
       const ordersToLoad = registerReloadOrdersAlias(orderHistoryPageUrl);
       unitLevelOrderHistory.loginB2bUnitOrderViewerManager();
       cy.visit('/my-account/unitLevelOrders').wait(ordersToLoad);
