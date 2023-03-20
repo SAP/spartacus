@@ -13,7 +13,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartType,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { CmsService, Page } from '@spartacus/core';
 import {
   LaunchDialogService,
@@ -88,14 +92,14 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   availableForPickup$: Observable<boolean>;
   subscription = new Subscription();
   cartId: string;
-  cartType: string;
+  cartType: CartType;
   entryNumber: number;
   productCode: string;
   quantity: number;
   userId: string;
   private displayNameIsSet = false;
   page?: string;
-
+  readonly CartType = CartType;
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
@@ -106,7 +110,10 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected cmsService: CmsService,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     @Optional()
-    protected outlet: OutletContextData<{ item: OrderEntry; cartType: string }>
+    protected outlet: OutletContextData<{
+      item: OrderEntry;
+      cartType: CartType;
+    }>
   ) {
     // Intentional empty constructor
   }

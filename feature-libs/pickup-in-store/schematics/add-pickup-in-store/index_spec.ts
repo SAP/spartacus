@@ -12,11 +12,14 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   cartBaseFeatureModulePath,
   LibraryOptions as SpartacusPickupInStoreOptions,
+  orderFeatureModulePath,
   pickupInStoreFeatureModulePath,
   PICKUP_IN_STORE_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_PICKUP_IN_STORE,
   SPARTACUS_SCHEMATICS,
+  storeFinderFeatureModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -150,10 +153,13 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
           cartBaseFeatureModulePath
         );
         expect(baseCartFeatureModule).toBeFalsy();
-
-        const userFeatureModule = appTree.readContent(
-          pickupInStoreFeatureModulePath
+        const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
+        expect(orderFeatureModule).toBeFalsy();
+        const storeFinderFeatureModule = appTree.readContent(
+          storeFinderFeatureModulePath
         );
+        expect(storeFinderFeatureModule).toBeFalsy();
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
         expect(userFeatureModule).toBeFalsy();
       });
 

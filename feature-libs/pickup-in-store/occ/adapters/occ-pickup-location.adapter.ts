@@ -6,9 +6,14 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OccEndpointsService, PointOfService } from '@spartacus/core';
+import {
+  normalizeHttpError,
+  OccEndpointsService,
+  PointOfService,
+} from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccPickupLocationAdapter implements PickupLocationAdapter {
@@ -20,11 +25,13 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
   }
 
   getStoreDetails(storeName: string): Observable<PointOfService> {
-    return this.http.get<PointOfService>(
-      this.occEndpointsService.buildUrl('storeDetails', {
-        urlParams: { storeName },
-        queryParams: { fields: 'FULL' },
-      })
-    );
+    return this.http
+      .get<PointOfService>(
+        this.occEndpointsService.buildUrl('storeDetails', {
+          urlParams: { storeName },
+          queryParams: { fields: 'FULL' },
+        })
+      )
+      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
   }
 }

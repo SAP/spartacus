@@ -7,13 +7,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  normalizeHttpError,
   OccEndpointsService,
   Stock,
   StoreFinderStockSearchPage,
 } from '@spartacus/core';
 import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 /**
  * Adapter for finding stock levels of a product in stores from the OCC APIs.
@@ -31,22 +33,26 @@ export class OccStockAdapter implements StockAdapter {
     productCode: string,
     location: LocationSearchParams
   ): Observable<StoreFinderStockSearchPage> {
-    return this.http.get<StoreFinderStockSearchPage>(
-      this.occEndpointsService.buildUrl('stock', {
-        urlParams: { productCode },
-        queryParams: { ...location, fields: 'FULL' },
-      })
-    );
+    return this.http
+      .get<StoreFinderStockSearchPage>(
+        this.occEndpointsService.buildUrl('stock', {
+          urlParams: { productCode },
+          queryParams: { ...location, fields: 'FULL' },
+        })
+      )
+      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
   }
 
   loadStockLevelAtStore(
     productCode: string,
     storeName: string
   ): Observable<Stock> {
-    return this.http.get<Stock>(
-      this.occEndpointsService.buildUrl('stockAtStore', {
-        urlParams: { productCode, storeName },
-      })
-    );
+    return this.http
+      .get<Stock>(
+        this.occEndpointsService.buildUrl('stockAtStore', {
+          urlParams: { productCode, storeName },
+        })
+      )
+      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
   }
 }

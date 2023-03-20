@@ -2,7 +2,7 @@
   *ngIf="
     (availableForPickup$ | async) &&
     !(outlet?.context$ | async)?.orderCode &&
-    !(this.cartType === 'savedCart')
+    !(this.cartType === CartType.SELECTIVE)
   "
 >
   <cx-pickup-options

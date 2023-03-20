@@ -1,8 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature eager loading should import appropriate modules 1`] = `""`;
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { PickupInStoreModule } from "@spartacus/pickup-in-store";
+import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslations } from "@spartacus/pickup-in-store/assets";
+import { PickupInStoreRootModule } from "@spartacus/pickup-in-store/root";
 
-exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+@NgModule({
+  declarations: [],
+  imports: [
+    PickupInStoreRootModule,
+    PickupInStoreModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: pickupInStoreTranslations,
+      chunks: pickupInStoreTranslationChunksConfig,
+    },
+  })]
+})
+export class PickupInStoreFeatureModule { }
+"
+`;
+
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslations } from "@spartacus/pickup-in-store/assets";
+import { PickupInStoreRootModule, PICKUP_IN_STORE_FEATURE } from "@spartacus/pickup-in-store/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PickupInStoreRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PICKUP_IN_STORE_FEATURE]: {
+        module: () =>
+          import('@spartacus/pickup-in-store').then((m) => m.PickupInStoreModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: pickupInStoreTranslations,
+      chunks: pickupInStoreTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class PickupInStoreFeatureModule { }
+"
+`;
 
 exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
