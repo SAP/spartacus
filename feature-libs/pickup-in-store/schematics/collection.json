@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-pickup-in-store/index#addPickupInStoreFeatures",
+      "description": "Add and configure Spartacus' Pickup in Store library",
+      "schema": "./add-pickup-in-store/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-pickup-in-store/index#addPickupInStoreFeatures",
+      "description": "Add and configure Spartacus' Pickup in Store library",
+      "schema": "./add-pickup-in-store/schema.json"
+    }
+  }
+}

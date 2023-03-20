@@ -6,24 +6,24 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {
-  STORE_COUNT_NORMALIZER,
-  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-  StoreCount,
-  StoreFinderAdapter,
-  StoreFinderSearchPage,
-} from '@spartacus/storefinder/core';
 import {
   ConverterService,
   GeoPoint,
   Occ,
   OccEndpointsService,
-  POINT_OF_SERVICE_NORMALIZER,
   PointOfService,
+  POINT_OF_SERVICE_NORMALIZER,
   SearchConfig,
 } from '@spartacus/core';
+import {
+  StoreCount,
+  StoreFinderAdapter,
+  StoreFinderSearchPage,
+  STORE_COUNT_NORMALIZER,
+  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
+} from '@spartacus/storefinder/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
@@ -70,11 +70,11 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   protected callOccFindStores(
     query: string,
-    searchConfig: SearchConfig,
+    searchConfig?: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable<Occ.StoreFinderSearchPage> {
-    const params = {};
+    const params: any = {};
 
     if (longitudeLatitude) {
       params['longitude'] = String(longitudeLatitude.longitude);
@@ -84,13 +84,13 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
       params['query'] = query;
     }
 
-    if (searchConfig.pageSize) {
+    if (searchConfig?.pageSize) {
       params['pageSize'] = String(searchConfig.pageSize);
     }
-    if (searchConfig.currentPage) {
+    if (searchConfig?.currentPage) {
       params['currentPage'] = String(searchConfig.currentPage);
     }
-    if (searchConfig.sort) {
+    if (searchConfig?.sort) {
       params['sort'] = searchConfig.sort;
     }
 
