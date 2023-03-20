@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 // [CXSPA-2060]
 // To prepare for a future minor 6.x release, we intend to utilize 'i18next-resources-to-backend'.
 // However, we won't be able to introduce a new peer dependency in a minor release as it would constitute
