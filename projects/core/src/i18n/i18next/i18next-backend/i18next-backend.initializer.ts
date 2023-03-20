@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Applicable } from '@spartacus/core';
 import { InitOptions } from 'i18next';
+import { Applicable } from '../../../util';
 
 /**
  * Configures a specific i18next backend plugin, to allow for loading translations from external resources.
