@@ -30,6 +30,34 @@ export const BACK_TO_TOP_BUTTON = `.cx-scroll-to-top-btn`;
 export const POWER_SUPPLY_LIST_PAGE =
   '/Open-Catalogue/Components/Power-Supplies/c/816';
 
+  export function visitPowerSupplyListingPage() {
+    const categoryPage = waitForCategoryPage(
+      powerSuppliesCategoryCode,
+      'getCategory'
+    );
+    cy.visit(testUrl);
+    cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
+  }
+  
+  export function verifyInfiniteScrollConfigSetProperly(
+    isActive: boolean,
+    hasProductLimit: number,
+    isShowMoreButton: boolean
+  ) {
+    cy.getCookie('cxConfigE2E')
+      .should('exist')
+      .then((data) => {
+        const {
+          view: {
+            infiniteScroll: { active, productLimit, showMoreButton },
+          },
+        } = JSON.parse(decodeURIComponent(data.value));
+        expect(active).to.equal(isActive);
+        expect(productLimit).to.equal(hasProductLimit);
+        expect(showMoreButton).to.equal(isShowMoreButton);
+      });
+  }
+  
 export function configScroll(
   active: boolean,
   productLimit: number,
@@ -93,7 +121,7 @@ export function scrollToFooter(
   for (let i = 1; i < iterations; i++) {
     if (isShowMoreButton) {
       cy.scrollTo('bottom');
-      cy.get('div.cx-single-btn-container')
+      cy.get('div')
         .contains('SHOW MORE')
         .click({ force: true })
         .wait(defaultQueryAlias)
@@ -275,3 +303,4 @@ export function interceptSpecificPage(pagename: string) {
   cy.visit(pagename);
   cy.wait(`@getProductListPage`).its('response.statusCode').should('eq', 200);
 }
+
