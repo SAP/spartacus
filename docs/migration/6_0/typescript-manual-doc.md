@@ -36,11 +36,6 @@ If explicitly set, this option will take precedence over the express server.
 
 - When using Spartacus's implementation for Scroll Position Restoration we need to disable automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
 
-### UpdatePasswordComponentService
-
-- Added `AuthRedirectService` to constructor.
-- Added `AuthService` to constructor.
-
 ### ParagraphComponent
 
 - The `handleClick()` method now uses the condition `documentHost === element.host` to recognise external links.
@@ -61,6 +56,7 @@ If explicitly set, this option will take precedence over the express server.
 ### CheckoutPaymentFormComponent
 
 - `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+- `getAddressCardContent()` method has now return type `Observable<Card>`.
 
 ### CheckoutReviewSubmitComponent
 
@@ -69,8 +65,6 @@ If explicitly set, this option will take precedence over the express server.
 ### AddressBookComponent
 
 - `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
-
-## Feature lib product-configurator
 
 ### ConfiguratorFormComponent
 
@@ -99,21 +93,36 @@ It is now possible to register custom attribute type components for UI types not
 - The type alias changed. Following new actions are included: `UpdateConfigurationOverview | UpdateConfigurationOverviewFail | UpdateConfigurationOverviewSuccess |RemoveProductBoundConfigurations | CheckConflictDialoge | DissmissConflictDialoge`
 
 ### Action create configuration
-- Contructor payload gets new additional optional parameter configIdTemplate (ID of a template configuration)
+- Contructor payload gets 2 additional optional parameters `configIdTemplate` (ID of a template configuration) and `forceReset` (to force configuration reset in the backend)
 
 ## BadRequestHandler
 
 - `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
 
-## OrderHistoryService
+### OrderHistoryService
 
 - The method `getOrderDetailsLoading()` has been added and returning order details loading state.
 
-## OrderDetailsService
+### OrderDetailsService
 
 - Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
+
+## GoogleMapRendererService
+
+To comply with security best practices, the Google map does not display by default in the store finder feature. For the map to display, the store finder configuration must have a google maps api key defined. To do this in your spartacus app, define a `StoreFinderConfig` configuration block. Inside, define the property `apiKey` in the object `googleMaps` with the value of the api key.  For example:
+
+```
+    provideConfig(<StoreFinderConfig>{
+      googleMaps: { apiKey: 'your-api-key-goes-here' },
+    }),
+```
+
+For development or demo purposes, the special value 'cx-development' can be provided as the api key value in a Spartacus based application's configuration.  The store finder map component will display the map and send an empty api key value to Google Maps, like in the default behaviour of the component prior to version 6.0.
 
 ## Spartacus PWA schematics
 
 - `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
 - If you would like to add the angular pwa to your application, you can run the command `ng add @angular/pwa --project <project-name>` and remove the service worker references in your app.module.ts to have the same output as what our custom pwa schematics did.
+
+## OrderApprovalDetailsModule
+- Replaced `OrderDetailShippingComponent` with `OrderOverviewComponent` for `OrderApprovalDetailShippingComponent`

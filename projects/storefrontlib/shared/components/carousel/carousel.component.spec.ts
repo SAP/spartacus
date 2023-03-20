@@ -246,12 +246,15 @@ describe('Carousel Component', () => {
         const indicators = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        indicators[1].nativeElement.click();
-
-        fixture.detectChanges();
 
         expect(indicators[0].nativeElement.disabled).toBe(true);
         expect(indicators[1].nativeElement.disabled).toBe(false);
+
+        indicators[1].nativeElement.click();
+
+        fixture.detectChanges();
+        expect(indicators[0].nativeElement.disabled).toBe(false);
+        expect(indicators[1].nativeElement.disabled).toBe(true);
       });
     });
 

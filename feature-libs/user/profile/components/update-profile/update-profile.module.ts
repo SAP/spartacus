@@ -12,7 +12,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
@@ -45,8 +44,6 @@ import { TempUpdateProfileComponent } from './temp-update-profile/temp-update-pr
     UrlModule,
     NgSelectModule,
     NgSelectA11yModule,
-    FeaturesConfigModule,
-   // TempUpdateProfileModule
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
