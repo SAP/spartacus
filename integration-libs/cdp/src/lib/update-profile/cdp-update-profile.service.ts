@@ -10,8 +10,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { GlobalMessageService } from '@spartacus/core';
+import { AuthRedirectService, AuthService, GlobalMessageService, GlobalMessageType, RoutingService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+import { User } from '@spartacus/user/account/root';
 import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import {
   UserEmailFacade,
@@ -23,7 +24,10 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
   constructor(
     protected userProfile: UserProfileFacade,
     protected userEmail: UserEmailFacade,
-    protected globalMessageService: GlobalMessageService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected authService: AuthService,
+    protected authRedirectService: AuthRedirectService
   ) {
     super(userProfile, globalMessageService);
   }
@@ -33,14 +37,12 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
     titleCode: new UntypedFormControl(''),
     firstName: new UntypedFormControl('', Validators.required),
     lastName: new UntypedFormControl('', Validators.required),
-    email: new UntypedFormControl('', [
+    newEmail: new UntypedFormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,
     ]),
-    confirmEmail: new UntypedFormControl('', [Validators.required]
-    ),
-    password: new UntypedFormControl('', [Validators.required]
-    ),
+    confirmEmail: new UntypedFormControl(''),
+    password: new UntypedFormControl(''),
   });
 
   updateProfile(): void {
@@ -55,27 +57,55 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
   }
 
   updateBasicProfile(): void {
-    this.userProfile.update(this.form.value).subscribe({
+   var currentUser: User = {};
+    currentUser.customerId = this.form.get('customerId')?.value;
+    currentUser.titleCode = this.form.get('titleCode')?.value;
+    currentUser.firstName = this.form.get('firstName')?.value;
+    currentUser.lastName = this.form.get('lastName')?.value;
+    //var currentUser: User =  this.form.value;
+    this.userProfile.update(currentUser).subscribe({
       next: () => this.onSuccess(),
       error: (error: Error) => this.onError(error),
     });
   }
 
   updateEmailAddress(): void {
-    const newEmail = this.form.get('email')?.value;
-    const oldEmail = this.getCurrentUserEmailAddress();
-    if (oldEmail !== newEmail) {
+    const newEmail = this.form.get('confirmEmail')?.value;
+
       const password = this.form.get('password')?.value;
 
       this.userEmail.update(password, newEmail).subscribe({
-        next: () => this.onSuccess(),
+        next: () => this.onSuccessfulEmailUpdate(newEmail),
         error: (error: Error) => this.onError(error),
       });
-    }
   }
-  getCurrentUserEmailAddress(): string
-  {
-    var oldEmail: string = 'anjana.b.l+1@sap.com';
-    return oldEmail;
+
+   onSuccessfulEmailUpdate(newUid: string): void {
+    this.globalMessageService.add(
+      {
+        key: 'updateEmailForm.emailUpdateSuccess',
+        params: { newUid },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.busy$.next(false);
+    this.form.reset();
+
+    this.authRedirectService.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
+
+    this.authService.coreLogout().then(() => {
+      this.routingService.go(
+        { cxRoute: 'login' },
+        {
+          state: {
+            newUid,
+          },
+        }
+      );
+    });
   }
+
+
 }

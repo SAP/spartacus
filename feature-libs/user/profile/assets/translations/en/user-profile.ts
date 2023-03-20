@@ -6,6 +6,7 @@
 
 export const userProfile = {
   updateEmailForm: {
+    updateEmail: 'Update Email',
     newEmailAddress: {
       label: 'New email address',
       placeholder: 'Enter email',

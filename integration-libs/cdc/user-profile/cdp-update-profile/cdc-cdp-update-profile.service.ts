@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { GlobalMessageService } from '@spartacus/core';
+import { AuthRedirectService, AuthService, GlobalMessageService, RoutingService } from '@spartacus/core';
 import {
   UserProfileFacade,
   UserEmailFacade,
@@ -20,10 +20,13 @@ export class CdcCdpUpdateProfileService extends CDPUpdateProfileService {
   constructor(
     protected userProfile: UserProfileFacade,
     protected userEmail: UserEmailFacade,
+    protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
+    protected authService: AuthService,
+    protected authRedirectService: AuthRedirectService,
     protected cdcJsService: CdcJsService
   ) {
-    super(userProfile, userEmail, globalMessageService);
+    super(userProfile, userEmail, routingService, globalMessageService, authService, authRedirectService);
   }
   updateBasicProfile(): void {
     const formValue = this.form.value;
@@ -40,7 +43,7 @@ export class CdcCdpUpdateProfileService extends CDPUpdateProfileService {
     this.cdcJsService
       .updateUserEmailWithoutScreenSet(password, newEmail)
       .subscribe({
-        next: () => this.onSuccess(),
+        next: () => this.onSuccessfulEmailUpdate(newEmail),
         error: (error: Error) => this.onError(error),
       });
   }
