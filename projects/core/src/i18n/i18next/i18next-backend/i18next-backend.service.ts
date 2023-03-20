@@ -5,8 +5,8 @@
  */
 
 import { Inject, Injectable, Optional } from '@angular/core';
-import { resolveApplicable } from '@spartacus/core';
 import type { InitOptions } from 'i18next';
+import { resolveApplicable } from '../../../util';
 import { I18nextBackendInitializer } from './i18next-backend.initializer';
 
 /**
