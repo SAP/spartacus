@@ -21,9 +21,17 @@
 
   .cx-banner-buttons {
     text-align: end;
+
     button:last-child {
       margin-inline-start: 1.5rem;
     }
+
+    button {
+      @include media-breakpoint-down(xs) {
+        margin-bottom: 10px;
+      }
+    }
+
     @include media-breakpoint-down(xs) {
       text-align: center;
       margin-top: 1rem;

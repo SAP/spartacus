@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UserAddressService,
@@ -27,7 +26,6 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
     AddressFormModule,
     SpinnerModule,
     I18nModule,
-    FeaturesConfigModule,
   ],
   declarations: [AddressBookComponent],
   exports: [AddressBookComponent],

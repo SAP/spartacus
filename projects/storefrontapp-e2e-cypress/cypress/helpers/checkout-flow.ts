@@ -196,7 +196,7 @@ export function loginUser(sampleUser: SampleUser = user) {
 }
 
 export function fillAddressForm(shippingAddressData: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -257,8 +257,12 @@ export function fillPaymentForm(
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
+export function verifyItemsToBeShipped() {
+  cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+}
+
 export function verifyReviewOrderPage() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  cy.contains('Cart total');
 }
 
 export function placeOrder() {
@@ -306,6 +310,10 @@ export function viewOrderHistory() {
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('not.be.empty');
+}
+
+export function clickCheckoutButton() {
+  cy.findByText(/proceed to checkout/i).click();
 }
 
 export function goToPaymentDetails() {
@@ -492,6 +500,7 @@ export function placeOrderWithCheapProduct(
 ) {
   cy.log('🛒 Placing order');
   verifyReviewOrderPage();
+  verifyItemsToBeShipped();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
@@ -540,44 +549,45 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-summary .container').within(() => {
-    cy.get('.cx-summary-card:nth-child(1)').within(() => {
-      cy.get('cx-card:nth-child(1)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Order Number');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-      cy.get('cx-card:nth-child(2)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Placed on');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-      cy.get('cx-card:nth-child(3)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Status');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-    });
-    cy.get('.cx-summary-card:nth-child(2)').within(() => {
-      cy.contains(sampleUser.fullName);
-      cy.contains(sampleUser.address.line1);
-      cy.contains('Standard Delivery');
-    });
-    cy.get('.cx-summary-card:nth-child(3)').within(() => {
-      cy.contains(sampleUser.fullName);
-      cy.contains(sampleUser.address.line1);
-    });
+
+  cy.get('cx-order-confirmation-shipping').within(() => {
+    cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+
+    cy.get('.cx-review-summary-card-container')
+      .eq(0)
+      .should('contain', sampleUser.fullName);
+    cy.get('.cx-review-summary-card-container')
+      .eq(0)
+      .should('contain', sampleUser.address.line1);
+    cy.get('.cx-review-summary-card-container')
+      .eq(1)
+      .should('contain', 'Standard Delivery');
+
+    if (!isApparel) {
+      cy.get('.cx-item-list-row .cx-code').should(
+        'contain',
+        sampleProduct.code
+      );
+    } else {
+      cy.get('.cx-item-list-row .cx-code')
+        .should('have.length', products.length)
+        .each((_, index) => {
+          console.log('products', products[index]);
+          cy.get('.cx-item-list-row .cx-code').should(
+            'contain',
+            products[index].code
+          );
+        });
+    }
   });
-  if (!isApparel) {
-    cy.get('.cx-item-list-row .cx-code').should('contain', sampleProduct.code);
-  } else {
-    cy.get('.cx-item-list-row .cx-code')
-      .should('have.length', products.length)
-      .each((_, index) => {
-        console.log('products', products[index]);
-        cy.get('.cx-item-list-row .cx-code').should(
-          'contain',
-          products[index].code
-        );
-      });
-  }
+
+  cy.get('cx-order-detail-billing').within(() => {
+    cy.get('.cx-review-summary-card').eq(0).should('contain', 'Payment');
+    cy.get('.cx-review-summary-card')
+      .eq(1)
+      .should('contain', 'Billing address');
+  });
+
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 

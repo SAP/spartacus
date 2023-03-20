@@ -36,6 +36,7 @@
               [quantityControl]="getQuantityControl() | async"
               [promotionLocation]="promotionLocation"
             ></cx-cart-item>
+            <div *ngIf="pickupStoreName">{{ pickupStoreName }}</div>
           </div>
           <!-- Separator -->
           <div
