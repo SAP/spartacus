@@ -11,6 +11,7 @@
     "angular-oauth2-oidc": "^15.0.1",
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",
+    "i18next-resources-to-backend": "^1.1.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/eslint-plugin-eslint": {},
@@ -354,6 +355,7 @@
     "hamburgers": "^1.2.1",
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",
+    "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
     "rxjs": "^6.6.0",
     "ts-loader": "^9.3.1",
