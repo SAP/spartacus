@@ -10,6 +10,12 @@
       <div *ngIf="consignment?.statusDate" class="cx-list-date">
         <div>{{ consignment?.statusDate | cxDate }}</div>
       </div>
+      <cx-consignment-tracking
+        [orderCode]="order?.code"
+        [consignment]="consignment"
+        *cxFeature="'consignmentTracking'"
+      >
+      </cx-consignment-tracking>
     </div>
 
     <ng-container
