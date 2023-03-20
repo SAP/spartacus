@@ -5,13 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
-import { Observable } from 'rxjs';
-
 import {
+  BindCartParams,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
+} from '@spartacus/asm/root';
+import { Observable } from 'rxjs';
 import { AsmAdapter } from './asm.adapter';
 
 @Injectable({

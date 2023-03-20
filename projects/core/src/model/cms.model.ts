@@ -202,6 +202,11 @@ export interface CmsAddToCartComponent extends CmsComponent {
 
 export interface CmsOrderDetailItemsComponent extends CmsComponent {
   enableAddToCart?: boolean;
+  displayConsignmentDelivery?: boolean;
+}
+
+export interface CmsOrderDetailOverviewComponent extends CmsComponent {
+  simple?: boolean;
 }
 
 export interface CmsPDFDocumentComponent extends CmsComponent {

@@ -18,7 +18,6 @@
       padding-inline-end: 16px;
     }
 
-    .btn-action,
     .btn-secondary {
       inline-size: 25%;
 
@@ -27,7 +26,7 @@
       }
     }
 
-    .btn-action {
+    .btn-secondary {
       &.disabled,
       &:disabled {
         color: var(--cx-color-light);

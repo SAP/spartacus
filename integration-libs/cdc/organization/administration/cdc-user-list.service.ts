@@ -12,14 +12,14 @@ import {
   Translatable,
   WindowRef,
 } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
-import { TableService } from '@spartacus/storefront';
 import {
   CreateButtonType,
   UserListService,
 } from '@spartacus/organization/administration/components';
-import { tap } from 'rxjs/operators';
+import { B2BUserService } from '@spartacus/organization/administration/core';
+import { TableService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -41,18 +41,27 @@ export class CdcUserListService extends UserListService implements OnDestroy {
     const sub = this.cdcJsService
       .getOrganizationContext()
       .pipe(
-        tap((response) => {
-          if (response.orgId) {
-            // open new screen to create/edit users using CDC Gigya SDK
-            this.cdcJsService.openDelegatedAdminLogin(response.orgId);
-          } else {
+        tap({
+          next: (response) => {
+            if (response.orgId) {
+              // open new screen to create/edit users using CDC Gigya SDK
+              this.cdcJsService.openDelegatedAdminLogin(response.orgId);
+            } else {
+              this.globalMessageService.add(
+                {
+                  key: 'generalErrors.pageFailure',
+                },
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+            }
+          },
+          error: () =>
             this.globalMessageService.add(
               {
                 key: 'generalErrors.pageFailure',
               },
               GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
+            ),
         })
       )
       .subscribe();

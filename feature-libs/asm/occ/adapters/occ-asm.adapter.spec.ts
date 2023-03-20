@@ -5,17 +5,19 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  AsmConfig,
-  CustomerSearchOptions,
-  CustomerSearchPage,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
-  AsmCustomer360Request,
-  AsmCustomer360Response,
-  AsmCustomer360Type,
+  Customer360Request,
+  Customer360Response,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
+import {
+  AsmConfig,
   CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
   BaseOccUrlProperties,
@@ -343,10 +345,10 @@ describe('OccAsmAdapter', () => {
   });
 
   it('should get customer 360 data', (done) => {
-    const request: AsmCustomer360Request = {
+    const request: Customer360Request = {
       queries: [
         {
-          type: AsmCustomer360Type.REVIEW_LIST,
+          type: Customer360Type.REVIEW_LIST,
         },
       ],
       options: {
@@ -354,10 +356,10 @@ describe('OccAsmAdapter', () => {
       },
     };
 
-    const response: AsmCustomer360Response = {
+    const response: Customer360Response = {
       value: [
         {
-          type: AsmCustomer360Type.REVIEW_LIST,
+          type: Customer360Type.REVIEW_LIST,
           reviews: [],
         },
       ],
