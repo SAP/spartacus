@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { UntypedFormGroup } from '@angular/forms';
 import { UpdateProfileComponent, UpdateProfileComponentService } from '@spartacus/user/profile/components';
 import { Observable } from 'rxjs';
