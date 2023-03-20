@@ -438,6 +438,9 @@
       ],
       "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
+      "@spartacus/cdc/organization/administration": [
+        "../../integration-libs/cdc/organization/administration/public_api"
+      ],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"
@@ -445,8 +448,9 @@
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdc/organization/administration": [
-        "../../integration-libs/cdc/organization/administration/public_api"
+      "@spartacus/cdp": ["../../integration-libs/cdp/src/public-api"],
+      "@spartacus/cdp/src/lib/update-profile": [
+        "../../integration-libs/cdp/src/lib/update-profile/public_api"
       ],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [

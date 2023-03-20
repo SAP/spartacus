@@ -1068,6 +1068,39 @@
           }
         }
       }
+    },
+    "cdp": {
+      "projectType": "library",
+      "root": "feature-libs/cdp",
+      "sourceRoot": "feature-libs/cdp/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "feature-libs/cdp/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/cdp/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "feature-libs/cdp/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "feature-libs/cdp/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

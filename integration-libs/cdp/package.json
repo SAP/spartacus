@@ -1,0 +1,18 @@
+{
+  "name": "@spartacus/cdp",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^15.2.0",
+    "@angular/core": "^15.2.0",
+    "@angular/forms": "^15.2.0",
+    "@angular/router": "^15.2.0",
+    "@ng-select/ng-select": "^10.0.3",
+    "@spartacus/core": "5.0.0",
+    "@spartacus/storefront": "5.0.0",
+    "@spartacus/user": "5.0.0"
+  }
+}

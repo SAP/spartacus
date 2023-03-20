@@ -22,10 +22,16 @@ import {
   FormErrorsModule,
   SpinnerModule,
   NgSelectA11yModule,
+  OutletPosition,
+  provideOutlet,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+//import { UpdateProfileComponent } from 'integration-libs/cdp/src/lib/update-profile/cdp-update-profile.component';
+//import { UserOutlets } from 'integration-libs/cdp/src/lib/update-profile/user-outlets.model';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
+import { TempUpdateProfileComponent } from './temp-update-profile/temp-update-profile.component';
+//import { TempUpdateProfileModule } from './update-profile/temp-update-profile.module';
 
 @NgModule({
   imports: [
@@ -40,6 +46,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     NgSelectModule,
     NgSelectA11yModule,
     FeaturesConfigModule,
+   // TempUpdateProfileModule
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -56,6 +63,11 @@ import { UpdateProfileComponent } from './update-profile.component';
           ],
         },
       },
+    }),
+    provideOutlet({
+      id: 'header',
+      position: OutletPosition.AFTER,
+      component: TempUpdateProfileComponent,
     }),
   ],
   declarations: [UpdateProfileComponent],

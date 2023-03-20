@@ -7,10 +7,17 @@
 import { NgModule, Type } from '@angular/core';
 import { CDCUserProfileModule } from '@spartacus/cdc/user-profile';
 import { UserProfileModule } from '@spartacus/user/profile';
+import { CdpUpdateProfileModule } from 'integration-libs/cdp/src/lib/update-profile/public_api';
+
 
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
+
+if (environment.cdp) {
+  console.log("adding cdp switch");
+  extensions.push(CdpUpdateProfileModule);
+}
 
 if (environment.cdc) {
   extensions.push(CDCUserProfileModule);
