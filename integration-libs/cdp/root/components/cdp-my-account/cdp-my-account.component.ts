@@ -1,12 +1,14 @@
-import {  Component, OnInit } from '@angular/core';
-import { CxDatePipe, OccEndpointsService, RoutingService, UserIdService} from '@spartacus/core';
+import {  Component, OnInit, Optional } from '@angular/core';
+import { CxDatePipe, FeatureConfigService, OccEndpointsService, RoutingService, TranslationService, UserIdService} from '@spartacus/core';
 import result from 'postcss/lib/result';
-import { BehaviorSubject } from 'rxjs';
-import { switchMap, mergeMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {  mergeMap } from 'rxjs/operators';
 import { finalOrder } from '../cdp-order/model/order/finalOrder';
 import { order } from '../cdp-order/model/orderDetail/order';
 import { product } from '../cdp-order/model/ImageDetail/product';
 import { cdpOrderAdapter } from '../cdp-order/adapter/cdp-order-adapter';
+import { OrderHistoryFacade, OrderHistoryList, ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
+import { OrderHistoryComponent } from '@spartacus/order/components';
 
 @Component({
   selector: 'cx-cdp-body',
@@ -15,9 +17,23 @@ import { cdpOrderAdapter } from '../cdp-order/adapter/cdp-order-adapter';
   providers: [CxDatePipe],
 })
 
-export class CdpMyAccountComponent implements OnInit{
+export class CdpMyAccountComponent extends OrderHistoryComponent implements OnInit{
 
-  constructor(private userIdService: UserIdService,private cdpOrderAdapter: cdpOrderAdapter,protected datePipe: CxDatePipe,protected routing: RoutingService,protected occEndpointsService: OccEndpointsService){}
+  orders: OrderHistoryList | undefined;
+
+  constructor(
+    protected routing: RoutingService,
+    protected orderHistoryFacade: OrderHistoryFacade,
+    protected translation: TranslationService,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
+    private userIdService: UserIdService,
+    private cdpOrderAdapter: cdpOrderAdapter,
+    protected occEndpointsService: OccEndpointsService,
+    protected datePipe: CxDatePipe,
+    @Optional() protected featureConfigService?: FeatureConfigService
+  ) {
+    super(routing,orderHistoryFacade,translation,replenishmentOrderHistoryFacade);
+  }
 
   result: finalOrder={orders:[]};
   totalPrice: number=0;
@@ -33,7 +49,14 @@ export class CdpMyAccountComponent implements OnInit{
   public loading$ = new BehaviorSubject<boolean>(true);
 
 
-  orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
+  // orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
+
+  private P_SIZE = 3;
+  sortType: string;
+  hasPONumber: boolean | undefined;
+
+  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
+    .getOrderHistoryList(this.P_SIZE);
 
   ngOnInit(): void {
     this.getMyData();
@@ -42,17 +65,16 @@ export class CdpMyAccountComponent implements OnInit{
   public getMyData(): void{
 
   this.orders$.subscribe((res)=>{
-    this.result=res;
-    this.tabTitleParam$.next(res.orders.length-res.orders.length+2);
-    // this.calculateTotalAmount(this.result);
-    this.getOrderedItems(this.result);
+    this.orders=res;
+    this.getOrderedItems(this.orders);
   });
 
   }
 
-  public async getOrderedItems(finalResult: finalOrder): Promise<void>{
 
-    for(let order of finalResult.orders)
+  public async getOrderedItems(orders: any): Promise<void>{
+
+    for(let order of orders.orders)
     {
       await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,order))).toPromise().then( data=>{
         this.orderDetail[order.code]=data;

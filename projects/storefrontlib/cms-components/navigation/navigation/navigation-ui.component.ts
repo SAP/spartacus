@@ -267,9 +267,10 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
     this.isOpen = this.openNodes.length > 0;
   }
-    goToMyAccount(): void {
+
+public goToMyAccount(): void {
     this.routing.go({
-      cxRoute: 'myAccount'
+      cxRoute: 'orders'
     });
   }
 }
