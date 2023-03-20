@@ -73,6 +73,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "express": "^4.15.2",
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",
+    "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
     "rxjs": "^6.6.0",
     "ts-loader": "^9.3.1",
