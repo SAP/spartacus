@@ -103,7 +103,7 @@ context('Save for later', () => {
 
         cy.get('cx-add-to-saved-cart')
           .contains('Save cart for later')
-          .should('have.class.disabled');
+          .should('have.class', 'disabled');
       });
     });
   });
