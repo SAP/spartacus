@@ -206,7 +206,10 @@
 
 ### AddToCartComponent
 
-- Changed line 31 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+- Changed line 33 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+- Changed line 22 by wrapping `ng-template` in an `ng-container`
+- Changed line 37 to have `button` content wrapped in a `span` tag on line 46. The `AddToCart` string can be interchanged with `BuyItAgain`
+- Added Icon wrapped in a `span` tag which appears when `AddToCart` string is changed to `BuyItAgain`.
 
 ### CartCouponComponent
 
