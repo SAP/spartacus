@@ -105,6 +105,6 @@ export class MyPreferredStoreComponent implements OnInit {
     const linkToDirections: string = this.storeFinderService.getDirections(
       this.pointOfService
     );
-    window.open(linkToDirections, '_blank');
+    window.open(linkToDirections, '_blank', 'noopener,noreferrer');
   }
 }
