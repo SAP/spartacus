@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { finalOrder } from '../model/order/finalOrder';
 import { orders } from '../model/order/orders';
 import { order } from '../model/orderDetail/order';
-// import { product } from '../model/ImageDetail/product';
 
 @Injectable(
     {

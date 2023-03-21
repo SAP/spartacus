@@ -6,12 +6,12 @@ import {
   UserIdService,
   TranslationService,
 } from '@spartacus/core';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { mergeMap, switchMap } from 'rxjs/operators';
 import { cdpOrderAdapter } from './adapter/cdp-order-adapter';
 import { finalOrder } from './model/order/finalOrder';
 import { order } from './model/orderDetail/order';
 import { result } from './model/result';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { product } from './model/ImageDetail/product';
 
 @Component({
@@ -27,7 +27,7 @@ export class OrderComponent implements OnInit {
     protected datePipe: CxDatePipe,
     protected routing: RoutingService,
     protected occEndpointsService: OccEndpointsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
   ) {}
 
   result: finalOrder = { orders: [] };
@@ -41,6 +41,7 @@ export class OrderComponent implements OnInit {
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
+  sortType: string;
 
   ngOnInit(): void {
     this.getMyData();
@@ -123,19 +124,5 @@ export class OrderComponent implements OnInit {
       cxRoute: 'orderDetails',
       params: order,
     });
-  }
-
-  getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
-    return combineLatest([
-      this.translation.translate('sorting.date'),
-      this.translation.translate('sorting.orderNumber'),
-    ]).pipe(
-      map(([textByDate, textByOrderNumber]) => {
-        return {
-          byDate: textByDate,
-          byOrderNumber: textByOrderNumber,
-        };
-      })
-    );
   }
 }
