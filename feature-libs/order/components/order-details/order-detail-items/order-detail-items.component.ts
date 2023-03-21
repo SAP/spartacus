@@ -5,15 +5,11 @@
  */
 
 import { Component } from '@angular/core';
-<<<<<<< HEAD
 import {
   CartOutlets,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
-=======
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
->>>>>>> develop
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -22,7 +18,7 @@ import { map, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
   cancelledValues,
-  completedValues
+  completedValues,
 } from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({

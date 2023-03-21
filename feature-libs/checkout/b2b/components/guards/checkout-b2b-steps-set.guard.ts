@@ -45,7 +45,6 @@ export class CheckoutB2BStepsSetGuard
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router,
-    protected activeCartFacade: ActiveCartFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
     protected activeCartFacade: ActiveCartFacade
