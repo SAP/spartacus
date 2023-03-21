@@ -10,7 +10,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthRedirectService, AuthService, GlobalMessageService, GlobalMessageType, RoutingService } from '@spartacus/core';
+import {
+  AuthRedirectService,
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { UpdateProfileComponentService } from '@spartacus/user/profile/components';
@@ -32,19 +38,24 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
     super(userProfile, globalMessageService);
   }
 
-  form: UntypedFormGroup = new UntypedFormGroup({
-    customerId: new UntypedFormControl(''),
-    titleCode: new UntypedFormControl(''),
-    firstName: new UntypedFormControl('', Validators.required),
-    lastName: new UntypedFormControl('', Validators.required),
-    email: new UntypedFormControl(''),
-    newEmail: new UntypedFormControl('', [
-      Validators.required,
-      CustomFormValidators.emailValidator,
-    ]),
-    confirmEmail: new UntypedFormControl(''),
-    password: new UntypedFormControl(''),
-  });
+  form: UntypedFormGroup = new UntypedFormGroup(
+    {
+      customerId: new UntypedFormControl(''),
+      titleCode: new UntypedFormControl(''),
+      firstName: new UntypedFormControl('', Validators.required),
+      lastName: new UntypedFormControl('', Validators.required),
+      uid: new UntypedFormControl(''), //current email address
+      newEmail: new UntypedFormControl(''),
+      confirmEmail: new UntypedFormControl(''),
+      password: new UntypedFormControl(''),
+    },
+    {
+      validators: CustomFormValidators.emailsMustMatch(
+        'newEmail',
+        'confirmEmail'
+      ),
+    }
+  );
 
   updateProfile(): void {
     if (!this.form.valid) {
@@ -52,36 +63,32 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
       return;
     }
     this.busy$.next(true);
-
     this.updateBasicProfile();
-    this.updateEmailAddress();
   }
 
   updateBasicProfile(): void {
-   var currentUser: User = {};
-    currentUser.customerId = this.form.get('customerId')?.value;
-    currentUser.titleCode = this.form.get('titleCode')?.value;
-    currentUser.firstName = this.form.get('firstName')?.value;
-    currentUser.lastName = this.form.get('lastName')?.value;
-    //var currentUser: User =  this.form.value;
+    var currentUser: User = this.form.value;
     this.userProfile.update(currentUser).subscribe({
-      next: () => this.onSuccess(),
+      next: () => {
+        this.updateEmailAddress();
+        this.onSuccess();
+      },
       error: (error: Error) => this.onError(error),
     });
   }
 
   updateEmailAddress(): void {
-      const newEmail = this.form.get('confirmEmail')?.value;
-
-      const password = this.form.get('password')?.value;
-
+    const newEmail = this.form.get('confirmEmail')?.value;
+    const password = this.form.get('password')?.value;
+    if (newEmail) {
       this.userEmail.update(password, newEmail).subscribe({
         next: () => this.onSuccessfulEmailUpdate(newEmail),
         error: (error: Error) => this.onError(error),
       });
+    }
   }
 
-   onSuccessfulEmailUpdate(newUid: string): void {
+  onSuccessfulEmailUpdate(newUid: string): void {
     this.globalMessageService.add(
       {
         key: 'updateEmailForm.emailUpdateSuccess',
@@ -108,5 +115,31 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
     });
   }
 
+  updateFormValidators(): void {
+    if (
+      this.form.get('newEmail')?.value ||
+      this.form.get('confirmEmail')?.value ||
+      this.form.get('password')?.value
+    ) {
+      // Either all 3 fields (newEmail, confirmEmail, password) should be filled or all 3 should be empty.
+      // newEmail should match be in standard email format
 
+      this.form.controls['newEmail']?.setValidators([
+        Validators.required,
+        CustomFormValidators.emailValidator,
+      ]);
+      this.form.controls['newEmail']?.updateValueAndValidity();
+      this.form.controls['password']?.setValidators([Validators.required]);
+      this.form.controls['password']?.updateValueAndValidity();
+      this.form.controls['confirmEmail']?.setValidators([Validators.required]);
+      this.form.controls['confirmEmail']?.updateValueAndValidity();
+    } else {
+      this.form.controls['newEmail']?.clearValidators();
+      this.form.controls['newEmail']?.updateValueAndValidity();
+      this.form.controls['confirmEmail']?.clearValidators();
+      this.form.controls['confirmEmail']?.updateValueAndValidity();
+      this.form.controls['password']?.clearValidators();
+      this.form.controls['password']?.updateValueAndValidity();
+    }
+  }
 }

@@ -9,7 +9,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, UrlModule, FeaturesConfigModule, CmsConfig, ConfigModule} from '@spartacus/core';
+import {
+  I18nModule,
+  UrlModule,
+  FeaturesConfigModule,
+  CmsConfig,
+  ConfigModule,
+} from '@spartacus/core';
 import {
   SpinnerModule,
   FormErrorsModule,
@@ -41,7 +47,7 @@ import { CDPUpdateProfileService } from './cdp-update-profile.service';
       },
     }),
   ],
-  providers:[CDPUpdateProfileService],
+  providers: [CDPUpdateProfileService],
   declarations: [CDPUpdateProfileComponent],
   exports: [CDPUpdateProfileComponent],
 })

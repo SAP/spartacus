@@ -5,7 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AuthRedirectService, AuthService, GlobalMessageService, RoutingService } from '@spartacus/core';
+import {
+  AuthRedirectService,
+  AuthService,
+  GlobalMessageService,
+  RoutingService,
+} from '@spartacus/core';
 import {
   UserProfileFacade,
   UserEmailFacade,
@@ -26,12 +31,22 @@ export class CdcCdpUpdateProfileService extends CDPUpdateProfileService {
     protected authRedirectService: AuthRedirectService,
     protected cdcJsService: CdcJsService
   ) {
-    super(userProfile, userEmail, routingService, globalMessageService, authService, authRedirectService);
+    super(
+      userProfile,
+      userEmail,
+      routingService,
+      globalMessageService,
+      authService,
+      authRedirectService
+    );
   }
   updateBasicProfile(): void {
     const formValue = this.form.value;
     this.cdcJsService.updateProfileWithoutScreenSet(formValue).subscribe({
-      next: () => this.onSuccess(),
+      next: () => {
+        this.updateEmailAddress();
+        this.onSuccess();
+      },
       error: (error) => this.onError(error),
     });
   }
@@ -39,12 +54,13 @@ export class CdcCdpUpdateProfileService extends CDPUpdateProfileService {
   updateEmailAddress(): void {
     const newEmail = this.form.get('confirmEmail')?.value;
     const password = this.form.get('password')?.value;
-
-    this.cdcJsService
-      .updateUserEmailWithoutScreenSet(password, newEmail)
-      .subscribe({
-        next: () => this.onSuccessfulEmailUpdate(newEmail),
-        error: (error: Error) => this.onError(error),
-      });
+    if (newEmail) {
+      this.cdcJsService
+        .updateUserEmailWithoutScreenSet(password, newEmail)
+        .subscribe({
+          next: () => this.onSuccessfulEmailUpdate(newEmail),
+          error: (error: Error) => this.onError(error),
+        });
+    }
   }
 }

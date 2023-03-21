@@ -4,7 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export enum UserOutlets {
-  BASIC_INFO = 'cx-update-profile',
-  EMAIL_ADDRESS = 'cx-cdp-email-address',
-}
+import 'jest-preset-angular/setup-jest';
+import 'zone.js';

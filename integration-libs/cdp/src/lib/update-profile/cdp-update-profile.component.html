@@ -59,7 +59,6 @@
       'updateProfileForm.customerId' | cxTranslate
     }}</span>
     <input
-      required="true"
       type="text"
       class="form-control"
       name="customerId"
@@ -76,10 +75,9 @@
       'updateEmailForm.currentEmailAddress.label' | cxTranslate
     }}</span>
     <input
-      required="true"
       type="email"
       name="email"
-      formControlName="email"
+      formControlName="uid"
       class="form-control"
       readonly
     />
@@ -93,6 +91,7 @@
       required="false"
       type="email"
       name="newEmail"
+      (change)="onEmailChanged()"
       formControlName="newEmail"
       placeholder="{{
         'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
@@ -113,6 +112,7 @@
       placeholder="{{
         'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
       }}"
+      (change)="onEmailChanged()"
       class="form-control"
     />
     <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
@@ -126,6 +126,7 @@
       type="password"
       name="password"
       formControlName="password"
+      (change)="onEmailChanged()"
       placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
       class="form-control"
       autocomplete="new-password"
