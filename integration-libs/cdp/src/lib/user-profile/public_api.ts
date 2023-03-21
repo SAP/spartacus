@@ -5,4 +5,3 @@
  */
 
 export * from './cdp-user-profile.module';
-

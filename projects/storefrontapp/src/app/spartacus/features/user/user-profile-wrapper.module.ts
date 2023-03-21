@@ -7,7 +7,6 @@
 import { NgModule, Type } from '@angular/core';
 import { CDCUserProfileModule } from '@spartacus/cdc/user-profile';
 import { UserProfileModule } from '@spartacus/user/profile';
-import { CDPUserProfileModule } from 'integration-libs/cdp/src/lib/user-profile/public_api';
 
 import { environment } from '../../../../environments/environment';
 

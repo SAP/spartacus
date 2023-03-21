@@ -448,8 +448,8 @@
         "../../integration-libs/cdc/user-profile/public_api"
       ],
       "@spartacus/cdp": ["../../integration-libs/cdp/public-api"],
-      "@spartacus/cdp/src/lib/update-profile": [
-        "../../integration-libs/cdp/src/lib/update-profile/public_api"
+      "@spartacus/cdp/src/lib/user-profile": [
+        "../../integration-libs/cdp/src/lib/user-profile/public_api"
       ],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [

@@ -328,8 +328,8 @@
       "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cdp": ["../../dist/cdp"],
-      "@spartacus/cdp/src/lib/update-profile": [
-        "../../dist/cdp/src/lib/update-profile"
+      "@spartacus/cdp/src/lib/user-profile": [
+        "../../dist/cdp/src/lib/user-profile"
       ],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/digital-payments/assets": [
