@@ -439,25 +439,6 @@ describe('ConfiguratorCartEffect', () => {
       );
     });
 
-    it('should trigger the price update without group specified in case service is not present', () => {
-      readFromCartEntryObs = of(productConfiguration);
-      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary({
-        ...productConfiguration,
-      });
-
-      actions$ = cold('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: readCartEntrySuccessAction,
-        c: updatePriceAction,
-        d: searchVariantsAction,
-      });
-
-      configCartEffects['configuratorBasicEffectService'] = undefined;
-      expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
-        expected
-      );
-    });
-
     it('should emit a fail action if something goes wrong', () => {
       readFromCartEntryObs = throwError(errorResponse);
 

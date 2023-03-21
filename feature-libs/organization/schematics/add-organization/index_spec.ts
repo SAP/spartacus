@@ -12,16 +12,16 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusOrganizationOptions,
   orderFeatureModulePath,
+  organizationAccountSummaryFeatureModulePath,
   organizationAdministrationFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
-  organizationAccountSummaryFeatureModulePath,
-  organizationUserRegistrationFeatureModulePath,
   organizationUnitOrderFeatureModulePath,
+  organizationUserRegistrationFeatureModulePath,
+  ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-  ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME,
-  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
+  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_ORGANIZATION,
@@ -100,36 +100,34 @@ describe('Spartacus Organization schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        libraryNoFeaturesOptions,
+        appTree
+      );
     });
 
     it('should not install administration, order-approval, account-summary, user registration and unit order features', () => {
@@ -179,9 +177,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('Administration feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', administrationFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          administrationFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -220,13 +220,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...administrationFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...administrationFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -241,9 +239,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('Order approval feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', orderApprovalFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          orderApprovalFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -285,13 +285,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...orderApprovalFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...orderApprovalFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -306,9 +304,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('Account summary feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', accountSummaryFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          accountSummaryFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -349,13 +349,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...accountSummaryFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...accountSummaryFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -370,9 +368,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('User registration feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', userRegistrationFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          userRegistrationFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -413,13 +413,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...userRegistrationFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...userRegistrationFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -434,9 +432,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('Unit order feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', unitOrderFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          unitOrderFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -478,13 +478,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...unitOrderFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...unitOrderFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {

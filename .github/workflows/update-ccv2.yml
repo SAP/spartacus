@@ -37,9 +37,9 @@ jobs:
           key: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
           restore-keys: nodemodules-${{ steps.branch-to-deploy-commit-id.outputs.commit_hash }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@14
+        run: npm install -g @angular/cli@15
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: npm ci
       - name: Update ccv2 environment with source
         env: 
           CCV2_BRANCH: ${{ github.event.inputs.ccv2_branch }}

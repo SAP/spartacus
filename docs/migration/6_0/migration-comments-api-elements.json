@@ -8,5 +8,10 @@
     "apiElementName": "AwesomeClass",
     "entryPoint": "@spartacus/feature/components",
     "migrationComment": "This class is not needed anymore.  Things are done in this way instead.  (note: this example won't appear in the migration material because the AwesomeClass class does not exist)"
+  },
+  {
+    "apiElementName": "AsmConfig",
+    "entryPoint": "@spartacus/asm/core",
+    "migrationComment": "Use class 'AsmConfig' from '@spartacus/asm/root' instead."
   }
 ]

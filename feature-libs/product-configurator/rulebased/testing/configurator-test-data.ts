@@ -38,6 +38,7 @@ export const VALUE_02 = 'VALUE_02';
 export const VALUE_03 = 'VALUE_03';
 
 export const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+export const DESCRIPTION_FOR = 'Description for ';
 
 export const mockRouterState: any = {
   state: {
@@ -67,7 +68,7 @@ const groupsWithoutIssues: Configurator.Group = {
 export const subGroupWith2Attributes: Configurator.Group = {
   id: GROUP_ID_4,
   configurable: true,
-  description: 'Description for ' + GROUP_ID_4,
+  description: DESCRIPTION_FOR + GROUP_ID_4,
   subGroups: [],
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -148,13 +149,44 @@ export const attributeRadioButtons: Configurator.Attribute = {
   ],
 };
 
-export const attributeRadioButtonsWithAdditionalInput: Configurator.Attribute =
+export const attributeRadioButtonsWithNumericAdditionalInput: Configurator.Attribute =
   {
-    name: 'ATTRIBUTE_2_RADIOBUTTON_ADDITIONAL_INPUT',
+    name: 'ATTRIBUTE_2_RADIOBUTTON_NUMERIC_ADDITIONAL_INPUT',
     uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
     visible: true,
     required: false,
     incomplete: false,
+    validationType: Configurator.ValidationType.NUMERIC,
+    values: [
+      {
+        name: VALUE_01,
+        valueCode: VALUE_01,
+        valueDisplay: 'Value 01',
+        images: [],
+      },
+      {
+        name: VALUE_02,
+        valueCode: VALUE_02,
+        valueDisplay: 'Value 02',
+        images: [],
+      },
+      {
+        name: VALUE_03,
+        valueCode: VALUE_03,
+        valueDisplay: 'Value 03',
+        images: [],
+      },
+    ],
+  };
+
+export const attributeRadioButtonsWithAlphaNumericAdditionalInput: Configurator.Attribute =
+  {
+    name: 'ATTRIBUTE_2_RADIOBUTTON_ALPHANUMERIC_ADDITIONAL_INPUT',
+    uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+    visible: true,
+    required: false,
+    incomplete: false,
+    validationType: Configurator.ValidationType.NONE,
     values: [
       {
         name: VALUE_01,
@@ -233,33 +265,65 @@ export const attributeDropDown: Configurator.Attribute = {
   ],
 };
 
-export const attributeDropDownWithAdditionalInput: Configurator.Attribute = {
-  name: 'ATTRIBUTE_2_DROPDOWN_ADDITIONAL_INPUT',
-  uiType: Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
-  visible: true,
-  required: false,
-  incomplete: false,
-  values: [
-    {
-      name: VALUE_01,
-      valueCode: VALUE_01,
-      valueDisplay: 'Value 01',
-      images: [],
-    },
-    {
-      name: VALUE_02,
-      valueCode: VALUE_02,
-      valueDisplay: 'Value 02',
-      images: [],
-    },
-    {
-      name: VALUE_03,
-      valueCode: VALUE_03,
-      valueDisplay: 'Value 03',
-      images: [],
-    },
-  ],
-};
+export const attributeDropDownWithNumericAdditionalInput: Configurator.Attribute =
+  {
+    name: 'ATTRIBUTE_2_DROPDOWN_NUMERIC_ADDITIONAL_INPUT',
+    uiType: Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+    visible: true,
+    required: false,
+    incomplete: false,
+    validationType: Configurator.ValidationType.NUMERIC,
+    values: [
+      {
+        name: VALUE_01,
+        valueCode: VALUE_01,
+        valueDisplay: 'Value 01',
+        images: [],
+      },
+      {
+        name: VALUE_02,
+        valueCode: VALUE_02,
+        valueDisplay: 'Value 02',
+        images: [],
+      },
+      {
+        name: VALUE_03,
+        valueCode: VALUE_03,
+        valueDisplay: 'Value 03',
+        images: [],
+      },
+    ],
+  };
+
+export const attributeDropDownWithAlphaNumericAdditionalInput: Configurator.Attribute =
+  {
+    name: 'ATTRIBUTE_2_DROPDOWN_ALPHANUMERIC_ADDITIONAL_INPUT',
+    uiType: Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
+    visible: true,
+    required: false,
+    incomplete: false,
+    validationType: Configurator.ValidationType.NONE,
+    values: [
+      {
+        name: VALUE_01,
+        valueCode: VALUE_01,
+        valueDisplay: 'Value 01',
+        images: [],
+      },
+      {
+        name: VALUE_02,
+        valueCode: VALUE_02,
+        valueDisplay: 'Value 02',
+        images: [],
+      },
+      {
+        name: VALUE_03,
+        valueCode: VALUE_03,
+        valueDisplay: 'Value 03',
+        images: [],
+      },
+    ],
+  };
 
 export const attrCode = 123;
 export const groupId = '1';
@@ -515,7 +579,7 @@ export const productConfigurationWithoutBasePrice: Configurator.Configuration =
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -575,7 +639,7 @@ export const mockProductConfigurationWithoutTotalPrice: Configurator.Configurati
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -635,7 +699,7 @@ export const mockProductConfigurationWithPriceSummaryButNoPrices: Configurator.C
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -695,7 +759,7 @@ export const productConfigurationWithoutSelectedOptions: Configurator.Configurat
       {
         id: GROUP_ID_1,
         configurable: true,
-        description: 'Description for ' + GROUP_ID_1,
+        description: DESCRIPTION_FOR + GROUP_ID_1,
         groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
         attributes: [attributeCheckBoxes],
         subGroups: [],
@@ -747,7 +811,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_1,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_1,
+      description: DESCRIPTION_FOR + GROUP_ID_1,
       name: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [
@@ -758,10 +822,12 @@ export const productConfiguration: Configurator.Configuration = {
         attributeInputField,
         attributeNumericInputField,
         attributeRadioButtons,
-        attributeRadioButtonsWithAdditionalInput,
+        attributeRadioButtonsWithNumericAdditionalInput,
+        attributeRadioButtonsWithAlphaNumericAdditionalInput,
         attributeSingleSelectionImages,
         attributeDropDown,
-        attributeDropDownWithAdditionalInput,
+        attributeDropDownWithNumericAdditionalInput,
+        attributeDropDownWithAlphaNumericAdditionalInput,
         attributeMultiSelectionImages,
         attributeSingleSelectionBundle,
         attributeDropdownSelectionBundle,
@@ -779,7 +845,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_3,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_3,
+      description: DESCRIPTION_FOR + GROUP_ID_3,
       attributes: [
         {
           name: 'ATTRIBUTE_3_SINGLE_SELECTION_IMAGE',
@@ -793,7 +859,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_5,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_5,
+      description: DESCRIPTION_FOR + GROUP_ID_5,
       attributes: [
         {
           name: 'ATTRIBUTE_5_STRING',
@@ -812,7 +878,7 @@ export const productConfiguration: Configurator.Configuration = {
         {
           id: GROUP_ID_6,
           configurable: true,
-          description: 'Description for ' + GROUP_ID_6,
+          description: DESCRIPTION_FOR + GROUP_ID_6,
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           subGroups: [],
           attributes: [
@@ -826,12 +892,12 @@ export const productConfiguration: Configurator.Configuration = {
         },
         {
           id: GROUP_ID_7,
-          description: 'Description for ' + GROUP_ID_7,
+          description: DESCRIPTION_FOR + GROUP_ID_7,
           subGroups: [
             {
               id: GROUP_ID_8,
               configurable: false,
-              description: 'Description for ' + GROUP_ID_8,
+              description: DESCRIPTION_FOR + GROUP_ID_8,
               subGroups: [],
               attributes: [],
             },
@@ -843,12 +909,12 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_9,
       configurable: true,
-      description: 'Description for ' + GROUP_ID_9,
+      description: DESCRIPTION_FOR + GROUP_ID_9,
       subGroups: [
         {
           id: GROUP_ID_10,
           configurable: true,
-          description: 'Description for ' + GROUP_ID_10,
+          description: DESCRIPTION_FOR + GROUP_ID_10,
           attributes: [
             {
               name: 'ATTRIBUTE_10_DROPDOWN',
@@ -919,6 +985,94 @@ export const productConfiguration: Configurator.Configuration = {
           {
             attribute: 'C3',
             value: 'V3',
+          },
+        ],
+        subGroups: [
+          {
+            id: '2.1',
+            groupDescription: 'Group 2.1',
+            attributes: [
+              {
+                attribute: 'C2.1',
+                value: 'V2.1',
+              },
+            ],
+          },
+          {
+            id: '2.2',
+            groupDescription: 'Group 2.2',
+            attributes: [
+              {
+                attribute: 'C2.2',
+                value: 'V2.2',
+              },
+            ],
+            subGroups: [
+              {
+                id: '3.1',
+                groupDescription: 'Group 3.1',
+                attributes: [
+                  {
+                    attribute: 'C3.1',
+                    value: 'V3.1',
+                  },
+                ],
+              },
+              {
+                id: '3.2',
+                groupDescription: 'Group 3.2',
+                attributes: [
+                  {
+                    attribute: 'C3.2',
+                    value: 'V3.2',
+                  },
+                ],
+                subGroups: [
+                  {
+                    id: '4.1',
+                    groupDescription: 'Group 4.1',
+                    attributes: [
+                      {
+                        attribute: 'C4.1',
+                        value: 'V4.1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '4.2',
+                    groupDescription: 'Group 4.2',
+                    attributes: [
+                      {
+                        attribute: 'C4.2',
+                        value: 'V4.2',
+                      },
+                    ],
+                    subGroups: [
+                      {
+                        id: '5.1',
+                        groupDescription: 'Group 5.1',
+                        attributes: [
+                          {
+                            attribute: 'C5.1',
+                            value: 'V5.1',
+                          },
+                        ],
+                      },
+                      {
+                        id: '5.2',
+                        groupDescription: 'Group 5.2',
+                        attributes: [
+                          {
+                            attribute: 'C5.2',
+                            value: 'V5.2',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

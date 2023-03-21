@@ -9,8 +9,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 export const defaultBackendHttpTimeoutConfig: OccConfig = {
   backend: {
     timeout: {
-      // [CXSPA-2234] (breaking change): uncomment it only in the next major (v6.0?):
-      // server: 10_000,
+      server: 20_000,
     },
   },
 };

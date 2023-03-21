@@ -41,10 +41,12 @@ describe('ProfileTagEventTracker', () => {
   let getConsentBehavior;
 
   function setVariables() {
-    getActiveBehavior = new BehaviorSubject<string>('');
+    getActiveBehavior = new BehaviorSubject<string>('electronics-test');
     appendChildSpy = jasmine.createSpy('appendChildSpy');
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
     mockedWindowRef = {
+      isBrowser: () => true,
+      localStorage: window.localStorage,
       nativeWindow: {
         addEventListener: (event, listener) => {
           eventListener[event] = listener;
@@ -203,6 +205,7 @@ describe('ProfileTagEventTracker', () => {
 
     expect(timesCalled).toEqual(2);
   });
+
   it('Should give the lastest consent reference to late subscribers', () => {
     let cr1 = null;
     let cr2 = null;
@@ -230,5 +233,60 @@ describe('ProfileTagEventTracker', () => {
     expect(cr1).toEqual(cr2);
     expect(cr3).toEqual(cr2);
     expect(cr1).toEqual('some_id');
+  });
+
+  it('Should load consent-reference from local storage on page refresh', () => {
+    spyOn(window.localStorage, 'getItem').and.returnValue(
+      '{"cr":{"electronics-test-consentReference":{"consentReference": "abc"}}}'
+    );
+    profileTagEventTracker = new ProfileTagEventService(
+      mockedWindowRef,
+      mockCDSConfig,
+      baseSiteService,
+      ''
+    );
+    expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+    expect(profileTagEventTracker.latestConsentReference.value).toEqual('abc');
+  });
+
+  it('Should not load consent-reference from local storage on page refresh if consent is not granted', () => {
+    spyOn(window.localStorage, 'getItem').and.returnValue(undefined);
+    profileTagEventTracker = new ProfileTagEventService(
+      mockedWindowRef,
+      mockCDSConfig,
+      baseSiteService,
+      ''
+    );
+    expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+    expect(
+      profileTagEventTracker.latestConsentReference.value
+    ).not.toBeDefined();
+  });
+
+  it('Should not load consent-reference from local storage on page refresh if consent is not granted for this base-site', () => {
+    spyOn(window.localStorage, 'getItem').and.returnValue(
+      '{"cr":{"electronics-x-consentReference":{"consentReference": "abc"}}}'
+    );
+    profileTagEventTracker = new ProfileTagEventService(
+      mockedWindowRef,
+      mockCDSConfig,
+      baseSiteService,
+      ''
+    );
+    expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
+    expect(
+      profileTagEventTracker.latestConsentReference.value
+    ).not.toBeDefined();
+  });
+
+  it('Should not load consent-reference from local storage, if running in SSR mode', () => {
+    mockedWindowRef.isBrowser = () => false;
+    profileTagEventTracker = new ProfileTagEventService(
+      mockedWindowRef,
+      mockCDSConfig,
+      baseSiteService,
+      ''
+    );
+    expect(profileTagEventTracker.latestConsentReference).toBeUndefined();
   });
 });

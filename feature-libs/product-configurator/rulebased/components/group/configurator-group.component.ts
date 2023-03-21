@@ -21,6 +21,7 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupComponent {
+  protected readonly typePrefix = 'AttributeType_';
   @Input() group: Configurator.Group;
   @Input() owner: CommonConfigurator.Owner;
   @Input() isNavigationToGroupEnabled: boolean;
@@ -91,6 +92,14 @@ export class ConfiguratorGroupComponent {
    * @returns {Observable<boolean> | undefined } - 'True' if the expert mode is active, otherwise 'false'.
    */
   get expMode(): Observable<boolean> | undefined {
-    return this.configExpertModeService?.getExpModeActive();
+    return this.configExpertModeService.getExpModeActive();
+  }
+
+  getComponentKey(attribute: Configurator.Attribute): string {
+    return attribute.uiTypeVariation?.includes(
+      Configurator.CustomUiTypeIndicator
+    )
+      ? this.typePrefix + attribute.uiTypeVariation
+      : this.typePrefix + attribute.uiType;
   }
 }

@@ -1,30 +1,16 @@
 cx-reorder-dialog {
   .cx-modal-container {
     .cx-modal-content {
-      .modal-header {
-        align-items: center;
-        button {
-          bottom: 0;
-        }
+      .cx-dialog-title {
+        @include type('3');
       }
+
       .cx-dialog-body {
         .cx-reorder-dialog-areyousure-section {
           display: flex;
           flex-direction: column;
-          .cx-reorder-dialog-footer {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            margin-top: 1rem;
-            div {
-              display: flex;
-              button {
-                flex: 0 0 calc(50% - 1rem);
-                margin: 0 1rem;
-              }
-            }
-          }
         }
+
         p {
           .cx-cart-mod-entry-container {
             display: block;
@@ -43,6 +29,26 @@ cx-reorder-dialog {
                 }
               }
             }
+          }
+        }
+      }
+      .cx-reorder-dialog-footer {
+        justify-content: center;
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
           }
         }
       }
