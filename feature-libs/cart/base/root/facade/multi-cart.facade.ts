@@ -147,6 +147,7 @@ export abstract class MultiCartFacade {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   abstract addEntry(
     userId: string,
