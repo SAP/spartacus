@@ -447,7 +447,7 @@
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdp": ["../../integration-libs/cdp/src/public-api"],
+      "@spartacus/cdp": ["../../integration-libs/cdp/public-api"],
       "@spartacus/cdp/src/lib/update-profile": [
         "../../integration-libs/cdp/src/lib/update-profile/public_api"
       ],

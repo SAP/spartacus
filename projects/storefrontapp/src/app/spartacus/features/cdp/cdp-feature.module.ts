@@ -13,7 +13,8 @@ import { CDP_FEATURE } from 'integration-libs/cdp/feature-name';
     provideConfig(<CmsConfig>{
       featureModules: {
         [CDP_FEATURE]: {
-          module: () => import('integration-libs/cdp/public-api').then((m) => m.CdpModule),
+          module: () =>
+            import('integration-libs/cdp/public-api').then((m) => m.CdpModule),
         },
       },
     }),

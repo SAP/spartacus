@@ -9,7 +9,6 @@ import { CDCUserProfileModule } from '@spartacus/cdc/user-profile';
 import { UserProfileModule } from '@spartacus/user/profile';
 import { CDPUpdateProfileModule } from 'integration-libs/cdp/src/lib/update-profile/public_api';
 
-
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];

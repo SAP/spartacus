@@ -19,7 +19,7 @@ import { CDCUpdateProfileModule } from './update-profile/cdc-update-profile.modu
     CDCUpdateProfileModule,
     CDCUpdatePasswordModule,
     CDCUpdateEmailModule,
-    CdcCdpUpdateProfileModule
+    CdcCdpUpdateProfileModule,
   ],
 })
 export class CDCUserProfileModule {}
