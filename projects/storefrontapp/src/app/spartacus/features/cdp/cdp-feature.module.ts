@@ -14,7 +14,7 @@ import { CDP_FEATURE } from 'integration-libs/cdp/feature-name';
       featureModules: {
         [CDP_FEATURE]: {
           module: () =>
-            import('integration-libs/cdp/public-api').then((m) => m.CdpModule),
+            import('@spartacus/cdp').then((m) => m.CdpModule),
         },
       },
     }),
