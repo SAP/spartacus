@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CDPUpdateProfileService } from 'integration-libs/cdp/src/lib/update-profile/cdp-update-profile.service';
+import { CDPUpdateProfileService } from 'integration-libs/cdp/src/lib/user-profile/update-profile/cdp-update-profile.service';
 import { CdcCdpUpdateProfileService } from './cdc-cdp-update-profile.service';
 
 @NgModule({
