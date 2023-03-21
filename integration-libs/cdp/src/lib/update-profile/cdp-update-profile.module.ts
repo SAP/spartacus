@@ -14,6 +14,7 @@ import {
   SpinnerModule,
   FormErrorsModule,
   NgSelectA11yModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { CDPUpdateProfileComponent } from './cdp-update-profile.component';
 import { CDPUpdateProfileService } from './cdp-update-profile.service';
@@ -31,6 +32,7 @@ import { CDPUpdateProfileService } from './cdp-update-profile.service';
     NgSelectModule,
     NgSelectA11yModule,
     FeaturesConfigModule,
+    PasswordVisibilityToggleModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {

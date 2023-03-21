@@ -37,6 +37,7 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
     titleCode: new UntypedFormControl(''),
     firstName: new UntypedFormControl('', Validators.required),
     lastName: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl(''),
     newEmail: new UntypedFormControl('', [
       Validators.required,
       CustomFormValidators.emailValidator,
@@ -70,7 +71,7 @@ export class CDPUpdateProfileService extends UpdateProfileComponentService {
   }
 
   updateEmailAddress(): void {
-    const newEmail = this.form.get('confirmEmail')?.value;
+      const newEmail = this.form.get('confirmEmail')?.value;
 
       const password = this.form.get('password')?.value;
 

@@ -6,7 +6,10 @@
 
 export const userProfile = {
   updateEmailForm: {
-    updateEmail: 'Update Email',
+    myEmailAddress: 'My Email Address',
+    currentEmailAddress: {
+      label: 'Email Address',
+    },
     newEmailAddress: {
       label: 'New email address',
       placeholder: 'Enter email',
@@ -49,7 +52,6 @@ export const userProfile = {
     emailAddress: {
       label: 'Email address',
       placeholder: 'Email address',
-      myEmailAddress: 'My Email Address',
     },
     password: {
       label: 'Password',
