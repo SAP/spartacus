@@ -244,3 +244,8 @@ export enum ContainerSizeOptions {
   FIT_TO_CONTENT_SIZE = 'FIT_TO_CONTENT_SIZE',
   DEFINE_CONTAINER_HEIGHT = 'DEFINE_CONTAINER_HEIGHT',
 }
+
+export interface CmsPickupItemDetails extends CmsComponent {
+  showEdit: boolean;
+  context: string;
+}

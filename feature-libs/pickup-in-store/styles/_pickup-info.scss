@@ -1,0 +1,25 @@
+%cx-pickup-info {
+  .info-container {
+    display: flex;
+    flex-wrap: wrap;
+    .info-header {
+      background-color: grey;
+      width: 100%;
+    }
+    .info-location {
+      width: 50%;
+    }
+    .store-hours {
+      width: 50%;
+      .store-hours-container {
+        display: flex;
+        .store-hours-day {
+          width: 50%;
+        }
+        .store-hours-time {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
