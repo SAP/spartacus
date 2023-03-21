@@ -32,7 +32,7 @@ function isInLevel(level: string, version: string): boolean {
 export function isFeatureLevel(config: Config, level: string): boolean {
   if (isFeatureConfig(config) && config.features.level) {
     return level.startsWith('!')
-      ? !isInLevel(config.features.level, level.substr(1, level.length))
+      ? !isInLevel(config.features.level, level.substring(1))
       : isInLevel(config.features.level, level);
   }
   return false;
@@ -42,7 +42,7 @@ export function isFeatureEnabled(config: Config, feature: string): boolean {
   if (isFeatureConfig(config)) {
     const featureConfig =
       feature[0] === '!'
-        ? config.features[feature.substr(1, feature.length)]
+        ? config.features[feature.substring(1)]
         : config.features[feature];
 
     const result =

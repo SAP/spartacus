@@ -15,6 +15,7 @@ export abstract class CartEntryAdapter {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   abstract add(
     userId: string,
