@@ -7,11 +7,11 @@
     flex-direction: column;
   }
   .SideContent {
-    max-width: 30%;
-    padding-top: 10px;
-    padding-inline-end: 15px;
-    padding-bottom: 15px;
-    padding-inline-start: 15px;
+    max-width: 25%;
+    // padding-top: 10px;
+    // padding-inline-end: 15px;
+    // padding-bottom: 15px;
+    // padding-inline-start: 15px;
 
     @include media-breakpoint-down(md) {
       width: 100%;
@@ -20,11 +20,12 @@
   }
 
   .BodyContent {
-    max-width: 70%;
-    padding-top: 50px;
-    padding-inline-end: 15px;
+    max-width: 75%;
+    padding-top: 30px;
+    // padding-inline-end: 15px;
     padding-bottom: 15px;
-    padding-inline-start: 15px;
+    // padding-inline-start: 15px;
+    padding-left: 20px;
 
     @include media-breakpoint-down(md) {
       width: 100%;

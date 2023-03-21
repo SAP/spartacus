@@ -1,21 +1,19 @@
    <ng-container *ngIf="!(loading$ | async);else loading">
     <!-- HEADER -->
     <div class="cx-cdp-body">
-       <h2  style="white-space: nowrap">
+       <p>
           {{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
-          <h3 >
-            <span style="display: inline-block">
-             <a class="cx-cdp-link-underline"
+          <a class="cx-cdp-link-showMore"
                 [routerLink]="
                 {
                 cxRoute: 'orders'
                 } | cxUrl
                 ">{{ 'cdpOrderHistory.showMore' | cxTranslate}} </a>
-              </span>
-          </h3>
-       </h2>
-    </div>
-    <div class="cx-cdp-body">
+
+          <!-- </h3> -->
+        </p>
+
+    <div >
        <section *ngIf="orders$ | async as orders; else noOrders">
           <table   *ngFor="let order of orders.orders; else noOrders"
              role="table"
@@ -78,6 +76,7 @@
           </table>
        </section>
     </div>
+  </div>
  </ng-container>
  <ng-template #loading>
     <div class="cx-spinner">

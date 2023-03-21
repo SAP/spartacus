@@ -1,12 +1,20 @@
 .cx-cdp-body{
-  padding: 10px  ;
+  padding: 5px 5px 5px 5px  ;
   width: 100%;
   border: 1px solid var(--cx-color-light);
+  .cx-cdp-header{
+    .cx-cdp-link-showMore{
+      text-align: right;
+      color: #1672B7;
+      text-decoration-line: underline;
+    }
+  }
   .cx-cdp-link-underline{
     // padding: 20px  ;
     color: #1672B7;
     text-decoration-line: underline;
   }
+
   .cx-cdp-link{
     // padding: 20px  ;
     color: #1672B7;
@@ -16,9 +24,12 @@
   border-bottom: 1px solid var(--cx-color-light);
   border-left: 1px solid var(--cx-color-light);
   border-right: 1px solid var(--cx-color-light);
-  table-layout: fixed;
-  width: 100%;
-  margin: 10px;
+  table-layout: auto;
+  width: 99%;
+  margin-top: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
 
   th {
       padding: 10px;
