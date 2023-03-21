@@ -47,7 +47,8 @@ export class CheckoutB2BStepsSetGuard
     protected router: Router,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {
     super(
       checkoutStepService,

@@ -52,15 +52,15 @@
         (order?.entries && order?.replenishmentOrderCode)
       "
     >
-      <div class="cx-list row">
-        <div *ngIf="order?.statusDisplay" class="cx-list-header col-12">
+      <div class="cx-list">
+        <div *ngIf="order?.statusDisplay" class="cx-list-header">
           <div class="cx-list-status">
             {{
               'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate
             }}
           </div>
         </div>
-        <div class="cx-list-item col-12">
+        <div class="cx-list-item">
           <ng-template
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{

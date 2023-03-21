@@ -45,12 +45,12 @@ export abstract class OrderFacade {
    */
   abstract placeOrder(termsChecked: boolean): Observable<Order>;
   /**
-   * Return cart's pickup entries
+   * Return order's pickup entries
    */
   abstract getPickupEntries(): Observable<OrderEntry[]>;
 
   /**
-   * Return cart's delivery entries
+   * Return order's delivery entries
    */
   abstract getDeliveryEntries(): Observable<OrderEntry[]>;
 }

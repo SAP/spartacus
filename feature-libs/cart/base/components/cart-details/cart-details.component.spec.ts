@@ -12,7 +12,6 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
-  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -92,12 +91,7 @@ describe('CartDetailsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          PromotionsModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
+        imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
         declarations: [
           CartDetailsComponent,
           MockCartItemListComponent,

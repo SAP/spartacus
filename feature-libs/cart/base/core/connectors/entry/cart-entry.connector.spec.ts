@@ -24,7 +24,7 @@ describe('CartEntryConnector', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(service).toBeDefined();
   });
 
   it('add should call adapter', () => {
