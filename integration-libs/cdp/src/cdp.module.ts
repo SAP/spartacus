@@ -5,10 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-//import { CDPUpdateProfileModule } from './lib/update-profile/public_api';
 
 
 @NgModule({
- // imports: [CDPUpdateProfileModule],
 })
 export class CdpModule {}
