@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { CDPUpdateProfileService } from '@spartacus/cdp/src/lib/user-profile';
 import {
   AuthRedirectService,
   AuthService,
@@ -15,7 +16,6 @@ import {
   UserProfileFacade,
   UserEmailFacade,
 } from '@spartacus/user/profile/root';
-import { CDPUpdateProfileService } from 'integration-libs/cdp/src/lib/user-profile/update-profile/cdp-update-profile.service';
 import { CdcJsService } from '../../root/service';
 
 @Injectable({

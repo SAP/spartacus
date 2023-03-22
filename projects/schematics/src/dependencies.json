@@ -247,6 +247,7 @@
     "@ngrx/effects": "^15.3.0",
     "@ngrx/store": "^15.3.0",
     "@spartacus/asm": "5.0.0",
+    "@spartacus/cdp": "0.0.1",
     "@spartacus/core": "5.0.0",
     "@spartacus/organization": "5.0.0",
     "@spartacus/schematics": "5.0.0",

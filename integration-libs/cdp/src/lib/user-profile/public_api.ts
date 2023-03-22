@@ -5,3 +5,4 @@
  */
 
 export * from './cdp-user-profile.module';
+export * from './update-profile/index';
