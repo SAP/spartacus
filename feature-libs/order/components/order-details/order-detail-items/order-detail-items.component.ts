@@ -11,7 +11,12 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { CmsOrderDetailItemsComponent } from '@spartacus/core';
-import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
+import {
+  Consignment,
+  Order,
+  OrderOutlets,
+  ReplenishmentOrder,
+} from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -86,6 +91,9 @@ export class OrderDetailItemsComponent {
     order: Order,
     pickup: boolean
   ): OrderEntry[] | undefined {
+    if ((order as ReplenishmentOrder).replenishmentOrderCode) {
+      return [];
+    }
     return pickup
       ? order.unconsignedEntries?.filter(
           (entry) => entry.deliveryPointOfService !== undefined
