@@ -21,6 +21,9 @@ export const CdpConfig: RoutingConfig = {
         paths: ['my-account/order/:orderCode'],
         paramsMapping: { orderCode: 'code' },
       },
+      personalDetails:{
+        paths: ['/my-account/update-profile'],
+      }
       // logout: {
       //   paths: ['logout'],
       // },
