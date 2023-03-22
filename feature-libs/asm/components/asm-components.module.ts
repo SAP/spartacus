@@ -21,7 +21,6 @@ import {
 } from '@spartacus/storefront';
 import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
-import { AsmCustomer360DialogComponent } from './asm-customer-360-dialog/asm-customer-360-dialog.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -33,7 +32,6 @@ import { defaultCustomerListLayoutConfig } from './customer-list/default-custome
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
-import { defaultCustomer360LayoutConfig } from './default-customer-360-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 
 @NgModule({
@@ -54,7 +52,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
   ],
   declarations: [
     AsmBindCartDialogComponent,
-    AsmCustomer360DialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -69,7 +66,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
   exports: [
     AsmBindCartDialogComponent,
     AsmMainUiComponent,
-    AsmCustomer360DialogComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
     CustomerSelectionComponent,
@@ -84,7 +80,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     provideDefaultConfig(defaultAsmLayoutConfig),
     provideDefaultConfig(defaultBindCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
-    provideDefaultConfig(defaultCustomer360LayoutConfig),
   ],
 })
 export class AsmComponentsModule {}

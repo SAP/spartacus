@@ -56,6 +56,11 @@ import {
   providers: [
     provideDefaultConfig({
       cmsComponents: {
+        // // TODO: Can't sem to find this component
+        // AsmCustomer360OverviewComponent: {
+        //   component: AsmCustomerOverviewComponent,
+        // },
+
         AsmCustomer360Component: {
           component: Customer360Component,
         },

@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/root';
 import { TranslationService, UrlCommand } from '@spartacus/core';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
