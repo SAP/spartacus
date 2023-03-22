@@ -7,9 +7,6 @@ import { OrderModule } from '@spartacus/order';
 
 
 @NgModule({
-  declarations: [
-    // CdpPageTitleComponent
-  ],
   imports: [
     CommonModule,
     CdpMyAccountModule,

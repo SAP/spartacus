@@ -26,7 +26,7 @@
 >
   <td role="cell" >
     <span aria-hidden="true">
-      <cx-icon type="ORDER"></cx-icon>
+      <cx-icon [type]="iconTypes.ORDER"></cx-icon>
     </span> <a class="cx-side-navigation"
     [routerLink]="
       {
@@ -38,7 +38,7 @@
   <tr style="display:none;">
     <td >
       <span aria-hidden="true">
-        <cx-icon type="CART"></cx-icon>
+        <cx-icon [type]="iconTypes.CART"></cx-icon>
       </span>
       {{'cdpOrderHistory.savedCarts' | cxTranslate }}</td>
   </tr>
@@ -46,7 +46,7 @@
     <!-- <cx-icon type="STAR"></cx-icon> -->
     <td>
       <span aria-hidden="true">
-        <cx-icon type="STAR"></cx-icon>
+        <cx-icon [type]="iconTypes.STAR"></cx-icon>
       </span>
       {{'cdpOrderHistory.wishlist' | cxTranslate }}</td>
 
@@ -58,14 +58,14 @@
   <tr>
     <td>
       <span aria-hidden="true">
-        <cx-icon type="HEADSET"></cx-icon>
+        <cx-icon [type]="iconTypes.HEADSET"></cx-icon>
       </span>
       {{'cdpOrderHistory.request' | cxTranslate }}</td>
   </tr>
   <tr style="display:none;">
     <td >
       <span aria-hidden="true">
-        <cx-icon type="GRID"></cx-icon>
+        <cx-icon [type]="iconTypes.GRID"></cx-icon>
       </span>
       {{'cdpOrderHistory.registeredProducts' | cxTranslate }}</td>
   </tr>
@@ -76,7 +76,7 @@
   <tr>
     <td>
       <span aria-hidden="true">
-        <cx-icon type="USER"></cx-icon>
+        <cx-icon [type]="iconTypes.USER"></cx-icon>
       </span>
       <a class="cx-side-navigation"
       [routerLink]="
@@ -89,34 +89,34 @@
   <tr>
     <td>
       <span aria-hidden="true">
-        <cx-icon type="INFO"></cx-icon>
+        <cx-icon [type]="iconTypes.INFO"></cx-icon>
       </span>{{'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}</td>
   </tr>
   <tr style="display:none;">
     <td >
       <span aria-hidden="true">
-        <cx-icon type="ADDRESS_BOOK"></cx-icon>
+        <cx-icon [type]="iconTypes.ADDRESS_BOOK"></cx-icon>
       </span>
       {{'cdpOrderHistory.addressBook' | cxTranslate }}</td>
   </tr>
   <tr style="display:none;">
     <td >
       <span aria-hidden="true">
-        <cx-icon type="CREDIT_CARD"></cx-icon>
+        <cx-icon [type]="iconTypes.CREDIT_CARD"></cx-icon>
       </span>
       {{'cdpOrderHistory.paymentDetails' | cxTranslate }}</td>
   </tr>
   <tr style="display:none;">
     <td >
       <span aria-hidden="true">
-        <cx-icon type="ACTIVE"></cx-icon>
+        <cx-icon [type]="iconTypes.ACTIVE"></cx-icon>
       </span>
       {{'cdpOrderHistory.communications' | cxTranslate }}</td>
   </tr>
   <tr>
     <td>
       <span aria-hidden="true">
-        <cx-icon type="INFO"></cx-icon>
+        <cx-icon [type]="iconTypes.INFO"></cx-icon>
       </span>
       {{'cdpOrderHistory.settingAndPrivacy' | cxTranslate }}</td>
   </tr>

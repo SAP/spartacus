@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {  ListNavigationModule, PageSlotModule } from '@spartacus/storefront';
+import {   PageSlotModule } from '@spartacus/storefront';
 import {  CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -28,7 +28,6 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
         FormsModule,
         NgSelectModule,
         IconModule,
-        ListNavigationModule,
         UrlModule,
         I18nModule,
         PageSlotModule,
@@ -36,12 +35,7 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
         ConfigModule.withConfig(<CmsConfig>{
             cmsComponents: {
                 CdpMyAccountSideComponent: { component: CdpMyAccountSideNavigationComponent },
-            },
-            layoutSlots: {
-              CdpMyAccountPageTemplate: {
-                slots: ['ProductLeftRefinements', 'ProductListSlot'],
-              },
-            },
+            }
         }),
         IconModule
     ]

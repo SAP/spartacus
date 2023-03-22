@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, RoutingService, User } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { LoginComponent } from '@spartacus/user/account/components';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
@@ -12,7 +13,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class CdpMyAccountSideNavigationComponent extends LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
-  isCdpEnabled: boolean =false;
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected auth: AuthService,
