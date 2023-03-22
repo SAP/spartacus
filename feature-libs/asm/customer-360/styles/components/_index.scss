@@ -2,14 +2,12 @@
 
 @import './_customer-360.component.scss';
 @import './_asm-customer-profile.scss';
-@import './_asm-customer-overview.scss'; // TODO: is this needed?
 @import './_asm-customer-product-listing.component';
 @import './_asm-customer-table.component.scss';
 @import './_asm-customer-map.component.scss';
 
 $customer-360-components-allowlist: cx-customer-360, cx-asm-customer-profile,
-  cx-asm-customer-product-listing, cx-asm-customer-overview,
-  cx-asm-customer-table, cx-asm-customer-map !default;
+  cx-asm-customer-product-listing, cx-asm-customer-table, cx-asm-customer-map !default;
 
 $skipComponentStyles: () !default;
 
