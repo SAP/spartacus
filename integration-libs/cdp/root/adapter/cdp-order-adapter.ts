@@ -2,9 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { finalOrder } from '../model/order/finalOrder';
-import { orders } from '../model/order/orders';
-import { order } from '../model/orderDetail/order';
+import { finalOrder } from '../components/cdp-order/model/order/finalOrder';
+import { orders } from '../components/cdp-order/model/order/orders';
+import { order } from '../components/cdp-order/model/orderDetail/order';
+// import { finalOrder } from '../model/order/finalOrder';
+// import { orders } from '../model/order/orders';
+// import { order } from '../model/orderDetail/order';
 
 @Injectable(
     {
