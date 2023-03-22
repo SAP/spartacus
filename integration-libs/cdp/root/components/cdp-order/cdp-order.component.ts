@@ -4,6 +4,7 @@ import {
   OccEndpointsService,
   RoutingService,
   UserIdService,
+  TranslationService,
 } from '@spartacus/core';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { cdpOrderAdapter } from './adapter/cdp-order-adapter';
@@ -25,7 +26,8 @@ export class OrderComponent implements OnInit {
     private cdpOrderAdapter: cdpOrderAdapter,
     protected datePipe: CxDatePipe,
     protected routing: RoutingService,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
+    protected translation: TranslationService,
   ) {}
 
   result: finalOrder = { orders: [] };
@@ -35,10 +37,11 @@ export class OrderComponent implements OnInit {
   i: number = 0;
   output: result;
   orderStatus: Record<string, Record<string, number>> = {};
-  orderImage: Record<string,product[]>={};
+  orderImage: Record<string, product[]> = {};
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
+  sortType: string;
 
   ngOnInit(): void {
     this.getMyData();
@@ -54,6 +57,7 @@ export class OrderComponent implements OnInit {
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.result);
       this.getItemCount(this.result);
+      console.log(this.result);
     });
   }
 
@@ -83,30 +87,32 @@ export class OrderComponent implements OnInit {
   }
 
   public async getDetail() {
-
     this.loading$.next(true);
     // eslint-disable-next-line guard-for-in
     for (let orderCode in this.orderDetail) {
       this.orderStatus[orderCode] ??= {};
-      this.orderImage[orderCode]??=[];
+      this.orderImage[orderCode] ??= [];
       this.orderDetail[orderCode].consignments.forEach((ord) => {
         this.orderStatus[orderCode][ord.status] ??= 0;
         ord.entries.forEach((entr) => {
           console.log(orderCode + ' status ' + ord.status + entr.quantity);
           this.orderStatus[orderCode][ord.status] =
             this.orderStatus[orderCode][ord.status] + entr.quantity;
-            if(entr.orderEntry.product && entr.orderEntry.product.images)
-            {
-              entr.orderEntry.product.images.forEach((img)=>{
-                img.url =
-                        this.occEndpointsService.getBaseUrl({
-                          prefix: false,
-                          baseSite: false,
-                        }) + img.url;
-              });
-              this.orderImage[orderCode].push(entr.orderEntry.product);
-            }
         });
+      });
+
+      this.orderImage[orderCode] ??= [];
+      this.orderDetail[orderCode].entries.forEach((entr) => {
+        entr.product.images.forEach((prd) => {
+          if (prd.url) {
+            prd.url =
+              this.occEndpointsService.getBaseUrl({
+                prefix: false,
+                baseSite: false,
+              }) + prd.url;
+          }
+        });
+        this.orderImage[orderCode].push(entr.product);
       });
       this.loading$.next(false);
     }
