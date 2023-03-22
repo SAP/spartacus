@@ -64,4 +64,4 @@
 # ================================================
 #  BOPIS Feature
 # ================================================
-/feature-libs/customer-ticketing/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
+/feature-libs/pickup-in-store/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
