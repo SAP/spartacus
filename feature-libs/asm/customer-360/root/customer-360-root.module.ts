@@ -30,24 +30,6 @@ import { ASM_360_CORE_FEATURE, ASM_360_FEATURE } from './feature-name';
         [ASM_360_CORE_FEATURE]: ASM_360_FEATURE,
       },
     }),
-    // // Are these needed for customer360?
-    // {
-    //   provide: AuthStorageService,
-    //   useExisting: AsmAuthStorageService,
-    // },
-    // {
-    //   provide: AuthService,
-    //   useExisting: AsmAuthService,
-    // },
-    // {
-    //   provide: AuthHttpHeaderService,
-    //   useExisting: AsmAuthHttpHeaderService,
-    // },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useExisting: UserIdHttpHeaderInterceptor,
-    //   multi: true,
-    // },
   ],
   declarations: [AsmCustomer360DialogComponent],
   exports: [AsmCustomer360DialogComponent],
