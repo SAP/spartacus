@@ -14,6 +14,5 @@ export interface Environment {
   cpq: boolean;
   digitalPayments: boolean;
   epdVisualization: boolean;
-  pickupInStore: boolean;
   s4om: boolean;
 }
