@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ASM_360_FEATURE } from '../feature-name';
+import { CUSTOMER_360_FEATURE } from '../feature-name';
 import { Customer360Response, Customer360TabComponent } from '../model';
 
 @Injectable({
@@ -15,7 +15,7 @@ import { Customer360Response, Customer360TabComponent } from '../model';
   useFactory: () =>
     facadeFactory({
       facade: Customer360Facade,
-      feature: ASM_360_FEATURE,
+      feature: CUSTOMER_360_FEATURE,
       methods: ['get360Data'],
     }),
 })

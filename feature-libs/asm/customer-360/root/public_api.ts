@@ -1,3 +1,4 @@
+export * from './components';
 export * from './config';
 export * from './customer-360-root.module';
 export * from './facade';

@@ -10,19 +10,11 @@
 @import './_customer-list.component.scss';
 @import './_asm-bind-cart.component.scss';
 @import './_dot-spinner.component.scss';
-@import './_asm-customer-360.component.scss';
-@import './_asm-customer-profile.scss';
-@import './_asm-customer-overview.scss';
-@import './asm-customer-product-listing.component';
-@import './_asm-customer-table.component.scss';
-@import './asm-customer-map.component.scss';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-bind-cart-dialog, cx-asm-toggle-ui,
   cx-csagent-login-form, cx-customer-emulation, cx-customer-selection,
-  cx-dot-spinner, cx-customer-list, cx-asm-customer-360, cx-asm-customer-profile,
-  cx-asm-customer-product-listing, cx-asm-customer-overview,
-  cx-asm-customer-table, cx-asm-customer-map !default;
+  cx-dot-spinner, cx-customer-list !default;
 
 $skipComponentStyles: () !default;
 

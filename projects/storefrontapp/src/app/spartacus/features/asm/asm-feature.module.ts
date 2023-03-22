@@ -10,8 +10,8 @@ import {
   asmTranslations,
 } from '@spartacus/asm/assets';
 import {
-  ASM_360_FEATURE,
   Customer360RootModule,
+  CUSTOMER_360_FEATURE,
 } from '@spartacus/asm/customer-360/root';
 import { AsmRootModule, ASM_FEATURE } from '@spartacus/asm/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
@@ -24,12 +24,11 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
         [ASM_FEATURE]: {
           module: () => import('@spartacus/asm').then((m) => m.AsmModule),
         },
-        [ASM_360_FEATURE]: {
+        [CUSTOMER_360_FEATURE]: {
           module: () =>
             import('@spartacus/asm/customer-360').then(
               (m) => m.Customer360Module
             ),
-          dependencies: [ASM_FEATURE],
         },
       },
     }),

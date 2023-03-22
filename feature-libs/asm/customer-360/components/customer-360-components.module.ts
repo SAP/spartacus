@@ -9,7 +9,7 @@ import {
   PageComponentModule,
   StarRatingModule,
 } from '@spartacus/storefront';
-import { Customer360Component } from './customer-360/asm-customer-360.component';
+import { Customer360Component } from './customer-360/customer-360.component';
 import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart/asm-customer-active-cart.module';
 import { AsmCustomerActivityModule } from './sections/asm-customer-activity/asm-customer-activity.module';
 import { AsmCustomerMapComponentModule } from './sections/asm-customer-map/asm-customer-map.component.module';

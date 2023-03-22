@@ -45,8 +45,8 @@ import {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360',
-  templateUrl: './asm-customer-360.component.html',
+  selector: 'cx-customer-360',
+  templateUrl: './customer-360.component.html',
 })
 export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   @HostBinding('attr.role') role = 'dialog';
