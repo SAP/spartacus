@@ -1,0 +1,31 @@
+%cx-pickup-option-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-pickup-option-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @include media-breakpoint-down(sm) {
+      height: min-content;
+    }
+
+    .cx-dialog-content {
+      @extend .modal-content;
+      .cx-dialog-header {
+        .cx-dialog-title {
+          @include type('3');
+          margin-inline-start: var(--cx-margin-left, 0.875rem);
+        }
+      }
+      .cx-dialog-header {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border: none;
+        margin-top: 1.15rem;
+      }
+    }
+    .modal-body {
+      padding-top: 0.75rem;
+    }
+    max-width: 50%;
+  }
+}
