@@ -9,6 +9,9 @@ import { Consignment, Order } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
+interface IOutletContextData { item: Consignment; order: Order; }
+
 /**
  * A container component of the pair of the pickup options radio buttons for cart entry.
  */
@@ -16,10 +19,11 @@ import { tap } from 'rxjs/operators';
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
 })
+
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit, OnDestroy {
   constructor(
     @Optional()
-    protected outlet: OutletContextData<{ item: Consignment; order: Order; }>
+    protected outlet: OutletContextData<IOutletContextData>
   ) { }
   consignment: Consignment;
   order: Order;
