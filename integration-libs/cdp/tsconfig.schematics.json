@@ -458,9 +458,7 @@
       "@spartacus/cdp/root/components": [
         "../../integration-libs/cdp/root/components/public_api"
       ],
-      "@spartacus/cdp/root/config": [
-        "../../integration-libs/cdp/root/config/public_api"
-      ],
+
       "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
       "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],

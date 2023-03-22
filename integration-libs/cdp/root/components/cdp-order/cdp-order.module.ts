@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ConfigModule, RoutingModule, UrlModule} from '@spartacus/core';
 import { I18nModule} from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
-import { CdpPageTitleComponent } from '../cdp-page-title/cdp-page-title.component';
 //import { OrderHistoryModule } from '@spartacus/order/components';
 import { OrderComponent } from './cdp-order.component';
 
@@ -15,9 +14,6 @@ import { OrderComponent } from './cdp-order.component';
       cmsComponents: {
         AccountOrderHistoryComponent: {
           component: OrderComponent,
-        },
-        OrderReturnRequestListComponent: {
-          component: CdpPageTitleComponent,
         },
       },
     }),
