@@ -15,13 +15,17 @@
 #### ConfiguratorAttributeHeaderComponent
 
 - Set `margin-block-end` to `0px` instead of `17px`
-- Added `.cx-action-link { color: var(--cx-color-text);font-size: 14px; min-height: 0px;} `to `.cx-conflict-msg `
+- Added `.cx-action-link { font-size: 14px; min-height: 0px;} `to `.cx-conflict-msg `
 - Added `padding-block-end: 5px; padding-block-start: 5px; display: block;` to `img`
 
 #### ConfiguratorAttributeReadOnlyComponent
 
 - `%cx-configurator-attribute-read-only` now only contains `@include cx-configurator-attribute-type();`. This mixin already has all
   the needed styling settings
+
+#### ConfigureCartEntryComponent
+
+- Styling file is obsolet and will be removed because `link cx-action-link` classes are in used
 
 #### ConfiguratorConflictSolverDialogComponent
 
@@ -31,12 +35,21 @@
 
 - `margin-inline-start` changed to `-15px` instead of `-20px`
 - `margin-inline-end` changed to `-15px` instead of `-20px`
-- added `padding-inline-start: 0px;` to `.cx-title`
+- Added `padding-inline-start: 0px;` to `.cx-title`
+
+#### ConfiguratorExitButtonComponent
+
+- Styling file is obsolet and will be removed 
+- Added `btn btn-tertiary` classes to `button`
 
 #### ConfiguratorGroupTitleComponent
 
 - `margin-block-end` changed to `-15px` instead of `-20px`
 - `cx-hamburger-menu` styling added to `.cx-group-title`
+
+#### ConfiguratorIssuesNotificationComponent
+
+- Added property `font-weight: var(--cx-font-weight-semi)`
 
 #### ConfiguratorOverviewAttributeComponent
 
@@ -46,6 +59,10 @@
 #### ConfiguratorOverviewFilterDialogComponent
 
 - `z-index: 1000` added to `%cx-configurator-overview-filter-dialog` to control which dialog is rendered on top if multiple open
+
+#### ConfiguratorOverviewFilterButtonComponent
+
+- `btn btn-secondary` classes are added to `button`
 
 #### ConfiguratorOverviewFormComponent
 
@@ -63,6 +80,14 @@
 #### ConfiguratorOverviewMenuComponent
 
 - `ul` wraps the content of `cx-configurator-overview-menu`.
+
+#### ConfiguratorOverviewNotificationBannerComponent
+
+- Removed obsolet styling for `button.link` except `font-size: inherit`
+
+#### ConfiguratorProductTitleComponent
+
+- Added property `box-shadow: 0px -1px 3px var(--cx-color-secondary)` to `.cx-general-product-info` class
 
 #### ConfiguratorVariantOverviewPage
 
