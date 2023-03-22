@@ -7,10 +7,10 @@ import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cdp-side',
-  templateUrl: './cdp-my-account-side.component.html',
-  styleUrls: ['./cdp-my-account-side.component.scss']
+  templateUrl: './cdp-my-account-side-navigation.component.html',
+  styleUrls: ['./cdp-my-account-side-navigation.component.scss']
 })
-export class CdpMyAccountSideComponent extends LoginComponent implements OnInit {
+export class CdpMyAccountSideNavigationComponent extends LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
   isCdpEnabled: boolean =false;
 

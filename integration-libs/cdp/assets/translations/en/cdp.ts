@@ -31,7 +31,7 @@ export const cdp = {
   },
   cdpOrderHistory: {
     plus: ' + ',
-    items: 'Items',
+    items: ' Items',
     orderNumberClose: ')',
     orderNumber: 'OrderNumber(',
     orderedItems: 'Ordered Items: ',

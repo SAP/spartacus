@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdpMyAccountModule } from './cdp-my-account';
-// import { CdpPageTitleComponent } from './cdp-page-title/cdp-page-title.component';
-import { CdpMyAccountSideModule } from './cdp-my-account-side/cdp-my-account-side.module';
+import { CdpMyAccountSideNavigationModule } from './cdp-my-account-side-navigation/cdp-my-account-side-navigation.module';
 import { OrderModule } from '@spartacus/order';
 
 
@@ -14,7 +13,7 @@ import { OrderModule } from '@spartacus/order';
   imports: [
     CommonModule,
     CdpMyAccountModule,
-    CdpMyAccountSideModule,
+    CdpMyAccountSideNavigationModule,
     OrderModule
   ]
 })

@@ -5,7 +5,7 @@ import {  CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule, UrlModule }
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CdpMyAccountSideComponent } from './cdp-my-account-side.component';
+import { CdpMyAccountSideNavigationComponent } from './cdp-my-account-side-navigation.component';
 import { IconModule } from "../../../../../projects/storefrontlib/cms-components/misc/icon/icon.module";
 
 
@@ -13,7 +13,7 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
 
 @NgModule({
     declarations: [
-        CdpMyAccountSideComponent
+        CdpMyAccountSideNavigationComponent
     ],
     // providers: [
     //   {
@@ -21,7 +21,7 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
     //     useExisting: AuthService,
     //   },
     // ],
-    exports: [CdpMyAccountSideComponent],
+    exports: [CdpMyAccountSideNavigationComponent],
     imports: [
         CommonModule,
         RouterModule,
@@ -35,7 +35,7 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
         FeaturesConfigModule,
         ConfigModule.withConfig(<CmsConfig>{
             cmsComponents: {
-                CdpMyAccountSideComponent: { component: CdpMyAccountSideComponent },
+                CdpMyAccountSideComponent: { component: CdpMyAccountSideNavigationComponent },
             },
             layoutSlots: {
               CdpMyAccountPageTemplate: {
@@ -46,4 +46,4 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
         IconModule
     ]
 })
-export class CdpMyAccountSideModule { }
+export class CdpMyAccountSideNavigationModule { }

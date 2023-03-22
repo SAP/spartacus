@@ -53,7 +53,9 @@
   <!-- ORDER BODY -->
                     <td >
                        <div *ngFor="let prdt of  orderImage[order.code]"  class="cx-prod-name">
-                        {{prdt.name}}</div>
+                        <div >
+                        {{prdt.name}}{{'cdpOrderHistory.plus' | cxTranslate}}{{orderDetail[order.code]?.deliveryItemsQuantity - 1}}{{'cdpOrderHistory.items' | cxTranslate}}</div>
+                       </div>
                     <div class="cx-prod-body">
                        <p>
                           {{'cdpOrderHistory.purchasedStore' | cxTranslate}} {{order.placed  | cxDate: 'd, MMMM, yyyy'}}<br>

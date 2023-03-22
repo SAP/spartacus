@@ -5,7 +5,7 @@
  */
 
 export * from './components/cdp-my-account';
-export * from './components/cdp-my-account-side';
+export * from './components/cdp-my-account-side-navigation';
 export * from './components/cdp-order';
 export * from './feature-name';
 export * from './adapter/cdp-order-adapter';
