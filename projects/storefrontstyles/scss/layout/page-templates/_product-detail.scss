@@ -4,6 +4,9 @@
   .cx-tab-paragraph-content {
     background-color: var(--cx-color-background);
   }
+  .cx-tab-paragraph-content:has(cx-epd-visualization-visual-picking-tab ) {
+    padding: 1em 0;
+  }
 
   cx-page-slot {
     &.Summary {

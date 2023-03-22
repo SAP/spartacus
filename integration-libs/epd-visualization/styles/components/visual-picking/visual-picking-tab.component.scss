@@ -1,14 +1,7 @@
 %cx-epd-visualization-visual-picking-tab {
   .container-fluid {
-    padding: 0;
-
-    @include media-breakpoint-up(md) {
-      padding: 0 1em;
-    }
-
-    @include media-breakpoint-up(xl) {
-      padding: 0 2em;
-    }
+    padding: 1em 0;
+    background-color: $body-bg;
 
     display: flex;
     justify-content: space-between;
