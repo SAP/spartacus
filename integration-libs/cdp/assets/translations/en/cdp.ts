@@ -30,6 +30,11 @@ export const cdp = {
     // label: 'My Account',
   },
   cdpOrderHistory: {
+    orderNumberClose: ')',
+    orderNumber: 'OrderNumber(',
+    orderedItems: 'Ordered Items: ',
+    totalPrice: 'Total Price: ',
+    purchasedStore: 'Purchased-Store',
     myAccount: 'My Account',
     orderDetails: 'Order details',
     showMore: 'Show more',
