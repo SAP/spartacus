@@ -54,9 +54,7 @@ export class I18nextHttpBackendInitializer
    */
   protected getBackendConfig(): BackendOptions {
     if (!this.config.i18n?.backend?.loadPath) {
-      throw new Error(
-        'I18nextHttpBackendService: Missing `i18n.backend.loadPath` config.'
-      );
+      throw new Error('Missing config `i18n.backend.loadPath`.');
     }
 
     const loadPath = this.getLoadPath(this.config.i18n.backend.loadPath);

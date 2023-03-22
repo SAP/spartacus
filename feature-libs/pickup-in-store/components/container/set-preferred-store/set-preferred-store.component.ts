@@ -11,7 +11,7 @@ import {
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-set-preferred-store',
@@ -21,7 +21,8 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   readonly ICON_TYPE = ICON_TYPE;
   @Input() pointOfServiceName: PointOfServiceNames;
 
-  public storeSelected$ = this.preferredStoreFacade.getPreferredStore$();
+  public storeSelected$: Observable<PointOfServiceNames | null> =
+    this.preferredStoreFacade.getPreferredStore$();
   subscription: Subscription = new Subscription();
 
   constructor(
