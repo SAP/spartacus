@@ -86,31 +86,32 @@ export class CdpMyAccountComponent extends OrderHistoryComponent implements OnIn
   }
 
   public async getDetail() {
-
     this.loading$.next(true);
     // eslint-disable-next-line guard-for-in
     for (let orderCode in this.orderDetail) {
       this.orderStatus[orderCode] ??= {};
-      this.orderImage[orderCode]??=[];
+      this.orderImage[orderCode] ??= [];
       this.orderDetail[orderCode].consignments.forEach((ord) => {
         this.orderStatus[orderCode][ord.status] ??= 0;
         ord.entries.forEach((entr) => {
-
+          console.log(orderCode + ' status ' + ord.status + entr.quantity);
           this.orderStatus[orderCode][ord.status] =
             this.orderStatus[orderCode][ord.status] + entr.quantity;
-            if(entr.orderEntry.product && entr.orderEntry.product.images)
-            {
-              // console.log("img", entr.orderEntry.product.images[0]);
-              entr.orderEntry.product.images.forEach((img)=>{
-                img.url =
-                        this.occEndpointsService.getBaseUrl({
-                          prefix: false,
-                          baseSite: false,
-                        }) + img.url;
-              });
-              this.orderImage[orderCode].push(entr.orderEntry.product);
-            }
         });
+      });
+
+      this.orderImage[orderCode] ??= [];
+      this.orderDetail[orderCode].entries.forEach((entr) => {
+        entr.product.images.forEach((prd) => {
+          if (prd.url) {
+            prd.url =
+              this.occEndpointsService.getBaseUrl({
+                prefix: false,
+                baseSite: false,
+              }) + prd.url;
+          }
+        });
+        this.orderImage[orderCode].push(entr.product);
       });
       this.loading$.next(false);
     }
