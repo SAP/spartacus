@@ -1,7 +1,24 @@
 {
   "name": "@spartacus/cdp",
   "version": "0.0.1",
+  "description": "Customer Data Platform Integration library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "customer data platform",
+    "cdp",
+    "cdfl"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cdp",
+  "license": "Apache-2.0",
   "sideEffects": false,
+  "scripts": {
+    "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
   "dependencies": {
     "tslib": "^2.4.0"
   },
@@ -16,5 +33,9 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/user": "5.0.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
 }

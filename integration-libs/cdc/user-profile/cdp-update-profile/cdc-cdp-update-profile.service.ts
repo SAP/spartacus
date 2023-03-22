@@ -16,7 +16,7 @@ import {
   UserProfileFacade,
   UserEmailFacade,
 } from '@spartacus/user/profile/root';
-import { CdcJsService } from '../../root/service';
+import { CdcJsService } from '@spartacus/cdc/root';
 
 @Injectable({
   providedIn: 'root',

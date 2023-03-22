@@ -5,6 +5,7 @@
  */
 
 import { SchematicsException } from '@angular-devkit/schematics';
+import { CDP_SCHEMATICS_CONFIG } from './lib-configs';
 import { ASM_SCHEMATICS_CONFIG } from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
@@ -112,6 +113,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   CDC_SCHEMATICS_CONFIG,
 
   CDS_SCHEMATICS_CONFIG,
+
+  CDP_SCHEMATICS_CONFIG,
 
   DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
 

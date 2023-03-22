@@ -21,6 +21,7 @@ import {
   USER_ACCOUNT_MODULE,
   USER_PROFILE_MODULE,
 } from '../user-schematics-config';
+import { CDP_USER_PROFILE_MODULE } from './cdp-schematics-config';
 
 export interface SpartacusCdcOptions extends LibraryOptions {
   baseSite?: string;
@@ -87,6 +88,10 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     },
     {
       markerModuleName: USER_PROFILE_MODULE,
+      featureModuleName: CDC_USER_PROFILE_MODULE,
+    },
+    {
+      markerModuleName: CDP_USER_PROFILE_MODULE,
       featureModuleName: CDC_USER_PROFILE_MODULE,
     },
     {

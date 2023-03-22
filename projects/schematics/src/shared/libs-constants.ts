@@ -176,6 +176,9 @@ export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
 export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
 export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organization/administration`;
 
+export const SPARTACUS_CDP = `@spartacus/cdp`;
+export const SPARTACUS_CDP_USER_PROFILE = `@spartacus/cdp/src/lib/user-profile`;
+
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
 
@@ -252,6 +255,8 @@ export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
+
+export const CDP_FEATURE_NAME = 'CDP';
 
 export const CDS_FEATURE_NAME = 'CDS';
 
