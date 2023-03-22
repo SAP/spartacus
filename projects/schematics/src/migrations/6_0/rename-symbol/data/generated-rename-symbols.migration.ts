@@ -9,24 +9,24 @@ import { RenamedSymbol } from '../../../../shared/utils/file-utils';
 // Generated file, don't update manually.
 //
 export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
-	{
-		previousNode: 'AsmConfig',
-		previousImportPath: '@spartacus/asm/core',
-		newImportPath: '@spartacus/asm/root'
-	},
-	{
-		previousNode: 'AsmUi',
-		previousImportPath: '@spartacus/asm/core',
-		newImportPath: '@spartacus/asm/root'
-	},
-	{
-		previousNode: 'CustomerSearchOptions',
-		previousImportPath: '@spartacus/asm/core',
-		newImportPath: '@spartacus/asm/root'
-	},
-	{
-		previousNode: 'CustomerSearchPage',
-		previousImportPath: '@spartacus/asm/core',
-		newImportPath: '@spartacus/asm/root'
-	}
+  {
+    previousNode: 'AsmConfig',
+    previousImportPath: '@spartacus/asm/core',
+    newImportPath: '@spartacus/asm/root',
+  },
+  {
+    previousNode: 'AsmUi',
+    previousImportPath: '@spartacus/asm/core',
+    newImportPath: '@spartacus/asm/root',
+  },
+  {
+    previousNode: 'CustomerSearchOptions',
+    previousImportPath: '@spartacus/asm/core',
+    newImportPath: '@spartacus/asm/root',
+  },
+  {
+    previousNode: 'CustomerSearchPage',
+    previousImportPath: '@spartacus/asm/core',
+    newImportPath: '@spartacus/asm/root',
+  },
 ];
