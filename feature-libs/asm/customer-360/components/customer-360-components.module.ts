@@ -9,7 +9,6 @@ import {
   PageComponentModule,
   StarRatingModule,
 } from '@spartacus/storefront';
-import { AsmProductItemComponent } from './asm-product-item/asm-product-item.component';
 import { Customer360Component } from './customer-360/asm-customer-360.component';
 import { AsmCustomerActiveCartModule } from './sections/asm-customer-active-cart/asm-customer-active-cart.module';
 import { AsmCustomerActivityModule } from './sections/asm-customer-activity/asm-customer-activity.module';
@@ -47,20 +46,11 @@ import {
     AsmCustomerMapComponentModule,
     AsmCustomerProductReviewsComponentModule,
   ],
-  declarations: [
-    AsmProductItemComponent,
-    Customer360Component,
-    AsmCustomerSectionComponent,
-  ],
+  declarations: [Customer360Component, AsmCustomerSectionComponent],
   exports: [Customer360Component],
   providers: [
     provideDefaultConfig({
       cmsComponents: {
-        // // TODO: Can't sem to find this component
-        // AsmCustomer360OverviewComponent: {
-        //   component: AsmCustomerOverviewComponent,
-        // },
-
         AsmCustomer360Component: {
           component: Customer360Component,
         },

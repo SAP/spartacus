@@ -12,77 +12,22 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/asm/customer-360": [
-        "dist/asm/customer-360"
+      "@spartacus/asm/assets": ["dist/asm/assets"],
+      "@spartacus/asm/components": ["dist/asm/components"],
+      "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm/customer-360/components": [
+        "dist/asm/customer-360/components"
       ],
-      "@spartacus/asm/assets": [
-        "dist/asm/assets"
-      ],
-      "@spartacus/asm/components": [
-        "dist/asm/components"
-      ],
-      "@spartacus/asm/core": [
-        "dist/asm/core"
-      ],
-      "@spartacus/asm": [
-        "dist/asm"
-      ],
-      "@spartacus/asm/occ": [
-        "dist/asm/occ"
-      ],
-      "@spartacus/asm/root": [
-        "dist/asm/root"
-      ],
-      "@spartacus/core": [
-        "dist/core"
-      ],
-      "@spartacus/storefront": [
-        "dist/storefrontlib"
-      ],
-      "@spartacus/user/account/assets": [
-        "dist/user/account/assets"
-      ],
-      "@spartacus/user/account/components": [
-        "dist/user/account/components"
-      ],
-      "@spartacus/user/account/core": [
-        "dist/user/account/core"
-      ],
-      "@spartacus/user/account": [
-        "dist/user/account"
-      ],
-      "@spartacus/user/account/occ": [
-        "dist/user/account/occ"
-      ],
-      "@spartacus/user/account/root": [
-        "dist/user/account/root"
-      ],
-      "@spartacus/user": [
-        "dist/user"
-      ],
-      "@spartacus/user/profile/assets": [
-        "dist/user/profile/assets"
-      ],
-      "@spartacus/user/profile/components": [
-        "dist/user/profile/components"
-      ],
-      "@spartacus/user/profile/core": [
-        "dist/user/profile/core"
-      ],
-      "@spartacus/user/profile": [
-        "dist/user/profile"
-      ],
-      "@spartacus/user/profile/occ": [
-        "dist/user/profile/occ"
-      ],
-      "@spartacus/user/profile/root": [
-        "dist/user/profile/root"
-      ],
+      "@spartacus/asm/customer-360/core": ["dist/asm/customer-360/core"],
+      "@spartacus/asm/customer-360": ["dist/asm/customer-360"],
+      "@spartacus/asm/customer-360/occ": ["dist/asm/customer-360/occ"],
+      "@spartacus/asm/customer-360/root": ["dist/asm/customer-360/root"],
+      "@spartacus/asm": ["dist/asm"],
+      "@spartacus/asm/occ": ["dist/asm/occ"],
+      "@spartacus/asm/root": ["dist/asm/root"],
+      "@spartacus/core": ["dist/core"],
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
       ],
@@ -119,9 +64,7 @@
       "@spartacus/organization/administration/root": [
         "dist/organization/administration/root"
       ],
-      "@spartacus/organization": [
-        "dist/organization"
-      ],
+      "@spartacus/organization": ["dist/organization"],
       "@spartacus/organization/order-approval/assets": [
         "dist/organization/order-approval/assets"
       ],
@@ -140,9 +83,7 @@
       "@spartacus/organization/unit-order/core": [
         "dist/organization/unit-order/core"
       ],
-      "@spartacus/organization/unit-order": [
-        "dist/organization/unit-order"
-      ],
+      "@spartacus/organization/unit-order": ["dist/organization/unit-order"],
       "@spartacus/organization/unit-order/occ": [
         "dist/organization/unit-order/occ"
       ],
@@ -167,135 +108,79 @@
       "@spartacus/organization/user-registration/root": [
         "dist/organization/user-registration/root"
       ],
-      "@spartacus/cart/base/assets": [
-        "dist/cart/base/assets"
-      ],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/user/account/components": ["dist/user/account/components"],
+      "@spartacus/user/account/core": ["dist/user/account/core"],
+      "@spartacus/user/account": ["dist/user/account"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user": ["dist/user"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
+      "@spartacus/user/profile/components": ["dist/user/profile/components"],
+      "@spartacus/user/profile/core": ["dist/user/profile/core"],
+      "@spartacus/user/profile": ["dist/user/profile"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
       ],
       "@spartacus/cart/base/components/mini-cart": [
         "dist/cart/base/components/mini-cart"
       ],
-      "@spartacus/cart/base/components": [
-        "dist/cart/base/components"
-      ],
-      "@spartacus/cart/base/core": [
-        "dist/cart/base/core"
-      ],
-      "@spartacus/cart/base": [
-        "dist/cart/base"
-      ],
-      "@spartacus/cart/base/occ": [
-        "dist/cart/base/occ"
-      ],
-      "@spartacus/cart/base/root": [
-        "dist/cart/base/root"
-      ],
+      "@spartacus/cart/base/components": ["dist/cart/base/components"],
+      "@spartacus/cart/base/core": ["dist/cart/base/core"],
+      "@spartacus/cart/base": ["dist/cart/base"],
+      "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
+      "@spartacus/cart/base/root": ["dist/cart/base/root"],
       "@spartacus/cart/import-export/assets": [
         "dist/cart/import-export/assets"
       ],
       "@spartacus/cart/import-export/components": [
         "dist/cart/import-export/components"
       ],
-      "@spartacus/cart/import-export/core": [
-        "dist/cart/import-export/core"
-      ],
-      "@spartacus/cart/import-export": [
-        "dist/cart/import-export"
-      ],
-      "@spartacus/cart/import-export/root": [
-        "dist/cart/import-export/root"
-      ],
-      "@spartacus/cart": [
-        "dist/cart"
-      ],
-      "@spartacus/cart/quick-order/assets": [
-        "dist/cart/quick-order/assets"
-      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
+      "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
       "@spartacus/cart/quick-order/components": [
         "dist/cart/quick-order/components"
       ],
-      "@spartacus/cart/quick-order/core": [
-        "dist/cart/quick-order/core"
-      ],
-      "@spartacus/cart/quick-order": [
-        "dist/cart/quick-order"
-      ],
-      "@spartacus/cart/quick-order/root": [
-        "dist/cart/quick-order/root"
-      ],
-      "@spartacus/cart/saved-cart/assets": [
-        "dist/cart/saved-cart/assets"
-      ],
+      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
+      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
+      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [
         "dist/cart/saved-cart/components"
       ],
-      "@spartacus/cart/saved-cart/core": [
-        "dist/cart/saved-cart/core"
-      ],
-      "@spartacus/cart/saved-cart": [
-        "dist/cart/saved-cart"
-      ],
-      "@spartacus/cart/saved-cart/occ": [
-        "dist/cart/saved-cart/occ"
-      ],
-      "@spartacus/cart/saved-cart/root": [
-        "dist/cart/saved-cart/root"
-      ],
-      "@spartacus/cart/wish-list/assets": [
-        "dist/cart/wish-list/assets"
-      ],
+      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
+      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
+      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
+      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
       "@spartacus/cart/wish-list/components/add-to-wishlist": [
         "dist/cart/wish-list/components/add-to-wishlist"
       ],
       "@spartacus/cart/wish-list/components": [
         "dist/cart/wish-list/components"
       ],
-      "@spartacus/cart/wish-list/core": [
-        "dist/cart/wish-list/core"
-      ],
-      "@spartacus/cart/wish-list": [
-        "dist/cart/wish-list"
-      ],
-      "@spartacus/cart/wish-list/root": [
-        "dist/cart/wish-list/root"
-      ],
-      "@spartacus/order/assets": [
-        "dist/order/assets"
-      ],
-      "@spartacus/order/components": [
-        "dist/order/components"
-      ],
-      "@spartacus/order/core": [
-        "dist/order/core"
-      ],
-      "@spartacus/order": [
-        "dist/order"
-      ],
-      "@spartacus/order/occ": [
-        "dist/order/occ"
-      ],
-      "@spartacus/order/root": [
-        "dist/order/root"
-      ],
-      "@spartacus/storefinder/assets": [
-        "dist/storefinder/assets"
-      ],
-      "@spartacus/storefinder/components": [
-        "dist/storefinder/components"
-      ],
-      "@spartacus/storefinder/core": [
-        "dist/storefinder/core"
-      ],
-      "@spartacus/storefinder": [
-        "dist/storefinder"
-      ],
-      "@spartacus/storefinder/occ": [
-        "dist/storefinder/occ"
-      ],
-      "@spartacus/storefinder/root": [
-        "dist/storefinder/root"
-      ]
+      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
+      "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
+      "@spartacus/storefinder/components": ["dist/storefinder/components"],
+      "@spartacus/storefinder/core": ["dist/storefinder/core"],
+      "@spartacus/storefinder": ["dist/storefinder"],
+      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
+      "@spartacus/storefinder/root": ["dist/storefinder/root"]
     }
   },
   "angularCompilerOptions": {
@@ -305,9 +190,5 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": [
-    "test.ts",
-    "setup-jest.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

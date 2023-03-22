@@ -17,4 +17,4 @@ import { Customer360OccModule } from '@spartacus/asm/customer-360/occ';
   ],
   providers: [],
 })
-export class AsmCustomer360Module {}
+export class Customer360Module {}
