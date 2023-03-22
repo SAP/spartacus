@@ -42,6 +42,10 @@
                 "bundleName": "asm"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-customer-360.scss",
+                "bundleName": "customer-360"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },
