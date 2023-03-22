@@ -1,12 +1,13 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmConfig } from '@spartacus/asm/core';
 import {
-  AsmCustomer360Response,
-  AsmCustomer360Type,
   AsmDialogActionType,
-} from '@spartacus/asm/root';
+  Customer360Config,
+  Customer360Facade,
+  Customer360Response,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { I18nTestingModule, User } from '@spartacus/core';
@@ -17,40 +18,36 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-
-import { AsmCustomer360Component } from './asm-customer-360.component';
-import { Asm360Facade } from './services/asm-360.facade';
+import { Customer360Component } from './asm-customer-360.component';
 
 describe('AsmCustomer360Component', () => {
-  const mockAsmConfig: AsmConfig = {
-    asm: {
-      customer360: {
-        tabs: [
-          {
-            i18nNameKey: 'asm.customer360.overviewTab',
-            components: [
-              {
-                component: 'AsmCustomer360OverviewComponent',
+  const mockAsmConfig: Customer360Config = {
+    customer360: {
+      tabs: [
+        {
+          i18nNameKey: 'asm.customer360.overviewTab',
+          components: [
+            {
+              component: 'AsmCustomer360OverviewComponent',
+            },
+          ],
+        },
+        {
+          i18nNameKey: 'asm.customer360.profileTab',
+          components: [
+            {
+              component: 'AsmCustomer360ProfileComponent',
+            },
+            {
+              component: 'AsmCustomer360ProductReviewsComponent',
+              requestData: {
+                type: Customer360Type.REVIEW_LIST,
               },
-            ],
-          },
-          {
-            i18nNameKey: 'asm.customer360.profileTab',
-            components: [
-              {
-                component: 'AsmCustomer360ProfileComponent',
-              },
-              {
-                component: 'AsmCustomer360ProductReviewsComponent',
-                requestData: {
-                  type: AsmCustomer360Type.REVIEW_LIST,
-                },
-                config: { pageSize: 5 },
-              },
-            ],
-          },
-        ],
-      },
+              config: { pageSize: 5 },
+            },
+          ],
+        },
+      ],
     },
   };
 
@@ -98,12 +95,12 @@ describe('AsmCustomer360Component', () => {
   }
 
   class MockAsm360Service {
-    get360Data(tab: number): Observable<AsmCustomer360Response> {
+    get360Data(tab: number): Observable<Customer360Response> {
       if (tab === 0) {
         return of({
           value: [
             {
-              type: AsmCustomer360Type.REVIEW_LIST,
+              type: Customer360Type.REVIEW_LIST,
               reviews: [],
             },
           ],
@@ -134,21 +131,21 @@ describe('AsmCustomer360Component', () => {
     closeDialog() {}
   }
 
-  let component: AsmCustomer360Component;
-  let fixture: ComponentFixture<AsmCustomer360Component>;
+  let component: Customer360Component;
+  let fixture: ComponentFixture<Customer360Component>;
   let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [AsmCustomer360Component, MockAsmCustomerSectionComponent],
+      declarations: [Customer360Component, MockAsmCustomerSectionComponent],
       providers: [
-        { provide: AsmConfig, useValue: mockAsmConfig },
+        { provide: Customer360Config, useValue: mockAsmConfig },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryService },
         { provide: SavedCartFacade, useClass: MockSavedCartService },
-        { provide: Asm360Facade, useClass: MockAsm360Service },
+        { provide: Customer360Facade, useClass: MockAsm360Service },
         {
           provide: DirectionService,
           useClass: MockDirectionService,
@@ -159,7 +156,7 @@ describe('AsmCustomer360Component', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AsmCustomer360Component);
+    fixture = TestBed.createComponent(Customer360Component);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
@@ -237,7 +234,7 @@ describe('AsmCustomer360Component', () => {
   describe('Tab navigation', () => {
     it('should display tabs', () => {
       expect(component.tabHeaderItems.length).toBe(
-        mockAsmConfig.asm?.customer360?.tabs?.length
+        mockAsmConfig.customer360?.tabs?.length
       );
     });
     it('should activate the first tab when dialog opens', () => {

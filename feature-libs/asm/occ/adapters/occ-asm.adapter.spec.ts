@@ -9,11 +9,6 @@ import {
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
-  Customer360Request,
-  Customer360Response,
-  Customer360Type,
-} from '@spartacus/asm/customer-360/root';
-import {
   AsmConfig,
   CustomerListsPage,
   CustomerSearchOptions,
@@ -342,42 +337,5 @@ describe('OccAsmAdapter', () => {
     });
 
     mockReq.flush(null);
-  });
-
-  it('should get customer 360 data', (done) => {
-    const request: Customer360Request = {
-      queries: [
-        {
-          type: Customer360Type.REVIEW_LIST,
-        },
-      ],
-      options: {
-        userId: 'user001',
-      },
-    };
-
-    const response: Customer360Response = {
-      value: [
-        {
-          type: Customer360Type.REVIEW_LIST,
-          reviews: [],
-        },
-      ],
-    };
-
-    occAsmAdapter.getCustomer360Data(request).subscribe((backendResponse) => {
-      expect(backendResponse).toBe(response);
-      done();
-    });
-
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.url === 'asmCustomer360' &&
-        req.method === 'POST' &&
-        req.body.customer360Queries === request.queries
-      );
-    });
-
-    mockReq.flush(response);
   });
 });

@@ -9,6 +9,7 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { ArgsPipe } from '@spartacus/asm/core';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   DirectionMode,
@@ -16,8 +17,7 @@ import {
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { ArgsPipe } from '@spartacus/asm/core';
-import { GeneralEntry } from '../../sections/asm-customer-activity/asm-customer-activity.model';
+import { GeneralEntry } from '../sections/asm-customer-activity/asm-customer-activity.model';
 
 import { AsmCustomerTableComponent } from './asm-customer-table.component';
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';

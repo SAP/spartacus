@@ -1,68 +1,24 @@
 import {
   HttpClientTestingModule,
   HttpTestingController,
-  TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  AsmConfig,
-  CustomerSearchOptions,
-  CustomerSearchPage,
-  CUSTOMER_LISTS_NORMALIZER,
-  CUSTOMER_SEARCH_PAGE_NORMALIZER,
-} from '@spartacus/asm/core';
-import {
-  AsmCustomer360Request,
-  AsmCustomer360Response,
-  AsmCustomer360Type,
-  CustomerListsPage,
-} from '@spartacus/asm/root';
+  Customer360Request,
+  Customer360Response,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
-  User,
-  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OccAsmAdapter } from './occ-asm.adapter';
-
-const MockAsmConfig: AsmConfig = {};
-
-const mockUser: User = {
-  displayUid: 'Display Uid',
-  firstName: 'First',
-  lastName: 'Last',
-  name: 'First Last',
-  uid: 'user@test.com',
-  customerId: '123456',
-};
-
-const mockCustomerSearchPage: CustomerSearchPage = {
-  entries: [mockUser],
-} as CustomerSearchPage;
-
-const mockCustomerListPage: CustomerListsPage = {
-  userGroups: [
-    {
-      name: 'Current In-Store Customers',
-      uid: 'instoreCustomers',
-    },
-    {
-      name: 'Pick-Up In-Store Customers',
-      uid: 'bopisCustomers',
-    },
-    {
-      name: 'My Recent Customer Sessions',
-      uid: 'myRecentCustomerSessions',
-    },
-  ],
-};
+import { OccCustomer360Adapter } from './occ-customer-360.adapter';
 
 const baseSite = 'test-site';
-const defaultSort = 'byNameAsc';
 class MockBaseSiteService {
   getActive(): Observable<string> {
     return of(baseSite);
@@ -79,8 +35,8 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
-describe('OccAsmAdapter', () => {
-  let occAsmAdapter: OccAsmAdapter;
+describe('OccCustomer360Adapter', () => {
+  let occCustomer360Adapter: OccCustomer360Adapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
   let occEnpointsService: OccEndpointsService;
@@ -89,14 +45,13 @@ describe('OccAsmAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccAsmAdapter,
+        OccCustomer360Adapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
-        { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    occAsmAdapter = TestBed.inject(OccAsmAdapter);
+    occCustomer360Adapter = TestBed.inject(OccCustomer360Adapter);
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
@@ -105,248 +60,14 @@ describe('OccAsmAdapter', () => {
   });
 
   it('should be created', () => {
-    expect(occAsmAdapter).toBeTruthy();
-  });
-
-  it('should perform a customer lists', () => {
-    let result: CustomerListsPage = mockCustomerListPage;
-
-    occAsmAdapter.customerLists().subscribe((data) => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerListPage);
-    expect(result).toEqual(mockCustomerListPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_LISTS_NORMALIZER
-    );
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'asmCustomerLists',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-  });
-
-  it('should perform a customer search with customerListId', () => {
-    let result: CustomerSearchPage = mockCustomerSearchPage;
-    const searchQuery = 'user@test.com';
-    const pageSize = 10;
-    const currentPage = 1;
-    const sort = 'byNameAsc';
-    const customerListId = mockCustomerListPage?.userGroups?.[0].uid;
-    const searchOptions: CustomerSearchOptions = {
-      query: searchQuery,
-      customerListId,
-      pageSize,
-      currentPage,
-      sort,
-    };
-    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-    expect(mockReq.request.params.get('sort')).toBe(sort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
-    expect(mockReq.request.params.get('customerListId')).toBe(customerListId);
-    expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerSearchPage);
-    expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
-    );
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'asmCustomerSearch',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-  });
-
-  it('should perform a customer search with all params', () => {
-    let result: CustomerSearchPage;
-    const searchQuery = 'user@test.com';
-    const pageSize = 10;
-    const searchOptions: CustomerSearchOptions = {
-      query: searchQuery,
-      pageSize,
-    };
-    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-    expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
-    expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerSearchPage);
-    expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
-    );
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'asmCustomerSearch',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-  });
-
-  it('should not include optional params if they are not in the options', () => {
-    let result: CustomerSearchPage;
-    const searchOptions: CustomerSearchOptions = {};
-    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-    expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBeNull();
-    expect(mockReq.request.params.get('pageSize')).toBeNull();
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerSearchPage);
-    expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
-    );
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'asmCustomerSearch',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-  });
-
-  it('should perform a customer search with pageSize 0', () => {
-    let result: CustomerSearchPage;
-    const searchQuery = 'user@test.com';
-    const pageSize = 0;
-    const searchOptions: CustomerSearchOptions = {
-      query: searchQuery,
-      pageSize,
-    };
-    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-    expect(mockReq.request.params.get('sort')).toBe(defaultSort);
-    expect(mockReq.request.params.get('query')).toBe(searchQuery);
-    expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerSearchPage);
-    expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
-    );
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'asmCustomerSearch',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-  });
-
-  it('should not include default sort if customerListId is passed', () => {
-    let result: CustomerSearchPage;
-    const searchOptions: CustomerSearchOptions = {
-      customerListId: 'instoreCustomers',
-    };
-    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
-      result = data;
-    });
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-
-    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
-    expect(mockReq.request.params.get('sort')).toBeNull();
-    expect(mockReq.request.params.get('query')).toBeNull();
-    expect(mockReq.request.params.get('pageSize')).toBeNull();
-
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(mockCustomerSearchPage);
-    expect(result).toEqual(mockCustomerSearchPage);
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      CUSTOMER_SEARCH_PAGE_NORMALIZER
-    );
-    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
-      'asmCustomerSearch',
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
-  });
-
-  it('should bind an anonymous cart to a registered user', (done) => {
-    occAsmAdapter
-      .bindCart({ cartId: 'cart001', customerId: 'customer001' })
-      .subscribe((response) => {
-        expect(response).toBeFalsy();
-        done();
-      });
-
-    const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return (
-        req.url === 'asmBindCart' &&
-        req.params.get('cartId') === 'cart001' &&
-        req.params.get('customerId') === 'customer001' &&
-        req.headers.get(USE_CUSTOMER_SUPPORT_AGENT_TOKEN) === 'true' &&
-        req.method === 'POST'
-      );
-    });
-
-    mockReq.flush(null);
+    expect(occCustomer360Adapter).toBeTruthy();
   });
 
   it('should get customer 360 data', (done) => {
-    const request: AsmCustomer360Request = {
+    const request: Customer360Request = {
       queries: [
         {
-          type: AsmCustomer360Type.REVIEW_LIST,
+          type: Customer360Type.REVIEW_LIST,
         },
       ],
       options: {
@@ -354,23 +75,64 @@ describe('OccAsmAdapter', () => {
       },
     };
 
-    const response: AsmCustomer360Response = {
+    const response: Customer360Response = {
       value: [
         {
-          type: AsmCustomer360Type.REVIEW_LIST,
+          type: Customer360Type.REVIEW_LIST,
           reviews: [],
         },
       ],
     };
 
-    occAsmAdapter.getCustomer360Data(request).subscribe((backendResponse) => {
-      expect(backendResponse).toBe(response);
-      done();
-    });
+    occCustomer360Adapter
+      .getCustomer360Data(request)
+      .subscribe((backendResponse) => {
+        expect(backendResponse).toBe(response);
+        done();
+      });
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.url === 'asmCustomer360' &&
+        req.url === 'customer360' &&
+        req.method === 'POST' &&
+        req.body.customer360Queries === request.queries
+      );
+    });
+
+    mockReq.flush(response);
+  });
+
+  it('should get customer 360 data', (done) => {
+    const request: Customer360Request = {
+      queries: [
+        {
+          type: Customer360Type.REVIEW_LIST,
+        },
+      ],
+      options: {
+        userId: 'user001',
+      },
+    };
+
+    const response: Customer360Response = {
+      value: [
+        {
+          type: Customer360Type.REVIEW_LIST,
+          reviews: [],
+        },
+      ],
+    };
+
+    occCustomer360Adapter
+      .getCustomer360Data(request)
+      .subscribe((backendResponse) => {
+        expect(backendResponse).toBe(response);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.url === 'customer360' &&
         req.method === 'POST' &&
         req.body.customer360Queries === request.queries
       );

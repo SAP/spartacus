@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ArgsPipe } from '@spartacus/asm/core';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   I18nTestingModule,
@@ -22,9 +23,8 @@ import {
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { ArgsPipe } from '@spartacus/asm/core';
 import { Observable, of } from 'rxjs';
-import { AsmCustomerTableComponent } from '../../asm-customer-ui-components/asm-customer-table/asm-customer-table.component';
+import { AsmCustomerTableComponent } from '../../asm-customer-table/asm-customer-table.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerActivityComponent } from './asm-customer-activity.component';

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  AsmCustomer360ReviewList,
-  AsmCustomer360Type,
-} from '@spartacus/asm/root';
+  Customer360ReviewList,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
@@ -19,8 +19,8 @@ describe('AsmCustomerProductReviewsComponent', () => {
   let component: AsmCustomerProductReviewsComponent;
   let fixture: ComponentFixture<AsmCustomerProductReviewsComponent>;
 
-  const reviewList: AsmCustomer360ReviewList = {
-    type: AsmCustomer360Type.REVIEW_LIST,
+  const reviewList: Customer360ReviewList = {
+    type: Customer360Type.REVIEW_LIST,
     reviews: [
       {
         productName: 'Shirt',

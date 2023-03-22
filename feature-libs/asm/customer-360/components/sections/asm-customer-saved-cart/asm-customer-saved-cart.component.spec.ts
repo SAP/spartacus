@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule, ImageType, Product } from '@spartacus/core';
 
-import { AsmCustomerProductListingComponent } from '../../asm-customer-ui-components/asm-customer-product-listing/asm-customer-product-listing.component';
+import { AsmCustomerProductListingComponent } from '../../asm-customer-product-listing/asm-customer-product-listing.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerSavedCartComponent } from './asm-customer-saved-cart.component';

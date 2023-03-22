@@ -2,9 +2,9 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  AsmCustomer360ProductInterestList,
-  AsmCustomer360Type,
-} from '@spartacus/asm/root';
+  Customer360ProductInterestList,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
 import {
   I18nTestingModule,
   ImageType,
@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 
-import { AsmCustomerProductListingComponent } from '../../asm-customer-ui-components/asm-customer-product-listing/asm-customer-product-listing.component';
+import { AsmCustomerProductListingComponent } from '../../asm-customer-product-listing/asm-customer-product-listing.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerProductInterestsComponent } from './asm-customer-product-interests.component';
@@ -121,7 +121,7 @@ describe('AsmCustomerProductInterestsComponent', () => {
 
     const contextSource = TestBed.inject(Customer360SectionContextSource);
 
-    const interestList: AsmCustomer360ProductInterestList = {
+    const interestList: Customer360ProductInterestList = {
       customerProductInterests: [
         {
           product: {
@@ -134,7 +134,7 @@ describe('AsmCustomerProductInterestsComponent', () => {
           },
         },
       ],
-      type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
+      type: Customer360Type.PRODUCT_INTEREST_LIST,
     };
 
     contextSource.data$.next(interestList);

@@ -28,7 +28,6 @@ export class OccCustomer360Adapter implements Customer360Adapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    // protected config: Customer360Config, // TODO: needed?
     protected baseSiteService: BaseSiteService
   ) {
     this.baseSiteService

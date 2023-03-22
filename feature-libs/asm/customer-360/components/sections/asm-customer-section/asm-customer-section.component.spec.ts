@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Customer360SectionConfig } from '@spartacus/asm/root';
+import { Customer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { Cart } from '@spartacus/cart/base/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';

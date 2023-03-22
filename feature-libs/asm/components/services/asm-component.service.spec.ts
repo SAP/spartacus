@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { AsmDialogActionType } from '@spartacus/asm/customer-360/root';
 import {
-  AsmDialogActionType,
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
@@ -33,10 +33,10 @@ describe('AsmComponentService', () => {
     startCustomerEmulationSession(): void {}
   }
 
-  const store = {};
+  const store: { [k: string]: string } = {};
   const MockWindowRef = {
     localStorage: {
-      getItem: (key: string): string => {
+      getItem: (key: string): string | null => {
         return key in store ? store[key] : null;
       },
       setItem: (key: string, value: string) => {
@@ -132,11 +132,12 @@ describe('AsmComponentService', () => {
 
   describe('Unload', () => {
     it('should remove local storage key to false on unload', () => {
-      windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
+      const localStorage = windowRef.localStorage as Storage;
+      localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
+
       asmComponentService.unload();
-      expect(
-        windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
-      ).toBeNull();
+
+      expect(localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)).toBeNull();
     });
   });
 

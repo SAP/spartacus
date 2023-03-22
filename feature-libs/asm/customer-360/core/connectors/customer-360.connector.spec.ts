@@ -1,139 +1,52 @@
 import { TestBed } from '@angular/core/testing';
-import { BindCartParams, CustomerListsPage } from '@spartacus/asm/root';
-import { EMPTY, Observable, of } from 'rxjs';
 import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '../models/asm.models';
-import { AsmAdapter } from './asm.adapter';
-import { AsmConnector } from './asm.connector';
+  Customer360Request,
+  Customer360Response,
+} from '@spartacus/asm/customer-360/root';
+import { Observable, of } from 'rxjs';
+import { Customer360Adapter } from './customer-360.adapter';
+import { Customer360Connector } from './customer-360.connector';
 
-class MockAsmAdapter {
-  customerSearch(
-    _options: CustomerSearchOptions
-  ): Observable<CustomerSearchPage> {
-    return EMPTY;
-  }
-  customerLists(): Observable<CustomerListsPage> {
-    return EMPTY;
-  }
-  bindCart(_options: BindCartParams): Observable<unknown> {
-    return EMPTY;
+class MockCustomer360Adapter {
+  getCustomer360Data(
+    _request: Customer360Request
+  ): Observable<Customer360Response> {
+    const response: Customer360Response = { value: [] };
+    return of(response);
   }
 }
-const MOCK_ID = '00000123';
-const MOCK_USER_ID = 'userId';
-const testSearchOptions: CustomerSearchOptions = { query: 'abcde' };
-const testSearchResults: CustomerSearchPage = {
-  entries: [
-    {
-      name: 'test-name',
-      uid: 'test-uid',
-      customerId: 'test-customerId',
-      displayUid: 'test-displayUid',
-      firstName: 'test-firstName',
-      lastName: 'test-lastName',
-    },
-    {
-      name: 'test-name',
-      uid: 'test-uid',
-      customerId: 'test-customerId',
-      displayUid: 'test-displayUid',
-      firstName: 'test-firstName',
-      lastName: 'test-lastName',
-    },
-  ],
-  pagination: {
-    currentPage: 0,
-    pageSize: 20,
-  },
-} as CustomerSearchPage;
 
-const mockBindCartResponse = {};
-
-const mockCustomerListPage: CustomerListsPage = {
-  userGroups: [
-    {
-      name: 'Current In-Store Customers',
-      uid: 'instoreCustomers',
-    },
-    {
-      name: 'Pick-Up In-Store Customers',
-      uid: 'bopisCustomers',
-    },
-    {
-      name: 'My Recent Customer Sessions',
-      uid: 'myRecentCustomerSessions',
-    },
-  ],
-};
-
-const mockBindCartParams = {
-  cartId: MOCK_ID,
-  customerId: MOCK_USER_ID,
-};
-
-describe('AsmConnector', () => {
-  let asmConnector: AsmConnector;
-  let asmAdapter: AsmAdapter;
+describe('Customer360Connector', () => {
+  let service: Customer360Connector;
+  let customer360Adapter: Customer360Adapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: AsmAdapter, useClass: MockAsmAdapter }],
+      providers: [
+        { provide: Customer360Adapter, useClass: MockCustomer360Adapter },
+      ],
     });
 
-    asmConnector = TestBed.inject(AsmConnector);
-    asmAdapter = TestBed.inject(AsmAdapter);
+    service = TestBed.inject(Customer360Connector);
+
+    customer360Adapter = TestBed.inject(Customer360Adapter);
+    spyOn(customer360Adapter, 'getCustomer360Data').and.callThrough();
   });
 
   it('should be created', () => {
-    expect(asmConnector).toBeTruthy();
+    expect(service).toBeTruthy();
   });
 
-  it('should call adapter for customerSearch', () => {
-    spyOn(asmAdapter, 'customerSearch').and.stub();
-    asmConnector.customerSearch(testSearchOptions);
-    expect(asmAdapter.customerSearch).toHaveBeenCalledWith(testSearchOptions);
-  });
+  describe('getCustomer360Data()', () => {
+    it('should pass the request to the provided adapter', () => {
+      const input: Customer360Request = {
+        options: { userId: '' },
+        queries: [],
+      };
 
-  it('should return customerSearch results ', (done) => {
-    spyOn(asmAdapter, 'customerSearch').and.returnValue(of(testSearchResults));
-    asmConnector.customerSearch(testSearchOptions).subscribe((results) => {
-      expect(results).toEqual(testSearchResults);
-      done();
-    });
-  });
+      service.getCustomer360Data(input).subscribe();
 
-  it('should call adapter for customerLists', () => {
-    spyOn(asmAdapter, 'customerLists').and.stub();
-    asmConnector.customerLists();
-    expect(asmAdapter.customerLists).toHaveBeenCalled();
-  });
-
-  it('should return customerLists results', (done) => {
-    spyOn(asmAdapter, 'customerLists').and.returnValue(
-      of(mockCustomerListPage)
-    );
-    asmConnector.customerLists().subscribe((results) => {
-      expect(results).toEqual(mockCustomerListPage);
-      done();
-    });
-  });
-
-  it('should call adapter for bind cart', () => {
-    spyOn(asmAdapter, 'bindCart').and.callThrough();
-
-    asmConnector.bindCart(mockBindCartParams);
-
-    expect(asmAdapter.bindCart).toHaveBeenCalledWith(mockBindCartParams);
-  });
-
-  it('should pass the adapter bind cart response through to calling context ', (done) => {
-    spyOn(asmAdapter, 'bindCart').and.returnValue(of(mockBindCartResponse));
-
-    asmConnector.bindCart(mockBindCartParams).subscribe((results) => {
-      expect(results).toEqual(mockBindCartResponse);
-      done();
+      expect(customer360Adapter.getCustomer360Data).toHaveBeenCalledWith(input);
     });
   });
 });

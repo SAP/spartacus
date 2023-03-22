@@ -36,59 +36,57 @@ context('Assisted Service Module - Customer 360', () => {
     clearAllStorage();
 
     cy.cxConfig({
-      asm: {
-        customer360: {
-          tabs: [
-            {
-              i18nNameKey: 'asm.customer360.overviewTab',
-              components: [
-                {
-                  component: 'AsmCustomer360OverviewComponent',
+      customer360: {
+        tabs: [
+          {
+            i18nNameKey: 'asm.customer360.overviewTab',
+            components: [
+              {
+                component: 'AsmCustomer360OverviewComponent',
+              },
+            ],
+          },
+          {
+            i18nNameKey: 'asm.customer360.profileTab',
+            components: [
+              {
+                component: 'AsmCustomer360ProfileComponent',
+              },
+            ],
+          },
+          {
+            i18nNameKey: 'asm.customer360.activityTab',
+            components: [
+              {
+                component: 'AsmCustomer360CustomerActivityComponent',
+                config: { pageSize: 5 },
+              },
+              {
+                component: 'AsmCustomer360ProductReviewsComponent',
+                requestData: {
+                  customer360Type: 'C360ReviewList',
                 },
-              ],
-            },
-            {
-              i18nNameKey: 'asm.customer360.profileTab',
-              components: [
-                {
-                  component: 'AsmCustomer360ProfileComponent',
+                config: { pageSize: 5 },
+              },
+            ],
+          },
+          {
+            i18nNameKey: 'asm.customer360.mapsTab',
+            components: [
+              {
+                component: 'AsmCustomer360MapComponent',
+                requestData: {
+                  customer360Type: 'C360StoreLocation',
                 },
-              ],
-            },
-            {
-              i18nNameKey: 'asm.customer360.activityTab',
-              components: [
-                {
-                  component: 'AsmCustomer360CustomerActivityComponent',
-                  config: { pageSize: 5 },
+                config: {
+                  googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+                  storefinderRadius: 10000000,
+                  pageSize: 10,
                 },
-                {
-                  component: 'AsmCustomer360ProductReviewsComponent',
-                  requestData: {
-                    customer360Type: 'C360ReviewList',
-                  },
-                  config: { pageSize: 5 },
-                },
-              ],
-            },
-            {
-              i18nNameKey: 'asm.customer360.mapsTab',
-              components: [
-                {
-                  component: 'AsmCustomer360MapComponent',
-                  requestData: {
-                    customer360Type: 'C360StoreLocation',
-                  },
-                  config: {
-                    googleMapsApiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
-                    storefinderRadius: 10000000,
-                    pageSize: 10,
-                  },
-                },
-              ],
-            },
-          ],
-        },
+              },
+            ],
+          },
+        ],
       },
     });
   });
