@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -18,10 +17,10 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerProfileData } from './asm-customer-profile.model';
-import { PaymentDetails } from '@spartacus/cart/base/root';
 
 @Component({
   selector: 'cx-asm-customer-profile',
