@@ -10,7 +10,7 @@ import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-type IOutletContextData = { item: Consignment; order: Order; }
+type IOutletContextData = { item: Consignment; order: Order };
 
 /**
  * A container component of the pair of the pickup options radio buttons for cart entry.
