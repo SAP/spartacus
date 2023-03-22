@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { LibraryOptions, SchematicConfig } from '@spartacus/schematics';
 export interface SpartacusCdpOptions extends LibraryOptions {
   baseSite?: string;
