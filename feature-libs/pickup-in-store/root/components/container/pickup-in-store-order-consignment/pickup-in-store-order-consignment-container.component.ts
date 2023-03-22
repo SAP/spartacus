@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 /**
  * A container component of the pair of the pickup options radio buttons for cart entry.
@@ -15,22 +16,23 @@ import { tap } from 'rxjs/operators';
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
 })
-export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
+export class PickupInStoreOrderConsignmentContainerComponent implements OnInit, OnDestroy {
   constructor(
     @Optional()
-    protected outlet: OutletContextData<{ item: Consignment; order: Order }>
-  ) {}
+    protected outlet: OutletContextData<{ item: Consignment; order: Order; }>
+  ) { }
   consignment: Consignment;
   order: Order;
+  subscription: Subscription = new Subscription();
   ngOnInit(): void {
-    this.outlet?.context$
+    this.subscription.add(this.outlet?.context$
       ?.pipe(
         tap((context) => {
           this.consignment = context.item;
           this.order = context.order;
         })
       )
-      .subscribe();
+      .subscribe());
   }
   normalizeFormattedAddress(formattedAddress: string): string {
     const addresses = formattedAddress
@@ -38,5 +40,9 @@ export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
       ?.map((address) => address.trim());
 
     return addresses?.filter(Boolean).join(', ');
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
