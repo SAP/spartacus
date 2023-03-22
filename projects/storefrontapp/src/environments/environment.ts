@@ -29,6 +29,5 @@ export const environment: Environment = {
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
-  pickupInStore: buildProcess.env.CX_PICKUP_IN_STORE ?? false,
   s4om: buildProcess.env.CX_S4OM ?? false,
 };
