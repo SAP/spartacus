@@ -2,13 +2,14 @@
 <table class="cx-cdp-side-table">
   <td>
     <ng-container *ngIf="user$| async as user;">
-      <div style="text-align: left;">
-        <!-- {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }} -->
-        {{user.title}}. {{user.name}} 
+      <div *ngIf=" user.title !== '' ; else title" >
+        {{user.name}} 
       </div>
-      <div style="text-align: left;">
+
+      
+      <div >
         
-        <a
+        <a class="cx-sign-out"
           [routerLink]="
             {
               cxRoute: 'logOut'
@@ -19,14 +20,14 @@
   </td>
 </table>
 <table class="cx-cdp-side-table">
-  <th>Order Information</th>
+  <th>{{ 'cdpOrderHistory.orderInformation' | cxTranslate}}</th>
   <tr
   role="row"
 >
   <td role="cell" >
     <span aria-hidden="true">
       <cx-icon type="ORDER"></cx-icon>
-    </span> <a
+    </span> <a class="cx-side-navigation"
     [routerLink]="
       {
         cxRoute: 'orders'
@@ -53,7 +54,7 @@
 </table>
 
 <table class="cx-cdp-side-table">
-  <th>Customer Service</th>
+  <th>{{ 'cdpOrderHistory.customerService' | cxTranslate}}</th>
   <tr>
     <td>
       <span aria-hidden="true">
@@ -71,13 +72,19 @@
 </table>
 
 <table class="cx-cdp-side-table">
-  <th>Account Information</th>
+  <th>{{ 'cdpOrderHistory.accountInformation' | cxTranslate}} </th>
   <tr>
     <td>
       <span aria-hidden="true">
         <cx-icon type="USER"></cx-icon>
       </span>
-      {{'cdpOrderHistory.personalDetails' | cxTranslate }}</td>
+      <a class="cx-side-navigation"
+      [routerLink]="
+        {
+          cxRoute: 'logOut'
+        } | cxUrl
+      ">{{'cdpOrderHistory.personalDetails' | cxTranslate }} </a>
+      </td>
   </tr>
   <tr>
     <td>
@@ -115,4 +122,9 @@
   </tr>
 </table>
 </div>
+<ng-template #title>
+  <div>
+  {{user.title}}{{'cdpOrderHistory.dot' | cxTranslate}}{{user.name}}
+  </div>
+</ng-template>
 
