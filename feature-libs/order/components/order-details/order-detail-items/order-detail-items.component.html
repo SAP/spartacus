@@ -26,7 +26,7 @@
       *ngIf="
         deliveryConsignments &&
         deliveryConsignments.length > 0 &&
-        (displayConsignmentDelivery$ | async)
+        (groupCartItems$ | async)
       "
       [cxOutlet]="OrderOutlets.CONSIGNMENT_DELIVERY_INFO"
       [cxOutletContext]="{
@@ -54,9 +54,9 @@
           }}
         </div>
       </div>
-      <!-- delivery unconsigned entries-->
+      <!-- delivery unconsigned entries -->
       <ng-container *ngIf="deliveryUnConsignedEntries?.length">
-        <h2 class="cx-review-header">
+        <h2 *ngIf="groupCartItems$ | async" class="cx-review-header">
           {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
         </h2>
         <div class="cx-list-item">
@@ -76,7 +76,7 @@
           </ng-template>
         </div>
       </ng-container>
-      <!-- pickup unconsigned entries-->
+      <!-- pickup unconsigned entries, b2b does not have pickup items -->
       <ng-container *ngIf="pickupUnconsignedEntries?.length">
         <h2 class="cx-review-header">
           {{ 'checkoutPickupInStore.heading' | cxTranslate }}
@@ -100,7 +100,7 @@
       </ng-container>
     </ng-container>
 
-    <!-- any other entries -->
+    <!-- replenishment other entries -->
     <ng-container *ngIf="order?.entries && order?.replenishmentOrderCode">
       <div class="cx-list">
         <div *ngIf="order?.statusDisplay" class="cx-list-header">
@@ -114,9 +114,7 @@
           <ng-template
             [cxOutlet]="CartOutlets.CART_ITEM_LIST"
             [cxOutletContext]="{
-              items: order?.unconsignedEntries
-                ? order.unconsignedEntries
-                : order.entries,
+              items: order.entries,
               readonly: true,
               promotionLocation: promotionLocation,
               options: {

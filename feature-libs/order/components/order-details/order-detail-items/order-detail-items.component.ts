@@ -64,8 +64,9 @@ export class OrderDetailItemsComponent {
       ? this.orderDetailsService.isOrderDetailsLoading()
       : of(false);
 
-  displayConsignmentDelivery$: Observable<boolean | undefined> =
-    this.component.data$.pipe(map((data) => data.displayConsignmentDelivery));
+  groupCartItems$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.groupCartItems)
+  );
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
