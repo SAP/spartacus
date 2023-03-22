@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   DeliveryPointOfService,
   getProperty,
@@ -25,33 +25,31 @@ import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 export class DeliveryPointsService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected pickupLocationsSearchFacade: PickupLocationsSearchFacade,
     protected orderFacade: OrderFacade
   ) {}
 
   /*
-        deliveryPointsOfService$ comprises arrays within an array.
-        It has an array of stores, and then for each store, an array of products to be collected from that store.
-        We need to get data from two diferent services. One of the services has the product data, ie the prodcuts to be picked up from in store.
-        This data only has the store name, no other information about the store eg address etc.
-        We then use another service to get data about the store. This service has two methods that must be called.
-        loadStoreDetails is called to make the api call. The data returned from this call populates an area of the ngrx store.
-        Then getStoreDetails is used to get store detail data from the relevant slice of state in the ngrx store.
-        So the below:
-            -   gets active cart
-            -   gets items in the cart
-            -   gets those items that are to be picked up from a store
-            -   get the data about each store
-
-        Some of the below involves turning array data into lookup object data simply because this is easier to deal with
-
-    */
+   * deliveryPointsOfService$ comprises arrays within an array.
+   * It has an array of stores, and then for each store, an array of products to be collected from that store.
+   * We need to get data from two different services. One of the services has the product data, ie the products to be picked up from in store.
+   * This data only has the store name, no other information about the store eg address etc.
+   * We then use another service to get data about the store. This service has two methods that must be called.
+   * loadStoreDetails is called to make the api call. The data returned from this call populates an area of the ngrx store.
+   * Then getStoreDetails is used to get store detail data from the relevant slice of state in the ngrx store.
+   * So the below:
+   * - gets active cart
+   * - gets items in the cart
+   * - gets those items that are to be picked up from a store
+   * - get the data about each store
+   *
+   * Some of the below involves turning array data into lookup object data simply because this is easier to deal with
+   */
   getDeliveryPointsOfServiceFromCart(): Observable<
     Array<DeliveryPointOfService>
   > {
-    return this.activeCartFacade.getActive().pipe(
-      filter((cart) => !!cart.entries && !!cart.entries.length),
-      map((cart): Array<OrderEntry> => cart.entries as Array<OrderEntry>),
+    return this.activeCartFacade.getPickupEntries().pipe(
+      filter((entries) => !!entries && !!entries.length),
       switchMap((entries) => this.getDeliveryPointsOfService(entries))
     );
   }
@@ -59,33 +57,11 @@ export class DeliveryPointsService {
   getDeliveryPointsOfServiceFromOrder(): Observable<
     Array<DeliveryPointOfService>
   > {
-    return this.orderFacade.getOrderDetails().pipe(
-      filter((order) => !!order),
-      map((order): Order => order as Order),
-      filter((order) => !!order.entries && !!order.entries.length),
-      map((order) => order.entries as Array<OrderEntry>),
+    return this.orderFacade.getPickupEntries().pipe(
+      filter((entries) => !!entries && !!entries.length),
       switchMap((entries) => this.getDeliveryPointsOfService(entries))
     );
   }
-
-  //Todo Use this once checkout refractor branch is merged -->
-  // getDeliveryPointsOfServiceFromCart(): Observable<
-  //   Array<DeliveryPointOfService>
-  // > {
-  //   return this.activeCartFacade.getPickupEntries().pipe(
-  //     filter((entries) => !!entries && !!entries.length),
-  //     switchMap((entries) => this.getDeliveryPointsOfService(entries))
-  //   );
-  // }
-
-  // getDeliveryPointsOfServiceFromOrder(): Observable<
-  //   Array<DeliveryPointOfService>
-  // > {
-  //   return this.orderFacade.getPickupEntries().pipe(
-  //     filter((entries) => !!entries && !!entries.length),
-  //     switchMap((entries) => this.getDeliveryPointsOfService(entries))
-  //   );
-  // }
 
   getDeliveryPointsOfService(
     entries: Array<OrderEntry>
@@ -140,7 +116,7 @@ export class DeliveryPointsService {
               deliveryPointOfServiceMap
                 .map((deliveryPointOfService) => deliveryPointOfService.name)
                 .forEach((name) =>
-                  this.pickupLocationsSearchService.loadStoreDetails(name)
+                  this.pickupLocationsSearchFacade.loadStoreDetails(name)
                 )
             ),
             mergeMap((deliveryPointOfServiceMap) =>
@@ -148,7 +124,7 @@ export class DeliveryPointsService {
                 deliveryPointOfServiceMap
                   .map((deliveryPointOfService) => deliveryPointOfService.name)
                   .map((name) =>
-                    this.pickupLocationsSearchService.getStoreDetails(name)
+                    this.pickupLocationsSearchFacade.getStoreDetails(name)
                   )
               ).pipe(
                 map((storeDetails) => {
