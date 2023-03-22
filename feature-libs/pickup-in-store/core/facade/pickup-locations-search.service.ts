@@ -29,7 +29,8 @@ import {
 
 @Injectable()
 export class PickupLocationsSearchService
-  implements PickupLocationsSearchFacade, OnDestroy {
+  implements PickupLocationsSearchFacade, OnDestroy
+{
   subscription: Subscription = new Subscription();
   constructor(
     protected store: Store<StateWithStock & StateWithPickupLocations>
@@ -107,7 +108,8 @@ export class PickupLocationsSearchService
             )
           )
         )
-        .subscribe());
+        .subscribe()
+    );
   }
 
   getStoreDetails(name: string): Observable<PointOfService> {
