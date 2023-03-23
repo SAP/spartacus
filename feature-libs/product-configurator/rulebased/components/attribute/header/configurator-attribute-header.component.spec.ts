@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -22,6 +22,8 @@ import { cold } from 'jasmine-marbles';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -108,7 +110,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule, FeaturesConfigModule],
+        imports: [I18nTestingModule, IconModule],
         declarations: [
           ConfiguratorAttributeHeaderComponent,
           MockFeatureLevelDirective,
@@ -130,6 +132,10 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
           },
         ],
       })

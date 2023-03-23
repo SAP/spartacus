@@ -1,4 +1,6 @@
 %cx-login {
+  color: var(--cx-color-text);
+
   @include media-breakpoint-down(md) {
     > a {
       padding: 1rem;
@@ -7,7 +9,7 @@
   }
 
   .cx-login-greet {
-    color: var(--cx-color-inverse);
+    color: var(--cx-color-text);
     @include type('7');
     font-weight: var(--cx-font-weight-semi);
 

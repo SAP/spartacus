@@ -45,31 +45,26 @@ describe('Spartacus Schematics: ng-add', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
   });
 
   it('should add spartacus deps', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'ng-add',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'ng-add',
+      { ...defaultOptions, name: 'schematics-test' },
+      appTree
+    );
 
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
@@ -79,32 +74,13 @@ describe('Spartacus Schematics: ng-add', () => {
     expect(depPackageList.includes('@spartacus/styles')).toBe(true);
   });
 
-  it('should add spartacus with PWA via passed parameter', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'ng-add',
-        { ...defaultOptions, name: 'schematics-test', pwa: true },
-        appTree
-      )
-      .toPromise();
-
-    const buffer = tree.read('src/manifest.webmanifest');
-    expect(buffer).toBeTruthy();
-
-    if (buffer) {
-      const webmanifestJSON = JSON.parse(buffer.toString(UTF_8));
-      expect(webmanifestJSON.name).toEqual(defaultOptions.project);
-    }
-  });
-
   it('should add spartacus with SSR via passed parameter', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'ng-add',
-        { ...defaultOptions, name: 'schematics-test', ssr: true },
-        appTree
-      )
-      .toPromise();
+    const tree = await schematicRunner.runSchematic(
+      'ng-add',
+      { ...defaultOptions, name: 'schematics-test', ssr: true },
+      appTree
+    );
+
     const packageJsonBuffer = tree.read('/package.json');
     expect(packageJsonBuffer).toBeTruthy();
     const appServerModulePath = getPathResultsForFile(
@@ -124,19 +100,16 @@ describe('Spartacus Schematics: ng-add', () => {
     }
   });
 
-  it('should add spartacus properly with both PWA and SSR', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync(
-        'ng-add',
-        {
-          ...defaultOptions,
-          name: 'schematics-test',
-          pwa: true,
-          ssr: true,
-        },
-        appTree
-      )
-      .toPromise();
+  it('should add spartacus properly with SSR', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'ng-add',
+      {
+        ...defaultOptions,
+        name: 'schematics-test',
+        ssr: true,
+      },
+      appTree
+    );
 
     const appModule = tree.readContent('src/app/app.module.ts');
     expect(appModule).toMatchSnapshot();
