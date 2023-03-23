@@ -18,6 +18,5 @@ interface Env {
   CX_CPQ: boolean;
   CX_DIGITAL_PAYMENTS: boolean;
   CX_EPD_VISUALIZATION: boolean;
-  CX_PICKUP_IN_STORE: boolean;
   CX_S4OM: boolean;
 }

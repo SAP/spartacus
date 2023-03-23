@@ -103,6 +103,8 @@ if (environment.b2b) {
     UnitOrderFeatureModule,
     FutureStockFeatureModule
   );
+} else {
+  featureModules.push(PickupInStoreFeatureModule);
 }
 
 if (environment.cdc) {
@@ -223,7 +225,6 @@ if (environment.s4om) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-    PickupInStoreFeatureModule,
     ...featureModules,
   ],
 })
