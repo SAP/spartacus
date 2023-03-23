@@ -6,16 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 import { HamburgerMenuModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CommonModule, FeaturesConfigModule, HamburgerMenuModule],
+  imports: [CommonModule, HamburgerMenuModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

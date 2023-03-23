@@ -54,7 +54,8 @@ export class ConfiguratorBasicEffects {
         return this.configuratorCommonsConnector
           .createConfiguration(
             action.payload.owner,
-            action.payload.configIdTemplate
+            action.payload.configIdTemplate,
+            action.payload.forceReset
           )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {

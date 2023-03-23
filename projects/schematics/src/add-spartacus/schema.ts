@@ -16,7 +16,6 @@ export interface Schema extends LibraryOptions {
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;
-  pwa?: boolean;
   ssr?: boolean;
   theme?: string;
 }

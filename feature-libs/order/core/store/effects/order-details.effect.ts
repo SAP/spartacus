@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   GlobalMessageService,
@@ -79,34 +79,37 @@ export class OrderDetailsEffect {
     )
   );
 
-  @Effect()
   resetOrderDetails$: Observable<
     OrderActions.LoadOrderDetailsSuccess | OrderActions.LoadOrderDetailsFail
-  > = this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    withLatestFrom(
-      this.userIdService.getUserId(),
-      this.store.pipe(
-        filter((store) => !!store.order?.orderDetail),
-        map((state) => state.order.orderDetail.value?.code)
-      )
-    ),
-    switchMap(([, userId, orderCode]) => {
-      if (orderCode) {
-        return this.orderConnector.get(userId, orderCode).pipe(
-          map((order: Order) => {
-            return new OrderActions.LoadOrderDetailsSuccess(order);
-          }),
-          catchError((error) =>
-            of(new OrderActions.LoadOrderDetailsFail(normalizeHttpError(error)))
-          )
-        );
-      }
-      return EMPTY;
-    })
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      withLatestFrom(
+        this.userIdService.getUserId(),
+        this.store.pipe(
+          filter((store) => !!store.order?.orderDetail),
+          map((state) => state.order.orderDetail.value?.code)
+        )
+      ),
+      switchMap(([, userId, orderCode]) => {
+        if (orderCode) {
+          return this.orderConnector.get(userId, orderCode).pipe(
+            map((order: Order) => {
+              return new OrderActions.LoadOrderDetailsSuccess(order);
+            }),
+            catchError((error) =>
+              of(
+                new OrderActions.LoadOrderDetailsFail(normalizeHttpError(error))
+              )
+            )
+          );
+        }
+        return EMPTY;
+      })
+    )
   );
 
   constructor(

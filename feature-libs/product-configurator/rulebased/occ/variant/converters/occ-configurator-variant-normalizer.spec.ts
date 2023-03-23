@@ -373,6 +373,24 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(result.immediateConflictResolution).toBe(false);
     });
 
+    it('should convert "newConfiguration" setting to true', () => {
+      configuration.newConfiguration = true;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.newConfiguration).toBe(true);
+    });
+
+    it('should convert "newConfiguration" setting to false', () => {
+      configuration.newConfiguration = false;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.newConfiguration).toBe(false);
+    });
+
+    it('should convert "newConfiguration" setting by default to undefined', () => {
+      configuration.newConfiguration = undefined;
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.newConfiguration).not.toBeDefined();
+    });
+
     it('should convert a configuration and support "complete" and "consistent" attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.complete).toBe(true);
@@ -846,6 +864,33 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(
         occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+    });
+  });
+
+  describe('determineCoreUiType', () => {
+    it('should return input in case of a standard UI type', () => {
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
+    });
+
+    it('should return standard UI type in case of a variation', () => {
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX +
+            Configurator.CustomUiTypeIndicator +
+            'Custom'
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
+    });
+
+    it('should return input in case variation does not follow our defined pattern', () => {
+      const notKnownUiType = 'WhateverCustom';
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](notKnownUiType)
+      ).toBe(notKnownUiType);
     });
   });
 

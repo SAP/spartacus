@@ -5,8 +5,9 @@
  */
 
 /// <reference types="@types/google.maps" />
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { ScriptLoader } from '@spartacus/core';
+import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 
@@ -35,18 +36,31 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
-      if (this.googleMap === null) {
-        this.scriptLoader.embedScript({
-          src: this.config.googleMaps.apiUrl,
-          params: { key: this.config.googleMaps.apiKey },
-          attributes: { type: 'text/javascript' },
-          callback: () => {
-            this.drawMap(mapElement, locations, selectMarkerHandler);
-          },
-        });
-      } else {
-        this.drawMap(mapElement, locations, selectMarkerHandler);
+    if (this.config.googleMaps?.apiKey) {
+      if (Object.entries(locations[Object.keys(locations)[0]]).length > 0) {
+        if (this.googleMap === null) {
+          const apiKey =
+            this.config.googleMaps.apiKey === GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG
+              ? ''
+              : this.config.googleMaps.apiKey;
+
+          this.scriptLoader.embedScript({
+            src: this.config.googleMaps.apiUrl,
+            params: { key: apiKey },
+            attributes: { type: 'text/javascript' },
+            callback: () => {
+              this.drawMap(mapElement, locations, selectMarkerHandler);
+            },
+          });
+        } else {
+          this.drawMap(mapElement, locations, selectMarkerHandler);
+        }
+      }
+    } else {
+      if (isDevMode()) {
+        console.warn(
+          'A Google Maps api key is required in the store finder configuration to display the Google map.'
+        );
       }
     }
   }

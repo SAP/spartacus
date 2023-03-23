@@ -18,7 +18,15 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  /**
+   * 'CX' prefix is used to generate an alphanumeric prefix ID.
+   */
+  protected readonly CX_PREFIX = 'cx';
   protected readonly SEPARATOR = '--';
+  /**
+   * Height of a CSS box model of an 'add-to-cart' button
+   * See _configurator-add-to-cart-button.scss
+   */
   protected readonly ADD_TO_CART_BUTTON_HEIGHT = 82;
 
   constructor(
@@ -244,7 +252,9 @@ export class ConfiguratorStorefrontUtilsService {
    * @returns {string} - prefix ID
    */
   getPrefixId(idPrefix: string | undefined, groupId: string): string {
-    return idPrefix ? idPrefix + this.SEPARATOR + groupId : groupId;
+    return idPrefix
+      ? idPrefix + this.SEPARATOR + groupId
+      : this.CX_PREFIX + this.SEPARATOR + groupId;
   }
 
   /**
@@ -299,14 +309,27 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Change styling of element
    *
-   * @param querySelector - querySelector
-   * @param property - CSS property
-   * @param value - CSS value
+   * @param {string} querySelector - querySelector
+   * @param {string} property - CSS property
+   * @param {string} value - CSS value
    */
   changeStyling(querySelector: string, property: string, value: string): void {
     const element = this.getElement(querySelector);
     if (element) {
       element.style.setProperty(property, value);
+    }
+  }
+
+  /**
+   * Removes styling for element
+   *
+   * @param {string} querySelector - querySelector
+   * @param {string} property - CSS property
+   */
+  removeStyling(querySelector: string, property: string): void {
+    const element = this.getElement(querySelector);
+    if (element) {
+      element.style.removeProperty(property);
     }
   }
 
@@ -384,7 +407,7 @@ export class ConfiguratorStorefrontUtilsService {
     return false;
   }
 
-  protected getHeight(querySelector: string): number {
+  public getHeight(querySelector: string): number {
     const element = this.getElement(querySelector);
     const isElementInViewport = this.isInViewport(element);
     if (isElementInViewport && element?.offsetHeight) {
