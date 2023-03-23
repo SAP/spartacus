@@ -19,13 +19,9 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: 'AsmCustomer360ActiveCartComponent',
           },
-          // disabled until API is ready
-          // {
-          //   component: 'AsmCustomer360ProductInterestsComponent',
-          //   requestData: {
-          //     type: AsmCustomer360Type.PRODUCT_INTEREST_LIST,
-          //   },
-          // },
+          {
+            component: 'AsmCustomer360ProductInterestsComponent',
+          },
         ],
       },
       {
