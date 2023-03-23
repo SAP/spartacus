@@ -5,7 +5,6 @@
  */
 
 /* webpackIgnore: true */
-//import * as crypto from 'crypto';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
