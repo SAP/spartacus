@@ -274,6 +274,18 @@
     "@spartacus/user": "5.0.0",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/cdp": {
+    "@angular/common": "^14.2.3",
+    "@angular/core": "^14.2.3",
+    "@angular/forms": "^14.2.3",
+    "@angular/platform-browser": "^15.2.0",
+    "@angular/router": "^14.2.3",
+    "@ng-select/ng-select": "^9.0.2",
+    "@spartacus/core": "5.0.0",
+    "@spartacus/order": "5.0.0",
+    "@spartacus/storefront": "5.0.0",
+    "rxjs": "^6.6.0"
+  },
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^15.2.0",
     "@angular/common": "^15.2.0",

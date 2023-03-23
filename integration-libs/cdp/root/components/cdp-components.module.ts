@@ -4,20 +4,18 @@ import { CdpMyAccountModule } from './cdp-my-account';
 import { CdpMyAccountSideNavigationModule } from './cdp-my-account-side-navigation/cdp-my-account-side-navigation.module';
 import { OrderModule } from './cdp-order/cdp-order.module';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
     CdpMyAccountModule,
     CdpMyAccountSideNavigationModule,
-    OrderModule
+    OrderModule,
   ],
-  exports:[
+  exports: [
     CommonModule,
     CdpMyAccountModule,
     CdpMyAccountSideNavigationModule,
-    OrderModule
-  ]
+    OrderModule,
+  ],
 })
-export class CdpComponentsModule { }
+export class CdpComponentsModule {}

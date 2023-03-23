@@ -30,7 +30,7 @@ import { NavigationComponent } from './navigation.component';
         },
       },
     }),
-    provideDefaultConfig(CdpConfig)
+    provideDefaultConfig(CdpConfig),
   ],
   declarations: [NavigationComponent, NavigationUIComponent],
   exports: [NavigationComponent, NavigationUIComponent],

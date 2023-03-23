@@ -14,7 +14,6 @@ import { result } from '../../model/result';
 import { finalOrder } from '../../model/order/finalOrder';
 import { order } from '../../model/orderDetail/order';
 
-
 @Component({
   selector: 'cx-order',
   templateUrl: './cdp-order.component.html',
@@ -28,7 +27,7 @@ export class OrderComponent implements OnInit {
     protected datePipe: CxDatePipe,
     protected routing: RoutingService,
     protected occEndpointsService: OccEndpointsService,
-    protected translation: TranslationService,
+    protected translation: TranslationService
   ) {}
 
   result: finalOrder = { orders: [] };

@@ -1,8 +1,8 @@
-import { consignments } from "./consignments";
-import { entries } from "./entries";
+import { consignments } from './consignments';
+import { entries } from './entries';
 
-export interface order{
-    deliveryItemsQuantity: number;
-    consignments: consignments[];
-    entries: entries[];
+export interface order {
+  deliveryItemsQuantity: number;
+  consignments: consignments[];
+  entries: entries[];
 }

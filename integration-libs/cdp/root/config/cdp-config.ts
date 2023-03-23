@@ -6,8 +6,6 @@
 
 import { RoutingConfig } from '@spartacus/core';
 
-
-
 export const CdpConfig: RoutingConfig = {
   routing: {
     routes: {
@@ -21,13 +19,12 @@ export const CdpConfig: RoutingConfig = {
         paths: ['my-account/order/:orderCode'],
         paramsMapping: { orderCode: 'code' },
       },
-      personalDetails:{
+      personalDetails: {
         paths: ['/my-account/update-profile'],
-      }
+      },
       // logout: {
       //   paths: ['logout'],
       // },
-  }
-}
+    },
+  },
 };
-

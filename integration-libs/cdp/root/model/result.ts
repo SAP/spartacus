@@ -1,6 +1,6 @@
-import { orders } from "./order/orders";
+import { orders } from './order/orders';
 
-export interface result{
-    result: orders[];
-    totalItem: number[];
+export interface result {
+  result: orders[];
+  totalItem: number[];
 }

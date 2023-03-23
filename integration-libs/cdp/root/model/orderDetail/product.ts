@@ -1,3 +1,3 @@
-export interface product{
-    code: string;
+export interface product {
+  code: string;
 }

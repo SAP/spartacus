@@ -1,8 +1,6 @@
-
-export interface total{
-    currencyIso: String;
-    formattedValue: String;
-    priceType: String;
-    value: number;
-
+export interface total {
+  currencyIso: String;
+  formattedValue: String;
+  priceType: String;
+  value: number;
 }

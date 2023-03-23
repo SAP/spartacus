@@ -1,5 +1,5 @@
-import { product } from "./product";
+import { product } from './product';
 
-export interface orderEntry{
-    product: product;
+export interface orderEntry {
+  product: product;
 }

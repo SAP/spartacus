@@ -1,15 +1,25 @@
-import {  Component, OnInit, Optional } from '@angular/core';
-import { CxDatePipe, FeatureConfigService, OccEndpointsService, RoutingService, TranslationService, UserIdService} from '@spartacus/core';
+import { Component, OnInit, Optional } from '@angular/core';
+import {
+  CxDatePipe,
+  FeatureConfigService,
+  OccEndpointsService,
+  RoutingService,
+  TranslationService,
+  UserIdService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {  mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { product } from '../../model/ImageDetail/product';
 import { cdpOrderAdapter } from '../../adapter/cdp-order-adapter';
 import { result } from '../../model/result';
 import { finalOrder } from '../../model/order/finalOrder';
 import { order } from '../../model/orderDetail/order';
-import { OrderHistoryFacade, OrderHistoryList, ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
+import {
+  OrderHistoryFacade,
+  OrderHistoryList,
+  ReplenishmentOrderHistoryFacade,
+} from '@spartacus/order/root';
 import { OrderHistoryComponent } from '@spartacus/order/components';
-
 
 @Component({
   selector: 'cx-cdp-body',
@@ -17,9 +27,10 @@ import { OrderHistoryComponent } from '@spartacus/order/components';
   styleUrls: ['./cdp-my-account.component.scss'],
   providers: [CxDatePipe],
 })
-
-export class CdpMyAccountComponent extends OrderHistoryComponent implements OnInit{
-
+export class CdpMyAccountComponent
+  extends OrderHistoryComponent
+  implements OnInit
+{
   orders: OrderHistoryList | undefined;
 
   constructor(
@@ -33,21 +44,25 @@ export class CdpMyAccountComponent extends OrderHistoryComponent implements OnIn
     protected datePipe: CxDatePipe,
     @Optional() protected featureConfigService?: FeatureConfigService
   ) {
-    super(routing,orderHistoryFacade,translation,replenishmentOrderHistoryFacade);
+    super(
+      routing,
+      orderHistoryFacade,
+      translation,
+      replenishmentOrderHistoryFacade
+    );
   }
-  result: finalOrder={orders:[]};
-  totalPrice: number=0;
-  totalItem: number[]=[];
-  orderDetail: Record<string,order>={};
-  orderedItems: Record<string,number>={};
-  i: number=0;
+  result: finalOrder = { orders: [] };
+  totalPrice: number = 0;
+  totalItem: number[] = [];
+  orderDetail: Record<string, order> = {};
+  orderedItems: Record<string, number> = {};
+  i: number = 0;
   output: result;
-  orderStatus: Record<string,Record<string,number>>={};
-  orderImage: Record<string,product[]>={};
+  orderStatus: Record<string, Record<string, number>> = {};
+  orderImage: Record<string, product[]> = {};
   userId: string;
-  tabTitleParam$=new BehaviorSubject(0);
+  tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
-
 
   // orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
@@ -55,31 +70,34 @@ export class CdpMyAccountComponent extends OrderHistoryComponent implements OnIn
   sortType: string;
   hasPONumber: boolean | undefined;
   // this.loading$.next(true);
-  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.P_SIZE);
-    // this.loading$.next(false);
+  orders$: Observable<OrderHistoryList | undefined> =
+    this.orderHistoryFacade.getOrderHistoryList(this.P_SIZE);
+  // this.loading$.next(false);
   ngOnInit(): void {
     this.getMyData();
   }
 
-  public getMyData(): void{
-
-  this.orders$.subscribe((res)=>{
-    this.orders=res;
-    this.getOrderedItems(this.orders);
-  });
-
+  public getMyData(): void {
+    this.orders$.subscribe((res) => {
+      this.orders = res;
+      this.getOrderedItems(this.orders);
+    });
   }
 
-
-  public async getOrderedItems(orders: any): Promise<void>{
-
-    for(let order of orders.orders)
-    {
-      await this.userIdService.takeUserId().pipe(mergeMap((userId)=> this.cdpOrderAdapter.getOrderDetail(userId,order))).toPromise().then( data=>{
-        this.orderDetail[order.code]=data;
-        //orderDetail->order
-      });
+  public async getOrderedItems(orders: any): Promise<void> {
+    for (let order of orders.orders) {
+      await this.userIdService
+        .takeUserId()
+        .pipe(
+          mergeMap((userId) =>
+            this.cdpOrderAdapter.getOrderDetail(userId, order)
+          )
+        )
+        .toPromise()
+        .then((data) => {
+          this.orderDetail[order.code] = data;
+          //orderDetail->order
+        });
     }
     this.getDetail();
     console.log(this.orderDetail);
@@ -117,5 +135,4 @@ export class CdpMyAccountComponent extends OrderHistoryComponent implements OnIn
     }
     console.log(this.orderImage);
   }
-
 }

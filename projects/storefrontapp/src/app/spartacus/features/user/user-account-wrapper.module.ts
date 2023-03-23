@@ -16,7 +16,6 @@ if (environment.cdc) {
   extensions.push(CDCUserAccountModule);
 }
 
-
 @NgModule({
   imports: [UserAccountModule, ...extensions],
 })

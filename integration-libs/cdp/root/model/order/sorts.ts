@@ -1,4 +1,4 @@
-export interface sorts{
-    code: String;
-    selected: boolean;
+export interface sorts {
+  code: String;
+  selected: boolean;
 }

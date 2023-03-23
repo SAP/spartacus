@@ -8,16 +8,15 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-cdp-side',
   templateUrl: './cdp-my-account-side-navigation.component.html',
-  styleUrls: ['./cdp-my-account-side-navigation.component.scss']
+  styleUrls: ['./cdp-my-account-side-navigation.component.scss'],
 })
-
 export class CdpMyAccountSideNavigationComponent implements OnInit {
   user$: Observable<User | undefined>;
   iconTypes = ICON_TYPE;
 
   constructor(
     protected auth: AuthService,
-    protected userAccount: UserAccountFacade,
+    protected userAccount: UserAccountFacade
   ) {
     // eslint-disable-next-line constructor-super
   }
@@ -33,5 +32,4 @@ export class CdpMyAccountSideNavigationComponent implements OnInit {
       })
     );
   }
-
 }

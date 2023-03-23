@@ -1,4 +1,3 @@
-
 export interface defaultAddress {
-     id: String;
+  id: String;
 }

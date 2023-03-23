@@ -1,3 +1,3 @@
-export interface country{
-    isocode: String;
+export interface country {
+  isocode: String;
 }

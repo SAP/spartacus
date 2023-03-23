@@ -12,5 +12,5 @@ export const cdpTranslations: TranslationResources = {
 };
 
 export const cdpTranslationChunksConfig: TranslationChunksConfig = {
-  cdp: ['loginForm', 'miniLogin','myAccount','cdpOrderHistory'],
+  cdp: ['loginForm', 'miniLogin', 'myAccount', 'cdpOrderHistory'],
 };

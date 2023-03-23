@@ -265,5 +265,4 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
     this.isOpen = this.openNodes.length > 0;
   }
-
 }

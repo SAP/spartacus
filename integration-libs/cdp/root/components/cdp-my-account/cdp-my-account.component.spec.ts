@@ -8,9 +8,8 @@ describe('CdpMyAccountComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CdpMyAccountComponent ]
-    })
-    .compileComponents();
+      declarations: [CdpMyAccountComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CdpMyAccountComponent);
     component = fixture.componentInstance;

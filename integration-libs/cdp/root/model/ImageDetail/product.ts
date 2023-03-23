@@ -1,6 +1,5 @@
-import { images } from "./images";
+import { images } from './images';
 
-export interface product{
-    images: images[];
+export interface product {
+  images: images[];
 }
-
