@@ -20,7 +20,7 @@ import { PickupInStoreOrderConsignmentContainerComponent } from './pickup-in-sto
   providers: [
     provideOutlet({
       id: OrderOutlets.ORDER_CONSIGNMENT,
-      position: OutletPosition.REPLACE,
+      position: OutletPosition.AFTER,
       component: PickupInStoreOrderConsignmentContainerComponent,
     }),
   ],
