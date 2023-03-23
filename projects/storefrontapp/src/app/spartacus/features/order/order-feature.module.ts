@@ -15,7 +15,6 @@ import { CdpComponentsModule } from 'integration-libs/cdp/root/components/cdp-co
 import { OrderModule } from 'integration-libs/cdp/root/components/cdp-order';
 import { environment } from 'projects/storefrontapp/src/environments/environment';
 
-
 const extensions: Type<any>[] = [];
 
 if (environment.cdp) {

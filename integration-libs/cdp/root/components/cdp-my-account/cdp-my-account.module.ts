@@ -1,42 +1,42 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdpMyAccountComponent } from './cdp-my-account.component';
-import { LayoutConfig, ListNavigationModule, PageSlotModule } from '@spartacus/storefront';
-import { CmsConfig,  ConfigModule,  FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  FeaturesConfigModule,
+  I18nModule,
+  UrlModule,
+} from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-// import { OrderHistoryComponent } from '@spartacus/order/components';
-
-
-
+// import { CdpMyAccountComponent } from '@spartacus/cdp/root';
+import { SpinnerModule } from '@spartacus/storefront';
+import { CdpMyAccountComponent } from './cdp-my-account.component';
 
 @NgModule({
-    declarations: [
-        CdpMyAccountComponent
-    ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        NgSelectModule,
-        ListNavigationModule,
-        UrlModule,
-        I18nModule,
-        PageSlotModule,
-        FeaturesConfigModule,
-        ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
-            cmsComponents: {
-              CdpMyAccountComponent: { component: CdpMyAccountComponent },
-            },
-          }),
-    ],
-    // providers: [
-    //   provideDefaultConfig({ cmsComponents: {
-    //     CdpMyAccountComponent: { component: CdpMyAccountComponent ,
-    //   }
-    //  } } as CmsConfig),
-    // ],
-    exports: [CdpMyAccountComponent],
+  declarations: [CdpMyAccountComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    NgSelectModule,
+    SpinnerModule,
+    UrlModule,
+    I18nModule,
+    FeaturesConfigModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        CdpMyAccountComponent: { component: CdpMyAccountComponent },
+      },
+    }),
+  ],
+  exports: [CdpMyAccountComponent],
 })
-export class CdpMyAccountModule { }
+export class CdpMyAccountModule {}

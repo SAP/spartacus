@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -18,7 +13,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
@@ -71,9 +65,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
-  /**
-   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
-   */
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -82,8 +73,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -110,9 +100,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     /**
      * TODO: (#CXSPA-53) Remove feature config check in 6.0
      */
-    const numbers = this.featureConfigService?.isLevel('5.2')
-      ? getAddressNumbers(address, textPhone, textMobile)
-      : address.phone;
+    const numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {
       role: 'region',

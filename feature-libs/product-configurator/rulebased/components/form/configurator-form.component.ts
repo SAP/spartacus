@@ -9,8 +9,9 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { delay, filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -49,7 +50,8 @@ export class ConfiguratorFormComponent implements OnInit {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -62,11 +64,34 @@ export class ConfiguratorFormComponent implements OnInit {
         }),
         take(1)
       )
-      .subscribe((configuration) =>
+      .subscribe((configuration) => {
         this.configuratorCommonsService.checkConflictSolverDialog(
           configuration.owner
-        )
-      );
+        );
+      });
+
+    this.routerData$
+      .pipe(
+        filter((routingData) => routingData.displayRestartDialog === true),
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
+          );
+        }),
+        take(1),
+        filter(
+          (configuration) =>
+            configuration.interactionState.newConfiguration === false
+        ),
+        delay(0) // Delay because we first want the form to react on data changes
+      )
+      .subscribe((configuration) => {
+        this.launchDialogService.openDialogAndSubscribe(
+          LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
+          undefined,
+          { owner: configuration.owner }
+        );
+      });
 
     this.routerData$.pipe(take(1)).subscribe((routingData) => {
       //In case of resolving issues (if no conflict solver dialog is present!), check if the configuration contains conflicts,
@@ -98,15 +123,13 @@ export class ConfiguratorFormComponent implements OnInit {
 
   /**
    * Verifies whether the navigation to a conflict group is enabled.
-   *
-   * @returns {Observable<boolean>} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
+   * @param configuration Current configuration
+   * @returns {boolean} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
    */
-  isNavigationToGroupEnabled(): Observable<boolean> {
-    return this.configuration$.pipe(
-      map((configuration) => {
-        return !configuration.immediateConflictResolution;
-      })
-    );
+  isNavigationToGroupEnabled(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return !configuration.immediateConflictResolution;
   }
 
   /**

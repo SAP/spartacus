@@ -5,6 +5,7 @@
     margin: var(--cx-margin, 0);
     color: currentColor;
     display: var(--cx-display);
+    text-decoration: underline;
 
     @include media-breakpoint-down(sm) {
       display: block;

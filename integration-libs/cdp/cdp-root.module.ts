@@ -1,25 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CdpComponentsModule } from './root/components/cdp-components.module';
-import { CdpMyAccountComponent } from './root/components/cdp-my-account';
-import { CdpLoginModule } from './user-account/cdp-login';
-
-
 
 @NgModule({
-  declarations: [
-  ],
-  imports: [
-    CdpLoginModule,
-    CdpComponentsModule
-  ],
-  providers: [
-      provideDefaultConfig({ cmsComponents: {
-        CdpMyAccountComponent: { component:   CdpMyAccountComponent} ,
-      },
-     }  as CmsConfig),
-    ],
-  exports: [
-  ]
+  declarations: [],
+  imports: [CdpComponentsModule],
+  exports: [],
 })
-export class CdpRootModule { }
+export class CdpRootModule {}

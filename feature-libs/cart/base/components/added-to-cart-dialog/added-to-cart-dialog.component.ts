@@ -52,6 +52,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
+  pickupStoreName: string | undefined;
 
   form: UntypedFormGroup = new UntypedFormGroup({});
 
@@ -87,7 +88,8 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
           this.init(
             dialogData.productCode,
             dialogData.quantity,
-            dialogData.numberOfEntriesBeforeAdd
+            dialogData.numberOfEntriesBeforeAdd,
+            dialogData.pickupStoreName
           );
         }
       )
@@ -139,7 +141,8 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   init(
     productCode: string,
     quantity: number,
-    numberOfEntriesBeforeAdd: number
+    numberOfEntriesBeforeAdd: number,
+    pickupStoreName?: string
   ): void {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
@@ -148,6 +151,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
       numberOfEntriesBeforeAdd
     );
+    this.pickupStoreName = pickupStoreName;
   }
 
   protected getAddedEntryWasMerged(

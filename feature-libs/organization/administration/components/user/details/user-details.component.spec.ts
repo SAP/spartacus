@@ -59,6 +59,9 @@ class MockB2BUserService implements Partial<B2BUserService> {
   getAllRights() {
     return [B2BUserRight.UNITORDERVIEWER];
   }
+  isUpdatingUserAllowed() {
+    return true;
+  }
 }
 
 describe('UserDetailsComponent', () => {
@@ -103,6 +106,7 @@ describe('UserDetailsComponent', () => {
 
     spyOn(b2bUserService, 'getAllRights').and.callThrough();
     spyOn(b2bUserService, 'getAllRoles').and.callThrough();
+    spyOn(b2bUserService, 'isUpdatingUserAllowed').and.callThrough();
 
     fixture = TestBed.createComponent(UserDetailsComponent);
     component = fixture.componentInstance;
@@ -111,6 +115,10 @@ describe('UserDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check if updating user details is allowed', () => {
+    expect(b2bUserService.isUpdatingUserAllowed).toHaveBeenCalled();
   });
 
   it('should load list of rights', () => {

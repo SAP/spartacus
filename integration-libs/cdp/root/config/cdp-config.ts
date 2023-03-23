@@ -6,25 +6,19 @@
 
 import { RoutingConfig } from '@spartacus/core';
 
-
-
 export const CdpConfig: RoutingConfig = {
   routing: {
     routes: {
       orders: {
         paths: ['my-account/orders'],
       },
-      myAccount: {
-        paths: ['my-account'],
+      orderDetails: {
+        paths: ['my-account/order/:orderCode'],
+        paramsMapping: { orderCode: 'code' },
       },
-      // orderDetails: {
-      //   paths: ['my-account/order/:orderCode'],
-      //   paramsMapping: { orderCode: 'code' },
-      // },
-      // logout: {
-      //   paths: ['logout'],
-      // },
+      personalDetails: {
+        paths: ['/my-account/update-profile'],
+      }
+    }
   }
-}
 };
-

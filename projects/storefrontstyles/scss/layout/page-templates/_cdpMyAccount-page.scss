@@ -1,0 +1,27 @@
+%CdpMyAccountPageTemplate {
+  max-width: var(--cx-page-width-max);
+  margin: auto;
+  display: flex;
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+  .SideContent {
+    max-width: 25%;
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .BodyContent {
+    max-width: 75%;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}

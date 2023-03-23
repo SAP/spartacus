@@ -1,21 +1,27 @@
-import { NgModule } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { CdpMyAccountModule } from './cdp-my-account';
-import { CdpPageTitleComponent } from './cdp-page-title/cdp-page-title.component';
-import { CdpMyAccountSideModule } from './cdp-my-account-side/cdp-my-account-side.module';
-import { OrderModule } from '@spartacus/order';
-
-
+import { CdpMyAccountSideNavigationModule } from './cdp-my-account-side-navigation/cdp-my-account-side-navigation.module';
+import { OrderModule } from './cdp-order/cdp-order.module';
 
 @NgModule({
-  declarations: [
-    CdpPageTitleComponent
-  ],
   imports: [
     CommonModule,
     CdpMyAccountModule,
-    CdpMyAccountSideModule,
-    OrderModule
-  ]
+    CdpMyAccountSideNavigationModule,
+    OrderModule,
+  ],
+  exports: [
+    CommonModule,
+    CdpMyAccountModule,
+    CdpMyAccountSideNavigationModule,
+    OrderModule,
+  ],
 })
-export class CdpComponentsModule { }
+export class CdpComponentsModule {}

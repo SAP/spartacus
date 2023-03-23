@@ -85,9 +85,6 @@
         .#{$block}-value {
           text-decoration: underline;
           color: var(--cx-color-primary);
-          @include forVersion(5.1) {
-            color: var(--cx-color-text);
-          }
         }
       }
 
@@ -111,15 +108,7 @@
         width: 15%;
 
         .cx-order-cancel {
-          text-decoration: underline;
-          text-transform: uppercase;
-          color: var(--cx-color-primary);
-          padding-inline-start: 0;
-          @include forVersion(5.1) {
-            @include type('7');
-            text-transform: var(--cx-button-text-transform);
-            color: var(--cx-color-text);
-          }
+          font-size: var(--cx-font-size, 0.875rem);
         }
 
         @include media-breakpoint-down(sm) {

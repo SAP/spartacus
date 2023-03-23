@@ -131,7 +131,7 @@ function comparePathsConfigs(
   if (!silent && errors.length > 0) {
     error(tsConfigPath, errors, [
       `This can be automatically fixed by running \`${chalk.bold(
-        `yarn config:update`
+        `npm run config:update`
       )}\`.`,
     ]);
   }
@@ -165,7 +165,7 @@ function handleTestConfigs(
   options: ProgramOptions
 ): void {
   if (options.fix) {
-    reportProgress('Updating test tsconig json files');
+    reportProgress('Updating test tsconfig json files');
   } else {
     reportProgress('Checking test tsconfig json files');
   }

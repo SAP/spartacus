@@ -47,35 +47,30 @@ describe('add-ssr', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-ssr',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      { ...defaultOptions, name: 'schematics-test' },
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-ssr',
+      { ...defaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('package.json', () => {
