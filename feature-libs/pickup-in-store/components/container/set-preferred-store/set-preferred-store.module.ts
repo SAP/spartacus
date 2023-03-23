@@ -21,7 +21,6 @@ import { SetPreferredStoreComponent } from './set-preferred-store.component';
   exports: [SetPreferredStoreComponent],
   declarations: [SetPreferredStoreComponent],
   providers: [
-    // TODO we may need to turn this into an enum. Don't want to to though as then the module which doesn't contain the enum, becomes dependent on the one that does
     provideOutlet({
       id: StoreFinderOutlets.PREFERRED_STORE,
       position: OutletPosition.REPLACE,
