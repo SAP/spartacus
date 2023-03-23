@@ -5,7 +5,6 @@
  */
 
 export const cdp = {
-
   cdpOrderHistory: {
     orderInformation: 'Order Information',
     accountInformation: 'Account Information',
