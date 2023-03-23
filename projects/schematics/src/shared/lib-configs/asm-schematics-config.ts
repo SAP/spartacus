@@ -62,9 +62,9 @@ export const CUSTOMER_360_MODULE = 'Customer360Module';
 export const CUSTOMER_360_ROOT_MODULE = 'Customer360RootModule';
 export const CUSTOMER_360_MODULE_NAME = 'Customer360';
 export const CUSTOMER_360_FEATURE_NAME_CONSTANT = 'CUSTOMER_360_FEATURE';
-export const CUSTOMER_360_TRANSLATIONS = 'Customer360Translations';
+export const CUSTOMER_360_TRANSLATIONS = 'customer360Translations';
 export const CUSTOMER_360_TRANSLATION_CHUNKS_CONFIG =
-  'Customer360TranslationChunksConfig';
+  'customer360TranslationChunksConfig';
 
 export const CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
