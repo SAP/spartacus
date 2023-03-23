@@ -276,7 +276,9 @@
 ### ConfiguratorPreviousNextButtonsComponent
 
 - Removed `.btn-action` from line 21 and 30. 
-- Added `.btn-secondary` to line 29
+- Removed `.cx-btn` from line 4 and 12
+- Added `.btn-block` to line 4 and 12
+- Removed styling for disabled `.btn-secondary`
 
 ### _login.scss
 
