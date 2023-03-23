@@ -171,7 +171,7 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
-          SPA_ENV: ci,b2c,bopis
+          SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh
@@ -204,7 +204,7 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
-          SPA_ENV: ci,b2c,bopis
+          SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
