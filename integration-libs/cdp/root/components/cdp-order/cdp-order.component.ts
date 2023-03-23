@@ -7,12 +7,13 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { mergeMap, switchMap } from 'rxjs/operators';
-import { cdpOrderAdapter } from './adapter/cdp-order-adapter';
-import { finalOrder } from './model/order/finalOrder';
-import { order } from './model/orderDetail/order';
-import { result } from './model/result';
+import { cdpOrderAdapter } from '../../adapter/cdp-order-adapter';
 import { BehaviorSubject } from 'rxjs';
-import { product } from './model/ImageDetail/product';
+import { product } from '../../model/ImageDetail/product';
+import { result } from '../../model/result';
+import { finalOrder } from '../../model/order/finalOrder';
+import { order } from '../../model/orderDetail/order';
+
 
 @Component({
   selector: 'cx-order',

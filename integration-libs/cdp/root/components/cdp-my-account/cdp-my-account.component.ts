@@ -2,13 +2,14 @@ import {  Component, OnInit, Optional } from '@angular/core';
 import { CxDatePipe, FeatureConfigService, OccEndpointsService, RoutingService, TranslationService, UserIdService} from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  mergeMap } from 'rxjs/operators';
-import { finalOrder } from '../cdp-order/model/order/finalOrder';
-import { order } from '../cdp-order/model/orderDetail/order';
-import { product } from '../cdp-order/model/ImageDetail/product';
-import { cdpOrderAdapter } from '../cdp-order/adapter/cdp-order-adapter';
+import { product } from '../../model/ImageDetail/product';
+import { cdpOrderAdapter } from '../../adapter/cdp-order-adapter';
+import { result } from '../../model/result';
+import { finalOrder } from '../../model/order/finalOrder';
+import { order } from '../../model/orderDetail/order';
 import { OrderHistoryFacade, OrderHistoryList, ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
 import { OrderHistoryComponent } from '@spartacus/order/components';
-import { result } from '../../model/result';
+
 
 @Component({
   selector: 'cx-cdp-body',
@@ -53,10 +54,10 @@ export class CdpMyAccountComponent extends OrderHistoryComponent implements OnIn
   private P_SIZE = 3;
   sortType: string;
   hasPONumber: boolean | undefined;
-
+  // this.loading$.next(true);
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.P_SIZE);
-
+    // this.loading$.next(false);
   ngOnInit(): void {
     this.getMyData();
   }

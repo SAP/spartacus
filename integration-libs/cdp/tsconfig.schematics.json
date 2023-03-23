@@ -452,13 +452,9 @@
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"
       ],
-      "@spartacus/cdp/assets": [
-        "../../integration-libs/cdp/assets/public_api"
-      ],
-      "@spartacus/cdp/root": [
-        "../../integration-libs/cdp/root/public_api"
-      ],
-      
+      "@spartacus/cdp/assets": [ "../../integration-libs/cdp/assets/public_api"],
+      "@spartacus/cdp/root": [  "../../integration-libs/cdp/root/public_api"  ],
+      "@spartacus/cdp/root/components": [  "../../integration-libs/cdp/root/components/public_api"  ],   
       "@spartacus/cdp": ["../../integration-libs/cdp/public_api"],
 
       "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],

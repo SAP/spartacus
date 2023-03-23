@@ -4,7 +4,9 @@ import { CmsConfig,  ConfigModule,  FeaturesConfigModule, I18nModule, UrlModule 
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CdpMyAccountComponent } from '@spartacus/cdp/root';
+// import { CdpMyAccountComponent } from '@spartacus/cdp/root';
+import { SpinnerModule } from '@spartacus/storefront';
+import { CdpMyAccountComponent } from './cdp-my-account.component';
 
 
 
@@ -18,6 +20,7 @@ import { CdpMyAccountComponent } from '@spartacus/cdp/root';
         RouterModule,
         FormsModule,
         NgSelectModule,
+        SpinnerModule,
         UrlModule,
         I18nModule,
         FeaturesConfigModule,
