@@ -11,7 +11,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { delay, filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -82,7 +82,8 @@ export class ConfiguratorFormComponent implements OnInit {
         filter(
           (configuration) =>
             configuration.interactionState.newConfiguration === false
-        )
+        ),
+        delay(0) // Delay because we first want the form to react on data changes
       )
       .subscribe((configuration) => {
         this.launchDialogService.openDialogAndSubscribe(

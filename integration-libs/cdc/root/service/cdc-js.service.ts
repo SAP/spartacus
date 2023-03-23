@@ -24,11 +24,20 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  combineLatest,
+  Observable,
+  of,
+  ReplaySubject,
+  Subscription,
+  throwError,
+} from 'rxjs';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
+const defaultSessionTimeOut = 3600;
+const setAccountInfoAPI = 'accounts.setAccountInfo';
 @Injectable({
   providedIn: 'root',
 })
@@ -36,6 +45,7 @@ export class CdcJsService implements OnDestroy {
   protected loaded$ = new ReplaySubject<boolean>(1);
   protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
+  protected gigyaSDK: { [key: string]: any };
 
   constructor(
     protected cdcConfig: CdcConfig,
@@ -116,6 +126,11 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
+  /**
+   * Method obtains the CDC SDK URL for a base site
+   * @param baseSite
+   * @returns CDC SDK URL
+   */
   private getJavascriptUrlForCurrentSite(baseSite: string): string {
     const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
       (conf) => conf.baseSite === baseSite
@@ -141,12 +156,12 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    */
   protected addCdcEventHandlers(baseSite: string): void {
-    (this.winRef.nativeWindow as { [key: string]: any })?.[
+    this.gigyaSDK = (this.winRef.nativeWindow as { [key: string]: any })?.[
       'gigya'
-    ]?.accounts?.addEventHandlers({
-      onLogin: (...params: any[]) => {
-        this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));
-      },
+    ];
+    this.gigyaSDK?.accounts?.addEventHandlers({
+      onLogin: (...params: any[]) =>
+        this.zone.run(() => this.onLoginEventHandler(baseSite, ...params)),
     });
   }
 
@@ -157,7 +172,8 @@ export class CdcJsService implements OnDestroy {
    * @param response
    */
   protected onLoginEventHandler(baseSite: string, response?: any) {
-    if (response) {
+    if (response && !response?.context?.skipOccAuth) {
+      //skip re-authentication during reset email
       this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
         response.UIDSignature,
@@ -176,115 +192,82 @@ export class CdcJsService implements OnDestroy {
   registerUserWithoutScreenSet(
     user: UserSignUp
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((initRegistration) => {
-      if (!user.uid || !user.password) {
-        initRegistration.error(null);
-      } else {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.initRegistration({
-          callback: (response: any) => {
-            this.zone.run(() => {
-              this.onInitRegistrationHandler(user, response).subscribe({
-                next: (result) => {
-                  initRegistration.next(result);
-                  initRegistration.complete();
-                },
-                error: (error) => initRegistration.error(error),
-              });
-            });
-          },
-        });
-      }
-    });
+    if (!user.uid || !user.password) {
+      return throwError(null);
+    } else {
+      return this.invokeAPI('accounts.initRegistration', {}).pipe(
+        switchMap((response) => this.onInitRegistrationHandler(user, response))
+      );
+    }
   }
 
   /**
    * Trigger CDC User registration using CDC APIs.
    *
+   * @param user
    * @param response
    */
   protected onInitRegistrationHandler(
     user: UserSignUp,
     response: any
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isRegistered) => {
-      if (response && response.regToken && user.uid && user.password) {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.register({
-          email: user.uid,
-          password: user.password,
-          profile: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-          },
-          regToken: response.regToken,
-          finalizeRegistration: true,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              if (response?.status === 'OK') {
-                isRegistered.next(response);
-                isRegistered.complete();
-              } else {
-                this.handleRegisterError(response);
-                isRegistered.error(response);
-              }
-            });
-          },
-        });
-      }
-    });
+    if (!response?.regToken || !user?.uid || !user?.password) {
+      return throwError(null);
+    } else {
+      const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      return this.invokeAPI('accounts.register', {
+        email: user.uid,
+        password: user.password,
+        profile: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+        regSource: regSource,
+        regToken: response.regToken,
+        finalizeRegistration: true,
+      }).pipe(
+        take(1),
+        tap({
+          error: (errorResponse) => this.handleRegisterError(errorResponse),
+        })
+      );
+    }
   }
 
   /**
    * Trigger CDC User log in using CDC APIs.
    *
-   * @param response
+   * @param email
+   * @param password
+   * @param context (optional) - indicates the user flow
    */
   loginUserWithoutScreenSet(
     email: string,
-    password: string
+    password: string,
+    context?: any
   ): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isLoggedIn) => {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.login({
-        loginID: email,
-        password: password,
-        callback: (response: any) => {
-          this.zone.run(() => {
-            if (response?.status === 'OK') {
-              isLoggedIn.next({ status: response.status });
-              isLoggedIn.complete();
-            } else {
-              this.handleLoginError(response);
-              isLoggedIn.error(response);
-            }
-          });
-        },
-      });
-    });
+    return this.getSessionExpirationValue().pipe(
+      switchMap((sessionExpiration) => {
+        return this.invokeAPI('accounts.login', {
+          loginID: email,
+          password: password,
+          ...(context && { context: context }),
+          sessionExpiry: sessionExpiration,
+        }).pipe(
+          take(1),
+          tap({
+            error: (response) => this.handleLoginError(response),
+          })
+        );
+      })
+    );
   }
   /**
    * Retrieves the organization selected by the logged in user
    *
    */
   getOrganizationContext(): Observable<{ orgId: string }> {
-    return new Observable<{ orgId: string }>((subscriber) => {
-      (this.winRef.nativeWindow as { [key: string]: any })?.[
-        'gigya'
-      ]?.accounts?.b2b?.getOrganizationContext({
-        callback: (response: any) => {
-          if (response?.status === 'OK') {
-            subscriber.next(response);
-            subscriber.complete();
-          } else {
-            subscriber.error(response);
-          }
-        },
-      });
-    });
+    return this.invokeAPI('accounts.b2b.getOrganizationContext', {});
   }
   /**
    * Opens the Organization Management dashboard and logs in the user
@@ -293,11 +276,11 @@ export class CdcJsService implements OnDestroy {
    * @param orgId
    */
   openDelegatedAdminLogin(orgId: string) {
-    (this.winRef.nativeWindow as { [key: string]: any })?.[
-      'gigya'
-    ]?.accounts?.b2b?.openDelegatedAdminLogin({
-      orgId: orgId,
-    });
+    return this.zone.run(() =>
+      this.gigyaSDK?.accounts?.b2b?.openDelegatedAdminLogin({
+        orgId: orgId,
+      })
+    );
   }
 
   /**
@@ -331,7 +314,7 @@ export class CdcJsService implements OnDestroy {
         {
           key: 'httpHandlers.badRequestPleaseLoginAgain',
           params: {
-            errorMessage: response.statusMessage,
+            errorMessage: response.errorMessage,
           },
         },
         GlobalMessageType.MSG_TYPE_ERROR
@@ -339,36 +322,52 @@ export class CdcJsService implements OnDestroy {
     }
   }
 
+  protected getSessionExpirationValue(): Observable<number> {
+    if (this.cdcConfig?.cdc !== undefined) {
+      const filteredConfigs: any = this.cdcConfig.cdc.filter(
+        (conf) => conf.baseSite === this.getCurrentBaseSite()
+      );
+      if (filteredConfigs && filteredConfigs.length > 0) {
+        return of(filteredConfigs[0].sessionExpiration);
+      }
+    }
+    // Return a default value
+    return of(defaultSessionTimeOut);
+  }
+
+  private getCurrentBaseSite(): string {
+    let baseSite: string = '';
+    this.baseSiteService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => (baseSite = data));
+    return baseSite;
+  }
+
   /**
    * Trigger CDC forgot password using CDC APIs.
    *
    * @param email
-   * @param password
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
-    return new Observable<{ status: string }>((isResetPassword) => {
-      if (email && email.length > 0) {
-        (this.winRef.nativeWindow as { [key: string]: any })?.[
-          'gigya'
-        ]?.accounts?.resetPassword({
-          loginID: email,
-          callback: (response: any) => {
-            this.zone.run(() => {
-              this.handleResetPassResponse(response);
-
-              if (response?.status === 'OK') {
-                isResetPassword.next({ status: response.status });
-                isResetPassword.complete();
-              } else {
-                isResetPassword.error(response);
-              }
-            });
-          },
-        });
-      }
-    });
+    if (!email || email?.length === 0) {
+      return throwError('No email provided');
+    } else {
+      return this.invokeAPI('accounts.resetPassword', {
+        loginID: email,
+      }).pipe(
+        take(1),
+        tap({
+          error: (response) => this.handleResetPassResponse(response),
+        })
+      );
+    }
   }
 
+  /**
+   * Response handler for forgot password
+   * @param response
+   */
   protected handleResetPassResponse(response: any) {
     if (response && response.status === 'OK') {
       this.globalMessageService.add(
@@ -386,6 +385,69 @@ export class CdcJsService implements OnDestroy {
   }
 
   /**
+   * Trigger CDC Profile update.
+   *
+   * @param firstName
+   * @param lastName
+   */
+  updateProfileWithoutScreenSet(user: User): Observable<{ status: string }> {
+    if (
+      !user?.firstName ||
+      user?.firstName?.length === 0 ||
+      !user?.lastName ||
+      user?.lastName?.length === 0
+    ) {
+      return throwError('User details not provided');
+    } else {
+      const profileObj = {
+        profile: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      };
+      return this.invokeAPI(setAccountInfoAPI, {
+        ...profileObj,
+      }).pipe(
+        take(1),
+        tap(() =>
+          this.userProfileFacade.update(user).subscribe({
+            error: (error) => of(error),
+          })
+        )
+      );
+    }
+  }
+
+  /**
+   * Trigger CDC User Password update.
+   *
+   * @param oldPassword
+   * @param newPassword
+   */
+  updateUserPasswordWithoutScreenSet(
+    oldPassword: string,
+    newPassword: string
+  ): Observable<{ status: string }> {
+    if (
+      !oldPassword ||
+      oldPassword?.length === 0 ||
+      !newPassword ||
+      newPassword?.length === 0
+    ) {
+      return throwError('No passwords provided');
+    } else {
+      return this.invokeAPI(setAccountInfoAPI, {
+        password: oldPassword,
+        newPassword: newPassword,
+      }).pipe(
+        tap({
+          error: (error) => of(error),
+        })
+      );
+    }
+  }
+
+  /**
    * Updates user details using the existing User API
    *
    * @param response
@@ -397,6 +459,155 @@ export class CdcJsService implements OnDestroy {
       userDetails.lastName = response.profile.lastName;
       this.userProfileFacade.update(userDetails);
     }
+  }
+
+  /**
+   * Trigger CDC user email update.
+   *
+   * @param password
+   * @param newEmail
+   */
+  updateUserEmailWithoutScreenSet(
+    password: string,
+    newEmail: string
+  ): Observable<{ status: string }> {
+    if (
+      !password ||
+      password?.length === 0 ||
+      !newEmail ||
+      newEmail?.length === 0
+    ) {
+      return throwError('Email or password not provided');
+    } else {
+      //Verify the password by attempting to login
+      return this.getLoggedInUserEmail().pipe(
+        switchMap((user) => {
+          const email = user?.uid;
+          if (!email || email?.length === 0) {
+            return throwError('Email or password not provided');
+          }
+          // Verify the password by attempting to login
+          // - CDC doesn't require to verify password before changing an email, but the default Spartacus requires it.
+          // - CDC doesn't have any specific api, for verifying a password, so as a _workaround_ we call the login API of CDC.
+          //   We pass a special `context` parameter `'{ skipOccAuth: true }'`
+          //   to avoid the full CDC login flow.
+          //   Instead we want only half of the CDC login flow, just to verify if the password was correct.
+          return this.loginUserWithoutScreenSet(email, password, {
+            skipOccAuth: true,
+          }).pipe(
+            switchMap(() =>
+              this.invokeAPI(setAccountInfoAPI, {
+                profile: {
+                  email: newEmail,
+                },
+              }).pipe(
+                take(1),
+                tap({
+                  next: () =>
+                    this.userProfileFacade.update({ uid: newEmail }).pipe(
+                      take(1),
+                      tap({
+                        error: (error) => of(error),
+                        complete: () => {
+                          this.auth.coreLogout();
+                          this.invokeAPI('accounts.logout', {});
+                        },
+                      })
+                    ),
+                })
+              )
+            ),
+            catchError((error) => of(error))
+          );
+        })
+      );
+    }
+  }
+
+  /**
+   * Obtain the email of the currently logged in user
+   * @returns emailID of the loggedIn user
+   */
+  protected getLoggedInUserEmail(): Observable<User> {
+    return this.userProfileFacade.get().pipe(
+      filter((user): user is User => Boolean(user)),
+      take(1)
+    );
+  }
+
+  /**
+   * Trigger CDC address update.
+   *
+   * @param address
+   */
+  updateAddressWithoutScreenSet(
+    formattedAddress: string,
+    zipCode?: string,
+    city?: string,
+    country?: string
+  ): Observable<{ status: string }> {
+    if (!formattedAddress || formattedAddress?.length === 0) {
+      return throwError('No address provided');
+    } else {
+      const profileObj = {
+        address: formattedAddress,
+        ...(city && { city: city }),
+        ...(country && { country: country }),
+        ...(zipCode && { zip: zipCode }),
+      };
+      return this.invokeAPI(setAccountInfoAPI, {
+        profile: profileObj,
+      });
+    }
+  }
+
+  /**
+   * Obtain the CDC SDK Method from the input method name as string
+   * @param methodName
+   * @returns CDC SDK Function
+   */
+  protected getSdkFunctionFromName(
+    methodName: string
+  ): (payload: Object) => void {
+    //accounts.setAccountInfo or accounts.b2b.openDelegatedAdmin
+    const nestedMethods = methodName.split('.');
+    let cdcAPI: any = this.gigyaSDK;
+    nestedMethods.forEach((method) => {
+      if (cdcAPI && cdcAPI.hasOwnProperty(method)) {
+        cdcAPI = cdcAPI[method];
+      }
+    });
+
+    return cdcAPI;
+  }
+
+  /**
+   * Invoke the CDC SDK Method and convert the callback to an Observable
+   * @param methodName - method to be invoked
+   * @param payload - Object payload
+   * @returns - Observable with the response
+   */
+  protected invokeAPI(methodName: string, payload: Object): Observable<any> {
+    return new Observable<any>((result) => {
+      const actualAPI = this.getSdkFunctionFromName(methodName);
+      if (typeof actualAPI != 'function') {
+        result.error('CDC API name is incorrect');
+        return;
+      }
+      actualAPI({
+        ...payload,
+        callback: (response: any) => {
+          this.zone.run(() => {
+            if (response?.status === 'OK') {
+              result.next(response);
+              result.complete();
+            } else {
+              result.error(response);
+            }
+          });
+        },
+      });
+    });
   }
 
   ngOnDestroy(): void {

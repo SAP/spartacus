@@ -59,6 +59,11 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
 
   @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>(true);
 
+  @Input() cxComponentRef: ComponentRef<any> | EmbeddedViewRef<any>;
+  @Output() cxComponentRefChange = new EventEmitter<
+    ComponentRef<any> | EmbeddedViewRef<any>
+  >();
+
   subscription = new Subscription();
 
   constructor(
@@ -167,6 +172,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
         undefined,
         this.getComponentInjector(position)
       );
+      this.cxComponentRefChange.emit(component);
       return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
@@ -179,6 +185,8 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
       view.markForCheck();
+
+      this.cxComponentRefChange.emit(view);
       return view;
     }
   }

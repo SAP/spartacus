@@ -110,7 +110,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   it('should be able to call the open dialog', () => {
     spyOn(launchDialogService, 'openDialog').and.stub();
 
-    el.query(By.css('button.btn-action:last-child')).nativeElement.click();
+    el.query(By.css('button.btn-secondary:last-child')).nativeElement.click();
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.REPLENISHMENT_ORDER,
