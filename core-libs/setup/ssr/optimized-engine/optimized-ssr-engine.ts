@@ -5,7 +5,7 @@
  */
 
 /* webpackIgnore: true */
-import * as crypto from 'crypto';
+//import * as crypto from 'crypto';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
@@ -17,6 +17,8 @@ import {
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
+
+const crypto = require('crypto');
 
 /**
  * Returns the full url for the given SSR Request.
@@ -244,8 +246,7 @@ export class OptimizedSsrEngine {
     const request: Request = options.req;
     const response: Response = options.res || options.req.res;
 
-    // use crypto.randomUUID() if node > v14.17.0
-    request.uuid = crypto.randomBytes(20).toString('hex');
+    request.uuid = crypto.randomUUID();
     request.startTime = Date.now();
     const logger = new RequestLoggingService(request);
 

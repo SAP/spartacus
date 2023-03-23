@@ -28,6 +28,8 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
+  debug: defaultSsrOptimizationOptions.debug,
+  logBeforeTimeout: defaultSsrOptimizationOptions.logBeforeTimeout,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
