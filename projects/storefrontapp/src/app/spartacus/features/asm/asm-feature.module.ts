@@ -9,26 +9,16 @@ import {
   asmTranslationChunksConfig,
   asmTranslations,
 } from '@spartacus/asm/assets';
-import {
-  Customer360RootModule,
-  CUSTOMER_360_FEATURE,
-} from '@spartacus/asm/customer-360/root';
 import { AsmRootModule, ASM_FEATURE } from '@spartacus/asm/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [AsmRootModule, Customer360RootModule],
+  imports: [AsmRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
         [ASM_FEATURE]: {
           module: () => import('@spartacus/asm').then((m) => m.AsmModule),
-        },
-        [CUSTOMER_360_FEATURE]: {
-          module: () =>
-            import('@spartacus/asm/customer-360').then(
-              (m) => m.Customer360Module
-            ),
         },
       },
     }),

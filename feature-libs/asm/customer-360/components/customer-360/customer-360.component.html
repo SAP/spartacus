@@ -8,11 +8,11 @@
     <div class="cx-dialog-header modal-header">
       <div class="header-title">
         <h3 id="asm-customer-360-title" class="modal-title">
-          {{ 'asm.customer360.header.title' | cxTranslate }}
+          {{ 'customer360.header.title' | cxTranslate }}
         </h3>
         <div id="asm-customer-360-desc" class="cx-visually-hidden">
           {{
-            'asm.customer360.header.subTitle'
+            'customer360.header.subTitle'
               | cxTranslate: { name: customer.firstName }
           }}
         </div>
@@ -26,7 +26,7 @@
           <div class="cx-customer-info ml-3">
             <div class="cx-customer-name">
               {{
-                'asm.customer360.header.subTitle'
+                'customer360.header.subTitle'
                   | cxTranslate: { name: customer.firstName }
               }}
             </div>
@@ -42,12 +42,12 @@
           >
             <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
             {{
-              'asm.customer360.header.activeCartLabel'
+              'customer360.header.activeCartLabel'
                 | cxTranslate: { cartSize: activeCart.totalItems }
             }}
             <button
               [attr.aria-label]="
-                'asm.customer360.aria.activeCartCode'
+                'customer360.aria.activeCartCode'
                   | cxTranslate: { code: activeCart.code }
               "
               class="cx-overview-title-link link"
@@ -62,12 +62,12 @@
           >
             <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
             {{
-              'asm.customer360.header.recentOrderLabel'
+              'customer360.header.recentOrderLabel'
                 | cxTranslate: { price: recentOrder.total.formattedValue }
             }}
             <button
               [attr.aria-label]="
-                'asm.customer360.aria.recentOrderCode'
+                'customer360.aria.recentOrderCode'
                   | cxTranslate: { code: recentOrder.code }
               "
               class="cx-overview-title-link link"

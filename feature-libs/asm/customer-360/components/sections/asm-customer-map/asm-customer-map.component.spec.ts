@@ -165,7 +165,7 @@ describe('AsmCustomerMapComponent', () => {
       component.getStoreOpening(open),
       component.getStoreOpening(openWithNoClose),
     ]).subscribe(([str1, str2, str3]) => {
-      expect(str1).toBe('asm.customer360.maps.storeClosed');
+      expect(str1).toBe('customer360.maps.storeClosed');
       expect(str2).toBe('9:00AM - 5:00PM');
       expect(str3).toBe('12:00AM');
 

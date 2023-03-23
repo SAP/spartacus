@@ -33,23 +33,23 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
     {
       property: 'item',
       text: 'item',
-      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.item',
+      i18nTextKey: 'customer360.productReviews.columnHeaders.item',
       navigatable: true,
     },
     {
       property: 'dateAndStatus',
-      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.dateAndStatus',
+      i18nTextKey: 'customer360.productReviews.columnHeaders.dateAndStatus',
       text: 'DATE / STATUS',
     },
     {
       property: 'rating',
-      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.rating',
+      i18nTextKey: 'customer360.productReviews.columnHeaders.rating',
       text: 'rate',
       renderAsStarRating: true,
     },
     {
       property: 'reviewText',
-      i18nTextKey: 'asm.customer360.productReviews.columnHeaders.review',
+      i18nTextKey: 'customer360.productReviews.columnHeaders.review',
       text: 'review',
     },
   ];
@@ -68,7 +68,7 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
     this.subscription.add(
       combineLatest([
         this.context.data$,
-        this.translation.translate('asm.customer360.productReviews.sku'),
+        this.translation.translate('customer360.productReviews.sku'),
       ])
         .pipe(
           map(([data, skuLabel]) => {

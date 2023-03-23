@@ -11,7 +11,7 @@ export const defaultCustomer360Config: Customer360Config = {
   customer360: {
     tabs: [
       {
-        i18nNameKey: 'asm.customer360.overviewTab',
+        i18nNameKey: 'customer360.overviewTab',
         components: [
           {
             component: 'AsmCustomer360SavedCartComponent',
@@ -25,7 +25,7 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'asm.customer360.profileTab',
+        i18nNameKey: 'customer360.profileTab',
         components: [
           {
             component: 'AsmCustomer360ProfileComponent',
@@ -33,7 +33,7 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'asm.customer360.activityTab',
+        i18nNameKey: 'customer360.activityTab',
         components: [
           {
             component: 'AsmCustomer360CustomerActivityComponent',
@@ -49,7 +49,7 @@ export const defaultCustomer360Config: Customer360Config = {
         ],
       },
       {
-        i18nNameKey: 'asm.customer360.mapsTab',
+        i18nNameKey: 'customer360.mapsTab',
         components: [
           {
             component: 'AsmCustomer360MapComponent',

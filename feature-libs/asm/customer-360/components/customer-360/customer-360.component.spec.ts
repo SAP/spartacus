@@ -25,7 +25,7 @@ describe('AsmCustomer360Component', () => {
     customer360: {
       tabs: [
         {
-          i18nNameKey: 'asm.customer360.overviewTab',
+          i18nNameKey: 'customer360.overviewTab',
           components: [
             {
               component: 'AsmCustomer360OverviewComponent',
@@ -33,7 +33,7 @@ describe('AsmCustomer360Component', () => {
           ],
         },
         {
-          i18nNameKey: 'asm.customer360.profileTab',
+          i18nNameKey: 'customer360.profileTab',
           components: [
             {
               component: 'AsmCustomer360ProfileComponent',
@@ -170,14 +170,14 @@ describe('AsmCustomer360Component', () => {
   it("should show a label with information on the emulated user's active cart", () => {
     const label = el.query(By.css('.header-account-details-active-cart'));
     expect(label.nativeElement.textContent).toEqual(
-      ' asm.customer360.header.activeCartLabel cartSize:3  00001089 '
+      ' customer360.header.activeCartLabel cartSize:3  00001089 '
     );
   });
 
   it("should show a label with information on the emulated user's most recent order", () => {
     const label = el.query(By.css('.header-account-details-recent-order'));
     expect(label.nativeElement.textContent).toEqual(
-      ' asm.customer360.header.recentOrderLabel price:$10.00  00001088, 11-21-2022 '
+      ' customer360.header.recentOrderLabel price:$10.00  00001088, 11-21-2022 '
     );
   });
 

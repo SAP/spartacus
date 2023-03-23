@@ -3,7 +3,7 @@
     {{ headerText }}
   </h4>
   <div
-    [attr.aria-label]="'asm.customer360.pagination' | cxTranslate"
+    [attr.aria-label]="'customer360.pagination' | cxTranslate"
     class="cx-asm-customer-table-heading-pages"
     *ngIf="entryPages"
   >
@@ -16,7 +16,7 @@
         [attr.aria-current]="currentPageNumber === pageNumber ? 'page' : null"
         [disabled]="currentPageNumber === pageNumber"
         [attr.aria-label]="
-          'asm.customer360.page' | cxTranslate: { number: pageNumber + 1 }
+          'customer360.page' | cxTranslate: { number: pageNumber + 1 }
         "
       >
         {{ pageNumber + 1 }}
@@ -96,7 +96,7 @@
             >
               {{
                 entry[column.property] ||
-                  ('asm.customer360.emptyCellValue' | cxTranslate)
+                  ('customer360.emptyCellValue' | cxTranslate)
               }}
             </button>
           </ng-template>
@@ -122,7 +122,7 @@
             <ng-container
               ><span>{{
                 entry[column.property] ||
-                  ('asm.customer360.emptyCellValue' | cxTranslate)
+                  ('customer360.emptyCellValue' | cxTranslate)
               }}</span></ng-container
             >
           </ng-template>
