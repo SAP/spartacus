@@ -5,13 +5,12 @@
         <div *ngIf="user.title !== ''; else title">
           {{ user.name }}
         </div>
-
         <div>
           <a
             class="cx-sign-out"
             [routerLink]="
               {
-                cxRoute: 'logOut'
+                cxRoute: 'logout'
               } | cxUrl
             "
             >{{ 'cdpOrderHistory.signOut' | cxTranslate }}

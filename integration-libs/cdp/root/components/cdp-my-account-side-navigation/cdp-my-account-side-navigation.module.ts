@@ -12,12 +12,14 @@ import {
   ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CdpMyAccountSideNavigationComponent } from './cdp-my-account-side-navigation.component';
 import { IconModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.module';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/cms-structure/routing/default-routing-config';
 
 @NgModule({
   declarations: [CdpMyAccountSideNavigationComponent],
@@ -44,6 +46,9 @@ import { IconModule } from '../../../../../projects/storefrontlib/cms-components
       },
     }),
     IconModule,
+  ],
+  providers: [
+    provideDefaultConfig(defaultStorefrontRoutesConfig),
   ],
 })
 export class CdpMyAccountSideNavigationModule {}
