@@ -143,7 +143,13 @@ export function resetSearch() {
 function login(user: AccountData) {
   const minWait = 750;
   const maxWait = 1500;
-  cy.wait(Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] * (maxWait - minWait) + minWait));
+  cy.wait(
+    Math.floor(
+      window.crypto.getRandomValues(new Uint32Array(1))[0] *
+        (maxWait - minWait) +
+        minWait
+    )
+  );
   cy.requireLoggedIn(user);
 }
 

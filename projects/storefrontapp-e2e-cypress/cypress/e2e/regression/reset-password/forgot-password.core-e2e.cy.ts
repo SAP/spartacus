@@ -46,6 +46,9 @@ context('Forgot Password Page', () => {
   });
 
   function getRandomEmailAddress() {
-    return window.crypto.getRandomValues(new Uint32Array(1))[0].toString(36) + '@e2e-test.com';
+    return (
+      window.crypto.getRandomValues(new Uint32Array(1))[0].toString(36) +
+      '@e2e-test.com'
+    );
   }
 });

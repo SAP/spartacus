@@ -12,5 +12,8 @@ export function generateMail(alias: string, newTimestamp: boolean) {
 }
 
 export function randomString() {
-  return window.crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substr(2, 9);
+  return window.crypto
+    .getRandomValues(new Uint32Array(1))[0]
+    .toString(36)
+    .substr(2, 9);
 }

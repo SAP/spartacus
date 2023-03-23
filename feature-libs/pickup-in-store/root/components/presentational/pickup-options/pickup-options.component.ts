@@ -35,8 +35,12 @@ export class PickupOptionsComponent implements OnChanges {
   /** Emitted when a new store should be selected. */
   @Output() pickupLocationChange = new EventEmitter<undefined>();
 
-  pickupId = `pickup-id:${window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16)}`;
-  deliveryId = `delivery-id:${window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16)}`;
+  pickupId = `pickup-id:${window.crypto
+    .getRandomValues(new Uint32Array(1))[0]
+    .toString(16)}`;
+  deliveryId = `delivery-id:${window.crypto
+    .getRandomValues(new Uint32Array(1))[0]
+    .toString(16)}`;
 
   pickupOptionsForm = new FormGroup({
     pickupOption: new FormControl<PickupOption | null>(null),
