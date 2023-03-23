@@ -13,6 +13,9 @@
     </ng-container>
 
     <!-- pickup consigned entries -->
+    <div class="cx-pickup-order-consigned-entries-header">
+      {{ 'deliveryPointOfServiceDetails.itemsToBePickUp' | cxTranslate }}
+    </div>
     <cx-order-consigned-entries
       *ngIf="pickupConsignments"
       [order]="order"
