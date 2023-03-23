@@ -1,0 +1,22 @@
+@import '../../sass-true/sass/true';
+@import '../scss/versioning';
+@import './versioning-test-util';
+
+$_fullVersion: 3.4;
+$_majorVersion: 3;
+$styleVersion: 3.2;
+$useLatestStyles: false;
+
+@include describe('Style versioning forVersion() mixin ') {
+  @include describe(
+    'with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}'
+  ) {
+    @include shouldDisplayForVersion(3.1);
+    @include shouldNOTDisplayForVersion(4);
+    @include shouldDisplayForVersion('3.1.2');
+    @include shouldDisplayForRange(3, 3.5);
+    @include shouldNOTDisplayForRange(4.8, 4.9);
+    @include shouldNOTDisplayForVersion('3.11');
+    @include shouldNOTDisplayForRange(3.19, 3.21);
+  }
+}

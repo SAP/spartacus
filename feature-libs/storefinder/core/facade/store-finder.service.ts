@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
@@ -234,5 +240,17 @@ export class StoreFinderService implements OnDestroy {
    */
   getStoreLongitude(location: PointOfService): number | undefined {
     return location?.geoPoint?.longitude;
+  }
+
+  /**
+   * Generates a link leading to the directions of the given store location
+   * @param location store location
+   * @returns URL for directions to the store
+   */
+  getDirections(location: PointOfService): string {
+    const url = 'https://www.google.com/maps/dir/Current+Location/';
+    const latitude = this.getStoreLatitude(location);
+    const longitude = this.getStoreLongitude(location);
+    return url + latitude + ',' + longitude;
   }
 }

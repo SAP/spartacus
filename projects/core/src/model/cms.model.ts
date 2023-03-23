@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export interface CmsComponent {
   modifiedTime?: Date;
   name?: string;
@@ -196,6 +202,11 @@ export interface CmsAddToCartComponent extends CmsComponent {
 
 export interface CmsOrderDetailItemsComponent extends CmsComponent {
   enableAddToCart?: boolean;
+  displayConsignmentDelivery?: boolean;
+}
+
+export interface CmsOrderDetailOverviewComponent extends CmsComponent {
+  simple?: boolean;
 }
 
 export interface CmsPDFDocumentComponent extends CmsComponent {
@@ -211,10 +222,12 @@ export interface CmsVideoComponent extends CmsComponent {
   mute?: string;
   containerSize?: ContainerSizeOptions;
   containerBackground?: ContainerBackgroundOptions;
+  thumbnailSelector?: ContainerBackgroundOptions;
   videoContainerHeight?: number;
   video?: CmsBannerComponentMedia;
   container?: boolean;
   videoMedia?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  thumbnail?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   url?: string;
   category?: string;
   product?: string;
@@ -224,9 +237,15 @@ export interface CmsVideoComponent extends CmsComponent {
 export enum ContainerBackgroundOptions {
   NO_BACKGROUND = 'NO_BACKGROUND',
   UPLOAD_RESPONSIVE_IMAGE = 'UPLOAD_RESPONSIVE_IMAGE',
+  UPLOAD_THUMBNAIL = 'UPLOAD_THUMBNAIL',
 }
 
 export enum ContainerSizeOptions {
   FIT_TO_CONTENT_SIZE = 'FIT_TO_CONTENT_SIZE',
   DEFINE_CONTAINER_HEIGHT = 'DEFINE_CONTAINER_HEIGHT',
+}
+
+export interface CmsPickupItemDetails extends CmsComponent {
+  showEdit: boolean;
+  context: string;
 }

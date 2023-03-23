@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Config, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -19,13 +25,15 @@ import {
   take,
 } from 'rxjs/operators';
 
+const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
+
 @Component({
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
   noResults: boolean = false;
@@ -62,10 +70,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     event?.preventDefault();
 
     if (this.isResultsBoxOpen()) {
-      this.toggleBodyClass('quick-order-searchbox-is-active', false);
+      this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
     }
 
-    let product = this.form.get('product')?.value;
+    const product = this.form.get('product')?.value;
 
     if (!!product) {
       this.form.reset();
@@ -155,7 +163,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   isResultsBoxOpen(): boolean {
     return this.winRef
-      ? !!this.winRef.document.querySelector('.quick-order-searchbox-is-active')
+      ? !!this.winRef.document.querySelector(`.${SEARCH_BOX_ACTIVE_CLASS}`)
       : false;
   }
 
@@ -164,7 +172,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   open(): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', true);
+    this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, true);
   }
 
   // Return result list as HTMLElement array
@@ -181,7 +189,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected blurSuggestionBox(event: UIEvent): void {
-    this.toggleBodyClass('quick-order-searchbox-is-active', false);
+    this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
 
     if (event && event.target) {
       (<HTMLElement>event.target).blur();
@@ -217,8 +225,8 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm() {
-    const form = new FormGroup({});
-    form.setControl('product', new FormControl(null));
+    const form = new UntypedFormGroup({});
+    form.setControl('product', new UntypedFormControl(null));
 
     this.form = form;
   }

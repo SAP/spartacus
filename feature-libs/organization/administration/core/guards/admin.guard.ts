@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import {
@@ -10,9 +16,7 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { filter, map, pluck } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AdminGuard implements CanActivate {
   constructor(
     protected userAccountFacade: UserAccountFacade,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EntitiesModel, ListModel } from '../../model/index';
 import { SearchConfig } from '../../product/model/search-config';
 import { EntityListState } from './entity-list-state';

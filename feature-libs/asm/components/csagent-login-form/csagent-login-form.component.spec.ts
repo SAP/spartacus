@@ -88,7 +88,7 @@ describe('CSAgentLoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeFalsy();
   });
   it('should not display spinner when login is not running', () => {

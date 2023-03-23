@@ -9,6 +9,7 @@
       type="text"
       formControlName="userId"
       placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
+      [attr.aria-label]="'asm.loginForm.userId.label' | cxTranslate"
     />
     <cx-form-errors [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
   </label>
@@ -19,6 +20,7 @@
       type="password"
       placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
       formControlName="password"
+      [attr.aria-label]="'asm.loginForm.password.label' | cxTranslate"
       cxPasswordVisibilitySwitch
     />
     <cx-form-errors
@@ -30,13 +32,8 @@
   </button>
 </form>
 
-<div
+<cx-dot-spinner
   *ngIf="csAgentTokenLoading"
-  class="spinner"
   aria-hidden="false"
   [attr.aria-label]="'common.loading' | cxTranslate"
->
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+></cx-dot-spinner>

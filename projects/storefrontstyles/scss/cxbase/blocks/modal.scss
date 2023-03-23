@@ -1,6 +1,6 @@
 @import '../../theme';
-@import '~bootstrap/scss/modal';
-@import '~bootstrap/scss/close';
+@import 'bootstrap/scss/modal';
+@import 'bootstrap/scss/close';
 
 $modal-content-border-radius: 0;
 $modal-dialog-margin-sm: 0 !important;
@@ -10,13 +10,16 @@ $modal-max-width-md: 768px !important;
 $modal-min-width-md: 768px !important;
 $modal-max-width-sm: 100% !important;
 $modal-min-width-sm: 100% !important;
+$modal-max-width-asm: 95% !important;
+$modal-min-width-asm: 95% !important;
 
 .modal {
+  background-color: rgba(0, 0, 0, 0.5);
   &-header {
     padding: $modal-header-padding;
   }
   &-body {
-    padding: 27px 30px;
+    padding: 16px 30px 30px;
   }
   &-content {
     border-radius: $modal-content-border-radius;
@@ -30,6 +33,10 @@ $modal-min-width-sm: 100% !important;
     margin-inline-start: 0;
     margin-inline-end: 0;
     align-self: flex-end;
+
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
   }
 
   &[aria-hidden='false'] {
@@ -37,37 +44,56 @@ $modal-min-width-sm: 100% !important;
   }
 }
 
-.modal-xl,
-.modal-lg {
+.cx-modal-container {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  height: 100%;
+  overflow-y: auto;
+
   max-width: $modal-max-width;
   min-width: $modal-min-width;
-}
-@include media-breakpoint-up(md) {
-  .modal-lg {
+
+  @include media-breakpoint-down(sm) {
+    margin: $modal-dialog-margin-sm;
+    min-width: $modal-max-width-sm;
+    max-width: $modal-min-width-sm;
+    overflow-y: initial;
+
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  @include media-breakpoint-up(md) {
     max-width: $modal-max-width-md;
     min-width: $modal-min-width-md;
   }
 }
-@include media-breakpoint-down(sm) {
-  .modal-lg {
-    min-width: $modal-max-width-sm;
-    max-width: $modal-min-width-sm;
-  }
 
-  .modal-dialog {
-    margin: $modal-dialog-margin-sm;
-    min-width: $modal-max-width-sm;
-    max-width: $modal-min-width-sm;
-  }
+.cx-modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+  padding-inline-end: 1.875rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.875rem;
+}
 
-  .modal-dialog-centered {
-    margin: $modal-dialog-margin-sm;
-    height: 100%;
-    align-items: unset !important;
-    overflow-y: auto;
-  }
+.cx-modal-content {
+  background-color: var(--cx-color-inverse);
+  width: 100%;
+}
 
-  .modal-dialog {
-    overflow-y: initial;
+.cx-modal-footer {
+  padding: 0px 27px 30px;
+}
+
+.cx-asm-dialog {
+  @include media-breakpoint-up(lg) {
+    max-width: $modal-max-width-asm;
+    min-width: $modal-min-width-asm;
+  }
+  .cx-modal-content {
+    border-radius: 16px;
   }
 }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -277,7 +283,9 @@ export class UserGroupService {
             customerId,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 
@@ -290,7 +298,9 @@ export class UserGroupService {
             userGroupId,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 
@@ -304,7 +314,9 @@ export class UserGroupService {
             permissionUid,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 
@@ -318,7 +330,9 @@ export class UserGroupService {
             permissionUid,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 

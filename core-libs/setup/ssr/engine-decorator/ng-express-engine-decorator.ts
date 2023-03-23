@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgSetupOptions } from '@nguniversal/express-engine';
 import {
   OptimizedSsrEngine,
@@ -36,10 +42,7 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions | null = {
-    concurrency: 20,
-    timeout: 3000,
-  }
+  optimizationOptions: SsrOptimizationOptions | null | undefined
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({

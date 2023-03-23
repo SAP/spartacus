@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { Priority } from '../../../../util/applicable';

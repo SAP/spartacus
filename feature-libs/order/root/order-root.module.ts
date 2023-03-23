@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -31,9 +37,13 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'AccountOrderDetailsActionsComponent',
           'AccountOrderDetailsItemsComponent',
           'AccountOrderDetailsTotalsComponent',
-          'AccountOrderDetailsShippingComponent',
+          'AccountOrderDetailsOverviewComponent',
+          'AccountOrderDetailsBillingComponent',
+          'AccountOrderDetailsGroupedItemsComponent',
+          'AccountOrderDetailsSimpleOverviewComponent',
           'AccountOrderHistoryComponent',
           'ReplenishmentDetailItemsComponent',
+          'AccountOrderDetailsReorderComponent',
           'ReplenishmentDetailTotalsComponent',
           'ReplenishmentDetailShippingComponent',
           'ReplenishmentDetailActionsComponent',
@@ -47,6 +57,9 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'OrderConfirmationItemsComponent',
           'OrderConfirmationTotalsComponent',
           'OrderConfirmationOverviewComponent',
+          'OrderConfirmationShippingComponent',
+          'OrderConfirmationBillingComponent',
+          'OrderConfirmationContinueButtonComponent',
           'ReplenishmentConfirmationMessageComponent',
           'ReplenishmentConfirmationOverviewComponent',
           'ReplenishmentConfirmationItemsComponent',

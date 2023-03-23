@@ -10,6 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
   TranslationService,
@@ -36,6 +37,31 @@ const mockOrders: OrderHistoryList = {
       placed: new Date('2018-01-02'),
       statusDisplay: 'test2',
       total: { formattedValue: '2' },
+    },
+  ],
+  pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
+  sorts: [{ code: 'byDate', selected: true }],
+};
+
+const mockPOOrders: OrderHistoryList = {
+  orders: [
+    {
+      code: '1',
+      placed: new Date('2018-01-01'),
+      statusDisplay: 'test',
+      total: { formattedValue: '1' },
+      purchaseOrderNumber: '001',
+      costCenter: {
+        code: 'Custom_Retail',
+        name: 'Custom Retail',
+      },
+    },
+    {
+      code: '2',
+      placed: new Date('2018-01-02'),
+      statusDisplay: 'test2',
+      total: { formattedValue: '2' },
+      purchaseOrderNumber: '002',
     },
   ],
   pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
@@ -129,7 +155,7 @@ describe('OrderHistoryComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         declarations: [
           OrderHistoryComponent,
           MockUrlPipe,
@@ -159,6 +185,13 @@ describe('OrderHistoryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have a row tag in the table header', () => {
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.cx-order-history-table thead tr'))
+    ).toBeTruthy();
   });
 
   it('should read order list', () => {
@@ -223,6 +256,31 @@ describe('OrderHistoryComponent', () => {
     expect(elements.length).toEqual(2);
     expect(component.sortType).toEqual('byDate');
   });
+
+  it('should display PO Number & Cost Center', () => {
+    mockOrderHistoryList$.next(mockOrders);
+    fixture.detectChanges();
+
+    const header = fixture.debugElement.query(
+      By.css('.cx-order-history-thead-mobile > tr[role="row"')
+    );
+    expect(header.children.length).toEqual(4);
+
+    mockOrderHistoryList$.next(mockPOOrders);
+    fixture.detectChanges();
+
+    const headerPO = fixture.debugElement.query(
+      By.css('.cx-order-history-thead-mobile > tr[role="row"]')
+    );
+    expect(headerPO.children.length).toEqual(6);
+    expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(
+      'orderHistory.PONumber'
+    );
+    expect(headerPO.children[2].nativeElement.textContent.trim()).toEqual(
+      'orderHistory.costCenter'
+    );
+  });
+
   it('should not have sortType if no orders and pagination are provided', () => {
     let orders: OrderHistoryList | undefined;
 

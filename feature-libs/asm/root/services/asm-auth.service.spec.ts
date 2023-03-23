@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthToken,
   GlobalMessageService,
@@ -11,7 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { getReducers } from 'projects/core/src/process/store/reducers/index';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
   ASM_FEATURE,
@@ -36,6 +37,14 @@ let isEmulated$: BehaviorSubject<boolean>;
 let tokenTarget$: BehaviorSubject<TokenTarget>;
 let authToken$: BehaviorSubject<AuthToken>;
 
+class MockAuthMultisiteIsolationService
+  implements Partial<AuthMultisiteIsolationService>
+{
+  decorateUserId(userId: string): Observable<string> {
+    return of(userId);
+  }
+}
+
 class MockUserIdService {
   clearUserId = jasmine.createSpy();
   setUserId = jasmine.createSpy();
@@ -47,7 +56,7 @@ class MockOAuthLibWrapperService {
   revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
   initLoginFlow = jasmine.createSpy();
 
-  authorizeWithPasswordFlow = () => new Promise(() => {});
+  authorizeWithPasswordFlow = () => Promise.resolve();
 }
 
 class MockAsmAuthStorageService {
@@ -99,6 +108,10 @@ describe('AsmAuthService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        {
+          provide: AuthMultisiteIsolationService,
+          useClass: MockAuthMultisiteIsolationService,
+        },
       ],
     });
 
@@ -126,12 +139,13 @@ describe('AsmAuthService', () => {
   ));
 
   describe('loginWithCredentials()', () => {
-    it('should authorize if user can login', () => {
+    it('should authorize if user can login', async () => {
       spyOn(
         oAuthLibWrapperService,
         'authorizeWithPasswordFlow'
       ).and.callThrough();
-      service.loginWithCredentials(loginInfo.userId, loginInfo.password);
+
+      await service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
       expect(
         oAuthLibWrapperService.authorizeWithPasswordFlow

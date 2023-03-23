@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT,
   CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import {
   CmsNavigationComponent,
@@ -52,25 +58,25 @@ export class NavigationService {
             tap((items) => {
               if (items === undefined) {
                 this.loadNavigationEntryItems(navigation, true);
-              } else {
-                // we should check whether the existing node items are what expected
-                const expectedItems: {
-                  superType: string | undefined;
-                  id: string | undefined;
-                }[] = [];
-                this.loadNavigationEntryItems(navigation, false, expectedItems);
-                const existingItems = Object.keys(items).map(
-                  (key) => items[key].uid ?? ''
+                return;
+              }
+              // we should check whether the existing node items are what expected
+              const expectedItems: {
+                superType: string | undefined;
+                id: string | undefined;
+              }[] = [];
+              this.loadNavigationEntryItems(navigation, false, expectedItems);
+              const existingItems = Object.keys(items).map(
+                (key) => items[key].uid ?? ''
+              );
+              const missingItems = expectedItems.filter(
+                (it) => it.id && !existingItems.includes(it.id)
+              );
+              if (missingItems.length > 0) {
+                this.cmsService.loadNavigationItems(
+                  navigation.uid ?? '',
+                  missingItems
                 );
-                const missingItems = expectedItems.filter(
-                  (it) => it.id && !existingItems.includes(it.id)
-                );
-                if (missingItems.length > 0) {
-                  this.cmsService.loadNavigationItems(
-                    navigation.uid ?? '',
-                    missingItems
-                  );
-                }
               }
             }),
             filter(Boolean),
@@ -216,3 +222,5 @@ export class NavigationService {
     }
   }
 }
+
+// CHECK SONAR

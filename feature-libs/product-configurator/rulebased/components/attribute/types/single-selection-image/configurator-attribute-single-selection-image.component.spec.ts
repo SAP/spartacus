@@ -15,6 +15,9 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -32,6 +35,10 @@ export class MockFocusDirective {
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
 }
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
@@ -56,6 +63,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
           {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
+          },
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
           },
         ],
       })
@@ -136,6 +151,10 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should select another single selection image value', () => {
+    spyOn(
+      component['configuratorCommonsService'],
+      'updateConfiguration'
+    ).and.callThrough();
     const singleSelectionImageId =
       '#cx-configurator--single_selection_image--' +
       component.attribute.name +
@@ -146,19 +165,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       By.css(singleSelectionImageId)
     ).nativeElement;
     expect(valueToSelect.checked).toBe(false);
-    spyOn(component.selectionChange, 'emit').and.callThrough();
     component.onClick(value2.valueCode);
     fixture.detectChanges();
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: attributeName,
-          selectedSingleValue: value2.valueCode,
-          uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
-          groupId: groupId,
-        }),
-      })
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalledWith(
+      ownerKey,
+      { ...component.attribute, selectedSingleValue: value2.valueCode },
+      Configurator.UpdateType.ATTRIBUTE
     );
   });
 

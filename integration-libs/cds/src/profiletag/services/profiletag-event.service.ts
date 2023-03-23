@@ -1,12 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
-import { fromEvent, merge, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  fromEvent,
+  merge,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   shareReplay,
+  take,
   tap,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
@@ -22,8 +35,9 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagEventService {
-  latestConsentReference = null;
+export class ProfileTagEventService implements OnDestroy {
+  protected subscription: Subscription = new Subscription();
+  latestConsentReference: BehaviorSubject<string | null>;
   profileTagDebug = false;
   private consentReference$: Observable<string | null>;
   private profileTagWindow: ProfileTagWindowObject;
@@ -38,6 +52,27 @@ export class ProfileTagEventService {
     @Inject(PLATFORM_ID) private platform: any
   ) {
     this.initWindow();
+    this.setConsentReferenceFromLocalStorage();
+  }
+
+  private setConsentReferenceFromLocalStorage(): void {
+    if (this.winRef.isBrowser() && this.winRef.localStorage) {
+      const profileTagMetadata = JSON.parse(
+        this.winRef.localStorage.getItem('profiletag') || '{"cr":{}}'
+      );
+      this.subscription.add(
+        this.baseSiteService
+          .getActive()
+          .pipe(take(1))
+          .subscribe((baseSite) => {
+            this.latestConsentReference = new BehaviorSubject(
+              profileTagMetadata.cr[
+                `${baseSite}-consentReference`
+              ]?.consentReference
+            );
+          })
+      );
+    }
   }
 
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
@@ -60,7 +95,7 @@ export class ProfileTagEventService {
 
   handleConsentWithdrawn(): void {
     this.consentReference$ = null;
-    this.latestConsentReference = null;
+    this.latestConsentReference.next(null);
   }
 
   addTracker(): Observable<string> {
@@ -73,7 +108,7 @@ export class ProfileTagEventService {
     );
   }
 
-  notifyProfileTagOfEventOccurence(event: ProfileTagPushEvent): void {
+  notifyProfileTagOfEventOccurrence(event: ProfileTagPushEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {
@@ -83,8 +118,8 @@ export class ProfileTagEventService {
 
   private setConsentReference(): Observable<string> {
     return this.getConsentReference().pipe(
-      tap(
-        (consentReference) => (this.latestConsentReference = consentReference)
+      tap((consentReference) =>
+        this.latestConsentReference.next(consentReference)
       )
     );
   }
@@ -150,5 +185,11 @@ export class ProfileTagEventService {
     }
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

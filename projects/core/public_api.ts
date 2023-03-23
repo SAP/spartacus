@@ -1,4 +1,10 @@
 /*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/*
  * Public API Surface of core
  */
 export * from './src/anonymous-consents/index';
@@ -9,6 +15,7 @@ export * from './src/config/index';
 export * from './src/event/index';
 export * from './src/features-config/index';
 export * from './src/global-message/index';
+export * from './src/http/index';
 export * from './src/i18n/index';
 export * from './src/model/index';
 export * from './src/cost-center/index';
@@ -27,7 +34,12 @@ export * from './src/base-core.module';
 /** AUGMENTABLE_TYPES_START */
 export { Product, Price, Stock } from './src/model/product.model';
 export { ProductSearchPage, Facet } from './src/model/product-search.model';
-export { CostCenter, B2BUnit, B2BUser } from './src/model/org-unit.model';
+export {
+  CostCenter,
+  B2BUnit,
+  B2BUser,
+  B2BUserRole,
+} from './src/model/org-unit.model';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 export { Config } from './src/config/config-tokens';

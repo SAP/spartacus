@@ -11,6 +11,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   ImageType,
@@ -206,7 +207,7 @@ describe('MyInterestsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
         providers: [
           { provide: OccConfig, useValue: MockOccModuleConfig },
           { provide: LayoutConfig, useValue: MockLayoutConfig },
@@ -229,7 +230,6 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyInterestsComponent);
-    //globalMessageService = TestBed.inject(GlobalMessageService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
@@ -249,6 +249,13 @@ describe('MyInterestsComponent', () => {
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should display header', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+      'myInterests.header'
+    );
   });
 
   it('should show loading spinner when data is loading', () => {
@@ -330,17 +337,6 @@ describe('MyInterestsComponent', () => {
       undefined,
       undefined,
       'myInterests.item'
-    );
-
-    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-      expect,
-      tableHeaders[4].nativeElement,
-      'span',
-      'cx-visually-hidden',
-      undefined,
-      undefined,
-      undefined,
-      'myInterests.remove'
     );
   });
 

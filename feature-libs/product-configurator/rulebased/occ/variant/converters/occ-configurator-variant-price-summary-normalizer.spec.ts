@@ -9,28 +9,29 @@ class MockConverterService {
 }
 
 const CONFIG_ID = 'configId1234';
+const priceSummary: OccConfigurator.PriceSummary = {
+  basePrice: {
+    value: 22000,
+    currencyIso: 'EUR',
+    formattedValue: '22.000 €',
+  },
+  selectedOptions: {
+    value: 900,
+    currencyIso: 'EUR',
+    formattedValue: '900 €',
+  },
+  currentTotal: {
+    value: 22900,
+    currencyIso: 'EUR',
+    formattedValue: '22.900 €',
+  },
+};
 
 const prices: OccConfigurator.Prices = {
   configId: CONFIG_ID,
   pricingError: false,
   showDeltaPrices: false,
-  priceSummary: {
-    basePrice: {
-      value: 22000,
-      currencyIso: 'EUR',
-      formattedValue: '22.000 €',
-    },
-    selectedOptions: {
-      value: 900,
-      currencyIso: 'EUR',
-      formattedValue: '900 €',
-    },
-    currentTotal: {
-      value: 22900,
-      currencyIso: 'EUR',
-      formattedValue: '22.900 €',
-    },
-  },
+  priceSummary: priceSummary,
 };
 
 describe('OccConfiguratorVariantPriceSummaryNormalizer', () => {
@@ -55,6 +56,6 @@ describe('OccConfiguratorVariantPriceSummaryNormalizer', () => {
 
   it('should convert a price to a configuration', () => {
     const result = occConfiguratorVariantPriceSummaryNormalizer.convert(prices);
-    expect(result).toEqual(prices.priceSummary);
+    expect(result).toEqual(priceSummary);
   });
 });

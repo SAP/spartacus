@@ -1,16 +1,22 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const checkout = {
   checkout: {
     backToCart: 'Back to cart',
   },
   checkoutProgress: {
     label: 'Checkout Progress',
-    deliveryAddress: 'Delivery Address',
+    deliveryAddress: 'Shipping Address',
     deliveryMode: 'Delivery Mode',
-    paymentDetails: 'Payment Details',
-    reviewOrder: 'Review Order',
+    paymentDetails: 'Payment',
+    reviewOrder: 'Review',
   },
   checkoutAddress: {
-    deliveryAddress: 'Delivery Address',
+    shippingAddress: 'Shipping Address',
     selectYourDeliveryAddress: 'Select your Delivery Address',
     defaultDeliveryAddress: 'Default Delivery Address',
     addNewAddress: 'Add New Address',
@@ -21,6 +27,7 @@ export const checkout = {
     deliveryMethod: 'Delivery Method',
     standardDelivery: 'Standard Delivery',
     premiumDelivery: 'Premium Delivery',
+    deliveryEntries: 'Items to be Shipped',
   },
   checkoutReview: {
     review: 'Review',

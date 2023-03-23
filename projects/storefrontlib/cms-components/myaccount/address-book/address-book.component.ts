@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import {
   Address,
@@ -5,6 +11,7 @@ import {
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
+import { getAddressNumbers } from '../../../utils/address-number-utils';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -74,6 +81,8 @@ export class AddressBookComponent implements OnInit {
       this.translation.translate('common.delete'),
       this.translation.translate('common.edit'),
       this.translation.translate('addressBook.areYouSureToDeleteAddress'),
+      this.translation.translate('addressCard.phoneNumber'),
+      this.translation.translate('addressCard.mobileNumber'),
     ]).pipe(
       map(
         ([
@@ -82,6 +91,8 @@ export class AddressBookComponent implements OnInit {
           textDelete,
           textEdit,
           textVerifyDeleteMsg,
+          textPhone,
+          textMobile,
         ]) => {
           let region = '';
 
@@ -96,6 +107,8 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
+          const numbers = getAddressNumbers(address, textPhone, textMobile);
+
           return {
             role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
@@ -104,7 +117,7 @@ export class AddressBookComponent implements OnInit {
               address.line2,
               address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
-              address.phone,
+              numbers,
             ],
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',

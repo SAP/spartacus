@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartModification } from '@spartacus/cart/base/root';
@@ -34,7 +40,8 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.productCode,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore
           )
           .pipe(
             map(
@@ -111,7 +118,9 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.entryNumber,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore,
+            payload.pickupToDelivery
           )
           .pipe(
             map(() => {

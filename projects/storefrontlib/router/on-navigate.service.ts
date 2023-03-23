@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
@@ -45,6 +51,9 @@ export class OnNavigateService {
     this.subscription?.unsubscribe();
 
     if (enable) {
+      // Disable automatic scroll restoration to avoid race conditions
+      this.viewportScroller.setHistoryScrollRestoration('manual');
+
       this.subscription = this.router.events
         .pipe(
           filter((event): event is Scroll => event instanceof Scroll),

@@ -205,15 +205,21 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const result =
       occConfiguratorVariantOverviewNormalizer.convertGroup(generalGroup);
     expect(result[0].groupDescription).toBe(generalGroupDescription);
-    expect(result[0].attributes[0].attribute).toBe(generalGroupAttributeName);
-    expect(result[0].attributes[0].value).toBe(generalGroupValueName);
-    expect(result[0].attributes[0].valuePrice.currencyIso).toBe(
-      occPrice.currencyIso
-    );
-    expect(result[0].attributes[0].valuePrice.formattedValue).toBe(
-      occPrice.formattedValue
-    );
-    expect(result[0].attributes[0].valuePrice.value).toBe(occPrice.value);
+    const attribute = result[0]
+      ? result[0].attributes
+        ? result[0].attributes[0]
+        : undefined
+      : undefined;
+    expect(attribute).toBeDefined();
+    if (attribute) {
+      expect(attribute.attribute).toBe(generalGroupAttributeName);
+      expect(attribute.value).toBe(generalGroupValueName);
+      expect(attribute.valuePrice?.currencyIso).toBe(occPrice.currencyIso);
+      expect(attribute.valuePrice?.formattedValue).toBe(
+        occPrice.formattedValue
+      );
+      expect(attribute.valuePrice?.value).toBe(occPrice.value);
+    }
   });
 
   it('should set all issue counters when running on commerce 2205 or later', () => {

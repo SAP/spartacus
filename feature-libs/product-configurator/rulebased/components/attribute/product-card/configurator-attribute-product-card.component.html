@@ -69,7 +69,7 @@
                 productCardOptions?.productBoundValue?.selected;
                 else select
               "
-              class="btn btn-action"
+              class="btn btn-secondary"
               (click)="onHandleDeselect()"
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
@@ -130,7 +130,7 @@
               >
                 <button
                   *ngIf="!productCardOptions?.hideRemoveButton"
-                  class="btn btn-action"
+                  class="btn btn-secondary"
                   (click)="onHandleDeselect()"
                   [disabled]="
                     productCardOptions?.hideRemoveButton || (loading$ | async)

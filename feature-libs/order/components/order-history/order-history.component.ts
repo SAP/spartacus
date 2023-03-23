@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   isNotUndefined,
@@ -28,6 +34,7 @@ export class OrderHistoryComponent implements OnDestroy {
 
   private PAGE_SIZE = 5;
   sortType: string;
+  hasPONumber: boolean | undefined;
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.PAGE_SIZE)
@@ -36,6 +43,8 @@ export class OrderHistoryComponent implements OnDestroy {
         if (orders?.pagination?.sort) {
           this.sortType = orders.pagination.sort;
         }
+        this.hasPONumber =
+          orders?.orders?.[0]?.purchaseOrderNumber !== undefined;
       })
     );
 

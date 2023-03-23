@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, isDevMode } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -227,10 +233,7 @@ export class AnonymousConsentsEffects {
                 );
               }
             }
-            if (actions.length > 0) {
-              return actions;
-            }
-            return EMPTY;
+            return actions.length > 0 ? actions : EMPTY;
           })
         )
       )

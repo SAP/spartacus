@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { user } from '../sample-data/checkout-flow';
 import {
   AddressData,
@@ -66,7 +72,7 @@ export function verifyNotificationBannerInCart(
  */
 export function checkout(): void {
   cy.log('Complete checkout process');
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.log('Fulfill shipping address form');
   fillShippingAddress(shippingAddressData, false);
 

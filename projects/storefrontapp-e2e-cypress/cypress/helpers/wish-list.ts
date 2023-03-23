@@ -1,9 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { cheapProduct, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
 import {
   interceptCheckoutB2CDetailsEndpoint,
+  verifyReviewOrderPage,
   waitForPage,
   waitForProductPage,
 } from './checkout-flow';
@@ -276,7 +283,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -299,7 +306,7 @@ function fillPaymentForm(
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   for (const product of checkoutProducts) {
     cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);

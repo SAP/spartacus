@@ -20,7 +20,7 @@ For example
 $primary: #e502bf
 $font-weight-normal: 500;
 
-@import '~@spartacus/styles/index';
+@import '@spartacus/styles/index';
 ```
 
 #### Extending Sparta theme
@@ -31,7 +31,7 @@ Extending the library can be done by creating a new library and importing the de
 
 Your custom theme library e.g. `custom-styles/index.scss`
 ```scss
-@import '~@spartacus/styles/index';
+@import '@spartacus/styles/index';
 
 // Custom Style or imports from other files
 ```
@@ -44,7 +44,7 @@ In your project `styles.scss`
 An alternative method is to create a new library and import in to the project after the default theme.
 
 ```scss
-@import '~@spartacus/styles/index';
+@import '@spartacus/styles/index';
 @import 'custom-styles/index.scss';
 ```
 

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { TabbingOrderConfig, TabbingOrderTypes } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
@@ -175,10 +181,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Overview',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Basics',
       type: TabbingOrderTypes.BUTTON,
     },
@@ -214,7 +216,22 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Configuration',
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+
+  productConfigurationOverviewPost2211: [
+    {
+      value: 'show more',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -223,6 +240,18 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Menu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Filter',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Basics',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -672,6 +701,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Unit-Level Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Wish List',
       type: TabbingOrderTypes.LINK,
     },
@@ -749,18 +782,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
   ],
   productPage: [
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    { value: 'Show reviews', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Expand image', type: TabbingOrderTypes.BUTTON },
+    { value: 'Show reviews', type: TabbingOrderTypes.BUTTON },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { value: '', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'pickupOption', type: TabbingOrderTypes.RADIO },
+    { value: 'pickupOption', type: TabbingOrderTypes.RADIO },
+    { value: 'Select Store', type: TabbingOrderTypes.LINK },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'add to wish list', type: TabbingOrderTypes.LINK },
+  ],
+  productPageModal: [
+    { value: 'CLOSE', type: TabbingOrderTypes.GENERIC_BUTTON },
+    { value: 'Find a Store', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Find Stores', type: TabbingOrderTypes.BUTTON },
+    { value: 'USE MY LOCATION', type: TabbingOrderTypes.LINK },
+    { value: 'VIEW ALL STORES', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Hide out of stock options',
+      type: TabbingOrderTypes.GENERIC_CHECKBOX,
+    },
   ],
   headerMobileNotLoggedIn: [
     {
@@ -1121,6 +1163,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Orders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Unit-Level Orders',
       type: TabbingOrderTypes.LINK,
     },
     {

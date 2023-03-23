@@ -149,7 +149,7 @@ describe('AddressBookComponent', () => {
   });
 
   it('should be able to add new address', () => {
-    el.query(By.css('.btn-action')).nativeElement.click();
+    el.query(By.css('.btn-secondary')).nativeElement.click();
     expect(component.addAddressButtonHandle).toHaveBeenCalled();
   });
 
@@ -231,6 +231,26 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.deleteUserAddress
       ).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('Header', () => {
+    it('should set correct header for add new address', () => {
+      component.showEditAddressForm = false;
+      component.showAddAddressForm = true;
+      fixture.detectChanges();
+
+      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+        'addressBook.addNewDeliveryAddress'
+      );
+    });
+    it('should set correct header for edit address', () => {
+      component.editAddressButtonHandle(mockAddress);
+      fixture.detectChanges();
+
+      expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+        'addressBook.editDeliveryAddress'
+      );
     });
   });
 });

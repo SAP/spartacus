@@ -1,7 +1,9 @@
 <ng-container *ngIf="paymentMethods$ | async as paymentMethods">
   <div class="cx-payment container">
     <div class="cx-header">
-      <h3>{{ 'paymentMethods.paymentMethods' | cxTranslate }}</h3>
+      <h2>
+        {{ 'paymentMethods.paymentMethods' | cxTranslate }}
+      </h2>
     </div>
 
     <div class="cx-body">

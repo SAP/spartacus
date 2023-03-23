@@ -1,7 +1,9 @@
+@import '@spartacus/styles/scss/core';
+
 // we require a few bootstrap files for the CSS in this code
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/_mixins';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/_mixins';
 
 @mixin visible-focus {
   outline-style: solid;
@@ -13,3 +15,6 @@
 
 @import './administration/index';
 @import './order-approval/index';
+@import './user-registration/index';
+@import './account-summary/index';
+@import './unit-order/index';

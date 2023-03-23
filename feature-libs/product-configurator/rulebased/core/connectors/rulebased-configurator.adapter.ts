@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CartModification } from '@spartacus/cart/base/root';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -8,9 +14,12 @@ export abstract class RulebasedConfiguratorAdapter {
    * Abstract method used to create a configuration
    *
    * @param productCode Root product code
+   * @param forceReset optional - if true, creation of a new default configuration will be enforced, instead of returning a product bound configuration
    */
   abstract createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string,
+    forceReset?: boolean
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -20,6 +29,7 @@ export abstract class RulebasedConfiguratorAdapter {
    *
    * @param configId configuration id
    * @param groupId group id
+   * @param configurationOwner configuration owner
    */
   abstract readConfiguration(
     configId: string,
@@ -35,6 +45,15 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract updateConfiguration(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration>;
+
+  /**
+   * Abstract method to update the configuration overview
+   *
+   * @param configurationOverview Configuration overview with filter options that should be applied
+   */
+  abstract updateConfigurationOverview(
+    configurationOverview: Configurator.Overview
+  ): Observable<Configurator.Overview>;
 
   /**
    * Abstract method to add a configuration to cart.

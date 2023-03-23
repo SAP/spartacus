@@ -1,0 +1,27 @@
+@import '../../sass-true/sass/true';
+@import '../scss/versioning';
+@import './versioning-test-util';
+
+$_fullVersion: 5.2;
+$_majorVersion: 5;
+$styleVersion: 5.1.3;
+$useLatestStyles: false;
+
+@include describe('Style versioning forVersion() mixin ') {
+  @include describe(
+    'with style version #{$styleVersion} / _fullVersion: #{$_fullVersion}'
+  ) {
+    @include shouldDisplayForVersion(5.1.2);
+    @include shouldDisplayForVersion(5.1.3);
+    @include shouldDisplayForVersion('5.1.3');
+    @include shouldNOTDisplayForVersion(5.1.4);
+    // prettier-ignore
+    @include shouldDisplayForRange(5.0, 5.2);
+    // prettier-ignore
+    @include shouldNOTDisplayForRange(5.0, 5.1.2);
+    @include shouldDisplayForRange(5.1.3, 6);
+    @include shouldDisplayForRange('5.1.3', '6');
+    @include shouldNOTDisplayForRange(5.1.4, 6);
+    @include shouldDisplayForRange(5.1.0, 5.2.3);
+  }
+}

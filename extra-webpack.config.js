@@ -22,7 +22,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    alias: {
+    fallback: {
       '@spartacus/styles': path.join(__dirname, 'projects/storefrontstyles'),
       '@spartacus/user': path.join(__dirname, 'feature-libs/user'),
       '@spartacus/organization': path.join(
@@ -49,6 +49,12 @@ module.exports = {
         __dirname,
         'integration-libs/epd-visualization'
       ),
+      '@spartacus/customer-ticketing': path.join(
+        __dirname,
+        'feature-libs/customer-ticketing'
+      ),
+      '@spartacus/pickup-in-store': path.join(__dirname, 'feature-libs/pickup-in-store'),
+      '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
     },
   },
 };

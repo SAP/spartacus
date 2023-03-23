@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -141,12 +147,14 @@ export abstract class MultiCartFacade {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   abstract addEntry(
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number
+    quantity: number,
+    pickupStore?: string
   ): void;
 
   /**
@@ -187,7 +195,9 @@ export abstract class MultiCartFacade {
     userId: string,
     cartId: string,
     entryNumber: number,
-    quantity: number
+    quantity?: number,
+    pickupStore?: string,
+    pickupToDelivery?: boolean
   ): void;
 
   /**

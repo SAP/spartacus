@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +13,7 @@ import {
 import {
   Cart,
   CartOutlets,
+  CartType,
   DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
@@ -31,7 +38,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   readonly CartOutlets = CartOutlets;
-
+  readonly CartType = CartType;
   CartLocation = PromotionLocation;
 
   buyItAgainTranslation$: Observable<string>;

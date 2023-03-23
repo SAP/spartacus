@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -13,7 +19,7 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, getAddressNumbers } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -82,12 +88,19 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     selected: any,
     textDefaultDeliveryAddress: string,
     textShipToThisAddress: string,
-    textSelected: string
+    textSelected: string,
+    textPhone: string,
+    textMobile: string
   ): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
+
+    /**
+     * TODO: (#CXSPA-53) Remove feature config check in 6.0
+     */
+    const numbers = getAddressNumbers(address, textPhone, textMobile);
 
     return {
       role: 'region',
@@ -98,7 +111,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.line2,
         address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
-        address.phone,
+        numbers,
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
@@ -129,6 +142,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
 
     this.busy$.next(true);
+    this.doneAutoSelect = true;
 
     this.checkoutDeliveryAddressFacade
       .createAndSetAddress(address)
@@ -144,6 +158,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         },
         error: () => {
           this.onError();
+          this.doneAutoSelect = false;
         },
       });
   }
@@ -174,29 +189,41 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected createCards(): Observable<CardWithAddress[]> {
-    return combineLatest([
+    const addresses$ = combineLatest([
       this.getSupportedAddresses(),
       this.selectedAddress$,
+    ]);
+    const translations$ = combineLatest([
       this.translationService.translate(
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
+      this.translationService.translate('addressCard.phoneNumber'),
+      this.translationService.translate('addressCard.mobileNumber'),
+    ]);
+
+    return combineLatest([addresses$, translations$]).pipe(
+      tap(([[addresses, selected]]) =>
         this.selectDefaultAddress(addresses, selected)
       ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
+      map(
+        ([
+          [addresses, selected],
+          [textDefault, textShipTo, textSelected, textPhone, textMobile],
+        ]) =>
+          addresses?.map((address) => ({
             address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
+            card: this.getCardContent(
+              address,
+              selected,
+              textDefault,
+              textShipTo,
+              textSelected,
+              textPhone,
+              textMobile
+            ),
+          }))
       )
     );
   }

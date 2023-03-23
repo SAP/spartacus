@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,10 +25,13 @@ export class ParagraphComponent {
       const element = event.target as HTMLAnchorElement;
       const href = element?.getAttribute('href');
 
+      const documentHost =
+        element.ownerDocument.URL.split('://')[1].split('/')[0];
+
       // Use router for internal link navigation
-      if (href?.indexOf('/') === 0) {
+      if (href && documentHost === element.host) {
         event.preventDefault();
-        this.router.navigate([`/${href}`]);
+        this.router.navigateByUrl(href);
       }
     }
   }

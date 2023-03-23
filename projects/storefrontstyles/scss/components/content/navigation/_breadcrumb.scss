@@ -10,6 +10,13 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   background-color: var(--cx-color-background);
 
   padding: var(--cx-spatial-base);
+
+  box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+
+  @include media-breakpoint-up(lg) {
+    box-shadow: none;
+  }
+
   h1 {
     white-space: nowrap;
     overflow: hidden;
@@ -38,7 +45,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
       margin: 0;
 
       li {
-        display: inline;
+        display: flex;
         color: var(--cx-color-secondary);
 
         &:not(:last-child):after {

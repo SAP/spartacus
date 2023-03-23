@@ -7,8 +7,10 @@
   (esc)="close($event)"
   (click)="block($event)"
 >
-  <h4>
-    {{ 'productList.filterBy.label' | cxTranslate }}
+  <div class="list-header">
+    <h4>
+      {{ 'productList.filterBy.label' | cxTranslate }}
+    </h4>
     <button
       type="button"
       class="close"
@@ -17,11 +19,11 @@
     >
       <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
     </button>
-  </h4>
+  </div>
 
-  <!-- 
-      Here we'd like to introduce configurable facet components, 
-      either by using specific configuration or generic sproutlets 
+  <!--
+      Here we'd like to introduce configurable facet components,
+      either by using specific configuration or generic sproutlets
   -->
   <cx-facet
     *ngFor="let facet of facets"

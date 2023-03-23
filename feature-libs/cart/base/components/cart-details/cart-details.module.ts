@@ -1,9 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -22,7 +27,6 @@ import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-v
     RouterModule,
     UrlModule,
     PromotionsModule,
-    FeaturesConfigModule,
     I18nModule,
     CartValidationWarningsModule,
   ],

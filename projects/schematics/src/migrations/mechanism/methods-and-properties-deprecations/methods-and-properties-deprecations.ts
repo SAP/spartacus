@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import { TODO_SPARTACUS } from '../../../shared/constants';

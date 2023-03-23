@@ -1,4 +1,10 @@
-import { Injectable, InjectFlags, Injector, NgModuleRef } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Injectable, Injector, NgModuleRef } from '@angular/core';
 import {
   CMSComponentConfig,
   CmsComponentMapping,
@@ -181,16 +187,14 @@ export class CmsFeaturesService {
    */
   private resolveFeatureConfiguration(featureInjector: Injector): CmsConfig {
     // get config chunks from feature lib
-    const featureConfigChunks = featureInjector.get<any[]>(
-      ConfigChunk,
-      [],
-      InjectFlags.Self
-    );
+    const featureConfigChunks = featureInjector.get<any[]>(ConfigChunk, [], {
+      self: true,
+    });
     // get default config chunks from feature lib
     const featureDefaultConfigChunks = featureInjector.get<any[]>(
       DefaultConfigChunk,
       [],
-      InjectFlags.Self
+      { self: true }
     );
 
     return deepMerge(

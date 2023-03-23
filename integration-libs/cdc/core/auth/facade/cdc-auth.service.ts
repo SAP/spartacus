@@ -1,6 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
+import { CdcAuthFacade } from '@spartacus/cdc/root';
 import {
   AuthActions,
   AuthRedirectService,
@@ -13,8 +20,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { CdcAuthActions } from '../store/actions/index';
-import { CdcAuthFacade } from '@spartacus/cdc/root';
+import { CdcAuthActions } from '../../store/actions';
 
 /**
  * Service to support custom CDC OAuth flow.
@@ -100,30 +106,7 @@ export class CdcAuthService implements CdcAuthFacade {
     stream$.pipe(take(1)).subscribe((canLogin) => {
       if (canLogin) {
         // Code mostly based on auth lib we use and the way it handles token properties
-        this.authStorageService.setItem('access_token', token.access_token);
-
-        if (token.granted_scopes && Array.isArray(token.granted_scopes)) {
-          this.authStorageService.setItem(
-            'granted_scopes',
-            JSON.stringify(token.granted_scopes)
-          );
-        }
-
-        this.authStorageService.setItem(
-          'access_token_stored_at',
-          '' + Date.now()
-        );
-
-        if (token.expires_in) {
-          const expiresInMilliseconds = token.expires_in * 1000;
-          const now = new Date();
-          const expiresAt = now.getTime() + expiresInMilliseconds;
-          this.authStorageService.setItem('expires_at', '' + expiresAt);
-        }
-
-        if (token.refresh_token) {
-          this.authStorageService.setItem('refresh_token', token.refresh_token);
-        }
+        this.setTokenData(token);
 
         // OCC specific code
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
@@ -135,5 +118,29 @@ export class CdcAuthService implements CdcAuthFacade {
         this.authRedirectService.redirect();
       }
     });
+  }
+
+  protected setTokenData(token: any): void {
+    this.authStorageService.setItem('access_token', token.access_token);
+
+    if (token.granted_scopes && Array.isArray(token.granted_scopes)) {
+      this.authStorageService.setItem(
+        'granted_scopes',
+        JSON.stringify(token.granted_scopes)
+      );
+    }
+
+    this.authStorageService.setItem('access_token_stored_at', '' + Date.now());
+
+    if (token.expires_in) {
+      const expiresInMilliseconds = token.expires_in * 1000;
+      const now = new Date();
+      const expiresAt = now.getTime() + expiresInMilliseconds;
+      this.authStorageService.setItem('expires_at', '' + expiresAt);
+    }
+
+    if (token.refresh_token) {
+      this.authStorageService.setItem('refresh_token', token.refresh_token);
+    }
   }
 }

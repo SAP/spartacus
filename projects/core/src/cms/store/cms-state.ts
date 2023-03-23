@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CmsComponent } from '../../model';
 import { StateUtils } from '../../state/index';
 import { NodeItem } from '../model/node-item.model';

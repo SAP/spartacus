@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component } from '@angular/core';
 import { CartItemContext } from '@spartacus/cart/base/root';
 import { CartItemComponent } from '../cart-item/cart-item.component';

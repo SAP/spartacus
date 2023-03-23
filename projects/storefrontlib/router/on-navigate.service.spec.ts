@@ -36,6 +36,7 @@ class MockRouter implements Partial<Router> {
 
 class MockViewPortScroller implements Partial<ViewportScroller> {
   scrollToPosition(_position: [number, number]): void {}
+  setHistoryScrollRestoration(_scrollRestoration: 'auto' | 'manual'): void {}
 }
 
 function emitPairScrollEvent(

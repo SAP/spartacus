@@ -2,7 +2,6 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
@@ -106,7 +105,6 @@ describe('ProductListComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
-          NgbCollapseModule,
           ListNavigationModule,
           FormsModule,
           RouterTestingModule,

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils, User } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions';
 import { StateWithAsm } from '../asm-state';
 import * as fromReducers from '../reducers/index';
@@ -71,6 +71,57 @@ describe('Customer Search Results Selectors', () => {
     let result: StateUtils.LoaderState<CustomerSearchPage>;
     store
       .pipe(select(AsmSelectors.getCustomerSearchResultsLoaderState))
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual({
+      error: false,
+      loading: false,
+      success: true,
+      value: mockCustomerSearchPage,
+    } as StateUtils.LoaderState<CustomerSearchPage>);
+  });
+
+  it('should return a Customer List Customers Search results from the state', () => {
+    let result: CustomerSearchPage;
+
+    store
+      .pipe(select(AsmSelectors.getCustomerListCustomersSearchResults))
+      .subscribe((value) => (result = value));
+    expect(result).toEqual(undefined);
+
+    store.dispatch(
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+    );
+
+    expect(result).toEqual(mockCustomerSearchPage);
+  });
+
+  it('should return Customer List Customers Search results loading state from the state', () => {
+    let result: boolean;
+
+    store
+      .pipe(select(AsmSelectors.getCustomerListCustomersSearchResultsLoading))
+      .subscribe((value) => (result = value));
+    expect(result).toEqual(false);
+
+    store.dispatch(
+      new AsmActions.CustomerListCustomersSearch({ query: 'abc' })
+    );
+
+    expect(result).toEqual(true);
+  });
+
+  it('should return Customer List Customers Search results loader state', () => {
+    store.dispatch(
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+    );
+
+    let result: StateUtils.LoaderState<CustomerSearchPage>;
+    store
+      .pipe(
+        select(AsmSelectors.getCustomerListCustomersSearchResultsLoaderState)
+      )
       .subscribe((value) => (result = value))
       .unsubscribe();
 

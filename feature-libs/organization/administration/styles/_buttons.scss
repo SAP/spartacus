@@ -1,5 +1,5 @@
 %buttons {
-  @import 'node_modules/bootstrap/scss/buttons';
+  @import 'bootstrap/scss/buttons';
   a.link,
   button.link {
     @extend .btn, .btn-link, .btn-sm;
@@ -75,8 +75,8 @@
     background-color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);
     &:hover {
-      background-color: var(--cx-color-primary);
-      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-primary-accent);
+      border-color: var(--cx-color-primary-accent);
     }
   }
 

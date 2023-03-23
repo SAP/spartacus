@@ -35,7 +35,11 @@
           {{ content.textBold }}
         </div>
         <div *ngFor="let line of content.text">
-          <div *ngIf="!truncateText; else truncate" class="cx-card-label">
+          <div
+            *ngIf="!truncateText; else truncate"
+            class="cx-card-label"
+            [ngClass]="content.customClass"
+          >
             {{ line }}
           </div>
 
@@ -43,6 +47,7 @@
             <cx-truncate-text-popover
               [charactersLimit]="charactersLimit"
               [content]="line"
+              [customClass]="content.customClass"
             ></cx-truncate-text-popover>
           </ng-template>
         </div>
@@ -54,6 +59,7 @@
             </div>
           </div>
         </div>
+        <ng-content select="[label_container_bottom]"></ng-content>
       </div>
       <!-- Image -->
       <div *ngIf="content.img" class="cx-card-img-container">

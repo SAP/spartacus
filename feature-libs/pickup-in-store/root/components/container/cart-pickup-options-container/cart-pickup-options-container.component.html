@@ -1,0 +1,15 @@
+<ng-container
+  *ngIf="
+    (availableForPickup$ | async) &&
+    !(outlet?.context$ | async)?.orderCode &&
+    !(this.cartType === CartType.SELECTIVE)
+  "
+>
+  <cx-pickup-options
+    [disableControls]="disableControls$ | async"
+    [displayPickupLocation]="(storeDetails$ | async)?.displayName"
+    [selectedOption]="pickupOption$ | async"
+    (pickupOptionChange)="onPickupOptionChange($event)"
+    (pickupLocationChange)="openDialog()"
+  ></cx-pickup-options>
+</ng-container>

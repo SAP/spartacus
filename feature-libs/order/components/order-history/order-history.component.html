@@ -53,24 +53,49 @@
               ></cx-pagination>
             </div>
           </div>
-          <!-- TABLE -->
-          <table id="order-history-table" class="table cx-order-history-table">
+
+          <table
+            role="table"
+            id="order-history-table"
+            class="table cx-order-history-table"
+            [ngClass]="{ 'cx-order-history-table-po': hasPONumber }"
+          >
+            <caption class="cx-visually-hidden">
+              {{
+                'orderHistory.orderHistory' | cxTranslate
+              }}
+            </caption>
             <thead class="cx-order-history-thead-mobile">
-              <th scope="col">
-                {{ 'orderHistory.orderId' | cxTranslate }}
-              </th>
-              <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
-              <th scope="col">
-                {{ 'orderHistory.status' | cxTranslate }}
-              </th>
-              <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
+              <tr role="row">
+                <th role="columnheader">
+                  {{ 'orderHistory.orderId' | cxTranslate }}
+                </th>
+                <ng-container *ngIf="hasPONumber">
+                  <th role="columnheader">
+                    {{ 'orderHistory.PONumber' | cxTranslate }}
+                  </th>
+                  <th role="columnheader">
+                    {{ 'orderHistory.costCenter' | cxTranslate }}
+                  </th>
+                </ng-container>
+                <th role="columnheader">
+                  {{ 'orderHistory.date' | cxTranslate }}
+                </th>
+                <th role="columnheader">
+                  {{ 'orderHistory.status' | cxTranslate }}
+                </th>
+                <th role="columnheader">
+                  {{ 'orderHistory.total' | cxTranslate }}
+                </th>
+              </tr>
             </thead>
             <tbody>
               <tr
+                role="row"
                 *ngFor="let order of type.orderHistory.orders"
                 (click)="goToOrderDetail(order)"
               >
-                <td class="cx-order-history-code">
+                <td role="cell" class="cx-order-history-code">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.orderId' | cxTranslate }}
                   </div>
@@ -86,7 +111,44 @@
                     {{ order?.code }}</a
                   >
                 </td>
-                <td class="cx-order-history-placed">
+                <ng-container *ngIf="hasPONumber">
+                  <td role="cell" class="cx-order-history-po">
+                    <div class="cx-order-history-label">
+                      {{ 'orderHistory.PONumber' | cxTranslate }}
+                    </div>
+                    <a
+                      *ngIf="order.purchaseOrderNumber"
+                      [routerLink]="
+                        {
+                          cxRoute: 'orderDetails',
+                          params: order
+                        } | cxUrl
+                      "
+                      class="cx-order-history-value"
+                    >
+                      {{ order.purchaseOrderNumber }}</a
+                    >
+                  </td>
+                  <td role="cell" class="cx-order-history-cost-center">
+                    <div class="cx-order-history-label">
+                      {{ 'orderHistory.costCenter' | cxTranslate }}
+                    </div>
+                    <a
+                      *ngIf="order.costCenter?.name"
+                      [routerLink]="
+                        {
+                          cxRoute: 'orderDetails',
+                          params: order
+                        } | cxUrl
+                      "
+                      class="cx-order-history-value"
+                    >
+                      {{ order.costCenter?.name }}</a
+                    >
+                  </td>
+                </ng-container>
+
+                <td role="cell" class="cx-order-history-placed">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.date' | cxTranslate }}
                   </div>
@@ -101,7 +163,7 @@
                     >{{ order?.placed | cxDate: 'longDate' }}</a
                   >
                 </td>
-                <td class="cx-order-history-status">
+                <td role="cell" class="cx-order-history-status">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.status' | cxTranslate }}
                   </div>
@@ -120,7 +182,7 @@
                     }}</a
                   >
                 </td>
-                <td class="cx-order-history-total">
+                <td role="cell" class="cx-order-history-total">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.total' | cxTranslate }}
                   </div>
@@ -139,6 +201,7 @@
               </tr>
             </tbody>
           </table>
+
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-order-history-sort bottom">
             <div

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
@@ -42,32 +48,34 @@ export class QuickOrderOrderEntriesContext
   addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
     return merge(
       productsData.map((productData) =>
-        this.quickOrderService.canAdd(productData.productCode).pipe(
-          switchMap((canAdd) => {
-            if (canAdd) {
-              return this.productConnector.get(productData.productCode).pipe(
-                filter((product) => !!product),
-                tap((product) => {
-                  this.quickOrderService.addProduct(
-                    product,
-                    productData.quantity
-                  );
-                }),
-                map((product) => this.handleResults(product, productData)),
-                catchError((response: HttpErrorResponse) => {
-                  return of(
-                    this.handleErrors(response, productData.productCode)
-                  );
-                })
-              );
-            } else {
-              return of({
-                productCode: productData.productCode,
-                statusCode: ProductImportStatus.LIMIT_EXCEEDED,
-              });
-            }
-          })
-        )
+        this.quickOrderService
+          .canAdd(productData.productCode, productsData)
+          .pipe(
+            switchMap((canAdd) => {
+              if (canAdd) {
+                return this.productConnector.get(productData.productCode).pipe(
+                  filter((product) => !!product),
+                  tap((product) => {
+                    this.quickOrderService.addProduct(
+                      product,
+                      productData.quantity
+                    );
+                  }),
+                  map((product) => this.handleResults(product, productData)),
+                  catchError((response: HttpErrorResponse) => {
+                    return of(
+                      this.handleErrors(response, productData.productCode)
+                    );
+                  })
+                );
+              } else {
+                return of({
+                  productCode: productData.productCode,
+                  statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+                });
+              }
+            })
+          )
       )
     ).pipe(mergeAll(), take(productsData.length));
   }

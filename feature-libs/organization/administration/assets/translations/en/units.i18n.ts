@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const orgUnit = {
   header: 'All units ({{count}})',
   unit: 'Unit',
@@ -46,6 +52,8 @@ export const orgUnit = {
   tree: {
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
+    expand: 'Expand',
+    collapse: 'collapse',
   },
 
   children: {
@@ -161,7 +169,7 @@ export const orgUnitUsers = {
 };
 
 export const orgUnitUserRoles = {
-  title: 'User roles',
+  title: 'User roles and rights',
   subtitle: 'User: {{item.name}}',
   messages: {
     rolesUpdated: 'Roles successfully updated for {{item.name}}',

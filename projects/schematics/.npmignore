@@ -2,11 +2,12 @@
 *.ts
 !*.d.ts
 yarn.lock
-.release-it.*
 *_spec.ts
 *_spec.ts.snap
-test-jest.ts
+setup-jest.ts
 jest.schematics.config.js
 tsconfig.schematics.json
 src/migrations/test/**/*
 .eslintrc.json
+sub-folder/
+.pipeline/

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as cart from './cart';
 import { waitForPage, waitForProductPage } from './checkout-flow';
 
@@ -194,6 +200,8 @@ export function verifyCart(config: ImportConfig) {
         }
       });
   }
+
+  cy.get('cx-cart-item-list .cx-remove-btn').should('be.enabled');
 }
 
 /**
@@ -249,6 +257,10 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cart.clickAddToCart();
   cy.wait(['@refreshCart', '@addToCart']);
+  cy.get('cx-added-to-cart-dialog a.btn-primary')
+    .contains('view cart')
+    .scrollIntoView()
+    .should('be.visible');
 }
 
 /**
@@ -262,7 +274,9 @@ export function exportCart(expectedData?: string) {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-export-order-entries button').contains('Export to CSV').click();
+  cy.get('cx-export-order-entries button')
+    .contains('Export Product to CSV')
+    .click();
   cy.get('cx-global-message').contains(
     'CSV file will download automatically to your device'
   );
@@ -276,7 +290,6 @@ export function exportCart(expectedData?: string) {
  */
 export function importCartTestFromConfig(config: ImportConfig) {
   cy.requireLoggedIn();
-  cy.visit(config.importButtonPath);
 
   const cartPage = waitForPage(
     config.importButtonPath,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
@@ -21,6 +27,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
       userId: string;
       productCode: string;
       quantity: number;
+      pickupStore?: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -35,6 +42,7 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
       cartId: string;
       productCode: string;
       quantity: number;
+      pickupStore?: string;
       deliveryModeChanged?: boolean;
       entry?: OrderEntry;
       quantityAdded?: number;
@@ -50,11 +58,12 @@ export class CartAddEntryFail extends StateUtils.EntityProcessesDecrementAction 
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(
     public payload: {
+      error: any;
       userId: string;
       cartId: string;
       productCode: string;
       quantity: number;
-      error: any;
+      pickupStore?: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -100,7 +109,9 @@ export class CartUpdateEntry extends StateUtils.EntityProcessesIncrementAction {
       userId: string;
       cartId: string;
       entryNumber: string;
-      quantity: number;
+      quantity?: number;
+      pickupStore?: string;
+      pickupToDelivery?: boolean;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -115,6 +126,8 @@ export class CartUpdateEntrySuccess extends StateUtils.EntityProcessesDecrementA
       cartId: string;
       entryNumber: string;
       quantity?: number;
+      pickupStore?: string;
+      pickupToDelivery?: boolean;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -130,6 +143,8 @@ export class CartUpdateEntryFail extends StateUtils.EntityProcessesDecrementActi
       cartId: string;
       entryNumber: string;
       quantity?: number;
+      pickupStore?: string;
+      pickupToDelivery?: boolean;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);

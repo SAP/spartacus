@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const exportEntries = {
   exportToCsv: 'Export to CSV',
   exportMessage:
@@ -8,6 +14,7 @@ export const exportEntries = {
     name: 'Name',
     price: 'Price',
   },
+  exportProductToCsv: 'Export Product to CSV',
 };
 
 export const importEntries = {

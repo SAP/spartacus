@@ -2,11 +2,11 @@
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="cx-saved-cart-list-header">
-      <h3>
+      <h2>
         {{
           'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
         }}
-      </h3>
+      </h2>
     </div>
 
     <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">
@@ -114,7 +114,7 @@
               <div class="cx-table-label-mobile cx-saved-cart-list-label"></div>
               <button
                 #element
-                class="link cx-action-link cx-saved-cart-make-active"
+                class="btn btn-tertiary cx-saved-cart-make-active"
                 (click)="openDialog($event, savedCart)"
               >
                 {{ 'savedCartList.makeCartActive' | cxTranslate }}

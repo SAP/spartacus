@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const checkoutB2B = {
   checkoutB2B: {
     noPoNumber: 'None',
@@ -18,5 +24,6 @@ export const checkoutB2B = {
     progress: {
       methodOfPayment: 'Method of Payment',
     },
+    invalidCostCenter: 'Invalid cost center.',
   },
 };

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Address,
   CostCenter,
@@ -107,6 +113,7 @@ export interface CartItemComponentOptions {
   optionalBtn?: any;
   displayAddToCart?: boolean;
   addToCartString?: string;
+  cartType?: CartType;
 }
 
 export interface OrderEntry {

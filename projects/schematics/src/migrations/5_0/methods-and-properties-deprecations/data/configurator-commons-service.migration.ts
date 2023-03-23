@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   CONFIGURATOR_COMMONS_SERVICE,
   CONFIGURATOR_REMOVE_OBSOLETE_PRODUCT_BOUND_CONFIGURATION,

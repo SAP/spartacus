@@ -1,5 +1,2 @@
-// Always bump to the latest (breaking) styles during development.
-$useLatestStyles: true;
-
+@import 'styles-config';
 @import '@spartacus/styles';
-@import '@spartacus/styles/scss/theme/santorini';

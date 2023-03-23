@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Address, Currency, Language } from '@spartacus/core';
 
 declare module '@spartacus/user/account/root' {
@@ -6,6 +12,7 @@ declare module '@spartacus/user/account/root' {
     customerId?: string;
     deactivationDate?: Date;
     defaultAddress?: Address;
+    defaultPointOfServiceName?: string;
     displayUid?: string;
     firstName?: string;
     language?: Language;

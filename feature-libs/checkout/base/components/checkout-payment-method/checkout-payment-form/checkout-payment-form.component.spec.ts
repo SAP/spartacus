@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
@@ -20,7 +20,7 @@ import {
 import {
   FormErrorsModule,
   ICON_TYPE,
-  ModalService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
@@ -145,20 +145,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-const mockSuggestedAddressModalRef: any = {
-  componentInstance: {
-    enteredAddress: '',
-    suggestedAddresses: '',
-  },
-  result: new Promise((resolve) => {
-    return resolve(true);
-  }),
-};
-
-class MockModalService implements Partial<ModalService> {
-  open = createSpy().and.returnValue(mockSuggestedAddressModalRef);
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialogAndSubscribe() {
+    return of();
+  }
 }
-
 class MockUserAddressService implements Partial<UserAddressService> {
   getRegions = createSpy().and.returnValue(of([]));
   verifyAddress = createSpy().and.returnValue(of({}));
@@ -174,8 +165,8 @@ describe('CheckoutPaymentFormComponent', () => {
   let userAddressService: UserAddressService;
 
   let controls: {
-    payment: FormGroup['controls'];
-    billingAddress: FormGroup['controls'];
+    payment: UntypedFormGroup['controls'];
+    billingAddress: UntypedFormGroup['controls'];
   };
 
   beforeEach(
@@ -200,7 +191,7 @@ describe('CheckoutPaymentFormComponent', () => {
           MockSpinnerComponent,
         ],
         providers: [
-          { provide: ModalService, useClass: MockModalService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
             provide: CheckoutPaymentFacade,
             useValue: mockCheckoutPaymentService,
@@ -368,16 +359,18 @@ describe('CheckoutPaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  it('should call getAddressCardContent(address)', () => {
-    const card = component.getAddressCardContent(mockAddress);
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'Toyosaki 2 create on cart',
-      'line2',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
+  it('should call getAddressCardContent(address)', (done) => {
+    component.getAddressCardContent(mockAddress).subscribe((card) => {
+      expect(card?.textBold).toEqual('John Doe');
+      expect(card?.text).toEqual([
+        'Toyosaki 2 create on cart',
+        'line2',
+        'town, JP-27, JP',
+        'zip',
+        undefined,
+      ]);
+      done();
+    });
   });
 
   it('should call toggleSameAsDeliveryAddress()', () => {
@@ -513,7 +506,8 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   describe('UI close/back button', () => {
-    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+    const getBackBtn = () =>
+      fixture.debugElement.query(By.css('.btn-secondary'));
 
     it('should call "back" function after being clicked', () => {
       component.paymentMethodsCount = 0;

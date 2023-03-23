@@ -19,6 +19,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: DebugElement;
+  let router: Router;
 
   const componentData: CmsParagraphComponent = {
     uid: '001',
@@ -54,6 +55,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParagraphComponent);
     paragraphComponent = fixture.componentInstance;
+    router = TestBed.inject(Router);
 
     el = fixture.debugElement;
   });
@@ -89,16 +91,57 @@ describe('CmsParagraphComponent in CmsLib', () => {
     expect(paragraphComponent.handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('should use router navigation for internal links', () => {
-    const dataWithLinks = Object.assign({}, componentData);
-    dataWithLinks.content = `<a href="/internal-link">Link</a>`;
-    data$.next(dataWithLinks);
-    fixture.detectChanges();
+  describe('Internal Link Navigation', () => {
+    beforeEach(() => {
+      spyOn(router, 'navigateByUrl');
 
-    const router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
-    expect(router.navigate).toHaveBeenCalledTimes(0);
-    el.query(By.css('a')).nativeElement.click();
-    expect(router.navigate).toHaveBeenCalledTimes(1);
+      // Prevent external link navigation
+      window.onbeforeunload = function () {
+        return '';
+      };
+    });
+
+    it('should use router navigation for internal links without protocol', () => {
+      const url = 'internal-link';
+      const link = setupLink(url);
+      link.click();
+      expect(router.navigateByUrl).toHaveBeenCalledWith(url);
+    });
+
+    it('should use router navigation for internal links with /', () => {
+      const url = '/internal-link';
+      const link = setupLink(url);
+      link.click();
+      expect(router.navigateByUrl).toHaveBeenCalledWith(url);
+    });
+
+    it('should use router navigation for internal links with query params', () => {
+      const url = '/internal-link?test=yes';
+      const link = setupLink(url);
+      link.click();
+      expect(router.navigateByUrl).toHaveBeenCalledWith(url);
+    });
+
+    it('should NOT use router navigation for external links', () => {
+      const url = 'http://example.com';
+      const link = setupLink(url);
+      link.click();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('should NOT use router navigation for other protocols', () => {
+      const url = 'mailto:test-email@test.com';
+      const link = setupLink(url);
+      link.click();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    function setupLink(url: string): HTMLLinkElement {
+      const dataWithLinks = Object.assign({}, componentData);
+      dataWithLinks.content = `<a href="${url}">Link</a>`;
+      data$.next(dataWithLinks);
+      fixture.detectChanges();
+      return el.query(By.css('a')).nativeElement;
+    }
   });
 });

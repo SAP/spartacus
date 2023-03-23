@@ -1,8 +1,16 @@
-import { Observable } from 'rxjs';
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
+  BindCartParams,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
+} from '@spartacus/asm/root';
+import { Observable } from 'rxjs';
 
 export abstract class AsmAdapter {
   /**
@@ -11,4 +19,14 @@ export abstract class AsmAdapter {
   abstract customerSearch(
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
+
+  /**
+   * Abstract function used to get customer lists.
+   */
+  abstract customerLists(): Observable<CustomerListsPage>;
+
+  /**
+   * Used to bind an anonymous cart to a registered user.
+   */
+  abstract bindCart(options: BindCartParams): Observable<unknown>;
 }
