@@ -274,9 +274,10 @@
       "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["dist/cdc/user-profile"],
       "@spartacus/cdp": ["dist/cdp/public_api"],
-      "@spartacus/cdp/user-account": [
-        "dist/cdp/user-account"
-      ],
+      "@spartacus/cdp/root": ["dist/cdp/root/public_api"],
+      "@spartacus/cdp/root/components": ["dist/cdp/root/components/public_api"],
+      "@spartacus/cdp/assets": ["dist/cdp/assets/public_api"],
+
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],

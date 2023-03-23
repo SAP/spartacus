@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, RoutingService, User } from '@spartacus/core';
+import { AuthService, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { LoginComponent } from '@spartacus/user/account/components';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { UserAccountFacade } from 'feature-libs/user/account/root/facade/user-account.facade';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -11,16 +10,16 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './cdp-my-account-side-navigation.component.html',
   styleUrls: ['./cdp-my-account-side-navigation.component.scss']
 })
-export class CdpMyAccountSideNavigationComponent extends LoginComponent implements OnInit {
+
+export class CdpMyAccountSideNavigationComponent implements OnInit {
   user$: Observable<User | undefined>;
   iconTypes = ICON_TYPE;
 
   constructor(
     protected auth: AuthService,
     protected userAccount: UserAccountFacade,
-    protected routing: RoutingService
   ) {
-    super(auth,userAccount);
+    // eslint-disable-next-line constructor-super
   }
 
   ngOnInit(): void {

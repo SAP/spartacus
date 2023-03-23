@@ -4,7 +4,6 @@ import {   PageSlotModule } from '@spartacus/storefront';
 import {  CmsConfig, ConfigModule, FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { CdpMyAccountSideNavigationComponent } from './cdp-my-account-side-navigation.component';
 import { IconModule } from "../../../../../projects/storefrontlib/cms-components/misc/icon/icon.module";
 
@@ -26,8 +25,6 @@ import { IconModule } from "../../../../../projects/storefrontlib/cms-components
         CommonModule,
         RouterModule,
         FormsModule,
-        NgSelectModule,
-        IconModule,
         UrlModule,
         I18nModule,
         PageSlotModule,

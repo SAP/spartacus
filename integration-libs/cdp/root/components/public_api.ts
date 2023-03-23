@@ -10,4 +10,3 @@ export * from './cdp-my-account-side-navigation/index';
 export * from './cdp-components.module';
 export * from './cdp-order/index';
 export * from './cdp-order/cdp-order.module';
-export * from './cdp-components.module';

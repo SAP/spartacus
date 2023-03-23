@@ -1,7 +1,7 @@
 import { UserIdService } from "@spartacus/core";
 import { switchMap } from "rxjs/operators";
 import { cdpOrderAdapter } from "../adapter/cdp-order-adapter";
-import { finalOrder } from "../model/finalOrder";
+import { finalOrder } from "../model/order/finalOrder";
 
 export class cdpOrderService{
 

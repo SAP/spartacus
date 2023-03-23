@@ -1,6 +1,5 @@
 import {  Component, OnInit, Optional } from '@angular/core';
 import { CxDatePipe, FeatureConfigService, OccEndpointsService, RoutingService, TranslationService, UserIdService} from '@spartacus/core';
-import result from 'postcss/lib/result';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {  mergeMap } from 'rxjs/operators';
 import { finalOrder } from '../cdp-order/model/order/finalOrder';
@@ -9,6 +8,7 @@ import { product } from '../cdp-order/model/ImageDetail/product';
 import { cdpOrderAdapter } from '../cdp-order/adapter/cdp-order-adapter';
 import { OrderHistoryFacade, OrderHistoryList, ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
 import { OrderHistoryComponent } from '@spartacus/order/components';
+import { result } from '../../model/result';
 
 @Component({
   selector: 'cx-cdp-body',
@@ -34,7 +34,6 @@ export class CdpMyAccountComponent extends OrderHistoryComponent implements OnIn
   ) {
     super(routing,orderHistoryFacade,translation,replenishmentOrderHistoryFacade);
   }
-
   result: finalOrder={orders:[]};
   totalPrice: number=0;
   totalItem: number[]=[];

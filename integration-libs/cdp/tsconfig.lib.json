@@ -32,5 +32,6 @@
     "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
+  // "include": ["root/**/*.ts"],
   "exclude": ["test.ts", "**/*.spec.ts"]
 }
