@@ -4,16 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderTranslationChunksConfig,
   orderTranslations,
 } from '@spartacus/order/assets';
 import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+import { CdpComponentsModule } from 'integration-libs/cdp/root/components/cdp-components.module';
+import { OrderModule } from 'integration-libs/cdp/root/components/cdp-order';
+import { environment } from 'projects/storefrontapp/src/environments/environment';
+
+const extensions: Type<any>[] = [];
+
+if (environment.cdp) {
+  extensions.push(CdpComponentsModule);
+}
 
 @NgModule({
-  imports: [OrderRootModule],
+  imports: [OrderRootModule, OrderModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {

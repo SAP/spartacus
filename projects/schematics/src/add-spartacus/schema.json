@@ -21,6 +21,7 @@
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -50,6 +51,7 @@
           "Personalization",
           "TMS-GTM",
           "TMS-AEPL",
+          "Pickup-In-Store",
           "User-Account",
           "User-Profile"
         ],
@@ -95,6 +97,10 @@
           {
             "value": "CDC",
             "label": "Customer Data Cloud Integration"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",
@@ -219,6 +225,10 @@
           {
             "value": "Customer-Ticketing",
             "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup In Store"
           }
         ]
       }

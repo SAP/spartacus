@@ -58,12 +58,14 @@
       "@spartacus/smartedit",
       "@spartacus/storefinder",
       "@spartacus/tracking",
+      "@spartacus/pickup-in-store",
       "@spartacus/user",
       "@spartacus/cdc",
       "@spartacus/cds",
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
-      "@spartacus/customer-ticketing"
+      "@spartacus/customer-ticketing",
+      "@spartacus/cdp"
     ]
   },
   "schematics": "./src/collection.json"

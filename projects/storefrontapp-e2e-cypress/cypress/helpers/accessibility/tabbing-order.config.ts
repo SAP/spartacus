@@ -782,18 +782,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
   ],
   productPage: [
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    { value: 'Show reviews', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Expand image', type: TabbingOrderTypes.BUTTON },
+    { value: 'Show reviews', type: TabbingOrderTypes.BUTTON },
+    { value: '-', type: TabbingOrderTypes.BUTTON },
+    { value: '', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'pickupOption', type: TabbingOrderTypes.RADIO },
+    { value: 'pickupOption', type: TabbingOrderTypes.RADIO },
+    { value: 'Select Store', type: TabbingOrderTypes.LINK },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'add to wish list', type: TabbingOrderTypes.LINK },
+  ],
+  productPageModal: [
+    { value: 'CLOSE', type: TabbingOrderTypes.GENERIC_BUTTON },
+    { value: 'Find a Store', type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Find Stores', type: TabbingOrderTypes.BUTTON },
+    { value: 'USE MY LOCATION', type: TabbingOrderTypes.LINK },
+    { value: 'VIEW ALL STORES', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Hide out of stock options',
+      type: TabbingOrderTypes.GENERIC_CHECKBOX,
+    },
   ],
   headerMobileNotLoggedIn: [
     {

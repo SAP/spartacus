@@ -20,6 +20,7 @@ import {
 } from './lib-configs/checkout-schematics-config';
 import { CUSTOMER_TICKETING_SCHEMATICS_CONFIG } from './lib-configs/customer-ticketing-schematics-config';
 import { CDC_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdc-schematics-config';
+import { CDP_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdp-schematics-config';
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
@@ -32,6 +33,7 @@ import {
   ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
+import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickup-in-store-schematics-config';
 import {
   PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
@@ -55,6 +57,7 @@ import {
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
+
 import { Module, SchematicConfig } from './utils/lib-utils';
 
 /**
@@ -84,6 +87,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
 
+  PICKUP_IN_STORE_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
@@ -118,6 +122,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 
   S4OM_SCHEMATICS_CONFIG,
+
+  CDP_SCHEMATICS_CONFIG,
 ];
 
 /**

@@ -56,6 +56,7 @@ import {
   toggleProductView,
 } from '../../helpers/accessibility/tabbing-order/product-list';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
+import { productPagePickupModalTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-pickup-modal';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
@@ -197,15 +198,21 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  context.skip('Product Page', () => {
+  context('Product Page', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabbingOrder(config.productPage);
     });
   });
 
-  context.skip('Product Page Tabs', () => {
+  context('Product Page Tabs', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabsTabbingOrder();
+    });
+  });
+
+  context.only('Product Page Pickup Modal', () => {
+    it('should allow to navigate with tab key', () => {
+      productPagePickupModalTabbingOrder(config.productPageModal);
     });
   });
 

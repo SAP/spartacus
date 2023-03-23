@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
 
   constructor(
-    private auth: AuthService,
-    private userAccount: UserAccountFacade
+    protected auth: AuthService,
+    protected userAccount: UserAccountFacade
   ) {}
 
   ngOnInit(): void {

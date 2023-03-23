@@ -1135,6 +1135,8 @@ export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 export const CSS_V5_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
+export const CSS_V6_DOCS_URL =
+  'https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT';
 
 export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
