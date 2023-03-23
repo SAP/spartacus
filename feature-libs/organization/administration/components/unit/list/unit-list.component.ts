@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
@@ -13,7 +14,12 @@ import { UnitTreeService } from '../services/unit-tree.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitListComponent {
-  constructor(protected unitTreeService: UnitTreeService) {}
+  constructor(
+    protected unitTreeService: UnitTreeService,
+    protected orgUnitService?: OrgUnitService
+  ) {}
+
+  isUpdatingUnitAllowed = this.orgUnitService?.isUpdatingUnitAllowed();
 
   expandAll() {
     this.unitTreeService.expandAll();

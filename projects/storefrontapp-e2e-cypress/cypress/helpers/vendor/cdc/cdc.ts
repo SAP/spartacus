@@ -32,6 +32,7 @@ export const cdcB2BDelegateAdminUser = {
   fullName: 'Spartacus B2BAdmin',
   email: 'spartacusb2b@hybris.com',
   password: 'Password123.',
+  orgUnit: '111',
 };
 
 export function waitForCmsComponentsToLoad(baseSite: string) {

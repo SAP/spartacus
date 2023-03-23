@@ -496,4 +496,8 @@ export class OrgUnitService {
   ): Observable<StateUtils.LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
+
+  isUpdatingUnitAllowed(): boolean {
+    return true;
+  }
 }
