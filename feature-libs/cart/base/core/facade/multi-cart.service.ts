@@ -88,7 +88,7 @@ export class MultiCartService implements MultiCartFacade {
     const pseudoUuid = window.crypto
       .getRandomValues(new Uint32Array(1))[0]
       .toString(36)
-      .substr(2, 9);
+      .substring(2,9);
     return `temp-${pseudoUuid}`;
   }
 
