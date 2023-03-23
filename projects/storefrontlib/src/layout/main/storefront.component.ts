@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import {
   FocusConfig,
   KeyboardFocusService,
@@ -54,7 +55,18 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
-  ) {}
+  ) // protected store: // spike todo remove
+  {
+    // SPIKE TODO REMOVE:
+    this.routingService
+      .getRouterState()
+      .pipe(
+        map((state) => state.state.semanticRoute),
+        distinctUntilChanged(),
+        tap((semanticRoute) => console.log({ semanticRoute }))
+      )
+      .subscribe();
+  }
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService

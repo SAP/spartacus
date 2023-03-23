@@ -1,6 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { RouteLoadStrategy, RoutingConfig } from './config/routing-config';
 import { RouteConfig } from './routes-config';
+import { UrlParsingService } from './url-translation/url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
@@ -9,7 +10,10 @@ export class RoutingConfigService {
    */
   protected routeNamesByPath: { [path: string]: string };
 
-  constructor(protected config: RoutingConfig) {}
+  constructor(
+    protected config: RoutingConfig,
+    protected urlParsingService: UrlParsingService // spike todo new
+  ) {}
 
   /**
    * Returns the route config for the given route name.
@@ -51,11 +55,23 @@ export class RoutingConfigService {
    *
    * the `getRouteName('my-account/address-book')` returns `'addressBook'`.
    */
-  getRouteName(path: string) {
+  getRouteName(url: string) {
+    // // SPIKE NEW:
+
+    const route: [string, RouteConfig] | undefined = Object.entries(
+      this.config.routing?.routes ?? {}
+    ).find(([_, routeConfig]) =>
+      (routeConfig.paths ?? []).some((path) =>
+        this.urlParsingService.matchPath(url, path)
+      )
+    );
+    return route?.[0]; // 1st element of the tuple is the semanticRoute
+
+    // spike OLD:
     if (!this.routeNamesByPath) {
       this.initRouteNamesByPath();
     }
-    return this.routeNamesByPath[path];
+    return this.routeNamesByPath[url];
   }
 
   /**
