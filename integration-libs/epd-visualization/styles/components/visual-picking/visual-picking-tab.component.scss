@@ -1,5 +1,6 @@
 %cx-epd-visualization-visual-picking-tab {
-  .container-fluid {
+  .container-fluid:not(.no-product-references),
+  .container:not(.no-product-references) {
     padding: 1em 0;
     background-color: $body-bg;
 
@@ -54,6 +55,8 @@
 
 .ProductDetailsPageTemplate {
   .cx-tab-paragraph-content:has(cx-epd-visualization-visual-picking-tab) {
+    // :has() is not enabled by default in Firefox yet
+    // but the padding/layout is much improved in the browsers that can apply this rule.
     padding: 1em 0;
   }
 }
