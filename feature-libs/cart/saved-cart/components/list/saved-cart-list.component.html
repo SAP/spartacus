@@ -2,13 +2,7 @@
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="cx-saved-cart-list-header">
-      <!-- TODO:(CXSPA-1695) for next major releasee remove below h3 tag and feature level check from the h2 tag-->
-      <h3 *cxFeatureLevel="'!5.1'">
-        {{
-          'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
-        }}
-      </h3>
-      <h2 *cxFeatureLevel="'5.1'">
+      <h2>
         {{
           'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
         }}
@@ -120,7 +114,7 @@
               <div class="cx-table-label-mobile cx-saved-cart-list-label"></div>
               <button
                 #element
-                class="link cx-action-link cx-saved-cart-make-active"
+                class="btn btn-tertiary cx-saved-cart-make-active"
                 (click)="openDialog($event, savedCart)"
               >
                 {{ 'savedCartList.makeCartActive' | cxTranslate }}

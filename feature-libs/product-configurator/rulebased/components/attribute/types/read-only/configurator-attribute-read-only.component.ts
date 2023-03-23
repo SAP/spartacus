@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',
@@ -17,12 +18,18 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: String;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  group: string;
+  expMode: boolean;
 
-  constructor(protected translationService: TranslationService) {
+  constructor(
+    protected translationService: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   protected getCurrentValueName(

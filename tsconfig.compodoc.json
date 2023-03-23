@@ -256,6 +256,22 @@
       "@spartacus/organization/user-registration/root": [
         "feature-libs/organization/user-registration/root/public_api"
       ],
+      "@spartacus/pickup-in-store/assets": [
+        "feature-libs/pickup-in-store/assets/public_api"
+      ],
+      "@spartacus/pickup-in-store/components": [
+        "feature-libs/pickup-in-store/components/public_api"
+      ],
+      "@spartacus/pickup-in-store/core": [
+        "feature-libs/pickup-in-store/core/public_api"
+      ],
+      "@spartacus/pickup-in-store": ["feature-libs/pickup-in-store/public_api"],
+      "@spartacus/pickup-in-store/occ": [
+        "feature-libs/pickup-in-store/occ/public_api"
+      ],
+      "@spartacus/pickup-in-store/root": [
+        "feature-libs/pickup-in-store/root/public_api"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "feature-libs/product-configurator/common/assets/public_api"
       ],
@@ -297,6 +313,24 @@
       ],
       "@spartacus/product/bulk-pricing/root": [
         "feature-libs/product/bulk-pricing/root/public_api"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "feature-libs/product/future-stock/assets/public_api"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "feature-libs/product/future-stock/components/public_api"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "feature-libs/product/future-stock/core/public_api"
+      ],
+      "@spartacus/product/future-stock": [
+        "feature-libs/product/future-stock/public_api"
+      ],
+      "@spartacus/product/future-stock/occ": [
+        "feature-libs/product/future-stock/occ/public_api"
+      ],
+      "@spartacus/product/future-stock/root": [
+        "feature-libs/product/future-stock/root/public_api"
       ],
       "@spartacus/product/image-zoom/assets": [
         "feature-libs/product/image-zoom/assets/public_api"
@@ -406,6 +440,9 @@
       ],
       "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/cdc/organization/administration": [
+        "integration-libs/cdc/organization/administration/public_api"
+      ],
       "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "integration-libs/cdc/user-account/public_api"
@@ -441,7 +478,6 @@
       "@spartacus/s4om/assets": ["integration-libs/s4om/assets/public_api"],
       "@spartacus/s4om": ["integration-libs/s4om/public_api"],
       "@spartacus/s4om/root": ["integration-libs/s4om/root/public_api"],
-
       "@spartacus/opf/assets": ["integration-libs/opf/assets/public_api"],
       "@spartacus/opf/components": [
         "integration-libs/opf/components/public_api"

@@ -57,7 +57,7 @@ function ensureReducerMapCreated() {
     );
     reducerMap.set(
       ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS,
-      handleReadSucess
+      handleCreateSuccess
     );
     reducerMap.set(
       ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
@@ -127,6 +127,9 @@ function handleActionUpdateConfigurationFinalizeSuccess(
   checkConflictSolverDialog(result);
   result.isCartEntryUpdateRequired = true;
   result.overview = undefined;
+  if (state.interactionState.newConfiguration !== undefined) {
+    result.interactionState.newConfiguration = false;
+  }
   return result;
 }
 
@@ -174,6 +177,16 @@ function handleActionUpdateCartEntry(
 ): Configurator.Configuration | undefined {
   const result = { ...state };
   result.isCartEntryUpdateRequired = false;
+  return result;
+}
+
+function handleCreateSuccess(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.CreateConfigurationSuccess
+): Configurator.Configuration | undefined {
+  const result = setInitialCurrentGroup(takeOverChanges(action, state));
+  checkConflictSolverDialog(result);
+  result.interactionState.newConfiguration = result.newConfiguration;
   return result;
 }
 

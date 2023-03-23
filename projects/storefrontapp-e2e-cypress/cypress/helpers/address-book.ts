@@ -32,19 +32,21 @@ export const assertAddressForm = (
 ): void => {
   state = state ? state : 'CA-QC';
   cy.get('cx-card .card-header').contains('✓ DEFAULT');
-  cy.get('cx-card .card-body').within(() => {
-    cy.get('.cx-card-label-bold').should(
-      'contain',
-      `${address.firstName} ${address.lastName}`
-    );
-    cy.get('.cx-card-label').eq(0).should('contain', address.address.line1);
-    cy.get('.cx-card-label').eq(1).should('contain', address.address.line2);
-    cy.get('.cx-card-label')
-      .eq(2)
-      .should('contain', `${address.address.city}, ${state}`);
-    cy.get('.cx-card-label').eq(3).should('contain', address.address.postal);
-    cy.get('.cx-card-label').eq(4).should('contain', address.phone);
-  });
+  cy.get('cx-card .card-body')
+    .first()
+    .within(() => {
+      cy.get('.cx-card-label-bold').should(
+        'contain',
+        `${address.firstName} ${address.lastName}`
+      );
+      cy.get('.cx-card-label').eq(0).should('contain', address.address.line1);
+      cy.get('.cx-card-label').eq(1).should('contain', address.address.line2);
+      cy.get('.cx-card-label')
+        .eq(2)
+        .should('contain', `${address.address.city}, ${state}`);
+      cy.get('.cx-card-label').eq(3).should('contain', address.address.postal);
+      cy.get('.cx-card-label').eq(4).should('contain', address.phone);
+    });
 };
 
 export function verifyNewAddress() {

@@ -51,11 +51,11 @@ export function interceptCartPageEndpoint() {
 }
 
 export function verifyActionLinkHasText(text: string) {
-  cy.get('.cx-item-list-row .cx-action-link').should('contain', text);
+  cy.get('.cx-item-list-row .btn-tertiary').should('contain', text);
 }
 
 export function clickOnActionLink() {
-  cy.get('.cx-item-list-row .cx-action-link').click();
+  cy.get('.cx-item-list-row .btn-tertiary').click();
 }
 
 export function waitForResponse(alias: string) {

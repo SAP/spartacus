@@ -12,8 +12,10 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 let isGroupVisited: Observable<boolean> = of(false);
+const testSelector = 'test-configurator-overview-menu';
 
 class MockConfiguratorGroupsService {
   isGroupVisited(): Observable<boolean> {
@@ -23,6 +25,7 @@ class MockConfiguratorGroupsService {
 
 class MockKeyboardFocusService {
   findFocusable() {}
+
   set() {}
 }
 
@@ -33,8 +36,7 @@ function createElement(id: string): HTMLElement {
 }
 
 function createNode(name: string): HTMLElement {
-  const element = document.createElement(name);
-  return element;
+  return document.createElement(name);
 }
 
 function createFocusedElements(
@@ -66,9 +68,10 @@ function createFocusedElements(
 })
 class MockComponent {}
 
-describe('ConfigUtilsService', () => {
+describe('ConfiguratorStorefrontUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
   let fixture: ComponentFixture<MockComponent>;
+  let htmlElem: HTMLElement;
   let focusedElements: any;
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
@@ -95,6 +98,7 @@ describe('ConfigUtilsService', () => {
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
+    htmlElem = fixture.nativeElement;
     windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
@@ -104,6 +108,7 @@ describe('ConfigUtilsService', () => {
 
   afterEach(() => {
     document.querySelector = querySelectorOriginal;
+    document.body.removeChild(htmlElem);
   });
 
   it('should be created', () => {
@@ -223,8 +228,16 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('createOvGroupId', () => {
-    it('should create a group id from its 2 parameters', () => {
-      expect(classUnderTest.createOvGroupId('A', 'B')).toBe('idAB-ovGroup');
+    it('should create a group id for a child group with prefix', () => {
+      expect(classUnderTest.createOvGroupId('A', 'B')).toBe('A--B-ovGroup');
+    });
+  });
+
+  describe('createOvMenuItemId', () => {
+    it('should create a menu item id for a child group with prefix', () => {
+      expect(classUnderTest.createOvMenuItemId('A', 'B')).toBe(
+        'A--B-ovMenuItem'
+      );
     });
   });
 
@@ -303,6 +316,25 @@ describe('ConfigUtilsService', () => {
         });
       }
 
+      function verify(
+        focusedElements: any,
+        haveBeenCalledTimes = 0,
+        focusedElementIndex?: number
+      ): void {
+        classUnderTest.focusValue(attribute);
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(
+          haveBeenCalledTimes
+        );
+
+        focusedElements.forEach((focusedElement: any, index: number) => {
+          if (index === focusedElementIndex) {
+            expect(focusedElement.focus).toHaveBeenCalled();
+          } else {
+            expect(focusedElement.focus).not.toHaveBeenCalled();
+          }
+        });
+      }
+
       let attribute: Configurator.Attribute = {
         name: 'ATTR_1',
         uiType: Configurator.UiType.RADIOBUTTON,
@@ -325,13 +357,7 @@ describe('ConfigUtilsService', () => {
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-
-        classUnderTest.focusValue(attribute);
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-
-        expect(focusedElements[0].focus).toHaveBeenCalled();
-        expect(focusedElements[1].focus).not.toHaveBeenCalled();
-        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        verify(focusedElements, 1, 0);
       });
 
       it('should set focus because attribute contains selected value', () => {
@@ -346,11 +372,7 @@ describe('ConfigUtilsService', () => {
         const value3 = createValue('value_3', false);
         attribute.values = [value1, value2, value3];
 
-        classUnderTest.focusValue(attribute);
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-        expect(focusedElements[0].focus).not.toHaveBeenCalled();
-        expect(focusedElements[1].focus).toHaveBeenCalled();
-        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        verify(focusedElements, 1, 1);
       });
 
       it('should set focus because on conflict description', () => {
@@ -368,12 +390,7 @@ describe('ConfigUtilsService', () => {
         const value3 = createValue('value_3', false);
         attribute.values = [value1, value2, value3];
 
-        classUnderTest.focusValue(attribute);
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-        expect(focusedElements[0].focus).toHaveBeenCalled();
-        expect(focusedElements[1].focus).not.toHaveBeenCalled();
-        expect(focusedElements[2].focus).not.toHaveBeenCalled();
-        expect(focusedElements[3].focus).not.toHaveBeenCalled();
+        verify(focusedElements, 1, 0);
       });
 
       it('should not set focus because no focused element is found', () => {
@@ -384,11 +401,7 @@ describe('ConfigUtilsService', () => {
         );
         attribute.name = 'NO_ATTR_2';
 
-        classUnderTest.focusValue(attribute);
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-        expect(focusedElements[0].focus).not.toHaveBeenCalled();
-        expect(focusedElements[1].focus).not.toHaveBeenCalled();
-        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        verify(focusedElements, 1);
       });
 
       it('should not set focus because form is not defined', () => {
@@ -401,11 +414,7 @@ describe('ConfigUtilsService', () => {
           .createSpy('HTML Element')
           .and.returnValue(undefined);
 
-        classUnderTest.focusValue(attribute);
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-        expect(focusedElements[0].focus).not.toHaveBeenCalled();
-        expect(focusedElements[1].focus).not.toHaveBeenCalled();
-        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        verify(focusedElements);
       });
 
       it('should not set focus because browser context is not defined', () => {
@@ -415,12 +424,18 @@ describe('ConfigUtilsService', () => {
           focusedElements
         );
 
-        classUnderTest.focusValue(attribute);
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-        expect(focusedElements[0].focus).not.toHaveBeenCalled();
-        expect(focusedElements[1].focus).not.toHaveBeenCalled();
-        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        verify(focusedElements);
       });
+    });
+  });
+
+  describe('getPrefixId', () => {
+    it('should return group ID string', () => {
+      expect(classUnderTest.getPrefixId(undefined, 'BBB')).toBe('cx--BBB');
+    });
+
+    it('should return prefix ID separated by 2 dashes and group ID string', () => {
+      expect(classUnderTest.getPrefixId('AAA', 'BBB')).toBe('AAA--BBB');
     });
   });
 
@@ -454,7 +469,7 @@ describe('ConfigUtilsService', () => {
     });
   });
 
-  describe('change styling of selected element', () => {
+  describe('getElement', () => {
     it('should not get HTML element based on query selector', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       expect(classUnderTest.getElement('elementMock')).toBeUndefined();
@@ -469,7 +484,9 @@ describe('ConfigUtilsService', () => {
 
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
+  });
 
+  describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
       document.querySelector = jasmine
@@ -488,6 +505,359 @@ describe('ConfigUtilsService', () => {
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
+    });
+  });
+
+  describe('removeStyling', () => {
+    it('should not remove styling of HTML element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      classUnderTest.removeStyling('elementMock', 'position');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+
+    it('should remove styling of HTML element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      classUnderTest.removeStyling('elementMock', 'position');
+      expect(theElement.style.position).toBe('');
+    });
+  });
+
+  describe('getElements', () => {
+    it('should not get HTML elements based on query selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getElements('elementMock')).toBeUndefined();
+    });
+
+    function createElements(
+      tagName: string,
+      amountOfElement: number
+    ): Array<HTMLElement> {
+      const nodes: Array<HTMLElement> = [];
+      for (let index = 0; index < amountOfElement; index++) {
+        const element = document.createElement(tagName);
+        element.id = index + '-' + tagName;
+        nodes.push(element);
+      }
+      return nodes;
+    }
+
+    it('should return HTML element based on query selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const elements: Array<HTMLElement> = createElements('section', 10);
+
+      document.querySelectorAll = jasmine
+        .createSpy('section')
+        .and.returnValue(elements);
+
+      const htmlElements = classUnderTest.getElements('section');
+
+      if (htmlElements) {
+        const result = Array.from(htmlElements);
+        expect(result.length).toEqual(elements.length);
+        expect(result).toEqual(elements);
+      }
+    });
+  });
+
+  describe('getVerticallyScrolledPixels', () => {
+    it('should return undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getVerticallyScrolledPixels()).toBeUndefined();
+    });
+
+    it('should return number of pixels that the document is currently scrolled vertically', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      spyOnProperty(window, 'scrollY').and.returnValue(250);
+      const nativeWindow = windowRef.nativeWindow;
+      if (nativeWindow) {
+        expect(classUnderTest.getVerticallyScrolledPixels()).toBe(250);
+      }
+    });
+  });
+
+  describe('hasScrollbar', () => {
+    it('should return false because element is undefined', () => {
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      expect(classUnderTest.hasScrollbar('elementMock')).toBe(false);
+    });
+
+    it('should return false because element scrollHeight is not larger than element clientHeight', () => {
+      const form = htmlElem.querySelector(
+        'cx-configurator-form'
+      ) as HTMLElement;
+      const labels: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('label')
+      );
+      labels.forEach((label) => {
+        label.style.padding = '5px';
+        label.style.height = '10px';
+      });
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      expect(classUnderTest.hasScrollbar('cx-configurator-form')).toBe(false);
+    });
+
+    it('should return true because element scrollHeight is larger than element clientHeight', () => {
+      const form = htmlElem.querySelector(
+        'cx-configurator-form'
+      ) as HTMLElement;
+      const labels: HTMLElement[] = Array.from(
+        htmlElem.querySelectorAll('label')
+      );
+      labels.forEach((label) => {
+        label.style.padding = '25px';
+        label.style.height = '50px';
+      });
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      expect(classUnderTest.hasScrollbar('cx-configurator-form')).toBe(true);
+    });
+  });
+
+  describe('isInViewport', () => {
+    let form: any;
+    let labels: HTMLElement[];
+
+    beforeEach(() => {
+      form = htmlElem.querySelector('cx-configurator-form') as HTMLElement;
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.border = 'thick double #32a1ce;';
+
+      labels = Array.from(htmlElem.querySelectorAll('label'));
+      labels.forEach((label) => {
+        label.style.padding = '25px';
+        label.style.height = '50px';
+      });
+
+      spyOn(form, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 250, 500)
+      );
+    });
+
+    it('should return false because the method gets undefined as parameter', () => {
+      expect(classUnderTest['isInViewport'](undefined)).toBe(false);
+    });
+
+    it('should return false', () => {
+      labels.forEach((label) => {
+        label.style.padding = '5px';
+        label.style.height = '10px';
+      });
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(false);
+    });
+
+    it("should return true because window's innerWith is known", () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+
+    it('should return true because clientWidth of element is known and its right is less than its width', () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(undefined);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+
+    it('should return true because clientHeight of element is known and its bottom is less than its height', () => {
+      form.style.display = 'flex';
+      form.style.flexDirection = 'column';
+      form.style.height = '1000px';
+
+      spyOnProperty(window, 'innerHeight').and.returnValue(undefined);
+
+      expect(classUnderTest['isInViewport'](form)).toBe(true);
+    });
+  });
+
+  describe('getHeight', () => {
+    let form;
+
+    beforeEach(() => {
+      form = htmlElem.querySelector('cx-configurator-form') as HTMLElement;
+      form.style.padding = '25px';
+      form.style.height = '50px';
+      form.style.border = 'thick double #32a1ce;';
+
+      spyOn(form, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 250, 500)
+      );
+    });
+
+    it('should return zero because no element is found by a selector query', () => {
+      expect(classUnderTest['getHeight']('unknown-query')).toBe(0);
+    });
+
+    it('should return zero because form is not im viewport', () => {
+      spyOnProperty(window, 'innerWidth').and.returnValue(100);
+
+      expect(classUnderTest['getHeight']('cx-configurator-form')).toBe(0);
+    });
+
+    it('should return offsetHeight of the element because form is not im viewport', () => {
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+
+      expect(
+        classUnderTest['getHeight']('cx-configurator-form')
+      ).toBeGreaterThan(0);
+    });
+  });
+
+  describe('getSpareViewportHeight', () => {
+    let spaHeader: any;
+    let ovHeader: any;
+    let addToCart: any;
+
+    afterEach(() => {
+      ConfiguratorTestUtils.remove(spaHeader);
+      ConfiguratorTestUtils.remove(ovHeader);
+      ConfiguratorTestUtils.remove(addToCart);
+    });
+
+    function createTestData() {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      spaHeader = document.createElement('header');
+      document.body.append(spaHeader);
+
+      ovHeader = document.createElement('cx-page-slot');
+      ovHeader.className = 'VariantConfigOverviewHeader';
+      document.body.append(ovHeader);
+
+      addToCart = document.createElement('cx-configurator-add-to-cart-button');
+      document.body.append(addToCart);
+
+      spyOnProperty(window, 'innerWidth').and.returnValue(1000);
+    }
+
+    it('should return zero because isBrowser is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getSpareViewportHeight()).toBe(0);
+    });
+
+    it('should return zero because isBrowser is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getSpareViewportHeight()).toBe(0);
+    });
+
+    it('should return zero because nativeWindow is undefined', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValues(true, false);
+      expect(classUnderTest.getSpareViewportHeight()).toBe(0);
+    });
+
+    it('should return viewport height when addToCartHeight equals zero', () => {
+      createTestData();
+      expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
+    });
+
+    it('should return viewport height when addToCartHeight is greater than zero', () => {
+      createTestData();
+      addToCart.style.padding = '20px';
+      addToCart.style.height = '80px';
+      spyOn(addToCart, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 1000, 80)
+      );
+      spyOn<any>(classUnderTest, 'getHeight').and.returnValue(100);
+
+      expect(classUnderTest.getSpareViewportHeight()).toBeGreaterThan(0);
+    });
+  });
+
+  describe('ensureElementVisible', () => {
+    let ovMenu: any;
+    let menuItem: any;
+
+    afterEach(() => {
+      ConfiguratorTestUtils.remove(ovMenu);
+      ConfiguratorTestUtils.remove(menuItem);
+    });
+
+    function createTestData(offsetHeight: number, offsetTop: number) {
+      const documentHeight = document
+        .querySelector('html')
+        ?.getBoundingClientRect();
+      const height: number = documentHeight ? documentHeight.height : 0;
+      const elementOffsetHeight = height - offsetHeight;
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      ovMenu = document.createElement(testSelector);
+      document.body.append(ovMenu);
+      spyOnProperty(ovMenu, 'offsetHeight').and.returnValue(
+        elementOffsetHeight
+      );
+      spyOnProperty(ovMenu, 'scrollTop').and.returnValue(150);
+
+      menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      menuItem.className = 'cx-menu-item';
+
+      spyOn(menuItem, 'getBoundingClientRect').and.returnValue(
+        new DOMRect(100, 100, 100, 25)
+      );
+      spyOnProperty(menuItem, 'offsetTop').and.returnValue(offsetTop);
+      spyOnProperty(menuItem, 'offsetHeight').and.returnValue(50);
+    }
+
+    it('should not ensure visibility of the element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      ovMenu = document.createElement('cx-configurator-overview-menu');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(ovMenu);
+      classUnderTest.ensureElementVisible(
+        'cx-configurator-overview-menu',
+        undefined
+      );
+      expect(ovMenu.scrollTop).toBe(0);
+    });
+
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+      createTestData(5500, 250);
+
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
+      expect(ovMenu.scrollTop).toBeGreaterThan(0);
+    });
+
+    it('should ensure visibility of the element when element.offsetTop is greater than container.scrollTop', () => {
+      createTestData(5000, 450);
+      spyOnProperty(ovMenu, 'offsetTop').and.returnValue(250);
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
+      expect(ovMenu.scrollTop).toBeGreaterThan(0);
+    });
+
+    it('should ensure visibility of the element when element.offsetTop is less than container.scrollTop', () => {
+      createTestData(5000, 50);
+      spyOnProperty(ovMenu, 'offsetTop').and.returnValue(50);
+      classUnderTest.ensureElementVisible(testSelector, menuItem);
+      ovMenu = document.querySelector(testSelector);
+      expect(ovMenu.scrollTop).toBeGreaterThan(0);
     });
   });
 });

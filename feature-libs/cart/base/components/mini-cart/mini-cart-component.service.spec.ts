@@ -314,7 +314,7 @@ describe('MiniCartComponentService', () => {
         cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
-        deliveryItemsQuantity: 7,
+        totalUnitCount: 7,
       } as Partial<Cart>;
 
       spyOn(activeCartFacade, 'getActive').and.returnValue(

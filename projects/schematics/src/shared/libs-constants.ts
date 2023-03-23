@@ -31,6 +31,10 @@ export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
+export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
+export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
+export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
+
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
 export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
@@ -123,6 +127,9 @@ export const SPARTACUS_IMAGE_ZOOM_ASSETS = `@spartacus/product/image-zoom/assets
 export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
 export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
+export const SPARTACUS_FUTURE_STOCK = `@spartacus/product/future-stock`;
+export const SPARTACUS_FUTURE_STOCK_ROOT = `@spartacus/product/future-stock/root`;
+export const SPARTACUS_FUTURE_STOCK_ASSETS = `@spartacus/product/future-stock/assets`;
 
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
@@ -171,6 +178,7 @@ export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
 export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
 export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
+export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organization/administration`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
@@ -231,6 +239,7 @@ export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
 export const PRODUCT_VARIANTS_FEATURE_NAME = 'Product-Variants';
+export const PRODUCT_FUTURE_STOCK_FEATURE_NAME = 'Future-Stock';
 
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
   'Textfield-Configurator';
@@ -262,4 +271,11 @@ export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
+/***** Feature name end *****/
+
+/***** Feature name start *****/
+export const PICKUP_IN_STORE_FEATURE_NAME = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
+export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/

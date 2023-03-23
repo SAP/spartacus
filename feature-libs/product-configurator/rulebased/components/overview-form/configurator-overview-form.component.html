@@ -31,7 +31,10 @@
   </span>
 
   <ng-container *ngFor="let group of overviewGroups">
-    <div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">
+    <div
+      id="{{ getGroupId(idPrefix, group.id) }}"
+      [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
+    >
       <span class="cx-visually-hidden">
         {{
           'configurator.a11y.group'
@@ -41,7 +44,7 @@
                 }
         }}
       </span>
-      <h2 aria-hidden="true" id="{{ getGroupId(idPrefix, group.id) }}">
+      <h2 aria-hidden="true">
         <span>{{ group.groupDescription }}</span>
       </h2>
 
@@ -80,7 +83,7 @@
             context: {
               overviewGroups: group.subGroups,
               level: level + 1,
-              idPrefix: idPrefix + group.id
+              idPrefix: getPrefixId(idPrefix, group.id)
             }
           "
         ></ng-container>
