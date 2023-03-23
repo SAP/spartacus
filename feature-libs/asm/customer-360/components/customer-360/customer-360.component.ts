@@ -23,6 +23,8 @@ import {
   Customer360Data,
   Customer360Response,
   Customer360TabConfig,
+  Customer360Config,
+  Customer360Facade,
 } from '@spartacus/asm/customer-360/root';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
@@ -37,11 +39,6 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-
-import {
-  Customer360Config,
-  Customer360Facade,
-} from '@spartacus/asm/customer-360/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,7 +81,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
 
   constructor(
     protected asmConfig: Customer360Config,
-    protected Customer360Facade: Customer360Facade,
+    protected customer360Facade: Customer360Facade,
     protected injector: Injector,
     protected launchDialogService: LaunchDialogService,
     protected activeCartFacade: ActiveCartFacade,
@@ -202,7 +199,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   }
 
   protected setTabData(): void {
-    const get360Data = this.Customer360Facade.get360Data(
+    const get360Data = this.customer360Facade.get360Data(
       this.currentTab.components
     );
 
