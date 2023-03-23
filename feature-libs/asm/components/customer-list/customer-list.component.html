@@ -126,6 +126,8 @@
                             let even = even
                           "
                         >
+                        <ng-container
+                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                           <ng-container *ngIf="even">
                             <ng-template
                               *ngTemplateOutlet="
@@ -139,6 +141,7 @@
                             ></ng-template>
                           </ng-container>
                         </ng-container>
+                        </ng-container>
                       </td>
                       <td role="cell" class="cx-multi-cell">
                         <ng-container
@@ -147,6 +150,8 @@
                             let odd = odd
                           "
                         >
+                        <ng-container
+                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                           <ng-container *ngIf="odd">
                             <ng-template
                               *ngTemplateOutlet="
@@ -160,6 +165,7 @@
                             ></ng-template>
                           </ng-container>
                         </ng-container>
+                        </ng-container>
                       </td>
                     </ng-container>
                     <!-- one column if mobile -->
@@ -171,6 +177,8 @@
                       <ng-container
                         *ngFor="let column of customerListConfig?.columns"
                       >
+                      <ng-container
+                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                         <ng-template
                           *ngTemplateOutlet="
                             cell;
@@ -181,6 +189,7 @@
                             }
                           "
                         ></ng-template>
+                      </ng-container>
                       </ng-container>
                     </td>
                   </tr>
