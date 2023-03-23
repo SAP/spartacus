@@ -37,8 +37,8 @@
 
   .cx-pickup-order-consigned-entries-header {
     background-color: var(--cx-color-background);
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: var(--cx-font-weight-semi);
+    font-size: var(--cx-font-size, 1.125rem);
     padding: 20px 40px;
     margin: 0px 0 30px 0;
   }

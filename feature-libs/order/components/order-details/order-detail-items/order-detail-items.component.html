@@ -15,7 +15,7 @@
     <!-- pickup consigned entries -->
 
     <div
-      *ngIf="pickupConsignments.length > 0"
+      *ngIf="pickupConsignments?.length > 0"
       class="cx-pickup-order-consigned-entries-header"
     >
       {{ 'deliveryPointOfServiceDetails.itemsToBePickUp' | cxTranslate }}
