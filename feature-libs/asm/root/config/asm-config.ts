@@ -19,6 +19,7 @@ export abstract class AsmConfig {
     customerList?: {
       pageSize?: number;
       showAvatar?: boolean;
+      showAccount?: boolean;
       columns?: {
         headerLocalizationKey: string;
         icon?: {

@@ -40,6 +40,15 @@ export const defaultAsmConfig: AsmConfig = {
           },
         },
         {
+          headerLocalizationKey: 'asm.customerList.tableHeader.account',
+          renderer: (customer) => {
+            // if(customer!=null&&customer.orgUnit!=null){
+            //   defaultAsmConfig.asm?.customerList?.showAccount = false;
+            // }
+            return customer?.orgUnit?.uid ?? '';
+          },
+        },
+        {
           headerLocalizationKey: 'asm.customerList.tableHeader.order',
           icon: {
             symbol: ICON_TYPE.ORDER,
