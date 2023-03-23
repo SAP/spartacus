@@ -85,7 +85,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         };
         cy.get('button').contains(' Add new address ').click({ force: true });
         fillShippingAddress(secondAddress);
-        cy.get('cx-card').should('have.length', 2);
+        cy.get('cx-address-book cx-card').should('have.length', 2);
       });
 
       it('should set the second address as the default one', () => {
@@ -139,7 +139,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
         alerts.getSuccessAlert().contains('Address deleted successfully!');
 
-        cy.get('cx-card').should('have.length', 1);
+        cy.get('cx-address-book cx-card').should('have.length', 1);
 
         // verify remaining address is now the default one
         const defaultCard = cy.get('cx-card').first();

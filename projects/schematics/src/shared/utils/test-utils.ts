@@ -41,6 +41,8 @@ export const orderFeatureModulePath =
   'src/app/spartacus/features/order/order-feature.module.ts';
 export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
+export const pickupInStoreFeatureModulePath =
+  'src/app/spartacus/features/pickup-in-store/pickup-in-store-feature.module.ts';
 export const organizationAdministrationWrapperModulePath =
   'src/app/spartacus/features/organization/administration-wrapper.module.ts';
 export const organizationOrderApprovalFeatureModulePath =

@@ -6,6 +6,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "cy:open": "cypress open",
+    "cy:open:ci": "cypress open --config-file cypress.config.ci.ts",
+    "cy:open:ci:b2b": "cypress open --config-file cypress.config.ci.ts --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:open:b2b": "cypress open --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:open:epd-visualization": "cypress open --env BASE_SITE=powertools-epdvisualization-spa",
     "cy:open:ccv2": "cypress open --config baseUrl=https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud --env API_URL=https://api.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud",

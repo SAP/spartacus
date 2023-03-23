@@ -10,7 +10,7 @@ import i18nextHttpBackend, { BackendOptions } from 'i18next-http-backend';
 import { WindowRef } from '../../../window/window-ref';
 import { I18nConfig } from '../../config/i18n-config';
 import { I18NEXT_INSTANCE } from '../i18next-instance';
-import { I18nextBackendService } from './i18next-backend.service';
+import { I18nextBackendInitializer } from './i18next-backend.initializer';
 import {
   I18nextHttpBackendClient,
   I18NEXT_HTTP_BACKEND_CLIENT,
@@ -21,7 +21,9 @@ import {
  * to allow for loading translations via HTTP.
  */
 @Injectable({ providedIn: 'root' })
-export class I18nextHttpBackendService implements I18nextBackendService {
+export class I18nextHttpBackendInitializer
+  implements I18nextBackendInitializer
+{
   constructor(
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
     @Inject(I18NEXT_HTTP_BACKEND_CLIENT)
@@ -29,6 +31,13 @@ export class I18nextHttpBackendService implements I18nextBackendService {
     protected config: I18nConfig,
     protected windowRef: WindowRef
   ) {}
+
+  /**
+   * Tells whether this i18next backend is applicable, based on the configuration.
+   */
+  hasMatch(): boolean {
+    return !!this.config.i18n?.backend?.loadPath;
+  }
 
   /**
    * @override
@@ -45,9 +54,7 @@ export class I18nextHttpBackendService implements I18nextBackendService {
    */
   protected getBackendConfig(): BackendOptions {
     if (!this.config.i18n?.backend?.loadPath) {
-      throw new Error(
-        'I18nextHttpBackendService: Missing `i18n.backend.loadPath` config.'
-      );
+      throw new Error('Missing config `i18n.backend.loadPath`.');
     }
 
     const loadPath = this.getLoadPath(this.config.i18n.backend.loadPath);

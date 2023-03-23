@@ -242,4 +242,16 @@ export class StoreFinderService implements OnDestroy {
   getStoreLongitude(location: PointOfService): number | undefined {
     return location?.geoPoint?.longitude;
   }
+
+  /**
+   * Generates a link leading to the directions of the given store location
+   * @param location store location
+   * @returns URL for directions to the store
+   */
+  getDirections(location: PointOfService): string {
+    const url = 'https://www.google.com/maps/dir/Current+Location/';
+    const latitude = this.getStoreLatitude(location);
+    const longitude = this.getStoreLongitude(location);
+    return url + latitude + ',' + longitude;
+  }
 }
