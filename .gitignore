@@ -61,6 +61,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 debug.log
+prettier.log
 
 # System Files
 .DS_Store
