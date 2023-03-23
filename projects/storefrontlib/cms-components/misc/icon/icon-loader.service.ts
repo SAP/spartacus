@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, SecurityContext } from '@angular/core';
+import {
+  Injectable,
+  Renderer2,
+  RendererFactory2,
+  SecurityContext,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -21,11 +26,17 @@ import {
 })
 export class IconLoaderService {
   private loadedResources: string[] = [];
+
+  protected renderer: Renderer2;
+
   constructor(
     protected winRef: WindowRef,
     protected iconConfig: IconConfig,
-    protected sanitizer: DomSanitizer
-  ) {}
+    protected sanitizer: DomSanitizer,
+    rendererFactory: RendererFactory2
+  ) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   /**
    * Returns an html fragment which can be added to the DOM in a safe way.
@@ -37,17 +48,18 @@ export class IconLoaderService {
         this.getSvgPath(type) || null
       );
       if (url) {
-        const useElement = this.winRef.document.createElement('use');
-        useElement.setAttribute('xlink:href', url);
-        const svgElement = this.winRef.document.createElement('svg');
-        svgElement.appendChild(useElement);
+        const useElement = this.renderer.createElement('use') as HTMLElement;
+        this.renderer.setAttribute(useElement, 'xlink:href', url);
+        const svgElement = this.renderer.createElement('svg') as HTMLElement;
+        this.renderer.appendChild(svgElement, useElement);
+
         return this.sanitizer.bypassSecurityTrustHtml(svgElement.outerHTML);
       }
     }
     if (this.isResourceType(type, IconResourceType.TEXT)) {
       const symbol = this.getSymbol(type);
       if (symbol) {
-        const helperDiv = this.winRef.document.createElement('div');
+        const helperDiv = this.renderer.createElement('div') as HTMLElement;
         helperDiv.textContent = symbol;
         return this.sanitizer.bypassSecurityTrustHtml(helperDiv.innerHTML);
       }
@@ -127,11 +139,11 @@ export class IconLoaderService {
       );
       if (sanitizedUrl) {
         const head = this.winRef.document.getElementsByTagName('head')[0];
-        const link = this.winRef.document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = sanitizedUrl;
-        head.appendChild(link);
+        const link = this.renderer.createElement('link') as HTMLElement;
+        this.renderer.setProperty(link, 'rel', 'stylesheet');
+        this.renderer.setProperty(link, 'type', 'text/css');
+        this.renderer.setProperty(link, 'href', sanitizedUrl);
+        this.renderer.appendChild(head, link);
       }
     }
   }
