@@ -68,7 +68,7 @@ export function waitForData(
 export function loginAsMyCompanyAdmin(): void {
   var minWait = 750;
   var maxWait = 1500;
-  cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
+  cy.wait(Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] * (maxWait - minWait) + minWait));
   cy.requireLoggedIn(myCompanyAdminUser);
 }
 
