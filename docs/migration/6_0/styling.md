@@ -25,7 +25,7 @@
 
 #### ConfigureCartEntryComponent
 
-- Styling file is obsolet and will be removed because `link cx-action-link` classes are in used
+- Styling file was obsolete and has been removed because `link cx-action-link` classes are used
 
 #### ConfiguratorConflictSolverDialogComponent
 
@@ -39,7 +39,7 @@
 
 #### ConfiguratorExitButtonComponent
 
-- Styling file is obsolet and will be removed 
+- Styling file was obsolete and has been removed 
 - Added `btn btn-tertiary` classes to `button`
 
 #### ConfiguratorGroupTitleComponent
@@ -87,7 +87,7 @@
 
 #### ConfiguratorProductTitleComponent
 
-- Added property `box-shadow: 0px -1px 3px var(--cx-color-secondary)` to `.cx-general-product-info` class
+- Added property `box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark)` to `.cx-general-product-info` class
 
 #### ConfiguratorVariantOverviewPage
 
