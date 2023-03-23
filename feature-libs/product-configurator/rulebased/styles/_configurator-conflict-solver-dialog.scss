@@ -2,6 +2,7 @@
 
 %cx-configurator-conflict-solver-dialog {
   &:not(:empty) {
+    z-index: 2000;
     $modal-max-width: 1140px !important;
     $modal-min-width: 1140px !important;
     $modal-max-width-md: 992px !important;

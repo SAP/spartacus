@@ -5,6 +5,7 @@
  */
 
 import { APP_INITIALIZER, inject, Provider } from '@angular/core';
+import { i18nextBackendProviders } from './i18next-backend/i18next-backend.providers';
 import { I18nextInitializer } from './i18next-initializer';
 
 export const i18nextProviders: Provider[] = [
@@ -16,4 +17,6 @@ export const i18nextProviders: Provider[] = [
     },
     multi: true,
   },
+
+  ...i18nextBackendProviders,
 ];

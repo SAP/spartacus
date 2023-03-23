@@ -126,6 +126,7 @@ export class CartUiEventAddToCart extends CxEvent {
   productCode: string;
   quantity: number;
   numberOfEntriesBeforeAdd: number;
+  pickupStoreName?: string;
 }
 
 /**
