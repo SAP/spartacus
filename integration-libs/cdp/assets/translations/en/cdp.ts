@@ -20,8 +20,6 @@ export const cdp = {
     totalPrice: 'Total Price: ',
     purchasedStore: 'Purchased-Store',
     myAccount: 'My Account',
-    orderDetails: 'Order details',
-    showMore: 'Show more',
     signOut: 'Sign Out',
     orderHistory: 'Orders And Returns',
     ordersAndReturns: 'Orders And Returns',
