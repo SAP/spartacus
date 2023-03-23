@@ -133,7 +133,7 @@ describe('Graph utils', () => {
         SPARTACUS_TRACKING,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
-        SPARTACUS_STOREFINDER,
+        // SPARTACUS_STOREFINDER,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -190,6 +190,7 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
+          "Customer-360",
           "ASM",
         ]
       `);
