@@ -18,7 +18,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Customer360Component } from './asm-customer-360.component';
+import { Customer360Component } from './customer-360.component';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
