@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as addressBook from '../../../helpers/address-book';
 import * as asm from '../../../helpers/asm';
 import * as checkout from '../../../helpers/checkout-flow';
