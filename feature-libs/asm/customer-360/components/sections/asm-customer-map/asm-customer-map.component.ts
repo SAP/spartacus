@@ -128,9 +128,7 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
   getStoreOpening(opening: WeekdayOpeningDay): Observable<string> {
     const { closed, openingTime, closingTime } = opening;
     if (closed) {
-      return this.translationService.translate(
-        'asm.customer360.maps.storeClosed'
-      );
+      return this.translationService.translate('customer360.maps.storeClosed');
     } else if (openingTime) {
       let storeOpening = `${openingTime.formattedHour}`;
 

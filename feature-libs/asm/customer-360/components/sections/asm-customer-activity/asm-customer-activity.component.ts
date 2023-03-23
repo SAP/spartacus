@@ -27,34 +27,34 @@ export class AsmCustomerActivityComponent implements OnInit {
     {
       property: 'type',
       text: 'type',
-      i18nTextKey: 'asm.customer360.activity.type',
+      i18nTextKey: 'customer360.activity.type',
     },
     {
       property: 'id',
       text: 'id',
-      i18nTextKey: 'asm.customer360.activity.id',
+      i18nTextKey: 'customer360.activity.id',
       navigatable: true,
     },
     {
       property: 'description',
       text: 'description',
-      i18nTextKey: 'asm.customer360.activity.description',
+      i18nTextKey: 'customer360.activity.description',
     },
     {
       property: 'category',
       text: 'status',
-      i18nTextKey: 'asm.customer360.activity.status',
+      i18nTextKey: 'customer360.activity.status',
     },
     {
       property: 'created',
       text: 'created',
-      i18nTextKey: 'asm.customer360.activity.created',
+      i18nTextKey: 'customer360.activity.created',
       isDate: true,
     },
     {
       property: 'updated',
       text: 'updated',
-      i18nTextKey: 'asm.customer360.activity.updated',
+      i18nTextKey: 'customer360.activity.updated',
       isDate: true,
     },
   ];
@@ -92,12 +92,12 @@ export class AsmCustomerActivityComponent implements OnInit {
           this.saveLocalization(
             activeCart.code,
             'type',
-            'asm.customer360.activity.cart'
+            'customer360.activity.cart'
           );
           this.saveLocalization(
             activeCart.code,
             'description',
-            'asm.customer360.activity.numberOfCartItems',
+            'customer360.activity.numberOfCartItems',
             {
               count: activeCart.totalItems ?? 0,
             }
@@ -116,12 +116,12 @@ export class AsmCustomerActivityComponent implements OnInit {
           this.saveLocalization(
             cart.code,
             'type',
-            'asm.customer360.activity.savedCart'
+            'customer360.activity.savedCart'
           );
           this.saveLocalization(
             cart.code,
             'description',
-            'asm.customer360.activity.numberOfCartItems',
+            'customer360.activity.numberOfCartItems',
             {
               count: cart.totalItems ?? 0,
             }
@@ -140,7 +140,7 @@ export class AsmCustomerActivityComponent implements OnInit {
           this.saveLocalization(
             order.code,
             'type',
-            'asm.customer360.activity.order'
+            'customer360.activity.order'
           );
         });
         return this.getLocalizations().pipe(

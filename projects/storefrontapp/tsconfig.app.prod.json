@@ -7,6 +7,7 @@
       "@spartacus/asm/assets": ["dist/asm/assets"],
       "@spartacus/asm/components": ["dist/asm/components"],
       "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm/customer-360/assets": ["dist/asm/customer-360/assets"],
       "@spartacus/asm/customer-360/components": [
         "dist/asm/customer-360/components"
       ],

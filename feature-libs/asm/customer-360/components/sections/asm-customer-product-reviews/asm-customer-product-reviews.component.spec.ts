@@ -103,7 +103,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
         rating: '3.5',
         reviewStatus: 'Complete',
         reviewText: '',
-        item: 'Shirt, asm.customer360.productReviews.sku: shirt',
+        item: 'Shirt, customer360.productReviews.sku: shirt',
       })
     );
     expect(component.reviewEntries[1]).toEqual(
@@ -115,7 +115,7 @@ describe('AsmCustomerProductReviewsComponent', () => {
         rating: '4',
         reviewStatus: 'Complete',
         reviewText: '',
-        item: 'Shoes, asm.customer360.productReviews.sku: shoes',
+        item: 'Shoes, customer360.productReviews.sku: shoes',
       })
     );
   });

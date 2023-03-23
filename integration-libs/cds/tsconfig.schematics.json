@@ -12,6 +12,9 @@
         "../../feature-libs/asm/components/public_api"
       ],
       "@spartacus/asm/core": ["../../feature-libs/asm/core/public_api"],
+      "@spartacus/asm/customer-360/assets": [
+        "../../feature-libs/asm/customer-360/assets/public_api"
+      ],
       "@spartacus/asm/customer-360/components": [
         "../../feature-libs/asm/customer-360/components/public_api"
       ],
