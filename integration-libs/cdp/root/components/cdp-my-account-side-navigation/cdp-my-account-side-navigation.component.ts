@@ -6,8 +6,9 @@
 
 import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '@spartacus/core';
-import { ICON_TYPE } from 'projects/storefrontlib/cms-components/misc/icon/index';
-import { UserAccountFacade } from 'feature-libs/user/account/root/facade/user-account.facade';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { UserAccountFacade } from '@spartacus/user/account/root';
+// import { ICON_TYPE } from 'projects/storefrontlib/cms-components/misc/icon/index';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
