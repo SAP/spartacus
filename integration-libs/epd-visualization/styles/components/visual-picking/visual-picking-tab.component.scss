@@ -51,3 +51,9 @@
     }
   }
 }
+
+.ProductDetailsPageTemplate {
+  .cx-tab-paragraph-content:has(cx-epd-visualization-visual-picking-tab) {
+    padding: 1em 0;
+  }
+}
