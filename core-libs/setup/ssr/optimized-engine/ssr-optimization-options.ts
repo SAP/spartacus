@@ -128,6 +128,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   forcedSsrTimeout: 60_000,
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
-  debug: true,
-  logBeforeTimeout: false,
+  debug: false,
 };

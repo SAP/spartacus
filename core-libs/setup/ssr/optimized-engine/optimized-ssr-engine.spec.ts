@@ -101,8 +101,9 @@ class TestEngineRunner {
     this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
       this.responseParams.push(response);
-      this.loggers.push(new RequestLoggingService(optionsMock.req as Request));
     });
+
+    this.loggers.push(new RequestLoggingService(optionsMock.req as Request));
 
     return this;
   }
@@ -704,6 +705,7 @@ describe('OptimizedSsrEngine', () => {
       // issue two requests
       engineRunner.request(hangingRequest);
       engineRunner.request(csrRequest);
+
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
       });
@@ -809,11 +811,11 @@ describe('OptimizedSsrEngine', () => {
         tick(100);
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `CSR fallback: rendering in progress (${requestUrl})`,
-          engineRunner.loggers[0]
+          engineRunner.loggers[1]
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          engineRunner.loggers[1],
+          engineRunner.loggers[0],
           false
         );
         expect(engineRunner.renders).toEqual(['', '']);
