@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '@spartacus/core';
 import { ICON_TYPE } from 'projects/storefrontlib/cms-components/misc/icon/index';

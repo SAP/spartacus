@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // import { UserIdService } from "@spartacus/core";
 // import { switchMap } from "rxjs/operators";
 // import { cdpOrderAdapter } from "../adapter/cdp-order-adapter";
