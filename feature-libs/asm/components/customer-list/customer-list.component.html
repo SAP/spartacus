@@ -72,7 +72,7 @@
                       role="columnheader"
                       *ngFor="let column of customerListConfig?.columns"
                     >
-                      <span *ngIf="selectedUserGroupId=='b2bCustomerList'&&column.headerLocalizationKey||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">{{
+                      <span *ngIf="column.headerLocalizationKey&&!(selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey=='asm.customerList.tableHeader.account')">{{
                         column.headerLocalizationKey | cxTranslate
                       }}</span>
                     </th>
@@ -100,8 +100,6 @@
                         role="cell"
                         *ngFor="let column of customerListConfig?.columns"
                       >
-                      <ng-container
-                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                         <ng-template
                           *ngTemplateOutlet="
                             cell;
@@ -112,7 +110,6 @@
                             }
                           "
                         ></ng-template>
-                      </ng-container>
                       </td>
                     </ng-container>
                     <!-- two column if tablet -->
@@ -126,8 +123,6 @@
                             let even = even
                           "
                         >
-                        <ng-container
-                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                           <ng-container *ngIf="even">
                             <ng-template
                               *ngTemplateOutlet="
@@ -141,7 +136,6 @@
                             ></ng-template>
                           </ng-container>
                         </ng-container>
-                        </ng-container>
                       </td>
                       <td role="cell" class="cx-multi-cell">
                         <ng-container
@@ -150,8 +144,6 @@
                             let odd = odd
                           "
                         >
-                        <ng-container
-                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                           <ng-container *ngIf="odd">
                             <ng-template
                               *ngTemplateOutlet="
@@ -165,7 +157,6 @@
                             ></ng-template>
                           </ng-container>
                         </ng-container>
-                        </ng-container>
                       </td>
                     </ng-container>
                     <!-- one column if mobile -->
@@ -177,8 +168,6 @@
                       <ng-container
                         *ngFor="let column of customerListConfig?.columns"
                       >
-                      <ng-container
-                        *ngIf="selectedUserGroupId=='b2bCustomerList'||selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey!='asm.customerList.tableHeader.account'">
                         <ng-template
                           *ngTemplateOutlet="
                             cell;
@@ -189,7 +178,6 @@
                             }
                           "
                         ></ng-template>
-                      </ng-container>
                       </ng-container>
                     </td>
                   </tr>
@@ -215,6 +203,8 @@
   let-column="column"
   let-showHeader="showHeader"
 >
+<ng-container
+  *ngIf="!(selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey=='asm.customerList.tableHeader.account')">
   <div class="cx-cell-container">
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
@@ -254,6 +244,7 @@
       ></ng-container>
     </button>
   </div>
+</ng-container>
 </ng-template>
 <ng-template #cellContent let-customerEntry="customerEntry" let-column="column">
   <span *ngIf="!column.icon">{{
