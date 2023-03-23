@@ -14,7 +14,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '@spartacus/storefront';
-import { LoginComponentService } from './login-component.service';
 import { LoginComponent } from './login.component';
 
 @NgModule({
@@ -24,12 +23,7 @@ import { LoginComponent } from './login.component';
       cmsComponents: {
         LoginComponent: {
           component: LoginComponent,
-          providers: [
-            {
-              provide: LoginComponentService,
-              useClass: LoginComponentService,
-            }
-         ]},
+        },
       },
     }),
   ],

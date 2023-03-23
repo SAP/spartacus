@@ -16,7 +16,6 @@ import { switchMap } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
-  isCdpEnabled: boolean =false;
 
   constructor(
     protected auth: AuthService,
