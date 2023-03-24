@@ -132,7 +132,6 @@ function add_feature_libs {
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/customer-ticketing --skip-confirmation --no-interactive
-  ng add @spartacus/pickup-in-store --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {
