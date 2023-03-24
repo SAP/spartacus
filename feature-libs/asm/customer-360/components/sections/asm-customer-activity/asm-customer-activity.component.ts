@@ -68,8 +68,8 @@ export class AsmCustomerActivityComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Notes:  we are sorting table locally so we need to translate all possible value
-    // before pass them to the table component. e.g. type, description, status? ...etc
+    // Notes:  We are sorting the table locally, so we need to translate
+    // all possible values before passing them to the table component.
     let entries: Array<GeneralEntry> = [];
 
     this.entries$ = combineLatest([
