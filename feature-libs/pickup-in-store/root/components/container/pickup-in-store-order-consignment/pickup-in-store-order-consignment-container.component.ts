@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
-import { Consignment, Order } from '@spartacus/order/root';
+import { Consignment } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-export type IOutletContextData = { item: Consignment; order: Order };
+export type IOutletContextData = { item: Consignment };
 
 /**
  * A container component of the pickup address for order consignment.
@@ -25,7 +25,7 @@ export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
     @Optional() protected outlet: OutletContextData<IOutletContextData>
   ) {}
 
-  pointOfService$: Observable<PointOfService>;
+  @Input() pointOfService$: Observable<PointOfService> | undefined;
 
   ngOnInit(): void {
     this.pointOfService$ = this.outlet?.context$?.pipe(
