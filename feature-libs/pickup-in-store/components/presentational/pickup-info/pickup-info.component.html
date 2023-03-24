@@ -1,0 +1,13 @@
+<div class="info-container">
+  <div class="info-header">
+    <div>{{ 'pickupInfo.inStorePickup' | cxTranslate }}</div>
+    <div>{{ 'pickupInfo.pickupBy' | cxTranslate }}</div>
+  </div>
+  <div class="info-location">
+    <div>{{ 'pickupInfo.pickupFrom' | cxTranslate }}</div>
+    <cx-store-address [storeDetails]="storeDetails"></cx-store-address>
+  </div>
+  <div class="store-hours">
+    <cx-store-schedule [storeDetails]="storeDetails"></cx-store-schedule>
+  </div>
+</div>

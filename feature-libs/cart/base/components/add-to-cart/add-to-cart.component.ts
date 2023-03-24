@@ -30,6 +30,7 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
+  ICON_TYPE,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -70,6 +71,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   readonly CartOutlets = CartOutlets;
 
   pickupOptionCompRef: any;
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected currentProductService: CurrentProductService,
@@ -148,8 +151,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
 
     if (this.pickupOptionCompRef instanceof ComponentRef) {
-      // get pickup store name from this.pickupOptionCompRef.instance
-      // and set this.pickupStore
+      this.pickupOptionCompRef.instance.intendedPickupLocation$
+        .pipe(take(1))
+        .subscribe((intendedPickupLocation: any) => {
+          this.pickupStore =
+            intendedPickupLocation?.pickupOption === 'pickup'
+              ? intendedPickupLocation.name
+              : undefined;
+        });
     }
 
     this.activeCartService
