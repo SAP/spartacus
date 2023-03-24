@@ -484,6 +484,7 @@ export function fillPaymentFormWithCheapProduct(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.log('submitPayment timestamp: ', new Date().toISOString());
@@ -491,8 +492,9 @@ export function fillPaymentFormWithCheapProduct(
   cy.log('reviewPage timestamp: ', new Date().toISOString());
   cy.wait(`@${reviewPage}`);
 
-  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
-  cy.wait(`@${getCheckoutDetailsAlias}`);
+  cy.wait(`@${getCheckoutDetailsAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get(`@${getCheckoutDetailsAlias}`).then((xhr) => {
     const body = xhr.response.body;
