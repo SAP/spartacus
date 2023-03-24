@@ -1,14 +1,8 @@
 %cx-epd-visualization-visual-picking-tab {
-  .container-fluid {
-    padding: 0;
-
-    @include media-breakpoint-up(md) {
-      padding: 0 1em;
-    }
-
-    @include media-breakpoint-up(xl) {
-      padding: 0 2em;
-    }
+  .container-fluid:not(.no-product-references),
+  .container:not(.no-product-references) {
+    padding: 1em 0;
+    background-color: $body-bg;
 
     display: flex;
     justify-content: space-between;
@@ -56,5 +50,13 @@
         margin: 0;
       }
     }
+  }
+}
+
+.ProductDetailsPageTemplate {
+  .cx-tab-paragraph-content:has(cx-epd-visualization-visual-picking-tab) {
+    // :has() is not enabled by default in Firefox yet
+    // but the padding/layout is much improved in the browsers that can apply this rule.
+    padding: 1em 0;
   }
 }
