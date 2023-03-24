@@ -114,7 +114,7 @@ function add_epd_visualization {
 
 function add_opf {
     if [ "$ADD_OPF" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --base-url ${OPF_BASE_URL} --skip-confirmation --no-interactive
     fi
 }
 

@@ -74,6 +74,9 @@ ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false
 ADD_OPF=false
 
+# The base URL required for connection to Cloud Commerce Adapter (OPF)
+OPF_BASE_URL=
+
 # The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
 
