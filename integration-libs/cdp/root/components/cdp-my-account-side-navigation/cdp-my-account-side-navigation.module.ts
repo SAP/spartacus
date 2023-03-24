@@ -20,6 +20,7 @@ import { RouterModule } from '@angular/router';
 import { CdpMyAccountSideNavigationComponent } from './cdp-my-account-side-navigation.component';
 import { IconModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.module';
 import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/cms-structure/routing/default-routing-config';
+import { CdpConfig } from '../../config/cdp-config';
 
 @NgModule({
   declarations: [CdpMyAccountSideNavigationComponent],
@@ -49,6 +50,7 @@ import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/cms-struct
   ],
   providers: [
     provideDefaultConfig(defaultStorefrontRoutesConfig),
+    provideDefaultConfig(CdpConfig),
   ],
 })
 export class CdpMyAccountSideNavigationModule {}
