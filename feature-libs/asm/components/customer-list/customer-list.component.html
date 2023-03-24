@@ -72,7 +72,7 @@
                       role="columnheader"
                       *ngFor="let column of customerListConfig?.columns"
                     >
-                      <span *ngIf="column.headerLocalizationKey&&!(selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey=='asm.customerList.tableHeader.account')">{{
+                      <span *ngIf="column.headerLocalizationKey&&!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">{{
                         column.headerLocalizationKey | cxTranslate
                       }}</span>
                     </th>
@@ -204,7 +204,7 @@
   let-showHeader="showHeader"
 >
 <ng-container
-  *ngIf="!(selectedUserGroupId!='b2bCustomerList'&&column.headerLocalizationKey=='asm.customerList.tableHeader.account')">
+  *ngIf="!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">
   <div class="cx-cell-container">
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
