@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
+import { PointOfService } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 export type IOutletContextData = { item: Consignment; order: Order };
 
@@ -19,29 +20,19 @@ export type IOutletContextData = { item: Consignment; order: Order };
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
 })
-export class PickupInStoreOrderConsignmentContainerComponent
-  implements OnInit, OnDestroy
-{
+export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   constructor(
-    @Optional()
-    protected outlet: OutletContextData<IOutletContextData>
+    @Optional() protected outlet: OutletContextData<IOutletContextData>
   ) {}
-  consignment: Consignment;
-  subscription: Subscription = new Subscription();
+
+  pointOfService$: Observable<PointOfService>;
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.outlet?.context$
-        ?.pipe(
-          tap((context) => {
-            this.consignment = context.item;
-          })
-        )
-        .subscribe()
+    this.pointOfService$ = this.outlet?.context$?.pipe(
+      map((context) => context.item?.deliveryPointOfService),
+      filter(
+        (pointOfService): pointOfService is PointOfService => !!pointOfService
+      )
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
