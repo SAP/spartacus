@@ -14,7 +14,7 @@ import { filter, map } from 'rxjs/operators';
 export type IOutletContextData = { item: Consignment; order: Order };
 
 /**
- * A container component of the pair of the pickup options radio buttons for cart entry.
+ * A container component of the pickup address for order consignment.
  */
 @Component({
   selector: 'cx-pickup-in-store-order-consignment',
