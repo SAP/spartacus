@@ -176,6 +176,8 @@ describe('Graph utils', () => {
           "CPQ-Configurator",
           "Textfield-Configurator",
           "Store-Finder",
+          "ASM",
+          "Customer-360",
           "S4HANA-Order-Management",
           "EPD-Visualization",
           "Digital-Payments",
@@ -189,8 +191,6 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "Customer-360",
-          "ASM",
         ]
       `);
     });

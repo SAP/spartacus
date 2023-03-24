@@ -95,4 +95,5 @@ export const CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: ASM_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ASM,
   },
+  dependencyFeatures: [ASM_FEATURE_NAME],
 };
