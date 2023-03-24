@@ -488,7 +488,21 @@ export function fillPaymentFormWithCheapProduct(
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
   cy.wait('@submitPayment');
-  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${reviewPage}`);
+
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.wait(`@${getCheckoutDetailsAlias}`);
+
+  cy.get(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const body = xhr.response.body;
+    cy.log(
+      `Checkout details after payment step: ${JSON.stringify(body, null, 2)}`
+    );
+
+    expect(body).to.have.property('deliveryAddress');
+    expect(body).to.have.property('deliveryMode');
+    expect(body).to.have.property('paymentInfo');
+  });
 }
 
 export function placeOrderWithCheapProduct(
