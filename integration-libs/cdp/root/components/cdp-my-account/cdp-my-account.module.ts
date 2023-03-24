@@ -11,6 +11,7 @@ import {
   ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 // import { CdpMyAccountComponent } from '@spartacus/cdp/root';
 import { SpinnerModule } from '@spartacus/storefront';
 import { CdpMyAccountComponent } from './cdp-my-account.component';
+import { defaultOrderRoutingConfig } from 'feature-libs/order/root/config/default-order-routing-config';
 
 @NgModule({
   declarations: [CdpMyAccountComponent],
@@ -36,6 +38,9 @@ import { CdpMyAccountComponent } from './cdp-my-account.component';
         CdpMyAccountComponent: { component: CdpMyAccountComponent },
       },
     }),
+  ],
+  providers: [
+    provideDefaultConfig(defaultOrderRoutingConfig)
   ],
   exports: [CdpMyAccountComponent],
 })
