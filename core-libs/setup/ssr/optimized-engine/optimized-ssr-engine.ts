@@ -10,11 +10,14 @@ import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { RenderingCache } from './rendering-cache';
+import { RequestLoggingService } from './request-logging.service';
 import {
   defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
+
+const crypto = require('crypto');
 
 /**
  * Returns the full url for the given SSR Request.
@@ -84,8 +87,10 @@ export class OptimizedSsrEngine {
     };
 
     const stringifiedOptions = JSON.stringify(this.ssrOptions, replacer, 2);
+
     this.log(
       `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
+      undefined,
       false
     );
   }
@@ -125,7 +130,7 @@ export class OptimizedSsrEngine {
    * (unless the `reuseCurrentRendering` config option is enabled)
    * OR when the concurrency limit is exceeded.
    */
-  protected shouldRender(request: Request): boolean {
+  protected shouldRender(request: Request, logger?: any): boolean {
     const renderingKey = this.getRenderingKey(request);
     const concurrencyLimitExceeded =
       this.isConcurrencyLimitExceeded(renderingKey);
@@ -134,10 +139,14 @@ export class OptimizedSsrEngine {
       !this.ssrOptions?.reuseCurrentRendering;
 
     if (fallBack) {
-      this.log(`CSR fallback: rendering in progress (${request?.originalUrl})`);
+      this.log(
+        `CSR fallback: rendering in progress (${request?.originalUrl})`,
+        logger
+      );
     } else if (concurrencyLimitExceeded) {
       this.log(
-        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
+        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`,
+        logger
       );
     }
 
@@ -236,11 +245,15 @@ export class OptimizedSsrEngine {
     const request: Request = options.req;
     const response: Response = options.res || options.req.res;
 
+    request.uuid = crypto.randomUUID();
+    request.startTime = Date.now();
+    const logger = new RequestLoggingService(request);
+
     if (this.returnCachedRender(request, callback)) {
-      this.log(`Render from cache (${request?.originalUrl})`);
+      this.log(`Render from cache (${request?.originalUrl})`, logger);
       return;
     }
-    if (!this.shouldRender(request)) {
+    if (!this.shouldRender(request, logger)) {
       this.fallbackToCsr(response, filePath, callback);
       return;
     }
@@ -254,6 +267,7 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
         this.log(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
+          logger,
           false
         );
       }, timeout);
@@ -272,7 +286,8 @@ export class OptimizedSsrEngine {
         callback(err, html);
 
         this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`
+          `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
+          logger
         );
 
         // store the render only if caching is enabled
@@ -287,17 +302,25 @@ export class OptimizedSsrEngine {
       }
     };
 
-    this.handleRender({
-      filePath,
-      options,
-      renderCallback,
-      request,
-    });
+    this.handleRender(
+      {
+        filePath,
+        options,
+        renderCallback,
+        request,
+      },
+      logger
+    );
   }
 
-  protected log(message: string, debug = true): void {
+  protected log(
+    message: string,
+    logger?: RequestLoggingService,
+    debug = true
+  ): void {
     if (!debug || this.ssrOptions?.debug) {
-      console.log(message);
+      // eslint-disable-next-line no-console
+      logger ? logger.log(message) : console.log(message);
     }
   }
 
@@ -320,24 +343,30 @@ export class OptimizedSsrEngine {
    * render task for the same rendering key**, it doesn't delegate a new render to Angular Universal.
    * Instead, it waits for the current rendering to complete and then reuse the result for all waiting requests.
    */
-  private handleRender({
-    filePath,
-    options,
-    renderCallback,
-    request,
-  }: {
-    filePath: string;
-    options: any;
-    renderCallback: SsrCallbackFn;
-    request: Request;
-  }): void {
+  private handleRender(
+    {
+      filePath,
+      options,
+      renderCallback,
+      request,
+    }: {
+      filePath: string;
+      options: any;
+      renderCallback: SsrCallbackFn;
+      request: Request;
+    },
+    logger?: any
+  ): void {
     if (!this.ssrOptions?.reuseCurrentRendering) {
-      this.startRender({
-        filePath,
-        options,
-        renderCallback,
-        request,
-      });
+      this.startRender(
+        {
+          filePath,
+          options,
+          renderCallback,
+          request,
+        },
+        logger
+      );
       return;
     }
 
@@ -348,25 +377,29 @@ export class OptimizedSsrEngine {
     this.renderCallbacks.get(renderingKey)?.push(renderCallback);
 
     if (!this.renderingCache.isRendering(renderingKey)) {
-      this.startRender({
-        filePath,
-        options,
-        request,
-        renderCallback: (err, html) => {
-          // Share the result of the render with all awaiting requests for the same key:
+      this.startRender(
+        {
+          filePath,
+          options,
+          request,
+          renderCallback: (err, html) => {
+            // Share the result of the render with all awaiting requests for the same key:
 
-          // Note: we access the Map at the moment of the render finished (don't store value in a local variable),
-          //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
-          this.renderCallbacks
-            .get(renderingKey)
-            ?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks
-          this.renderCallbacks.delete(renderingKey);
+            // Note: we access the Map at the moment of the render finished (don't store value in a local variable),
+            //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
+            this.renderCallbacks
+              .get(renderingKey)
+              ?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks
+            this.renderCallbacks.delete(renderingKey);
+          },
         },
-      });
+        logger
+      );
     }
 
     this.log(
-      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`
+      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`,
+      logger
     );
   }
 
@@ -379,17 +412,20 @@ export class OptimizedSsrEngine {
    * Later on, even if the render completes somewhen in the future, we will ignore
    * its result.
    */
-  private startRender({
-    filePath,
-    options,
-    renderCallback,
-    request,
-  }: {
-    filePath: string;
-    options: any;
-    renderCallback: SsrCallbackFn;
-    request: Request;
-  }): void {
+  private startRender(
+    {
+      filePath,
+      options,
+      renderCallback,
+      request,
+    }: {
+      filePath: string;
+      options: any;
+      renderCallback: SsrCallbackFn;
+      request: Request;
+    },
+    logger?: any
+  ): void {
     const renderingKey = this.getRenderingKey(request);
 
     // Setting the timeout for hanging renders that might not ever finish due to various reasons.
@@ -405,11 +441,12 @@ export class OptimizedSsrEngine {
         }
         this.log(
           `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
+          logger,
           false
         );
       }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
 
-    this.log(`Rendering started (${request?.originalUrl})`);
+    this.log(`Rendering started (${request?.originalUrl})`, logger);
     this.renderingCache.setAsRendering(renderingKey);
     this.currentConcurrency++;
 
@@ -418,13 +455,14 @@ export class OptimizedSsrEngine {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(
           `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+          logger,
           false
         );
         return;
       }
       clearTimeout(maxRenderTimeout);
 
-      this.log(`Rendering completed (${request?.originalUrl})`);
+      this.log(`Rendering completed (${request?.originalUrl})`, logger);
       this.currentConcurrency--;
 
       renderCallback(err, html);

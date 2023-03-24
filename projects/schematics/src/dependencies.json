@@ -47,11 +47,13 @@
     "bootstrap": "^4.6.1"
   },
   "@spartacus/setup": {
+    "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0",
     "@spartacus/cart": "5.0.0",
     "@spartacus/core": "5.0.0",
     "@spartacus/order": "5.0.0",
-    "@spartacus/user": "5.0.0"
+    "@spartacus/user": "5.0.0",
+    "rxjs": "^6.6.0"
   },
   "@spartacus/asm": {
     "@angular-devkit/schematics": "^15.2.0",

@@ -109,6 +109,11 @@ export interface SsrOptimizationOptions {
    * Enable detailed logs for troubleshooting problems
    */
   debug?: boolean;
+
+  /**
+   * If debug is enabled, whether we want to log occ request before SSR timeout
+   */
+  logBeforeTimeout?: boolean;
 }
 
 export enum RenderingStrategy {
