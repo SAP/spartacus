@@ -34,4 +34,12 @@
     margin: 0.5rem 0 0;
     padding: 0 30px;
   }
+
+  .cx-pickup-order-consigned-entries-header {
+    background-color: var(--cx-color-background);
+    font-weight: var(--cx-font-weight-semi);
+    font-size: var(--cx-font-size, 1.125rem);
+    padding: 15px 40px;
+    margin: 0px 0 30px 0;
+  }
 }

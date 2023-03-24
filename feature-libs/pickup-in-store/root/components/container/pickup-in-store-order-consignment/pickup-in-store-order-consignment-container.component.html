@@ -1,57 +1,29 @@
-<div class="cx-list-header col-12">
+<div
+  *ngIf="pointOfService$ | async as pointOfService"
+  class="cx-list-header col-12"
+>
   <div class="cx-consignment-details">
-    <div class="cx-list-status-container">
-      <div *ngIf="consignment" class="cx-list-status">
-        {{
-          'deliveryPointOfServiceDetails.deliveryStatus_' + consignment?.status
-            | cxTranslate
-        }}
+    <div class="cx-deliveryPointOfService-address">
+      <div class="cx-deliveryPointOfService-heading">
+        {{ 'deliveryPointOfServiceDetails.pickUpInStoreAddress' | cxTranslate }}
       </div>
-      <div *ngIf="consignment?.statusDate" class="cx-list-date">
-        <div>{{ consignment?.statusDate | cxDate }}</div>
+      <div class="cx-deliveryPointOfService-storeName">
+        {{ pointOfService?.displayName }}
       </div>
-
-      <cx-consignment-tracking
-        [orderCode]="order?.code"
-        [consignment]="consignment"
-        *cxFeature="'consignmentTracking'"
-      >
-      </cx-consignment-tracking>
-    </div>
-    <div *ngIf="consignment?.deliveryPointOfService?.displayName">
-      <div class="cx-consignment-details-header">
-        {{ 'deliveryPointOfServiceDetails.itemsToBePickUp' | cxTranslate }}
+      <div *ngIf="pointOfService?.address?.line1">
+        {{ pointOfService?.address?.line1 }}
       </div>
-      <div class="cx-deliveryPointOfService-address-container">
-        <div class="cx-deliveryPointOfService-address">
-          <div class="cx-deliveryPointOfService-heading">
-            {{
-              'deliveryPointOfServiceDetails.pickUpInStoreAddress' | cxTranslate
-            }}
-          </div>
-          <div class="cx-deliveryPointOfService-storeName">
-            {{ consignment?.deliveryPointOfService?.displayName }}
-          </div>
-          <div *ngIf="consignment?.deliveryPointOfService?.address?.line1">
-            {{ consignment?.deliveryPointOfService?.address?.line1 }}
-          </div>
-          <div *ngIf="consignment?.deliveryPointOfService?.address?.line2">
-            {{ consignment?.deliveryPointOfService?.address?.line2 }}
-          </div>
-          <div *ngIf="consignment?.deliveryPointOfService?.address?.town">
-            <span>
-              {{ consignment?.deliveryPointOfService?.address?.town }}
-            </span>
-            <span>
-              {{
-                consignment?.deliveryPointOfService?.address?.postalCode
-              }}</span
-            >
-          </div>
-          <div *ngIf="consignment?.deliveryPointOfService?.address?.phone">
-            {{ consignment?.deliveryPointOfService?.address?.phone }}
-          </div>
-        </div>
+      <div *ngIf="pointOfService?.address?.line2">
+        {{ pointOfService?.address?.line2 }}
+      </div>
+      <div *ngIf="pointOfService?.address?.town">
+        <span>
+          {{ pointOfService?.address?.town }}
+        </span>
+        <span> {{ pointOfService?.address?.postalCode }}</span>
+      </div>
+      <div *ngIf="pointOfService?.address?.phone">
+        {{ pointOfService?.address?.phone }}
       </div>
     </div>
   </div>

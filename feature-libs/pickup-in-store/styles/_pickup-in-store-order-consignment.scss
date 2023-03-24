@@ -1,39 +1,16 @@
 %cx-pickup-in-store-order-consignment {
   width: 100%;
   margin-top: -1rem;
-  .cx-list-status-container {
-    margin: 0 0 0.5rem;
-    padding: 0 0;
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--cx-color-background);
-  }
-
-  .cx-list-status {
-    font-weight: bold;
-  }
-
   .cx-consignment-details {
     background-color: var(--cx-color-background);
   }
-  .cx-consignment-details-header {
-    padding: 0 30px 15px 30px;
-    font-weight: bold;
-  }
-  .cx-consignment-details-body {
-    display: flex;
-  }
-  .cx-deliveryPointOfService-address,
-  .cx-shipping-address {
+
+  .cx-deliveryPointOfService-address {
     padding: 0 30px 15px 30px;
   }
-  .cx-shipping-address-header,
-  .cx-delivery-mode-header,
+
   .cx-deliveryPointOfService-heading {
     font-weight: var(--cx-font-weight-semi);
     padding-bottom: 0.5rem;
-  }
-  .cx-delivery-mode {
-    margin-inline-start: 1rem;
   }
 }
