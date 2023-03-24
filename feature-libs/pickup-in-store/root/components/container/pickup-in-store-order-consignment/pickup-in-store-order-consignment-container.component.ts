@@ -27,26 +27,18 @@ export class PickupInStoreOrderConsignmentContainerComponent
     protected outlet: OutletContextData<IOutletContextData>
   ) {}
   consignment: Consignment;
-  order: Order;
   subscription: Subscription = new Subscription();
+
   ngOnInit(): void {
     this.subscription.add(
       this.outlet?.context$
         ?.pipe(
           tap((context) => {
             this.consignment = context.item;
-            this.order = context.order;
           })
         )
         .subscribe()
     );
-  }
-  normalizeFormattedAddress(formattedAddress: string): string {
-    const addresses = formattedAddress
-      ?.split(',')
-      ?.map((address) => address.trim());
-
-    return addresses?.filter(Boolean).join(', ');
   }
 
   ngOnDestroy() {

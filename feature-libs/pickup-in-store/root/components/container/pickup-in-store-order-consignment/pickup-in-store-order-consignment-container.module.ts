@@ -10,7 +10,6 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { OrderDetailsModule } from '@spartacus/order/components';
 import { OrderOutlets } from '@spartacus/order/root';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
-
 import { PickupInStoreOrderConsignmentContainerComponent } from './pickup-in-store-order-consignment-container.component';
 
 @NgModule({
