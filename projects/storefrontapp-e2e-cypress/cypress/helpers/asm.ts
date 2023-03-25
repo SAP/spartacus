@@ -297,7 +297,7 @@ export function testCustomerEmulation() {
     );
 
     cy.get('cx-address-book').should('be.visible');
-    cy.get('cx-card').should('not.exist');
+    cy.get('cx-address-book cx-card').should('not.exist');
 
     const getListOfAddressesRequestAlias = listenForListOfAddressesRequest();
     fillShippingAddress(addressBook.newAddress);
@@ -305,7 +305,8 @@ export function testCustomerEmulation() {
       .its('response.statusCode')
       .should('eq', 200);
 
-    addressBook.verifyNewAddress();
+    cy.get('cx-address-book cx-card').should('have.length', 1);
+    addressBook.assertAddressForm(addressBook.newAddress);
 
     cy.log('--> Add a consent');
 
@@ -390,7 +391,8 @@ export function testCustomerEmulation() {
     );
 
     cy.get('cx-card').should('be.visible');
-    addressBook.verifyNewAddress();
+    cy.get('cx-address-book cx-card').should('have.length', 1);
+    addressBook.assertAddressForm(addressBook.newAddress);
 
     cy.log('--> Check consent given by agent');
 
