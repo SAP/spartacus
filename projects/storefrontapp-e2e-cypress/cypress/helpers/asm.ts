@@ -305,8 +305,7 @@ export function testCustomerEmulation() {
       .its('response.statusCode')
       .should('eq', 200);
 
-    cy.get('cx-address-book cx-card').should('have.length', 1);
-    addressBook.assertAddressForm(addressBook.newAddress);
+    addressBook.verifyNewAddress();
 
     cy.log('--> Add a consent');
 
@@ -391,8 +390,7 @@ export function testCustomerEmulation() {
     );
 
     cy.get('cx-card').should('be.visible');
-    cy.get('cx-address-book cx-card').should('have.length', 1);
-    addressBook.assertAddressForm(addressBook.newAddress);
+    addressBook.verifyNewAddress();
 
     cy.log('--> Check consent given by agent');
 

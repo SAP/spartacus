@@ -31,8 +31,8 @@ export const assertAddressForm = (
   state?: string
 ): void => {
   state = state ? state : 'CA-QC';
-  cy.get('cx-card .card-header').contains('✓ DEFAULT');
-  cy.get('cx-card .card-body')
+  cy.get('cx-address-book cx-card .card-header').contains('✓ DEFAULT');
+  cy.get('cx-address-book cx-card .card-body')
     .first()
     .within(() => {
       cy.get('.cx-card-label-bold').should(
@@ -50,6 +50,6 @@ export const assertAddressForm = (
 };
 
 export function verifyNewAddress() {
-  cy.get('cx-card').should('have.length', 1);
+  cy.get('cx-address-book cx-card').should('have.length', 1);
   assertAddressForm(newAddress);
 }
