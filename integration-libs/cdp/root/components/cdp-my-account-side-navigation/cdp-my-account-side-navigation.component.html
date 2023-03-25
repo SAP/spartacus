@@ -99,7 +99,14 @@
       <td>
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.INFO"></cx-icon> </span
-        >{{ 'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}
+        > <a
+        class="cx-side-navigation"
+        [routerLink]="
+          {
+            cxRoute: 'passwordDetails'
+          } | cxUrl
+        "
+        >{{ 'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}</a>
       </td>
     </tr>
     <tr style="display: none">
@@ -131,7 +138,15 @@
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.INFO"></cx-icon>
         </span>
-        {{ 'cdpOrderHistory.settingAndPrivacy' | cxTranslate }}
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'SettingsAndPrivacy'
+            } | cxUrl
+          "
+          >{{ 'cdpOrderHistory.settingsAndPrivacy' | cxTranslate }}
+        </a>
       </td>
     </tr>
   </table>

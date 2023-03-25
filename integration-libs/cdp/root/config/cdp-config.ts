@@ -21,6 +21,12 @@ export const CdpConfig: RoutingConfig = {
       },
       logout: {
         paths: ['logout'],
+      },
+      passwordDetails: {
+        paths: ['/my-account/update-password'],
+      },
+      SettingsAndPrivacy: {
+        paths: ['/my-account/consents'],
       }
     }
   }
