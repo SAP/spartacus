@@ -17,7 +17,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-// import { CdpMyAccountComponent } from '@spartacus/cdp/root';
+// import { CdpMyAccountComponent } from '@spartacus/cdp/root/components';
 import { SpinnerModule } from '@spartacus/storefront';
 import { CdpMyAccountComponent } from './cdp-my-account.component';
 import { defaultOrderRoutingConfig } from 'feature-libs/order/root/config/default-order-routing-config';

@@ -49,8 +49,9 @@ import { CdpConfig } from '../../config/cdp-config';
     IconModule,
   ],
   providers: [
-    provideDefaultConfig(defaultStorefrontRoutesConfig),
+
     provideDefaultConfig(CdpConfig),
+    provideDefaultConfig(defaultStorefrontRoutesConfig),
   ],
 })
 export class CdpMyAccountSideNavigationModule {}

@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './components/cdp-my-account';
-export * from './components/cdp-my-account-side-navigation';
-export * from './components/cdp-order';
+export * from './components/cdp-my-account/index';
+export * from './components/cdp-my-account-side-navigation/index';
+export * from './components/cdp-order/index';
 export * from './feature-name';
-export * from './adapter/cdp-order-adapter';
-export * from './service/cdp-order-service';
+export * from './adapter/index';
+export * from './service/index';
 export * from './config/index';
+export * from './model/index';
