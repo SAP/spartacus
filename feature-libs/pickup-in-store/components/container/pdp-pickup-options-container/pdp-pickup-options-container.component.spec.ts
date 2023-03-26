@@ -5,23 +5,25 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
 
 import {
+  AugmentedPointOfService,
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+  PickupOption,
+  PreferredStoreFacade,
+} from '@spartacus/pickup-in-store/root';
+import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
-import { MockLaunchDialogService } from '../../../../components/container/pickup-option-dialog/pickup-option-dialog.component.spec';
-import { CurrentLocationService } from '../../../../components/services/current-location.service';
-import { MockIntendedPickupLocationService } from '../../../../core/facade/intended-pickup-location.service.spec';
-import { MockPreferredStoreService } from '../../../../core/services/preferred-store.service.spec';
-import {
-  IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
-  PreferredStoreFacade,
-} from '../../../facade';
-import { AugmentedPointOfService, PickupOption } from '../../../model';
-import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
+
+import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
+import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
+import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
+import { CurrentLocationService } from '../../services/current-location.service';
+import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
 
 import createSpy = jasmine.createSpy;
 

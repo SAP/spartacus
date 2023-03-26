@@ -8,11 +8,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { OrderOutlets } from '@spartacus/order/root';
-import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import {
+  OutletModule,
+  OutletPosition,
+  provideOutlet,
+} from '@spartacus/storefront';
 import { PickupInStoreOrderConsignmentContainerComponent } from './pickup-in-store-order-consignment-container.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, OutletModule.forChild()],
   exports: [PickupInStoreOrderConsignmentContainerComponent],
   declarations: [PickupInStoreOrderConsignmentContainerComponent],
   providers: [

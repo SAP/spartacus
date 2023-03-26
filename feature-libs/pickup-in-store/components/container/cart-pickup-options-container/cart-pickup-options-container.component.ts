@@ -20,6 +20,16 @@ import {
 } from '@spartacus/cart/base/root';
 import { CmsService, Page } from '@spartacus/core';
 import {
+  cartWithIdAndUserId,
+  getProperty,
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+  PickupOption,
+  PickupOptionFacade,
+  PreferredStoreFacade,
+  RequiredDeepPath,
+} from '@spartacus/pickup-in-store/root';
+import {
   LaunchDialogService,
   LAUNCH_CALLER,
   OutletContextData,
@@ -35,18 +45,6 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {
-  IntendedPickupLocationFacade,
-  PickupLocationsSearchFacade,
-  PickupOptionFacade,
-  PreferredStoreFacade,
-} from '../../../facade/index';
-import { PickupOption } from '../../../model/index';
-import {
-  cartWithIdAndUserId,
-  getProperty,
-  RequiredDeepPath,
-} from '../../../utils/index';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'
