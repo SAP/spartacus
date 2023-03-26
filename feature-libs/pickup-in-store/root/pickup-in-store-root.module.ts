@@ -7,11 +7,6 @@
 import { NgModule } from '@angular/core';
 import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
-import {
-  CartPickupOptionsContainerModule,
-  OrderConsignmentContainerModule,
-  PdpPickupOptionsContainerModule,
-} from './components/index';
 
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
@@ -36,11 +31,6 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
-  imports: [
-    CartPickupOptionsContainerModule,
-    PdpPickupOptionsContainerModule,
-    OrderConsignmentContainerModule,
-  ],
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
   ],
