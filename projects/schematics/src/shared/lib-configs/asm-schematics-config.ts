@@ -13,6 +13,7 @@ import {
   SPARTACUS_CUSTOMER_360,
   SPARTACUS_CUSTOMER_360_ASSETS,
   SPARTACUS_CUSTOMER_360_ROOT,
+  STOREFINDER_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
@@ -95,5 +96,5 @@ export const CUSTOMER_360_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: ASM_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ASM,
   },
-  dependencyFeatures: [ASM_FEATURE_NAME],
+  dependencyFeatures: [ASM_FEATURE_NAME, STOREFINDER_FEATURE_NAME],
 };
