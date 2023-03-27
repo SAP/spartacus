@@ -70,11 +70,13 @@ export function loginAsMyCompanyAdmin(): void {
   var maxWait = 1500;
   cy.wait(
     Math.floor(
-      window.crypto.getRandomValues(new Uint32Array(1))[0] *
+      (window.crypto.getRandomValues(new Uint32Array(1))[0] /
+        (Math.pow(2, 32) - 1)) *
         (maxWait - minWait) +
         minWait
     )
   );
+  Math.random();
   cy.requireLoggedIn(myCompanyAdminUser);
 }
 
