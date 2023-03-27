@@ -73,7 +73,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
       });
 
       it('should display the edited address card in the address book', () => {
-        cy.get('cx-card').should('have.length', 1);
+        cy.get('cx-address-book cx-card').should('have.length', 1);
         assertAddressForm(editedAddress);
       });
 
@@ -98,13 +98,13 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
           .contains(
             `Address ${newAddress.address.line1} was successfully set as default`
           );
-        const firstCard = cy.get('cx-card').first();
+        const firstCard = cy.get('cx-address-book cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');
         firstCard.should('contain', 'N Z');
       });
 
       it('should delete the existing address', () => {
-        const firstCard = cy.get('cx-card').first();
+        const firstCard = cy.get('cx-address-book cx-card').first();
 
         firstCard.within(() => {
           cy.get('button').contains('Delete').click();
@@ -116,7 +116,9 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         );
 
         // click cancel
-        cy.get('cx-card .btn-secondary').should('contain', 'Cancel').click();
+        cy.get('cx-address-book cx-card .btn-secondary')
+          .should('contain', 'Cancel')
+          .click();
         cy.get('.cx-card-delete-msg').should('not.exist');
 
         // click delete
@@ -132,7 +134,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         }).as('deleteAddress');
         fetchAddressesInterceptor();
 
-        const card = cy.get('cx-card').first();
+        const card = cy.get('cx-address-book cx-card').first();
         card.contains('Delete').click();
         cy.get('.cx-card-delete button.btn-primary').click();
         cy.wait('@deleteAddress').its('response.statusCode').should('eq', 200);
@@ -142,7 +144,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
         cy.get('cx-address-book cx-card').should('have.length', 1);
 
         // verify remaining address is now the default one
-        const defaultCard = cy.get('cx-card').first();
+        const defaultCard = cy.get('cx-address-book cx-card').first();
         defaultCard.should('contain', '✓ DEFAULT');
         defaultCard.should('contain', 'Baz Qux');
       });
