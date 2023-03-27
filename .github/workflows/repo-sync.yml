@@ -31,27 +31,28 @@ jobs:
           AZURE_CONFIG_PATH="./azure-pipelines.yml"
           SONAR_PATH="./sonar-project.properties"
           RELEASE_PACKAGES_LIST_GENERATOR="./ci-scripts/release-packages-list-generator.sh"
-          REPO_NAME=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
+          PUBLIC_REPOSITORY_BRANCH_NAME=${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
           PRIVATE_REPOSITORY_BRANCH_NAME=${REPO_NAME//\//-}
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
 
-          git clone -b ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
+          git clone -b $PUBLIC_REPOSITORY_BRANCH_NAME https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git
           cd ${{ secrets.GHT_SPARTACUS_REPO }}
 
           git config --global user.email ${{ secrets.GHT_EMAIL }}
           git config --global user.name ${{ secrets.GHT_USER }}
+          git config --global --add --bool push.autoSetupRemote true
+
+          git checkout $PUBLIC_REPOSITORY_BRANCH_NAME
+          git checkout -b $PRIVATE_REPOSITORY_BRANCH_NAME
+          git push origin
+          git push origin --delete $PUBLIC_REPOSITORY_BRANCH_NAME
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Get files from other branch"
 
           git checkout origin/sap-pipeline-files -- .
-
-          echo "---------------------------------------------------------------------------------------------------------------------------"
-          echo "Test branch name"
-
-          echo $PRIVATE_REPOSITORY_BRANCH_NAME
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure pipeline"
