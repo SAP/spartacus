@@ -94,6 +94,15 @@ const mockOrder: Order = {
       entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
     },
   ],
+  unconsignedEntries: [
+    {
+      orderCode: 'unconsigned-1',
+      deliveryPointOfService: {},
+    },
+    {
+      orderCode: 'unconsigned-2',
+    },
+  ],
 };
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -116,7 +125,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockData: CmsOrderDetailItemsComponent = {
   enableAddToCart: true,
-  displayConsignmentDelivery: true,
+  groupCartItems: true,
 };
 
 const MockCmsComponentData = <CmsComponentData<any>>{
@@ -177,6 +186,7 @@ describe('OrderDetailItemsComponent', () => {
     el = fixture.debugElement;
 
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -184,7 +194,6 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize order ', () => {
-    fixture.detectChanges();
     let order: Order;
     component.order$
       .subscribe((value) => {
@@ -195,14 +204,11 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should get pickupConsignements', () => {
-    fixture.detectChanges();
     component.order$.subscribe().unsubscribe();
-
     expect(component.pickupConsignments).toContain(mockOrder.consignments[2]);
   });
 
   it('should get grouped deliveryConsignments', () => {
-    fixture.detectChanges();
     component.order$.subscribe().unsubscribe();
 
     expect(component.deliveryConsignments?.[0]).toEqual(
@@ -219,8 +225,21 @@ describe('OrderDetailItemsComponent', () => {
     );
   });
 
+  it('should get pickupUnconsignedEntries', () => {
+    component.order$.subscribe().unsubscribe();
+    expect(component.pickupUnconsignedEntries).toContain(
+      mockOrder.unconsignedEntries[0]
+    );
+  });
+
+  it('should get deliveryUnConsignedEntries', () => {
+    component.order$.subscribe().unsubscribe();
+    expect(component.deliveryUnConsignedEntries).toContain(
+      mockOrder.unconsignedEntries[1]
+    );
+  });
+
   it('should order details item be rendered', () => {
-    fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
   });
 
@@ -228,7 +247,6 @@ describe('OrderDetailItemsComponent', () => {
     spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
       of(mockReplenishmentOrder)
     );
-    fixture.detectChanges();
     let order: ReplenishmentOrder;
     mockOrderDetailsService
       .getOrderDetails()

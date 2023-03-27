@@ -309,7 +309,41 @@ export function testCustomerEmulation() {
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
 
+
     fillPersonalDetails(customer);
+
+    cy.log('--> Update personal details');
+    navigateToAMyAccountPage(
+      'Personal Details',
+      '/my-account/update-profile',
+      'updateProfilePage'
+    );
+
+    profile.updateProfile(customer);
+    customer.firstName = profile.newFirstName;
+    customer.lastName = profile.newLastName;
+    customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
+    customer.titleCode = profile.newTitle;
+
+    cy.log('--> Create new address');
+
+    navigateToAMyAccountPage(
+      'Address Book',
+      '/my-account/address-book',
+      'addressBookPage'
+    );
+
+    cy.get('cx-address-book').should('be.visible');
+    cy.get('cx-address-book cx-card').should('not.exist');
+
+    const getListOfAddressesRequestAlias = listenForListOfAddressesRequest();
+    fillShippingAddress(addressBook.newAddress);
+    cy.wait(getListOfAddressesRequestAlias)
+      .its('response.statusCode')
+      .should('eq', 200);
+
+    addressBook.verifyNewAddress();
+
 
     cy.log('--> Add a consent');
 
@@ -393,7 +427,7 @@ export function testCustomerEmulation() {
       'addressBookPage'
     );
 
-    cy.get('cx-card').should('be.visible');
+    cy.get('cx-address-book cx-card').should('be.visible');
     addressBook.verifyNewAddress();
 
     cy.log('--> Check consent given by agent');
