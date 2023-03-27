@@ -264,7 +264,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       expect(spyUnsubscribe).toHaveBeenCalled();
       expect(
         configuratorStorefrontUtilsService.removeStyling
-      ).toHaveBeenCalledWith('.PreHeader', 'display');
+      ).toHaveBeenCalledWith(component['PRE_HEADER'], 'display');
     });
   });
 });
