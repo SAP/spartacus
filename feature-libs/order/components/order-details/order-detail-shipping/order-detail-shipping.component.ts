@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -20,6 +20,10 @@ export class OrderDetailShippingComponent implements OnInit {
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
-    this.isOrderLoading$ = this.orderDetailsService.isOrderDetailsLoading();
+
+    this.isOrderLoading$ =
+      typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+        ? this.orderDetailsService.isOrderDetailsLoading()
+        : of(false);
   }
 }
