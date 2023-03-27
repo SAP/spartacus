@@ -1,5 +1,5 @@
 <div
-  class="cx-asm-customers cx-modal-container cx-asm-dialog"
+  class="cx-asm-customer-list cx-modal-container cx-asm-dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
   *ngIf="!(isLoading$ | async); else loading"
@@ -15,85 +15,115 @@
           <ng-template *ngTemplateOutlet="closeButton"></ng-template>
         </div>
         <!-- Modal Body -->
-        <div class="modal-body">
-          <div class="row justify-content-center">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>
-                  <span class="label-content">{{
-                    'asm.createCustomerForm.firstName.label' | cxTranslate
-                  }}</span>
-                  <input
-                    required="true"
-                    class="form-control"
-                    type="text"
-                    name="firstname"
-                    placeholder="{{
-                      'asm.createCustomerForm.firstName.placeholder'
-                        | cxTranslate
-                    }}"
-                    formControlName="firstName"
-                  />
-                  <cx-form-errors
-                    [control]="registerForm.get('firstName')"
-                  ></cx-form-errors>
-                </label>
-              </div>
+        <div class="cx-dialog-body modal-body">
+          <div class="message-container">
+            <cx-message
+              *ngIf="showDialogInfoAlert"
+              [text]="'asm.createCustomerForm.createAccountAlert' | cxTranslate"
+              [isVisibleCloseButton]="true"
+              [type]="globalMessageType.MSG_TYPE_INFO"
+              (closeMessage)="closeDialogInfoAlert()"
+            >
+            </cx-message>
+            <cx-message
+              *ngIf="showDialogErrorAlert"
+              [text]="'asm.createCustomerForm.dialogErrorAlert' | cxTranslate"
+              [isVisibleCloseButton]="true"
+              [type]="globalMessageType.MSG_TYPE_ERROR"
+              (closeMessage)="closeDialogErrorAlert()"
+            >
+            </cx-message>
+            <cx-message
+              *ngIf="showDialogBackendErrorAlert"
+              [text]="backendErrorMessage"
+              [isVisibleCloseButton]="true"
+              [type]="globalMessageType.MSG_TYPE_ERROR"
+              (closeMessage)="closeDialogBackendErroAlert()"
+            >
+            </cx-message>
+          </div>
 
-              <div class="form-group">
-                <label>
-                  <span class="label-content">{{
-                    'asm.createCustomerForm.lastName.label' | cxTranslate
-                  }}</span>
-                  <input
-                    required="true"
-                    class="form-control"
-                    type="text"
-                    name="lastname"
-                    placeholder="{{
-                      'asm.createCustomerForm.lastName.placeholder'
-                        | cxTranslate
-                    }}"
-                    formControlName="lastName"
-                  />
-                  <cx-form-errors
-                    [control]="registerForm.get('lastName')"
-                  ></cx-form-errors>
-                </label>
-              </div>
+          <div class="form-group">
+            <label>
+              <span class="label-content">{{
+                'asm.createCustomerForm.firstName.label' | cxTranslate
+              }}</span>
+              <input
+                required="true"
+                class="form-control"
+                type="text"
+                name="firstname"
+                placeholder="{{
+                  'asm.createCustomerForm.firstName.placeholder' | cxTranslate
+                }}"
+                formControlName="firstName"
+              />
+              <cx-form-errors
+                [control]="registerForm.get('firstName')"
+              ></cx-form-errors>
+            </label>
+          </div>
 
-              <div class="form-group">
-                <label>
-                  <span class="label-content">{{
-                    'asm.createCustomerForm.emailAddress.label' | cxTranslate
-                  }}</span>
-                  <input
-                    required="true"
-                    class="form-control"
-                    type="email"
-                    name="email"
-                    placeholder="{{
-                      'asm.createCustomerForm.emailAddress.placeholder'
-                        | cxTranslate
-                    }}"
-                    formControlName="email"
-                  />
-                  <cx-form-errors
-                    [control]="registerForm.get('email')"
-                  ></cx-form-errors>
-                </label>
-              </div>
-            </div>
+          <div class="form-group">
+            <label>
+              <span class="label-content">{{
+                'asm.createCustomerForm.lastName.label' | cxTranslate
+              }}</span>
+              <input
+                required="true"
+                class="form-control"
+                type="text"
+                name="lastname"
+                placeholder="{{
+                  'asm.createCustomerForm.lastName.placeholder' | cxTranslate
+                }}"
+                formControlName="lastName"
+              />
+              <cx-form-errors
+                [control]="registerForm.get('lastName')"
+              ></cx-form-errors>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <span class="label-content">{{
+                'asm.createCustomerForm.emailAddress.label' | cxTranslate
+              }}</span>
+              <input
+                required="true"
+                class="form-control"
+                type="email"
+                name="email"
+                placeholder="{{
+                  'asm.createCustomerForm.emailAddress.placeholder'
+                    | cxTranslate
+                }}"
+                formControlName="email"
+              />
+              <cx-form-errors
+                [control]="registerForm.get('email')"
+              ></cx-form-errors>
+            </label>
           </div>
         </div>
         <!-- Modal Footer -->
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">
+          <button
+            type="submit"
+            class="
+              btn
+              cx-asm-create-customer-btn cx-asm-create-customer-btn-create
+            "
+          >
             {{ 'asm.createCustomerForm.createAccount' | cxTranslate }}
           </button>
           <button
             type="button"
-            class="btn btn-secondary"
+            class="
+              btn
+              cx-asm-create-customer-btn cx-asm-create-customer-btn-cancel
+            "
             (click)="closeModal('Cancel click')"
           >
             {{ 'asm.createCustomerForm.cancel' | cxTranslate }}

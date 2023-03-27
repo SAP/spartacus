@@ -10,11 +10,7 @@ import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-} from '@spartacus/core';
+import { GlobalMessageType, HttpErrorModel } from '@spartacus/core';
 import {
   CustomFormValidators,
   FocusConfig,
@@ -35,6 +31,16 @@ export class AsmCreateCustomerFormComponent {
 
   isLoading$ = new BehaviorSubject(false);
 
+  showDialogInfoAlert = true;
+
+  showDialogErrorAlert = false;
+
+  showDialogBackendErrorAlert = false;
+
+  globalMessageType = GlobalMessageType;
+
+  backendErrorMessage: string;
+
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -51,14 +57,15 @@ export class AsmCreateCustomerFormComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected fb: FormBuilder,
-    protected asmCreateCustomerFacade: AsmCreateCustomerFacade,
-    protected globalMessageService: GlobalMessageService
+    protected asmCreateCustomerFacade: AsmCreateCustomerFacade
   ) {}
 
   submitForm(): void {
     if (this.registerForm.valid) {
+      this.showDialogErrorAlert = false;
       this.registerUser();
     } else {
+      this.showDialogErrorAlert = true;
       this.registerForm.markAllAsTouched();
     }
   }
@@ -92,20 +99,25 @@ export class AsmCreateCustomerFormComponent {
     this.launchDialogService.closeDialog(reason);
   }
 
+  closeDialogInfoAlert(): void {
+    this.showDialogInfoAlert = false;
+  }
+
+  closeDialogErrorAlert(): void {
+    this.showDialogErrorAlert = false;
+  }
+
+  closeDialogBackendErroAlert(): void {
+    this.showDialogBackendErrorAlert = false;
+  }
+
   protected onRegisterUserSuccess(): void {
     this.launchDialogService.closeDialog(this.createdCustomer);
-    this.globalMessageService.add(
-      { key: 'asm.createCustomerForm.postRegisterMessage' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
   }
 
   protected onRegisterUserFail(error: HttpErrorModel): void {
     this.isLoading$.next(false);
-    this.launchDialogService.closeDialog('Error');
-    this.globalMessageService.add(
-      error.details?.[0].message ?? '',
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
+    this.backendErrorMessage = error.details?.[0].message ?? '';
+    this.showDialogBackendErrorAlert = true;
   }
 }

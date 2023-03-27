@@ -13,18 +13,10 @@
     </div>
   </div>
   <div class="asm-bar-actions">
-    <div class="cx-asm-customers" *ngIf="customerSupportAgentLoggedIn$ | async">
-      <a
-        #addNewCustomerLink
-        tabindex="0"
-        role="button"
-        class="cx-asm-create-customer-link"
-        (click)="createCustomer()"
-      >
-        <cx-icon [type]="iconTypes.USER_PLUS"></cx-icon>
-        <span>{{ 'asm.createCustomer' | cxTranslate }}</span></a
-      >
-
+    <div
+      class="cx-asm-customer-list"
+      *ngIf="customerSupportAgentLoggedIn$ | async"
+    >
       <a
         #customerListLink
         tabindex="0"
@@ -68,6 +60,13 @@
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
+      <cx-message
+        *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
+        [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
+        [isVisibleCloseButton]="false"
+        [type]="globalMessageType.Confirmation"
+      >
+      </cx-message>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection

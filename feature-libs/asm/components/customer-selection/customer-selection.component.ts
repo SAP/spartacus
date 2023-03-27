@@ -32,8 +32,7 @@ import {
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
-import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -237,16 +236,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       this.createCustomerLink
-    );
-
-    this.subscription.add(
-      this.launchDialogService?.dialogClose
-        .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CreatedCustomer) => {
-          if (result.email) {
-            this.submitEvent.emit({ customerId: result.email });
-          }
-        })
     );
   }
   /**

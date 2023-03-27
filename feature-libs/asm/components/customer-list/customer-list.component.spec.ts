@@ -22,6 +22,7 @@ import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
@@ -143,7 +144,9 @@ const mockReturnData: CustomerListAction = {
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
-
+  openDialogAndSubscribe() {
+    return of();
+  }
   data$ = of(mockReturnData);
 }
 
@@ -620,5 +623,14 @@ describe('CustomerListComponent', () => {
     component.customerSearchError$.subscribe((isError) => (actual = isError));
 
     expect(actual).toBe(true);
+  });
+
+  it('should be able to open dialog', () => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    component.createCustomer();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      component.addNewCustomerLink
+    );
   });
 });

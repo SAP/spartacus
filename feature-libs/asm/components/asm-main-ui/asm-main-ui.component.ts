@@ -53,6 +53,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+  showCreateCustomerSuccessfullyAlert = true;
+  globalMessageType = GlobalMessageType;
 
   @HostBinding('class.hidden') disabled = false;
 
@@ -108,13 +110,18 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CustomerListAction) => {
-          if (result.selectedUser) {
-            this.startCustomerEmulationSession(result.selectedUser);
-            if (
-              result.actionType === CustomerListColumnActionType.ORDER_HISTORY
-            ) {
-              this.routingService.go({ cxRoute: 'orders' });
+        .subscribe((result: CustomerListAction | CreatedCustomer | string) => {
+          if (typeof result !== 'string') {
+            if ('selectedUser' in result) {
+              this.startCustomerEmulationSession(result.selectedUser);
+              if (
+                result.actionType === CustomerListColumnActionType.ORDER_HISTORY
+              ) {
+                this.routingService.go({ cxRoute: 'orders' });
+              }
+            } else if ('email' in result) {
+              this.startCustomerEmulationSession({ customerId: result.email });
+              this.showCreateCustomerSuccessfullyAlert = true;
             }
           }
         })
@@ -180,16 +187,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       this.addNewCustomerLink
-    );
-
-    this.subscription.add(
-      this.launchDialogService?.dialogClose
-        .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CreatedCustomer) => {
-          if (result.email) {
-            this.startCustomerEmulationSession({ customerId: result.email });
-          }
-        })
     );
   }
 

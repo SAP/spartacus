@@ -58,9 +58,12 @@
     "
   >
     {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-    <a #createCustomerLink class="link" (click)="createCustomer()">{{
-      'asm.customerSearch.createCustomer' | cxTranslate
-    }}</a>
+    <a
+      #createCustomerLink
+      class="link createCustomerLink"
+      (click)="createCustomer()"
+      >{{ 'asm.customerSearch.createCustomer' | cxTranslate }}</a
+    >
   </button>
 </div>
 

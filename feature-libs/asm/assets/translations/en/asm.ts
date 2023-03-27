@@ -11,7 +11,8 @@ export const asm = {
     logout: 'Sign Out',
     hideUi: 'Close ASM',
     customers: 'Customers',
-    createCustomer: 'Add New Customer',
+    createCustomerSuccessfullyAlert:
+      'The customer account has been created and the customer session has started.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -37,7 +38,7 @@ export const asm = {
     },
     createCustomerForm: {
       title: 'Create Customer Account',
-      createAccount: 'Create Account',
+      createAccount: 'Create',
       cancel: 'Cancel',
       firstName: {
         label: 'First name',
@@ -51,11 +52,15 @@ export const asm = {
         label: 'Email address',
         placeholder: 'Email address',
       },
-      postRegisterMessage: 'The customer account was created.',
+      createAccountAlert:
+        'The customer session starts once you create the customer account.',
+      dialogErrorAlert: 'Please correct the errors below.',
     },
     customerList: {
       title: 'Customer List',
       description: 'Select a customer from one of several provided lists.',
+      createCustomer: 'Add New Customer',
+      cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',
         name: 'Name',

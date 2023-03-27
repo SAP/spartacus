@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -20,6 +26,7 @@ import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -76,6 +83,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   listsEmpty = false;
 
   protected teardown: Subscription = new Subscription();
+
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -265,6 +274,15 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           };
         }
       )
+    );
+  }
+
+  createCustomer(): void {
+    this.launchDialogService.closeDialog('Create customer click');
+
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLink
     );
   }
 

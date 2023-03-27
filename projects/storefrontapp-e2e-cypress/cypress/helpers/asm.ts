@@ -95,7 +95,7 @@ export function agentLogin(): void {
 }
 
 export function asmOpenCustomerList(): void {
-  cy.get('cx-asm-main-ui div.cx-asm-customers a').click();
+  cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
   cy.get('cx-customer-list').should('exist');
   cy.get('cx-customer-list h2').should('exist');
 }

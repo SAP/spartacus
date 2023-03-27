@@ -7,16 +7,14 @@ import {
   NO_ERRORS_SCHEMA,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   FocusConfig,
-  FormErrorsModule,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -71,10 +69,6 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add() {}
-}
-
 describe('AsmCreateCustomerFormComponent', () => {
   let component: AsmCreateCustomerFormComponent;
   let fixture: ComponentFixture<AsmCreateCustomerFormComponent>;
@@ -85,7 +79,7 @@ describe('AsmCreateCustomerFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, FormErrorsModule, ReactiveFormsModule], //
+        imports: [I18nTestingModule],
         declarations: [
           AsmCreateCustomerFormComponent,
           MockCxIconComponent,
@@ -93,10 +87,6 @@ describe('AsmCreateCustomerFormComponent', () => {
         ],
         providers: [
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
           {
             provide: AsmCreateCustomerFacade,
             useClass: MockAsmCreateCustomerFacade,
@@ -183,5 +173,9 @@ describe('AsmCreateCustomerFormComponent', () => {
     fixture.detectChanges();
     const spinner = el.query(By.css('cx-spinner'));
     expect(spinner).not.toBeNull();
+  });
+
+  it('should show meaasge based on `cx-message` selector', () => {
+    expect(el.query(By.css('cx-message'))).not.toBeNull();
   });
 });

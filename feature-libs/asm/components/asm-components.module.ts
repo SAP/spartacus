@@ -13,6 +13,7 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  MessageComponentModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
   SortingModule,
@@ -49,6 +50,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     KeyboardFocusModule,
     NgSelectA11yModule,
     SortingModule,
+    MessageComponentModule,
   ],
   declarations: [
     AsmBindCartDialogComponent,

@@ -1,8 +1,32 @@
 $sapFioriTextColor: #1d2d3e;
+$sapFioriButtonCreateColor: #0070f2;
+$sapFioriButtonCancelColor: #ffffff;
 
 %cx-asm-create-customer-form {
-  $modal-max-width-asm-create-customer: 25% !important;
-  $modal-min-width-asm-create-customer: 25% !important;
+  $modal-max-width-asm-create-customer: 30% !important;
+  $modal-min-width-asm-create-customer: 30% !important;
+
+  .cx-message {
+    border-radius: 8px;
+    margin-bottom: 15px;
+
+    .cx-message-header {
+      padding-inline-end: 1rem;
+      font-size: 14px;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: left;
+    }
+    .close {
+      font-size: 1rem;
+      padding-left: 1.5rem;
+      align-self: center;
+      margin-inline-start: auto;
+      position: unset;
+    }
+  }
 
   .cx-asm-dialog {
     @include media-breakpoint-up(lg) {
@@ -31,5 +55,38 @@ $sapFioriTextColor: #1d2d3e;
       font-size: 1rem;
       color: $sapFioriTextColor;
     }
+  }
+
+  .cx-asm-create-customer-btn {
+    margin: 0px 2px 15px 2px;
+    padding: 0px 10px 0px 10px;
+    border-radius: 8px;
+
+    min-height: 30px;
+    font-size: 14px;
+    font-family: '72';
+    font-style: normal;
+    font-weight: 600;
+    line-height: 19px;
+  }
+
+  .cx-asm-create-customer-btn-create {
+    color: #fff;
+    background-color: $sapFioriButtonCreateColor;
+    border-color: $sapFioriButtonCreateColor;
+  }
+  .cx-asm-create-customer-btn-create:hover {
+    color: #fff;
+    background-color: #0050f2;
+  }
+
+  .cx-asm-create-customer-btn-cancel {
+    color: #0064d9;
+    border-color: sapFioriButtonCancelColor;
+  }
+  .cx-asm-create-customer-btn-cancel:hover {
+    color: #0064d9;
+    background-color: sapFioriButtonCancelColor;
+    border-color: #eaecee;
   }
 }
