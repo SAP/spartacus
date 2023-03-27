@@ -79,6 +79,10 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.configuratorStorefrontUtilsService.removeStyling(
+      '.PreHeader',
+      'display'
+    );
   }
 
   getGroupTitle(group: Configurator.Group): string | undefined {
