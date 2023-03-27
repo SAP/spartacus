@@ -265,6 +265,30 @@
 
 - Changed line 78 `background-color: var(--cx-color-primary);border-color: var(--cx-color-primary);` to `background-color: var(--cx-color-primary-accent);border-color: var(--cx-color-primary-accent);`
 
+- Changed line 66 disabled button colors on `btn-primary`
+`background-color` to `var(--cx-color-border-focus)`
+`border-color: var(--cx-color-border-focus);` to `border: var(--cx-color-border-focus)`
+
+- Changed line 69 `border-color: var(--cx-color-primary);` to `{border-color: var(--cx-color-border-focus);}`
+
+- Removed line 70 `@include cx-darken(100);`
+
+- Changed line 113 disabled button colors on `btn-secondary`
+`background-color` to `var(--cx-color-border-focus)`,
+`border-color: var(--cx-color-primary-accent);` to `border-color: var(--cx-color-border-focus);`
+`color: var(--cx-color-primary-accent);` to `color: var(--cx-color-border-focus);`
+And added `&:hover {border-color: var(--cx-color-border-focus);}`
+
+- Changed line 161 `.btn-tertiary &hover` from `background-color: var(--cx-color-inverse);` to `background-color: var(--cx-color-transparent);`.
+
+- Changed lined 173 to `background-color: var(--cx-color-transparent);` from `background-color: var(--cx-color-inverse);`
+
+- Changed line 180 to `background-color: var(--cx-color-transparent);` from `background-color: var(--cx-color-inverse);`
+
+- Added `color: var(--cx-color-border-focus);` to line 188
+
+
+
 ### company-page-template.scss
 
 - Changed line 18 from `--cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)brightness(110%) contrast(99%);` to `--cx-img-filter: invert(34%) sepia(61%) saturate(1353%) hue-rotate(178deg)brightness(90%) contrast(90%);`
