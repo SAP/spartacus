@@ -18,7 +18,7 @@
     <div *ngIf="orders$ | async as orders">
       <section >
         <table
-          *ngFor="let order of orders.orders; else noOrders"
+          *ngFor="let order of orders.orders"
           role="table"
           id="cx-cdp-table"
           class="table cx-cdp-body-table"
