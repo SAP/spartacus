@@ -19,7 +19,9 @@ export class UnitListComponent {
     protected orgUnitService?: OrgUnitService
   ) {}
 
-  isUpdatingUnitAllowed = this.orgUnitService?.isUpdatingUnitAllowed();
+  isUpdatingUnitAllowed = this.orgUnitService
+    ? this.orgUnitService.isUpdatingUnitAllowed()
+    : true;
 
   expandAll() {
     this.unitTreeService.expandAll();
