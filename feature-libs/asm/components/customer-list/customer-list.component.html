@@ -72,9 +72,16 @@
                       role="columnheader"
                       *ngFor="let column of customerListConfig?.columns"
                     >
+                    <ng-container *cxFeatureLevel="'6.1'">
                       <span *ngIf="column.headerLocalizationKey&&!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">{{
                         column.headerLocalizationKey | cxTranslate
                       }}</span>
+                    </ng-container>
+                    <ng-container *cxFeatureLevel="'!6.1'">
+                      <span *ngIf="column.headerLocalizationKey">{{
+                        column.headerLocalizationKey | cxTranslate
+                      }}</span>
+                    </ng-container>
                     </th>
                   </tr>
                 </thead>
