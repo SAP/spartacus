@@ -32,13 +32,144 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
+const b2cCheckoutPayloadAtShippingAddressStep = {
+  type: 'cartWsDTO',
+  deliveryAddress: {
+    cellphone: '',
+    country: {
+      isocode: 'US',
+      name: 'United States',
+    },
+    defaultAddress: false,
+    firstName: 'Cypress',
+    formattedAddress:
+      '1111 S Figueroa St, US-CA, California, Los Angeles, 90015',
+    id: '8796326658071',
+    lastName: 'customer',
+    line1: '1111 S Figueroa St',
+    line2: 'US-CA',
+    phone: '555 555 555',
+    postalCode: '90015',
+    region: {
+      countryIso: 'US',
+      isocode: 'US-CA',
+      isocodeShort: 'CA',
+      name: 'California',
+    },
+    shippingAddress: true,
+    title: 'Mr.',
+    titleCode: 'mr',
+    town: 'Los Angeles',
+    visibleInAddressBook: true,
+  },
+};
+const b2cDeliveryAddressStub = {
+  type: 'cartWsDTO',
+  deliveryAddress: {
+    cellphone: '',
+    country: {
+      isocode: 'US',
+      name: 'United States',
+    },
+    defaultAddress: false,
+    firstName: 'Cypress',
+    formattedAddress:
+      '1111 S Figueroa St, US-CA, California, Los Angeles, 90015',
+    id: 'addressIdFromServer',
+    lastName: 'customer',
+    line1: '1111 S Figueroa St',
+    line2: 'US-CA',
+    phone: '555 555 555',
+    postalCode: '90015',
+    region: {
+      countryIso: 'US',
+      isocode: 'US-CA',
+      isocodeShort: 'CA',
+      name: 'California',
+    },
+    shippingAddress: true,
+    title: 'Mr.',
+    titleCode: 'mr',
+    town: 'Los Angeles',
+    visibleInAddressBook: true,
+  },
+  deliveryMode: {
+    code: 'standard-gross',
+    deliveryCost: {
+      currencyIso: 'USD',
+      formattedValue: '$11.99',
+      priceType: 'BUY',
+      value: 11.99,
+    },
+    description: '3-5 business days',
+    name: 'Standard Delivery',
+  },
+  paymentInfo: {
+    accountHolderName: 'Cypress customer',
+    billingAddress: {
+      country: {
+        isocode: 'US',
+        name: 'United States',
+      },
+      defaultAddress: false,
+      email: 'cypress_user_icabt474b_144405653719@sapcx.com',
+      firstName: 'Cypress',
+      formattedAddress:
+        '1111 S Figueroa St US-CA, US-CA, California, Los Angeles, 90015',
+      id: '8796326690839',
+      lastName: 'customer',
+      line1: '1111 S Figueroa St US-CA',
+      line2: 'US-CA',
+      phone: '555 555 555',
+      postalCode: '90015',
+      region: {
+        countryIso: 'US',
+        isocode: 'US-CA',
+        isocodeShort: 'CA',
+        name: 'California',
+      },
+      shippingAddress: false,
+      town: 'Los Angeles',
+      visibleInAddressBook: true,
+    },
+    cardNumber: '************1111',
+    cardType: {
+      code: 'visa',
+      name: 'Visa',
+    },
+    defaultPayment: false,
+    expiryMonth: '12',
+    expiryYear: '2027',
+    id: '8796160327722',
+    saved: true,
+    subscriptionId: '835bd287-a695-474b-b46f-7c0985c0a00c',
+  },
+};
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  const request = {
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`,
+  };
+
+  if (newAlias) {
+    // cy.intercept(request, { body: b2cDeliveryAddressStub, statusCode: 200 }).as(
+    //   newAlias
+    // );
+    cy.log('Stubbing response');
+    cy.intercept(request, { body: b2cDeliveryAddressStub, statusCode: 200 }).as(
+      newAlias
+    );
+  } else {
+    cy.intercept(request).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  }
+  // cy.intercept(
+  //   'GET',
+  //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  //     'BASE_SITE'
+  //   )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
+  // ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
 
   return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
@@ -425,7 +556,10 @@ export function checkSummaryAmount(
 export function fillAddressFormWithCheapProduct(
   shippingAddressData: Partial<AddressData> = user
 ) {
-  cy.log('🛒 Filling shipping address form');
+  cy.log(
+    '🛒 Filling shipping address form',
+    JSON.stringify(shippingAddressData)
+  );
 
   /**
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
@@ -471,6 +605,11 @@ export function fillPaymentFormWithCheapProduct(
   billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
+  cy.log('🛒 paymentDetailsData', JSON.stringify(paymentDetailsData));
+  cy.log(
+    '🛒 billingAddress',
+    billingAddress ? JSON.stringify(billingAddress) : 'empty'
+  );
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
