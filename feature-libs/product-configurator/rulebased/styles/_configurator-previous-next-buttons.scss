@@ -25,16 +25,5 @@
         inline-size: 45%;
       }
     }
-
-    .btn-secondary {
-      &.disabled,
-      &:disabled {
-        color: var(--cx-color-light);
-        border-width: 2px;
-        border-style: solid;
-        border-color: var(--cx-color-light);
-        opacity: 1;
-      }
-    }
   }
 }
