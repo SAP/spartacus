@@ -203,9 +203,9 @@
   let-column="column"
   let-showHeader="showHeader"
 >
-<ng-container
-  *ngIf="!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">
-  <div class="cx-cell-container">
+
+  <div class="cx-cell-container"
+       *ngIf="!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')" >
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
     </span>
@@ -244,7 +244,6 @@
       ></ng-container>
     </button>
   </div>
-</ng-container>
 </ng-template>
 <ng-template #cellContent let-customerEntry="customerEntry" let-column="column">
   <span *ngIf="!column.icon">{{
