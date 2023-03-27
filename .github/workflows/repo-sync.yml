@@ -31,7 +31,7 @@ jobs:
           AZURE_CONFIG_PATH="./azure-pipelines.yml"
           SONAR_PATH="./sonar-project.properties"
           RELEASE_PACKAGES_LIST_GENERATOR="./ci-scripts/release-packages-list-generator.sh"
-          PRIVATE_REPOSITORY_BRANCH_NAME="${'${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}'//\//-}"
+          PRIVATE_REPOSITORY_BRANCH_NAME="${test/branch//\//-}"
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
