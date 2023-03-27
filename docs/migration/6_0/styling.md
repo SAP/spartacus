@@ -269,7 +269,7 @@
 `background-color` to `var(--cx-color-border-focus)`
 `border-color: var(--cx-color-border-focus);` to `border: var(--cx-color-border-focus)`
 
-- Chnaged line 69 `border-color: var(--cx-color-primary);` to `{border-color: var(--cx-color-border-focus);}`
+- Changed line 69 `border-color: var(--cx-color-primary);` to `{border-color: var(--cx-color-border-focus);}`
 
 - Removed line 70 `@include cx-darken(100);`
 
