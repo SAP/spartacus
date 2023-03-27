@@ -111,10 +111,7 @@
     <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
     </div>
-    <div
-      class="cx-review-cart-item col-md-12"
-      *ngIf="entries$ | async as entries"
-    >
+    <div class="cx-review-cart-item" *ngIf="entries$ | async as entries">
       <cx-promotions
         [promotions]="
           (cart.appliedOrderPromotions || []).concat(

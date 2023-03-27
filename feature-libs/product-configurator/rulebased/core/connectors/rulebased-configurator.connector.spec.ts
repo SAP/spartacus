@@ -154,7 +154,8 @@ describe('RulebasedConfiguratorConnector', () => {
 
       expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
         productConfiguration.owner,
-        undefined
+        undefined,
+        false
       );
     });
 
@@ -165,7 +166,24 @@ describe('RulebasedConfiguratorConnector', () => {
 
       expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
         productConfiguration.owner,
-        CONFIG_ID_TEMPLATE
+        CONFIG_ID_TEMPLATE,
+        false
+      );
+    });
+
+    it('should forward forceReset flag', () => {
+      service
+        .createConfiguration(
+          productConfiguration.owner,
+          CONFIG_ID_TEMPLATE,
+          true
+        )
+        .subscribe();
+
+      expect(adapter[0].createConfiguration).toHaveBeenCalledWith(
+        productConfiguration.owner,
+        CONFIG_ID_TEMPLATE,
+        true
       );
     });
 

@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-md-4 col-lg-3">
       <button
         [routerLink]="{ cxRoute: 'orders' } | cxUrl"
-        class="btn btn-block btn-action"
+        class="btn btn-block btn-secondary"
       >
         {{ 'common.back' | cxTranslate }}
       </button>
@@ -18,7 +18,7 @@
             params: order
           } | cxUrl
         "
-        class="btn btn-block btn-action"
+        class="btn btn-block btn-secondary"
       >
         {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
       </a>
@@ -31,7 +31,7 @@
             params: order
           } | cxUrl
         "
-        class="btn btn-block btn-action"
+        class="btn btn-block btn-secondary"
       >
         {{ 'orderDetails.cancellationAndReturn.returnAction' | cxTranslate }}
       </a>

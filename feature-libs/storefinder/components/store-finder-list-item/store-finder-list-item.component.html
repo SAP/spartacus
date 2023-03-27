@@ -38,11 +38,19 @@
         {{ location.formattedDistance }}
       </div>
     </div>
+    <ng-template
+      [cxOutlet]="StoreFinderOutlets.PREFERRED_STORE"
+      [cxOutletContext]="{
+        displayName: location.displayName,
+        name: location.name
+      }"
+    ></ng-template>
+
     <a
       href="{{ getDirections(location) }}"
       target="_blank"
       rel="noopener noreferrer"
-      class="btn btn-sm btn-action btn-block cx-button"
+      class="btn btn-sm btn-secondary btn-block cx-button"
       (click)="$event.stopPropagation()"
       [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a

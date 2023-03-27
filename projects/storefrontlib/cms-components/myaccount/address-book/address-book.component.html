@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-md-6">
         <button
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="addAddressButtonHandle()"
         >
           {{ 'addressBook.addNewAddress' | cxTranslate }}
@@ -50,11 +50,7 @@
     "
   >
     <section>
-      <!-- TODO:(CXSPA-1695) for next major releasee remove below p tag and feature level check from the h2 tag-->
-      <p *cxFeatureLevel="'!5.1'" class="cx-section-msg">
-        {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
-      </p>
-      <h2 *cxFeatureLevel="'5.1'" class="cx-section-msg">
+      <h2 class="cx-section-msg">
         {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
       </h2>
       <cx-address-form
@@ -73,11 +69,7 @@
 
   <ng-container *ngIf="showEditAddressForm">
     <section>
-      <!-- TODO:(CXSPA-1695) for next major releasee remove below p tag and feature level check from the h2 tag-->
-      <p *cxFeatureLevel="'!5.1'" class="cx-section-msg">
-        {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
-      </p>
-      <h2 *cxFeatureLevel="'5.1'" class="cx-section-msg">
+      <h2 class="cx-section-msg">
         {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
       </h2>
       <cx-address-form

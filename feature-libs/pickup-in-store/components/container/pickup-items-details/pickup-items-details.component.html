@@ -1,0 +1,151 @@
+<div [ngClass]="{ container: context === 'order' }">
+  <ng-container *ngIf="itemsDetails | async as deliveryPointsOfService">
+    <p
+      *ngIf="deliveryPointsOfService.length"
+      class="cx-pickup-items-details-heading d-lg-block d-xl-block"
+    >
+      {{ 'checkoutPickupInStore.heading' | cxTranslate }}
+    </p>
+    <div
+      *ngFor="
+        let deliveryPointOfService of deliveryPointsOfService;
+        let index = index
+      "
+    >
+      <div class="cx-pickup-items-details">
+        <div>
+          <div class="cx-pickup-items-details-store-address">
+            <p class="cx-pickup-items-details-store-heading">
+              {{ 'checkoutPickupInStore.storeItemHeading' | cxTranslate }}
+              {{ index + 1 }}
+            </p>
+            <cx-store-address
+              [storeDetails]="deliveryPointOfService?.storeDetails"
+            ></cx-store-address>
+          </div>
+          <div class="cx-pickup-items-details-store-schedule">
+            <cx-store-schedule
+              [storeDetails]="deliveryPointOfService?.storeDetails"
+            ></cx-store-schedule>
+          </div>
+          <div *ngIf="showEdit" class="cx-pickup-items-details-edit-icon">
+            <a [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+              ><cx-icon [type]="ICON_TYPE.PENCIL"></cx-icon
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div
+        [ngClass]="'d-none d-md-flex'"
+        class="row cx-delivery-pointof-service-item-header"
+      >
+        <div class="col-md-7 cx-image-container-header">
+          {{ 'cartItems.item' | cxTranslate }}
+        </div>
+        <div class="cx-price-header col-md-2">
+          {{ 'cartItems.itemPrice' | cxTranslate }}
+        </div>
+        <div class="cx-quantity-header col-md-1">
+          {{ 'cartItems.quantity' | cxTranslate }}
+        </div>
+        <div class="cx-total-header col-md-2">
+          {{ 'cartItems.total' | cxTranslate }}
+        </div>
+      </div>
+      <div
+        class="cx-delivery-pointof-service-item"
+        *ngFor="let item of deliveryPointOfService.value"
+      >
+        <div [ngClass]="'row'">
+          <!-- Item Image -->
+          <div class="col-2 cx-image-container col-offset-1">
+            <a tabindex="0">
+              <cx-media
+                [container]="item.product?.images?.PRIMARY"
+                format="cartIcon"
+              ></cx-media>
+            </a>
+          </div>
+          <!-- Item Information -->
+          <div class="cx-info col-9">
+            <div class="cx-info-container row">
+              <!-- Item Description -->
+              <div [ngClass]="'col-md-7 col-lg-7 col-xl-7'">
+                <div *ngIf="item.product?.name" class="cx-name">
+                  <p class="cx-name-value">{{ item.product?.name }}</p>
+                </div>
+                <div *ngIf="item.product?.code" class="cx-code">
+                  {{ 'ID' }} {{ item.product?.code }}
+                </div>
+
+                <!-- Variants -->
+                <ng-container *ngIf="item.product?.baseOptions?.length">
+                  <div
+                    *ngFor="
+                      let variant of item.product?.baseOptions[0]?.selected
+                        ?.variantOptionQualifiers
+                    "
+                    class="cx-property"
+                  >
+                    <div class="cx-label" *ngIf="variant.name && variant.value">
+                      {{ variant.name }}: {{ variant.value }}
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <!-- Item Price -->
+              <div
+                *ngIf="item.basePrice"
+                class="cx-price"
+                [ngClass]="'col-lg-2 col-md-2 col-sm-12 col-xs-12'"
+              >
+                <div *ngIf="item.basePrice" class="cx-value">
+                  <span
+                    class="cx-label"
+                    [ngClass]="'d-md-none d-lg-none d-xl-none'"
+                  >
+                    {{ 'cartItems.itemPrice' | cxTranslate }}
+                  </span>
+                  {{ item.basePrice?.formattedValue }}
+                </div>
+              </div>
+              <!-- Item Quantity -->
+              <div
+                class="cx-quantity"
+                [ngClass]="'col-lg-2 col-md-2 col-sm-12 col-xs-12'"
+              >
+                <div class="cx-value">
+                  <span
+                    class="cx-label"
+                    [ngClass]="'d-md-none d-lg-none d-xl-none'"
+                    placement="left"
+                    title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+                  >
+                    {{ 'cartItems.quantity' | cxTranslate }}
+                  </span>
+                  {{ item.quantity }}
+                </div>
+              </div>
+              <!-- Total -->
+              <div
+                *ngIf="item.totalPrice"
+                class="cx-total"
+                [ngClass]="' col-md-1 col-xl-1 col-sm-12 col-xs-12'"
+              >
+                <div class="cx-value">
+                  <span
+                    class="cx-label"
+                    [ngClass]="' d-md-none d-lg-none d-xl-none'"
+                  >
+                    {{ 'cartItems.total' | cxTranslate }}
+                  </span>
+                  {{ item.totalPrice.formattedValue }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
