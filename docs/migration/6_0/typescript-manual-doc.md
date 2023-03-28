@@ -8,7 +8,7 @@
     * Behaviour changes that are not backwards compatible and worth mentioning 
 -->
 
-## SSR and Prerendering
+## Prerendering on Server
 
 If you are using prerendering, you will need to provide the following function to your `AppServerModule`:
 
@@ -31,6 +31,20 @@ It is _mandatory_ to set the `serverRequestOrigin` option for the prerendering, 
 In SSR mode, it will be automatically resolved from the express server, therefore it doesn't have to be set via this option.
 If explicitly set, this option will take precedence over the express server.
 
+
+## SSR
+
+### New default SsrOptimizationOptions 
+Here are the default options:
+  - `reuseCurrentRendering` option is `true` by default.
+  - `concurrency` option is set to `10` slots, by default.
+  - `timeout` option is set to `3000` ms, by default.
+
+### Merging custom SsrOptimizationOptions with the default ones
+Previously when the custom `SsrOptimizationOptions` were provided as a second param of `NgExpressEngineDecorator.get()`, Spartacus was using only those custom settings and ignoring the defaults. Now Spartacus is merging together the provided custom options with the default options. And in case of conflict for a particular option, the custom option will take precedence over the default one. 
+
+
+## Other changes
 
 ### OnNavigateService
 
