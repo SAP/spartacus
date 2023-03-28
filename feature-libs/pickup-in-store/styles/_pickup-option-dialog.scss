@@ -3,7 +3,7 @@
 
   .cx-pickup-option-dialog {
     align-items: normal;
-    
+
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
     @include media-breakpoint-down(md) {

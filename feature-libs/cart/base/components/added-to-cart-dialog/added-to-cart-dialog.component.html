@@ -38,7 +38,9 @@
             ></cx-cart-item>
             <div class="cx-dialog-pickup-store" *ngIf="pickupStoreName">
               {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}:
-              <span class="cx-dialog-pickup-store-name">{{ pickupStoreName }}</span>
+              <span class="cx-dialog-pickup-store-name">{{
+                pickupStoreName
+              }}</span>
             </div>
           </div>
           <!-- Separator -->
