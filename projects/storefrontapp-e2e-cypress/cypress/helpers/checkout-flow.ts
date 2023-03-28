@@ -25,6 +25,7 @@ import {
 } from './checkout-forms';
 import { DeepPartial } from './form';
 import { productItemSelector } from './product-search';
+import { APPAREL_BASESITE } from './variants/apparel-checkout-flow';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
@@ -45,7 +46,7 @@ const b2cCheckoutPayloadAtShippingAddressStep = {
     formattedAddress:
       '1111 S Figueroa St, US-CA, California, Los Angeles, 90015',
     id: '8796326658071',
-    lastName: 'customer',
+    lastName: 'Customer',
     line1: '1111 S Figueroa St',
     line2: 'US-CA',
     phone: '555 555 555',
@@ -63,6 +64,77 @@ const b2cCheckoutPayloadAtShippingAddressStep = {
     visibleInAddressBook: true,
   },
 };
+
+const b2cApparelDeliveryAddressStub = {
+  type: 'cartWsDTO',
+  deliveryAddress: {
+    cellphone: '',
+    country: {
+      isocode: 'GB',
+      name: 'United Kingdom',
+    },
+    defaultAddress: false,
+    firstName: 'Cypress',
+    formattedAddress: 'Buckingham Street 5, 1A, London, MA8902, United Kingdom',
+    id: '8796331638807',
+    lastName: 'Customer',
+    line1: 'Buckingham Street 5',
+    line2: '1A',
+    phone: '44 7911 123456',
+    postalCode: 'MA8902',
+    shippingAddress: true,
+    title: 'Mr.',
+    titleCode: 'mr',
+    town: 'London',
+    visibleInAddressBook: true,
+  },
+  deliveryMode: {
+    code: 'standard-gross',
+    deliveryCost: {
+      currencyIso: 'GBP',
+      formattedValue: '£5.99',
+      priceType: 'BUY',
+      value: 5.99,
+    },
+    description: '3-5 business days',
+    name: 'Standard Delivery',
+  },
+  paymentInfo: {
+    accountHolderName: 'Cypress Customer',
+    billingAddress: {
+      country: {
+        isocode: 'GB',
+        name: 'United Kingdom',
+      },
+      defaultAddress: false,
+      email: 'cypress_user_jc7ikrhii_144428219416@sapcx.com',
+      firstName: 'Cypress',
+      formattedAddress:
+        'Buckingham Street 5 1A, 1A, London, MA8902, United Kingdom',
+      id: '8796331671575',
+      lastName: 'Customer',
+      line1: 'Buckingham Street 5 1A',
+      line2: '1A',
+      phone: '44 7911 123456',
+      postalCode: 'MA8902',
+      shippingAddress: false,
+      town: 'London',
+      visibleInAddressBook: true,
+    },
+    cardNumber: '************1111',
+    cardType: {
+      code: 'visa',
+      name: 'Visa',
+    },
+    defaultPayment: false,
+    expiryMonth: '12',
+    expiryYear: '2027',
+    id: '8796162064426',
+    saved: true,
+    subscriptionId: '08fce8b0-f49e-49ed-8de9-b5cdd40cecd5',
+  },
+};
+
 const b2cDeliveryAddressStub = {
   type: 'cartWsDTO',
   deliveryAddress: {
@@ -76,7 +148,7 @@ const b2cDeliveryAddressStub = {
     formattedAddress:
       '1111 S Figueroa St, US-CA, California, Los Angeles, 90015',
     id: 'addressIdFromServer',
-    lastName: 'customer',
+    lastName: 'Customer',
     line1: '1111 S Figueroa St',
     line2: 'US-CA',
     phone: '555 555 555',
@@ -105,19 +177,19 @@ const b2cDeliveryAddressStub = {
     name: 'Standard Delivery',
   },
   paymentInfo: {
-    accountHolderName: 'Cypress customer',
+    accountHolderName: 'Cypress Customer',
     billingAddress: {
       country: {
         isocode: 'US',
         name: 'United States',
       },
       defaultAddress: false,
-      email: 'cypress_user_icabt474b_144405653719@sapcx.com',
+      email: 'cypress_user@sapcx.com',
       firstName: 'Cypress',
       formattedAddress:
         '1111 S Figueroa St US-CA, US-CA, California, Los Angeles, 90015',
       id: '8796326690839',
-      lastName: 'customer',
+      lastName: 'Customer',
       line1: '1111 S Figueroa St US-CA',
       line2: 'US-CA',
       phone: '555 555 555',
@@ -146,6 +218,13 @@ const b2cDeliveryAddressStub = {
   },
 };
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
+  const baseSite = Cypress.env('BASE_SITE');
+  cy.log('baseSite', baseSite);
+  const body =
+    Cypress.env('BASE_SITE') === APPAREL_BASESITE
+      ? b2cApparelDeliveryAddressStub
+      : b2cDeliveryAddressStub;
+  cy.log;
   const request = {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -154,13 +233,10 @@ export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   };
 
   if (newAlias) {
-    // cy.intercept(request, { body: b2cDeliveryAddressStub, statusCode: 200 }).as(
-    //   newAlias
-    // );
     cy.log('Stubbing response');
-    cy.intercept(request, { body: b2cDeliveryAddressStub, statusCode: 200 }).as(
-      newAlias
-    );
+    // cy.intercept(request).as(newAlias);
+
+    cy.intercept(request, { body, statusCode: 200 }).as(newAlias);
   } else {
     cy.intercept(request).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
   }
@@ -624,7 +700,8 @@ export function fillPaymentFormWithCheapProduct(
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
-    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP'
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP',
+    paymentDetailsData
   );
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
