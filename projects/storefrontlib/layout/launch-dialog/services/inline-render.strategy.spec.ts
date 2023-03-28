@@ -1,7 +1,10 @@
 import {
   Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
+  ComponentRef,
+  EnvironmentInjector,
+  Injector,
+  NgModuleRef,
+  Type,
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -9,7 +12,17 @@ import { LayoutConfig } from '../../config/layout-config';
 import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
 import { InlineRenderStrategy } from './inline-render.strategy';
 
-const testTemplate = {} as ComponentFactory<any>;
+/** cast to the desired signature so matcher does not get confused */
+type ViewContainerRef_createComponent = <C>(
+  componentType: Type<C>,
+  options?: {
+    index?: number;
+    injector?: Injector;
+    ngModuleRef?: NgModuleRef<unknown>;
+    environmentInjector?: EnvironmentInjector | NgModuleRef<unknown>;
+    projectableNodes?: Node[][];
+  }
+) => ComponentRef<C>;
 
 @Component({
   template: '',
@@ -31,25 +44,13 @@ const mockLaunchConfig: LayoutConfig = {
   },
 };
 
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return testTemplate;
-  }
-}
-
 describe('InlineRenderStrategy', () => {
   let service: InlineRenderStrategy;
   let component: TestContainerComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        InlineRenderStrategy,
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
-      ],
+      providers: [InlineRenderStrategy],
       declarations: [TestContainerComponent],
     }).compileComponents();
 
@@ -72,7 +73,12 @@ describe('InlineRenderStrategy', () => {
       ] as LaunchInlineDialog;
       service.render(config, 'TEST_INLINE' as LAUNCH_CALLER, component.vcr);
 
-      expect(component.vcr.createComponent).toHaveBeenCalledWith(testTemplate);
+      expect(
+        // eslint-disable-next-line deprecation/deprecation
+        component.vcr.createComponent as ViewContainerRef_createComponent
+      ).toHaveBeenCalledWith(
+        TestContainerComponent as Type<TestContainerComponent>
+      );
     });
   });
 

@@ -7,8 +7,8 @@
 import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
   ComponentRef,
+  createComponent,
   Inject,
   Injectable,
   Injector,
@@ -23,7 +23,6 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
   constructor(
     @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver,
     protected injector: Injector
   ) {
     super(document, rendererFactory);
@@ -38,14 +37,14 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
     caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any>> | void {
     if (this.shouldRender(caller, config)) {
-      const componentFactory =
-        this.componentFactoryResolver.resolveComponentFactory(config.component);
-
       const contentInjector = Injector.create({
         providers: [],
       });
 
-      const componentRef = componentFactory.create(contentInjector);
+      const componentRef = createComponent(config.component, {
+        environmentInjector: this.injector.get(ApplicationRef).injector,
+        elementInjector: contentInjector,
+      });
 
       this.injector.get(ApplicationRef)?.attachView(componentRef.hostView);
 

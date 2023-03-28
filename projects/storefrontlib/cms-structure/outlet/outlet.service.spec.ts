@@ -1,10 +1,4 @@
-import {
-  Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  NgModule,
-  TemplateRef,
-} from '@angular/core';
+import { Component, NgModule, TemplateRef, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
@@ -45,7 +39,7 @@ class Any2Component {}
 class AnyModule {}
 
 describe('OutletService', () => {
-  let outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>;
+  let outletService: OutletService<TemplateRef<any> | Type<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -127,76 +121,67 @@ describe('OutletService', () => {
   });
 
   describe('Add Component Factory', () => {
-    let componentFactoryResolver: ComponentFactoryResolver;
-    let factory: ComponentFactory<any>;
-
-    beforeEach(() => {
-      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
-      factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
-    });
+    beforeEach(() => {});
 
     describe('REPLACE position', () => {
       it('should return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory);
-        expect(
-          outletService.get(OUTLET_NAME_2) instanceof ComponentFactory
-        ).toBeTruthy();
+        outletService.add(OUTLET_NAME_2, AnyComponent);
+        expect(outletService.get(OUTLET_NAME_2)).toEqual(AnyComponent);
       });
 
       it('should not return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+        outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.BEFORE);
         expect(outletService.get(OUTLET_NAME_2)).toBeFalsy();
       });
       it('should not return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+        outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.AFTER);
         expect(outletService.get(OUTLET_NAME_2)).toBeFalsy();
       });
     });
 
     describe('BEFORE position', () => {
       it('should return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
-        expect(
-          outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            ComponentFactory
-        ).toBeTruthy();
+        outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.BEFORE);
+        expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
+          AnyComponent
+        );
       });
 
       it('should not return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory);
+        outletService.add(OUTLET_NAME_2, AnyComponent);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            ComponentFactory
+            AnyComponent
         ).toBeFalsy();
       });
 
       it('should not return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+        outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.AFTER);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE) instanceof
-            ComponentFactory
+            AnyComponent
         ).toBeFalsy();
       });
     });
 
     describe('AFTER position', () => {
       it('should return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
-        expect(
-          outletService.get(OUTLET_NAME_2, OutletPosition.AFTER) instanceof
-            ComponentFactory
-        ).toBeTruthy();
+        outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.AFTER);
+
+        expect(outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)).toEqual(
+          AnyComponent
+        );
       });
 
       it('should not return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory);
+        outletService.add(OUTLET_NAME_2, AnyComponent);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
         ).toBeFalsy();
       });
 
       it('should not return a factory', () => {
-        outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+        outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.BEFORE);
         expect(
           outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
         ).toBeFalsy();
@@ -230,49 +215,38 @@ describe('OutletService', () => {
   });
 
   describe('remove', () => {
-    let componentFactoryResolver: ComponentFactoryResolver;
-    let factory: ComponentFactory<any>;
-    let factory2: ComponentFactory<any>;
-
-    beforeEach(() => {
-      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
-      factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
-      factory2 =
-        componentFactoryResolver.resolveComponentFactory(Any2Component);
-    });
-
     it('should remove all instance of the provided value', () => {
-      outletService.add(OUTLET_NAME_1, factory, OutletPosition.AFTER);
-      outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
-      outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
-      outletService.add(OUTLET_NAME_2, factory2, OutletPosition.AFTER);
-      outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+      outletService.add(OUTLET_NAME_1, AnyComponent, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, Any2Component, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, AnyComponent, OutletPosition.BEFORE);
 
-      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory);
+      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, AnyComponent);
 
       expect(outletService.get(OUTLET_NAME_1, OutletPosition.AFTER)).toEqual(
-        factory
+        AnyComponent
       );
       expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
-        factory
+        AnyComponent
       );
       expect(
         outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true)
-      ).toEqual([factory2]);
+      ).toEqual([Any2Component]);
 
-      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory2);
+      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, Any2Component);
       expect(
         outletService.get(OUTLET_NAME_2, OutletPosition.AFTER, true)
       ).toEqual([]);
     });
 
     it('should remove all templates when not provided specific value', () => {
-      outletService.add(OUTLET_NAME_1, factory, OutletPosition.BEFORE);
-      outletService.add(OUTLET_NAME_1, factory2, OutletPosition.BEFORE);
+      outletService.add(OUTLET_NAME_1, AnyComponent, OutletPosition.BEFORE);
+      outletService.add(OUTLET_NAME_1, Any2Component, OutletPosition.BEFORE);
 
       expect(
         outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE, true)
-      ).toEqual([factory, factory2]);
+      ).toEqual([AnyComponent, Any2Component]);
 
       outletService.remove(OUTLET_NAME_1, OutletPosition.BEFORE);
       expect(outletService.get(OUTLET_NAME_1, OutletPosition.BEFORE)).toEqual(

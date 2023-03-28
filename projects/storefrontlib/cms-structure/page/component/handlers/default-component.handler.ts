@@ -5,7 +5,6 @@
  */
 
 import {
-  ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
   Injectable,
@@ -13,9 +12,9 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentHandler } from './component-handler';
-import { Observable } from 'rxjs';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { ComponentHandler } from './component-handler';
 
 /**
  * Default component handler used for dynamically launching cms components implemented
@@ -53,34 +52,19 @@ export class DefaultComponentHandler implements ComponentHandler {
         }
       };
 
-      const factory = this.getComponentFactory(
-        injector,
-        componentMapping.component
-      );
-
-      if (factory) {
+      if (componentMapping.component) {
         componentRef = viewContainerRef.createComponent(
-          factory,
-          undefined,
-          injector,
-          undefined,
-          module
+          componentMapping.component,
+          {
+            injector,
+            environmentInjector: module,
+          }
         );
+
         subscriber.next({ elementRef: componentRef.location, componentRef });
       }
 
       return dispose;
     });
-  }
-
-  protected getComponentFactory(injector: Injector, component: any): any {
-    if (!component) {
-      return null;
-    }
-    const factory = injector
-      .get(ComponentFactoryResolver)
-      .resolveComponentFactory(component);
-
-    return factory;
   }
 }

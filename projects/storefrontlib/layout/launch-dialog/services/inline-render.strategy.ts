@@ -6,7 +6,6 @@
 
 import { DOCUMENT } from '@angular/common';
 import {
-  ComponentFactoryResolver,
   ComponentRef,
   Inject,
   Injectable,
@@ -22,8 +21,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 export class InlineRenderStrategy extends LaunchRenderStrategy {
   constructor(
     @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver
+    protected rendererFactory: RendererFactory2
   ) {
     super(document, rendererFactory);
   }
@@ -42,11 +40,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
   ): Observable<ComponentRef<any>> | void {
     // Only render if a ViewContainerRef is provided
     if (vcr && this.shouldRender(caller, config)) {
-      const template = this.componentFactoryResolver.resolveComponentFactory(
-        config.component
-      );
-
-      const component = vcr.createComponent(template);
+      const component = vcr.createComponent(config.component);
 
       if (config?.dialogType) {
         this.applyClasses(component, config?.dialogType);

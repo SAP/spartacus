@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentFactory, Injectable, TemplateRef } from '@angular/core';
+import { Injectable, TemplateRef, Type } from '@angular/core';
 import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
+export class OutletService<T = TemplateRef<any> | Type<any>> {
   private templatesRefs = {
     [OutletPosition.BEFORE]: new Map<string, T[]>(),
     [OutletPosition.REPLACE]: new Map<string, T[]>(),
@@ -18,8 +18,8 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   };
 
   /**
-   * Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
-   * The UI position where this template or ComponentFactory is inserted is given by a
+   * Adds a template or component, so that UI outlets can be replaced dynamically.
+   * The UI position where this template or component is inserted is given by a
    * string reference (called `outlet`) and optional `OutletPosition`. The `OutletPosition`
    * is either before or after, or replaces the entire UI.
    *
@@ -29,26 +29,26 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
    */
   add(outlet: string, template: T, position?: OutletPosition): void;
   /**
-   * @param factory The `ComponentFactory` that will be dynamically added to the outlet UI
+   * @param component The `Component` type that will be dynamically added to the outlet UI
    */
   add(
     outlet: string,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    factory: T,
+    component: T,
     position?: OutletPosition
   ): void;
   /**
-   * @param templateOrFactory A `ComponentFactory` that inserts a component dynamically.
+   * @param templateOrComponent A `TemplateRef` or component type that inserts a component dynamically.
    */
   add(
     outlet: string,
-    templateOrFactory: T,
+    templateOrComponent: T,
     position: OutletPosition = OutletPosition.REPLACE
   ): void {
     const store = this.templatesRefs[position];
     if (store) {
       const existing = store.get(outlet) || [];
-      const newValue: T[] = existing.concat([templateOrFactory]);
+      const newValue: T[] = existing.concat([templateOrComponent]);
       store.set(outlet, newValue);
     }
   }

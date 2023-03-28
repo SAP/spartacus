@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { OutletPosition, OutletService } from '../../../cms-structure/index';
@@ -14,6 +14,13 @@ class TestContainerComponent {
   componentType = 'TestContainerComponent';
 }
 
+@Component({
+  template: 'test',
+})
+class TestContainerNpComponent {
+  componentType = 'TestContainerComponent';
+}
+
 const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_OUTLET: {
@@ -23,7 +30,7 @@ const mockLaunchConfig: LayoutConfig = {
     },
     TEST_OUTLET_NP: {
       outlet: 'cx-outlet-test',
-      component: TestContainerComponent,
+      component: TestContainerNpComponent,
     },
   },
 };
@@ -37,7 +44,6 @@ class MockOutletDirective {
     ]
   );
 }
-const testTemplate = {} as any;
 
 class MockOutletService {
   add() {}
@@ -46,12 +52,6 @@ class MockOutletService {
 class MockOutletRendererService {
   render() {}
   getOutletRef() {}
-}
-
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return testTemplate;
-  }
 }
 
 describe('OutletRenderStrategy', () => {
@@ -64,10 +64,6 @@ describe('OutletRenderStrategy', () => {
       providers: [
         OutletRenderStrategy,
         { provide: OutletService, useClass: MockOutletService },
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
         { provide: OutletRendererService, useClass: MockOutletRendererService },
       ],
     });
@@ -101,7 +97,7 @@ describe('OutletRenderStrategy', () => {
 
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
-          testTemplate,
+          TestContainerComponent,
           config.position
         );
 
@@ -118,7 +114,7 @@ describe('OutletRenderStrategy', () => {
 
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
-          testTemplate,
+          TestContainerNpComponent,
           OutletPosition.BEFORE
         );
 

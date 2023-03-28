@@ -51,11 +51,11 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
   }
 
   protected render(msg: MessageData) {
-    const ref: ComponentRef<BaseMessageComponent> = this.vcr.createComponent(
-      this.renderService.getComponent(msg),
-      0,
-      this.renderService.getInjector(msg, this.vcr.injector)
-    );
+    const ref = this.vcr.createComponent(this.renderService.getComponent(msg), {
+      index: 0,
+      injector: this.renderService.getInjector(msg, this.vcr.injector),
+    });
+
     ref.injector.get(ChangeDetectorRef).markForCheck();
 
     this.subscription.add(

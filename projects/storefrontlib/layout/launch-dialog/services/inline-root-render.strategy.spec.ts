@@ -1,14 +1,11 @@
-import {
-  ApplicationRef,
-  Component,
-  ComponentFactoryResolver,
-} from '@angular/core';
+import { ApplicationRef, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchInlineRootDialog, LAUNCH_CALLER } from '../config';
 import { InlineRootRenderStrategy } from './inline-root-render.strategy';
 
 @Component({
+  selector: 'cx-test-component',
   template: '',
 })
 class TestComponent {}
@@ -32,22 +29,6 @@ const mockLaunchConfig: LayoutConfig = {
   },
 };
 
-const hostView = 'hostView';
-const testComponentNativeNode = '<div></div>';
-
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return {
-      create: () => {
-        return {
-          hostView,
-          location: { nativeElement: testComponentNativeNode },
-        };
-      },
-    } as any;
-  }
-}
-
 describe('InlineRootRenderStrategy', () => {
   let fixture: ComponentFixture<MockRootComponent>;
   let inlineRootRenderStrategy: InlineRootRenderStrategy;
@@ -55,13 +36,7 @@ describe('InlineRootRenderStrategy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        InlineRootRenderStrategy,
-        {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
-        },
-      ],
+      providers: [InlineRootRenderStrategy],
       declarations: [MockRootComponent],
     }).compileComponents();
 
@@ -87,10 +62,10 @@ describe('InlineRootRenderStrategy', () => {
         'TEST_INLINE_ROOT' as LAUNCH_CALLER
       );
 
-      expect(appRef.attachView).toHaveBeenCalledWith(hostView as any);
+      expect(appRef.attachView).toHaveBeenCalled();
       expect(
         fixture.componentRef.location.nativeElement.appendChild
-      ).toHaveBeenCalledWith(testComponentNativeNode);
+      ).toHaveBeenCalledWith(jasmine.any(HTMLElement));
     });
   });
 

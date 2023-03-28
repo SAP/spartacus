@@ -5,11 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import {
-  APP_INITIALIZER,
-  ComponentFactoryResolver,
-  NgModule,
-} from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   ConfigModule,
   I18nModule,
@@ -36,7 +32,7 @@ import { SkipLinkDirective } from './directive/skip-link.directive';
     {
       provide: APP_INITIALIZER,
       useFactory: skipLinkFactory,
-      deps: [ComponentFactoryResolver, OutletService],
+      deps: [OutletService],
       multi: true,
     },
   ],
@@ -46,14 +42,13 @@ export class SkipLinkModule {}
 /**
  * Adds the skip link component before the cx-storefront.
  */
-export function skipLinkFactory(
-  componentFactoryResolver: ComponentFactoryResolver,
-  outletService: OutletService
-): () => void {
+export function skipLinkFactory(outletService: OutletService): () => void {
   const isReady = () => {
-    const factory =
-      componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);
-    outletService.add('cx-storefront', <any>factory, OutletPosition.BEFORE);
+    outletService.add(
+      'cx-storefront',
+      SkipLinkComponent,
+      OutletPosition.BEFORE
+    );
   };
   return isReady;
 }
