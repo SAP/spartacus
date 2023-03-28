@@ -54,11 +54,11 @@ export class OrderComponent implements OnInit {
   }
 
   public getMyData(): void {
-    const obser = this.userIdService
+    const obser$ = this.userIdService
       .takeUserId()
       .pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
-    obser.subscribe((res) => {
+    obser$.subscribe((res) => {
       this.result = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.result);
