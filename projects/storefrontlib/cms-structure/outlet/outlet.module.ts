@@ -7,8 +7,6 @@
 import { CommonModule } from '@angular/common';
 import {
   APP_INITIALIZER,
-  ComponentFactory,
-  ComponentFactoryResolver,
   ModuleWithProviders,
   NgModule,
   Optional,
@@ -28,17 +26,13 @@ import { OutletService } from './outlet.service';
  */
 export function registerOutletsFactory(
   providedOutletOptions: ProvideOutletOptions[],
-  componentFactoryResolver: ComponentFactoryResolver,
-  outletService: OutletService<ComponentFactory<Type<any>>>
+  outletService: OutletService<Type<any>>
 ): () => void {
   const result = () => {
     (providedOutletOptions ?? []).forEach((options) => {
-      const factory = componentFactoryResolver.resolveComponentFactory(
-        options.component
-      );
       outletService.add(
         options.id,
-        factory,
+        options.component,
         options.position ?? OutletPosition.AFTER
       );
     });
@@ -59,11 +53,7 @@ export class OutletModule {
         {
           provide: APP_INITIALIZER,
           useFactory: registerOutletsFactory,
-          deps: [
-            [new Optional(), PROVIDE_OUTLET_OPTIONS],
-            ComponentFactoryResolver,
-            OutletService,
-          ],
+          deps: [[new Optional(), PROVIDE_OUTLET_OPTIONS], OutletService],
           multi: true,
         },
       ],
@@ -77,11 +67,7 @@ export class OutletModule {
         {
           provide: MODULE_INITIALIZER,
           useFactory: registerOutletsFactory,
-          deps: [
-            [new Optional(), PROVIDE_OUTLET_OPTIONS],
-            ComponentFactoryResolver,
-            OutletService,
-          ],
+          deps: [[new Optional(), PROVIDE_OUTLET_OPTIONS], OutletService],
           multi: true,
         },
       ],

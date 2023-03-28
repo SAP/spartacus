@@ -5,7 +5,6 @@
  */
 
 import {
-  ComponentFactory,
   ComponentRef,
   Directive,
   EmbeddedViewRef,
@@ -17,6 +16,7 @@ import {
   Output,
   SimpleChanges,
   TemplateRef,
+  Type,
   ViewContainerRef,
 } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
@@ -130,7 +130,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    * Renders view in a given position for outlet
    */
   private buildOutlet(position: OutletPosition): void {
-    let templates: any[] = <any[]>(
+    let templates = <(TemplateRef<any> | Type<any>)[]>(
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
 
@@ -146,7 +146,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
       templates = [templates];
     }
 
-    const components: (ComponentRef<any> | EmbeddedViewRef<any>)[] = [];
+    const components: (ComponentRef<unknown> | EmbeddedViewRef<unknown>)[] = [];
     templates.forEach((obj) => {
       const component = this.create(obj, position);
       if (component) {
@@ -161,26 +161,15 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    * Renders view based on the given template or component factory
    */
   private create(
-    tmplOrFactory: any,
+    tmplOrComponent: Type<unknown> | TemplateRef<unknown>,
     position: OutletPosition
-  ): ComponentRef<any> | EmbeddedViewRef<any> | undefined {
-    this.renderedTemplate.push(tmplOrFactory);
+  ): ComponentRef<unknown> | EmbeddedViewRef<unknown> | undefined {
+    this.renderedTemplate.push(tmplOrComponent);
 
-    if (tmplOrFactory instanceof ComponentFactory) {
-      const component = this.vcr.createComponent(
-        tmplOrFactory,
-        undefined,
-        this.getComponentInjector(position)
-      );
-      this.cxComponentRefChange.emit(component);
-      return component;
-    } else if (tmplOrFactory instanceof TemplateRef) {
-      const view = this.vcr.createEmbeddedView(
-        <TemplateRef<any>>tmplOrFactory,
-        {
-          $implicit: this.cxOutletContext,
-        }
-      );
+    if (tmplOrComponent instanceof TemplateRef) {
+      const view = this.vcr.createEmbeddedView(tmplOrComponent, {
+        $implicit: this.cxOutletContext,
+      });
 
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
@@ -188,6 +177,13 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
 
       this.cxComponentRefChange.emit(view);
       return view;
+    } else if (tmplOrComponent) {
+      const component = this.vcr.createComponent(tmplOrComponent, {
+        index: undefined,
+        injector: this.getComponentInjector(position),
+      });
+      this.cxComponentRefChange.emit(component);
+      return component;
     }
   }
 
