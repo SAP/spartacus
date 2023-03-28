@@ -29,10 +29,10 @@ import {
 } from './checkout-forms';
 import { DeepPartial } from './form';
 import { productItemSelector } from './product-search';
-import { APPAREL_BASESITE } from './variants/apparel-checkout-flow';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
+export const APPAREL_BASESITE = 'apparel-uk-spa';
 
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
@@ -46,7 +46,7 @@ export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   };
 
   if (newAlias) {
-    // only stubbing response after reaching Payment step
+    // only stubbing response after payment step
     const body =
       Cypress.env('BASE_SITE') === APPAREL_BASESITE
         ? b2cApparelCheckoutDetailsStub
@@ -440,10 +440,7 @@ export function checkSummaryAmount(
 export function fillAddressFormWithCheapProduct(
   shippingAddressData: Partial<AddressData> = user
 ) {
-  cy.log(
-    '🛒 Filling shipping address form',
-    JSON.stringify(shippingAddressData)
-  );
+  cy.log('🛒 Filling shipping address form');
 
   /**
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
@@ -489,11 +486,6 @@ export function fillPaymentFormWithCheapProduct(
   billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
-  cy.log('🛒 paymentDetailsData', JSON.stringify(paymentDetailsData));
-  cy.log(
-    '🛒 billingAddress',
-    billingAddress ? JSON.stringify(billingAddress) : 'empty'
-  );
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
