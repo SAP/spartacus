@@ -10,7 +10,7 @@
             class="cx-sign-out"
             [routerLink]="
               {
-                cxRoute: 'logOut'
+                cxRoute: 'signOut'
               } | cxUrl
             "
             >{{ 'cdpOrderHistory.signOut' | cxTranslate }}
@@ -57,7 +57,7 @@
     </tr>
   </table>
 
-  <table class="cx-cdp-side-table">
+  <table class="cx-cdp-side-table" style="display:none">
     <th>{{ 'cdpOrderHistory.customerService' | cxTranslate }}</th>
     <tr>
       <td>
@@ -99,7 +99,14 @@
       <td>
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.INFO"></cx-icon> </span
-        >{{ 'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}
+        > <a
+        class="cx-side-navigation"
+        [routerLink]="
+          {
+            cxRoute: 'passwordDetails'
+          } | cxUrl
+        "
+        >{{ 'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}</a>
       </td>
     </tr>
     <tr style="display: none">
@@ -131,7 +138,15 @@
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.INFO"></cx-icon>
         </span>
-        {{ 'cdpOrderHistory.settingAndPrivacy' | cxTranslate }}
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'SettingsAndPrivacy'
+            } | cxUrl
+          "
+          >{{ 'cdpOrderHistory.settingsAndPrivacy' | cxTranslate }}
+        </a>
       </td>
     </tr>
   </table>
