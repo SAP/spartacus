@@ -65,7 +65,7 @@ const b2cCheckoutPayloadAtShippingAddressStep = {
   },
 };
 
-const b2cApparelDeliveryAddressStub = {
+const b2cApparelCheckoutDetailsStub = {
   type: 'cartWsDTO',
   deliveryAddress: {
     cellphone: '',
@@ -135,7 +135,7 @@ const b2cApparelDeliveryAddressStub = {
   },
 };
 
-const b2cDeliveryAddressStub = {
+const b2cCheckoutDetailsStub = {
   type: 'cartWsDTO',
   deliveryAddress: {
     cellphone: '',
@@ -222,9 +222,9 @@ export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   cy.log('baseSite', baseSite);
   const body =
     Cypress.env('BASE_SITE') === APPAREL_BASESITE
-      ? b2cApparelDeliveryAddressStub
-      : b2cDeliveryAddressStub;
-  cy.log;
+      ? b2cApparelCheckoutDetailsStub
+      : b2cCheckoutDetailsStub;
+
   const request = {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -234,19 +234,12 @@ export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
 
   if (newAlias) {
     cy.log('Stubbing response');
-    // cy.intercept(request).as(newAlias);
 
+    // only stub when reaching Payment step
     cy.intercept(request, { body, statusCode: 200 }).as(newAlias);
   } else {
     cy.intercept(request).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
   }
-  // cy.intercept(
-  //   'GET',
-  //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-  //     'BASE_SITE'
-  //   )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  // ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
-
   return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 
