@@ -36,9 +36,9 @@
               [quantityControl]="getQuantityControl() | async"
               [promotionLocation]="promotionLocation"
             ></cx-cart-item>
-            <div *ngIf="pickupStoreName">
+            <div class="cx-dialog-pickup-store" *ngIf="pickupStoreName">
               {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}:
-              {{ pickupStoreName }}
+              <span class="cx-dialog-pickup-store-name">{{ pickupStoreName }}</span>
             </div>
           </div>
           <!-- Separator -->
