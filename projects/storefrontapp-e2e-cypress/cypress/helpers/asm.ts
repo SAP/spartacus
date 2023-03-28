@@ -309,7 +309,6 @@ export function testCustomerEmulation() {
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
 
-
     fillPersonalDetails(customer);
 
     cy.log('--> Update personal details');
@@ -343,7 +342,6 @@ export function testCustomerEmulation() {
       .should('eq', 200);
 
     addressBook.verifyNewAddress();
-
 
     cy.log('--> Add a consent');
 
