@@ -132,6 +132,7 @@ function add_feature_libs {
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
   ng add @spartacus/customer-ticketing --skip-confirmation --no-interactive
+  ng add @spartacus/pickup-in-store --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {
@@ -520,7 +521,7 @@ function run_e2e {
     fi
 
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npm i &> /dev/null)
-    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
+    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/e2e/regression/checkout/checkout-flow.core-e2e.cy.ts")
     local EXIT_CODE=$?
 
     echo "$OUTPUT"
@@ -549,7 +550,7 @@ function run_e2e_b2b {
     local EXIT_CODE_2
 
     $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npm i &> /dev/null)
-    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/e2e/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e.cy.ts")
     EXIT_CODE_1=$?
 
     echo "$OUTPUT"
