@@ -168,7 +168,7 @@ export function asmCustomerLists(): void {
     }
   );
 
-  cy.get('cx-customer-list table').should("not.contain", 'Account');
+  cy.get('cx-customer-list table').should('not.contain', 'Account');
 
   cy.get('cx-customer-list button.close').click();
   cy.get('cx-customer-list').should('not.exist');
