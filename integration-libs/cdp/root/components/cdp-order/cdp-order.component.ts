@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { cdpOrderAdapter } from '../../adapter/cdp-order-adapter';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { product } from '../../model/ImageDetail/product';
 import { result } from '../../model/result';
 import { finalOrder } from '../../model/order/finalOrder';
@@ -48,17 +48,18 @@ export class OrderComponent implements OnInit {
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
+  obser$: Observable<finalOrder>;
 
   ngOnInit(): void {
     this.getMyData();
   }
 
   public getMyData(): void {
-    const obser$ = this.userIdService
+    this.obser$ = this.userIdService
       .takeUserId()
       .pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
-    obser$.subscribe((res) => {
+    this.obser$.subscribe((res) => {
       this.result = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.result);
@@ -122,6 +123,9 @@ export class OrderComponent implements OnInit {
       });
       this.loading$.next(false);
     }
+    if(Object.keys(this.orderDetail).length === 0)
+      this.loading$.next(false);
+
     console.log(this.orderImage);
   }
 
