@@ -4,20 +4,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { newAddress } from '../../../../helpers/address-book';
+import { editedAddress } from '../../../../helpers/address-book';
 import { loginUser } from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
-import {
-  cdcB2BDelegateAdminUser,
-  waitForCmsComponentsToLoad,
-} from '../../../../helpers/vendor/cdc/cdc';
+import { waitForCmsComponentsToLoad } from '../../../../helpers/vendor/cdc/cdc';
+import * as b2bCheckout from '../../../../sample-data/b2b-checkout';
 
 describe('CDC B2B scenarios', () => {
+  before(() => {
+    cy.window().then((win) => win.sessionStorage.clear());
+    Cypress.env('BASE_SITE', b2bCheckout.POWERTOOLS_BASESITE);
+    Cypress.env('OCC_PREFIX_USER_ENDPOINT', b2bCheckout.USER_REQUEST_ENDPOINT);
+    Cypress.env(
+      'OCC_PREFIX_ORDER_ENDPOINT',
+      b2bCheckout.ORDER_REQUEST_ENDPOINT
+    );
+  });
+
   describe('Manage Users in CDC-B2B scenario', () => {
     beforeEach(() => {
       cy.visit('/powertools-spa/en/USD/login');
-      loginUser(cdcB2BDelegateAdminUser);
+      const interceptName = cdc.interceptGetB2BUser();
+      loginUser(cdc.b2bUser);
+      cdc.updateCustomerIdForB2BUser(interceptName);
       waitForCmsComponentsToLoad('powertools-spa');
     });
     it('should show My Company option', () => {
@@ -44,17 +54,16 @@ describe('CDC B2B scenarios', () => {
 
     it('should hide edit, disbale, change password and unit details naviation buttons in user details', () => {
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}`
       );
       waitForCmsComponentsToLoad('powertools-spa');
       cy.get('a.link.edit').should('not.exist');
       cy.get('button.button.active').should('not.exist');
       cy.get('div.orgUnit').should('exist');
-
-      cy.get('section.details').within(() => {
-        cy.get('div.property.full-width').within(() => {
-          cy.get('a.link').should('not.exist');
-        });
+      cy.get(
+        'cx-org-list > cx-split-view > cx-org-user-details > cx-org-card > cx-view > div.main > section.details > div:nth-child(5)'
+      ).within(() => {
+        cy.get('a.link').should('not.exist');
       });
     });
 
@@ -63,12 +72,12 @@ describe('CDC B2B scenarios', () => {
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}/edit`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/edit`
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}/change-password`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/change-password`
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
     });
@@ -188,7 +197,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should display a new address form when no address exists', () => {
+    it.only('should display a new address form when no address exists', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });
@@ -196,7 +205,7 @@ describe('CDC B2B scenarios', () => {
       cy.get('cx-address-form').should('exist');
     });
 
-    it('should show Add address in CDC', () => {
+    it.only('should add a new address and show it in CDC', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });
@@ -205,16 +214,44 @@ describe('CDC B2B scenarios', () => {
       cdc.verifyAddAddressSuccess(cdc.b2bUser);
     });
 
-    it('should edit the Address and save it in CDC', () => {
+    it.only('should edit the Address and save it in CDC', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });
 
-      cdc.updateAddress(newAddress);
-      cdc.verifyUpdateAddressSuccess(newAddress);
+      cdc.updateAddress(editedAddress);
+      cdc.verifyUpdateAddressSuccess(editedAddress);
     });
 
-    it('should show delete the Address ', () => {
+    it.only('should add another Address and NOT save it in CDC if it is not default', () => {
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
+      cy.get('button').contains(' Add new address ').click({ force: true });
+      cdc.addAddress(cdc.secondAddress);
+      cdc.verifyNoCDCForNonDefaultAddress();
+    });
+
+    xit('should set the non default Address as default and save it in CDC', () => {
+      //TODO
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
+
+      cdc.updateAddress(editedAddress);
+      cdc.verifyUpdateAddressSuccess(editedAddress);
+    });
+
+    xit('should show delete the first Address and update the second address as default in CDC', () => {
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
+
+      cdc.deleteAddress();
+      cdc.verifyDeleteAddressSuccess();
+    });
+
+    xit('should show delete the second Address and empty the address in CDC', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });

@@ -36,6 +36,7 @@ describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
   let userAddressConnector: UserAddressConnector;
   let actions$: Observable<any>;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -104,6 +105,23 @@ describe('User Addresses effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+    });
+
+    it('should should not show userAddressUpdateSuccess message when user address is set as default ', () => {
+      const payload = {
+        userId: OCC_USER_ID_CURRENT,
+        addressId: '123',
+        address: {
+          defaultAddress: true,
+        },
+      };
+      const action = new UserActions.UpdateUserAddress(payload);
+      const completion = new UserActions.UpdateUserAddressSuccess(payload);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 

@@ -228,7 +228,7 @@ describe('CDC User Addresses effect', () => {
 
     it('should not update default address in CDC and show error message if setting default address fails', () => {
       actions$ = hot('-a', {
-        a: new UserActions.LoadUserAddresses(mockUserId),
+        a: new UserActions.UpdateUserAddressSuccess(mockUserId),
       });
       const error = {
         status: 'ERROR',
@@ -259,7 +259,7 @@ describe('CDC User Addresses effect', () => {
 
     it('should send default address to CDC on update setting default addresses success', () => {
       actions$ = hot('-a', {
-        a: new UserActions.LoadUserAddresses(mockUserId),
+        a: new UserActions.UpdateUserAddressSuccess(mockUserId),
       });
       const ok = {
         status: 'OK',
@@ -290,7 +290,7 @@ describe('CDC User Addresses effect', () => {
   });
 
   describe('cdcDeleteUserAddress$', () => {
-    it('should update default address in CDC and show error message if delete fails', () => {
+    it('should delete default address in CDC and show error message if delete fails', () => {
       actions$ = hot('-a', {
         a: new UserActions.DeleteUserAddressSuccess({}),
       });
@@ -298,7 +298,9 @@ describe('CDC User Addresses effect', () => {
         status: 'ERROR',
         errorMessage: 'Error deleting default address in CDC',
       };
-      const expected = cold('-');
+      const expected = cold('-b', {
+        b: error,
+      });
 
       spyOn(cdcJSService, 'updateAddressWithoutScreenSet').and.returnValue(
         of(error)
@@ -318,7 +320,7 @@ describe('CDC User Addresses effect', () => {
           });
       });
 
-      expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
+      expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
         expected
       );
     });

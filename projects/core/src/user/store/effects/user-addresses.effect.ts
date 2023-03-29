@@ -71,17 +71,8 @@ export class UserAddressesEffects {
           return this.userAddressConnector
             .update(payload.userId, payload.addressId, payload.address)
             .pipe(
-              map((data) => {
-                // don't show the message if just setting address as default
-                if (
-                  payload.address &&
-                  Object.keys(payload.address).length === 1 &&
-                  payload.address.defaultAddress
-                ) {
-                  return new UserActions.LoadUserAddresses(payload.userId);
-                } else {
-                  return new UserActions.UpdateUserAddressSuccess(data);
-                }
+              map(() => {
+                return new UserActions.UpdateUserAddressSuccess(payload);
               }),
               catchError((error) =>
                 of(
@@ -143,9 +134,16 @@ export class UserAddressesEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
-        tap(() => {
+        map((action: UserActions.UpdateUserAddressSuccess) => action.payload),
+        tap((payload) => {
           this.loadAddresses();
-          this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
+          // don't show the message if just setting address as default
+          if (
+            Object.keys(payload?.address).length !== 1 ||
+            !payload?.address?.defaultAddress
+          ) {
+            this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
+          }
         })
       ),
     { dispatch: false }
