@@ -2,13 +2,19 @@
   background-color: rgba(0, 0, 0, 0.5);
 
   .cx-pickup-option-dialog {
+    align-items: normal;
+
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
-    @include media-breakpoint-down(sm) {
-      height: min-content;
+    @include media-breakpoint-down(md) {
+      height: 100%;
     }
 
     .cx-dialog-content {
+      @include media-breakpoint-down(md) {
+        height: 100%;
+      }
+
       @extend .modal-content;
       .cx-dialog-header {
         .cx-dialog-title {
@@ -16,16 +22,20 @@
           margin-inline-start: var(--cx-margin-left, 0.875rem);
         }
       }
+
       .cx-dialog-header {
         margin-bottom: 0;
         padding-bottom: 0;
         border: none;
         margin-top: 1.15rem;
       }
+
+      .cx-dialog-body {
+        overflow-y: scroll;
+      }
     }
     .modal-body {
       padding-top: 0.75rem;
     }
-    max-width: 50%;
   }
 }
