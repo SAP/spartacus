@@ -219,28 +219,37 @@
     </span>
 
     <ng-container *ngIf="!column.actionType">
-      <ng-container *ngTemplateOutlet="
-     cellContent;
-     context: { column: column, customerEntry: customerEntry }
-   "></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          cellContent;
+          context: { column: column, customerEntry: customerEntry }
+        "
+      ></ng-container>
     </ng-container>
 
-    <button *ngIf="column.actionType" (click)="startColumnAction(customerEntry, column.actionType)"
-      class="btn btn-link cx-action-link cx-btn-cell" [attr.title]="
-   column.icon
-     ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-       | cxTranslate)
-     : undefined
- " [attr.aria-label]="
-   column.icon
-     ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-       | cxTranslate)
-     : undefined
- ">
-      <ng-container *ngTemplateOutlet="
-     cellContent;
-     context: { column: column, customerEntry: customerEntry }
-   "></ng-container>
+    <button
+      *ngIf="column.actionType"
+      (click)="startColumnAction(customerEntry, column.actionType)"
+      class="btn btn-link cx-action-link cx-btn-cell"
+      [attr.title]="
+        column.icon
+          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
+            | cxTranslate)
+          : undefined
+      "
+      [attr.aria-label]="
+        column.icon
+          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
+            | cxTranslate)
+          : undefined
+      "
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          cellContent;
+          context: { column: column, customerEntry: customerEntry }
+        "
+      ></ng-container>
     </button>
   </div>
 </ng-container>
@@ -251,28 +260,37 @@
     </span>
 
     <ng-container *ngIf="!column.actionType">
-      <ng-container *ngTemplateOutlet="
-     cellContent;
-     context: { column: column, customerEntry: customerEntry }
-   "></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          cellContent;
+          context: { column: column, customerEntry: customerEntry }
+        "
+      ></ng-container>
     </ng-container>
 
-    <button *ngIf="column.actionType" (click)="startColumnAction(customerEntry, column.actionType)"
-      class="btn btn-link cx-action-link cx-btn-cell" [attr.title]="
-   column.icon
-     ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-       | cxTranslate)
-     : undefined
- " [attr.aria-label]="
-   column.icon
-     ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-       | cxTranslate)
-     : undefined
- ">
-      <ng-container *ngTemplateOutlet="
-     cellContent;
-     context: { column: column, customerEntry: customerEntry }
-   "></ng-container>
+    <button
+      *ngIf="column.actionType"
+      (click)="startColumnAction(customerEntry, column.actionType)"
+      class="btn btn-link cx-action-link cx-btn-cell"
+      [attr.title]="
+        column.icon
+          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
+            | cxTranslate)
+          : undefined
+      "
+      [attr.aria-label]="
+        column.icon
+          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
+            | cxTranslate)
+          : undefined
+      "
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          cellContent;
+          context: { column: column, customerEntry: customerEntry }
+        "
+      ></ng-container>
     </button>
   </div>
 </ng-container>
