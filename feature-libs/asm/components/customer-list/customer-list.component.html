@@ -1,8 +1,5 @@
-<div
-  class="cx-asm-customer-list cx-modal-container cx-asm-dialog"
-  [cxFocus]="focusConfig"
-  (esc)="closeModal('Escape clicked')"
->
+<div class="cx-asm-customer-list cx-modal-container cx-asm-dialog" [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')">
   <div class="cx-modal-content">
     <!-- Modal Header -->
     <ng-container>
@@ -15,21 +12,13 @@
         </div>
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
-      <div
-        class="cx-dialog-sub-header modal-header"
-        [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
-        *ngIf="customerListsPage$ | async as customerListsPage"
-      >
-        <ng-template
-          *ngTemplateOutlet="
+      <div class="cx-dialog-sub-header modal-header" [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
+        *ngIf="customerListsPage$ | async as customerListsPage">
+        <ng-template *ngTemplateOutlet="
             groupSelector;
             context: { customerListsPage: customerListsPage }
-          "
-        ></ng-template>
-        <div
-          class="cx-header-actions"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
-        >
+          "></ng-template>
+        <div class="cx-header-actions" [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs">
           <ng-template *ngTemplateOutlet="sort"></ng-template>
           <ng-template *ngTemplateOutlet="pagination"></ng-template>
         </div>
@@ -52,149 +41,108 @@
               <table id="asm-cusomer-list-table" role="table" class="table">
                 <caption class="cx-visually-hidden">
                   {{
-                    'asm.customerList.title' | cxTranslate
+                  'asm.customerList.title' | cxTranslate
                   }}
                 </caption>
                 <thead *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
                   <tr role="row">
-                    <th
-                      role="columnheader"
-                      class="cx-avatar-cell"
-                      *ngIf="customerListConfig?.showAvatar"
-                    >
+                    <th role="columnheader" class="cx-avatar-cell" *ngIf="customerListConfig?.showAvatar">
                       <span class="cx-visually-hidden">
                         {{
-                          'asm.customerList.tableHeader.customer' | cxTranslate
+                        'asm.customerList.tableHeader.customer' | cxTranslate
                         }}
                       </span>
                     </th>
-                    <th
-                      role="columnheader"
-                      *ngFor="let column of customerListConfig?.columns"
-                    >
-                    <ng-container *cxFeatureLevel="'6.1'">
-                      <span
-                        *ngIf="column.headerLocalizationKey&&!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">{{
-                        column.headerLocalizationKey | cxTranslate
-                        }}</span>
-                    </ng-container>
-                    <ng-container *cxFeatureLevel="'!6.1'">
-                      <span *ngIf="column.headerLocalizationKey&&column.headerLocalizationKey!=='asm.customerList.tableHeader.account'">{{
-                        column.headerLocalizationKey | cxTranslate
-                        }}</span>
-                    </ng-container>
+                    <th role="columnheader" *ngFor="let column of customerListConfig?.columns">
+                      <ng-container *cxFeatureLevel="'6.1'">
+                        <span
+                          *ngIf="column.headerLocalizationKey&&!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">{{
+                          column.headerLocalizationKey | cxTranslate
+                          }}</span>
+                      </ng-container>
+                      <ng-container *cxFeatureLevel="'!6.1'">
+                        <span
+                          *ngIf="column.headerLocalizationKey&&column.headerLocalizationKey!=='asm.customerList.tableHeader.account'">{{
+                          column.headerLocalizationKey | cxTranslate
+                          }}</span>
+                      </ng-container>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    role="row"
-                    *ngFor="let customerEntry of customerSearchPage?.entries"
-                  >
-                    <td
-                      role="cell"
-                      *ngIf="customerListConfig?.showAvatar"
-                      class="cx-avatar-cell"
-                    >
+                  <tr role="row" *ngFor="let customerEntry of customerSearchPage?.entries">
+                    <td role="cell" *ngIf="customerListConfig?.showAvatar" class="cx-avatar-cell">
                       <div class="cx-avatar">
                         {{ getBadgeText(customerEntry) }}
                       </div>
                     </td>
                     <!-- multi columns if desktop -->
-                    <ng-container
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.md"
-                    >
-                      <td
-                        role="cell"
-                        *ngFor="let column of customerListConfig?.columns"
-                      >
-                        <ng-template
-                          *ngTemplateOutlet="
+                    <ng-container *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
+                      <td role="cell" *ngFor="let column of customerListConfig?.columns">
+                        <ng-template *ngTemplateOutlet="
                             cell;
                             context: {
                               customerEntry: customerEntry,
                               column: column,
                               showHeader: false
                             }
-                          "
-                        ></ng-template>
+                          "></ng-template>
                       </td>
                     </ng-container>
                     <!-- two column if tablet -->
-                    <ng-container
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.sm"
-                    >
+                    <ng-container *ngIf="(breakpoint$ | async) === BREAKPOINT.sm">
                       <td role="cell" class="cx-multi-cell">
-                        <ng-container
-                          *ngFor="
+                        <ng-container *ngFor="
                             let column of customerListConfig?.columns;
                             let even = even
-                          "
-                        >
+                          ">
                           <ng-container *ngIf="even">
-                            <ng-template
-                              *ngTemplateOutlet="
+                            <ng-template *ngTemplateOutlet="
                                 cell;
                                 context: {
                                   customerEntry: customerEntry,
                                   column: column,
                                   showHeader: true
                                 }
-                              "
-                            ></ng-template>
+                              "></ng-template>
                           </ng-container>
                         </ng-container>
                       </td>
                       <td role="cell" class="cx-multi-cell">
-                        <ng-container
-                          *ngFor="
+                        <ng-container *ngFor="
                             let column of customerListConfig?.columns;
                             let odd = odd
-                          "
-                        >
+                          ">
                           <ng-container *ngIf="odd">
-                            <ng-template
-                              *ngTemplateOutlet="
+                            <ng-template *ngTemplateOutlet="
                                 cell;
                                 context: {
                                   customerEntry: customerEntry,
                                   column: column,
                                   showHeader: true
                                 }
-                              "
-                            ></ng-template>
+                              "></ng-template>
                           </ng-container>
                         </ng-container>
                       </td>
                     </ng-container>
                     <!-- one column if mobile -->
-                    <td
-                      role="cell"
-                      class="cx-multi-cell"
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.xs"
-                    >
-                      <ng-container
-                        *ngFor="let column of customerListConfig?.columns"
-                      >
-                        <ng-template
-                          *ngTemplateOutlet="
+                    <td role="cell" class="cx-multi-cell" *ngIf="(breakpoint$ | async) === BREAKPOINT.xs">
+                      <ng-container *ngFor="let column of customerListConfig?.columns">
+                        <ng-template *ngTemplateOutlet="
                             cell;
                             context: {
                               customerEntry: customerEntry,
                               column: column,
                               showHeader: true
                             }
-                          "
-                        ></ng-template>
+                          "></ng-template>
                       </ng-container>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div
-                class="cx-empty-state"
-                *ngIf="!customerSearchPage?.entries.length"
-              >
+              <div class="cx-empty-state" *ngIf="!customerSearchPage?.entries.length">
                 {{ 'asm.customerList.noCustomers' | cxTranslate }}
               </div>
             </div>
@@ -205,29 +153,24 @@
   </div>
 </div>
 
-<ng-template
-  #cell
-  let-customerEntry="customerEntry"
-  let-column="column"
-  let-showHeader="showHeader"
->
+<ng-template #cell let-customerEntry="customerEntry" let-column="column" let-showHeader="showHeader">
 
-<ng-container *cxFeatureLevel="'6.1'">
-  <div class="cx-cell-container"
-    *ngIf="!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">
-    <span class="cx-header-text" *ngIf="showHeader">
-      {{ column.headerLocalizationKey | cxTranslate }}
-    </span>
+  <ng-container *cxFeatureLevel="'6.1'">
+    <div class="cx-cell-container"
+      *ngIf="!(selectedUserGroupId!=='b2bCustomerList'&&column.headerLocalizationKey==='asm.customerList.tableHeader.account')">
+      <span class="cx-header-text" *ngIf="showHeader">
+        {{ column.headerLocalizationKey | cxTranslate }}
+      </span>
 
-    <ng-container *ngIf="!column.actionType">
-      <ng-container *ngTemplateOutlet="
+      <ng-container *ngIf="!column.actionType">
+        <ng-container *ngTemplateOutlet="
           cellContent;
           context: { column: column, customerEntry: customerEntry }
         "></ng-container>
-    </ng-container>
+      </ng-container>
 
-    <button *ngIf="column.actionType" (click)="startColumnAction(customerEntry, column.actionType)"
-      class="btn btn-link cx-action-link cx-btn-cell" [attr.title]="
+      <button *ngIf="column.actionType" (click)="startColumnAction(customerEntry, column.actionType)"
+        class="btn btn-link cx-action-link cx-btn-cell" [attr.title]="
         column.icon
           ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
             | cxTranslate)
@@ -238,28 +181,28 @@
             | cxTranslate)
           : undefined
       ">
-      <ng-container *ngTemplateOutlet="
+        <ng-container *ngTemplateOutlet="
           cellContent;
           context: { column: column, customerEntry: customerEntry }
         "></ng-container>
-    </button>
-  </div>
-</ng-container>
-<ng-container *cxFeatureLevel="'!6.1'">
-  <div class="cx-cell-container" *ngIf="column.headerLocalizationKey!=='asm.customerList.tableHeader.account'">
-    <span class="cx-header-text" *ngIf="showHeader">
-      {{ column.headerLocalizationKey | cxTranslate }}
-    </span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *cxFeatureLevel="'!6.1'">
+    <div class="cx-cell-container" *ngIf="column.headerLocalizationKey!=='asm.customerList.tableHeader.account'">
+      <span class="cx-header-text" *ngIf="showHeader">
+        {{ column.headerLocalizationKey | cxTranslate }}
+      </span>
 
-    <ng-container *ngIf="!column.actionType">
-      <ng-container *ngTemplateOutlet="
+      <ng-container *ngIf="!column.actionType">
+        <ng-container *ngTemplateOutlet="
           cellContent;
           context: { column: column, customerEntry: customerEntry }
         "></ng-container>
-    </ng-container>
+      </ng-container>
 
-    <button *ngIf="column.actionType" (click)="startColumnAction(customerEntry, column.actionType)"
-      class="btn btn-link cx-action-link cx-btn-cell" [attr.title]="
+      <button *ngIf="column.actionType" (click)="startColumnAction(customerEntry, column.actionType)"
+        class="btn btn-link cx-action-link cx-btn-cell" [attr.title]="
         column.icon
           ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
             | cxTranslate)
@@ -270,54 +213,42 @@
             | cxTranslate)
           : undefined
       ">
-      <ng-container *ngTemplateOutlet="
+        <ng-container *ngTemplateOutlet="
           cellContent;
           context: { column: column, customerEntry: customerEntry }
         "></ng-container>
-    </button>
-  </div>
-</ng-container>
+      </button>
+    </div>
+  </ng-container>
 </ng-template>
 <ng-template #cellContent let-customerEntry="customerEntry" let-column="column">
   <span *ngIf="!column.icon">{{
     column.renderer?.(customerEntry) || ''
-  }}</span>
-  <cx-icon
-    *ngIf="column.icon"
-    [attr.title]="
+    }}</span>
+  <cx-icon *ngIf="column.icon" [attr.title]="
       !column.actionType
         ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
           | cxTranslate)
         : undefined
-    "
-    [class.cx-action-color]="column.actionType"
-    [type]="column.icon.symbol"
-    [attr.aria-label]="
+    " [class.cx-action-color]="column.actionType" [type]="column.icon.symbol" [attr.aria-label]="
       !column.actionType
         ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
           | cxTranslate)
         : undefined
-    "
-  ></cx-icon>
+    "></cx-icon>
 </ng-template>
 
 <ng-template #sort>
   <label>
     <span class="cx-visually-hidden">{{
       'asm.customerList.tableSort.sortBy' | cxTranslate
-    }}</span>
-    <cx-sorting
-      class="sort-selector"
-      [sortOptions]="sorts"
-      [sortLabels]="getSortLabels() | async"
-      (sortListEvent)="changeSortCode($event)"
-      [selectedOption]="sortCode"
-      placeholder="{{ 'asm.customerList.tableSort.sortBy' | cxTranslate }}"
-      [cxNgSelectA11y]="{
+      }}</span>
+    <cx-sorting class="sort-selector" [sortOptions]="sorts" [sortLabels]="getSortLabels() | async"
+      (sortListEvent)="changeSortCode($event)" [selectedOption]="sortCode"
+      placeholder="{{ 'asm.customerList.tableSort.sortBy' | cxTranslate }}" [cxNgSelectA11y]="{
         ariaLabel: sortCode,
         ariaControls: 'asm-cusomer-list-table'
-      }"
-    ></cx-sorting>
+      }"></cx-sorting>
   </label>
 </ng-template>
 
@@ -325,26 +256,18 @@
   <div class="cx-pagination-buttons">
     <div>
       {{
-        'asm.customerList.page.page' | cxTranslate: { count: currentPage + 1 }
+      'asm.customerList.page.page' | cxTranslate: { count: currentPage + 1 }
       }}
     </div>
-    <button
-      *ngIf="maxPage > 0"
-      (click)="goToPreviousPage()"
-      class="btn btn-link cx-action-link cx-btn-previous"
-      [disabled]="currentPage === 0 || !loaded"
-    >
-      <cx-icon class="previous" [type]="iconTypes.CARET_LEFT"></cx-icon
-      ><span>{{ 'asm.customerList.page.previous' | cxTranslate }}</span>
+    <button *ngIf="maxPage > 0" (click)="goToPreviousPage()" class="btn btn-link cx-action-link cx-btn-previous"
+      [disabled]="currentPage === 0 || !loaded">
+      <cx-icon class="previous" [type]="iconTypes.CARET_LEFT"></cx-icon><span>{{ 'asm.customerList.page.previous' |
+        cxTranslate }}</span>
     </button>
-    <button
-      *ngIf="maxPage > 0"
-      (click)="goToNextPage()"
-      class="btn btn-link cx-action-link cx-btn-next"
-      [disabled]="currentPage === maxPage || !loaded"
-    >
-      <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
-      ><cx-icon class="next" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+    <button *ngIf="maxPage > 0" (click)="goToNextPage()" class="btn btn-link cx-action-link cx-btn-next"
+      [disabled]="currentPage === maxPage || !loaded">
+      <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span><cx-icon class="next"
+        [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
   </div>
 </ng-template>
@@ -353,33 +276,20 @@
   <label>
     <span class="cx-visually-hidden">{{
       'asm.customerList.title' | cxTranslate
-    }}</span>
-    <ng-select
-      class="customer-list-selector"
-      [searchable]="false"
-      [clearable]="false"
-      (change)="onChangeCustomerGroup()"
-      [tabIndex]="0"
-      [(ngModel)]="selectedUserGroupId"
-      [items]="customerListsPage?.userGroups"
-      bindLabel="name"
-      bindValue="uid"
-      [cxNgSelectA11y]="{
+      }}</span>
+    <ng-select class="customer-list-selector" [searchable]="false" [clearable]="false"
+      (change)="onChangeCustomerGroup()" [tabIndex]="0" [(ngModel)]="selectedUserGroupId"
+      [items]="customerListsPage?.userGroups" bindLabel="name" bindValue="uid" [cxNgSelectA11y]="{
         ariaLabel: getGroupName(customerListsPage, selectedUserGroupId),
         ariaControls: 'asm-cusomer-list-table'
-      }"
-    >
+      }">
     </ng-select>
   </label>
 </ng-template>
 
 <ng-template #closeButton>
-  <button
-    type="button"
-    class="close"
-    attr.aria-label="{{ 'common.close' | cxTranslate }}"
-    (click)="closeModal('Cross click')"
-  >
+  <button type="button" class="close" attr.aria-label="{{ 'common.close' | cxTranslate }}"
+    (click)="closeModal('Cross click')">
     <span aria-hidden="true">
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
