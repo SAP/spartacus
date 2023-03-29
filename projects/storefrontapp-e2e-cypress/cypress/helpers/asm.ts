@@ -208,7 +208,6 @@ export function asmCustomerLists(): void {
 export function asmB2bCustomerLists(): void {
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest();
 
   cy.log('--> Starting customer list');
   asm.asmOpenCustomerList();
@@ -222,7 +221,7 @@ export function asmB2bCustomerLists(): void {
     .should('eq', 200);
 
   cy.get('cx-customer-list table').should('exist');
-  cy.get('cx-customer-list table').should("not.contain", 'Account');
+  cy.get('cx-customer-list table').should('not.contain', 'Account');
 
   cy.log('--> checking customer list group');
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
