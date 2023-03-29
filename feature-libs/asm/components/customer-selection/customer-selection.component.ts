@@ -61,6 +61,25 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   activeFocusedButtonIndex = -1;
 
+  // TODO: make LaunchDialogService are required dependency
+  constructor(
+    fb: UntypedFormBuilder,
+    asmService: AsmService,
+    config: AsmConfig,
+    directionService: DirectionService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    launchDialogService: LaunchDialogService
+  );
+  /**
+   * @deprecated since 6.1
+   */
+  constructor(
+    fb: UntypedFormBuilder,
+    asmService: AsmService,
+    config: AsmConfig,
+    directionService: DirectionService
+  );
+
   constructor(
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,

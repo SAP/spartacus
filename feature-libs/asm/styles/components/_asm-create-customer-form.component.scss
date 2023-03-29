@@ -17,11 +17,11 @@ $sapFioriButtonCancelColor: #ffffff;
       font-style: normal;
       font-weight: 400;
       line-height: 16px;
-      text-align: left;
+      text-align: start;
     }
     .close {
       font-size: 1rem;
-      padding-left: 1.5rem;
+      padding-inline-start: 1.5rem;
       align-self: center;
       margin-inline-start: auto;
       position: unset;
@@ -58,8 +58,8 @@ $sapFioriButtonCancelColor: #ffffff;
   }
 
   .cx-asm-create-customer-btn {
-    margin: 0px 2px 15px 2px;
-    padding: 0px 10px 0px 10px;
+    margin: 0 2px 15px 2px;
+    padding: 0 10px 0 10px;
     border-radius: 8px;
 
     min-height: 30px;

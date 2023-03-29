@@ -18,6 +18,12 @@ $sapFioriContent_LabelColor: #6a6d70;
       font-size: 1.25rem;
       font-weight: 900;
     }
+    @include forVersion(1, 6) {
+      .close {
+        font-size: 1rem;
+        color: $sapFioriTextColor;
+      }
+    }
   }
 
   .cx-dialog-sub-header {
@@ -206,48 +212,50 @@ $sapFioriContent_LabelColor: #6a6d70;
     }
   }
 
-  .cx-asm-create-customer-btn {
-    background-color: #eaecee;
-    border-radius: 8px;
-    padding: 0px 10px 0px 10px;
-    color: #1d2d3e;
-    text-decoration: none;
-    font-family: '72';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 16px;
-    min-height: 40px;
-
-    cx-icon {
+  @include forVersion(6.1) {
+    .cx-asm-create-customer-btn {
+      background-color: #eaecee;
+      border-radius: 8px;
+      padding: 0px 10px 0px 10px;
       color: #1d2d3e;
-      margin-right: 3px;
+      text-decoration: none;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+      min-height: 40px;
+
+      cx-icon {
+        color: #1d2d3e;
+        margin-inline-end: 3px;
+      }
     }
-  }
-  .cx-asm-create-customer-btn:hover {
-    background-color: #ffffff;
-    border-width: 1px;
-    border-color: #eaecee;
-    border-style: solid;
-  }
+    .cx-asm-create-customer-btn:hover {
+      background-color: #ffffff;
+      border-width: 1px;
+      border-color: #eaecee;
+      border-style: solid;
+    }
 
-  .cx-asm-customer-list-btn-cancel {
-    color: #0064d8;
-    font-family: '72';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
-    border-radius: 8px;
-    border-color: #ffffff;
-    min-height: 30px;
+    .cx-asm-customer-list-btn-cancel {
+      color: #0064d8;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 19px;
+      border-radius: 8px;
+      border-color: #ffffff;
+      min-height: 30px;
 
-    margin: 0px 20px 0px 0px;
-    padding: 0px 10px 0px 10px;
-  }
-  .cx-asm-customer-list-btn-cancel:hover {
-    color: #0064d8;
-    background-color: #ffffff;
-    border-color: #eaecee;
+      margin: 0px 20px 0px 0px;
+      padding: 0px 10px 0px 10px;
+    }
+    .cx-asm-customer-list-btn-cancel:hover {
+      color: #0064d8;
+      background-color: #ffffff;
+      border-color: #eaecee;
+    }
   }
 }

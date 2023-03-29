@@ -57,13 +57,18 @@
       results.entries.length <= 0
     "
   >
-    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-    <a
-      #createCustomerLink
-      class="link createCustomerLink"
-      (click)="createCustomer()"
-      >{{ 'asm.customerSearch.createCustomer' | cxTranslate }}</a
-    >
+    <ng-container *cxFeatureLevel="'!6.1'">
+      {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+    </ng-container>
+    <ng-container *cxFeatureLevel="'6.1'">
+      {{ 'asm.customerSearch.noMatchResult' | cxTranslate }}
+      <a
+        #createCustomerLink
+        class="link createCustomerLink"
+        (click)="createCustomer()"
+        >{{ 'asm.customerSearch.createCustomer' | cxTranslate }}</a
+      >
+    </ng-container>
   </button>
 </div>
 

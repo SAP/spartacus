@@ -144,8 +144,10 @@
         }
       }
 
-      .createCustomerLink {
-        color: #0064d9;
+      @include forVersion(6.1) {
+        .createCustomerLink {
+          color: #0064d9;
+        }
       }
     }
   }

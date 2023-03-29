@@ -14,12 +14,11 @@
     border-style: solid;
 
     .cx-message-content {
-      margin-left: 0px;
+      margin-inline-start: 0px;
       .cx-message-header {
-        padding-inline-end: 1rem;
         padding-inline-start: 10px;
         line-height: 16px;
-        text-align: left;
+        text-align: start;
         min-height: 35px;
         .cx-message-text {
           color: #1d2d3e;
@@ -108,7 +107,7 @@
           padding-top: 0;
           padding-inline-end: 7px;
           padding-bottom: 0;
-          padding-inline-start: 7px;
+          padding-inline-start: 0;
           color: #1e3050;
         }
         .cx-asm-customer-list-link {
