@@ -329,3 +329,7 @@
 - Added line 162 `background-color: var(--cx-color-primary);`
 - Added `color: var(--cx-color-primary);` to line 188
 - Added `.cx-hamburger` and `.hamburger-inner` styling
+
+### NavigationUIComponent
+
+- Changed line 131 `border-bottom: 1px solid var(--cx-color-light);` to `border-bottom: 1px solid var(--cx-color-medium);`
