@@ -4,6 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
+      - cxspa-2943-simulate-develop
 name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:

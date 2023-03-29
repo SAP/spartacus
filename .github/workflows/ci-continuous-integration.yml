@@ -5,6 +5,7 @@ on:
       - develop
       - release/**
       - epic/**
+      - cxspa-2943-simulate-develop
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   

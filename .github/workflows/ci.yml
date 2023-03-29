@@ -3,6 +3,7 @@ on:
     branches:
       - develop
       - release/**
+      - cxspa-2943-simulate-develop
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 

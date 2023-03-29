@@ -4,6 +4,7 @@ on:
       - 'release/4.**'
       - 'epic/**'
       - 'develop'
+      - cxspa-2943-simulate-develop
 name: Installation
 jobs:
   install:
