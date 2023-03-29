@@ -75,7 +75,7 @@ export class ConfiguratorCartEntryBundleInfoService {
       preparedLabel.length - 1
     );
     if (lastCharacter === ':') {
-      preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
+      preparedLabel = preparedLabel.substring(0, preparedLabel.length - 1);
     }
 
     return preparedLabel;
