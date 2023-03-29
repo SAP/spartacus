@@ -300,6 +300,7 @@
         }
         li.is-open {
           display: initial;
+          background-color: var(--cx-color-medium);
 
           > .wrapper {
             height: auto;
@@ -382,6 +383,15 @@
 
     &.accNavComponent {
       background-color: transparent;
+
+      nav {
+        li.is-open {
+          @include media-breakpoint-down(md) {
+            background-color: var(--cx-color-medium);
+            display: block;
+          }
+        }
+      }
     }
   }
 }
