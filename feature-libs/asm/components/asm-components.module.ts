@@ -8,7 +8,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, provideDefaultConfig, FeaturesConfigModule} from '@spartacus/core';
+import {
+  I18nModule,
+  provideDefaultConfig,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,

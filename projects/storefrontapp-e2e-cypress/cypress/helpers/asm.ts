@@ -79,9 +79,7 @@ export function agentLogin(user, pwd): void {
     cy.get('cx-csagent-login-form').should('exist');
     cy.get('cx-customer-selection').should('not.exist');
     cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]')
-        .should('not.be.disabled')
-        .type(user);
+      cy.get('[formcontrolname="userId"]').should('not.be.disabled').type(user);
       cy.get('[formcontrolname="password"]')
         .should('not.be.disabled')
         .type(pwd);
@@ -117,7 +115,7 @@ export function asmCustomerLists(): void {
     .should('eq', 200);
 
   cy.get('cx-customer-list table').should('exist');
-  cy.get('cx-customer-list table').should("not.contain", 'Account');
+  cy.get('cx-customer-list table').should('not.contain', 'Account');
 
   cy.log('--> checking customer list pagination');
   cy.get('cx-customer-list .cx-btn-previous').should('be.disabled');
@@ -313,7 +311,7 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLogin('asagent','pw4all');
+    asm.agentLogin('asagent', 'pw4all');
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
