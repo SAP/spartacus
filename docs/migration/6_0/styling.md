@@ -177,6 +177,8 @@
 #### AddedToCartDialogComponent
 
 - Added `.cx-modal-content {height: 100%;}` on line 4.
+- Added `.cx-dialog-pickup-store {padding-inline-start: 4.063rem;}`
+- Added `.cx-dialog-pickup-store-name {font-weight: var(--cx-font-weight-semi);}`
 
 ### Fonts library
 
@@ -357,3 +359,19 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 ### NavigationUIComponent
 
 - Changed line 131 `border-bottom: 1px solid var(--cx-color-light);` to `border-bottom: 1px solid var(--cx-color-medium);`
+
+### AddToCartComponent
+
+- Changed line 25 to `color: var(--cx-color-primary);`
+- Changed line 26 to `text-decoration-color: var(--cx-color-primary);`
+- Changed line 30 to `color: var(--cx-color-primary);`
+
+### StoreComponent
+
+- Removed line 61 `width: 92%;` and 62 `margin: auto;`
+
+### PickupOptionDialogComponent 
+
+- Added line 5 `align-items: normal;`
+- Added line 9-10 `@include media-breakpoint-down(md) {height: 100%;}`
+- Added line 14-17 `@include media-breakpoint-down(md) {height: 100%;}`
