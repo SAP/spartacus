@@ -172,14 +172,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
       this.asmCustomerListFacade.customerListCustomersSearch(options);
     }
-    this.customerListConfig?.columns?.find((item) => {
+    this.customerListConfig?.columns?.forEach((item) => {
       if (
         item.headerLocalizationKey === 'asm.customerList.tableHeader.account' &&
         !this.enableAsmB2bCustomerList
       ) {
-        item.headerLocalizationKey = '';
+        item.headerLocalizationKey = 'hideAccount';
       }
-      if (item.headerLocalizationKey === '' && this.enableAsmB2bCustomerList) {
+      if (
+        item.headerLocalizationKey === 'hideAccount' &&
+        this.enableAsmB2bCustomerList
+      ) {
         item.headerLocalizationKey = 'asm.customerList.tableHeader.account';
       }
     });
