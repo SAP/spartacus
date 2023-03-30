@@ -13,7 +13,12 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
-import { SortModel, TranslationService, User } from '@spartacus/core';
+import {
+  SortModel,
+  TranslationService,
+  User,
+  FeatureConfigService,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -75,6 +80,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   listsEmpty = false;
 
+  enableAsmB2bCustomerList = false;
+
   protected teardown: Subscription = new Subscription();
 
   constructor(
@@ -82,7 +89,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
-    protected asmCustomerListFacade: AsmCustomerListFacade
+    protected asmCustomerListFacade: AsmCustomerListFacade,
+    protected featureConfig: FeatureConfigService
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -147,6 +155,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   fetchCustomers(): void {
+    this.enableAsmB2bCustomerList =
+      this.featureConfig.isLevel('6.1') &&
+      this.selectedUserGroupId === 'b2bCustomerList';
     if (this.selectedUserGroupId) {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
@@ -161,6 +172,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
       this.asmCustomerListFacade.customerListCustomersSearch(options);
     }
+    this.customerListConfig?.columns?.find((item) => {
+      if (
+        item.headerLocalizationKey === 'asm.customerList.tableHeader.account' &&
+        !this.enableAsmB2bCustomerList
+      ) {
+        item.headerLocalizationKey = '';
+      }
+      if (item.headerLocalizationKey === '' && this.enableAsmB2bCustomerList) {
+        item.headerLocalizationKey = 'asm.customerList.tableHeader.account';
+      }
+    });
   }
 
   onChangeCustomerGroup(): void {
