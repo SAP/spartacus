@@ -8,11 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  I18nModule,
-  provideDefaultConfig,
-  FeaturesConfigModule,
-} from '@spartacus/core';
+import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,
@@ -51,7 +47,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     KeyboardFocusModule,
     NgSelectA11yModule,
     SortingModule,
-    FeaturesConfigModule,
   ],
   declarations: [
     AsmBindCartDialogComponent,
