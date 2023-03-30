@@ -8,7 +8,7 @@
     * Behaviour changes that are not backwards compatible and worth mentioning 
 -->
 
-## SSR and Prerendering
+## Prerendering on Server
 
 If you are using prerendering, you will need to provide the following function to your `AppServerModule`:
 
@@ -31,6 +31,50 @@ It is _mandatory_ to set the `serverRequestOrigin` option for the prerendering, 
 In SSR mode, it will be automatically resolved from the express server, therefore it doesn't have to be set via this option.
 If explicitly set, this option will take precedence over the express server.
 
+
+## SSR
+
+### New default SsrOptimizationOptions 
+Here are the default options:
+  - `reuseCurrentRendering` option is `true` by default.
+  - `concurrency` option is set to `10` slots, by default.
+  - `timeout` option is set to `3000` ms, by default.
+
+### Merging custom SsrOptimizationOptions with the default ones
+Previously when the custom `SsrOptimizationOptions` were provided as a second param of `NgExpressEngineDecorator.get()`, Spartacus was using only those custom settings and ignoring the defaults. Now Spartacus is merging together the provided custom options with the default options. And in case of conflict for a particular option, the custom option will take precedence over the default one. 
+
+### 20 Seconds Timeout for Outgoing HTTP Requests in SSR
+Starting from version 6.0, Spartacus includes a timeout for all outgoing HTTP requests in SSR. This timeout is set to 20 seconds by default and ensures that the server side rendering does not hang indefinitely when a 3rd party service is unreachable, such as during a temporary network outage.
+
+If the timeout is reached before a response is received, the request is aborted, and a warning message is logged to the console, as shown below
+```
+Request to URL '${request.url}' exceeded expected time of ${timeoutValue}ms and was aborted.
+```
+
+To change the default timeout, you can use the `config.backend.timeout.server` configuration option in Spartacus. By default, the `config.backend.timeout.server` value is set to `20_000` milliseconds (20 seconds).
+
+
+## i18n (internationalization)
+
+### Configuration of `i18next` backend
+Previously, the i18next backend plugin (for loading JSON translations via http calls) was used only when the config property `i18n.backend.loadPath` was defined. Now to activate the backend plugin it suffices that the parent property `i18n.backend` is defined. However, in such a case when the child property `loadPath` is not defined, an error will be thrown.
+
+### New peer dependency package of `@spartacus/core` - `i18next-resources-to-backend`
+The `i18next-resources-to-backend` package is a new peer dependency of `@spartacus/core`. 
+
+### Renaming of services for `i18next` backend initialization
+`I18nextHttpBackendService` is renamed to `I18nextHttpBackendInitializer` and now it's multi-provided as an injection token `I18nextBackendInitializer`. 
+
+`I18nextBackendService` is no longer an abstract class, but a concrete service that consumes all multi-provided tokens `I18nextHttpBackendInitializer` and chooses the most applicable backend initializer to use, based on the actual `i18n` config. This allows for plugging in other backend initializers in the future (e.g. ones that don't use http calls but JS dynamic imports).
+
+
+## @spartacus/organization/administration
+
+### UserGuard and AdminGuard are no longer provided in root injector
+
+`UserGuard` and `AdminGuard` from `@spartacus/organization/administration` are no longer provided in the root injector (no longer `@Injectable({providedIn: 'root'})`). Instead, they are explicitly provided in the lazy loaded module `AdministrationModule` (inside `OrganizationsGuardsModule`). 
+
+## Other changes
 
 ### OnNavigateService
 
