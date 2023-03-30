@@ -11,9 +11,9 @@ import {
   PointOfService,
   SearchConfig,
 } from '@spartacus/core';
-import { StoreEntities } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 import { STORE_FINDER_FEATURE } from '../feature-name';
+import { StoreEntities } from './../model/store-finder.model';
 
 /**
  * Store the Point of Service a user wants to collect a product from before it is added to the cart.
