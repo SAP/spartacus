@@ -177,6 +177,8 @@
 #### AddedToCartDialogComponent
 
 - Added `.cx-modal-content {height: 100%;}` on line 4.
+- Added `.cx-dialog-pickup-store {padding-inline-start: 4.063rem;}`
+- Added `.cx-dialog-pickup-store-name {font-weight: var(--cx-font-weight-semi);}`
 
 ### Fonts library
 
@@ -265,6 +267,30 @@
 
 - Changed line 78 `background-color: var(--cx-color-primary);border-color: var(--cx-color-primary);` to `background-color: var(--cx-color-primary-accent);border-color: var(--cx-color-primary-accent);`
 
+- Changed line 66 disabled button colors on `btn-primary`
+`background-color` to `var(--cx-color-border-focus)`
+`border-color: var(--cx-color-border-focus);` to `border: var(--cx-color-border-focus)`
+
+- Changed line 69 `border-color: var(--cx-color-primary);` to `{border-color: var(--cx-color-border-focus);}`
+
+- Removed line 70 `@include cx-darken(100);`
+
+- Changed line 113 disabled button colors on `btn-secondary`
+`background-color` to `var(--cx-color-border-focus)`,
+`border-color: var(--cx-color-primary-accent);` to `border-color: var(--cx-color-border-focus);`
+`color: var(--cx-color-primary-accent);` to `color: var(--cx-color-border-focus);`
+And added `&:hover {border-color: var(--cx-color-border-focus);}`
+
+- Changed line 161 `.btn-tertiary &hover` from `background-color: var(--cx-color-inverse);` to `background-color: var(--cx-color-transparent);`.
+
+- Changed lined 173 to `background-color: var(--cx-color-transparent);` from `background-color: var(--cx-color-inverse);`
+
+- Changed line 180 to `background-color: var(--cx-color-transparent);` from `background-color: var(--cx-color-inverse);`
+
+- Added `color: var(--cx-color-border-focus);` to line 188
+
+
+
 ### company-page-template.scss
 
 - Changed line 18 from `--cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)brightness(110%) contrast(99%);` to `--cx-img-filter: invert(34%) sepia(61%) saturate(1353%) hue-rotate(178deg)brightness(90%) contrast(90%);`
@@ -333,3 +359,19 @@
 ### NavigationUIComponent
 
 - Changed line 131 `border-bottom: 1px solid var(--cx-color-light);` to `border-bottom: 1px solid var(--cx-color-medium);`
+
+### AddToCartComponent
+
+- Changed line 25 to `color: var(--cx-color-primary);`
+- Changed line 26 to `text-decoration-color: var(--cx-color-primary);`
+- Changed line 30 to `color: var(--cx-color-primary);`
+
+### StoreComponent
+
+- Removed line 61 `width: 92%;` and 62 `margin: auto;`
+
+### PickupOptionDialogComponent 
+
+- Added line 5 `align-items: normal;`
+- Added line 9-10 `@include media-breakpoint-down(md) {height: 100%;}`
+- Added line 14-17 `@include media-breakpoint-down(md) {height: 100%;}`
