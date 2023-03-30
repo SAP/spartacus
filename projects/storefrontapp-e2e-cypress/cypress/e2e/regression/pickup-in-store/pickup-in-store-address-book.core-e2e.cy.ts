@@ -21,7 +21,7 @@ describe('Preferred Store for pickup In Address Book', () => {
       configureApparelProduct();
     });
 
-    it('A logged in user selects a store as preferred location for pick up and validates if its added to address book and changes it from store finder', () => {
+    it('A logged in user selects a store as preferred location for pick up and validates if its added to address book and changes it from store finder (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: '/authorizationserver/oauth/token',

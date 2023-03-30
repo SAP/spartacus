@@ -33,7 +33,7 @@ describe('E2E Test: Changing a product from pickup to delivery and delivery to p
       configureApparelProduct();
     });
 
-    it('Changing a product from pickup to delivery and delivery to pickup', () => {
+    it('Changing a product from pickup to delivery and delivery to pickup (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: /users\/anonymous\/carts\/[0-9a-zA-Z|-]*\/entries/,
