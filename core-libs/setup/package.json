@@ -19,14 +19,14 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular/core": "^15.2.0",
+    "@angular/core": "^15.2.4",
     "@spartacus/cart": "5.0.0",
     "@spartacus/core": "5.0.0",
     "@spartacus/order": "5.0.0",
     "@spartacus/user": "5.0.0"
   },
   "optionalDependencies": {
-    "@angular/platform-server": "^15.2.0",
+    "@angular/platform-server": "^15.2.4",
     "@nguniversal/express-engine": "^15.2.0",
     "express": "^4.18.2"
   },
