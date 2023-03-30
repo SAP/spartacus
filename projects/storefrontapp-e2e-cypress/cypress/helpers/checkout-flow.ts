@@ -254,7 +254,6 @@ export function fillPaymentForm(
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
-  cy.log('flo1');
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
@@ -491,9 +490,7 @@ export function fillPaymentFormWithCheapProduct(
   );
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.log('submitPayment timestamp: ', new Date().toISOString());
   cy.wait('@submitPayment');
-  cy.log('reviewPage timestamp: ', new Date().toISOString());
   cy.wait(`@${reviewPage}`);
 
   if (isExpressCheckout) {
