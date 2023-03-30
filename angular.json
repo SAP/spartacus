@@ -86,6 +86,10 @@
                 "bundleName": "customer-ticketing"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-pickup-in-store.scss",
+                "bundleName": "pickup-in-store"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
                 "bundleName": "s4om"
               }
@@ -994,6 +998,44 @@
             "lintFilePatterns": [
               "feature-libs/order/**/*.ts",
               "feature-libs/order/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "pickup-in-store": {
+      "projectType": "library",
+      "root": "feature-libs/pickup-in-store",
+      "sourceRoot": "feature-libs/pickup-in-store",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.json",
+            "project": "feature-libs/pickup-in-store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/pickup-in-store/test.ts",
+            "tsConfig": "feature-libs/pickup-in-store/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "karmaConfig": "feature-libs/pickup-in-store/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/pickup-in-store/**/*.ts",
+              "feature-libs/pickup-in-store/**/*.html"
             ]
           }
         }

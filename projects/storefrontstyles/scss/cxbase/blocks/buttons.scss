@@ -62,12 +62,11 @@ button {
 
     &.disabled,
     &:disabled {
-      background-color: var(--cx-color-primary);
-      border-color: var(--cx-color-primary);
+      background-color: var(--cx-color-border-focus);
+      border: var(--cx-color-border-focus);
 
       &:hover {
-        border-color: var(--cx-color-primary);
-        @include cx-darken(100);
+        border-color: var(--cx-color-border-focus);
       }
     }
 
@@ -110,12 +109,11 @@ button {
     &.disabled,
     &:disabled {
       background-color: var(--cx-color-inverse);
-      border-color: var(--cx-color-primary-accent);
-      color: var(--cx-color-primary-accent);
+      border-color: var(--cx-color-border-focus);
+      color: var(--cx-color-border-focus);
 
       &:hover {
-        border-color: var(--cx-color-primary-accent);
-        @include cx-darken(100);
+        border-color: var(--cx-color-border-focus);
       }
     }
 
@@ -160,26 +158,26 @@ button {
 .btn-tertiary {
   color: var(--cx-color-primary);
   padding: 12px 16px;
-  background-color: transparent;
+  background-color: var(--cx-color-transparent);
   border-style: none;
   font-size: var(--cx-font-size, 1rem);
   width: auto;
 
   &:hover {
-    background-color: var(--cx-color-inverse);
+    background-color: var(--cx-color-transparent);
     color: var(--cx-color-primary-accent);
   }
 
   &.active {
     color: var(--cx-color-primary);
-    background-color: var(--cx-color-inverse);
+    background-color: var(--cx-color-transparent);
   }
 
   &:focus {
     //this here below will not work unles cx global colors are initially declared in rbg
     border-color: var(--cx-color-primary);
     box-shadow: 0 0 0 0.2em var(--cx-color-visual-focus);
-    background-color: var(--cx-color-inverse);
+    background-color: var(--cx-color-transparent);
     color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);
     outline-color: var(--cx-color-visual-focus);
@@ -187,6 +185,7 @@ button {
 
   &.disabled {
     @include cx-lighten(88);
+    color: var(--cx-color-border-focus);
   }
 }
 

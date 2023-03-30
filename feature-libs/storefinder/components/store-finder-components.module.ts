@@ -13,6 +13,7 @@ import { StoreFinderCoreModule } from '@spartacus/storefinder/core';
 import {
   IconModule,
   ListNavigationModule,
+  OutletModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ScheduleComponent } from './schedule-component/schedule.component';
@@ -39,6 +40,7 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig({

@@ -46,6 +46,13 @@
 
       <!-- Promotion -->
       <cx-promotions [promotions]="item.promotions"></cx-promotions>
+
+      <!-- Item Delivery Details Outlet -->
+      <ng-template
+        *ngIf="!readonly"
+        [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
+        [cxOutletContext]="{item, cartType: options.cartType}"
+      ></ng-template>
     </div>
 
     <!-- Variants -->

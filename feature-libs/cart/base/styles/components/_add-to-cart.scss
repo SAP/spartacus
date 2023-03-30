@@ -20,4 +20,13 @@
       color: var(--cx-color-secondary);
     }
   }
+
+  .repeat-icon {
+    margin-inline-end: var(--cx-margin-right, 0.2rem);
+    color: var(--cx-color-primary);
+    text-decoration-color: var(--cx-color-primary);
+  }
+  .buyItAgainLink {
+    color: var(--cx-color-primary);
+  }
 }
