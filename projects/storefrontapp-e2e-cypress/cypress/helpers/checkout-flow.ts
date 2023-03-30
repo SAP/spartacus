@@ -512,6 +512,31 @@ export function fillPaymentFormWithCheapProduct(
   });
 }
 
+export function fillPaymentFormWithCheapProductForExpressCheckout(
+  paymentDetailsData: DeepPartial<PaymentDetails> = user
+) {
+  cy.log('🛒 Filling payment method form');
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('not.be.empty');
+
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPayment');
+
+  fillPaymentDetails(paymentDetailsData);
+  cy.log('submitPayment timestamp: ', new Date().toISOString());
+  cy.wait('@submitPayment');
+  cy.log('reviewPage timestamp: ', new Date().toISOString());
+  cy.wait(`@${reviewPage}`);
+}
+
 export function placeOrderWithCheapProduct(
   sampleUser: SampleUser = user,
   cartData: SampleCartProduct = cartWithCheapProduct,
