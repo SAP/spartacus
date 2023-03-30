@@ -13,7 +13,11 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ObjectComparisonUtils } from '../util/object-comparison-utils';
-import { Translatable, TranslatableParams } from './translatable';
+import {
+  isTranslatable,
+  Translatable,
+  TranslatableParams,
+} from './translatable';
 import { TranslationService } from './translation.service';
 
 @Pipe({ name: 'cxTranslate', pure: false })
@@ -29,7 +33,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   ) {}
 
   transform(
-    input: Translatable | string,
+    input: Translatable | string | string[],
     options: TranslatableParams = {}
   ): string {
     if (!input) {
@@ -41,14 +45,15 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       return '';
     }
 
-    if ((input as Translatable).raw) {
-      return (input as Translatable).raw ?? '';
+    if (isTranslatable(input) && input.raw) {
+      return input.raw;
     }
 
-    const key = typeof input === 'string' ? input : input.key;
-    if (typeof input !== 'string') {
+    if (isTranslatable(input) && input.params) {
       options = { ...options, ...input.params };
     }
+
+    const key = isTranslatable(input) ? input.key : input;
 
     this.translate(key, options);
     return this.translatedValue;

@@ -38,16 +38,76 @@ If explicitly set, this option will take precedence over the express server.
 
 ### ParagraphComponent
 
-- The `handleClick()` method now uses the condition `documentHost === element.host` to recognise external links.
+- The `handleClick()` method now uses the condition `documentHost === element.host` to recognize external links.
 - The `handleClick()` method now uses `router.navigateByUrl()` to navigate internal links.
 
-### CloseAccoutModalComponent
+### CloseAccountModalComponent
 
 - The `onSuccess()` method now uses `authService.coreLogout()` to log user out before routing to homepage.
 
 ### QuickOrderOrderEntriesContext
 
 - `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
+
+### TranslationService
+
+- Method 'translate' changed from
+  
+  ```ts
+    translate(key: string, options?: any, whitespaceUntilLoaded?: boolean): Observable<string>;
+  ```
+
+  to
+  
+  ```ts
+    translate(key: string | string[], options?: any, whitespaceUntilLoaded?: boolean): Observable<string>;
+  ```
+
+  Passing an array of keys to the method 'translate' allows you to pass the fallback keys that will be used if the first key is not found in the translation file.
+
+### I18nextTranslationService
+
+- Method 'translate' changed from
+  
+  ```ts
+    translate(key: string, options?: any, whitespaceUntilLoaded?: boolean): Observable<string>;
+  ```
+
+  to
+  
+  ```ts
+    translate(key: string | string[], options?: any, whitespaceUntilLoaded?: boolean): Observable<string>;
+  ```
+
+- Method 'getFallbackValue' changed from
+  
+  ```ts
+    getFallbackValue(key: string): string;
+  ```
+
+  to
+  
+  ```ts
+    getFallbackValue(keys: string[]): string;
+  ```
+
+### TranslationPipe
+
+- Method 'transform' changed from
+  
+  ```ts
+    transform(input: Translatable | string, options: TranslatableParams = {}): string
+  ```
+
+  to
+  
+  ```ts
+    transform(input: Translatable | string | string[], options: TranslatableParams = {}): string
+  ```
+
+### Translatable interface
+
+- Type of the property 'key' is now `string | string[]`
 
 ### CheckoutDeliveryAddressComponent
 
