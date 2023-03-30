@@ -22,7 +22,7 @@ describe.skip('Set Preferred store', () => {
       configureApparelProduct();
     });
 
-    it('A logged in user should be able to set a preferred store when not logged in', () => {
+    it('A logged in user should be able to set a preferred store when not logged in (CXSPA-201)', () => {
       cy.get(L.PICKUP_OPTIONS_RADIO_PICKUP).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.visible');
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should('be.checked');
@@ -64,7 +64,7 @@ describe.skip('Set Preferred store', () => {
       });
     });
 
-    it('A logged in user should be able to set a preferred store in when logged in', () => {
+    it('A logged in user should be able to set a preferred store in when logged in (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: '/authorizationserver/oauth/token',
