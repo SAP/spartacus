@@ -22,7 +22,7 @@ export const defaultCustomer360Config: Customer360Config = {
           },
           {
             component: 'AsmCustomer360ProductInterestsComponent',
-            // until backend is ready
+            //TODO until backend is ready
             // requestData: {
             //   type: Customer360Type.PRODUCT_INTEREST_LIST,
             // },
@@ -49,6 +49,14 @@ export const defaultCustomer360Config: Customer360Config = {
       {
         i18nNameKey: 'customer360.feedbackTab',
         components: [
+          {
+            component: 'AsmCustomer360SupportTicketsComponent',
+            //TODO  until backend is ready
+            // requestData: {
+            //   type: Customer360Type.SUPPORT_TICKET_LIST,
+            // },
+            config: { pageSize: 5 },
+          },
           {
             component: 'AsmCustomer360ProductReviewsComponent',
             requestData: {

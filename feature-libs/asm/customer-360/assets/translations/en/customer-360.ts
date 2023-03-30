@@ -74,6 +74,15 @@ export const customer360 = {
       emptyDescription: 'There are currently no product review items',
       sku: 'SKU',
     },
+    supportTickets: {
+      columnHeaders: {
+        id: 'ID',
+        headline: 'Headline',
+        category: 'Category',
+      },
+      header: 'Support Tickets',
+      emptyDescription: 'There are currently no support tickets',
+    },
     maps: {
       storeClosed: 'Close',
       storesFound: '{{ initial }} - {{ end }} from {{ total }} stores found',

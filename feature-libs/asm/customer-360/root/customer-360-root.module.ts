@@ -32,6 +32,7 @@ import {
             'AsmCustomer360SavedCartComponent',
             'AsmCustomer360ProductInterestsComponent',
             'AsmCustomer360ProductReviewsComponent',
+            'AsmCustomer360SupportTicketsComponent',
             'AsmCustomer360MapComponent',
           ],
           dependencies: [ASM_FEATURE],

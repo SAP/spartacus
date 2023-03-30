@@ -16,10 +16,35 @@ export interface Customer360Review {
   reviewText: string;
 }
 
+export interface C360TicketStatus {
+  code: string;
+  name: string;
+}
+
+export interface C360TicketCategory {
+  code: string;
+  name: string;
+}
+
+export interface Customer360SupportTicket {
+  id: string;
+  subject: string;
+  category: C360TicketCategory;
+  createdAt: string;
+  updatedAt: string;
+  status: C360TicketStatus;
+}
+
 export enum Customer360Type {
   REVIEW_LIST = 'c360ReviewList',
   STORE_LOCATION = 'c360StoreLocation',
   PRODUCT_INTEREST_LIST = 'c360CustomerProductInterestList',
+  SUPPORT_TICKET_LIST = 'c360TicketList',
+}
+
+export interface Customer360SupportTicketList {
+  type: Customer360Type.SUPPORT_TICKET_LIST;
+  tickets: Array<Customer360SupportTicket>;
 }
 
 export interface Customer360ReviewList {
@@ -62,7 +87,8 @@ export interface Customer360Request {
 export type Customer360Data =
   | Customer360ProductInterestList
   | Customer360ReviewList
-  | Customer360StoreLocation;
+  | Customer360StoreLocation
+  | Customer360SupportTicketList;
 
 export interface Customer360Response {
   value: Array<Customer360Data>;

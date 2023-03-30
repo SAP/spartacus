@@ -24,6 +24,8 @@ import { AsmCustomerProductReviewsComponentModule } from './sections/asm-custome
 import { AsmCustomerProfileModule } from './sections/asm-customer-profile/asm-customer-profile.module';
 import { AsmCustomerSavedCartModule } from './sections/asm-customer-saved-cart/asm-customer-saved-cart.module';
 import { AsmCustomerSectionComponent } from './sections/asm-customer-section/asm-customer-section.component';
+import { AsmCustomerSupportTicketsComponent } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component';
+import { AsmCustomerSupportTicketsComponentModule } from './sections/asm-customer-support-tickets/asm-customer-support-tickets.component.module';
 import {
   AsmCustomerActiveCartComponent,
   AsmCustomerActivityComponent,
@@ -51,6 +53,7 @@ import {
     AsmCustomerActivityModule,
     AsmCustomerMapComponentModule,
     AsmCustomerProductReviewsComponentModule,
+    AsmCustomerSupportTicketsComponentModule,
   ],
   declarations: [Customer360Component, AsmCustomerSectionComponent],
   exports: [Customer360Component],
@@ -71,6 +74,9 @@ import {
         },
         AsmCustomer360ProductReviewsComponent: {
           component: AsmCustomerProductReviewsComponent,
+        },
+        AsmCustomer360SupportTicketsComponent: {
+          component: AsmCustomerSupportTicketsComponent,
         },
         AsmCustomer360SavedCartComponent: {
           component: AsmCustomerSavedCartComponent,

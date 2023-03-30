@@ -11,3 +11,4 @@ export { AsmCustomerProductInterestsComponent } from './asm-customer-product-int
 export { AsmCustomerProductReviewsComponent } from './asm-customer-product-reviews/asm-customer-product-reviews.component';
 export { AsmCustomerProfileComponent } from './asm-customer-profile/asm-customer-profile.component';
 export { AsmCustomerSavedCartComponent } from './asm-customer-saved-cart/asm-customer-saved-cart.component';
+export { AsmCustomerSupportTicketsComponent } from './asm-customer-support-tickets/asm-customer-support-tickets.component';
