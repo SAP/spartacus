@@ -6,13 +6,13 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
-import { Consignment, Order } from '@spartacus/order/root';
 import {
   CmsOrderDetailItemsComponent,
   TranslationService,
 } from '@spartacus/core';
+import { Consignment, Order } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
@@ -45,7 +45,10 @@ export class OrderDetailItemsComponent implements OnInit {
   isOrderLoading$: Observable<boolean>;
 
   ngOnInit() {
-    this.isOrderLoading$ = this.orderDetailsService.isOrderDetailsLoading();
+    this.isOrderLoading$ =
+      typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+        ? this.orderDetailsService.isOrderDetailsLoading()
+        : of(false);
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);
