@@ -254,6 +254,7 @@ export function fillPaymentForm(
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.log('flo1');
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
@@ -468,7 +469,8 @@ export function proceedWithIncorrectPaymentForm(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  isExpressCheckout?: boolean
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -494,6 +496,11 @@ export function fillPaymentFormWithCheapProduct(
   cy.log('reviewPage timestamp: ', new Date().toISOString());
   cy.wait(`@${reviewPage}`);
 
+  if (isExpressCheckout) {
+    cy.log('ExpressCheckout: no need to wait for CheckoutB2CDetailsEndpoint');
+    return;
+  }
+
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
     const response = xhr.response;
     cy.log(
@@ -510,31 +517,6 @@ export function fillPaymentFormWithCheapProduct(
     expect(response.body).to.have.property('deliveryMode');
     expect(response.body).to.have.property('paymentInfo');
   });
-}
-
-export function fillPaymentFormWithCheapProductForExpressCheckout(
-  paymentDetailsData: DeepPartial<PaymentDetails> = user
-) {
-  cy.log('🛒 Filling payment method form');
-  cy.get('.cx-checkout-title').should('contain', 'Payment');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
-    .find('.cx-summary-amount')
-    .should('not.be.empty');
-
-  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
-
-  cy.intercept({
-    method: 'POST',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/payment/sop/response*`,
-  }).as('submitPayment');
-
-  fillPaymentDetails(paymentDetailsData);
-  cy.log('submitPayment timestamp: ', new Date().toISOString());
-  cy.wait('@submitPayment');
-  cy.log('reviewPage timestamp: ', new Date().toISOString());
-  cy.wait(`@${reviewPage}`);
 }
 
 export function placeOrderWithCheapProduct(
