@@ -226,10 +226,7 @@ describe('CustomerSelectionComponent', () => {
     );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
-    // TODO: check the text when customer search no match
-    // expect(
-    //   el.query(By.css('div.asm-results button')).nativeElement.innerText
-    // ).toEqual('asm.customerSearch.noMatch');
+    // TODO(CXSPA-2935): Refactor customer lookup in ASM to get rid of buttons in drop list
     el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );

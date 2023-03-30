@@ -64,8 +64,8 @@
         <cx-message
           *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
           [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
-          [isVisibleCloseButton]="false"
-          [type]="globalMessageType.Confirmation"
+          [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+          (closeMessage)="closeDialogConfirmationAlert()"
         >
         </cx-message>
       </ng-container>

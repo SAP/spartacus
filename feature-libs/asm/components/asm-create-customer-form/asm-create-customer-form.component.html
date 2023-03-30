@@ -20,7 +20,6 @@
             <cx-message
               *ngIf="showDialogInfoAlert"
               [text]="'asm.createCustomerForm.createAccountAlert' | cxTranslate"
-              [isVisibleCloseButton]="true"
               [type]="globalMessageType.MSG_TYPE_INFO"
               (closeMessage)="closeDialogInfoAlert()"
             >
@@ -28,7 +27,6 @@
             <cx-message
               *ngIf="showDialogErrorAlert"
               [text]="'asm.createCustomerForm.dialogErrorAlert' | cxTranslate"
-              [isVisibleCloseButton]="true"
               [type]="globalMessageType.MSG_TYPE_ERROR"
               (closeMessage)="closeDialogErrorAlert()"
             >
@@ -36,7 +34,6 @@
             <cx-message
               *ngIf="showDialogBackendErrorAlert"
               [text]="backendErrorMessage"
-              [isVisibleCloseButton]="true"
               [type]="globalMessageType.MSG_TYPE_ERROR"
               (closeMessage)="closeDialogBackendErroAlert()"
             >

@@ -62,12 +62,9 @@
     </ng-container>
     <ng-container *cxFeatureLevel="'6.1'">
       {{ 'asm.customerSearch.noMatchResult' | cxTranslate }}
-      <a
-        #createCustomerLink
-        class="link createCustomerLink"
-        (click)="createCustomer()"
-        >{{ 'asm.customerSearch.createCustomer' | cxTranslate }}</a
-      >
+      <a #createCustomerLink class="link" (click)="createCustomer()">{{
+        'asm.customerSearch.createCustomer' | cxTranslate
+      }}</a>
     </ng-container>
   </button>
 </div>

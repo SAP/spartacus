@@ -53,7 +53,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
-  showCreateCustomerSuccessfullyAlert = true;
+  showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
   @HostBinding('class.hidden') disabled = false;
@@ -188,6 +188,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       this.addNewCustomerLink
     );
+  }
+  closeDialogConfirmationAlert(): void {
+    this.showCreateCustomerSuccessfullyAlert = false;
   }
 
   ngOnDestroy() {
