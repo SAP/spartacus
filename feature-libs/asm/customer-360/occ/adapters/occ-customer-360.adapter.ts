@@ -6,7 +6,10 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Customer360Adapter } from '@spartacus/asm/customer-360/core';
+import {
+  Customer360Adapter,
+  CUSTOMER_360_NORMALIZER,
+} from '@spartacus/asm/customer-360/core';
 import {
   Customer360Request,
   Customer360Response,
@@ -15,10 +18,12 @@ import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
+  normalizeHttpError,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCustomer360Adapter implements Customer360Adapter {
@@ -70,8 +75,11 @@ export class OccCustomer360Adapter implements Customer360Adapter {
       customer360Queries: request.queries,
     };
 
-    return this.http.post<Customer360Response>(url, requestBody, {
-      headers,
-    });
+    return this.http
+      .post<Customer360Response>(url, requestBody, { headers })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converterService.pipeable(CUSTOMER_360_NORMALIZER)
+      );
   }
 }
