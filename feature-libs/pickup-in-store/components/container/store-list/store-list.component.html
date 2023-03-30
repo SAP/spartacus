@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="container" *ngIf="stores.length">
+  <div *ngIf="stores.length">
     <cx-store
       *ngFor="let store of stores"
       [storeDetails]="store"
