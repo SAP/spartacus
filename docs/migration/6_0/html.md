@@ -390,3 +390,7 @@
 ### PickupOptionDialogComponent
 
 - Added class `cx-modal-container` to line 2.
+
+#### CustomerTicketingReopenComponent
+
+- Changed `btn-action` to `btn-secondary` to fix the styling.
