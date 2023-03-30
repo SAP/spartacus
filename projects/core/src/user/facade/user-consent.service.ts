@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { iif, Observable } from 'rxjs';
+import { combineLatest, iif, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -126,10 +126,20 @@ export class UserConsentService {
    * @param templateId a template ID by which to filter the registered templates.
    */
   getConsent(templateId: string): Observable<Consent | undefined> {
-    return this.authService.isUserLoggedIn().pipe(
+    // To ensure data consistency and avoid race-conditions, we only consider the user
+    // as "logged in" when both the `access_token` observable emits a value
+    // with a token and the `userId` observable emits a value with a non-anonymous user id.
+    //
+    // This is due to the fact that the observables with `access_token` and `userId`
+    // emit values at slightly different timings during the process of login and logout.
+
+    // NOTE: This is a temporary solution and the issue should be solved in the roots.
+    // Here is the ticket to track the issue: https://jira.tools.sap/browse/CXSPA-2988
+    return combineLatest([
+      this.authService.isUserLoggedIn(),
+      this.userIdService.getUserId(),
+    ]).pipe(
       distinctUntilChanged(),
-      // to avoid redundant calls when userId is still ANONYMOUS
-      withLatestFrom(this.userIdService.getUserId()),
       filter(
         ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
       ),
