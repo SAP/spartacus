@@ -138,16 +138,11 @@ describe('CDC User Addresses effect', () => {
       expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
         expected
       );
-
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-      cdcUserAddressesEffect.cdcAddUserAddress$.subscribe({
-        error: (error) => {
-          expect(globalMessageService.add).toHaveBeenCalledWith(
-            error.errorMessage,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
-      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        error.errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
 
     it('should send default address to CDC on add user addresses success', () => {
@@ -166,7 +161,6 @@ describe('CDC User Addresses effect', () => {
       expect(cdcUserAddressesEffect.cdcAddUserAddress$).toBeObservable(
         expected
       );
-
       expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });
@@ -187,18 +181,13 @@ describe('CDC User Addresses effect', () => {
         throwError(error)
       );
 
-      cdcUserAddressesEffect.cdcUpdateUserAddress$.subscribe({
-        error: (error) => {
-          expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-          expect(globalMessageService.add).toHaveBeenCalledWith(
-            error.errorMessage,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
-      });
-
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
         expected
+      );
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        error.errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
       );
     });
 
@@ -238,18 +227,13 @@ describe('CDC User Addresses effect', () => {
         throwError(error)
       );
 
-      cdcUserAddressesEffect.cdcUpdateUserAddress$.subscribe({
-        error: (error) => {
-          expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-          expect(globalMessageService.add).toHaveBeenCalledWith(
-            error.errorMessage,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
-      });
-
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
         expected
+      );
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        error.errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
       );
     });
 
@@ -270,18 +254,11 @@ describe('CDC User Addresses effect', () => {
         of(ok)
       );
 
-      cdcUserAddressesEffect.cdcUpdateUserAddress$.subscribe(() => {
-        expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-        cdcJSService
-          .updateAddressWithoutScreenSet(mockUserAddress.formattedAddress + '')
-          .subscribe(() => {
-            expect(globalMessageService.add).not.toHaveBeenCalled();
-          });
-      });
-
       expect(cdcUserAddressesEffect.cdcUpdateUserAddress$).toBeObservable(
         expected
       );
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
@@ -300,18 +277,13 @@ describe('CDC User Addresses effect', () => {
         throwError(error)
       );
 
-      cdcUserAddressesEffect.cdcDeleteUserAddress$.subscribe({
-        error: (error) => {
-          expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-          expect(globalMessageService.add).toHaveBeenCalledWith(
-            error.errorMessage,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
-      });
-
       expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
         expected
+      );
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        error.errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
       );
     });
 
@@ -330,18 +302,11 @@ describe('CDC User Addresses effect', () => {
         of(ok)
       );
 
-      cdcUserAddressesEffect.cdcDeleteUserAddress$.subscribe(() => {
-        expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
-        cdcJSService
-          .updateAddressWithoutScreenSet(mockUserAddress.formattedAddress + '')
-          .subscribe(() => {
-            expect(globalMessageService.add).not.toHaveBeenCalled();
-          });
-      });
-
       expect(cdcUserAddressesEffect.cdcDeleteUserAddress$).toBeObservable(
         expected
       );
+      expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
