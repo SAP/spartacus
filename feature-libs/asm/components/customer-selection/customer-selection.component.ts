@@ -61,7 +61,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   activeFocusedButtonIndex = -1;
 
-  // TODO: make LaunchDialogService are required dependency
+  // TODO(CXSPA-TICKET#): make LaunchDialogService are required dependency
   constructor(
     fb: UntypedFormBuilder,
     asmService: AsmService,
