@@ -4,13 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { editedAddress } from '../../../helpers/address-book';
 import { fillRegistrationForm, login } from '../../../helpers/auth-forms';
+import * as loginHelper from '../../../helpers/login';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { AddressData, fillShippingAddress } from '../../checkout-forms';
 import { listenForTokenRevocationRequest } from '../../login';
 
 export const updatedName = ' updated';
-export const updatedEmail = 'spartacusb2bupdated@sapcx.com';
+export const updatedEmail = 'cypress_user_updated@sapcx.com';
+export const updatedB2BEmail = 'spartacusb2bupdated@sapcx.com';
 export const updatedPassword = 'NewPassword123.';
 
 export function registerUser(cdcUser) {
@@ -23,7 +26,9 @@ export const user = getSampleUser();
 export const nativeUser = getSampleUser();
 
 export const b2bUser = getSampleB2BUser();
-
+export const updatedFirstAddress = {
+  ...editedAddress,
+};
 export const secondAddress: AddressData = {
   ...b2bUser,
   firstName: 'Second',
@@ -302,7 +307,7 @@ export function verifyAddAddressSuccess(cdcUser) {
 }
 
 export function updateAddress(cdcUser) {
-  let card = cy.get('cx-card').first();
+  const card = cy.get('cx-card').first();
   card.contains('Edit').click();
   fillShippingAddress(cdcUser);
 }
@@ -311,19 +316,42 @@ export function verifyUpdateAddressSuccess(cdcUser) {
   verifyAddAddressSuccess(cdcUser);
 }
 
+export function setAddressAsDefault(cdcUser) {
+  const card = cy.get('cx-card').contains(cdcUser.firstName);
+  const cardBody = card.parentsUntil('.card-body .cx-card-body');
+  const cardActions = cardBody.get('.cx-card-actions');
+  cardActions.contains('Set as default').click();
+}
+
+export function verifySetDefaultAddressSuccess(cdcUser) {
+  verifyAddAddressSuccess(cdcUser);
+}
+
 export function verifyNoCDCForNonDefaultAddress() {
   verifyNoCDCInvocation('accounts.setAccountInfo');
 }
 
-export function deleteAddress() {
-  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
-  let card = cy.get('cx-card').first();
-  card.contains('Delete').click();
+export function deleteAddress(cdcUser) {
+  const card = cy.get('cx-card').contains(cdcUser.firstName);
+  const cardBody = card.parentsUntil('.card-body .cx-card-body');
+  const cardActions = cardBody.get('.cx-card-actions');
+  cardActions.contains('Delete').click();
   cy.get('.cx-card-delete button.btn-primary').click();
-  verifyCDCSDKInvocation(cdcInterceptName);
 }
 
-export function verifyDeleteAddressSuccess() {
+export function verifyDeleteAddressSuccess(cdcUser) {
+  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  verifyCDCReqAddressPayload(cdcInterceptName, {
+    city: cdcUser.address.city,
+    line1: cdcUser.address.line1,
+    line2: cdcUser.address.line2,
+    country: cdcUser.address.country,
+    state: cdcUser.address.state,
+    postal: cdcUser.address.postal,
+  });
+}
+
+export function verifyDeleteAllAddressSuccess() {
   let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
   verifyCDCReqAddressPayload(cdcInterceptName, {
     city: ' ',
@@ -333,6 +361,10 @@ export function verifyDeleteAddressSuccess() {
     state: ' ',
     postal: ' ',
   });
+}
+
+export function logoutUser() {
+  loginHelper.signOutUser();
 }
 
 export function getSampleB2BUser() {

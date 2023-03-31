@@ -3,8 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { editedAddress } from '../../../../helpers/address-book';
 import { loginUser } from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
@@ -155,9 +153,12 @@ describe('CDC B2B scenarios', () => {
         option: 'Email Address',
       });
 
-      cdc.updateEmailWithoutScreenset(cdc.updatedEmail, cdc.b2bUser.password);
+      cdc.updateEmailWithoutScreenset(
+        cdc.updatedB2BEmail,
+        cdc.b2bUser.password
+      );
       cdc.verifyUpdateEmailSuccess(
-        cdc.updatedEmail,
+        cdc.updatedB2BEmail,
         cdc.b2bUser.password,
         cdc.b2bUser.fullName
       );
@@ -195,69 +196,50 @@ describe('CDC B2B scenarios', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
-    });
-
-    it.only('should display a new address form when no address exists', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });
+    });
 
+    it('should display a new address form when no address exists', () => {
       cy.get('cx-address-form').should('exist');
     });
 
-    it.only('should add a new address and show it in CDC', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
+    it('should add a new address and show it in CDC', () => {
       cdc.addAddress(cdc.b2bUser);
       cdc.verifyAddAddressSuccess(cdc.b2bUser);
     });
 
-    it.only('should edit the Address and save it in CDC', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      cdc.updateAddress(editedAddress);
-      cdc.verifyUpdateAddressSuccess(editedAddress);
+    it('should edit the Address and save it in CDC', () => {
+      cdc.updateAddress(cdc.updatedFirstAddress);
+      cdc.verifyUpdateAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    it.only('should add another Address and NOT save it in CDC if it is not default', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
+    it('should add another Address and NOT save it in CDC if it is not default', () => {
       cy.get('button').contains(' Add new address ').click({ force: true });
       cdc.addAddress(cdc.secondAddress);
       cdc.verifyNoCDCForNonDefaultAddress();
     });
 
-    xit('should set the non default Address as default and save it in CDC', () => {
-      //TODO
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      cdc.updateAddress(editedAddress);
-      cdc.verifyUpdateAddressSuccess(editedAddress);
+    it('should set the non default Address as default and save it in CDC', () => {
+      cdc.setAddressAsDefault(cdc.secondAddress);
+      cdc.verifySetDefaultAddressSuccess(cdc.secondAddress);
     });
 
-    xit('should show delete the first Address and update the second address as default in CDC', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      cdc.deleteAddress();
-      cdc.verifyDeleteAddressSuccess();
+    it('should show delete the first Address and update the second address as default in CDC', () => {
+      cdc.deleteAddress(cdc.updatedFirstAddress);
+      cdc.verifyDeleteAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    xit('should show delete the second Address and empty the address in CDC', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      cdc.deleteAddress();
-      cdc.verifyDeleteAddressSuccess();
+    it('should show delete the second Address and empty the address in CDC', () => {
+      cdc.deleteAddress(cdc.updatedFirstAddress);
+      cdc.verifyDeleteAllAddressSuccess();
     });
+  });
+
+  after(() => {
+    cdc.logoutUser();
+    cy.window().then((win) => win.sessionStorage.clear());
+    cy.visit('/');
   });
 });
