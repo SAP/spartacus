@@ -209,6 +209,9 @@
 - Changed line 33 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
 - Changed line 37 to have `button` content wrapped in a `span` tag on line 46. The `AddToCart` string can be interchanged with `BuyItAgain`
 - Added Icon wrapped in a `span` tag which appears when `AddToCart` string is changed to `BuyItAgain`.
+- Changed line 31 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+- Added class `cx-dialog-pickup-store` to line 39.
+- Added `span class="cx-dialog-pickup-store-name"` to line 41
 
 ### CartCouponComponent
 
@@ -379,3 +382,14 @@
 
 - Changed line 12 classes from `'btn btn-action'` to `'btn btn-secondary'`
 
+### StoreComponent 
+
+- Changed line 63 btn class to `btn-secondary`.
+
+### StoreListComponent
+
+- Removed `container` class on line 20.
+
+### PickupOptionDialogComponent
+
+- Added class `cx-modal-container` to line 2.
