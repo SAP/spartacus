@@ -493,10 +493,7 @@ export function fillPaymentFormWithCheapProduct(
   cy.wait('@submitPayment');
   cy.wait(`@${reviewPage}`);
 
-  if (isExpressCheckout) {
-    cy.log('ExpressCheckout: no need to wait for CheckoutB2CDetailsEndpoint');
-    return;
-  }
+  if (isExpressCheckout) return;
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
     const response = xhr.response;
