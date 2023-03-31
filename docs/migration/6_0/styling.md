@@ -355,6 +355,7 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 - Added line 162 `background-color: var(--cx-color-primary);`
 - Added `color: var(--cx-color-primary);` to line 188
 - Added `.cx-hamburger` and `.hamburger-inner` styling
+- Added to line 43 `height: 100vh; background-color: var(--cx-color-background);` 
 
 ### NavigationUIComponent
 
