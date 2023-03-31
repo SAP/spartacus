@@ -206,6 +206,9 @@
 
 ### AddToCartComponent
 
+- Changed line 33 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
+- Changed line 37 to have `button` content wrapped in a `span` tag on line 46. The `AddToCart` string can be interchanged with `BuyItAgain`
+- Added Icon wrapped in a `span` tag which appears when `AddToCart` string is changed to `BuyItAgain`.
 - Changed line 31 classes from `'link cx-action-link'` to `'btn btn-tertiary'`
 - Added class `cx-dialog-pickup-store` to line 39.
 - Added `span class="cx-dialog-pickup-store-name"` to line 41
@@ -394,3 +397,4 @@
 #### CustomerTicketingReopenComponent
 
 - Changed `btn-action` to `btn-secondary` to fix the styling.
+
