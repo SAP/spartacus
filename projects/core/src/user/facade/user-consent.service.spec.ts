@@ -4,7 +4,10 @@ import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -22,10 +25,14 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId() {
     return of(OCC_USER_ID_CURRENT);
   }
+  public getUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
+  }
 }
 
 describe('UserConsentService', () => {
   let service: UserConsentService;
+  let userIdService: UserIdService;
   let authService: AuthService;
   let store: Store<StateWithUser>;
 
@@ -48,6 +55,7 @@ describe('UserConsentService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(UserConsentService);
+    userIdService = TestBed.inject(UserIdService);
     authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -230,8 +238,23 @@ describe('UserConsentService', () => {
         });
       });
       describe('when the user is anonymous', () => {
-        it('should not call getConsents()', () => {
+        it('should not call getConsents() if isUserLoggedIn returns false', () => {
           spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+          spyOn(userIdService, 'getUserId').and.returnValue(
+            of(OCC_USER_ID_ANONYMOUS)
+          );
+          spyOn(service, 'getConsents').and.stub();
+
+          service.getConsent(mockTemplateId).subscribe().unsubscribe();
+
+          expect(service.getConsents).not.toHaveBeenCalled();
+        });
+
+        it('should not call getConsents() if isUserLoggedIn returns true', () => {
+          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+          spyOn(userIdService, 'getUserId').and.returnValue(
+            of(OCC_USER_ID_ANONYMOUS)
+          );
           spyOn(service, 'getConsents').and.stub();
 
           service.getConsent(mockTemplateId).subscribe().unsubscribe();
