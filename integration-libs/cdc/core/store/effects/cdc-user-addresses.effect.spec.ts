@@ -369,7 +369,6 @@ describe('CDC User Addresses effect', () => {
           status: 'OK',
         })
       );
-      cdcUserAddressesEffect.updateDefaultAddressInCDC();
       cdcUserAddressesEffect.updateDefaultAddressInCDC().subscribe(() => {
         expect(cdcJSService.updateAddressWithoutScreenSet).toHaveBeenCalledWith(
           mockUserAddress.formattedAddress,

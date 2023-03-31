@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -25,7 +25,7 @@ export class UserAddressesEffects {
       this.actions$.pipe(
         ofType(UserActions.LOAD_USER_ADDRESSES),
         map((action: UserActions.LoadUserAddresses) => action.payload),
-        mergeMap((payload) => {
+        switchMap((payload) => {
           return this.userAddressConnector.getAll(payload).pipe(
             map((addresses: Address[]) => {
               return new UserActions.LoadUserAddressesSuccess(addresses);
