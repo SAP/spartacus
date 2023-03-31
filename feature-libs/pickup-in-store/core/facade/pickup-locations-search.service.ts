@@ -25,8 +25,6 @@ import {
   ToggleHideOutOfStockOptionsAction,
 } from '../store/index';
 
-// TODO jsdoc
-
 @Injectable()
 export class PickupLocationsSearchService
   implements PickupLocationsSearchFacade, OnDestroy
