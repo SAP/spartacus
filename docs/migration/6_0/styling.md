@@ -47,6 +47,13 @@
 - `margin-block-end` changed to `-15px` instead of `-20px`
 - `cx-hamburger-menu` styling added to `.cx-group-title`
 
+#### ConfiguratorGroupMenuComponent
+
+- Added `@include media-breakpoint-down(md) {background-color: var(--cx-color-background)}` to `.cx-group-menu`
+- Added `@include media-breakpoint-down(md) {font-weight: var(--cx-font-weight-semi); border-bottom: 1px solid var(--cx-color-light); background-color: var(--cx-color-medium);}` to `.cx-menu-back`
+- Added `@include media-breakpoint-down(md) {text-transform: uppercase; font-weight: var(--cx-font-weight-semi);}` to `.cx-menu-item`
+- Added `@include media-breakpoint-down(md) {border-bottom: 1px solid var(--cx-color-medium);}` to `button:not(.cx-menu-conflict)`
+
 #### ConfiguratorIssuesNotificationComponent
 
 - Added property `font-weight: var(--cx-font-weight-semi)`
@@ -177,6 +184,8 @@
 #### AddedToCartDialogComponent
 
 - Added `.cx-modal-content {height: 100%;}` on line 4.
+- Added `.cx-dialog-pickup-store {padding-inline-start: 4.063rem;}`
+- Added `.cx-dialog-pickup-store-name {font-weight: var(--cx-font-weight-semi);}`
 
 ### Fonts library
 
@@ -353,7 +362,24 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 - Added line 162 `background-color: var(--cx-color-primary);`
 - Added `color: var(--cx-color-primary);` to line 188
 - Added `.cx-hamburger` and `.hamburger-inner` styling
+- Added to line 43 `height: 100vh; background-color: var(--cx-color-background);`
 
 ### NavigationUIComponent
 
 - Changed line 131 `border-bottom: 1px solid var(--cx-color-light);` to `border-bottom: 1px solid var(--cx-color-medium);`
+
+### AddToCartComponent
+
+- Changed line 25 to `color: var(--cx-color-primary);`
+- Changed line 26 to `text-decoration-color: var(--cx-color-primary);`
+- Changed line 30 to `color: var(--cx-color-primary);`
+
+### StoreComponent
+
+- Removed line 61 `width: 92%;` and 62 `margin: auto;`
+
+### PickupOptionDialogComponent 
+
+- Added line 5 `align-items: normal;`
+- Added line 9-10 `@include media-breakpoint-down(md) {height: 100%;}`
+- Added line 14-17 `@include media-breakpoint-down(md) {height: 100%;}`
