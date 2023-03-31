@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { loginUser } from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
