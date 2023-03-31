@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 
 import {
@@ -22,6 +23,7 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
           'OrderConfirmationPickUpComponent',
           'PickupInStoreDeliveryModeComponent',
         ],
+        dependencies: [CART_BASE_FEATURE],
       },
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },
