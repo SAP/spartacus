@@ -238,8 +238,20 @@ describe('UserConsentService', () => {
         });
       });
       describe('when the user is anonymous', () => {
-        it('should not call getConsents()', () => {
+        it('should not call getConsents() if isUserLoggedIn returns false', () => {
           spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+          spyOn(userIdService, 'getUserId').and.returnValue(
+            of(OCC_USER_ID_ANONYMOUS)
+          );
+          spyOn(service, 'getConsents').and.stub();
+
+          service.getConsent(mockTemplateId).subscribe().unsubscribe();
+
+          expect(service.getConsents).not.toHaveBeenCalled();
+        });
+
+        it('should not call getConsents() if isUserLoggedIn returns true', () => {
+          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
           spyOn(userIdService, 'getUserId').and.returnValue(
             of(OCC_USER_ID_ANONYMOUS)
           );
