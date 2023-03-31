@@ -32,5 +32,3 @@ export const pickupLocationsReducersProvider: Provider = {
 };
 
 export const pickupLocationsMetaReducers: MetaReducer<any>[] = [];
-
-// TODO ensure we have reducer tokens for the store details
