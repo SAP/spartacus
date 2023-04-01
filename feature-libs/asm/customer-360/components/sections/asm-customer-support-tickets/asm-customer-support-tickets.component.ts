@@ -69,13 +69,15 @@ export class AsmCustomerSupportTicketsComponent implements OnInit {
   ngOnInit(): void {
     this.supportTicketsEntries$ = this.context.data$.pipe(
       map((data) => {
-        return data.tickets.map((entry) => {
-          return {
-            ...entry,
-            statusLabel: entry.status.name,
-            categoryLabel: entry.category.name,
-          };
-        });
+        return (
+          data?.tickets?.map((entry) => {
+            return {
+              ...entry,
+              statusLabel: entry.status.name,
+              categoryLabel: entry.category.name,
+            };
+          }) ?? []
+        );
       })
     );
   }

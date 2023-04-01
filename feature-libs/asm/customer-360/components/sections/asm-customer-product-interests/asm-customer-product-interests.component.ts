@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Customer360ProductInterestList } from '@spartacus/asm/customer-360/root';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
 
 import { Customer360SectionContext } from '../customer-360-section-context.model';
@@ -26,16 +26,20 @@ export class AsmCustomerProductInterestsComponent {
   ) {
     this.products$ = this.sectionContext.data$.pipe(
       concatMap((interestList) => {
-        return forkJoin(
-          interestList.customerProductInterests.map((interest) => {
-            return this.productService
-              .get(interest.product.code, ProductScope.DETAILS)
-              .pipe(
-                filter((product) => Boolean(product)),
-                take(1)
-              );
-          })
-        ) as Observable<Array<Product>>;
+        if (!interestList?.customerProductInterests?.length) {
+          return of([]);
+        } else {
+          return forkJoin(
+            interestList.customerProductInterests.map((interest) => {
+              return this.productService
+                .get(interest.product.code, ProductScope.DETAILS)
+                .pipe(
+                  filter((product) => Boolean(product)),
+                  take(1)
+                );
+            })
+          ) as Observable<Array<Product>>;
+        }
       })
     );
   }
