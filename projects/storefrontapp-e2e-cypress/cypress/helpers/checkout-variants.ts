@@ -45,7 +45,7 @@ export function testCheckoutVariantAsGuest() {
 
     checkout.verifyDeliveryMethod();
 
-    checkout.fillPaymentFormWithCheapProduct(variantUser, undefined);
+    checkout.fillPaymentFormWithCheapProduct(variantUser, undefined, true);
 
     checkout.placeOrderWithCheapProduct(
       variantUser,
@@ -116,7 +116,7 @@ export function testCheckoutRegisteredUser() {
     checkout.checkSummaryAmount(cartWithTotalVariantProduct);
     checkout.fillAddressFormWithCheapProduct(regVariantUser);
     checkout.verifyDeliveryMethod();
-    checkout.fillPaymentFormWithCheapProduct(regVariantUser, undefined);
+    checkout.fillPaymentFormWithCheapProduct(regVariantUser, undefined, true);
     checkout.placeOrderWithCheapProduct(
       regVariantUser,
       cartWithTotalVariantProduct,

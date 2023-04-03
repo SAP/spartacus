@@ -468,7 +468,8 @@ export function proceedWithIncorrectPaymentForm(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  isGuest?: boolean
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -497,18 +498,20 @@ export function fillPaymentFormWithCheapProduct(
   fillPaymentDetails(paymentDetailsData, billingAddress);
 
   cy.wait('@submitPayment');
-  cy.wait('@getPaymentDetails').then((xhr) => {
-    const response = xhr?.response;
-    cy.log(
-      response
-        ? `Checkout getPaymentDetails details after payment step: ${JSON.stringify(
-            response.body,
-            null,
-            2
-          )}`
-        : 'No getPaymentDetails response body'
-    );
-  });
+  if (!isGuest) {
+    cy.wait('@getPaymentDetails').then((xhr) => {
+      const response = xhr?.response;
+      cy.log(
+        response
+          ? `Checkout getPaymentDetails details after payment step: ${JSON.stringify(
+              response.body,
+              null,
+              2
+            )}`
+          : 'No getPaymentDetails response body'
+      );
+    });
+  }
   cy.wait(`@${reviewPage}`);
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
