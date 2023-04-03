@@ -20,7 +20,7 @@ context('Anonymous consents flow', () => {
         win.localStorage.clear();
       });
     });
-    describe.only('As an anonymous user', () => {
+    describe('As an anonymous user', () => {
       anonymousConsents.testAcceptAnonymousConsents();
     });
   });
