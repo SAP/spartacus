@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { OAUTH_REDIRECT_FLOW_KEY, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
@@ -44,6 +45,7 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
+    protected winRef: WindowRef,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
@@ -79,6 +81,11 @@ export class AuthService {
    */
   loginWithRedirect(): boolean {
     this.oAuthLibWrapperService.initLoginFlow();
+
+    if (this.winRef.localStorage) {
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    }
+
     return true;
   }
 
