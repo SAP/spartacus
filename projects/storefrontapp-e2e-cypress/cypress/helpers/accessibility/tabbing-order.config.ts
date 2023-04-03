@@ -224,25 +224,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Add to Cart',
-      type: TabbingOrderTypes.BUTTON,
-    },
-  ],
-
-  productConfigurationOverviewPost2211: [
-    {
-      value: 'show more',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Overview',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Resolve Issues',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Menu',
       type: TabbingOrderTypes.LINK,
     },
