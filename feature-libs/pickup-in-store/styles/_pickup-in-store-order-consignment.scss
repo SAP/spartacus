@@ -1,0 +1,16 @@
+%cx-pickup-in-store-order-consignment {
+  width: 100%;
+  margin-top: -1rem;
+  .cx-consignment-details {
+    background-color: var(--cx-color-background);
+  }
+
+  .cx-deliveryPointOfService-address {
+    padding: 0 30px 15px 30px;
+  }
+
+  .cx-deliveryPointOfService-heading {
+    font-weight: var(--cx-font-weight-semi);
+    padding-bottom: 0.5rem;
+  }
+}

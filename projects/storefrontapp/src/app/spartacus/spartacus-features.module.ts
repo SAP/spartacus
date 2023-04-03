@@ -77,6 +77,7 @@ import { AccountSummaryFeatureModule } from './features/organization/organizatio
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
 import { UnitOrderFeatureModule } from './features/organization/organization-unit-order-feature.module';
+import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
@@ -103,6 +104,8 @@ if (environment.b2b) {
     UnitOrderFeatureModule,
     FutureStockFeatureModule
   );
+} else {
+  featureModules.push(PickupInStoreFeatureModule);
 }
 
 if (environment.cdc) {
@@ -221,9 +224,9 @@ if (environment.s4om) {
 
     CommerceQuotesFeatureModule,
     CustomerTicketingFeatureModule,
+
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-
     ...featureModules,
   ],
 })

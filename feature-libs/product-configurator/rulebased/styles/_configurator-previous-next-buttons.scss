@@ -18,23 +18,11 @@
       padding-inline-end: 16px;
     }
 
-    .btn-action,
     .btn-secondary {
       inline-size: 25%;
 
       @include media-breakpoint-down(sm) {
         inline-size: 45%;
-      }
-    }
-
-    .btn-action {
-      &.disabled,
-      &:disabled {
-        color: var(--cx-color-light);
-        border-width: 2px;
-        border-style: solid;
-        border-color: var(--cx-color-light);
-        opacity: 1;
       }
     }
   }

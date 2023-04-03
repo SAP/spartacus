@@ -69,7 +69,7 @@ interface VisualContentChangesFinishedEvent {
 interface VisualContentLoadFinishedEvent {}
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class VisualViewerService implements OnDestroy {
   constructor(

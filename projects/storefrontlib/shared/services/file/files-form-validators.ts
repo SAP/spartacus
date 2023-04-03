@@ -80,7 +80,7 @@ export class FilesFormValidators {
     };
   }
 
-  protected getExtension(filename: string): string {
-    return (filename.match(this.extenstionRegEx) || [])[0];
+  protected getExtension(filename?: string): string {
+    return (filename?.match(this.extenstionRegEx) || [])[0] || '';
   }
 }

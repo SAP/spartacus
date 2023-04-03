@@ -50,6 +50,7 @@
           "Personalization",
           "TMS-GTM",
           "TMS-AEPL",
+          "Pickup-In-Store",
           "User-Account",
           "User-Profile",
           "Commerce-Quotes"
@@ -66,7 +67,6 @@
         "Saved-Cart",
         "Quick-Order",
         "Image-Zoom",
-        "Future-Stock",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -225,6 +225,10 @@
           {
             "value": "Customer-Ticketing",
             "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup in Store"
           }
         ]
       }
@@ -276,11 +280,6 @@
       "type": "boolean",
       "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
-    },
-    "pwa": {
-      "type": "boolean",
-      "description": "Add PWA support to the project.",
-      "default": false
     },
     "ssr": {
       "type": "boolean",

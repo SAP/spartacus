@@ -23,6 +23,11 @@ export const UPDATE_CONFIG_ALIAS = '@updateConfig';
 export const GET_CONFIG_ALIAS = '@readConfig';
 
 /**
+ * Alias used for reading the config
+ */
+export const CREATE_CONFIG_ALIAS = '@createConfig';
+
+/**
  * Alias used for reading the config prices
  */
 export const CONFIG_PRICING_ALIAS = '@readConfigPricing';
@@ -73,6 +78,18 @@ export function registerConfigurationRoute() {
       'BASE_SITE'
     )}/ccpconfigurator/*`,
   }).as(GET_CONFIG_ALIAS.substring(1)); // strip the '@'
+}
+
+/**
+ * Register configuration route.
+ */
+export function registerCreateConfigurationRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/configurators/ccpconfigurator*`,
+  }).as(CREATE_CONFIG_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
@@ -261,10 +278,12 @@ export function checkConflictDescriptionDisplayed(description: string): void {
 function clickOnConflictSolverLink(attribute: string, linkName: string): void {
   checkGhostAnimationNotDisplayed();
   isConflictLinkAttached(attribute);
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+  cy.get('cx-configurator-attribute-header').as('conf');
+  cy.get('@conf')
+    .find(`#cx-configurator--attribute-msg--${attribute}`, {
       timeout: 10000,
-    }).within(() => {
+    })
+    .within(() => {
       cy.log('Click conflict link ' + linkName);
       cy.get('a.cx-action-link')
         .click()
@@ -272,7 +291,6 @@ function clickOnConflictSolverLink(attribute: string, linkName: string): void {
           checkGhostAnimationNotDisplayed();
         });
     });
-  });
 }
 
 /**
@@ -281,13 +299,14 @@ function clickOnConflictSolverLink(attribute: string, linkName: string): void {
  * @param attribute - Attribute name
  */
 export function isConflictLinkAttached(attribute: string): void {
-  cy.get('cx-configurator-attribute-header').within(() => {
-    cy.get(`#cx-configurator--attribute-msg--${attribute}`, {
+  cy.get('cx-configurator-attribute-header').as('conf');
+  cy.get('@conf')
+    .find(`#cx-configurator--attribute-msg--${attribute}`, {
       timeout: 10000,
-    }).within(() => {
+    })
+    .within(() => {
       cy.get('a.cx-action-link').wait(1000);
     });
-  });
 }
 
 /**
@@ -457,14 +476,16 @@ export function selectConflictingValue(
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {number} numberOfConflicts - Expected number of conflicts
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function selectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  numberOfConflicts: number
+  numberOfConflicts: number,
+  isPricingEnabled?: boolean
 ): void {
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgDisplayed(attributeName);
   checkConflictHeaderGroupDisplayed();
   verifyNumberOfConflicts(numberOfConflicts);
@@ -478,13 +499,20 @@ export function selectConflictingValueAndWait(
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function deselectConflictingValue(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  isPricingEnabled?: boolean
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName);
+  configuration.selectAttribute(
+    attributeName,
+    uiType,
+    valueName,
+    isPricingEnabled
+  );
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -497,13 +525,15 @@ export function deselectConflictingValue(
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
+ * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
  */
 export function deselectConflictingValueAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string
+  valueName: string,
+  isPricingEnabled?: boolean
 ): void {
-  selectAttributeAndWait(attributeName, uiType, valueName);
+  selectAttributeAndWait(attributeName, uiType, valueName, isPricingEnabled);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -683,7 +713,7 @@ export function checkCommerceRelease(
     commerceRelease.isAtLeast2211 = responseAsString.includes(
       'immediateConflictResolution'
     );
-    commerceRelease.isPricingEnabled = responseBody.pricingEnabled;
+    commerceRelease.isPricingEnabled = responseBody.pricingEnabled ?? true;
     cy.log(
       'Is at least 22.05 commerce release: ' + commerceRelease.isAtLeast2205
     );

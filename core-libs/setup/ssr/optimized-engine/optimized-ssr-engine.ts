@@ -11,6 +11,7 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { getRequestUrl } from '../express-utils/express-request-url';
 import { RenderingCache } from './rendering-cache';
 import {
+  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
@@ -60,6 +61,13 @@ export class OptimizedSsrEngine {
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
   ) {
+    this.ssrOptions = ssrOptions
+      ? {
+          ...defaultSsrOptimizationOptions,
+          // overrides the default options
+          ...ssrOptions,
+        }
+      : undefined;
     this.logOptions();
   }
 

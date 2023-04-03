@@ -9,7 +9,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -63,27 +62,11 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
 
-  // TODO(#499): make asmService and modalService are required dependency
-  constructor(
-    productInterestService: UserInterestsService,
-    translationService: TranslationService,
-    productService: ProductService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    globalMessageService: GlobalMessageService
-  );
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    productInterestService: UserInterestsService,
-    translationService: TranslationService,
-    productService: ProductService
-  );
   constructor(
     private productInterestService: UserInterestsService,
     private translationService: TranslationService,
     private productService: ProductService,
-    @Optional() private globalMessageService?: GlobalMessageService
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {

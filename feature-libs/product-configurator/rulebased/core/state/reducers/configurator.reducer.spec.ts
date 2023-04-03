@@ -33,7 +33,9 @@ const INTERACTION_STATE: Configurator.InteractionState = {
   menuParentGroup: undefined,
   issueNavigationDone: true,
   showConflictSolverDialog: undefined,
+  newConfiguration: undefined,
 };
+
 const ATTR_VALUE: Configurator.Value = { valueCode: VALUE_CODE };
 const ATTRIBUTE: Configurator.Attribute = {
   name: ATTRIBUTE_NAME,
@@ -132,6 +134,7 @@ describe('Configurator reducer', () => {
         CONFIGURATION.groups[0].id
       );
     });
+
     it('should take current group from flatGroups if current group in interaction state is undefined', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration('A', OWNER),
@@ -147,6 +150,16 @@ describe('Configurator reducer', () => {
       );
       const state = StateReduce.configuratorReducer(undefined, action);
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
+    });
+
+    it('should update the new configuration flag in the interaction state', () => {
+      const action = new ConfiguratorActions.CreateConfigurationSuccess({
+        ...CONFIGURATION,
+        newConfiguration: true,
+      });
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.newConfiguration).toBe(true);
     });
   });
 
@@ -302,6 +315,26 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.interactionState.showConflictSolverDialog).toEqual(false);
+    });
+
+    it('should set the new configuration flag in the interaction state to false, only if it was true before', () => {
+      const testConfig = structuredClone(CONFIGURATION);
+      testConfig.interactionState.newConfiguration = true;
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        testConfig
+      );
+      const state = StateReduce.configuratorReducer(testConfig, action);
+
+      expect(state.interactionState.newConfiguration).toBe(false);
+    });
+
+    it('should set the new configuration flag in the interaction state to undefined, if was undefined before', () => {
+      const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+        CONFIGURATION
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.interactionState.newConfiguration).not.toBeDefined();
     });
   });
 

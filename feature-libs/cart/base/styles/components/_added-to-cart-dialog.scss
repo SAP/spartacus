@@ -1,6 +1,12 @@
 %cx-added-to-cart-dialog {
   background-color: rgba(0, 0, 0, 0.5);
 
+  .cx-modal-content {
+    @include media-breakpoint-down(md) {
+      height: 100%;
+    }
+  }
+
   .cx-dialog-header {
     padding-top: 2rem;
     padding-inline-end: 1.75rem;
@@ -117,6 +123,13 @@
 
     .btn-primary {
       margin: 0 0 0.625rem 0;
+    }
+  }
+
+  .cx-dialog-pickup-store {
+    padding-inline-start: 4.063rem;
+    .cx-dialog-pickup-store-name {
+      font-weight: var(--cx-font-weight-semi);
     }
   }
 }

@@ -31,6 +31,10 @@ export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
+export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
+export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
+export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
+
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
 export const SPARTACUS_CART_BASE_COMPONENTS = `@spartacus/cart/base/components`;
@@ -267,4 +271,11 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
+/***** Feature name end *****/
+
+/***** Feature name start *****/
+export const PICKUP_IN_STORE_FEATURE_NAME = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
+export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/

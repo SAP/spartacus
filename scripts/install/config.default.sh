@@ -37,6 +37,7 @@ SPARTACUS_PROJECTS=(
         "dist/cdc:integration-libs/cdc"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
+        "dist/pickup-in-store:feature-libs/pickup-in-store"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
@@ -52,7 +53,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^14.2.3'
+ANGULAR_CLI_VERSION='^15.2.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"

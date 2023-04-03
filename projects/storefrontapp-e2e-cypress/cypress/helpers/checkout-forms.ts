@@ -83,11 +83,6 @@ export function fillShippingAddress(
           .get('[formcontrolname="postalCode"]')
           .clear()
           .type(shippingAddress.address.postal);
-      shippingAddress?.cellphone &&
-        cy
-          .get('[formcontrolname="cellphone"]')
-          .clear()
-          .type(shippingAddress.cellphone);
       shippingAddress?.phone &&
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
     }
@@ -174,7 +169,7 @@ export function fillPaymentDetails(
        * It takes time for the delivery address to set.
        * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
        */
-      //cy.wait(3000);
+      cy.wait(3000);
       cy.get('button.btn.btn-block.btn-primary')
         .should('be.enabled')
         .contains('Continue')

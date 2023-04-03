@@ -3,7 +3,7 @@ $caretSize: 7px;
 %cx-site-context-selector {
   position: relative;
   margin-top: 14px;
-  margin-inline-end: 8px;
+  margin-inline-end: 17px;
   margin-bottom: 14px;
   margin-inline-start: 0;
 
@@ -22,7 +22,8 @@ $caretSize: 7px;
     display: flex;
     margin: 0;
     span {
-      @include sr-only();
+      color: var(--cx-color-text);
+      margin-inline-end: 5px;
     }
   }
 
@@ -30,12 +31,15 @@ $caretSize: 7px;
     margin-inline-start: -10px;
     z-index: 1;
     pointer-events: none;
+    color: var(--cx-color-text);
   }
 
   select {
     color: inherit;
     background-color: var(--cx-color-light);
+    color: var(--cx-color-text);
     border: 0;
+    font-weight: var(--cx-font-weight-semi);
 
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -48,7 +52,7 @@ $caretSize: 7px;
 
     position: relative;
     @include media-breakpoint-up(lg) {
-      background-color: var(--cx-color-dark);
+      background-color: var(--cx-color-light);
     }
   }
 }
