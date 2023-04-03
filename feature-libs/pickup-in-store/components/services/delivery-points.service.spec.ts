@@ -92,15 +92,10 @@ describe('DeliveryPointsService', () => {
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
     orderFacade = TestBed.inject(OrderFacade);
 
-    spyOn(activeCartFacade, 'getActive').and.callThrough();
-    //Todo Use this once checkout refractor branch is merged -->
-    // spyOn(activeCartFacade, 'getPickupEntries').and.callThrough();
+    spyOn(activeCartFacade, 'getPickupEntries').and.callThrough();
     spyOn(pickupLocationsSearchService, 'loadStoreDetails').and.callThrough();
     spyOn(pickupLocationsSearchService, 'getStoreDetails').and.callThrough();
-    spyOn(orderFacade, 'getOrderDetails').and.callThrough();
-
-    //Todo Use this once checkout refractor branch is merged -->
-    // spyOn(orderFacade, 'getPickupEntries').and.callThrough();
+    spyOn(orderFacade, 'getPickupEntries').and.callThrough();
   });
 
   it('should be created', () => {
@@ -110,10 +105,8 @@ describe('DeliveryPointsService', () => {
   it('getDeliveryPointsOfServiceFromCart should return: Observable<Array<DeliveryPointOfServiceItems>> ', () => {
     deliveryPointsService.getDeliveryPointsOfServiceFromCart().subscribe();
 
-    expect(activeCartFacade.getActive).toHaveBeenCalled();
+    expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
 
-    //Todo Use this once checkout refractor branch is merged -->
-    // expect(activeCartFacade.getPickupEntries).toHaveBeenCalled();
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
       2
     );
@@ -138,10 +131,8 @@ describe('DeliveryPointsService', () => {
   it('getDeliveryPointsOfServiceFromCart should return: Observable<Array<DeliveryPointOfServiceItems>> ', () => {
     deliveryPointsService.getDeliveryPointsOfServiceFromOrder().subscribe();
 
-    expect(orderFacade.getOrderDetails).toHaveBeenCalled();
+    expect(orderFacade.getPickupEntries).toHaveBeenCalled();
 
-    //Todo Use this once checkout refractor branch is merged -->
-    // expect(orderFacade.getPickupEntries).toHaveBeenCalled();
     expect(pickupLocationsSearchService.loadStoreDetails).toHaveBeenCalledTimes(
       2
     );
