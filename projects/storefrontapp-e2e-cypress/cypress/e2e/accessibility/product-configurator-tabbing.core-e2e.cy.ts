@@ -82,19 +82,11 @@ context('Product Configuration', () => {
       configurationVc.checkGlobalMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationVc.checkGhostAnimationNotDisplayed();
-      if (commerceRelease.isAtLeast2211) {
-        cy.log('Post 2211: product configuration overview page');
-        verifyTabbingOrder(
-          containerSelectorOverviewForm,
-          tabConfig.productConfigurationOverviewPost2211
-        ); //post 2211
-      } else {
-        cy.log('Pre 2211: product configuration overview page');
-        verifyTabbingOrder(
-          containerSelectorOverviewForm,
-          tabConfig.productConfigurationOverview
-        ); // pre 2211
-      }
+
+      verifyTabbingOrder(
+        containerSelectorOverviewForm,
+        tabConfig.productConfigurationOverview
+      );
     });
   });
 
