@@ -44,7 +44,7 @@
     "@fontsource/open-sans": "^4.5.14",
     "@fortawesome/fontawesome-free": "5.8.1",
     "@ng-select/ng-select": "^10.0.3",
-    "bootstrap": "^4.6.1"
+    "bootstrap": "^4.6.2"
   },
   "@spartacus/setup": {
     "@angular/core": "^15.2.4",
@@ -83,7 +83,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/checkout": {
@@ -101,7 +101,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/customer-ticketing": {
@@ -150,7 +150,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/pickup-in-store": {
@@ -169,7 +169,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/product": {
@@ -181,7 +181,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/product-configurator": {
@@ -209,7 +209,7 @@
     "@spartacus/core": "5.0.0",
     "@spartacus/schematics": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/smartedit": {
@@ -232,7 +232,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/tracking": {
@@ -314,7 +314,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "@spartacus/s4om": {
@@ -349,7 +349,7 @@
     "@nguniversal/express-engine": "^15.2.0",
     "@types/google.maps": "^3.49.2",
     "angular-oauth2-oidc": "^15.0.1",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "comment-json": "^4.2.3",
     "express": "^4.18.2",
     "hamburgers": "^1.2.1",
