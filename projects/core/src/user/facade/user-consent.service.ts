@@ -6,11 +6,19 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { iif, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, iif, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
+import { OCC_USER_ID_CURRENT } from '../../occ';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -118,8 +126,23 @@ export class UserConsentService {
    * @param templateId a template ID by which to filter the registered templates.
    */
   getConsent(templateId: string): Observable<Consent | undefined> {
-    return this.authService.isUserLoggedIn().pipe(
-      filter(Boolean),
+    // To ensure data consistency and avoid race-conditions, we only consider the user
+    // as "logged in" when both the `access_token` observable emits a value
+    // with a token and the `userId` observable emits a value with a non-anonymous user id.
+    //
+    // This is due to the fact that the observables with `access_token` and `userId`
+    // emit values at slightly different timings during the process of login and logout.
+
+    // NOTE: This is a temporary solution and the issue should be solved in the roots.
+    // Here is the ticket to track the issue: https://jira.tools.sap/browse/CXSPA-2988
+    return combineLatest([
+      this.authService.isUserLoggedIn(),
+      this.userIdService.getUserId(),
+    ]).pipe(
+      distinctUntilChanged(),
+      filter(
+        ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
+      ),
       switchMap(() => this.getConsents(true)),
       switchMap(() =>
         (<Store<StateWithUser>>this.store).pipe(

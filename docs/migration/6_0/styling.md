@@ -47,6 +47,13 @@
 - `margin-block-end` changed to `-15px` instead of `-20px`
 - `cx-hamburger-menu` styling added to `.cx-group-title`
 
+#### ConfiguratorGroupMenuComponent
+
+- Added `@include media-breakpoint-down(md) {background-color: var(--cx-color-background)}` to `.cx-group-menu`
+- Added `@include media-breakpoint-down(md) {font-weight: var(--cx-font-weight-semi); border-bottom: 1px solid var(--cx-color-light); background-color: var(--cx-color-medium);}` to `.cx-menu-back`
+- Added `@include media-breakpoint-down(md) {text-transform: uppercase; font-weight: var(--cx-font-weight-semi);}` to `.cx-menu-item`
+- Added `@include media-breakpoint-down(md) {border-bottom: 1px solid var(--cx-color-medium);}` to `button:not(.cx-menu-conflict)`
+
 #### ConfiguratorIssuesNotificationComponent
 
 - Added property `font-weight: var(--cx-font-weight-semi)`
@@ -376,3 +383,12 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 - Added line 5 `align-items: normal;`
 - Added line 9-10 `@include media-breakpoint-down(md) {height: 100%;}`
 - Added line 14-17 `@include media-breakpoint-down(md) {height: 100%;}`
+### CustomerTicketingListComponent
+
+- Added line 134 `@include media-breakpoint-down(sm) {flex-wrap: wrap;}`
+- Added line 152 `@include media-breakpoint-down(sm) {width: 100% ; margin-bottom: 17px;}`
+
+### CustomerTicketingCreateComponent
+
+- Added line 23-26 `width: 100%; .cx-customer-ticketing-create { width: 100%;}`
+
