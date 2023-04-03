@@ -8,9 +8,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { finalOrder } from '../model/order/finalOrder';
-import { orders } from '../model/order/orders';
-import { order } from '../model/orderDetail/order';
+import { finalOrder } from '../../root/model/order/finalOrder';
+import { orders } from '../../root/model/order/orders';
+import { order } from '../../root/model/orderDetail/order';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +21,10 @@ export class cdpOrderAdapter {
     protected occEndpointsService: OccEndpointsService
   ) {}
 
-  getOrder(userId: string): Observable<finalOrder> {
-    let URL = this.occEndpointsService.buildUrl('/users/' + userId + '/orders');
+  getOrder(userId: string, page_size: number): Observable<finalOrder> {
+    let URL = this.occEndpointsService.buildUrl(
+      '/users/' + userId + '/orders?pageSize=' + page_size
+    );
     return this.httpClient.get<finalOrder>(URL);
   }
 
@@ -31,5 +33,21 @@ export class cdpOrderAdapter {
       '/users/' + userId + '/orders/' + ord.code + '?fields=FULL'
     );
     return this.httpClient.get<order>(URL);
+  }
+
+  getOrderPerPage(
+    userId: string,
+    page_size: number,
+    currentPage: number
+  ): Observable<finalOrder> {
+    let URL = this.occEndpointsService.buildUrl(
+      '/users/' +
+        userId +
+        '/orders?currentPage=' +
+        currentPage +
+        '&pageSize=' +
+        page_size
+    );
+    return this.httpClient.get<finalOrder>(URL);
   }
 }

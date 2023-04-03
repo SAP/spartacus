@@ -16,7 +16,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { product } from '../../model/ImageDetail/product';
-import { cdpOrderAdapter } from '../../adapter/cdp-order-adapter';
+import { cdpOrderAdapter } from '../../../occ/adapter/cdp-order-adapter';
 import { result } from '../../model/result';
 import { finalOrder } from '../../model/order/finalOrder';
 import { order } from '../../model/orderDetail/order';
