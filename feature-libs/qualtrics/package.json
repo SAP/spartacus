@@ -33,7 +33,7 @@
     "@spartacus/core": "6.0.0-1",
     "@spartacus/schematics": "6.0.0-1",
     "@spartacus/styles": "6.0.0-1",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
