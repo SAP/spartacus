@@ -5,22 +5,17 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {
-  Address,
-  TranslationService,
-  UserPaymentService,
-} from '@spartacus/core';
-import {
-  AddressBookComponentService,
-  Card,
-  FocusConfig,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { TranslationService } from '@spartacus/core';
+import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
-import { PaymentDetails } from '@spartacus/cart/base/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CustomerProfileData } from './asm-customer-profile.model';
+import {
+  Customer360CustomerProfile,
+  Customer360PaymentDetail,
+  Customer360Profile,
+} from '@spartacus/asm/customer-360/root';
+import { Customer360SectionContext } from '../customer-360-section-context.model';
 
 @Component({
   selector: 'cx-asm-customer-profile',
@@ -36,46 +31,28 @@ export class AsmCustomerProfileComponent implements OnInit {
 
   iconTypes = ICON_TYPE;
 
-  customerProfileData$: Observable<CustomerProfileData>;
+  customerProfileData$: Observable<Customer360Profile | undefined>;
 
   constructor(
-    protected translation: TranslationService,
-    protected userPaymentService: UserPaymentService,
-    protected addressBookComponentService: AddressBookComponentService
+    public sectionContext: Customer360SectionContext<Customer360CustomerProfile>,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {
-    this.customerProfileData$ = combineLatest([
-      this.userPaymentService.getPaymentMethods(),
-      this.addressBookComponentService.getAddresses(),
-    ]).pipe(
-      map(([paymentDetails, addresses]) => {
-        const defaultPaymentDetail = paymentDetails.find(
-          (paymentDetail) => paymentDetail.defaultPayment
-        );
-        const deliveryAddress: Address | undefined = addresses.find(
-          (address) => address.defaultAddress
-        );
-        return {
-          billingAddress: defaultPaymentDetail?.billingAddress,
-          deliveryAddress: deliveryAddress,
-          phone1: deliveryAddress?.phone,
-          phone2: deliveryAddress?.cellphone,
-          paymentInfoList: paymentDetails,
-        };
+    this.customerProfileData$ = this.sectionContext.data$.pipe(
+      map((data) => {
+        return data?.profile;
       })
     );
-    this.userPaymentService.loadPaymentMethods();
-    this.addressBookComponentService.loadAddresses();
   }
-
+  // todo: cardTypeName might get change to code or both
   getCardContent({
     defaultPayment,
     expiryMonth,
     expiryYear,
     cardNumber,
-    cardType,
-  }: PaymentDetails): Observable<Card> {
+    cardTypeName,
+  }: Customer360PaymentDetail): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.expires', {
         month: expiryMonth,
@@ -88,7 +65,7 @@ export class AsmCustomerProfileComponent implements OnInit {
           role: 'region',
           header: defaultPayment ? textDefaultPaymentMethod : undefined,
           text: [cardNumber ?? '', textExpires],
-          img: this.getCardIcon(cardType?.code ?? ''),
+          img: this.getCardIcon(cardTypeName ?? ''),
           label: defaultPayment
             ? 'paymentCard.defaultPaymentLabel'
             : 'paymentCard.additionalPaymentLabel',

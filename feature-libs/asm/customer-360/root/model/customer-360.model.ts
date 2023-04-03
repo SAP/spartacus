@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { UrlCommand, User } from '@spartacus/core';
+import { Country, Region, UrlCommand, User } from '@spartacus/core';
 
 export interface Customer360Review {
   productName: string;
@@ -40,6 +40,7 @@ export enum Customer360Type {
   STORE_LOCATION = 'c360StoreLocation',
   PRODUCT_INTEREST_LIST = 'c360CustomerProductInterestList',
   SUPPORT_TICKET_LIST = 'c360TicketList',
+  CUSTOMER_PROFILE = 'c360CustomerProfile',
 }
 
 export interface Customer360SupportTicketList {
@@ -55,6 +56,36 @@ export interface Customer360ReviewList {
 export interface Customer360StoreLocation {
   type: Customer360Type.STORE_LOCATION;
   address: string;
+}
+
+export interface Customer360Address {
+  id?: string;
+  line1?: string;
+  line2?: string;
+  town?: string;
+  region?: Region;
+  country?: Country;
+}
+export interface Customer360PaymentDetail {
+  id?: string;
+  cardTypeName?: string; // TODO this might change to return code
+  cardNumber?: string;
+  expiryMonth?: string;
+  expiryYear?: string;
+  defaultPayment?: boolean;
+}
+
+export interface Customer360Profile {
+  billingAddress?: Customer360Address;
+  deliveryAddress?: Customer360Address;
+  phone1?: string;
+  phone2?: string; // TODO this might change to cellphone or return value will be cellphone
+  paymentDetails?: Customer360PaymentDetail[];
+}
+
+export interface Customer360CustomerProfile {
+  type: Customer360Type.CUSTOMER_PROFILE;
+  profile?: Customer360Profile;
 }
 
 export interface Customer360ProductInterestList {
@@ -88,7 +119,8 @@ export type Customer360Data =
   | Customer360ProductInterestList
   | Customer360ReviewList
   | Customer360StoreLocation
-  | Customer360SupportTicketList;
+  | Customer360SupportTicketList
+  | Customer360CustomerProfile;
 
 export interface Customer360Response {
   value: Array<Customer360Data>;

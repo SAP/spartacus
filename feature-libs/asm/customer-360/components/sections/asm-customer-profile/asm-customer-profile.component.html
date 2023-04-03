@@ -61,7 +61,7 @@
       <div
         class="cx-asm-profile-card"
         *ngFor="
-          let paymentInfoList of customerProfileData.paymentInfoList;
+          let paymentInfoList of customerProfileData.paymentDetails;
           let i = index
         "
       >
@@ -90,9 +90,6 @@
           >{{ address?.region?.isocode }},
         </span>
         <span class="address-country">{{ address?.country?.isocode }}</span>
-      </div>
-      <div class="address-postal">
-        {{ address?.postalCode }}
       </div>
     </div>
   </ng-template>

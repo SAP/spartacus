@@ -23,9 +23,9 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: 'AsmCustomer360ProductInterestsComponent',
             //TODO until backend is ready
-            // requestData: {
-            //   type: Customer360Type.PRODUCT_INTEREST_LIST,
-            // },
+            requestData: {
+              type: Customer360Type.PRODUCT_INTEREST_LIST,
+            },
           },
         ],
       },
@@ -34,6 +34,10 @@ export const defaultCustomer360Config: Customer360Config = {
         components: [
           {
             component: 'AsmCustomer360ProfileComponent',
+            //TODO until backend is ready
+            requestData: {
+              type: Customer360Type.CUSTOMER_PROFILE,
+            },
           },
         ],
       },
@@ -52,9 +56,9 @@ export const defaultCustomer360Config: Customer360Config = {
           {
             component: 'AsmCustomer360SupportTicketsComponent',
             //TODO  until backend is ready
-            // requestData: {
-            //   type: Customer360Type.SUPPORT_TICKET_LIST,
-            // },
+            requestData: {
+              type: Customer360Type.SUPPORT_TICKET_LIST,
+            },
             config: { pageSize: 5 },
           },
           {
