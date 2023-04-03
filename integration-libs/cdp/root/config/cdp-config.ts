@@ -12,19 +12,22 @@ export const CdpConfig: RoutingConfig = {
       orders: {
         paths: ['my-account/orders'],
       },
-      myAccount: {
-        paths: ['my-account'],
-      },
       orderDetails: {
         paths: ['my-account/order/:orderCode'],
         paramsMapping: { orderCode: 'code' },
       },
       personalDetails: {
-        paths: ['/my-account/update-profile'],
+        paths: ['my-account/update-profile'],
       },
-      // logout: {
+      // signOut: {
       //   paths: ['logout'],
       // },
-    },
-  },
+      passwordDetails: {
+        paths: ['my-account/update-password'],
+      },
+      SettingsAndPrivacy: {
+        paths: ['my-account/consents'],
+      }
+    }
+  }
 };

@@ -69,6 +69,7 @@ export class CdpMyAccountComponent
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
+  length: number = 0;
 
   // orders$ = this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
 
@@ -87,6 +88,7 @@ export class CdpMyAccountComponent
     this.orders$.subscribe((res) => {
       this.orders = res;
       this.getOrderedItems(this.orders);
+      // this.length=Object.keys(this.orders).length;
     });
   }
 

@@ -15,8 +15,8 @@
       </a>
     </div>
     <!-- TABLE -->
-    <div>
-      <section *ngIf="orders$ | async as orders; else noOrders">
+    <div *ngIf="orders$ | async as orders">
+      <section >
         <table
           *ngFor="let order of orders.orders"
           role="table"
@@ -28,7 +28,7 @@
               <!-- PURCHASEDIN -->
               <th role="cell">
                 <div class="cx-header">
-                  {{ 'cdpOrderHistory.purchasedStore' | cxTranslate }}
+                  {{ 'cdpOrderHistory.purchasedStore' | cxTranslate}}
                 </div>
               </th>
               <th class="cx-header"></th>
@@ -117,7 +117,7 @@
   </div>
 </ng-template>
 <ng-template #noOrders>
-  <div>
-    <h3>No Orders</h3>
+  <div class="cx-cdp-body cx-cdp-body-table cx-header">
+    {{'cdpOrderHistory.noOrders'}}
   </div>
 </ng-template>

@@ -6,6 +6,7 @@
 
 export const cdp = {
   cdpOrderHistory: {
+    noOrders: 'No Orders',
     orderInformation: 'Order Information',
     accountInformation: 'Account Information',
     customerService: 'Customer Service',
@@ -32,6 +33,6 @@ export const cdp = {
     addressBook: 'Address Book',
     paymentDetails: 'Payment Details',
     communications: 'Communications',
-    settingAndPrivacy: 'Settings And Privacy',
+    settingsAndPrivacy: 'Settings And Privacy',
   },
 };
