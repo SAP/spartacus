@@ -1,0 +1,148 @@
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <h2 class="form-section">
+    {{ 'updateProfileForm.myInformation' | cxTranslate }}
+  </h2>
+  <label>
+    <span class="label-content">{{
+      'updateProfileForm.title' | cxTranslate
+    }}</span>
+    <ng-select
+      [clearable]="false"
+      [searchable]="false"
+      formControlName="titleCode"
+      id="title-select"
+      [cxNgSelectA11y]="{
+        ariaLabel: 'updateProfileForm.title' | cxTranslate
+      }"
+    >
+      <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
+        title.name
+      }}</ng-option>
+    </ng-select>
+  </label>
+  <label>
+    <span class="label-content">{{
+      'updateProfileForm.firstName.label' | cxTranslate
+    }}</span>
+    <input
+      required="true"
+      type="text"
+      class="form-control"
+      name="firstName"
+      placeholder="{{
+        'updateProfileForm.firstName.placeholder' | cxTranslate
+      }}"
+      formControlName="firstName"
+    />
+    <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
+  </label>
+
+  <label>
+    <span class="label-content">{{
+      'updateProfileForm.lastName.label' | cxTranslate
+    }}</span>
+    <input
+      required="true"
+      type="text"
+      class="form-control"
+      name="lastName"
+      placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
+      formControlName="lastName"
+    />
+    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+  </label>
+
+  <label>
+    <span class="label-content">{{
+      'updateProfileForm.customerId' | cxTranslate
+    }}</span>
+    <input
+      type="text"
+      class="form-control"
+      name="customerId"
+      formControlName="customerId"
+      readonly
+    />
+    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
+  </label>
+  <h2 class="form-section">
+    {{ 'updateEmailForm.myEmailAddress' | cxTranslate }}
+  </h2>
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.currentEmailAddress.label' | cxTranslate
+    }}</span>
+    <input
+      type="email"
+      name="email"
+      formControlName="uid"
+      class="form-control"
+      readonly
+    />
+    <cx-form-errors [control]="form.get('email')"></cx-form-errors>
+  </label>
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.newEmailAddress.label' | cxTranslate
+    }}</span>
+    <input
+      required="false"
+      type="email"
+      name="newEmail"
+      (change)="onEmailChanged()"
+      formControlName="newEmail"
+      placeholder="{{
+        'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
+      }}"
+      class="form-control"
+    />
+    <cx-form-errors [control]="form.get('newEmail')"></cx-form-errors>
+  </label>
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
+    }}</span>
+    <input
+      required="false"
+      type="email"
+      name="confirmEmail"
+      formControlName="confirmEmail"
+      placeholder="{{
+        'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
+      }}"
+      (change)="onEmailChanged()"
+      class="form-control"
+    />
+    <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
+  </label>
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.password.label' | cxTranslate
+    }}</span>
+    <input
+      required="false"
+      type="password"
+      name="password"
+      formControlName="password"
+      (change)="onEmailChanged()"
+      placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
+      class="form-control"
+      autocomplete="new-password"
+      [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
+      cxPasswordVisibilitySwitch
+    />
+    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
+  </label>
+  <a
+    class="btn btn-block btn-secondary"
+    [routerLink]="{ cxRoute: 'home' } | cxUrl"
+  >
+    {{ 'common.cancel' | cxTranslate }}
+  </a>
+
+  <button class="btn btn-block btn-primary" [disabled]="form.disabled">
+    {{ 'common.save' | cxTranslate }}
+  </button>
+</form>

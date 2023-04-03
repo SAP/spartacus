@@ -19,9 +19,9 @@ export const CdpConfig: RoutingConfig = {
       personalDetails: {
         paths: ['my-account/update-profile'],
       },
-      signOut: {
-        paths: ['logout'],
-      },
+      // signOut: {
+      //   paths: ['logout'],
+      // },
       passwordDetails: {
         paths: ['my-account/update-password'],
       },
