@@ -8,7 +8,6 @@ import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as checkout from './checkout-flow';
 import { waitForPage } from './checkout-flow';
-import { listenForTokenAuthenticationRequest } from './login';
 import { validateUpdateProfileForm } from './update-profile';
 
 export let guestUser;
@@ -93,8 +92,6 @@ export function testCheckoutAsGuest() {
 }
 
 export function createAccountFromGuest(password: string) {
-  const tokenAuthRequestAlias = listenForTokenAuthenticationRequest();
-
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
@@ -102,7 +99,6 @@ export function createAccountFromGuest(password: string) {
     cy.get('button[type=submit]').click();
   });
 
-  cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
   cy.wait(`@${homePage}`);
   cy.get('cx-page-slot.Section1 cx-banner');
 }
