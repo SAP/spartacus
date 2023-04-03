@@ -5,7 +5,6 @@
  */
 
 import {
-  Customer360CustomerProfile,
   Customer360ProductInterestList,
   Customer360Response,
   Customer360ReviewList,
@@ -51,56 +50,6 @@ export const mockSupportTicketList: Customer360SupportTicketList = {
 export const mockStoreLocationList: Customer360StoreLocation = {
   type: Customer360Type.STORE_LOCATION,
   address: 'Feltham, GB',
-};
-
-export const mockCustomerProfile: Customer360CustomerProfile = {
-  type: Customer360Type.CUSTOMER_PROFILE,
-  profile: {
-    billingAddress: {
-      id: '8796098854935',
-      line1: 'billing address line1',
-      line2: 'billing address line2',
-      town: 'Sunnyvale',
-      region: {
-        isocode: 'string',
-        isocodeShort: 'string',
-        countryIso: 'string',
-        name: 'string',
-      },
-      country: {
-        isocode: 'US',
-        name: 'United States',
-      },
-    },
-    deliveryAddress: {
-      id: '8796098854935',
-      line1: 'd address line1',
-      line2: 'd address line2',
-      town: 'Sunnyvale',
-      region: {
-        isocode: 'string',
-        isocodeShort: 'string',
-        countryIso: 'string',
-        name: 'string',
-      },
-      country: {
-        isocode: 'US',
-        name: 'United States',
-      },
-    },
-    phone1: '090 0987 432',
-    phone2: '090 0987 653',
-    paymentDetails: [
-      {
-        id: '8796125822999',
-        cardTypeName: 'visa',
-        cardNumber: '************6182',
-        expiryMonth: '02',
-        expiryYear: '2999',
-        defaultPayment: true,
-      },
-    ],
-  },
 };
 
 export const mockReviewList: Customer360ReviewList = {
@@ -154,6 +103,5 @@ export const mockCustomer360Response: Customer360Response = {
     mockSupportTicketList,
     mockInterestList,
     mockStoreLocationList,
-    mockCustomerProfile,
   ],
 };
