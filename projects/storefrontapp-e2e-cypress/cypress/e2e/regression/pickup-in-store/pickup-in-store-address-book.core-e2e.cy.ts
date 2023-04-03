@@ -75,7 +75,7 @@ describe('Preferred Store for pickup In Address Book', () => {
         cy.get(L.STORE_NAME).should('have.text', ` ${firstName} `);
       });
 
-      /** Adress Book Pickup Option Actions */
+      /** Address Book Pickup Option Actions */
       cy.get(`${L.ADDRESS_BOOK_PICKUP_STORE_LINK}:contains('Get Directions')`);
       cy.get(`${L.ADDRESS_BOOK_PICKUP_STORE_LINK}:contains('Change Store')`)
         .should('exist')

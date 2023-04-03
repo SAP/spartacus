@@ -57,7 +57,6 @@ export const storeSearch = {
   hideOutOfStockOptions: 'Hide out of stock options',
   searchPlaceholder: 'Enter Zip Code, Town or Address',
   useMyLocation: 'Use my location',
-  viewAllStores: 'View all stores',
 };
 /** Translation keys for the AddressBook PickupInStoreComponent */
 
