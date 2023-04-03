@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import {
   BrowserLocationActions,
@@ -25,12 +25,11 @@ import {
   ToggleHideOutOfStockOptionsAction,
 } from '../store/index';
 
-// TODO jsdoc
-
 @Injectable()
 export class PickupLocationsSearchService
-  implements PickupLocationsSearchFacade
+  implements PickupLocationsSearchFacade, OnDestroy
 {
+  subscription: Subscription = new Subscription();
   constructor(
     protected store: Store<StateWithStock & StateWithPickupLocations>
   ) {
@@ -97,21 +96,27 @@ export class PickupLocationsSearchService
   }
 
   loadStoreDetails(storeName: string): void {
-    this.getStoreDetails(storeName)
-      .pipe(
-        filter((storeDetails) => !storeDetails),
-        tap((_storeDetails) =>
-          this.store.dispatch(
-            PickupLocationActions.GetStoreDetailsById({ payload: storeName })
+    this.subscription.add(
+      this.getStoreDetails(storeName)
+        .pipe(
+          filter((storeDetails) => !storeDetails),
+          tap((_storeDetails) =>
+            this.store.dispatch(
+              PickupLocationActions.GetStoreDetailsById({ payload: storeName })
+            )
           )
         )
-      )
-      .subscribe();
+        .subscribe()
+    );
   }
 
   getStoreDetails(name: string): Observable<PointOfService> {
     return this.store.pipe(
       select(PickupLocationsSelectors.getStoreDetailsByName(name))
     );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
