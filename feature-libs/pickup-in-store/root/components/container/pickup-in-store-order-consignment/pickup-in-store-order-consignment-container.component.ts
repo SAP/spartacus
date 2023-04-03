@@ -20,9 +20,7 @@ export type IOutletContextData = { item: Consignment };
   selector: 'cx-pickup-in-store-order-consignment',
   templateUrl: './pickup-in-store-order-consignment-container.component.html',
 })
-export class PickupInStoreOrderConsignmentContainerComponent
-  implements OnInit, OnDestroy
-{
+export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   constructor(
     @Optional() protected outlet: OutletContextData<IOutletContextData>
   ) {}
@@ -36,9 +34,5 @@ export class PickupInStoreOrderConsignmentContainerComponent
         (pointOfService): pointOfService is PointOfService => !!pointOfService
       )
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
