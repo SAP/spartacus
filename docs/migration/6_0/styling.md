@@ -383,6 +383,7 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 - Added line 5 `align-items: normal;`
 - Added line 9-10 `@include media-breakpoint-down(md) {height: 100%;}`
 - Added line 14-17 `@include media-breakpoint-down(md) {height: 100%;}`
+
 ### CustomerTicketingListComponent
 
 - Added line 134 `@include media-breakpoint-down(sm) {flex-wrap: wrap;}`
