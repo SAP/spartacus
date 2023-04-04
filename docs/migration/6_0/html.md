@@ -397,4 +397,3 @@
 #### CustomerTicketingReopenComponent
 
 - Changed `btn-action` to `btn-secondary` to fix the styling.
-
