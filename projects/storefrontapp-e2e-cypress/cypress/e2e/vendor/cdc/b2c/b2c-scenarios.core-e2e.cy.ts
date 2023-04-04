@@ -13,7 +13,7 @@ describe('CDC', () => {
       cy.visit('/cdc/login');
     });
 
-    it('should register and redirect to home page', () => {
+    it('should register and redirect to home page (CXSPA-3016)', () => {
       cdc.registerUser(cdc.user);
       cdc.verifyLoginOrRegistrationSuccess(cdc.user.fullName);
     });
@@ -25,7 +25,7 @@ describe('CDC', () => {
       cy.visit('/');
     });
 
-    it('should register and redirect to home page', () => {
+    it('should register and redirect to home page (CXSPA-3016)', () => {
       cdc.registerUserWithoutScreenSet(cdc.nativeUser);
       cdc.verifyLoginOrRegistrationSuccess(cdc.nativeUser.fullName);
     });
@@ -37,7 +37,7 @@ describe('CDC', () => {
       cy.visit('/cdc/login');
     });
 
-    it('should login and redirect to home page', () => {
+    it('should login and redirect to home page (CXSPA-3016)', () => {
       cdc.loginUser(cdc.user.email, cdc.user.password);
       cdc.verifyLoginOrRegistrationSuccess(cdc.user.fullName);
     });
@@ -49,7 +49,7 @@ describe('CDC', () => {
       cy.visit('/login');
     });
 
-    it('should login and redirect to home page', () => {
+    it('should login and redirect to home page (CXSPA-3016)', () => {
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
       cdc.verifyLoginOrRegistrationSuccess(cdc.nativeUser.fullName);
     });
@@ -62,7 +62,7 @@ describe('CDC', () => {
       cdc.loginUser(cdc.user.email, cdc.user.password);
     });
 
-    it('should update profile', () => {
+    it('should update profile (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Profile Details',
       });
