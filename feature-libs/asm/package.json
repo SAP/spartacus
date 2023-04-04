@@ -25,10 +25,10 @@
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^15.2.0",
-    "@angular/common": "^15.2.0",
-    "@angular/core": "^15.2.0",
-    "@angular/forms": "^15.2.0",
+    "@angular-devkit/schematics": "^15.2.4",
+    "@angular/common": "^15.2.4",
+    "@angular/core": "^15.2.4",
+    "@angular/forms": "^15.2.4",
     "@ng-select/ng-select": "^10.0.3",
     "@ngrx/effects": "^15.3.0",
     "@ngrx/store": "^15.3.0",
