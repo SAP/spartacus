@@ -80,7 +80,7 @@ describe('CDC', () => {
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
     });
 
-    it('should update profile with native UI', () => {
+    it('should update profile with native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
@@ -98,7 +98,7 @@ describe('CDC', () => {
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
     });
 
-    it('should update email', () => {
+    it('should update email (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Email Address',
       });
@@ -123,7 +123,7 @@ describe('CDC', () => {
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
     });
 
-    it('should update password in Native UI', () => {
+    it('should update password in Native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Password',
       });
