@@ -24,7 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Pickup in Store"]
+      "default": ["Pickup-In-Store"]
     }
   },
   "required": []
