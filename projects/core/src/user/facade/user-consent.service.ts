@@ -12,6 +12,7 @@ import {
   filter,
   map,
   switchMap,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -143,7 +144,7 @@ export class UserConsentService {
       filter(
         ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
       ),
-      switchMap(() => this.getConsents(true)),
+      switchMap(() => this.getConsents(true).pipe(take(1))),
       switchMap(() =>
         (<Store<StateWithUser>>this.store).pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
