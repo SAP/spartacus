@@ -87,6 +87,15 @@ export class AuthHttpHeaderService implements OnDestroy {
         !refreshInProgress && !logoutInProgress
     ),
     tap(([token]) => {
+      console.log('now', new Date().toUTCString());
+      console.log(
+        'token store',
+        new Date(+token.access_token_stored_at).toUTCString()
+      );
+      console.log(
+        'token exp',
+        new Date(+(token.expires_at ?? 0)).toUTCString()
+      );
       if (token?.refresh_token) {
         this.oAuthLibWrapperService.refreshToken();
         this.authService.setRefreshProgress(true);

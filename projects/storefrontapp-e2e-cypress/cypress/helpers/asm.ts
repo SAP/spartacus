@@ -91,7 +91,18 @@ export function agentLogin(): void {
 
   cy.wait(authRequest).its('response.statusCode').should('eq', 200);
   cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
+  cy.get('cx-customer-selection')
+    .should('exist')
+    .then(() => {
+      const { expires_at, access_token_stored_at } = JSON.parse(
+        window.localStorage.getItem('spartacus⚿⚿auth')
+      ).token;
+      cy.log(`Now: ${new Date().toUTCString()}`);
+      cy.log(
+        `Token stored: ${new Date(+access_token_stored_at).toUTCString()}`
+      );
+      cy.log(`Token expires: ${new Date(+expires_at).toUTCString()}`);
+    });
 }
 
 export function asmOpenCustomerList(): void {

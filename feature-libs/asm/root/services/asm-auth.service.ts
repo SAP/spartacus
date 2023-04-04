@@ -109,6 +109,7 @@ export class AsmAuthService extends AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<any> {
+    console.warn('AsmAuthService.coreLogout');
     return this.userIdService
       .isEmulated()
       .pipe(

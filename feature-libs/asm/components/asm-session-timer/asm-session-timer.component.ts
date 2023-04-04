@@ -35,6 +35,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       } else {
+        console.error('logging out due to asm timeout');
         clearInterval(this.interval);
         this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
       }

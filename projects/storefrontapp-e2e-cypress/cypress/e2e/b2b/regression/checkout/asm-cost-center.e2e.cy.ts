@@ -31,6 +31,16 @@ context('B2B - ASM Account Checkout', () => {
     cy.saveLocalStorage();
   });
 
+  Cypress.on(`window:before:load`, (win) => {
+    (['log', 'warn', 'error', 'info'] as Array<keyof Console>).forEach(
+      (command) => {
+        cy.stub(win.console, command).callsFake((...args) => {
+          cy.now(`log`, `console.${command}`, ...args);
+        });
+      }
+    );
+  });
+
   it('should show error on invalid cost center', () => {
     cy.log('--> Agent logging in');
     checkout.visitHomePage('asm=true');

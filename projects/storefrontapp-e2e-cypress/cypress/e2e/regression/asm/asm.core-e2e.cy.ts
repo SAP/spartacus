@@ -12,6 +12,16 @@ context('Assisted Service Module', () => {
     clearAllStorage();
   });
 
+  Cypress.on(`window:before:load`, (win) => {
+    (['log', 'warn', 'error', 'info'] as Array<keyof Console>).forEach(
+      (command) => {
+        cy.stub(win.console, command).callsFake((...args) => {
+          cy.now(`log`, `console.${command}`, ...args);
+        });
+      }
+    );
+  });
+
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
   });
