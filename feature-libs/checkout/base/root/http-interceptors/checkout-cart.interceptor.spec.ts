@@ -27,7 +27,7 @@ const cartNotFoundError = {
 class MockRoutingService implements Partial<RoutingService> {
   go = createSpy().and.returnValue(EMPTY.toPromise());
 
-  getRouterState = createSpy().and.returnValue(of());
+  getRouterState = createSpy().and.returnValue(EMPTY);
 }
 
 class MultiCartServiceStub implements Partial<MultiCartFacade> {

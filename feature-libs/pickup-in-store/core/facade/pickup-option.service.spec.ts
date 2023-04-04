@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { PickupOptionActions } from '../store';
 import { PickupOptionService } from './pickup-option.service';
 
@@ -10,7 +10,7 @@ export class MockPickupOptionFacade {
     return;
   }
   getPageContext(): Observable<string> {
-    return of();
+    return EMPTY;
   }
   setPickupOption(): void {
     return;

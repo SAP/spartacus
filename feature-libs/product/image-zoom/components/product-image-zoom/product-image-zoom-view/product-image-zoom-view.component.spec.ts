@@ -6,13 +6,13 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
+import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
 
 const firstImage = {
@@ -58,7 +58,7 @@ const mockDataWithoutPrimaryPictures: Product = {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 

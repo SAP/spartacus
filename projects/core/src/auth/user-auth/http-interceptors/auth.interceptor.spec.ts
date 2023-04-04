@@ -11,7 +11,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Observable, of, Subscription } from 'rxjs';
+import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -31,7 +31,7 @@ class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
     return true;
   }
   handleExpiredAccessToken() {
-    return of() as Observable<HttpUserEvent<AuthToken>>;
+    return EMPTY as Observable<HttpUserEvent<AuthToken>>;
   }
   handleExpiredRefreshToken() {}
 }

@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
@@ -100,12 +100,12 @@ describe('CartCouponComponent', () => {
     mockActiveCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
     mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
+    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(EMPTY);
+    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(EMPTY);
     mockCartVoucherService.addVoucher.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.and.stub();
     mockCartVoucherService.resetAddVoucherProcessingState.calls.reset();
-    mockCartVoucherService.getAddVoucherResultError.and.returnValue(of());
+    mockCartVoucherService.getAddVoucherResultError.and.returnValue(EMPTY);
     mockCustomerCouponService.loadCustomerCoupons.and.stub();
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(of({}));
   });

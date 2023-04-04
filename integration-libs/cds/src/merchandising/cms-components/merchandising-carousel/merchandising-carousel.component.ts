@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable, of, using } from 'rxjs';
+import { EMPTY, Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
@@ -102,7 +102,7 @@ export class MerchandisingCarouselComponent {
                     tap((model) => {
                       this.lastEventModelId = model.id;
                     }),
-                    switchMapTo(of())
+                    switchMapTo(EMPTY)
                   );
               })
             )
