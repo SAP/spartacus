@@ -155,7 +155,6 @@ import { UserFeatureModule } from './features/user/user-feature.module';
 
     VariantsFeatureModule,
     ImageZoomFeatureModule,
-
   ],
 })
 export class SpartacusFeaturesModule {}
