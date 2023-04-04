@@ -6,14 +6,10 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Customer360SupportTicketList } from '@spartacus/asm/customer-360/root';
-import { TranslationService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import {
-  CustomerTableColumn,
-  TableEntry,
-} from '../../asm-customer-table/asm-customer-table.model';
+import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { SupportTicketEntry } from './asm-customer-support-tickets.model';
 
@@ -62,8 +58,7 @@ export class AsmCustomerSupportTicketsComponent implements OnInit {
   supportTicketsEntries$: Observable<Array<SupportTicketEntry>>;
 
   constructor(
-    protected context: Customer360SectionContext<Customer360SupportTicketList>,
-    protected translation: TranslationService
+    protected context: Customer360SectionContext<Customer360SupportTicketList>
   ) {}
 
   ngOnInit(): void {
@@ -81,10 +76,12 @@ export class AsmCustomerSupportTicketsComponent implements OnInit {
       })
     );
   }
-  // Todo: need to navigate to new ticket page
-  navigateTo(entry: TableEntry): void {
+  navigateTo(entry: SupportTicketEntry): void {
     if (entry) {
-      //
+      this.context.navigate$.next({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: entry.id },
+      });
     }
   }
 }

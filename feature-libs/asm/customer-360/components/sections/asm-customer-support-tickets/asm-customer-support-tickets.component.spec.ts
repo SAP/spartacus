@@ -153,7 +153,6 @@ describe('AsmCustomerSupportTicketsComponent', () => {
       expect(tableRows.length).toBe(2);
     });
 
-    // TODO need test naviagtion
     it('should navigate ticket', () => {
       spyOn(sectionContext.navigate$, 'next').and.stub();
       const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
@@ -162,6 +161,10 @@ describe('AsmCustomerSupportTicketsComponent', () => {
         By.css('.cx-asm-customer-table-link')
       );
       linkCell.nativeElement.click();
+      expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: '00000001' },
+      });
     });
   });
 });
