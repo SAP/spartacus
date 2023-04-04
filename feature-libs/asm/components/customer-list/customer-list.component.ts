@@ -176,16 +176,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }
     this.customerListConfig?.columns?.forEach((item) => {
       if (
-        item.headerLocalizationKey === 'asm.customerList.tableHeader.account' &&
-        !this.enableAsmB2bCustomerList
+        item.headerLocalizationKey === 'asm.customerList.tableHeader.account' ||
+        item.headerLocalizationKey === 'hideAccount'
       ) {
-        item.headerLocalizationKey = 'hideAccount';
-      }
-      if (
-        item.headerLocalizationKey === 'hideAccount' &&
-        this.enableAsmB2bCustomerList
-      ) {
-        item.headerLocalizationKey = 'asm.customerList.tableHeader.account';
+        item.headerLocalizationKey = this.enableAsmB2bCustomerList
+          ? 'asm.customerList.tableHeader.account'
+          : 'hideAccount';
       }
     });
   }
