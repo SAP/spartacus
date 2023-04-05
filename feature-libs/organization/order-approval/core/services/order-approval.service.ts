@@ -15,7 +15,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pluck, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -92,7 +92,7 @@ export class OrderApprovalService {
    */
   getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
     return this.getOrderApproval(orderApprovalCode).pipe(
-      pluck('loading'),
+      map((x) => x.loading),
       map((loading) => loading ?? false)
     );
   }

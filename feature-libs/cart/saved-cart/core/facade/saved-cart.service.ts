@@ -27,7 +27,6 @@ import {
   filter,
   map,
   observeOn,
-  pluck,
   shareReplay,
   startWith,
   tap,
@@ -145,7 +144,7 @@ export class SavedCartService implements SavedCartFacade {
           this.loadSavedCarts();
         }
       }),
-      pluck(0),
+      map((x) => x[0]),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
