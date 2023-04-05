@@ -5,13 +5,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { tabbingOrderConfig as config } from '../helpers/accessibility/tabbing-order.config';
-import * as alerts from '../helpers/global-message';
-import * as sampleData from '../sample-data/saved-cart';
-import * as cart from '../helpers/cart';
 import { verifyTabbingOrder as tabbingOrder } from '../helpers/accessibility/tabbing-order';
-import { waitForPage, waitForProductPage } from './checkout-flow';
+import { tabbingOrderConfig as config } from '../helpers/accessibility/tabbing-order.config';
+import * as cart from '../helpers/cart';
+import * as alerts from '../helpers/global-message';
 import { SampleProduct } from '../sample-data/checkout-flow';
+import * as sampleData from '../sample-data/saved-cart';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -202,7 +202,10 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 export function clickSavedCartButtonsFromCartPage(position: number) {
   // 0 = Saved Carts 'link' button
   // 1 = Save Cart For Later 'link' button
-  cy.get(`cx-add-to-saved-cart button`).eq(position).should('exist').click();
+  cy.get(`cx-add-to-saved-cart a`)
+    .eq(position)
+    .should('exist')
+    .click({ force: true });
 }
 
 export function waitForCartPageData(product: SampleProduct) {
@@ -517,7 +520,7 @@ export function updateSavedCartAndDelete(
             'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-remove-btn'
           ).click();
         } else {
-          cy.get('cx-saved-cart-details-action .btn-action').click();
+          cy.get('cx-saved-cart-details-action .btn-secondary').click();
 
           cy.get('cx-saved-cart-form-dialog').within(() => {
             cy.get('.cx-saved-cart-value').should(

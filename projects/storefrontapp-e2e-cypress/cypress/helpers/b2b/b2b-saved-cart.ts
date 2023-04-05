@@ -120,14 +120,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 }
 
 export function clickSavedCartButtonsFromCartPage(position: number) {
-  //SavedCart.clickSavedCartButtonsFromCartPage(position);
-
-  // 0 = Saved Carts 'link' button
-  // 1 = Save Cart For Later 'link' button
-  cy.get(`cx-add-to-saved-cart a`)
-    .eq(position)
-    .should('exist')
-    .click({ force: true });
+  SavedCart.clickSavedCartButtonsFromCartPage(position);
 }
 
 export function waitForCartPageData(product: SampleProduct) {
@@ -139,7 +132,7 @@ export function waitForSavedCartListingPageData(product: SampleProduct) {
 }
 
 export function waitForSavedCartDetailsPageData(product: SampleProduct) {
-  SavedCart.waitForSavedCartListingPageData(product);
+  SavedCart.waitForSavedCartDetailsPageData(product);
 }
 
 export function saveActiveCart() {
