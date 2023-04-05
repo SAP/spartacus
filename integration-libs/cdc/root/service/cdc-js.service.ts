@@ -193,7 +193,7 @@ export class CdcJsService implements OnDestroy {
     user: UserSignUp
   ): Observable<{ status: string }> {
     if (!user.uid || !user.password) {
-      return throwError(null);
+      return throwError(() => null);
     } else {
       return this.invokeAPI('accounts.initRegistration', {}).pipe(
         switchMap((response) => this.onInitRegistrationHandler(user, response))
@@ -212,7 +212,7 @@ export class CdcJsService implements OnDestroy {
     response: any
   ): Observable<{ status: string }> {
     if (!response?.regToken || !user?.uid || !user?.password) {
-      return throwError(null);
+      return throwError(() => null);
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       return this.invokeAPI('accounts.register', {
@@ -351,7 +351,7 @@ export class CdcJsService implements OnDestroy {
    */
   resetPasswordWithoutScreenSet(email: string): Observable<{ status: string }> {
     if (!email || email?.length === 0) {
-      return throwError('No email provided');
+      return throwError(() => 'No email provided');
     } else {
       return this.invokeAPI('accounts.resetPassword', {
         loginID: email,
@@ -398,7 +398,7 @@ export class CdcJsService implements OnDestroy {
       !user?.lastName ||
       user?.lastName?.length === 0
     ) {
-      return throwError('User details not provided');
+      return throwError(() => 'User details not provided');
     } else {
       const profileObj = {
         profile: {
@@ -435,7 +435,7 @@ export class CdcJsService implements OnDestroy {
       !newPassword ||
       newPassword?.length === 0
     ) {
-      return throwError('No passwords provided');
+      return throwError(() => 'No passwords provided');
     } else {
       return this.invokeAPI(setAccountInfoAPI, {
         password: oldPassword,
@@ -487,14 +487,14 @@ export class CdcJsService implements OnDestroy {
       !newEmail ||
       newEmail?.length === 0
     ) {
-      return throwError('Email or password not provided');
+      return throwError(() => 'Email or password not provided');
     } else {
       //Verify the password by attempting to login
       return this.getLoggedInUserEmail().pipe(
         switchMap((user) => {
           const email = user?.uid;
           if (!email || email?.length === 0) {
-            return throwError('Email or password not provided');
+            return throwError(() => 'Email or password not provided');
           }
           // Verify the password by attempting to login
           // - CDC doesn't require to verify password before changing an email, but the default Spartacus requires it.
@@ -555,7 +555,7 @@ export class CdcJsService implements OnDestroy {
     country?: string
   ): Observable<{ status: string }> {
     if (!formattedAddress || formattedAddress?.length === 0) {
-      return throwError('No address provided');
+      return throwError(() => 'No address provided');
     } else {
       const profileObj = {
         address: formattedAddress,

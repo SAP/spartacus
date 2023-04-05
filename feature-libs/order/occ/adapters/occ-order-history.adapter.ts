@@ -114,7 +114,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http
       .post(url, cancelRequestInput, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 
   public createReturnRequest(
@@ -134,7 +134,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     );
 
     return this.http.post(url, returnRequestInput, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
+      catchError((error: any) => throwError(() => error)),
       this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
     );
   }
@@ -193,6 +193,6 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http
       .patch(url, returnRequestModification, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 }

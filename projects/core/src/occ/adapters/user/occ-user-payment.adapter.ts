@@ -35,7 +35,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     });
 
     return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
+      catchError((error: any) => throwError(() => error)),
       map((methodList) => methodList.payments ?? []),
       this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
     );
@@ -51,7 +51,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http
       .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 
   setDefault(userId: string, paymentMethodID: string): Observable<{}> {
@@ -70,6 +70,6 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
         { headers }
       )
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 }

@@ -41,7 +41,7 @@ export class CmsPageConnector {
                 ) {
                   return of({});
                 } else {
-                  return throwError(error);
+                  return throwError(() => error);
                 }
               })
             );

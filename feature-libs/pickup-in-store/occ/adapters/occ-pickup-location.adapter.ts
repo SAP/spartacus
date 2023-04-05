@@ -32,6 +32,8 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
           queryParams: { fields: 'FULL' },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+      );
   }
 }

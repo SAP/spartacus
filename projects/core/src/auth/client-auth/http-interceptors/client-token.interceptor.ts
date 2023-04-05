@@ -73,7 +73,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
                 next
               );
             }
-            return throwError(errResponse);
+            return throwError(() => errResponse);
           })
         );
       })

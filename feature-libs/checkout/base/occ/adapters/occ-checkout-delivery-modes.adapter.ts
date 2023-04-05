@@ -40,7 +40,7 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -68,7 +68,7 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -90,7 +90,7 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })

@@ -31,7 +31,7 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
     return this.http
       .post(this.getReorderOrderEndpoint(orderId, userId), {}, { headers })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(REORDER_ORDER_NORMALIZER)
       );
   }

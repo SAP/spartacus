@@ -39,16 +39,17 @@ export class BlobErrorInterceptor implements HttpInterceptor {
               switchMap((errorString: any) => {
                 const error = JSON.parse(errorString);
                 return throwError(
-                  new HttpErrorResponse({
-                    ...errResponse,
-                    error,
-                    url: errResponse.url ?? undefined,
-                  })
+                  () =>
+                    new HttpErrorResponse({
+                      ...errResponse,
+                      error,
+                      url: errResponse.url ?? undefined,
+                    })
                 );
               })
             );
         } else {
-          return throwError(errResponse);
+          return throwError(() => errResponse);
         }
       })
     );

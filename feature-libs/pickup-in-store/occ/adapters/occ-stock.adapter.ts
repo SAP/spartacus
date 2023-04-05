@@ -40,7 +40,9 @@ export class OccStockAdapter implements StockAdapter {
           queryParams: { ...location, fields: 'FULL' },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+      );
   }
 
   loadStockLevelAtStore(
@@ -53,6 +55,8 @@ export class OccStockAdapter implements StockAdapter {
           urlParams: { productCode, storeName },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+      );
   }
 }

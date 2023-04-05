@@ -50,7 +50,7 @@ export class OccOrderAdapter implements OrderAdapter {
         { headers }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),

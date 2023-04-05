@@ -49,7 +49,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         this.getTicketAssociatedObjectsEndpoint(customerId)
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         map(
           (associatedObjectList) =>
             associatedObjectList.ticketAssociatedObjects ?? []
@@ -72,7 +72,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
     return this.http
       .get<CategoriesList>(this.getTicketCategoriesEndpoint())
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         map((categoryList) => categoryList.ticketCategories ?? []),
         this.converter.pipeableMany(CUSTOMER_TICKETING_CATEGORY_NORMALIZER)
       );
@@ -87,7 +87,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
       .get<TicketDetails>(this.getTicketEndpoint(customerId, ticketId))
       .pipe(
         catchError((errorResponse) => {
-          return throwError(normalizeHttpError(errorResponse));
+          return throwError(() => normalizeHttpError(errorResponse));
         }),
         tap((ticket) => ticket.ticketEvents?.reverse()),
         this.converter.pipeable(CUSTOMER_TICKETING_DETAILS_NORMALIZER)
@@ -112,7 +112,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         headers: new HttpHeaders().set('Content-Type', 'application/json'),
       })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(CUSTOMER_TICKETING_CREATE_NORMALIZER)
       );
   }
@@ -136,7 +136,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         this.getTicketsEndpoint(customerId, pageSize, currentPage, sort)
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(CUSTOMER_TICKETING_LIST_NORMALIZER)
       );
   }
@@ -173,7 +173,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(CUSTOMER_TICKETING_EVENT_NORMALIZER)
       );
   }
@@ -205,7 +205,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         formData
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
       );
   }
@@ -244,7 +244,7 @@ export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
         httpOptions
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(CUSTOMER_TICKETING_FILE_NORMALIZER)
       );
   }

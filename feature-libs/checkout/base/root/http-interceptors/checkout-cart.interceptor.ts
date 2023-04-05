@@ -52,7 +52,7 @@ export class CheckoutCartInterceptor implements HttpInterceptor {
                 }
               }
             }
-            return throwError(response);
+            return throwError(() => response);
           })
         );
       })

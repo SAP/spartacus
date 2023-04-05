@@ -23,10 +23,10 @@ import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
-  normalizeHttpError,
   OccEndpointsService,
-  User,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+  User,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -72,7 +72,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(() => normalizeHttpError(error))),
       this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
   }
@@ -120,7 +120,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(() => normalizeHttpError(error))),
       this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
     );
   }
@@ -147,7 +147,7 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http
       .post<void>(url, {}, { headers, params })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(catchError((error) => throwError(() => normalizeHttpError(error))));
   }
 
   createCustomer(user: CustomerRegistrationForm): Observable<User> {
@@ -165,8 +165,10 @@ export class OccAsmAdapter implements AsmAdapter {
         prefix: false,
       }
     );
-    return this.http
-      .post<User>(url, user, { headers, params })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+    return this.http.post<User>(url, user, { headers, params }).pipe(
+      catchError((error) => {
+        throw normalizeHttpError(error);
+      })
+    );
   }
 }

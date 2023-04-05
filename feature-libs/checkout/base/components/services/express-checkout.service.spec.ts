@@ -213,7 +213,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set delivery address error', (done) => {
         checkoutDeliveryAddressFacade.setDeliveryAddress =
-          createSpy().and.returnValue(throwError('err'));
+          createSpy().and.returnValue(throwError(() => 'err'));
 
         service
           .trySetDefaultCheckoutDetails()
@@ -269,7 +269,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set payment method error', (done) => {
         checkoutPaymentService.setPaymentDetails = createSpy().and.returnValue(
-          throwError('err')
+          throwError(() => 'err')
         );
 
         service
@@ -310,7 +310,7 @@ describe('ExpressCheckoutService', () => {
 
       it('should return false if set delivery mode error', (done) => {
         checkoutDeliveryModesFacade.setDeliveryMode =
-          createSpy().and.returnValue(throwError('err'));
+          createSpy().and.returnValue(throwError(() => 'err'));
 
         service
           .trySetDefaultCheckoutDetails()
