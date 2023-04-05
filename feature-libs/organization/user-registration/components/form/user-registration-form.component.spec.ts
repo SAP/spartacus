@@ -12,18 +12,19 @@ import {
   Region,
   Title,
 } from '@spartacus/core';
-import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
-const mockOrganizationUser: OrganizationUserRegistration = {
+const mockOrganizationUser: OrganizationUserRegistrationForm = {
   firstName: 'John',
   lastName: 'Smith',
   email: 'email@domain.com',
   titleCode: 'Mr',
   message: 'Hello',
+  companyName: 'New Company Inc',
 };
 
 const mockTitles: Title[] = [
@@ -195,7 +196,6 @@ describe('UserRegistrationFormComponent', () => {
     spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
     component.registerForm.patchValue({
       ...mockOrganizationUser,
-      companyName: 'New Company Inc.',
     });
     component.registerForm.markAllAsTouched();
 
