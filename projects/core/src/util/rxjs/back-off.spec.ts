@@ -69,7 +69,7 @@ describe(`backOff`, () => {
   });
 
   describe(`when the source throws an error`, () => {
-    describe(`errFn`, () => {
+    describe(`shouldRetry function`, () => {
       describe(`evaluates to false`, () => {
         it(`should not retry and just re-throw the error`, (done) => {
           const source$ = throwError('error');
