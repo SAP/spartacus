@@ -129,10 +129,7 @@ describe('CheckoutCartInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(
-        (_result) => {},
-        (_error) => {}
-      );
+      .subscribe();
 
     return httpMock.expectOne((req) => {
       return req.method === 'GET';
