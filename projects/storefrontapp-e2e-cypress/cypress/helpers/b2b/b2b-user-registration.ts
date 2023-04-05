@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SampleUser } from '../../sample-data/checkout-flow';
-import { clickHamburger } from '../homepage';
-import * as alerts from '../global-message';
-import { interceptPost } from '../../support/utils/intercept';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import { verifyTabbingOrder as tabbingOrder } from '../../helpers/accessibility/tabbing-order';
+import { SampleUser } from '../../sample-data/checkout-flow';
+import { interceptPost } from '../../support/utils/intercept';
+import * as alerts from '../global-message';
+import { clickHamburger } from '../homepage';
 
 export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
   'cx-link.cx-organization-user-register-button';
@@ -36,11 +36,13 @@ export function fillOrganizationUserRegistrationForm(
   { titleCode, firstName, lastName, email, address, phone }: SampleUser,
   message?: string
 ) {
+  const companyName = 'My Company Inc.';
   cy.get(form).should('be.visible');
   cy.get(form).within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect(titleCode);
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
+    cy.get('[formcontrolname="companyName"]').type(companyName);
     cy.get('[formcontrolname="email"]').type(email);
     cy.get('#country-select').ngSelect(address?.country);
     cy.get('[formcontrolname="line1"]').type(address?.line1);
@@ -112,6 +114,9 @@ export function verifyFormErrors() {
     cy.get('[formcontrolname="lastName"] + cx-form-errors').contains(
       requiredFieldMessage
     );
+    cy.get('[formcontrolname="companyName"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
     cy.get('[formcontrolname="email"] + cx-form-errors').contains(
       requiredFieldMessage
     );
@@ -121,6 +126,6 @@ export function verifyFormErrors() {
       cy.get('p+p').contains(notValidEmailMessage);
     });
 
-    cy.get('cx-form-errors p').should('have.length', 4);
+    cy.get('cx-form-errors p').should('have.length', 5);
   });
 }
