@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/commerce-quotes"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && yarn build:commerce-quotes"
+    "after:version:bump": "cd ../.. && npm run build:commerce-quotes"
   },
   "github": {
     "release": true,
