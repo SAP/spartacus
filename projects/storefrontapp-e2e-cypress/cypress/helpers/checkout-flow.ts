@@ -135,6 +135,7 @@ export function signOut() {
     'contain',
     'You have successfully signed out.'
   );
+  cy.get('cx-page-slot.Section1 cx-banner');
 }
 
 export function registerUser(
@@ -439,12 +440,12 @@ export function fillAddressFormWithCheapProduct(
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
-  const deliveryPage = waitForPage(
+  const deliveryModePage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryModePage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${getCheckoutDetailsAlias}`);
