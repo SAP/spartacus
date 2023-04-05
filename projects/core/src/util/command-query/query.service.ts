@@ -19,7 +19,7 @@ import {
 import {
   catchError,
   distinctUntilChanged,
-  pluck,
+  map,
   share,
   switchMapTo,
   takeUntil,
@@ -131,7 +131,10 @@ export class QueryService implements OnDestroy {
       () => state$
     );
 
-    const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
+    const data$ = query$.pipe(
+      map((x) => x.data),
+      distinctUntilChanged()
+    );
 
     return { get: () => data$, getState: () => query$ };
   }

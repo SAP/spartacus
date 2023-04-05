@@ -6,11 +6,15 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
+import {
+  Cart,
+  CART_NORMALIZER,
+  SaveCartResult,
+} from '@spartacus/cart/base/root';
 import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
@@ -23,14 +27,17 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   load(userId: string, cartId: string): Observable<Cart> {
     return this.http
       .get<Occ.Cart>(this.getSavedCartEndpoint(userId, cartId))
-      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
+      .pipe(
+        map((x) => (x as SaveCartResult).savedCartData),
+        this.converter.pipeable(CART_NORMALIZER)
+      );
   }
 
   loadList(userId: string): Observable<Cart[]> {
     return this.http
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
       .pipe(
-        pluck('carts'),
+        map((x) => x.carts),
         map((carts) => carts ?? []),
         this.converter.pipeableMany(CART_NORMALIZER)
       );
@@ -39,7 +46,10 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   restoreSavedCart(userId: string, cartId: string): Observable<Cart> {
     return this.http
       .patch<Occ.Cart>(this.getRestoreSavedCartEndpoint(userId, cartId), cartId)
-      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
+      .pipe(
+        map((x) => (x as SaveCartResult).savedCartData),
+        this.converter.pipeable(CART_NORMALIZER)
+      );
   }
 
   cloneSavedCart(
@@ -52,7 +62,10 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
         this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
         cartId
       )
-      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
+      .pipe(
+        map((x) => (x as SaveCartResult).savedCartData),
+        this.converter.pipeable(CART_NORMALIZER)
+      );
   }
 
   protected getSavedCartEndpoint(userId: string, cartId: string): string {

@@ -14,7 +14,6 @@ import {
   delay,
   filter,
   map,
-  pluck,
   switchMap,
   take,
   withLatestFrom,
@@ -34,8 +33,8 @@ export class GlobalMessageEffect {
     createEffect(() =>
       this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
-        pluck('payload'),
-        switchMap((message: GlobalMessage) =>
+        map((x) => (x as any).payload as GlobalMessage),
+        switchMap((message) =>
           of(message.text).pipe(
             withLatestFrom(
               this.store.pipe(
@@ -75,8 +74,8 @@ export class GlobalMessageEffect {
     isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
       ? this.actions$.pipe(
           ofType(GlobalMessageActions.ADD_MESSAGE),
-          pluck('payload'),
-          concatMap((message: GlobalMessage) => {
+          map((x) => (x as any).payload as GlobalMessage),
+          concatMap((message) => {
             const config = this.config.globalMessages?.[message.type];
             return this.store.pipe(
               select(

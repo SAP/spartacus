@@ -20,7 +20,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, pluck } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutDeliveryModesAdapter
@@ -72,7 +72,7 @@ export class OccCheckoutDeliveryModesAdapter
         backOff({
           shouldRetry: isJaloError,
         }),
-        pluck('deliveryModes'),
+        map((x) => x.deliveryModes),
         map((modes) => modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
