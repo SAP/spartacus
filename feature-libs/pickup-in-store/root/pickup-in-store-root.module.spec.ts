@@ -22,7 +22,7 @@ const MockCmsConfig: CmsConfig = {
         'MyPreferredStoreComponent',
         'OrderConfirmationPickUpComponent',
         'PickupInStoreDeliveryModeComponent',
-      ]
+      ],
     },
     [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
   },
