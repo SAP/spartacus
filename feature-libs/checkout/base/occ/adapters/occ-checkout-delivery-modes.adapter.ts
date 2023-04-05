@@ -72,8 +72,7 @@ export class OccCheckoutDeliveryModesAdapter
         backOff({
           shouldRetry: isJaloError,
         }),
-        map((listResponse) => listResponse.deliveryModes),
-        map((modes) => modes ?? []),
+        map((listResponse) => listResponse.deliveryModes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
   }

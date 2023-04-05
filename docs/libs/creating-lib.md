@@ -207,7 +207,7 @@ Use the following template:
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.8.0",
     "@spartacus/core": "3.0.0-next.0",
     "@spartacus/storefront": "3.0.0-next.0"
   }
