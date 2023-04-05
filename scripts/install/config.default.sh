@@ -38,7 +38,7 @@ SPARTACUS_PROJECTS=(
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/opf:integration-libs/opf"
         "dist/product-configurator:feature-libs/product-configurator"
-        "dist/pickup-in-store:feature-libs/pickup-in-store",
+        "dist/pickup-in-store:feature-libs/pickup-in-store"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )

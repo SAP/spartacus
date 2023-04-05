@@ -1,7 +1,7 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="configuration?.groups?.length > 1">
     <button
-      class="cx-btn btn btn-secondary cx-previous"
+      class="btn btn-block btn-secondary cx-previous"
       [disabled]="isFirstGroup(configuration.owner) | async"
       (click)="onPrevious(configuration)"
       [attr.aria-label]="'configurator.a11y.previous' | cxTranslate"
@@ -9,7 +9,7 @@
       {{ 'configurator.button.previous' | cxTranslate }}
     </button>
     <button
-      class="cx-btn btn btn-secondary cx-next"
+      class="btn btn-block btn-secondary cx-next"
       [disabled]="isLastGroup(configuration.owner) | async"
       (click)="onNext(configuration)"
       [attr.aria-label]="'configurator.a11y.next' | cxTranslate"

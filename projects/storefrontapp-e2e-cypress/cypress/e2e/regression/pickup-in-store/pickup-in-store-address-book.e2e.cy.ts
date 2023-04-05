@@ -21,7 +21,7 @@ describe('Preferred Store for pickup In Address Book', () => {
       configureApparelProduct();
     });
 
-    it('A logged in user selects a store as preferred location for pick up and validates if its added to address book and changes it from store finder', () => {
+    it('A logged in user selects a store as preferred location for pick up and validates if its added to address book and changes it from store finder (CXSPA-201)', () => {
       cy.intercept({
         method: 'POST',
         url: '/authorizationserver/oauth/token',
@@ -75,7 +75,7 @@ describe('Preferred Store for pickup In Address Book', () => {
         cy.get(L.STORE_NAME).should('have.text', ` ${firstName} `);
       });
 
-      /** Adress Book Pickup Option Actions */
+      /** Address Book Pickup Option Actions */
       cy.get(`${L.ADDRESS_BOOK_PICKUP_STORE_LINK}:contains('Get Directions')`);
       cy.get(`${L.ADDRESS_BOOK_PICKUP_STORE_LINK}:contains('Change Store')`)
         .should('exist')

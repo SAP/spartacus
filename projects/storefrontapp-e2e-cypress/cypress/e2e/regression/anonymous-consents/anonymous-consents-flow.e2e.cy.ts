@@ -13,7 +13,7 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Anonymous consents flow', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
