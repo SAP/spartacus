@@ -18,7 +18,7 @@ import {
   RoutingService,
   StateWithClientAuth,
   UserIdService,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
