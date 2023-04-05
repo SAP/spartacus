@@ -12,6 +12,7 @@ import {
   ConfigInitializerService,
   MODULE_INITIALIZER,
 } from '@spartacus/core';
+import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 
@@ -20,14 +21,13 @@ export function cartStatePersistenceFactory(
   configInit: ConfigInitializerService
 ): () => Promise<Config> {
   const result = () =>
-    configInit
-      .getStable('context')
-      .pipe(
+    lastValueFrom(
+      configInit.getStable('context').pipe(
         tap(() => {
           cartStatePersistenceService.initSync();
         })
       )
-      .toPromise();
+    );
   return result;
 }
 

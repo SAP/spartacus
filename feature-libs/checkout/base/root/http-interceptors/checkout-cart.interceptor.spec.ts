@@ -7,7 +7,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService } from '@spartacus/core';
-import { EMPTY, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
 import createSpy = jasmine.createSpy;
@@ -25,7 +25,7 @@ const cartNotFoundError = {
 };
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(EMPTY.toPromise());
+  go = createSpy().and.returnValue(Promise.resolve(undefined));
 
   getRouterState = createSpy().and.returnValue(of());
 }

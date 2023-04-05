@@ -8,7 +8,7 @@ import {
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { ConfigurationService } from './configuration.service';
 
 @NgModule({
@@ -79,9 +79,7 @@ describe('ConfigurationService', () => {
 
       it('should contribute to general config', async () => {
         eventService.dispatch(moduleEvent);
-        const config: any = await service.unifiedConfig$
-          .pipe(take(1))
-          .toPromise();
+        const config: any = await firstValueFrom(service.unifiedConfig$);
         expect(config.a).toEqual('default a');
         expect(config.b).toEqual('module default b');
         expect(config.c).toEqual('module c');
@@ -89,9 +87,7 @@ describe('ConfigurationService', () => {
 
       it('should favor root config over lazy config', async () => {
         eventService.dispatch(moduleEvent);
-        const config: any = await service.unifiedConfig$
-          .pipe(take(1))
-          .toPromise();
+        const config: any = await firstValueFrom(service.unifiedConfig$);
         expect(config.d).toEqual('root d');
       });
 

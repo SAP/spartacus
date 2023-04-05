@@ -11,6 +11,7 @@ import {
   NgModule,
   Optional,
 } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { Config } from '../config-tokens';
 import {
   ConfigInitializer,
@@ -30,7 +31,7 @@ export function configInitializerFactory(
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
 ): Promise<Config> {
-  return configInitializer.getStable().toPromise();
+  return lastValueFrom(configInitializer.getStable());
 }
 
 @NgModule({})

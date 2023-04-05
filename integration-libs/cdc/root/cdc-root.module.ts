@@ -13,6 +13,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
+import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
@@ -24,14 +25,13 @@ export function cdcJsFactory(
   configInit: ConfigInitializerService
 ): () => Promise<Config> {
   const func = () =>
-    configInit
-      .getStable('context', 'cdc')
-      .pipe(
+    lastValueFrom(
+      configInit.getStable('context', 'cdc').pipe(
         tap(() => {
           cdcJsService.initialize();
         })
       )
-      .toPromise();
+    );
   return func;
 }
 
