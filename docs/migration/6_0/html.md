@@ -88,6 +88,7 @@
 ### UserRegistrationFormComponent
 
 - Added `id` attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
+- New input field for a company name has been added. The markup for such field looks identical like for the other text fields in a form.
 
 ### CardComponent
 
@@ -397,3 +398,18 @@
 #### CustomerTicketingReopenComponent
 
 - Changed `btn-action` to `btn-secondary` to fix the styling.
+
+### ListComponent
+
+- Wrapped `a` tag in line 60 with a conditional if clause. The corresponding else clause has a new `button` tag with `(click)` event. Also the labels are returned from `getCreateButtonLabel()` method.
+
+### UnitUserListComponent
+
+- Added `*ngIf` to line 3 to hide/show the template based on condition.
+
+### UserDetailsComponent
+
+- Added `*ngIf` in lines 8 and 18 to hide/show the template based on condition.
+- Added `*ngIf` in line 71 with corresponsing else clause to show/hide hyperlink for navigation. 
+- Updated condition in `*ngIf` clause in line 88 to hide/show the template based on condition.
+
