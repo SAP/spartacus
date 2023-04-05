@@ -167,8 +167,9 @@ describe('CdcRegisterComponentService', () => {
     });
 
     it('should not do anything when CDC registration fails', (done) => {
-      cdcJsService.registerUserWithoutScreenSet =
-        createSpy().and.throwError('ERROR');
+      cdcJsService.registerUserWithoutScreenSet = createSpy().and.throwError(
+        () => 'ERROR'
+      );
 
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();

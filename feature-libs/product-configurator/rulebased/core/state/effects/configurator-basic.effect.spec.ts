@@ -13,11 +13,11 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import {
+  ATTRIBUTE_1_CHECKBOX,
   CONFIG_ID,
-  GROUP_ID_CONFLICT_HEADER,
   GROUP_ID_CONFLICT_1,
   GROUP_ID_CONFLICT_2,
-  ATTRIBUTE_1_CHECKBOX,
+  GROUP_ID_CONFLICT_HEADER,
 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -305,7 +305,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      createMock.and.returnValue(throwError(errorResponse));
+      createMock.and.returnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.CreateConfiguration({
         owner: productConfiguration.owner,
@@ -344,7 +344,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case connector raises an error', () => {
-      readMock.and.returnValue(throwError(errorResponse));
+      readMock.and.returnValue(throwError(() => errorResponse));
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
         groupId: '',
@@ -398,7 +398,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      overviewMock.and.returnValue(throwError(errorResponse));
+      overviewMock.and.returnValue(throwError(() => errorResponse));
       const overviewAction = new ConfiguratorActions.GetConfigurationOverview(
         productConfiguration
       );
@@ -438,7 +438,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateOverviewMock.and.returnValue(throwError(errorResponse));
+      updateOverviewMock.and.returnValue(throwError(() => errorResponse));
       const overviewAction =
         new ConfiguratorActions.UpdateConfigurationOverview(
           productConfiguration
@@ -480,7 +480,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateConfigurationMock.and.returnValue(throwError(errorResponse));
+      updateConfigurationMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
@@ -510,7 +510,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      readPriceSummaryMock.and.returnValue(throwError(errorResponse));
+      readPriceSummaryMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const updatePriceSummaryAction =
         new ConfiguratorActions.UpdatePriceSummary(payloadInput);
@@ -798,7 +798,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit ReadConfigurationFail in case read call is not successful', () => {
-      readMock.and.returnValue(throwError(errorResponse));
+      readMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,

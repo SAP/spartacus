@@ -165,7 +165,7 @@ export class LazyModulesService implements OnDestroy {
             'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
             error
           );
-          return throwError(error);
+          return throwError(() => error);
         }),
         switchMapTo(of(moduleRef))
       );

@@ -109,7 +109,9 @@ describe('CDCForgotPasswordComponentService', () => {
         cdcJsService.didLoad = createSpy().and.returnValue(of(true));
         (
           cdcJsService.resetPasswordWithoutScreenSet as jasmine.Spy
-        ).and.returnValue(throwError('test error: such email does not exist!'));
+        ).and.returnValue(
+          throwError(() => 'test error: such email does not exist!')
+        );
         service.requestEmail();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(service['busy$'].value).toBe(false);

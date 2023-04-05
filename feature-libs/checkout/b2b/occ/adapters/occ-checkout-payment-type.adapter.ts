@@ -41,7 +41,7 @@ export class OccCheckoutPaymentTypeAdapter
     return this.http
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint(), { context })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(CHECKOUT_PAYMENT_TYPE_NORMALIZER)
@@ -69,7 +69,7 @@ export class OccCheckoutPaymentTypeAdapter
         {}
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );

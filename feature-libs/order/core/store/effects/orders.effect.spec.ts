@@ -75,7 +75,7 @@ describe('Orders effect', () => {
 
       it('should handle failures for load user Orders', () => {
         spyOn(orderHistoryConnector, 'getHistory').and.returnValue(
-          throwError(mockError)
+          throwError(() => mockError)
         );
 
         const action = new OrderActions.LoadUserOrders({
@@ -121,7 +121,7 @@ describe('Orders effect', () => {
         spyOn(
           replenishmentOrderHistoryConnector,
           'loadReplenishmentDetailsHistory'
-        ).and.returnValue(throwError(mockError));
+        ).and.returnValue(throwError(() => mockError));
 
         const action = new OrderActions.LoadUserOrders({
           userId: 'test@sap.com',

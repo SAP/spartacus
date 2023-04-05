@@ -62,7 +62,7 @@ export function backOff<T>(options?: BackOffOptions): OperatorFunction<T, T> {
             // if we've re-tried more than the maxTries, OR
             // if the source error is not the one we want to exponentially retry
             if (currentRetry > maxTries || !shouldRetry(attemptError)) {
-              return throwError(attemptError);
+              return throwError(() => attemptError);
             }
 
             return of(currentRetry);

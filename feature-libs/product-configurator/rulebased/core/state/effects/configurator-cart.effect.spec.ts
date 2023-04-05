@@ -440,7 +440,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit a fail action if something goes wrong', () => {
-      readFromCartEntryObs = throwError(errorResponse);
+      readFromCartEntryObs = throwError(() => errorResponse);
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
         {
@@ -484,7 +484,7 @@ describe('ConfiguratorCartEffect', () => {
 
     it('should emit a fail action if something goes wrong', () => {
       readConfigurationForOrderEntryMock.and.returnValue(
-        throwError(errorResponse)
+        throwError(() => errorResponse)
       );
       const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
         {
@@ -573,7 +573,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit CartAddEntryFail in case add to cart call is not successful', () => {
-      addToCartMock.and.returnValue(throwError(errorResponse));
+      addToCartMock.and.returnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -620,7 +620,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit AddToCartFail in case update cart entry call is not successful', () => {
-      updateCartEntryMock.and.returnValue(throwError(errorResponse));
+      updateCartEntryMock.and.returnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration

@@ -10,11 +10,11 @@ import { Order, OrderHistoryList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
 import { UnitOrderActions } from '../store/actions/index';
-import {
-  UNIT_ORDER_FEATURE,
-  StateWithUnitOrder,
-} from '../store/unit-order-state';
 import * as fromStoreReducers from '../store/reducers/index';
+import {
+  StateWithUnitOrder,
+  UNIT_ORDER_FEATURE,
+} from '../store/unit-order-state';
 import { UnitOrderService } from './unit-order.service';
 
 class MockRoutingService {
@@ -120,7 +120,7 @@ describe('UnitOrderService', () => {
 
   it('should NOT load order list data when user is anonymous', () => {
     spyOn(userIdService, 'takeUserId').and.callFake(() => {
-      return throwError('Error');
+      return throwError(() => 'Error');
     });
 
     unitOrderService.loadOrderList(10, 1, 'byDate');

@@ -46,6 +46,6 @@ export class CdcUserAuthenticationTokenService {
 
     return this.http
       .post<Partial<AuthToken> & { expires_in?: number }>(url, params)
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 }

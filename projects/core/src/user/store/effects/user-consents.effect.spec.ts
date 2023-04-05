@@ -102,7 +102,7 @@ describe('User Consents effect', () => {
         msg: 'Mock error',
       };
       spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
-        throwError(mockError)
+        throwError(() => mockError)
       );
 
       const action = new UserActions.TransferAnonymousConsent({
@@ -129,7 +129,7 @@ describe('User Consents effect', () => {
         msg: 'Mock error',
       };
       spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
-        throwError(mockError)
+        throwError(() => mockError)
       );
 
       const action = new UserActions.GiveUserConsent({

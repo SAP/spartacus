@@ -146,7 +146,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadUserGroupFail action if userGroup not updated', () => {
       userGroupConnector.get = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.LoadUserGroup({
         userId,
@@ -186,7 +186,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadUserGroupsFail action if userGroups not loaded', () => {
       userGroupConnector.getList = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.LoadUserGroups({
         userId,
@@ -223,7 +223,7 @@ describe('UserGroup Effects', () => {
 
     it('should return CreateUserGroupFail action if userGroup not created', () => {
       userGroupConnector.create = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.CreateUserGroup({
         userId,
@@ -264,7 +264,7 @@ describe('UserGroup Effects', () => {
 
     it('should return UpdateUserGroupFail action if userGroup not created', () => {
       userGroupConnector.update = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.UpdateUserGroup({
         userId,
@@ -310,7 +310,7 @@ describe('UserGroup Effects', () => {
 
     it('should return DeleteUserGroupFail action if userGroup not created', () => {
       userGroupConnector.delete = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.DeleteUserGroup({
         userId,
@@ -362,7 +362,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadPermissionFail action if permissions not loaded', () => {
       userGroupConnector.getAvailableOrderApprovalPermissions =
-        createSpy().and.returnValue(throwError(httpErrorResponse));
+        createSpy().and.returnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.LoadPermissions({
         userId,
         userGroupId,
@@ -408,7 +408,7 @@ describe('UserGroup Effects', () => {
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
       userGroupConnector.assignOrderApprovalPermission =
-        createSpy().and.returnValue(throwError(httpErrorResponse));
+        createSpy().and.returnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.AssignPermission({
         userId,
         userGroupId,
@@ -452,7 +452,7 @@ describe('UserGroup Effects', () => {
 
     it('should return DeleteUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
       userGroupConnector.unassignOrderApprovalPermission =
-        createSpy().and.returnValue(throwError(httpErrorResponse));
+        createSpy().and.returnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.UnassignPermission({
         userId,
         userGroupId,
@@ -504,7 +504,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
       userGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.LoadAvailableOrgCustomers({
         userId,
@@ -553,7 +553,7 @@ describe('UserGroup Effects', () => {
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
       userGroupConnector.assignMember = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.AssignMember({
         userId,
@@ -602,7 +602,7 @@ describe('UserGroup Effects', () => {
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
       userGroupConnector.unassignMember = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.UnassignMember({
         userId,
@@ -649,7 +649,7 @@ describe('UserGroup Effects', () => {
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
       userGroupConnector.unassignAllMembers = createSpy().and.returnValue(
-        throwError(httpErrorResponse)
+        throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.UnassignAllMembers({
         userId,

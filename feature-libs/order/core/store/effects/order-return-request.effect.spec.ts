@@ -82,7 +82,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for create order return request', () => {
       spyOn(orderHistoryConnector, 'return').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
 
       const action = new OrderActions.CreateOrderReturnRequest({
@@ -127,7 +127,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for load return request list', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
         userId: 'test@sap.com',
@@ -171,7 +171,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for load an order return request', () => {
       spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
 
       const action = new OrderActions.LoadOrderReturnRequest({
@@ -212,7 +212,7 @@ describe('Order Return Request effect', () => {
 
     it('should handle failures for cancel return request', () => {
       spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
-        throwError('Error')
+        throwError(() => 'Error')
       );
 
       const action = new OrderActions.CancelOrderReturnRequest(

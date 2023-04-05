@@ -66,7 +66,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       )
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
-        catchError((error: any) => throwError(error))
+        catchError((error: any) => throwError(() => error))
       );
   }
 
@@ -89,7 +89,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
               params: params,
             }
           )
-          .pipe(catchError((error: any) => throwError(error)))
+          .pipe(catchError((error: any) => throwError(() => error)))
       );
     });
     return forkJoin(r);
@@ -114,6 +114,6 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
           params,
         }
       )
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 }

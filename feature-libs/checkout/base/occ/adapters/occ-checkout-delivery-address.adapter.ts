@@ -47,7 +47,7 @@ export class OccCheckoutDeliveryAddressAdapter
         }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -78,7 +78,7 @@ export class OccCheckoutDeliveryAddressAdapter
         {}
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -103,7 +103,7 @@ export class OccCheckoutDeliveryAddressAdapter
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         })

@@ -42,7 +42,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error))
+          throwError(() => normalizeHttpError(error))
         ),
         this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
       );
@@ -59,7 +59,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error))
+          throwError(() => normalizeHttpError(error))
         ),
         this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
       );
@@ -87,7 +87,7 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
       )
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(normalizeHttpError(error))
+          throwError(() => normalizeHttpError(error))
         )
       );
   }

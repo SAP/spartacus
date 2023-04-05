@@ -70,7 +70,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(() => normalizeHttpError(error))),
       this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
   }
@@ -118,7 +118,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
 
     return this.http.get<CustomerSearchPage>(url, { headers, params }).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(() => normalizeHttpError(error))),
       this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
     );
   }
@@ -145,6 +145,6 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http
       .post<void>(url, {}, { headers, params })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(catchError((error) => throwError(() => normalizeHttpError(error))));
   }
 }

@@ -43,7 +43,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     });
 
     return this.http.get<Occ.AddressList>(url, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
+      catchError((error: any) => throwError(() => error)),
       map((addressList) => addressList.addresses ?? []),
       this.converter.pipeableMany(ADDRESS_NORMALIZER)
     );
@@ -60,7 +60,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http
       .post(url, address, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 
   update(userId: string, addressId: string, address: Address): Observable<{}> {
@@ -74,7 +74,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http
       .patch(url, address, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 
   verify(userId: string, address: Address): Observable<AddressValidation> {
@@ -90,7 +90,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
     return this.http.post<AddressValidation>(url, address, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
+      catchError((error: any) => throwError(() => error)),
       this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
     );
   }
@@ -105,6 +105,6 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
 
     return this.http
       .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error)));
+      .pipe(catchError((error: any) => throwError(() => error)));
   }
 }

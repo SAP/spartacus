@@ -80,7 +80,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
                 break;
             }
-            return throwError(errResponse);
+            return throwError(() => errResponse);
           })
         )
       )

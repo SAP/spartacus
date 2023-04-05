@@ -34,7 +34,7 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     return this.http
       .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );

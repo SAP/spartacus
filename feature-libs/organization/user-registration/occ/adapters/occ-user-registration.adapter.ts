@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
@@ -46,7 +46,7 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
 
     return this.http
       .post<OrganizationUserRegistration>(url, userData, { headers })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(catchError((error) => throwError(() => normalizeHttpError(error))));
   }
 
   protected getOrganizationUserRegistrationEndpoint(): string {

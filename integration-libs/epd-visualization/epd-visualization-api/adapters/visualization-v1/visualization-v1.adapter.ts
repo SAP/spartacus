@@ -73,7 +73,7 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
     folderUsageId: UsageId
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(() => normalizeHttpError(error))),
       this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
     );
   }

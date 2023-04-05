@@ -33,7 +33,7 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
     });
 
     return this.http.post<any>(url, null).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(() => normalizeHttpError(error))),
       this.converter.pipeable(CART_VALIDATION_NORMALIZER)
     );
   }

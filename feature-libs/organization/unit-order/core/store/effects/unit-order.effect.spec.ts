@@ -71,7 +71,7 @@ describe('Orders effect', () => {
 
       it('should handle failures for load user Orders', () => {
         spyOn(orderHistoryConnector, 'getUnitOrderHistory').and.returnValue(
-          throwError(mockError)
+          throwError(() => mockError)
         );
 
         const action = new UnitOrderActions.LoadUnitOrders({
@@ -127,7 +127,7 @@ describe('Orders effect', () => {
 
       it('should handle failures for load order details', () => {
         spyOn(orderHistoryConnector, 'getUnitOrderDetail').and.returnValue(
-          throwError('Error')
+          throwError(() => 'Error')
         );
 
         const action = new UnitOrderActions.LoadOrderDetails(

@@ -92,7 +92,7 @@ export class StorageV1Adapter implements SceneAdapter {
     return this.http
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
       );
   }

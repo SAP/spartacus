@@ -36,7 +36,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     return this.http
       .get<CheckoutState>(this.getGetCheckoutDetailsEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         backOff({
           shouldRetry: isJaloError,
         }),

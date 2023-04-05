@@ -234,7 +234,7 @@ describe(`CheckoutDeliveryModesService`, () => {
 
     it(`should dispatch CheckoutDeliveryModeClearedErrorEvent event on error`, () => {
       connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
-        throwError('err')
+        throwError(() => 'err')
       );
 
       service.clearCheckoutDeliveryMode();

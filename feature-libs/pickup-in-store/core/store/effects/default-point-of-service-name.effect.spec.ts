@@ -21,7 +21,7 @@ let ForceErrorInMockUserProfileFacadeGo = false;
 export class MockUserProfileFacade implements Partial<UserProfileFacade> {
   update(_details: User): Observable<unknown> {
     return ForceErrorInMockUserProfileFacadeGo
-      ? throwError('An RX JS ERROR')
+      ? throwError(() => 'An RX JS ERROR')
       : of({});
   }
   get(): Observable<User | undefined> {

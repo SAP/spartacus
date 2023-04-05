@@ -92,7 +92,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
         capturedRequestsStack.push(request);
         const cpqResponse = cpqResponseStack.pop();
         return cpqResponse instanceof HttpErrorResponse
-          ? throwError(cpqResponse)
+          ? throwError(() => cpqResponse)
           : of(cpqResponse);
       }
     );

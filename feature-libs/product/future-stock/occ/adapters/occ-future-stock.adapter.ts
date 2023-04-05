@@ -8,15 +8,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import {
-  OccEndpointsService,
   ConverterService,
   normalizeHttpError,
+  OccEndpointsService,
 } from '@spartacus/core';
 
 import {
   FutureStockAdapter,
-  FUTURE_STOCK_NORMALIZER,
   FUTURE_STOCK_LIST_NORMALIZER,
+  FUTURE_STOCK_NORMALIZER,
   ProductFutureStock,
   ProductFutureStockList,
 } from '@spartacus/product/future-stock/core';
@@ -38,7 +38,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
     return this.http
       .get<ProductFutureStock>(this.getFutureStockEndpoint(userId, productCode))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(FUTURE_STOCK_NORMALIZER)
       );
   }
@@ -52,7 +52,7 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
         this.getFutureStocksEndpoint(userId, productCodes)
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(FUTURE_STOCK_LIST_NORMALIZER)
       );
   }

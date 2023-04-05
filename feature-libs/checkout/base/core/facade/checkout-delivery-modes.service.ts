@@ -123,7 +123,7 @@ export class CheckoutDeliveryModesService
                     CheckoutDeliveryModeClearedErrorEvent
                   );
 
-                  return throwError(error);
+                  return throwError(() => error);
                 })
               )
           )
