@@ -469,7 +469,8 @@ export function proceedWithIncorrectPaymentForm(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  isGuest?: boolean
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -488,18 +489,37 @@ export function fillPaymentFormWithCheapProduct(
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
     'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP'
   );
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/paymentdetails*`,
+  }).as('getPaymentDetails');
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.log('submitPayment timestamp: ', new Date().toISOString());
+
   cy.wait('@submitPayment');
-  cy.log('reviewPage timestamp: ', new Date().toISOString());
+  if (!isGuest) {
+    cy.wait('@getPaymentDetails').then((xhr) => {
+      const response = xhr?.response;
+      cy.log(
+        response
+          ? `Checkout getPaymentDetails details after payment step: ${JSON.stringify(
+              response.body,
+              null,
+              2
+            )}`
+          : 'No getPaymentDetails response body'
+      );
+    });
+  }
   cy.wait(`@${reviewPage}`);
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
-    const response = xhr.response;
+    const response = xhr?.response;
     cy.log(
       `Checkout details after payment step: ${JSON.stringify(
-        response.body,
+        response?.body,
         null,
         2
       )}`

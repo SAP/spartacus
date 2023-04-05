@@ -54,7 +54,7 @@ export function testCheckoutAsGuest() {
 
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
-    checkout.fillPaymentFormWithCheapProduct();
+    checkout.fillPaymentFormWithCheapProduct(undefined, undefined, true);
     checkout.placeOrderWithCheapProduct();
     checkout.verifyOrderConfirmationPageWithCheapProduct();
 
