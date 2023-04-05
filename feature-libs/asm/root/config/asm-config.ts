@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { User } from '@spartacus/core';
+import { Injectable } from '@angular/core';
+import { Config, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CustomerListColumnActionType } from '../model/customer-list.model';
-
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class AsmConfig {
   asm?: {
     agentSessionTimer?: {

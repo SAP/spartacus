@@ -208,4 +208,11 @@ export class OrderHistoryService implements OrderHistoryFacade {
   resetCancelOrderProcessState(): void {
     return this.store.dispatch(new OrderActions.ResetCancelOrderProcess());
   }
+
+  /**
+   * Returns the order details loading flag
+   */
+  getOrderDetailsLoading(): Observable<boolean> {
+    return this.store.pipe(select(OrderSelectors.getOrderDetailsLoading));
+  }
 }

@@ -19,16 +19,41 @@
     </div>
   </div>
 
+  <ng-container *ngIf="hasStock">
+    <ng-template
+      [cxOutlet]="CartOutlets.ADD_TO_CART_PICKUP_OPTION"
+      [(cxComponentRef)]="pickupOptionCompRef"
+    ></ng-template>
+  </ng-container>
+
   <button
     *ngIf="hasStock"
     [ngClass]="
       options?.displayAddToCart
-        ? 'link cx-action-link'
+        ? 'btn btn-tertiary'
         : 'btn btn-primary btn-block'
     "
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+    <span
+      *ngIf="
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+      "
+      class="repeat-icon"
+      ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
+    ></span>
+    <span
+      attr.aria-label="{{
+        options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
+      }}"
+      [ngClass]="
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+          ? 'buyItAgainLink'
+          : ''
+      "
+    >
+      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+    </span>
   </button>
 </form>

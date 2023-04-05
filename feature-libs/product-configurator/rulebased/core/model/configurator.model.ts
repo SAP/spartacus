@@ -18,6 +18,11 @@ export namespace Configurator {
     required?: boolean;
     incomplete?: boolean;
     uiType?: UiType;
+    /** Allows to work with a custom variation of an uiType, in order to register a specific component for rendering an attribute.
+     * In case a custom variation exist, it is of format <OCC uiType>___<X>, e.g. RADIO_BUTTON___CUSTOM.
+     * The normalizers do not change it and just use the first portion of it to find the uiType the SPA business logic
+     * is attached to. Per default, if no customization is present, this attribute matches the OCC uiType */
+    uiTypeVariation?: string;
     dataType?: DataType;
     quantity?: number;
     values?: Value[];
@@ -98,6 +103,8 @@ export namespace Configurator {
     kbKey?: KB;
     pricingEnabled?: boolean;
     hideBasePriceAndSelectedOptions?: boolean;
+    immediateConflictResolution?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface ConfigurationWithOverview extends Configuration {
@@ -112,6 +119,8 @@ export namespace Configurator {
     };
     issueNavigationDone?: boolean;
     isConflictResolutionMode?: boolean;
+    showConflictSolverDialog?: boolean;
+    newConfiguration?: boolean;
   }
 
   export interface Overview {
@@ -271,4 +280,5 @@ export namespace Configurator {
 
   export const ConflictIdPrefix = 'CONFLICT';
   export const ConflictHeaderId = 'CONFLICT_HEADER';
+  export const CustomUiTypeIndicator = '___';
 }

@@ -80,7 +80,7 @@
   > * {
     z-index: 20;
     @include media-breakpoint-up(md) {
-      background-color: var(--cx-color-secondary);
+      background-color: var(--cx-color-inverse);
       position: relative;
     }
   }
@@ -100,7 +100,9 @@
     padding-inline-end: 6px;
     padding-bottom: 6px;
     padding-inline-start: 10px;
+
     @include media-breakpoint-up(md) {
+      border: 1px solid var(--cx-color-medium);
       width: 27vw;
       min-width: 300px;
       max-width: 550px;
@@ -114,7 +116,6 @@
       background: none;
       border: none;
       outline: none;
-
       display: block;
 
       @include media-breakpoint-down(sm) {
@@ -130,7 +131,7 @@
 
       flex-basis: 100%;
       height: 35px;
-      color: currentColor;
+      color: var(--cx-color-text);
       z-index: 20;
 
       @include placeholder {
@@ -145,12 +146,18 @@
 
     button,
     div.search-icon {
-      color: currentColor;
       flex-basis: 48px;
       text-align: center;
       background: none;
       border: none;
       padding: 6px;
+      color: var(--cx-color-medium);
+
+      @include media-breakpoint-down(sm) {
+        color: var(--cx-color-primary);
+        font-size: var(--cx-font-size, 1.563rem);
+      }
+
       &.reset cx-icon {
         &:before {
           font-size: 1.4rem;

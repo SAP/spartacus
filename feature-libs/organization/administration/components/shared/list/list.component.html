@@ -15,6 +15,7 @@
                 appendToBody: true,
                 displayCloseButton: true
               }"
+              [attr.aria-label]="'organization.information' | cxTranslate"
             >
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
             </button>
@@ -50,14 +51,21 @@
 
           <ng-content select="[actions]"></ng-content>
 
-          <a
-            *ngIf="!hideAddButton"
-            class="button primary create"
-            [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
-            routerLinkActive="disabled"
+          <ng-container
+            *ngIf="
+              createButtonType === createButtonAllTypes.LINK;
+              else showButton
+            "
           >
-            {{ 'organization.add' | cxTranslate }}
-          </a>
+            <a
+              *ngIf="!hideAddButton"
+              class="button primary create"
+              [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
+              routerLinkActive="disabled"
+            >
+              {{ getCreateButtonLabel() | cxTranslate }}
+            </a>
+          </ng-container>
         </div>
       </div>
 
@@ -95,4 +103,14 @@
   <p>
     {{ viewType + '.hint' | cxTranslate }}
   </p>
+</ng-template>
+
+<ng-template #showButton>
+  <button
+    *ngIf="!hideAddButton"
+    class="button primary create"
+    (click)="onCreateButtonClick()"
+  >
+    {{ getCreateButtonLabel() | cxTranslate }}
+  </button>
 </ng-template>

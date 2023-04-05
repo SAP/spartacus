@@ -20,7 +20,7 @@
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
             "main": "projects/storefrontapp/src/main.ts",
-            "polyfills": "projects/storefrontapp/src/polyfills.ts",
+            "polyfills": ["core-js/es/reflect", "zone.js"],
             "tsConfig": "projects/storefrontapp/tsconfig.app.json",
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
@@ -80,6 +80,18 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-customer-ticketing.scss",
+                "bundleName": "customer-ticketing"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-pickup-in-store.scss",
+                "bundleName": "pickup-in-store"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-s4om.scss",
+                "bundleName": "s4om"
               }
             ],
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
@@ -139,7 +151,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "projects/storefrontapp/src/test.ts",
-            "polyfills": "projects/storefrontapp/src/polyfills.ts",
+            "polyfills": ["core-js/es/reflect", "zone.js"],
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
             "styles": ["projects/storefrontapp/src/styles.scss"],
@@ -252,6 +264,7 @@
           "options": {
             "main": "projects/storefrontlib/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
             "codeCoverageExclude": ["dist/**/*"],
             "stylePreprocessorOptions": {
@@ -293,6 +306,7 @@
           "options": {
             "main": "projects/core/src/test.ts",
             "tsConfig": "projects/core/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "projects/core/karma.conf.js"
           }
         },
@@ -323,14 +337,6 @@
             "production": {
               "tsConfig": "projects/assets/tsconfig.lib.prod.json"
             }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/assets/src/test.ts",
-            "tsConfig": "projects/assets/tsconfig.spec.json",
-            "karmaConfig": "projects/assets/karma.conf.js"
           }
         },
         "lint": {
@@ -380,6 +386,7 @@
           "options": {
             "main": "integration-libs/cds/src/test.ts",
             "tsConfig": "integration-libs/cds/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "integration-libs/cds/karma.conf.js"
           }
         },
@@ -417,6 +424,7 @@
           "options": {
             "main": "feature-libs/organization/test.ts",
             "tsConfig": "feature-libs/organization/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/organization/karma.conf.js"
           }
         },
@@ -454,6 +462,7 @@
           "options": {
             "main": "feature-libs/product/test.ts",
             "tsConfig": "feature-libs/product/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/product/karma.conf.js"
           }
         },
@@ -491,6 +500,7 @@
           "options": {
             "main": "feature-libs/product-configurator/test.ts",
             "tsConfig": "feature-libs/product-configurator/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/product-configurator/karma.conf.js"
           }
         },
@@ -528,6 +538,7 @@
           "options": {
             "main": "integration-libs/cdc/test.ts",
             "tsConfig": "integration-libs/cdc/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "integration-libs/cdc/karma.conf.js"
           }
         },
@@ -565,6 +576,7 @@
           "options": {
             "main": "integration-libs/digital-payments/src/test.ts",
             "tsConfig": "integration-libs/digital-payments/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "integration-libs/digital-payments/karma.conf.js"
           }
         },
@@ -602,6 +614,7 @@
           "options": {
             "main": "integration-libs/epd-visualization/test.ts",
             "tsConfig": "integration-libs/epd-visualization/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "integration-libs/epd-visualization/karma.conf.js"
           }
         },
@@ -668,6 +681,7 @@
           "options": {
             "main": "feature-libs/storefinder/test.ts",
             "tsConfig": "feature-libs/storefinder/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/storefinder/karma.conf.js"
           }
         },
@@ -705,6 +719,7 @@
           "options": {
             "main": "feature-libs/qualtrics/test.ts",
             "tsConfig": "feature-libs/qualtrics/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/qualtrics/karma.conf.js"
           }
         },
@@ -742,6 +757,7 @@
           "options": {
             "main": "feature-libs/tracking/test.ts",
             "tsConfig": "feature-libs/tracking/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/tracking/karma.conf.js"
           }
         },
@@ -779,6 +795,7 @@
           "options": {
             "main": "feature-libs/smartedit/test.ts",
             "tsConfig": "feature-libs/smartedit/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/smartedit/karma.conf.js"
           }
         },
@@ -816,6 +833,7 @@
           "options": {
             "main": "feature-libs/asm/test.ts",
             "tsConfig": "feature-libs/asm/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/asm/karma.conf.js"
           }
         },
@@ -853,6 +871,7 @@
           "options": {
             "main": "feature-libs/checkout/test.ts",
             "tsConfig": "feature-libs/checkout/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/checkout/karma.conf.js"
           }
         },
@@ -890,6 +909,7 @@
           "options": {
             "main": "feature-libs/cart/test.ts",
             "tsConfig": "feature-libs/cart/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/cart/karma.conf.js"
           }
         },
@@ -927,6 +947,7 @@
           "options": {
             "main": "feature-libs/user/test.ts",
             "tsConfig": "feature-libs/user/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/user/karma.conf.js"
           }
         },
@@ -967,6 +988,7 @@
           "options": {
             "main": "feature-libs/order/test.ts",
             "tsConfig": "feature-libs/order/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/order/karma.conf.js"
           }
         },
@@ -976,6 +998,44 @@
             "lintFilePatterns": [
               "feature-libs/order/**/*.ts",
               "feature-libs/order/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "pickup-in-store": {
+      "projectType": "library",
+      "root": "feature-libs/pickup-in-store",
+      "sourceRoot": "feature-libs/pickup-in-store",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.json",
+            "project": "feature-libs/pickup-in-store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/pickup-in-store/test.ts",
+            "tsConfig": "feature-libs/pickup-in-store/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "karmaConfig": "feature-libs/pickup-in-store/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/pickup-in-store/**/*.ts",
+              "feature-libs/pickup-in-store/**/*.html"
             ]
           }
         }
@@ -1007,7 +1067,46 @@
           "options": {
             "main": "integration-libs/s4om/test.ts",
             "tsConfig": "integration-libs/s4om/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "integration-libs/s4om/karma.conf.js"
+          }
+        }
+      }
+    },
+    "customer-ticketing": {
+      "projectType": "library",
+      "root": "feature-libs/customer-ticketing",
+      "sourceRoot": "feature-libs/customer-ticketing",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.json",
+            "project": "feature-libs/customer-ticketing/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/customer-ticketing/test.ts",
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "karmaConfig": "feature-libs/customer-ticketing/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/customer-ticketing/**/*.ts",
+              "feature-libs/customer-ticketing/**/*.html"
+            ]
           }
         }
       }

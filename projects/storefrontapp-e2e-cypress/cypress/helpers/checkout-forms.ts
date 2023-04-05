@@ -19,6 +19,7 @@ export interface AddressData {
   firstName: string;
   lastName: string;
   phone: string;
+  cellphone: string;
   address: Address;
 }
 
@@ -46,7 +47,7 @@ export function fillShippingAddress(
         cy
           .get('.country-select[formcontrolname="isocode"]')
           .ngSelect(shippingAddress.address.country);
-      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
       shippingAddress?.firstName &&
         cy
           .get('[formcontrolname="firstName"]')
@@ -168,7 +169,7 @@ export function fillPaymentDetails(
        * It takes time for the delivery address to set.
        * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
        */
-      //cy.wait(3000);
+      cy.wait(3000);
       cy.get('button.btn.btn-block.btn-primary')
         .should('be.enabled')
         .contains('Continue')

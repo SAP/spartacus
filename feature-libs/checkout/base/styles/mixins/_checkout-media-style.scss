@@ -31,7 +31,7 @@
       padding: 1.25rem 0;
     }
 
-    .btn-action {
+    .btn-secondary {
       @include media-breakpoint-down(md) {
         margin: 0 0 1rem;
       }
@@ -39,14 +39,16 @@
   }
 
   .cx-checkout-title {
-    text-transform: capitalize;
-    margin-top: 0;
+    margin-top: 1.5rem;
     margin-inline-end: auto;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
     margin-inline-start: auto;
-    padding: 2.375rem 0 1.75rem 0;
-    @include type('3');
-    font-weight: var(--cx-font-weight-normal);
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    padding-inline-start: 2.5rem;
+    padding-inline-end: 0;
+    @include type('4');
+    background-color: var(--cx-color-background);
   }
 
   .cx-checkout-body {

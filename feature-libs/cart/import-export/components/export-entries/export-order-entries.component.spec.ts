@@ -3,7 +3,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule, ImageType, PriceType } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+  ImageType,
+  PriceType,
+} from '@spartacus/core';
 import { ContextService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
@@ -111,6 +117,7 @@ describe('ExportOrderEntriesComponent', () => {
         StoreModule.forRoot({}),
         I18nTestingModule,
         RouterTestingModule,
+        FeaturesConfigModule,
       ],
       providers: [
         {
@@ -120,6 +127,12 @@ describe('ExportOrderEntriesComponent', () => {
         {
           provide: ContextService,
           useClass: MockContextService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.2' },
+          },
         },
       ],
       declarations: [ExportOrderEntriesComponent],
@@ -141,7 +154,7 @@ describe('ExportOrderEntriesComponent', () => {
     fixture.detectChanges();
 
     const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
-    const btn = fixture.debugElement.query(By.css('button.cx-action-link'));
+    const btn = fixture.debugElement.query(By.css('button.cx-export-btn'));
 
     expect(btn.nativeElement).toBeTruthy();
 
@@ -150,5 +163,13 @@ describe('ExportOrderEntriesComponent', () => {
       expect(exportToCsvSpy).toHaveBeenCalledWith(entries);
       expect(exportEntriesService.downloadCsv).toHaveBeenCalledWith(entries);
     });
+  });
+  it('should has correct text in the button', () => {
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement
+        .query(By.css('button.cx-export-btn'))
+        .nativeElement.innerText.trim()
+    ).toEqual('exportEntries.exportProductToCsv');
   });
 });

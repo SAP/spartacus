@@ -13,6 +13,7 @@
               appendToBody: true,
               displayCloseButton: true
             }"
+            [attr.aria-label]="'organization.information' | cxTranslate"
           >
             <cx-icon [type]="iconTypes.INFO"> </cx-icon>
           </button>
@@ -28,14 +29,19 @@
         <ng-content select="[actions]"></ng-content>
       </div>
     </div>
-    <a *ngIf="!!previous" class="link close" routerLink="../">
+    <button
+      *ngIf="!!previous"
+      class="link close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      routerLink="../"
+    >
       <cx-icon
         *ngIf="previous === true; else prevLabel"
         type="CLOSE"
         (click)="closeView($event)"
       ></cx-icon>
       <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
-    </a>
+    </button>
   </div>
 
   <div class="main">

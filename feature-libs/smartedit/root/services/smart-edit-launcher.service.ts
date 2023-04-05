@@ -6,7 +6,7 @@
 
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FeatureModulesService } from '@spartacus/core';
+import { ScriptLoader } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
 /**
@@ -26,18 +26,22 @@ export class SmartEditLauncherService {
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected featureModules: FeatureModulesService
+    protected scriptLoader: ScriptLoader
   ) {}
 
   /**
-   * Lazy loads modules when Spartacus launced inside Smart Edit
+   * load webApplicationInjector.js first when Spartacus launched inside SmartEdit
    */
   load(): void {
-    if (
-      this.isLaunchedInSmartEdit() &&
-      this.featureModules.isConfigured('smartEdit')
-    ) {
-      this.featureModules.resolveFeature('smartEdit').subscribe();
+    if (this.isLaunchedInSmartEdit()) {
+      this.scriptLoader?.embedScript({
+        src: 'assets/webApplicationInjector.js',
+        params: undefined,
+        attributes: {
+          id: 'text/smartedit-injector',
+          'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
+        },
+      });
     }
   }
 

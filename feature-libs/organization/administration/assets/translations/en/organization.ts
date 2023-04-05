@@ -62,6 +62,7 @@ export const organization = {
     cancel: 'Cancel',
 
     add: 'Add',
+    manageUsers: 'Manage Users',
     create: 'Create {{name}}',
     edit: 'Edit',
     save: 'Save {{name}}',
@@ -113,6 +114,7 @@ export const organization = {
         unknown: 'Server validation error.',
       },
     },
+    information: 'Information',
   },
 
   // sub feature labels are added below

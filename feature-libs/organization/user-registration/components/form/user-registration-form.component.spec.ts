@@ -1,22 +1,30 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, Title, Country, Region } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {
+  Country,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+  Region,
+  Title,
+} from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
-const mockOrganizationUser: OrganizationUserRegistration = {
+const mockOrganizationUser: OrganizationUserRegistrationForm = {
   firstName: 'John',
   lastName: 'Smith',
   email: 'email@domain.com',
   titleCode: 'Mr',
   message: 'Hello',
+  companyName: 'New Company Inc',
 };
 
 const mockTitles: Title[] = [
@@ -56,6 +64,7 @@ const mockForm: FormGroup = new FormGroup({
   titleCode: new FormControl(),
   firstName: new FormControl(),
   lastName: new FormControl(),
+  companyName: new FormControl(),
   email: new FormControl(),
   country: new FormGroup({
     isocode: new FormControl(),
@@ -86,7 +95,7 @@ class MockUserRegistrationFormService
     return of(mockRegions);
   }
 
-  registerUser(): Observable<OrganizationUserRegistration> {
+  registerUser(): Observable<OrganizationUserRegistrationForm> {
     return of(mockOrganizationUser);
   }
 
@@ -118,12 +127,20 @@ describe('UserRegistrationFormComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           RouterTestingModule,
+          FeaturesConfigModule,
         ],
         declarations: [UserRegistrationFormComponent, MockUrlPipe],
         providers: [
           {
             provide: UserRegistrationFormService,
             useClass: MockUserRegistrationFormService,
+          },
+          // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
           },
         ],
       });
@@ -156,6 +173,7 @@ describe('UserRegistrationFormComponent', () => {
       'titleCode',
       'firstName',
       'lastName',
+      'companyName',
       'email',
       'isocode',
       'isocode',
@@ -176,7 +194,10 @@ describe('UserRegistrationFormComponent', () => {
 
   it('should submit form and call the service', () => {
     spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
-    component.registerForm.patchValue(mockOrganizationUser);
+    component.registerForm.patchValue({
+      ...mockOrganizationUser,
+      companyName: 'New Company Inc.',
+    });
     component.registerForm.markAllAsTouched();
 
     component.submit();
