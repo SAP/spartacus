@@ -310,18 +310,18 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should be able to still fetch new access data after error', () => {
-    takeOneCpqAccessData().subscribe(
-      () => {
+    takeOneCpqAccessData().subscribe({
+      next: () => {
         fail('should throw an error');
       },
-      (error) => {
+      error: (error) => {
         expect(error).toBeDefined();
         accessDataObs = of(accessData);
         takeOneCpqAccessData().subscribe((returnedData) => {
           expect(returnedData).toBe(accessData);
         });
-      }
-    );
+      },
+    });
     accessDataSubject.error('fail');
   });
 
