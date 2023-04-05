@@ -1111,5 +1111,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

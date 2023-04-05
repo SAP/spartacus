@@ -1,0 +1,16 @@
+<style>
+  .cust-styling {
+    border: 1px solid #d3d6db;
+    color: #495057;
+  }
+</style>
+<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
+  <input
+    matInput
+    [ngxMatColorPicker]="picker"
+    [formControl]="colorCtr"
+    class="cust-styling"
+  />
+  <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+  <ngx-mat-color-picker #picker [color]="color"></ngx-mat-color-picker>
+</div>

@@ -11,6 +11,8 @@ import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -42,6 +44,7 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({}),
