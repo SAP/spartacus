@@ -88,7 +88,7 @@ describe('CDC B2B scenarios', () => {
       cy.visit('/cdc/login');
     });
 
-    it('should login and redirect to home page', () => {
+    it('should login and redirect to home page (CXSPA-3016)', () => {
       cdc.loginUser(cdc.b2bUser.email, cdc.b2bUser.password);
       cdc.verifyLoginOrRegistrationSuccess(cdc.b2bUser.fullName);
     });
@@ -100,7 +100,7 @@ describe('CDC B2B scenarios', () => {
       cy.visit('/login');
     });
 
-    it('should login and redirect to home page', () => {
+    it('should login and redirect to home page (CXSPA-3016)', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
       cdc.verifyLoginOrRegistrationSuccess(cdc.b2bUser.fullName);
     });
@@ -113,7 +113,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginUser(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update profile', () => {
+    it('should update profile (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Profile Details',
       });
@@ -131,7 +131,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update profile with native UI', () => {
+    it('should update profile with native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
@@ -149,7 +149,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update email', () => {
+    it('should update email (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Email Address',
       });
@@ -174,7 +174,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update password in Native UI', () => {
+    it('should update password in Native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Password',
       });
@@ -202,37 +202,37 @@ describe('CDC B2B scenarios', () => {
       });
     });
 
-    it('should display a new address form when no address exists', () => {
+    it('should display a new address form when no address exists (CXSPA-3016)', () => {
       cy.get('cx-address-form').should('exist');
     });
 
-    it('should add a new address and show it in CDC', () => {
+    it('should add a new address and show it in CDC (CXSPA-3016)', () => {
       cdc.addAddress(cdc.b2bUser);
       cdc.verifyAddAddressSuccess(cdc.b2bUser);
     });
 
-    it('should edit the Address and save it in CDC', () => {
+    it('should edit the Address and save it in CDC (CXSPA-3016)', () => {
       cdc.updateAddress(cdc.updatedFirstAddress);
       cdc.verifyUpdateAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    it('should add another Address and NOT save it in CDC if it is not default', () => {
+    it('should add another Address and NOT save it in CDC if it is not default (CXSPA-3016)', () => {
       cy.get('button').contains(' Add new address ').click({ force: true });
       cdc.addAddress(cdc.secondAddress);
       cdc.verifyNoCDCForNonDefaultAddress();
     });
 
-    it('should set the non default Address as default and save it in CDC', () => {
+    it('should set the non default Address as default and save it in CDC (CXSPA-3016)', () => {
       cdc.setAddressAsDefault(cdc.secondAddress);
       cdc.verifySetDefaultAddressSuccess(cdc.secondAddress);
     });
 
-    it('should show delete the first Address and update the second address as default in CDC', () => {
+    it('should show delete the first Address and update the second address as default in CDC (CXSPA-3016)', () => {
       cdc.deleteAddress(cdc.updatedFirstAddress);
       cdc.verifyDeleteAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    it('should show delete the second Address and empty the address in CDC', () => {
+    it('should show delete the second Address and empty the address in CDC (CXSPA-3016)', () => {
       cdc.deleteAddress(cdc.updatedFirstAddress);
       cdc.verifyDeleteAllAddressSuccess();
     });
