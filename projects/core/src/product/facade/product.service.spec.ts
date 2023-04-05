@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { lastValueFrom, of } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -54,24 +54,26 @@ describe('ProductService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
-      const result: Product = await service.get('testId').toPromise();
+      const result: Product = await lastValueFrom(service.get('testId'));
       expect(result).toEqual(mockProduct('testId'));
     });
 
     it('should be able to get product by code and scope', async () => {
-      const result: Product = await service.get('testId', 'scope').toPromise();
+      const result: Product = await lastValueFrom(
+        service.get('testId', 'scope')
+      );
       expect(result).toEqual(mockProduct('testId', ['scope']));
     });
 
     it('should be able to get product by code and scopes', async () => {
-      const result: Product = await service
-        .get('testId', ['scope1', 'scope2'])
-        .toPromise();
+      const result: Product = await lastValueFrom(
+        service.get('testId', ['scope1', 'scope2'])
+      );
       expect(result).toEqual(mockProduct('testId', ['scope1', 'scope2']));
     });
 
     it('should return undefined when no product code was provided', async () => {
-      const result: Product = await service.get(undefined).toPromise();
+      const result: Product = await lastValueFrom(service.get(undefined));
       expect(result).toEqual(undefined);
     });
   });
@@ -129,7 +131,9 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
         () => () => of({ value: mockedProduct })
       );
-      const result: Product = await service.get('existingProduct').toPromise();
+      const result: Product = await lastValueFrom(
+        service.get('existingProduct')
+      );
       expect(result).toBeTruthy();
     });
   });
