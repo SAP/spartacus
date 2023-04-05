@@ -43,7 +43,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='task/asm-360-rebase-develop'
+BRANCH='test-asm360'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
