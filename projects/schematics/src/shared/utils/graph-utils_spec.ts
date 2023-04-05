@@ -134,6 +134,7 @@ describe('Graph utils', () => {
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_STOREFINDER,
+        SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -141,11 +142,10 @@ describe('Graph utils', () => {
         SPARTACUS_CDC,
         SPARTACUS_SMARTEDIT,
         SPARTACUS_QUALTRICS,
-        SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
-        SPARTACUS_COMMERCE_QUOTES,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_CUSTOMER_TICKETING,
+        SPARTACUS_COMMERCE_QUOTES,
         SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
@@ -190,8 +190,8 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Commerce-Quotes",
           "Pickup-In-Store",
+          "Commerce-Quotes",
           "ASM",
         ]
       `);
