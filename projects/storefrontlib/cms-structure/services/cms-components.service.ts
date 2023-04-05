@@ -77,7 +77,7 @@ export class CmsComponentsService {
       // we use defer, to be sure the logic below used to compose final observable
       // will be executed at subscription time (with up to date state at the time,
       // when it will be needed)
-      const featureResolvers = [];
+      const featureResolvers: Observable<unknown>[] = [];
 
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
@@ -88,7 +88,10 @@ export class CmsComponentsService {
           if (this.featureModules.hasFeatureFor(componentType)) {
             featureResolvers.push(
               // we delegate populating this.mappings to feature resolver
-              this.getFeatureMappingResolver(componentType, staticConfig)
+              this.getFeatureMappingResolver(
+                componentType,
+                staticConfig
+              ) as Observable<CmsComponentMapping<CmsComponent>>
             );
           } else {
             // simply use only static config
