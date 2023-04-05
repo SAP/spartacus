@@ -222,9 +222,6 @@ describe('UserConsentService', () => {
       describe('when the user is logged in', () => {
         it('should call getConsentByTemplateId selector', () => {
           spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-          spyOn(service, 'getConsents').and.returnValue(
-            of(mockConsentTemplates)
-          );
           store.dispatch(
             new UserActions.LoadUserConsentsSuccess(mockConsentTemplates)
           );
@@ -235,6 +232,33 @@ describe('UserConsentService', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result).toEqual(mockConsentTemplates[0].currentConsent);
+        });
+
+        it('should call getConsents and loadConsent should be called once if consents are missing', () => {
+          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+
+          spyOn(service, 'loadConsents').and.stub();
+          spyOn(service, 'getConsentsResultLoading').and.returnValue(of(false));
+          spyOn(service, 'getConsentsResultSuccess').and.returnValue(of(false));
+
+          let result: Consent;
+          const subscription = service
+            .getConsent(mockTemplateId)
+            .subscribe((value) => (result = value));
+
+          store.dispatch(
+            new UserActions.LoadUserConsentsSuccess(mockConsentTemplates)
+          );
+          store.dispatch(new UserActions.LoadUserConsentsSuccess([]));
+          store.dispatch(
+            new UserActions.LoadUserConsentsSuccess(mockConsentTemplates)
+          );
+
+          expect(result).toEqual(mockConsentTemplates[0].currentConsent);
+
+          subscription.unsubscribe();
+
+          expect(service.loadConsents).toHaveBeenCalledTimes(1);
         });
       });
       describe('when the user is anonymous', () => {
