@@ -147,7 +147,9 @@ export class CmsFeaturesService {
         );
       }
 
-      return this.featureInstances.get(featureName);
+      return this.featureInstances.get(
+        featureName
+      ) as Observable<FeatureInstance>;
     });
   }
 

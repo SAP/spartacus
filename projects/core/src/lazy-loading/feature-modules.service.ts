@@ -67,7 +67,7 @@ export class FeatureModulesService {
         );
       }
 
-      return this.features.get(featureName);
+      return this.features.get(featureName) as Observable<NgModuleRef<any>>;
     });
   }
 
