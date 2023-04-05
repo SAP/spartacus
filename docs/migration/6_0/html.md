@@ -379,3 +379,17 @@
 
 - Changed line 12 classes from `'btn btn-action'` to `'btn btn-secondary'`
 
+### ListComponent
+
+- Wrapped `a` tag in line 60 with a conditional if clause. The corresponding else clause has a new `button` tag with `(click)` event. Also the labels are returned from `getCreateButtonLabel()` method
+
+### UnitUserListComponent
+
+- Added `*ngIf` to line 3 to hide/show the template based on condition
+
+### UserDetailsComponent
+
+- Added `*ngIf` in lines 8 and 18 to hide/show the template based on condition
+- Added `*ngIf` in line 71 with corresponsing else clause to show/hide hyperlink for navigation 
+- Updated condition in `*ngIf` clause in line 88 to hide/show the template based on condition
+
