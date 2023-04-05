@@ -13,7 +13,7 @@ import {
   timer,
   zip,
 } from 'rxjs';
-import { map, mergeMap, retryWhen } from 'rxjs/operators';
+import { map, mergeMap, retry } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
 
 /**
@@ -55,23 +55,24 @@ export function backOff<T>(options?: BackOffOptions): OperatorFunction<T, T> {
   return (source$) =>
     source$.pipe(
       // retries the source stream in case of an error.
-      retryWhen<T>((attempts$: Observable<HttpErrorModel | Error>) =>
-        // emits only when both emit at the same time. In practice, this means: emit when error happens again and retried
-        zip(attempts$, retry$).pipe(
-          mergeMap(([attemptError, currentRetry]) => {
-            // if we've re-tried more than the maxTries, OR
-            // if the source error is not the one we want to exponentially retry
-            if (currentRetry > maxTries || !shouldRetry(attemptError)) {
-              return throwError(() => attemptError);
-            }
+      retry({
+        delay: (attempts$: Observable<HttpErrorModel | Error>) =>
+          // emits only when both emit at the same time. In practice, this means: emit when error happens again and retried
+          zip(attempts$, retry$).pipe(
+            mergeMap(([attemptError, currentRetry]) => {
+              // if we've re-tried more than the maxTries, OR
+              // if the source error is not the one we want to exponentially retry
+              if (currentRetry > maxTries || !shouldRetry(attemptError)) {
+                return throwError(() => attemptError);
+              }
 
-            return of(currentRetry);
-          }),
-          // exponential
-          map((currentRetry) => currentRetry * currentRetry),
-          // back-off
-          mergeMap((exponent) => timer(exponent * delay))
-        )
-      )
+              return of(currentRetry);
+            }),
+            // exponential
+            map((currentRetry) => currentRetry * currentRetry),
+            // back-off
+            mergeMap((exponent) => timer(exponent * delay))
+          ),
+      })
     );
 }
