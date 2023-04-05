@@ -6,7 +6,7 @@ echo "-----"
 
 echo "Running unit tests and code coverage for core lib"
 
-ng test core --no-watch --source-map --code-coverage --browsers ChromeHeadless
+ng test core --source-map --no-watch --code-coverage --browsers ChromeHeadless
 
 echo "Running unit tests and code coverage for storefront lib"
 
@@ -21,10 +21,6 @@ echo "Running unit tests and code coverage for order lib"
 
 ng test order --source-map --no-watch --code-coverage --browsers ChromeHeadless
 npm --prefix feature-libs/order run test:schematics -- --coverage
-
-echo "Running unit tests and code coverage for setup lib"
-
-npm --prefix core-libs/setup run test --runInBand -- --coverage
 
 echo "Running unit tests and code coverage for user lib"
 
@@ -50,6 +46,10 @@ echo "Running unit tests and code coverage for smartedit library"
 
 ng test smartedit --source-map --no-watch --code-coverage --browsers ChromeHeadless
 npm --prefix feature-libs/smartedit run test:schematics -- --coverage
+
+echo "Running unit tests and code coverage for setup lib"
+
+npm --prefix core-libs/setup run test --runInBand -- --coverage
 
 echo "Running unit tests for storefrontstyles lib"
 
