@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { STORE_FINDER_FEATURE } from '../feature-name';
-import { StoreEntities } from './../model/store-finder.model';
+import { StoreEntities } from '../model/store-entities.model';
 
 /**
  * Store the Point of Service a user wants to collect a product from before it is added to the cart.
@@ -37,6 +37,7 @@ import { StoreEntities } from './../model/store-finder.model';
         'getStoreLatitude',
         'getStoreLongitude',
         'getDirections',
+        'getFindStoreEntityById',
       ],
       async: true,
     }),
@@ -61,4 +62,5 @@ export abstract class StoreFinderFacade {
   abstract getStoreLatitude(location: PointOfService): number | undefined;
   abstract getStoreLongitude(location: PointOfService): number | undefined;
   abstract getDirections(location: PointOfService): string;
+  abstract getFindStoreEntityById(): Observable<StoreEntities>;
 }
