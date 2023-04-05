@@ -88,6 +88,7 @@
 ### UserRegistrationFormComponent
 
 - Added `id` attribute to `ng-select` to generate `aria-controls` for accessibility improvements.
+- New input field for a company name has been added. The markup for such field looks identical like for the other text fields in a form.
 
 ### CardComponent
 

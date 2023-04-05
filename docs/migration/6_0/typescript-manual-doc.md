@@ -170,3 +170,6 @@ For development or demo purposes, the special value 'cx-development' can be prov
 
 ## OrderApprovalDetailsModule
 - Replaced `OrderDetailShippingComponent` with `OrderOverviewComponent` for `OrderApprovalDetailShippingComponent`
+
+## OrganizationUserRegistrationForm
+- Added `companyName` as an optional property into `OrganizationUserRegistrationForm` model.
