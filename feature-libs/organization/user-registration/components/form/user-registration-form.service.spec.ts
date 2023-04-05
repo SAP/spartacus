@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   GlobalMessageService,
   RoutingService,
@@ -150,7 +150,30 @@ describe('UserRegistrationFormService', () => {
 
     service['buildMessageContent'](form).subscribe((data) =>
       expect(data).toEqual(
-        `userRegistrationForm.messageToApproverTemplate+00000000000,Test St.,1/2,,US-AZ,1234,US,Message!`
+        `userRegistrationForm.messageToApproverTemplate+00000000000,Test St.,1/2,,US-AZ,1234,US,,Message!`
+      )
+    );
+  });
+
+  it('should build message content with company name on form values passed into translation', () => {
+    const form = service.form;
+
+    form.get('country')?.setValue({
+      isocode: 'US',
+    });
+    form.get('region')?.setValue({
+      isocode: 'US-AZ',
+    });
+    form.get('companyName')?.setValue('New Company Inc.');
+    form.get('line1')?.setValue('Test St.');
+    form.get('line2')?.setValue('1/2');
+    form.get('postalCode')?.setValue(1234);
+    form.get('message')?.setValue('Message!');
+    form.get('phoneNumber')?.setValue('+00000000000');
+
+    service['buildMessageContent'](form).subscribe((data) =>
+      expect(data).toEqual(
+        `userRegistrationForm.messageToApproverTemplate+00000000000,Test St.,1/2,,US-AZ,1234,US,New Company Inc.,Message!`
       )
     );
   });
