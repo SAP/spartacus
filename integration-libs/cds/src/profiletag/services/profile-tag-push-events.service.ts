@@ -28,7 +28,6 @@ import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
   map,
-  mapTo,
   pairwise,
   startWith,
   switchMapTo,
@@ -221,7 +220,7 @@ export class ProfileTagPushEventsService {
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(PageEvent)
-      .pipe(mapTo(new NavigatedPushEvent()));
+      .pipe(map(() => new NavigatedPushEvent()));
   }
 
   /**
@@ -234,7 +233,7 @@ export class ProfileTagPushEventsService {
   protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(CartPageEvent)
-      .pipe(mapTo(new CartViewPushEvent()));
+      .pipe(map(() => new CartViewPushEvent()));
   }
 
   /**
@@ -247,7 +246,7 @@ export class ProfileTagPushEventsService {
   protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(HomePageEvent)
-      .pipe(mapTo(new HomePageViewPushEvent()));
+      .pipe(map(() => new HomePageViewPushEvent()));
   }
 
   /**
@@ -260,7 +259,7 @@ export class ProfileTagPushEventsService {
   protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(OrderPlacedEvent)
-      .pipe(mapTo(new OrderConfirmationPushEvent()));
+      .pipe(map(() => new OrderConfirmationPushEvent()));
   }
 
   /**
