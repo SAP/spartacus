@@ -7,9 +7,7 @@
 
   @include forVersion(6.1) {
     .cx-message {
-      background-color: #f5fae5;
       border-radius: 8px;
-      border-color: #cee67e;
       margin-bottom: 0px;
       border-width: 1px;
       border-style: solid;
@@ -38,6 +36,11 @@
         margin-inline-start: auto;
         position: unset;
       }
+    }
+
+    .cx-message-success {
+      background-color: #f5fae5;
+      border-color: #cee67e;
     }
   }
 

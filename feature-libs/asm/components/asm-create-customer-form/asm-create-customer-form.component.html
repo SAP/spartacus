@@ -12,7 +12,6 @@
           <h2 class="title modal-title">
             {{ 'asm.createCustomerForm.title' | cxTranslate }}
           </h2>
-          <ng-template *ngTemplateOutlet="closeButton"></ng-template>
         </div>
         <!-- Modal Body -->
         <div class="cx-dialog-body modal-body">
@@ -48,12 +47,11 @@
               <input
                 required="true"
                 class="form-control"
-                type="text"
-                name="firstname"
                 placeholder="{{
                   'asm.createCustomerForm.firstName.placeholder' | cxTranslate
                 }}"
                 formControlName="firstName"
+                name="text"
               />
               <cx-form-errors
                 [control]="registerForm.get('firstName')"
@@ -69,11 +67,10 @@
               <input
                 required="true"
                 class="form-control"
-                type="text"
-                name="lastname"
                 placeholder="{{
                   'asm.createCustomerForm.lastName.placeholder' | cxTranslate
                 }}"
+                name="text"
                 formControlName="lastName"
               />
               <cx-form-errors
@@ -90,12 +87,11 @@
               <input
                 required="true"
                 class="form-control"
-                type="email"
-                name="email"
                 placeholder="{{
                   'asm.createCustomerForm.emailAddress.placeholder'
                     | cxTranslate
                 }}"
+                name="email"
                 formControlName="email"
               />
               <cx-form-errors
@@ -130,19 +126,6 @@
     </ng-container>
   </div>
 </div>
-
-<ng-template #closeButton>
-  <button
-    type="button"
-    class="close"
-    attr.aria-label="{{ 'common.close' | cxTranslate }}"
-    (click)="closeModal('Cross click')"
-  >
-    <span aria-hidden="true">
-      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-    </span>
-  </button>
-</ng-template>
 
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>

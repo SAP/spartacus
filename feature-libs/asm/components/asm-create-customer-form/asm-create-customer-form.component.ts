@@ -44,7 +44,7 @@ export class AsmCreateCustomerFormComponent {
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: 'cx-asm-create-customer-form',
+    autofocus: false,
     focusOnEscape: true,
   };
 
