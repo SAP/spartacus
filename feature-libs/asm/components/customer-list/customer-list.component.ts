@@ -85,6 +85,25 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   protected teardown: Subscription = new Subscription();
 
   constructor(
+    launchDialogService: LaunchDialogService,
+    breakpointService: BreakpointService,
+    asmConfig: AsmConfig,
+    translation: TranslationService,
+    asmCustomerListFacade: AsmCustomerListFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    launchDialogService: LaunchDialogService,
+    breakpointService: BreakpointService,
+    asmConfig: AsmConfig,
+    translation: TranslationService,
+    asmCustomerListFacade: AsmCustomerListFacade
+  );
+  constructor(
     protected launchDialogService: LaunchDialogService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
