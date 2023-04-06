@@ -18,6 +18,10 @@ export const userRegistrationForm = {
       label: 'Last name',
       placeholder: 'Last name',
     },
+    companyName: {
+      label: 'Company name',
+      placeholder: 'Company name',
+    },
     email: {
       label: 'E-mail',
       placeholder: 'E-mail',
@@ -55,7 +59,8 @@ export const userRegistrationForm = {
       placeholder: `An example data for the message field: "Department: Ground support; Position: Chief safe guard; Report to: Steve Jackson; Comments: Please create new account for me".`,
     },
   },
-  messageToApproverTemplate: `Phone number: {{phoneNumber}},
+  messageToApproverTemplate: `Company name: {{companyName}},
+  Phone number: {{phoneNumber}},
   Address: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},
   Message: {{message}}`,
   successFormSubmitMessage:
