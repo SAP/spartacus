@@ -475,7 +475,9 @@ export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
 }
 
 export function asmCloseCreateCustomerDialog(): void {
-  cy.get('cx-asm-create-customer-form div.cx-dialog-header button').click();
+  cy.get(
+    'cx-asm-create-customer-form div.modal-footer button.cx-asm-create-customer-btn-cancel'
+  ).click();
   cy.get('cx-asm-create-customer-form').should('not.exist');
 }
 
