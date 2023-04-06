@@ -79,7 +79,6 @@ export class AuthService {
    */
   loginWithRedirect(): boolean {
     this.oAuthLibWrapperService.initLoginFlow();
-
     return true;
   }
 
