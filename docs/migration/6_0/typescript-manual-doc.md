@@ -1,0 +1,175 @@
+<!--
+  Most typescript breaking changes should be detected and documented automatically by a script if a change is apparent when comparing the public API of the previous version vs the public API of the new major version.
+
+  This file should contain typescript change documentation for changes not immediately apparent while comparing the public api between the older release and the current release and therefore will not be detected by the breaking change detection script.
+
+  Examples of typescript breaking changes that are not detectable by the script are:
+    * High level changes or refactoring
+    * Behaviour changes that are not backwards compatible and worth mentioning 
+-->
+
+## Prerendering on Server
+
+If you are using prerendering, you will need to provide the following function to your `AppServerModule`:
+
+```ts
+import { provideServer } from '@spartacus/setup/ssr';
+@NgModule({
+  ...
+  providers: [
+    ...provideServer({
+      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+    }),
+    ...
+  ],
+})
+export class AppServerModule {}
+```
+
+It is _mandatory_ to set the `serverRequestOrigin` option for the prerendering, as it can not be automatically resolved.
+
+In SSR mode, it will be automatically resolved from the express server, therefore it doesn't have to be set via this option.
+If explicitly set, this option will take precedence over the express server.
+
+
+## SSR
+
+### New default SsrOptimizationOptions 
+Here are the default options:
+  - `reuseCurrentRendering` option is `true` by default.
+  - `concurrency` option is set to `10` slots, by default.
+  - `timeout` option is set to `3000` ms, by default.
+
+### Merging custom SsrOptimizationOptions with the default ones
+Previously when the custom `SsrOptimizationOptions` were provided as a second param of `NgExpressEngineDecorator.get()`, Spartacus was using only those custom settings and ignoring the defaults. Now Spartacus is merging together the provided custom options with the default options. And in case of conflict for a particular option, the custom option will take precedence over the default one. 
+
+### 20 Seconds Timeout for Outgoing HTTP Requests in SSR
+Starting from version 6.0, Spartacus includes a timeout for all outgoing HTTP requests in SSR. This timeout is set to 20 seconds by default and ensures that the server side rendering does not hang indefinitely when a 3rd party service is unreachable, such as during a temporary network outage.
+
+If the timeout is reached before a response is received, the request is aborted, and a warning message is logged to the console, as shown below
+```
+Request to URL '${request.url}' exceeded expected time of ${timeoutValue}ms and was aborted.
+```
+
+To change the default timeout, you can use the `config.backend.timeout.server` configuration option in Spartacus. By default, the `config.backend.timeout.server` value is set to `20_000` milliseconds (20 seconds).
+
+
+## i18n (internationalization)
+
+### Configuration of `i18next` backend
+Previously, the i18next backend plugin (for loading JSON translations via http calls) was used only when the config property `i18n.backend.loadPath` was defined. Now to activate the backend plugin it suffices that the parent property `i18n.backend` is defined. However, in such a case when the child property `loadPath` is not defined, an error will be thrown.
+
+### New peer dependency package of `@spartacus/core` - `i18next-resources-to-backend`
+The `i18next-resources-to-backend` package is a new peer dependency of `@spartacus/core`. 
+
+### Renaming of services for `i18next` backend initialization
+`I18nextHttpBackendService` is renamed to `I18nextHttpBackendInitializer` and now it's multi-provided as an injection token `I18nextBackendInitializer`. 
+
+`I18nextBackendService` is no longer an abstract class, but a concrete service that consumes all multi-provided tokens `I18nextHttpBackendInitializer` and chooses the most applicable backend initializer to use, based on the actual `i18n` config. This allows for plugging in other backend initializers in the future (e.g. ones that don't use http calls but JS dynamic imports).
+
+
+## @spartacus/organization/administration
+
+### UserGuard and AdminGuard are no longer provided in root injector
+
+`UserGuard` and `AdminGuard` from `@spartacus/organization/administration` are no longer provided in the root injector (no longer `@Injectable({providedIn: 'root'})`). Instead, they are explicitly provided in the lazy loaded module `AdministrationModule` (inside `OrganizationsGuardsModule`). 
+
+## Other changes
+
+### OnNavigateService
+
+- When using Spartacus's implementation for Scroll Position Restoration we need to disable automatic scroll restoration provided by the browser viewportScroller to work correctly. `viewportScroller.setHistoryScrollRestoration('manual')`
+
+### ParagraphComponent
+
+- The `handleClick()` method now uses the condition `documentHost === element.host` to recognise external links.
+- The `handleClick()` method now uses `router.navigateByUrl()` to navigate internal links.
+
+### CloseAccoutModalComponent
+
+- The `onSuccess()` method now uses `authService.coreLogout()` to log user out before routing to homepage.
+
+### QuickOrderOrderEntriesContext
+
+- `addEntries` method now passes `productsData` to the `canAdd()` method to assist the `īsLimit()` method in recognizing limit breaches.
+
+### CheckoutDeliveryAddressComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### CheckoutPaymentFormComponent
+
+- `getAddressCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+- `getAddressCardContent()` method has now return type `Observable<Card>`.
+
+### CheckoutReviewSubmitComponent
+
+- `getDeliveryAddressCard()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### AddressBookComponent
+
+- `getCardContent()` method now uses `getAddressNumbers()` util to get the correct phone numbers to display.
+
+### ConfiguratorFormComponent
+
+ The view that display the current group has been carved out into a new component ConfiguratorGroupComponent. Reason: We need to display a group also as part of the new conflict solver dialog that is introduced for the AVC configurator. This means that `configurator-form.component.html` is much smaller and includes `configurator-group.component.html`, moreover many methods previously residing in `configurator-form.component.ts` have been moved to `configurator-group.component.ts`
+
+### Handling of attribute types
+Instead of listing all possible attribute type components on `configurator-group.component.html` (SPA 5.2) or `configurator-form.component.html` (SPA 5.1 or lower), the assignment of attribute type components to the attribute UI type is now part of a configuration `ConfiguratorAttributeCompositionConfig`. Each module representing an attribute type, like for example `configurator-attribute-drop-down.module.ts`, provides this configuration and assigns its component to its UI type. This improves extensibility, as it's now possible to replace attribute type components (as well as the attribute header and footer component) by just adding a custom component and registering it for the desired attribute UI type.
+
+#### Consequences for all attribute type components
+This has a couple of consequences for the components representing attribute types.
+- The context for them is no longer provided via specific `@Input()` class members but by an instance of `ConfiguratorAttributeCompositionContext`. The directive `configurator-attribute-composition.directive.ts`is responsible for providing this instance. That means all `@Input()` class members are turned into standard class members, and their initialization happens in the component constructor.
+- The configuration update no longer happens using `ConfigFormUpdateEvent`, but all components that are capable of sending updates got a new dependency to `ConfiguratorCommonsService`, calling its facade method for performing an update. This also means that `@Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>()` has been removed.
+
+#### Working with UI types not known to SPA
+It is now possible to register custom attribute type components for UI types not known to SPA (not part of enumeration `Configurator.UiType`). Those UI types must be based on standard UI types (because business logic is attached to these types both on UI and commerce backend level) and their identifier must follow a convention described in the documentation of `Configurator.Attribute#uiTypeVariation` 
+
+### ConfiguratorOverviewMenuComponent
+
+- By navigation to a certain overview group via overview menu the browser does not scroll anymore to the container of the group  `'#' + ovGroupId`, but to the title of the corresponding group `'#' + ovGroupId+ ' h2'`.
+
+### ConfiguratorStorefrontUtilsService
+
+- For readability purposes `--` separate is added between `prefix` and `groupId` in `createOvGroupId(prefix: string, groupId: string)` method.
+
+### ConfiguratorAction
+- The type alias changed. Following new actions are included: `UpdateConfigurationOverview | UpdateConfigurationOverviewFail | UpdateConfigurationOverviewSuccess |RemoveProductBoundConfigurations | CheckConflictDialoge | DissmissConflictDialoge`
+
+### Action create configuration
+- Contructor payload gets 2 additional optional parameters `configIdTemplate` (ID of a template configuration) and `forceReset` (to force configuration reset in the backend)
+
+## BadRequestHandler
+
+- `handleBadPassword()` method now calls `getErrorTranslationKey()` to get more detailed information about type of an error and translate them.
+
+### OrderHistoryService
+
+- The method `getOrderDetailsLoading()` has been added and returning order details loading state.
+
+### OrderDetailsService
+
+- Added `isOrderDetailsLoading()` which uses `getOrderDetailsLoading()` method to display valid state in a template.
+
+## GoogleMapRendererService
+
+To comply with security best practices, the Google map does not display by default in the store finder feature. For the map to display, the store finder configuration must have a google maps api key defined. To do this in your spartacus app, define a `StoreFinderConfig` configuration block. Inside, define the property `apiKey` in the object `googleMaps` with the value of the api key.  For example:
+
+```
+    provideConfig(<StoreFinderConfig>{
+      googleMaps: { apiKey: 'your-api-key-goes-here' },
+    }),
+```
+
+For development or demo purposes, the special value 'cx-development' can be provided as the api key value in a Spartacus based application's configuration.  The store finder map component will display the map and send an empty api key value to Google Maps, like in the default behaviour of the component prior to version 6.0.
+
+## Spartacus PWA schematics
+
+- `ng g @spartacus/schematics:add-pwa` and `ng add @spartacus/schematics --pwa` has been removed and is not longer supported.
+- If you would like to add the angular pwa to your application, you can run the command `ng add @angular/pwa --project <project-name>` and remove the service worker references in your app.module.ts to have the same output as what our custom pwa schematics did.
+
+## OrderApprovalDetailsModule
+- Replaced `OrderDetailShippingComponent` with `OrderOverviewComponent` for `OrderApprovalDetailShippingComponent`
+
+## OrganizationUserRegistrationForm
+- Added `companyName` as an optional property into `OrganizationUserRegistrationForm` model.

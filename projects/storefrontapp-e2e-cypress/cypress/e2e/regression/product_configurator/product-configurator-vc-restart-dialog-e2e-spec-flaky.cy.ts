@@ -33,7 +33,7 @@ context('Restart Dialog for Product Configuration', () => {
     navigateToConfigurationAndCheckDialog();
   });
 
-  it('should keep configuration on resume (CXSPA-1786)', () => {
+  it('should keep configuration on resum (CXSPA-1786)', () => {
     restartDialog.resume();
 
     restartDialog.checkIsClosed();

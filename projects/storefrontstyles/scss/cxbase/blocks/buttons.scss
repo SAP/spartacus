@@ -63,7 +63,7 @@ button {
     &.disabled,
     &:disabled {
       background-color: var(--cx-color-border-focus);
-      border: var(--cx-color-border-focus);
+      border-color: var(--cx-color-border-focus);
 
       &:hover {
         border-color: var(--cx-color-border-focus);
