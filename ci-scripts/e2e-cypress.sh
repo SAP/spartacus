@@ -72,6 +72,7 @@ else
     rm build.log
     exit 1
 fi
+
 echo '-----'
 echo "Building Spartacus storefrontapp"
 npm run build
@@ -93,5 +94,4 @@ else
     echo '-----'
     echo "Running Cypress core end to end tests"
         npm run e2e:run:ci:core"${SUITE}"
-    fi
-fi
+ fi
