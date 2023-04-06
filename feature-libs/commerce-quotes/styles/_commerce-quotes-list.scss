@@ -1,18 +1,47 @@
 %cx-commerce-quotes-list {
   @extend .cx-agnostic-table;
   table {
+    th {
+      text-transform: capitalize;
+      &:nth-last-of-type(1) {
+        text-align: center;
+        padding-inline-start: 1.5rem;
+      }
+    }
     tr {
       &:hover {
         background-color: var(--cx-color-background);
+        cursor: pointer;
+      }
+    }
+    td {
+      &:nth-last-of-type(1) {
+        text-align: center;
       }
     }
 
-    a {
-      color: var(--cx-color-text);
-    }
+    tbody {
+      a {
+        color: var(--cx-color-text);
+        text-decoration: none;
+      }
+      .quote-draft {
+        color: #788082;
+      }
 
-    .cx-commerce-quotes-list-quote-name > a {
-      text-decoration: underline;
+      .quote-rejected {
+        color: #880000;
+      }
+
+      .quote-submitted {
+        color: #107e3e;
+      }
+      .quote-cancelled {
+        color: #e9730c;
+      }
+      .quote-vendorQuote {
+        color: #14293a;
+      }
     }
   }
 
@@ -51,14 +80,10 @@
   }
 
   .cx-commerce-quotes-list-form-group {
-    margin: 1rem 0 0 0;
-    align-items: center;
-    display: flex;
     width: 40%;
-
-    span {
-      margin-inline-end: 0.5rem;
-      flex: none;
+    .sortBy-heading {
+      font-size: var(--cx-font-size, 1rem);
+      font-weight: var(--cx-font-weight-semi);
     }
 
     cx-sorting {

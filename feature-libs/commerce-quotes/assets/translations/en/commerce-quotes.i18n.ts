@@ -7,7 +7,6 @@
 export const commerceQuotes = {
   commerceQuotes: {
     list: {
-      header: 'My Quotes',
       name: 'Name',
       updated: 'Updated',
       sortBy: 'Sort by',

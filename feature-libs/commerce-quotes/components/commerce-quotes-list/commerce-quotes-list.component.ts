@@ -16,6 +16,7 @@ export class CommerceQuotesListComponent {
   sorts = this.quoteListService.sorts;
   sortLabels$ = this.quoteListService.sortLabels$;
   quotesState$ = this.quoteListService.quotesState$;
+  dateFormat: string = 'MMMM d, YYYY h:mm aa';
 
   constructor(protected quoteListService: CommerceQuotesListComponentService) {
     this.changePage(0);
@@ -28,5 +29,22 @@ export class CommerceQuotesListComponent {
 
   changePage(page: number): void {
     this.quoteListService.setCurrentPage(page);
+  }
+
+  getQuoteStateClass(state: string): string {
+    switch (state) {
+      case 'Draft':
+        return 'quote-draft';
+      case 'Submitted':
+        return 'quote-submitted';
+      case 'Rejected':
+        return 'quote-rejected';
+      case 'Vendor Quote':
+        return 'quote-vendorQuote';
+      case 'Cancelled':
+        return 'quote-cancelled';
+      default:
+        return '';
+    }
   }
 }
