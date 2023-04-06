@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const OAUTH_REDIRECT_FLOW_KEY = 'oauthRedirectCodeFlow';
+export const OAUTH_REDIRECT_FLOW_KEY = 'oAuthRedirectCodeFlow';

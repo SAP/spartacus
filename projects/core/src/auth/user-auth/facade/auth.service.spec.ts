@@ -1,6 +1,5 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { WindowRef } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -66,26 +65,6 @@ class MockAuthMultisiteIsolationService {
   }
 }
 
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
-      return key in store ? store[key] : null;
-    },
-    setItem: (key: string, value: string) => {
-      store[key] = `${value}`;
-    },
-    removeItem: (key: string): void => {
-      if (key in store) {
-        store[key] = undefined;
-      }
-    },
-  },
-  isBrowser(): boolean {
-    return true;
-  },
-};
-
 describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
@@ -95,7 +74,6 @@ describe('AuthService', () => {
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
   let store: Store;
-  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -117,7 +95,6 @@ describe('AuthService', () => {
           provide: AuthMultisiteIsolationService,
           useClass: MockAuthMultisiteIsolationService,
         },
-        { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
 
@@ -131,7 +108,6 @@ describe('AuthService', () => {
       AuthMultisiteIsolationService
     );
     store = TestBed.inject(Store);
-    winRef = TestBed.inject(WindowRef);
   });
 
   it('should be created', () => {
@@ -184,16 +160,6 @@ describe('AuthService', () => {
 
       expect(result).toBeTrue();
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
-    });
-
-    it('should set oauth flow key in local storage', () => {
-      service.loginWithRedirect();
-
-      const storedOauthFlowKey = winRef.localStorage.getItem(
-        'oauthRedirectCodeFlow'
-      );
-
-      expect(storedOauthFlowKey).toBeTruthy();
     });
   });
 

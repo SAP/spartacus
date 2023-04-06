@@ -67,7 +67,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   );
 
   // Flag to prevent cart loading when logged in with code flow
-  protected shouldLoad = true;
+  // Instead of loading cart will run loadOrMerge method
+  protected shouldLoadCartOnCodeFlow = true;
 
   constructor(
     protected multiCartFacade: MultiCartFacade,
@@ -105,7 +106,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           isEmpty(cart) &&
           !loaded &&
           !isTempCartId(cartId) &&
-          this.shouldLoad
+          this.shouldLoadCartOnCodeFlow
         ) {
           this.load(cartId, userId);
         }
@@ -145,7 +146,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // Detect user logged in with code flow.
     if (this.isLoggedInWithCodeFlow()) {
       // Prevent loading cart while merging.
-      this.shouldLoad = false;
+      this.shouldLoadCartOnCodeFlow = false;
 
       this.subscription.add(
         this.userIdService

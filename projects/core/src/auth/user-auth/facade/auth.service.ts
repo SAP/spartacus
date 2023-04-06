@@ -10,7 +10,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { WindowRef } from '../../../window/window-ref';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
@@ -18,7 +17,6 @@ import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
-import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { UserIdService } from './user-id.service';
 
 /**
@@ -46,7 +44,6 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
-    protected winRef: WindowRef,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {}
 
@@ -82,10 +79,6 @@ export class AuthService {
    */
   loginWithRedirect(): boolean {
     this.oAuthLibWrapperService.initLoginFlow();
-
-    if (this.winRef.localStorage) {
-      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-    }
 
     return true;
   }

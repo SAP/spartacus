@@ -334,20 +334,20 @@ describe('ActiveCartService', () => {
 
   describe('detectUserChange', () => {
     it('should change loading flag to false if logged in with code flow', () => {
-      winRef.localStorage.setItem('oauthRedirectCodeFlow', 'true');
+      winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
 
       service['detectUserChange']();
 
-      expect(service['shouldLoad']).toBeFalsy();
+      expect(service['shouldLoadCartOnCodeFlow']).toBeFalsy();
     });
 
     it('should remove oauth flow key from local storage', () => {
-      winRef.localStorage.setItem('oauthRedirectCodeFlow', 'true');
+      winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
 
       service['detectUserChange']();
 
-      const storedOauthFlowKey = winRef.localStorage.getItem(
-        'oauthRedirectCodeFlow'
+      const storedOauthFlowKey = winRef.localStorage?.getItem(
+        'oAuthRedirectCodeFlow'
       );
 
       expect(storedOauthFlowKey).toBeUndefined();
@@ -372,9 +372,9 @@ describe('ActiveCartService', () => {
       });
     });
 
-    it('should be called if user logged in with code flow', () => {
+    it('should be called if user is logged in with code flow', () => {
       spyOn<any>(service, 'loadOrMerge').and.callFake(() => {});
-      winRef.localStorage.setItem('oauthRedirectCodeFlow', 'true');
+      winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
 
       service['detectUserChange']();
 

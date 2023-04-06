@@ -18,7 +18,6 @@ import {
   RoutingService,
   StateWithClientAuth,
   UserIdService,
-  WindowRef,
 } from '@spartacus/core';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -40,7 +39,6 @@ export class AsmAuthService extends AuthService {
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected winRef: WindowRef,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {
     super(
@@ -50,7 +48,6 @@ export class AsmAuthService extends AuthService {
       authStorageService,
       authRedirectService,
       routingService,
-      winRef,
       authMultisiteIsolationService
     );
   }

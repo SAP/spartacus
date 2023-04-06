@@ -60,6 +60,26 @@ class MockOAuthService implements Partial<OAuthService> {
   }
 }
 
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
+    },
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        store[key] = undefined;
+      }
+    },
+  },
+  isBrowser(): boolean {
+    return true;
+  },
+};
+
 describe('OAuthLibWrapperService', () => {
   let service: OAuthLibWrapperService;
   let oAuthService: OAuthService;
@@ -72,6 +92,7 @@ describe('OAuthLibWrapperService', () => {
         OAuthLibWrapperService,
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: OAuthService, useClass: MockOAuthService },
+        { provide: WindowRef, useValue: MockWindowRef },
       ],
     });
     service = TestBed.inject(OAuthLibWrapperService);
@@ -219,6 +240,16 @@ describe('OAuthLibWrapperService', () => {
       service.initLoginFlow();
 
       expect(oAuthService.initLoginFlow).toHaveBeenCalled();
+    });
+
+    it('should set oauth flow key in local storage', () => {
+      service.initLoginFlow();
+
+      const storedOauthFlowKey = winRef.localStorage?.getItem(
+        'oAuthRedirectCodeFlow'
+      );
+
+      expect(storedOauthFlowKey).toBeTruthy();
     });
   });
 
