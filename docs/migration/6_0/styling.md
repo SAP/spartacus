@@ -296,7 +296,7 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 
 - Added `color: var(--cx-color-border-focus);` to line 188
 
-
+- Added `.btn-tertiary` styling for new button class on line 158
 
 ### company-page-template.scss
 
@@ -340,6 +340,7 @@ And added `&:hover {border-color: var(--cx-color-border-focus);}`
 - Line 37 replaced hex color with color variable `color: var(--cx-color-inverse);`
 - Line 258 - 261 added `@include media-breakpoint-up(lg) {background-color: var(--cx-color-text);}`
 - Added `&.accNavComponent { background-color: transparent;}` to Line 383
+- Removed line 54 `border-bottom: 1px solid var(--cx-color-light);`
 
 ### ScrollToTopComponent 
 
