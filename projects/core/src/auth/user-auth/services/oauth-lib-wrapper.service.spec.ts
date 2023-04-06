@@ -78,6 +78,11 @@ const MockWindowRef = {
   isBrowser(): boolean {
     return true;
   },
+  nativeWindow: {
+    location: {
+      origin: 'test.com',
+    },
+  },
 };
 
 describe('OAuthLibWrapperService', () => {
@@ -140,6 +145,7 @@ describe('OAuthLibWrapperService', () => {
 
       (service as any)['initialize']();
 
+      console.log(winRef);
       expect(oAuthService.configure).toHaveBeenCalledWith(
         jasmine.objectContaining({
           redirectUri: winRef.nativeWindow?.location.origin,
