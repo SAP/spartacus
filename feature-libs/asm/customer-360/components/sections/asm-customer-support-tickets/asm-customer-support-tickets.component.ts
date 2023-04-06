@@ -22,35 +22,29 @@ export class AsmCustomerSupportTicketsComponent implements OnInit {
   supportTicketsColumns: Array<CustomerTableColumn> = [
     {
       property: 'id',
-      text: 'id',
       i18nTextKey: 'customer360.supportTickets.columnHeaders.id',
       navigatable: true,
     },
     {
       property: 'subject',
-      text: 'subject',
       i18nTextKey: 'customer360.supportTickets.columnHeaders.headline',
     },
     {
       property: 'categoryLabel',
-      text: 'categoryLabel',
       i18nTextKey: 'customer360.supportTickets.columnHeaders.category',
     },
     {
       property: 'createdAt',
-      text: 'created',
       i18nTextKey: 'customer360.activity.created',
       isDate: true,
     },
     {
       property: 'updatedAt',
-      text: 'updated',
       i18nTextKey: 'customer360.activity.updated',
       isDate: true,
     },
     {
       property: 'statusLabel',
-      text: 'statusLabel',
       i18nTextKey: 'customer360.activity.status',
     },
   ];

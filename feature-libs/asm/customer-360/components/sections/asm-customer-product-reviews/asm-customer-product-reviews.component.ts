@@ -32,25 +32,21 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
   reviewColumns: Array<CustomerTableColumn> = [
     {
       property: 'item',
-      text: 'item',
       i18nTextKey: 'customer360.productReviews.columnHeaders.item',
       navigatable: true,
     },
     {
       property: 'dateAndStatus',
       i18nTextKey: 'customer360.productReviews.columnHeaders.dateAndStatus',
-      text: 'DATE / STATUS',
     },
     {
       property: 'rating',
       i18nTextKey: 'customer360.productReviews.columnHeaders.rating',
-      text: 'rate',
       renderAsStarRating: true,
     },
     {
       property: 'reviewText',
       i18nTextKey: 'customer360.productReviews.columnHeaders.review',
-      text: 'review',
     },
   ];
 

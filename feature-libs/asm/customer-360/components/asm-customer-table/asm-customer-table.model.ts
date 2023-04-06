@@ -5,7 +5,7 @@
  */
 
 export interface CustomerTableColumn {
-  text: string;
+  text?: string;
   i18nTextKey?: string;
   property: string;
   sortOrder?: 'asc' | 'desc';
