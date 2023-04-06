@@ -197,7 +197,10 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 export function clickSavedCartButtonsFromCartPage(position: number) {
   // 0 = Saved Carts 'link' button
   // 1 = Save Cart For Later 'link' button
-  cy.get(`cx-add-to-saved-cart a`).eq(position).should('exist').click();
+  cy.get(`cx-add-to-saved-cart a`)
+    .eq(position)
+    .should('exist')
+    .click({ force: true });
 }
 
 export function waitForCartPageData(product: SampleProduct) {
@@ -378,9 +381,7 @@ export function restoreSavedCart(cart: any) {
 }
 
 export function clickOnFirstLinkInCart() {
-  cy.get(
-    'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
-  )
+  cy.get('cx-saved-cart-details-items tr[cx-cart-item-list-row] .btn-tertiary')
     .first()
     .click();
 }
@@ -607,7 +608,7 @@ export function updateSavedCartAndDelete(
 
         if (deleteEntry) {
           cy.get(
-            'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
+            'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-remove-btn'
           )
             .then((element) => element.get(1))
             .click();

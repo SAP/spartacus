@@ -15,13 +15,17 @@
 #### ConfiguratorAttributeHeaderComponent
 
 - Set `margin-block-end` to `0px` instead of `17px`
-- Added `.cx-action-link { color: var(--cx-color-text);font-size: 14px; min-height: 0px;} `to `.cx-conflict-msg `
+- Added `.cx-action-link { font-size: 14px; min-height: 0px;} `to `.cx-conflict-msg `
 - Added `padding-block-end: 5px; padding-block-start: 5px; display: block;` to `img`
 
 #### ConfiguratorAttributeReadOnlyComponent
 
 - `%cx-configurator-attribute-read-only` now only contains `@include cx-configurator-attribute-type();`. This mixin already has all
   the needed styling settings
+
+#### ConfigureCartEntryComponent
+
+- Styling file was obsolete and has been removed because `link cx-action-link` classes are used
 
 #### ConfiguratorConflictSolverDialogComponent
 
@@ -31,12 +35,21 @@
 
 - `margin-inline-start` changed to `-15px` instead of `-20px`
 - `margin-inline-end` changed to `-15px` instead of `-20px`
-- added `padding-inline-start: 0px;` to `.cx-title`
+- Added `padding-inline-start: 0px;` to `.cx-title`
+
+#### ConfiguratorExitButtonComponent
+
+- Styling file was obsolete and has been removed 
+- Added `btn btn-tertiary` classes to `button`
 
 #### ConfiguratorGroupTitleComponent
 
 - `margin-block-end` changed to `-15px` instead of `-20px`
 - `cx-hamburger-menu` styling added to `.cx-group-title`
+
+#### ConfiguratorIssuesNotificationComponent
+
+- Added property `font-weight: var(--cx-font-weight-semi)`
 
 #### ConfiguratorOverviewAttributeComponent
 
@@ -46,6 +59,10 @@
 #### ConfiguratorOverviewFilterDialogComponent
 
 - `z-index: 1000` added to `%cx-configurator-overview-filter-dialog` to control which dialog is rendered on top if multiple open
+
+#### ConfiguratorOverviewFilterButtonComponent
+
+- `btn btn-secondary` classes are added to `button`
 
 #### ConfiguratorOverviewFormComponent
 
@@ -63,6 +80,14 @@
 #### ConfiguratorOverviewMenuComponent
 
 - `ul` wraps the content of `cx-configurator-overview-menu`.
+
+#### ConfiguratorOverviewNotificationBannerComponent
+
+- Removed obsolet styling for `button.link` except `font-size: inherit`
+
+#### ConfiguratorProductTitleComponent
+
+- Added property `box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark)` to `.cx-general-product-info` class
 
 #### ConfiguratorVariantOverviewPage
 
@@ -152,6 +177,8 @@
 #### AddedToCartDialogComponent
 
 - Added `.cx-modal-content {height: 100%;}` on line 4.
+- Added `.cx-dialog-pickup-store {padding-inline-start: 4.063rem;}`
+- Added `.cx-dialog-pickup-store-name {font-weight: var(--cx-font-weight-semi);}`
 
 ### Fonts library
 
@@ -240,6 +267,30 @@
 
 - Changed line 78 `background-color: var(--cx-color-primary);border-color: var(--cx-color-primary);` to `background-color: var(--cx-color-primary-accent);border-color: var(--cx-color-primary-accent);`
 
+- Changed line 66 disabled button colors on `btn-primary`
+`background-color` to `var(--cx-color-border-focus)`
+`border-color: var(--cx-color-border-focus);` to `border: var(--cx-color-border-focus)`
+
+- Changed line 69 `border-color: var(--cx-color-primary);` to `{border-color: var(--cx-color-border-focus);}`
+
+- Removed line 70 `@include cx-darken(100);`
+
+- Changed line 113 disabled button colors on `btn-secondary`
+`background-color` to `var(--cx-color-border-focus)`,
+`border-color: var(--cx-color-primary-accent);` to `border-color: var(--cx-color-border-focus);`
+`color: var(--cx-color-primary-accent);` to `color: var(--cx-color-border-focus);`
+And added `&:hover {border-color: var(--cx-color-border-focus);}`
+
+- Changed line 161 `.btn-tertiary &hover` from `background-color: var(--cx-color-inverse);` to `background-color: var(--cx-color-transparent);`.
+
+- Changed lined 173 to `background-color: var(--cx-color-transparent);` from `background-color: var(--cx-color-inverse);`
+
+- Changed line 180 to `background-color: var(--cx-color-transparent);` from `background-color: var(--cx-color-inverse);`
+
+- Added `color: var(--cx-color-border-focus);` to line 188
+
+
+
 ### company-page-template.scss
 
 - Changed line 18 from `--cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)brightness(110%) contrast(99%);` to `--cx-img-filter: invert(34%) sepia(61%) saturate(1353%) hue-rotate(178deg)brightness(90%) contrast(90%);`
@@ -251,7 +302,9 @@
 ### ConfiguratorPreviousNextButtonsComponent
 
 - Removed `.btn-action` from line 21 and 30. 
-- Added `.btn-secondary` to line 29
+- Removed `.cx-btn` from line 4 and 12
+- Added `.btn-block` to line 4 and 12
+- Removed styling for disabled `.btn-secondary`
 
 ### _login.scss
 
@@ -302,3 +355,24 @@
 - Added line 162 `background-color: var(--cx-color-primary);`
 - Added `color: var(--cx-color-primary);` to line 188
 - Added `.cx-hamburger` and `.hamburger-inner` styling
+- Added to line 43 `height: 100vh; background-color: var(--cx-color-background);` 
+
+### NavigationUIComponent
+
+- Changed line 131 `border-bottom: 1px solid var(--cx-color-light);` to `border-bottom: 1px solid var(--cx-color-medium);`
+
+### AddToCartComponent
+
+- Changed line 25 to `color: var(--cx-color-primary);`
+- Changed line 26 to `text-decoration-color: var(--cx-color-primary);`
+- Changed line 30 to `color: var(--cx-color-primary);`
+
+### StoreComponent
+
+- Removed line 61 `width: 92%;` and 62 `margin: auto;`
+
+### PickupOptionDialogComponent 
+
+- Added line 5 `align-items: normal;`
+- Added line 9-10 `@include media-breakpoint-down(md) {height: 100%;}`
+- Added line 14-17 `@include media-breakpoint-down(md) {height: 100%;}`

@@ -15,13 +15,13 @@ import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
-class UserIdServiceStub implements Partial<UserIdService> {
+export class UserIdServiceStub implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return userId$.asObservable();
   }
 }
 
-class MultiCartFacadStub {
+export class MultiCartFacadeStub {
   loadCart() {}
   deleteCart() {}
   initAddEntryProcess() {}
@@ -64,7 +64,7 @@ describe('ActiveCartService', () => {
     TestBed.configureTestingModule({
       providers: [
         ActiveCartService,
-        { provide: MultiCartFacade, useClass: MultiCartFacadStub },
+        { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });

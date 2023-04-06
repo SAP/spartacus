@@ -169,7 +169,7 @@ describe('AddToCartComponent', () => {
   }
 
   function getTextFromAddToCartButton(): string {
-    return getButton().nativeElement.innerText;
+    return getButton().query(By.css('span')).nativeElement.innerText;
   }
 
   function getButton(): DebugElement {

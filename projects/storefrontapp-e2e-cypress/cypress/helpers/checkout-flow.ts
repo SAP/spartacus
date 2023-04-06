@@ -32,15 +32,15 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
-export function interceptCheckoutB2CDetailsEndpoint() {
+export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
 
-  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 
 /**
@@ -312,6 +312,10 @@ export function viewOrderHistory() {
     .should('not.be.empty');
 }
 
+export function clickCheckoutButton() {
+  cy.findByText(/proceed to checkout/i).click();
+}
+
 export function goToPaymentDetails() {
   cy.get('cx-checkout-progress li:nth-child(3) > a').click();
 }
@@ -480,11 +484,32 @@ export function fillPaymentFormWithCheapProduct(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP'
+  );
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
-
+  cy.log('submitPayment timestamp: ', new Date().toISOString());
   cy.wait('@submitPayment');
-  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
+  cy.log('reviewPage timestamp: ', new Date().toISOString());
+  cy.wait(`@${reviewPage}`);
+
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(
+      `Checkout details after payment step: ${JSON.stringify(
+        response.body,
+        null,
+        2
+      )}`
+    );
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
 }
 
 export function placeOrderWithCheapProduct(

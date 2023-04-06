@@ -38,6 +38,14 @@
         {{ location.formattedDistance }}
       </div>
     </div>
+    <ng-template
+      [cxOutlet]="StoreFinderOutlets.PREFERRED_STORE"
+      [cxOutletContext]="{
+        displayName: location.displayName,
+        name: location.name
+      }"
+    ></ng-template>
+
     <a
       href="{{ getDirections(location) }}"
       target="_blank"
