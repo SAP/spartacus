@@ -12,7 +12,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PickupOption } from '../../../model';
+import { PickupOption } from '@spartacus/pickup-in-store/root';
 
 /**
  * The presentational component of a pair of radio buttons for pickup options for a product.
