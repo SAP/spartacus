@@ -1,8 +1,6 @@
 on:
   push:
     branches:
-      - develop
-      - release/**
       - feature/recipes-test
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
