@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export enum StoreFinderOutlets {
-  PREFERRED_STORE = 'cx-pick-up-in-store-make-my-store',
-}
+export * from './store-finder.facade';
