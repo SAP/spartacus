@@ -6,11 +6,11 @@ import { CmsConfig } from '@spartacus/core';
 
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
-  PICKUP_IN_STORE_FEATURE
+  PICKUP_IN_STORE_FEATURE,
 } from './feature-name';
 import {
   defaultPickupInStoreComponentsConfig,
-  PickupInStoreRootModule
+  PickupInStoreRootModule,
 } from './pickup-in-store-root.module';
 
 const MockCmsConfig: CmsConfig = {
