@@ -91,11 +91,7 @@ else
     npm run start:pwa &
 
     echo '-----'
-    echo "Running Cypress end to end tests"
-
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+    echo "Running Cypress core end to end tests"
         npm run e2e:run:ci:core"${SUITE}"
-    else
-        npm run e2e:run:ci"${SUITE}"
     fi
 fi
