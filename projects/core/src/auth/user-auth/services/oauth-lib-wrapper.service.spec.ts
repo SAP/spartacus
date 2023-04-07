@@ -145,7 +145,6 @@ describe('OAuthLibWrapperService', () => {
 
       (service as any)['initialize']();
 
-      console.log(winRef);
       expect(oAuthService.configure).toHaveBeenCalledWith(
         jasmine.objectContaining({
           redirectUri: winRef.nativeWindow?.location.origin,

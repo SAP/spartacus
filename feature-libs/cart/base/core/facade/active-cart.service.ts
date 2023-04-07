@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy, Optional } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -73,7 +73,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   constructor(
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService,
-    @Optional() protected winRef?: WindowRef // This dependency might be required in the next major release.
+    /**
+     * TODO: (From 7.0) This dependency should be required from the next major.
+     * It is used to fix a problem related to merge carts in oAuth redirect flow.
+     *
+     * For more context please see: CXSPA-617.
+     */
+    protected winRef?: WindowRef
   ) {
     this.initActiveCart();
     this.detectUserChange();
