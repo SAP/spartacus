@@ -248,7 +248,7 @@ describe('OAuthLibWrapperService', () => {
       expect(oAuthService.initLoginFlow).toHaveBeenCalled();
     });
 
-    it('should set oauth flow key in local storage', () => {
+    it('should set oAuth flow key in local storage', () => {
       service.initLoginFlow();
 
       const storedOauthFlowKey = winRef.localStorage?.getItem(

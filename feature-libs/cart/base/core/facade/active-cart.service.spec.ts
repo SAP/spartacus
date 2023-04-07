@@ -341,7 +341,7 @@ describe('ActiveCartService', () => {
       expect(service['shouldLoadCartOnCodeFlow']).toBeFalsy();
     });
 
-    it('should remove oauth flow key from local storage', () => {
+    it('should remove oAuth flow key from local storage', () => {
       winRef.localStorage?.setItem('oAuthRedirectCodeFlow', 'true');
 
       service['detectUserChange']();

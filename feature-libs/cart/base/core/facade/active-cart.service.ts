@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Optional } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -73,7 +73,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   constructor(
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService,
-    protected winRef: WindowRef
+    @Optional() protected winRef?: WindowRef // This dependency might be required in the next major release.
   ) {
     this.initActiveCart();
     this.detectUserChange();
@@ -154,7 +154,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           .pipe(withLatestFrom(this.activeCartId$))
           .subscribe(([userId, cartId]) => {
             this.loadOrMerge(cartId, userId, OCC_USER_ID_ANONYMOUS);
-            this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
+            this.winRef?.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
           })
       );
     }
@@ -348,7 +348,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Check if user is just logged in with code flow
    */
   protected isLoggedInWithCodeFlow() {
-    return !!this.winRef.localStorage?.getItem(OAUTH_REDIRECT_FLOW_KEY);
+    return !!this.winRef?.localStorage?.getItem(OAUTH_REDIRECT_FLOW_KEY);
   }
 
   // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
