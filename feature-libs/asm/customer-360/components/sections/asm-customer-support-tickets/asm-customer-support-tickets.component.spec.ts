@@ -123,48 +123,38 @@ describe('AsmCustomerSupportTicketsComponent', () => {
     fixture = TestBed.createComponent(AsmCustomerSupportTicketsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
     sectionContext = TestBed.inject(Customer360SectionContext);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get data from services', () => {
-    fixture.detectChanges();
-
+  it('should have entries', () => {
     expect(component.supportTicketsColumns.length).toBe(6);
   });
 
-  describe('table', () => {
-    beforeEach(() => {
-      fixture.detectChanges();
-    });
+  it('should display the column headers', () => {
+    const headers = el.queryAll(By.css('.cx-asm-customer-table-header'));
+    expect(headers.length).toBe(component.supportTicketsColumns.length);
+  });
 
-    it('should display the column headers', () => {
-      const headers = el.queryAll(By.css('.cx-asm-customer-table-header'));
-      expect(headers.length).toBe(component.supportTicketsColumns.length);
-    });
+  it('should display table', () => {
+    const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
+    const tableRows = tableBody?.queryAll(By.css('tr'));
+    expect(tableRows.length).toBe(2);
+  });
 
-    it('should display table', () => {
-      const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
-      const tableRows = tableBody?.queryAll(By.css('tr'));
-      expect(tableRows.length).toBe(2);
-    });
-
-    it('should navigate ticket', () => {
-      spyOn(sectionContext.navigate$, 'next').and.stub();
-      const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
-      const tableRows = tableBody.queryAll(By.css('tr'));
-      const linkCell = tableRows[0].query(
-        By.css('.cx-asm-customer-table-link')
-      );
-      linkCell.nativeElement.click();
-      expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
-        cxRoute: 'supportTicketDetails',
-        params: { ticketCode: '00000001' },
-      });
+  it('should navigate ticket', () => {
+    spyOn(sectionContext.navigate$, 'next').and.stub();
+    const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
+    const tableRows = tableBody.queryAll(By.css('tr'));
+    const linkCell = tableRows[0].query(By.css('.cx-asm-customer-table-link'));
+    linkCell.nativeElement.click();
+    expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
+      cxRoute: 'supportTicketDetails',
+      params: { ticketCode: '00000001' },
     });
   });
 });
