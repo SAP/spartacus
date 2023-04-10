@@ -130,7 +130,7 @@ describe('AsmCustomerProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display addresses and phone numbers', () => {
+  it('should display billing addresses', () => {
     const billingLine1 = el.query(By.css('.billing-address .address-line1'));
     const billingLine2 = el.query(By.css('.billing-address .address-line2'));
     const billingTown = el.query(By.css('.billing-address .address-town'));
@@ -153,6 +153,41 @@ describe('AsmCustomerProfileComponent', () => {
     );
     expect(billingCountry.nativeElement.innerText).toBe(
       mockCustomerProfile.profile?.billingAddress?.country?.isocode
+    );
+  });
+
+  it('should display delivery addresses', () => {
+    const line1 = el.query(By.css('.delivery-address .address-line1'));
+    const line2 = el.query(By.css('.delivery-address .address-line2'));
+    const town = el.query(By.css('.delivery-address .address-town'));
+    const region = el.query(By.css('.delivery-address .address-region'));
+    const country = el.query(By.css('.delivery-address .address-country'));
+
+    expect(line1.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.line1
+    );
+    expect(line2.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.line2
+    );
+    expect(town.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.town + ', '
+    );
+    expect(region.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.region?.isocode + ', '
+    );
+    expect(country.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.country?.isocode
+    );
+  });
+
+  it('should display phone number', () => {
+    const phone1 = el.query(By.css('.profile-phone1'));
+    const phone2 = el.query(By.css('.profile-phone2'));
+    expect(phone1.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.phone1
+    );
+    expect(phone2.nativeElement.innerText).toBe(
+      mockCustomerProfile.profile?.phone2
     );
   });
 

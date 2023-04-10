@@ -45,7 +45,7 @@ export class AsmCustomerProfileComponent implements OnInit {
       })
     );
   }
-  // todo: cardTypeName might get change to code or both
+  // TODO: cardTypeName might get change to code or both
   getCardContent({
     defaultPayment,
     expiryMonth,
@@ -74,7 +74,8 @@ export class AsmCustomerProfileComponent implements OnInit {
       })
     );
   }
-
+  // TODO:  currently backend is passing cardTypeName and we requested to pass code
+  // so we might need to change model to receive correct value
   getCardIcon(code: string): string {
     let ccIcon: string;
     if (code === 'visa') {
