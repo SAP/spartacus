@@ -14,12 +14,14 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
+  OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
   StateUtils,
   User,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
@@ -64,9 +66,20 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     switchMap((cartId) => this.multiCartFacade.getCartEntity(cartId))
   );
 
+  // Flag to prevent cart loading when logged in with code flow
+  // Instead of loading cart will run loadOrMerge method
+  protected shouldLoadCartOnCodeFlow = true;
+
   constructor(
     protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    /**
+     * TODO: (From 7.0) This dependency should be required from the next major.
+     * It is used to fix a problem related to merge carts in oAuth redirect flow.
+     *
+     * For more context please see: CXSPA-617.
+     */
+    protected winRef?: WindowRef
   ) {
     this.initActiveCart();
     this.detectUserChange();
@@ -94,7 +107,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const loading = cartValue$.pipe(
       withLatestFrom(this.activeCartId$, this.userIdService.getUserId()),
       tap(([{ cart, loaded, isStable }, cartId, userId]) => {
-        if (isStable && isEmpty(cart) && !loaded && !isTempCartId(cartId)) {
+        if (
+          isStable &&
+          isEmpty(cart) &&
+          !loaded &&
+          !isTempCartId(cartId) &&
+          this.shouldLoadCartOnCodeFlow
+        ) {
           this.load(cartId, userId);
         }
       })
@@ -129,6 +148,22 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           }
         })
     );
+
+    // Detect user logged in with code flow.
+    if (this.isLoggedInWithCodeFlow()) {
+      // Prevent loading cart while merging.
+      this.shouldLoadCartOnCodeFlow = false;
+
+      this.subscription.add(
+        this.userIdService
+          .getUserId()
+          .pipe(withLatestFrom(this.activeCartId$))
+          .subscribe(([userId, cartId]) => {
+            this.loadOrMerge(cartId, userId, OCC_USER_ID_ANONYMOUS);
+            this.winRef?.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
+          })
+      );
+    }
   }
 
   /**
@@ -313,6 +348,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       isTempCartId(cartId) &&
       (cartState.loading || cartState.success || cartState.error)
     );
+  }
+
+  /**
+   * Check if user is just logged in with code flow
+   */
+  protected isLoggedInWithCodeFlow() {
+    return !!this.winRef?.localStorage?.getItem(OAUTH_REDIRECT_FLOW_KEY);
   }
 
   // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
