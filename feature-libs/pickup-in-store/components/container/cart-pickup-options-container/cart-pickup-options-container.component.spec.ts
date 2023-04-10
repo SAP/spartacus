@@ -14,11 +14,11 @@ import {
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { MockLaunchDialogService } from '../../../../components/container/pickup-option-dialog/pickup-option-dialog.component.spec';
-import { MockPickupLocationsSearchService } from '../../../../core/facade/pickup-locations-search.service.spec';
-import { MockPickupOptionFacade } from '../../../../core/facade/pickup-option.service.spec';
-import { MockPreferredStoreService } from '../../../../core/services/preferred-store.service.spec';
+import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
+import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
+import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
+import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
 import {
   CartPickupOptionsContainerComponent,
   orderEntryWithRequiredFields,
