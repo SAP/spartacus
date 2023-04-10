@@ -55,7 +55,7 @@ describe('AsmCustomerSupportTicketsComponent', () => {
   let component: AsmCustomerSupportTicketsComponent;
   let fixture: ComponentFixture<AsmCustomerSupportTicketsComponent>;
   let el: DebugElement;
-  let sectionContext: Customer360SectionContext<void>;
+  let contextSource: Customer360SectionContextSource<Customer360SupportTicketList>;
 
   const supportTicketList: Customer360SupportTicketList = {
     type: Customer360Type.SUPPORT_TICKET_LIST,
@@ -114,7 +114,7 @@ describe('AsmCustomerSupportTicketsComponent', () => {
   });
 
   beforeEach(() => {
-    const contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource = TestBed.inject(Customer360SectionContextSource);
     contextSource.data$.next(supportTicketList);
     contextSource.config$.next({
       pageSize: 5,
@@ -123,7 +123,6 @@ describe('AsmCustomerSupportTicketsComponent', () => {
     fixture = TestBed.createComponent(AsmCustomerSupportTicketsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    sectionContext = TestBed.inject(Customer360SectionContext);
     fixture.detectChanges();
   });
 
@@ -147,12 +146,12 @@ describe('AsmCustomerSupportTicketsComponent', () => {
   });
 
   it('should navigate ticket', () => {
-    spyOn(sectionContext.navigate$, 'next').and.stub();
+    spyOn(contextSource.navigate$, 'next').and.stub();
     const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
     const tableRows = tableBody.queryAll(By.css('tr'));
     const linkCell = tableRows[0].query(By.css('.cx-asm-customer-table-link'));
     linkCell.nativeElement.click();
-    expect(sectionContext.navigate$.next).toHaveBeenCalledWith({
+    expect(contextSource.navigate$.next).toHaveBeenCalledWith({
       cxRoute: 'supportTicketDetails',
       params: { ticketCode: '00000001' },
     });
