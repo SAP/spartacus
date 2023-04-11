@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-source ./e2e-cypress-common.sh
+source ./ci-scripts/e2e-cypress-common.sh
 
 POSITIONAL=()
 
