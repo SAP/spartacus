@@ -15,15 +15,15 @@ export const defaultCustomer360Config: Customer360Config = {
         i18nNameKey: 'customer360.overviewTab',
         components: [
           {
-            component: 'AsmCustomer360SavedCartComponent',
-            requestData: {
-              type: Customer360Type.SAVED_CART,
-            },
-          },
-          {
             component: 'AsmCustomer360ActiveCartComponent',
             requestData: {
               type: Customer360Type.ACTIVE_CART,
+            },
+          },
+          {
+            component: 'AsmCustomer360SavedCartComponent',
+            requestData: {
+              type: Customer360Type.SAVED_CART,
             },
           },
           {
