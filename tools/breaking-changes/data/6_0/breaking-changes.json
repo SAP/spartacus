@@ -9901,8 +9901,8 @@
         },
         {
           "kind": "Property",
-          "name": "displayConsignmentDelivery$",
-          "type": "Observable<boolean | undefined>"
+          "name": "deliveryUnConsignedEntries",
+          "type": "OrderEntry[] | undefined"
         },
         {
           "kind": "Property",
@@ -9932,6 +9932,35 @@
             }
           ],
           "returnType": "Consignment[] | undefined"
+        },
+        {
+          "kind": "Method",
+          "name": "getUnconsignedEntries",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "order",
+              "type": "Order",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_components!Order:interface",
+              "shortType": "Order",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "pickup",
+              "type": "boolean",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "OrderEntry[] | undefined"
+        },
+        {
+          "kind": "Property",
+          "name": "groupCartItems$",
+          "type": "Observable<boolean | undefined>"
         },
         {
           "kind": "Method",
@@ -9969,6 +9998,11 @@
           "kind": "Property",
           "name": "pickupConsignments",
           "type": "Consignment[] | undefined"
+        },
+        {
+          "kind": "Property",
+          "name": "pickupUnconsignedEntries",
+          "type": "OrderEntry[] | undefined"
         },
         {
           "kind": "Property",
@@ -11774,6 +11808,270 @@
           "kind": "Property",
           "name": "store",
           "type": "Store<StateWithOrder>"
+        },
+        { "kind": "Property", "name": "userIdService", "type": "UserIdService" }
+      ]
+    }
+  },
+  {
+    "entryPoint": "@spartacus/order/core",
+    "kind": "Class",
+    "name": "ReorderOrderService",
+    "members": [
+      {
+        "kind": "Constructor",
+        "name": "constructor",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "commandService",
+            "type": "CommandService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/order_core!CommandService:class",
+            "shortType": "CommandService",
+            "importPath": "@spartacus/core"
+          },
+          {
+            "name": "reorderOrderConnector",
+            "type": "ReorderOrderConnector",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/order_core!ReorderOrderConnector:class",
+            "shortType": "ReorderOrderConnector",
+            "importPath": "@spartacus/order/core"
+          },
+          {
+            "name": "userIdService",
+            "type": "UserIdService",
+            "isOptional": false,
+            "canonicalReference": "@spartacus/order_core!UserIdService:class",
+            "shortType": "UserIdService",
+            "importPath": "@spartacus/core"
+          }
+        ]
+      },
+      {
+        "kind": "Property",
+        "name": "commandService",
+        "type": "CommandService"
+      },
+      {
+        "kind": "Method",
+        "name": "reorder",
+        "overloadIndex": 1,
+        "parameters": [
+          {
+            "name": "orderId",
+            "type": "string",
+            "isOptional": false,
+            "canonicalReference": "",
+            "shortType": "",
+            "importPath": ""
+          }
+        ],
+        "returnType": "Observable<CartModificationList>"
+      },
+      {
+        "kind": "Property",
+        "name": "reorderCommand",
+        "type": "Command<{\n        orderId: string;\n    }, CartModificationList>"
+      },
+      {
+        "kind": "Property",
+        "name": "reorderOrderConnector",
+        "type": "ReorderOrderConnector"
+      },
+      { "kind": "Property", "name": "userIdService", "type": "UserIdService" }
+    ],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "old": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "commandService",
+              "type": "CommandService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!CommandService:class",
+              "shortType": "CommandService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "reorderOrderConnector",
+              "type": "ReorderOrderConnector",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!ReorderOrderConnector:class",
+              "shortType": "ReorderOrderConnector",
+              "importPath": "@spartacus/order/core"
+            },
+            {
+              "name": "userIdService",
+              "type": "UserIdService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!UserIdService:class",
+              "shortType": "UserIdService",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "new": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "commandService",
+              "type": "CommandService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!CommandService:class",
+              "shortType": "CommandService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "reorderOrderConnector",
+              "type": "ReorderOrderConnector",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!ReorderOrderConnector:class",
+              "shortType": "ReorderOrderConnector",
+              "importPath": "@spartacus/order/core"
+            },
+            {
+              "name": "userIdService",
+              "type": "UserIdService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!UserIdService:class",
+              "shortType": "UserIdService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "multiCartFacade",
+              "type": "MultiCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!MultiCartFacade:class",
+              "shortType": "MultiCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ]
+        },
+        "topLevelApiElementName": "ReorderOrderService",
+        "topLevelApiElementKind": "Class",
+        "entryPoint": "@spartacus/order/core"
+      }
+    ],
+    "newApiElement": {
+      "entryPoint": "@spartacus/order/core",
+      "kind": "Class",
+      "name": "ReorderOrderService",
+      "members": [
+        {
+          "kind": "Constructor",
+          "name": "constructor",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "commandService",
+              "type": "CommandService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!CommandService:class",
+              "shortType": "CommandService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "reorderOrderConnector",
+              "type": "ReorderOrderConnector",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!ReorderOrderConnector:class",
+              "shortType": "ReorderOrderConnector",
+              "importPath": "@spartacus/order/core"
+            },
+            {
+              "name": "userIdService",
+              "type": "UserIdService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!UserIdService:class",
+              "shortType": "UserIdService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "multiCartFacade",
+              "type": "MultiCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/order_core!MultiCartFacade:class",
+              "shortType": "MultiCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ]
+        },
+        {
+          "kind": "Property",
+          "name": "activeCartFacade",
+          "type": "ActiveCartFacade"
+        },
+        {
+          "kind": "Property",
+          "name": "commandService",
+          "type": "CommandService"
+        },
+        {
+          "kind": "Property",
+          "name": "multiCartFacade",
+          "type": "MultiCartFacade"
+        },
+        {
+          "kind": "Method",
+          "name": "reorder",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "orderId",
+              "type": "string",
+              "isOptional": false,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<CartModificationList>"
+        },
+        {
+          "kind": "Property",
+          "name": "reorderCommand",
+          "type": "Command<{\n        orderId: string;\n    }, CartModificationList>"
+        },
+        {
+          "kind": "Property",
+          "name": "reorderOrderConnector",
+          "type": "ReorderOrderConnector"
+        },
+        {
+          "kind": "Method",
+          "name": "reorderPreconditions",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "Observable<string>"
         },
         { "kind": "Property", "name": "userIdService", "type": "UserIdService" }
       ]
@@ -22153,6 +22451,7 @@
           "parameters": [],
           "returnType": "void"
         },
+        { "kind": "Property", "name": "PRE_HEADER", "type": "" },
         { "kind": "Property", "name": "subscription", "type": "Subscription" }
       ]
     }
@@ -25090,6 +25389,43 @@
         },
         { "kind": "Property", "name": "location", "type": "Location" },
         { "kind": "Property", "name": "scriptLoader", "type": "ScriptLoader" }
+      ]
+    }
+  },
+  {
+    "entryPoint": "@spartacus/storefinder/core",
+    "kind": "Interface",
+    "name": "StoreEntities",
+    "members": [
+      {
+        "kind": "PropertySignature",
+        "name": "pointOfServices",
+        "type": "Array<PointOfService>"
+      }
+    ],
+    "breakingChanges": [
+      {
+        "change": "INTERFACE_MOVED",
+        "changeType": "MOVED",
+        "changeKind": "Interface",
+        "changeLabel": "moved",
+        "changeElementName": "StoreEntities",
+        "changeElementCategory": "TOP_LEVEL_API",
+        "topLevelApiElementName": "StoreEntities",
+        "topLevelApiElementKind": "Interface",
+        "entryPoint": "@spartacus/storefinder/core"
+      }
+    ],
+    "newApiElement": {
+      "entryPoint": "@spartacus/storefinder/root",
+      "kind": "Interface",
+      "name": "StoreEntities",
+      "members": [
+        {
+          "kind": "PropertySignature",
+          "name": "pointOfServices",
+          "type": "Array<PointOfService>"
+        }
       ]
     }
   },

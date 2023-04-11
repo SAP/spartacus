@@ -29,4 +29,9 @@ export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: '@spartacus/asm/core',
     newImportPath: '@spartacus/asm/root',
   },
+  {
+    previousNode: 'StoreEntities',
+    previousImportPath: '@spartacus/storefinder/core',
+    newImportPath: '@spartacus/storefinder/root',
+  },
 ];

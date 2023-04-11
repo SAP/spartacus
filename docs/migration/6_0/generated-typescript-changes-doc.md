@@ -1559,6 +1559,43 @@ constructor(
 
 
 
+# Class ReorderOrderService
+## @spartacus/order/core
+
+
+### Constructor changed.
+
+
+Previous version:
+
+```
+
+constructor(
+  commandService: CommandService,
+  reorderOrderConnector: ReorderOrderConnector,
+  userIdService: UserIdService
+)
+
+```
+
+
+Current version:
+
+```
+
+constructor(
+  commandService: CommandService,
+  reorderOrderConnector: ReorderOrderConnector,
+  userIdService: UserIdService,
+  activeCartFacade: ActiveCartFacade,
+  multiCartFacade: MultiCartFacade
+)
+
+```
+
+
+
+
 # Class UnitUserListComponent
 ## @spartacus/organization/administration/components
 
@@ -3103,6 +3140,14 @@ Current version:
 ```
 scriptLoader: ScriptLoader
 ```
+
+
+
+
+# Interface StoreEntities
+## @spartacus/storefinder/core
+
+moved to @spartacus/storefinder/root
 
 
 

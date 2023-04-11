@@ -1395,6 +1395,60 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = [
     ],
   },
   {
+    class: 'ReorderOrderService',
+    importPath: '@spartacus/order/core',
+    deprecatedParams: [
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ReorderOrderConnector',
+        importPath: '@spartacus/order/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ReorderOrderConnector',
+        importPath: '@spartacus/order/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+    ],
+    addParams: [
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ReorderOrderConnector',
+        importPath: '@spartacus/order/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ActiveCartFacade',
+        importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'MultiCartFacade',
+        importPath: '@spartacus/cart/base/root',
+      },
+    ],
+  },
+  {
     class: 'UnitUserListComponent',
     importPath: '@spartacus/organization/administration/components',
     deprecatedParams: [
