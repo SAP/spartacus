@@ -5,9 +5,9 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ProductScope, ProductService } from '@spartacus/core';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+import { concatMap, filter, map, take } from 'rxjs/operators';
 import { ProductItem } from '../../asm-customer-product-listing/product-item.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { Customer360ActiveCart } from '@spartacus/asm/customer-360/root';
@@ -19,16 +19,14 @@ import { Customer360ActiveCart } from '@spartacus/asm/customer-360/root';
 })
 export class AsmCustomerActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;
-  activeCart: Customer360ActiveCart;
+  activeCart$: Observable<Customer360ActiveCart>;
 
   constructor(
     public sectionContext: Customer360SectionContext<Customer360ActiveCart>,
     protected productService: ProductService
   ) {
-    this.productItems$ = this.sectionContext.data$.pipe(
-      tap((cart) => {
-        this.activeCart = cart;
-      }),
+    this.activeCart$ = this.sectionContext.data$;
+    this.productItems$ = this.activeCart$.pipe(
       concatMap((cart) => {
         if (!cart?.entries?.length) {
           return of([]);
@@ -38,19 +36,19 @@ export class AsmCustomerActiveCartComponent {
               return this.productService
                 .get(entry.productCode, ProductScope.DETAILS)
                 .pipe(
-                  filter((product) => Boolean(product)),
+                  filter((product): product is Product => Boolean(product)),
                   map((product) => {
                     return {
                       ...product,
                       quantity: entry.quantity,
                       basePrice: entry.basePrice,
                       totalPrice: entry.totalPrice,
-                    };
+                    } as ProductItem;
                   }),
                   take(1)
                 );
             })
-          ) as Observable<Array<ProductItem>>;
+          );
         }
       })
     );
