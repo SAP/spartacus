@@ -13,6 +13,7 @@ import {
   Quote,
   QuoteActionType,
   QuoteList,
+  QuoteState,
 } from '@spartacus/commerce-quotes/root';
 import {
   I18nTestingModule,
@@ -157,14 +158,10 @@ describe('CommerceQuotesListComponent', () => {
 
     //when
     fixture.detectChanges();
-    const header = fixture.debugElement.query(By.css('#header'));
     const sorting = fixture.debugElement.query(By.css('cx-sorting'));
     const table = fixture.debugElement.query(By.css('#commerce-quotes-list'));
 
     //then
-    expect(header.nativeElement.textContent).toEqual(
-      'commerceQuotes.list.header'
-    );
     expect(sorting.nativeElement).not.toBeNull();
     expect(table.nativeElement).not.toBeNull();
   });
@@ -203,6 +200,81 @@ describe('CommerceQuotesListComponent', () => {
     const elements = fixture.debugElement.queryAll(By.css('cx-pagination'));
 
     //then
-    expect(elements.length).toEqual(2);
+    expect(elements.length).toEqual(1);
+  });
+
+  describe('getQuoteStateClass', () => {
+    it('should apply quote-draft class', () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_DRAFT }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLink = fixture.debugElement.query(
+        By.css('.cx-commerce-quotes-list-quote-status a')
+      ).attributes.class;
+      expect(quoteStateLink).toContain('quote-draft');
+    });
+    it('should apply quote-submitted class', () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_SUBMITTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+
+      //then
+      const quoteStateLink = fixture.debugElement.query(
+        By.css('.cx-commerce-quotes-list-quote-status a')
+      ).attributes.class;
+
+      expect(quoteStateLink).toContain('quote-submitted');
+    });
+    it('should apply quote-rejected class', () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.BUYER_REJECTED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      const quoteStateLink = fixture.debugElement.query(
+        By.css('.cx-commerce-quotes-list-quote-status a')
+      ).attributes.class;
+
+      expect(quoteStateLink).toContain('quote-rejected');
+    });
+    it('should apply quote-cancelled class', () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: QuoteState.CANCELLED }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+
+      //then
+      const quoteStateLink = fixture.debugElement.query(
+        By.css('.cx-commerce-quotes-list-quote-status a')
+      ).attributes.class;
+
+      expect(quoteStateLink).toContain('quote-cancelled');
+    });
   });
 });

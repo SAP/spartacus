@@ -33,15 +33,13 @@ export class CommerceQuotesListComponent {
 
   getQuoteStateClass(state: string): string {
     switch (state) {
-      case 'Draft':
+      case 'BUYER_DRAFT':
         return 'quote-draft';
-      case 'Submitted':
+      case 'BUYER_SUBMITTED':
         return 'quote-submitted';
-      case 'Rejected':
+      case 'BUYER_REJECTED':
         return 'quote-rejected';
-      case 'Vendor Quote':
-        return 'quote-vendorQuote';
-      case 'Cancelled':
+      case 'CANCELLED':
         return 'quote-cancelled';
       default:
         return '';
