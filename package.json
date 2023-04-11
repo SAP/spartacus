@@ -78,6 +78,7 @@
     "start:ci:b2b": "env-cmd --no-override -e ci,b2b,$SPA_ENV ng serve",
     "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve --configuration production",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
+    "start:opf": "env-cmd --no-override -e opf,$SPA_ENV ng serve",
     "test": "ng test",
     "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test cart --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test smartedit --code-coverage\" \"ng test asm --code-coverage\" \"ng test qualtrics --code-coverage\" \"ng test product --code-coverage\" \"ng test product-configurator --code-coverage\" \"ng test customer-ticketing --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\" \"ng test checkout --code-coverage\" \"ng test order --code-coverage\" \"ng test digital-payments --code-coverage\" \"ng test epd-visualization --code-coverage\" \"ng test pickup-in-store --code-coverage\"",
     "test:storefront:lib": "ng test storefrontlib --source-map --code-coverage",
