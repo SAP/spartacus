@@ -87,7 +87,7 @@
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp-server/main.js",
     "prerender": "nx run storefrontapp:prerender --routes-file projects/storefrontapp/prerender.txt",
     "prerender:dev": "env-cmd --no-override -e dev,$SPA_ENV cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nx run storefrontapp:prerender --routes-file projects/storefrontapp/prerender.txt",
-    "postinstall": "nxcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "prerender:cds": "env-cmd --no-override -e cds nx run storefrontapp:prerender --routes-file projects/storefrontapp/prerender.txt",
     "publish:docs": "npx --yes gh-pages@^2.2.0 -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "nx test cds --code-coverage",
