@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ProductScope, ProductService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, filter, map, take } from 'rxjs/operators';
+import { concatMap, filter, map, take, tap } from 'rxjs/operators';
 import { ProductItem } from '../../asm-customer-product-listing/product-item.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { Customer360ActiveCart } from '@spartacus/asm/customer-360/root';
@@ -18,15 +18,17 @@ import { Customer360ActiveCart } from '@spartacus/asm/customer-360/root';
   templateUrl: './asm-customer-active-cart.component.html',
 })
 export class AsmCustomerActiveCartComponent {
-  activeCart$: Observable<Customer360ActiveCart>;
   productItems$: Observable<Array<ProductItem>>;
+  activeCart: Customer360ActiveCart;
 
   constructor(
     public sectionContext: Customer360SectionContext<Customer360ActiveCart>,
     protected productService: ProductService
   ) {
-    this.activeCart$ = this.sectionContext.data$;
-    this.productItems$ = this.activeCart$.pipe(
+    this.productItems$ = this.sectionContext.data$.pipe(
+      tap((cart) => {
+        this.activeCart = cart;
+      }),
       concatMap((cart) => {
         if (!cart?.entries?.length) {
           return of([]);

@@ -13,7 +13,7 @@
 </cx-asm-customer-product-listing>
 
 <ng-template #headerTemplate>
-  <ng-container *ngIf="activeCart$ | async as activeCart">
+  <ng-container *ngIf="activeCart">
     <button
       [attr.aria-label]="
         'customer360.activeCart.aria.linkLabel'
