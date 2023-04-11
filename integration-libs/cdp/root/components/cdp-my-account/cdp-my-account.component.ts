@@ -56,7 +56,7 @@ import { CdpOrderService } from '../../service';
         this.orderValue = res;
         this.tabTitleParam$.next(res.orders.length);
         this.calculateTotalAmount(this.orderValue);
-        this.getItemCount(this.orderValue);
+        this.getOrderedItems(this.orderValue);
         console.log(this.orderValue);
       });
     }
@@ -67,7 +67,7 @@ import { CdpOrderService } from '../../service';
       }
     }
 
-    public async getItemCount(finalResult: finalOrder): Promise<void> {
+    public async getOrderedItems(finalResult: finalOrder): Promise<void> {
       await this.cdpOrderService.fetchOrderDetail(finalResult).then((data)=>{
         this.orderDetail= data;
       });
@@ -92,14 +92,7 @@ import { CdpOrderService } from '../../service';
         this.orderValue = res;
         this.tabTitleParam$.next(res.orders.length);
         this.calculateTotalAmount(this.orderValue);
-        this.getItemCount(this.orderValue);
-      });
-    }
-
-    goToOrderDetail(order: order): void {
-      this.routing.go({
-        cxRoute: 'orderDetails',
-        params: order,
+        this.getOrderedItems(this.orderValue);
       });
     }
   }
