@@ -36,7 +36,7 @@ export class AsmCustomerProductListingComponent implements OnInit {
   headerText: string;
 
   @Input()
-  products: Array<ProductItem>;
+  products: Array<ProductItem | Product>;
 
   @Input()
   headerTemplate: TemplateRef<void>;

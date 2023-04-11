@@ -27,14 +27,14 @@
     <div class="cart-total-no-items">
       {{
         'customer360.productListing.totalNoItems'
-          | cxTranslate: { count: activeCart.totalItems }
+          | cxTranslate: { count: activeCart.totalItemCount }
       }}
     </div>
     <div class="cart-divider"></div>
     <div class="cart-total-price">
       {{
         'customer360.productListing.totalPrice'
-          | cxTranslate: { price: activeCart.totalPrice?.formattedValue }
+          | cxTranslate: { price: activeCart.totalPrice }
       }}
     </div>
   </ng-container>

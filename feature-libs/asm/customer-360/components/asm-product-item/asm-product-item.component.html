@@ -29,7 +29,8 @@
     <div class="cx-asm-product-item-price">
       {{
         'customer360.productItem.itemPrice'
-          | cxTranslate: { price: product?.price?.formattedValue }
+          | cxTranslate
+            : { price: product?.basePrice ?? product?.price?.formattedValue }
       }}
     </div>
   </ng-container>

@@ -8,4 +8,7 @@ import { Product } from '@spartacus/core';
 
 export interface ProductItem extends Product {
   quantity?: number;
+  // prices at cart order is created
+  basePrice?: string;
+  totalPrice?: string;
 }

@@ -12,6 +12,7 @@ import {
   Output,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
+import { ProductItem } from '../asm-customer-product-listing/product-item.model';
 
 @Component({
   selector: 'cx-asm-product-item',
@@ -19,7 +20,7 @@ import { Product } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsmProductItemComponent {
-  @Input() product: Product;
+  @Input() product: Product | ProductItem;
   @Input() quantity: number;
   @Input() isOrderEntry = true;
   @Output() selectProduct = new EventEmitter<Product>();

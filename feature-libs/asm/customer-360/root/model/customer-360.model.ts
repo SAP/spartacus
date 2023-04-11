@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Country, Region, UrlCommand, User } from '@spartacus/core';
+import { Address, Country, Region, UrlCommand, User } from '@spartacus/core';
 
 export interface Customer360Review {
   productName: string;
@@ -41,6 +41,9 @@ export enum Customer360Type {
   PRODUCT_INTEREST_LIST = 'c360CustomerProductInterestList',
   SUPPORT_TICKET_LIST = 'c360TicketList',
   CUSTOMER_PROFILE = 'c360CustomerProfile',
+  ACTIVE_CART = 'c360Cart',
+  SAVED_CART = 'c360SavedCart',
+  OVERVIEW = 'c360Overview',
 }
 
 export interface Customer360SupportTicketList {
@@ -97,6 +100,49 @@ export interface Customer360ProductInterestList {
   }>;
 }
 
+export interface Customer360CartEntry {
+  quantity: number;
+  basePrice: string;
+  totalPrice: string;
+  productCode: string;
+}
+export interface Customer360ActiveCart {
+  type: Customer360Type.ACTIVE_CART;
+  code: string;
+  totalPrice?: string;
+  totalItemCount?: number;
+  entries?: Array<Customer360CartEntry>;
+}
+
+export interface Customer360SavedCart {
+  type: Customer360Type.SAVED_CART;
+  code: string;
+  totalPrice?: string;
+  totalItemCount?: number;
+  entries?: Array<Customer360CartEntry>;
+}
+
+export interface Customer360Avatar {
+  url?: string;
+  format?: string;
+}
+
+export interface Customer360Overview {
+  type: Customer360Type.OVERVIEW;
+  name?: string;
+  cartSize?: number;
+  cartCode?: string;
+  lastOrderTotal?: string;
+  lastOrderCode?: string;
+  lastOrderedAt?: string;
+  lastOpenedTicketId?: string;
+  lastTicketCreatedAt?: string;
+  email?: string;
+  registeredAt?: string;
+  defaultShippingAddress?: Address;
+  userAvatar?: Customer360Avatar;
+}
+
 export interface Customer360Params {
   userId: string;
 }
@@ -116,11 +162,14 @@ export interface Customer360Request {
 }
 
 export type Customer360Data =
+  | Customer360ActiveCart
   | Customer360ProductInterestList
   | Customer360ReviewList
   | Customer360StoreLocation
   | Customer360SupportTicketList
-  | Customer360CustomerProfile;
+  | Customer360CustomerProfile
+  | Customer360SavedCart
+  | Customer360Overview;
 
 export interface Customer360Response {
   value: Array<Customer360Data>;
