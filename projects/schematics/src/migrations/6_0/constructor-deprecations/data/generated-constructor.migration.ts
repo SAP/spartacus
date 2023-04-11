@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 //
 // Generated file, don't update manually.
 //
@@ -1391,6 +1385,60 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = [
       {
         className: 'RoutingService',
         importPath: '@spartacus/core',
+      },
+    ],
+  },
+  {
+    class: 'ReorderOrderService',
+    importPath: '@spartacus/order/core',
+    deprecatedParams: [
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ReorderOrderConnector',
+        importPath: '@spartacus/order/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ReorderOrderConnector',
+        importPath: '@spartacus/order/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+    ],
+    addParams: [
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ReorderOrderConnector',
+        importPath: '@spartacus/order/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ActiveCartFacade',
+        importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'MultiCartFacade',
+        importPath: '@spartacus/cart/base/root',
       },
     ],
   },
