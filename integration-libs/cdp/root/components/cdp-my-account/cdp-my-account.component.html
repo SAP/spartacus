@@ -89,7 +89,7 @@
               </td>
               <!-- ORDER DETAIL HYPERLINK -->
               <td>
-                <div class="cx-cdp-link-underline">
+    <div class="cx-cdp-link-underline" (click)="getOrderDetail(order)">
                   <br />
                   <br />
                   <a
@@ -102,6 +102,7 @@
                     "
                     >{{ 'cdpOrderHistory.orderDetails' | cxTranslate }}
                   </a>
+                  <div></div>
                 </div>
               </td>
             </tr>

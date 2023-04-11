@@ -11,12 +11,9 @@ import {
   OccEndpointsService,
   RoutingService,
   TranslationService,
-  UserIdService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 import { product } from '../../model/ImageDetail/product';
-import { cdpOrderAdapter } from '../../../occ/adapter/cdp-order-adapter';
 import { result } from '../../model/result';
 import { finalOrder } from '../../model/order/finalOrder';
 import { order } from '../../model/orderDetail/order';
@@ -26,12 +23,13 @@ import {
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { OrderHistoryComponent } from '@spartacus/order/components';
+import { CdpOrderService } from '../../service';
 
 @Component({
   selector: 'cx-cdp-body',
   templateUrl: './cdp-my-account.component.html',
   styleUrls: ['./cdp-my-account.component.scss'],
-  providers: [CxDatePipe],
+  providers: [CxDatePipe,CdpOrderService],
 })
 export class CdpMyAccountComponent
   extends OrderHistoryComponent
@@ -44,10 +42,10 @@ export class CdpMyAccountComponent
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    private userIdService: UserIdService,
-    private cdpOrderAdapter: cdpOrderAdapter,
+    protected cdpOrderService: CdpOrderService,
     protected occEndpointsService: OccEndpointsService,
     protected datePipe: CxDatePipe,
+
     @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     super(
@@ -93,54 +91,25 @@ export class CdpMyAccountComponent
   }
 
   public async getOrderedItems(orders: any): Promise<void> {
-    for (let order of orders.orders) {
-      await this.userIdService
-        .takeUserId()
-        .pipe(
-          mergeMap((userId) =>
-            this.cdpOrderAdapter.getOrderDetail(userId, order)
-          )
-        )
-        .toPromise()
-        .then((data) => {
-          this.orderDetail[order.code] = data;
-          //orderDetail->order
-        });
-    }
+    await this.cdpOrderService.fetchOrderDetail(orders).then((data)=>{
+      this.orderDetail= data;
+    });
     this.getDetail();
-    console.log(this.orderDetail);
   }
 
   public async getDetail() {
     this.loading$.next(true);
-    // eslint-disable-next-line guard-for-in
-    for (let orderCode in this.orderDetail) {
-      this.orderStatus[orderCode] ??= {};
-      this.orderImage[orderCode] ??= [];
-      this.orderDetail[orderCode].consignments.forEach((ord) => {
-        this.orderStatus[orderCode][ord.status] ??= 0;
-        ord.entries.forEach((entr) => {
-          console.log(orderCode + ' status ' + ord.status + entr.quantity);
-          this.orderStatus[orderCode][ord.status] =
-            this.orderStatus[orderCode][ord.status] + entr.quantity;
-        });
-      });
-
-      this.orderImage[orderCode] ??= [];
-      this.orderDetail[orderCode].entries.forEach((entr) => {
-        entr.product.images.forEach((prd) => {
-          if (prd.url) {
-            prd.url =
-              this.occEndpointsService.getBaseUrl({
-                prefix: false,
-                baseSite: false,
-              }) + prd.url;
-          }
-        });
-        this.orderImage[orderCode].push(entr.product);
-      });
-      this.loading$.next(false);
-    }
-    console.log(this.orderImage);
+    this.orderStatus= this.cdpOrderService.fetchOrderStatus(this.orderDetail);
+    this.orderImage=this.cdpOrderService.fetchOrderImage(this.orderDetail);
+    this.loading$.next(false);
+    if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
   }
+
+  getOrderDetail(order: order): void {
+    this.routing.go({
+      cxRoute: 'orderDetails',
+      params: order,
+    });
+  }
+
 }
