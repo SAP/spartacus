@@ -193,7 +193,7 @@
     "karma-jasmine-html-reporter": "^1.7.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-parallel": "^0.3.1",
-    "nx-packagr": "^15.1.2",
+    "ng-packagr": "^15.1.2",
     "nx": "15.9.2",
     "parse5": "^6.0.1",
     "postcss": "^8.2.13",
