@@ -44,19 +44,22 @@
             <tr role="row">
               <!-- IMAGE -->
               <td role="cell">
-                <div *ngFor="let prdt of orderImage[order.code]">
+                <div *ngFor="let prdt of orderImage[order.code]; let i=index">
+                  <div *ngIf="i < 1">
                   <div *ngFor="let img of prdt.images" class="cx-image">
                     <img *ngIf="img.format === 'thumbnail'" [src]="img.url" />
                   </div>
+                </div>
                 </div>
               </td>
 
               <!-- ORDER BODY -->
               <td>
                 <div
-                  *ngFor="let prdt of orderImage[order.code]"
+                  *ngFor="let prdt of orderImage[order.code]; let i=index"
                   class="cx-prod-name"
                 >
+                  <div *ngIf="i < 1">
                   <!-- MATERIAL NAME -->
                   <div
                     *ngIf="orderDetail[order.code]?.deliveryItemsQuantity > 1"
@@ -71,11 +74,11 @@
                   >
                     {{ prdt.name }}
                   </div>
+                  </div>
                 </div>
 
                 <div class="cx-prod-body">
                   <p>
-                    {{ 'cdpOrderHistory.purchasedStore' | cxTranslate }}
                     {{ order.placed | cxDate: 'd, MMMM, yyyy' }}<br />
                     {{ 'cdpOrderHistory.orderedItems' | cxTranslate
                     }}{{ orderDetail[order.code]?.deliveryItemsQuantity }}<br />
