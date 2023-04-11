@@ -15,10 +15,10 @@
       </a>
     </div>
     <!-- TABLE -->
-    <div *ngIf="orders$ | async as orders">
+    <div *ngIf="(obser$ | async)?.orders.length; else noOrders">
       <section >
         <table
-          *ngFor="let order of orders.orders"
+        *ngFor="let order of orderValue.orders"
           role="table"
           id="cx-cdp-table"
           class="table cx-cdp-body-table"
