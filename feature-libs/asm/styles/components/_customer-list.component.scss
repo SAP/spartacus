@@ -4,9 +4,12 @@ $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   .cx-modal-content {
-    min-height: 424px;
-    @include forVersion(6.1) {
-      position: relative;
+    @include forVersion(1.6) {
+      min-height: 426px;
+    }
+
+    @include forVersion(6) {
+      min-height: 352px;
     }
   }
 
@@ -216,11 +219,6 @@ $sapFioriContent_LabelColor: #6a6d70;
   }
 
   @include forVersion(6.1) {
-    .cx-dialog-footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-    }
     .cx-asm-create-customer-btn {
       background-color: #eaecee;
       border-color: #eaecee;
@@ -246,6 +244,10 @@ $sapFioriContent_LabelColor: #6a6d70;
       border-width: 1px;
       border-color: #d6dade;
       border-style: solid;
+    }
+
+    .cx-asm-create-customer-btn:focus {
+      box-shadow: none;
     }
 
     .cx-asm-customer-list-btn-cancel {

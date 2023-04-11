@@ -25,10 +25,10 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
+import { NEVER, Observable, Subscription, combineLatest } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
