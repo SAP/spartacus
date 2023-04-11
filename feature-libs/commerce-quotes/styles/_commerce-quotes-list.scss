@@ -3,9 +3,9 @@
   table {
     th {
       text-transform: capitalize;
+      text-align: start;
       &:nth-last-of-type(1) {
-        text-align: center;
-        padding-inline-start: 1.5rem;
+        text-align: start;
       }
     }
     tr {
@@ -15,8 +15,9 @@
       }
     }
     td {
+      text-align: start;
       &:nth-last-of-type(1) {
-        text-align: center;
+        text-align: start;
       }
     }
 
