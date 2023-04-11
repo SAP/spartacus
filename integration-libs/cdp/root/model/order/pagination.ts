@@ -5,9 +5,8 @@
  */
 
 export interface pagination {
-  currentPage: Number;
-  pageSize: Number;
-  sort: String;
-  totalPages: Number;
-  totalResults: Number;
+  currentPage: number;
+  pageSize: number;
+  sort: string;
+  totalPages: number;
 }

@@ -10,9 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ConfigModule, RoutingModule, UrlModule } from '@spartacus/core';
 import { I18nModule } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
-//import { OrderHistoryModule } from '@spartacus/order/components';
-import { OrderComponent } from './cdp-order.component';
-
+import { cdpOrderComponent } from './cdp-order.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,11 +23,11 @@ import { OrderComponent } from './cdp-order.component';
     ConfigModule.withConfig({
       cmsComponents: {
         AccountOrderHistoryComponent: {
-          component: OrderComponent,
+          component: cdpOrderComponent,
         },
       },
     }),
   ],
-  declarations: [OrderComponent],
+  declarations: [cdpOrderComponent],
 })
 export class OrderModule {}

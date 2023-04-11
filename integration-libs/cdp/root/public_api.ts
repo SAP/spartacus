@@ -8,7 +8,7 @@ export * from './components/cdp-my-account/index';
 export * from './components/cdp-my-account-side-navigation/index';
 export * from './components/cdp-order/index';
 export * from './feature-name';
-export * from './adapter/index';
+export * from '../occ/adapter/index';
 export * from './service/index';
 export * from './config/index';
 export * from './model/index';
