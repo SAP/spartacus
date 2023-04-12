@@ -54,13 +54,4 @@ export class AsmCustomerSavedCartComponent {
       })
     );
   }
-
-  navigateToSavedCartDetails(): void {
-    this.savedCart$.pipe(take(1)).subscribe((savedCart) => {
-      this.sectionContext.navigate$.next({
-        cxRoute: 'savedCartsDetails',
-        params: { savedCartId: savedCart?.code },
-      });
-    });
-  }
 }

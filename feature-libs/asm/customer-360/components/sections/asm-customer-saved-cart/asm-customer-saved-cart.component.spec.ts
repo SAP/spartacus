@@ -232,4 +232,18 @@ describe('AsmCustomerSavedCartComponent', () => {
       },
     });
   });
+
+  it('should navigate saved cart detail', () => {
+    spyOn(contextSource.navigate$, 'next').and.stub();
+    const header = el.queryAll(
+      By.css('.product-listing-header .cx-overview-title-link')
+    )[0];
+    header.nativeElement.click();
+    expect(contextSource.navigate$.next).toHaveBeenCalledWith({
+      cxRoute: 'savedCartsDetails',
+      params: {
+        savedCartId: mockCart.code,
+      },
+    });
+  });
 });
