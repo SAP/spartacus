@@ -62,6 +62,8 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@15
+      - name: Install Nx CLI
+        run: npm install -g @nrwl/angular@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for Spartacus libs
@@ -89,6 +91,8 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@15
+      - name: Install Nx CLI
+        run: npm install -g @nrwl/angular@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for integration libs
@@ -134,6 +138,8 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@15
+      - name: Install Nx CLI
+        run: npm install -g @nrwl/angular@15
       - name: Package installation
         run: npm ci
       - name: Run linting validation
