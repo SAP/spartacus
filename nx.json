@@ -18,11 +18,6 @@
       }
     }
   },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"]
-    }
-  },
   "workspaceLayout": {
     "appsDir": "projects/storefrontapp",
     "libsDir": "feature-libs"
