@@ -25,6 +25,7 @@ describe('AsmCustomerSavedCartComponent', () => {
   let component: AsmCustomerSavedCartComponent;
   let fixture: ComponentFixture<AsmCustomerSavedCartComponent>;
   let el: DebugElement;
+  let contextSource: Customer360SectionContextSource<Customer360SavedCart>;
 
   const breakpointSubject = new BehaviorSubject<BREAKPOINT>(BREAKPOINT.xl);
 
@@ -165,7 +166,7 @@ describe('AsmCustomerSavedCartComponent', () => {
           return of(mockProduct2);
       }
     });
-    const contextSource = TestBed.inject(Customer360SectionContextSource);
+    contextSource = TestBed.inject(Customer360SectionContextSource);
     contextSource.data$.next(mockCart);
 
     fixture.detectChanges();
@@ -213,5 +214,22 @@ describe('AsmCustomerSavedCartComponent', () => {
       productItem.query(By.css('.cx-asm-product-item-code')).nativeElement
         .textContent
     ).toContain(mockProduct1.code);
+  });
+
+  it('should navigate Product Detail', () => {
+    spyOn(contextSource.navigate$, 'next').and.stub();
+    const productName = el.queryAll(
+      By.css('cx-asm-product-item .cx-asm-product-item-name')
+    )[0];
+    productName.nativeElement.click();
+    expect(contextSource.navigate$.next).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: {
+        ...mockProduct1,
+        quantity: mockCart?.entries?.[0]?.quantity,
+        basePrice: mockCart?.entries?.[0]?.basePrice,
+        totalPrice: mockCart?.entries?.[0]?.totalPrice,
+      },
+    });
   });
 });
