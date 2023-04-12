@@ -8,7 +8,7 @@ import { Customer360SectionConfig } from './customer-360-section-config';
 import { Customer360Query } from './customer-360.model';
 
 export interface Customer360TabComponent {
-  component: string;
+  component?: string;
   /** Data that can be associated to a component used to fetch information from a backend. */
   requestData?: Customer360Query;
   config?: Customer360SectionConfig;
