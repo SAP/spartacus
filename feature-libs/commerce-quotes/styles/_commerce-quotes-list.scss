@@ -27,18 +27,16 @@
         text-decoration: none;
       }
       .quote-draft {
-        color: #788082;
+        color: var(--cx-color-dark);
       }
-
       .quote-rejected {
-        color: #880000;
+        color: var(--cx-color-warning);
       }
-
       .quote-submitted {
-        color: #107e3e;
+        color: var(--cx-color-success);
       }
       .quote-cancelled {
-        color: #e9730c;
+        color: var(--cx-color-danger);
       }
     }
   }

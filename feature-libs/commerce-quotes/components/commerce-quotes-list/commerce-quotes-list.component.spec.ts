@@ -204,7 +204,7 @@ describe('CommerceQuotesListComponent', () => {
   });
 
   describe('getQuoteStateClass', () => {
-    it('should apply the various quote class', () => {
+    it('should apply the quote class depending on the given quote state', () => {
       //given
       mockQuoteListState$.next({
         ...mockQuoteListState,
