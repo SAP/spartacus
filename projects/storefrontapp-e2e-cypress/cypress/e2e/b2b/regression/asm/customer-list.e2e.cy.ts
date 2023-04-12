@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../helpers/asm';
-import * as checkout from '../../../helpers/checkout-flow';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import * as asm from '../../../../helpers/asm';
+import * as checkout from '../../../../helpers/checkout-flow';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('Assisted Service Module', () => {
   before(() => {
@@ -19,8 +19,8 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin('asagent', 'pw4all');
-      asm.asmCustomerLists();
+      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+      asm.asmB2bCustomerLists();
       asm.agentSignOut();
     });
   });
