@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Optional } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -70,16 +70,21 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // Instead of loading cart will run loadOrMerge method
   protected shouldLoadCartOnCodeFlow = true;
 
+  // TODO(CXSPA-3068): make WindowRef a required dependency
+  constructor(
+    multiCartFacade: MultiCartFacade,
+    userIdService: UserIdService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    winRef: WindowRef
+  );
+  /**
+   * @deprecated since 6.1
+   */
+  constructor(multiCartFacade: MultiCartFacade, userIdService: UserIdService);
   constructor(
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService,
-    /**
-     * TODO: (From 7.0) This dependency should be required from the next major.
-     * It is used to fix a problem related to merge carts in oAuth redirect flow.
-     *
-     * For more context please see: CXSPA-617.
-     */
-    protected winRef?: WindowRef
+    @Optional() protected winRef?: WindowRef
   ) {
     this.initActiveCart();
     this.detectUserChange();
