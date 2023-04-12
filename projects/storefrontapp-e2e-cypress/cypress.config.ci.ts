@@ -12,7 +12,7 @@ export default defineConfig({
 
   requestTimeout: 30000,
   projectId: 'k3nmep',
-  numTestsKeptInMemory: 1,
+  numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
   video: true,
   retries: {

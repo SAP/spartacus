@@ -23,7 +23,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin();
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Open create customer dialog on customer selection dropdown');
       asm.asmOpenCreateCustomerDialogOnCustomerSelectionDropdown();
@@ -131,7 +131,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin();
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
@@ -155,7 +155,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin();
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Open create customer dialog on customer list dialog');
       asm.asmOpenCreateCustomerDialogOnCustomerListDialog();
