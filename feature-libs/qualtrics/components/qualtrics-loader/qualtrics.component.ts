@@ -23,6 +23,7 @@ export class QualtricsComponent {
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
     } else if (isDevMode()) {
+      console.log('ok');
       console.warn(
         `We're unable to add the Qualtrics deployment code as there is no script source defined in config.qualtrics.scriptSource.`
       );
