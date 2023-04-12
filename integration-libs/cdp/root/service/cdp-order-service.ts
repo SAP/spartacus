@@ -161,6 +161,7 @@ export class CdpOrderService implements CdpOrderFacade {
         this.orderImage[orderCode].push(entr.product);
       });
     }
+    console.log(this.orderImage);
     return this.orderImage;
   }
 
