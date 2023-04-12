@@ -91,7 +91,7 @@ export class CmsComponentsService {
               this.getFeatureMappingResolver(
                 componentType,
                 staticConfig
-              ) as Observable<CmsComponentMapping<CmsComponent>>
+              ) as Observable<CmsComponentMapping>
             );
           } else {
             // simply use only static config
