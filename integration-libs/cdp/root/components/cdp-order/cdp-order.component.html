@@ -17,14 +17,41 @@
           </span>
           <br />
           <br />
+          <div *ngFor="let item of orderStatus[order.code] | keyvalue">
           <span class="cx-details"
-            >Purchased In Store | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
-            {{ orderDetail[order.code]?.deliveryItemsQuantity }} items |
+            >Purchased | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
+            <!-- {{ orderDetail[order.code]?.deliveryItemsQuantity }} items | -->
+            {{ item.value }} items |
             <b>TotalPrice: ${{ order.total.value }}</b></span
           >
           <br />
           <br />
-          <div *ngFor="let item of orderStatus[order.code] | keyvalue">
+          
+            <div *ngIf="item.key === 'NOTSHIPPED';then NotShipped"></div>
+            <ng-template #NotShipped>
+              <span class="cx-consignment-status">Not Shipped - {{item.value}}
+              </span>
+              <br>
+              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-template>
+            <div *ngIf="item.key === 'Not delivered';then NotDelivered"></div>
+            <ng-template #NotDelivered>
+              <span class="cx-consignment-status">Not Delivered - {{item.value}}</span>
+              <br>
+              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-template>
+            <div *ngIf="item.key === 'Fully delivered';then FullyDelivered"></div>
+            <ng-template #FullyDelivered>
+              <span class="cx-consignment-status">Fully Delivered - {{item.value}}
+              </span>
+            </ng-template>
+            <div *ngIf="item.key === 'Partially delivered';then PartiallyDelivered"></div>
+            <ng-template #PartiallyDelivered>
+              <span class="cx-consignment-status">Partially Delivered - {{item.value}}
+              </span>
+              <br>
+              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-template>
             <div *ngIf="item.key === 'READY_FOR_PICKUP'; then content"></div>
             <ng-template #content>
               <span class="cx-consignment-readforpickup"
@@ -90,9 +117,9 @@
             <div *ngIf="item.key === 'RETURNED'; then deliveryReturned"></div>
             <ng-template #deliveryReturned>
               <span class="cx-consignment-returned"
-                >{{ item.key }} - {{ item.value }} Items</span
+                >{{ item.key }} - {{ item.value }} </span
               ><br />
-              <span class="cx-returned-detail">Return Processed: </span>
+              <span class="cx-returned-detail">Return Processed: {{returnDate[order.code] | cxDate: 'd, MMMM, yyyy'}}</span>
             </ng-template>
           </div>
           <br />

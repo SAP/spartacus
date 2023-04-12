@@ -19,6 +19,7 @@ import { finalOrder } from '../model/order/finalOrder';
 import { order } from '../model/orderDetail/order';
 import { Injectable } from '@angular/core';
 import { CdpOrderFacade } from '../facade/cdp-order-facade';
+import { returnOrder } from '../model/returnDetail/returnOrder';
 
 @Injectable()
 export class CdpOrderService implements CdpOrderFacade {
@@ -42,7 +43,9 @@ export class CdpOrderService implements CdpOrderFacade {
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
   obser$: Observable<finalOrder>;
+  returnObser$: Observable<returnOrder>;
   orderData: order;
+  returnDate: Record<string, string>={};
 
   public getOrder(page_size: number): Observable<finalOrder> {
     this.obser$ = this.userIdService
@@ -63,6 +66,18 @@ export class CdpOrderService implements CdpOrderFacade {
         )
       );
     return this.obser$;
+  }
+
+  public fetchReturn(): Record<string, string>{
+    this.returnObser$=this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getRetunDetail(userId)));
+    //this.returnObser$=this.cdpOrderAdapter.getRetunDetail();
+    this.returnObser$.subscribe((returnSub)=>{
+      returnSub.returnRequest.forEach((returnval)=>{
+          this.returnDate[returnval.ReefernceSDDocumentID]=returnval.creationTime;
+          // this.orderStatus["00005003"]["RETURNED"]=1;
+      });
+    });
+    return this.returnDate;
   }
 
   public async fetchOrderDetail(
@@ -91,15 +106,38 @@ export class CdpOrderService implements CdpOrderFacade {
     // eslint-disable-next-line guard-for-in
     for (let orderCode in detail) {
       this.orderStatus[orderCode] ??= {};
-      this.orderImage[orderCode] ??= [];
-      detail[orderCode].consignments.forEach((ord) => {
-        this.orderStatus[orderCode][ord.status] ??= 0;
-        ord.entries.forEach((entr) => {
-          this.orderStatus[orderCode][ord.status] =
-            this.orderStatus[orderCode][ord.status] + entr.quantity;
+      if(detail[orderCode].consignments!=null)
+      {
+        detail[orderCode].consignments.forEach((ord) => {
+          this.orderStatus[orderCode][ord.status] ??= 0;
+          ord.entries.forEach((entr) => {
+            this.orderStatus[orderCode][ord.status] =
+              this.orderStatus[orderCode][ord.status] + entr.quantity;
+          });
         });
-      });
+      }else if(detail[orderCode].deliveryStatus!=null)
+      {
+        this.orderStatus[orderCode][detail[orderCode].deliveryStatus] ??= 0;
+        detail[orderCode].entries.forEach((entr) => {
+          this.orderStatus[orderCode][detail[orderCode].deliveryStatus] =
+            this.orderStatus[orderCode][detail[orderCode].deliveryStatus] + entr.quantity;
+        });
+      }
+
+      //setting the order status for Returned
+      if (this.returnDate.hasOwnProperty(orderCode)) {
+        const value = this.returnDate[orderCode];
+        if (value.trim() === '') {
+          console.log('The value for someKey is empty.');
+        } else {
+          this.orderStatus[orderCode]["RETURNED"] ??= 0;
+          this.orderStatus[orderCode]["RETURNED"]=1;
+        }
+        } else {
+          console.log('There is no property with the key someKey in the returnDate object.');
+      }
     }
+    console.log(this.orderStatus);
     return this.orderStatus;
   }
 
@@ -125,6 +163,25 @@ export class CdpOrderService implements CdpOrderFacade {
     }
     return this.orderImage;
   }
+
+  // public setReturnDate(
+  //    returnOrdr: returnOrder , detail: Record<string, order>): Record<string, string> {
+  //     // eslint-disable-next-line guard-for-in
+  //     // for(let orderCode in detail) {
+  //     //   this.returnDate[orderCode]??="";
+  //     //   detail[orderCode].consignments.forEach((cnsgmnt) =>{
+  //     //     if(cnsgmnt.status==='RETURNED'){
+  //     //       returnOrdr.returnRequ.forEach((rtrn)=>{
+  //     //           if(rtrn.orderCode===orderCode)
+  //     //           {
+  //     //             this.returnDate[orderCode]=rtrn.creationTime;
+  //     //           }
+  //     //       });
+  //     //     }
+  //     //   });
+  //     // }
+  //     return this.returnDate;
+  //  }
 
   private clearCart() {
     this.orderValue = { orders: [] };
