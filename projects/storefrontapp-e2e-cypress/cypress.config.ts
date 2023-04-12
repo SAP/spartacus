@@ -30,6 +30,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud',
   },
 });
