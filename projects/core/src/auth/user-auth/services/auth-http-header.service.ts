@@ -273,6 +273,7 @@ export class AuthHttpHeaderService implements OnDestroy {
           // we want to refresh the access token only when it is old.
           // this is a guard for the case when there are multiple parallel http calls
           if (
+            token &&
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
           ) {
