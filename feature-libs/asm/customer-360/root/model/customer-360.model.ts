@@ -16,6 +16,15 @@ export interface Customer360Review {
   reviewText: string;
 }
 
+export interface Customer360Activity {
+  type: string;
+  associatedTypeId: string;
+  description: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface C360TicketStatus {
   code: string;
   name: string;
@@ -41,6 +50,7 @@ export enum Customer360Type {
   PRODUCT_INTEREST_LIST = 'c360CustomerProductInterestList',
   SUPPORT_TICKET_LIST = 'c360TicketList',
   CUSTOMER_PROFILE = 'c360CustomerProfile',
+  ACTIVITY_LIST = 'c360ActivityList'
 }
 
 export interface Customer360SupportTicketList {
@@ -97,6 +107,11 @@ export interface Customer360ProductInterestList {
   }>;
 }
 
+export interface Customer360ActivityList {
+  type: Customer360Type.ACTIVITY_LIST;
+  activities: Array<Customer360Activity>;
+}
+
 export interface Customer360Params {
   userId: string;
 }
@@ -120,7 +135,8 @@ export type Customer360Data =
   | Customer360ReviewList
   | Customer360StoreLocation
   | Customer360SupportTicketList
-  | Customer360CustomerProfile;
+  | Customer360CustomerProfile
+  | Customer360ActivityList;
 
 export interface Customer360Response {
   value: Array<Customer360Data>;

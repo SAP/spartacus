@@ -68,6 +68,7 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
       ])
         .pipe(
           map(([data, skuLabel]) => {
+            debugger;
             this.reviewEntries = data.reviews.map((entry) => ({
               ...entry,
               item: `${entry.productName}, ${skuLabel}: ${entry.productCode}`,

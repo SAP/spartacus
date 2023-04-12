@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Customer360Activity } from '@spartacus/asm/customer-360/root';
 import { TableEntry } from '../../asm-customer-table/asm-customer-table.model';
 
 export interface GeneralEntry extends TableEntry {
@@ -16,6 +17,8 @@ export interface GeneralEntry extends TableEntry {
   updated?: number;
   url?: string;
 }
+
+export interface ActivityEntry extends Partial<Customer360Activity> {}
 
 export interface ValueLocalization {
   propertyName?: string;

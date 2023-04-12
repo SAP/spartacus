@@ -5,13 +5,14 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Customer360ActivityList } from '@spartacus/asm/customer-360/root';
 import { AsmConfig } from '@spartacus/asm/root';
 import { TranslationService, UrlCommand } from '@spartacus/core';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { GeneralEntry, ValueLocalization } from './asm-customer-activity.model';
+import { ActivityEntry, ValueLocalization } from './asm-customer-activity.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,7 +23,7 @@ export class AsmCustomerActivityComponent implements OnInit {
   private PAGE_SIZE = 10;
 
   pageSize: number;
-  entries$: Observable<Array<GeneralEntry>>;
+  entries$: Observable<Array<ActivityEntry>>;
   columns: Array<CustomerTableColumn> = [
     {
       property: 'type',
@@ -30,10 +31,9 @@ export class AsmCustomerActivityComponent implements OnInit {
       i18nTextKey: 'customer360.activity.type',
     },
     {
-      property: 'id',
+      property: 'assosciatedTypeId',
       text: 'id',
       i18nTextKey: 'customer360.activity.id',
-      navigatable: true,
     },
     {
       property: 'description',
@@ -41,18 +41,18 @@ export class AsmCustomerActivityComponent implements OnInit {
       i18nTextKey: 'customer360.activity.description',
     },
     {
-      property: 'category',
+      property: 'status',
       text: 'status',
       i18nTextKey: 'customer360.activity.status',
     },
     {
-      property: 'created',
+      property: 'createdAt',
       text: 'created',
       i18nTextKey: 'customer360.activity.created',
       isDate: true,
     },
     {
-      property: 'updated',
+      property: 'updatedAt',
       text: 'updated',
       i18nTextKey: 'customer360.activity.updated',
       isDate: true,
@@ -64,30 +64,42 @@ export class AsmCustomerActivityComponent implements OnInit {
   constructor(
     protected asmConfig: AsmConfig,
     protected translationService: TranslationService,
-    protected sectionContext: Customer360SectionContext<void>
+    protected sectionContext: Customer360SectionContext<void>,
+    protected context: Customer360SectionContext<Customer360ActivityList>
   ) {}
 
   ngOnInit(): void {
     // Notes:  We are sorting the table locally, so we need to translate
     // all possible values before passing them to the table component.
-    let entries: Array<GeneralEntry> = [];
+    let entries: Array<ActivityEntry> = [];
 
+    let test2 = this.context.data$.pipe(
+      map((test) => {
+        console.log(test.activities);
+        console.log(test2);
+    }));
+    debugger;
     this.entries$ = combineLatest([
       this.sectionContext.config$,
       this.sectionContext.orderHistory$,
       this.sectionContext.activeCart$,
       this.sectionContext.savedCarts$,
+      this.context.data$
     ]).pipe(
-      switchMap(([config, orderHistory, activeCart, savedCarts]) => {
+      switchMap(([config, orderHistory, activeCart, savedCarts, data]) => {
         this.pageSize = config.pageSize || this.PAGE_SIZE;
-        entries = [];
+        console.log(data);
+        entries = [...data.activities];
+        console.log(entries);
         // notes: active cart does not have date
         if (activeCart) {
           entries.push({
-            typeId: 'activeCart',
-            id: activeCart.code,
-            created: undefined,
-            category: '',
+            type: 'activeCart',
+            associatedTypeId: activeCart.code || '',
+            createdAt: '',
+            status: '',
+            updatedAt: '',
+            description: ''
           });
           this.saveLocalization(
             activeCart.code,
@@ -106,12 +118,14 @@ export class AsmCustomerActivityComponent implements OnInit {
 
         savedCarts?.forEach((cart) => {
           entries.push({
-            typeId: 'savedCart',
-            id: cart.code,
-            created: cart?.saveTime
-              ? Date.parse(String(cart?.saveTime))
-              : undefined,
-            category: '',
+            type: 'savedCart',
+            associatedTypeId: cart.code || '',
+            createdAt: cart?.saveTime
+              ? (String(cart?.saveTime))
+              : '',
+              status: '',
+              updatedAt: '',
+              description: ''
           });
           this.saveLocalization(
             cart.code,
@@ -130,12 +144,14 @@ export class AsmCustomerActivityComponent implements OnInit {
         // Notes: order history order doesn't have totalItems
         orderHistory.orders?.forEach((order) => {
           entries.push({
-            typeId: 'orderHistory',
-            id: order.code,
-            created: order?.placed
-              ? Date.parse(String(order?.placed))
-              : undefined,
-            category: order.statusDisplay,
+            type: 'orderHistory',
+            associatedTypeId: order.code || '',
+            createdAt: order?.placed
+              ? String(order?.placed)
+              : '',
+            status: order.statusDisplay || '',
+            updatedAt: '',
+            description: ''
           });
           this.saveLocalization(
             order.code,
@@ -147,7 +163,7 @@ export class AsmCustomerActivityComponent implements OnInit {
           map((valueLocalizations) => {
             valueLocalizations.forEach((valueLocalization) => {
               const entry = entries.find(
-                (item) => item.id === valueLocalization.id
+                (item) => item.associatedTypeId === valueLocalization.id
               );
               if (entry && valueLocalization.propertyName) {
                 entry[valueLocalization.propertyName] = valueLocalization.value;
@@ -160,22 +176,24 @@ export class AsmCustomerActivityComponent implements OnInit {
     );
   }
 
-  itemSelected(entry: GeneralEntry | undefined): void {
+  itemSelected(entry: ActivityEntry | undefined): void {
     if (entry) {
       let urlCommand: UrlCommand;
-      if (entry.typeId === 'savedCart') {
+      const entryType = entry.type? entry.type.toLowerCase() : '';
+
+      if (entryType === 'savedcart') {
         urlCommand = {
           cxRoute: 'savedCartsDetails',
-          params: { savedCartId: entry?.id },
+          params: { savedCartId: entry?.associatedTypeId },
         };
-      } else if (entry.typeId === 'activeCart') {
+      } else if (entryType === 'activecart') {
         urlCommand = {
           cxRoute: 'cart',
         };
-      } else if (entry.typeId === 'orderHistory') {
+      } else if (entryType === 'orderhistory') {
         urlCommand = {
           cxRoute: 'orderDetails',
-          params: { code: entry?.id },
+          params: { code: entry?.associatedTypeId },
         };
       }
       if (urlCommand) {

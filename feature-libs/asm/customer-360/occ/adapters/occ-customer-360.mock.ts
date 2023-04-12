@@ -11,6 +11,7 @@ import {
   Customer360ReviewList,
   Customer360StoreLocation,
   Customer360SupportTicketList,
+  Customer360ActivityList,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
 
@@ -148,6 +149,20 @@ export const mockInterestList: Customer360ProductInterestList = {
   ],
 };
 
+export const mockActivityList: Customer360ActivityList = {
+  type: Customer360Type.ACTIVITY_LIST,
+  activities: [
+    {
+      type: 'ORDER',
+      associatedTypeId: '01123',
+      description: 'mockActivity',
+      status: 'READY',
+      createdAt: '2023-02-10T12:52:33+08:0',
+      updatedAt: '2023-02-10T12:52:33+08:00'
+    }
+  ]
+};
+
 export const mockCustomer360Response: Customer360Response = {
   value: [
     mockReviewList,
@@ -155,5 +170,6 @@ export const mockCustomer360Response: Customer360Response = {
     mockInterestList,
     mockStoreLocationList,
     mockCustomerProfile,
+    mockActivityList
   ],
 };
