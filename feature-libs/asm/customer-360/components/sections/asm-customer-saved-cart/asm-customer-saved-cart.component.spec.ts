@@ -1,18 +1,32 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule, ImageType, Product } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ImageType,
+  Product,
+  ProductService,
+} from '@spartacus/core';
 
 import { AsmCustomerProductListingComponent } from '../../asm-customer-product-listing/asm-customer-product-listing.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerSavedCartComponent } from './asm-customer-saved-cart.component';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import {
+  Customer360SavedCart,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+
+import { AsmProductItemComponent } from '../../asm-product-item/asm-product-item.component';
 
 describe('AsmCustomerSavedCartComponent', () => {
   let component: AsmCustomerSavedCartComponent;
   let fixture: ComponentFixture<AsmCustomerSavedCartComponent>;
   let el: DebugElement;
+
+  const breakpointSubject = new BehaviorSubject<BREAKPOINT>(BREAKPOINT.xl);
 
   const mockProduct1: Product = {
     code: '553637',
@@ -74,24 +88,43 @@ describe('AsmCustomerSavedCartComponent', () => {
     ],
   };
 
-  const mockCart: Cart = {
-    code: '00001',
-    name: 'test name',
-    saveTime: new Date(2000, 2, 2),
-    description: 'test description',
-    totalItems: 2,
-    totalPrice: {
-      formattedValue: '$165.00',
-    },
+  class MockBreakpointService {
+    get breakpoint$(): Observable<BREAKPOINT> {
+      return breakpointSubject.asObservable();
+    }
+  }
+
+  const mockCart: Customer360SavedCart = {
+    type: Customer360Type.SAVED_CART,
+    code: '00000001',
+    totalPrice: '$40.00',
+    totalItemCount: 4,
     entries: [
       {
-        product: mockProduct1,
+        quantity: 1,
+        basePrice: '$10.00',
+        totalPrice: '$10.00',
+        productCode: '553637',
       },
       {
-        product: mockProduct2,
+        quantity: 3,
+        basePrice: '$10.00',
+        totalPrice: '$30.00',
+        productCode: '553638',
       },
     ],
   };
+
+  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  @Component({
+    template: '',
+    selector: 'cx-media',
+  })
+  class MockMediaComponent {
+    @Input() container: any;
+    @Input() format: any;
+    @Input() alt: any;
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -99,12 +132,19 @@ describe('AsmCustomerSavedCartComponent', () => {
       declarations: [
         AsmCustomerSavedCartComponent,
         AsmCustomerProductListingComponent,
+        AsmProductItemComponent,
+        MockMediaComponent,
       ],
       providers: [
         Customer360SectionContextSource,
         {
           provide: Customer360SectionContext,
           useExisting: Customer360SectionContextSource,
+        },
+        { provide: ProductService, useValue: productService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
       ],
     }).compileComponents();
@@ -115,8 +155,18 @@ describe('AsmCustomerSavedCartComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
+    const mockProductService = TestBed.inject(ProductService);
+
+    (<jasmine.Spy>mockProductService.get).and.callFake((code: string) => {
+      switch (code) {
+        case '553637':
+          return of(mockProduct1);
+        case '553638':
+          return of(mockProduct2);
+      }
+    });
     const contextSource = TestBed.inject(Customer360SectionContextSource);
-    contextSource.savedCarts$.next([mockCart]);
+    contextSource.data$.next(mockCart);
 
     fixture.detectChanges();
   });
@@ -127,27 +177,41 @@ describe('AsmCustomerSavedCartComponent', () => {
 
   it('should render a header', () => {
     const productListing = el.query(By.css('cx-asm-customer-product-listing'));
-
     const title = productListing.query(By.css('.title-link'));
-
     expect(title.nativeElement.textContent).toBe(
       ' customer360.savedCart.header '
     );
 
     const titleLink = productListing.query(By.css('.cx-overview-title-link'));
-
-    expect(titleLink.nativeElement.textContent).toBe(' 00001 ');
+    expect(titleLink.nativeElement.textContent).toContain(mockCart.code);
 
     const totalItems = productListing.query(By.css('.cart-total-no-items'));
-
-    expect(totalItems.nativeElement.textContent).toBe(
-      ' customer360.productListing.totalNoItems count:2 '
+    expect(totalItems.nativeElement.textContent).toContain(
+      mockCart.totalItemCount
     );
 
     const totalPrice = productListing.query(By.css('.cart-total-price'));
+    expect(totalPrice.nativeElement.textContent).toContain(mockCart.totalPrice);
+  });
+  it('should render products', () => {
+    breakpointSubject.next(BREAKPOINT.lg);
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('cx-asm-product-item')).length).toBe(2);
 
-    expect(totalPrice.nativeElement.textContent).toBe(
-      ' customer360.productListing.totalPrice price:$165.00 '
-    );
+    breakpointSubject.next(BREAKPOINT.md);
+
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('cx-asm-product-item')).length).toBe(1);
+
+    const productItem = el.queryAll(By.css('cx-asm-product-item'))[0];
+    expect(
+      productItem.query(By.css('.cx-asm-product-item-name')).nativeElement
+        .textContent
+    ).toContain(mockProduct1.name);
+
+    expect(
+      productItem.query(By.css('.cx-asm-product-item-code')).nativeElement
+        .textContent
+    ).toContain(mockProduct1.code);
   });
 });
