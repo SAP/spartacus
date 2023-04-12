@@ -9,6 +9,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import {
