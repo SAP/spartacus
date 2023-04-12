@@ -72,10 +72,11 @@ export class CdpOrderService implements CdpOrderFacade {
     this.returnObser$=this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getRetunDetail(userId)));
     //this.returnObser$=this.cdpOrderAdapter.getRetunDetail();
     this.returnObser$.subscribe((returnSub)=>{
-      returnSub.returnRequest.forEach((returnval)=>{
+      if(returnSub.returnRequest!=null){
+        returnSub.returnRequest.forEach((returnval)=>{
           this.returnDate[returnval.ReefernceSDDocumentID]=returnval.creationTime;
-          // this.orderStatus["00005003"]["RETURNED"]=1;
       });
+      }
     });
     return this.returnDate;
   }
