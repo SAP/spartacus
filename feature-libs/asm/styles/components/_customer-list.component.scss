@@ -238,16 +238,17 @@ $sapFioriContent_LabelColor: #6a6d70;
         color: #1d2d3e;
         margin-inline-end: 3px;
       }
-    }
-    .cx-asm-create-customer-btn:hover {
-      background-color: #ffffff;
-      border-width: 1px;
-      border-color: #d6dade;
-      border-style: solid;
-    }
 
-    .cx-asm-create-customer-btn:focus {
-      box-shadow: none;
+      &:hover {
+        background-color: #ffffff;
+        border-width: 1px;
+        border-color: #d6dade;
+        border-style: solid;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
     }
 
     .cx-asm-customer-list-btn-cancel {
@@ -263,10 +264,11 @@ $sapFioriContent_LabelColor: #6a6d70;
 
       margin: 0px 20px 0px 0px;
       padding: 0px 10px 0px 10px;
-    }
-    .cx-asm-customer-list-btn-cancel:hover {
-      color: #0064d8;
-      background-color: #d9d9d9;
+
+      &:hover {
+        color: #0064d8;
+        background-color: #d9d9d9;
+      }
     }
   }
 }

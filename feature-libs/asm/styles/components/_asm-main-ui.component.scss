@@ -35,12 +35,18 @@
         align-self: center;
         margin-inline-start: auto;
         position: unset;
+        color: #0064d8;
       }
     }
 
     .cx-message-success {
       background-color: #f5fae5;
       border-color: #cee67e;
+      .cx-message-icon {
+        cx-icon {
+          color: #30914c;
+        }
+      }
     }
   }
 
