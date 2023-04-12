@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -11,17 +11,21 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { AsmCustomerProductListingComponent } from '../../asm-customer-product-listing/asm-customer-product-listing.component';
 import { Customer360SectionContextSource } from '../customer-360-section-context-source.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { AsmCustomerProductInterestsComponent } from './asm-customer-product-interests.component';
+import { AsmProductItemComponent } from '../../asm-product-item/asm-product-item.component';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
 describe('AsmCustomerProductInterestsComponent', () => {
   let component: AsmCustomerProductInterestsComponent;
   let fixture: ComponentFixture<AsmCustomerProductInterestsComponent>;
   let el: DebugElement;
+
+  const breakpointSubject = new BehaviorSubject<BREAKPOINT>(BREAKPOINT.xl);
 
   const mockProduct1: Product = {
     code: '553637',
@@ -85,12 +89,29 @@ describe('AsmCustomerProductInterestsComponent', () => {
 
   const productService = jasmine.createSpyObj('ProductService', ['get']);
 
+  class MockBreakpointService {
+    get breakpoint$(): Observable<BREAKPOINT> {
+      return breakpointSubject.asObservable();
+    }
+  }
+  @Component({
+    template: '',
+    selector: 'cx-media',
+  })
+  class MockMediaComponent {
+    @Input() container: any;
+    @Input() format: any;
+    @Input() alt: any;
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
         AsmCustomerProductInterestsComponent,
         AsmCustomerProductListingComponent,
+        AsmProductItemComponent,
+        MockMediaComponent,
       ],
       providers: [
         Customer360SectionContextSource,
@@ -99,6 +120,10 @@ describe('AsmCustomerProductInterestsComponent', () => {
           useExisting: Customer360SectionContextSource,
         },
         { provide: ProductService, useValue: productService },
+        {
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
+        },
       ],
     }).compileComponents();
   });
@@ -154,5 +179,27 @@ describe('AsmCustomerProductInterestsComponent', () => {
     expect(title.nativeElement.textContent).toBe(
       ' customer360.productInterests.header '
     );
+  });
+
+  it('should render products', () => {
+    breakpointSubject.next(BREAKPOINT.lg);
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('cx-asm-product-item')).length).toBe(2);
+
+    breakpointSubject.next(BREAKPOINT.md);
+
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('cx-asm-product-item')).length).toBe(1);
+
+    const productItem = el.queryAll(By.css('cx-asm-product-item'))[0];
+    expect(
+      productItem.query(By.css('.cx-asm-product-item-name')).nativeElement
+        .textContent
+    ).toContain(mockProduct1.name);
+
+    expect(
+      productItem.query(By.css('.cx-asm-product-item-code')).nativeElement
+        .textContent
+    ).toContain(mockProduct1.code);
   });
 });

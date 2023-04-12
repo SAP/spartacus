@@ -225,7 +225,6 @@ describe('AsmCustomerActiveCartComponent', () => {
     const productName = el.queryAll(
       By.css('cx-asm-product-item .cx-asm-product-item-name')
     )[0];
-    console.log(productName);
 
     productName.nativeElement.click();
     expect(contextSource.navigate$.next).toHaveBeenCalledWith({
