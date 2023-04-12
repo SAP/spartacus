@@ -39,7 +39,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@15
       - name: Install Nx CLI
-        run: npm install -g @nrwl/angular@15
+        run: npm install -g nx@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for Spartacus libs
@@ -67,7 +67,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@15
       - name: Install Nx CLI
-        run: npm install -g @nrwl/angular@15
+        run: npm install -g nx@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for integration libs
@@ -112,7 +112,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@15
       - name: Install Nx CLI
-        run: npm install -g @nrwl/angular@15
+        run: npm install -g nx@15
       - name: Package installation
         run: npm ci
       - name: Run linting validation
