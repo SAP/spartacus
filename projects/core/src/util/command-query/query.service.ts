@@ -68,7 +68,11 @@ export class QueryService implements OnDestroy {
 
     // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
-    const onSubscribeLoad$ = iif(() => state$.value.loading, of(undefined));
+    const onSubscribeLoad$ = iif(
+      () => state$.value.loading,
+      of(undefined),
+      EMPTY
+    );
 
     const loadTrigger$ = this.getTriggersStream([
       onSubscribeLoad$, // we need to evaluate onSubscribeLoad$ before other triggers in order to avoid other triggers changing state$ value
