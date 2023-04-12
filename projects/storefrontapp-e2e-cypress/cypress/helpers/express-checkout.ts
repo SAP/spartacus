@@ -29,7 +29,7 @@ export function testExpressCheckout() {
   it('should skip address and payment checkout steps once address and payment are set', () => {
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
-    checkout.fillPaymentFormWithCheapProduct();
+    checkout.fillPaymentFormWithCheapProduct(undefined, undefined, true);
     checkout.verifyReviewOrderPage();
 
     cy.get('cx-mini-cart').click();

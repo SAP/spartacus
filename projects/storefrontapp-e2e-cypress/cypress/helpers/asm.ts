@@ -73,18 +73,16 @@ export function listenForListOfAddressesRequest(): string {
   return interceptGet('addresses', '/users/**/addresses?*');
 }
 
-export function agentLogin(): void {
+export function agentLogin(user, pwd): void {
   const authRequest = listenForAuthenticationRequest();
   cy.get('cx-storefront').within(() => {
     cy.get('cx-csagent-login-form').should('exist');
     cy.get('cx-customer-selection').should('not.exist');
     cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]')
-        .should('not.be.disabled')
-        .type('asagent');
+      cy.get('[formcontrolname="userId"]').should('not.be.disabled').type(user);
       cy.get('[formcontrolname="password"]')
         .should('not.be.disabled')
-        .type('pw4all');
+        .type(pwd);
       cy.get('button[type="submit"]').click();
     });
   });
@@ -117,6 +115,7 @@ export function asmCustomerLists(): void {
     .should('eq', 200);
 
   cy.get('cx-customer-list table').should('exist');
+  cy.get('cx-customer-list table').should('not.contain', 'Account');
 
   cy.log('--> checking customer list pagination');
   cy.get('cx-customer-list .cx-btn-previous').should('be.disabled');
@@ -167,6 +166,8 @@ export function asmCustomerLists(): void {
     }
   );
 
+  cy.get('cx-customer-list table').should('not.contain', 'Account');
+
   cy.get('cx-customer-list button.close').click();
   cy.get('cx-customer-list').should('not.exist');
 
@@ -200,6 +201,46 @@ export function asmCustomerLists(): void {
       cy.get('cx-customer-list').should('not.exist');
       cy.get('cx-order-history').should('exist');
     });
+}
+
+export function asmB2bCustomerLists(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+
+  cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table').should('exist');
+  cy.get('cx-customer-list table').should('not.contain', 'Account');
+
+  cy.log('--> checking customer list group');
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+  cy.get('cx-customer-list table').contains('Account');
+  cy.get('cx-customer-list button.close').click();
+  cy.get('cx-customer-list').should('not.exist');
 }
 
 export function startCustomerEmulation(customer, b2b = false): void {
@@ -270,7 +311,7 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLogin();
+    asm.agentLogin('asagent', 'pw4all');
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
