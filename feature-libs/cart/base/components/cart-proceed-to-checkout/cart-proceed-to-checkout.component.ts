@@ -35,7 +35,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
     cd?: ChangeDetectorRef
   );
   /**
-   * @deprecated since 7.0
+   * @deprecated since 5.2
    */
   constructor(router: Router);
   constructor(protected router: Router, protected cd?: ChangeDetectorRef) {}
