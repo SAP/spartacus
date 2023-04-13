@@ -31,11 +31,36 @@ $sapFioriContent_LabelColor: #6a6d70;
     padding-inline-start: 1.75rem;
     border-width: 0;
     display: flex;
+    .cx-header-select {
+      display: flex;
+      .cx-total {
+        padding: 0.6875rem 1rem;
+      }
+    }
+    .cx-header-select.mobile {
+      flex-direction: column;
+    }
     .cx-header-actions {
       display: flex;
       label {
         margin: 0;
       }
+      .search-wrapper {
+        position: relative;
+        padding-left: 1rem;
+
+        input {
+          padding-inline-end: 46px;
+        }
+
+        cx-icon {
+          position: absolute;
+          top: 17px;
+          right: 17px;
+          cursor: pointer;
+        }
+      }
+
       .cx-pagination-buttons {
         display: flex;
         align-items: center;
@@ -109,6 +134,11 @@ $sapFioriContent_LabelColor: #6a6d70;
     overflow-y: auto;
   }
 
+  .cx-dialog-foot {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
   .table {
     thead {
       tr {
@@ -141,22 +171,31 @@ $sapFioriContent_LabelColor: #6a6d70;
     min-height: 1.15rem;
     width: fit-content;
   }
-  .cx-avatar-cell {
-    width: 65px;
-    vertical-align: top;
-    .cx-avatar {
-      width: 44px;
-      height: 44px;
-      line-height: 44px;
-      border-radius: 50%;
-      color: #fff;
-      text-align: center;
-      background: #9259cd;
-      text-transform: uppercase;
-      margin-top: 2px;
-      margin-inline-end: 10px;
-      margin-bottom: 2px;
-      margin-inline-start: 0;
+
+  @include forVersion(6.1) {
+    .cx-avatar-cell {
+      width: 65px;
+      vertical-align: top;
+    }
+  }
+  @include forVersion(1, 6) {
+    .cx-avatar-cell {
+      width: 65px;
+      vertical-align: top;
+      .cx-avatar {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 50%;
+        color: #fff;
+        text-align: center;
+        background: #9259cd;
+        text-transform: uppercase;
+        margin-top: 2px;
+        margin-inline-end: 10px;
+        margin-bottom: 2px;
+        margin-inline-start: 0;
+      }
     }
   }
 
@@ -165,6 +204,26 @@ $sapFioriContent_LabelColor: #6a6d70;
     align-items: center;
     min-height: 44px;
     padding: 5px 0;
+    .cx-avatar {
+      img,
+      .cx-avatar-text {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 50%;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 2px;
+        margin-inline-end: 10px;
+        margin-bottom: 2px;
+        margin-inline-start: 0;
+      }
+      .cx-avatar-text {
+        background: #9259cd;
+        color: #fff;
+        border-radius: 50%;
+      }
+    }
   }
 
   .cx-action-color {

@@ -141,6 +141,20 @@ const mockReturnData: CustomerListAction = {
   actionType: CustomerListColumnActionType.ORDER_HISTORY,
 };
 
+const enterKeyEvent = {
+  key: 'Enter',
+};
+
+const badKeyEvent = {
+  key: 'Enter95',
+};
+
+const query = {
+  queryParams: {
+    query: 'customer',
+  },
+};
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
 
@@ -329,6 +343,37 @@ describe('CustomerListComponent', () => {
     expect(
       asmCustomerListFacade.customerListCustomersSearch
     ).toHaveBeenCalledWith(expectedOptions);
+  });
+
+  it('should call enter onKey and dispatch query param', () => {
+    component.searchBox.setValue(query.queryParams.query);
+    fixture.detectChanges();
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+
+    component.onKey(enterKeyEvent);
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).toHaveBeenCalledWith({
+      customerListId: mockCustomerListPage?.userGroups?.[0].uid,
+      pageSize: 5,
+      currentPage: 0,
+      sort: 'byNameAsc',
+      query: query.queryParams.query,
+    });
+  });
+
+  it('should only call enter onKey', () => {
+    component.onKey(badKeyEvent);
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).not.toHaveBeenCalled();
   });
 
   it('should close modal when select a customer', () => {
@@ -560,7 +605,7 @@ describe('CustomerListComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
-    ).toEqual(1);
+    ).toEqual(2);
   });
 
   it('should add mobile class', () => {

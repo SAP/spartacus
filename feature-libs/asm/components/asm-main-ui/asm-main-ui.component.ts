@@ -114,6 +114,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             ) {
               this.routingService.go({ cxRoute: 'orders' });
             }
+            if (
+              result.actionType === CustomerListColumnActionType.ACTIVE_CART
+            ) {
+              this.routingService.go({ cxRoute: 'cart' });
+            }
           }
         })
     );
