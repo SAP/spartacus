@@ -70,11 +70,12 @@ export class CdpOrderService implements CdpOrderFacade {
 
   public fetchReturn(): Record<string, string>{
     this.returnObser$=this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getRetunDetail(userId)));
+    console.log(this.returnObser$);
     //this.returnObser$=this.cdpOrderAdapter.getRetunDetail();
     this.returnObser$.subscribe((returnSub)=>{
       if(returnSub.returnRequest!=null){
         returnSub.returnRequest.forEach((returnval)=>{
-          this.returnDate[returnval.ReefernceSDDocumentID]=returnval.creationTime;
+          this.returnDate[returnval.order.code]=returnval.creationTime;
       });
       }
     });
@@ -165,25 +166,6 @@ export class CdpOrderService implements CdpOrderFacade {
     console.log(this.orderImage);
     return this.orderImage;
   }
-
-  // public setReturnDate(
-  //    returnOrdr: returnOrder , detail: Record<string, order>): Record<string, string> {
-  //     // eslint-disable-next-line guard-for-in
-  //     // for(let orderCode in detail) {
-  //     //   this.returnDate[orderCode]??="";
-  //     //   detail[orderCode].consignments.forEach((cnsgmnt) =>{
-  //     //     if(cnsgmnt.status==='RETURNED'){
-  //     //       returnOrdr.returnRequ.forEach((rtrn)=>{
-  //     //           if(rtrn.orderCode===orderCode)
-  //     //           {
-  //     //             this.returnDate[orderCode]=rtrn.creationTime;
-  //     //           }
-  //     //       });
-  //     //     }
-  //     //   });
-  //     // }
-  //     return this.returnDate;
-  //  }
 
   private clearCart() {
     this.orderValue = { orders: [] };

@@ -44,7 +44,7 @@ export class cdpOrderComponent implements OnInit {
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
-  obser$: Observable<finalOrder>;
+  orders$: Observable<finalOrder>;
   returnObser$: Observable<returnOrder>;
   orderReturn: returnOrder;
   page_size: number = 5;
@@ -54,8 +54,8 @@ export class cdpOrderComponent implements OnInit {
   }
 
   public getMyData(): void {
-    this.obser$ = this.cdpOrderService.getOrder(this.page_size);
-    this.obser$.subscribe((res) => {
+    this.orders$ = this.cdpOrderService.getOrder(this.page_size);
+    this.orders$.subscribe((res) => {
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
@@ -91,8 +91,8 @@ export class cdpOrderComponent implements OnInit {
 
   private async fetchOrders(page: number){
     this.loading$.next(false);
-    this.obser$ = this.cdpOrderService.fetchOrder(page,this.page_size);
-    this.obser$.subscribe((res) => {
+    this.orders$ = this.cdpOrderService.fetchOrder(page,this.page_size);
+    this.orders$.subscribe((res) => {
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);

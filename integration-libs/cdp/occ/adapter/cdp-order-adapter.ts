@@ -58,12 +58,5 @@ export class cdpOrderAdapter {
       '/users/' + userId + '/orderReturns'
     );
     return this.httpClient.get<returnOrder>(URL);
-    // const myReturns: returnOrder = {
-    //   returnRequest: [
-    //     { creationTime: "2022-01-01T00:00:00.000Z",ReefernceSDDocumentID:"1263"},
-    //   ]
-    // };
-    //  return of(myReturns);
-
   }
 }

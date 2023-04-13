@@ -1,6 +1,6 @@
 <ng-container *ngIf="!(loading$ | async); else loading">
   <div>
-    <ng-container *ngIf="(obser$ | async)?.orders.length; else noOrders">
+    <ng-container *ngIf="(orders$ | async)?.orders.length; else noOrders">
       <div class="cx-order-container" *ngFor="let order of orderValue.orders">
         <div class="cx-order-summary" (click)="goToOrderDetail(order)">
           <span class="cx-order-style">
@@ -145,9 +145,9 @@
   </div>
   <div>
     <div class="cx-order-pagination">
-      <div *ngIf="(obser$ | async)?.pagination.totalPages >= 0">
+      <div *ngIf="(orders$ | async)?.pagination.totalPages >= 0">
         <cx-pagination
-          [pagination]="(obser$ | async)?.pagination"
+          [pagination]="(orders$ | async)?.pagination"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination>
       </div>
