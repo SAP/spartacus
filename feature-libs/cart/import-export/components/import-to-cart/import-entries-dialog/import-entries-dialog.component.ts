@@ -47,7 +47,9 @@ export class ImportEntriesDialogComponent {
   });
 
   context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(map((x) => x.orderEntriesContext));
+    this.launchDialogService.data$.pipe(
+      map((data) => data.orderEntriesContext)
+    );
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 

@@ -62,8 +62,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         }
       )
       .pipe(
-        map((x) => x.component),
-        map((components) => components ?? []),
+        map((componentList) => componentList.component ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }

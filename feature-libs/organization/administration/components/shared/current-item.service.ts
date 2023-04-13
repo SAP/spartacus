@@ -28,7 +28,7 @@ export abstract class CurrentItemService<T> {
    * retrieved from the `getParamKey`.
    */
   readonly key$: Observable<string> = this.routingService.getParams().pipe(
-    map((x) => x[this.getParamKey()]),
+    map((params) => params[this.getParamKey()]),
     distinctUntilChanged()
   );
 
@@ -45,7 +45,7 @@ export abstract class CurrentItemService<T> {
    * Observes the b2bUnit based on the unitCode route parameter.
    */
   readonly b2bUnit$: Observable<string> = this.routingService.getParams().pipe(
-    map((x) => x[ROUTE_PARAMS.unitCode]),
+    map((params) => params[ROUTE_PARAMS.unitCode]),
     distinctUntilChanged()
   );
 

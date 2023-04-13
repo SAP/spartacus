@@ -56,8 +56,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
         this.getSuggestionEndpoint(term, pageSize.toString())
       )
       .pipe(
-        map((x) => x.suggestions),
-        map((suggestions) => suggestions ?? []),
+        map((suggestionsList) => suggestionsList.suggestions ?? []),
         this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
       );
   }

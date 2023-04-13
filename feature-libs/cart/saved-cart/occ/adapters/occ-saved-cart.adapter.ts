@@ -28,7 +28,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     return this.http
       .get<Occ.Cart>(this.getSavedCartEndpoint(userId, cartId))
       .pipe(
-        map((x) => (x as SaveCartResult).savedCartData),
+        map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
         this.converter.pipeable(CART_NORMALIZER)
       );
   }
@@ -37,8 +37,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     return this.http
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
       .pipe(
-        map((x) => x.carts),
-        map((carts) => carts ?? []),
+        map((cartList) => cartList.carts ?? []),
         this.converter.pipeableMany(CART_NORMALIZER)
       );
   }
@@ -47,7 +46,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     return this.http
       .patch<Occ.Cart>(this.getRestoreSavedCartEndpoint(userId, cartId), cartId)
       .pipe(
-        map((x) => (x as SaveCartResult).savedCartData),
+        map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
         this.converter.pipeable(CART_NORMALIZER)
       );
   }
@@ -63,7 +62,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
         cartId
       )
       .pipe(
-        map((x) => (x as SaveCartResult).savedCartData),
+        map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
         this.converter.pipeable(CART_NORMALIZER)
       );
   }

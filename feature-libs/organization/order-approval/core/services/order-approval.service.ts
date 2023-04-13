@@ -22,8 +22,8 @@ import {
 } from '../model/order-approval.model';
 import { OrderApprovalActions } from '../store/actions/index';
 import {
-  OrderApprovalState,
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+  OrderApprovalState,
 } from '../store/order-approval-state';
 import { OrderApprovalSelectors } from '../store/selectors';
 
@@ -92,8 +92,7 @@ export class OrderApprovalService {
    */
   getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
     return this.getOrderApproval(orderApprovalCode).pipe(
-      map((x) => x.loading),
-      map((loading) => loading ?? false)
+      map((orderApprovalState) => orderApprovalState.loading ?? false)
     );
   }
 

@@ -32,7 +32,7 @@ export class GlobalMessageEffect {
     createEffect(() =>
       this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
-        map((x) => (x as GlobalMessageActions.AddMessage).payload),
+        map((action) => (action as GlobalMessageActions.AddMessage).payload),
         switchMap((message) =>
           of(message.text).pipe(
             withLatestFrom(
@@ -73,7 +73,7 @@ export class GlobalMessageEffect {
     isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
       ? this.actions$.pipe(
           ofType(GlobalMessageActions.ADD_MESSAGE),
-          map((x) => (x as GlobalMessageActions.AddMessage).payload),
+          map((action) => (action as GlobalMessageActions.AddMessage).payload),
           concatMap((message) => {
             const config = this.config.globalMessages?.[message.type];
             return this.store.pipe(

@@ -8,17 +8,17 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CartAdapter } from '@spartacus/cart/base/core';
 import {
-  Cart,
   CART_NORMALIZER,
+  Cart,
   SaveCartResult,
 } from '@spartacus/cart/base/root';
 import {
   ConverterService,
   InterceptorUtil,
-  Occ,
-  OccEndpointsService,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
+  Occ,
+  OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -38,8 +38,7 @@ export class OccCartAdapter implements CartAdapter {
         this.occEndpointsService.buildUrl('carts', { urlParams: { userId } })
       )
       .pipe(
-        map((x) => x.carts),
-        map((carts) => carts ?? []),
+        map((cartList) => cartList.carts ?? []),
         this.converterService.pipeableMany(CART_NORMALIZER)
       );
   }
@@ -115,7 +114,7 @@ export class OccCartAdapter implements CartAdapter {
       },
     });
     return this.http.patch<Occ.Cart>(endpoint, cartId).pipe(
-      map((x) => (x as SaveCartResult).savedCartData),
+      map((cartResponse) => (cartResponse as SaveCartResult).savedCartData),
       this.converterService.pipeable(CART_NORMALIZER)
     );
   }

@@ -30,7 +30,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
     return this.http
       .get<Occ.Product>(this.getEndpoint(productCode, maxCount))
       .pipe(
-        map((x) => x.reviews),
+        map((productResponse) => productResponse.reviews),
         map((reviews) => reviews ?? []),
         this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
       );

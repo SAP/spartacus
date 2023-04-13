@@ -32,7 +32,7 @@ export class OrderApprovalDetailService {
   );
 
   protected order$: Observable<Order> = this.orderApproval$.pipe(
-    map((x) => x?.order as Order)
+    map((orderApproval) => orderApproval?.order as Order)
   );
 
   constructor(

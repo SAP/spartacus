@@ -32,7 +32,7 @@ export class ProductFacetService {
 
   protected readonly routeState$ = this.routing
     .getRouterState()
-    .pipe(map((x) => x.state));
+    .pipe(map((routerState) => routerState.state));
 
   /**
    * Returns the search results for the current page.

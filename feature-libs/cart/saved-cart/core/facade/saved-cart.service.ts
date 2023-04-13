@@ -144,7 +144,7 @@ export class SavedCartService implements SavedCartFacade {
           this.loadSavedCarts();
         }
       }),
-      map((x) => x[0]),
+      map(([savedCartList, _]) => savedCartList),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }

@@ -29,7 +29,7 @@ export class ApproverGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.userAccountFacade.get().pipe(
       filter((user): user is User => !!user && Object.keys(user).length > 0),
-      map((x) => x?.roles),
+      map((user) => user?.roles),
       map((roles) => {
         const hasRole =
           Array.isArray(roles) &&

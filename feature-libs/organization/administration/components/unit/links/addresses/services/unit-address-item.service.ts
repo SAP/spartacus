@@ -31,7 +31,7 @@ export class UnitAddressItemService extends ItemService<Address> {
   }
 
   protected unitRouteParam$ = this.routingService.getParams().pipe(
-    map((x) => x[ROUTE_PARAMS.unitCode]),
+    map((params) => params[ROUTE_PARAMS.unitCode]),
     distinctUntilChanged()
   );
 

@@ -259,8 +259,7 @@ export class CmsService {
         }
         return Boolean(entity.success || (entity.error && !entity.loading));
       }),
-      map((x) => x.success),
-      map((success) => !!success),
+      map((loaderState) => !!loaderState.success),
       catchError(() => of(false))
     );
   }
