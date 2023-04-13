@@ -18,7 +18,7 @@ export interface GeneralEntry extends TableEntry {
   url?: string;
 }
 
-export interface ActivityEntry extends Partial<Customer360Activity> {}
+export interface ActivityEntry extends Partial<Customer360Activity>, TableEntry {}
 
 export interface ValueLocalization {
   propertyName?: string;

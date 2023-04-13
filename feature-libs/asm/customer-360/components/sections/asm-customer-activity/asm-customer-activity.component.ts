@@ -31,7 +31,7 @@ export class AsmCustomerActivityComponent implements OnInit {
       i18nTextKey: 'customer360.activity.type',
     },
     {
-      property: 'assosciatedTypeId',
+      property: 'associatedTypeId',
       text: 'id',
       i18nTextKey: 'customer360.activity.id',
     },
@@ -89,7 +89,7 @@ export class AsmCustomerActivityComponent implements OnInit {
       switchMap(([config, orderHistory, activeCart, savedCarts, data]) => {
         this.pageSize = config.pageSize || this.PAGE_SIZE;
         console.log(data);
-        entries = [...data.activities];
+        entries = [];
         console.log(entries);
         // notes: active cart does not have date
         if (activeCart) {
