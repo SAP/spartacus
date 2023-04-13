@@ -6,9 +6,11 @@
 
 import { consignments } from './consignments';
 import { entries } from './entries';
-
+import { OrderExtendedAttributes } from './order-extended-attributes';
 export interface order {
   deliveryItemsQuantity: number;
   consignments: consignments[];
   entries: entries[];
+  deliveryStatus: string;
+  cdpOrderExtendedAttributes: OrderExtendedAttributes;
 }
