@@ -20,6 +20,10 @@
   justify-content: flex-end;
 
   @include media-breakpoint-down(sm) {
+    width: 100%;
+    .cx-customer-ticketing-create {
+      width: 100%;
+    }
     div {
       justify-content: center;
       display: flex;

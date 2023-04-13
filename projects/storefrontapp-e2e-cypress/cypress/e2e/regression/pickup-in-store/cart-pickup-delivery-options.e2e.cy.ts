@@ -16,7 +16,7 @@ describe('Pickup delivery options', () => {
       configureApparelProduct();
     });
 
-    it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected', () => {
+    it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected (CXSPA-201)', () => {
       cy.get(L.PICKUP_OPTIONS_RADIO_DELIVERY).should(
         'have.attr',
         'aria-checked',
