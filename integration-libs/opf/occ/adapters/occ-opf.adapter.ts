@@ -16,8 +16,13 @@ import {
   OpfAdapter,
   OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
+  OPF_VERIFY_PAYMENT_NORMALIZER,
 } from '@spartacus/opf/core';
-import { ActiveConfiguration, OpfConfig } from '@spartacus/opf/root';
+import {
+  ActiveConfiguration,
+  OpfConfig,
+  OpfVerifyPaymentResponse,
+} from '@spartacus/opf/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -51,5 +56,37 @@ export class OccOpfAdapter implements OpfAdapter {
 
   protected getActiveConfigurationsEndpoint(): string {
     return this.opfEndpointsService.buildUrl('getActiveConfigurations');
+  }
+
+  getVerifyPayment(
+    paymentSessionId: string,
+    payload: string
+  ): Observable<OpfVerifyPaymentResponse> {
+    const headers = new HttpHeaders({
+      'sap-commerce-cloud-public-key':
+        this.config.opf?.commerceCloudPublicKey || '',
+    });
+
+    return this.http
+      .post<OpfVerifyPaymentResponse>(
+        this.getVerifyPaymentEndpoint(paymentSessionId),
+        payload,
+        {
+          headers,
+        }
+      )
+      .pipe(
+        catchError((error) => throwError(error)),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        this.converter.pipeable(OPF_VERIFY_PAYMENT_NORMALIZER)
+      );
+  }
+
+  protected getVerifyPaymentEndpoint(paymentSessionId: string): string {
+    return this.opfEndpointsService.buildUrl('verifyPayment', {
+      urlParams: { paymentSessionId },
+    });
   }
 }

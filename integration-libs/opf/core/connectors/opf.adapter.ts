@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ActiveConfiguration } from '@spartacus/opf/root';
+import {
+  ActiveConfiguration,
+  OpfVerifyPaymentResponse,
+} from '@spartacus/opf/root';
 import { Observable } from 'rxjs';
 
 export abstract class OpfAdapter {
@@ -14,4 +17,8 @@ export abstract class OpfAdapter {
    */
 
   abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
+  abstract getVerifyPayment(
+    paymentSessionId: string,
+    payload: string
+  ): Observable<OpfVerifyPaymentResponse>;
 }

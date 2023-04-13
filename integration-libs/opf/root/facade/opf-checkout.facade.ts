@@ -8,7 +8,10 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OPF_CORE_FEATURE } from '../feature-name';
-import { ActiveConfiguration } from '../model/opf-checkout.model';
+import {
+  ActiveConfiguration,
+  OpfVerifyPaymentResponse,
+} from '../model/opf-checkout.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +19,8 @@ import { ActiveConfiguration } from '../model/opf-checkout.model';
     facadeFactory({
       facade: OpfCheckoutFacade,
       feature: OPF_CORE_FEATURE,
-      methods: ['getActiveConfigurationsState'],
+      methods: ['getActiveConfigurationsState', 'getVerifyPaymentState'],
+      async: true,
     }),
 })
 export abstract class OpfCheckoutFacade {
@@ -26,4 +30,14 @@ export abstract class OpfCheckoutFacade {
   abstract getActiveConfigurationsState(): Observable<
     QueryState<ActiveConfiguration[] | undefined>
   >;
+
+  /**
+   * getVerifyPaymentState
+   *
+   * @param params Object with paymentSessionId and payload
+   */
+  abstract getVerifyPaymentState(
+    paymentSessionId: string,
+    payload: string
+  ): Observable<QueryState<OpfVerifyPaymentResponse | undefined>>;
 }

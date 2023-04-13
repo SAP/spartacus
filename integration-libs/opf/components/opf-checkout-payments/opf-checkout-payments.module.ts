@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
+import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
+import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 @NgModule({
   declarations: [OpfCheckoutPaymentsComponent],

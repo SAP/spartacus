@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// import { RoutingConfig } from '@spartacus/core';
+import { RoutingConfig } from '@spartacus/core';
 
-// export const defaultOPFRoutingConfig: RoutingConfig = {
-//   routing: {
-//     routes: {
-//       paymentAndReview: { paths: ['checkout/payment-and-review'] },
-//     },
-//   },
-// };
+export const defaultOPFRoutingConfig: RoutingConfig = {
+  routing: {
+    routes: {
+      paymentresponse: {
+        paths: ['redirect/success', 'redirect/fail'],
+      },
+      verifypayment: {
+        paths: ['verify-payment'],
+      },
+    },
+  },
+};

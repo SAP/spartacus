@@ -12,5 +12,6 @@ declare module '@spartacus/core' {
      * Endpoint to get active payment configurations
      */
     getActiveConfigurations?: string | OccEndpoint;
+    getVerifyPayment?: string | OccEndpoint;
   }
 }

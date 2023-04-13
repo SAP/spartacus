@@ -20,3 +20,16 @@ export enum OpfPaymentProviderType {
   PAYMENT_GATEWAY = 'PAYMENT_GATEWAY',
   PAYMENT_METHOD = 'PAYMENT_METHOD',
 }
+
+export interface OpfVerifyPayload {
+  responseMap: KeyValuePair[];
+}
+
+export interface KeyValuePair {
+  key: string;
+  value: string;
+}
+
+export interface OpfVerifyPaymentResponse {
+  result: string;
+}

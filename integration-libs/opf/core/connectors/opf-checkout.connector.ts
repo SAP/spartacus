@@ -5,7 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveConfiguration } from '@spartacus/opf/root';
+import {
+  ActiveConfiguration,
+  OpfVerifyPaymentResponse,
+} from '@spartacus/opf/root';
 import { Observable } from 'rxjs';
 import { OpfAdapter } from './opf.adapter';
 
@@ -15,5 +18,12 @@ export class OpfCheckoutConnector {
 
   public getActiveConfigurations(): Observable<ActiveConfiguration[]> {
     return this.adapter.getActiveConfigurations();
+  }
+
+  public getVerifyPayment(
+    paymentSessionId: string,
+    payload: string
+  ): Observable<OpfVerifyPaymentResponse> {
+    return this.adapter.getVerifyPayment(paymentSessionId, payload);
   }
 }

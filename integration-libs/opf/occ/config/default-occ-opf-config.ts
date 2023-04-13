@@ -11,6 +11,7 @@ export const defaultOccOpfConfig: OccConfig = {
     occ: {
       endpoints: {
         getActiveConfigurations: 'active-configurations',
+        getVerifyPayment: 'payment/${paymentSessionId}/verify',
       },
     },
   },
