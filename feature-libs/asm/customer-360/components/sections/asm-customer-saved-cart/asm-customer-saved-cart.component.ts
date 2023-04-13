@@ -5,12 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, forkJoin, of } from 'rxjs';
+import { concatMap, filter, map, take } from 'rxjs/operators';
 
 import { ProductItem } from '../../asm-customer-product-listing/product-item.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
+import { Customer360SavedCart } from '@spartacus/asm/customer-360/root';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-saved-cart',
@@ -18,35 +19,39 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
   templateUrl: './asm-customer-saved-cart.component.html',
 })
 export class AsmCustomerSavedCartComponent {
-  savedCart$: Observable<Cart | undefined>;
+  savedCart$: Observable<Customer360SavedCart>;
   productItems$: Observable<Array<ProductItem>>;
 
-  constructor(protected sectionContext: Customer360SectionContext<void>) {
-    this.savedCart$ = this.sectionContext.savedCarts$.pipe(
-      map((carts) => carts?.[0])
-    );
-
+  constructor(
+    protected sectionContext: Customer360SectionContext<Customer360SavedCart>,
+    protected productService: ProductService
+  ) {
+    this.savedCart$ = this.sectionContext.data$;
     this.productItems$ = this.savedCart$.pipe(
-      map((cart) => {
-        return (
-          cart?.entries?.map((entry) => {
-            return {
-              ...(entry.product ?? {}),
-              quantity: entry.quantity,
-              price: entry.basePrice,
-            };
-          }) ?? []
-        );
+      concatMap((cart) => {
+        if (!cart?.entries?.length) {
+          return of([]);
+        } else {
+          return forkJoin(
+            cart.entries.map((entry) => {
+              return this.productService
+                .get(entry.productCode, ProductScope.DETAILS)
+                .pipe(
+                  filter((product): product is Product => Boolean(product)),
+                  map((product) => {
+                    return {
+                      ...product,
+                      quantity: entry.quantity,
+                      basePrice: entry.basePrice,
+                      totalPrice: entry.totalPrice,
+                    } as ProductItem;
+                  }),
+                  take(1)
+                );
+            })
+          );
+        }
       })
     );
-  }
-
-  navigateToSavedCartDetails(): void {
-    this.savedCart$.pipe(take(1)).subscribe((savedCart) => {
-      this.sectionContext.navigate$.next({
-        cxRoute: 'savedCartsDetails',
-        params: { savedCartId: savedCart?.code },
-      });
-    });
   }
 }
