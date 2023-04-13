@@ -17,7 +17,7 @@ export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
 
 export function asmTabbingOrderNoSelectedUser(config: TabElement[]) {
   cy.visit('/?asm=true');
-  asm.agentLogin();
+  asm.agentLogin('asagent', 'pw4all');
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-customer-selection form').within(() => {
@@ -32,7 +32,7 @@ export function asmTabbingOrderNoSelectedUser(config: TabElement[]) {
 
 export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
   cy.visit('/?asm=true');
-  asm.agentLogin();
+  asm.agentLogin('asagent', 'pw4all');
 
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   cy.get('cx-customer-selection form').within(() => {
