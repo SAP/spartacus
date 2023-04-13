@@ -28,8 +28,8 @@ import { User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -61,7 +61,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   activeFocusedButtonIndex = -1;
 
-  // TODO(CXSPA-TICKET#): make LaunchDialogService are required dependency
+  // TODO(CXSPA-3091): make LaunchDialogService are required dependency
   constructor(
     fb: UntypedFormBuilder,
     asmService: AsmService,

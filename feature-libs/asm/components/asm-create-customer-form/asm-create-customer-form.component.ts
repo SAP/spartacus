@@ -33,8 +33,6 @@ export class AsmCreateCustomerFormComponent {
 
   showDialogInfoAlert = true;
 
-  showDialogErrorAlert = false;
-
   showDialogBackendErrorAlert = false;
 
   globalMessageType = GlobalMessageType;
@@ -44,7 +42,7 @@ export class AsmCreateCustomerFormComponent {
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: true,
+    autofocus: false,
     focusOnEscape: true,
   };
 
@@ -62,10 +60,8 @@ export class AsmCreateCustomerFormComponent {
 
   submitForm(): void {
     if (this.registerForm.valid) {
-      this.showDialogErrorAlert = false;
       this.registerUser();
     } else {
-      this.showDialogErrorAlert = true;
       this.registerForm.markAllAsTouched();
     }
   }
@@ -91,7 +87,7 @@ export class AsmCreateCustomerFormComponent {
     return {
       firstName: this.createdCustomer.firstName,
       lastName: this.createdCustomer.lastName,
-      emailAddress: this.createdCustomer.email.toLowerCase(),
+      emailAddress: this.createdCustomer.email,
     };
   }
 
@@ -101,10 +97,6 @@ export class AsmCreateCustomerFormComponent {
 
   closeDialogInfoAlert(): void {
     this.showDialogInfoAlert = false;
-  }
-
-  closeDialogErrorAlert(): void {
-    this.showDialogErrorAlert = false;
   }
 
   closeDialogBackendErroAlert(): void {

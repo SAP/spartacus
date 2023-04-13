@@ -35,32 +35,31 @@ export const asm = {
       submit: 'Start Session',
       noMatch: 'No customer found.',
       noMatchResult: 'This account cannot be found. ',
-      createCustomer: 'Create Customer',
+      createCustomer: 'Create New Customer',
     },
     createCustomerForm: {
-      title: 'Create Customer Account',
+      title: 'Create New Customer',
       createAccount: 'Create',
       cancel: 'Cancel',
       firstName: {
-        label: 'First name',
+        label: 'First Name',
         placeholder: 'First name',
       },
       lastName: {
-        label: 'Last name',
+        label: 'Last Name',
         placeholder: 'Last name',
       },
       emailAddress: {
-        label: 'Email address',
+        label: 'Email Address',
         placeholder: 'Email address',
       },
       createAccountAlert:
         'The customer session starts once you create the customer account.',
-      dialogErrorAlert: 'Please correct the errors below.',
     },
     customerList: {
       title: 'Customer List',
       description: 'Select a customer from one of several provided lists.',
-      createCustomer: 'Add New Customer',
+      createCustomer: 'Create New Customer',
       cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',

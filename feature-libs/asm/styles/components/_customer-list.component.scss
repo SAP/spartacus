@@ -269,6 +269,10 @@ $sapFioriContent_LabelColor: #6a6d70;
         color: #0064d8;
         background-color: #d9d9d9;
       }
+
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
 }

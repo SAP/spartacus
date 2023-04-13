@@ -13,6 +13,7 @@
         <div id="asm-customer-list-desc" class="cx-visually-hidden">
           {{ 'asm.customerList.description' | cxTranslate }}
         </div>
+        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
         <ng-container *cxFeatureLevel="'!6.1'">
           <ng-template *ngTemplateOutlet="closeButton"></ng-template>
         </ng-container>
@@ -40,7 +41,7 @@
         </div>
       </div>
       <!-- Modal Body -->
-      <div class="modal-body">
+      <div class="cx-dialog-body modal-body">
         <div class="cx-dialog-row">
           <div class="cx-dialog-item">
             <div *ngIf="listsEmpty" class="cx-error-state">

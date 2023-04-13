@@ -24,13 +24,6 @@
             >
             </cx-message>
             <cx-message
-              *ngIf="showDialogErrorAlert"
-              [text]="'asm.createCustomerForm.dialogErrorAlert' | cxTranslate"
-              [type]="globalMessageType.MSG_TYPE_ERROR"
-              (closeMessage)="closeDialogErrorAlert()"
-            >
-            </cx-message>
-            <cx-message
               *ngIf="showDialogBackendErrorAlert"
               [text]="backendErrorMessage"
               [type]="globalMessageType.MSG_TYPE_ERROR"

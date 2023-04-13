@@ -56,18 +56,24 @@
   }
 
   .cx-dialog-header {
-    padding-top: 2rem;
+    padding-top: 1rem;
     padding-inline-end: 1.75rem;
     padding-bottom: 2rem;
-    padding-inline-start: 2.3rem;
+    padding-inline-start: 2rem;
     border-width: 0;
     display: flex;
     border-bottom: 1px solid #dee2e6;
-    height: 80px;
+    height: 60px;
     .title {
-      font-size: 1.25rem;
+      font-size: 18px;
       font-weight: 900;
     }
+  }
+
+  .cx-dialog-body {
+    padding-top: 15px;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
   }
 
   label .label-content {
@@ -87,9 +93,13 @@
       border: 2px solid #004da5;
       box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
       outline: none;
+      background-color: #ffffff;
     }
   }
 
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px white inset !important;
+  }
   input.ng-invalid.ng-touched {
     border: 1px #f1f1f1;
     background-color: #ffeaf4;
@@ -113,6 +123,10 @@
     font-style: normal;
     font-weight: 600;
     line-height: 19px;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 
   .cx-asm-create-customer-btn-create {
