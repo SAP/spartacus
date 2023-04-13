@@ -4,15 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Customer360ReviewList } from '@spartacus/asm/customer-360/root';
 import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
@@ -28,7 +23,7 @@ import { ReviewEntry } from './asm-customer-product-reviews.model';
   templateUrl: './asm-customer-product-reviews.component.html',
   providers: [CxDatePipe],
 })
-export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
+export class AsmCustomerProductReviewsComponent implements OnInit {
   reviewColumns: Array<CustomerTableColumn> = [
     {
       property: 'item',
@@ -50,7 +45,7 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
     },
   ];
 
-  reviewEntries: Array<ReviewEntry>;
+  reviewEntries$: Observable<Array<ReviewEntry>>;
 
   protected subscription = new Subscription();
 
@@ -61,28 +56,20 @@ export class AsmCustomerProductReviewsComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      combineLatest([
-        this.context.data$,
-        this.translation.translate('customer360.productReviews.sku'),
-      ])
-        .pipe(
-          map(([data, skuLabel]) => {
-            this.reviewEntries = data.reviews.map((entry) => ({
-              ...entry,
-              item: `${entry.productName}, ${skuLabel}: ${entry.productCode}`,
-              dateAndStatus: `${this.getLongDate(
-                new Date(entry.createdAt)
-              )} / ${entry.reviewStatus}`,
-            }));
-          })
-        )
-        .subscribe()
+    this.reviewEntries$ = combineLatest([
+      this.context.data$,
+      this.translation.translate('customer360.productReviews.sku'),
+    ]).pipe(
+      map(([data, skuLabel]) => {
+        return data.reviews.map((entry) => ({
+          ...entry,
+          item: `${entry.productName}, ${skuLabel}: ${entry.productCode}`,
+          dateAndStatus: `${this.getLongDate(new Date(entry.createdAt))} / ${
+            entry.reviewStatus
+          }`,
+        }));
+      })
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   navigateTo(entry: TableEntry): void {
