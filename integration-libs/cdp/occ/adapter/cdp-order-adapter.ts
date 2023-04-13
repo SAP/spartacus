@@ -7,6 +7,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
+import { returnOrder } from 'integration-libs/cdp/root/model/returnDetail/returnOrder';
 import { Observable } from 'rxjs';
 import { finalOrder } from '../../root/model/order/finalOrder';
 import { orders } from '../../root/model/order/orders';
@@ -16,6 +17,7 @@ import { order } from '../../root/model/orderDetail/order';
   providedIn: 'root',
 })
 export class cdpOrderAdapter {
+  orderValue: finalOrder;
   constructor(
     private httpClient: HttpClient,
     protected occEndpointsService: OccEndpointsService
@@ -49,5 +51,12 @@ export class cdpOrderAdapter {
         page_size
     );
     return this.httpClient.get<finalOrder>(URL);
+  }
+
+  getRetunDetail( userId: string): Observable<returnOrder> {
+    let URL=this.occEndpointsService.buildUrl(
+      '/users/' + userId + '/orderReturns'
+    );
+    return this.httpClient.get<returnOrder>(URL);
   }
 }

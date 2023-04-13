@@ -15,6 +15,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { product } from '../../model/ImageDetail/product';
 import { finalOrder } from '../../model/order/finalOrder';
 import { order } from '../../model/orderDetail/order';
+import { returnOrder } from '../../model/returnDetail/returnOrder';
 import { CdpOrderService } from '../../service';
 
 @Component({
@@ -38,11 +39,14 @@ export class cdpOrderComponent implements OnInit {
   orderDetail: Record<string, order> = {};
   orderStatus: Record<string, Record<string, number>> = {};
   orderImage: Record<string, product[]> = {};
+  returnDate: Record<string, string>={};
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
-  obser$: Observable<finalOrder>;
+  orders$: Observable<finalOrder>;
+  returnObser$: Observable<returnOrder>;
+  orderReturn: returnOrder;
   page_size: number = 5;
 
   ngOnInit(): void {
@@ -50,14 +54,13 @@ export class cdpOrderComponent implements OnInit {
   }
 
   public getMyData(): void {
-    this.obser$ = this.cdpOrderService.getOrder(this.page_size);
-
-    this.obser$.subscribe((res) => {
+    this.orders$ = this.cdpOrderService.getOrder(this.page_size);
+    this.orders$.subscribe((res) => {
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
       this.getItemCount(this.orderValue);
-      console.log(this.orderValue);
+      this.fetchReturn();
     });
   }
 
@@ -86,14 +89,21 @@ export class cdpOrderComponent implements OnInit {
     this.fetchOrders(page);
   }
 
-  private fetchOrders(page: number): void {
-    this.obser$ = this.cdpOrderService.fetchOrder(page,this.page_size);
-    this.obser$.subscribe((res) => {
+  private async fetchOrders(page: number){
+    this.loading$.next(false);
+    this.orders$ = this.cdpOrderService.fetchOrder(page,this.page_size);
+    this.orders$.subscribe((res) => {
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
       this.getItemCount(this.orderValue);
     });
+    this.loading$.next(true);
+    if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
+  }
+
+  private fetchReturn(): void{
+    this.returnDate= this.cdpOrderService.fetchReturn();
   }
 
   goToOrderDetail(order: order): void {
