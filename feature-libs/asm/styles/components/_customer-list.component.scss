@@ -4,7 +4,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   .cx-modal-content {
-    @include forVersion(1.6) {
+    @include forVersion(1, 6) {
       min-height: 426px;
     }
 
