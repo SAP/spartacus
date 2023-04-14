@@ -8,18 +8,18 @@ import { Injectable, OnDestroy, Type } from '@angular/core';
 import {
   BehaviorSubject,
   EMPTY,
+  Observable,
+  Subscription,
   iif,
   isObservable,
   merge,
-  Observable,
   of,
-  Subscription,
   using,
 } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
-  pluck,
+  map,
   share,
   switchMapTo,
   takeUntil,
@@ -127,7 +127,10 @@ export class QueryService implements OnDestroy {
       () => state$
     );
 
-    const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
+    const data$ = query$.pipe(
+      map((queryState) => queryState.data),
+      distinctUntilChanged()
+    );
 
     return { get: () => data$, getState: () => query$ };
   }
