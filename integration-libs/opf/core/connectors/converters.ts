@@ -11,3 +11,7 @@ import { PaymentInitiationConfig } from '@spartacus/opf/root';
 export const OPF_PAYMENT_CONFIG_SERIALIZER = new InjectionToken<
   Converter<PaymentInitiationConfig, any>
 >('OpfPaymentConfigSerializer');
+
+export const OTP_NORMALIZER = new InjectionToken<
+  Converter<any, string | undefined>
+>('OtpNormalizer');

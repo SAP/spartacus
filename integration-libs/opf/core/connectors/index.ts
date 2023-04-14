@@ -7,3 +7,5 @@
 export * from './converters';
 export * from './opf-checkout.connector';
 export * from './opf.adapter';
+export * from './otp.adapter';
+export * from './otp.connector';

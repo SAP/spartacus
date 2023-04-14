@@ -1,4 +1,9 @@
 export interface PaymentInitiationConfig {
+  otpKey?: string;
+  config?: PaymentConfig;
+}
+
+export interface PaymentConfig {
   configurationId?: string;
   cartId?: string;
   resultURL?: string;

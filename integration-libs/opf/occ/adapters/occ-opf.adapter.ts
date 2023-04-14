@@ -71,8 +71,7 @@ export class OccOpfAdapter implements OpfAdapter {
     const headers = new HttpHeaders({
       'sap-commerce-cloud-public-key':
         this.config.opf?.commerceCloudPublicKey || '',
-      'sap-commerce-cloud-otp':
-        'eyAiY2FydElkIjogIjAwMDEiLCAiY3JlYXRpb25UaW1lIjoxNjgxMTE1ODQ4OTQ1IH0=.VYx8yokiuCn2-Ik6Jr-i0whMc2InhZaDTY7mb-7bwnI1CEJ5g-AU-lz3up_hudRCf3oORHfZPKgjUWNnQXBOxLmJ3ZqYVJHzs7AojO_6C6qYpxBsMV_99v4XKVy6CCi3dK7N52ZL_TsGPkBnYhnOF4mOskKkCzaxpgJ6KlxV72QPW6FbMC4CYtq8hWTzS25E8e8oq-v73hg7T3KTPwFB1EZvfc31ebQL_oYt3PTLueaA6zPqD3L4e3ZvAcyilmylUTAxzlQwIJvzkzU6kYtR1Ah0SjkKoSw-bJc6BxtbIN6yQDgb4YAO03LrrtJDG7iuMSNGaCREWz6SfMvjjAwMXw==',
+      'sap-commerce-cloud-otp': paymentConfig?.otpKey || '',
     });
 
     const url = this.getInitiatePaymentEndpoint();
@@ -83,7 +82,7 @@ export class OccOpfAdapter implements OpfAdapter {
     );
 
     return this.http
-      .post<PaymentSessionData>(url, paymentConfig, { headers })
+      .post<PaymentSessionData>(url, paymentConfig?.config, { headers })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 

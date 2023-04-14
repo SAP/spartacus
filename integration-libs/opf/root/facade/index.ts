@@ -5,3 +5,4 @@
  */
 
 export * from './opf-checkout.facade';
+export * from './opf-otp.facade';
