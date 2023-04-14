@@ -5,8 +5,19 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Query, QueryService, QueryState } from '@spartacus/core';
-import { ActiveConfiguration, OpfCheckoutFacade } from '@spartacus/opf/root';
+import {
+  Command,
+  CommandService,
+  Query,
+  QueryService,
+  QueryState,
+} from '@spartacus/core';
+import {
+  ActiveConfiguration,
+  OpfCheckoutFacade,
+  PaymentInitiationConfig,
+  PaymentSessionData,
+} from '@spartacus/opf/root';
 import { Observable } from 'rxjs';
 import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
 
@@ -17,8 +28,18 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
       this.opfCheckoutConnector.getActiveConfigurations()
     );
 
+  protected initiatePaymentCommand: Command<
+    {
+      paymentConfig: PaymentInitiationConfig;
+    },
+    PaymentSessionData
+  > = this.commandService.create((payload) =>
+    this.opfCheckoutConnector.initiatePayment(payload.paymentConfig)
+  );
+
   constructor(
     protected queryService: QueryService,
+    protected commandService: CommandService,
     protected opfCheckoutConnector: OpfCheckoutConnector
   ) {}
 
@@ -26,5 +47,11 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     QueryState<ActiveConfiguration[] | undefined>
   > {
     return this.activeConfigurationsQuery.getState();
+  }
+
+  initiatePayment(
+    paymentConfig: PaymentInitiationConfig
+  ): Observable<PaymentSessionData> {
+    return this.initiatePaymentCommand.execute({ paymentConfig });
   }
 }

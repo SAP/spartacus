@@ -32,7 +32,7 @@ if (environment.b2b) {
       opf: {
         baseUrl:
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
-        commerceCloudPublicKey: 'publicTestKey',
+        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
       },
     }),
     provideConfig(<I18nConfig>{
