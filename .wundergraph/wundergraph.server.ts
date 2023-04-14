@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
 import { configureWunderGraphServer } from '@wundergraph/sdk/server';
 import type { HooksConfig } from './generated/wundergraph.hooks';

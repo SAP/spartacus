@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createClient, WunderGraphClient } from '.wundergraph/generated/client';
 import { isPlatformServer } from '@angular/common';
 import { inject, InjectionToken, PLATFORM_ID } from '@angular/core';
