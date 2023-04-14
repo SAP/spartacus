@@ -7,6 +7,7 @@
 //TODO will remove this file when the backend is ready!!
 import {
   Customer360ActiveCart,
+  Customer360ActivityList,
   Customer360CustomerProfile,
   Customer360Overview,
   Customer360ProductInterestList,
@@ -242,6 +243,26 @@ export const mockSavedCart: Customer360SavedCart = {
   ],
 };
 
+export const mockActivityList: Customer360ActivityList = {
+  type: Customer360Type.ACTIVITY_LIST,
+  activities: [
+    {
+      type:  {
+        code: 'ORDER',
+        name: 'Order'
+      },
+      associatedTypeId: '01123',
+      description: 'mockActivity',
+      status: {
+        code: 'READY',
+        name: 'Ready'
+      },
+      createdAt: '2023-02-10T12:52:33+08:00',
+      updatedAt: '2023-02-10T12:52:33+08:00'
+    }
+  ]
+};
+
 export const mockCustomer360Response: Customer360Response = {
   value: [
     mockReviewList,
@@ -252,5 +273,6 @@ export const mockCustomer360Response: Customer360Response = {
     mockActiveCart,
     mockSavedCart,
     mockOverview,
+    mockActivityList
   ],
 };

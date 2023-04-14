@@ -4,17 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Customer360Activity } from '@spartacus/asm/customer-360/root';
 import { TableEntry } from '../../asm-customer-table/asm-customer-table.model';
 
-export interface GeneralEntry extends TableEntry {
-  typeId?: string; // require for navigation
-  type?: string;
+export interface ActivityEntry extends Customer360Activity, TableEntry {
   id?: string;
-  description?: string;
-  category?: string;
-  created?: number;
-  updated?: number;
-  url?: string;
+  typeLabel?: string;
+  statusLabel?: string;
 }
 
 export interface ValueLocalization {

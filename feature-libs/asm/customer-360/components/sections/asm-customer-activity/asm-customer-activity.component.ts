@@ -5,13 +5,14 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Customer360ActivityList } from '@spartacus/asm/customer-360/root';
 import { AsmConfig } from '@spartacus/asm/root';
 import { TranslationService, UrlCommand } from '@spartacus/core';
 import { combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { GeneralEntry, ValueLocalization } from './asm-customer-activity.model';
+import { ActivityEntry, ValueLocalization } from './asm-customer-activity.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,10 +23,10 @@ export class AsmCustomerActivityComponent implements OnInit {
   private PAGE_SIZE = 10;
 
   pageSize: number;
-  entries$: Observable<Array<GeneralEntry>>;
+  entries$: Observable<Array<ActivityEntry>>;
   columns: Array<CustomerTableColumn> = [
     {
-      property: 'type',
+      property: 'typeLabel',
       text: 'type',
       i18nTextKey: 'customer360.activity.type',
     },
@@ -41,18 +42,18 @@ export class AsmCustomerActivityComponent implements OnInit {
       i18nTextKey: 'customer360.activity.description',
     },
     {
-      property: 'category',
+      property: 'statusLabel',
       text: 'status',
       i18nTextKey: 'customer360.activity.status',
     },
     {
-      property: 'created',
+      property: 'createdAt',
       text: 'created',
       i18nTextKey: 'customer360.activity.created',
       isDate: true,
     },
     {
-      property: 'updated',
+      property: 'updatedAt',
       text: 'updated',
       i18nTextKey: 'customer360.activity.updated',
       isDate: true,
@@ -64,34 +65,51 @@ export class AsmCustomerActivityComponent implements OnInit {
   constructor(
     protected asmConfig: AsmConfig,
     protected translationService: TranslationService,
-    protected sectionContext: Customer360SectionContext<void>
+    protected sectionContext: Customer360SectionContext<Customer360ActivityList>,
   ) {}
 
   ngOnInit(): void {
     // Notes:  We are sorting the table locally, so we need to translate
     // all possible values before passing them to the table component.
-    let entries: Array<GeneralEntry> = [];
+    let entries: Array<ActivityEntry> = [];
 
     this.entries$ = combineLatest([
       this.sectionContext.config$,
       this.sectionContext.orderHistory$,
       this.sectionContext.activeCart$,
       this.sectionContext.savedCarts$,
+      this.sectionContext.data$
     ]).pipe(
-      switchMap(([config, orderHistory, activeCart, savedCarts]) => {
+      switchMap(([config, orderHistory, activeCart, savedCarts, data]) => {
         this.pageSize = config.pageSize || this.PAGE_SIZE;
         entries = [];
+        
+        if (data) {
+          data.activities.forEach((activity) => {
+            entries.push({
+              type: activity.type,
+              id: activity.associatedTypeId,
+              description: activity.description,
+              status: activity.status,
+              createdAt: activity.createdAt,
+              updatedAt: activity.updatedAt,
+              typeLabel: activity.type?.name,
+              statusLabel: activity.status?.name
+            });
+          });
+        }
         // notes: active cart does not have date
         if (activeCart) {
           entries.push({
-            typeId: 'activeCart',
+            type: {
+              code: 'activeCart'
+            },
             id: activeCart.code,
-            created: undefined,
-            category: '',
+            createdAt: undefined,
           });
           this.saveLocalization(
             activeCart.code,
-            'type',
+            'typeLabel',
             'customer360.activity.cart'
           );
           this.saveLocalization(
@@ -103,19 +121,19 @@ export class AsmCustomerActivityComponent implements OnInit {
             }
           );
         }
-
         savedCarts?.forEach((cart) => {
           entries.push({
-            typeId: 'savedCart',
+            type: {
+              code: 'savedCart'
+            },
             id: cart.code,
-            created: cart?.saveTime
-              ? Date.parse(String(cart?.saveTime))
+            createdAt: cart?.saveTime
+              ? String(cart?.saveTime)
               : undefined,
-            category: '',
           });
           this.saveLocalization(
             cart.code,
-            'type',
+            'typeLabel',
             'customer360.activity.savedCart'
           );
           this.saveLocalization(
@@ -130,16 +148,21 @@ export class AsmCustomerActivityComponent implements OnInit {
         // Notes: order history order doesn't have totalItems
         orderHistory.orders?.forEach((order) => {
           entries.push({
-            typeId: 'orderHistory',
+            type: {
+              code: 'orderHistory'
+            },
             id: order.code,
-            created: order?.placed
-              ? Date.parse(String(order?.placed))
+            createdAt: order?.placed
+              ? String(order?.placed)
               : undefined,
-            category: order.statusDisplay,
+            status:  {
+              name: order.statusDisplay,
+              code: order.status
+            }
           });
           this.saveLocalization(
             order.code,
-            'type',
+            'typeLabel',
             'customer360.activity.order'
           );
         });
@@ -160,19 +183,19 @@ export class AsmCustomerActivityComponent implements OnInit {
     );
   }
 
-  itemSelected(entry: GeneralEntry | undefined): void {
+  itemSelected(entry: ActivityEntry | undefined): void {
     if (entry) {
       let urlCommand: UrlCommand;
-      if (entry.typeId === 'savedCart') {
+      if (entry.type?.code === 'savedCart') {
         urlCommand = {
           cxRoute: 'savedCartsDetails',
           params: { savedCartId: entry?.id },
         };
-      } else if (entry.typeId === 'activeCart') {
+      } else if (entry.type?.code === 'activeCart') {
         urlCommand = {
           cxRoute: 'cart',
         };
-      } else if (entry.typeId === 'orderHistory') {
+      } else if (entry.type?.code === 'orderHistory') {
         urlCommand = {
           cxRoute: 'orderDetails',
           params: { code: entry?.id },

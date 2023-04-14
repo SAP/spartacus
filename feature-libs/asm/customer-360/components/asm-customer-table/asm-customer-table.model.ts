@@ -15,5 +15,5 @@ export interface CustomerTableColumn {
 }
 
 export interface TableEntry {
-  [key: string]: string | number | undefined;
+  [key: string]: any;
 }

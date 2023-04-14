@@ -17,7 +17,7 @@ import {
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { GeneralEntry } from '../sections/asm-customer-activity/asm-customer-activity.model';
+import { ActivityEntry } from '../sections/asm-customer-activity/asm-customer-activity.model';
 
 import { AsmCustomerTableComponent } from './asm-customer-table.component';
 import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
@@ -52,7 +52,7 @@ describe('AsmCustomerTableComponent', () => {
 
   const mockColumns: Array<CustomerTableColumn> = [
     {
-      property: 'type',
+      property: 'typeLabel',
       text: 'type',
     },
     { property: 'id', text: 'id' },
@@ -61,79 +61,79 @@ describe('AsmCustomerTableComponent', () => {
       text: 'description',
     },
     {
-      property: 'category',
+      property: 'statusLabel',
       text: 'status',
     },
     {
-      property: 'created',
+      property: 'createdAt',
       text: 'created',
       isDate: true,
     },
     {
-      property: 'updated',
+      property: 'updatedAt',
       text: 'updated',
       isDate: true,
     },
   ];
-  const mockEntries: Array<GeneralEntry> = [
+  const mockEntries: Array<ActivityEntry> = [
     {
-      type: 'Ticket',
+      typeLabel: 'Ticket',
       id: '00000001',
       description: 'Thing not work good',
-      created: new Date('2022-07-07T18:25:43+0000').getTime(),
-      updated: new Date('2022-07-07T18:25:43+0000').getTime(),
-      category: 'New',
+      createdAt: '2022-07-07T18:25:43+0000',
+      updatedAt: '2022-07-07T18:25:43+0000',
+      statusLabel: 'New',
     },
     {
-      type: 'Cart',
+      typeLabel: 'Cart',
       id: '00002001',
       description: 'Cart with 1 item',
-      created: new Date('2022-07-01T18:25:43+0000').getTime(),
-      updated: new Date('2022-07-02T18:25:43+0000').getTime(),
+      createdAt: '2022-07-01T18:25:43+0000',
+      updatedAt: '2022-07-02T18:25:43+0000'
     },
     {
-      type: 'Cart',
+      typeLabel: 'Cart',
       id: '00002007',
       description: 'Cart with 0 items',
-      created: new Date('2022-06-15T18:25:43+0000').getTime(),
-      updated: new Date('2022-06-20T18:25:43+0000').getTime(),
+      createdAt: '2022-06-15T18:25:43+0000',
+      updatedAt: '2022-06-20T18:25:43+0000'
     },
     {
-      type: 'Saved Cart',
+      typeLabel: 'Saved Cart',
       id: '00002002',
       description: 'Cart with 2 items',
-      created: new Date('2022-07-02T18:25:43+0000').getTime(),
-      updated: new Date('2022-07-04T18:25:43+0000').getTime(),
+      createdAt: '2022-07-02T18:25:43+0000',
+      updatedAt: '2022-07-04T18:25:43+0000'
     },
     {
-      type: 'Saved Cart',
+      typeLabel: 'Saved Cart',
       id: '00002005',
       description: 'Cart with 3 items',
-      created: new Date('2022-06-09T18:25:43+0000').getTime(),
-      updated: new Date('2022-06-12T18:25:43+0000').getTime(),
+      createdAt: '2022-06-09T18:25:43+0000',
+      updatedAt: '2022-06-12T18:25:43+0000'
     },
     {
-      type: 'Saved Cart',
+      typeLabel: 'Saved Cart',
       id: '00002008',
       description: 'Cart with 4 items',
-      created: new Date('2022-06-22T18:25:43+0000').getTime(),
-      updated: new Date('2022-06-22T18:25:43+0000').getTime(),
+      createdAt: '2022-06-22T18:25:43+0000',
+      updatedAt: '2022-06-22T18:25:43+0000'
     },
     {
-      type: 'Order',
+      typeLabel: 'Order',
       id: '00002003',
       description: 'Cart with 1 item',
-      created: new Date('2022-05-30T18:25:43+0000').getTime(),
-      updated: new Date('2022-05-31T18:25:43+0000').getTime(),
-      category: 'Draft',
+      createdAt: '2022-05-30T18:25:43+0000',
+      updatedAt: '2022-05-31T18:25:43+0000',
+      statusLabel: 'Draft',
     },
     {
-      type: 'Order',
+      typeLabel: 'Order',
       id: '00002006',
       description: 'Cart with 2 items',
-      created: new Date('2022-06-05T18:25:43+0000').getTime(),
-      updated: new Date('2022-06-06T18:25:43+0000').getTime(),
-      category: 'Completed',
+      createdAt: '2022-06-05T18:25:43+0000',
+      updatedAt: '2022-06-06T18:25:43+0000',
+      statusLabel: 'Completed'
     },
   ];
 
