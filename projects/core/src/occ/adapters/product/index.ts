@@ -10,4 +10,4 @@ export * from './occ-product-reviews.adapter';
 export * from './occ-product-search.adapter';
 export * from './occ-product.adapter';
 export * from './product-occ.module';
-export * from './wg-product.adapter';
+export * from './wu-product.adapter';

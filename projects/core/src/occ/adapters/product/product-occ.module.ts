@@ -23,7 +23,7 @@ import { OccProductReferencesAdapter } from './occ-product-references.adapter';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import './product-occ-config';
-import { WgProductAdapter } from './wg-product.adapter';
+import { WuProductAdapter } from './wu-product.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -35,7 +35,7 @@ import { WgProductAdapter } from './wg-product.adapter';
     // },
     {
       provide: ProductAdapter,
-      useClass: WgProductAdapter,
+      useClass: WuProductAdapter,
     },
     {
       provide: PRODUCT_NORMALIZER,
