@@ -1,0 +1,29 @@
+query Product(
+  $baseSiteId: String!
+  $productCode: String!
+  $fields: String = "FULL"
+) {
+  ccv2_getProduct(
+    baseSiteId: $baseSiteId
+    fields: $fields
+    productCode: $productCode
+  ) {
+    code
+    name
+    description
+    url
+    images {
+      altText
+      format
+      url
+      galleryIndex
+    }
+    price {
+      currencyIso
+      value
+      maxQuantity
+      minQuantity
+      formattedValue
+    }
+  }
+}

@@ -1,0 +1,9 @@
+query Products($baseSiteId: String!) {
+  ccv2_getProducts(baseSiteId: $baseSiteId) {
+    products {
+      code
+      name
+      description
+    }
+  }
+}

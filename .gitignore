@@ -49,6 +49,8 @@ scripts/install/config.sh
 **/unit-tests-reports
 
 # misc
+.wundergraph/cache
+.wundergraph/generated
 /.angular/cache
 .lighthouseci/
 /.sass-cache
