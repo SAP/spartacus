@@ -25,6 +25,10 @@ import {
 } from '@spartacus/core';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import {
+  CdcSiteConsentTemplate,
+  userConsentPreferences,
+} from 'integration-libs/cdc/core';
+import {
   combineLatest,
   Observable,
   of,
@@ -607,6 +611,31 @@ export class CdcJsService implements OnDestroy {
           });
         },
       });
+    });
+  }
+
+  getCdcConsent(): Observable<CdcSiteConsentTemplate> {
+    let baseSite: string = this.getCurrentBaseSite();
+    let javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
+    let queryParams = new URLSearchParams(
+      javascriptURL.substring(javascriptURL.indexOf('?'))
+    );
+    let siteApiKey: string | null = queryParams.get('apikey');
+
+    return this.invokeAPI('accounts.getSiteConsentDetails', {
+      apiKey: siteApiKey,
+    });
+  }
+
+  protected currentUID: string | undefined;
+
+  getUserConsentPreferences(
+    uid: string | undefined,
+    include: string | undefined
+  ): Observable<userConsentPreferences> {
+    return this.invokeAPI('accounts.getAccountInfo', {
+      uid: uid,
+      include: include,
     });
   }
 

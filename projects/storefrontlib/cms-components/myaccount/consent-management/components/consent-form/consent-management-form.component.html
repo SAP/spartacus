@@ -7,10 +7,12 @@
       [checked]="consentGiven"
       [disabled]="isRequired(consentTemplate?.id)"
     />
-    <span class="form-check-label cx-be-bold">
-      {{ consentTemplate?.name }}
-    </span>
-    <br />
+    <ng-container *ngIf="consentTemplate?.name">
+      <span class="form-check-label cx-be-bold">
+        {{ consentTemplate?.name }}
+      </span>
+      <br />
+    </ng-container>
     <span class="form-check-label">
       {{ consentTemplate?.description }}
     </span>
