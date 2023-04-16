@@ -86,9 +86,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   customerListColumnActionType = CustomerListColumnActionType;
 
-  protected teardown: Subscription = new Subscription();
+  searchBox: UntypedFormControl = new UntypedFormControl();
 
-  protected searchBox: UntypedFormControl = new UntypedFormControl();
+  protected teardown: Subscription = new Subscription();
 
   constructor(
     launchDialogService: LaunchDialogService,
@@ -199,7 +199,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         options.sort = this.sortCode;
       }
       if (this.searchBox?.value) {
-        options.query = this.searchBox?.value;
+        options.query = this.searchBox.value;
       }
 
       this.asmCustomerListFacade.customerListCustomersSearchReset();
@@ -254,23 +254,22 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.closeModal(closeValue);
   }
 
-  onKey(event: any) {
-    if (event.key === 'Enter' || event.pointerType === 'mouse') {
-      console.info(this.searchBox.value);
+  onKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
       this.fetchCustomers();
     }
   }
 
-  isRequired(customerEntry?: any, type?: any): boolean {
+  isRequired(customerEntry: User, type: string): boolean {
     if (
-      type == CustomerListColumnActionType.ACTIVE_CART &&
+      type === CustomerListColumnActionType.ACTIVE_CART &&
       !customerEntry.lastCartId
     ) {
       return true;
     }
     if (
-      type == CustomerListColumnActionType.ORDER_HISTORY &&
-      customerEntry.hasOrder != true
+      type === CustomerListColumnActionType.ORDER_HISTORY &&
+      customerEntry.hasOrder !== true
     ) {
       return true;
     }

@@ -37,9 +37,9 @@ export const asm = {
       title: 'Customer List',
       description: 'Select a customer from one of several provided lists.',
       tableHeader: {
-        customer: 'Customer Name',
+        customer: 'Customer',
         name: 'Name',
-        email: 'Email/ID',
+        email: 'Email',
         phone: 'Phone',
         account: 'Account',
         cart: 'Cart',

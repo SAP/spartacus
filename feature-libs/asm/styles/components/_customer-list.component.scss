@@ -49,8 +49,15 @@ $sapFioriContent_LabelColor: #6a6d70;
         position: relative;
         padding-left: 1rem;
 
-        input {
+        .form-control {
           padding-inline-end: 46px;
+          &:hover,
+          &:focus {
+            border: 2px solid #004da5;
+            box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
+            outline: none;
+            background-color: #ffffff;
+          }
         }
 
         cx-icon {

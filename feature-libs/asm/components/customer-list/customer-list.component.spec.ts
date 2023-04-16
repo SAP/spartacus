@@ -141,11 +141,11 @@ const mockReturnData: CustomerListAction = {
   actionType: CustomerListColumnActionType.ORDER_HISTORY,
 };
 
-const enterKeyEvent = {
+const enterKeyEvent: any = {
   key: 'Enter',
 };
 
-const badKeyEvent = {
+const badKeyEvent: any = {
   key: 'Enter95',
 };
 
@@ -605,7 +605,7 @@ describe('CustomerListComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
-    ).toEqual(2);
+    ).toEqual(1);
   });
 
   it('should add mobile class', () => {
