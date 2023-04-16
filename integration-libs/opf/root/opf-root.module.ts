@@ -7,8 +7,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { OpfPaymentResponseComponent } from '../components/opf-payment-response/opf-payment-response.component';
+import { CmsPageGuard } from '@spartacus/storefront';
+import { OpfVerifyPaymentComponent } from '../components/opf-verify-payment';
 import { defaultOPFRoutingConfig } from './config';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
@@ -17,21 +17,22 @@ import { opfConfidValidator } from './config/opf-config-validator';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      {
-        // @ts-ignore
-        path: null,
-        component: OpfPaymentResponseComponent,
-        data: {
-          cxRoute: 'paymentresponse',
-        },
-      },
+      // { path: 'redirect/success', redirectTo: 'verify-payment' },
+      // {
+      //   // @ts-ignore
+      //   path: null,
+      //   component: OpfPaymentResponseComponent,
+      //   data: {
+      //     cxRoute: 'paymentresponse',
+      //   },
+      // },
       {
         // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
+        component: OpfVerifyPaymentComponent,
         data: {
-          cxRoute: 'verifypayment',
+          cxRoute: 'paymentresponse',
         },
       },
     ]),

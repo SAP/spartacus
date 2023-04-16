@@ -5,12 +5,16 @@
  */
 
 import { RoutingConfig } from '@spartacus/core';
+import { defaultOpfConfig } from './default-opf-config';
 
 export const defaultOPFRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       paymentresponse: {
-        paths: ['redirect/success', 'redirect/fail'],
+        paths: [
+          defaultOpfConfig.opf?.successUrl as string,
+          defaultOpfConfig.opf?.cancelUrl as string,
+        ],
       },
       verifypayment: {
         paths: ['verify-payment'],

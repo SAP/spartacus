@@ -21,7 +21,7 @@ export enum OpfPaymentProviderType {
   PAYMENT_METHOD = 'PAYMENT_METHOD',
 }
 
-export interface OpfVerifyPayload {
+export interface OpfVerifyPaymentPayload {
   responseMap: KeyValuePair[];
 }
 

@@ -21,6 +21,7 @@ import {
 import {
   ActiveConfiguration,
   OpfConfig,
+  OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
 } from '@spartacus/opf/root';
 import { Observable, throwError } from 'rxjs';
@@ -60,9 +61,12 @@ export class OccOpfAdapter implements OpfAdapter {
 
   getVerifyPayment(
     paymentSessionId: string,
-    payload: string
+    payload: OpfVerifyPaymentPayload
   ): Observable<OpfVerifyPaymentResponse> {
     const headers = new HttpHeaders({
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Content-Language': 'en-us',
       'sap-commerce-cloud-public-key':
         this.config.opf?.commerceCloudPublicKey || '',
     });
@@ -70,7 +74,7 @@ export class OccOpfAdapter implements OpfAdapter {
     return this.http
       .post<OpfVerifyPaymentResponse>(
         this.getVerifyPaymentEndpoint(paymentSessionId),
-        payload,
+        JSON.stringify(payload),
         {
           headers,
         }
@@ -85,7 +89,7 @@ export class OccOpfAdapter implements OpfAdapter {
   }
 
   protected getVerifyPaymentEndpoint(paymentSessionId: string): string {
-    return this.opfEndpointsService.buildUrl('verifyPayment', {
+    return this.opfEndpointsService.buildUrl('getVerifyPayment', {
       urlParams: { paymentSessionId },
     });
   }

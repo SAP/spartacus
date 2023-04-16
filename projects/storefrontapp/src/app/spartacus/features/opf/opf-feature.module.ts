@@ -15,6 +15,7 @@ import {
   defaultOPFCheckoutConfig,
   OpfConfig,
   OpfRootModule,
+  OPF_FEATURE,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -33,6 +34,8 @@ if (environment.b2b) {
         baseUrl:
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+        successUrl: 'redirect/success',
+        cancelUrl: 'redirect/fail',
       },
     }),
     provideConfig(<I18nConfig>{
@@ -40,6 +43,13 @@ if (environment.b2b) {
         resources: opfTranslations,
         chunks: opfTranslationChunksConfig,
         fallbackLang: 'en',
+      },
+    }),
+    provideConfig({
+      featureModules: {
+        [OPF_FEATURE]: {
+          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
+        },
       },
     }),
     ...extensionProviders,

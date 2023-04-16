@@ -6,6 +6,7 @@
 
 import {
   ActiveConfiguration,
+  OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
 } from '@spartacus/opf/root';
 import { Observable } from 'rxjs';
@@ -19,6 +20,6 @@ export abstract class OpfAdapter {
   abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
   abstract getVerifyPayment(
     paymentSessionId: string,
-    payload: string
+    payload: OpfVerifyPaymentPayload
   ): Observable<OpfVerifyPaymentResponse>;
 }

@@ -28,6 +28,7 @@ export interface StandardCmsComponentConfig {
   ProductReferencesComponent?: CmsComponentMapping;
   CMSTabParagraphComponent?: CmsComponentMapping;
   LoginComponent?: CmsComponentMapping;
+  OpfVerifyPaymentComponent?: CmsComponentMapping;
 }
 
 export interface JspIncludeCmsComponentConfig {

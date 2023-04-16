@@ -9,7 +9,7 @@ import { provideDefaultConfig } from '@spartacus/core';
 import { OpfCheckoutBillingAddressFormModule } from './opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 import { OPFCheckoutPaymentAndReviewModule } from './opf-checkout-payment-and-review/opf-checkout-payment-and-review.module';
 import { OpfCheckoutPaymentsModule } from './opf-checkout-payments/opf-checkout-payments.module';
-import { OpfPaymentResponseModule } from './opf-payment-response/opf-payment-response.module';
+
 import { OpfVerifyPaymentModule } from './opf-verify-payment/opf-verify-payment.module';
 
 @NgModule({
@@ -17,7 +17,6 @@ import { OpfVerifyPaymentModule } from './opf-verify-payment/opf-verify-payment.
     OPFCheckoutPaymentAndReviewModule,
     OpfCheckoutPaymentsModule,
     OpfCheckoutBillingAddressFormModule,
-    OpfPaymentResponseModule,
     OpfVerifyPaymentModule,
   ],
   providers: [

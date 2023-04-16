@@ -15,6 +15,8 @@ export abstract class OpfConfig implements Config {
   opf?: {
     baseUrl?: string;
     commerceCloudPublicKey?: string;
+    successUrl?: string;
+    cancelUrl?: string;
   };
 }
 

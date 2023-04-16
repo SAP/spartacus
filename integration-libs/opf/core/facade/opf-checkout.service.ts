@@ -9,6 +9,7 @@ import { Query, QueryService, QueryState } from '@spartacus/core';
 import {
   ActiveConfiguration,
   OpfCheckoutFacade,
+  OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
 } from '@spartacus/opf/root';
 import { Observable } from 'rxjs';
@@ -23,10 +24,9 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
 
   protected verifyPaymentQuery = (
     paymentSessionId: string,
-    payload: string
+    payload: OpfVerifyPaymentPayload
   ): Query<OpfVerifyPaymentResponse> =>
     this.queryService.create<OpfVerifyPaymentResponse>(() => {
-      console.log('flo1');
       return this.opfCheckoutConnector.getVerifyPayment(
         paymentSessionId,
         payload
@@ -46,7 +46,7 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
 
   getVerifyPaymentState(
     paymentSessionId: string,
-    payload: string
+    payload: OpfVerifyPaymentPayload
   ): Observable<QueryState<OpfVerifyPaymentResponse | undefined>> {
     return this.verifyPaymentQuery(paymentSessionId, payload).getState();
   }
