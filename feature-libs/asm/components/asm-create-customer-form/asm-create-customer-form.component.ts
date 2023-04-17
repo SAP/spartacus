@@ -74,13 +74,19 @@ export class AsmCreateCustomerFormComponent {
       lastName: lastName ?? '',
       email: email ?? '',
     };
-    this.asmCreateCustomerFacade
-      .createCustomer(this.collectDataFromRegisterForm())
-      .subscribe({
-        next: () => this.onRegisterUserSuccess(),
-        complete: () => this.isLoading$.next(false),
-        error: (error: HttpErrorModel) => this.onRegisterUserFail(error),
-      });
+
+    const obs$ = this.asmCreateCustomerFacade.createCustomer(
+      this.collectDataFromRegisterForm()
+    );
+
+    obs$.subscribe({
+      next: () => this.onRegisterUserSuccess(),
+      error: (error: HttpErrorModel) => this.onRegisterUserFail(error),
+    });
+
+    obs$.subscribe({
+      complete: () => this.isLoading$.next(false),
+    });
   }
 
   collectDataFromRegisterForm(): CustomerRegistrationForm {
