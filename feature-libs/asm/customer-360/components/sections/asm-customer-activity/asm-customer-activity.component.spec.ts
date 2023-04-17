@@ -74,10 +74,48 @@ describe('AsmCustomerActivityComponent', () => {
           name: 'Saved Cart',
         },
         associatedTypeId: '0001',
-        description: 'An active cart',
+        description: 'A saved cart',
         status: {
           code: 'new',
           name: 'New',
+        },
+        createdAt: '2022-07-07T18:25:43+0000',
+        updatedAt: '2022-07-07T18:25:43+0000',
+      },
+      {
+        type: {
+          code: 'CART',
+          name: 'Cart',
+        },
+        associatedTypeId: '0002',
+        description: 'An active cart',
+        createdAt: '2022-07-07T18:25:43+0000',
+        updatedAt: '2022-07-07T18:25:43+0000',
+      },
+      {
+        type: {
+          code: 'TICKET',
+          name: 'Ticket',
+        },
+        associatedTypeId: '0003',
+        description: 'Where are my products?',
+        status: {
+          code: 'NEW',
+          name: 'new'
+        },
+        createdAt: '2022-07-07T18:25:43+0000',
+        updatedAt: '2022-07-07T18:25:43+0000',
+      },
+      {
+        type: {
+          code: 'ORDER',
+          name: 'Order',
+        },
+        associatedTypeId: '0004',
+        description: 'Ordered items',
+        status: {
+          code: 'READY',
+          name: 'Ready'
         },
         createdAt: '2022-07-07T18:25:43+0000',
         updatedAt: '2022-07-07T18:25:43+0000',
@@ -140,7 +178,7 @@ describe('AsmCustomerActivityComponent', () => {
     it('should display table', () => {
       const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
       const tableRows = tableBody?.queryAll(By.css('tr'));
-      expect(tableRows.length).toBe(5);
+      expect(tableRows.length).toBe(4);
     });
 
     it('should navigate to cart, order detail and saved cart detail', () => {
@@ -157,21 +195,30 @@ describe('AsmCustomerActivityComponent', () => {
         params: { savedCartId: '0001' },
       });
 
-      const linkCell2 = tableRows[2].query(
+      const linkCell2 = tableRows[1].query(
         By.css('.cx-asm-customer-table-link')
       );
       linkCell2.nativeElement.click();
       expect(context.navigate$.next).toHaveBeenCalledWith({
-        cxRoute: 'orderDetails',
-        params: { code: '1' },
+        cxRoute: 'cart',
       });
 
-      const linkCell3 = tableRows[4].query(
+      const linkCell3 = tableRows[2].query(
         By.css('.cx-asm-customer-table-link')
       );
       linkCell3.nativeElement.click();
       expect(context.navigate$.next).toHaveBeenCalledWith({
-        cxRoute: 'cart',
+        cxRoute: 'supportTicketDetails',
+        params: { code: '0003' },
+      });
+
+      const linkCell4 = tableRows[3].query(
+        By.css('.cx-asm-customer-table-link')
+      );
+      linkCell4.nativeElement.click();
+      expect(context.navigate$.next).toHaveBeenCalledWith({
+        cxRoute: 'orderDetails',
+        params: { code: '0004' },
       });
     });
   });

@@ -30,7 +30,7 @@ export interface Customer360Activity {
   type: Customer360ActivityType;
   associatedTypeId: string;
   description: string;
-  status: Customer360ActivityStatus;
+  status?: Customer360ActivityStatus;
   createdAt: string;
   updatedAt: string;
 }
