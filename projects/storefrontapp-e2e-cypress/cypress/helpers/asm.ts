@@ -525,11 +525,11 @@ export function asmCloseCreateCustomerDialog(): void {
 /**
  * Method submits prefiled form and by default waits till registration request will be completed.
  *
- * @param {boolean} [wiatForRequestCompletion=true]
+ * @param {boolean} [waitForRequestCompletion=true]
  * specifies if cypress should wait till registration request be completed.
  */
-export function submitCraeteCustomerForm(
-  wiatForRequestCompletion: boolean = true
+export function submitCreateCustomerForm(
+  waitForRequestCompletion: boolean = true
 ) {
   const customerCreateRequestAlias = asm.listenForCustomerCreateRequest();
 
@@ -537,7 +537,7 @@ export function submitCraeteCustomerForm(
     cy.get('button[type=submit]').click();
   });
 
-  if (wiatForRequestCompletion) {
+  if (waitForRequestCompletion) {
     return cy.wait(customerCreateRequestAlias);
   } else {
     return null;

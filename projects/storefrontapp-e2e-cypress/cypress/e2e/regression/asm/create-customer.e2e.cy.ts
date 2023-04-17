@@ -40,7 +40,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> submit form');
       asm
-        .submitCraeteCustomerForm()
+        .submitCreateCustomerForm()
         .its('response.statusCode')
         .should('eq', 201);
 
@@ -140,7 +140,7 @@ context('Assisted Service Module', () => {
       /*
        * If form is not valid we should not expect call to the API
        */
-      asm.submitCraeteCustomerForm(false);
+      asm.submitCreateCustomerForm(false);
 
       cy.log('--> valid form');
       asm.verifyFormErrors();
@@ -167,7 +167,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> submit form');
       asm
-        .submitCraeteCustomerForm()
+        .submitCreateCustomerForm()
         .its('response.statusCode')
         .should('eq', 400);
 

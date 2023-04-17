@@ -1,8 +1,8 @@
 import { DebugElement, ElementRef } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -15,10 +15,10 @@ import {
   DirectionMode,
   DirectionService,
   FormErrorsModule,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
@@ -72,7 +72,7 @@ const MockAsmConfig: AsmConfig = {
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe() {
-    return of();
+    return EMPTY;
   }
 }
 

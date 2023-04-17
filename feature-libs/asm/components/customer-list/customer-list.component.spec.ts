@@ -21,10 +21,10 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
 import { CustomerListAction } from './customer-list.model';
 import createSpy = jasmine.createSpy;
@@ -145,7 +145,7 @@ const mockReturnData: CustomerListAction = {
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
   openDialogAndSubscribe() {
-    return of();
+    return EMPTY;
   }
   data$ = of(mockReturnData);
 }
