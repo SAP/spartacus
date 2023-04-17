@@ -36,7 +36,7 @@ export const defaultOccOrderConfig: OccConfig = {
         /** scheduled replenishment endpoints end */
 
         /** placing an order endpoints start **/
-        placeOrder: 'users/${userId}/orders/v2?fields=FULL',
+        placeOrder: 'users/${userId}/orders?fields=FULL',
         /** placing an order endpoints end **/
       },
     },
