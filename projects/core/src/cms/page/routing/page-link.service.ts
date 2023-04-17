@@ -68,8 +68,8 @@ export class PageLinkService {
   ): string {
     const queryPos = url.indexOf('?');
     if (queryPos > -1) {
-      const urlBeforeQueryParam = url.substr(0, queryPos);
-      const params = new URLSearchParams(url.substr(queryPos));
+      const urlBeforeQueryParam = url.substring(0, queryPos);
+      const params = new URLSearchParams(url.substring(queryPos));
 
       url = urlBeforeQueryParam;
 

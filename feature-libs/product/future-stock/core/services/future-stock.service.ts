@@ -5,9 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { FutureStockConnector } from '../connectors';
 import { ProductFutureStock } from '../model';
@@ -16,14 +20,17 @@ import { ProductFutureStock } from '../model';
 export class FutureStockService implements FutureStockFacade {
   protected readonly PRODUCT_KEY = 'productCode';
 
-  protected futureStockState$: Observable<ProductFutureStock> =
+  protected futureStockState$: Observable<ProductFutureStock | undefined> =
     this.routingService.getRouterState().pipe(
       withLatestFrom(this.userIdService.takeUserId()),
       switchMap(([{ state }, userId]) => {
-        return this.futureStockConnector.getFutureStock(
-          userId,
-          state.params[this.PRODUCT_KEY]
-        );
+        if (userId !== OCC_USER_ID_ANONYMOUS) {
+          return this.futureStockConnector.getFutureStock(
+            userId,
+            state.params[this.PRODUCT_KEY]
+          );
+        }
+        return of(undefined);
       })
     );
   /**
