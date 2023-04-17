@@ -251,12 +251,8 @@ export const mockActivityList: Customer360ActivityList = {
         code: 'CART',
         name: 'Cart',
       },
-      associatedTypeId: '779841',
+      associatedTypeId: '0001',
       description: 'Mock active cart',
-      status: {
-        code: 'active',
-        name: 'Active',
-      },
       createdAt: '2023-02-10T12:52:33+08:00',
       updatedAt: '2023-02-10T12:52:33+08:00',
     },
@@ -267,12 +263,36 @@ export const mockActivityList: Customer360ActivityList = {
       },
       associatedTypeId: '0002',
       description: 'Mock saved cart',
-      status: {
-        code: 'active',
-        name: 'Active',
+      createdAt: '2023-01-10T12:53:33+08:00',
+      updatedAt: '2023-01-10T12:54:33+08:00',
+    },
+    {
+      type: {
+        code: 'ORDER',
+        name: 'Order',
       },
-      createdAt: '2023-01-10T12:55:33+08:00',
-      updatedAt: '2023-01-10T12:55:33+08:00',
+      associatedTypeId: '0003',
+      status: {
+        code: 'READY',
+        name: 'Ready'
+      },
+      description: 'Mock Order',
+      createdAt: '2023-01-10T12:54:33+08:00',
+      updatedAt: '2023-01-10T12:54:33+08:00',
+    },
+    {
+      type: {
+        code: 'TICKET',
+        name: 'Ticket',
+      },
+      associatedTypeId: '0004',
+      status: {
+        code: 'NEW',
+        name: 'New'
+      },
+      description: 'Mock Ticket',
+      createdAt: '2023-01-10T12:56:33+08:00',
+      updatedAt: '2023-01-10T12:56:33+08:00',
     },
   ],
 };
