@@ -2,13 +2,9 @@
   "root": true,
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.eslint.json"
-        ],
+        "project": ["tsconfig.eslint.json"],
         "createDefaultProgram": true
       },
       "extends": [
@@ -16,10 +12,7 @@
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      "plugins": [
-        "deprecation",
-        "@spartacus-eslint"
-      ],
+      "plugins": ["deprecation", "@typescript-eslint", "@nrwl/nx"],
       "rules": {
         "@angular-eslint/no-host-metadata-property": "off",
         "@typescript-eslint/no-empty-interface": "off",
@@ -74,31 +67,22 @@
         "id-blacklist": "off",
         "id-match": "off",
         "max-len": "off",
-        "linebreak-style": [
-          "error",
-          "unix"
-        ],
+        "linebreak-style": ["error", "unix"],
         "no-underscore-dangle": "off"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
         "@angular-eslint/template/eqeqeq": "error"
       }
     },
     {
-      "files": [
-        "*.module.ts"
-      ],
+      "files": ["*.module.ts"],
       "rules": {
-        "@spartacus-eslint/use-default-provide-config": "error"
+        "@nrwl/nx/workspace/use-default-provide-config": "error"
       }
     }
   ]
