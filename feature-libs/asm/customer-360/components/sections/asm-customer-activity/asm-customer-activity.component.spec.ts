@@ -230,14 +230,14 @@ describe('AsmCustomerActivityComponent', () => {
     expect(component.columns.length).toBe(6);
   });
 
-  fdescribe('table', () => {
+  describe('table', () => {
     beforeEach(() => {
       fixture.detectChanges();
     });
 
     it('should display the column headers', () => { 
-      const table = el.query(By.css('.cx-asm-customer-table'));
-      expect(table).toBeTruthy();
+      const headers = el.queryAll(By.css('.cx-asm-customer-table-header'));
+      expect(headers.length).toBe(component.columns.length);
     });
 
     it('should display table', () => {
