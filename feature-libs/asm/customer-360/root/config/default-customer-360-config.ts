@@ -51,6 +51,9 @@ export const defaultCustomer360Config: Customer360Config = {
         components: [
           {
             component: 'AsmCustomer360CustomerActivityComponent',
+            requestData: {
+              type: Customer360Type.ACTIVITY_LIST,
+            },
             config: { pageSize: 5 },
           },
         ],

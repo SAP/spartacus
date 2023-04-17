@@ -17,3 +17,14 @@ export interface CustomerTableColumn {
 export interface TableEntry {
   [key: string]: string | number | undefined;
 }
+
+export interface GeneralEntry extends TableEntry {
+  typeId?: string;
+  type?: string;
+  id?: string;
+  description?: string;
+  category?: string;
+  created?: number;
+  updated?: number;
+  url?: string;
+}

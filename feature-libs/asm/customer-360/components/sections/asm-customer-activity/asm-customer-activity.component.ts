@@ -5,13 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/root';
-import { TranslationService, UrlCommand } from '@spartacus/core';
-import { combineLatest, forkJoin, Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Customer360ActivityList } from '@spartacus/asm/customer-360/root';
+import { UrlCommand } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { GeneralEntry, ValueLocalization } from './asm-customer-activity.model';
+import { ActivityEntry } from './asm-customer-activity.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,18 +19,15 @@ import { GeneralEntry, ValueLocalization } from './asm-customer-activity.model';
   templateUrl: './asm-customer-activity.component.html',
 })
 export class AsmCustomerActivityComponent implements OnInit {
-  private PAGE_SIZE = 10;
-
-  pageSize: number;
-  entries$: Observable<Array<GeneralEntry>>;
+  entries$: Observable<Array<ActivityEntry>>;
   columns: Array<CustomerTableColumn> = [
     {
-      property: 'type',
+      property: 'typeLabel',
       text: 'type',
       i18nTextKey: 'customer360.activity.type',
     },
     {
-      property: 'id',
+      property: 'associatedTypeId',
       text: 'id',
       i18nTextKey: 'customer360.activity.id',
       navigatable: true,
@@ -41,201 +38,72 @@ export class AsmCustomerActivityComponent implements OnInit {
       i18nTextKey: 'customer360.activity.description',
     },
     {
-      property: 'category',
+      property: 'statusLabel',
       text: 'status',
       i18nTextKey: 'customer360.activity.status',
     },
     {
-      property: 'created',
+      property: 'createdAt',
       text: 'created',
       i18nTextKey: 'customer360.activity.created',
       isDate: true,
     },
     {
-      property: 'updated',
+      property: 'updatedAt',
       text: 'updated',
       i18nTextKey: 'customer360.activity.updated',
       isDate: true,
     },
   ];
-  transformedEntries: Array<any>;
-  localizedValues: Array<ValueLocalization> = [];
 
   constructor(
-    protected asmConfig: AsmConfig,
-    protected translationService: TranslationService,
-    protected sectionContext: Customer360SectionContext<void>
+    protected context: Customer360SectionContext<Customer360ActivityList>
   ) {}
 
   ngOnInit(): void {
-    // Notes:  We are sorting the table locally, so we need to translate
-    // all possible values before passing them to the table component.
-    let entries: Array<GeneralEntry> = [];
+    let entries: Array<ActivityEntry> = [];
 
-    this.entries$ = combineLatest([
-      this.sectionContext.config$,
-      this.sectionContext.orderHistory$,
-      this.sectionContext.activeCart$,
-      this.sectionContext.savedCarts$,
-    ]).pipe(
-      switchMap(([config, orderHistory, activeCart, savedCarts]) => {
-        this.pageSize = config.pageSize || this.PAGE_SIZE;
+    this.entries$ = combineLatest([this.context.data$]).pipe(
+      map(([data]) => {
         entries = [];
-        // notes: active cart does not have date
-        if (activeCart) {
+        data.activities.forEach((activity) => {
           entries.push({
-            typeId: 'activeCart',
-            id: activeCart.code,
-            created: undefined,
-            category: '',
+            ...activity,
+            typeLabel: activity.type?.name,
+            statusLabel: activity.status?.name,
           });
-          this.saveLocalization(
-            activeCart.code,
-            'type',
-            'customer360.activity.cart'
-          );
-          this.saveLocalization(
-            activeCart.code,
-            'description',
-            'customer360.activity.numberOfCartItems',
-            {
-              count: activeCart.totalItems ?? 0,
-            }
-          );
-        }
-
-        savedCarts?.forEach((cart) => {
-          entries.push({
-            typeId: 'savedCart',
-            id: cart.code,
-            created: cart?.saveTime
-              ? Date.parse(String(cart?.saveTime))
-              : undefined,
-            category: '',
-          });
-          this.saveLocalization(
-            cart.code,
-            'type',
-            'customer360.activity.savedCart'
-          );
-          this.saveLocalization(
-            cart.code,
-            'description',
-            'customer360.activity.numberOfCartItems',
-            {
-              count: cart.totalItems ?? 0,
-            }
-          );
         });
-        // Notes: order history order doesn't have totalItems
-        orderHistory.orders?.forEach((order) => {
-          entries.push({
-            typeId: 'orderHistory',
-            id: order.code,
-            created: order?.placed
-              ? Date.parse(String(order?.placed))
-              : undefined,
-            category: order.statusDisplay,
-          });
-          this.saveLocalization(
-            order.code,
-            'type',
-            'customer360.activity.order'
-          );
-        });
-        return this.getLocalizations().pipe(
-          map((valueLocalizations) => {
-            valueLocalizations.forEach((valueLocalization) => {
-              const entry = entries.find(
-                (item) => item.id === valueLocalization.id
-              );
-              if (entry && valueLocalization.propertyName) {
-                entry[valueLocalization.propertyName] = valueLocalization.value;
-              }
-            });
-            return entries;
-          })
-        );
+        return entries;
       })
     );
   }
 
-  itemSelected(entry: GeneralEntry | undefined): void {
+  itemSelected(entry: ActivityEntry | undefined): void {
     if (entry) {
       let urlCommand: UrlCommand;
-      if (entry.typeId === 'savedCart') {
+      if (entry.type?.code === 'savedCart') {
         urlCommand = {
           cxRoute: 'savedCartsDetails',
-          params: { savedCartId: entry?.id },
+          params: { savedCartId: entry?.associatedTypeId },
         };
-      } else if (entry.typeId === 'activeCart') {
+      } else if (entry.type?.code === 'activeCart') {
         urlCommand = {
           cxRoute: 'cart',
         };
-      } else if (entry.typeId === 'orderHistory') {
+      } else if (entry.type?.code === 'orderHistory') {
         urlCommand = {
           cxRoute: 'orderDetails',
-          params: { code: entry?.id },
+          params: { code: entry?.associatedTypeId },
         };
+      } else if(entry.type?.code === 'ticket') {
+        urlCommand = {
+          cxRoute: 'supportTicketDetails',
+          params: { code: entry?.associatedTypeId}
+        }
       }
       if (urlCommand) {
-        this.sectionContext.navigate$.next(urlCommand);
+        this.context.navigate$.next(urlCommand);
       }
-    }
-  }
-
-  private getLocalizations(): Observable<Array<ValueLocalization>> {
-    const translateRequests: Array<Observable<string>> = [];
-    // avoid duplicate calls
-    const filtredLocalizedValue = this.localizedValues.filter(
-      (item) => !item.value
-    );
-
-    filtredLocalizedValue.forEach((valueLocalization) => {
-      translateRequests.push(
-        this.translationService
-          .translate(valueLocalization.i18nNameKey, valueLocalization.options)
-          .pipe(take(1))
-      );
-    });
-
-    if (translateRequests.length) {
-      return forkJoin(translateRequests).pipe(
-        map((localizations) => {
-          localizations.forEach((item, index) => {
-            filtredLocalizedValue[index].value = item;
-            const orgIndex = this.localizedValues.findIndex(
-              (orgItem) =>
-                orgItem.i18nNameKey ===
-                  filtredLocalizedValue[index].i18nNameKey &&
-                orgItem.options === filtredLocalizedValue[index].options
-            );
-            this.localizedValues[orgIndex].value = item;
-          });
-          return this.localizedValues;
-        })
-      );
-    } else {
-      return of(this.localizedValues);
-    }
-  }
-
-  private saveLocalization(
-    id: string | undefined,
-    propertyName: string,
-    i18nNameKey: string,
-    options?: any
-  ): void {
-    const localizedValue = this.localizedValues.find(
-      (item) => item.id === id && item.propertyName === propertyName
-    );
-    if (!localizedValue) {
-      this.localizedValues.push({
-        i18nNameKey: i18nNameKey,
-        options: options,
-        propertyName: propertyName,
-        id: id,
-      });
     }
   }
 }
