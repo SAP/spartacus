@@ -7,13 +7,13 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  combineLatest,
-  defer,
   EMPTY,
   Observable,
-  queueScheduler,
   Subject,
   Subscription,
+  combineLatest,
+  defer,
+  queueScheduler,
   using,
 } from 'rxjs';
 import {
@@ -273,11 +273,10 @@ export class AuthHttpHeaderService implements OnDestroy {
           // we want to refresh the access token only when it is old.
           // this is a guard for the case when there are multiple parallel http calls
           if (
-            token &&
             token?.access_token === requestToken?.access_token &&
             !refreshTriggered
           ) {
-            this.refreshTokenTrigger$.next(token);
+            this.refreshTokenTrigger$.next(token as AuthToken); // TODO: CXSPA-3088 Type incongruity
           }
           refreshTriggered = true;
         }),

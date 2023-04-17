@@ -13,7 +13,6 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
-  getLastValueSync,
   OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -22,8 +21,9 @@ import {
   User,
   UserIdService,
   WindowRef,
+  getLastValueSync,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
+import { Observable, Subscription, combineLatest, of, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -425,7 +425,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           }
         }),
         switchMapTo(cartSelector$),
-        filter((cartState) => Boolean(cartState?.success || cartState?.error)),
+        filter((cartState) => Boolean(cartState.success || cartState.error)),
         // wait for active cart id to point to code/guid to avoid some work on temp cart entity
         withLatestFrom(this.activeCartId$),
         filter(
