@@ -21,7 +21,7 @@ import {
   distinctUntilChanged,
   map,
   share,
-  switchMapTo,
+  switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -79,13 +79,15 @@ export class QueryService implements OnDestroy {
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
+    const loader$ = loaderFactory().pipe(takeUntil(resetTrigger$));
+
     const load$ = loadTrigger$.pipe(
       tap(() => {
         if (!state$.value.loading) {
           state$.next({ ...state$.value, loading: true });
         }
       }),
-      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
+      switchMap(() => loader$),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),

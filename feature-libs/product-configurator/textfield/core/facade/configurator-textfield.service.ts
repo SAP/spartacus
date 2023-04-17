@@ -14,7 +14,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -199,7 +199,7 @@ export class ConfiguratorTextfieldService {
                 )
               )
             ),
-            switchMapTo(
+            switchMap(() =>
               this.store.pipe(
                 select(ConfiguratorTextFieldSelectors.getConfigurationContent)
               )

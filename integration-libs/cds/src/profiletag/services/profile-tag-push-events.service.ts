@@ -30,7 +30,7 @@ import {
   map,
   pairwise,
   startWith,
-  switchMapTo,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -379,7 +379,7 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartRemoveEntrySuccessEvent),
       this.eventService.get(MergeCartSuccessEvent)
     ).pipe(
-      switchMapTo(this.activeCartFacade.takeActive()),
+      switchMap(() => this.activeCartFacade.takeActive()),
       map(
         (cart) =>
           new CartSnapshotPushEvent({
