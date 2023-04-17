@@ -4,6 +4,6 @@
   sortProperty="created"
   [columns]="columns"
   [entries]="entries$ | async"
-  [pageSize]="pageSize"
+  [pageSize]="(context.config$ | async)?.pageSize"
   (selectItem)="itemSelected($event)"
 ></cx-asm-customer-table>
