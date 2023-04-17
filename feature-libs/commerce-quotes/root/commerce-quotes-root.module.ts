@@ -12,7 +12,11 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import {
+  CmsPageGuard,
+  LayoutConfig,
+  PageLayoutComponent,
+} from '@spartacus/storefront';
 import { CommerceQuotesEventModule } from './events/commerce-quotes-event.module';
 import { COMMERCE_QUOTES_FEATURE } from './feature-name';
 
@@ -24,6 +28,7 @@ export function defaultCommerceQuotesComponentsConfig() {
           'AccountMyQuotesComponent',
           'CommerceQuotesRequestComponent',
           'CommerceQuotesDetailsOverviewComponent',
+          'CommerceQuotesCartComponent',
           'CommerceQuotesActionLinksComponent',
           'CommerceQuotesActionsByRoleComponent',
         ],
@@ -47,6 +52,14 @@ export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
         paths: ['my-account/quotes/:quoteId/edit'],
         paramsMapping: { quoteId: 'quoteId' },
       },
+    },
+  },
+};
+
+export const defaultCommerceQuoteConfigLayoutConfig: LayoutConfig = {
+  layoutSlots: {
+    QuoteDetailsPageTemplate: {
+      slots: ['BodyContent', 'CenterRightContent'],
     },
   },
 };
@@ -78,6 +91,7 @@ export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
   providers: [
     provideDefaultConfigFactory(defaultCommerceQuotesComponentsConfig),
     provideDefaultConfig(defaultCommerceQuotesRoutingConfig),
+    provideDefaultConfig(defaultCommerceQuoteConfigLayoutConfig),
   ],
 })
 export class CommerceQuotesRootModule {}

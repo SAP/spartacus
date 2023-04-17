@@ -12,13 +12,17 @@ import { CommerceQuotesActionsByRoleModule } from './commerce-quotes-actions-by-
 import { CommerceQuotesListModule } from './commerce-quotes-list/commerce-quotes-list.module';
 import { CommerceQuotesRequestQuoteButtonModule } from './commerce-quotes-request-quote-button/commerce-quotes-request-quote-button.module';
 import { CommerceQuotesRequestQuoteDialogModule } from './commerce-quotes-request-quote-dialog/commerce-quotes-request-quote-dialog.module';
-import { CommerceQuotesDetailsOverviewModule } from './details/overview/commerce-quotes-details-overview.module';
+import {
+  CommerceQuotesDetailsCartModule,
+  CommerceQuotesDetailsOverviewModule,
+} from './details';
 
 @NgModule({
   imports: [
     CommonModule,
     CommerceQuotesListModule,
     CommerceQuotesDetailsOverviewModule,
+    CommerceQuotesDetailsCartModule,
     CommerceQuotesRequestQuoteButtonModule,
     CommerceQuotesRequestQuoteDialogModule,
     CommerceQuotesActionLinksModule,

@@ -36,7 +36,7 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_ORDERED,
 };
 
-class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+export class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
   getQuoteDetails(): Observable<QueryState<Quote>> {
     return of({ data: mockQuote, loading: false, error: false });
   }
