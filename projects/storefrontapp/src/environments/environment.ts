@@ -22,7 +22,8 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   occBaseUrl:
-    'https://localhost:9002',
+    // 'https://localhost:9002',
+  'https://api.cg79x9wuu9-eccommerc1-s5-public.model-t.myhybris.cloud',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,
@@ -31,5 +32,5 @@ export const environment: Environment = {
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
   s4om: buildProcess.env.CX_S4OM ?? false,
-  cdp: buildProcess.env.CX_CDP ?? true,
+  cdp: buildProcess.env.CX_CDP ?? false,
 };
