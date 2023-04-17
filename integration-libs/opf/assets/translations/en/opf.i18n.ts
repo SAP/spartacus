@@ -16,6 +16,9 @@ export const opf = {
       paymentOption: 'Payment option',
       termsAndConditions: 'Terms & Conditions',
       itemsToBeShipped: 'Items to be shipped',
+      notSupportedPaymentMethod:
+        'This payment method is not supported yet. Please choose a different one.',
+      proceedPayment: 'Continue',
     },
   },
 };

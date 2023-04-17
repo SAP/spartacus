@@ -16,6 +16,7 @@ import {
   OpfAdapter,
   OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
+  OPF_PAYMENT_CONFIG_SERIALIZER,
   OPF_VERIFY_PAYMENT_NORMALIZER,
 } from '@spartacus/opf/core';
 import {
@@ -23,6 +24,10 @@ import {
   OpfConfig,
   OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
+  OPF_CC_OTP_KEY,
+  OPF_CC_PUBLIC_KEY,
+  PaymentInitiationConfig,
+  PaymentSessionData,
 } from '@spartacus/opf/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -37,10 +42,10 @@ export class OccOpfAdapter implements OpfAdapter {
   ) {}
 
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    const headers = new HttpHeaders({
-      'sap-commerce-cloud-public-key':
-        this.config.opf?.commerceCloudPublicKey || '',
-    });
+    const headers = new HttpHeaders().set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
 
     return this.http
       .get<ActiveConfiguration[]>(this.getActiveConfigurationsEndpoint(), {
@@ -57,6 +62,40 @@ export class OccOpfAdapter implements OpfAdapter {
 
   protected getActiveConfigurationsEndpoint(): string {
     return this.opfEndpointsService.buildUrl('getActiveConfigurations');
+  }
+
+  /**
+   * TODO: Let's consider splitting this code into other files,
+   * as having all endpoint declarations in one file could
+   * make cooperation and maintenance difficult.
+   *
+   * TODO: Find a way to not duplicate code for setting configuration
+   * header everywhere. Maybe we should implement some interceptor?
+   */
+
+  initiatePayment(
+    paymentConfig: PaymentInitiationConfig
+  ): Observable<PaymentSessionData> {
+    const headers = new HttpHeaders({
+      'Content-Language': 'en-us',
+    })
+      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
+      .set(OPF_CC_OTP_KEY, paymentConfig?.otpKey || '');
+
+    const url = this.getInitiatePaymentEndpoint();
+
+    paymentConfig = this.converter.convert(
+      paymentConfig,
+      OPF_PAYMENT_CONFIG_SERIALIZER
+    );
+
+    return this.http
+      .post<PaymentSessionData>(url, paymentConfig?.config, { headers })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+  }
+
+  protected getInitiatePaymentEndpoint(): string {
+    return this.opfEndpointsService.buildUrl('initiatePayment');
   }
 
   getVerifyPayment(

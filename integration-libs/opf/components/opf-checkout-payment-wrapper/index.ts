@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-checkout.facade';
-export * from './opf-otp.facade';
+export * from './opf-checkout-payment-wrapper.component';
+export * from './opf-checkout-payment-wrapper.module';

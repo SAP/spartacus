@@ -1,0 +1,22 @@
+<ng-container *ngIf="paymentData$ | async as paymentData; else loading">
+  <div class="cx-notice">
+    <ng-container *ngIf="!paymentData?.destination?.url; else paymentLink">
+      <p>
+        {{ 'opf.checkout.notSupportedPaymentMethod' | cxTranslate }}
+      </p>
+    </ng-container>
+
+    <ng-template #paymentLink>
+      <a
+        [ngClass]="'btn btn-primary btn-block'"
+        [href]="paymentData?.destination?.url"
+      >
+        {{ 'opf.checkout.proceedPayment' | cxTranslate }}
+      </a>
+    </ng-template>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>

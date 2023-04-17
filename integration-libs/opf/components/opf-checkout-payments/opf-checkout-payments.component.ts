@@ -5,8 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ActiveConfiguration, OpfCheckoutFacade } from '@spartacus/opf/root';
-import { filter, map, tap } from 'rxjs/operators';
+import {
+  ActiveConfiguration,
+  OpfCheckoutFacade,
+  OpfOtpFacade,
+} from '@spartacus/opf/root';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -18,12 +22,7 @@ export class OpfCheckoutPaymentsComponent {
     .getActiveConfigurationsState()
     .pipe(
       filter((state) => !state.loading),
-      map((state) => state.data),
-      tap((activeConfiguratons) => {
-        if (activeConfiguratons?.length) {
-          this.selectedPaymentId = activeConfiguratons[0].id;
-        }
-      })
+      map((state) => state.data)
     );
 
   @Input()
@@ -31,7 +30,10 @@ export class OpfCheckoutPaymentsComponent {
 
   selectedPaymentId?: number;
 
-  constructor(private opfCheckoutService: OpfCheckoutFacade) {}
+  constructor(
+    protected opfCheckoutService: OpfCheckoutFacade,
+    protected opfOtpService: OpfOtpFacade
+  ) {}
 
   changePayment(payment: ActiveConfiguration): void {
     this.selectedPaymentId = payment.id;

@@ -5,3 +5,4 @@
  */
 
 export * from './occ-opf.adapter';
+export * from './occ-otp.adapter';

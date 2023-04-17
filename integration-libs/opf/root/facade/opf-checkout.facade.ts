@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OPF_FEATURE } from '../feature-name';
+import { PaymentInitiationConfig, PaymentSessionData } from '../model';
 import {
   ActiveConfiguration,
   OpfVerifyPaymentPayload,
@@ -20,7 +21,11 @@ import {
     facadeFactory({
       facade: OpfCheckoutFacade,
       feature: OPF_FEATURE,
-      methods: ['getActiveConfigurationsState', 'getVerifyPaymentState'],
+      methods: [
+        'getActiveConfigurationsState',
+        'getVerifyPaymentState',
+        'initiatePayment',
+      ],
     }),
 })
 export abstract class OpfCheckoutFacade {
@@ -30,6 +35,17 @@ export abstract class OpfCheckoutFacade {
   abstract getActiveConfigurationsState(): Observable<
     QueryState<ActiveConfiguration[] | undefined>
   >;
+
+  /**
+   * Abstract method used to initiate payment session
+   * or call the PSP to initiate.
+   *
+   * @param {PaymentInitiationConfig} paymentConfig
+   *
+   */
+  abstract initiatePayment(
+    paymentConfig: PaymentInitiationConfig
+  ): Observable<PaymentSessionData>;
 
   /**
    * getVerifyPaymentState

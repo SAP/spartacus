@@ -12,6 +12,10 @@ declare module '@spartacus/core' {
      * Endpoint to get active payment configurations
      */
     getActiveConfigurations?: string | OccEndpoint;
+    /**
+     * Endpoint to initiate payment session or call the PSP to initiate.
+     */
+    initiatePayment?: string | OccEndpoint;
     getVerifyPayment?: string | OccEndpoint;
   }
 }

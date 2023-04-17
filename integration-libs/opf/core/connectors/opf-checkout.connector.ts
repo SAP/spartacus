@@ -9,7 +9,10 @@ import {
   ActiveConfiguration,
   OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
+  PaymentInitiationConfig,
+  PaymentSessionData,
 } from '@spartacus/opf/root';
+
 import { Observable } from 'rxjs';
 import { OpfAdapter } from './opf.adapter';
 
@@ -19,6 +22,12 @@ export class OpfCheckoutConnector {
 
   public getActiveConfigurations(): Observable<ActiveConfiguration[]> {
     return this.adapter.getActiveConfigurations();
+  }
+
+  public initiatePayment(
+    paymentConfig: PaymentInitiationConfig
+  ): Observable<PaymentSessionData> {
+    return this.adapter.initiatePayment(paymentConfig);
   }
 
   public getVerifyPayment(

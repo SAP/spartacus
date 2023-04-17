@@ -25,6 +25,10 @@
           {{ configuration.displayName }}
         </div>
       </label>
+      <cx-opf-checkout-payment-wrapper
+        *ngIf="configuration.id === selectedPaymentId"
+        [selectedPaymentId]="selectedPaymentId"
+      ></cx-opf-checkout-payment-wrapper>
     </div>
   </div>
 </ng-container>
