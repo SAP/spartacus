@@ -17,10 +17,13 @@ import {
   FocusConfig,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { GeneralEntry } from '../sections/asm-customer-activity/asm-customer-activity.model';
 
 import { AsmCustomerTableComponent } from './asm-customer-table.component';
-import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
+import {
+  CustomerTableColumn,
+  GeneralEntry,
+  TableEntry,
+} from './asm-customer-table.model';
 
 @Directive({
   selector: '[cxFocus]',

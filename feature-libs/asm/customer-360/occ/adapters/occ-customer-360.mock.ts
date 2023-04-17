@@ -7,6 +7,7 @@
 //TODO will remove this file when the backend is ready!!
 import {
   Customer360ActiveCart,
+  Customer360ActivityList,
   Customer360CustomerProfile,
   Customer360Overview,
   Customer360ProductInterestList,
@@ -242,6 +243,60 @@ export const mockSavedCart: Customer360SavedCart = {
   ],
 };
 
+export const mockActivityList: Customer360ActivityList = {
+  type: Customer360Type.ACTIVITY_LIST,
+  activities: [
+    {
+      type: {
+        code: 'CART',
+        name: 'Cart',
+      },
+      associatedTypeId: '0001',
+      description: 'Mock active cart',
+      createdAt: '2023-02-10T12:52:33+08:00',
+      updatedAt: '2023-02-10T12:52:33+08:00',
+    },
+    {
+      type: {
+        code: 'SAVED CART',
+        name: 'Saved Cart',
+      },
+      associatedTypeId: '0002',
+      description: 'Mock saved cart',
+      createdAt: '2023-01-10T12:53:33+08:00',
+      updatedAt: '2023-01-10T12:54:33+08:00',
+    },
+    {
+      type: {
+        code: 'ORDER',
+        name: 'Order',
+      },
+      associatedTypeId: '0003',
+      status: {
+        code: 'READY',
+        name: 'Ready',
+      },
+      description: 'Mock Order',
+      createdAt: '2023-01-10T12:54:33+08:00',
+      updatedAt: '2023-01-10T12:54:33+08:00',
+    },
+    {
+      type: {
+        code: 'TICKET',
+        name: 'Ticket',
+      },
+      associatedTypeId: '0004',
+      status: {
+        code: 'NEW',
+        name: 'New',
+      },
+      description: 'Mock Ticket',
+      createdAt: '2023-01-10T12:56:33+08:00',
+      updatedAt: '2023-01-10T12:56:33+08:00',
+    },
+  ],
+};
+
 export const mockCustomer360Response: Customer360Response = {
   value: [
     mockReviewList,
@@ -252,5 +307,6 @@ export const mockCustomer360Response: Customer360Response = {
     mockActiveCart,
     mockSavedCart,
     mockOverview,
+    mockActivityList,
   ],
 };
