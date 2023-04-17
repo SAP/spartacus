@@ -94,11 +94,11 @@ export class AsmCustomerActivityComponent implements OnInit {
           cxRoute: 'orderDetails',
           params: { code: entry?.associatedTypeId },
         };
-      } else if(entry.type?.code === TypeCodes.Ticket) {
+      } else if (entry.type?.code === TypeCodes.Ticket) {
         urlCommand = {
           cxRoute: 'supportTicketDetails',
-          params: { code: entry?.associatedTypeId}
-        }
+          params: { code: entry?.associatedTypeId },
+        };
       }
       if (urlCommand) {
         this.context.navigate$.next(urlCommand);

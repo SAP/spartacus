@@ -101,7 +101,7 @@ describe('AsmCustomerActivityComponent', () => {
         description: 'Where are my products?',
         status: {
           code: 'NEW',
-          name: 'new'
+          name: 'new',
         },
         createdAt: '2022-07-07T18:25:43+0000',
         updatedAt: '2022-07-07T18:25:43+0000',
@@ -115,7 +115,7 @@ describe('AsmCustomerActivityComponent', () => {
         description: 'Ordered items',
         status: {
           code: 'READY',
-          name: 'Ready'
+          name: 'Ready',
         },
         createdAt: '2022-07-07T18:25:43+0000',
         updatedAt: '2022-07-07T18:25:43+0000',

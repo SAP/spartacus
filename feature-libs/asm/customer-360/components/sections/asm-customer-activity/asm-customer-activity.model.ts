@@ -15,5 +15,5 @@ export enum TypeCodes {
   SavedCart = 'SAVED CART',
   Cart = 'CART',
   Ticket = 'TICKET',
-  Order = 'ORDER'
+  Order = 'ORDER',
 }

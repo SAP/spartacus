@@ -274,7 +274,7 @@ export const mockActivityList: Customer360ActivityList = {
       associatedTypeId: '0003',
       status: {
         code: 'READY',
-        name: 'Ready'
+        name: 'Ready',
       },
       description: 'Mock Order',
       createdAt: '2023-01-10T12:54:33+08:00',
@@ -288,7 +288,7 @@ export const mockActivityList: Customer360ActivityList = {
       associatedTypeId: '0004',
       status: {
         code: 'NEW',
-        name: 'New'
+        name: 'New',
       },
       description: 'Mock Ticket',
       createdAt: '2023-01-10T12:56:33+08:00',
