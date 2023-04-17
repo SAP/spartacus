@@ -13,6 +13,7 @@ import {
   Quote,
   QuoteActionType,
   QuoteList,
+  QuoteState,
 } from '@spartacus/commerce-quotes/root';
 import {
   I18nTestingModule,
@@ -157,14 +158,10 @@ describe('CommerceQuotesListComponent', () => {
 
     //when
     fixture.detectChanges();
-    const header = fixture.debugElement.query(By.css('#header'));
     const sorting = fixture.debugElement.query(By.css('cx-sorting'));
     const table = fixture.debugElement.query(By.css('#commerce-quotes-list'));
 
     //then
-    expect(header.nativeElement.textContent).toEqual(
-      'commerceQuotes.list.header'
-    );
     expect(sorting.nativeElement).not.toBeNull();
     expect(table.nativeElement).not.toBeNull();
   });
@@ -203,6 +200,35 @@ describe('CommerceQuotesListComponent', () => {
     const elements = fixture.debugElement.queryAll(By.css('cx-pagination'));
 
     //then
-    expect(elements.length).toEqual(2);
+    expect(elements.length).toEqual(1);
+  });
+
+  describe('getQuoteStateClass', () => {
+    it('should apply the quote class depending on the given quote state', () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [
+            { ...mockQuote, state: QuoteState.BUYER_DRAFT },
+            { ...mockQuote, cartId: '1235', state: QuoteState.BUYER_REJECTED },
+            { ...mockQuote, cartId: '1235', state: QuoteState.CANCELLED },
+            { ...mockQuote, cartId: '1235', state: QuoteState.BUYER_SUBMITTED },
+          ],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-commerce-quotes-list-quote-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toContain('quote-draft');
+      expect(quoteStateLinks[1].attributes.class).toContain('quote-rejected');
+      expect(quoteStateLinks[2].attributes.class).toContain('quote-cancelled');
+      expect(quoteStateLinks[3].attributes.class).toContain('quote-submitted');
+    });
   });
 });

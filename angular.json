@@ -1138,6 +1138,7 @@
           "options": {
             "main": "feature-libs/commerce-quotes/test.ts",
             "tsConfig": "feature-libs/commerce-quotes/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "karmaConfig": "feature-libs/commerce-quotes/karma.conf.js"
           }
         },

@@ -109,7 +109,6 @@
     "@angular/common": "^15.2.4",
     "@angular/core": "^15.2.4",
     "@angular/forms": "^15.2.4",
-    "@angular/platform-browser-dynamic": "^15.2.4",
     "@angular/router": "^15.2.4",
     "@spartacus/cart": "5.0.0",
     "@spartacus/core": "5.0.0",
@@ -118,8 +117,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0",
-    "zone.js": "~0.11.8"
+    "rxjs": "^6.6.0"
   },
   "@spartacus/customer-ticketing": {
     "@angular-devkit/schematics": "^15.2.4",

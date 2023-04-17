@@ -1,18 +1,43 @@
 %cx-commerce-quotes-list {
   @extend .cx-agnostic-table;
   table {
+    th {
+      text-transform: capitalize;
+      text-align: start;
+      &:nth-last-of-type(1) {
+        text-align: start;
+      }
+    }
     tr {
       &:hover {
         background-color: var(--cx-color-background);
+        cursor: pointer;
+      }
+    }
+    td {
+      text-align: start;
+      &:nth-last-of-type(1) {
+        text-align: start;
       }
     }
 
-    a {
-      color: var(--cx-color-text);
-    }
-
-    .cx-commerce-quotes-list-quote-name > a {
-      text-decoration: underline;
+    tbody {
+      a {
+        color: var(--cx-color-text);
+        text-decoration: none;
+      }
+      .quote-draft {
+        color: var(--cx-color-dark);
+      }
+      .quote-rejected {
+        color: var(--cx-color-warning);
+      }
+      .quote-submitted {
+        color: var(--cx-color-success);
+      }
+      .quote-cancelled {
+        color: var(--cx-color-danger);
+      }
     }
   }
 
@@ -51,14 +76,10 @@
   }
 
   .cx-commerce-quotes-list-form-group {
-    margin: 1rem 0 0 0;
-    align-items: center;
-    display: flex;
     width: 40%;
-
-    span {
-      margin-inline-end: 0.5rem;
-      flex: none;
+    .sortBy-heading {
+      font-size: var(--cx-font-size, 1rem);
+      font-weight: var(--cx-font-weight-semi);
     }
 
     cx-sorting {
