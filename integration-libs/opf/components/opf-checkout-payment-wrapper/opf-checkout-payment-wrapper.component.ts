@@ -26,8 +26,11 @@ import { filter, map, switchMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit {
-  @Input()
-  paymentData?: PaymentSessionData;
+  @Input() selectedPaymentId: number;
+
+  paymentData$: Observable<PaymentSessionData>;
+
+  protected activeCartId: string;
 
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
@@ -35,12 +38,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService
   ) {}
-
-  @Input() selectedPaymentId: number;
-
-  paymentData$: Observable<PaymentSessionData>;
-
-  protected activeCartId: string;
 
   // TODO: Move this logic to the service
   initiatePayment(): Observable<PaymentSessionData> {

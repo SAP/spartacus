@@ -65,6 +65,9 @@ export class OccOpfAdapter implements OpfAdapter {
    * TODO: Let's consider splitting this code into other files,
    * as having all endpoint declarations in one file could
    * make cooperation and maintenance difficult.
+   *
+   * TODO: Find a way to not duplicate code for setting configuration
+   * header everywhere. Maybe we should implement some interceptor?
    */
 
   initiatePayment(
