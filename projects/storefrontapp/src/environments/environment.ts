@@ -22,7 +22,7 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   occBaseUrl:
-    'https://api.cg79x9wuu9-eccommerc1-s5-public.model-t.myhybris.cloud',
+    'https://localhost:9002',
     // 'https://10.237.103.83:9002/',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,

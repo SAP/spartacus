@@ -57,14 +57,23 @@
     </tr>
   </table>
 
-  <table class="cx-cdp-side-table" style="display:none">
+  <table class="cx-cdp-side-table">
     <th>{{ 'cdpOrderHistory.customerService' | cxTranslate }}</th>
     <tr>
       <td>
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.HEADSET"></cx-icon>
         </span>
-        {{ 'cdpOrderHistory.request' | cxTranslate }}
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'requests'
+            } | cxUrl
+          "
+          > {{ 'cdpOrderHistory.request' | cxTranslate }}
+        </a>
+       
       </td>
     </tr>
     <tr style="display: none">
