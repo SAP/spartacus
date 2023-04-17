@@ -72,9 +72,13 @@
                       role="columnheader"
                       *ngFor="let column of customerListConfig?.columns"
                     >
-                      <span *ngIf="column.headerLocalizationKey">{{
-                        column.headerLocalizationKey | cxTranslate
-                      }}</span>
+                      <span
+                        *ngIf="
+                          column.headerLocalizationKey &&
+                          column.headerLocalizationKey !== 'hideAccount'
+                        "
+                        >{{ column.headerLocalizationKey | cxTranslate }}</span
+                      >
                     </th>
                   </tr>
                 </thead>
@@ -203,7 +207,10 @@
   let-column="column"
   let-showHeader="showHeader"
 >
-  <div class="cx-cell-container">
+  <div
+    class="cx-cell-container"
+    *ngIf="column.headerLocalizationKey !== 'hideAccount'"
+  >
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
     </span>

@@ -36,7 +36,7 @@ context('B2B - ASM Account Checkout', () => {
     checkout.visitHomePage('asm=true');
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
-    asm.agentLogin();
+    asm.agentLogin('asagent', 'pw4all');
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 
@@ -66,7 +66,7 @@ context('B2B - ASM Account Checkout', () => {
     checkout.visitHomePage('asm=true');
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
-    asm.agentLogin();
+    asm.agentLogin('asagent', 'pw4all');
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 

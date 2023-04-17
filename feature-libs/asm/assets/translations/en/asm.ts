@@ -42,6 +42,7 @@ export const asm = {
         name: 'Name',
         email: 'Email',
         phone: 'Phone',
+        account: 'Account',
         cart: 'Cart',
         order: 'Order',
       },
