@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -17,30 +18,32 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
-  defaultOpfConfig,
   KeyValuePair,
   OpfCheckoutFacade,
   OpfConfig,
   OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
 } from '@spartacus/opf/root';
-import { OrderFacade } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, throwError } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { Order, OrderFacade } from '@spartacus/order/root';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { Observable, Subscription, throwError } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-verify-payment',
   templateUrl: './opf-verify-payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfVerifyPaymentComponent implements OnInit {
+export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
   verifyPaymentPayload?: OpfVerifyPaymentPayload;
   paymentSessionId?: string;
   isAuthorized?: string;
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
   paymentObs$: Observable<OpfVerifyPaymentResponse | undefined>;
   path?: string;
+  obs$?: Observable<Order>;
+  subscription?: Subscription;
+  loader?: boolean;
 
   constructor(
     protected route: ActivatedRoute,
@@ -52,24 +55,16 @@ export class OpfVerifyPaymentComponent implements OnInit {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  ngOnInit(): void {
-    console.log('ngOnInit');
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
-    this.route.url
+  ngOnInit(): void {
+    this.subscription = this.route.queryParams
       .pipe(
         take(1),
-        map((segments) => segments.join('/')),
-        switchMap((url: string) => {
-          console.log(
-            'defaultOpfConfig.opf?.successUrl',
-            defaultOpfConfig.opf?.successUrl
-          );
-          console.log('url', url);
-          this.path = url.includes(defaultOpfConfig.opf?.successUrl as string)
-            ? 'SuccessPath'
-            : 'CancelPath';
-          return this.route.queryParams;
-        }),
         switchMap((params) => {
           if (!params) return throwError('No params');
 
@@ -81,31 +76,29 @@ export class OpfVerifyPaymentComponent implements OnInit {
           if (!this.paymentSessionId)
             return throwError('No paymentSessionId found');
 
-          return this.opfCheckoutService.getVerifyPaymentState(
-            this.paymentSessionId,
-            { responseMap: [...list] }
-          );
+          return this.opfCheckoutService.verifyPayment(this.paymentSessionId, {
+            responseMap: [...list],
+          });
         }),
-        filter((state) => !state.loading),
-        map((state) => state.data),
+
         switchMap((response: OpfVerifyPaymentResponse) => {
-          if (response?.result === 'AUTHORIZED') {
-            return this.orderFacade.placeOrder(true);
-          } else {
-            return throwError('PSP returned UNAUTHORIZED');
-          }
+          return response?.result === 'AUTHORIZED'
+            ? this.orderFacade.placeOrder(true)
+            : throwError('UNAUTHORIZED payment from OPF Adapter');
         })
       )
       .subscribe({
         error: (error) => {
           console.log('getVerifyPaymentState ERROR', error);
-          this.displayErrorMessage(error);
+          this.globalMessageService.add(
+            error,
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
           this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
         },
 
         next: (response) => {
           console.log('order response', response);
-
           this.routingService.go({ cxRoute: 'orderConfirmation' });
         },
       });
@@ -115,34 +108,5 @@ export class OpfVerifyPaymentComponent implements OnInit {
     return (
       list.find((pair) => pair.key === 'paymentSessionId')?.value ?? undefined
     );
-  }
-
-  displayErrorMessage(message: string) {
-    this.globalMessageService.add(message, GlobalMessageType.MSG_TYPE_ERROR);
-  }
-
-  placeOrder() {
-    // true as user already checked T&C from last Checkout step
-    this.orderFacade.placeOrder(true).subscribe({
-      error: () => {
-        if (!this.placedOrder) {
-          return;
-        }
-
-        this.placedOrder
-          .subscribe((component) => {
-            this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
-            if (component) {
-              component.destroy();
-            }
-          })
-          .unsubscribe();
-      },
-      next: () => this.onSuccess(),
-    });
-  }
-
-  onSuccess(): void {
-    this.routingService.go({ cxRoute: 'orderConfirmation' });
   }
 }

@@ -6,20 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SpinnerModule } from '@spartacus/storefront';
 import { OpfVerifyPaymentComponent } from './opf-verify-payment.component';
 
 @NgModule({
   declarations: [OpfVerifyPaymentComponent],
-  imports: [CommonModule],
-  // providers: [
-  //   provideDefaultConfig(<CmsConfig>{
-  //     cmsComponents: {
-  //       OpfVerifyPaymentComponent: {
-  //         component: OpfVerifyPaymentComponent,
-  //       },
-  //     },
-  //   }),
-  // ],
+  imports: [CommonModule, SpinnerModule],
   exports: [OpfVerifyPaymentComponent],
 })
 export class OpfVerifyPaymentModule {}

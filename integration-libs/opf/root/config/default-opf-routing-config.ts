@@ -16,9 +16,6 @@ export const defaultOPFRoutingConfig: RoutingConfig = {
           defaultOpfConfig.opf?.cancelUrl as string,
         ],
       },
-      verifypayment: {
-        paths: ['verify-payment'],
-      },
     },
   },
 };

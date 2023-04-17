@@ -39,16 +39,18 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     this.opfCheckoutConnector.initiatePayment(payload.paymentConfig)
   );
 
-  protected verifyPaymentQuery = (
-    paymentSessionId: string,
-    payload: OpfVerifyPaymentPayload
-  ): Query<OpfVerifyPaymentResponse> =>
-    this.queryService.create<OpfVerifyPaymentResponse>(() => {
-      return this.opfCheckoutConnector.getVerifyPayment(
-        paymentSessionId,
-        payload
-      );
-    });
+  protected verifyPaymentCommand: Command<
+    {
+      paymentSessionId: string;
+      verifyPaymentData: OpfVerifyPaymentPayload;
+    },
+    OpfVerifyPaymentResponse
+  > = this.commandService.create((payload) =>
+    this.opfCheckoutConnector.getVerifyPayment(
+      payload.paymentSessionId,
+      payload.verifyPaymentData
+    )
+  );
 
   constructor(
     protected queryService: QueryService,
@@ -68,10 +70,13 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     return this.initiatePaymentCommand.execute({ paymentConfig });
   }
 
-  getVerifyPaymentState(
+  verifyPayment(
     paymentSessionId: string,
-    payload: OpfVerifyPaymentPayload
-  ): Observable<QueryState<OpfVerifyPaymentResponse | undefined>> {
-    return this.verifyPaymentQuery(paymentSessionId, payload).getState();
+    verifyPaymentData: OpfVerifyPaymentPayload
+  ): Observable<OpfVerifyPaymentResponse> {
+    return this.verifyPaymentCommand.execute({
+      paymentSessionId,
+      verifyPaymentData,
+    });
   }
 }

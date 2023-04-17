@@ -7,7 +7,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
-import { CmsPageGuard } from '@spartacus/storefront';
 import { OpfVerifyPaymentComponent } from '../components/opf-verify-payment';
 import { defaultOPFRoutingConfig } from './config';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
@@ -17,19 +16,9 @@ import { opfConfidValidator } from './config/opf-config-validator';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      // { path: 'redirect/success', redirectTo: 'verify-payment' },
-      // {
-      //   // @ts-ignore
-      //   path: null,
-      //   component: OpfPaymentResponseComponent,
-      //   data: {
-      //     cxRoute: 'paymentresponse',
-      //   },
-      // },
       {
         // @ts-ignore
         path: null,
-        canActivate: [CmsPageGuard],
         component: OpfVerifyPaymentComponent,
         data: {
           cxRoute: 'paymentresponse',

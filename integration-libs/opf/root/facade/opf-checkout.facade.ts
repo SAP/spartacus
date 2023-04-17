@@ -23,7 +23,7 @@ import {
       feature: OPF_FEATURE,
       methods: [
         'getActiveConfigurationsState',
-        'getVerifyPaymentState',
+        'verifyPayment',
         'initiatePayment',
       ],
     }),
@@ -48,12 +48,12 @@ export abstract class OpfCheckoutFacade {
   ): Observable<PaymentSessionData>;
 
   /**
-   * getVerifyPaymentState
+   * verifyPayment
    *
    * @param params Object with paymentSessionId and payload
    */
-  abstract getVerifyPaymentState(
+  abstract verifyPayment(
     paymentSessionId: string,
-    payload: OpfVerifyPaymentPayload
-  ): Observable<QueryState<OpfVerifyPaymentResponse | undefined>>;
+    verifyPaymentdata: OpfVerifyPaymentPayload
+  ): Observable<OpfVerifyPaymentResponse>;
 }
