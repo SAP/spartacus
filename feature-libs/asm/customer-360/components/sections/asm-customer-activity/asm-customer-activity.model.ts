@@ -10,3 +10,10 @@ export interface ActivityEntry extends Customer360Activity {
   typeLabel?: string;
   statusLabel?: string;
 }
+
+export enum TypeCodes {
+  SavedCart = 'SAVED CART',
+  Cart = 'CART',
+  Ticket = 'TICKET',
+  Order = 'ORDER'
+}

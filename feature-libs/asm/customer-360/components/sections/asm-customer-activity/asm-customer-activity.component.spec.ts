@@ -70,7 +70,7 @@ describe('AsmCustomerActivityComponent', () => {
     activities: [
       {
         type: {
-          code: 'savedCart',
+          code: 'SAVED CART',
           name: 'Saved Cart',
         },
         associatedTypeId: '0001',

@@ -11,7 +11,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { ActivityEntry } from './asm-customer-activity.model';
+import { ActivityEntry, TypeCodes } from './asm-customer-activity.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,21 +80,21 @@ export class AsmCustomerActivityComponent implements OnInit {
   itemSelected(entry: ActivityEntry | undefined): void {
     if (entry) {
       let urlCommand: UrlCommand;
-      if (entry.type?.code === 'savedCart') {
+      if (entry.type?.code === TypeCodes.SavedCart) {
         urlCommand = {
           cxRoute: 'savedCartsDetails',
           params: { savedCartId: entry?.associatedTypeId },
         };
-      } else if (entry.type?.code === 'activeCart') {
+      } else if (entry.type?.code === TypeCodes.Cart) {
         urlCommand = {
           cxRoute: 'cart',
         };
-      } else if (entry.type?.code === 'orderHistory') {
+      } else if (entry.type?.code === TypeCodes.Order) {
         urlCommand = {
           cxRoute: 'orderDetails',
           params: { code: entry?.associatedTypeId },
         };
-      } else if(entry.type?.code === 'ticket') {
+      } else if(entry.type?.code === TypeCodes.Ticket) {
         urlCommand = {
           cxRoute: 'supportTicketDetails',
           params: { code: entry?.associatedTypeId}

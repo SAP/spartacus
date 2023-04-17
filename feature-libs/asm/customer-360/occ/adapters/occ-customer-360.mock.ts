@@ -248,7 +248,7 @@ export const mockActivityList: Customer360ActivityList = {
   activities: [
     {
       type: {
-        code: 'activeCart',
+        code: 'CART',
         name: 'Cart',
       },
       associatedTypeId: '779841',
@@ -262,7 +262,7 @@ export const mockActivityList: Customer360ActivityList = {
     },
     {
       type: {
-        code: 'savedCart',
+        code: 'SAVED CART',
         name: 'Saved Cart',
       },
       associatedTypeId: '0002',
