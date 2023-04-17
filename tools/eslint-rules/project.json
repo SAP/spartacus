@@ -10,6 +10,12 @@
         "jestConfig": "tools/eslint-rules/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["tools/eslint-rules/**/*.ts"]
+      }
     }
   }
 }
