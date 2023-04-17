@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-checkout.facade';
-export * from './opf-otp.facade';
+export const OPF_CC_PUBLIC_KEY = 'sap-commerce-cloud-public-key';
+export const OPF_CC_OTP_KEY = 'sap-commerce-cloud-otp';

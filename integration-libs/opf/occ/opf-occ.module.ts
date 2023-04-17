@@ -7,9 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OpfAdapter } from '@spartacus/opf/core';
+import { OpfAdapter, OtpAdapter } from '@spartacus/opf/core';
 import { OccOpfAdapter } from './adapters/occ-opf.adapter';
+import { OccOtpAdapter } from './adapters/occ-otp.adapter';
 import { defaultOccOpfConfig } from './config/default-occ-opf-config';
+import { defaultOccOtpConfig } from './config/default-occ-otp-config';
 
 @NgModule({
   imports: [CommonModule],
@@ -18,6 +20,11 @@ import { defaultOccOpfConfig } from './config/default-occ-opf-config';
     {
       provide: OpfAdapter,
       useClass: OccOpfAdapter,
+    },
+    provideDefaultConfig(defaultOccOtpConfig),
+    {
+      provide: OtpAdapter,
+      useClass: OccOtpAdapter,
     },
   ],
 })

@@ -9,12 +9,8 @@ import { OccEndpoint } from '@spartacus/core';
 declare module '@spartacus/core' {
   interface OccEndpoints {
     /**
-     * Endpoint to get active payment configurations
+     * Endpoint to generate OTP for specified cart id.
      */
-    getActiveConfigurations?: string | OccEndpoint;
-    /**
-     * Endpoint to initiate payment session or call the PSP to initiate.
-     */
-    initiatePayment?: string | OccEndpoint;
+    generateOtpKey?: string | OccEndpoint;
   }
 }
