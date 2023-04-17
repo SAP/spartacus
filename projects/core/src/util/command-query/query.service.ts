@@ -8,20 +8,20 @@ import { Injectable, OnDestroy, Type } from '@angular/core';
 import {
   BehaviorSubject,
   EMPTY,
+  Observable,
+  Subscription,
   iif,
   isObservable,
   merge,
-  Observable,
   of,
-  Subscription,
   using,
 } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
-  pluck,
+  map,
   share,
-  switchMapTo,
+  switchMap,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -83,13 +83,15 @@ export class QueryService implements OnDestroy {
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
+    const loader$ = loaderFactory().pipe(takeUntil(resetTrigger$));
+
     const load$ = loadTrigger$.pipe(
       tap(() => {
         if (!state$.value.loading) {
           state$.next({ ...state$.value, loading: true });
         }
       }),
-      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
+      switchMap(() => loader$),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
@@ -131,7 +133,10 @@ export class QueryService implements OnDestroy {
       () => state$
     );
 
-    const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
+    const data$ = query$.pipe(
+      map((queryState) => queryState.data),
+      distinctUntilChanged()
+    );
 
     return { get: () => data$, getState: () => query$ };
   }

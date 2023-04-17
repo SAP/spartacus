@@ -25,7 +25,7 @@ import {
   isNotUndefined,
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
-import { filter, mapTo, share, tap } from 'rxjs/operators';
+import { filter, map, share, tap } from 'rxjs/operators';
 import { CmsFeaturesService } from './cms-features.service';
 
 /**
@@ -103,7 +103,7 @@ export class CmsComponentsService {
       }
 
       if (featureResolvers.length) {
-        return forkJoin(featureResolvers).pipe(mapTo(componentTypes));
+        return forkJoin(featureResolvers).pipe(map(() => componentTypes));
       } else {
         return of(componentTypes);
       }
