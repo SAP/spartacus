@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
+import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
 
 /**
@@ -114,6 +115,10 @@ export class OAuthLibWrapperService {
    * Initialize Implicit Flow or Authorization Code flows with the redirect to OAuth login url.
    */
   initLoginFlow() {
+    if (this.winRef.localStorage) {
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    }
+
     return this.oAuthService.initLoginFlow();
   }
 

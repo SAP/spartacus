@@ -8,10 +8,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import {
-  distinctUntilChanged,
   filter,
   map,
   switchMap,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -139,11 +139,11 @@ export class UserConsentService {
       this.authService.isUserLoggedIn(),
       this.userIdService.getUserId(),
     ]).pipe(
-      distinctUntilChanged(),
       filter(
         ([loggedIn, userId]) => loggedIn && userId === OCC_USER_ID_CURRENT
       ),
       switchMap(() => this.getConsents(true)),
+      take(1),
       switchMap(() =>
         (<Store<StateWithUser>>this.store).pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
