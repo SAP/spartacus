@@ -96,3 +96,6 @@ echo "Running unit tests and code coverage for schematics library"
 
 npm --prefix projects/schematics run test --runInBand -- --coverage
 
+echo "Running unit tests and code coverage for eslint-rules"
+
+nx test eslint-rules --source-map --no-watch --code-coverage --browsers ChromeHeadless
