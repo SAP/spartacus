@@ -14,7 +14,6 @@ import {
   map,
   shareReplay,
   switchMap,
-  switchMapTo,
   take,
   tap,
 } from 'rxjs/operators';
@@ -77,9 +76,9 @@ export class MerchandisingCarouselComponent {
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
     take(1),
-    switchMapTo(
+    switchMap(() =>
       this.routingService.getPageContext().pipe(
-        switchMapTo(this.componentData.data$),
+        switchMap(() => this.componentData.data$),
         map((data) =>
           this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
             data
@@ -102,7 +101,7 @@ export class MerchandisingCarouselComponent {
                     tap((model) => {
                       this.lastEventModelId = model.id;
                     }),
-                    switchMapTo(EMPTY)
+                    switchMap(() => EMPTY)
                   );
               })
             )

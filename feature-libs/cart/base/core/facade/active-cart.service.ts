@@ -13,7 +13,6 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
-  getLastValueSync,
   OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -22,8 +21,9 @@ import {
   User,
   UserIdService,
   WindowRef,
+  getLastValueSync,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
+import { Observable, Subscription, combineLatest, of, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -31,7 +31,6 @@ import {
   pairwise,
   shareReplay,
   switchMap,
-  switchMapTo,
   take,
   tap,
   withLatestFrom,
@@ -54,7 +53,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // We want to wait the initialization of cartId until the userId is initialized
     // We have take(1) to not trigger this stream, when userId changes.
     take(1),
-    switchMapTo(this.multiCartFacade.getCartIdByType(CartType.ACTIVE)),
+    switchMap(() => this.multiCartFacade.getCartIdByType(CartType.ACTIVE)),
     // We also wait until we initialize cart from localStorage
     filter((cartId) => cartId !== undefined),
     // fallback to current when we don't have particular cart id
@@ -396,7 +395,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         }
         this.checkInitLoad = false;
       }),
-      switchMapTo(cartSelector$),
+      switchMap(() => cartSelector$),
       // create cart can happen to anonymous user if it is empty or to any other user if it is loaded and empty
       withLatestFrom(this.userIdService.getUserId()),
       filter(([cartState, userId]) =>
@@ -417,7 +416,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           });
         }
       }),
-      switchMapTo(cartSelector$),
+      switchMap(() => cartSelector$),
       filter((cartState) => cartState.success || cartState.error),
       // wait for active cart id to point to code/guid to avoid some work on temp cart entity
       withLatestFrom(this.activeCartId$),
