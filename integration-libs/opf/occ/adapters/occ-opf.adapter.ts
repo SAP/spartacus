@@ -20,6 +20,8 @@ import {
 } from '@spartacus/opf/core';
 import {
   ActiveConfiguration,
+  OPF_CC_OTP_KEY,
+  OPF_CC_PUBLIC_KEY,
   OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
@@ -37,10 +39,10 @@ export class OccOpfAdapter implements OpfAdapter {
   ) {}
 
   getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    const headers = new HttpHeaders({
-      'sap-commerce-cloud-public-key':
-        this.config.opf?.commerceCloudPublicKey || '',
-    });
+    const headers = new HttpHeaders().set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
 
     return this.http
       .get<ActiveConfiguration[]>(this.getActiveConfigurationsEndpoint(), {
@@ -69,10 +71,10 @@ export class OccOpfAdapter implements OpfAdapter {
     paymentConfig: PaymentInitiationConfig
   ): Observable<PaymentSessionData> {
     const headers = new HttpHeaders({
-      'sap-commerce-cloud-public-key':
-        this.config.opf?.commerceCloudPublicKey || '',
-      'sap-commerce-cloud-otp': paymentConfig?.otpKey || '',
-    });
+      'Content-Language': 'en-us',
+    })
+      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
+      .set(OPF_CC_OTP_KEY, paymentConfig?.otpKey || '');
 
     const url = this.getInitiatePaymentEndpoint();
 
