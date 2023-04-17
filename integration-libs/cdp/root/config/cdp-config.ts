@@ -17,8 +17,20 @@ export const CdpConfig: RoutingConfig = {
         paramsMapping: { orderCode: 'code' },
       },
       personalDetails: {
-        paths: ['/my-account/update-profile'],
-      }
+        paths: ['my-account/update-profile'],
+      },
+      // signOut: {
+      //   paths: ['logout'],
+      // },
+      passwordDetails: {
+        paths: ['my-account/update-password'],
+      },
+      SettingsAndPrivacy: {
+        paths: ['my-account/consents'],
+      },
+      requests: {
+        paths: ['/my-account/support-tickets'],
+      },
     }
   }
 };

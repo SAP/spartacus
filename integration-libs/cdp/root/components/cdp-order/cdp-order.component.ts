@@ -9,120 +9,101 @@ import {
   CxDatePipe,
   OccEndpointsService,
   RoutingService,
-  UserIdService,
   TranslationService,
 } from '@spartacus/core';
-import { mergeMap, switchMap } from 'rxjs/operators';
-import { cdpOrderAdapter } from '../../adapter/cdp-order-adapter';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { product } from '../../model/ImageDetail/product';
-import { result } from '../../model/result';
 import { finalOrder } from '../../model/order/finalOrder';
 import { order } from '../../model/orderDetail/order';
+import { returnOrder } from '../../model/returnDetail/returnOrder';
+import { CdpOrderService } from '../../service';
 
 @Component({
   selector: 'cx-order',
   templateUrl: './cdp-order.component.html',
   styleUrls: ['./cdp-order.component.scss'],
-  providers: [CxDatePipe],
+  providers: [CxDatePipe,CdpOrderService],
 })
-export class OrderComponent implements OnInit {
+export class cdpOrderComponent implements OnInit {
   constructor(
-    private userIdService: UserIdService,
-    private cdpOrderAdapter: cdpOrderAdapter,
     protected datePipe: CxDatePipe,
     protected routing: RoutingService,
     protected occEndpointsService: OccEndpointsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected cdpOrderService: CdpOrderService,
   ) {}
 
-  result: finalOrder = { orders: [] };
+  orderValue: finalOrder = { orders: [] };
   totalPrice: number = 0;
   totalItem: number[] = [];
   orderDetail: Record<string, order> = {};
-  i: number = 0;
-  output: result;
   orderStatus: Record<string, Record<string, number>> = {};
   orderImage: Record<string, product[]> = {};
+  returnDate: Record<string, string>={};
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
+  orders$: Observable<finalOrder>;
+  returnObser$: Observable<returnOrder>;
+  orderReturn: returnOrder;
+  page_size: number = 5;
 
   ngOnInit(): void {
     this.getMyData();
   }
 
   public getMyData(): void {
-    const obser = this.userIdService
-      .takeUserId()
-      .pipe(switchMap((userId) => this.cdpOrderAdapter.getOrder(userId)));
-
-    obser.subscribe((res) => {
-      this.result = res;
+    this.orders$ = this.cdpOrderService.getOrder(this.page_size);
+    this.orders$.subscribe((res) => {
+      this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
-      this.calculateTotalAmount(this.result);
-      this.getItemCount(this.result);
-      console.log(this.result);
+      this.calculateTotalAmount(this.orderValue);
+      this.getItemCount(this.orderValue);
+      this.fetchReturn();
     });
   }
 
   public calculateTotalAmount(finalResult: finalOrder): void {
     for (var val of finalResult.orders) {
       this.totalPrice = val.total.value + this.totalPrice;
-      console.log(this.totalPrice);
     }
   }
 
   public async getItemCount(finalResult: finalOrder): Promise<void> {
-    for (let orderval of finalResult.orders) {
-      await this.userIdService
-        .takeUserId()
-        .pipe(
-          mergeMap((userId) =>
-            this.cdpOrderAdapter.getOrderDetail(userId, orderval)
-          )
-        )
-        .toPromise()
-        .then((data) => {
-          this.orderDetail[orderval.code] = data;
-        });
-    }
+    await this.cdpOrderService.fetchOrderDetail(finalResult).then((data)=>{
+      this.orderDetail= data;
+    });
     this.getDetail();
-    console.log(this.orderDetail);
   }
 
   public async getDetail() {
     this.loading$.next(true);
-    // eslint-disable-next-line guard-for-in
-    for (let orderCode in this.orderDetail) {
-      this.orderStatus[orderCode] ??= {};
-      this.orderImage[orderCode] ??= [];
-      this.orderDetail[orderCode].consignments.forEach((ord) => {
-        this.orderStatus[orderCode][ord.status] ??= 0;
-        ord.entries.forEach((entr) => {
-          console.log(orderCode + ' status ' + ord.status + entr.quantity);
-          this.orderStatus[orderCode][ord.status] =
-            this.orderStatus[orderCode][ord.status] + entr.quantity;
-        });
-      });
+    this.orderStatus= this.cdpOrderService.fetchOrderStatus(this.orderDetail);
+    this.orderImage=this.cdpOrderService.fetchOrderImage(this.orderDetail);
+    this.loading$.next(false);
+    if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
+  }
 
-      this.orderImage[orderCode] ??= [];
-      this.orderDetail[orderCode].entries.forEach((entr) => {
-        entr.product.images.forEach((prd) => {
-          if (prd.url) {
-            prd.url =
-              this.occEndpointsService.getBaseUrl({
-                prefix: false,
-                baseSite: false,
-              }) + prd.url;
-          }
-        });
-        this.orderImage[orderCode].push(entr.product);
-      });
-      this.loading$.next(false);
-    }
-    console.log(this.orderImage);
+  pageChange(page: number): void {
+    this.fetchOrders(page);
+  }
+
+  private async fetchOrders(page: number){
+    this.loading$.next(false);
+    this.orders$ = this.cdpOrderService.fetchOrder(page,this.page_size);
+    this.orders$.subscribe((res) => {
+      this.orderValue = res;
+      this.tabTitleParam$.next(res.orders.length);
+      this.calculateTotalAmount(this.orderValue);
+      this.getItemCount(this.orderValue);
+    });
+    this.loading$.next(true);
+    if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
+  }
+
+  private fetchReturn(): void{
+    this.returnDate= this.cdpOrderService.fetchReturn();
   }
 
   goToOrderDetail(order: order): void {

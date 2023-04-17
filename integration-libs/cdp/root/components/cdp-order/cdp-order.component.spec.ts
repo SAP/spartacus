@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderComponent } from './cdp-order.component';
+import { cdpOrderComponent } from './cdp-order.component';
 
 describe('OrderComponent', () => {
-  let component: OrderComponent;
-  let fixture: ComponentFixture<OrderComponent>;
+  let component: cdpOrderComponent;
+  let fixture: ComponentFixture<cdpOrderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrderComponent],
+      declarations: [cdpOrderComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OrderComponent);
+    fixture = TestBed.createComponent(cdpOrderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

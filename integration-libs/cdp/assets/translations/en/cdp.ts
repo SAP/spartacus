@@ -17,7 +17,7 @@ export const cdp = {
     orderNumber: 'OrderNumber(',
     orderedItems: 'Ordered Items: ',
     totalPrice: 'Total Price: ',
-    purchasedStore: 'Purchased-Store',
+    purchasedStore: 'Purchased',
     myAccount: 'My Account',
     orderDetails: 'Order details',
     showMore: 'Show more',
@@ -33,6 +33,6 @@ export const cdp = {
     addressBook: 'Address Book',
     paymentDetails: 'Payment Details',
     communications: 'Communications',
-    settingAndPrivacy: 'Settings And Privacy',
+    settingsAndPrivacy: 'Settings And Privacy',
   },
 };
