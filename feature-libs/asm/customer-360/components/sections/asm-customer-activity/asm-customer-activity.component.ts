@@ -23,7 +23,6 @@ export class AsmCustomerActivityComponent implements OnInit {
   columns: Array<CustomerTableColumn> = [
     {
       property: 'typeLabel',
-      text: 'type',
       i18nTextKey: 'customer360.activity.type',
     },
     {
