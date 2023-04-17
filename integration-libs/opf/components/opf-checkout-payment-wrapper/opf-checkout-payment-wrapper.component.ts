@@ -43,7 +43,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
   protected activeCartId: string;
 
   // TODO: Move this logic to the service
-  initiatePayment() {
+  initiatePayment(): Observable<PaymentSessionData> {
     return combineLatest([
       this.userIdService.getUserId(),
       this.activeCartService.getActiveCartId(),
