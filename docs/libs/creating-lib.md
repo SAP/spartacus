@@ -263,7 +263,7 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:asm": "npm --prefix feature-libs/asm run build:schematics && ng build asm --configuration production",
+"build:asm": "npm --prefix feature-libs/asm run build:schematics && nx build asm --configuration production",
 "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
@@ -285,7 +285,7 @@ Add the library unit tests with code coverage
 ```sh
 echo "Running unit tests and code coverage for TODO:"
 exec 5>&1
-output=$(ng test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless | tee /dev/fd/5)
+output=$(nx test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -325,9 +325,9 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 Don't forget to:
 
-- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
-- build the generated library _with Ivy enabled_ - `ng build <lib-name>`
-- build the generated library (without Ivy) - `ng build <lib-name> --configuration production`
+- run the tests for the generated library - `nx test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
+- build the generated library _with Ivy enabled_ - `nx build <lib-name>`
+- build the generated library (without Ivy) - `nx build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `npm run build:libs` (build all the libs)
   - `npm run build`
