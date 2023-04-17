@@ -1,0 +1,12 @@
+<div>Test Div</div>
+<ng-container *ngIf="quoteDetails$ | async as quoteDetailsState">
+  <ng-template
+    [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: quoteDetailsState.entries,
+      readonly: true,
+      promotionLocation: promotionLocation
+    }"
+  >
+  </ng-template>
+</ng-container>

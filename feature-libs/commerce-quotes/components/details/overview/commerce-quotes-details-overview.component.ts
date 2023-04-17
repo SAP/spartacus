@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './commerce-quotes-details-overview.component.html',
 })
 export class CommerceQuotesDetailsOverviewComponent {
+
   quoteDetails$ = this.commerceQuotesService.getQuoteDetails();
 
   constructor(

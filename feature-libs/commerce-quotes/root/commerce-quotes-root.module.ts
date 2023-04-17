@@ -28,6 +28,7 @@ export function defaultCommerceQuotesComponentsConfig() {
           'AccountMyQuotesComponent',
           'CommerceQuotesRequestComponent',
           'CommerceQuotesDetailsOverviewComponent',
+          'CommerceQuotesCartComponent',
           'CommerceQuotesActionLinksComponent',
           'CommerceQuotesActionsByRoleComponent',
         ],
@@ -62,6 +63,7 @@ export const defaultCommerceQuoteConfigLayoutConfig: LayoutConfig = {
     },
   },
 };
+
 @NgModule({
   imports: [
     RouterModule.forChild([
