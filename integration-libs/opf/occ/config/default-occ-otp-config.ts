@@ -6,12 +6,14 @@
 
 import { OccConfig } from '@spartacus/core';
 
-export const defaultOccOpfConfig: OccConfig = {
+/**
+ * The endpoints to call from the OCC adapter for stock levels.
+ */
+export const defaultOccOtpConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        getActiveConfigurations: 'active-configurations',
-        initiatePayment: 'payments',
+        generateOtpKey: 'users/${userId}/carts/${cartId}/otp',
       },
     },
   },
