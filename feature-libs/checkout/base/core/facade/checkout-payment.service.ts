@@ -83,16 +83,19 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     this.commandService.create<PaymentDetails>(
       (paymentDetails) =>
         this.checkoutPreconditions().pipe(
+          tap(() => console.log('before switchMap')),
           switchMap(([userId, cartId]) => {
             const paymentDetailsId = paymentDetails?.id;
             if (!paymentDetailsId) {
+              console.log('if');
               throw new Error('Checkout conditions not met');
             }
-
+            console.log('switchMap');
             return this.checkoutPaymentConnector
               .setPaymentDetails(userId, cartId, paymentDetailsId)
               .pipe(
-                tap(() =>
+                tap(() => {
+                  console.log('tap');
                   this.eventService.dispatch(
                     {
                       userId,
@@ -100,8 +103,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                       paymentDetailsId,
                     },
                     CheckoutPaymentDetailsSetEvent
-                  )
-                )
+                  );
+                })
               );
           })
         ),
@@ -164,6 +167,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   }
 
   setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
+    console.log('setPaymentDetails');
     return this.setPaymentMethodCommand.execute(paymentDetails);
   }
 }

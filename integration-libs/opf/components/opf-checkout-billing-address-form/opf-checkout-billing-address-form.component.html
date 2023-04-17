@@ -1,4 +1,4 @@
-<ng-container *ngIf="showSameAsDeliveryAddressCheckbox$ | async">
+<ng-container>
   <div class="form-group">
     <div class="form-check">
       <label>
@@ -21,11 +21,11 @@
 
 <ng-container
   *ngIf="
-    (sameAsDeliveryAddress$ | async) &&
+    (sameAsDeliveryAddress$ | async) && !(userCustomBillingAddress$ | async) &&
     (deliveryAddress$ | async) as deliveryAddress
   "
 >
-  <cx-card [content]="getAddressCardContent(deliveryAddress)"></cx-card>
+  <cx-card [content]="deliveryAddress | cxGetAddressCardContent"></cx-card>
 </ng-container>
 
 <ng-container
@@ -36,7 +36,7 @@
 >
   <div class="cx-custom-address-info">
     <cx-card
-      [content]="getAddressCardContent(userCustomBillingAddress)"
+      [content]="userCustomBillingAddress | cxGetAddressCardContent"
     ></cx-card>
 
     <button (click)="editCustomBillingAddress()">
@@ -59,7 +59,7 @@
     [showCancelBtn]="true"
     actionBtnLabel="{{ 'common.save' | cxTranslate }}"
     cancelBtnLabel="{{ 'common.cancel' | cxTranslate }}"
-    (submitAddress)="verifyAddress($event)"
+    (submitAddress)="onSubmitAddress($event)"
     (backToAddress)="cancelAndHideForm()"
     [setAsDefaultField]="false"
     [countries]="countries$"
