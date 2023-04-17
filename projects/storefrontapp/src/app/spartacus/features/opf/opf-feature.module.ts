@@ -35,7 +35,7 @@ if (environment.b2b) {
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
         successUrl: 'redirect/success',
-        cancelUrl: 'redirect/fail',
+        cancelUrl: 'redirect/failure',
       },
     }),
     provideConfig(<I18nConfig>{

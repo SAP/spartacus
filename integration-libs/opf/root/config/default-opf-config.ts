@@ -10,6 +10,6 @@ export const defaultOpfConfig: OpfConfig = {
   opf: {
     baseUrl: '',
     successUrl: 'redirect/success',
-    cancelUrl: 'redirect/fail',
+    cancelUrl: 'redirect/failure',
   },
 };
