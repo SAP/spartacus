@@ -4,6 +4,7 @@
 @import './commerce-quotes-details-overview';
 @import './commerce-quotes-action-links';
 @import './commerce-quotes-actions-by-role';
+@import './layout/index';
 
 $commerce-quotes-components-allowlist: cx-commerce-quotes-list
   cx-commerce-quotes-details-overview cx-commerce-quotes-request-quote-button
