@@ -3,6 +3,8 @@
 This section is for Spartacus developers and anybody else who works with Spartacus source code.
 To see the documentation on how to use schematics from a customers perspective, see: [https://sap.github.io/spartacus-docs/schematics](https://sap.github.io/spartacus-docs/schematics)
 
+dummy change
+
 ## Prerequisites
 
 Install angular schematics globally: `npm install -g @angular-devkit/schematics-cli`.
