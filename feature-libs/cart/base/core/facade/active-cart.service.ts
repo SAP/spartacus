@@ -377,54 +377,63 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         : this.cartEntity$
     ).pipe(filter((cartState) => !cartState.loading || !!this.checkInitLoad));
 
-    return this.activeCartId$.pipe(
-      // Avoid load/create call when there are new cart creating at the moment
-      withLatestFrom(cartSelector$),
-      filter(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
-      map(([, cartState]) => cartState),
-      take(1),
-      withLatestFrom(this.userIdService.getUserId()),
-      tap(([cartState, userId]) => {
-        // Try to load the cart, because it might have been created on another device between our login and add entry call
-        if (
-          isEmpty(cartState.value) &&
-          userId !== OCC_USER_ID_ANONYMOUS &&
-          !cartState.loading
-        ) {
-          this.load(OCC_CART_ID_CURRENT, userId);
-        }
-        this.checkInitLoad = false;
-      }),
-      switchMap(() => cartSelector$),
-      // create cart can happen to anonymous user if it is empty or to any other user if it is loaded and empty
-      withLatestFrom(this.userIdService.getUserId()),
-      filter(([cartState, userId]) =>
-        Boolean(
-          userId === OCC_USER_ID_ANONYMOUS ||
-            cartState.success ||
-            cartState.error
-        )
-      ),
-      take(1),
-      tap(([cartState, userId]) => {
-        if (isEmpty(cartState.value)) {
-          this.multiCartFacade.createCart({
-            userId,
-            extraData: {
-              active: true,
-            },
-          });
-        }
-      }),
-      switchMap(() => cartSelector$),
-      filter((cartState) => cartState.success || cartState.error),
-      // wait for active cart id to point to code/guid to avoid some work on temp cart entity
-      withLatestFrom(this.activeCartId$),
-      filter(([cartState, cartId]) => !this.isCartCreating(cartState, cartId)),
-      map(([cartState]) => cartState.value),
-      filter((cart) => !isEmpty(cart)),
-      take(1)
-    );
+    return this.activeCartId$
+      .pipe(
+        // Avoid load/create call when there are new cart creating at the moment
+        withLatestFrom(cartSelector$),
+        filter(
+          ([cartId, cartState]) => !this.isCartCreating(cartState, cartId)
+        ),
+        map(([, cartState]) => cartState),
+        take(1)
+      )
+      .pipe(
+        withLatestFrom(this.userIdService.getUserId()),
+        tap(([cartState, userId]) => {
+          // Try to load the cart, because it might have been created on another device between our login and add entry call
+          if (
+            isEmpty(cartState.value) &&
+            userId !== OCC_USER_ID_ANONYMOUS &&
+            !cartState.loading
+          ) {
+            this.load(OCC_CART_ID_CURRENT, userId);
+          }
+          this.checkInitLoad = false;
+        }),
+        switchMap(() => cartSelector$),
+        // create cart can happen to anonymous user if it is empty or to any other user if it is loaded and empty
+        withLatestFrom(this.userIdService.getUserId()),
+        filter(([cartState, userId]) =>
+          Boolean(
+            userId === OCC_USER_ID_ANONYMOUS ||
+              cartState.success ||
+              cartState.error
+          )
+        ),
+        take(1)
+      )
+      .pipe(
+        tap(([cartState, userId]) => {
+          if (isEmpty(cartState.value)) {
+            this.multiCartFacade.createCart({
+              userId,
+              extraData: {
+                active: true,
+              },
+            });
+          }
+        }),
+        switchMap(() => cartSelector$),
+        filter((cartState) => Boolean(cartState.success || cartState.error)),
+        // wait for active cart id to point to code/guid to avoid some work on temp cart entity
+        withLatestFrom(this.activeCartId$),
+        filter(
+          ([cartState, cartId]) => !this.isCartCreating(cartState, cartId)
+        ),
+        map(([cartState]) => cartState.value),
+        filter((cart): cart is Cart => !isEmpty(cart)),
+        take(1)
+      );
   }
 
   /**
