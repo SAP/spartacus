@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OutletService } from 'projects/storefrontlib/cms-structure';
 import { TableHeader, TableService } from '.';
+import { OutletService } from '../../../cms-structure';
 import { TableConfig } from './config/table.config';
 import { TableRendererService } from './table-renderer.service';
 import { TableOptions, TableStructure } from './table.model';
