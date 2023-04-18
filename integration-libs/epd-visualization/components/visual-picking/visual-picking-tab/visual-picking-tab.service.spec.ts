@@ -210,7 +210,7 @@ describe('VisualPickingTabService', () => {
           mockVisualViewerService,
           'visualizationLoadInfoChange',
           'get'
-        ).and.returnValue(mockVisualizationLoadInfoChange);
+        ).and.returnValue(mockVisualizationLoadInfoChange as any);
       const mockVisualizationLoadInfoChangeSubscribeSpy = spyOn(
         mockVisualizationLoadInfoChange,
         'subscribe'
@@ -279,7 +279,7 @@ describe('VisualPickingTabService', () => {
           mockVisualViewerService,
           'visualizationLoadInfoChange',
           'get'
-        ).and.returnValue(mockVisualizationLoadInfoChange);
+        ).and.returnValue(mockVisualizationLoadInfoChange as any);
       const mockVisualizationLoadInfoChangeSubscribeSpy = spyOn(
         mockVisualizationLoadInfoChange,
         'subscribe'
