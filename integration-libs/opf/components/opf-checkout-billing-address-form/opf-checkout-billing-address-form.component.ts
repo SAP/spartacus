@@ -12,7 +12,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { Address, Country, UserPaymentService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -31,12 +31,12 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     Address | undefined
   >(undefined);
   protected readonly editBillingAddressSub = new BehaviorSubject(false);
+  protected isLoadingAddressSub = new BehaviorSubject(false);
 
   sameAsDeliveryAddress$ = this.sameAsDeliveryAddressSub.asObservable();
   userCustomBillingAddress$ = this.userCustomBillingAddressSub.asObservable();
   editBillingAddress$ = this.editBillingAddressSub.asObservable();
-
-  isLoadingAddress = false;
+  isLoadingAddress$ = this.isLoadingAddressSub.asObservable();
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -64,6 +64,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
           !!this.userCustomBillingAddressSub.value
         ) {
           this.userCustomBillingAddressSub.next(undefined);
+          this.putDeliveryAddressAsPaymentAddress();
         } else {
           this.editBillingAddressSub.next(true);
         }
@@ -83,6 +84,19 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
         this.userCustomBillingAddressSub.next(address);
         this.editBillingAddressSub.next(false);
       });
+  }
+
+  protected putDeliveryAddressAsPaymentAddress(): void {
+    this.deliveryAddress$
+      .pipe(
+        switchMap((address: Address | undefined) =>
+          !!address
+            ? this.checkoutBillingAddressFacade.setBillingAddress(address)
+            : EMPTY
+        ),
+        take(1)
+      )
+      .subscribe();
   }
 
   cancelAndHideForm() {
@@ -112,24 +126,24 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   }
 
   protected getDeliveryAddress(): void {
-    this.isLoadingAddress = true;
+    this.isLoadingAddressSub.next(true);
 
     this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
         map((state) => state.data),
-        tap(() => (this.isLoadingAddress = false))
+        tap(() => this.isLoadingAddressSub.next(false))
       );
   }
 
   protected getPaymentAddress(): void {
-    this.isLoadingAddress = true;
+    this.isLoadingAddressSub.next(true);
 
     this.checkoutBillingAddressFacade
       .getBillingAddress()
       .pipe(
-        tap(() => (this.isLoadingAddress = false)),
+        tap(() => this.isLoadingAddressSub.next(false)),
         filter((address: Address | undefined) => !!address),
         take(1)
       )
