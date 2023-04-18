@@ -36,6 +36,8 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   userCustomBillingAddress$ = this.userCustomBillingAddressSub.asObservable();
   editBillingAddress$ = this.editBillingAddressSub.asObservable();
 
+  isLoadingAddress = false;
+
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutBillingAddressFacade: CheckoutBillingAddressFacade,
@@ -45,7 +47,8 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCountries();
-    this.getDeliveryAddresses();
+    this.getDeliveryAddress();
+    this.getPaymentAddress();
   }
 
   toggleSameAsDeliveryAddress(): void {
@@ -87,7 +90,6 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
       if (isEditBillingAddress) {
         this.editBillingAddressSub.next(false);
       } else {
-        console.log('cancel and hide form');
         this.toggleSameAsDeliveryAddress();
       }
     });
@@ -109,13 +111,74 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     );
   }
 
-  protected getDeliveryAddresses(): void {
+  protected getDeliveryAddress(): void {
+    this.isLoadingAddress = true;
+
     this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
-        tap((val) => console.log('del ad', val)),
-        map((state) => state.data)
+        map((state) => state.data),
+        tap(() => (this.isLoadingAddress = false))
       );
   }
+
+  protected getPaymentAddress(): void {
+    this.isLoadingAddress = true;
+
+    this.checkoutBillingAddressFacade
+      .getBillingAddress()
+      .pipe(
+        tap(() => (this.isLoadingAddress = false)),
+        filter((address: Address | undefined) => !!address),
+        take(1)
+      )
+      .subscribe((address) => {
+        this.userCustomBillingAddressSub.next(address);
+        this.sameAsDeliveryAddressSub.next(false);
+      });
+  }
+
+  // TODO: Handle delivery address and billing address comparison after research about the best way of doing this
+  //
+  // getAddresses(): void {
+  //   this.isLoadingAddress = true;
+
+  //   combineLatest([this.getDelivery(), this.getPayment()]).subscribe(
+  //     ([deliveryAddress, paymentAddress]: [
+  //       Address | undefined,
+  //       Address | undefined
+  //     ]) => {
+  //       this.deliveryAddress$ = of(deliveryAddress);
+  //       console.log('delivery', deliveryAddress);
+  //       console.log('payment', paymentAddress);
+
+  //       if (!paymentAddress && !!deliveryAddress) {
+  //         this.checkoutBillingAddressFacade.setBillingAddress(deliveryAddress);
+  //       }
+
+  //       if (
+  //         !!paymentAddress &&
+  //         !!deliveryAddress &&
+  //         paymentAddress.id !== deliveryAddress.id
+  //       ) {
+  //         this.userCustomBillingAddressSub.next(paymentAddress);
+  //         this.sameAsDeliveryAddressSub.next(false);
+  //       }
+
+  //       this.isLoadingAddress = false;
+  //     }
+  //   );
+  // }
+
+  // protected getDelivery(): Observable<Address | undefined> {
+  //   return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+  //     filter((state) => !state.loading),
+  //     map((state) => state.data)
+  //   );
+  // }
+
+  // protected getPayment(): Observable<Address | undefined> {
+  //   return this.checkoutBillingAddressFacade.getBillingAddress().pipe(take(1));
+  // }
 }

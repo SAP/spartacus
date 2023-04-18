@@ -59,6 +59,10 @@ export interface CheckoutOccEndpoints {
    * Endpoint for set billing address to cart
    */
   setBillingAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for getting specific cart
+   */
+  getCart?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

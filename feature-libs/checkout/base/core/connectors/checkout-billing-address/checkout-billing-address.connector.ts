@@ -20,4 +20,11 @@ export class CheckoutBillingAddressConnector {
   ): Observable<unknown> {
     return this.adapter.setAddress(userId, cartId, address);
   }
+
+  public getAddress(
+    userId: string,
+    cartId: string
+  ): Observable<Address | undefined> {
+    return this.adapter.getAddress(userId, cartId);
+  }
 }

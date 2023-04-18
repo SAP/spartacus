@@ -16,7 +16,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutBillingAddressAdapter
@@ -43,11 +43,32 @@ export class OccCheckoutBillingAddressAdapter
       );
   }
 
+  public getAddress(
+    userId: string,
+    cartId: string
+  ): Observable<Address | undefined> {
+    return this.http
+      .get<unknown>(this.getLoadCartEndpoint(userId, cartId))
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        pluck('paymentAddress')
+      );
+  }
+
   protected getSetBillingAddressEndpoint(
     userId: string,
     cartId: string
   ): string {
     return this.occEndpoints.buildUrl('setBillingAddress', {
+      urlParams: { userId, cartId },
+    });
+  }
+
+  protected getLoadCartEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl('getCart', {
       urlParams: { userId, cartId },
     });
   }

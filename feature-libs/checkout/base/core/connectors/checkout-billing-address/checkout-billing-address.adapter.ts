@@ -20,4 +20,15 @@ export abstract class CheckoutBillingAddressAdapter {
     cartId: string,
     address: Address
   ): Observable<unknown>;
+
+  /**
+   * Abstract method used to get address for billing
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract getAddress(
+    userId: string,
+    cartId: string
+  ): Observable<Address | undefined>;
 }

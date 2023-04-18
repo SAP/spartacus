@@ -16,7 +16,6 @@ import {
   CommandService,
   CommandStrategy,
   OCC_USER_ID_ANONYMOUS,
-  QueryState,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -28,7 +27,7 @@ export class CheckoutBillingAddressService
   implements CheckoutBillingAddressFacade
 {
   protected setBillingAddressCommand: Command<Address, unknown> =
-    this.commandService.create<Address>(
+    this.commandService.create<Address | undefined>(
       (address) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
@@ -78,17 +77,18 @@ export class CheckoutBillingAddressService
     );
   }
 
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    console.log('get deliver address');
-    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
-      map((state) => ({
-        ...state,
-        data: state.data?.deliveryAddress,
-      }))
-    );
-  }
-
   setBillingAddress(address: Address): Observable<unknown> {
     return this.setBillingAddressCommand.execute(address);
+  }
+
+  getBillingAddress(): Observable<Address | undefined> {
+    return this.checkoutPreconditions().pipe(
+      switchMap(([userId, cartId]) => {
+        if (!cartId) {
+          throw new Error('Checkout conditions not met');
+        }
+        return this.checkoutBillingAddressConnector.getAddress(userId, cartId);
+      })
+    );
   }
 }

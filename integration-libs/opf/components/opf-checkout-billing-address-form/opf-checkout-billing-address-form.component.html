@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="!isLoadingAddress; else loading">
   <div class="form-group">
     <div class="form-check">
       <label>
@@ -17,33 +17,38 @@
       </label>
     </div>
   </div>
+
+  <ng-container
+    *ngIf="
+      (sameAsDeliveryAddress$ | async) &&
+      !(userCustomBillingAddress$ | async) &&
+      (deliveryAddress$ | async) as deliveryAddress
+    "
+  >
+    <cx-card [content]="deliveryAddress | cxGetAddressCardContent"></cx-card>
+  </ng-container>
+
+  <ng-container
+    *ngIf="
+      !(editBillingAddress$ | async) &&
+      (userCustomBillingAddress$ | async) as userCustomBillingAddress
+    "
+  >
+    <div class="cx-custom-address-info">
+      <cx-card
+        [content]="userCustomBillingAddress | cxGetAddressCardContent"
+      ></cx-card>
+
+      <button (click)="editCustomBillingAddress()">
+        <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+      </button>
+    </div>
+  </ng-container>
 </ng-container>
 
-<ng-container
-  *ngIf="
-    (sameAsDeliveryAddress$ | async) && !(userCustomBillingAddress$ | async) &&
-    (deliveryAddress$ | async) as deliveryAddress
-  "
->
-  <cx-card [content]="deliveryAddress | cxGetAddressCardContent"></cx-card>
-</ng-container>
-
-<ng-container
-  *ngIf="
-    !(editBillingAddress$ | async) &&
-    (userCustomBillingAddress$ | async) as userCustomBillingAddress
-  "
->
-  <div class="cx-custom-address-info">
-    <cx-card
-      [content]="userCustomBillingAddress | cxGetAddressCardContent"
-    ></cx-card>
-
-    <button (click)="editCustomBillingAddress()">
-      <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
-    </button>
-  </div>
-</ng-container>
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>
 
 <ng-container
   *ngIf="

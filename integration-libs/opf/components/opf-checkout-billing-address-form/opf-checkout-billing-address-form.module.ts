@@ -15,6 +15,7 @@ import {
   FormErrorsModule,
   IconModule,
   NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { OpfPipesModule } from 'integration-libs/opf/pipes/opf-pipes.module';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
@@ -33,6 +34,7 @@ import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-a
     FormErrorsModule,
     AddressFormModule,
     OpfPipesModule,
+    SpinnerModule,
   ],
 })
 export class OpfCheckoutBillingAddressFormModule {}
