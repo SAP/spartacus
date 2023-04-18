@@ -107,11 +107,10 @@ describe('ComponentDataProvider', () => {
     let complete = false;
     service
       .get('', 'BannerComponent')
-      .subscribe(
-        (data) => (result = data),
-        undefined,
-        () => (complete = true)
-      )
+      .subscribe({
+        next: (data) => (result = data),
+        complete: () => (complete = true),
+      })
       .unsubscribe();
     expect(result).toEqual(undefined);
     expect(complete).toEqual(true);

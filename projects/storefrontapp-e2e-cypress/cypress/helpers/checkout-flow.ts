@@ -32,15 +32,15 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
-export function interceptCheckoutB2CDetailsEndpoint() {
+export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
 
-  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 
 /**
@@ -135,6 +135,7 @@ export function signOut() {
     'contain',
     'You have successfully signed out.'
   );
+  cy.get('cx-page-slot.Section1 cx-banner');
 }
 
 export function registerUser(
@@ -439,12 +440,12 @@ export function fillAddressFormWithCheapProduct(
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
-  const deliveryPage = waitForPage(
+  const deliveryModePage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryModePage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${getCheckoutDetailsAlias}`);
@@ -468,7 +469,8 @@ export function proceedWithIncorrectPaymentForm(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  isExpressCheckout?: boolean
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -484,13 +486,32 @@ export function fillPaymentFormWithCheapProduct(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP'
+  );
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.log('submitPayment timestamp: ', new Date().toISOString());
   cy.wait('@submitPayment');
-  cy.log('reviewPage timestamp: ', new Date().toISOString());
   cy.wait(`@${reviewPage}`);
-  // .its('response.statusCode').should('eq', 200);
+
+  if (isExpressCheckout) return;
+
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(
+      `Checkout details after payment step: ${JSON.stringify(
+        response.body,
+        null,
+        2
+      )}`
+    );
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
 }
 
 export function placeOrderWithCheapProduct(

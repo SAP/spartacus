@@ -1,7 +1,7 @@
 <ng-container *ngIf="config$ | async as config; else ghostFilterButton">
   <button
     #filterButton
-    class="cx-config-filter-button cx-btn btn btn-action"
+    class="btn btn-secondary cx-config-filter-button"
     tabindex="0"
     (click)="openFilterModal(config)"
     title="{{

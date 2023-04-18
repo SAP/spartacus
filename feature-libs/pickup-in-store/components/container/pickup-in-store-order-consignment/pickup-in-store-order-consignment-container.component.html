@@ -1,0 +1,30 @@
+<div
+  *ngIf="pointOfService$ | async as pointOfService"
+  class="cx-list-header col-12"
+>
+  <div class="cx-consignment-details">
+    <div class="cx-deliveryPointOfService-address">
+      <div class="cx-deliveryPointOfService-heading">
+        {{ 'deliveryPointOfServiceDetails.pickUpInStoreAddress' | cxTranslate }}
+      </div>
+      <div class="cx-deliveryPointOfService-storeName">
+        {{ pointOfService?.displayName }}
+      </div>
+      <div *ngIf="pointOfService?.address?.line1">
+        {{ pointOfService?.address?.line1 }}
+      </div>
+      <div *ngIf="pointOfService?.address?.line2">
+        {{ pointOfService?.address?.line2 }}
+      </div>
+      <div *ngIf="pointOfService?.address?.town">
+        <span>
+          {{ pointOfService?.address?.town }}
+        </span>
+        <span> {{ pointOfService?.address?.postalCode }}</span>
+      </div>
+      <div *ngIf="pointOfService?.address?.phone">
+        {{ pointOfService?.address?.phone }}
+      </div>
+    </div>
+  </div>
+</div>
