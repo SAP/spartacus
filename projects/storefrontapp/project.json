@@ -235,5 +235,6 @@
       },
       "defaultConfiguration": "production"
     }
-  }
+  },
+  "tags": ["type:app"]
 }

@@ -68,7 +68,24 @@
         "id-match": "off",
         "max-len": "off",
         "linebreak-style": ["error", "unix"],
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"],
+                "notDependOnLibsWithTags": ["type:app"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "notDependOnLibsWithTags": ["type:feature"]
+              }
+            ]
+          }
+        ]
       }
     },
     {

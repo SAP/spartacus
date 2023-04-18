@@ -29,5 +29,6 @@
         "karmaConfig": "integration-libs/s4om/karma.conf.js"
       }
     }
-  }
+  },
+  "tags": ["type:feature", "type:integration"]
 }
