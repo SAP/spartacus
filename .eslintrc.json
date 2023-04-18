@@ -77,14 +77,10 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"],
-                "notDependOnLibsWithTags": ["type:app"]
+                "notDependOnLibsWithTags": ["type:app", "type:integration"]
               },
               {
                 "allSourceTags": ["type:ui", "scope:core"],
-                "notDependOnLibsWithTags": ["type:feature"]
-              },
-              {
-                "sourceTag": "type:ui",
                 "notDependOnLibsWithTags": ["type:feature"]
               },
               {
