@@ -1,6 +1,6 @@
 <ng-container *ngIf="!((loading$ | async)); else loading">
   <div>
-    <ng-container *ngIf="(orders$ | async)?.orders.length; else noOrders">
+    <ng-container *ngIf="isOrderPresernt ;else noOrders">
       <div class="cx-order-container" *ngFor="let order of orderValue.orders">
         <div class="cx-order-summary" (click)="goToOrderDetail(order)">
           <span class="cx-order-style">
@@ -19,7 +19,7 @@
           <br />
           <span class="cx-details"
             >Purchased | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
-            {{ orderDetail[order.code]?.deliveryItemsQuantity }} items |
+            {{ orderDetail[order.code]?.deliveryItemsQuantity }} Items |
             <b>TotalPrice: ${{ order.total.value }}</b></span
           >
           <br />
@@ -31,7 +31,7 @@
               <span class="cx-consignment-status">Not Shipped - {{item.value}} Items
               </span>
               <br>
-              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+              <span class="cx-estimated-delivery">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
             </ng-template>
             <div *ngIf="item.key === 'Not delivered';then NotDelivered"></div>
             <ng-template #NotDelivered>

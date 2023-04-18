@@ -48,6 +48,7 @@ export class cdpOrderComponent implements OnInit {
   returnObser$: Observable<returnOrder>;
   orderReturn: returnOrder;
   page_size: number = 5;
+  isOrderPresernt: boolean=false;
 
   ngOnInit(): void {
     this.getMyData();
@@ -61,6 +62,7 @@ export class cdpOrderComponent implements OnInit {
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
       this.getItemCount(this.orderValue);
+      this.isOrderPresernt=res.orders.length?true:false;
     });
   }
 
