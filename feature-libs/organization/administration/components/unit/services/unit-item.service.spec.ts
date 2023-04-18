@@ -5,7 +5,7 @@ import {
   LoadStatus,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from './current-unit.service';
 import { UnitItemService } from './unit-item.service';
@@ -24,7 +24,7 @@ const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockUnitService {
   get() {
-    return of();
+    return EMPTY;
   }
   load() {}
   update() {}
@@ -38,7 +38,7 @@ class MockUnitFormService {}
 
 class MockCurrentUnitService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 

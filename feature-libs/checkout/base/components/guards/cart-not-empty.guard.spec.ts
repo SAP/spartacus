@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 import createSpy = jasmine.createSpy;
 
@@ -12,7 +12,7 @@ const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActive = createSpy().and.returnValue(of());
+  takeActive = createSpy().and.returnValue(EMPTY);
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {

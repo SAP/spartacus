@@ -15,7 +15,6 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  mapTo,
   shareReplay,
   tap,
   withLatestFrom,
@@ -214,7 +213,7 @@ export class ProductLoadingService {
 
       const timestampRefresh$ = timestamp$.pipe(
         delay(maxAge, scheduler),
-        mapTo(true),
+        map(() => true),
         withdrawOn(loadStart$)
       );
 

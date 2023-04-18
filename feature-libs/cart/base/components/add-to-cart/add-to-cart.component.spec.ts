@@ -22,7 +22,7 @@ import {
   ProductListItemContext,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
@@ -77,25 +77,25 @@ class MockActiveCartService {
     _pickupStore?: string
   ): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   isStable(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getActive(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
