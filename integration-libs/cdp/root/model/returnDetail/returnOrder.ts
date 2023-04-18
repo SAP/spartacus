@@ -1,5 +1,9 @@
 import { returnRequests } from "./returnRequests";
+import { pagination } from "./pagination";
+import { sorts } from "./sorts";
 
 export interface returnOrder {
-   returnRequest: returnRequests[];
+   returnRequests: returnRequests[];
+   pagination: pagination;
+   sorts: sorts[];
 }
