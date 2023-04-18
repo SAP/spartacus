@@ -97,8 +97,10 @@ describe('CartCouponComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    mockActiveCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
-    mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
+    mockActiveCartService.getActive.and.returnValue(
+      of({ code: '123' } as Cart)
+    );
+    mockActiveCartService.getActiveCartId.and.returnValue(of('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(EMPTY);
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(EMPTY);
@@ -205,7 +207,7 @@ describe('CartCouponComponent', () => {
 
   it('should not show applied customer coupon', () => {
     mockActiveCartService.getActive.and.returnValue(
-      of<Cart>({ appliedVouchers: appliedVouchers })
+      of({ appliedVouchers: appliedVouchers } as Cart)
     );
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)

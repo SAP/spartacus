@@ -69,11 +69,15 @@ describe('SaveForLaterComponent', () => {
     mockSelectiveCartService.isStable.and.returnValue(of(true));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockActiveCartService.getActive.and.returnValue(
-      of<Cart>({ code: '00001', totalItems: 0 })
+      of({ code: '00001', totalItems: 0 } as Cart)
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
-    mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
+    mockSelectiveCartService.getCart.and.returnValue(
+      of({ code: '123' } as Cart)
+    );
+    mockSelectiveCartService.getEntries.and.returnValue(
+      of([{}] as OrderEntry[])
+    );
   });
 
   it('should create', () => {
@@ -83,10 +87,10 @@ describe('SaveForLaterComponent', () => {
 
   it('should display save for later text with items', () => {
     mockSelectiveCartService.getCart.and.returnValue(
-      of<Cart>({
+      of({
         code: '123',
         totalItems: 5,
-      })
+      } as Cart)
     );
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
@@ -96,10 +100,10 @@ describe('SaveForLaterComponent', () => {
 
   it('should display empty cart info when cart is empty and save for later has items', () => {
     mockSelectiveCartService.getCart.and.returnValue(
-      of<Cart>({
+      of({
         code: '123',
         totalItems: 5,
-      })
+      } as Cart)
     );
     fixture.detectChanges();
     expect(

@@ -77,15 +77,15 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show no tracking', () => {
-    component.tracking$ = of<ConsignmentTracking>({
+    component.tracking$ = of({
       trackingID: '1234567890',
-    });
+    } as ConsignmentTracking);
     fixture.detectChanges();
     expect(el.query(By.css('.cx-no-tracking-heading'))).toBeTruthy();
   });
 
   it('should show tracking info', () => {
-    component.tracking$ = of<ConsignmentTracking>({
+    component.tracking$ = of({
       carrierDetails: {
         code: 'MockCarrier',
         name: 'MockCarrier',
@@ -111,7 +111,7 @@ describe('TrackingEventsComponent', () => {
           referenceCode: 'IN_TRANSIT',
         },
       ],
-    });
+    } as ConsignmentTracking);
     fixture.detectChanges();
     expect(el.query(By.css('.cx-shipment-heading'))).toBeTruthy();
     expect(el.queryAll(By.css('.cx-tracking-event-body')).length).toBe(3);
