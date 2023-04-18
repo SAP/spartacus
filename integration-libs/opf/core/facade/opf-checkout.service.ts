@@ -46,7 +46,7 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     },
     OpfVerifyPaymentResponse
   > = this.commandService.create((payload) =>
-    this.opfCheckoutConnector.getVerifyPayment(
+    this.opfCheckoutConnector.verifyPayment(
       payload.paymentSessionId,
       payload.verifyPaymentData
     )

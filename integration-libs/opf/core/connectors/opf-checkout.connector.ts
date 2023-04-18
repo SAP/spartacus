@@ -30,10 +30,10 @@ export class OpfCheckoutConnector {
     return this.adapter.initiatePayment(paymentConfig);
   }
 
-  public getVerifyPayment(
+  public verifyPayment(
     paymentSessionId: string,
     payload: OpfVerifyPaymentPayload
   ): Observable<OpfVerifyPaymentResponse> {
-    return this.adapter.getVerifyPayment(paymentSessionId, payload);
+    return this.adapter.verifyPayment(paymentSessionId, payload);
   }
 }

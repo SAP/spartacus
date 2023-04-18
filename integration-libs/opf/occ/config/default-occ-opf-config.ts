@@ -12,7 +12,7 @@ export const defaultOccOpfConfig: OccConfig = {
       endpoints: {
         getActiveConfigurations: 'active-configurations',
         initiatePayment: 'payments',
-        getVerifyPayment: 'payments/${paymentSessionId}/verify',
+        verifyPayment: 'payments/${paymentSessionId}/verify',
       },
     },
   },

@@ -31,7 +31,7 @@ export abstract class OpfAdapter {
     paymentConfig: PaymentInitiationConfig
   ): Observable<PaymentSessionData>;
 
-  abstract getVerifyPayment(
+  abstract verifyPayment(
     paymentSessionId: string,
     payload: OpfVerifyPaymentPayload
   ): Observable<OpfVerifyPaymentResponse>;

@@ -98,7 +98,7 @@ export class OccOpfAdapter implements OpfAdapter {
     return this.opfEndpointsService.buildUrl('initiatePayment');
   }
 
-  getVerifyPayment(
+  verifyPayment(
     paymentSessionId: string,
     payload: OpfVerifyPaymentPayload
   ): Observable<OpfVerifyPaymentResponse> {
@@ -112,7 +112,7 @@ export class OccOpfAdapter implements OpfAdapter {
 
     return this.http
       .post<OpfVerifyPaymentResponse>(
-        this.getVerifyPaymentEndpoint(paymentSessionId),
+        this.verifyPaymentEndpoint(paymentSessionId),
         JSON.stringify(payload),
         {
           headers,
@@ -127,8 +127,8 @@ export class OccOpfAdapter implements OpfAdapter {
       );
   }
 
-  protected getVerifyPaymentEndpoint(paymentSessionId: string): string {
-    return this.opfEndpointsService.buildUrl('getVerifyPayment', {
+  protected verifyPaymentEndpoint(paymentSessionId: string): string {
+    return this.opfEndpointsService.buildUrl('verifyPayment', {
       urlParams: { paymentSessionId },
     });
   }
