@@ -10,7 +10,7 @@ import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
 
@@ -25,7 +25,7 @@ class MockStarRatingComponent {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -35,7 +35,7 @@ class MockTranslationService {
 
 class MockEventService {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -205,7 +205,7 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), of());
+      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -225,7 +225,7 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), of());
+      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -245,7 +245,7 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentDestroyEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(), of(event));
+      spyOn(eventService, 'get').and.returnValues(EMPTY, of(event));
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;

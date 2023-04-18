@@ -8,7 +8,7 @@ import {
   BreakpointService,
   CurrentProductService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
 
 const firstImage = {
@@ -54,7 +54,7 @@ const mockDataWithoutPrimaryPictures: Product = {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 

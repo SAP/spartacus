@@ -4,22 +4,22 @@ import {
   OrgUnitService,
   PermissionService,
 } from '@spartacus/organization/administration/core';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { CurrentUnitService } from './current-unit.service';
 
 class MockRoutingService {
   getParams() {
-    return of();
+    return EMPTY;
   }
 
   getRouterState() {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockOrgUnitService implements Partial<PermissionService> {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 

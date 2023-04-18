@@ -9,7 +9,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
@@ -71,7 +71,7 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show loading spinner', () => {
-    component.tracking$ = of();
+    component.tracking$ = EMPTY;
     fixture.detectChanges();
     expect(el.query(By.css('.cx-tracking-loading'))).toBeTruthy();
   });

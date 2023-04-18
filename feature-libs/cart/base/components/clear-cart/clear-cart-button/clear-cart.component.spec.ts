@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ClearCartComponent } from './clear-cart.component';
 
 const mockCartEmpty$: Observable<Cart> = of({
@@ -28,12 +28,12 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
 }
 
