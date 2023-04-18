@@ -92,6 +92,12 @@ describe('ScheduleLinesCartEntryComponent', () => {
     mockCartItemContext.item$.next(orderEntry);
   });
 
+  it('should return empty string when no date is provided', () => {
+    const date = component.getLongDate();
+
+    expect(date).toEqual('');
+  });
+
   describe('schedule lines', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
