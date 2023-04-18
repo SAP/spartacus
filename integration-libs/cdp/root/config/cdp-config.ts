@@ -27,7 +27,10 @@ export const CdpConfig: RoutingConfig = {
       },
       SettingsAndPrivacy: {
         paths: ['my-account/consents'],
-      }
+      },
+      requests: {
+        paths: ['/my-account/support-tickets'],
+      },
     }
   }
 };
