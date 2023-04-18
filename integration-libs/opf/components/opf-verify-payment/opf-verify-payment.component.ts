@@ -5,11 +5,12 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 import {
   KeyValuePair,
@@ -18,8 +19,8 @@ import {
   OpfVerifyPaymentResponse,
 } from '@spartacus/opf/root';
 import { OrderFacade } from '@spartacus/order/root';
-import { Subscription, throwError } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { of, Subscription, throwError } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-verify-payment',
@@ -29,12 +30,13 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
   subscription?: Subscription;
 
   constructor(
-    protected route: ActivatedRoute,
     protected routingService: RoutingService,
     protected orderFacade: OrderFacade,
     protected opfCheckoutService: OpfCheckoutFacade,
     protected config: OpfConfig,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected winRef: WindowRef,
+    protected route: ActivatedRoute
   ) {}
 
   ngOnDestroy(): void {
@@ -44,21 +46,26 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.route.queryParams
+    this.subscription = of(this.getFullUrl())
       .pipe(
-        take(1),
-        switchMap((params) => {
-          if (!params) return throwError('No params');
+        map((fullUrl: string) => {
+          if (fullUrl?.startsWith(this.config.opf?.successUrl as string)) {
+            return this.getCurrentUrlParams();
+          } else {
+            throw Error('Cancel link returned by PSP');
+          }
+        }),
+        switchMap((params: KeyValuePair[]) => {
+          if (!params) return throwError('No parameters found in Url');
 
-          const list: KeyValuePair[] = Object.entries(params).map((pair) => {
-            return { key: pair[0], value: pair[1] as string };
-          });
-
-          const paymentSessionId = this.getPaymentSessionId(list);
+          const paymentSessionId = this.FindFromKeyValuePairs(
+            'paymentSessionId',
+            params
+          );
           if (!paymentSessionId) return throwError('No paymentSessionId found');
 
           return this.opfCheckoutService.verifyPayment(paymentSessionId, {
-            responseMap: [...list],
+            responseMap: [...params],
           });
         }),
 
@@ -82,10 +89,22 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
         },
       });
   }
+  convertParamsToKeyValuePairs(params: Params): KeyValuePair[] {
+    if (!params) return [];
+    return Object.entries(params).map((pair) => {
+      return { key: pair[0], value: pair[1] as string };
+    });
+  }
 
-  private getPaymentSessionId(list: KeyValuePair[]): string | undefined {
-    return (
-      list.find((pair) => pair.key === 'paymentSessionId')?.value ?? undefined
-    );
+  getFullUrl(): string {
+    return this.winRef.document.location.origin;
+  }
+
+  FindFromKeyValuePairs(key: string, list: KeyValuePair[]): string | undefined {
+    return list.find((pair) => pair.key === key)?.value ?? undefined;
+  }
+
+  getCurrentUrlParams(): KeyValuePair[] {
+    return this.convertParamsToKeyValuePairs(this.route.snapshot.params);
   }
 }

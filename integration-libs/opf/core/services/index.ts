@@ -5,3 +5,4 @@
  */
 
 export * from './opf-endpoints.service';
+export * from './opf-routing.service';
