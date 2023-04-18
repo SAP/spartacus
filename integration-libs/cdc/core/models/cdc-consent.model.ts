@@ -22,7 +22,7 @@ export interface userConsentPreferences{
     inTransition: boolean;
     errorCode: number;
     errorMessage: string;
-    uid: string;
+    UID: string;
     preferences: any;
 }
 

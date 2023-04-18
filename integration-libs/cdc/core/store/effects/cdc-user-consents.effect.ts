@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { cdcUserConsentService } from '@spartacus/cdc/components';
-import { UserActions, normalizeHttpError } from '@spartacus/core';
+import { CdcSiteConsentService } from '@spartacus/cdc/components';
+import { UserActions, normalizeHttpError, GlobalMessageActions,
+  //GlobalMessageActions
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError, concatMap } from 'rxjs/operators';
 
@@ -9,7 +11,7 @@ import { map, catchError, concatMap } from 'rxjs/operators';
 export class CdcUserConsentsEffects {
   constructor(
     protected actions$: Actions,
-    protected cdcUserConsentService: cdcUserConsentService
+    protected cdcUserConsentService: CdcSiteConsentService
   ) {}
 
   getConsents$: Observable<UserActions.UserConsentsAction> = createEffect(() =>
@@ -26,4 +28,51 @@ export class CdcUserConsentsEffects {
       )
     )
   );
+
+  giveConsent$: Observable<
+    UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType<UserActions.GiveUserConsent>(UserActions.GIVE_USER_CONSENT),
+      concatMap((action) =>
+      this.cdcUserConsentService.updateConsent(
+            true,
+            action.payload.consentTemplateId ?? '',
+          )
+          .pipe(
+            map((consent) => new UserActions.GiveUserConsentSuccess(consent)),
+            catchError((error) => {
+              const errors: Array<
+                | UserActions.UserConsentsAction
+                | GlobalMessageActions.RemoveMessagesByType
+              > = [
+                new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
+              ];
+              return of(...errors);
+            })
+          )
+      )
+    )
+  );
+
+  withdrawConsent$: Observable<UserActions.UserConsentsAction> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.WITHDRAW_USER_CONSENT),
+        map((action: UserActions.WithdrawUserConsent) => action.payload),
+        concatMap(({ consentCode }) =>
+          this.cdcUserConsentService.updateConsent(false,consentCode).pipe(
+            map(() => new UserActions.WithdrawUserConsentSuccess()),
+            catchError((error) =>
+              of(
+                new UserActions.WithdrawUserConsentFail(
+                  normalizeHttpError(error)
+                )
+              )
+            )
+          )
+        )
+      )
+  );
+
 }

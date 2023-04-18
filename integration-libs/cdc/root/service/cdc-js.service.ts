@@ -630,13 +630,51 @@ export class CdcJsService implements OnDestroy {
   protected currentUID: string | undefined;
 
   getUserConsentPreferences(
-    uid: string | undefined,
-    include: string | undefined
+    uid: string | undefined
   ): Observable<userConsentPreferences> {
     return this.invokeAPI('accounts.getAccountInfo', {
       uid: uid,
-      include: include,
+      include: 'preferences',
     });
+  }
+
+  setUserConsentPreferences(
+    uid: string,
+    lang: string,
+    preferences: any
+  ): Observable<{ errorMessage: string }> {
+    var pref: any = {
+      consent: {
+        survey: {
+          isConsentGranted: true,
+        },
+      },
+      terms: {
+        test: {
+          terms: {
+            of: {
+              use: {
+                isConsentGranted: false,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    console.log('preference:', preferences);
+    return this.invokeAPI(setAccountInfoAPI, {
+      uid: uid,
+      lang: lang,
+      preferences: pref,
+    }).pipe(
+      tap({
+        error: (error) => {
+          console.log('error:', error);
+          of(error);
+        },
+      })
+    );
   }
 
   ngOnDestroy(): void {

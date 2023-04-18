@@ -5,8 +5,7 @@ import {
   ConverterService,
   LanguageService,
 } from '@spartacus/core';
-import { UserProfileService } from '@spartacus/user/profile/core';
-//import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import {
   CdcSiteConsentTemplate,
   siteConsentDetailTemplate,
@@ -18,10 +17,10 @@ import { switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class cdcUserConsentService {
+export class CdcSiteConsentService {
   constructor(
     protected languageService: LanguageService,
-    protected userProfileFacade: UserProfileService,
+    protected userProfileFacade: UserProfileFacade,
     protected cdcJsService: CdcJsService,
     protected converter: ConverterService
   ) {}
@@ -32,9 +31,52 @@ export class cdcUserConsentService {
       switchMap((siteConsent: CdcSiteConsentTemplate) => {
         return this.convertConsentEntries(siteConsent.siteConsentDetails).pipe(
           switchMap((consents: ConsentTemplate[]) => {
-            return this.setUserConsentPreferences(consents);
+            return this.maintainUserConsentPreferences(consents);
           })
         );
+      })
+    );
+  }
+
+  updateConsent(
+    isConsentGranted: boolean,
+    consentCode: string
+  ): Observable<ConsentTemplate> {
+    var uid: string | undefined = this.getUserID();
+    var siteLanguage = this.getActiveLanguage();
+    return this.cdcJsService.getUserConsentPreferences(uid).pipe(
+      switchMap((userPreference) => {
+        let preference = userPreference.preferences;
+        let consentIDs = consentCode?.split('.');
+        consentIDs?.forEach((consentID: string) => {
+          preference = preference[consentID];
+        });
+        preference.isConsentGranted = isConsentGranted;
+        if (uid)
+          this.cdcJsService
+            .setUserConsentPreferences(
+              userPreference.UID,
+              siteLanguage,
+              userPreference.preferences
+            ).subscribe((response) => {
+                  console.log('withdrawn', response);
+                });
+            // .pipe(
+            //   tap((response) => {
+            //     console.log('withdrawn', response);
+            //   })
+            // );
+        if (isConsentGranted === false) return of({});
+        else {
+          return this.getSiteConsentDetails().pipe(
+            switchMap((templates) => {
+              templates?.forEach((template: ConsentTemplate) => {
+                if (template?.id === consentCode) return of(template);
+              });
+              return of({});
+            })
+          );
+        }
       })
     );
   }
@@ -47,22 +89,33 @@ export class cdcUserConsentService {
     return uid;
   }
 
-  setUserConsentPreferences(
+  getActiveLanguage(): string {
+    var siteLanguage: string = '';
+    this.languageService
+      .getActive()
+      .subscribe((language) => (siteLanguage = language))
+      .unsubscribe();
+    return siteLanguage;
+  }
+
+  maintainUserConsentPreferences(
     consents: ConsentTemplate[]
   ): Observable<ConsentTemplate[]> {
     var uid: string | undefined = this.getUserID();
-    console.log('user ID is:', uid);
-    var include: string = 'preferences';
     var updatedConsents: ConsentTemplate[] = [];
     //->old code
-    return this.cdcJsService.getUserConsentPreferences(uid, include).pipe(
+    return this.cdcJsService.getUserConsentPreferences(uid).pipe(
       switchMap((userPreference) => {
+        console.log('get account info:', userPreference);
         consents.forEach((consent) => {
           let preference = userPreference.preferences;
           let consentIDs = consent?.id?.split('.');
           consentIDs?.forEach((consentID: string) => {
             preference = preference[consentID];
           });
+          if (consent.currentConsent) {
+            consent.currentConsent.code = consent?.id; //in CDC there is no code, so filling in ID for code
+          }
           if (preference.isConsentGranted) {
             if (consent.currentConsent) {
               consent.currentConsent.consentGivenDate =
@@ -86,12 +139,7 @@ export class cdcUserConsentService {
     site: siteConsentDetailTemplate[]
   ): Observable<ConsentTemplate[]> {
     var consents: ConsentTemplate[] = [];
-    var siteLanguage: string = '';
-    this.languageService
-      .getActive()
-      .subscribe((language) => (siteLanguage = language))
-      .unsubscribe();
-
+    var siteLanguage = this.getActiveLanguage();
     for (var key in site) {
       if (Object.hasOwn(site, key)) {
         if (site[key].isActive === true) {

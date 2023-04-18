@@ -37,7 +37,7 @@ export class CdcConsentDetailsNormalizer implements Converter<CdcSiteConsentTemp
                   if (lang === siteLanguage) {
                     consents.push({
                       id: key,
-    //                  name: legalStatements[lang]?.purpose,
+    //                  name: => let it be empty
                       description: legalStatements[lang]?.purpose,
                       version: legalStatements[lang].currentDocVersion,
                     });
