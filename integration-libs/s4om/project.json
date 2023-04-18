@@ -28,6 +28,15 @@
         "polyfills": ["zone.js", "zone.js/testing"],
         "karmaConfig": "integration-libs/s4om/karma.conf.js"
       }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/s4om/**/*.ts",
+          "integration-libs/s4om/**/*.html"
+        ]
+      }
     }
   },
   "tags": ["type:feature", "type:integration"]
