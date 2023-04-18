@@ -17,5 +17,6 @@
         "lintFilePatterns": ["tools/eslint-rules/**/*.ts"]
       }
     }
-  }
+  },
+  "tags": ["type:util"]
 }
