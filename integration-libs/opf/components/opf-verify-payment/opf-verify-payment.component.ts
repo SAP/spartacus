@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ComponentRef,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   GlobalMessageService,
@@ -21,36 +15,24 @@ import {
   KeyValuePair,
   OpfCheckoutFacade,
   OpfConfig,
-  OpfVerifyPaymentPayload,
   OpfVerifyPaymentResponse,
 } from '@spartacus/opf/root';
-import { Order, OrderFacade } from '@spartacus/order/root';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { Observable, Subscription, throwError } from 'rxjs';
+import { OrderFacade } from '@spartacus/order/root';
+import { Subscription, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-verify-payment',
   templateUrl: './opf-verify-payment.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
-  verifyPaymentPayload?: OpfVerifyPaymentPayload;
-  paymentSessionId?: string;
-  isAuthorized?: string;
-  placedOrder: void | Observable<ComponentRef<any> | undefined>;
-  paymentObs$: Observable<OpfVerifyPaymentResponse | undefined>;
-  path?: string;
-  obs$?: Observable<Order>;
   subscription?: Subscription;
-  loader?: boolean;
 
   constructor(
     protected route: ActivatedRoute,
     protected routingService: RoutingService,
     protected orderFacade: OrderFacade,
     protected opfCheckoutService: OpfCheckoutFacade,
-    protected launchDialogService: LaunchDialogService,
     protected config: OpfConfig,
     protected globalMessageService: GlobalMessageService
   ) {}
@@ -72,11 +54,10 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
             return { key: pair[0], value: pair[1] as string };
           });
 
-          this.paymentSessionId = this.getPaymentSessionId(list);
-          if (!this.paymentSessionId)
-            return throwError('No paymentSessionId found');
+          const paymentSessionId = this.getPaymentSessionId(list);
+          if (!paymentSessionId) return throwError('No paymentSessionId found');
 
-          return this.opfCheckoutService.verifyPayment(this.paymentSessionId, {
+          return this.opfCheckoutService.verifyPayment(paymentSessionId, {
             responseMap: [...list],
           });
         }),
@@ -89,7 +70,6 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         error: (error) => {
-          console.log('getVerifyPaymentState ERROR', error);
           this.globalMessageService.add(
             error,
             GlobalMessageType.MSG_TYPE_ERROR
@@ -97,8 +77,7 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
           this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
         },
 
-        next: (response) => {
-          console.log('order response', response);
+        next: () => {
           this.routingService.go({ cxRoute: 'orderConfirmation' });
         },
       });
