@@ -30,15 +30,15 @@ export const I18NEXT_HTTP_BACKEND_CLIENT = new InjectionToken<
       _payload: object | string,
       callback: RequestCallback
     ) => {
-      httpClient.get(url, { responseType: 'text' }).subscribe(
-        (data) => callback(null, { status: 200, data }),
-        (error) =>
+      httpClient.get(url, { responseType: 'text' }).subscribe({
+        next: (data) => callback(null, { status: 200, data }),
+        error: (error) =>
           callback(error, {
             // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
             data: null as any,
             status: error.status,
-          })
-      );
+          }),
+      });
     };
   },
 });

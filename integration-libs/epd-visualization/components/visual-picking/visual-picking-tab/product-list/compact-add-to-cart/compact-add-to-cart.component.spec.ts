@@ -21,7 +21,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
@@ -49,25 +49,25 @@ const mockNoStockProduct: Product = {
 class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   isStable(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getActive(): Observable<Cart> {
-    return of();
+    return EMPTY;
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -77,7 +77,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
   closeDialog(_reason: string): void {}
 }

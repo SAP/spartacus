@@ -7,14 +7,14 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitUserItemService } from './unit-user-item.service';
 
 class MockRoutingService {
   go() {}
   getParams() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -22,7 +22,7 @@ const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockB2bUserService {
   get() {
-    return of();
+    return EMPTY;
   }
   loadBudget() {}
   update() {}
