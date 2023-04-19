@@ -88,9 +88,14 @@ export interface Customer360Address {
   region?: Region;
   country?: Country;
 }
+export interface CustomerCardType {
+  code?: string;
+  name?: string;
+}
+
 export interface Customer360PaymentDetail {
   id?: string;
-  cardTypeName?: string; // TODO this might change to return code
+  cardType?: CustomerCardType;
   cardNumber?: string;
   expiryMonth?: string;
   expiryYear?: string;

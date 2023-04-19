@@ -45,13 +45,12 @@ export class AsmCustomerProfileComponent implements OnInit {
       })
     );
   }
-  // TODO: cardTypeName might get change to code or both
   getCardContent({
     defaultPayment,
     expiryMonth,
     expiryYear,
     cardNumber,
-    cardTypeName,
+    cardType,
   }: Customer360PaymentDetail): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.expires', {
@@ -65,7 +64,7 @@ export class AsmCustomerProfileComponent implements OnInit {
           role: 'region',
           header: defaultPayment ? textDefaultPaymentMethod : undefined,
           text: [cardNumber ?? '', textExpires],
-          img: this.getCardIcon(cardTypeName ?? ''),
+          img: this.getCardIcon(cardType?.code ?? ''),
           label: defaultPayment
             ? 'paymentCard.defaultPaymentLabel'
             : 'paymentCard.additionalPaymentLabel',
@@ -74,8 +73,7 @@ export class AsmCustomerProfileComponent implements OnInit {
       })
     );
   }
-  // TODO:  currently backend is passing cardTypeName and we requested to pass code
-  // so we might need to change model to receive correct value
+
   getCardIcon(code: string): string {
     let ccIcon: string;
     if (code === 'visa') {

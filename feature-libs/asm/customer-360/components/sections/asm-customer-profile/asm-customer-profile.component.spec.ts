@@ -69,7 +69,7 @@ describe('AsmCustomerProfileComponent', () => {
       paymentDetails: [
         {
           id: '8796125822999',
-          cardTypeName: 'visa',
+          cardType: { code: 'visa', name: 'Visa' },
           cardNumber: '************6182',
           expiryMonth: '02',
           expiryYear: '2999',
