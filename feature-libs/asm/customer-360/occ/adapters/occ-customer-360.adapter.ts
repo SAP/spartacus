@@ -22,10 +22,8 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { mockCustomer360Response } from './occ-customer-360.mock';
-// import { mockCustomer360Response } from './occ-customer-360.mock';
 
 @Injectable()
 export class OccCustomer360Adapter implements Customer360Adapter {
@@ -76,8 +74,6 @@ export class OccCustomer360Adapter implements Customer360Adapter {
     const requestBody = {
       customer360Queries: request.queries,
     };
-
-    return of(mockCustomer360Response);
 
     return this.http
       .post<Customer360Response>(url, requestBody, { headers })
