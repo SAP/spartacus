@@ -7,6 +7,8 @@
     // The ng lint command uses ESLint under the hood.
     "dbaeumer.vscode-eslint",
     // Modern CSS/SCSS/Less linter
-    "stylelint.vscode-stylelint"
+    "stylelint.vscode-stylelint",
+    // Nx console - GUI
+    "nrwl.angular-console"
   ]
 }
