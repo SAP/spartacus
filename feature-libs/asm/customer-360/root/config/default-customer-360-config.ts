@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { Customer360Type } from '../model';
 import { Customer360Config } from './customer-360-config';
 
@@ -39,7 +38,6 @@ export const defaultCustomer360Config: Customer360Config = {
         components: [
           {
             component: 'AsmCustomer360ProfileComponent',
-            //TODO until backend is ready
             requestData: {
               type: Customer360Type.CUSTOMER_PROFILE,
             },
@@ -63,7 +61,6 @@ export const defaultCustomer360Config: Customer360Config = {
         components: [
           {
             component: 'AsmCustomer360SupportTicketsComponent',
-            //TODO  until backend is ready
             requestData: {
               type: Customer360Type.SUPPORT_TICKET_LIST,
             },
@@ -87,12 +84,6 @@ export const defaultCustomer360Config: Customer360Config = {
               type: Customer360Type.STORE_LOCATION,
             },
             config: {
-              // For security compliance, by default, google maps does not display.
-              // Using special key value 'cx-development' allows google maps to display
-              // without a key, for development or demo purposes.
-              // (refer from app.module)
-              googleMapsApiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG,
-              storefinderRadius: 10000000,
               pageSize: 10,
             },
           },

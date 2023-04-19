@@ -23,6 +23,7 @@ import {
   WeekdayOpeningDay,
 } from '@spartacus/core';
 import {
+  StoreFinderConfig,
   StoreFinderSearchPage,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
@@ -41,7 +42,7 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
 
   googleMapsUrl: SafeResourceUrl;
 
-  selectedStore: PointOfService;
+  selectedStore: PointOfService | undefined;
 
   apiKey: string;
 
@@ -54,7 +55,8 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
     protected changeDetectorRef: ChangeDetectorRef,
     protected sanitizer: DomSanitizer,
     protected storeFinderService: StoreFinderService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected storeFinderConfig: StoreFinderConfig
   ) {}
 
   ngOnInit(): void {
@@ -66,19 +68,21 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
           concatMap(([config, data]) => {
             this.storeFinderService.findStoresAction(
               data.address,
+              {
+                pageSize: config.pageSize,
+              },
               undefined,
               undefined,
               undefined,
-              undefined,
-              config.storefinderRadius
+              this.storeFinderConfig.googleMaps?.radius
             );
 
             return this.storeFinderService.getFindStoresEntities();
           }),
-          concatMap((data: any) => {
-            if (data) {
-              this.storeData = data;
-              this.selectedStore = data.stores?.[0];
+          concatMap((storeSearchData) => {
+            if (storeSearchData) {
+              this.storeData = storeSearchData as StoreFinderSearchPage;
+              this.selectedStore = this.storeData.stores?.[0];
 
               return this.updateGoogleMapsUrl();
             } else {
@@ -97,12 +101,15 @@ export class AsmCustomerMapComponent implements OnDestroy, OnInit {
   updateGoogleMapsUrl(): Observable<void> {
     return this.dataSource$.pipe(
       take(1),
-      tap(([config, data]) => {
-        if (config.googleMapsApiKey && this.selectedStore?.geoPoint) {
+      tap(([_, data]) => {
+        if (
+          this.storeFinderConfig.googleMaps?.apiKey &&
+          this.selectedStore?.geoPoint
+        ) {
           const coordinates = `${this.selectedStore.geoPoint.latitude},${this.selectedStore.geoPoint.longitude}`;
 
           const params = new HttpParams()
-            .append('key', config.googleMapsApiKey)
+            .append('key', this.storeFinderConfig.googleMaps?.apiKey)
             .append('origin', data.address)
             .append('destination', coordinates);
 
