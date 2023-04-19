@@ -13,8 +13,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { BehaviorSubject, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialog.component';
