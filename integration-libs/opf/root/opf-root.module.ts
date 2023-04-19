@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
-import { OpfVerifyPaymentComponent } from '../components/opf-verify-payment';
+import { OpfPaymentVerificationComponent } from '../components/opf-verify-payment';
 import { defaultOPFRoutingConfig } from './config';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
@@ -19,7 +19,7 @@ import { opfConfidValidator } from './config/opf-config-validator';
       {
         // @ts-ignore
         path: null,
-        component: OpfVerifyPaymentComponent,
+        component: OpfPaymentVerificationComponent,
         data: {
           cxRoute: 'paymentresponse',
         },

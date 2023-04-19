@@ -10,7 +10,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import {
   KeyValuePair,
@@ -25,9 +24,9 @@ import { OpfUrlHandlerService } from '../opf-url-handler.service';
 
 @Component({
   selector: 'cx-opf-verify-payment',
-  templateUrl: './opf-verify-payment.component.html',
+  templateUrl: './opf-payment-verification.component.html',
 })
-export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
+export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   subscription?: Subscription;
 
   constructor(
@@ -37,15 +36,8 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
     protected opfCheckoutService: OpfCheckoutFacade,
     protected config: OpfConfig,
     protected globalMessageService: GlobalMessageService,
-    protected winRef: WindowRef,
     protected opfUrlHandlerService: OpfUrlHandlerService
   ) {}
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   ngOnInit(): void {
     this.subscription = this.route.url
@@ -85,23 +77,23 @@ export class OpfVerifyPaymentComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        error: (error) => {
-          this.globalMessageService.add(
-            error,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
-        },
-
-        next: () => {
-          this.routingService.go({ cxRoute: 'orderConfirmation' });
-        },
+        error: (error) => this.onError(error),
+        next: () => this.onSuccess(),
       });
   }
 
-  // private getPaymentSessionId(list: KeyValuePair[]): string | undefined {
-  //   return (
-  //     list.find((pair) => pair.key === 'paymentSessionId')?.value ?? undefined
-  //   );
-  // }
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  onSuccess(): void {
+    this.routingService.go({ cxRoute: 'orderConfirmation' });
+  }
+
+  onError(error: any): void {
+    this.globalMessageService.add(error, GlobalMessageType.MSG_TYPE_ERROR);
+    this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+  }
 }

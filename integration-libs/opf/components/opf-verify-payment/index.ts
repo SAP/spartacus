@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-verify-payment.component';
-export * from './opf-verify-payment.module';
+export * from './opf-payment-verification.component';
+export * from './opf-payment-verification.module';

@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { OpfVerifyPaymentComponent } from './opf-verify-payment.component';
+import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 
 @NgModule({
-  declarations: [OpfVerifyPaymentComponent],
+  declarations: [OpfPaymentVerificationComponent],
   imports: [CommonModule, SpinnerModule],
-  exports: [OpfVerifyPaymentComponent],
+  exports: [OpfPaymentVerificationComponent],
 })
-export class OpfVerifyPaymentModule {}
+export class OpfPaymentVerificationModule {}

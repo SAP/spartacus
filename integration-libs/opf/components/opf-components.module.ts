@@ -11,7 +11,7 @@ import { OPFCheckoutPaymentAndReviewModule } from './opf-checkout-payment-and-re
 import { OpfCheckoutPaymentWrapperModule } from './opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.module';
 import { OpfCheckoutPaymentsModule } from './opf-checkout-payments/opf-checkout-payments.module';
 
-import { OpfVerifyPaymentModule } from './opf-verify-payment/opf-verify-payment.module';
+import { OpfPaymentVerificationModule } from './opf-verify-payment/opf-payment-verification.module';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { OpfVerifyPaymentModule } from './opf-verify-payment/opf-verify-payment.
     OpfCheckoutPaymentsModule,
     OpfCheckoutBillingAddressFormModule,
     OpfCheckoutPaymentWrapperModule,
-    OpfVerifyPaymentModule,
+    OpfPaymentVerificationModule,
   ],
   providers: [
     // NOTE: Developers are urged to remove mapping for this component via impex script
