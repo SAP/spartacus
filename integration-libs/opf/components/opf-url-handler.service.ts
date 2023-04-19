@@ -16,19 +16,12 @@ export class OpfUrlHandlerService {
     });
   }
 
-  getFullUrl(): string {
-    return (
-      this.winRef.document.location.origin +
-      this.winRef.document.location.pathname
-    );
-  }
-
-  FindFromKeyValuePairs(key: string, list: KeyValuePair[]): string | undefined {
+  findFromKeyValuePairs(key: string, list: KeyValuePair[]): string | undefined {
     return list.find((pair) => pair.key === key)?.value ?? undefined;
   }
 
   isIncludedInPath(segments: UrlSegment[], targetPath: string): boolean {
-    return segments?.join('/').includes(targetPath);
+    return segments?.join('/')?.includes(targetPath);
   }
 
   getDomainUrl() {

@@ -106,9 +106,7 @@ export class OccOpfAdapter implements OpfAdapter {
       accept: 'application/json',
       'Content-Type': 'application/json',
       'Content-Language': 'en-us',
-      'sap-commerce-cloud-public-key':
-        this.config.opf?.commerceCloudPublicKey || '',
-    });
+    }).set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '');
 
     return this.http
       .post<OpfPaymentVerificationResponse>(

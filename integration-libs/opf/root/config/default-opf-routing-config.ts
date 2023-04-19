@@ -12,7 +12,7 @@ export const defaultOPFRoutingConfig: RoutingConfig = {
     routes: {
       paymentresponse: {
         paths: [
-          defaultOpfConfig.opf?.successUrl as string,
+          defaultOpfConfig.opf?.resultUrl as string,
           defaultOpfConfig.opf?.cancelUrl as string,
         ],
       },

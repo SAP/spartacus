@@ -42,13 +42,13 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
   protected verifyPaymentCommand: Command<
     {
       paymentSessionId: string;
-      verifyPaymentData: OpfPaymentVerificationPayload;
+      paymentVerificationPayload: OpfPaymentVerificationPayload;
     },
     OpfPaymentVerificationResponse
   > = this.commandService.create((payload) =>
     this.opfCheckoutConnector.verifyPayment(
       payload.paymentSessionId,
-      payload.verifyPaymentData
+      payload.paymentVerificationPayload
     )
   );
 
@@ -72,11 +72,11 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
 
   verifyPayment(
     paymentSessionId: string,
-    verifyPaymentData: OpfPaymentVerificationPayload
+    paymentVerificationPayload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse> {
     return this.verifyPaymentCommand.execute({
       paymentSessionId,
-      verifyPaymentData,
+      paymentVerificationPayload,
     });
   }
 }

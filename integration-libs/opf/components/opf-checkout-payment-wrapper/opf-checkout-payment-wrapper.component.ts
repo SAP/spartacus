@@ -62,7 +62,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
             configurationId: String(this.selectedPaymentId),
             cartId: this.activeCartId,
             // TODO: Move below as a part of a whole OPF configuration?
-            resultURL: `${currentDomain}/${this.config.opf?.successUrl}`,
+            resultURL: `${currentDomain}/${this.config.opf?.resultUrl}`,
             cancelURL: `${currentDomain}/${this.config.opf?.cancelUrl}`,
           },
         };

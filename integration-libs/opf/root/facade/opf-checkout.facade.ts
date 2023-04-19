@@ -49,12 +49,13 @@ export abstract class OpfCheckoutFacade {
   ): Observable<PaymentSessionData>;
 
   /**
-   * verifyPayment
+   * Endpoint to verify a response from PSP for Full Page Redirect and iFrame integration patterns.
    *
-   * @param params Object with paymentSessionId and payload
+   * @param paymentSessionId
+   * @param paymentVerificationPayload
    */
   abstract verifyPayment(
     paymentSessionId: string,
-    verifyPaymentdata: OpfPaymentVerificationPayload
+    paymentVerificationPayload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
 }

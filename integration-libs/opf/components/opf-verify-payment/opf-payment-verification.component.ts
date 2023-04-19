@@ -46,10 +46,10 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         switchMap((segments) => {
-          return !!this.config?.opf?.successUrl &&
+          return !!this.config?.opf?.resultUrl &&
             this.opfUrlHandlerService.isIncludedInPath(
               segments,
-              this.config.opf.successUrl
+              this.config.opf.resultUrl
             )
             ? this.route.queryParams
             : throwError('CANCEL URL RETURNED BY PSP');
@@ -61,7 +61,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             this.opfUrlHandlerService.convertParamsToKeyValuePairs(params);
 
           const paymentSessionId =
-            this.opfUrlHandlerService.FindFromKeyValuePairs(
+            this.opfUrlHandlerService.findFromKeyValuePairs(
               OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
               list
             );
