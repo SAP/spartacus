@@ -8,12 +8,13 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OPF_FEATURE } from '../feature-name';
-import { PaymentInitiationConfig, PaymentSessionData } from '../model';
 import {
-  ActiveConfiguration,
-  OpfVerifyPaymentPayload,
-  OpfVerifyPaymentResponse,
-} from '../model/opf-checkout.model';
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
+  PaymentInitiationConfig,
+  PaymentSessionData,
+} from '../model';
+import { ActiveConfiguration } from '../model/opf-checkout.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +55,6 @@ export abstract class OpfCheckoutFacade {
    */
   abstract verifyPayment(
     paymentSessionId: string,
-    verifyPaymentdata: OpfVerifyPaymentPayload
-  ): Observable<OpfVerifyPaymentResponse>;
+    verifyPaymentdata: OpfPaymentVerificationPayload
+  ): Observable<OpfPaymentVerificationResponse>;
 }

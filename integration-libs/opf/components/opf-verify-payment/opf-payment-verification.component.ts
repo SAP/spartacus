@@ -15,7 +15,9 @@ import {
   KeyValuePair,
   OpfCheckoutFacade,
   OpfConfig,
-  OpfVerifyPaymentResponse,
+  OpfPaymentVerificationResponse,
+  OpfPaymentVerificationResult,
+  OpfPaymenVerificationUrlInput,
 } from '@spartacus/opf/root';
 import { OrderFacade } from '@spartacus/order/root';
 import { Subscription, throwError } from 'rxjs';
@@ -60,7 +62,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
           const paymentSessionId =
             this.opfUrlHandlerService.FindFromKeyValuePairs(
-              'paymentSessionId',
+              OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
               list
             );
           if (!paymentSessionId) return throwError('No paymentSessionId found');
@@ -69,9 +71,8 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             responseMap: [...list],
           });
         }),
-
-        switchMap((response: OpfVerifyPaymentResponse) => {
-          return response?.result === 'AUTHORIZED'
+        switchMap((response: OpfPaymentVerificationResponse) => {
+          return response?.result === OpfPaymentVerificationResult.AUTHORIZED
             ? this.orderFacade.placeOrder(true)
             : throwError('UNAUTHORIZED payment from OPF Adapter');
         })
@@ -82,12 +83,6 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   onSuccess(): void {
     this.routingService.go({ cxRoute: 'orderConfirmation' });
   }
@@ -95,5 +90,11 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   onError(error: any): void {
     this.globalMessageService.add(error, GlobalMessageType.MSG_TYPE_ERROR);
     this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

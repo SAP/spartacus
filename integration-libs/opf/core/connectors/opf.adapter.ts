@@ -6,8 +6,8 @@
 
 import {
   ActiveConfiguration,
-  OpfVerifyPaymentPayload,
-  OpfVerifyPaymentResponse,
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/root';
@@ -33,6 +33,6 @@ export abstract class OpfAdapter {
 
   abstract verifyPayment(
     paymentSessionId: string,
-    payload: OpfVerifyPaymentPayload
-  ): Observable<OpfVerifyPaymentResponse>;
+    payload: OpfPaymentVerificationPayload
+  ): Observable<OpfPaymentVerificationResponse>;
 }

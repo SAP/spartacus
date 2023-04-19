@@ -8,7 +8,7 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import {
   ActiveConfiguration,
-  OpfVerifyPaymentResponse,
+  OpfPaymentVerificationResponse,
 } from '@spartacus/opf/root';
 
 export const OPF_ACTIVE_CONFIGURATION_NORMALIZER = new InjectionToken<
@@ -16,5 +16,5 @@ export const OPF_ACTIVE_CONFIGURATION_NORMALIZER = new InjectionToken<
 >('OpfActiveConfigurationNormalizer');
 
 export const OPF_VERIFY_PAYMENT_NORMALIZER = new InjectionToken<
-  Converter<any, OpfVerifyPaymentResponse>
+  Converter<any, OpfPaymentVerificationResponse>
 >('OpfVerifyPaymentNormalizer');

@@ -22,8 +22,8 @@ import {
 import {
   ActiveConfiguration,
   OpfConfig,
-  OpfVerifyPaymentPayload,
-  OpfVerifyPaymentResponse,
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
   OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
   PaymentInitiationConfig,
@@ -100,8 +100,8 @@ export class OccOpfAdapter implements OpfAdapter {
 
   verifyPayment(
     paymentSessionId: string,
-    payload: OpfVerifyPaymentPayload
-  ): Observable<OpfVerifyPaymentResponse> {
+    payload: OpfPaymentVerificationPayload
+  ): Observable<OpfPaymentVerificationResponse> {
     const headers = new HttpHeaders({
       accept: 'application/json',
       'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export class OccOpfAdapter implements OpfAdapter {
     });
 
     return this.http
-      .post<OpfVerifyPaymentResponse>(
+      .post<OpfPaymentVerificationResponse>(
         this.verifyPaymentEndpoint(paymentSessionId),
         JSON.stringify(payload),
         {
