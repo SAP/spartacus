@@ -14,10 +14,10 @@ import {
   PickupLocationsSearchFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { MockStoreFinderService } from 'feature-libs/storefinder/components/abstract-store-item/abstract-store-item.component.spec';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
@@ -28,7 +28,7 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of();
+    return EMPTY;
   }
   refreshLatestPage() {}
   refreshPageById() {}
@@ -64,7 +64,7 @@ describe('MyPreferredStoreComponent', () => {
           useClass: MockPickupLocationsSearchService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: StoreFinderFacade, useClass: MockStoreFinderService },
         { provide: CmsService, useClass: MockCmsService },
       ],
     }).compileComponents();

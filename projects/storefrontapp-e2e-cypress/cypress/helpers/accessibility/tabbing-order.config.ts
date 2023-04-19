@@ -242,16 +242,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   cart: [
     {
+      value: 'Saved Carts',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Save Cart For Later',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
+    { type: TabbingOrderTypes.RADIO },
+    { type: TabbingOrderTypes.RADIO },
+    { value: 'Select Store', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Save For Later', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
-    {
-      value: 'Proceed to Checkout',
-      type: TabbingOrderTypes.BUTTON,
-    },
+    { value: 'Clear Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export Product to CSV', type: TabbingOrderTypes.LINK },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
@@ -260,6 +275,85 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Apply',
       type: TabbingOrderTypes.BUTTON,
     },
+    {
+      value: 'productCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Proceed to Checkout',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  savedCartModal: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.TEXT_AREA,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  savedCartListing: [
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '$3.45',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Make Cart Active',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+  ],
+  savedCartDetails: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add To Active Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export Product to CSV', type: TabbingOrderTypes.LINK },
+    { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
   ],
   saveForLater: [
     {

@@ -4,7 +4,13 @@ $sapFioriContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   .cx-modal-content {
-    min-height: 424px;
+    @include forVersion(1, 6) {
+      min-height: 426px;
+    }
+
+    @include forVersion(6) {
+      min-height: 352px;
+    }
   }
 
   .cx-dialog-header {
@@ -18,9 +24,11 @@ $sapFioriContent_LabelColor: #6a6d70;
       font-size: 1.25rem;
       font-weight: 900;
     }
-    .close {
-      font-size: 1rem;
-      color: $sapFioriTextColor;
+    @include forVersion(1, 6) {
+      .close {
+        font-size: 1rem;
+        color: $sapFioriTextColor;
+      }
     }
   }
 
@@ -207,6 +215,64 @@ $sapFioriContent_LabelColor: #6a6d70;
     .ng-value-label {
       font-weight: 700;
       color: $sapFioriLinkColor;
+    }
+  }
+
+  @include forVersion(6.1) {
+    .cx-asm-create-customer-btn {
+      background-color: #eaecee;
+      border-color: #eaecee;
+      border-radius: 8px;
+      padding: 0px 10px 0px 10px;
+      color: #1d2d3e;
+      text-decoration: none;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 16px;
+      min-height: 42px;
+      min-width: 70px;
+
+      cx-icon {
+        color: #1d2d3e;
+        margin-inline-end: 3px;
+      }
+
+      &:hover {
+        background-color: #ffffff;
+        border-width: 1px;
+        border-color: #d6dade;
+        border-style: solid;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    .cx-asm-customer-list-btn-cancel {
+      color: #0064d8;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 19px;
+      border-radius: 8px;
+      border-color: #ffffff;
+      min-height: 42px;
+
+      margin: 0px 20px 0px 0px;
+      padding: 0px 10px 0px 10px;
+
+      &:hover {
+        color: #0064d8;
+        background-color: #d9d9d9;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
 }

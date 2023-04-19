@@ -14,7 +14,7 @@ import {
   LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
 
 const consignmentStatus: string[] = [
@@ -44,7 +44,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

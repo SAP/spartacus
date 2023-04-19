@@ -19,7 +19,6 @@ import {
   map,
   mergeMap,
   switchMap,
-  switchMapTo,
   take,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -268,7 +267,7 @@ export class ConfiguratorBasicEffects {
             select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
             take(1),
             filter((hasPendingChanges) => hasPendingChanges === false),
-            switchMapTo(
+            switchMap(() =>
               this.store.pipe(
                 select(
                   ConfiguratorSelectors.getCurrentGroup(payload.owner.key)

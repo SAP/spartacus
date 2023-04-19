@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - develop
+      - develop-*
       - 'epic/**'
       - 'release/**'
 name: Cache libs (dist)

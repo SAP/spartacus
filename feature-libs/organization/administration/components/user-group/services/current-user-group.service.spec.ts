@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { UserGroupService } from '@spartacus/organization/administration/core';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { CurrentUserGroupService } from '..';
 
 class MockRoutingService {
   getParams() {
-    return of();
+    return EMPTY;
   }
 
   getRouterState() {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 

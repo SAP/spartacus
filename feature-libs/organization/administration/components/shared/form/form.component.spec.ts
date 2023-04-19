@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { MessageService } from '@spartacus/organization/administration/components';
+import { LoadStatus } from '@spartacus/organization/administration/core';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
 import { ItemService } from '../item.service';
 import { FormComponent } from './form.component';
-import { MessageService } from '@spartacus/organization/administration/components';
-import { LoadStatus } from '@spartacus/organization/administration/core';
 
 const mockItem = { foo: 'bar' };
 
@@ -16,7 +16,7 @@ const key$ = new BehaviorSubject('key');
 class MockItemService {
   key$ = key$.asObservable();
   current$ = of(mockItem);
-  unit$ = of();
+  unit$ = EMPTY;
   save() {
     return of({ status: LoadStatus.SUCCESS, item: mockItem });
   }
