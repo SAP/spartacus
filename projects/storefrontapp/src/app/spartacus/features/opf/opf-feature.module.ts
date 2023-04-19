@@ -5,7 +5,7 @@
  */
 
 import { NgModule, Provider } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
@@ -26,16 +26,28 @@ if (environment.b2b) {
   extensionProviders.push(provideConfig(defaultOPFCheckoutConfig));
 }
 
+const resultUrl = 'redirect/success';
+const cancelUrl = 'redirect/failure';
+
 @NgModule({
   imports: [OpfRootModule],
   providers: [
+    provideConfig(<RoutingConfig>{
+      routing: {
+        routes: {
+          paymentresponse: {
+            paths: [resultUrl, cancelUrl],
+          },
+        },
+      },
+    }),
     provideConfig(<OpfConfig>{
       opf: {
         baseUrl:
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
-        resultUrl: 'redirect/success',
-        cancelUrl: 'redirect/failure',
+        resultUrl: resultUrl,
+        cancelUrl: cancelUrl,
       },
     }),
     provideConfig(<I18nConfig>{
