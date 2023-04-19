@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   CheckoutBillingAddressFacade,
   CheckoutDeliveryAddressFacade,
@@ -12,7 +17,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { Address, Country, UserPaymentService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -31,7 +36,8 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     Address | undefined
   >(undefined);
   protected readonly editBillingAddressSub = new BehaviorSubject(false);
-  protected isLoadingAddressSub = new BehaviorSubject(false);
+  protected readonly isLoadingAddressSub = new BehaviorSubject(false);
+  protected billingAddressId: string | undefined;
 
   sameAsDeliveryAddress$ = this.sameAsDeliveryAddressSub.asObservable();
   userCustomBillingAddress$ = this.userCustomBillingAddressSub.asObservable();
@@ -42,13 +48,13 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutBillingAddressFacade: CheckoutBillingAddressFacade,
     protected userPaymentService: UserPaymentService,
-    protected checkoutPaymentService: CheckoutPaymentFacade
+    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.getCountries();
-    this.getDeliveryAddress();
-    this.getPaymentAddress();
+    this.getAddresses();
   }
 
   toggleSameAsDeliveryAddress(): void {
@@ -75,28 +81,13 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     this.sameAsDeliveryAddress$
       .pipe(
         filter((isSameAsDeliveryAddress: boolean) => !isSameAsDeliveryAddress),
-        switchMap(() =>
-          this.checkoutBillingAddressFacade.setBillingAddress(address)
-        ),
+        switchMap(() => this.setBillingAddress(this.getAddressWithId(address))),
         take(1)
       )
-      .subscribe(() => {
-        this.userCustomBillingAddressSub.next(address);
+      .subscribe((billingAddress: Address | undefined) => {
+        this.userCustomBillingAddressSub.next(billingAddress);
         this.editBillingAddressSub.next(false);
       });
-  }
-
-  protected putDeliveryAddressAsPaymentAddress(): void {
-    this.deliveryAddress$
-      .pipe(
-        switchMap((address: Address | undefined) =>
-          !!address
-            ? this.checkoutBillingAddressFacade.setBillingAddress(address)
-            : EMPTY
-        ),
-        take(1)
-      )
-      .subscribe();
   }
 
   cancelAndHideForm() {
@@ -125,74 +116,77 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     );
   }
 
-  protected getDeliveryAddress(): void {
-    this.isLoadingAddressSub.next(true);
-
-    this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
-      .getDeliveryAddressState()
+  protected putDeliveryAddressAsPaymentAddress(): void {
+    this.deliveryAddress$
       .pipe(
-        filter((state) => !state.loading),
-        map((state) => state.data),
-        tap(() => this.isLoadingAddressSub.next(false))
-      );
-  }
-
-  protected getPaymentAddress(): void {
-    this.isLoadingAddressSub.next(true);
-
-    this.checkoutBillingAddressFacade
-      .getBillingAddress()
-      .pipe(
-        tap(() => this.isLoadingAddressSub.next(false)),
-        filter((address: Address | undefined) => !!address),
+        switchMap((address: Address | undefined) =>
+          !!address
+            ? this.setBillingAddress(this.getAddressWithId(address))
+            : EMPTY
+        ),
         take(1)
       )
-      .subscribe((address) => {
-        this.userCustomBillingAddressSub.next(address);
-        this.sameAsDeliveryAddressSub.next(false);
-      });
+      .subscribe();
   }
 
-  // TODO: Handle delivery address and billing address comparison after research about the best way of doing this
-  //
-  // getAddresses(): void {
-  //   this.isLoadingAddress = true;
+  protected setBillingAddress(
+    address: Address
+  ): Observable<Address | undefined> {
+    return this.checkoutBillingAddressFacade.setBillingAddress(address).pipe(
+      switchMap(() => this.checkoutBillingAddressFacade.getBillingAddress()),
+      tap((address: Address | undefined) => {
+        if (!!address && !!address.id) {
+          this.billingAddressId = address.id;
+        }
+      })
+    );
+  }
 
-  //   combineLatest([this.getDelivery(), this.getPayment()]).subscribe(
-  //     ([deliveryAddress, paymentAddress]: [
-  //       Address | undefined,
-  //       Address | undefined
-  //     ]) => {
-  //       this.deliveryAddress$ = of(deliveryAddress);
-  //       console.log('delivery', deliveryAddress);
-  //       console.log('payment', paymentAddress);
+  protected getAddressWithId(address: Address): Address {
+    return { ...address, id: this.billingAddressId };
+  }
 
-  //       if (!paymentAddress && !!deliveryAddress) {
-  //         this.checkoutBillingAddressFacade.setBillingAddress(deliveryAddress);
-  //       }
+  protected getAddresses(): void {
+    this.isLoadingAddressSub.next(true);
 
-  //       if (
-  //         !!paymentAddress &&
-  //         !!deliveryAddress &&
-  //         paymentAddress.id !== deliveryAddress.id
-  //       ) {
-  //         this.userCustomBillingAddressSub.next(paymentAddress);
-  //         this.sameAsDeliveryAddressSub.next(false);
-  //       }
+    combineLatest([
+      this.getDeliveryAddress(),
+      this.getPaymentAddress(),
+    ]).subscribe(
+      ([deliveryAddress, paymentAddress]: [
+        Address | undefined,
+        Address | undefined
+      ]) => {
+        this.deliveryAddress$ = of(deliveryAddress);
 
-  //       this.isLoadingAddress = false;
-  //     }
-  //   );
-  // }
+        if (!paymentAddress && !!deliveryAddress) {
+          this.setBillingAddress(deliveryAddress);
+        }
 
-  // protected getDelivery(): Observable<Address | undefined> {
-  //   return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
-  //     filter((state) => !state.loading),
-  //     map((state) => state.data)
-  //   );
-  // }
+        if (
+          !!paymentAddress &&
+          !!deliveryAddress &&
+          paymentAddress.id !== deliveryAddress.id
+        ) {
+          this.billingAddressId = paymentAddress.id;
+          this.userCustomBillingAddressSub.next(paymentAddress);
+          this.sameAsDeliveryAddressSub.next(false);
+        }
 
-  // protected getPayment(): Observable<Address | undefined> {
-  //   return this.checkoutBillingAddressFacade.getBillingAddress().pipe(take(1));
-  // }
+        this.isLoadingAddressSub.next(false);
+        this.cd.markForCheck();
+      }
+    );
+  }
+
+  protected getDeliveryAddress(): Observable<Address | undefined> {
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data)
+    );
+  }
+
+  protected getPaymentAddress(): Observable<Address | undefined> {
+    return this.checkoutBillingAddressFacade.getBillingAddress().pipe(take(1));
+  }
 }
