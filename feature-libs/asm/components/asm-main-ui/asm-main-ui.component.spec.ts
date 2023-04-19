@@ -433,4 +433,13 @@ describe('AsmMainUiComponent', () => {
     });
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
+
+  it('should be able to open create account dialog', () => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    component.createCustomer();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      component.addNewCustomerLink
+    );
+  });
 });

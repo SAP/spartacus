@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './asm-create-customer.service';
-export * from './asm-customer-list.service';
-export * from './asm.service';
+export interface CreatedCustomer {
+  firstName: string;
+  lastName: string;
+  email: string;
+}

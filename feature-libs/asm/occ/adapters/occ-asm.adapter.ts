@@ -15,6 +15,7 @@ import {
   AsmConfig,
   BindCartParams,
   CustomerListsPage,
+  CustomerRegistrationForm,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
@@ -24,6 +25,7 @@ import {
   InterceptorUtil,
   normalizeHttpError,
   OccEndpointsService,
+  User,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
@@ -145,6 +147,26 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http
       .post<void>(url, {}, { headers, params })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+  }
+
+  createCustomer(user: CustomerRegistrationForm): Observable<User> {
+    const headers = this.getHeaders();
+    const params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
+    );
+
+    const url = this.occEndpointsService.buildUrl(
+      'asmCreateCustomer',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+    return this.http
+      .post<User>(url, user, { headers, params })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }
