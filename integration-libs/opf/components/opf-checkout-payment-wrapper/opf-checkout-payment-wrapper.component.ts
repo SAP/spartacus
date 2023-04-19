@@ -20,6 +20,7 @@ import {
 } from '@spartacus/opf/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { OpfUrlHandlerService } from '../opf-url-handler.service';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
@@ -38,7 +39,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     protected opfOtpService: OpfOtpFacade,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected config: OpfConfig
+    protected config: OpfConfig,
+    protected opfUrlHandlerService: OpfUrlHandlerService
   ) {}
 
   // TODO: Move this logic to the service
@@ -52,16 +54,19 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
         return this.opfOtpService.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) => ({
-        otpKey,
-        config: {
-          configurationId: String(this.selectedPaymentId),
-          cartId: this.activeCartId,
-          // TODO: Move below as a part of a whole OPF configuration?
-          resultURL: `http://localhost:4200/${this.config.opf?.successUrl}`,
-          cancelURL: `http://localhost:4200/${this.config.opf?.cancelUrl}`,
-        },
-      })),
+      map(({ value: otpKey }) => {
+        const currentDomain = this.opfUrlHandlerService.getDomainUrl();
+        return {
+          otpKey,
+          config: {
+            configurationId: String(this.selectedPaymentId),
+            cartId: this.activeCartId,
+            // TODO: Move below as a part of a whole OPF configuration?
+            resultURL: `${currentDomain}/${this.config.opf?.successUrl}`,
+            cancelURL: `${currentDomain}/${this.config.opf?.cancelUrl}`,
+          },
+        };
+      }),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params))
     );
   }
