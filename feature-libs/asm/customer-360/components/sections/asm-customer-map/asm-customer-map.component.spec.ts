@@ -12,7 +12,7 @@ import { Customer360SectionContext } from '../customer-360-section-context.model
 
 import { AsmCustomerMapComponent } from './asm-customer-map.component';
 
-fdescribe('AsmCustomerMapComponent', () => {
+describe('AsmCustomerMapComponent', () => {
   const stores = [
     {
       displayName: 'Boston',
