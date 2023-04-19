@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import {
   CDC_SITE_CONSENT_NORMALIZER,
   CDC_SITE_CONSENT_SERIALIZER,
@@ -61,22 +61,28 @@ export class CdcSiteConsentService {
 
     this.cdcJsService
       .setUserConsentPreferences(userId, siteLanguage, serializedPreference)
-      .pipe(catchError((error: any) => throwError(error)));
-    // .subscribe((response) => {
-    //   console.log('withdrawn', response);
-    // });
+      .subscribe((error) => {
+        return throwError(error);
+      });
+    // .pipe(
+    //   catchError((error: any) => {
+    //     return throwError(error);   //should check why this error is not getting caught
+    //   })
+    // );
 
-    if (isConsentGranted === false) return of({});
-    else {
+    if (isConsentGranted) {
       return this.getSiteConsentDetails().pipe(
+        //check if this call is necessary or we can use some other call to get it.
         switchMap((templates) => {
+          var updatedConsent: ConsentTemplate = {};
           templates?.forEach((template: ConsentTemplate) => {
-            if (template?.id === consentCode) return of(template);
+            if (template?.id === consentCode) updatedConsent = template;
           });
-          return of({});
+          return of(updatedConsent);
         })
       );
     }
+    return of({});
   }
 
   getUserID(): string | undefined {

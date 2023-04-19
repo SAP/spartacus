@@ -642,36 +642,15 @@ export class CdcJsService implements OnDestroy {
     uid: string,
     lang: string,
     preferences: any
-  ): Observable<{ errorMessage: string }> {
-    var pref: any = {
-      consent: {
-        survey: {
-          isConsentGranted: true,
-        },
-      },
-      terms: {
-        test: {
-          terms: {
-            of: {
-              use: {
-                isConsentGranted: false,
-              },
-            },
-          },
-        },
-      },
-    };
-
-    console.log('preference:', preferences);
+  ): Observable<{ errorCode: number; errorMessage: string }> {
     return this.invokeAPI(setAccountInfoAPI, {
       uid: uid,
       lang: lang,
-      preferences: pref,
+      preferences: preferences,
     }).pipe(
       tap({
         error: (error) => {
-          console.log('error:', error);
-          of(error);
+          throwError(error);
         },
       })
     );

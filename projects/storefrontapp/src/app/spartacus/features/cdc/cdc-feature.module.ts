@@ -18,7 +18,6 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
 
           javascriptUrl:
             'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3_k_wG-sllOhu2rjDEWHjG9-ncnnGAMHfkIcUKzl94weJU1Y18hITRgnTDp1LP8QdC',
-            //'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=4_Ry11zwfZsUFSO719qQ-7pw',
 
           sessionExpiration: 3600,
         },
