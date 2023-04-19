@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
-import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, ReplaySubject, Subject } from 'rxjs';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   ConsentChangedPushEvent,
@@ -63,7 +63,7 @@ describe('ProfileTagInjector', () => {
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')
-        .and.callFake(() => of()),
+        .and.callFake(() => EMPTY),
     });
   }
   beforeEach(() => {

@@ -23,6 +23,7 @@ import {
   navigateToCategory,
   waitForPage,
 } from './navigation';
+import { generateMail, randomString } from './user';
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
@@ -71,6 +72,14 @@ export function listenForCartSaveRequest(options?: { cartId: string }): string {
 
 export function listenForListOfAddressesRequest(): string {
   return interceptGet('addresses', '/users/**/addresses?*');
+}
+
+export function listenForCustomerCreateRequest(): string {
+  return interceptPost(
+    'customerCreating',
+    '/assistedservicewebservices/customers?*',
+    false
+  );
 }
 
 export function agentLogin(user, pwd): void {
@@ -479,4 +488,95 @@ export function bindCart(options?: {
     //make call
     cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
   }
+}
+
+export function asmOpenCreateCustomerDialogOnCustomerListDialog(): void {
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list div.cx-dialog-header button').click();
+  cy.get('cx-asm-create-customer-form').should('exist');
+  cy.get('cx-asm-create-customer-form form').should('exist');
+}
+
+export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
+  const customerSearchRequestAlias = listenForCustomerSearchRequest();
+  cy.get('cx-customer-selection').should('exist');
+  cy.get('cx-customer-selection form').within(() => {
+    cy.get('[formcontrolname="searchTerm"]')
+      .should('not.be.disabled')
+      .type(generateMail(randomString(), true));
+  });
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-selection div.asm-results a').should('exist');
+  cy.get('cx-customer-selection div.asm-results a').click();
+  cy.get('cx-asm-create-customer-form').should('exist');
+  cy.get('cx-asm-create-customer-form form').should('exist');
+}
+
+export function asmCloseCreateCustomerDialog(): void {
+  cy.get(
+    'cx-asm-create-customer-form div.modal-footer button.cx-asm-create-customer-btn-cancel'
+  ).click();
+  cy.get('cx-asm-create-customer-form').should('not.exist');
+}
+
+/**
+ * Method submits prefiled form and by default waits till registration request will be completed.
+ *
+ * @param {boolean} [waitForRequestCompletion=true]
+ * specifies if cypress should wait till registration request be completed.
+ */
+export function submitCreateCustomerForm(
+  waitForRequestCompletion: boolean = true
+) {
+  const customerCreateRequestAlias = asm.listenForCustomerCreateRequest();
+
+  cy.get('cx-asm-create-customer-form').within(() => {
+    cy.get('button[type=submit]').click();
+  });
+
+  if (waitForRequestCompletion) {
+    return cy.wait(customerCreateRequestAlias);
+  } else {
+    return null;
+  }
+}
+
+export function fillCreateCustomerForm({
+  firstName,
+  lastName,
+  email,
+}: SampleUser) {
+  cy.get('cx-asm-create-customer-form').should('be.visible');
+  cy.get('cx-asm-create-customer-form').within(() => {
+    cy.get('[formcontrolname="firstName"]').type(firstName);
+    cy.get('[formcontrolname="lastName"]').type(lastName);
+    cy.get('[formcontrolname="email"]').type(email);
+  });
+}
+
+export function verifyFormErrors() {
+  const requiredFieldMessage = 'This field is required';
+  const notValidEmailMessage = 'This is not a valid email format';
+
+  cy.get('cx-asm-create-customer-form').within(() => {
+    cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
+    cy.get('[formcontrolname="lastName"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
+    cy.get('[formcontrolname="email"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
+
+    cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {
+      cy.get('p').contains(requiredFieldMessage);
+      cy.get('p+p').contains(notValidEmailMessage);
+    });
+
+    cy.get('cx-form-errors p').should('have.length', 4);
+  });
 }
