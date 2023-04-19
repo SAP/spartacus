@@ -22,7 +22,7 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -66,7 +66,7 @@ export class MockNgbModalRef {
 const dialogClose$ = new BehaviorSubject<any>('');
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe() {
-    return of();
+    return EMPTY;
   }
   get dialogClose() {
     return dialogClose$.asObservable();

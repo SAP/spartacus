@@ -7,7 +7,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
@@ -62,7 +62,7 @@ const mockTabComponentData3 = {
 };
 
 const MockCmsService = {
-  getComponentData: () => of(),
+  getComponentData: () => EMPTY,
 };
 
 const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{

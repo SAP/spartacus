@@ -7,7 +7,7 @@ import {
   RoutingConfig,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductVariantsGuard } from './product-variants.guard';
 
@@ -41,7 +41,7 @@ const activatedRoute = {
 
 class MockProductService implements Partial<ProductService> {
   get(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
