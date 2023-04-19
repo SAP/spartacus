@@ -71,6 +71,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get dialogClose() {
     return dialogClose$.asObservable();
   }
+
+  closeDialog() {}
 }
 
 @Component({

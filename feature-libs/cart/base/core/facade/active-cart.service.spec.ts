@@ -909,7 +909,7 @@ describe('ActiveCartService', () => {
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
-    it('should be able to get whether cart has pickup items', (done) => {
+    it('should be able to get whether cart has pickup items', () => {
       let mockCart: Cart = {
         pickupItemsQuantity: 1,
       };
@@ -919,7 +919,6 @@ describe('ActiveCartService', () => {
 
       service.hasPickupItems().subscribe((hasPickup) => {
         expect(hasPickup).toBeTruthy();
-        done();
       });
 
       mockCart = {
@@ -931,11 +930,10 @@ describe('ActiveCartService', () => {
 
       service.hasPickupItems().subscribe((hasPickup) => {
         expect(hasPickup).toBeFalsy();
-        done();
       });
     });
 
-    it('should be able to get whether cart has delivery items', (done) => {
+    it('should be able to get whether cart has delivery items', () => {
       let mockCart: Cart = {
         deliveryItemsQuantity: 1,
       };
@@ -945,7 +943,6 @@ describe('ActiveCartService', () => {
 
       service.hasDeliveryItems().subscribe((hasDelivery) => {
         expect(hasDelivery).toBeTruthy();
-        done();
       });
 
       mockCart = {
@@ -957,7 +954,6 @@ describe('ActiveCartService', () => {
 
       service.hasDeliveryItems().subscribe((hasPickup) => {
         expect(hasPickup).toBeFalsy();
-        done();
       });
     });
   });
@@ -968,7 +964,7 @@ describe('ActiveCartService', () => {
       { orderCode: 'deliveryEntry' },
     ];
 
-    it('should be able to get pickup entries', (done) => {
+    it('should be able to get pickup entries', () => {
       service.getEntries = jasmine
         .createSpy('getEntries')
         .and.returnValue(of(entries));
@@ -976,11 +972,10 @@ describe('ActiveCartService', () => {
       service.getPickupEntries().subscribe((pickupEntries) => {
         expect(pickupEntries.length).toEqual(1);
         expect(pickupEntries[0].orderCode).toEqual('pickupEntry');
-        done();
       });
     });
 
-    it('should be able to get delivery entries', (done) => {
+    it('should be able to get delivery entries', () => {
       service.getEntries = jasmine
         .createSpy('getEntries')
         .and.returnValue(of(entries));
@@ -988,7 +983,6 @@ describe('ActiveCartService', () => {
       service.getDeliveryEntries().subscribe((deliveryEntries) => {
         expect(deliveryEntries.length).toEqual(1);
         expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
-        done();
       });
     });
   });
