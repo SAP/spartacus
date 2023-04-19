@@ -7,8 +7,10 @@
 import { InjectionToken } from '@angular/core';
 import { ConsentTemplate, Converter } from '@spartacus/core';
 
-export const CDC_CONSENT_DETAILS_NORMALIZER = new InjectionToken<
+export const CDC_SITE_CONSENT_NORMALIZER = new InjectionToken<
   Converter<any, ConsentTemplate[]>
->('CdcConsentDetailsNormalizer');
+>('CdcSiteConsentNormalizer');
 
-
+export const CDC_SITE_CONSENT_SERIALIZER = new InjectionToken<
+  Converter<ConsentTemplate, any>
+>('CdcSiteConsentSerializer');

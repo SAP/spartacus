@@ -6,13 +6,12 @@ import {
   LanguageService,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import {
-  CdcSiteConsentTemplate,
-  siteConsentDetailTemplate,
-} from 'integration-libs/cdc/core';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-//import { CDC_CONSENT_DETAILS_NORMALIZER } from './cdc-site-consent.converters';
+  CDC_SITE_CONSENT_NORMALIZER,
+  CDC_SITE_CONSENT_SERIALIZER,
+} from './cdc-site-consent.converters';
 
 @Injectable({
   providedIn: 'root',
@@ -26,59 +25,58 @@ export class CdcSiteConsentService {
   ) {}
 
   getSiteConsentDetails(): Observable<ConsentTemplate[]> {
-    return this.cdcJsService.getCdcConsent().pipe(
-      //this.converter.pipeable(CDC_CONSENT_DETAILS_NORMALIZER)
-      switchMap((siteConsent: CdcSiteConsentTemplate) => {
-        return this.convertConsentEntries(siteConsent.siteConsentDetails).pipe(
-          switchMap((consents: ConsentTemplate[]) => {
-            return this.maintainUserConsentPreferences(consents);
-          })
-        );
-      })
-    );
+    return this.cdcJsService
+      .getCdcConsent()
+      .pipe(this.converter.pipeable(CDC_SITE_CONSENT_NORMALIZER))
+      .pipe(
+        switchMap((consents: ConsentTemplate[]) => {
+          return this.maintainUserConsentPreferences(consents);
+        })
+      );
   }
 
   updateConsent(
+    userId: string,
     isConsentGranted: boolean,
     consentCode: string
   ): Observable<ConsentTemplate> {
+    var consent: ConsentTemplate = {};
+    consent.id = consentCode;
+    consent.currentConsent = {};
+
+    if (isConsentGranted && consent.currentConsent)
+      consent.currentConsent.consentGivenDate = new Date();
+    else if (consent.currentConsent)
+      consent.currentConsent.consentWithdrawnDate = new Date();
+
     var uid: string | undefined = this.getUserID();
+    if (uid) userId = uid;
+
     var siteLanguage = this.getActiveLanguage();
-    return this.cdcJsService.getUserConsentPreferences(uid).pipe(
-      switchMap((userPreference) => {
-        let preference = userPreference.preferences;
-        let consentIDs = consentCode?.split('.');
-        consentIDs?.forEach((consentID: string) => {
-          preference = preference[consentID];
-        });
-        preference.isConsentGranted = isConsentGranted;
-        if (uid)
-          this.cdcJsService
-            .setUserConsentPreferences(
-              userPreference.UID,
-              siteLanguage,
-              userPreference.preferences
-            ).subscribe((response) => {
-                  console.log('withdrawn', response);
-                });
-            // .pipe(
-            //   tap((response) => {
-            //     console.log('withdrawn', response);
-            //   })
-            // );
-        if (isConsentGranted === false) return of({});
-        else {
-          return this.getSiteConsentDetails().pipe(
-            switchMap((templates) => {
-              templates?.forEach((template: ConsentTemplate) => {
-                if (template?.id === consentCode) return of(template);
-              });
-              return of({});
-            })
-          );
-        }
-      })
+
+    const serializedPreference: any = this.converter.convert(
+      consent,
+      CDC_SITE_CONSENT_SERIALIZER
     );
+
+    this.cdcJsService
+      .setUserConsentPreferences(userId, siteLanguage, serializedPreference)
+      .pipe(catchError((error: any) => throwError(error)));
+    // .subscribe((response) => {
+    //   console.log('withdrawn', response);
+    // });
+
+    if (isConsentGranted === false) return of({});
+    else {
+      return this.getSiteConsentDetails().pipe(
+        switchMap((templates) => {
+          templates?.forEach((template: ConsentTemplate) => {
+            if (template?.id === consentCode) return of(template);
+          });
+          return of({});
+        })
+      );
+    }
   }
 
   getUserID(): string | undefined {
@@ -103,25 +101,34 @@ export class CdcSiteConsentService {
   ): Observable<ConsentTemplate[]> {
     var uid: string | undefined = this.getUserID();
     var updatedConsents: ConsentTemplate[] = [];
-    //->old code
     return this.cdcJsService.getUserConsentPreferences(uid).pipe(
       switchMap((userPreference) => {
-        console.log('get account info:', userPreference);
         consents.forEach((consent) => {
+          let length = 0;
           let preference = userPreference.preferences;
-          let consentIDs = consent?.id?.split('.');
-          consentIDs?.forEach((consentID: string) => {
-            preference = preference[consentID];
-          });
+          let consentIDs: string[] = [];
+          if (consent.id) consentIDs = consent.id.split('.');
+          for (let consentID of consentIDs) {
+            if (Object.hasOwn(preference, consentID)) {
+              preference = preference[consentID];
+              length++;
+            } else break;
+          }
           if (consent.currentConsent) {
             consent.currentConsent.code = consent?.id; //in CDC there is no code, so filling in ID for code
           }
-          if (preference.isConsentGranted) {
+          /** currentConsent.consentGivenDate ,currentConsent.consentWithdrawnDate will be set only if
+           * user preference contains that preference
+           */
+          if (preference.isConsentGranted && length === consentIDs.length) {
             if (consent.currentConsent) {
               consent.currentConsent.consentGivenDate =
                 preference?.lastConsentModified;
             }
-          } else {
+          } else if (
+            !preference.isConsentGranted &&
+            length === consentIDs.length
+          ) {
             if (consent.currentConsent) {
               consent.currentConsent.consentWithdrawnDate =
                 preference?.lastConsentModified;
@@ -132,37 +139,5 @@ export class CdcSiteConsentService {
         return of(updatedConsents);
       })
     );
-    //<-old code
-  }
-
-  protected convertConsentEntries(
-    site: siteConsentDetailTemplate[]
-  ): Observable<ConsentTemplate[]> {
-    var consents: ConsentTemplate[] = [];
-    var siteLanguage = this.getActiveLanguage();
-    for (var key in site) {
-      if (Object.hasOwn(site, key)) {
-        if (site[key].isActive === true) {
-          var legalStatements = site[key].legalStatements;
-          for (var lang in legalStatements) {
-            if (Object.hasOwn(legalStatements, lang)) {
-              if (lang === siteLanguage) {
-                consents.push({
-                  id: key,
-                  description: legalStatements[lang]?.purpose,
-                  version: legalStatements[lang].currentDocVersion,
-                  currentConsent: {
-                    code: '',
-                    consentGivenDate: undefined,
-                    consentWithdrawnDate: undefined,
-                  },
-                });
-              }
-            }
-          }
-        }
-      }
-    }
-    return of(consents);
   }
 }

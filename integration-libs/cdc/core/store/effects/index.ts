@@ -5,11 +5,9 @@
  */
 
 import { CdcUserAddressesEffects } from './cdc-user-addresses.effect';
-import { CdcUserConsentsEffects } from './cdc-user-consents.effect';
 import { CdcUserTokenEffects } from './cdc-user-token.effect';
 
-export const effects: any[] = [CdcUserTokenEffects, CdcUserAddressesEffects, CdcUserConsentsEffects];
+export const effects: any[] = [CdcUserTokenEffects, CdcUserAddressesEffects];
 
 export * from './cdc-user-addresses.effect';
 export * from './cdc-user-token.effect';
-export * from './cdc-user-consents.effect';
