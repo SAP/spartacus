@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Occ, OccConfig, TimeUtils } from '@spartacus/core';
-import { TestingTimeUtils } from '../../../../../projects/core/src/util/testing-time-utils';
+import { TestingTimeUtils } from 'projects/core/src/util/testing-time-utils';
 import { Budget } from '../../core/model/budget.model';
 import { OccBudgetNormalizer } from './occ-budget-normalizer';
 
