@@ -85,7 +85,7 @@ describe('CDC B2B scenarios', () => {
   describe('Manage Units in CDC-B2B scenario', () => {
     beforeEach(() => {
       cy.visit('/powertools-spa/en/USD/login');
-      loginUser(cdcB2BDelegateAdminUser);
+      loginUser(cdc.b2bUser);
       waitForCmsComponentsToLoad('powertools-spa');
     });
     it('should show My Company option', () => {
@@ -112,7 +112,7 @@ describe('CDC B2B scenarios', () => {
 
     it('should hide edit, disbale, child units in unit details', () => {
       cy.visit(
-        `/powertools-spa/en/USD/organization/units/${cdcB2BDelegateAdminUser.orgUnit}`
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}`
       );
       waitForCmsComponentsToLoad('powertools-spa');
       cy.get('a.link.edit').should('not.exist');
@@ -127,12 +127,12 @@ describe('CDC B2B scenarios', () => {
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/units/${cdcB2BDelegateAdminUser.orgUnit}/edit`
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/edit`
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/units/${cdcB2BDelegateAdminUser.orgUnit}/children`
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/children`
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
     });

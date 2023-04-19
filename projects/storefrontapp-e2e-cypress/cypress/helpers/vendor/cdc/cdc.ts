@@ -395,5 +395,6 @@ export function getSampleB2BUser() {
       cvv: '123',
     },
     customerId: '991b7846-8ee3-49d9-8600-37fed93f445c',
+    orgUnit: '111',
   };
 }
