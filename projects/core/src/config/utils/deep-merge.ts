@@ -19,6 +19,10 @@ export function deepMerge(
 
   if (isObject(source)) {
     for (const key in source) {
+      if (key === '__proto__' || key === 'constructor') {
+        continue;
+      }
+
       if (source[key] instanceof Date) {
         target[key] = source[key];
       } else if (isObject(source[key])) {
