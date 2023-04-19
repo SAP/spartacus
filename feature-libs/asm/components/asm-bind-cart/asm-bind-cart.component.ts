@@ -129,20 +129,20 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         ),
         finalize(() => this.loading$.next(false))
       )
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.globalMessageService.add(
             { key: 'asm.bindCart.success' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         },
-        (error: HttpErrorModel) => {
+        error: (error: HttpErrorModel) => {
           this.globalMessageService.add(
             error.details?.[0].message ?? '',
             GlobalMessageType.MSG_TYPE_ERROR
           );
-        }
-      );
+        },
+      });
 
     this.subscription.add(subscription);
   }

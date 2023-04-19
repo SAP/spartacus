@@ -83,7 +83,7 @@ export class CheckoutStepService {
   resetSteps(): void {
     this.allSteps = (this.checkoutConfig.checkout?.steps ?? [])
       .filter((step) => !step.disabled)
-      .map((x) => Object.assign({}, x));
+      .map((checkoutStep) => Object.assign({}, checkoutStep));
     this.steps$.next(this.allSteps);
   }
 
