@@ -1,22 +1,32 @@
 import { Injectable } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
+  AnonymousConsent,
+  AnonymousConsentTemplatesAdapter,
   ConsentTemplate,
   ConverterService,
   UserConsentAdapter,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CDC_SITE_CONSENT_NORMALIZER } from './cdc-site-consent.converters';
 import { CdcSiteConsentService } from './cdc-site-consent.service';
 
 @Injectable({ providedIn: 'root' })
-export class CDCSiteConsentAdapter implements UserConsentAdapter {
+export class CDCSiteConsentAdapter implements UserConsentAdapter, AnonymousConsentTemplatesAdapter {
   constructor(
     protected cdcSiteConsentService: CdcSiteConsentService,
     protected cdcJsService: CdcJsService,
     protected converter: ConverterService
   ) {}
+  loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
+    var consents: ConsentTemplate[] = [];
+    return of(consents);
+  }
+  loadAnonymousConsents(): Observable<AnonymousConsent[]> {
+    var consents: AnonymousConsent[] = [];
+    return of(consents);
+  }
   loadConsents(): Observable<ConsentTemplate[]> {
     return this.cdcJsService
       .getSiteConsentDetails()
