@@ -614,7 +614,7 @@ export class CdcJsService implements OnDestroy {
     });
   }
 
-  getCdcConsent(): Observable<CdcSiteConsentTemplate> {
+  getSiteConsentDetails(): Observable<CdcSiteConsentTemplate> {
     let baseSite: string = this.getCurrentBaseSite();
     let javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
     let queryParams = new URLSearchParams(

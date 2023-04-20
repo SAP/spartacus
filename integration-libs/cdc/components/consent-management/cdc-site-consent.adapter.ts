@@ -19,7 +19,7 @@ export class CDCSiteConsentAdapter implements UserConsentAdapter {
   ) {}
   loadConsents(): Observable<ConsentTemplate[]> {
     return this.cdcJsService
-      .getCdcConsent()
+      .getSiteConsentDetails()
       .pipe(this.converter.pipeable(CDC_SITE_CONSENT_NORMALIZER))
       .pipe(
         switchMap((consents: ConsentTemplate[]) => {
