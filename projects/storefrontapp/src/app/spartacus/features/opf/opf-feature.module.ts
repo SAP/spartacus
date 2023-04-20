@@ -26,17 +26,17 @@ if (environment.b2b) {
   extensionProviders.push(provideConfig(defaultOPFCheckoutConfig));
 }
 
-const resultUrl = 'redirect/success';
-const cancelUrl = 'redirect/failure';
-
 @NgModule({
   imports: [OpfRootModule],
   providers: [
     provideConfig(<RoutingConfig>{
       routing: {
         routes: {
-          paymentresponse: {
-            paths: [resultUrl, cancelUrl],
+          paymentVerificationResult: {
+            paths: ['redirect/success'],
+          },
+          paymentVerificationCancel: {
+            paths: ['redirect/failure'],
           },
         },
       },
@@ -46,8 +46,6 @@ const cancelUrl = 'redirect/failure';
         baseUrl:
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
-        resultUrl: resultUrl,
-        cancelUrl: cancelUrl,
       },
     }),
     provideConfig(<I18nConfig>{

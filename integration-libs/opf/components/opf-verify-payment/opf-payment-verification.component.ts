@@ -6,11 +6,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   KeyValuePair,
   OpfCheckoutFacade,
@@ -20,7 +16,7 @@ import {
   OpfPaymenVerificationUrlInput,
 } from '@spartacus/opf/root';
 import { OrderFacade } from '@spartacus/order/root';
-import { Subscription, throwError } from 'rxjs';
+import { of, Subscription, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { OpfUrlHandlerService } from '../opf-url-handler.service';
 
@@ -33,7 +29,6 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected route: ActivatedRoute,
-    protected routingService: RoutingService,
     protected orderFacade: OrderFacade,
     protected opfCheckoutService: OpfCheckoutFacade,
     protected config: OpfConfig,
@@ -42,33 +37,29 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.route.url
+    this.subscription = of(this.route.routeConfig?.data?.cxRoute as string)
       .pipe(
         take(1),
-        switchMap((segments) => {
-          return !!this.config?.opf?.resultUrl &&
-            this.opfUrlHandlerService.isIncludedInPath(
-              segments,
-              this.config.opf.resultUrl
-            )
+        switchMap((cxRoute) => {
+          return cxRoute === 'paymentVerificationResult'
             ? this.route.queryParams
             : throwError('CANCEL URL RETURNED BY PSP');
         }),
         switchMap((params) => {
           if (!params) return throwError('No params');
 
-          const list: KeyValuePair[] =
+          const paramsList: KeyValuePair[] =
             this.opfUrlHandlerService.convertParamsToKeyValuePairs(params);
 
           const paymentSessionId =
             this.opfUrlHandlerService.findFromKeyValuePairs(
               OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
-              list
+              paramsList
             );
           if (!paymentSessionId) return throwError('No paymentSessionId found');
 
           return this.opfCheckoutService.verifyPayment(paymentSessionId, {
-            responseMap: [...list],
+            responseMap: [...paramsList],
           });
         }),
         switchMap((response: OpfPaymentVerificationResponse) => {
@@ -84,12 +75,12 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onSuccess(): void {
-    this.routingService.go({ cxRoute: 'orderConfirmation' });
+    this.opfUrlHandlerService.goToPage('orderConfirmation');
   }
 
   onError(error: any): void {
     this.globalMessageService.add(error, GlobalMessageType.MSG_TYPE_ERROR);
-    this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+    this.opfUrlHandlerService.goToPage('checkoutReviewOrder');
   }
 
   ngOnDestroy(): void {

@@ -21,7 +21,15 @@ import { opfConfidValidator } from './config/opf-config-validator';
         path: null,
         component: OpfPaymentVerificationComponent,
         data: {
-          cxRoute: 'paymentresponse',
+          cxRoute: 'paymentVerificationResult',
+        },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        component: OpfPaymentVerificationComponent,
+        data: {
+          cxRoute: 'paymentVerificationCancel',
         },
       },
     ]),

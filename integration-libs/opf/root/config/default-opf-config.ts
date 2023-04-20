@@ -9,7 +9,5 @@ import { OpfConfig } from './opf-config';
 export const defaultOpfConfig: OpfConfig = {
   opf: {
     baseUrl: '',
-    resultUrl: 'redirect/success',
-    cancelUrl: 'redirect/failure',
   },
 };

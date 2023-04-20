@@ -55,15 +55,18 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
       }),
       filter((response) => Boolean(response?.value)),
       map(({ value: otpKey }) => {
-        const currentDomain = this.opfUrlHandlerService.getDomainUrl();
         return {
           otpKey,
           config: {
             configurationId: String(this.selectedPaymentId),
             cartId: this.activeCartId,
             // TODO: Move below as a part of a whole OPF configuration?
-            resultURL: `${currentDomain}/${this.config.opf?.resultUrl}`,
-            cancelURL: `${currentDomain}/${this.config.opf?.cancelUrl}`,
+            resultURL: this.opfUrlHandlerService.getAsoluteUrl(
+              'paymentVerificationResult'
+            ),
+            cancelURL: this.opfUrlHandlerService.getAsoluteUrl(
+              'paymentVerificationCancel'
+            ),
           },
         };
       }),

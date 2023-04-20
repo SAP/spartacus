@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Params, UrlSegment } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
+import { Params } from '@angular/router';
+import { RoutingService } from '@spartacus/core';
 import { KeyValuePair } from '../root/model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpfUrlHandlerService {
-  constructor(protected winRef: WindowRef) {}
+  constructor(protected routingService: RoutingService) {}
 
   convertParamsToKeyValuePairs(params: Params): KeyValuePair[] {
     if (!params) return [];
@@ -20,11 +20,10 @@ export class OpfUrlHandlerService {
     return list.find((pair) => pair.key === key)?.value ?? undefined;
   }
 
-  isIncludedInPath(segments: UrlSegment[], targetPath: string): boolean {
-    return segments?.join('/')?.includes(targetPath);
+  getAsoluteUrl(cxRoute: string) {
+    return this.routingService.getFullUrl({ cxRoute });
   }
-
-  getDomainUrl() {
-    return this.winRef.document.location.origin;
+  goToPage(cxRoute: string) {
+    return this.routingService.go({ cxRoute });
   }
 }
