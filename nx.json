@@ -1,8 +1,5 @@
 {
   "npmScope": "spartacus",
-  "affected": {
-    "defaultBase": "develop"
-  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",

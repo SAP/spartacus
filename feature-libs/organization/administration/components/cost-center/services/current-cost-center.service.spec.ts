@@ -1,22 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/organization/administration/core';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { CurrentCostCenterService } from './current-cost-center.service';
 
 class MockRoutingService {
   getParams() {
-    return of();
+    return EMPTY;
   }
 
   getRouterState() {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 

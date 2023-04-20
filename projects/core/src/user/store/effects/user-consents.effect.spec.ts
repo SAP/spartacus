@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { ConsentTemplate } from '../../../model/consent.model';
@@ -14,17 +14,17 @@ import * as fromEffect from './user-consents.effect';
 
 class MockOccUserAdapter {
   loadConsents(_userId: string): Observable<ConsentTemplate[]> {
-    return of();
+    return EMPTY;
   }
   giveConsent(
     _userId: string,
     _consentTemplateId: string,
     _consentTemplateVersion: number
   ): Observable<ConsentTemplate> {
-    return of();
+    return EMPTY;
   }
   withdrawConsent(_userId: string, _consentCode: string): Observable<{}> {
-    return of();
+    return EMPTY;
   }
 }
 

@@ -13,9 +13,9 @@ import {
   ProductData,
 } from '@spartacus/cart/base/root';
 import {
-  defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
+  defaultQuickOrderConfig,
 } from '@spartacus/cart/quick-order/root';
 import {
   Config,
@@ -29,9 +29,9 @@ import {
 import {
   BehaviorSubject,
   Observable,
-  of,
   Subject,
   Subscription,
+  of,
   timer,
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
@@ -367,7 +367,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       this.entries$.next([...entries, ...[entry]]);
     }
 
-    this.productAdded$.next(entry.product?.code);
+    this.productAdded$.next(entry.product?.code as string);
   }
 
   /**

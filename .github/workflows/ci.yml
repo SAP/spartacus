@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - develop
+      - develop-*
       - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow

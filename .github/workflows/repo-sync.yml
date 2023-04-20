@@ -4,14 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       branch_to_sync:
-        description: Branch to sync to the private repository
-        default: develop
-        required: true
+        description: Branch to sync to the private repository (sync repo default branch if left empty)
+        required: false
 
 name: Sync a branch to private repo
 
 env:
-  DEFAULT_BRANCH_TO_SYNC: 'develop'
+  DEFAULT_BRANCH_TO_SYNC: ${{ github.event.repository.default_branch }}
 
 jobs:
   sync_public_repo_to_private:
