@@ -17,7 +17,7 @@ import {
 } from '@spartacus/opf/root';
 import { OrderFacade } from '@spartacus/order/root';
 import { of, Subscription, throwError } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { OpfUrlHandlerService } from '../opf-url-handler.service';
 
 @Component({
@@ -39,7 +39,6 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = of(this.route.routeConfig?.data?.cxRoute as string)
       .pipe(
-        take(1),
         switchMap((cxRoute) => {
           return cxRoute === 'paymentVerificationResult'
             ? this.route.queryParams
