@@ -6,14 +6,12 @@ on:
         default: spa_p4
         required: true
       source_branch_to_deploy:
-        description: source branch to deploy on ccv2
-        default: develop
-        required: true
+        description: source branch to deploy on ccv2 (repo default branch if left empty)
 
 name: Update ccv2 repo with unreleased Spartacus
 
 env:
-  DEFAULT_BRANCH_TO_DEPLOY: 'develop'
+  DEFAULT_BRANCH_TO_DEPLOY: ${{ github.event.repository.default_branch }}
 
 jobs:
   deploy_to_ccv2: 
