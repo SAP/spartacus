@@ -330,4 +330,4 @@ jobs:
         if: |
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' &&
-          github.ref_name == 'develop'
+          github.ref_name == ${{ github.event.repository.default_branch }}
