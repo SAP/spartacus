@@ -1,15 +1,18 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": [
-    "**/spartacus/features/**/*.ts",
-    "**/spartacus/features/**/*.d.ts"
-  ],
   "overrides": [
     {
       "files": ["*.ts"],
       "rules": {
         "@angular-eslint/component-selector": "off",
-        "@nrwl/nx/workspace/use-default-provide-config": "off"
+        "@nrwl/nx/workspace/use-default-provide-config": "off",
+
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "checkDynamicDependenciesExceptions": ["@spartacus/*"]
+          }
+        ]
       }
     }
   ]
