@@ -43,7 +43,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='feature/CXSPA-3149'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -54,7 +54,7 @@ INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
 ANGULAR_CLI_VERSION='^15.2.0'
-SPARTACUS_VERSION='latest'
+SPARTACUS_VERSION='5.0.0'
 
 CSR_PORT="4200"
 SSR_PORT="4100"

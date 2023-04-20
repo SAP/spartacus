@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { address } from './address';
+// import address from './address.json';
+// import { address } from './address';
 import { common } from './common';
 import { myAccount } from './my-account';
 import { payment } from './payment';
@@ -15,7 +16,7 @@ import { user } from './user';
 import { video } from './video';
 
 export const en = {
-  address,
+  // address,
   common,
   myAccount,
   payment,

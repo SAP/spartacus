@@ -19,9 +19,9 @@ import {
   FeaturesConfig,
   I18nConfig,
   OccConfig,
-  provideConfig,
   RoutingConfig,
   TestConfigModule,
+  provideConfig,
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
@@ -78,6 +78,10 @@ if (!environment.production) {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+        // backend: {
+        //   loader: (lng, ns) =>
+        //     import(`../assets/i18n-assets/${lng}/${ns}.json`),
+        // },
       },
     }),
     provideConfig(<FeaturesConfig>{
