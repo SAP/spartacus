@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CDC_SITE_CONSENT_NORMALIZER } from './cdc-site-consent.converters';
+import { CDC_SITE_CONSENT_NORMALIZER } from './converters/cdc-site-consent.converters';
 import { CdcSiteConsentService } from './cdc-site-consent.service';
 
 @Injectable({ providedIn: 'root' })

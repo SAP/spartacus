@@ -4,7 +4,7 @@ import {
   CdcSiteConsentTemplate,
   siteConsentDetailTemplate,
 } from 'integration-libs/cdc/core';
-import { CdcSiteConsentService } from './cdc-site-consent.service';
+import { CdcSiteConsentService } from '../cdc-site-consent.service';
 
 @Injectable({ providedIn: 'root' })
 export class CdcSiteConsentNormalizer
@@ -25,6 +25,7 @@ export class CdcSiteConsentNormalizer
     if (source.siteConsentDetails) {
       target = this.convertConsentEntries(source.siteConsentDetails);
     }
+    console.log(target);
     return target;
   }
 
@@ -44,6 +45,7 @@ export class CdcSiteConsentNormalizer
                   id: key,
                   description: legalStatements[lang]?.purpose,
                   version: legalStatements[lang].currentDocVersion,
+                  documentUrl: legalStatements[lang].documentUrl,
                   currentConsent: {
                     code: '',
                     consentGivenDate: undefined,

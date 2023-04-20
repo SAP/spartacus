@@ -1,0 +1,8 @@
+<cx-generic-link
+  *ngIf="consentTemplate?.documentUrl"
+  [url]="consentTemplate?.documentUrl"
+  target="_blank"
+>
+  {{ 'consentManagement.consentLink' | cxTranslate }}
+</cx-generic-link>
+

@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { ConsentTemplate, Converter } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
-export class CdcSiteConsentSerializer
+export class CdcUserPreferenceSerializer
   implements Converter<ConsentTemplate, any>
 {
   constructor() {

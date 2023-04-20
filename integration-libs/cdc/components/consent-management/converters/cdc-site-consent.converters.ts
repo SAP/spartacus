@@ -11,6 +11,6 @@ export const CDC_SITE_CONSENT_NORMALIZER = new InjectionToken<
   Converter<any, ConsentTemplate[]>
 >('CdcSiteConsentNormalizer');
 
-export const CDC_SITE_CONSENT_SERIALIZER = new InjectionToken<
+export const CDC_USER_PREFERENCE_SERIALIZER = new InjectionToken<
   Converter<ConsentTemplate, any>
->('CdcSiteConsentSerializer');
+>('CdcUserPreferenceSerializer');

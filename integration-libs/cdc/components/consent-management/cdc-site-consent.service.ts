@@ -10,8 +10,8 @@ import { Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import {
   CDC_SITE_CONSENT_NORMALIZER,
-  CDC_SITE_CONSENT_SERIALIZER,
-} from './cdc-site-consent.converters';
+  CDC_USER_PREFERENCE_SERIALIZER,
+} from './converters/cdc-site-consent.converters';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +56,7 @@ export class CdcSiteConsentService {
 
     const serializedPreference: any = this.converter.convert(
       consent,
-      CDC_SITE_CONSENT_SERIALIZER
+      CDC_USER_PREFERENCE_SERIALIZER
     );
 
     this.cdcJsService

@@ -16,6 +16,7 @@ export interface legalStatement {
   currentDocVersion: number;
   minDocVersion: number;
   purpose: string;
+  documentUrl: string;
 }
 
 export interface userConsentPreferences {

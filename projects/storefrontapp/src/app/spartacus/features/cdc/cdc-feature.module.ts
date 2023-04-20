@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 import { CmsConfig, provideConfig } from '@spartacus/core';
+import { cdcTranslations, cdcTranslationChunksConfig } from 'integration-libs/cdc/root/config/translations/translations';
 
 @NgModule({
   imports: [CdcRootModule],
@@ -37,6 +38,12 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
         [CDC_FEATURE]: {
           module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
         },
+      },
+    }),
+    provideConfig({
+      i18n: {
+        resources: cdcTranslations,
+        chunks: cdcTranslationChunksConfig,
       },
     }),
   ],

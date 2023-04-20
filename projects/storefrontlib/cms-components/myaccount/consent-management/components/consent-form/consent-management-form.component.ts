@@ -10,6 +10,7 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
 } from '@spartacus/core';
+import { ConsentOutlets } from './consent-outlets.model';
 
 @Component({
   selector: 'cx-consent-management-form',
@@ -36,6 +37,7 @@ export class ConsentManagementFormComponent implements OnInit {
   constructor() {
     // Intentional empty constructor
   }
+  readonly ConsentOutlets = ConsentOutlets;
 
   ngOnInit(): void {
     if (this.consent) {
