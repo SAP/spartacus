@@ -1,8 +1,8 @@
 {
   "extends": "../../.eslintrc.json",
   "ignorePatterns": [
-    "**/spartacus/features/*.ts",
-    "**/spartacus/features/*.d.ts"
+    "**/spartacus/features/**/*.ts",
+    "**/spartacus/features/**/*.d.ts"
   ],
   "overrides": [
     {
