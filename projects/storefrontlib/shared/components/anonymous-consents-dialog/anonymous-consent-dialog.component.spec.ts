@@ -8,7 +8,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
@@ -42,10 +42,10 @@ class MockConsentManagementFormComponent {
 
 class MockAnonymousConsentsService {
   getTemplates(): Observable<ConsentTemplate[]> {
-    return of();
+    return EMPTY;
   }
   getConsents(): Observable<AnonymousConsent[]> {
-    return of();
+    return EMPTY;
   }
   withdrawConsent(_templateCode: string): void {}
   giveConsent(_templateCode: string): void {}
