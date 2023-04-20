@@ -1,0 +1,15 @@
+{
+  "npmScope": "spartacus",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "workspaceLayout": {
+    "appsDir": "projects/storefrontapp",
+    "libsDir": "feature-libs"
+  }
+}
