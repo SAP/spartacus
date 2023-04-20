@@ -13,7 +13,7 @@ import {
   CustomerTicketingFacade,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingPageMetaResolver } from './customer-ticketing-page-meta.resolver';
 import createSpy = jasmine.createSpy;
 
@@ -35,9 +35,9 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 }
 
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
-  resolveDescription = createSpy().and.returnValue(of());
-  resolveRobots = createSpy().and.returnValue(of());
-  resolveTitle = createSpy().and.returnValue(of());
+  resolveDescription = createSpy().and.returnValue(EMPTY);
+  resolveRobots = createSpy().and.returnValue(EMPTY);
+  resolveTitle = createSpy().and.returnValue(EMPTY);
   resolveBreadcrumbs = createSpy().and.returnValue(of([testHomeBreadcrumb]));
 }
 

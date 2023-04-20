@@ -13,7 +13,7 @@ export const defaultOPFRoutingConfig: RoutingConfig = {
         paths: ['redirect/success'],
       },
       paymentVerificationCancel: {
-        paths: ['redirect/success'],
+        paths: ['redirect/failure'],
       },
     },
   },

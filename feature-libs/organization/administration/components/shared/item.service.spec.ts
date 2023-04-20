@@ -10,7 +10,7 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
 import { ItemService } from './item.service';
@@ -23,7 +23,7 @@ class MockRoutingService {
 
 class MockCurrentItemService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -43,7 +43,7 @@ class MockItemService extends ItemService<any> {
     return 'testRoute';
   }
   load(_key: string): Observable<any> {
-    return of();
+    return EMPTY;
   }
   create(_item): Observable<OrganizationItemStatus<any>> {
     return mockItemStatus;

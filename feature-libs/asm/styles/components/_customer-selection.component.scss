@@ -143,6 +143,12 @@
           }
         }
       }
+
+      @include forVersion(6.1) {
+        a {
+          color: #0064d9;
+        }
+      }
     }
   }
 }

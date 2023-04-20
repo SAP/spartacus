@@ -19,7 +19,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      asm.agentLogin();
+      asm.agentLogin('asagent', 'pw4all');
       asm.asmCustomerLists();
       asm.agentSignOut();
     });

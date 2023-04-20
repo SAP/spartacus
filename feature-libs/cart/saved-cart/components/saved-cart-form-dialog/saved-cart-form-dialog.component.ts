@@ -40,7 +40,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, merge, Observable, Subscription } from 'rxjs';
-import { map, mapTo, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -105,10 +105,14 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.isDisableDeleteButton$ = merge(
-      this.eventService.get(DeleteSavedCartEvent).pipe(take(1), mapTo(true)),
-      this.eventService
-        .get(DeleteSavedCartFailEvent)
-        .pipe(take(1), mapTo(false))
+      this.eventService.get(DeleteSavedCartEvent).pipe(
+        take(1),
+        map(() => true)
+      ),
+      this.eventService.get(DeleteSavedCartFailEvent).pipe(
+        take(1),
+        map(() => false)
+      )
     );
 
     this.isDisableRestoreButton$ = combineLatest([
@@ -141,7 +145,10 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.eventService
         .get(DeleteSavedCartSuccessEvent)
-        .pipe(take(1), mapTo(true))
+        .pipe(
+          take(1),
+          map(() => true)
+        )
         .subscribe((success) => this.onComplete(success))
     );
 
