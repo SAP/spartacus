@@ -1,8 +1,8 @@
 %cx-commerce-quotes-actions-by-role {
   section {
     width: 100%;
-    display: inline-flex;
-    justify-content: flex-end;
+    display: flex;
+    flex-direction: column-reverse;
     gap: 1em;
     padding: 1em 0;
 

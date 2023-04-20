@@ -1,7 +1,5 @@
 cx-commerce-quotes-details-overview {
   .cx-quote-overview {
-    background-color: var(--cx-color-background);
-
     @include media-breakpoint-down(sm) {
       background-color: var(--cx-color-inverse);
     }
@@ -10,23 +8,25 @@ cx-commerce-quotes-details-overview {
       display: flex;
       flex-wrap: wrap;
       padding: 15px 0;
+      gap: 1rem;
 
       @include media-breakpoint-down(md) {
         max-width: 100%;
-        min-width: 100%;
         padding: 0 1.25rem;
       }
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        padding: 1.25rem;
+        padding: 0 1.25rem;
       }
 
       .cx-summary-card {
         flex: 1;
         padding: 0 15px;
+        border: 1px solid var(--cx-color-medium);
+        border-radius: var(--cx-border-radius, 1rem);
 
         @include media-breakpoint-down(md) {
-          flex: 0 0 33%;
+          flex: 1;
         }
 
         @include media-breakpoint-down(sm) {

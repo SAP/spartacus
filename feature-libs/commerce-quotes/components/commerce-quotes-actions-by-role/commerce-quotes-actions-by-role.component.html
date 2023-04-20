@@ -4,7 +4,7 @@
       <button
         *ngFor="let action of quoteDetailsState.data.allowedActions"
         class="btn"
-        [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-action'"
+        [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-secondary'"
         (click)="
           action.type === QuoteActionType.REQUOTE
             ? requote(quoteDetailsState.data.code)

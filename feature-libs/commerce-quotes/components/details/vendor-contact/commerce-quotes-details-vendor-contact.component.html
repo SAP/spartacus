@@ -1,0 +1,12 @@
+<div
+  class="vendor-contact-toggle"
+  (click)="showVendorContact = !showVendorContact"
+>
+  <cx-icon
+    aria-hidden="false"
+    [type]="showVendorContact ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+  >
+  </cx-icon>
+  <span class="vendor-contact-text">Contact Vendor</span>
+</div>
+<div *ngIf="showVendorContact">Vendor Contact Component</div>

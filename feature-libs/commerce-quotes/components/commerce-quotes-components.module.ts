@@ -15,6 +15,7 @@ import { CommerceQuotesRequestQuoteDialogModule } from './commerce-quotes-reques
 import {
   CommerceQuotesDetailsCartModule,
   CommerceQuotesDetailsOverviewModule,
+  CommerceQuotesDetailsVendorContactModule,
 } from './details';
 
 @NgModule({
@@ -27,6 +28,7 @@ import {
     CommerceQuotesRequestQuoteDialogModule,
     CommerceQuotesActionLinksModule,
     CommerceQuotesActionsByRoleModule,
+    CommerceQuotesDetailsVendorContactModule,
     ListNavigationModule,
   ],
 })

@@ -7,11 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
+import { IconModule, OutletModule } from '@spartacus/storefront';
 import { CommerceQuotesDetailsCartComponent } from './commerce-quotes-details-cart.component';
+import { CommerceQuotesDetailsCartSummaryComponent } from './summary/commerce-quote-details-cart-summary.component';
 
 @NgModule({
-  imports: [CommonModule, OutletModule],
+  imports: [CommonModule, OutletModule, IconModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -19,10 +20,20 @@ import { CommerceQuotesDetailsCartComponent } from './commerce-quotes-details-ca
           component: CommerceQuotesDetailsCartComponent,
           guards: [AuthGuard],
         },
+        CommerceQuotesCartSummaryComponent: {
+          component: CommerceQuotesDetailsCartSummaryComponent,
+          guards: [AuthGuard],
+        },
       },
     }),
   ],
-  declarations: [CommerceQuotesDetailsCartComponent],
-  exports: [CommerceQuotesDetailsCartComponent],
+  declarations: [
+    CommerceQuotesDetailsCartComponent,
+    CommerceQuotesDetailsCartSummaryComponent,
+  ],
+  exports: [
+    CommerceQuotesDetailsCartComponent,
+    CommerceQuotesDetailsCartSummaryComponent,
+  ],
 })
 export class CommerceQuotesDetailsCartModule {}
