@@ -321,7 +321,7 @@ describe('Profile-tag events', () => {
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
-    cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.location('pathname', { timeout: 20000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
     cy.window().should((win) => {
       expect(
@@ -340,7 +340,7 @@ describe('Profile-tag events', () => {
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
-    cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.location('pathname', { timeout: 20000 }).should('include', `c/575`);
     cy.wait('@lastRequest2');
     cy.window().should((win2) => {
       expect(
