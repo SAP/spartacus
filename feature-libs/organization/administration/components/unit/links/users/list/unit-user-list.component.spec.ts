@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { DisableInfoModule, ItemService } from '../../../../shared';
 import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../../services/current-unit.service';
@@ -20,7 +20,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 }
 
 class MockItemService {
-  current$ = of();
+  current$ = EMPTY;
 }
 
 describe('UnitUserListComponent', () => {

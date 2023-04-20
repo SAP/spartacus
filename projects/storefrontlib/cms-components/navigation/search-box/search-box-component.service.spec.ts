@@ -12,7 +12,7 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -36,10 +36,10 @@ const searchBoxConfig: SearchBoxConfig = {
 
 class MockSearchBoxService {
   getResults(): Observable<ProductSearchPage> {
-    return of();
+    return EMPTY;
   }
   getSuggestionResults(): Observable<Suggestion[]> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -253,7 +253,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not get a message when there are suggestions ', () => {
-      spyOn(searchBoxService, 'getResults').and.returnValue(of());
+      spyOn(searchBoxService, 'getResults').and.returnValue(EMPTY);
       spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
         of([{ value: 'sug1' }] as any)
       );
