@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterState } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CmsService, Page, PageRobotsMeta } from '../../cms';
 import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { I18nTestingModule } from '../../i18n';
@@ -51,7 +51,7 @@ class MockBasePageMetaResolver {
     return of([]);
   }
   resolveCanonicalUrl(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
