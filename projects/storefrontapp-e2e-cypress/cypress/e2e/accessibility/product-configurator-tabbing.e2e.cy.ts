@@ -53,6 +53,9 @@ context('Product Configuration', () => {
   });
 
   beforeEach(() => {
+    //this is to ensure that we don't have a configuration as part of
+    //the redux state that already contains variants
+    cy.reload(true);
     configurationVc.registerConfigurationRoute();
     configurationVc.registerConfigurationUpdateRoute();
     cy.visit('/');
