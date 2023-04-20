@@ -181,7 +181,7 @@ describe('AsmCustomerActivityComponent', () => {
       expect(tableRows.length).toBe(4);
     });
 
-    it('should navigate to cart, order detail and saved cart detail', () => {
+    it('should navigate to cart, order detail, saved cart detail, and support ticket detail', () => {
       spyOn(context.navigate$, 'next').and.stub();
       const tableBody = el.query(By.css('.cx-asm-customer-table tbody'));
       const tableRows = tableBody.queryAll(By.css('tr'));
@@ -209,7 +209,7 @@ describe('AsmCustomerActivityComponent', () => {
       linkCell3.nativeElement.click();
       expect(context.navigate$.next).toHaveBeenCalledWith({
         cxRoute: 'supportTicketDetails',
-        params: { code: '0003' },
+        params: { ticketCode: '0003' },
       });
 
       const linkCell4 = tableRows[3].query(
