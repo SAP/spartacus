@@ -267,7 +267,7 @@ jobs:
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
-    name: Slack message for failed CI build in Spartacus 
+    name: Slack message for failed CI build in Spartacus
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
