@@ -4,14 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
 import { EventService } from '@spartacus/core';
-import {
-  ICON_TYPE,
-  MessagingComponent,
-  MessagingConfigs,
-} from '@spartacus/storefront';
+import { ICON_TYPE, MessagingConfigs } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-commerce-quotes-details-vendor-contact',
@@ -22,7 +18,6 @@ export class CommerceQuotesDetailsVendorContactComponent {
   showVendorContact = true;
   iconTypes = ICON_TYPE;
   vendorplaceHolder: string = 'Vendor Contact Component';
-  @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
   constructor(
