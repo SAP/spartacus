@@ -28,6 +28,9 @@ context('Variant Carousel for Product Configuration', () => {
 
   describe('Disable variant search', () => {
     it('should not display any variant carousel', () => {
+      //this is to ensure that we don't have a configuration as part of
+      //the redux state that already contains variants
+      cy.reload(true);
       //Go to the configuration
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       // Verify whether attribute is displayed
