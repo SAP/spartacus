@@ -10,7 +10,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Observable, of, Subscription } from 'rxjs';
+import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
@@ -36,7 +36,7 @@ class BaseSiteServiceStub implements Partial<BaseSiteService> {
 }
 class LanguageServiceStub implements Partial<LanguageService> {
   getActive(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -61,7 +61,7 @@ class MockCdcAuthFacade implements Partial<CdcAuthFacade> {
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   coreLogout(): Promise<void> {
     return Promise.resolve();

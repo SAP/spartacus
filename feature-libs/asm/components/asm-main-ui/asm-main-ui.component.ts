@@ -27,11 +27,11 @@ import {
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -40,6 +40,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -52,6 +53,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+  showCreateCustomerSuccessfullyAlert = false;
+  globalMessageType = GlobalMessageType;
 
   @HostBinding('class.hidden') disabled = false;
 
@@ -60,6 +63,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   @ViewChild('customerListLink') element: ElementRef;
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
     protected authService: AuthService,
@@ -106,13 +110,18 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CustomerListAction) => {
-          if (result.selectedUser) {
-            this.startCustomerEmulationSession(result.selectedUser);
-            if (
-              result.actionType === CustomerListColumnActionType.ORDER_HISTORY
-            ) {
-              this.routingService.go({ cxRoute: 'orders' });
+        .subscribe((result: CustomerListAction | CreatedCustomer | string) => {
+          if (typeof result !== 'string') {
+            if ('selectedUser' in result) {
+              this.startCustomerEmulationSession(result.selectedUser);
+              if (
+                result.actionType === CustomerListColumnActionType.ORDER_HISTORY
+              ) {
+                this.routingService.go({ cxRoute: 'orders' });
+              }
+            } else if ('email' in result) {
+              this.startCustomerEmulationSession({ customerId: result.email });
+              this.showCreateCustomerSuccessfullyAlert = true;
             }
           }
         })
@@ -172,6 +181,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   closeModal(): void {
     this.launchDialogService.closeDialog('logout');
+  }
+
+  createCustomer(): void {
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLink
+    );
+  }
+  closeDialogConfirmationAlert(): void {
+    this.showCreateCustomerSuccessfullyAlert = false;
   }
 
   ngOnDestroy() {

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Breadcrumb, Facet } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import {
   FacetCollapseState,
   FacetGroupCollapsedState,
@@ -10,7 +10,7 @@ import { FacetService } from './facet.service';
 import { ProductFacetService } from './product-facet.service';
 
 class MockProductFacetService {
-  facetList$ = of();
+  facetList$ = EMPTY;
 }
 const mockFacetValues: Facet[] = [
   { name: 'a' },

@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, LanguageService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 class LanguageServiceStub {
   getActive(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 

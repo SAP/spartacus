@@ -41,8 +41,8 @@ export class ReplenishmentOrderHistoryService
    * @param replenishmentOrderCode a replenishment order code
    */
   loadReplenishmentOrderDetails(replenishmentOrderCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new OrderActions.LoadReplenishmentOrderDetails({
             userId,
@@ -50,10 +50,10 @@ export class ReplenishmentOrderHistoryService
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -105,8 +105,8 @@ export class ReplenishmentOrderHistoryService
    * @param replenishmentOrderCode a replenishment order code
    */
   cancelReplenishmentOrder(replenishmentOrderCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new OrderActions.CancelReplenishmentOrder({
             userId,
@@ -114,10 +114,10 @@ export class ReplenishmentOrderHistoryService
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
@@ -223,8 +223,8 @@ export class ReplenishmentOrderHistoryService
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new OrderActions.LoadUserReplenishmentOrders({
             userId,
@@ -234,10 +234,10 @@ export class ReplenishmentOrderHistoryService
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
