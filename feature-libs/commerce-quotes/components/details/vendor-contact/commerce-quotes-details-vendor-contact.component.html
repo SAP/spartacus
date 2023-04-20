@@ -7,6 +7,9 @@
     [type]="showVendorContact ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
   >
   </cx-icon>
-  <span class="vendor-contact-text">Contact Vendor</span>
+  <span class="vendor-contact-text">{{
+    'commerceQuotes.commons.contactVendor' | cxTranslate
+  }}</span>
 </div>
-<div *ngIf="showVendorContact">Vendor Contact Component</div>
+<!-- TBD -->
+<div *ngIf="showVendorContact">{{ vendorplaceHolder }}</div>

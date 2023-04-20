@@ -6,13 +6,18 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { IconModule, OutletModule } from '@spartacus/storefront';
 import { CommerceQuotesDetailsCartComponent } from './commerce-quotes-details-cart.component';
 import { CommerceQuotesDetailsCartSummaryComponent } from './summary/commerce-quote-details-cart-summary.component';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, IconModule],
+  imports: [CommonModule, OutletModule, IconModule, I18nModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -45,6 +45,8 @@ export const commerceQuotes = {
       id: 'Quote ID',
       status: 'Status',
       creationSuccess: 'Quote #{{ code }} created successfully',
+      cart: 'Cart',
+      contactVendor: 'Contact Vendor',
     },
     details: {
       code: 'Quote ID',
