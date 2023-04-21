@@ -57,7 +57,6 @@ describe('UserRegistrationFormService', () => {
     TestBed.configureTestingModule({
       providers: [
         FormBuilder,
-
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -100,6 +99,7 @@ describe('UserRegistrationFormService', () => {
     expect(form.get('titleCode')?.value).toEqual(null);
     expect(form.get('firstName')?.value).toEqual('');
     expect(form.get('lastName')?.value).toEqual('');
+    expect(form.get('companyName')?.value).toEqual('');
     expect(form.get('email')?.value).toEqual('');
     expect(form.get('country')?.value).toEqual(Object({ isocode: null }));
     expect(form.get('line1')?.value).toEqual('');

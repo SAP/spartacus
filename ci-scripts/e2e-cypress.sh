@@ -93,5 +93,5 @@ else
 
     echo '-----'
     echo "Running Cypress core end to end tests"
-        npm run e2e:run:ci:core"${SUITE}"
+    npm run e2e:run:ci:core"${SUITE}"
  fi

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { PageMeta, PageMetaService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { BreadcrumbSchemaBuilder } from './breadcrumb-schema.builder';
 
 const pageMetaHome: PageMeta = {
@@ -42,7 +42,7 @@ const pageMetaWithoutBreadcrumb: PageMeta = {
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
-    return of();
+    return EMPTY;
   }
 }
 

@@ -4,4 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './pickup-options/index';
+export interface CustomerRegistrationForm {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+}

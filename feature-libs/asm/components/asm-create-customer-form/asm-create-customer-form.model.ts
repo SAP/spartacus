@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PointOfService } from '@spartacus/core';
-
-export interface StoreEntities {
-  pointOfServices?: Array<PointOfService>;
+export interface CreatedCustomer {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
