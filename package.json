@@ -68,7 +68,7 @@
     "generate:publish:docs": "npm run generate:docs && npm run publish:docs",
     "graph": "nx graph",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/**/*.html feature-libs/**/*.html integration-libs/**/*.html -a alt,title,placeholder,aria-label",
-    "lint": "nx run-many --all --target=lint",
+    "lint": "nx run-many --all --target=lint --verbose",
     "lint:styles": "stylelint \"{projects,feature-libs}/**/*.scss\"",
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",

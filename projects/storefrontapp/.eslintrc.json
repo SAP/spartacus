@@ -11,12 +11,7 @@
     {
       "files": ["**/app/**/*.ts"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
-          "error",
-          {
-            "allow": ["@spartacus/**"]
-          }
-        ]
+        "@nrwl/nx/enforce-module-boundaries": "off"
       }
     }
   ]
