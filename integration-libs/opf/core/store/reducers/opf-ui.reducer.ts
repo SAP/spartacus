@@ -8,7 +8,10 @@ import { Action } from '@ngrx/store';
 import { OpfUi } from '@spartacus/opf/root';
 import { OpfActions } from '../actions';
 
-export const initialState: OpfUi = <OpfUi>{ termsAndConditionsChecked: false };
+export const initialState: OpfUi = <OpfUi>{
+  termsAndConditionsChecked: false,
+  selectedPaymentOptionId: undefined,
+};
 
 export function reducer(state: OpfUi = initialState, action: Action): OpfUi {
   switch (action.type) {

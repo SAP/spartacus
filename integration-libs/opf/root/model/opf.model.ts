@@ -6,4 +6,5 @@
 
 export interface OpfUi {
   termsAndConditionsChecked?: boolean;
+  selectedPaymentOptionId?: number;
 }

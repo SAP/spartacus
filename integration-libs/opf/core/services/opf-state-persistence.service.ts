@@ -76,10 +76,8 @@ export class OpfStatePersistenceService implements OnDestroy {
    * Used to update state from browser -> state.
    */
   protected onRead(state: SyncedOpfState | undefined) {
-    if (state) {
-      if (state.ui) {
-        this.store.dispatch(new OpfActions.OpfUiUpdate(state.ui));
-      }
+    if (state && state.ui) {
+      this.store.dispatch(new OpfActions.OpfUiUpdate(state.ui));
     }
   }
 

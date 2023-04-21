@@ -14,8 +14,7 @@ import { OpfStoreModule } from './store/opf-store.module';
 export function opfStatePersistenceFactory(
   opfStatePersistenceService: OpfStatePersistenceService
 ): () => void {
-  const result = () => opfStatePersistenceService.initSync();
-  return result;
+  return () => opfStatePersistenceService.initSync();
 }
 
 @NgModule({

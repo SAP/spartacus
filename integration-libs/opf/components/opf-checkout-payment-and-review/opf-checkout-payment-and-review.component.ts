@@ -80,6 +80,7 @@ export class OpfCheckoutPaymentAndReviewComponent
     this.opfService.updateOpfUiState({
       termsAndConditionsChecked:
         this.checkoutSubmitForm.get('termsAndConditions')?.value,
+      selectedPaymentOptionId: undefined,
     });
   }
 
