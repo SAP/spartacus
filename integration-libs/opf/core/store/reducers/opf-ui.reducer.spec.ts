@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-checkout.service';
-export * from './opf-otp.service';
-export * from './opf.service';
+// Todo: Add unit tests
