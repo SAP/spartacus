@@ -66,7 +66,9 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
           });
         }),
         switchMap((response: OpfPaymentVerificationResponse) => {
-          return response?.result === OpfPaymentVerificationResult.AUTHORIZED
+          return response?.result ===
+            (OpfPaymentVerificationResult.AUTHORIZED ||
+              OpfPaymentVerificationResult.DELAYED)
             ? this.orderFacade.placeOrder(true)
             : throwError('ERROR_UNAUTHORIZED_RESULT');
         })
