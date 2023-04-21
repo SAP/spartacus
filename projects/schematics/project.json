@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["projects/schematics/**/*.ts"]
       }

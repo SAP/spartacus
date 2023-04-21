@@ -12,7 +12,7 @@
       }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
+      "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["tools/eslint-rules/**/*.ts"]
       }
