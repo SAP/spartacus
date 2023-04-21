@@ -11,26 +11,23 @@ const radioGroup = 'radioGroup';
 const CAMERA_MODE = 'CAMERA_MODE';
 
 context('Variant Carousel for Product Configuration', () => {
-  let configUISettings: any;
+  let configuratorCoreConfig: any;
 
   beforeEach(() => {
-    configUISettings = {
+    configuratorCoreConfig = {
       productConfigurator: {
         enableVariantSearch: false, // disable variant search
       },
     };
-    cy.cxConfig(configUISettings);
+    cy.cxConfig(configuratorCoreConfig);
   });
 
   afterEach(() => {
-    configUISettings.productConfigurator.enableVariantSearch = false; // disable variant search
+    configuratorCoreConfig.productConfigurator.enableVariantSearch = false; // disable variant search
   });
 
   describe('Disable variant search', () => {
     it('should not display any variant carousel', () => {
-      //this is to ensure that we don't have a configuration as part of
-      //the redux state that already contains variants
-      cy.reload(true);
       //Go to the configuration
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       // Verify whether attribute is displayed
@@ -42,8 +39,8 @@ context('Variant Carousel for Product Configuration', () => {
 
   describe('Enable variant search', () => {
     it('should display variant carousel', () => {
-      configUISettings.productConfigurator.enableVariantSearch = true; // enable variant search
-      cy.cxConfig(configUISettings);
+      configuratorCoreConfig.productConfigurator.enableVariantSearch = true; // enable variant search
+      cy.cxConfig(configuratorCoreConfig);
       //Go to the configuration
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       // Verify whether attribute is displayed
