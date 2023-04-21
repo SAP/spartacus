@@ -8,12 +8,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
-  KeyValuePair,
   OpfCheckoutFacade,
   OpfConfig,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
   OpfPaymenVerificationUrlInput,
+  OpfResponseMapElement,
 } from '@spartacus/opf/root';
 import { OrderFacade } from '@spartacus/order/root';
 import { of, Subscription, throwError } from 'rxjs';
@@ -42,39 +42,37 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         switchMap((cxRoute) => {
           return cxRoute === 'paymentVerificationResult'
             ? this.route.queryParams
-            : throwError('CANCEL URL RETURNED BY PSP');
+            : throwError(() => 'ERROR_CANCEL_LINK');
         }),
         switchMap((params) => {
           if (!params) {
-            return throwError('No params');
+            return throwError(() => 'ERROR_NO_PARAMS');
           }
 
-          const paramsList: KeyValuePair[] =
-            this.opfPaymentVerificationService.convertParamsToKeyValuePairs(
-              params
-            );
+          const responseMap: OpfResponseMapElement[] =
+            this.opfPaymentVerificationService.getOpfResponseMap(params);
 
           const paymentSessionId =
-            this.opfPaymentVerificationService.findFromKeyValuePairs(
+            this.opfPaymentVerificationService.findInOpfResponseMap(
               OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
-              paramsList
+              responseMap
             );
           if (!paymentSessionId) {
-            return throwError('No paymentSessionId found');
+            return throwError(() => 'ERROR_NO_PAYMENT_SESSION_ID');
           }
 
           return this.opfCheckoutService.verifyPayment(paymentSessionId, {
-            responseMap: [...paramsList],
+            responseMap: [...responseMap],
           });
         }),
         switchMap((response: OpfPaymentVerificationResponse) => {
           return response?.result === OpfPaymentVerificationResult.AUTHORIZED
             ? this.orderFacade.placeOrder(true)
-            : throwError('UNAUTHORIZED payment from OPF Adapter');
+            : throwError(() => 'ERROR_UNAUTHORIZED_RESULT');
         })
       )
       .subscribe({
-        error: (error) => this.onError(error),
+        error: () => this.onError(),
         next: () => this.onSuccess(),
       });
   }
@@ -83,9 +81,18 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     this.opfPaymentVerificationService.goToPage('orderConfirmation');
   }
 
-  onError(error: any): void {
-    this.globalMessageService.add(error, GlobalMessageType.MSG_TYPE_ERROR);
+  onError(): void {
+    this.displayError();
     this.opfPaymentVerificationService.goToPage('checkoutReviewOrder');
+  }
+
+  protected displayError(): void {
+    this.globalMessageService.add(
+      {
+        key: 'opf.errorToProcessPayment',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 
   ngOnDestroy(): void {

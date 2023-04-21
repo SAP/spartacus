@@ -20,5 +20,7 @@ export const opf = {
         'This payment method is not supported yet. Please choose a different one.',
       proceedPayment: 'Continue',
     },
+    errorToProcessPayment:
+      'We are unable to process your payment at this time. Please try again later.',
   },
 };

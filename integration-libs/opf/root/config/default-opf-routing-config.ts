@@ -6,7 +6,7 @@
 
 import { RoutingConfig } from '@spartacus/core';
 
-export const defaultOPFRoutingConfig: RoutingConfig = {
+export const defaultOpfRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       paymentVerificationResult: {

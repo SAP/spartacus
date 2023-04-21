@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
-import { KeyValuePair } from '../../root/model';
+import { OpfResponseMapElement } from '../../root/model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ import { KeyValuePair } from '../../root/model';
 export class OpfPaymentVerificationService {
   constructor(protected routingService: RoutingService) {}
 
-  convertParamsToKeyValuePairs(params: Params): KeyValuePair[] {
+  getOpfResponseMap(params: Params): OpfResponseMapElement[] {
     if (!params) {
       return [];
     }
@@ -24,7 +24,10 @@ export class OpfPaymentVerificationService {
     });
   }
 
-  findFromKeyValuePairs(key: string, list: KeyValuePair[]): string | undefined {
+  findInOpfResponseMap(
+    key: string,
+    list: OpfResponseMapElement[]
+  ): string | undefined {
     return list.find((pair) => pair.key === key)?.value ?? undefined;
   }
   goToPage(cxRoute: string) {
