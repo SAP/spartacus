@@ -41,55 +41,60 @@ export function fillShippingAddress(
   submitForm: boolean = true
 ) {
   cy.get('button.btn-primary').should('be.visible');
-  cy.get('cx-address-form').within(() => {
-    if (shippingAddress) {
-      shippingAddress?.address?.country &&
-        cy
-          .get('.country-select[formcontrolname="isocode"]')
-          .ngSelect(shippingAddress.address.country);
-      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
-      shippingAddress?.firstName &&
-        cy
-          .get('[formcontrolname="firstName"]')
-          .clear()
-          .type(shippingAddress.firstName);
+  cy.get('cx-address-form')
+    .wait(Cypress.config('defaultCommandTimeout'))
+    .within(() => {
+      if (shippingAddress) {
+        shippingAddress?.address?.country &&
+          cy
+            .get('.country-select[formcontrolname="isocode"]')
+            .ngSelect(shippingAddress.address.country);
+        cy.get('[formcontrolname="titleCode"]').ngSelect('Mr');
+        shippingAddress?.firstName &&
+          cy
+            .get('[formcontrolname="firstName"]')
+            .clear()
+            .type(shippingAddress.firstName);
 
-      shippingAddress?.lastName &&
-        cy
-          .get('[formcontrolname="lastName"]')
-          .clear()
-          .type(shippingAddress.lastName);
-      shippingAddress?.address?.line1 &&
-        cy
-          .get('[formcontrolname="line1"]')
-          .clear()
-          .type(shippingAddress.address.line1);
-      shippingAddress?.address?.line2 &&
-        cy
-          .get('[formcontrolname="line2"]')
-          .clear()
-          .type(shippingAddress.address.line2);
-      shippingAddress?.address?.city &&
-        cy
-          .get('[formcontrolname="town"]')
-          .clear()
-          .type(shippingAddress.address.city);
-      shippingAddress?.address?.state &&
-        cy
-          .get('.region-select[formcontrolname="isocode"]')
-          .ngSelect(shippingAddress.address.state);
-      shippingAddress?.address?.postal &&
-        cy
-          .get('[formcontrolname="postalCode"]')
-          .clear()
-          .type(shippingAddress.address.postal);
-      shippingAddress?.phone &&
-        cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
-    }
-    if (submitForm) {
-      cy.get('button.btn-primary').click();
-    }
-  });
+        shippingAddress?.lastName &&
+          cy
+            .get('[formcontrolname="lastName"]')
+            .clear()
+            .type(shippingAddress.lastName);
+        shippingAddress?.address?.line1 &&
+          cy
+            .get('[formcontrolname="line1"]')
+            .clear()
+            .type(shippingAddress.address.line1);
+        shippingAddress?.address?.line2 &&
+          cy
+            .get('[formcontrolname="line2"]')
+            .clear()
+            .type(shippingAddress.address.line2);
+        shippingAddress?.address?.city &&
+          cy
+            .get('[formcontrolname="town"]')
+            .clear()
+            .type(shippingAddress.address.city);
+        shippingAddress?.address?.state &&
+          cy
+            .get('.region-select[formcontrolname="isocode"]')
+            .ngSelect(shippingAddress.address.state);
+        shippingAddress?.address?.postal &&
+          cy
+            .get('[formcontrolname="postalCode"]')
+            .clear()
+            .type(shippingAddress.address.postal);
+        shippingAddress?.phone &&
+          cy
+            .get('[formcontrolname="phone"]')
+            .clear()
+            .type(shippingAddress.phone);
+      }
+      if (submitForm) {
+        cy.get('button.btn-primary').click();
+      }
+    });
 }
 
 export function fillBillingAddress(billingAddress: AddressData) {
