@@ -15,6 +15,8 @@ import {
   CUSTOMER_360_CORE_FEATURE,
   CUSTOMER_360_FEATURE,
 } from './feature-name';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SiteContextInterceptor } from './interceptors/site-context.interceptor';
 
 @NgModule({
   imports: [PageComponentModule],
@@ -40,6 +42,11 @@ import {
         [CUSTOMER_360_CORE_FEATURE]: CUSTOMER_360_FEATURE,
       },
     }),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useExisting: SiteContextInterceptor,
+      multi: true,
+    },
   ],
   declarations: [Customer360DialogComponent],
   exports: [Customer360DialogComponent],
