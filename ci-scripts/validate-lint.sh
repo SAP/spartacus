@@ -83,7 +83,7 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-npm run lint
+npx nx lint schematics
 
 echo "-----"
 
