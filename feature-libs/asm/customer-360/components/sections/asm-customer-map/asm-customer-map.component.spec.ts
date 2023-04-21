@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  StoreFinderConfig,
   StoreFinderSearchPage,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
@@ -85,6 +86,12 @@ describe('AsmCustomerMapComponent', () => {
     },
   ];
 
+  const mockStoreFinderConfig = {
+    googleMaps: {
+      radius: 50000,
+      apiKey: 'testkey',
+    },
+  };
   class MockStoreFinderService {
     findStoresAction(): void {}
 
@@ -114,6 +121,7 @@ describe('AsmCustomerMapComponent', () => {
           useExisting: Customer360SectionContextSource,
         },
         { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
       ],
     }).compileComponents();
   });
@@ -122,8 +130,7 @@ describe('AsmCustomerMapComponent', () => {
     const contextSource = TestBed.inject(Customer360SectionContextSource);
 
     contextSource.config$.next({
-      googleMapsApiKey: 'foo',
-      storefinderRadius: 1000,
+      pageSize: 10,
     });
 
     contextSource.data$.next({
@@ -145,14 +152,14 @@ describe('AsmCustomerMapComponent', () => {
       pageSize: 1,
       totalPages: 2,
     });
-    expect(component.selectedStore.displayName).toBe('Boston');
+    expect(component.selectedStore?.displayName).toBe('Boston');
     expect(component.googleMapsUrl).toBeTruthy();
   });
 
   it('should select a store', () => {
     component.selectStore(stores[1]);
 
-    expect(component.selectedStore.displayName).toBe('New York');
+    expect(component.selectedStore?.displayName).toBe('New York');
     expect(component.googleMapsUrl).toBeTruthy();
   });
 
