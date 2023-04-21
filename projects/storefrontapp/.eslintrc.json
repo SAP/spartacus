@@ -10,8 +10,8 @@
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
-            "allow": ["import('@spartacus/*')"],
-            "checkDynamicDependenciesExceptions": ["import('@spartacus/*')"]
+            "allow": ["import(*)"],
+            "checkDynamicDependenciesExceptions": ["import(*)"]
           }
         ]
       }
