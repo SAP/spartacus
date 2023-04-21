@@ -6,3 +6,4 @@
 
 export * from './opf-payment-verification.component';
 export * from './opf-payment-verification.module';
+export * from './opf-payment-verification.service';

@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
-import { OpfPaymentVerificationComponent } from '../components/opf-verify-payment';
+import { OpfPaymentVerificationComponent } from '../components/opf-payment-verification';
 import { defaultOPFRoutingConfig } from './config';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';

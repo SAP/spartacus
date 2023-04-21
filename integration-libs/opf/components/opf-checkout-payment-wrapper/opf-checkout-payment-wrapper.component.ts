@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { UserIdService } from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   OpfConfig,
@@ -20,7 +20,6 @@ import {
 } from '@spartacus/opf/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { OpfUrlHandlerService } from '../opf-url-handler.service';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
@@ -40,7 +39,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
     protected config: OpfConfig,
-    protected opfUrlHandlerService: OpfUrlHandlerService
+    protected routingService: RoutingService
   ) {}
 
   // TODO: Move this logic to the service
@@ -61,12 +60,12 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
             configurationId: String(this.selectedPaymentId),
             cartId: this.activeCartId,
             // TODO: Move below as a part of a whole OPF configuration?
-            resultURL: this.opfUrlHandlerService.getAsoluteUrl(
-              'paymentVerificationResult'
-            ),
-            cancelURL: this.opfUrlHandlerService.getAsoluteUrl(
-              'paymentVerificationCancel'
-            ),
+            resultURL: this.routingService.getFullUrl({
+              cxRoute: 'paymentVerificationResult',
+            }),
+            cancelURL: this.routingService.getFullUrl({
+              cxRoute: 'paymentVerificationCancel',
+            }),
           },
         };
       }),

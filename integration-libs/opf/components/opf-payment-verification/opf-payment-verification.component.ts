@@ -18,7 +18,7 @@ import {
 import { OrderFacade } from '@spartacus/order/root';
 import { of, Subscription, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { OpfUrlHandlerService } from '../opf-url-handler.service';
+import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
   selector: 'cx-opf-verify-payment',
@@ -33,7 +33,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     protected opfCheckoutService: OpfCheckoutFacade,
     protected config: OpfConfig,
     protected globalMessageService: GlobalMessageService,
-    protected opfUrlHandlerService: OpfUrlHandlerService
+    protected opfPaymentVerificationService: OpfPaymentVerificationService
   ) {}
 
   ngOnInit(): void {
@@ -45,17 +45,23 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             : throwError('CANCEL URL RETURNED BY PSP');
         }),
         switchMap((params) => {
-          if (!params) return throwError('No params');
+          if (!params) {
+            return throwError('No params');
+          }
 
           const paramsList: KeyValuePair[] =
-            this.opfUrlHandlerService.convertParamsToKeyValuePairs(params);
+            this.opfPaymentVerificationService.convertParamsToKeyValuePairs(
+              params
+            );
 
           const paymentSessionId =
-            this.opfUrlHandlerService.findFromKeyValuePairs(
+            this.opfPaymentVerificationService.findFromKeyValuePairs(
               OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
               paramsList
             );
-          if (!paymentSessionId) return throwError('No paymentSessionId found');
+          if (!paymentSessionId) {
+            return throwError('No paymentSessionId found');
+          }
 
           return this.opfCheckoutService.verifyPayment(paymentSessionId, {
             responseMap: [...paramsList],
@@ -74,12 +80,12 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onSuccess(): void {
-    this.opfUrlHandlerService.goToPage('orderConfirmation');
+    this.opfPaymentVerificationService.goToPage('orderConfirmation');
   }
 
   onError(error: any): void {
     this.globalMessageService.add(error, GlobalMessageType.MSG_TYPE_ERROR);
-    this.opfUrlHandlerService.goToPage('checkoutReviewOrder');
+    this.opfPaymentVerificationService.goToPage('checkoutReviewOrder');
   }
 
   ngOnDestroy(): void {
