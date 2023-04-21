@@ -13,7 +13,13 @@
         <div id="asm-customer-list-desc" class="cx-visually-hidden">
           {{ 'asm.customerList.description' | cxTranslate }}
         </div>
-        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
+        <ng-container *cxFeatureLevel="'!6.1'">
+          <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+        </ng-container>
+        <ng-container *cxFeatureLevel="'6.1'">
+          <ng-template *ngTemplateOutlet="createCustomerButton"></ng-template>
+        </ng-container>
       </div>
       <div
         class="cx-dialog-sub-header modal-header"
@@ -197,6 +203,19 @@
           </div>
         </div>
       </div>
+      <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
+      <ng-container *cxFeatureLevel="'6.1'">
+        <!-- Modal Footer -->
+        <div class="cx-dialog-footer modal-footer">
+          <button
+            type="button"
+            class="btn cx-asm-customer-list-btn-cancel"
+            (click)="closeModal('Cancel click')"
+          >
+            {{ 'asm.createCustomerForm.cancel' | cxTranslate }}
+          </button>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
 </div>
@@ -355,5 +374,16 @@
     <span aria-hidden="true">
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
+  </button>
+</ng-template>
+
+<ng-template #createCustomerButton>
+  <button
+    type="button"
+    class="btn cx-asm-create-customer-btn"
+    (click)="createCustomer()"
+  >
+    <cx-icon [type]="iconTypes.USER_PLUS"></cx-icon>
+    <span>{{ 'asm.customerList.createCustomer' | cxTranslate }}</span>
   </button>
 </ng-template>

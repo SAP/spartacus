@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { CmsService, Page } from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
 import { PageLayoutService } from './page-layout.service';
@@ -70,7 +70,7 @@ const MockLayoutConfig: LayoutConfig = {
 
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
-    return of();
+    return EMPTY;
   }
   get breakpoints(): BREAKPOINT[] {
     return [
@@ -106,7 +106,7 @@ const page_3 = {
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of();
+    return EMPTY;
   }
 }
 

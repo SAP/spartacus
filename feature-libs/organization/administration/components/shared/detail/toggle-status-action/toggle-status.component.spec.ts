@@ -6,7 +6,7 @@ import {
   Budget,
   LoadStatus,
 } from '@spartacus/organization/administration/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
@@ -21,11 +21,11 @@ class MockMessageService {
 }
 
 class MockItemService {
-  current$ = of();
+  current$ = EMPTY;
   isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   update() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -96,7 +96,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should enable inactive items right away', () => {
-      spyOn(organizationItemService, 'update').and.returnValue(of());
+      spyOn(organizationItemService, 'update').and.returnValue(EMPTY);
       const mockItem = { code: 'b1', active: false };
       component.toggle(mockItem);
       expect(organizationItemService.update).toHaveBeenCalledWith(
@@ -109,7 +109,7 @@ describe('ToggleStatusComponent', () => {
     });
 
     it('should only patch code and active flag', () => {
-      spyOn(organizationItemService, 'update').and.returnValue(of());
+      spyOn(organizationItemService, 'update').and.returnValue(EMPTY);
       const mockItem = { code: 'b1', active: false, foo: 'bar' };
       component.toggle(mockItem);
       expect(organizationItemService.update).toHaveBeenCalledWith(
@@ -143,7 +143,7 @@ describe('ToggleStatusComponent', () => {
       organizationItemService = TestBed.inject(ItemService);
       messageService = TestBed.inject(MessageService);
 
-      spyOn(organizationItemService, 'update').and.returnValue(of());
+      spyOn(organizationItemService, 'update').and.returnValue(EMPTY);
     });
 
     it('should not enable active items right away', () => {

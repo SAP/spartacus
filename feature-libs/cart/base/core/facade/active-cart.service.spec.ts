@@ -10,7 +10,7 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from './active-cart.service';
 
@@ -27,14 +27,14 @@ export class MultiCartFacadeStub {
   deleteCart() {}
   initAddEntryProcess() {}
   getCartEntity() {
-    return of();
+    return EMPTY;
   }
   assignEmail() {}
   getEntry() {
-    return of();
+    return EMPTY;
   }
   getLastEntry() {
-    return of();
+    return EMPTY;
   }
   updateEntry() {}
   removeEntry() {}
@@ -852,7 +852,7 @@ describe('ActiveCartService', () => {
             code: 'code',
           },
         });
-        return of();
+        return EMPTY;
       });
 
       service['cartEntity$'] = cart$.asObservable();
@@ -888,7 +888,7 @@ describe('ActiveCartService', () => {
             code: 'code',
           },
         });
-        return of();
+        return EMPTY;
       });
 
       userId$.next(OCC_USER_ID_ANONYMOUS);

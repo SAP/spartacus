@@ -3,12 +3,12 @@ import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthService, SemanticPathService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn = createSpy().and.returnValue(of());
+  isUserLoggedIn = createSpy().and.returnValue(EMPTY);
 }
 
 class SemanticPathServiceStub implements Partial<SemanticPathService> {
