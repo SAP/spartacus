@@ -42,11 +42,11 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         switchMap((cxRoute) => {
           return cxRoute === 'paymentVerificationResult'
             ? this.route.queryParams
-            : throwError(() => 'ERROR_CANCEL_LINK');
+            : throwError('ERROR_CANCEL_LINK');
         }),
         switchMap((params) => {
           if (!params) {
-            return throwError(() => 'ERROR_NO_PARAMS');
+            return throwError('ERROR_NO_PARAMS');
           }
 
           const responseMap: OpfResponseMapElement[] =
@@ -58,7 +58,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
               responseMap
             );
           if (!paymentSessionId) {
-            return throwError(() => 'ERROR_NO_PAYMENT_SESSION_ID');
+            return throwError('ERROR_NO_PAYMENT_SESSION_ID');
           }
 
           return this.opfCheckoutService.verifyPayment(paymentSessionId, {
@@ -68,7 +68,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         switchMap((response: OpfPaymentVerificationResponse) => {
           return response?.result === OpfPaymentVerificationResult.AUTHORIZED
             ? this.orderFacade.placeOrder(true)
-            : throwError(() => 'ERROR_UNAUTHORIZED_RESULT');
+            : throwError('ERROR_UNAUTHORIZED_RESULT');
         })
       )
       .subscribe({
