@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -21,7 +21,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
@@ -44,7 +44,7 @@ const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   getTitles(): Observable<Title[]> {
-    return of();
+    return EMPTY;
   }
 
   loadTitles(): void {}

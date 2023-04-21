@@ -17,7 +17,7 @@ import {
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { MockStoreFinderService } from 'feature-libs/storefinder/components/abstract-store-item/abstract-store-item.component.spec';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
@@ -28,7 +28,7 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of();
+    return EMPTY;
   }
   refreshLatestPage() {}
   refreshPageById() {}

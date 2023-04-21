@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
@@ -17,13 +17,13 @@ import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
   getPageContext(): Observable<PageContext> {
-    return of();
+    return EMPTY;
   }
   isNavigating(): Observable<boolean> {
     return of(false);
   }
   getNextPageContext(): Observable<PageContext> {
-    return of();
+    return EMPTY;
   }
 }
 
