@@ -17,7 +17,7 @@ import {
   OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
   OPF_PAYMENT_CONFIG_SERIALIZER,
-  OPF_VERIFY_PAYMENT_NORMALIZER,
+  OPF_PAYMENT_VERIFICATION_NORMALIZER,
 } from '@spartacus/opf/core';
 import {
   ActiveConfiguration,
@@ -121,7 +121,7 @@ export class OccOpfAdapter implements OpfAdapter {
         backOff({
           shouldRetry: isJaloError,
         }),
-        this.converter.pipeable(OPF_VERIFY_PAYMENT_NORMALIZER)
+        this.converter.pipeable(OPF_PAYMENT_VERIFICATION_NORMALIZER)
       );
   }
 
