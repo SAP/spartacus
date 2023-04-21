@@ -5,4 +5,3 @@
  */
 
 export const OPF_FEATURE = 'opf';
-export const OPF_CORE_FEATURE = 'opfCore';
