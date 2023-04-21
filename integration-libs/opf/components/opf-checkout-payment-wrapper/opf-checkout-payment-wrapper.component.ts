@@ -14,7 +14,6 @@ import { ActiveCartService } from '@spartacus/cart/base/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
-  OpfConfig,
   OpfOtpFacade,
   PaymentSessionData,
 } from '@spartacus/opf/root';
@@ -38,7 +37,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     protected opfOtpService: OpfOtpFacade,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected config: OpfConfig,
     protected routingService: RoutingService
   ) {}
 
