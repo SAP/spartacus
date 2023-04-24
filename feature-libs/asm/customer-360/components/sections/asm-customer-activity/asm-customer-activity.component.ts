@@ -97,7 +97,7 @@ export class AsmCustomerActivityComponent implements OnInit {
       } else if (entry.type?.code === TypeCodes.Ticket) {
         urlCommand = {
           cxRoute: 'supportTicketDetails',
-          params: { code: entry?.associatedTypeId },
+          params: { ticketCode: entry?.associatedTypeId },
         };
       }
       if (urlCommand) {
