@@ -9,7 +9,7 @@
       }
     },
     {
-      "files": ["*.ts", "**/storefrontapp/**/*.ts"],
+      "files": ["**/app/**/*.ts"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": "off"
       }
