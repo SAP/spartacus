@@ -4,11 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  UntypedFormBuilder,
 } from '@angular/forms';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
@@ -21,7 +26,9 @@ import {
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { OpfService } from '@spartacus/opf/core';
+import { OpfUi } from '@spartacus/opf/root';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -29,13 +36,24 @@ import { map } from 'rxjs/operators';
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OPFCheckoutPaymentAndReviewComponent extends CheckoutReviewSubmitComponent {
+export class OpfCheckoutPaymentAndReviewComponent
+  extends CheckoutReviewSubmitComponent
+  implements OnInit, OnDestroy
+{
+  protected subscription = new Subscription();
+
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
   get termsAndConditionInvalid(): boolean {
     return this.checkoutSubmitForm.invalid;
+  }
+
+  get paymentType$(): Observable<PaymentType | undefined> {
+    return this.activeCartFacade
+      .getActive()
+      .pipe(map((cart) => cart.paymentType));
   }
 
   constructor(
@@ -45,7 +63,8 @@ export class OPFCheckoutPaymentAndReviewComponent extends CheckoutReviewSubmitCo
     protected activeCartFacade: ActiveCartFacade,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected opfService: OpfService
   ) {
     super(
       checkoutDeliveryAddressFacade,
@@ -57,9 +76,25 @@ export class OPFCheckoutPaymentAndReviewComponent extends CheckoutReviewSubmitCo
     );
   }
 
-  get paymentType$(): Observable<PaymentType | undefined> {
-    return this.activeCartFacade
-      .getActive()
-      .pipe(map((cart) => cart.paymentType));
+  toggleTermsAndConditions(): void {
+    this.opfService.updateOpfUiState({
+      termsAndConditionsChecked:
+        this.checkoutSubmitForm.get('termsAndConditions')?.value,
+      selectedPaymentOptionId: undefined,
+    });
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.opfService.getOpfUiState().subscribe((uiState: OpfUi) => {
+        this.checkoutSubmitForm.setValue({
+          termsAndConditions: Boolean(uiState?.termsAndConditionsChecked),
+        });
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

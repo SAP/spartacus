@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const OPF_FEATURE = 'opf';
+// TODO: Add unit tests

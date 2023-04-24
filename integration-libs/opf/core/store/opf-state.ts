@@ -4,4 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { OpfUi } from '@spartacus/opf/root';
+
 export const OPF_FEATURE = 'opf';
+
+export interface StateWithOpf {
+  [OPF_FEATURE]: OpfState;
+}
+
+export interface OpfState {
+  opfUi: OpfUi;
+}

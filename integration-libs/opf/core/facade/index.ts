@@ -6,3 +6,4 @@
 
 export * from './opf-checkout.service';
 export * from './opf-otp.service';
+export * from './opf.service';

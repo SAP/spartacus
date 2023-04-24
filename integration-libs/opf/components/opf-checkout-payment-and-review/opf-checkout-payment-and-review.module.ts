@@ -4,32 +4,32 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OPFCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
-  provideDefaultConfig,
+  CartNotEmptyGuard,
+  CheckoutAuthGuard,
+} from '@spartacus/checkout/base/components';
+import {
   CmsConfig,
   I18nModule,
   UrlModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
-import {
-  CheckoutAuthGuard,
-  CartNotEmptyGuard,
-} from '@spartacus/checkout/base/components';
-import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 import {
   CardModule,
   IconModule,
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
+import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
+import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
 @NgModule({
-  declarations: [OPFCheckoutPaymentAndReviewComponent],
+  declarations: [OpfCheckoutPaymentAndReviewComponent],
   imports: [
     CommonModule,
     I18nModule,
@@ -48,7 +48,7 @@ import {
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
-          component: OPFCheckoutPaymentAndReviewComponent,
+          component: OpfCheckoutPaymentAndReviewComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },

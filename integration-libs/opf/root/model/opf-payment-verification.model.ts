@@ -5,10 +5,10 @@
  */
 
 export interface OpfPaymentVerificationPayload {
-  responseMap: KeyValuePair[];
+  responseMap: OpfResponseMapElement[];
 }
 
-export interface KeyValuePair {
+export interface OpfResponseMapElement {
   key: string;
   value: string;
 }
@@ -19,6 +19,8 @@ export interface OpfPaymentVerificationResponse {
 export enum OpfPaymentVerificationResult {
   AUTHORIZED = 'AUTHORIZED',
   UNAUTHORIZED = 'UNAUTHORIZED',
+  DELAYED = 'DELAYED',
+  CANCELED = 'CANCELED',
 }
 
 export enum OpfPaymenVerificationUrlInput {

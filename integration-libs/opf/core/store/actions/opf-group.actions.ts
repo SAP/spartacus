@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const OPF_FEATURE = 'opf';
+export * from './opf-ui.action';
