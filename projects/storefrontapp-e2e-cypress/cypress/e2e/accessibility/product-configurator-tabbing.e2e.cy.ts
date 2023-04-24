@@ -43,6 +43,7 @@ const SPECIFICATION = 'Specification';
 
 context('Product Configuration', () => {
   const commerceRelease: configurationVc.CommerceRelease = {};
+  let configuratorCoreConfig: any;
 
   before(() => {
     configurationVc.checkCommerceRelease(
@@ -53,6 +54,12 @@ context('Product Configuration', () => {
   });
 
   beforeEach(() => {
+    configuratorCoreConfig = {
+      productConfigurator: {
+        enableVariantSearch: false, // disable variant search, so that we are sure not to count the variant component
+      },
+    };
+    cy.cxConfig(configuratorCoreConfig);
     configurationVc.registerConfigurationRoute();
     configurationVc.registerConfigurationUpdateRoute();
     cy.visit('/');
