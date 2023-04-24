@@ -124,6 +124,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               this.showCreateCustomerSuccessfullyAlert = true;
             }
             if (
+              'actionType' in result &&
               result.actionType === CustomerListColumnActionType.ACTIVE_CART
             ) {
               this.routingService.go({ cxRoute: 'cart' });

@@ -121,8 +121,45 @@
                           column.headerLocalizationKey &&
                           column.headerLocalizationKey !== 'hideAccount'
                         "
-                        >{{ column.headerLocalizationKey | cxTranslate }}</span
                       >
+                        <ng-container *cxFeatureLevel="'!6.1'">
+                          {{ column.headerLocalizationKey | cxTranslate }}
+                        </ng-container>
+                        <ng-container *cxFeatureLevel="'6.1'">
+                          <ng-container
+                            *ngIf="
+                              column.headerLocalizationKey ===
+                              'asm.customerList.tableHeader.customer'
+                            "
+                          >
+                            {{
+                              'asm.customerList.tableHeader.customerName'
+                                | cxTranslate
+                            }}
+                          </ng-container>
+                          <ng-container
+                            *ngIf="
+                              column.headerLocalizationKey ===
+                              'asm.customerList.tableHeader.email'
+                            "
+                          >
+                            {{
+                              'asm.customerList.tableHeader.emailId'
+                                | cxTranslate
+                            }}
+                          </ng-container>
+                          <ng-container
+                            *ngIf="
+                              column.headerLocalizationKey !==
+                                'asm.customerList.tableHeader.customer' &&
+                              column.headerLocalizationKey !==
+                                'asm.customerList.tableHeader.email'
+                            "
+                          >
+                            {{ column.headerLocalizationKey | cxTranslate }}
+                          </ng-container>
+                        </ng-container>
+                      </span>
                     </th>
                   </tr>
                 </thead>

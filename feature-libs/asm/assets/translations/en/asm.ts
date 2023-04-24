@@ -63,8 +63,10 @@ export const asm = {
       cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',
+        customerName: 'Customer Name',
         name: 'Name',
         email: 'Email',
+        emailId: 'Email/ID',
         phone: 'Phone',
         account: 'Account',
         cart: 'Cart',
