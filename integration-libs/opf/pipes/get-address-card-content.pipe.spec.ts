@@ -16,7 +16,7 @@ const mockedAddress: Address = {
   defaultAddress: false,
 };
 
-fdescribe('GetAddressCardContent', () => {
+describe('GetAddressCardContent', () => {
   const pipe = new GetAddressCardContent();
 
   it('should return empty object if address has not been provided', () => {
