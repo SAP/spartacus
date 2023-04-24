@@ -96,10 +96,10 @@ export class OpfCheckoutBillingAddressFormService {
         filter((isStable) => isStable),
         switchMap(() => this.getPaymentAddress()),
 
-        tap((address: Address | undefined) => {
-          if (!!address && !!address.id) {
-            this.billingAddressId = address.id;
-            this.billingAddress$.next(address);
+        tap((billingAddress: Address | undefined) => {
+          if (!!billingAddress && !!billingAddress.id) {
+            this.billingAddressId = billingAddress.id;
+            this.billingAddress$.next(billingAddress);
 
             this.isLoadingAddressSub.next(false);
           }

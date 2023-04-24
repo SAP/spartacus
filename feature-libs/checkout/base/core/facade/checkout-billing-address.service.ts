@@ -27,7 +27,7 @@ export class CheckoutBillingAddressService
   implements CheckoutBillingAddressFacade
 {
   protected setBillingAddressCommand: Command<Address, unknown> =
-    this.commandService.create<Address | undefined>(
+    this.commandService.create<Address>(
       (address) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
