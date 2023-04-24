@@ -12,8 +12,6 @@ import { OpfCheckoutPaymentWrapperModule } from './opf-checkout-payment-wrapper/
 import { OpfCheckoutPaymentsModule } from './opf-checkout-payments/opf-checkout-payments.module';
 import { OpfPaymentVerificationModule } from './opf-payment-verification/opf-payment-verification.module';
 
-import { OpfPaymentVerificationModule } from './opf-verify-payment/opf-payment-verification.module';
-
 @NgModule({
   imports: [
     OPFCheckoutPaymentAndReviewModule,
