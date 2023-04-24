@@ -120,10 +120,16 @@
 
           <ng-template #tableCell>
             <ng-container
-              ><span>{{
-                entry[column.property] ||
+              ><span
+                [title]="
+                  entry[column.property] ||
                   ('customer360.emptyCellValue' | cxTranslate)
-              }}</span></ng-container
+                "
+                >{{
+                  entry[column.property] ||
+                    ('customer360.emptyCellValue' | cxTranslate)
+                }}</span
+              ></ng-container
             >
           </ng-template>
         </td>
