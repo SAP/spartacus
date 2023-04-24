@@ -7,8 +7,10 @@
 import { editedAddress } from '../../../helpers/address-book';
 import { fillRegistrationForm, login } from '../../../helpers/auth-forms';
 import * as loginHelper from '../../../helpers/login';
+import { generateMail, randomString } from '../../../helpers/user';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { AddressData, fillShippingAddress } from '../../checkout-forms';
+import * as alerts from '../../global-message';
 import { listenForTokenRevocationRequest } from '../../login';
 
 export const updatedName = ' updated';
@@ -22,7 +24,7 @@ export function registerUser(cdcUser) {
   registerCDC(cdcUser);
 }
 
-export const user = getSampleUser();
+export const user = getSampleUser(); //screenset UI user
 export const nativeUser = getSampleUser();
 
 export const b2bUser = getSampleB2BUser();
@@ -204,6 +206,36 @@ export function updateUserProfile(lastName: string = updatedName) {
   });
 }
 
+export function updateUserProfilePassword(
+  oldPass: string,
+  newPass: string = updatedPassword
+) {
+  cy.get('[id="gigya-profile-form"]').within(() => {
+    cy.get('[data-switch-screen="gigya-change-password-screen"]')
+      .last()
+      .click();
+    cy.get('[name="password"]').type(oldPass);
+    cy.get('[name="newPassword"]').type(newPass);
+    cy.get('[name="passwordRetype"]').type(newPass);
+    cy.get('[class="gigya-input-submit"]').click();
+  });
+  logoutUser();
+}
+
+export function updateUserProfileEmail(email: string = updatedEmail) {
+  const tokenRevocationAlias = listenForTokenRevocationRequest();
+  cy.get('[id="gigya-profile-form"]').within(() => {
+    cy.get('[name="email"]')
+      .should('be.visible')
+      .invoke('val')
+      .should('not.be.empty'); //not empty
+    cy.get('[name="email"]').clear();
+    cy.get('[name="email"]').type(email);
+    cy.get('[class="gigya-input-submit"]').click();
+  });
+  cy.wait(tokenRevocationAlias);
+}
+
 export function updateUserProfileWithoutScreenset(
   lastName: string = updatedName
 ) {
@@ -234,17 +266,33 @@ export function restoreUserLastName(cdcUser) {
 
 export function updateEmailWithoutScreenset(
   email: string = updatedEmail,
-  password: string = b2bUser.password
+  password: string = b2bUser.password,
+  isErrorTestCase: boolean = false
 ) {
-  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  const cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+
   cy.get('cx-update-email form').within(() => {
     cy.get('[name="email"]').type(email);
     cy.get('[name="confirmEmail"]').type(email);
     cy.get('[name="password"]').type(password);
     cy.get('[class="btn btn-block btn-primary"]').click();
   });
-  verifyCDCSDKInvocation(cdcInterceptName);
-  listenForTokenRevocationRequest();
+  if (!isErrorTestCase) {
+    //only for sucess scenario
+    const tokenRevocationAlias = listenForTokenRevocationRequest();
+    verifyCDCSDKInvocation(cdcInterceptName);
+    cy.wait(tokenRevocationAlias);
+  }
+}
+
+export function verifyUpdateEmailError() {
+  //verify error message is shown.
+  const alert = alerts.getErrorAlert();
+  alert.should('contain', 'Password entered is not valid');
+  //check for no route change
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/my-account\/update-email$/);
+  });
 }
 
 export function verifyUpdateEmailSuccess(
@@ -262,21 +310,36 @@ export function restoreUserEmail(cdcUser) {
   cy.selectUserMenuOption({
     option: 'Email Address',
   });
-  updateEmailWithoutScreenset(cdcUser.email);
+  updateEmailWithoutScreenset(cdcUser.email, cdcUser.password);
 }
 
 export function updatePasswordWithoutScreenset(
   oldPass: string = b2bUser.password,
-  newPass: string = updatedPassword
+  newPass: string = updatedPassword,
+  isErrorTestCase: boolean = false
 ) {
-  let cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
+  const cdcInterceptName = interceptCDCSDKMethod('accounts.setAccountInfo');
   cy.get('cx-update-password form').within(() => {
     cy.get('[name="oldPassword"]').type(oldPass);
     cy.get('[name="newPassword"]').type(newPass);
     cy.get('[name="newPasswordConfirm"]').type(newPass);
     cy.get('[class="btn btn-block btn-primary"]').click();
+  });
+  if (!isErrorTestCase) {
+    //only for sucess scenario
+    const tokenRevocationAlias = listenForTokenRevocationRequest();
     verifyCDCSDKInvocation(cdcInterceptName);
-    listenForTokenRevocationRequest();
+    cy.wait(tokenRevocationAlias);
+  }
+}
+
+export function verifyUpdatePasswordError() {
+  //verify error message is shown.
+  const alert = alerts.getErrorAlert();
+  alert.should('contain', 'invalid loginID or password');
+  //check for no route change
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/my-account\/update-password$/);
   });
 }
 
@@ -363,8 +426,74 @@ export function verifyDeleteAllAddressSuccess() {
   });
 }
 
+export function forgotPassword(email: string) {
+  cy.visit('/cdc/login');
+  cy.findByText('Forgot password?').click();
+  cy.get('[id="gigya-reset-password-form"]').within(() => {
+    cy.get('[id="gigya-textbox-loginID"]').clear();
+    cy.get('[id="gigya-textbox-loginID"]').type(email);
+    cy.get('[class="gigya-input-submit"]').click();
+  });
+}
+
+export function forgotPasswordWithoutScreenset(email: string) {
+  cy.visit('/login/forgot-password');
+  cy.get('input[type="email"]').type(email);
+  cy.findByText('Submit').click();
+}
+
+export function verifyForgotPasswordError() {
+  //verify error message is shown.
+  cy.get('[role="alert"]').should(
+    'contain',
+    'There is no user with that username or email'
+  );
+  //check for no route change
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/cdc\/login$/);
+  });
+}
+
+export function verifyForgotPasswordSuccess() {
+  cy.get('.gigya-message').should(
+    'contain',
+    'An email regarding your password change has been sent to your email address.'
+  );
+  //check for no route change
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/cdc\/login$/);
+  });
+}
+
+export function verifyForgotPasswordWithoutScreensetError() {
+  //verify error message is shown.
+  const alert = alerts.getErrorAlert();
+  alert.should('contain', 'loginID does not exist');
+  //check for no route change
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/login\/forgot-password$/);
+  });
+}
+
+export function verifyForgotPasswordWithoutScreensetSuccess() {
+  //verify error message is shown.
+  const alert = alerts.getSuccessAlert();
+  alert.should(
+    'contain',
+    'An email has been sent to you with information on how to reset your password.'
+  );
+  //check for no route change
+  cy.location().should((location) => {
+    expect(location.pathname).to.match(/\/login$/);
+  });
+}
+
 export function logoutUser() {
   loginHelper.signOutUser();
+}
+
+export function generateRandomEmail() {
+  return generateMail(randomString(), true);
 }
 
 export function getSampleB2BUser() {
