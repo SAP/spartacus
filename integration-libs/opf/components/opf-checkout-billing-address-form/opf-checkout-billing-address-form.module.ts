@@ -4,22 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
 import {
-  IconModule,
-  FormErrorsModule,
-  CardModule,
-  NgSelectA11yModule,
   AddressFormModule,
+  CardModule,
+  FormErrorsModule,
+  IconModule,
+  NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
+import { GetAddressCardContent } from './get-address-card-content.pipe';
+import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
+import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @NgModule({
-  declarations: [OpfCheckoutBillingAddressFormComponent],
+  declarations: [OpfCheckoutBillingAddressFormComponent, GetAddressCardContent],
   exports: [OpfCheckoutBillingAddressFormComponent],
   imports: [
     NgSelectA11yModule,
@@ -30,8 +33,9 @@ import {
     I18nModule,
     IconModule,
     FormErrorsModule,
-
     AddressFormModule,
+    SpinnerModule,
   ],
+  providers: [OpfCheckoutBillingAddressFormService],
 })
 export class OpfCheckoutBillingAddressFormModule {}

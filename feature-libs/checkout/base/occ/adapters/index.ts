@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './occ-checkout-billing-address.adapter';
 export * from './occ-checkout-delivery-address.adapter';
 export * from './occ-checkout-delivery-modes.adapter';
 export * from './occ-checkout-payment.adapter';
