@@ -30,8 +30,7 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
       endpoints: {
-        setBillingAddress:
-          'orgUsers/${userId}/carts/${cartId}/addresses/billing',
+        setBillingAddress: 'users/${userId}/carts/${cartId}/addresses/billing',
       } as OccEndpoints,
     },
   },
@@ -95,7 +94,7 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
-          req.url === `orgUsers/${userId}/carts/${cartId}/addresses/billing`
+          req.url === `users/${userId}/carts/${cartId}/addresses/billing`
         );
       });
 

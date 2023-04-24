@@ -10,7 +10,6 @@ class MockCheckoutBillingAddressAdapter
   implements CheckoutBillingAddressAdapter
 {
   setAddress = createSpy().and.returnValue(of({}));
-  getAddress = createSpy().and.returnValue(of({}));
 }
 
 describe('CheckoutBillingAddressConnector', () => {
@@ -43,11 +42,5 @@ describe('CheckoutBillingAddressConnector', () => {
     expect(adapter.setAddress).toHaveBeenCalledWith('1', '2', {
       town: 'Berlin',
     });
-  });
-
-  it('getAddress should call adapter', () => {
-    const adapter = TestBed.inject(CheckoutBillingAddressAdapter);
-    service.getAddress('1', '2').pipe(take(1)).subscribe();
-    expect(adapter.getAddress).toHaveBeenCalledWith('1', '2');
   });
 });
