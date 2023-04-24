@@ -4,12 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { OpfService } from '@spartacus/opf/core';
 import {
   ActiveConfiguration,
   OpfCheckoutFacade,
   OpfOtpFacade,
+  OpfUi,
 } from '@spartacus/opf/root';
+import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -17,7 +26,9 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './opf-checkout-payments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCheckoutPaymentsComponent {
+export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
   activeConfiguratons$ = this.opfCheckoutService
     .getActiveConfigurationsState()
     .pipe(
@@ -32,10 +43,26 @@ export class OpfCheckoutPaymentsComponent {
 
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
-    protected opfOtpService: OpfOtpFacade
+    protected opfOtpService: OpfOtpFacade,
+    protected opfService: OpfService
   ) {}
 
   changePayment(payment: ActiveConfiguration): void {
     this.selectedPaymentId = payment.id;
+    this.opfService.updateOpfUiState({
+      selectedPaymentOptionId: this.selectedPaymentId,
+    });
+  }
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.opfService.getOpfUiState().subscribe((state: OpfUi) => {
+        this.selectedPaymentId = state?.selectedPaymentOptionId;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

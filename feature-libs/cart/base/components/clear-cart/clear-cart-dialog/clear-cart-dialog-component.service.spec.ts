@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartFacade,
-  MultiCartFacade,
   DeleteCartSuccessEvent as ClearActiveCartSuccessEvent,
+  MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { EMPTY, Observable, of } from 'rxjs';
-import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import { LaunchDialogService } from '@spartacus/storefront';
 import {
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   UserIdService,
-  EventService,
 } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
+import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
@@ -27,7 +27,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
@@ -36,12 +36,12 @@ class MockMultiCartFacade implements Partial<MultiCartFacade> {
 
 class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
