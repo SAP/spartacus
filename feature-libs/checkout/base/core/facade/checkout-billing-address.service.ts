@@ -34,7 +34,7 @@ export class CheckoutBillingAddressService
             if (!address || !Object.keys(address)?.length) {
               throw new Error('Checkout conditions not met');
             }
-            return this.checkoutBillingAddressConnector.setAddress(
+            return this.checkoutBillingAddressConnector.setBillingAddress(
               userId,
               cartId,
               address

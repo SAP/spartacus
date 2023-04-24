@@ -15,7 +15,7 @@ export abstract class CheckoutBillingAddressAdapter {
    * @param cartId
    * @param addressId
    */
-  abstract setAddress(
+  abstract setBillingAddress(
     userId: string,
     cartId: string,
     address: Address

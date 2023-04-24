@@ -13,11 +13,11 @@ import { CheckoutBillingAddressAdapter } from './checkout-billing-address.adapte
 export class CheckoutBillingAddressConnector {
   constructor(protected adapter: CheckoutBillingAddressAdapter) {}
 
-  public setAddress(
+  public setBillingAddress(
     userId: string,
     cartId: string,
     address: Address
   ): Observable<unknown> {
-    return this.adapter.setAddress(userId, cartId, address);
+    return this.adapter.setBillingAddress(userId, cartId, address);
   }
 }

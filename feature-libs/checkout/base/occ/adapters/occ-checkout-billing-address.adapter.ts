@@ -28,7 +28,7 @@ export class OccCheckoutBillingAddressAdapter
     protected converter: ConverterService
   ) {}
 
-  public setAddress(
+  public setBillingAddress(
     userId: string,
     cartId: string,
     address: Address
