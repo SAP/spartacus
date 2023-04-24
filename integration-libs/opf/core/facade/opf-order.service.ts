@@ -32,6 +32,7 @@ export class OpfOrderService implements OpfOrderFacade {
                 this.orderFacade.setPlacedOrder(order);
                 this.eventService.dispatch(
                   {
+                    order,
                     userId,
                     cartId,
                     /**
@@ -39,7 +40,6 @@ export class OpfOrderService implements OpfOrderFacade {
                      * we can safely use the cartId, which is actually the cart.code.
                      */
                     cartCode: cartId,
-                    order,
                   },
                   OrderPlacedEvent
                 );
