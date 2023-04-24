@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { FutureStockService } from '../../core/services';
@@ -52,7 +53,7 @@ describe('FutureStockAccordionComponent', () => {
       imports: [I18nTestingModule],
       declarations: [MockCxIconComponent, FutureStockAccordionComponent],
       providers: [
-        { provide: FutureStockService, useClass: MockFutureStockService },
+        { provide: FutureStockFacade, useClass: MockFutureStockService },
       ],
     }).compileComponents();
   });
