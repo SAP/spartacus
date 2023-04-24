@@ -19,7 +19,7 @@ import {
   LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
@@ -39,7 +39,7 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _vcr?: ViewContainerRef,
     _data?: any
   ) {
-    return of();
+    return EMPTY;
   }
 
   get dialogClose(): Observable<string | undefined> {
@@ -51,10 +51,10 @@ export class MockLaunchDialogService implements Partial<LaunchDialogService> {
 export class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   isStable(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getActive(): Observable<Cart> {
     return of({
@@ -67,7 +67,7 @@ export class MockActiveCartService {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return EMPTY;
   }
   updateEntry(
     _entryNumber: number,

@@ -17,6 +17,7 @@ import {
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
+  MessageComponentModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
   SortingModule,
@@ -24,6 +25,8 @@ import {
 } from '@spartacus/storefront';
 import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
+import { AsmCreateCustomerFormComponent } from './asm-create-customer-form/asm-create-customer-form.component';
+import { defaultAsmCreateCustomerFormLayoutConfig } from './asm-create-customer-form/default-asm-create-customer-form-layout.config';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -51,6 +54,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     KeyboardFocusModule,
     NgSelectA11yModule,
     SortingModule,
+    MessageComponentModule,
     FeaturesConfigModule,
   ],
   declarations: [
@@ -65,6 +69,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
+    AsmCreateCustomerFormComponent,
   ],
   exports: [
     AsmBindCartDialogComponent,
@@ -78,11 +83,13 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
+    AsmCreateCustomerFormComponent,
   ],
   providers: [
     provideDefaultConfig(defaultAsmLayoutConfig),
     provideDefaultConfig(defaultBindCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
+    provideDefaultConfig(defaultAsmCreateCustomerFormLayoutConfig),
   ],
 })
 export class AsmComponentsModule {}

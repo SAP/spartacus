@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
@@ -26,6 +33,7 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
+  LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
@@ -89,6 +97,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   searchBox: UntypedFormControl = new UntypedFormControl();
 
   protected teardown: Subscription = new Subscription();
+
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
     launchDialogService: LaunchDialogService,
@@ -351,6 +361,15 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           };
         }
       )
+    );
+  }
+
+  createCustomer(): void {
+    this.launchDialogService.closeDialog('Create customer click');
+
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLink
     );
   }
 
