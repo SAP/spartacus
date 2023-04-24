@@ -5,7 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BaseSiteService, Config } from '@spartacus/core';
+import {
+  BaseSiteService,
+  Config,
+  DynamicAttributes,
+  StringTemplate,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +29,18 @@ export class OpfEndpointsService {
     }
   }
 
-  buildUrl(endpoint: string): string {
+  buildUrl(endpoint: string, attributes?: DynamicAttributes): string {
     const baseUrl = this.getBaseEndpoint();
-    const opfEndpoint = this.getEndpointFromContext(endpoint);
+    let opfEndpoint = this.getEndpointFromContext(endpoint);
+
+    if (attributes) {
+      const { urlParams } = attributes;
+
+      if (urlParams && opfEndpoint) {
+        opfEndpoint = StringTemplate.resolve(opfEndpoint, urlParams, true);
+      }
+    }
+
     return `${baseUrl}/${this._activeBaseSite}/${opfEndpoint}`;
   }
 
