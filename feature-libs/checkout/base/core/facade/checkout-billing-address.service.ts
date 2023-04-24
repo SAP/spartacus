@@ -12,7 +12,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  Command,
   CommandService,
   CommandStrategy,
   OCC_USER_ID_ANONYMOUS,
@@ -26,25 +25,24 @@ import { CheckoutBillingAddressConnector } from '../connectors/checkout-billing-
 export class CheckoutBillingAddressService
   implements CheckoutBillingAddressFacade
 {
-  protected setBillingAddressCommand: Command<Address, unknown> =
-    this.commandService.create<Address>(
-      (address) =>
-        this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) => {
-            if (!address || !Object.keys(address)?.length) {
-              throw new Error('Checkout conditions not met');
-            }
-            return this.checkoutBillingAddressConnector.setBillingAddress(
-              userId,
-              cartId,
-              address
-            );
-          })
-        ),
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
+  protected setBillingAddressCommand = this.commandService.create<Address>(
+    (address) =>
+      this.checkoutPreconditions().pipe(
+        switchMap(([userId, cartId]) => {
+          if (!address || !Object.keys(address)?.length) {
+            throw new Error('Checkout conditions not met');
+          }
+          return this.checkoutBillingAddressConnector.setBillingAddress(
+            userId,
+            cartId,
+            address
+          );
+        })
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
