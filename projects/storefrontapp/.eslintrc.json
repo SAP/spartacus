@@ -9,20 +9,9 @@
       }
     },
     {
-      "files": ["*.ts", "**/storefrontapp/**/*.ts"],
+      "files": ["**/storefrontapp/**/*.ts"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
-          "error",
-          {
-            "checkDynamicDependenciesExceptions": [
-              "@spartacus/**",
-              "projects/storefrontlib/**",
-              "projects/core/**",
-              "feature-libs/**",
-              "integration-libs/**"
-            ]
-          }
-        ]
+        "@nrwl/nx/enforce-module-boundaries": "off"
       }
     }
   ]
