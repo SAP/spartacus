@@ -11,13 +11,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { UserIdService } from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
   PaymentSessionData,
 } from '@spartacus/opf/root';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -36,7 +36,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfOtpService: OpfOtpFacade,
     protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected routingService: RoutingService
   ) {}
 
   // TODO: Move this logic to the service
@@ -50,18 +51,21 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
         return this.opfOtpService.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) => ({
-        otpKey,
-        config: {
-          configurationId: String(this.selectedPaymentId),
-          cartId: this.activeCartId,
-          // TODO: Move below as a part of a whole OPF configuration?
-          resultURL:
-            'http://localhost:4200/electronics-spa/en/USD/checkout/review-order',
-          cancelURL:
-            'http://localhost:4200/electronics-spa/en/USD/checkout/review-order',
-        },
-      })),
+      map(({ value: otpKey }) => {
+        return {
+          otpKey,
+          config: {
+            configurationId: String(this.selectedPaymentId),
+            cartId: this.activeCartId,
+            resultURL: this.routingService.getFullUrl({
+              cxRoute: 'paymentVerificationResult',
+            }),
+            cancelURL: this.routingService.getFullUrl({
+              cxRoute: 'paymentVerificationCancel',
+            }),
+          },
+        };
+      }),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params))
     );
   }

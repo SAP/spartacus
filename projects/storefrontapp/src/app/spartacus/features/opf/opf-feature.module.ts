@@ -5,7 +5,12 @@
  */
 
 import { NgModule, Provider } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import {
+  I18nConfig,
+  OccConfig,
+  provideConfig,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
@@ -15,6 +20,7 @@ import {
   defaultOPFCheckoutConfig,
   OpfConfig,
   OpfRootModule,
+  OPF_FEATURE,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -28,6 +34,18 @@ if (environment.b2b) {
 @NgModule({
   imports: [OpfRootModule],
   providers: [
+    provideConfig(<RoutingConfig>{
+      routing: {
+        routes: {
+          paymentVerificationResult: {
+            paths: ['redirect/success'],
+          },
+          paymentVerificationCancel: {
+            paths: ['redirect/failure'],
+          },
+        },
+      },
+    }),
     provideConfig(<OpfConfig>{
       opf: {
         baseUrl:
@@ -35,11 +53,27 @@ if (environment.b2b) {
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
       },
     }),
+    provideConfig(<OccConfig>{
+      backend: {
+        occ: {
+          endpoints: {
+            placeOrder: 'users/${userId}/orders/v2?fields=FULL',
+          },
+        },
+      },
+    }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: opfTranslations,
         chunks: opfTranslationChunksConfig,
         fallbackLang: 'en',
+      },
+    }),
+    provideConfig({
+      featureModules: {
+        [OPF_FEATURE]: {
+          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
+        },
       },
     }),
     ...extensionProviders,

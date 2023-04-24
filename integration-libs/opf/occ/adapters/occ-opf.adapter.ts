@@ -7,22 +7,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  ConverterService,
   backOff,
+  ConverterService,
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
 import {
-  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
-  OPF_PAYMENT_CONFIG_SERIALIZER,
   OpfAdapter,
   OpfEndpointsService,
+  OPF_ACTIVE_CONFIGURATION_NORMALIZER,
+  OPF_PAYMENT_CONFIG_SERIALIZER,
+  OPF_PAYMENT_VERIFICATION_NORMALIZER,
 } from '@spartacus/opf/core';
 import {
   ActiveConfiguration,
+  OpfConfig,
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
   OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
-  OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/root';
@@ -93,5 +96,38 @@ export class OccOpfAdapter implements OpfAdapter {
 
   protected getInitiatePaymentEndpoint(): string {
     return this.opfEndpointsService.buildUrl('initiatePayment');
+  }
+
+  verifyPayment(
+    paymentSessionId: string,
+    payload: OpfPaymentVerificationPayload
+  ): Observable<OpfPaymentVerificationResponse> {
+    const headers = new HttpHeaders({
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Content-Language': 'en-us',
+    }).set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '');
+
+    return this.http
+      .post<OpfPaymentVerificationResponse>(
+        this.verifyPaymentEndpoint(paymentSessionId),
+        JSON.stringify(payload),
+        {
+          headers,
+        }
+      )
+      .pipe(
+        catchError((error) => throwError(error)),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        this.converter.pipeable(OPF_PAYMENT_VERIFICATION_NORMALIZER)
+      );
+  }
+
+  protected verifyPaymentEndpoint(paymentSessionId: string): string {
+    return this.opfEndpointsService.buildUrl('verifyPayment', {
+      urlParams: { paymentSessionId },
+    });
   }
 }
