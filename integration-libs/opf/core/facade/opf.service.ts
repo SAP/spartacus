@@ -25,6 +25,13 @@ export class OpfService {
   }
 
   /**
+   * Clears the state of the OPF UI
+   */
+  clearOpfUiState(): void {
+    this.store.dispatch(new OpfActions.OpfUiClear());
+  }
+
+  /**
    * Get the state of the OPF UI
    */
   getOpfUiState(): Observable<OpfUi> {
