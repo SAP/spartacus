@@ -14,10 +14,10 @@
         "@nrwl/nx/enforce-module-boundaries": {
           "checkDynamicDependenciesExceptions": [
             "@spartacus/**",
-            "**/storefrontlib/**",
-            "**/core/**",
-            "**/feature-libs/**",
-            "**/integration-libs/**"
+            "projects/storefrontlib/**",
+            "projects/core/**",
+            "feature-libs/**",
+            "integration-libs/**"
           ]
         }
       }
