@@ -7,12 +7,6 @@
         "@angular-eslint/component-selector": "off",
         "@nrwl/nx/workspace/use-default-provide-config": "off"
       }
-    },
-    {
-      "files": ["*.ts", "**/app/**/*.ts"],
-      "rules": {
-        "@nrwl/nx/enforce-module-boundaries": "off"
-      }
     }
   ]
 }
