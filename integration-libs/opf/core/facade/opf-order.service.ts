@@ -16,14 +16,12 @@ import {
 } from '@spartacus/core';
 import { OpfOrderFacade } from '@spartacus/opf/root';
 import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfOrderConnector } from '../connectors/opf-order.connector';
 
 @Injectable()
 export class OpfOrderService implements OpfOrderFacade {
-  protected placedOpfOrder$ = new BehaviorSubject<Order | undefined>(undefined);
-
   protected placeOpfOrderCommand: Command<boolean, Order> =
     this.commandService.create<boolean, Order>(
       (payload) =>
@@ -67,13 +65,11 @@ export class OpfOrderService implements OpfOrderFacade {
    * Performs the necessary checkout preconditions.
    */
   protected checkoutPreconditions(): Observable<[string, string]> {
-    console.log('flo1');
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),
       this.activeCartFacade.isGuestCart(),
     ]).pipe(
-      tap(() => console.log('flo2')),
       take(1),
       map(([userId, cartId, isGuestCart]) => {
         if (
@@ -81,7 +77,6 @@ export class OpfOrderService implements OpfOrderFacade {
           !cartId ||
           (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
-          console.log('flo3 Checkout conditions not met');
           throw new Error('Checkout conditions not met');
         }
         return [userId, cartId];
@@ -90,41 +85,6 @@ export class OpfOrderService implements OpfOrderFacade {
   }
 
   placeOpfOrder(termsChecked: boolean): Observable<Order> {
-    console.log('flo4');
     return this.placeOpfOrderCommand.execute(termsChecked);
   }
-
-  // getOrderDetails(): Observable<Order | undefined> {
-  //   return this.placedOpfOrder$.asObservable();
-  // }
-
-  // clearPlacedOrder(): void {
-  //   this.placedOpfOrder$.next(undefined);
-  // }
-
-  // setPlacedOrder(order: Order): void {
-  //   this.placedOpfOrder$.next(order);
-  // }
-
-  // getPickupEntries(): Observable<OrderEntry[]> {
-  //   return this.getOrderDetails().pipe(
-  //     map(
-  //       (order) =>
-  //         order?.entries?.filter(
-  //           (entry) => entry.deliveryPointOfService !== undefined
-  //         ) || []
-  //     )
-  //   );
-  // }
-
-  // getDeliveryEntries(): Observable<OrderEntry[]> {
-  //   return this.getOrderDetails().pipe(
-  //     map(
-  //       (order) =>
-  //         order?.entries?.filter(
-  //           (entry) => entry.deliveryPointOfService === undefined
-  //         ) || []
-  //     )
-  //   );
-  // }
 }

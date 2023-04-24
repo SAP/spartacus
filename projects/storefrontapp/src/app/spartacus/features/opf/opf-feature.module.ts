@@ -41,18 +41,6 @@ if (environment.b2b) {
         },
       },
     }),
-    provideConfig(<RoutingConfig>{
-      routing: {
-        routes: {
-          paymentVerificationResult: {
-            paths: ['redirect/success'],
-          },
-          paymentVerificationCancel: {
-            paths: ['redirect/failure'],
-          },
-        },
-      },
-    }),
     provideConfig(<OpfConfig>{
       opf: {
         baseUrl:

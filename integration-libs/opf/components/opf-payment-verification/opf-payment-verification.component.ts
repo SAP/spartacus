@@ -10,12 +10,12 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   OpfConfig,
+  OpfOrderFacade,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
   OpfPaymenVerificationUrlInput,
   OpfResponseMapElement,
 } from '@spartacus/opf/root';
-import { OrderFacade } from '@spartacus/order/root';
 import { of, Subscription, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
@@ -29,7 +29,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected route: ActivatedRoute,
-    protected orderFacade: OrderFacade,
+    protected opfOrderFacade: OpfOrderFacade,
     protected opfCheckoutService: OpfCheckoutFacade,
     protected config: OpfConfig,
     protected globalMessageService: GlobalMessageService,
@@ -69,7 +69,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
           return response?.result ===
             (OpfPaymentVerificationResult.AUTHORIZED ||
               OpfPaymentVerificationResult.DELAYED)
-            ? this.orderFacade.placeOrder(true)
+            ? this.opfOrderFacade.placeOpfOrder(true)
             : throwError('ERROR_UNAUTHORIZED_RESULT');
         })
       )

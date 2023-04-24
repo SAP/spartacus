@@ -33,7 +33,6 @@ export function opfStatePersistenceFactory(
     ...facadeProviders,
     OpfCheckoutConnector,
     OtpConnector,
-    ,
     OpfOrderConnector,
   ],
 })

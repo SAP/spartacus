@@ -13,7 +13,7 @@ export const defaultOccOpfOrderConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        placeOpfOrder: 'users/${userId}/orders',
+        placeOpfOrder: 'users/${userId}/orders/v2',
       },
     },
   },
