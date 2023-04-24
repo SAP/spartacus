@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -134,44 +134,42 @@ describe('AddedToCartDialogComponent', () => {
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          FormsModule,
-          ReactiveFormsModule,
-          RouterTestingModule,
-          SpinnerModule,
-          I18nTestingModule,
-          PromotionsModule,
-          FeaturesConfigModule,
-        ],
-        declarations: [
-          AddedToCartDialogComponent,
-          MockCartItemComponent,
-          MockUrlPipe,
-          MockCxIconComponent,
-        ],
-        providers: [
-          {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,
+        FeaturesConfigModule,
+      ],
+      declarations: [
+        AddedToCartDialogComponent,
+        MockCartItemComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+      ],
+      providers: [
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
           },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '1.3' },
-            },
-          },
-          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        ],
-      }).compileComponents();
-    })
-  );
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
@@ -284,7 +282,7 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should return formControl with order entry quantity', () => {
+  it('should return formControl with order entry quantity', (done) => {
     component.entry$ = of({
       quantity: 5,
       entryNumber: 0,
@@ -295,10 +293,11 @@ describe('AddedToCartDialogComponent', () => {
       .pipe(take(1))
       .subscribe((control) => {
         expect(control.value).toEqual(5);
+        done();
       });
   });
 
-  it('should return formControl with updated order entry quantity', () => {
+  it('should return formControl with updated order entry quantity', (done) => {
     const entry$ = new BehaviorSubject<any>({
       quantity: 5,
       entryNumber: 0,
@@ -307,9 +306,10 @@ describe('AddedToCartDialogComponent', () => {
     component.entry$ = entry$;
     component
       .getQuantityControl()
-      .pipe(skip(1))
+      .pipe(skip(1), take(1))
       .subscribe((control) => {
         expect(control.value).toEqual(50);
+        done();
       });
 
     entry$.next({
