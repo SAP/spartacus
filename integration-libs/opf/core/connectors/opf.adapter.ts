@@ -11,7 +11,6 @@ import {
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/root';
-
 import { Observable } from 'rxjs';
 
 export abstract class OpfAdapter {

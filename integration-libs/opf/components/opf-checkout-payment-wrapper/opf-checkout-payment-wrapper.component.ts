@@ -57,7 +57,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
           config: {
             configurationId: String(this.selectedPaymentId),
             cartId: this.activeCartId,
-            // TODO: Move below as a part of a whole OPF configuration?
             resultURL: this.routingService.getFullUrl({
               cxRoute: 'paymentVerificationResult',
             }),
