@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-checkout.service';
-export * from './opf-otp.service';
-export * from './opf.service';
+export * from './feature.selector';
+export * from './opf-ui.selectors';

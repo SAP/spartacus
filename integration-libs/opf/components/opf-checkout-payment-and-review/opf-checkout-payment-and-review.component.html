@@ -18,6 +18,7 @@
             formControlName="termsAndConditions"
             class="scaled-input form-check-input"
             type="checkbox"
+            (change)="toggleTermsAndConditions()"
           />
           <span class="form-check-label">
             {{ 'checkoutReview.confirmThatRead' | cxTranslate }}

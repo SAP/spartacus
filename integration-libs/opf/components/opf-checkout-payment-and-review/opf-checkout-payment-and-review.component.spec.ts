@@ -24,7 +24,7 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { OPFCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
 const mockCart = {
   code: 'test',
@@ -101,8 +101,8 @@ class MockCheckoutStepService {
 }
 
 describe('OPFCheckoutPaymentReviewComponent', () => {
-  let component: OPFCheckoutPaymentAndReviewComponent;
-  let fixture: ComponentFixture<OPFCheckoutPaymentAndReviewComponent>;
+  let component: OpfCheckoutPaymentAndReviewComponent;
+  let fixture: ComponentFixture<OpfCheckoutPaymentAndReviewComponent>;
   let el: DebugElement;
   let activeCartService: ActiveCartFacade;
 
@@ -118,7 +118,7 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
         IconTestingModule,
       ],
       declarations: [
-        OPFCheckoutPaymentAndReviewComponent,
+        OpfCheckoutPaymentAndReviewComponent,
         MockOpfCheckoutPaymentsComponent,
         MockUrlPipe,
         MockOpfCheckoutBillingAddressFormComponent,
@@ -133,7 +133,7 @@ describe('OPFCheckoutPaymentReviewComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OPFCheckoutPaymentAndReviewComponent);
+    fixture = TestBed.createComponent(OpfCheckoutPaymentAndReviewComponent);
     el = fixture.debugElement;
     activeCartService = TestBed.inject(ActiveCartFacade);
 
