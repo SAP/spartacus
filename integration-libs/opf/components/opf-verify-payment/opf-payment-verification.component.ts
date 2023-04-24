@@ -6,16 +6,20 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
 import {
   KeyValuePair,
   OpfCheckoutFacade,
   OpfConfig,
+  OpfOrderFacade,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
   OpfPaymenVerificationUrlInput,
 } from '@spartacus/opf/root';
-import { OrderFacade } from '@spartacus/order/root';
 import { of, Subscription, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OpfUrlHandlerService } from '../opf-url-handler.service';
@@ -29,11 +33,12 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected route: ActivatedRoute,
-    protected orderFacade: OrderFacade,
+    protected opfOrderFacade: OpfOrderFacade,
     protected opfCheckoutService: OpfCheckoutFacade,
     protected config: OpfConfig,
     protected globalMessageService: GlobalMessageService,
-    protected opfUrlHandlerService: OpfUrlHandlerService
+    protected opfUrlHandlerService: OpfUrlHandlerService,
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +68,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         }),
         switchMap((response: OpfPaymentVerificationResponse) => {
           return response?.result === OpfPaymentVerificationResult.AUTHORIZED
-            ? this.orderFacade.placeOrder(true)
+            ? this.opfOrderFacade.placeOpfOrder(true)
             : throwError('UNAUTHORIZED payment from OPF Adapter');
         })
       )
