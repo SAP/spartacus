@@ -31,7 +31,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
           "projects/storefrontlib/**/*.ts",
