@@ -5,11 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  AnonymousConsentTemplatesAdapter,
-  I18nModule,
-  UserConsentAdapter,
-} from '@spartacus/core';
+import { I18nModule, UserConsentAdapter } from '@spartacus/core';
 import { CdcSiteConsentNormalizer } from './converters/cdc-site-consent.normalizer';
 import { CDCSiteConsentAdapter } from './cdc-site-consent.adapter';
 import {
@@ -27,10 +23,6 @@ import { CdcConsentManagementService } from './cdc-consent-management.service';
   imports: [CommonModule, I18nModule, CdcSiteConsentModule],
   providers: [
     { provide: UserConsentAdapter, useClass: CDCSiteConsentAdapter },
-    {
-      provide: AnonymousConsentTemplatesAdapter,
-      useClass: CDCSiteConsentAdapter,
-    },
     {
       provide: ConsentManagementService,
       useClass: CdcConsentManagementService,
