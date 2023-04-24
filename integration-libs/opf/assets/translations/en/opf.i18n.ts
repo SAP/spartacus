@@ -18,7 +18,7 @@ export const opf = {
       itemsToBeShipped: 'Items to be shipped',
       notSupportedPaymentMethod:
         'This payment method is not supported yet. Please choose a different one.',
-      proceedPayment: 'Continue',
+      proceedPayment: 'Place Order',
     },
   },
 };
