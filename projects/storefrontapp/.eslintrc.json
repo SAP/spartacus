@@ -7,6 +7,20 @@
         "@angular-eslint/component-selector": "off",
         "@nrwl/nx/workspace/use-default-provide-config": "off"
       }
+    },
+    {
+      "files": ["*.ts", "**/storefrontapp/**/*.ts"],
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": {
+          "checkDynamicDependenciesExceptions": [
+            "*@spartacus/**",
+            "**/storefrontlib/**",
+            "**/core/**",
+            "**/feature-libs/**",
+            "**/integration-libs/**"
+          ]
+        }
+      }
     }
   ]
 }
