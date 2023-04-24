@@ -10,6 +10,7 @@ import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
 } from '@spartacus/core';
+import { ConsentManagementService } from '../consent-management.service';
 import { ConsentOutlets } from './consent-outlets.model';
 
 @Component({
@@ -18,7 +19,9 @@ import { ConsentOutlets } from './consent-outlets.model';
 })
 export class ConsentManagementFormComponent implements OnInit {
   consentGiven = false;
-
+  hideConsentName = this?.consentManagementService
+    ? this.consentManagementService.hideConsentName()
+    : false;
   @Input()
   consentTemplate: ConsentTemplate;
 
@@ -34,7 +37,7 @@ export class ConsentManagementFormComponent implements OnInit {
     template: ConsentTemplate;
   }>();
 
-  constructor() {
+  constructor(protected consentManagementService?: ConsentManagementService) {
     // Intentional empty constructor
   }
   readonly ConsentOutlets = ConsentOutlets;

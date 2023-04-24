@@ -7,15 +7,17 @@
       [checked]="consentGiven"
       [disabled]="isRequired(consentTemplate?.id)"
     />
-    <ng-container *ngIf="consentTemplate?.name">
-      <span class="form-check-label cx-be-bold">
-        {{ consentTemplate?.name }}
-      </span>
+    <span class="form-check-label cx-be-bold" [hidden]="hideConsentName">
+      {{ consentTemplate?.name }}
       <br />
-    </ng-container>
+    </span>
     <span class="form-check-label">
       {{ consentTemplate?.description }}
-      <ng-template [cxOutlet]="ConsentOutlets.SHOW_DOCUMENT" [cxOutletContext]="consentTemplate"> </ng-template>
+      <ng-template
+        [cxOutlet]="ConsentOutlets.SHOW_DOCUMENT"
+        [cxOutletContext]="consentTemplate"
+      >
+      </ng-template>
     </span>
   </label>
 </div>

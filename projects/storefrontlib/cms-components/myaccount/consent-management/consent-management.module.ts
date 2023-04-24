@@ -18,6 +18,7 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
+import { ConsentManagementService } from './components/consent-management.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     OutletModule,
   ],
   providers: [
+    ConsentManagementService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ConsentManagementComponent: {

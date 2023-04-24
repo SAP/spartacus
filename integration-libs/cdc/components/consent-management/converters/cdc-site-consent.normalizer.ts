@@ -38,6 +38,9 @@ export class CdcSiteConsentNormalizer
       if (Object.hasOwn(site, key)) {
         if (site[key].isActive === true) {
           var legalStatements = site[key].legalStatements;
+          var required = site[key].isMandatory;
+          if (key.startsWith('terms') || key.startsWith('privacy'))
+            required = true;
           for (var lang in legalStatements) {
             if (Object.hasOwn(legalStatements, lang)) {
               if (lang === siteLanguage) {
@@ -46,6 +49,7 @@ export class CdcSiteConsentNormalizer
                   description: legalStatements[lang]?.purpose,
                   version: legalStatements[lang].currentDocVersion,
                   documentUrl: legalStatements[lang].documentUrl,
+                  required: required,
                   currentConsent: {
                     code: '',
                     consentGivenDate: undefined,

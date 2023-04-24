@@ -11,6 +11,7 @@ export interface ConsentTemplate {
   version?: number;
   currentConsent?: Consent;
   documentUrl?: string;
+  required?: Boolean;
 }
 
 export interface Consent {
