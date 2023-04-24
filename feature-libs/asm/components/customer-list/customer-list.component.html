@@ -122,10 +122,12 @@
                           column.headerLocalizationKey !== 'hideAccount'
                         "
                       >
+                        <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
                         <ng-container *cxFeatureLevel="'!6.1'">
                           {{ column.headerLocalizationKey | cxTranslate }}
                         </ng-container>
                         <ng-container *cxFeatureLevel="'6.1'">
+                          <!-- TODO:(CXSPA-3090) for next major release replace the translation lable -->
                           <ng-container
                             *ngIf="
                               column.headerLocalizationKey ===
@@ -137,6 +139,7 @@
                                 | cxTranslate
                             }}
                           </ng-container>
+                          <!-- TODO:(CXSPA-3090) for next major release replace the translation lable -->
                           <ng-container
                             *ngIf="
                               column.headerLocalizationKey ===
