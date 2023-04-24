@@ -17,11 +17,12 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { OpfPipesModule } from 'integration-libs/opf/pipes/opf-pipes.module';
+import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
+import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @NgModule({
-  declarations: [OpfCheckoutBillingAddressFormComponent],
+  declarations: [OpfCheckoutBillingAddressFormComponent, GetAddressCardContent],
   exports: [OpfCheckoutBillingAddressFormComponent],
   imports: [
     NgSelectA11yModule,
@@ -33,8 +34,8 @@ import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-a
     IconModule,
     FormErrorsModule,
     AddressFormModule,
-    OpfPipesModule,
     SpinnerModule,
   ],
+  providers: [OpfCheckoutBillingAddressFormService],
 })
 export class OpfCheckoutBillingAddressFormModule {}

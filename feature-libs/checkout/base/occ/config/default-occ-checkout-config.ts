@@ -29,7 +29,6 @@ export const defaultOccCheckoutConfig: OccConfig = {
         getCheckoutDetails:
           'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)',
         setBillingAddress: 'users/${userId}/carts/${cartId}/addresses/billing',
-        getCart: 'users/${userId}/carts/${cartId}',
       },
     },
   },

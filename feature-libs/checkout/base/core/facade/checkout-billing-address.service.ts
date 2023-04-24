@@ -80,15 +80,4 @@ export class CheckoutBillingAddressService
   setBillingAddress(address: Address): Observable<unknown> {
     return this.setBillingAddressCommand.execute(address);
   }
-
-  getBillingAddress(): Observable<Address | undefined> {
-    return this.checkoutPreconditions().pipe(
-      switchMap(([userId, cartId]) => {
-        if (!cartId) {
-          throw new Error('Checkout conditions not met');
-        }
-        return this.checkoutBillingAddressConnector.getAddress(userId, cartId);
-      })
-    );
-  }
 }
