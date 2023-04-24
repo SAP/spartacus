@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsService, I18nTestingModule, Page } from '@spartacus/core';
 import {
+  AugmentedPointOfService,
+  IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOptionFacade,
   PreferredStoreFacade,
@@ -102,6 +104,22 @@ const mockOutletContext: { item: OrderEntry; cartType: string } = {
 
 const context$ = of(mockOutletContext);
 
+class MockIntendedPickupLocationFacade {
+  getIntendedLocation(
+    _productCode: string
+  ): Observable<AugmentedPointOfService | undefined> {
+    const result: AugmentedPointOfService = {
+      pickupOption: 'pickup',
+      displayName: 'London School',
+    };
+    return of(result);
+  }
+  setIntendedLocation(
+    _productCode: string,
+    _location: AugmentedPointOfService
+  ): void {}
+}
+
 describe('CartPickupOptionsContainerComponent', () => {
   let component: CartPickupOptionsContainerComponent;
   let fixture: ComponentFixture<CartPickupOptionsContainerComponent>;
@@ -117,7 +135,6 @@ describe('CartPickupOptionsContainerComponent', () => {
       ],
       imports: [CommonModule, I18nTestingModule],
       providers: [
-        CartPickupOptionsContainerComponent,
         {
           provide: ActiveCartFacade,
           useClass: MockActiveCartFacade,
@@ -139,6 +156,10 @@ describe('CartPickupOptionsContainerComponent', () => {
           useClass: MockPickupOptionFacade,
         },
         { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationFacade,
+        },
       ],
     });
 
