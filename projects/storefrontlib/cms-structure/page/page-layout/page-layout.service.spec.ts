@@ -331,7 +331,7 @@ describe('PageLayoutService', () => {
       Object.keys(BREAKPOINT).forEach((breakpoint) => {
         it('should return page-fold for large ' + breakpoint, () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(breakpoint)
+            of(breakpoint as BREAKPOINT)
           );
           let results;
           pageLayoutService
