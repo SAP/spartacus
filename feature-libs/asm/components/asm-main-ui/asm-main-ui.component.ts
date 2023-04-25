@@ -147,7 +147,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
-    if (this.router !== undefined) {
+    if (this.router) {
       this.subscription.add(
         combineLatest([
           this.customerSupportAgentLoggedIn$,
@@ -157,7 +157,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           if (parameter.customerId) {
             this.customerIdInURL = parameter.customerId;
           }
-          if (loggedIn && parameter.customerId !== undefined) {
+          if (loggedIn && parameter.customerId) {
             if (userLoggedin && !this.emulated) {
               this.asmComponentService.logoutCustomer();
             } else {
