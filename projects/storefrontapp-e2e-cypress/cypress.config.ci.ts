@@ -8,16 +8,13 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 30000,
+  defaultCommandTimeout: 10000,
 
-  requestTimeout: 30000,
+  requestTimeout: 10000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
   video: true,
-  retries: {
-    runMode: 2,
-  },
   videoUploadOnPasses: false,
   env: {
     API_URL: 'https://20.83.184.244:9002',

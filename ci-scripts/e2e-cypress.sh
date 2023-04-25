@@ -61,7 +61,7 @@ npm ci
 
 (cd projects/storefrontapp-e2e-cypress && npm ci)
 
-npm run build:libs 2>&1 | tee build.log
+npm run build:b2c:core:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -72,6 +72,7 @@ else
     rm build.log
     exit 1
 fi
+
 echo '-----'
 echo "Building Spartacus storefrontapp"
 npm run build
@@ -91,15 +92,6 @@ else
     npm run start:pwa &
 
     echo '-----'
-    echo "Running Cypress end to end tests"
-
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-        npm run e2e:run:ci"${SUITE}"
-      else 
-        npm run e2e:run:ci:core"${SUITE}"
-      fi
-    else
-        npm run e2e:run:ci"${SUITE}"
-    fi
-fi
+    echo "Running Cypress core end to end tests"
+    npm run e2e:run:ci:core"${SUITE}"
+ fi
