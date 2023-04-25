@@ -328,7 +328,7 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:asm": "npm --prefix feature-libs/asm run build:schematics && nx build asm --configuration production"
+"build:asm": "npm --prefix feature-libs/asm run build:schematics && npx nx build asm --configuration production"
 ```
 
 And replace `asm` instances with the name of yours lib.
@@ -344,7 +344,11 @@ Add the library unit tests with code coverage
 ```sh
 echo "Running unit tests and code coverage for TODO:"
 
-ng test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless
+npx nx test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless
+
+echo "Running schematics unit tests and code coverage for TODO: library"
+
+npm --prefix feature-libs/TODO: run test:schematics -- --coverage
 ```
 
 Replace `TODO:` with the appropriate name.
@@ -380,9 +384,9 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 Don't forget to:
 
-- run the tests for the generated library - `nx test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
-- build the generated library _with Ivy enabled_ - `nx build <lib-name>`
-- build the generated library (without Ivy) - `nx build <lib-name> --configuration production`
+- run the tests for the generated library - `npx nx test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
+- build the generated library _with Ivy enabled_ - `npx nx build <lib-name>`
+- build the generated library (without Ivy) - `npx nx build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `npm run build:libs` (build all the libs)
   - `npm run build`
