@@ -31,7 +31,9 @@ export class UnitDetailsComponent {
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
-  isUpdatingUnitAllowed = this.orgUnitService?.isUpdatingUnitAllowed();
+  readonly isUpdatingUnitAllowed = this.orgUnitService
+    ? this.orgUnitService.isUpdatingUnitAllowed()
+    : true;
 
   constructor(
     protected itemService: ItemService<B2BUnit>,

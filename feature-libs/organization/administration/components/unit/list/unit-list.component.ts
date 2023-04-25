@@ -19,7 +19,7 @@ export class UnitListComponent {
     protected orgUnitService?: OrgUnitService
   ) {}
 
-  isUpdatingUnitAllowed = this.orgUnitService
+  readonly isUpdatingUnitAllowed = this.orgUnitService
     ? this.orgUnitService.isUpdatingUnitAllowed()
     : true;
 
