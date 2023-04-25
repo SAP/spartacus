@@ -44,6 +44,13 @@ export class CdcSiteConsentService {
     consent.id = consentCode;
     consent.currentConsent = {};
 
+    /**if consent is of type terms or privacy - withdrawing them should not be allowed */
+    if (
+      (consentCode.startsWith('terms') || consentCode.startsWith('privacy')) &&
+      isConsentGranted === false
+    )
+      return of({});
+
     if (isConsentGranted && consent.currentConsent)
       consent.currentConsent.consentGivenDate = new Date();
     else if (consent.currentConsent)

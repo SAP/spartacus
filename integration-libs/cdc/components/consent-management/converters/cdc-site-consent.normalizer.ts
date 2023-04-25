@@ -25,7 +25,6 @@ export class CdcSiteConsentNormalizer
     if (source.siteConsentDetails) {
       target = this.convertConsentEntries(source.siteConsentDetails);
     }
-    console.log(target);
     return target;
   }
 
