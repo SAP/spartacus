@@ -267,7 +267,7 @@ jobs:
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
-    name: Slack message for failed develop CI build in Spartacus
+    name: Slack message for failed CI build in Spartacus
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
@@ -284,7 +284,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":nuclear-bomb: :fireduck: *Broken build in develop*"
+                    "text": ":nuclear-bomb: :fireduck: *Broken build on ${{ github.event.repository.default_branch }}*"
                   }
                 },
                 {
@@ -330,4 +330,4 @@ jobs:
         if: |
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' &&
-          github.ref_name == 'develop'
+          github.ref_name == ${{ github.event.repository.default_branch }}
