@@ -32,7 +32,7 @@ import {
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -54,7 +54,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
-  customerId: string;
+  customerIdInURL: string;
   emulated: boolean = false;
 
   @HostBinding('class.hidden') disabled = false;
@@ -103,7 +103,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getCustomerFromURL();
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(
@@ -111,8 +110,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         tap((loggedIn) => {
           if (!loggedIn) {
             this.closeModal();
-          } else {
-            this.startSessionWithParameters();
           }
         })
       );
@@ -122,11 +119,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.customer$ = this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {
-          this.emulated = true;
           this.handleCustomerSessionStartRedirection();
           return this.userAccountFacade.get();
         } else {
-          this.emulated = false;
           return of(undefined);
         }
       })
@@ -135,7 +130,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       .getAsmUiState()
       .pipe(
         map((uiState: AsmUi) =>
-          uiState.collapsed === undefined ? false : uiState.collapsed || this.emulated
+        uiState.collapsed === undefined ? false : uiState.collapsed || this.emulated
         )
       );
     this.subscription.add(
@@ -152,13 +147,27 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
-  }
-
-  protected getCustomerFromURL(): void {
-    this.router?.queryParams.subscribe((params) => {
-      this.customerId = params.customerId;
-      this.startSessionWithParameters();
-    });
+    if (this.router !== undefined) {
+      this.subscription.add(
+        combineLatest([
+          this.customerSupportAgentLoggedIn$,
+          this.router.queryParams,
+          this.authService.isUserLoggedIn(),
+        ]).subscribe(([loggedIn, parameter, userLoggedin]) => {
+          if (parameter.customerId) {
+            this.customerIdInURL = parameter.customerId;
+          }
+          if (loggedIn && parameter.customerId !== undefined) {
+            if (userLoggedin && !this.emulated) {
+              this.asmComponentService.logoutCustomer();
+            } else {
+              setTimeout(() => this.startSessionWithParameters(), 0);
+              // this.startSessionWithParameters();
+            }
+          }
+        })
+      );
+    }
   }
 
   protected handleCustomerSessionStartRedirection(): void {
@@ -181,14 +190,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     userId: string;
     password: string;
   }): void {
-    this.csAgentAuthService
-      .authorizeCustomerSupportAgent(userId, password)
-      .then(() => this.startSessionWithParameters());
+    this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
   protected startSessionWithParameters(): void {
-    if (this.customerId && !this.emulated) {
-      this.startCustomerEmulationSession({ customerId: this.customerId });
+    if (this.customerIdInURL && !this.emulated) {
+      this.emulated = true;
+      this.startCustomerEmulationSession({ customerId: this.customerIdInURL });
     }
     //cart order ....
   }
