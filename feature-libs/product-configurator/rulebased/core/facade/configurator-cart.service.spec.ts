@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -128,13 +127,9 @@ describe('ConfiguratorCartService', () => {
     })
   );
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
-      ConfiguratorCartService as Type<ConfiguratorCartService>
-    );
-    store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
+    serviceUnderTest = TestBed.inject(ConfiguratorCartService);
+    store = TestBed.inject(Store);
+    configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     OWNER_CART_ENTRY = {
       id: CART_ENTRY_ID,
       type: CommonConfigurator.OwnerType.CART_ENTRY,
@@ -180,6 +175,12 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadCartEntryConfiguration action in case configuration is not present so far', () => {
+      checkoutLoadingObs = of({
+        loading: false,
+        error: false,
+        data: undefined,
+      });
+
       const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
         {
           owner: OWNER_CART_ENTRY,
