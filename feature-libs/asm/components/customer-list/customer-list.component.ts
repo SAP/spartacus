@@ -108,6 +108,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     asmCustomerListFacade: AsmCustomerListFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfig?: FeatureConfigService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     occConfig?: OccConfig
   );
 
