@@ -84,7 +84,7 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
     it(`should set address for cart for given user id, cart id and address id`, (done) => {
       service
-        .setAddress(userId, cartId, address)
+        .setBillingAddress(userId, cartId, address)
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cartData);
@@ -109,7 +109,7 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
         let result: HttpErrorModel | undefined;
         const subscription = service
-          .setAddress(userId, cartId, address)
+          .setBillingAddress(userId, cartId, address)
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
@@ -135,7 +135,7 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
         let result: unknown;
         const subscription = service
-          .setAddress(userId, cartId, address)
+          .setBillingAddress(userId, cartId, address)
           .pipe(take(1))
           .subscribe((res) => {
             result = res;
