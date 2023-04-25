@@ -110,7 +110,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CustomerListAction | CreatedCustomer | string) => {
+        .subscribe((result?: CustomerListAction | CreatedCustomer | string) => {
           if (typeof result !== 'string') {
             if ('selectedUser' in result) {
               this.startCustomerEmulationSession(result.selectedUser);
