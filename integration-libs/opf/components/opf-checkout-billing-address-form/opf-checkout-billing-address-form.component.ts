@@ -61,11 +61,15 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   }
 
   onSubmitAddress(address: Address): void {
+    this.isEditBillingAddress = false;
+
+    if (!address) {
+      return;
+    }
+
     this.opfCheckoutBillingAddressFormService
       .setBillingAddress(address)
       .subscribe();
-
-    this.isEditBillingAddress = false;
   }
 
   protected setIsSameAsDeliveryCheckboxState(): void {
