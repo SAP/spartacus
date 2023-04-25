@@ -171,7 +171,6 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsdoc": "^40.0.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "faker": "^6.6.6",
     "fs-extra": "^11.1.1",
     "glob": "^7.1.6",
     "http-server": "^14.1.1",
