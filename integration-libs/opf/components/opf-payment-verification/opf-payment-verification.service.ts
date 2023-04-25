@@ -31,6 +31,7 @@ export class OpfPaymentVerificationService {
     return list.find((pair) => pair.key === key)?.value ?? undefined;
   }
   goToPage(cxRoute: string) {
+    console.log('flo test');
     return this.routingService.go({ cxRoute });
   }
 }
