@@ -35,5 +35,6 @@
         ]
       }
     }
-  }
+  },
+  "tags": ["type:feature", "type:integration"]
 }

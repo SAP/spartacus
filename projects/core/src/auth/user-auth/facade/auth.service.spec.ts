@@ -1,9 +1,9 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';

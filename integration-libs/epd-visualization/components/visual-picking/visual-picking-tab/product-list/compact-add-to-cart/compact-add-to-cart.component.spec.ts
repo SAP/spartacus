@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AddedToCartDialogEventListener } from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
 import {
@@ -20,7 +21,6 @@ import {
   LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 

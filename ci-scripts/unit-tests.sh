@@ -44,6 +44,14 @@ echo "Running schematics unit tests and code coverage for EPD Visualization libr
 
 npm --prefix integration-libs/epd-visualization run test:schematics -- --coverage
 
+echo "Running unit tests and code coverage for s4om"
+
+nx test s4om --source-map --no-watch --code-coverage --browsers ChromeHeadless
+
+echo "Running schematics unit tests and code coverage for s4om library"
+
+npm --prefix integration-libs/s4om run test:schematics -- --coverage
+
 echo "Running unit tests and code coverage for storefinder library"
 
 nx test storefinder --source-map --no-watch --code-coverage --browsers ChromeHeadless
@@ -96,3 +104,6 @@ echo "Running unit tests and code coverage for schematics library"
 
 npm --prefix projects/schematics run test --runInBand -- --coverage
 
+echo "Running unit tests and code coverage for eslint-rules"
+
+nx test eslint-rules --source-map --no-watch --code-coverage --browsers ChromeHeadless
