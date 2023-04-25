@@ -15,9 +15,6 @@
  *
  * https://eslint.org/docs/developer-guide/working-with-rules
  *
- * You can also view many examples of existing rules here:
- *
- * https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin/src/rules
  */
 
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';

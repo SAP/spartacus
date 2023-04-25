@@ -80,16 +80,16 @@
                 "notDependOnLibsWithTags": ["type:app"]
               },
               {
-                "allSourceTags": ["type:ui", "scope:core"],
-                "notDependOnLibsWithTags": ["type:feature"]
-              },
-              {
                 "sourceTag": "type:feature",
                 "notDependOnLibsWithTags": ["type:integration"]
               },
               {
+                "sourceTag": "type:ui",
+                "notDependOnLibsWithTags": ["type:feature"]
+              },
+              {
                 "sourceTag": "scope:core",
-                "notDependOnLibsWithTags": ["type:ui"]
+                "notDependOnLibsWithTags": ["type:ui", "type:feature"]
               }
             ]
           }

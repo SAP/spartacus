@@ -7,8 +7,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
-import { DirectionMode } from 'projects/storefrontlib/layout/direction/config/direction.model';
-import { DirectionService } from 'projects/storefrontlib/layout/direction/direction.service';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';

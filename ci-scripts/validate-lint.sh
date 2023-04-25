@@ -83,7 +83,7 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-npm run lint
+node --max_old_space_size=3584 ./node_modules/@nrwl/cli/bin/nx run-many --all --target=lint
 
 echo "-----"
 
