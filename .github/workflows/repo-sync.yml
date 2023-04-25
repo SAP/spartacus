@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       branch_to_sync:
-        description: Branch to sync to the private repository (sync repo default branch if left empty)
+        description: Branch to sync to the private repository (repo default branch if left empty)
         required: false
 
 name: Sync a branch to private repo
