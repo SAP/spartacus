@@ -284,7 +284,7 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should return formControl with order entry quantity', (done) => {
+  it('should return formControl with order entry quantity', () => {
     component.entry$ = of({
       quantity: 5,
       entryNumber: 0,
@@ -295,11 +295,10 @@ describe('AddedToCartDialogComponent', () => {
       .pipe(take(1))
       .subscribe((control) => {
         expect(control.value).toEqual(5);
-        done();
       });
   });
 
-  it('should return formControl with updated order entry quantity', (done) => {
+  it('should return formControl with updated order entry quantity', () => {
     const entry$ = new BehaviorSubject<any>({
       quantity: 5,
       entryNumber: 0,
@@ -311,7 +310,6 @@ describe('AddedToCartDialogComponent', () => {
       .pipe(skip(1))
       .subscribe((control) => {
         expect(control.value).toEqual(50);
-        done();
       });
 
     entry$.next({

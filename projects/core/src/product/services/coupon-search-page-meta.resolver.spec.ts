@@ -101,7 +101,9 @@ describe('CouponSearchPageResolver', () => {
 
     describe('without coupon', () => {
       beforeEach(() => {
-        spyOnProperty(route, 'snapshot').and.returnValue({});
+        spyOnProperty(route, 'snapshot').and.returnValue(
+          {} as ActivatedRouteSnapshot
+        );
       });
 
       it('should score 1 for search page without couponcode', () => {
