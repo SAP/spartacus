@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './checkout-billing-address.facade';
 export * from './checkout-delivery-address.facade';
 export * from './checkout-delivery-modes.facade';
 export * from './checkout-payment.facade';

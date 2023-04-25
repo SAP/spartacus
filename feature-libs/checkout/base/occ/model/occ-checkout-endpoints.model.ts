@@ -55,6 +55,10 @@ export interface CheckoutOccEndpoints {
    *Endpoint for get all delivery modes for the current store and delivery address.
    */
   deliveryModes?: string | OccEndpoint;
+  /**
+   * Endpoint for set billing address to cart
+   */
+  setBillingAddress?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

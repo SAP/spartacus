@@ -4,7 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface OpfUi {
-  termsAndConditionsChecked?: boolean;
-  selectedPaymentOptionId?: number;
-}
+export * from './checkout-billing-address.adapter';

@@ -177,7 +177,7 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list table').should('not.contain', 'Account');
 
-  cy.get('cx-customer-list button.close').click();
+  cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
 
   cy.log('--> start emulation by click name');
@@ -248,7 +248,7 @@ export function asmB2bCustomerLists(): void {
     }
   );
   cy.get('cx-customer-list table').contains('Account');
-  cy.get('cx-customer-list button.close').click();
+  cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
 }
 

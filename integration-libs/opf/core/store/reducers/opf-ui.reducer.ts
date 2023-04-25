@@ -11,7 +11,6 @@ import { OpfActions } from '../actions';
 export const initialState: OpfUi = <OpfUi>{
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
-  billingAddress: undefined,
 };
 
 export function reducer(state: OpfUi = initialState, action: Action): OpfUi {

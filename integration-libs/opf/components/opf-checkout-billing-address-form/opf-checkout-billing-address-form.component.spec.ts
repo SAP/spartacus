@@ -82,9 +82,6 @@ class MockCardComponent {
 describe('OpfCheckoutBillingAddressFormComponent', () => {
   let component: OpfCheckoutBillingAddressFormComponent;
   let fixture: ComponentFixture<OpfCheckoutBillingAddressFormComponent>;
-  let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
-  let userPaymentService: UserPaymentService;
-  let checkoutPaymentService: CheckoutPaymentFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -111,34 +108,10 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     fixture = TestBed.createComponent(OpfCheckoutBillingAddressFormComponent);
     component = fixture.componentInstance;
 
-    checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
-    );
-    userPaymentService = TestBed.inject(UserPaymentService);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
-
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should initialize the countries$ and deliveryAddress$ to check for same delivery address', () => {
-    fixture.detectChanges();
-    expect(userPaymentService.getAllBillingCountries).toHaveBeenCalled();
-    expect(
-      checkoutDeliveryAddressFacade.getDeliveryAddressState
-    ).toHaveBeenCalled();
-
-    expect(component.sameAsDeliveryAddress).toEqual(true);
-  });
-
-  // TODO OPF: uncomment this section once there's clear vision for the approach how to pass billing address form data
-  xit('should verify address when custom form is filled', () => {
-    component.sameAsDeliveryAddress = false;
-    component.verifyAddress(mockAddress);
-
-    expect(checkoutPaymentService.createPaymentDetails).toHaveBeenCalled();
   });
 });
