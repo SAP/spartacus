@@ -39,7 +39,7 @@ $styleVersion: $_majorVersion !default;
 // For Spartacus development or demo's, the usage of latest styles is recommended.
 // To avoid frequent changes of the $minorVersion in the application, we offer a
 // flag that can be used to keep up with the latest version at any time.
-$useLatestStyles: false !default;
+$useLatestStyles: true !default;
 
 // The `forVersion` mixin is used during development of the style layer. Breaking style
 // changes can be added for a specific version, and customers can only use those styles if

@@ -5,6 +5,7 @@
  */
 
 import { ICON_TYPE } from '@spartacus/storefront';
+
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 import { AsmConfig } from './asm-config';
 

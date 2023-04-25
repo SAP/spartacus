@@ -20,6 +20,22 @@
     @media (max-width: 940px) {
       width: 100%;
     }
+
+    &:nth-of-type(n + 2) {
+      margin: 0 0 0 8px;
+    }
+
+    &.cx-360-button {
+      background-color: #0070f2;
+      border: 1px solid #0070f2;
+      color: #ffffff;
+    }
+    .cx-logout-button {
+      color: #aa0808;
+      background-color: #ffd6ea;
+      border: 1px solid #ffd6ea;
+      margin: 0 0 0 15px;
+    }
   }
 
   label {

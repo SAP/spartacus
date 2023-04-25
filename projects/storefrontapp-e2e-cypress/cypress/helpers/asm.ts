@@ -304,6 +304,40 @@ export function assertCustomerIsSignedIn() {
   cy.get('cx-login div.cx-login-greet').should('exist');
 }
 
+export function fillPersonalDetails(customer: SampleUser) {
+  cy.log('--> Update personal details');
+  navigateToAMyAccountPage(
+    'Personal Details',
+    '/my-account/update-profile',
+    'updateProfilePage'
+  );
+
+  profile.updateProfile(customer);
+  customer.firstName = profile.newFirstName;
+  customer.lastName = profile.newLastName;
+  customer.fullName = `${profile.newFirstName} ${profile.newLastName}`;
+  customer.titleCode = profile.newTitle;
+
+  cy.log('--> Create new address');
+
+  navigateToAMyAccountPage(
+    'Address Book',
+    '/my-account/address-book',
+    'addressBookPage'
+  );
+
+  cy.get('cx-address-book').should('be.visible');
+  cy.get('cx-card').should('not.exist');
+
+  const getListOfAddressesRequestAlias = listenForListOfAddressesRequest();
+  fillShippingAddress(addressBook.newAddress);
+  cy.wait(getListOfAddressesRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  addressBook.verifyNewAddress();
+}
+
 export function testCustomerEmulation() {
   let customer: SampleUser;
 
@@ -324,6 +358,8 @@ export function testCustomerEmulation() {
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
+
+    fillPersonalDetails(customer);
 
     cy.log('--> Update personal details');
     navigateToAMyAccountPage(

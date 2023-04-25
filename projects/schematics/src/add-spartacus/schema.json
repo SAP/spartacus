@@ -17,6 +17,7 @@
       "items": {
         "enum": [
           "ASM",
+          "Customer-360",
           "Import-Export",
           "Saved-Cart",
           "Quick-Order",
@@ -58,6 +59,7 @@
       },
       "default": [
         "ASM",
+        "Customer-360",
         "Cart",
         "WishList",
         "Checkout",
@@ -80,6 +82,10 @@
           {
             "value": "ASM",
             "label": "Assisted Services Module"
+          },
+          {
+            "value": "Customer-360",
+            "label": "Customer 360"
           },
           {
             "value": "Import-Export",

@@ -56,6 +56,7 @@ export class StoreFinderService implements OnDestroy {
 
   /**
    * Returns observable for store's entities
+   * TODO: The return value of thism ethod signature is wrong, should be StoreFinderSearchPage.
    */
   getFindStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(
@@ -104,7 +105,7 @@ export class StoreFinderService implements OnDestroy {
    */
   findStoresAction(
     queryText: string,
-    searchConfig?: SearchConfig,
+    searchConfig: SearchConfig = {},
     longitudeLatitude?: GeoPoint,
     countryIsoCode?: string,
     useMyLocation?: boolean,

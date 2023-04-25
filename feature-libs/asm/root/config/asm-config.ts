@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Config, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+
 import { CustomerListColumnActionType } from '../model/customer-list.model';
 @Injectable({
   providedIn: 'root',

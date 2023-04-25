@@ -17,24 +17,18 @@
       "@spartacus/asm/assets": ["dist/asm/assets"],
       "@spartacus/asm/components": ["dist/asm/components"],
       "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm/customer-360/assets": ["dist/asm/customer-360/assets"],
+      "@spartacus/asm/customer-360/components": [
+        "dist/asm/customer-360/components"
+      ],
+      "@spartacus/asm/customer-360/core": ["dist/asm/customer-360/core"],
+      "@spartacus/asm/customer-360": ["dist/asm/customer-360"],
+      "@spartacus/asm/customer-360/occ": ["dist/asm/customer-360/occ"],
+      "@spartacus/asm/customer-360/root": ["dist/asm/customer-360/root"],
       "@spartacus/asm": ["dist/asm"],
       "@spartacus/asm/occ": ["dist/asm/occ"],
       "@spartacus/asm/root": ["dist/asm/root"],
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/user/account/assets": ["dist/user/account/assets"],
-      "@spartacus/user/account/components": ["dist/user/account/components"],
-      "@spartacus/user/account/core": ["dist/user/account/core"],
-      "@spartacus/user/account": ["dist/user/account"],
-      "@spartacus/user/account/occ": ["dist/user/account/occ"],
-      "@spartacus/user/account/root": ["dist/user/account/root"],
-      "@spartacus/user": ["dist/user"],
-      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
-      "@spartacus/user/profile/components": ["dist/user/profile/components"],
-      "@spartacus/user/profile/core": ["dist/user/profile/core"],
-      "@spartacus/user/profile": ["dist/user/profile"],
-      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
       ],
@@ -115,6 +109,20 @@
       "@spartacus/organization/user-registration/root": [
         "dist/organization/user-registration/root"
       ],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/user/account/components": ["dist/user/account/components"],
+      "@spartacus/user/account/core": ["dist/user/account/core"],
+      "@spartacus/user/account": ["dist/user/account"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user": ["dist/user"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
+      "@spartacus/user/profile/components": ["dist/user/profile/components"],
+      "@spartacus/user/profile/core": ["dist/user/profile/core"],
+      "@spartacus/user/profile": ["dist/user/profile"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
@@ -167,7 +175,13 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"]
+      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
+      "@spartacus/storefinder/components": ["dist/storefinder/components"],
+      "@spartacus/storefinder/core": ["dist/storefinder/core"],
+      "@spartacus/storefinder": ["dist/storefinder"],
+      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
+      "@spartacus/storefinder/root": ["dist/storefinder/root"]
     }
   },
   "angularCompilerOptions": {

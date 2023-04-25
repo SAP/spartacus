@@ -1,0 +1,12 @@
+<cx-asm-customer-product-listing
+  [emptyResultDescription]="
+    'customer360.productInterests.emptyDescription' | cxTranslate
+  "
+  [headerText]="'customer360.productInterests.header' | cxTranslate"
+  [products]="products$ | async"
+  (clickHeader)="sectionContext.navigate$.next({ cxRoute: 'myInterests' })"
+  (selectProduct)="
+    sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
+  "
+>
+</cx-asm-customer-product-listing>

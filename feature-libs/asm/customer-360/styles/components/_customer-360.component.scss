@@ -1,0 +1,143 @@
+%cx-customer-360 {
+  height: 100%;
+  .cx-overview-title-link {
+    text-decoration: none;
+    cursor: pointer;
+    color: $asmLinkColor;
+    margin: 0 0 0 8px;
+  }
+  .cx-modal-content {
+    overflow-y: hidden;
+  }
+  .cx-dialog-header {
+    flex-direction: column;
+    padding: 2rem;
+    .header-title {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      h3 {
+        font-weight: var(--cx-font-weight-semi);
+        color: $asmMainTextColor;
+      }
+    }
+    .header-content {
+      width: 100%;
+      margin-top: 37px;
+      .header-profile-details {
+        display: flex;
+        margin-bottom: 36px;
+        .login-info {
+          font-size: 0.875rem;
+          font-weight: var(--cx-font-weight-normal);
+          color: $asmMainSecondaryTextColor;
+        }
+        .cx-avatar {
+          font-size: 18px;
+          width: 48px;
+          height: 48px;
+          line-height: 48px;
+          border-radius: 50%;
+          color: #fff;
+          text-align: center;
+          background: #9259cd;
+          text-transform: uppercase;
+        }
+        .cx-customer-info {
+          .cx-customer-name {
+            color: $asmMainTextColor;
+            font-weight: var(--cx-font-weight-bold);
+          }
+          .cx-customer-email {
+            color: $asmVisualFocusColor;
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .header-account-details {
+        padding: 0 0 0 18px;
+
+        > span {
+          align-items: center;
+          color: $asmMainSecondaryTextColor;
+          display: inline-flex;
+
+          &:nth-of-type(n + 2) {
+            margin: 0 0 0 36px;
+          }
+        }
+
+        .account-icon {
+          color: $asmLinkColor;
+          font-size: 18px;
+          margin: 0 14px 0 0;
+        }
+      }
+    }
+    .close {
+      font-size: 1.5rem;
+      color: var(--cx-color-dark);
+    }
+  }
+  .cx-dialog-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding-top: 0;
+    overflow-y: hidden;
+
+    .cx-tab-headers {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      border-bottom: 1px solid $asmBorderColor;
+      padding: 2rem 0 0 2rem;
+    }
+    .cx-tab-header {
+      text-align: center;
+      color: $asmTabTextColor;
+      font-weight: var(--cx-font-weight-semi);
+      border: 1px solid #fff;
+      background-color: #fff;
+      margin-inline-start: 1rem;
+      padding: 0 1rem 1rem;
+      text-transform: uppercase;
+      &.active {
+        cursor: default;
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+      &:hover {
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+      &:active,
+      &:hover,
+      &:focus {
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+    }
+    .cx-tab-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 0 0 28px;
+      max-height: 60vh;
+    }
+    .active {
+      color: $asmVisualFocusColor;
+      text-decoration: none;
+      border-bottom: 1px solid $asmVisualFocusColor;
+      &:hover {
+        color: $asmVisualFocusColor;
+        text-decoration: none;
+        border-bottom: 1px solid $asmVisualFocusColor;
+      }
+    }
+  }
+}

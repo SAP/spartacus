@@ -9,8 +9,13 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "ES2022",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["ES2022", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -36,6 +41,24 @@
       ],
       "@spartacus/asm/core": [
         "feature-libs/asm/core/public_api"
+      ],
+      "@spartacus/asm/customer-360/assets": [
+        "feature-libs/asm/customer-360/assets/public_api"
+      ],
+      "@spartacus/asm/customer-360/components": [
+        "feature-libs/asm/customer-360/components/public_api"
+      ],
+      "@spartacus/asm/customer-360/core": [
+        "feature-libs/asm/customer-360/core/public_api"
+      ],
+      "@spartacus/asm/customer-360": [
+        "feature-libs/asm/customer-360/public_api"
+      ],
+      "@spartacus/asm/customer-360/occ": [
+        "feature-libs/asm/customer-360/occ/public_api"
+      ],
+      "@spartacus/asm/customer-360/root": [
+        "feature-libs/asm/customer-360/root/public_api"
       ],
       "@spartacus/asm": [
         "feature-libs/asm/public_api"
@@ -565,12 +588,24 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/s4om/assets": ["integration-libs/s4om/assets/public_api"],
-      "@spartacus/s4om": ["integration-libs/s4om/public_api"],
-      "@spartacus/s4om/root": ["integration-libs/s4om/root/public_api"],
-      "@spartacus/assets": ["projects/assets/src/public_api"],
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
+      "@spartacus/s4om/assets": [
+        "integration-libs/s4om/assets/public_api"
+      ],
+      "@spartacus/s4om": [
+        "integration-libs/s4om/public_api"
+      ],
+      "@spartacus/s4om/root": [
+        "integration-libs/s4om/root/public_api"
+      ],
+      "@spartacus/assets": [
+        "projects/assets/src/public_api"
+      ],
+      "@spartacus/core": [
+        "projects/core/public_api"
+      ],
+      "@spartacus/storefront": [
+        "projects/storefrontlib/public_api"
+      ]
     },
     "useDefineForClassFields": false
   },

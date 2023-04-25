@@ -6,10 +6,20 @@
 
 import { Injectable } from '@angular/core';
 import {
+  AsmDialogActionEvent,
+  AsmDialogActionType,
+} from '@spartacus/asm/customer-360/root';
+import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,6 +29,8 @@ export class AsmComponentService {
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
     protected winRef: WindowRef
   ) {}
 
@@ -30,8 +42,30 @@ export class AsmComponentService {
     this.authService.logout();
   }
 
+  startCustomerEmulationSession(customerId: string | undefined): boolean {
+    if (customerId) {
+      this.csAgentAuthService.startCustomerEmulationSession(customerId);
+      return true;
+    } else {
+      this.globalMessageService.add(
+        { key: 'asm.error.noCustomerId' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      return false;
+    }
+  }
+
   isCustomerEmulationSessionInProgress(): Observable<boolean> {
     return this.csAgentAuthService.isCustomerEmulated();
+  }
+
+  handleAsmDialogAction(event: AsmDialogActionEvent | string): void {
+    if (
+      typeof event === 'object' &&
+      event.actionType === AsmDialogActionType.NAVIGATE
+    ) {
+      this.routingService.go(event.route);
+    }
   }
 
   /**

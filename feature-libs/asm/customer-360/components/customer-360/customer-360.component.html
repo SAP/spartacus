@@ -1,0 +1,127 @@
+<div
+  class="cx-asm-customer-360 cx-modal-container cx-asm-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+>
+  <!-- Modal Header -->
+  <div class="cx-modal-content">
+    <div class="cx-dialog-header modal-header">
+      <div class="header-title">
+        <h3 id="asm-customer-360-title" class="modal-title">
+          {{ 'customer360.header.title' | cxTranslate }}
+        </h3>
+        <div id="asm-customer-360-desc" class="cx-visually-hidden">
+          {{
+            'customer360.header.subTitle'
+              | cxTranslate: { name: customer.firstName }
+          }}
+        </div>
+        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+      </div>
+      <div class="header-content">
+        <div class="header-profile-details">
+          <div class="cx-avatar">
+            {{ getAvatar() }}
+          </div>
+          <div class="cx-customer-info ml-3">
+            <div class="cx-customer-name">
+              {{
+                'customer360.header.subTitle'
+                  | cxTranslate: { name: customer.firstName }
+              }}
+            </div>
+            <div class="cx-customer-email">
+              {{ customer.uid }}
+            </div>
+          </div>
+        </div>
+        <div class="header-account-details">
+          <span
+            class="header-account-details-active-cart"
+            *ngIf="activeCart$ | async as activeCart"
+          >
+            <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
+            {{
+              'customer360.header.activeCartLabel'
+                | cxTranslate: { cartSize: activeCart.totalItems }
+            }}
+            <button
+              [attr.aria-label]="
+                'customer360.aria.activeCartCode'
+                  | cxTranslate: { code: activeCart.code }
+              "
+              class="cx-overview-title-link link"
+              (click)="navigateTo({ cxRoute: 'cart' })"
+            >
+              {{ activeCart.code }}
+            </button>
+          </span>
+          <span
+            class="header-account-details-recent-order"
+            *ngIf="(orderHistory$ | async)?.orders?.[0] as recentOrder"
+          >
+            <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
+            {{
+              'customer360.header.recentOrderLabel'
+                | cxTranslate: { price: recentOrder.total.formattedValue }
+            }}
+            <button
+              [attr.aria-label]="
+                'customer360.aria.recentOrderCode'
+                  | cxTranslate: { code: recentOrder.code }
+              "
+              class="cx-overview-title-link link"
+              (click)="navigateTo({ cxRoute: 'orders' })"
+            >
+              {{ recentOrder.code }}</button
+            >, {{ recentOrder.placed | date: 'MM-dd-yyyy' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body">
+      <div class="cx-tab-headers" role="tablist">
+        <button
+          #tabHeaderItem
+          *ngFor="let tabHeader of tabs; let i = index"
+          class="cx-tab-header"
+          role="tab"
+          [attr.aria-selected]="activeTab === i"
+          attr.aria-controls="asm-customer-360-tab-panel"
+          (click)="selectTab(i)"
+          [class.active]="activeTab === i"
+          (keydown)="switchTab($event, i)"
+        >
+          {{ tabHeader.i18nNameKey | cxTranslate }}
+        </button>
+      </div>
+      <div id="asm-customer-360-tab-panel" class="cx-tab-content modal-body">
+        <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
+          <cx-asm-customer-section
+            *ngFor="let config of currentTab?.components; let i = index"
+            [component]="config.component"
+            [config]="config.config"
+            [data]="customer360Tabs?.[i]"
+            [savedCarts]="savedCarts$ | async"
+            [activeCart]="activeCart$ | async"
+            [orderHistory]="orderHistory$ | async"
+            (navigate)="navigateTo($event)"
+          ></cx-asm-customer-section>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #closeButton>
+  <button
+    type="button"
+    class="close"
+    attr.aria-label="{{ 'common.close' | cxTranslate }}"
+    (click)="closeModal('Cross click')"
+  >
+    <cx-icon [type]="closeIcon"></cx-icon>
+  </button>
+</ng-template>

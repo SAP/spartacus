@@ -4,6 +4,13 @@
     <label class="cx-asm-uid">{{ customer?.uid }}</label>
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
+  <button
+    #customer360Launcher
+    class="cx-360-button"
+    (click)="openCustomer360()"
+  >
+    {{ 'asm.customer360Button' | cxTranslate }}
+  </button>
   <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>
