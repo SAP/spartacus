@@ -130,7 +130,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       .getAsmUiState()
       .pipe(
         map((uiState: AsmUi) =>
-        uiState.collapsed === undefined ? false : uiState.collapsed
+          uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
     this.subscription.add(
