@@ -5,7 +5,7 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { config, of } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 import { ReorderOrderService } from './reorder-order.service';
 
@@ -33,6 +33,8 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   deleteCart = createSpy();
 }
+
+config.onUnhandledError = (error) => console.warn(error);
 
 describe(`ReorderOrderService`, () => {
   let service: ReorderOrderService;
