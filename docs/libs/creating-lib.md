@@ -128,6 +128,34 @@ module.exports = function (config) {
     - type:feature
     - type:integration `IF AND ONLY IF` it is an integration lib.
 
+    ```json
+    {
+      "name": "some-library-name",
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
+      "projectType": "library",
+      "sourceRoot": "feature-libs/some-library-name",
+      "prefix": "cx",
+      "targets": {
+        ...
+        ...
+        ...
+        "lint": {
+          "executor": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "integration-libs/some-library-name/**/*.ts",
+              "integration-libs/some-library-name/**/*.html"
+            ]
+          }
+        }
+        ...
+        ...
+        ...
+      },
+      "tags": ["type:feature"]
+    }
+    ```
+
 - `public-api.ts`
 
   - rename this file to `public_api.ts` (with the underscore instead of the dash)
