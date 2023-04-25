@@ -9,7 +9,7 @@ import createSpy = jasmine.createSpy;
 class MockCheckoutBillingAddressAdapter
   implements CheckoutBillingAddressAdapter
 {
-  setAddress = createSpy().and.returnValue(of({}));
+  setBillingAddress = createSpy().and.returnValue(of({}));
 }
 
 describe('CheckoutBillingAddressConnector', () => {
@@ -36,10 +36,10 @@ describe('CheckoutBillingAddressConnector', () => {
   it('setAddress should call adapter', () => {
     const adapter = TestBed.inject(CheckoutBillingAddressAdapter);
     service
-      .setAddress('1', '2', { town: 'Berlin' } as Address)
+      .setBillingAddress('1', '2', { town: 'Berlin' } as Address)
       .pipe(take(1))
       .subscribe();
-    expect(adapter.setAddress).toHaveBeenCalledWith('1', '2', {
+    expect(adapter.setBillingAddress).toHaveBeenCalledWith('1', '2', {
       town: 'Berlin',
     });
   });

@@ -26,7 +26,7 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockCheckoutBillingAddressConnector
   implements Partial<CheckoutBillingAddressConnector>
 {
-  setAddress = createSpy().and.returnValue(of('setAddress'));
+  setBillingAddress = createSpy().and.returnValue(of('setAddress'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
@@ -92,7 +92,7 @@ describe(`CheckoutBillingAddressService`, () => {
     it(`should call checkoutBillingConnector.setAddress`, () => {
       service.setBillingAddress(mockAddress);
 
-      expect(connector.setAddress).toHaveBeenCalledWith(
+      expect(connector.setBillingAddress).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
         mockAddress
