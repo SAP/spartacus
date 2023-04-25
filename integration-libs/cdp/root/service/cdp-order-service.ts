@@ -41,30 +41,30 @@ export class CdpOrderService implements CdpOrderFacade {
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
-  obser$: Observable<finalOrder>;
+  order$: Observable<finalOrder>;
   returnObser$: Observable<returnOrder>;
   orderData: order;
   returnDate: Record<string, string> = {};
 
   public getOrder(page_size: number): Observable<finalOrder> {
-    this.obser$ = this.userIdService
+    this.order$ = this.userIdService
       .takeUserId()
       .pipe(
         switchMap((userId) => this.cdpOrderAdapter.getOrder(userId, page_size))
       );
 
-    return this.obser$;
+    return this.order$;
   }
 
   public fetchOrder(page: number, page_size: number): Observable<finalOrder> {
-    this.obser$ = this.userIdService
+    this.order$ = this.userIdService
       .takeUserId()
       .pipe(
         switchMap((userId) =>
           this.cdpOrderAdapter.getOrderPerPage(userId, page_size, page)
         )
       );
-    return this.obser$;
+    return this.order$;
   }
 
   public fetchReturn(): Observable<returnOrder> {
@@ -100,6 +100,7 @@ export class CdpOrderService implements CdpOrderFacade {
        }
       });
     }
+
   }
 
   public async fetchOrderDetail(

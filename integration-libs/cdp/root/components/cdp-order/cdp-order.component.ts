@@ -46,7 +46,7 @@ export class cdpOrderComponent implements OnInit {
   sortType: string;
   orders$: Observable<finalOrder>;
   returnObser$: Observable<returnOrder>;
-  orderReturn: returnOrder;
+  returnOrderData: returnOrder;
   page_size: number = 5;
   isOrderPresernt: boolean=false;
 
@@ -78,7 +78,6 @@ export class cdpOrderComponent implements OnInit {
     });
     this.fetchReturn();
     this.getDetail();
-
   }
 
   public async getDetail() {
@@ -99,18 +98,35 @@ export class cdpOrderComponent implements OnInit {
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
-      this.getItemCount(this.orderValue);
+      this.getItemCountAFterPagniation(this.orderValue);
     });
     if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
   }
 
   private fetchReturn(){
     this.cdpOrderService.fetchReturn().subscribe((data) => {
+      this.returnOrderData=data;
       this.cdpOrderService.mapReturnDate(data,this.returnDate);
       this.cdpOrderService.mapReturnStatus(data,this.orderStatus,this.orderDetail);
       console.log(this.returnDate);
       this.loading$.next(false);
     });
+  }
+
+  private async getItemCountAFterPagniation(finalResult: finalOrder): Promise<void>{
+    await this.cdpOrderService.fetchOrderDetail(finalResult).then((data)=>{
+      this.orderDetail= data;
+    });
+    this.getReturn();
+    this.getDetail();
+  }
+
+  private getReturn()
+  {
+    this.cdpOrderService.mapReturnStatus(this.returnOrderData,this.orderStatus,this.orderDetail);
+    this.cdpOrderService.mapReturnDate(this.returnOrderData,this.returnDate);
+    console.log(this.returnDate);
+    this.loading$.next(false);
   }
 
   goToOrderDetail(order: order): void {
