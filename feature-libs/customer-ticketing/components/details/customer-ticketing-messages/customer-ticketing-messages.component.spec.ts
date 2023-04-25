@@ -4,7 +4,7 @@ import {
   CustomerTicketingFacade,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
 
@@ -26,9 +26,9 @@ describe('CustomerTicketMessagesComponent', () => {
     implements Partial<CustomerTicketingFacade>
   {
     createTicketEvent = () => createTicketResponse$;
-    getTicket = createSpy().and.returnValue(of());
-    downloadAttachment = createSpy().and.returnValue(of());
-    uploadAttachment = createSpy().and.returnValue(of());
+    getTicket = createSpy().and.returnValue(EMPTY);
+    downloadAttachment = createSpy().and.returnValue(EMPTY);
+    uploadAttachment = createSpy().and.returnValue(EMPTY);
   }
 
   class MockEventService implements Partial<EventService> {

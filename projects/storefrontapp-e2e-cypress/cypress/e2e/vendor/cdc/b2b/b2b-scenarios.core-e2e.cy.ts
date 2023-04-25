@@ -4,20 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { newAddress } from '../../../../helpers/address-book';
 import { loginUser } from '../../../../helpers/checkout-flow';
 import * as alerts from '../../../../helpers/global-message';
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
-import {
-  cdcB2BDelegateAdminUser,
-  waitForCmsComponentsToLoad,
-} from '../../../../helpers/vendor/cdc/cdc';
+import { waitForCmsComponentsToLoad } from '../../../../helpers/vendor/cdc/cdc';
+import * as b2bCheckout from '../../../../sample-data/b2b-checkout';
 
 describe('CDC B2B scenarios', () => {
+  before(() => {
+    cy.window().then((win) => win.sessionStorage.clear());
+    Cypress.env('BASE_SITE', b2bCheckout.POWERTOOLS_BASESITE);
+    Cypress.env('OCC_PREFIX_USER_ENDPOINT', b2bCheckout.USER_REQUEST_ENDPOINT);
+    Cypress.env(
+      'OCC_PREFIX_ORDER_ENDPOINT',
+      b2bCheckout.ORDER_REQUEST_ENDPOINT
+    );
+  });
+
   describe('Manage Users in CDC-B2B scenario', () => {
     beforeEach(() => {
       cy.visit('/powertools-spa/en/USD/login');
-      loginUser(cdcB2BDelegateAdminUser);
+      const interceptName = cdc.interceptGetB2BUser();
+      loginUser(cdc.b2bUser);
+      cdc.updateCustomerIdForB2BUser(interceptName);
       waitForCmsComponentsToLoad('powertools-spa');
     });
     it('should show My Company option', () => {
@@ -44,17 +53,16 @@ describe('CDC B2B scenarios', () => {
 
     it('should hide edit, disbale, change password and unit details naviation buttons in user details', () => {
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}`
       );
       waitForCmsComponentsToLoad('powertools-spa');
       cy.get('a.link.edit').should('not.exist');
       cy.get('button.button.active').should('not.exist');
       cy.get('div.orgUnit').should('exist');
-
-      cy.get('section.details').within(() => {
-        cy.get('div.property.full-width').within(() => {
-          cy.get('a.link').should('not.exist');
-        });
+      cy.get(
+        'cx-org-list > cx-split-view > cx-org-user-details > cx-org-card > cx-view > div.main > section.details > div:nth-child(5)'
+      ).within(() => {
+        cy.get('a.link').should('not.exist');
       });
     });
 
@@ -63,12 +71,12 @@ describe('CDC B2B scenarios', () => {
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}/edit`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/edit`
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
 
       cy.visit(
-        `/powertools-spa/en/USD/organization/users/${cdcB2BDelegateAdminUser.userId}/change-password`
+        `/powertools-spa/en/USD/organization/users/${cdc.b2bUser.customerId}/change-password`
       );
       alerts.getWarningAlert().should('contain', 'This item does not exist');
     });
@@ -80,7 +88,7 @@ describe('CDC B2B scenarios', () => {
       cy.visit('/cdc/login');
     });
 
-    it('should login and redirect to home page', () => {
+    it('should login and redirect to home page (CXSPA-3016)', () => {
       cdc.loginUser(cdc.b2bUser.email, cdc.b2bUser.password);
       cdc.verifyLoginOrRegistrationSuccess(cdc.b2bUser.fullName);
     });
@@ -92,7 +100,7 @@ describe('CDC B2B scenarios', () => {
       cy.visit('/login');
     });
 
-    it('should login and redirect to home page', () => {
+    it('should login and redirect to home page (CXSPA-3016)', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
       cdc.verifyLoginOrRegistrationSuccess(cdc.b2bUser.fullName);
     });
@@ -105,7 +113,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginUser(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update profile', () => {
+    it('should update profile (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Profile Details',
       });
@@ -123,7 +131,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update profile with native UI', () => {
+    it('should update profile with native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
@@ -141,14 +149,17 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update email', () => {
+    it('should update email (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Email Address',
       });
 
-      cdc.updateEmailWithoutScreenset(cdc.updatedEmail, cdc.b2bUser.password);
+      cdc.updateEmailWithoutScreenset(
+        cdc.updatedB2BEmail,
+        cdc.b2bUser.password
+      );
       cdc.verifyUpdateEmailSuccess(
-        cdc.updatedEmail,
+        cdc.updatedB2BEmail,
         cdc.b2bUser.password,
         cdc.b2bUser.fullName
       );
@@ -163,7 +174,7 @@ describe('CDC B2B scenarios', () => {
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
     });
 
-    it('should update password in Native UI', () => {
+    it('should update password in Native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Password',
       });
@@ -186,41 +197,50 @@ describe('CDC B2B scenarios', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
-    });
-
-    it('should display a new address form when no address exists', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });
+    });
 
+    it('should display a new address form when no address exists (CXSPA-3016)', () => {
       cy.get('cx-address-form').should('exist');
     });
 
-    it('should show Add address in CDC', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
+    it('should add a new address and show it in CDC (CXSPA-3016)', () => {
       cdc.addAddress(cdc.b2bUser);
       cdc.verifyAddAddressSuccess(cdc.b2bUser);
     });
 
-    it('should edit the Address and save it in CDC', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      cdc.updateAddress(newAddress);
-      cdc.verifyUpdateAddressSuccess(newAddress);
+    it('should edit the Address and save it in CDC (CXSPA-3016)', () => {
+      cdc.updateAddress(cdc.updatedFirstAddress);
+      cdc.verifyUpdateAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    it('should show delete the Address ', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      cdc.deleteAddress();
-      cdc.verifyDeleteAddressSuccess();
+    it('should add another Address and NOT save it in CDC if it is not default (CXSPA-3016)', () => {
+      cy.get('button').contains(' Add new address ').click({ force: true });
+      cdc.addAddress(cdc.secondAddress);
+      cdc.verifyNoCDCForNonDefaultAddress();
     });
+
+    it('should set the non default Address as default and save it in CDC (CXSPA-3016)', () => {
+      cdc.setAddressAsDefault(cdc.secondAddress);
+      cdc.verifySetDefaultAddressSuccess(cdc.secondAddress);
+    });
+
+    it('should show delete the first Address and update the second address as default in CDC (CXSPA-3016)', () => {
+      cdc.deleteAddress(cdc.updatedFirstAddress);
+      cdc.verifyDeleteAddressSuccess(cdc.updatedFirstAddress);
+    });
+
+    it('should show delete the second Address and empty the address in CDC (CXSPA-3016)', () => {
+      cdc.deleteAddress(cdc.updatedFirstAddress);
+      cdc.verifyDeleteAllAddressSuccess();
+    });
+  });
+
+  after(() => {
+    cdc.logoutUser();
+    cy.window().then((win) => win.sessionStorage.clear());
+    cy.visit('/');
   });
 });

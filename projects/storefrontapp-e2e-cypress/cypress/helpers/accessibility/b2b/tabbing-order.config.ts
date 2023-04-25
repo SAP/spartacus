@@ -501,6 +501,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.NG_SELECT },
     { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.FORM_FIELD },

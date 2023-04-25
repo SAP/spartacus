@@ -12,6 +12,8 @@ export const asm = {
     hideUi: 'Close ASM',
     customers: 'Customers',
     customer360Button: '360 Customer View',
+    createCustomerSuccessfullyAlert:
+      'The customer account has been created and the customer session has started.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -33,15 +35,39 @@ export const asm = {
       },
       submit: 'Start Session',
       noMatch: 'No customer found.',
+      noMatchResult: 'This account cannot be found. ',
+      createCustomer: 'Create New Customer',
+    },
+    createCustomerForm: {
+      title: 'Create New Customer',
+      createAccount: 'Create',
+      cancel: 'Cancel',
+      firstName: {
+        label: 'First Name',
+        placeholder: 'First name',
+      },
+      lastName: {
+        label: 'Last Name',
+        placeholder: 'Last name',
+      },
+      emailAddress: {
+        label: 'Email Address',
+        placeholder: 'Email address',
+      },
+      createAccountAlert:
+        'The customer session starts once you create the customer account.',
     },
     customerList: {
       title: 'Customer List',
       description: 'Select a customer from one of several provided lists.',
+      createCustomer: 'Create New Customer',
+      cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',
         name: 'Name',
         email: 'Email',
         phone: 'Phone',
+        account: 'Account',
         cart: 'Cart',
         order: 'Order',
       },

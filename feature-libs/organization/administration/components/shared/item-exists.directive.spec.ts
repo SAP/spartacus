@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { GlobalMessageType } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { ItemExistsDirective } from './item-exists.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
@@ -27,13 +27,13 @@ class MockMessageService {
 
 class MockItemServiceWithError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(true);
 }
 
 class MockItemServiceWithoutError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 

@@ -43,7 +43,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "bootstrap": "^4.6.1",
+    "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

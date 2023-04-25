@@ -7,7 +7,7 @@ import {
 } from 'feature-libs/organization/administration/components/shared';
 import { SubListTestingModule } from 'feature-libs/organization/administration/components/shared/sub-list/sub-list.testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 import { UnitUserListComponent } from './unit-user-list.component';
@@ -23,7 +23,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 }
 
 class MockItemService {
-  current$ = of();
+  current$ = EMPTY;
 }
 
 describe('UnitUserListComponent', () => {

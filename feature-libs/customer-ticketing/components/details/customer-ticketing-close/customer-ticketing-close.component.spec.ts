@@ -8,7 +8,7 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
@@ -19,7 +19,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

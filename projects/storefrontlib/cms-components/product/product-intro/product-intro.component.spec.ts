@@ -10,7 +10,7 @@ import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
 
@@ -25,7 +25,7 @@ class MockStarRatingComponent {
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -35,7 +35,7 @@ class MockTranslationService {
 
 class MockEventService {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -152,7 +152,7 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should display rating component when rating is available', () => {
-      productIntroComponent.product$ = of<Product>({ averageRating: 4.5 });
+      productIntroComponent.product$ = of({ averageRating: 4.5 } as Product);
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector('cx-star-rating')
@@ -160,9 +160,9 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should not display rating component when rating is unavailable', () => {
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: undefined,
-      });
+      } as Product);
       fixture.detectChanges();
       expect(
         fixture.debugElement.nativeElement.querySelector('cx-star-rating')
@@ -170,9 +170,9 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should display noReviews when rating is unavailable', () => {
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: undefined,
-      });
+      } as Product);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'productDetails.noReviews'
@@ -180,9 +180,9 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should not display Show Reviews when no average rating', () => {
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: undefined,
-      });
+      } as Product);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'productSummary.showReviews'
@@ -190,9 +190,9 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should not display Show Reviews when reviews are not available', () => {
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: 5,
-      });
+      } as Product);
       productIntroComponent['getReviewsComponent'] = () => null;
 
       fixture.detectChanges();
@@ -205,14 +205,14 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), of());
+      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
 
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: 5,
-      });
+      } as Product);
       productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
 
       fixture.detectChanges();
@@ -225,14 +225,14 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), of());
+      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
 
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: 5,
-      });
+      } as Product);
       productIntroComponent['getReviewsComponent'] = () => null;
 
       fixture.detectChanges();
@@ -245,14 +245,14 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentDestroyEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(), of(event));
+      spyOn(eventService, 'get').and.returnValues(EMPTY, of(event));
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
 
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: 4,
-      });
+      } as Product);
       productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
 
       fixture.detectChanges();
@@ -271,9 +271,9 @@ describe('ProductIntroComponent in product', () => {
       tabsComponent.appendChild(tab1);
       tabsComponent.appendChild(reviewsTab);
 
-      productIntroComponent.product$ = of<Product>({
+      productIntroComponent.product$ = of({
         averageRating: 4.5,
-      });
+      } as Product);
 
       spyOn(reviewsTab, 'focus');
       spyOn(reviewsTab, 'scrollIntoView');

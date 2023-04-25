@@ -51,6 +51,6 @@ export class MessageService<
   }
 
   clear(): void {
-    this.data$.next();
+    this.data$.next(undefined as unknown as T); // TODO: CXSPA-3088 Type incongruity
   }
 }

@@ -33,7 +33,7 @@ context('Restart Dialog for Product Configuration', () => {
     navigateToConfigurationAndCheckDialog();
   });
 
-  it('should keep configuration on resume', () => {
+  it('should keep configuration on resume (CXSPA-1786)', () => {
     restartDialog.resume();
 
     restartDialog.checkIsClosed();
@@ -41,7 +41,7 @@ context('Restart Dialog for Product Configuration', () => {
     configuration.checkValueSelected(RB, 'CAMERA_COLOR', 'BLACK');
   });
 
-  it('should create a new default configuration on restart', () => {
+  it('should create a new default configuration on restart (CXSPA-1786)', () => {
     restartDialog.restart(commerceRelease.isPricingEnabled);
 
     restartDialog.checkIsClosed();
@@ -52,7 +52,7 @@ context('Restart Dialog for Product Configuration', () => {
     restartDialog.checkIsClosed();
   });
 
-  it('navigate back to product details page without a decision on close', () => {
+  it('navigate back to product details page without a decision on close (CXSPA-1786)', () => {
     restartDialog.close(testProduct);
 
     configurationVc.clickOnConfigureBtnInCatalog(testProduct);

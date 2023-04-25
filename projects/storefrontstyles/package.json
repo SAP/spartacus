@@ -21,7 +21,7 @@
     "@fontsource/open-sans": "^4.5.14",
     "@fortawesome/fontawesome-free": "5.8.1",
     "@ng-select/ng-select": "^10.0.3",
-    "bootstrap": "^4.6.1"
+    "bootstrap": "^4.6.2"
   },
   "publishConfig": {
     "access": "public"

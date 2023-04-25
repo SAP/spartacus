@@ -12,7 +12,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, first, pluck } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { ItemService } from '../../../../shared/item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
@@ -30,9 +30,10 @@ export class UnitAddressItemService extends ItemService<Address> {
     super(currentItemService, routingService, formService);
   }
 
-  protected unitRouteParam$ = this.routingService
-    .getParams()
-    .pipe(pluck(ROUTE_PARAMS.unitCode), distinctUntilChanged());
+  protected unitRouteParam$ = this.routingService.getParams().pipe(
+    map((params) => params[ROUTE_PARAMS.unitCode]),
+    distinctUntilChanged()
+  );
 
   load(unitUid: string, addressId: string): Observable<Address> {
     return this.unitService

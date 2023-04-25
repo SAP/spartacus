@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import { CmsConfig } from '@spartacus/core';
 
 import {
@@ -23,7 +22,6 @@ const MockCmsConfig: CmsConfig = {
         'OrderConfirmationPickUpComponent',
         'PickupInStoreDeliveryModeComponent',
       ],
-      dependencies: [CART_BASE_FEATURE],
     },
     [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
   },

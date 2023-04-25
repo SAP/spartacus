@@ -3,6 +3,7 @@ on:
     types: [ready_for_review]
     branches:
       - develop
+      - develop-*
       - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
@@ -119,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        containers: [1, 2]
+        containers: [1, 2, 3, 4]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried

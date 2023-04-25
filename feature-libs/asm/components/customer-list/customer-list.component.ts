@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -13,15 +20,21 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
-import { SortModel, TranslationService, User } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  SortModel,
+  TranslationService,
+  User,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
+  LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
+import { NEVER, Observable, Subscription, combineLatest } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
@@ -75,14 +88,39 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   listsEmpty = false;
 
+  enableAsmB2bCustomerList = false;
+
   protected teardown: Subscription = new Subscription();
 
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+
+  constructor(
+    launchDialogService: LaunchDialogService,
+    breakpointService: BreakpointService,
+    asmConfig: AsmConfig,
+    translation: TranslationService,
+    asmCustomerListFacade: AsmCustomerListFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    launchDialogService: LaunchDialogService,
+    breakpointService: BreakpointService,
+    asmConfig: AsmConfig,
+    translation: TranslationService,
+    asmCustomerListFacade: AsmCustomerListFacade
+  );
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
-    protected asmCustomerListFacade: AsmCustomerListFacade
+    protected asmCustomerListFacade: AsmCustomerListFacade,
+    // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -147,6 +185,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   fetchCustomers(): void {
+    // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
+    this.enableAsmB2bCustomerList =
+      (this.featureConfig?.isLevel('6.1') ?? false) &&
+      this.selectedUserGroupId === 'b2bCustomerList';
     if (this.selectedUserGroupId) {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
@@ -161,6 +203,16 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
       this.asmCustomerListFacade.customerListCustomersSearch(options);
     }
+    this.customerListConfig?.columns?.forEach((item) => {
+      if (
+        item.headerLocalizationKey === 'asm.customerList.tableHeader.account' ||
+        item.headerLocalizationKey === 'hideAccount'
+      ) {
+        item.headerLocalizationKey = this.enableAsmB2bCustomerList
+          ? 'asm.customerList.tableHeader.account'
+          : 'hideAccount';
+      }
+    });
   }
 
   onChangeCustomerGroup(): void {
@@ -265,6 +317,15 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           };
         }
       )
+    );
+  }
+
+  createCustomer(): void {
+    this.launchDialogService.closeDialog('Create customer click');
+
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLink
     );
   }
 

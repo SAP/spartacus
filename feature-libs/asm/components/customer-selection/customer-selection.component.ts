@@ -10,6 +10,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   QueryList,
   ViewChild,
@@ -24,7 +25,12 @@ import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 
 import { User } from '@spartacus/core';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -47,17 +53,39 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
+
+  @ViewChild('createCustomerLink') createCustomerLink: ElementRef;
   @ViewChildren('searchResultItem') searchResultItems: QueryList<
     ElementRef<HTMLElement>
   >;
 
   activeFocusedButtonIndex = -1;
 
+  // TODO(CXSPA-3091): make LaunchDialogService are required dependency
+  constructor(
+    fb: UntypedFormBuilder,
+    asmService: AsmService,
+    config: AsmConfig,
+    directionService: DirectionService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    launchDialogService: LaunchDialogService
+  );
+  /**
+   * @deprecated since 6.1
+   */
+  constructor(
+    fb: UntypedFormBuilder,
+    asmService: AsmService,
+    config: AsmConfig,
+    directionService: DirectionService
+  );
+
   constructor(
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
     protected config: AsmConfig,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
+    @Optional() protected launchDialogService?: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -221,6 +249,13 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
    */
   updateItemIndex(selectedIndex: number): void {
     this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
+  }
+
+  createCustomer(): void {
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.createCustomerLink
+    );
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.

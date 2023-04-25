@@ -62,6 +62,25 @@
 
     <label>
       <span class="label-content required">{{
+        'userRegistrationForm.fields.companyName.label' | cxTranslate
+      }}</span>
+      <input
+        required="true"
+        class="form-control"
+        type="text"
+        name="companyName"
+        placeholder="{{
+          'userRegistrationForm.fields.companyName.placeholder' | cxTranslate
+        }}"
+        formControlName="companyName"
+      />
+      <cx-form-errors
+        [control]="registerForm.get('companyName')"
+      ></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
         'userRegistrationForm.fields.email.label' | cxTranslate
       }}</span>
       <input

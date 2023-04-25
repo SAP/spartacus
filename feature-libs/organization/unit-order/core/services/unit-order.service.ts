@@ -8,9 +8,9 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
+import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 import {
   StateWithUnitOrder,
   UnitOrderActions,
@@ -65,8 +65,8 @@ export class UnitOrderService implements UnitOrderFacade {
     filters?: string,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new UnitOrderActions.LoadUnitOrders({
             userId,
@@ -77,10 +77,10 @@ export class UnitOrderService implements UnitOrderFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**
