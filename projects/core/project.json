@@ -32,5 +32,6 @@
         "lintFilePatterns": ["projects/core/**/*.ts", "projects/core/**/*.html"]
       }
     }
-  }
+  },
+  "tags": ["type:util", "scope:core"]
 }

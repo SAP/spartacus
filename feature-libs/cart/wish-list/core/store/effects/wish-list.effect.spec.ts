@@ -10,9 +10,9 @@ import {
 } from '@spartacus/cart/base/core';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { SiteContextActions, UserIdService } from '@spartacus/core';
-import { getMultiCartReducers } from 'feature-libs/cart/base/core/store';
 import { cold, hot } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
+import { getMultiCartReducers } from '../../../../base/core/store';
 import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from '../actions';
 import * as fromEffects from './wish-list.effect';

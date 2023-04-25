@@ -24,9 +24,9 @@ import {
   UserInterestsService,
 } from '@spartacus/core';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
+import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { MyInterestsComponent } from './my-interests.component';
 
 @Component({

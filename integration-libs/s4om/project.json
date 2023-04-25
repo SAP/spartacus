@@ -2,7 +2,7 @@
   "name": "s4om",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "integration-libs/s4om/src",
+  "sourceRoot": "integration-libs/s4om",
   "prefix": "cx",
   "targets": {
     "build": {
@@ -28,6 +28,16 @@
         "polyfills": ["zone.js", "zone.js/testing"],
         "karmaConfig": "integration-libs/s4om/karma.conf.js"
       }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/s4om/**/*.ts",
+          "integration-libs/s4om/**/*.html"
+        ]
+      }
     }
-  }
+  },
+  "tags": ["type:feature", "type:integration"]
 }

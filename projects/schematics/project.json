@@ -10,5 +10,6 @@
         "lintFilePatterns": ["projects/schematics/**/*.ts"]
       }
     }
-  }
+  },
+  "tags": ["type:util"]
 }
