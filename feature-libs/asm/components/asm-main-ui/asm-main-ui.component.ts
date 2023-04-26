@@ -123,6 +123,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               this.startCustomerEmulationSession({ customerId: result.email });
               this.showCreateCustomerSuccessfullyAlert = true;
             }
+            if (
+              'actionType' in result &&
+              result.actionType === CustomerListColumnActionType.ACTIVE_CART
+            ) {
+              this.routingService.go({ cxRoute: 'cart' });
+            }
           }
         })
     );
