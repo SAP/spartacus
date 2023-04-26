@@ -4,14 +4,12 @@ import {
   ConsentTemplate,
   ConverterService,
   LanguageService,
+  UserConsentService,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Observable, of, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import {
-  CDC_SITE_CONSENT_NORMALIZER,
-  CDC_USER_PREFERENCE_SERIALIZER,
-} from './converters/cdc-site-consent.converters';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { CDC_USER_PREFERENCE_SERIALIZER } from './converters/cdc-site-consent.converters';
 
 @Injectable({
   providedIn: 'root',
@@ -21,19 +19,9 @@ export class CdcSiteConsentService {
     protected languageService: LanguageService,
     protected userProfileFacade: UserProfileFacade,
     protected cdcJsService: CdcJsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected userConsentService: UserConsentService
   ) {}
-
-  getSiteConsentDetails(): Observable<ConsentTemplate[]> {
-    return this.cdcJsService
-      .getSiteConsentDetails()
-      .pipe(this.converter.pipeable(CDC_SITE_CONSENT_NORMALIZER))
-      .pipe(
-        switchMap((consents: ConsentTemplate[]) => {
-          return this.maintainUserConsentPreferences(consents);
-        })
-      );
-  }
 
   updateConsent(
     userId: string,
@@ -66,30 +54,28 @@ export class CdcSiteConsentService {
       CDC_USER_PREFERENCE_SERIALIZER
     );
 
-    this.cdcJsService
+    return this.cdcJsService
       .setUserConsentPreferences(userId, siteLanguage, serializedPreference)
-      .subscribe((error) => {
-        return throwError(error);
-      });
-    // .pipe(
-    //   catchError((error: any) => {
-    //     return throwError(error);   //should check why this error is not getting caught
-    //   })
-    // );
-
-    if (isConsentGranted) {
-      return this.getSiteConsentDetails().pipe(
-        //check if this call is necessary or we can use some other call to get it.
-        switchMap((templates) => {
-          var updatedConsent: ConsentTemplate = {};
-          templates?.forEach((template: ConsentTemplate) => {
-            if (template?.id === consentCode) updatedConsent = template;
-          });
-          return of(updatedConsent);
+      .pipe(
+        withLatestFrom(this.userConsentService.getConsents()),
+        map(([updateResponse, allConsents]) => {
+          let updatedConsent: ConsentTemplate = {};
+          if (isConsentGranted) {
+            for (let template of allConsents) {
+              if (template?.id === consentCode) {
+                updatedConsent = JSON.parse(JSON.stringify(template)); //copy
+                if (updatedConsent.currentConsent) {
+                  updatedConsent.currentConsent.consentGivenDate =
+                    updateResponse.time;
+                  updatedConsent.currentConsent.consentWithdrawnDate =
+                    undefined;
+                }
+              }
+            }
+          }
+          return updatedConsent;
         })
       );
-    }
-    return of({});
   }
 
   getUserID(): string | undefined {

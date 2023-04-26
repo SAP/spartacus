@@ -642,7 +642,7 @@ export class CdcJsService implements OnDestroy {
     uid: string,
     lang: string,
     preferences: any
-  ): Observable<{ errorCode: number; errorMessage: string }> {
+  ): Observable<{ errorCode: number; errorMessage: string ; time: Date}> {
     return this.invokeAPI(setAccountInfoAPI, {
       uid: uid,
       lang: lang,
