@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { MockOccEndpointsService } from './../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
+import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
 import { DigitalPaymentsAdapter } from './digital-payments.adapter';
 import { OccDigitalPaymentsAdapter } from './occ-digital-payments.adapter';

@@ -1,0 +1,40 @@
+{
+  "name": "cdc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "integration-libs/cdc",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "integration-libs/cdc/tsconfig.lib.json",
+        "project": "integration-libs/cdc/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/cdc/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/cdc/test.ts",
+        "tsConfig": "integration-libs/cdc/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "integration-libs/cdc/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/cdc/**/*.ts",
+          "integration-libs/cdc/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature", "type:integration"]
+}
