@@ -10,7 +10,10 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 import { ProductItem } from '../../asm-customer-product-listing/product-item.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { Customer360ActiveCart } from '@spartacus/asm/customer-360/root';
+import {
+  Customer360ActiveCart,
+  CustomerCart,
+} from '@spartacus/asm/customer-360/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,13 +22,17 @@ import { Customer360ActiveCart } from '@spartacus/asm/customer-360/root';
 })
 export class AsmCustomerActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;
-  activeCart$: Observable<Customer360ActiveCart>;
+  activeCart$: Observable<CustomerCart | undefined>;
 
   constructor(
     public sectionContext: Customer360SectionContext<Customer360ActiveCart>,
     protected productService: ProductService
   ) {
-    this.activeCart$ = this.sectionContext.data$;
+    this.activeCart$ = this.sectionContext.data$.pipe(
+      map((activeCart) => {
+        return activeCart.cart;
+      })
+    );
     this.productItems$ = this.activeCart$.pipe(
       concatMap((cart) => {
         if (!cart?.entries?.length) {

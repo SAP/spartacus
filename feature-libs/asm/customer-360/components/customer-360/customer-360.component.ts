@@ -10,7 +10,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Injector,
   OnDestroy,
   OnInit,
   QueryList,
@@ -25,11 +24,11 @@ import {
   Customer360TabConfig,
   Customer360Config,
   Customer360Facade,
+  Customer360Type,
+  Customer360Overview,
+  CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { UrlCommand, User } from '@spartacus/core';
-import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
+import { Image, UrlCommand, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -38,7 +37,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, shareReplay } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +55,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   readonly cartIcon = ICON_TYPE.CART;
   readonly closeIcon = ICON_TYPE.CLOSE;
   readonly orderIcon = ICON_TYPE.ORDER;
+  readonly ticketIcon = ICON_TYPE.FILE;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -72,33 +72,32 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
 
   customer360Tabs$: Observable<Array<Customer360Data | undefined>>;
 
-  activeCart$: Observable<Cart | undefined>;
-  savedCarts$: Observable<Array<Cart>>;
-  orderHistory$: Observable<OrderHistoryList>;
+  customerOverview$: Observable<CustomerOverview | undefined>;
 
-  protected readonly ORDER_LIMIT = 100;
   protected subscription = new Subscription();
 
   constructor(
-    protected asmConfig: Customer360Config,
+    protected customer360Config: Customer360Config,
     protected customer360Facade: Customer360Facade,
-    protected injector: Injector,
     protected launchDialogService: LaunchDialogService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected savedCartFacade: SavedCartFacade,
     protected directionService: DirectionService
   ) {
-    this.tabs = asmConfig?.customer360?.tabs ?? [];
+    this.customerOverview$ = this.customer360Facade
+      .get360Data([
+        {
+          requestData: { type: Customer360Type.OVERVIEW },
+        },
+      ])
+      .pipe(
+        map((response) => {
+          const overviewItem = response?.value?.find(
+            (item) => item.type === Customer360Type.OVERVIEW
+          ) as Customer360Overview | undefined;
+          return overviewItem?.overview || undefined;
+        })
+      );
+    this.tabs = customer360Config?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
-
-    this.activeCart$ = this.activeCartFacade
-      .getActive()
-      .pipe(map((cart) => (cart.totalItems ? cart : undefined)));
-    this.orderHistory$ = this.orderHistoryFacade
-      .getOrderHistoryList(this.ORDER_LIMIT)
-      .pipe(map((orderHistory) => orderHistory ?? {}));
-    this.savedCarts$ = this.savedCartFacade.getList().pipe(shareReplay(1));
   }
 
   ngOnInit(): void {
@@ -120,7 +119,10 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
+  /**
+   * Triggered when a tab is selected.
+   * @param {number} selectedTab selected tab index
+   */
   selectTab(selectedTab: number): void {
     this.activeTab = selectedTab;
     this.currentTab = this.tabs[selectedTab];
@@ -128,7 +130,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     this.setTabData();
   }
   /**
-   *  update tab focus when key is pressed
+   *  Update tab focus when key is pressed
    * @param {KeyboardEvent} event
    * @param {number} selectedIndex current tab index
    */
@@ -159,11 +161,21 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  getAvatar(): string {
+  getAvatarText(): string {
     const customer = this.customer ?? {};
     const { firstName = '', lastName = '' } = customer;
 
     return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+  }
+
+  getAvatarImage(overview?: CustomerOverview): Image | undefined {
+    if (overview?.userAvatar?.url) {
+      return {
+        altText: overview.name,
+        url: overview.userAvatar.url,
+        format: overview.userAvatar.format,
+      };
+    }
   }
 
   /**

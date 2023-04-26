@@ -10,7 +10,10 @@ import { concatMap, filter, map, take } from 'rxjs/operators';
 
 import { ProductItem } from '../../asm-customer-product-listing/product-item.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
-import { Customer360SavedCart } from '@spartacus/asm/customer-360/root';
+import {
+  Customer360SavedCart,
+  CustomerCart,
+} from '@spartacus/asm/customer-360/root';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 
 @Component({
@@ -19,14 +22,18 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
   templateUrl: './asm-customer-saved-cart.component.html',
 })
 export class AsmCustomerSavedCartComponent {
-  savedCart$: Observable<Customer360SavedCart>;
+  savedCart$: Observable<CustomerCart | undefined>;
   productItems$: Observable<Array<ProductItem>>;
 
   constructor(
     protected sectionContext: Customer360SectionContext<Customer360SavedCart>,
     protected productService: ProductService
   ) {
-    this.savedCart$ = this.sectionContext.data$;
+    this.savedCart$ = this.sectionContext.data$.pipe(
+      map((cart) => {
+        return cart.savedCart;
+      })
+    );
     this.productItems$ = this.savedCart$.pipe(
       concatMap((cart) => {
         if (!cart?.entries?.length) {

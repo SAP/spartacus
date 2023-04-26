@@ -94,26 +94,27 @@ describe('AsmCustomerActiveCartComponent', () => {
       return breakpointSubject.asObservable();
     }
   }
-
   const mockActiveCart: Customer360ActiveCart = {
     type: Customer360Type.ACTIVE_CART,
-    code: '00000001',
-    totalPrice: '$40.00',
-    totalItemCount: 4,
-    entries: [
-      {
-        quantity: 1,
-        basePrice: '$10.00',
-        totalPrice: '$10.00',
-        productCode: '553637',
-      },
-      {
-        quantity: 3,
-        basePrice: '$10.00',
-        totalPrice: '$30.00',
-        productCode: '553638',
-      },
-    ],
+    cart: {
+      code: '00000001',
+      totalPrice: '$100.00',
+      totalItemCount: 1,
+      entries: [
+        {
+          quantity: 1,
+          basePrice: '$10.00',
+          totalPrice: '$10.00',
+          productCode: '553637',
+        },
+        {
+          quantity: 3,
+          basePrice: '$10.00',
+          totalPrice: '$30.00',
+          productCode: '553638',
+        },
+      ],
+    },
   };
 
   const productService = jasmine.createSpyObj('ProductService', ['get']);
@@ -186,16 +187,18 @@ describe('AsmCustomerActiveCartComponent', () => {
     );
 
     const titleLink = productListing.query(By.css('.cx-overview-title-link'));
-    expect(titleLink.nativeElement.textContent).toContain(mockActiveCart.code);
+    expect(titleLink.nativeElement.textContent).toContain(
+      mockActiveCart.cart?.code
+    );
 
     const totalItems = productListing.query(By.css('.cart-total-no-items'));
     expect(totalItems.nativeElement.textContent).toContain(
-      mockActiveCart.totalItemCount
+      mockActiveCart.cart?.totalItemCount
     );
 
     const totalPrice = productListing.query(By.css('.cart-total-price'));
     expect(totalPrice.nativeElement.textContent).toContain(
-      mockActiveCart.totalPrice
+      mockActiveCart.cart?.totalPrice
     );
   });
   it('should render products', () => {
@@ -231,9 +234,9 @@ describe('AsmCustomerActiveCartComponent', () => {
       cxRoute: 'product',
       params: {
         ...mockProduct1,
-        quantity: mockActiveCart?.entries?.[0]?.quantity,
-        basePrice: mockActiveCart?.entries?.[0]?.basePrice,
-        totalPrice: mockActiveCart?.entries?.[0]?.totalPrice,
+        quantity: mockActiveCart?.cart?.entries?.[0]?.quantity,
+        basePrice: mockActiveCart?.cart?.entries?.[0]?.basePrice,
+        totalPrice: mockActiveCart?.cart?.entries?.[0]?.totalPrice,
       },
     });
   });

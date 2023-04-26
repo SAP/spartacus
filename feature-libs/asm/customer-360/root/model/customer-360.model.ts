@@ -88,6 +88,7 @@ export interface Customer360Address {
   region?: Region;
   country?: Country;
 }
+
 export interface CustomerCardType {
   code?: string;
   name?: string;
@@ -106,7 +107,7 @@ export interface Customer360Profile {
   billingAddress?: Customer360Address;
   deliveryAddress?: Customer360Address;
   phone1?: string;
-  phone2?: string; // TODO this might change to cellphone or return value will be cellphone
+  phone2?: string;
   paymentDetails?: Customer360PaymentDetail[];
 }
 
@@ -130,20 +131,20 @@ export interface Customer360CartEntry {
   totalPrice: string;
   productCode: string;
 }
-export interface Customer360ActiveCart {
-  type: Customer360Type.ACTIVE_CART;
-  code: string;
+export interface CustomerCart {
+  code?: string;
   totalPrice?: string;
   totalItemCount?: number;
   entries?: Array<Customer360CartEntry>;
 }
+export interface Customer360ActiveCart {
+  type: Customer360Type.ACTIVE_CART;
+  cart?: CustomerCart;
+}
 
 export interface Customer360SavedCart {
   type: Customer360Type.SAVED_CART;
-  code: string;
-  totalPrice?: string;
-  totalItemCount?: number;
-  entries?: Array<Customer360CartEntry>;
+  savedCart?: CustomerCart;
 }
 
 export interface Customer360Avatar {
@@ -151,20 +152,25 @@ export interface Customer360Avatar {
   format?: string;
 }
 
-export interface Customer360Overview {
-  type: Customer360Type.OVERVIEW;
+export interface CustomerOverview {
+  address: Address;
   name?: string;
   cartSize?: number;
   cartCode?: string;
-  lastOrderTotal?: string;
-  lastOrderCode?: string;
-  lastOrderedAt?: string;
-  lastOpenedTicketId?: string;
-  lastTicketCreatedAt?: string;
+  latestOrderTotal?: string;
+  latestOrderCode?: string;
+  latestOrderTime?: string;
+  latestOpenedTicketId?: string;
+  latestOpenedTicketCreatedAt?: string;
   email?: string;
   registeredAt?: string;
   defaultShippingAddress?: Address;
   userAvatar?: Customer360Avatar;
+}
+
+export interface Customer360Overview {
+  type: Customer360Type.OVERVIEW;
+  overview?: CustomerOverview;
 }
 
 export interface Customer360ActivityList {
