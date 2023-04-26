@@ -2,7 +2,7 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/spartacus)](https://api.reuse.software/info/github.com/SAP/spartacus)
 
-dummy change
+dummy change 2
 
 ## Spartacus and Composable Storefront
 
