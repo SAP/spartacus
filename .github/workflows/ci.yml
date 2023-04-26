@@ -271,6 +271,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
+      - run: |
+          echo "Context Info:"
+          echo "  Event = ${{ github.event_name }}"
+          echo "  Build Result = ${{ needs.build_conclusion.result }}"
+          echo "  Branch = ${{ github.ref_name }}"
+          echo "  Default branch = ${{ github.event.repository.default_branch }}"
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
@@ -284,7 +290,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":nuclear-bomb: :fireduck: *Broken build on ${{ github.event.repository.default_branch }}*"
+                    "text": ":nuclear-bomb: :fireduck: *Broken build on ${{ github.ref_name }}*"
                   }
                 },
                 {
@@ -330,4 +336,4 @@ jobs:
         if: |
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' &&
-          github.ref_name == ${{ github.event.repository.default_branch }}
+          github.ref_name == github.event.repository.default_branch
