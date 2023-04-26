@@ -111,6 +111,7 @@ export function asmCustomerLists(): void {
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   const userDetailsRequestAlias = listenForUserDetailsRequest();
+  const customerId = 'aaron.customer@hybris.com';
 
   cy.log('--> Starting customer list');
   asm.asmOpenCustomerList();
@@ -124,6 +125,8 @@ export function asmCustomerLists(): void {
     .should('eq', 200);
 
   cy.get('cx-customer-list table').should('exist');
+  cy.get('cx-customer-list table').should('contain', 'Cart');
+  cy.get('cx-customer-list table').should('contain', 'Order');
   cy.get('cx-customer-list table').should('not.contain', 'Account');
 
   cy.log('--> checking customer list pagination');
@@ -141,6 +144,21 @@ export function asmCustomerLists(): void {
       .its('response.statusCode')
       .should('eq', 200);
   });
+
+  cy.log('--> checking customer number');
+  cy.get('cx-customer-list .cx-total')
+    .should('exist')
+    .should('contain', 'Customers');
+
+  cy.log('--> checking customer Id search');
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${customerId}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.log('--> checking customer list sorting');
   cy.get('cx-customer-list .sort-selector').then((selects) => {
@@ -190,6 +208,7 @@ export function asmCustomerLists(): void {
   cy.get('cx-customer-list')
     .find('.cx-btn-cell')
     .not('[aria-label="Order"]')
+    .not('[aria-label="Cart"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();
