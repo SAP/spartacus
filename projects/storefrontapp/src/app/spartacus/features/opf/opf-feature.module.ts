@@ -5,7 +5,12 @@
  */
 
 import { NgModule, Provider } from '@angular/core';
-import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
+import {
+  I18nConfig,
+  OccConfig,
+  provideConfig,
+  RoutingConfig,
+} from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
@@ -33,10 +38,10 @@ if (environment.b2b) {
       routing: {
         routes: {
           paymentVerificationResult: {
-            paths: ['redirect/success'],
+            paths: ['payment-result'],
           },
           paymentVerificationCancel: {
-            paths: ['redirect/failure'],
+            paths: ['payment-cancel'],
           },
         },
       },
@@ -46,6 +51,15 @@ if (environment.b2b) {
         baseUrl:
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+      },
+    }),
+    provideConfig(<OccConfig>{
+      backend: {
+        occ: {
+          endpoints: {
+            placeOrder: 'users/${userId}/orders/v2?fields=FULL',
+          },
+        },
       },
     }),
     provideConfig(<I18nConfig>{
