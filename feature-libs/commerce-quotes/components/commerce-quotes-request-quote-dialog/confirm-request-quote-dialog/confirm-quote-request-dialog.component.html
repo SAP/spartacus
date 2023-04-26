@@ -9,7 +9,10 @@
 
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
-        {{ 'commerceQuotes.confirmSubmitDialog.title' | cxTranslate }}
+        {{
+          'commerceQuotes.confirmSubmitDialog.title'
+            | cxTranslate: { code: quoteCode$ | async }
+        }}
       </div>
       <button
         type="button"
@@ -38,7 +41,7 @@
               <div class="content">
                 {{
                   'commerceQuotes.confirmSubmitDialog.name.content'
-                    | cxTranslate
+                    | cxTranslate: { code: quoteCode$ | async }
                 }}
               </div>
             </div>
@@ -68,13 +71,13 @@
             </p>
           </div>
           <div class="cx-dialog-buttons">
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary" (click)="dismissModal('no')">
               {{
                 'commerceQuotes.confirmSubmitDialog.confirmSubmitOption.no'
                   | cxTranslate
               }}
             </button>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" (click)="dismissModal('yes')">
               {{
                 'commerceQuotes.confirmSubmitDialog.confirmSubmitOption.yes'
                   | cxTranslate

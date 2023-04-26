@@ -61,8 +61,8 @@ export const commerceQuotes = {
       quotes: 'Quotes',
     },
     confirmSubmitDialog: {
-      title: 'Confirm Send Quote 000000123?',
-      name: { heading: 'Name:', content: 'Quote 00000275' },
+      title: 'Confirm Send Quote {{ code }}?',
+      name: { heading: 'Name:', content: 'Quote {{ code }}' },
       description: { heading: 'Description:' },
 
       warningSubmitNote:

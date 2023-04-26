@@ -19,6 +19,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-commerce-quotes-request-quote-dialog',
@@ -59,20 +60,21 @@ export class CommerceQuotesRequestQuoteDialogComponent {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
-    } else {
-      const quoteCreationPayload: QuoteMetadata = {
-        name: this.form.controls.name.value,
-      };
+    }
+    const quoteCreationPayload: QuoteMetadata = {
+      name: this.form.controls.name.value,
+    };
 
-      if (this.form.controls.description.value.length) {
-        quoteCreationPayload.description = this.form.controls.description.value;
-      }
-      this.requestInProgress$.next(true);
-      this.commerceQuotesFacade
-        .createQuote(quoteCreationPayload, {
-          text: this.form.controls.comment.value,
-        })
-        .subscribe((quote) => {
+    if (this.form.controls.description.value.length) {
+      quoteCreationPayload.description = this.form.controls.description.value;
+    }
+    this.requestInProgress$.next(true);
+    this.commerceQuotesFacade
+      .createQuote(quoteCreationPayload, {
+        text: this.form.controls.comment.value,
+      })
+      .pipe(
+        tap((quote) => {
           if (goToDetails) {
             this.routingService.go({
               cxRoute: 'quoteDetails',
@@ -84,9 +86,9 @@ export class CommerceQuotesRequestQuoteDialogComponent {
               QuoteActionType.SUBMIT
             );
           }
-
           this.dismissModal('success');
-        });
-    }
+        })
+      )
+      .subscribe();
   }
 }
