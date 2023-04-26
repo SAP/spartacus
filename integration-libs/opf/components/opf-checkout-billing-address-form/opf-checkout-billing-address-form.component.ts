@@ -26,6 +26,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   isEditBillingAddress = false;
   isSameAsDelivery = true;
+  isAddingBillingAddressInProgress = false;
 
   countries$: Observable<Country[]>;
 
@@ -42,6 +43,11 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   cancelAndHideForm(): void {
     this.isEditBillingAddress = false;
+
+    if (this.isAddingBillingAddressInProgress) {
+      this.isSameAsDelivery = true;
+      this.isAddingBillingAddressInProgress = false;
+    }
   }
 
   editCustomBillingAddress(): void {
@@ -53,6 +59,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
     if (!this.isSameAsDelivery) {
       this.opfCheckoutBillingAddressFormService.resetBillingAddress();
+      this.isAddingBillingAddressInProgress = true;
       this.isEditBillingAddress = true;
     } else {
       this.opfCheckoutBillingAddressFormService.putDeliveryAddressAsPaymentAddress();
@@ -62,6 +69,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   onSubmitAddress(address: Address): void {
     this.isEditBillingAddress = false;
+    this.isAddingBillingAddressInProgress = false;
 
     if (!address) {
       return;
