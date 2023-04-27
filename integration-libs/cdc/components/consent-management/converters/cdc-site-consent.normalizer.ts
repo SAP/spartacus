@@ -32,8 +32,8 @@ export class CdcSiteConsentNormalizer
     site: siteConsentDetailTemplate[]
   ): ConsentTemplate[] {
     var consents: ConsentTemplate[] = [];
-    var siteLanguage = this.cdcSiteConsentService.getActiveLanguage();
-    for (var key in site) {
+    var currentLanguage = this.cdcSiteConsentService.getActiveLanguage();
+    for (var key in site) {               //key will be a string with dot separated IDs
       if (Object.hasOwn(site, key)) {
         if (site[key].isActive === true) {
           var legalStatements = site[key].legalStatements;
@@ -42,7 +42,7 @@ export class CdcSiteConsentNormalizer
             required = true;
           for (var lang in legalStatements) {
             if (Object.hasOwn(legalStatements, lang)) {
-              if (lang === siteLanguage) {
+              if (lang === currentLanguage) {
                 consents.push({
                   id: key,
                   description: legalStatements[lang]?.purpose,

@@ -35,16 +35,16 @@ export class CdcUserPreferenceSerializer
   }
 
   private convertToCdcPreference(target: any, path: string, value: any): any {
-    var schema = target;
-    var pList = path.split('.');
-    var len = pList.length;
+    var consentCode = target;
+    var list = path.split('.');
+    var len = list.length;
     for (var i = 0; i < len - 1; i++) {
-      var elem = pList[i];
-      if (!schema[elem]) schema[elem] = {};
-      schema = schema[elem];
+      var elem = list[i];
+      if (!consentCode[elem]) consentCode[elem] = {};
+      consentCode = consentCode[elem];
     }
 
-    schema[pList[len - 1]] = value;
+    consentCode[list[len - 1]] = value;
     return target;
   }
 }

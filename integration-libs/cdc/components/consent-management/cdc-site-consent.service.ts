@@ -47,7 +47,7 @@ export class CdcSiteConsentService {
     var uid: string | undefined = this.getUserID();
     if (uid) userId = uid;
 
-    var siteLanguage = this.getActiveLanguage();
+    var currentLanguage = this.getActiveLanguage();
 
     const serializedPreference: any = this.converter.convert(
       consent,
@@ -55,7 +55,7 @@ export class CdcSiteConsentService {
     );
 
     return this.cdcJsService
-      .setUserConsentPreferences(userId, siteLanguage, serializedPreference)
+      .setUserConsentPreferences(userId, currentLanguage, serializedPreference)
       .pipe(
         withLatestFrom(this.userConsentService.getConsents()),
         map(([updateResponse, allConsents]) => {
@@ -87,12 +87,12 @@ export class CdcSiteConsentService {
   }
 
   getActiveLanguage(): string {
-    var siteLanguage: string = '';
+    var currentLanguage: string = '';
     this.languageService
       .getActive()
-      .subscribe((language) => (siteLanguage = language))
+      .subscribe((language) => (currentLanguage = language))
       .unsubscribe();
-    return siteLanguage;
+    return currentLanguage;
   }
 
   maintainUserConsentPreferences(
@@ -104,7 +104,7 @@ export class CdcSiteConsentService {
       switchMap((userPreference) => {
         consents.forEach((consent) => {
           let length = 0;
-          let preference = userPreference.preferences;
+          let preference = userPreference.preferences; //each part of the ID will be a new object
           let consentIDs: string[] = [];
           if (consent.id) consentIDs = consent.id.split('.');
           for (let consentID of consentIDs) {
@@ -113,26 +113,19 @@ export class CdcSiteConsentService {
               length++;
             } else break;
           }
-          if (consent.currentConsent) {
-            consent.currentConsent.code = consent?.id; //in CDC there is no code, so filling in ID for code
-          }
-          /** currentConsent.consentGivenDate ,currentConsent.consentWithdrawnDate will be set only if
-           * user preference contains that preference
-           */
-          if (preference.isConsentGranted && length === consentIDs.length) {
-            if (consent.currentConsent) {
+          if (consent.currentConsent && length === consentIDs.length) {
+            consent.currentConsent.code = consent?.id; //in CDC there is no alpha numeric code, so filling in ID for code
+            /** currentConsent.consentGivenDate ,currentConsent.consentWithdrawnDate will be set only if
+             * user preference contains that preference
+             */
+            if (preference.isConsentGranted)
               consent.currentConsent.consentGivenDate =
                 preference?.lastConsentModified;
-            }
-          } else if (
-            !preference.isConsentGranted &&
-            length === consentIDs.length
-          ) {
-            if (consent.currentConsent) {
+            else
               consent.currentConsent.consentWithdrawnDate =
                 preference?.lastConsentModified;
-            }
           }
+
           updatedConsents.push(consent);
         });
         return of(updatedConsents);
