@@ -83,38 +83,7 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/opf/assets": ["dist/opf/assets"],
-      "@spartacus/opf/components": ["dist/opf/components"],
-      "@spartacus/opf/core": ["dist/opf/core"],
-      "@spartacus/opf": ["dist/opf"],
-      "@spartacus/opf/occ": ["dist/opf/occ"],
-      "@spartacus/opf/root": ["dist/opf/root"],
-      "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
-      "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
-      "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
-      "@spartacus/checkout/b2b": ["dist/checkout/b2b"],
-      "@spartacus/checkout/b2b/occ": ["dist/checkout/b2b/occ"],
-      "@spartacus/checkout/b2b/root": ["dist/checkout/b2b/root"],
-      "@spartacus/checkout/base/assets": ["dist/checkout/base/assets"],
-      "@spartacus/checkout/base/components": ["dist/checkout/base/components"],
-      "@spartacus/checkout/base/core": ["dist/checkout/base/core"],
-      "@spartacus/checkout/base": ["dist/checkout/base"],
-      "@spartacus/checkout/base/occ": ["dist/checkout/base/occ"],
-      "@spartacus/checkout/base/root": ["dist/checkout/base/root"],
-      "@spartacus/checkout": ["dist/checkout"],
-      "@spartacus/checkout/scheduled-replenishment/assets": [
-        "dist/checkout/scheduled-replenishment/assets"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/components": [
-        "dist/checkout/scheduled-replenishment/components"
-      ],
-      "@spartacus/checkout/scheduled-replenishment": [
-        "dist/checkout/scheduled-replenishment"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/root": [
-        "dist/checkout/scheduled-replenishment/root"
-      ]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {

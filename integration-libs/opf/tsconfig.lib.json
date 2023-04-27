@@ -106,13 +106,7 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/opf/assets": ["dist/opf/assets"],
-      "@spartacus/opf/components": ["dist/opf/components"],
-      "@spartacus/opf/core": ["dist/opf/core"],
-      "@spartacus/opf": ["dist/opf"],
-      "@spartacus/opf/occ": ["dist/opf/occ"],
-      "@spartacus/opf/root": ["dist/opf/root"]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

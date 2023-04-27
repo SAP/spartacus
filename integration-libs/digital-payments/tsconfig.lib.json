@@ -104,13 +104,7 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"],
-      "@spartacus/opf/assets": ["dist/opf/assets"],
-      "@spartacus/opf/components": ["dist/opf/components"],
-      "@spartacus/opf/core": ["dist/opf/core"],
-      "@spartacus/opf": ["dist/opf"],
-      "@spartacus/opf/occ": ["dist/opf/occ"],
-      "@spartacus/opf/root": ["dist/opf/root"]
+      "@spartacus/order/root": ["dist/order/root"]
     }
   },
   "angularCompilerOptions": {
