@@ -17,6 +17,7 @@ import {
 } from '@spartacus/storefront';
 import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-request-quote-dialog.component';
 import { defaultCommerceQuotesRequestQuoteDialogConfig } from './default-commerce-quotes-request-quote-dialog-config';
+import { ConfirmQuoteRequestDialogComponent } from './confirm-request-quote-dialog/confirm-quote-request-dialog.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,13 @@ import { defaultCommerceQuotesRequestQuoteDialogConfig } from './default-commerc
   providers: [
     provideDefaultConfig(defaultCommerceQuotesRequestQuoteDialogConfig),
   ],
-  declarations: [CommerceQuotesRequestQuoteDialogComponent],
-  exports: [CommerceQuotesRequestQuoteDialogComponent],
+  declarations: [
+    CommerceQuotesRequestQuoteDialogComponent,
+    ConfirmQuoteRequestDialogComponent,
+  ],
+  exports: [
+    CommerceQuotesRequestQuoteDialogComponent,
+    ConfirmQuoteRequestDialogComponent,
+  ],
 })
 export class CommerceQuotesRequestQuoteDialogModule {}

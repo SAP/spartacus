@@ -60,6 +60,16 @@ export const commerceQuotes = {
       newCart: 'New Cart',
       quotes: 'Quotes',
     },
+    confirmSubmitDialog: {
+      title: 'Confirm Send Quote {{ code }}?',
+      name: { heading: 'Name:', content: 'Quote {{ code }}' },
+      description: { heading: 'Description:' },
+
+      warningSubmitNote:
+        'Once a request for quote is submitted it cannot be modified.',
+      confirmSubmitNote: 'Are you sure you want to submit this quote?',
+      confirmSubmitOption: { yes: 'Yes', no: 'No' },
+    },
     requestDialog: {
       requestQuote: 'Request a Quote',
       title: 'Request Quote',

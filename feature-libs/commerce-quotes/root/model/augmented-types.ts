@@ -19,5 +19,6 @@ declare module '@spartacus/cart/base/root' {
 declare module '@spartacus/storefront' {
   const enum LAUNCH_CALLER {
     REQUEST_QUOTE = 'REQUEST_QUOTE',
+    REQUEST_CONFIRMATION = 'REQUEST_CONFIRMATION',
   }
 }

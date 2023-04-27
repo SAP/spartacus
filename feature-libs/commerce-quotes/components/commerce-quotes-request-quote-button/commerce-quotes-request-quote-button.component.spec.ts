@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { CommerceQuotesRequestQuoteButtonComponent } from './commerce-quotes-request-quote-button.component';
+import { CommerceQuotesFacade, Quote } from '@spartacus/commerce-quotes/root';
 import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
 
 @Pipe({
   name: 'cxUrl',
@@ -12,15 +12,19 @@ import createSpy = jasmine.createSpy;
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
-
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog = createSpy().and.returnValue(of({}));
+const quoteCode = 'quote1';
+const mockCreatedQuote: Quote = {
+  allowedActions: [],
+  code: quoteCode,
+};
+class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+  createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
 }
-
 describe('CommerceQuotesRequestQuoteButtonComponent', () => {
   let component: CommerceQuotesRequestQuoteButtonComponent;
   let fixture: ComponentFixture<CommerceQuotesRequestQuoteButtonComponent>;
-  let launchDialogService: LaunchDialogService;
+  let commerceQuotesService: CommerceQuotesFacade;
+  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,13 +32,14 @@ describe('CommerceQuotesRequestQuoteButtonComponent', () => {
       imports: [I18nTestingModule],
       providers: [
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+          provide: CommerceQuotesFacade,
+          useClass: MockCommerceQuotesFacade,
         },
+        { provide: RoutingService, useValue: mockRoutingService },
       ],
     }).compileComponents();
 
-    launchDialogService = TestBed.inject(LaunchDialogService);
+    commerceQuotesService = TestBed.inject(CommerceQuotesFacade);
   });
 
   beforeEach(() => {
@@ -48,14 +53,12 @@ describe('CommerceQuotesRequestQuoteButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call showDialog method to invoke dialog component', () => {
-    component.showDialog();
-
-    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.REQUEST_QUOTE,
-      component.element,
-      component['vcr']
-    );
+  it('should call the goToQuoteDetails page when button clicked', () => {
+    component.goToQuoteDetails();
+    expect(commerceQuotesService.createQuote).toHaveBeenCalled();
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
+      cxRoute: 'quoteDetails',
+      params: { quoteId: quoteCode },
+    });
   });
 });

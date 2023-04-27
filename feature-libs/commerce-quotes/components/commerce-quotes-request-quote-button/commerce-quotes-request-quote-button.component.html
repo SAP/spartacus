@@ -1,3 +1,8 @@
-<button #element (click)="showDialog()" class="btn btn-action btn-block">
+<button
+  #element
+  (click)="goToQuoteDetails()"
+  type="button"
+  class="btn btn-action btn-block"
+>
   {{ 'commerceQuotes.requestDialog.requestQuote' | cxTranslate }}
 </button>

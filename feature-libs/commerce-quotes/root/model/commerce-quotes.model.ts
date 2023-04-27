@@ -96,7 +96,7 @@ export interface QuoteList {
 export interface QuoteMetadata {
   description?: string;
   expirationTime?: Date;
-  name: string;
+  name?: string;
 }
 
 export interface QuoteStarter {

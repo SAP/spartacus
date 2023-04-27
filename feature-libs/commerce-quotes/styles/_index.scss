@@ -6,13 +6,14 @@
 @import './commerce-quotes-action-links';
 @import './commerce-quotes-actions-by-role';
 @import './commerce-quotes-details-vendor-contact';
+@import './confirm-quote-request-dialog';
 @import './layout/index';
 
 $commerce-quotes-components-allowlist: cx-commerce-quotes-list
   cx-commerce-quotes-details-overview cx-commerce-quotes-details-cart
   cx-commerce-quotes-request-quote-button cx-commerce-quotes-action-links
   cx-commerce-quotes-request-quote-dialog cx-commerce-quotes-actions-by-role
-  cx-commerce-quotes-details-vendor-contact !default;
+  cx-commerce-quotes-details-vendor-contact cx-confirm-quote-request-dialog !default;
 
 $skipComponentStyles: () !default;
 

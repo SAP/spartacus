@@ -11,10 +11,12 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommerceQuotesActionsByRoleComponent } from './commerce-quotes-actions-by-role.component';
 import createSpy = jasmine.createSpy;
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -37,11 +39,35 @@ const mockQuoteDetailsState: QueryState<Quote> = {
 const mockQuoteDetailsState$ = new BehaviorSubject<QueryState<Quote>>(
   mockQuoteDetailsState
 );
+
+const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  closeDialog(reason: any): void {
+    dialogClose$.next(reason);
+  }
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef,
+    _data?: any
+  ) {
+    return of();
+  }
+  get dialogClose() {
+    return dialogClose$.asObservable();
+  }
+}
+
 class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
   getQuoteDetails(): Observable<QueryState<Quote>> {
     return mockQuoteDetailsState$.asObservable();
   }
-  performQuoteAction = createSpy();
+  performQuoteAction(
+    _quoteCode: string,
+    _quoteAction: QuoteActionType
+  ): Observable<unknown> {
+    return EMPTY;
+  }
   requote = createSpy();
 }
 
@@ -54,7 +80,7 @@ class MockTranslationService implements Partial<TranslationService> {
 describe('CommerceQuotesActionsByRoleComponent', () => {
   let fixture: ComponentFixture<CommerceQuotesActionsByRoleComponent>;
   let component: CommerceQuotesActionsByRoleComponent;
-
+  let launchDialogService: LaunchDialogService;
   let facade: CommerceQuotesFacade;
 
   beforeEach(() => {
@@ -67,6 +93,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
           useClass: MockCommerceQuotesFacade,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
   });
@@ -74,7 +101,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CommerceQuotesActionsByRoleComponent);
     component = fixture.componentInstance;
-
+    launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(CommerceQuotesFacade);
     mockQuoteDetailsState$.next(mockQuoteDetailsState);
   });
@@ -148,7 +175,62 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
   //   expect(component.primaryActions).toEqual([]);
   // });
 
+  it('should open confirmation dialog when action is SUBMIT', () => {
+    spyOn(launchDialogService, 'openDialog');
+    const newMockQuoteWithSubmitAction: QueryState<Quote> = {
+      error: false,
+      loading: false,
+      data: {
+        ...mockQuote,
+        allowedActions: [
+          { type: QuoteActionType.SUBMIT, isPrimary: true },
+          { type: QuoteActionType.CANCEL, isPrimary: false },
+        ],
+      },
+    };
+    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+    fixture.detectChanges();
+    component.onClick(
+      QuoteActionType.SUBMIT,
+      newMockQuoteWithSubmitAction.data?.code ?? ''
+    );
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.REQUEST_CONFIRMATION,
+      component.element,
+      component['viewContainerRef'],
+      { quoteCode: newMockQuoteWithSubmitAction.data?.code }
+    );
+  });
+
+  it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
+    spyOn(facade, 'performQuoteAction').and.callThrough();
+    const newMockQuoteWithSubmitAction: QueryState<Quote> = {
+      error: false,
+      loading: false,
+      data: {
+        ...mockQuote,
+        allowedActions: [
+          { type: QuoteActionType.SUBMIT, isPrimary: true },
+          { type: QuoteActionType.CANCEL, isPrimary: false },
+        ],
+      },
+    };
+    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+    fixture.detectChanges();
+
+    component.onClick(
+      QuoteActionType.SUBMIT,
+      newMockQuoteWithSubmitAction.data?.code ?? ''
+    );
+    launchDialogService.closeDialog('yes');
+    expect(facade.performQuoteAction).toHaveBeenCalledWith(
+      newMockQuoteWithSubmitAction.data?.code,
+      QuoteActionType.SUBMIT
+    );
+  });
+
   it('should generate buttons with actions and trigger proper method (requote if allowed action is REQUOTE)', () => {
+    spyOn(facade, 'performQuoteAction').and.callThrough();
     fixture.detectChanges();
     const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
 

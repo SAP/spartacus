@@ -2,14 +2,12 @@
   <ng-container *ngIf="!quoteDetailsState.loading">
     <section>
       <button
+        #element
+        type="button"
         *ngFor="let action of quoteDetailsState.data.allowedActions"
         class="btn"
         [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-secondary'"
-        (click)="
-          action.type === QuoteActionType.REQUOTE
-            ? requote(quoteDetailsState.data.code)
-            : performAction(quoteDetailsState.data.code, action.type)
-        "
+        (click)="onClick(action.type, quoteDetailsState.data.code)"
       >
         {{ 'commerceQuotes.actions.' + action.type | cxTranslate }}
       </button>
