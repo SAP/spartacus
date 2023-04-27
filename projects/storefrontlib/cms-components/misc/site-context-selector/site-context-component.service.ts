@@ -96,7 +96,7 @@ export class SiteContextComponentService {
       } else if (context === SiteContextType.LANGUAGE) {
         return of(LANGUAGE_CONTEXT_ID);
       } else {
-        return of(context);
+        return of(context as SiteContextType);
       }
     } else if (this.componentData) {
       return this.componentData.data$.pipe(

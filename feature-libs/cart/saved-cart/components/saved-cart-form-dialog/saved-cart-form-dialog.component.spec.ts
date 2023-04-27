@@ -21,7 +21,7 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
   SavedCartFormDialogOptions,
@@ -82,25 +82,25 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   clearRestoreSavedCart(): void {}
   clearCloneSavedCart(): void {}
   getSaveCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getSaveCartProcessLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getCloneSavedCartProcessLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getRestoreSavedCartProcessLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockEventService implements Partial<EventService> {
   get(_event: any): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -457,7 +457,7 @@ describe('SavedCartFormDialogComponent', () => {
         if ((type as any).type === 'DeleteCartEvent') {
           return of(new DeleteCartEvent() as any);
         } else {
-          return of();
+          return EMPTY;
         }
       });
 

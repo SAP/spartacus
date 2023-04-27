@@ -8,8 +8,8 @@ import {
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, User, UserIdService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { getMultiCartReducers } from 'feature-libs/cart/base/core/store/reducers';
 import { Observable, of } from 'rxjs';
+import { getMultiCartReducers } from '../../../base/core/store/reducers';
 import { WishListActions } from '../store/actions/index';
 import { getWishlistName } from '../utils/utils';
 import { WishListService } from './wish-list.service';

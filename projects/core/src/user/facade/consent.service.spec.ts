@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
 import { AnonymousConsent, Consent } from '../../model/index';
 import { ConsentService } from './consent.service';
@@ -7,7 +7,7 @@ import { UserConsentService } from './user-consent.service';
 
 class MockUserConsentService {
   getConsent(_templateId: string): Observable<Consent> {
-    return of();
+    return EMPTY;
   }
   isConsentGiven(_consent: Consent): boolean {
     return false;
@@ -19,7 +19,7 @@ class MockUserConsentService {
 
 class MockAnonymousConsentsService {
   getConsent(_templateId: string): Observable<AnonymousConsent> {
-    return of();
+    return EMPTY;
   }
   isConsentGiven(_consent: AnonymousConsent): boolean {
     return false;

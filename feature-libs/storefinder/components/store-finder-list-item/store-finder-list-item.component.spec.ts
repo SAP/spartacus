@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { OutletModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 import createSpy = jasmine.createSpy;
 
@@ -88,7 +88,7 @@ const sampleStore: any = {
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    of()
+    EMPTY
   );
   getStoresLoading = createSpy('getStoresLoading');
   callFindStoresAction = createSpy('callFindStoresAction');

@@ -7,15 +7,15 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import {
-  B2BUserRole,
   B2BUserRight,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { UserAccountFacade } from '@spartacus/user/account/root';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { filter, map, pluck } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +29,8 @@ export class UnitLevelOrdersViewerGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.userAccountFacade.get().pipe(
-      filter((user) => !!user && Object.keys(user).length > 0),
-      pluck('roles'),
+      filter((user): user is User => !!user && Object.keys(user).length > 0),
+      map((user) => (user as User & { roles?: string[] }).roles),
       map((roles) => {
         const hasRole =
           Array.isArray(roles) &&

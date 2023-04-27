@@ -7,7 +7,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { NEVER, of } from 'rxjs';
+import { EMPTY, NEVER, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core';
@@ -61,7 +61,7 @@ function initMocks() {
   asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
     of(ovConfig).pipe(delay(0)) // delay(0) to avoid NG0100 error in test
   );
-  asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(of());
+  asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(EMPTY);
 }
 
 @Component({

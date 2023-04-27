@@ -10,7 +10,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UpdateUserAddressEvent,
 } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-address-event.listener';
 import {
@@ -28,7 +28,7 @@ const mockCartId = 'test-cart-id';
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  clearCheckoutDeliveryAddress = createSpy().and.returnValue(of());
+  clearCheckoutDeliveryAddress = createSpy().and.returnValue(EMPTY);
 }
 
 const mockEventStream$ = new Subject<CxEvent>();

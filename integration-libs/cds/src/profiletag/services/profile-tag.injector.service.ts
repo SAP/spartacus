@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
-import { mapTo, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { ProfileTagEventService } from './profiletag-event.service';
@@ -29,7 +29,7 @@ export class ProfileTagInjectorService {
           merge(
             this.profileTagEventTracker.getProfileTagEvents(),
             this.notifyEcOfLoginSuccessful()
-          ).pipe(mapTo(true))
+          ).pipe(map(() => true))
         )
       );
   }
@@ -39,7 +39,7 @@ export class ProfileTagInjectorService {
       switchMap((_) => {
         return this.cdsBackendConnector
           .notifySuccessfulLogin()
-          .pipe(mapTo(true));
+          .pipe(map(() => true));
       })
     );
   }

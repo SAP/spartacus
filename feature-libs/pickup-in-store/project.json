@@ -1,0 +1,40 @@
+{
+  "name": "pickup-in-store",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/pickup-in-store",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.json",
+        "project": "feature-libs/pickup-in-store/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/pickup-in-store/test.ts",
+        "tsConfig": "feature-libs/pickup-in-store/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/pickup-in-store/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/pickup-in-store/**/*.ts",
+          "feature-libs/pickup-in-store/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}

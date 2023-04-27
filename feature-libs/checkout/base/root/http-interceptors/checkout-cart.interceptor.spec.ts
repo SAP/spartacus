@@ -1,4 +1,4 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -27,7 +27,7 @@ const cartNotFoundError = {
 class MockRoutingService implements Partial<RoutingService> {
   go = createSpy().and.returnValue(EMPTY.toPromise());
 
-  getRouterState = createSpy().and.returnValue(of());
+  getRouterState = createSpy().and.returnValue(EMPTY);
 }
 
 class MultiCartServiceStub implements Partial<MultiCartFacade> {
@@ -129,10 +129,10 @@ describe('CheckoutCartInterceptor', () => {
     http
       .get('/test')
       .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(
-        (_result) => {},
-        (_error) => {}
-      );
+      .subscribe({
+        next: () => {},
+        error: () => {},
+      });
 
     return httpMock.expectOne((req) => {
       return req.method === 'GET';
