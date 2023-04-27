@@ -36,50 +36,70 @@ export class CdpOrderService implements CdpOrderFacade {
   totalPrice: number = 0;
   totalItem: number[] = [];
   orderDetail: Record<string, order> = {};
-  orderStatus: Record<string, Record<string, number>> = {};
   orderImage: Record<string, product[]> = {};
   userId: string;
   tabTitleParam$ = new BehaviorSubject(0);
   public loading$ = new BehaviorSubject<boolean>(true);
   sortType: string;
-  obser$: Observable<finalOrder>;
+  order$: Observable<finalOrder>;
   returnObser$: Observable<returnOrder>;
   orderData: order;
-  returnDate: Record<string, string>={};
+  returnDate: Record<string, string> = {};
 
   public getOrder(page_size: number): Observable<finalOrder> {
-    this.obser$ = this.userIdService
+    this.order$ = this.userIdService
       .takeUserId()
       .pipe(
         switchMap((userId) => this.cdpOrderAdapter.getOrder(userId, page_size))
       );
 
-    return this.obser$;
+    return this.order$;
   }
 
   public fetchOrder(page: number, page_size: number): Observable<finalOrder> {
-    this.obser$ = this.userIdService
+    this.order$ = this.userIdService
       .takeUserId()
       .pipe(
         switchMap((userId) =>
           this.cdpOrderAdapter.getOrderPerPage(userId, page_size, page)
         )
       );
-    return this.obser$;
+    return this.order$;
   }
 
-  public fetchReturn(): Record<string, string>{
-    this.returnObser$=this.userIdService.takeUserId().pipe(switchMap((userId) => this.cdpOrderAdapter.getRetunDetail(userId)));
-    console.log(this.returnObser$);
-    //this.returnObser$=this.cdpOrderAdapter.getRetunDetail();
-    this.returnObser$.subscribe((returnSub)=>{
-      if(returnSub.returnRequest!=null){
-        returnSub.returnRequest.forEach((returnval)=>{
-          this.returnDate[returnval.order.code]=returnval.creationTime;
+  public fetchReturn(): Observable<returnOrder> {
+    return this.userIdService
+      .takeUserId()
+      .pipe(switchMap((userId) => this.cdpOrderAdapter.getRetunDetail(userId)));
+  }
+
+  mapReturnDate(
+    returnSub: returnOrder,
+    returnDate: Record<string, string>
+  ) {
+    if (Array.isArray(returnSub.returnRequests)) {
+      returnSub.returnRequests.forEach((returnval) => {
+        returnDate[returnval.order.code] = returnval.creationTime;
       });
-      }
-    });
-    return this.returnDate;
+    }
+  }
+
+  mapReturnStatus(returnSub: returnOrder,orderStatus: Record<string, Record<string, number>>,detail: Record<string, order>){
+    if (Array.isArray(returnSub.returnRequests)) {
+      returnSub.returnRequests.forEach((returnval)=>
+      {
+        if(typeof orderStatus[returnval.order.code]==='undefined')
+          orderStatus[returnval.order.code] ??= {};
+        orderStatus[returnval.order.code]['RETURNED'] ??= 0;
+        if (Array.isArray(returnval.order?.entries)) {
+          returnval.order.entries.forEach((entry) => {
+          if(detail[returnval.order.code] && detail[returnval.order.code].deliveryItemsQuantity)
+          detail[returnval.order.code].deliveryItemsQuantity = detail[returnval.order.code].deliveryItemsQuantity + entry.quantity;
+          orderStatus[returnval.order.code]['RETURNED']+= entry.quantity;
+          });
+       }
+      });
+    }
   }
 
   public async fetchOrderDetail(
@@ -102,45 +122,32 @@ export class CdpOrderService implements CdpOrderFacade {
   }
 
   public fetchOrderStatus(
-    detail: Record<string, order>
-  ): Record<string, Record<string, number>> {
+    detail: Record<string, order>,
+    orderStatus: Record<string, Record<string, number>>
+  ){
     this.clearCart();
     // eslint-disable-next-line guard-for-in
     for (let orderCode in detail) {
-      this.orderStatus[orderCode] ??= {};
-      if(detail[orderCode].consignments!=null)
-      {
+      if (typeof orderStatus[orderCode] === 'undefined')
+        orderStatus[orderCode] ??= {};
+      if (detail[orderCode].consignments != null) {
         detail[orderCode].consignments.forEach((ord) => {
-          this.orderStatus[orderCode][ord.status] ??= 0;
+          orderStatus[orderCode][ord.status] ??= 0;
           ord.entries.forEach((entr) => {
-            this.orderStatus[orderCode][ord.status] =
-              this.orderStatus[orderCode][ord.status] + entr.quantity;
+            orderStatus[orderCode][ord.status] =
+              orderStatus[orderCode][ord.status] + entr.quantity;
           });
         });
-      }else if(detail[orderCode].deliveryStatus!=null)
-      {
-        this.orderStatus[orderCode][detail[orderCode].deliveryStatus] ??= 0;
+      } else if (detail[orderCode].deliveryStatus != null) {
+        orderStatus[orderCode][detail[orderCode].deliveryStatus] ??= 0;
         detail[orderCode].entries.forEach((entr) => {
-          this.orderStatus[orderCode][detail[orderCode].deliveryStatus] =
-            this.orderStatus[orderCode][detail[orderCode].deliveryStatus] + entr.quantity;
+          orderStatus[orderCode][detail[orderCode].deliveryStatus] =
+            orderStatus[orderCode][detail[orderCode].deliveryStatus] +
+            entr.quantity;
         });
       }
-
-      //setting the order status for Returned
-      if (this.returnDate.hasOwnProperty(orderCode)) {
-        const value = this.returnDate[orderCode];
-        if (value.trim() === '') {
-          console.log('The value for someKey is empty.');
-        } else {
-          this.orderStatus[orderCode]["RETURNED"] ??= 0;
-          this.orderStatus[orderCode]["RETURNED"]=1;
-        }
-        } else {
-          console.log('There is no property with the key someKey in the returnDate object.');
-      }
     }
-    console.log(this.orderStatus);
-    return this.orderStatus;
+    console.log(orderStatus);
   }
 
   public fetchOrderImage(
@@ -171,6 +178,5 @@ export class CdpOrderService implements CdpOrderFacade {
     this.orderValue = { orders: [] };
     this.orderImage = {};
     this.orderDetail = {};
-    this.orderStatus = {};
   }
 }

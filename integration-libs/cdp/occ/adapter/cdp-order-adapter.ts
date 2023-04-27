@@ -6,9 +6,15 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  normalizeHttpError,
+  OccEndpointsService,
+} from '@spartacus/core';
+import { ORDER_NORMALIZER } from 'integration-libs/cdp/error-connector/converter';
 import { returnOrder } from 'integration-libs/cdp/root/model/returnDetail/returnOrder';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { finalOrder } from '../../root/model/order/finalOrder';
 import { orders } from '../../root/model/order/orders';
 import { order } from '../../root/model/orderDetail/order';
@@ -20,7 +26,8 @@ export class cdpOrderAdapter {
   orderValue: finalOrder;
   constructor(
     private httpClient: HttpClient,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   getOrder(userId: string, page_size: number): Observable<finalOrder> {
@@ -50,11 +57,14 @@ export class cdpOrderAdapter {
         '&pageSize=' +
         page_size
     );
-    return this.httpClient.get<finalOrder>(URL);
+    return this.httpClient.get<finalOrder>(URL).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converterService.pipeable(ORDER_NORMALIZER)
+    );
   }
 
-  getRetunDetail( userId: string): Observable<returnOrder> {
-    let URL=this.occEndpointsService.buildUrl(
+  getRetunDetail(userId: string): Observable<returnOrder> {
+    const URL = this.occEndpointsService.buildUrl(
       '/users/' + userId + '/orderReturns'
     );
     return this.httpClient.get<returnOrder>(URL);

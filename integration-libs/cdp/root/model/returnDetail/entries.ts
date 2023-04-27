@@ -4,9 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { entries } from "./entries";
-
-export interface order{
-    code: string;
-    entries: entries[];
+export interface entries{
+    quantity: number;
 }

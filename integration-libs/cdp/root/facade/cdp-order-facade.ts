@@ -16,8 +16,9 @@ export abstract class CdpOrderFacade {
     finalResult: finalOrder
   ): Promise<Record<string, order>>;
   abstract fetchOrderStatus(
-    detail: Record<string, order>
-  ): Record<string, Record<string, number>>;
+    detail: Record<string, order>,
+    orderStatus: Record<string, Record<string, number>>
+  ): void;
   abstract fetchOrderImage(
     detail: Record<string, order>
   ): Record<string, product[]>;

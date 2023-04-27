@@ -9,7 +9,7 @@ import {
   CxDatePipe,
   OccEndpointsService,
   RoutingService,
-  TranslationService,
+  TranslationService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { product } from '../../model/ImageDetail/product';
@@ -46,8 +46,9 @@ export class cdpOrderComponent implements OnInit {
   sortType: string;
   orders$: Observable<finalOrder>;
   returnObser$: Observable<returnOrder>;
-  orderReturn: returnOrder;
+  returnOrderData: returnOrder;
   page_size: number = 5;
+  isOrderPresernt: boolean=false;
 
   ngOnInit(): void {
     this.getMyData();
@@ -56,11 +57,12 @@ export class cdpOrderComponent implements OnInit {
   public getMyData(): void {
     this.orders$ = this.cdpOrderService.getOrder(this.page_size);
     this.orders$.subscribe((res) => {
+      this.loading$.next(true);
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
       this.getItemCount(this.orderValue);
-      this.fetchReturn();
+      this.isOrderPresernt=res.orders.length?true:false;
     });
   }
 
@@ -74,14 +76,14 @@ export class cdpOrderComponent implements OnInit {
     await this.cdpOrderService.fetchOrderDetail(finalResult).then((data)=>{
       this.orderDetail= data;
     });
+    this.fetchReturn();
     this.getDetail();
+
   }
 
   public async getDetail() {
-    this.loading$.next(true);
-    this.orderStatus= this.cdpOrderService.fetchOrderStatus(this.orderDetail);
+    this.cdpOrderService.fetchOrderStatus(this.orderDetail,this.orderStatus);
     this.orderImage=this.cdpOrderService.fetchOrderImage(this.orderDetail);
-    this.loading$.next(false);
     if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
   }
 
@@ -90,20 +92,42 @@ export class cdpOrderComponent implements OnInit {
   }
 
   private async fetchOrders(page: number){
-    this.loading$.next(false);
+    this.loading$.next(true);
+    this.orderStatus={};
     this.orders$ = this.cdpOrderService.fetchOrder(page,this.page_size);
     this.orders$.subscribe((res) => {
       this.orderValue = res;
       this.tabTitleParam$.next(res.orders.length);
       this.calculateTotalAmount(this.orderValue);
-      this.getItemCount(this.orderValue);
+      this.getItemCountAFterPagniation(this.orderValue);
     });
-    this.loading$.next(true);
     if (Object.keys(this.orderDetail).length === 0) this.loading$.next(false);
   }
 
-  private fetchReturn(): void{
-    this.returnDate= this.cdpOrderService.fetchReturn();
+  private fetchReturn(){
+    this.cdpOrderService.fetchReturn().subscribe((data) => {
+      this.returnOrderData=data;
+      this.cdpOrderService.mapReturnDate(data,this.returnDate);
+      this.cdpOrderService.mapReturnStatus(data,this.orderStatus,this.orderDetail);
+      console.log(this.returnDate);
+      this.loading$.next(false);
+    });
+  }
+
+  private async getItemCountAFterPagniation(finalResult: finalOrder): Promise<void>{
+    await this.cdpOrderService.fetchOrderDetail(finalResult).then((data)=>{
+      this.orderDetail= data;
+    });
+    this.getReturn();
+    this.getDetail();
+  }
+
+  private getReturn()
+  {
+    this.cdpOrderService.mapReturnStatus(this.returnOrderData,this.orderStatus,this.orderDetail);
+    this.cdpOrderService.mapReturnDate(this.returnOrderData,this.returnDate);
+    console.log(this.returnDate);
+    this.loading$.next(false);
   }
 
   goToOrderDetail(order: order): void {

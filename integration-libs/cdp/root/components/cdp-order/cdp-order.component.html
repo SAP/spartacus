@@ -1,6 +1,6 @@
-<ng-container *ngIf="!(loading$ | async); else loading">
+<ng-container *ngIf="!((loading$ | async)); else loading">
   <div>
-    <ng-container *ngIf="(orders$ | async)?.orders.length; else noOrders">
+    <ng-container *ngIf="isOrderPresernt ;else noOrders">
       <div class="cx-order-container" *ngFor="let order of orderValue.orders">
         <div class="cx-order-summary" (click)="goToOrderDetail(order)">
           <span class="cx-order-style">
@@ -17,22 +17,21 @@
           </span>
           <br />
           <br />
-          <div *ngFor="let item of orderStatus[order.code] | keyvalue">
           <span class="cx-details"
             >Purchased | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
-            <!-- {{ orderDetail[order.code]?.deliveryItemsQuantity }} items | -->
-            {{ item.value }} items |
+            {{ orderDetail[order.code]?.deliveryItemsQuantity }} Items |
             <b>TotalPrice: ${{ order.total.value }}</b></span
           >
           <br />
           <br />
-          
+          <br />
+          <div *ngFor="let item of orderStatus[order.code] | keyvalue">
             <div *ngIf="item.key === 'NOTSHIPPED';then NotShipped"></div>
             <ng-template #NotShipped>
-              <span class="cx-consignment-status">Not Shipped - {{item.value}}
+              <span class="cx-consignment-status">Not Shipped - {{item.value}} Items
               </span>
               <br>
-              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+              <span class="cx-estimated-delivery">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
             </ng-template>
             <div *ngIf="item.key === 'Not delivered';then NotDelivered"></div>
             <ng-template #NotDelivered>
@@ -64,14 +63,14 @@
             <div *ngIf="item.key === 'SHIPPED'; then contentShiped"></div>
             <ng-template #contentShiped>
               <span class="cx-consignment-status"
-                >{{ item.key }} - {{ item.value }} Items</span
+                >Shipped - {{ item.value }} Items</span
               ><br />
-              <sapn class="cx-estimated-delivery"
-                >Estimated Delivery: 15, October, 2022</sapn
+              <span class="cx-estimated-delivery"
+                >Estimated Delivery: {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span
               ><br />
-              <span class="cx-tracking-number"
+              <!-- <span class="cx-tracking-number"
                 >Tracking Number: 2495301245</span
-              >
+              > -->
             </ng-template>
             <div *ngIf="item.key === 'Cancelled'; then contentCancelled"></div>
             <ng-template #contentCancelled>
@@ -114,13 +113,14 @@
               ><br />
               <span class="cx-cancelled-detail">Cancellation Processed: </span>
             </ng-template>
-            <div *ngIf="item.key === 'RETURNED'; then deliveryReturned"></div>
-            <ng-template #deliveryReturned>
-              <span class="cx-consignment-returned"
-                >{{ item.key }} - {{ item.value }} </span
-              ><br />
-              <span class="cx-returned-detail">Return Processed: {{returnDate[order.code] | cxDate: 'd, MMMM, yyyy'}}</span>
-            </ng-template>
+
+            <ng-container *ngIf="item.key === 'RETURNED'">
+                <span class="cx-consignment-returned"
+                  >Returned - {{ item.value }} Items </span
+                ><br />
+                <span class="cx-returned-detail">Return Processed: {{(returnDate)[order.code] | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-container>
+
           </div>
           <br />
         </div>
