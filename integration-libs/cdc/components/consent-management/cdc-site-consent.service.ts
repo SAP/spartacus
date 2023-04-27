@@ -95,7 +95,7 @@ export class CdcSiteConsentService {
     return currentLanguage;
   }
 
-  protected maintainUserConsentPreferences(
+  maintainUserConsentPreferences(
     allSiteConsents: ConsentTemplate[]
   ): Observable<ConsentTemplate[]> {
     var uid: string | undefined = this.getUserID();
