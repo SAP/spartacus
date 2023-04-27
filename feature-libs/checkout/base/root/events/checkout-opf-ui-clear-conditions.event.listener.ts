@@ -6,8 +6,8 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService, LogoutEvent } from '@spartacus/core';
+import { OpfUiClearEvent } from '@spartacus/opf/root';
 import { OrderPlacedEvent } from '@spartacus/order/root';
-import { OpfUiClearEvent } from 'integration-libs/opf/root/events/opf.events';
 import { merge, Subscription } from 'rxjs';
 
 @Injectable({

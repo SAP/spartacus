@@ -34,6 +34,7 @@
     "@ngrx/store": "^15.3.0",
     "@spartacus/cart": "5.0.0",
     "@spartacus/core": "5.0.0",
+    "@spartacus/opf": "4.1.0-next.0",
     "@spartacus/order": "5.0.0",
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
