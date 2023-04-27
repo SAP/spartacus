@@ -46,30 +46,30 @@ export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
     this.performAction(code, quoteActionType);
   }
   performAction(quoteCode: string, action: QuoteActionType) {
-    if (action === QuoteActionType.SUBMIT) {
-      this.launchDialogService
-        .openDialog(
-          LAUNCH_CALLER.REQUEST_CONFIRMATION,
-          this.element,
-          this.viewContainerRef,
-          { quoteCode }
-        )
-        ?.pipe(take(1))
-        .subscribe();
-
-      this.subscription.add(
-        this.launchDialogService.dialogClose
-          .pipe(
-            filter((reason) => reason === 'yes'),
-            tap(() =>
-              this.commerceQuotesService.performQuoteAction(quoteCode, action)
-            )
-          )
-          .subscribe()
-      );
-    } else {
+    if (action !== QuoteActionType.SUBMIT) {
       this.commerceQuotesService.performQuoteAction(quoteCode, action);
+      return;
     }
+    this.launchDialogService
+      .openDialog(
+        LAUNCH_CALLER.REQUEST_CONFIRMATION,
+        this.element,
+        this.viewContainerRef,
+        { quoteCode }
+      )
+      ?.pipe(take(1))
+      .subscribe();
+
+    this.subscription.add(
+      this.launchDialogService.dialogClose
+        .pipe(
+          filter((reason) => reason === 'yes'),
+          tap(() =>
+            this.commerceQuotesService.performQuoteAction(quoteCode, action)
+          )
+        )
+        .subscribe()
+    );
   }
 
   requote(quoteId: string) {
