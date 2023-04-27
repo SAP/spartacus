@@ -12,15 +12,15 @@ import {
   DELIVERY_MODE_NORMALIZER,
 } from '@spartacus/checkout/base/core';
 import {
-  backOff,
   ConverterService,
-  isJaloError,
-  normalizeHttpError,
   Occ,
   OccEndpointsService,
+  backOff,
+  isJaloError,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, pluck } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutDeliveryModesAdapter
@@ -72,7 +72,7 @@ export class OccCheckoutDeliveryModesAdapter
         backOff({
           shouldRetry: isJaloError,
         }),
-        pluck('deliveryModes'),
+        map((listResponse) => listResponse.deliveryModes),
         map((modes) => modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );

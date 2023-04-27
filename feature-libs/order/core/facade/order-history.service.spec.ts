@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -18,7 +18,7 @@ const mockReplenishmentOrderCode = 'test-repl-code';
 
 class MockRoutingService {
   getRouterState(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 

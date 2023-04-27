@@ -8,11 +8,12 @@
 @import './_customer-list.component.scss';
 @import './_asm-bind-cart.component.scss';
 @import './_dot-spinner.component.scss';
+@import './_asm-create-customer-form.component.scss';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-bind-cart-dialog, cx-asm-toggle-ui,
   cx-csagent-login-form, cx-customer-emulation, cx-customer-selection,
-  cx-dot-spinner, cx-customer-list !default;
+  cx-dot-spinner, cx-customer-list, cx-asm-create-customer-form !default;
 
 $skipComponentStyles: () !default;
 

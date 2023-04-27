@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { BudgetService } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
-import { of, Subject } from 'rxjs';
+import { EMPTY, Subject } from 'rxjs';
 import { CurrentBudgetService } from './current-budget.service';
 
 const mockParams = new Subject();
@@ -13,13 +13,13 @@ class MockRoutingService {
   }
 
   getRouterState() {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockBudgetService {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 

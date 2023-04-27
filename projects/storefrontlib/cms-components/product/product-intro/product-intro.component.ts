@@ -12,7 +12,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { defer, merge, Observable, of } from 'rxjs';
-import { filter, mapTo } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
@@ -38,11 +38,11 @@ export class ProductIntroComponent {
     // Observe EventService for reviews availability:
     this.eventService.get(ComponentCreateEvent).pipe(
       filter((event) => event.id === this.reviewsComponentId),
-      mapTo(true)
+      map(() => true)
     ),
     this.eventService.get(ComponentDestroyEvent).pipe(
       filter((event) => event.id === this.reviewsComponentId),
-      mapTo(false)
+      map(() => false)
     )
   );
 

@@ -21,7 +21,7 @@ import {
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { DpPaymentMethodComponent } from './dp-payment-method.component';
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
@@ -48,7 +48,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     return of({ loading: false, error: false, data: mockPaymentDetails });
   }
   setPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return of();
+    return EMPTY;
   }
 }
 class MockTranslationService implements Partial<TranslationService> {
@@ -59,10 +59,10 @@ class MockTranslationService implements Partial<TranslationService> {
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
-    return of();
+    return EMPTY;
   }
   getPaymentMethodsLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 class MockCheckoutStepService implements Partial<CheckoutStepService> {

@@ -8,7 +8,7 @@ import {
   StorageSyncType,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
 const activeCart = new ReplaySubject<Cart>();
@@ -27,7 +27,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 
 class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
-    return of();
+    return EMPTY;
   }
 }
 

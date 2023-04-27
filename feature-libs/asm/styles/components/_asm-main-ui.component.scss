@@ -5,6 +5,51 @@
   display: flex;
   flex-direction: column;
 
+  @include forVersion(6.1) {
+    .cx-message {
+      border-radius: 8px;
+      margin-bottom: 0px;
+      border-width: 1px;
+      border-style: solid;
+
+      .cx-message-content {
+        margin-inline-start: 0;
+        max-width: 100%;
+        .cx-message-header {
+          padding-inline-start: 10px;
+          padding-inline-end: 1rem;
+          line-height: 16px;
+          text-align: start;
+          min-height: 35px;
+          .cx-message-text {
+            color: #1d2d3e;
+            font-size: 14px;
+            font-family: '72';
+            font-style: normal;
+            font-weight: 400;
+          }
+        }
+      }
+      .close {
+        font-size: 1rem;
+        align-self: center;
+        margin-inline-start: auto;
+        position: unset;
+        color: #0064d8;
+      }
+    }
+
+    .cx-message-success {
+      background-color: #f5fae5;
+      border-color: #cee67e;
+      .cx-message-icon {
+        cx-icon {
+          color: #30914c;
+        }
+      }
+    }
+  }
+
   .close,
   .logout {
     cursor: pointer;

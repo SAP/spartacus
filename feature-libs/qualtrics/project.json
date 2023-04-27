@@ -1,0 +1,40 @@
+{
+  "name": "qualtrics",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/qualtrics",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "feature-libs/qualtrics/tsconfig.lib.json",
+        "project": "feature-libs/qualtrics/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/qualtrics/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/qualtrics/test.ts",
+        "tsConfig": "feature-libs/qualtrics/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/qualtrics/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/qualtrics/**/*.ts",
+          "feature-libs/qualtrics/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}

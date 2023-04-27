@@ -36,27 +36,27 @@ export class CostCenterService {
   ) {}
 
   load(costCenterCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   loadList(params: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadCostCenters({ userId, params })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   private getCostCenter(
@@ -124,20 +124,20 @@ export class CostCenterService {
   }
 
   create(costCenter: CostCenter): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.CreateCostCenter({ userId, costCenter })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.UpdateCostCenter({
             userId,
@@ -145,10 +145,10 @@ export class CostCenterService {
             costCenter,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getLoadingStatus(
@@ -158,8 +158,8 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadAssignedBudgets({
             userId,
@@ -167,10 +167,10 @@ export class CostCenterService {
             params,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getBudgets(
@@ -192,8 +192,8 @@ export class CostCenterService {
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.AssignBudget({
             userId,
@@ -201,15 +201,15 @@ export class CostCenterService {
             budgetCode,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) =>
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) =>
         this.store.dispatch(
           new CostCenterActions.UnassignBudget({
             userId,
@@ -217,10 +217,10 @@ export class CostCenterService {
             budgetCode,
           })
         ),
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   getErrorState(costCenterCode: string): Observable<boolean> {

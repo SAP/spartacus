@@ -24,7 +24,7 @@ import {
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { Observable, of, Subject } from 'rxjs';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
@@ -69,7 +69,7 @@ class MockGlobalMessageService {
   add = createSpy();
   remove = createSpy();
   get() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -79,10 +79,10 @@ class MockRoutingService {
 
 class MockAnonymousConsentsService {
   getConsent(_templateCode: string): Observable<AnonymousConsent> {
-    return of();
+    return EMPTY;
   }
   getTemplate(_templateCode: string): Observable<ConsentTemplate> {
-    return of();
+    return EMPTY;
   }
   withdrawConsent(_templateCode: string): void {}
   giveConsent(_templateCode: string): void {}

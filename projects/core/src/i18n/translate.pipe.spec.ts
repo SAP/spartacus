@@ -1,5 +1,5 @@
 import { ChangeDetectorRef } from '@angular/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
@@ -40,7 +40,7 @@ describe('TranslatePipe', () => {
     });
 
     it('should translate with merged params from the first and the second argument', () => {
-      spyOn(service, 'translate').and.returnValue(of());
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform(
         { key: 'testKey', params: { param1: 'value1' } },
         { param2: 'value2' }
@@ -53,21 +53,21 @@ describe('TranslatePipe', () => {
     });
 
     it('should NOT call service.translate twice if pipe.transform was called twice with the same arguments', () => {
-      spyOn(service, 'translate').and.returnValue(of());
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledTimes(1);
     });
 
     it('should call service.translate every time pipe.transform was called with different keys', () => {
-      spyOn(service, 'translate').and.returnValue(of());
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKeyOther', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledTimes(2);
     });
 
     it('should call service.translate every time pipe.transform was called with different options', () => {
-      spyOn(service, 'translate').and.returnValue(of());
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
       pipe.transform('testKey', { param: 'param2', otherParam: 'otherParam1' });

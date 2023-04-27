@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GlobalMessageType } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { ItemActiveDirective } from './item-active.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
@@ -33,14 +33,14 @@ const itemStubInactive = {
 
 class MockItemServiceActive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubActive);
 }
 
 class MockItemServiceInactive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
   current$ = of(itemStubInactive);
 }

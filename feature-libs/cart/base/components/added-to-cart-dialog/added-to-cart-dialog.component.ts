@@ -33,7 +33,6 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -159,7 +158,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   ): Observable<boolean> {
     return this.loaded$.pipe(
       filter((loaded) => loaded),
-      switchMapTo(this.activeCartFacade.getEntries()),
+      switchMap(() => this.activeCartFacade.getEntries()),
       map((entries) => entries.length === numberOfEntriesBeforeAdd)
     );
   }

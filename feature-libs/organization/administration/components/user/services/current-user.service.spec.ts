@@ -4,22 +4,22 @@ import {
   B2BUserService,
   PermissionService,
 } from '@spartacus/organization/administration/core';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { CurrentUserService } from './current-user.service';
 
 class MockRoutingService {
   getParams() {
-    return of();
+    return EMPTY;
   }
 
   getRouterState() {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockB2bUserService implements Partial<PermissionService> {
   get() {
-    return of();
+    return EMPTY;
   }
 }
 

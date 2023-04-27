@@ -6,7 +6,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { CmsRoute, PageType } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsGuardsService } from './cms-guards.service';
@@ -269,7 +269,7 @@ describe('CmsRoutesImplService', () => {
 
     it('should wrap Cms Guards recursively with a function', () => {
       const cmsGuardsService = TestBed.inject(CmsGuardsService);
-      spyOn(cmsGuardsService, 'canActivateGuard').and.returnValue(of());
+      spyOn(cmsGuardsService, 'canActivateGuard').and.returnValue(EMPTY);
 
       class TestGuard1 {}
       class TestGuard2 {}
