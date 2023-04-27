@@ -6,7 +6,7 @@
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
 import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-request-quote-dialog.component';
-import { ConfirmQuoteRequestDialogComponent } from './confirm-request-quote-dialog';
+import { ConfirmQuoteRequestDialogComponent } from './confirm-request-quote-dialog/confirm-quote-request-dialog.component';
 
 export const defaultCommerceQuotesRequestQuoteDialogConfig: LayoutConfig = {
   launch: {

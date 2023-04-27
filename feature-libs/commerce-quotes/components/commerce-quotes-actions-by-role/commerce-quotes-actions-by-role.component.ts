@@ -56,17 +56,20 @@ export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
         )
         ?.pipe(take(1))
         .subscribe();
-    }
-    this.subscription.add(
-      this.launchDialogService.dialogClose
-        .pipe(
-          filter((reason) => reason === 'yes'),
-          tap(() =>
-            this.commerceQuotesService.performQuoteAction(quoteCode, action)
+
+      this.subscription.add(
+        this.launchDialogService.dialogClose
+          .pipe(
+            filter((reason) => reason === 'yes'),
+            tap(() =>
+              this.commerceQuotesService.performQuoteAction(quoteCode, action)
+            )
           )
-        )
-        .subscribe()
-    );
+          .subscribe()
+      );
+    } else {
+      this.commerceQuotesService.performQuoteAction(quoteCode, action);
+    }
   }
 
   requote(quoteId: string) {

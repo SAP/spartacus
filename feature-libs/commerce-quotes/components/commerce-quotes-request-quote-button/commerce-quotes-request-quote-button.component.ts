@@ -10,13 +10,11 @@ import {
   ElementRef,
   OnDestroy,
   ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
 import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
 import { RoutingService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-commerce-quotes-request-quote-button',
@@ -29,20 +27,9 @@ export class CommerceQuotesRequestQuoteButtonComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
     protected commerceQuotesFacade: CommerceQuotesFacade,
     protected routingService: RoutingService
   ) {}
-
-  showDialog() {
-    const dialog = this.launchDialogService.openDialog(
-      LAUNCH_CALLER.REQUEST_QUOTE,
-      this.element,
-      this.vcr
-    );
-    dialog?.pipe(take(1)).subscribe();
-  }
 
   goToQuoteDetails(): void {
     this.subscription.add(
