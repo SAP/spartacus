@@ -161,8 +161,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             if (userLoggedin && !this.emulated) {
               this.asmComponentService.logoutCustomer();
             } else {
-              setTimeout(() => this.startSessionWithParameters(), 0);
-              // this.startSessionWithParameters();
+              setTimeout(() => this.startSessionWithParameters());
             }
           }
         })
@@ -193,12 +192,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
-  protected startSessionWithParameters(): void {
+  private startSessionWithParameters(): void {
     if (this.customerIdInURL && !this.emulated) {
       this.emulated = true;
       this.startCustomerEmulationSession({ customerId: this.customerIdInURL });
     }
-    //cart order ....
   }
 
   logout(): void {
