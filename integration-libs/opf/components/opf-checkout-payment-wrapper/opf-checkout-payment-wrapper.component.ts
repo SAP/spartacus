@@ -8,69 +8,47 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/base/core';
-import { RoutingService, UserIdService } from '@spartacus/core';
-import {
-  OpfCheckoutFacade,
-  OpfOtpFacade,
-  PaymentSessionData,
-} from '@spartacus/opf/root';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { PaymentSessionData } from '@spartacus/opf/root';
+import { Observable, Subscription } from 'rxjs';
+import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
   templateUrl: './opf-checkout-payment-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCheckoutPaymentWrapperComponent implements OnInit {
+export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
   @Input() selectedPaymentId: number;
 
-  paymentData$: Observable<PaymentSessionData>;
+  @ViewChild('paymentGateway', { read: ViewContainerRef })
+  paymentGatewayContainer: ViewContainerRef;
 
-  protected activeCartId: string;
+  constructor(protected service: OpfCheckoutPaymentWrapperService) {}
 
-  constructor(
-    protected opfCheckoutService: OpfCheckoutFacade,
-    protected opfOtpService: OpfOtpFacade,
-    protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService,
-    protected routingService: RoutingService
-  ) {}
-
-  // TODO: Move this logic to the service
   initiatePayment(): Observable<PaymentSessionData> {
-    return combineLatest([
-      this.userIdService.getUserId(),
-      this.activeCartService.getActiveCartId(),
-    ]).pipe(
-      switchMap(([userId, cartId]) => {
-        this.activeCartId = cartId;
-        return this.opfOtpService.generateOtpKey(userId, cartId);
-      }),
-      filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) => {
-        return {
-          otpKey,
-          config: {
-            configurationId: String(this.selectedPaymentId),
-            cartId: this.activeCartId,
-            resultURL: this.routingService.getFullUrl({
-              cxRoute: 'paymentVerificationResult',
-            }),
-            cancelURL: this.routingService.getFullUrl({
-              cxRoute: 'paymentVerificationCancel',
-            }),
-          },
-        };
-      }),
-      switchMap((params) => this.opfCheckoutService.initiatePayment(params))
-    );
+    return this.service.initiatePayment(this.selectedPaymentId);
   }
 
   ngOnInit() {
-    this.paymentData$ = this.initiatePayment();
+    this.subscription.add(
+      this.initiatePayment().subscribe(
+        (paymentOptionConfig: PaymentSessionData) =>
+          this.service.renderPaymentGateway(
+            paymentOptionConfig,
+            this.paymentGatewayContainer
+          )
+      )
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
