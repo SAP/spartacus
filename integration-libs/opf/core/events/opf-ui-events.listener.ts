@@ -24,7 +24,7 @@ export class OpfUiEventListener implements OnDestroy {
   }
 
   /**
-   * Registers events for the cart base actions.
+   * Clear opf UI when requested
    */
   protected onOpfUiClear(): void {
     this.subscriptions.add(
