@@ -162,6 +162,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
+    this.subscribeForDeeplink();
+  }
+
+  private subscribeForDeeplink(): void {
     if (this.router) {
       this.subscription.add(
         combineLatest([
