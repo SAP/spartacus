@@ -41,7 +41,7 @@ export class ScheduleLinesComponent {
     return 'cx-schedule-line-info-' + index.toString();
   }
 
-  getLongDate(date: Date) {
+  getLongDate(date?: Date) {
     if (!date) {
       return '';
     }

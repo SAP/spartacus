@@ -1,0 +1,40 @@
+{
+  "name": "customer-ticketing",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/customer-ticketing",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.json",
+        "project": "feature-libs/customer-ticketing/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/customer-ticketing/test.ts",
+        "tsConfig": "feature-libs/customer-ticketing/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/customer-ticketing/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/customer-ticketing/**/*.ts",
+          "feature-libs/customer-ticketing/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}
