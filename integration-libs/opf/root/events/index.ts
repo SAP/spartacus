@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './opf-ui-clear-conditions.event.listener';
 export * from './opf.events';
