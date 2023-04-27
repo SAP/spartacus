@@ -57,7 +57,7 @@ export class CdcSiteConsentService {
     return this.cdcJsService
       .setUserConsentPreferences(userId, currentLanguage, serializedPreference)
       .pipe(
-        withLatestFrom(this.userConsentService.getConsents()),
+        withLatestFrom(this.userConsentService.getConsents()), //to fetch from state instead of api
         map(([updateResponse, allConsents]) => {
           let updatedConsent: ConsentTemplate = {};
           if (isConsentGranted) {
@@ -95,41 +95,52 @@ export class CdcSiteConsentService {
     return currentLanguage;
   }
 
-  maintainUserConsentPreferences(
-    consents: ConsentTemplate[]
+  protected maintainUserConsentPreferences(
+    allSiteConsents: ConsentTemplate[]
   ): Observable<ConsentTemplate[]> {
     var uid: string | undefined = this.getUserID();
-    var updatedConsents: ConsentTemplate[] = [];
     return this.cdcJsService.getUserConsentPreferences(uid).pipe(
       switchMap((userPreference) => {
-        consents.forEach((consent) => {
-          let length = 0;
-          let preference = userPreference.preferences; //each part of the ID will be a new object
-          let consentIDs: string[] = [];
-          if (consent.id) consentIDs = consent.id.split('.');
-          for (let consentID of consentIDs) {
-            if (Object.hasOwn(preference, consentID)) {
-              preference = preference[consentID];
-              length++;
-            } else break;
-          }
-          if (consent.currentConsent && length === consentIDs.length) {
-            consent.currentConsent.code = consent?.id; //in CDC there is no alpha numeric code, so filling in ID for code
-            /** currentConsent.consentGivenDate ,currentConsent.consentWithdrawnDate will be set only if
-             * user preference contains that preference
-             */
-            if (preference.isConsentGranted)
+        let updatedConsents: ConsentTemplate[] = [];
+        let preferences = userPreference.preferences; //each part of the ID will be a new object
+        preferences = this.flatten(preferences); //key will be a string with dot separated IDs
+        allSiteConsents.forEach((consent) => {
+          if (
+            consent.id &&
+            consent.id in preferences &&
+            consent.currentConsent
+          ) {
+            if (preferences[consent.id].isConsentGranted)
               consent.currentConsent.consentGivenDate =
-                preference?.lastConsentModified;
+                preferences[consent.id]?.lastConsentModified;
             else
               consent.currentConsent.consentWithdrawnDate =
-                preference?.lastConsentModified;
+                preferences[consent.id]?.lastConsentModified;
           }
-
           updatedConsents.push(consent);
         });
         return of(updatedConsents);
       })
     );
+  }
+
+  private flatten(input: any, reference?: any, output?: any) {
+    output = output || {};
+    for (var key in input) {
+      if (Object.hasOwn(input, key)) {
+        var value = input[key];
+        key = reference ? reference + '.' + key : key;
+        if (
+          typeof value === 'object' &&
+          value !== null &&
+          !('isConsentGranted' in value)
+        ) {
+          this.flatten(value, key, output);
+        } else {
+          output[key] = value;
+        }
+      }
+    }
+    return output;
   }
 }

@@ -50,7 +50,7 @@ export class CdcSiteConsentNormalizer
                   documentUrl: legalStatements[lang].documentUrl,
                   required: required,
                   currentConsent: {
-                    code: '',
+                    code: key, //in CDC there is no alpha numeric code, so filling in ID for code
                     consentGivenDate: undefined,
                     consentWithdrawnDate: undefined,
                   },
