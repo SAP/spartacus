@@ -76,19 +76,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any): void {}
 }
 
-
-class MockLocation implements Partial<Location> {
-   path() {
-    return '';
-  }
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_any: string): boolean {
-    return true;
-  }
-}
-
 @Component({
   selector: 'cx-asm-toggle-ui',
   template: '',
@@ -165,6 +152,7 @@ describe('AsmMainUiComponent', () => {
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
+  let featureConfig: FeatureConfigService;
   let location: Location;
   const testCustomerId: string = 'test.customer@hybris.com';
 
@@ -189,8 +177,6 @@ describe('AsmMainUiComponent', () => {
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: AsmService, useClass: MockAsmService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { privide: FeatureConfigService, userClass: MockFeatureConfigService},
-          { provide: location, useClass: MockLocation },
         ],
       }).compileComponents();
     })
@@ -207,6 +193,7 @@ describe('AsmMainUiComponent', () => {
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     location = TestBed.inject(Location);
+    featureConfig = TestBed.inject(FeatureConfigService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -236,6 +223,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(location, 'path').and.returnValue(
       'https://host/url/?asm=true&customerId=' + testCustomerId
     );
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
     expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
@@ -251,6 +239,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(location, 'path').and.returnValue(
       'https://host/url/?asm=true&customerId=' + testCustomerId
     );
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
     expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
@@ -269,6 +258,7 @@ describe('AsmMainUiComponent', () => {
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(location, 'path').and.returnValue('https://host/url/?asm=true');
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
     setTimeout(() => {
