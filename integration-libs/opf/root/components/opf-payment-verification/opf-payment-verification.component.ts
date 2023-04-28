@@ -7,17 +7,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+
+import { of, Subscription, throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { OpfConfig } from '../../config';
+import { OpfCheckoutFacade, OpfOrderFacade } from '../../facade';
 import {
-  OpfCheckoutFacade,
-  OpfConfig,
-  OpfOrderFacade,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
   OpfPaymenVerificationUrlInput,
   OpfResponseMapElement,
-} from '@spartacus/opf/root';
-import { of, Subscription, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+} from '../../model';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({

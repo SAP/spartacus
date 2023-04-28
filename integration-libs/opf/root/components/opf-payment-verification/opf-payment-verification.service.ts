@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
-import { OpfResponseMapElement } from '../../root/model';
+import { OpfResponseMapElement } from '../../model';
 
 @Injectable({
   providedIn: 'root',
