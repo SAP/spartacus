@@ -23,6 +23,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -80,7 +81,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     userAccountFacade: UserAccountFacade,
     launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    location: Location
+    location: Location,
+    featureConfig: FeatureConfigService,
   );
   /**
    * @deprecated since 7.0
@@ -104,7 +106,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected location?: Location
+    @Optional() protected location?: Location,
+    @Optional() protected featureConfig?: FeatureConfigService,
   ) {}
 
   ngOnInit(): void {
@@ -167,7 +170,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   private subscribeForDeeplink(): void {
-    if (this.location) {
+    if ((this.featureConfig?.isLevel('6.1') ?? false) && this.location) {
       const queryString = this.location.path().split('?')[1];
       this.customerIdInURL = new URLSearchParams(queryString).get('customerId') || '';
       this.subscription.add(
