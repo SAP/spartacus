@@ -63,7 +63,7 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
 
-    it('should not emulate customer if uid is invalid - logout expected', () => {
+    it('should not emulate customer if uid is invalid - end emulation session is expected', () => {
       const customer = getSampleUser();
       checkout.visitHomePage('asm=true');
 
@@ -90,7 +90,7 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
 
-    it('should emulate new customer if valid uid shows in URL', () => {
+    it('should end session of emulated customer and emulate new customer if valid uid shows in URL', () => {
       const customerOld = getSampleUser();
       const customerNew = getSampleUser();
 
