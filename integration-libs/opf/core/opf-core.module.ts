@@ -11,6 +11,7 @@ import {
   OpfOrderConnector,
   OtpConnector,
 } from './connectors';
+import { OpfEventModule } from './events/opf-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
 import { OpfStoreModule } from './store/opf-store.module';
@@ -22,7 +23,7 @@ export function opfStatePersistenceFactory(
 }
 
 @NgModule({
-  imports: [OpfStoreModule],
+  imports: [OpfStoreModule, OpfEventModule],
   providers: [
     {
       provide: MODULE_INITIALIZER,
