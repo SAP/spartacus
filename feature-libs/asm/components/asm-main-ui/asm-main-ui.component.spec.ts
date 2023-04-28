@@ -15,6 +15,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -25,7 +26,7 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
-import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -75,10 +76,16 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any): void {}
 }
 
-const queryParams$ = new BehaviorSubject<any>('');
-class MockActivatedRoute implements Partial<ActivatedRoute> {
-  get queryParams() {
-    return queryParams$.asObservable();
+
+class MockLocation implements Partial<Location> {
+   path() {
+    return '';
+  }
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_any: string): boolean {
+    return true;
   }
 }
 
@@ -158,6 +165,7 @@ describe('AsmMainUiComponent', () => {
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
+  let location: Location;
   const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(
@@ -181,7 +189,8 @@ describe('AsmMainUiComponent', () => {
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: AsmService, useClass: MockAsmService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-          { provide: ActivatedRoute, useClass: MockActivatedRoute },
+          { privide: FeatureConfigService, userClass: MockFeatureConfigService},
+          { provide: location, useClass: MockLocation },
         ],
       }).compileComponents();
     })
@@ -197,6 +206,7 @@ describe('AsmMainUiComponent', () => {
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    location = TestBed.inject(Location);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -222,23 +232,26 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    queryParams$.next({ customerId: testCustomerId });
+    spyOn(location, 'path').and.returnValue(
+      'https://host/url/?asm=true&customerId=' + testCustomerId
+    );
+
     component.ngOnInit();
     expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
   });
 
   it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
-
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    queryParams$.next({ customerId: testCustomerId });
+    spyOn(location, 'path').and.returnValue(
+      'https://host/url/?asm=true&customerId=' + testCustomerId
+    );
+
     component.ngOnInit();
     expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     setTimeout(() => {
@@ -251,13 +264,12 @@ describe('AsmMainUiComponent', () => {
 
   it('should not call startCustomerEmulationSession when agent has logined and user is not login if no customerId shows in URL', (done) => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
-
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(location, 'path').and.returnValue('https://host/url/?asm=true');
 
-    queryParams$.next({ asm: true });
     component.ngOnInit();
     setTimeout(() => {
       expect(
