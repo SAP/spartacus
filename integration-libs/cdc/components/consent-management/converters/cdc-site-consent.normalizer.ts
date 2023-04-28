@@ -51,6 +51,7 @@ export class CdcSiteConsentNormalizer
               if (lang === currentLanguage) {
                 consents.push({
                   id: key,
+                  name: "",
                   description: legalStatements[lang]?.purpose,
                   version: legalStatements[lang].currentDocVersion,
                   documentUrl: legalStatements[lang].documentUrl,

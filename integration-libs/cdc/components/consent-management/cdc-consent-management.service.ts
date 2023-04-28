@@ -34,8 +34,4 @@ export class CdcConsentManagementService extends ConsentManagementService {
       .unsubscribe();
     return requiredConsents;
   }
-
-  hideConsentName(): boolean {
-    return true;
-  }
 }

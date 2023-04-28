@@ -18,8 +18,4 @@ export class ConsentManagementService {
     }
     return [];
   }
-
-  hideConsentName(): boolean {
-    return false;
-  }
 }
