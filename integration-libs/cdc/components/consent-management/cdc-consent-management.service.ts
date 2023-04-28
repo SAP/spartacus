@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { AnonymousConsentsConfig, UserConsentService } from '@spartacus/core';
 import { ConsentManagementService } from 'projects/storefrontlib/cms-components/myaccount/consent-management/components/consent-management.service';
