@@ -23,6 +23,103 @@ context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
 
+    it('should emulate customer with deeplink before agent logined', () => {
+      const customer = getSampleUser();
+
+      cy.log('--> Agent logging in with deeplink');
+      checkout.visitHomePage('asm=true&customerId=' + customer.email);
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.log('--> Should has assignCart');
+      cy.get('.cx-asm-assignCart').should('exist');
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
+
+    it('should emulate customer with deeplink after agent logined', () => {
+      const customer = getSampleUser();
+
+      cy.log('--> Register user');
+      checkout.visitHomePage('asm=true');
+      checkout.registerUser(false, customer);
+
+      cy.log('--> login as agent');
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.log('--> Agent visting URL with deeplink');
+      checkout.visitHomePage('asm=true&customerId=' + customer.email);
+
+      cy.log('--> Should has assignCart');
+      cy.get('.cx-asm-assignCart').should('exist');
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
+
+    it('should not emulate customer if uid is invalid - logout expected', () => {
+      const customer = getSampleUser();
+      checkout.visitHomePage('asm=true');
+
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.log('--> Agent logging in deeplink with valid id');
+      checkout.visitHomePage('asm=true&customerId=' + customer.email);
+
+      cy.log('--> Should has assignCart');
+      cy.get('.cx-asm-assignCart').should('exist');
+
+      cy.log('--> Agent logging in deeplink with invalid id');
+      checkout.visitHomePage(
+        'asm=true&customerId=' + customer.email + 'invalidTail'
+      );
+
+      cy.log('--> Should not has assignCart');
+      cy.get('.cx-asm-assignCart').should('not.exist');
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
+
+    it('should emulate new customer if valid uid shows in URL', () => {
+      const customerOld = getSampleUser();
+      const customerNew = getSampleUser();
+
+      cy.log('--> Register 2 users');
+      checkout.visitHomePage('asm=true');
+      checkout.registerUser(false, customerOld);
+      checkout.visitHomePage('asm=true');
+      checkout.registerUser(false, customerNew);
+
+      asm.agentLogin('asagent', 'pw4all');
+
+      cy.log('--> Agent logging in deeplink with old customer');
+      checkout.visitHomePage('asm=true&customerId=' + customerOld.email);
+
+      cy.log('--> Should has assignCart and uid is old customer');
+      cy.get('.cx-asm-assignCart').should('exist');
+      cy.get('.cx-asm-uid').should('have.text', customerOld.email);
+
+      cy.log('--> Agent logging in deeplink with new customer');
+      checkout.visitHomePage('asm=true&customerId=' + customerNew.email);
+
+      cy.log('--> Should has assignCart and uid is new customer');
+      cy.get('.cx-asm-assignCart').should('exist');
+      cy.get('.cx-asm-uid').should('have.text', customerNew.email);
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
+
     it('should checkout as customer', () => {
       const customer = getSampleUser();
 
