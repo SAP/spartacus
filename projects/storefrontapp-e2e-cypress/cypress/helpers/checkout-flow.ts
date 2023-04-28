@@ -188,7 +188,6 @@ export function addProductToCart() {
   addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
-    cy.findByText(/proceed to checkout/i).click();
   });
 }
 
