@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { Location } from '@angular/common';
 
 import {
   Component,
@@ -44,7 +45,6 @@ import {
 import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
@@ -79,7 +79,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     userAccountFacade: UserAccountFacade,
     launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    router: ActivatedRoute
+    location: Location
   );
   /**
    * @deprecated since 7.0
@@ -103,7 +103,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected router?: ActivatedRoute
+    @Optional() protected location?: Location
   ) {}
 
   ngOnInit(): void {
@@ -166,17 +166,15 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   private subscribeForDeeplink(): void {
-    if (this.router) {
+    if (this.location) {
+      const queryString = this.location.path().split('?')[1];
+      this.customerIdInURL = new URLSearchParams(queryString).get('customerId') || '';
       this.subscription.add(
         combineLatest([
           this.customerSupportAgentLoggedIn$,
-          this.router.queryParams,
           this.authService.isUserLoggedIn(),
-        ]).subscribe(([loggedIn, parameter, userLoggedin]) => {
-          if (parameter.customerId) {
-            this.customerIdInURL = parameter.customerId;
-          }
-          if (loggedIn && parameter.customerId) {
+        ]).subscribe(([loggedIn, userLoggedin]) => {
+          if (loggedIn && this.customerIdInURL) {
             if (userLoggedin && !this.emulated) {
               this.asmComponentService.logoutCustomer();
             } else {
