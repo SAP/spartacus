@@ -73,7 +73,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get dialogClose() {
     return dialogClose$.asObservable();
   }
-  closeDialog(_reason: any): void {}
+
+  closeDialog() {}
 }
 
 @Component({
@@ -497,6 +498,7 @@ describe('AsmMainUiComponent', () => {
     });
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
   });
+
   it('should be able to open create account dialog', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe');
     component.createCustomer();
