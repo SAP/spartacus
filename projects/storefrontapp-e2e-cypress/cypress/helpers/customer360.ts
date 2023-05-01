@@ -26,7 +26,7 @@ function createUser(): SampleUser {
 
 function asmCustomerEmulation(user: SampleUser) {
   checkout.visitHomePage('asm=true');
-  asm.agentLogin();
+  asm.agentLogin('asagent', 'pw4all');
   asm.startCustomerEmulation(user);
 }
 
