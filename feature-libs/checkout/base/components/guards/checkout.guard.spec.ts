@@ -142,7 +142,7 @@ describe(`CheckoutGuard`, () => {
       .unsubscribe();
   });
 
-  it(`should redirect to review order`, (done) => {
+  it(`should redirect to refview order`, (done) => {
     expressCheckoutService.trySetDefaultCheckoutDetails =
       createSpy().and.returnValue(of(true));
 
