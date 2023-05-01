@@ -35,8 +35,9 @@ export class OpfPaymentVerificationService {
   ) {}
 
   defaultError: HttpErrorModel = {
-    statusText: 'VERIFICATION_ERROR',
+    statusText: 'Payment Verification Error',
     message: 'opf.checkout.errors.proceedPayment',
+    status: -1,
   };
 
   getOpfResponseMap(params: Params): OpfResponseMapElement[] {
@@ -129,10 +130,12 @@ export class OpfPaymentVerificationService {
   }
 
   displayError(error: HttpErrorModel | undefined): void {
-    console.log('displayError', error);
     this.globalMessageService.add(
       {
-        key: error?.message ?? 'opf.checkout.errors.proceedPayment',
+        key:
+          error?.message && error?.status === -1
+            ? error.message
+            : 'opf.checkout.errors.proceedPayment',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
