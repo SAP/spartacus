@@ -6,18 +6,10 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { HttpErrorModel } from '@spartacus/core';
 
-import { of, Subscription, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { OpfConfig } from '../../config';
-import { OpfCheckoutFacade, OpfOrderFacade } from '../../facade';
-import {
-  OpfPaymentVerificationResponse,
-  OpfPaymentVerificationResult,
-  OpfPaymenVerificationUrlInput,
-  OpfResponseMapElement,
-} from '../../model';
+import { Subscription } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -29,72 +21,36 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected route: ActivatedRoute,
-    protected opfOrderFacade: OpfOrderFacade,
-    protected opfCheckoutService: OpfCheckoutFacade,
-    protected config: OpfConfig,
-    protected globalMessageService: GlobalMessageService,
-    protected opfPaymentVerificationService: OpfPaymentVerificationService
+    protected paymentService: OpfPaymentVerificationService
   ) {}
 
   ngOnInit(): void {
-    this.subscription = of(this.route.routeConfig?.data?.cxRoute as string)
+    this.subscription = this.paymentService
+      .verifyResultUrl(this.route)
       .pipe(
-        switchMap((cxRoute) => {
-          return cxRoute === 'paymentVerificationResult'
-            ? this.route.queryParams
-            : throwError('ERROR_CANCEL_LINK');
+        concatMap(({ paymentSessionId, responseMap }) => {
+          return this.paymentService.verifyPayment(
+            paymentSessionId,
+            responseMap
+          );
         }),
-        switchMap((params) => {
-          if (!params) {
-            return throwError('ERROR_NO_PARAMS');
-          }
-
-          const responseMap: OpfResponseMapElement[] =
-            this.opfPaymentVerificationService.getOpfResponseMap(params);
-
-          const paymentSessionId =
-            this.opfPaymentVerificationService.findInOpfResponseMap(
-              OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
-              responseMap
-            );
-          if (!paymentSessionId) {
-            return throwError('ERROR_NO_PAYMENT_SESSION_ID');
-          }
-
-          return this.opfCheckoutService.verifyPayment(paymentSessionId, {
-            responseMap: [...responseMap],
-          });
-        }),
-        switchMap((response: OpfPaymentVerificationResponse) => {
-          return response?.result ===
-            (OpfPaymentVerificationResult.AUTHORIZED ||
-              OpfPaymentVerificationResult.DELAYED)
-            ? this.opfOrderFacade.placeOpfOrder(true)
-            : throwError('ERROR_UNAUTHORIZED_RESULT');
+        concatMap(() => {
+          return this.paymentService.placeOrder();
         })
       )
       .subscribe({
-        error: () => this.onError(),
+        error: (error: HttpErrorModel | undefined) => this.onError(error),
         next: () => this.onSuccess(),
       });
   }
 
   onSuccess(): void {
-    this.opfPaymentVerificationService.goToPage('orderConfirmation');
+    this.paymentService.goToPage('orderConfirmation');
   }
 
-  onError(): void {
-    this.displayError();
-    this.opfPaymentVerificationService.goToPage('checkoutReviewOrder');
-  }
-
-  protected displayError(): void {
-    this.globalMessageService.add(
-      {
-        key: 'opf.errorToProcessPayment',
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
+  onError(error: HttpErrorModel | undefined): void {
+    this.paymentService.displayError(error);
+    this.paymentService.goToPage('checkoutReviewOrder');
   }
 
   ngOnDestroy(): void {
