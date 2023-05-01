@@ -6,7 +6,6 @@ on:
       - develop-*
       - release/**
       - epic/**
-      - feature/CXPSA-3299
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
   
