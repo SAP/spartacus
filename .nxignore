@@ -1,6 +1,2 @@
 # Make sure nx affected is not affected when storefrontapp is touched
 projects/storefrontapp/**
-
-# Make sure nx affected is not affected from misc files and folders
-**/project.json
-**/package.json
