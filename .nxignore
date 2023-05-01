@@ -3,3 +3,4 @@ projects/storefrontapp/**
 
 # Make sure nx affected is not affected from misc files and folders
 **/project.json
+**/package.json
