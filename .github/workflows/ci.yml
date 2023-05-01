@@ -10,6 +10,8 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
+  NX_BASE: origin/${{ github.event.pull_request.base.ref }}
+  NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
 
 concurrency:
   group: ci-${{ github.head_ref || github.run_id }}
@@ -41,9 +43,9 @@ jobs:
         run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
-  unit_tests_core:
+  unit_tests:
     needs: no_retries
-    name: Unit tests for core Spartacus libs
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -63,32 +65,7 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Package installation
         run: npm ci
-      - name: Run unit tests for Spartacus libs
-        run: |
-          ci-scripts/unit-tests-core-lib.sh
-  unit_tests_libs:
-    needs: no_retries
-    name: Unit tests for integration libs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
-      - name: Run unit tests for integration libs
+      - name: Run unit tests
         run: |
           ci-scripts/unit-tests.sh
   sonarqube_scan:
@@ -240,7 +217,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
-    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
+    needs: [no_retries, unit_tests, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -252,8 +229,7 @@ jobs:
             core.setFailed('Build failed')
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
-          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
-          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' ||
+          needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled' ||
           needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
