@@ -13,7 +13,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
 import { OpfCheckoutFacade, OpfOrderFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -63,7 +63,7 @@ export class OpfPaymentVerificationService {
   }> {
     return route?.routeConfig?.data?.cxRoute === 'paymentVerificationResult'
       ? route.queryParams.pipe(
-          switchMap((params: Params) => {
+          concatMap((params: Params) => {
             if (!params) {
               return throwError(this.defaultError);
             }
@@ -103,7 +103,7 @@ export class OpfPaymentVerificationService {
         responseMap: [...responseMap],
       })
       .pipe(
-        switchMap((response: OpfPaymentVerificationResponse) =>
+        concatMap((response: OpfPaymentVerificationResponse) =>
           this.isPaymentSuccessful(response)
         )
       );

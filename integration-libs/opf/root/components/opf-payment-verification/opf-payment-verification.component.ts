@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { concatMap } from 'rxjs/operators';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -28,13 +28,13 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     this.subscription = this.paymentService
       .verifyResultUrl(this.route)
       .pipe(
-        switchMap(({ paymentSessionId, responseMap }) => {
+        concatMap(({ paymentSessionId, responseMap }) => {
           return this.paymentService.verifyPayment(
             paymentSessionId,
             responseMap
           );
         }),
-        switchMap(() => {
+        concatMap(() => {
           return this.paymentService.placeOrder();
         })
       )
@@ -58,34 +58,4 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
-  // private showPaymentErrorDialog(error: HttpErrorModel): void {
-  //   if (error?.status === 400) {
-  //     switch (error?.message) {
-  //       case 'EXPIRED':
-  //         break;
-  //       case 'INSUFFICENT_FUNDS':
-  //       case 'CREDIT_LIMIT':
-  //         break;
-  //       case 'INVALID_CARD':
-  //       case 'INVALID_CVV':
-  //         break;
-  //       case 'LOST_CARD':
-  //         break;
-  //       case 'business_error':
-  //         if (error.details?.[0]?.message === 'productStatusValidation') {
-  //         } else {
-  //         }
-  //         break;
-  //       default:
-  //         console.log('default');
-  //     }
-  //   } else {
-  //     if (error?.message === 'PAYMENT_REJECTED') {
-  //       console.log('PAYMENT_REJECTED');
-  //     } else if (error?.message !== 'PAYMENT_CANCELLED') {
-  //       console.log('PAYMENT_CANCELLED');
-  //     }
-  //   }
-  // }
 }
