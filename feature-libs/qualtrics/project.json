@@ -26,6 +26,13 @@
         "karmaConfig": "feature-libs/qualtrics/karma.conf.js"
       }
     },
+    "test-schematics": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/qualtrics"
+      }
+    },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
