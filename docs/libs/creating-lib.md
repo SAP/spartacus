@@ -60,9 +60,8 @@ Just copy paste the following and and make sure to rename `TODO:` to you lib's n
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
-      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
@@ -70,10 +69,6 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-junit-reporter'),
     ],
-    parallelOptions: {
-      executors: 2,
-      shardStrategy: 'round-robin',
-    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
