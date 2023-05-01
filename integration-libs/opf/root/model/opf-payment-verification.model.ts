@@ -19,8 +19,8 @@ export interface OpfPaymentVerificationResponse {
 export enum OpfPaymentVerificationResult {
   AUTHORIZED = 'AUTHORIZED',
   UNAUTHORIZED = 'UNAUTHORIZED',
+  CANCELLED = 'CANCELLED',
   DELAYED = 'DELAYED',
-  CANCELED = 'CANCELED',
 }
 
 export enum OpfPaymenVerificationUrlInput {
