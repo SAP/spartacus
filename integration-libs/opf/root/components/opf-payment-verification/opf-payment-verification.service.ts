@@ -12,6 +12,7 @@ import {
   HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable, of, throwError } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { OpfCheckoutFacade, OpfOrderFacade } from '../../facade';
@@ -53,8 +54,8 @@ export class OpfPaymentVerificationService {
   ): string | undefined {
     return list.find((pair) => pair.key === key)?.value ?? undefined;
   }
-  goToPage(cxRoute: string) {
-    return this.routingService.go({ cxRoute });
+  goToPage(cxRoute: string): void {
+    this.routingService.go({ cxRoute });
   }
 
   verifyResultUrl(route: ActivatedRoute): Observable<{
@@ -90,7 +91,7 @@ export class OpfPaymentVerificationService {
         });
   }
 
-  placeOrder() {
+  placeOrder(): Observable<Order> {
     return this.opfOrderFacade.placeOpfOrder(true);
   }
 
@@ -109,7 +110,9 @@ export class OpfPaymentVerificationService {
       );
   }
 
-  isPaymentSuccessful(response: OpfPaymentVerificationResponse) {
+  isPaymentSuccessful(
+    response: OpfPaymentVerificationResponse
+  ): Observable<boolean> {
     if (
       response.result === OpfPaymentVerificationResult.AUTHORIZED ||
       response.result === OpfPaymentVerificationResult.DELAYED
@@ -125,7 +128,7 @@ export class OpfPaymentVerificationService {
     }
   }
 
-  displayError(error: HttpErrorModel | undefined) {
+  displayError(error: HttpErrorModel | undefined): void {
     console.log('displayError', error);
     this.globalMessageService.add(
       {
