@@ -37,8 +37,6 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for Spartacus libs
@@ -63,8 +61,6 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for integration libs
@@ -106,8 +102,6 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run linting validation

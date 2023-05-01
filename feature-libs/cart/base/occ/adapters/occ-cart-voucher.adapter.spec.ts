@@ -12,7 +12,7 @@ import {
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from '../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
+} from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 
 const userId = '123';

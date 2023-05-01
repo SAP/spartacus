@@ -1,0 +1,15 @@
+{
+  "name": "schematics",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/schematics/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["projects/schematics/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["type:util"]
+}
