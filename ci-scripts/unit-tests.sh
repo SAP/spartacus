@@ -12,7 +12,7 @@ function run_affected_unit_tests {
     npx nx affected --target=test --exclude="$EXCLUDE_JEST,$EXCLUDE_INTEGRATION_LIBS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 
     echo "Running JEST (mostly schematics) unit tests and code coverage for AFFECTED libraries"
-    npx nx affected --target=test-schematics --exclude="$EXCLUDE_INTEGRATION_LIBS" -- --coverage --runInBand
+    npx nx affected --target=test-jest --exclude="$EXCLUDE_INTEGRATION_LIBS" -- --coverage --runInBand
 }
 
 function run_all_unit_tests {
@@ -20,7 +20,7 @@ function run_all_unit_tests {
     npx nx run-many --all --target=test --exclude="$EXCLUDE_JEST" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 
     echo "Running JEST (mostly schematics) unit tests and code coverage for ALL libraries"
-    npx nx run-many --all --target=test-schematics -- --coverage --runInBand
+    npx nx run-many --all --target=test-jest -- --coverage --runInBand
 }
 
 if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then

@@ -17,7 +17,7 @@
         }
       }
     },
-    "test-schematics": {
+    "test-jest": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npm run test",

@@ -10,8 +10,6 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
-  NX_BASE: origin/${{ github.event.pull_request.base.ref }}
-  NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
 
 concurrency:
   group: ci-${{ github.head_ref || github.run_id }}

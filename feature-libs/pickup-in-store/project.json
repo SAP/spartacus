@@ -26,7 +26,7 @@
         "karmaConfig": "feature-libs/pickup-in-store/karma.conf.js"
       }
     },
-    "test-schematics": {
+    "test-jest": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npm run test:schematics",

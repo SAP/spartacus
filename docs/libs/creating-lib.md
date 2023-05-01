@@ -123,12 +123,12 @@ module.exports = function (config) {
       }
     }
     ```
-  - add the test-schematics `targets > test-schematics`
+  - add the test-jest `targets > test-jest`
 
     replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
 
     ```json
-    "test-schematics": {
+    "test-jest": {
       "executor": "nx:run-commands",,
       "options": {
         "command": "npm run test:schematics",
