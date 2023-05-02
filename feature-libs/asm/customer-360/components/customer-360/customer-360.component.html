@@ -30,15 +30,13 @@
               class="cx-avatar-image"
               *ngIf="customerOverview?.userAvatar?.url"
             >
-              <cx-media
-                [container]="getAvatarImage(customerOverview)"
-              ></cx-media>
+              <cx-media [container]="customerOverview | avatarImage"></cx-media>
             </div>
           </ng-container>
 
           <ng-template #customerTextAvatar>
             <div class="cx-avatar" *ngIf="!customerOverview?.userAvatar?.url">
-              {{ getAvatarText() }}
+              {{ customer | avatarLabel }}
             </div>
           </ng-template>
 
@@ -46,23 +44,23 @@
             <div class="cx-customer-name">
               {{
                 'customer360.header.subTitle'
-                  | cxTranslate: { name: customerOverview.name }
+                  | cxTranslate: { name: customerOverview?.name }
               }}
             </div>
             <div class="cx-customer-email">
-              {{ customerOverview.email }}
+              {{ customerOverview?.email }}
             </div>
           </div>
         </div>
         <div class="header-account-details">
           <span
             class="header-account-details-active-cart"
-            *ngIf="customerOverview.cartCode"
+            *ngIf="customerOverview?.cartCode"
           >
             <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
             {{
               'customer360.header.activeCartLabel'
-                | cxTranslate: { cartSize: customerOverview.cartSize }
+                | cxTranslate: { cartSize: customerOverview?.cartSize }
             }}
             <button
               [attr.aria-label]="
@@ -77,12 +75,12 @@
           </span>
           <span
             class="header-account-details-recent-order"
-            *ngIf="customerOverview.latestOrderCode"
+            *ngIf="customerOverview?.latestOrderCode"
           >
             <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
             {{
               'customer360.header.recentOrderLabel'
-                | cxTranslate: { price: customerOverview.latestOrderTotal }
+                | cxTranslate: { price: customerOverview?.latestOrderTotal }
             }}
             <button
               [attr.aria-label]="
@@ -98,11 +96,11 @@
               "
             >
               {{ customerOverview.latestOrderCode }}</button
-            >, {{ customerOverview.latestOrderTime | date: 'MM-dd-yyyy' }}
+            >, {{ customerOverview?.latestOrderTime | date: 'MM-dd-yyyy' }}
           </span>
           <span
             class="header-account-details-recent-ticket"
-            *ngIf="customerOverview.latestOpenedTicketId"
+            *ngIf="customerOverview?.latestOpenedTicketId"
           >
             <cx-icon class="account-icon" [type]="ticketIcon"></cx-icon>
             {{ 'customer360.header.recentTicketLabel' | cxTranslate }}
@@ -122,7 +120,7 @@
               {{ customerOverview.latestOpenedTicketId }}</button
             >,
             {{
-              customerOverview.latestOpenedTicketCreatedAt | date: 'MM-dd-yyyy'
+              customerOverview?.latestOpenedTicketCreatedAt | date: 'MM-dd-yyyy'
             }}
           </span>
         </div>

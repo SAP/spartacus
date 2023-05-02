@@ -28,7 +28,7 @@ import {
   Customer360Overview,
   CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
-import { Image, UrlCommand, User } from '@spartacus/core';
+import { UrlCommand, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -158,23 +158,6 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
       this.updateTabIndex(selectedIndex);
       event.stopPropagation();
       event.preventDefault();
-    }
-  }
-
-  getAvatarText(): string {
-    const customer = this.customer ?? {};
-    const { firstName = '', lastName = '' } = customer;
-
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
-  }
-
-  getAvatarImage(overview?: CustomerOverview): Image | undefined {
-    if (overview?.userAvatar?.url) {
-      return {
-        altText: overview.name,
-        url: overview.userAvatar.url,
-        format: overview.userAvatar.format,
-      };
     }
   }
 

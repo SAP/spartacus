@@ -17,6 +17,8 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Customer360Component } from './customer-360.component';
+import { AvatarImagePipe } from './avatar-image.pipe';
+import { AvatarLabelPipe } from './avatar-label.pipe';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -155,7 +157,12 @@ describe('AsmCustomer360Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [Customer360Component, MockAsmCustomerSectionComponent],
+      declarations: [
+        Customer360Component,
+        MockAsmCustomerSectionComponent,
+        AvatarImagePipe,
+        AvatarLabelPipe,
+      ],
       providers: [
         { provide: Customer360Config, useValue: mockAsmConfig },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -206,18 +213,6 @@ describe('AsmCustomer360Component', () => {
 
     const sections = el.queryAll(By.css('cx-asm-customer-section'));
     expect(sections.length).toBe(1);
-  });
-
-  it('should create an avatar for the customer', () => {
-    expect(component.getAvatarText()).toBe('JD');
-  });
-
-  it('should create an avatar image for the customer', () => {
-    expect(component.getAvatarImage(mockOverview.overview)).toEqual({
-      altText: mockOverview?.overview?.name,
-      url: mockOverview?.overview?.userAvatar?.url,
-      format: mockOverview?.overview?.userAvatar?.format,
-    });
   });
 
   it('should close modal', () => {

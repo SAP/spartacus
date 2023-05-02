@@ -153,7 +153,7 @@ export interface Customer360Avatar {
 }
 
 export interface CustomerOverview {
-  address: Address;
+  address?: Address;
   name?: string;
   cartSize?: number;
   cartCode?: string;
@@ -184,6 +184,9 @@ export interface Customer360Params {
 
 export interface AdditionalRequestParameters {
   timeout?: number;
+  listSize?: number;
+  searchQuery?: string;
+  assignable?: boolean;
 }
 
 export interface Customer360Query {
