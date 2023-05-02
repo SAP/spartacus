@@ -10,8 +10,6 @@ export interface ConsentTemplate {
   description?: string;
   version?: number;
   currentConsent?: Consent;
-  documentUrl?: string;
-  required?: Boolean;
 }
 
 export interface Consent {
