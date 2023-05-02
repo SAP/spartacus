@@ -82,6 +82,62 @@ describe('CDC B2B scenarios', () => {
     });
   });
 
+  describe('Manage Units in CDC-B2B scenario', () => {
+    beforeEach(() => {
+      cy.visit('/powertools-spa/en/USD/login');
+      loginUser(cdc.b2bUser);
+      waitForCmsComponentsToLoad('powertools-spa');
+    });
+    it('should show My Company option', () => {
+      cy.get('cx-navigation-ui.accNavComponent.flyout')
+        .should('contain.text', 'My Account')
+        .and('be.visible')
+        .within(() => {
+          cy.get('cx-generic-link')
+            .contains('My Company')
+            .should('not.be.visible');
+          cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
+            key: ' ',
+            code: 'Space',
+            force: true,
+          });
+          cy.get('cx-generic-link').contains('My Company').should('be.visible');
+        });
+    });
+    it('should not show Add Button', () => {
+      cy.visit('/powertools-spa/en/USD/organization/units');
+      waitForCmsComponentsToLoad('powertools-spa');
+      cy.get('button.button.primary.create').should('not.exist');
+    });
+
+    it('should hide edit, disbale, child units in unit details', () => {
+      cy.visit(
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}`
+      );
+      waitForCmsComponentsToLoad('powertools-spa');
+      cy.get('a.link.edit').should('not.exist');
+      cy.get('button.button.active').should('not.exist');
+      cy.get('section.link-list')
+        .find('a.link')
+        .should('not.include.text', 'Child Units');
+    });
+
+    it('should stop navigation via url change', () => {
+      cy.visit('/powertools-spa/en/USD/organization/units/create');
+      alerts.getWarningAlert().should('contain', 'This item does not exist');
+
+      cy.visit(
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/edit`
+      );
+      alerts.getWarningAlert().should('contain', 'This item does not exist');
+
+      cy.visit(
+        `/powertools-spa/en/USD/organization/units/${cdc.b2bUser.orgUnit}/children`
+      );
+      alerts.getWarningAlert().should('contain', 'This item does not exist');
+    });
+  });
+
   describe('Login existing B2B Customer with Screenset', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
