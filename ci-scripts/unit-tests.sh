@@ -2,25 +2,26 @@
 set -e
 set -o pipefail
 
-EXCLUDE_JEST=storefrontapp,storefrontstyles,schematics,setup
+EXCLUDE_APPLICATIONS=storefrontapp
+EXCLUDE_JEST=storefrontstyles,schematics,setup
 EXCLUDE_INTEGRATION_LIBS=cdc,cds,digital-payments,epd-visualization,s4om
 
 echo "-----"
 
 function run_affected_unit_tests {
     echo "Running JASMINE unit tests and code coverage for AFFECTED libraries"
-    npx nx affected --target=test --exclude="$EXCLUDE_JEST,$EXCLUDE_INTEGRATION_LIBS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
+    npx nx affected --target=test --exclude="$EXCLUDE_APPLICATIONS,$EXCLUDE_JEST,$EXCLUDE_INTEGRATION_LIBS" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 
     echo "Running JEST (mostly schematics) unit tests and code coverage for AFFECTED libraries"
-    npx nx affected --target=test-jest --exclude="$EXCLUDE_INTEGRATION_LIBS" -- --coverage --runInBand
+    npx nx affected --target=test-jest --exclude="$EXCLUDE_APPLICATIONS,$EXCLUDE_INTEGRATION_LIBS" -- --coverage --runInBand
 }
 
 function run_all_unit_tests {
     echo "Running JASMINE unit tests and code coverage for ALL libraries"
-    npx nx run-many --all --target=test --exclude="$EXCLUDE_JEST" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
+    npx nx run-many --all --target=test --exclude="$EXCLUDE_APPLICATIONS,$EXCLUDE_JEST" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 
     echo "Running JEST (mostly schematics) unit tests and code coverage for ALL libraries"
-    npx nx run-many --all --target=test-jest -- --coverage --runInBand
+    npx nx run-many --all --target=test-jest --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
 }
 
 if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
