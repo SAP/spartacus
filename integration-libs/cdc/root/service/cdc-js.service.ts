@@ -656,6 +656,11 @@ export class CdcJsService implements OnDestroy {
     );
   }
 
+  protected logoutUser() {
+    this.auth.logout();
+    this.invokeAPI('accounts.logout', {});
+  }
+
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
