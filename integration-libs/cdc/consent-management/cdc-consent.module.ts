@@ -39,4 +39,4 @@ import { ConsentManagementService } from '@spartacus/storefront';
     },
   ],
 })
-export class CdcConsentModule {}
+export class CdcConsentManagementModule {}
