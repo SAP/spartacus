@@ -31,7 +31,7 @@
           [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
         >
           <ng-template *ngTemplateOutlet="sort"></ng-template>
-          <ng-template *ngTemplateOutlet="pagination"></ng-template>
+          <!-- <ng-template *ngTemplateOutlet="pagination"></ng-template> -->
         </div>
       </div>
       <!-- Modal Body -->
@@ -193,6 +193,11 @@
               >
                 {{ 'asm.customerList.noCustomers' | cxTranslate }}
               </div>
+                <cx-pagination
+                  [pagination]="customerSearchPage.pagination"
+                  (viewPageEvent)="pageChange($event)"
+                  [paginationConfig]="paginationConfig"
+                ></cx-pagination>
             </div>
           </div>
         </div>

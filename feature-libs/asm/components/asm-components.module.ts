@@ -17,6 +17,7 @@ import {
   PasswordVisibilityToggleModule,
   SortingModule,
   SpinnerModule,
+  PaginationModule,
 } from '@spartacus/storefront';
 import { AsmBindCartDialogComponent } from './asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
@@ -32,6 +33,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
+import { defaultAsmPaginationConfig } from './default-asm-pagination.config';
 
 @NgModule({
   imports: [
@@ -47,6 +49,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     KeyboardFocusModule,
     NgSelectA11yModule,
     SortingModule,
+    PaginationModule,
   ],
   declarations: [
     AsmBindCartDialogComponent,
@@ -78,6 +81,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     provideDefaultConfig(defaultAsmLayoutConfig),
     provideDefaultConfig(defaultBindCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
+    provideDefaultConfig(defaultAsmPaginationConfig),
   ],
 })
 export class AsmComponentsModule {}

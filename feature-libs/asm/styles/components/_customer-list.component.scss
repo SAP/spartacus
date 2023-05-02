@@ -209,4 +209,61 @@ $sapFioriContent_LabelColor: #6a6d70;
       color: $sapFioriLinkColor;
     }
   }
+
+  cx-pagination {
+    float: right;
+    a {
+      margin-top: 10px;
+      width: 24px;
+      height: 26px;
+      font-family: '72';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #0064D9;   
+      border-color:  #FFFFFF;
+      // vertical-align:middle;
+      &:first-child {
+        width: 48px;
+        height: 26px;
+        font-family: 'SAP-icons';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 16px;
+        text-align: center;
+        color: #0064D9;
+        margin-top: 8px;
+        
+      }
+      &:last-child {
+        width: 48px;
+        height: 26px;
+        font-family: 'SAP-icons';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 16px;
+        text-align: center;
+        color: #0064D9;
+        border-color:  #FFFFFF;
+        margin-top: 8px;
+      }
+      &.current {
+        width: 32px;
+        height: 26px;
+        font-family: '72';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        color: #1D2D3E;
+        background: #EAECEE;
+        border-radius: 8px;
+        border-color:  #FFFFFF;
+      }
+    }
+  }
 }

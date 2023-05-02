@@ -531,6 +531,20 @@ describe('CustomerListComponent', () => {
     expect(component.currentPage).toBe(0);
   });
 
+  it('should change to corresponding page when page changed', () => {
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+    component.pageChange(1);
+
+    fixture.detectChanges();
+
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).toHaveBeenCalledWith(1);
+  });
+
   it('should get user group name', () => {
     const userGroupName = component.getGroupName(
       mockCustomerListPage,

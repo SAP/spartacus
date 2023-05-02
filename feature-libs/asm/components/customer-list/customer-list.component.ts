@@ -174,6 +174,17 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.teardown.unsubscribe();
   }
 
+  pageChange(page: number): void {
+    const options: CustomerSearchOptions = {
+      customerListId: this.selectedUserGroupId,
+      pageSize: this.pageSize,
+      currentPage: page,
+      sort: this.sortCode,
+    };
+
+    this.asmCustomerListFacade.customerListCustomersSearch(options);
+  }
+
   fetchCustomers(): void {
     // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
     this.enableAsmB2bCustomerList =
