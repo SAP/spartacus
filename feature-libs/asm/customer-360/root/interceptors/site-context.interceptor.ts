@@ -57,9 +57,9 @@ export class SiteContextInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     if (
       request.url.includes(
-        this.occEndpoints.getBaseUrl({ prefix: false, baseSite: false }) +
-          'assistedservicewebservices/'
-      )
+        this.occEndpoints.getBaseUrl({ prefix: false, baseSite: false })
+      ) &&
+      request.url.includes('/assistedservicewebservices/')
     ) {
       request = request.clone({
         setParams: {
