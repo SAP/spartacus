@@ -23,7 +23,7 @@ context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
 
-    it('should emulate customer with deeplink before agent logined', () => {
+    it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
 
       cy.log('--> Agent logging in with deeplink');
@@ -43,7 +43,7 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
 
-    it('should emulate customer with deeplink after agent logined', () => {
+    it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
 
       cy.log('--> Register user');
@@ -63,7 +63,7 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
 
-    it('should not emulate customer if uid is invalid - end emulation session is expected', () => {
+    it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
       const customer = getSampleUser();
       checkout.visitHomePage('asm=true');
 
@@ -90,7 +90,7 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
 
-    it('should end session of emulated customer and emulate new customer if valid uid shows in URL', () => {
+    it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
       const customerOld = getSampleUser();
       const customerNew = getSampleUser();
 
