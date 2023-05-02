@@ -5,6 +5,7 @@
  */
 
 import { APP_INITIALIZER, Provider } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { Config } from '../../config/config-tokens';
@@ -18,9 +19,8 @@ export function initializeContext(
   siteContextRoutesHandler: SiteContextRoutesHandler
 ): () => Promise<Config> {
   return () => {
-    return configInit
-      .getStable('context')
-      .pipe(
+    return lastValueFrom(
+      configInit.getStable('context').pipe(
         tap(() => {
           // `siteContextRoutesHandler.init()` should be executed before CurrencyInitializer,
           // LanguageInitializer and BaseSiteInitializer
@@ -30,7 +30,7 @@ export function initializeContext(
           siteContextRoutesHandler.init();
         })
       )
-      .toPromise();
+    );
   };
 }
 
