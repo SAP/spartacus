@@ -521,6 +521,9 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/consent-management": [
+        "integration-libs/cdc/consent-management/public_api"
+      ],
       "@spartacus/cdc/core": [
         "integration-libs/cdc/core/public_api"
       ],

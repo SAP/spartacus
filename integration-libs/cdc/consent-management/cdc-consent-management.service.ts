@@ -10,7 +10,7 @@ import {
   ConsentTemplate,
   UserConsentService,
 } from '@spartacus/core';
-import { ConsentManagementService } from 'projects/storefrontlib/cms-components/myaccount/consent-management/components/consent-management.service';
+import { ConsentManagementService } from '@spartacus/storefront';
 
 @Injectable()
 export class CdcConsentManagementService extends ConsentManagementService {

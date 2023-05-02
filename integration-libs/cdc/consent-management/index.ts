@@ -5,8 +5,12 @@
  */
 
 export * from './cdc-site-consent.service';
+export * from './cdc-consent-management.service';
 export * from './cdc-consent.module';
 export * from './cdc-site-consent.adapter';
 export * from './outlet/cdc-site-consent.component';
 export * from './outlet/cdc-site-conent.module';
 export * from './cdc-consent.model';
+export * from './converters/cdc-site-consent.converters';
+export * from './converters/cdc-site-consent.normalizer';
+export * from './converters/cdc-user-preference.serializer';

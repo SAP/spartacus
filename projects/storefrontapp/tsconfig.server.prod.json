@@ -329,6 +329,9 @@
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
+      "@spartacus/cdc/consent-management": [
+        "../../dist/cdc/consent-management"
+      ],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/organization/administration": [

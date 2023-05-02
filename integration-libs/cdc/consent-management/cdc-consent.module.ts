@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { I18nModule, UserConsentAdapter } from '@spartacus/core';
 import { CdcSiteConsentNormalizer } from './converters/cdc-site-consent.normalizer';
-import { CDCSiteConsentAdapter } from './cdc-site-consent.adapter';
+import { CdcSiteConsentAdapter } from './cdc-site-consent.adapter';
 import {
   CDC_SITE_CONSENT_NORMALIZER,
   CDC_USER_PREFERENCE_SERIALIZER,
@@ -16,13 +16,13 @@ import { CdcUserPreferenceSerializer } from './converters/cdc-user-preference.se
 
 import { CdcSiteConsentModule } from './outlet/cdc-site-conent.module';
 import { CommonModule } from '@angular/common';
-import { ConsentManagementService } from 'projects/storefrontlib/cms-components/myaccount/consent-management/components/consent-management.service';
 import { CdcConsentManagementService } from './cdc-consent-management.service';
+import { ConsentManagementService } from '@spartacus/storefront';
 
 @NgModule({
   imports: [CommonModule, I18nModule, CdcSiteConsentModule],
   providers: [
-    { provide: UserConsentAdapter, useClass: CDCSiteConsentAdapter },
+    { provide: UserConsentAdapter, useClass: CdcSiteConsentAdapter },
     {
       provide: ConsentManagementService,
       useClass: CdcConsentManagementService,
@@ -39,4 +39,4 @@ import { CdcConsentManagementService } from './cdc-consent-management.service';
     },
   ],
 })
-export class CDCConsentModule {}
+export class CdcConsentModule {}

@@ -6,4 +6,4 @@
 
 export * from './cdc-components.module';
 export * from './gigya-raas/index';
-export * from './consent-management';
+export * from '../consent-management';

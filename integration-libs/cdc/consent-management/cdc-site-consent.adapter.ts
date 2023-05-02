@@ -17,7 +17,7 @@ import { CDC_SITE_CONSENT_NORMALIZER } from './converters/cdc-site-consent.conve
 import { CdcSiteConsentService } from './cdc-site-consent.service';
 
 @Injectable({ providedIn: 'root' })
-export class CDCSiteConsentAdapter implements UserConsentAdapter {
+export class CdcSiteConsentAdapter implements UserConsentAdapter {
   constructor(
     protected cdcSiteConsentService: CdcSiteConsentService,
     protected cdcJsService: CdcJsService,

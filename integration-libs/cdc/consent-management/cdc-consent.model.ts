@@ -1,8 +1,18 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+import { Injectable } from '@angular/core';
+import { Config } from '@spartacus/core';
+
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
+export abstract class CdcConsentTemplate {
+  documentUrl?: string;
+  required?: Boolean;
+}
+
+declare module '@spartacus/core' {
+  interface ConsentTemplate extends CdcConsentTemplate {}
+}
 
 export interface CdcSiteConsentTemplate {
   status: number;
@@ -32,8 +42,6 @@ export interface userConsentPreferences {
   UID: string;
   preferences: any;
 }
-
-// export interface preferences: any;
 
 export interface preference {
   isConsentGranted: boolean;

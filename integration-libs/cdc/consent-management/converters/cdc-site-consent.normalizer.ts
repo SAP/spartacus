@@ -9,7 +9,7 @@ import { Converter, ConsentTemplate, LanguageService } from '@spartacus/core';
 import {
   CdcSiteConsentTemplate,
   siteConsentDetailTemplate,
-} from 'integration-libs/cdc/core';
+} from '../cdc-consent.model';
 import { CdcSiteConsentService } from '../cdc-site-consent.service';
 
 @Injectable({ providedIn: 'root' })
@@ -39,7 +39,8 @@ export class CdcSiteConsentNormalizer
   ): ConsentTemplate[] {
     var consents: ConsentTemplate[] = [];
     var currentLanguage = this.cdcSiteConsentService.getActiveLanguage();
-    for (var key in site) {               //key will be a string with dot separated IDs
+    for (var key in site) {
+      //key will be a string with dot separated IDs
       if (Object.hasOwn(site, key)) {
         if (site[key].isActive === true) {
           var legalStatements = site[key].legalStatements;
@@ -51,7 +52,7 @@ export class CdcSiteConsentNormalizer
               if (lang === currentLanguage) {
                 consents.push({
                   id: key,
-                  name: "",
+                  name: '',
                   description: legalStatements[lang]?.purpose,
                   version: legalStatements[lang].currentDocVersion,
                   documentUrl: legalStatements[lang].documentUrl,

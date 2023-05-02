@@ -13,8 +13,6 @@ import { effects } from './effects/index';
 
 @NgModule({
   imports: [CommonModule, CdcAuthModule, EffectsModule.forFeature(effects)],
-  providers: [
-    CdcAuthService,
-  ],
+  providers: [CdcAuthService],
 })
 export class CdcStoreModule {}

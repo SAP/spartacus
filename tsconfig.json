@@ -9,8 +9,13 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "ES2022",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["ES2022", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -520,6 +525,9 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/consent-management": [
+        "integration-libs/cdc/consent-management/public_api"
+      ],
       "@spartacus/cdc/core": [
         "integration-libs/cdc/core/public_api"
       ],
@@ -565,12 +573,24 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/s4om/assets": ["integration-libs/s4om/assets/public_api"],
-      "@spartacus/s4om": ["integration-libs/s4om/public_api"],
-      "@spartacus/s4om/root": ["integration-libs/s4om/root/public_api"],
-      "@spartacus/assets": ["projects/assets/src/public_api"],
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
+      "@spartacus/s4om/assets": [
+        "integration-libs/s4om/assets/public_api"
+      ],
+      "@spartacus/s4om": [
+        "integration-libs/s4om/public_api"
+      ],
+      "@spartacus/s4om/root": [
+        "integration-libs/s4om/root/public_api"
+      ],
+      "@spartacus/assets": [
+        "projects/assets/src/public_api"
+      ],
+      "@spartacus/core": [
+        "projects/core/public_api"
+      ],
+      "@spartacus/storefront": [
+        "projects/storefrontlib/public_api"
+      ]
     },
     "useDefineForClassFields": false
   },

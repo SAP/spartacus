@@ -7,4 +7,3 @@
 export enum ConsentOutlets {
   SHOW_DOCUMENT = 'cx-consent-management-form',
 }
-

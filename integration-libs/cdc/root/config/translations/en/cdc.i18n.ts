@@ -5,7 +5,7 @@
  */
 
 export const cdc = {
-    consentManagement:{
-        consentLink: 'Read More',
-    }
+  consentManagement: {
+    consentLink: 'Read More',
+  },
 };
