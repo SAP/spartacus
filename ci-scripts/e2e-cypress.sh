@@ -97,7 +97,18 @@ else
       if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         npm run e2e:run:ci"${SUITE}"
       else 
-        npm run e2e:run:ci:core"${SUITE}"
+        EXCLUDE_LIBS_AND_APPS=storefrontapp,setup,assets,core,schematics,storefrontlib,storefrontstyles,eslint-rules
+        EXCLUDE_INTEGRATION_LIBS=cdc,cds,digital-payments,epd-visualization,s4om
+
+        LIST_OF_AFFECTED_E2ES=`npx nx print-affected --exclude=$EXCLUDE_LIBS_AND_APPS,$EXCLUDE_INTEGRATION_LIBS --select=projects | sed 's/, /|/g'`
+
+        if [[ $2 == 'b2b' ]]; then
+            export AFFECTED_E2ES="cypress/e2e/!(vendor|b2b|ssr|cx_ccv2|cx_mcs)/**/($LIST_OF_AFFECTED_E2ES)/**/*.core-e2e.cy.ts"
+        else
+            export AFFECTED_E2ES="cypress/e2e/b2b/**/($LIST_OF_AFFECTED_E2ES)/**/*.core-e2e.cy.ts"
+        fi
+
+        npm run e2e:run:ci:affected"${SUITE}"
       fi
     else
         npm run e2e:run:ci"${SUITE}"
