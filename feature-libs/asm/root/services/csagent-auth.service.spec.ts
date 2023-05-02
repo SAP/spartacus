@@ -256,7 +256,7 @@ describe('CsAgentAuthService', () => {
   });
 
   // TODO(#8248)
-  xdescribe('getCustomerSupportAgentTokenLoading()', () => {});
+  // xdescribe('getCustomerSupportAgentTokenLoading()', () => {});
 
   describe('logoutCustomerSupportAgent()', () => {
     it('should logout CS agent', async () => {

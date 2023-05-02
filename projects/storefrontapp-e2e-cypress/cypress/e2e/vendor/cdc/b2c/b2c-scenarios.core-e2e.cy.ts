@@ -56,20 +56,40 @@ describe('CDC', () => {
   });
 
   describe('Update profile', () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
       cdc.loginUser(cdc.user.email, cdc.user.password);
-    });
-
-    it('should update profile (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Profile Details',
       });
+    });
 
+    it('should update last name in profile (CXSPA-3016)', () => {
       cdc.updateUserProfile();
       cdc.verifyProfileUpdateSuccess(cdc.user);
-      cdc.restoreUserLastName(cdc.user);
+      cdc.restoreUserLastName(cdc.user); //screenset user
+    });
+
+    it('should update password in profile details with screen set (CXINT-1912)', () => {
+      cdc.updateUserProfilePassword(cdc.user.password, cdc.updatedPassword);
+      cdc.verifyUpdatePasswordSuccess(
+        cdc.user.email,
+        cdc.updatedPassword,
+        cdc.nativeUser.fullName
+      );
+      cdc.restoreUserPassword(cdc.user); //screenset user
+    });
+
+    it('should update email in profile details with screen set and logout the user (CXINT-1912)', () => {
+      const tempEmail = cdc.generateRandomEmail();
+      cdc.updateUserProfileEmail(tempEmail);
+      cdc.verifyUpdateEmailSuccess(
+        tempEmail,
+        cdc.user.password,
+        cdc.user.fullName
+      );
+      cdc.restoreUserEmail({ ...cdc.user, email: tempEmail }); //screenset user
     });
   });
 
@@ -78,13 +98,12 @@ describe('CDC', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
-    });
-
-    it('should update profile with native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
+    });
 
+    it('should update profile with native UI (CXSPA-3016)', () => {
       cdc.updateUserProfileWithoutScreenset();
       cdc.verifyProfileUpdateSuccess(cdc.nativeUser);
       cdc.restoreUserLastName(cdc.nativeUser);
@@ -92,23 +111,29 @@ describe('CDC', () => {
   });
 
   describe('Update email without screenset', () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
-    });
-
-    it('should update email (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Email Address',
       });
+    });
 
+    it('should NOT update email with wrong password and show error (CXINT-23)', () => {
       cdc.updateEmailWithoutScreenset(
-        cdc.updatedEmail,
-        cdc.nativeUser.password
+        cdc.nativeUser.email,
+        'WRONG_Pswd', //wrong password
+        true //error testing
       );
+      cdc.verifyUpdateEmailError();
+    });
+
+    it('should update email (CXSPA-3016)', () => {
+      const tempEmail = cdc.generateRandomEmail();
+      cdc.updateEmailWithoutScreenset(tempEmail, cdc.nativeUser.password);
       cdc.verifyUpdateEmailSuccess(
-        cdc.updatedEmail,
+        tempEmail,
         cdc.nativeUser.password,
         cdc.nativeUser.fullName
       );
@@ -117,17 +142,25 @@ describe('CDC', () => {
   });
 
   describe('Update password without screenset', () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.nativeUser.email, cdc.nativeUser.password);
-    });
-
-    it('should update password in Native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Password',
       });
+    });
 
+    it('should NOT update password in Native UI with wrong password (CXINT-23)', () => {
+      cdc.updatePasswordWithoutScreenset(
+        'WRONG_Pswd', //wrong password
+        cdc.updatedPassword,
+        true
+      );
+      cdc.verifyUpdatePasswordError();
+    });
+
+    it('should update password in Native UI (CXSPA-3016)', () => {
       cdc.updatePasswordWithoutScreenset(
         cdc.nativeUser.password,
         cdc.updatedPassword
@@ -141,6 +174,38 @@ describe('CDC', () => {
     });
   });
 
+  describe('Forgot password in screenset', () => {
+    beforeEach(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+
+    it('should NOT send email to invalid email address in CDC screenset (CXINT-23)', () => {
+      cdc.forgotPassword('invalid_email@sapcx.com');
+      cdc.verifyForgotPasswordError();
+    });
+
+    it('should send email to invalid email address in CDC screenset (CXINT-23)', () => {
+      cdc.forgotPassword(cdc.user.email);
+      cdc.verifyForgotPasswordSuccess();
+    });
+  });
+
+  describe('Forgot password with Native UI', () => {
+    beforeEach(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+
+    it('should NOT send email to invalid email address in CDC (CXINT-23)', () => {
+      cdc.forgotPasswordWithoutScreenset('invalid_email@sapcx.com');
+      cdc.verifyForgotPasswordWithoutScreensetError();
+    });
+
+    it('should send email to valid email address in CDC (CXINT-23)', () => {
+      cdc.forgotPasswordWithoutScreenset(cdc.nativeUser.email);
+      cdc.verifyForgotPasswordWithoutScreensetSuccess();
+    });
+  });
+
   describe('CDC My Account - Address Book', () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
@@ -151,44 +216,44 @@ describe('CDC', () => {
       });
     });
 
-    it('should display a new address form when no address exists', () => {
+    it('should display a new address form when no address exists (CXSPA-3016)', () => {
       cy.get('cx-address-form').should('exist');
     });
 
-    it('should add a new address and show it in CDC', () => {
+    it('should add a new address and show it in CDC (CXSPA-3016)', () => {
       cdc.addAddress(cdc.nativeUser);
       cdc.verifyAddAddressSuccess(cdc.nativeUser);
     });
 
-    it('should edit the Address and save it in CDC', () => {
+    it('should edit the Address and save it in CDC (CXSPA-3016)', () => {
       cdc.updateAddress(cdc.updatedFirstAddress);
       cdc.verifyUpdateAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    it('should add another Address and NOT save it in CDC if it is not default', () => {
+    it('should add another Address and NOT save it in CDC if it is not default (CXSPA-3016)', () => {
       cy.get('button').contains(' Add new address ').click({ force: true });
       cdc.addAddress(cdc.secondAddress);
       cdc.verifyNoCDCForNonDefaultAddress();
     });
 
-    it('should set the non default Address as default and save it in CDC', () => {
+    it('should set the non default Address as default and save it in CDC (CXSPA-3016)', () => {
       cdc.setAddressAsDefault(cdc.secondAddress);
       cdc.verifySetDefaultAddressSuccess(cdc.secondAddress);
     });
 
-    it('should show delete the first Address and update the second address as default in CDC', () => {
+    it('should show delete the first Address and update the second address as default in CDC (CXSPA-3016)', () => {
       cdc.deleteAddress(cdc.updatedFirstAddress);
       cdc.verifyDeleteAddressSuccess(cdc.updatedFirstAddress);
     });
 
-    it('should show delete the second Address and empty the address in CDC', () => {
+    it('should show delete the second Address and empty the address in CDC (CXSPA-3016)', () => {
       cdc.deleteAddress(cdc.updatedFirstAddress);
       cdc.verifyDeleteAllAddressSuccess();
     });
   });
 
   after(() => {
-    cdc.logoutUser();
+    cy.visit('/logout');
     cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });

@@ -38,6 +38,7 @@ context('Product Configuration', () => {
   });
 
   it('should be able filter the overview page', () => {
+    cy.viewport(1000, 660);
     clickAllowAllFromBanner();
     completeDigitalCameraConfiguration();
     configuration.navigateToOverviewPage();

@@ -12,7 +12,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
@@ -35,7 +35,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 

@@ -12,8 +12,12 @@ import {
   userCmsConfig,
   UserListService,
 } from '@spartacus/organization/administration/components';
-import { B2BUserService } from '@spartacus/organization/administration/core';
+import {
+  B2BUserService,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { CdcB2BUserService } from './cdc-b2b-user.service';
+import { CdcOrgUnitService } from './cdc-org-unit.service';
 import { CdcUserListService } from './cdc-user-list.service';
 
 @NgModule({
@@ -50,6 +54,7 @@ import { CdcUserListService } from './cdc-user-list.service';
         },
       },
     }),
+    { provide: OrgUnitService, useClass: CdcOrgUnitService },
   ],
 })
 export class CdcAdministrationModule {}

@@ -1,0 +1,40 @@
+{
+  "name": "organization",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "feature-libs/organization",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:augmented-types",
+      "options": {
+        "tsConfig": "feature-libs/organization/tsconfig.lib.json",
+        "project": "feature-libs/organization/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "feature-libs/organization/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "feature-libs/organization/test.ts",
+        "tsConfig": "feature-libs/organization/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "feature-libs/organization/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "feature-libs/organization/**/*.ts",
+          "feature-libs/organization/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature"]
+}

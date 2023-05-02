@@ -15,9 +15,9 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
 
@@ -76,7 +76,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

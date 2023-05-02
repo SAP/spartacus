@@ -7,7 +7,7 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CostCenterFormService } from '../../../../cost-center/form/cost-center-form.service';
 import { CurrentCostCenterService } from '../../../../cost-center/services/current-cost-center.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
@@ -23,7 +23,7 @@ const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 class MockCostCenterService {
   load() {}
   get() {
-    return of();
+    return EMPTY;
   }
   update() {}
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
@@ -36,7 +36,7 @@ class MockCostCenterFormService {}
 
 class MockCurrentCostCenterService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(of());
+  load = createSpy('load').and.returnValue(EMPTY);
   error$ = of(false);
 }
 describe('UnitCostCenterItemService', () => {

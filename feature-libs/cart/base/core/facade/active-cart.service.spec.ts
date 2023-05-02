@@ -10,7 +10,7 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from './active-cart.service';
 
@@ -27,14 +27,14 @@ export class MultiCartFacadeStub {
   deleteCart() {}
   initAddEntryProcess() {}
   getCartEntity() {
-    return of();
+    return EMPTY;
   }
   assignEmail() {}
   getEntry() {
-    return of();
+    return EMPTY;
   }
   getLastEntry() {
-    return of();
+    return EMPTY;
   }
   updateEntry() {}
   removeEntry() {}
@@ -852,7 +852,7 @@ describe('ActiveCartService', () => {
             code: 'code',
           },
         });
-        return of();
+        return EMPTY;
       });
 
       service['cartEntity$'] = cart$.asObservable();
@@ -888,7 +888,7 @@ describe('ActiveCartService', () => {
             code: 'code',
           },
         });
-        return of();
+        return EMPTY;
       });
 
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -909,8 +909,8 @@ describe('ActiveCartService', () => {
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
-    it('should be able to get whether cart has pickup items', (done) => {
-      let mockCart: Cart = {
+    it('cart has pickup items', (done) => {
+      const mockCart: Cart = {
         pickupItemsQuantity: 1,
       };
       service.getActive = jasmine
@@ -921,8 +921,10 @@ describe('ActiveCartService', () => {
         expect(hasPickup).toBeTruthy();
         done();
       });
+    });
 
-      mockCart = {
+    it('cart does not have pickup items', (done) => {
+      const mockCart = {
         code: 'test',
       };
       service.getActive = jasmine
@@ -957,7 +959,6 @@ describe('ActiveCartService', () => {
 
       service.hasDeliveryItems().subscribe((hasPickup) => {
         expect(hasPickup).toBeFalsy();
-        done();
       });
     });
   });

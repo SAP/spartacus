@@ -6,7 +6,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order, OrderPlacedEvent } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';
 import { OrderService } from './order.service';
@@ -31,7 +31,7 @@ class MockOrderConnector implements Partial<OrderConnector> {
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
+  get = createSpy().and.returnValue(EMPTY);
   dispatch = createSpy();
 }
 

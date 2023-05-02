@@ -5,7 +5,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -22,14 +22,14 @@ import {
   UserInterestsService,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { StockNotificationComponent } from './stock-notification.component';
 
-import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -37,7 +37,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
   closeDialog(_reason: string): void {}
 }

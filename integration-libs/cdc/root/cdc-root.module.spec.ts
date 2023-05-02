@@ -5,7 +5,7 @@ import {
   GlobalMessageService,
   LanguageService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { CdcRootModule } from './cdc-root.module';
 import { CdcConfig } from './config';
 
@@ -21,12 +21,12 @@ const sampleCdcConfig: CdcConfig = {
 
 class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 class LanguageServiceStub implements Partial<LanguageService> {
   getActive(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -38,7 +38,7 @@ interface Window {
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 

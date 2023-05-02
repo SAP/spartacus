@@ -20,7 +20,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 const mockCart1: Cart = {
@@ -56,7 +56,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   }
   restoreSavedCart(_cartId: string): void {}
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
   getSavedCartListProcessLoading(): Observable<boolean> {
     return of(false);
@@ -80,7 +80,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 

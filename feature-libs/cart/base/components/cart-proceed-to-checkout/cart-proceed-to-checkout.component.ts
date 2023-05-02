@@ -6,17 +6,18 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import {
   Event,
   NavigationCancel,
   NavigationEnd,
   Router,
 } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-cart-proceed-to-checkout',
@@ -28,7 +29,16 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(protected router: Router) {}
+  constructor(
+    router: Router,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    cd?: ChangeDetectorRef
+  );
+  /**
+   * @deprecated since 5.2
+   */
+  constructor(router: Router);
+  constructor(protected router: Router, protected cd?: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -38,6 +48,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
           event instanceof NavigationCancel
         ) {
           this.cartValidationInProgress = false;
+          this.cd?.markForCheck();
         }
       })
     );

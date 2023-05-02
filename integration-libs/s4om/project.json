@@ -1,0 +1,43 @@
+{
+  "name": "s4om",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "integration-libs/s4om",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "integration-libs/s4om/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/s4om/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "integration-libs/s4om/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/s4om/test.ts",
+        "tsConfig": "integration-libs/s4om/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "integration-libs/s4om/karma.conf.js"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/s4om/**/*.ts",
+          "integration-libs/s4om/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature", "type:integration"]
+}
