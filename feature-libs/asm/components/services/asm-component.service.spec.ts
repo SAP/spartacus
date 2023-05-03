@@ -126,7 +126,7 @@ describe('AsmComponentService', () => {
     });
   });
 
-  describe('asmComponentService and setEmulated ', () => {
+  describe('isEmulatedByDeepLink and setEmulated ', () => {
     it('should emit true when user is emulated', (done) => {
       asmComponentService.setEmulated(true);
 
