@@ -39,7 +39,7 @@ describe('QualtricsComponent', () => {
     component = fixture.componentInstance;
   }
 
-  describe('with config', () => {
+  describe('with configs', () => {
     beforeEach(() => {
       configureTestingModule();
       stubSeviceAndCreateComponent();
