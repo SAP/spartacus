@@ -73,7 +73,7 @@
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx serve storefrontapp --configuration=development",
-    "start:b2b": "env-cmd --no-override -e dev,local,$SPA_ENV nx serve storefrontapp --configuration=development",
+    "start:b2b": "env-cmd --no-override -e dev,b2b,$SPA_ENV nx serve storefrontapp --configuration=development",
     "start:ci": "env-cmd --no-override -e ci,b2c,$SPA_ENV nx serve storefrontapp --configuration=development",
     "start:ci:b2b": "env-cmd --no-override -e ci,b2b,$SPA_ENV nx serve storefrontapp --configuration=development",
     "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx serve storefrontapp --configuration=production",
@@ -210,7 +210,7 @@
     "ts-morph": "^9.1.0",
     "ts-node": "^10.6.0",
     "typescript": "^4.8.2",
-    "webpack": "^5.78.0",
+    "webpack": "^5.76.1",
     "webpack-cli": "^4.10.0"
   },
   "overrides": {
