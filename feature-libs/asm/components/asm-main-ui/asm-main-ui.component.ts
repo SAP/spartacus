@@ -58,7 +58,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   customerIdInURL: string;
-  emulated: boolean = false;
+  emulated = false;
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
