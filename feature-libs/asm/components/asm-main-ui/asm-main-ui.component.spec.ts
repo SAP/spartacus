@@ -215,57 +215,6 @@ describe('AsmMainUiComponent', () => {
     ).toHaveBeenCalledWith(userId, password);
   });
 
-  it('should call logout when agent has logined and user is login if customerId shows in URL', () => {
-    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue("anyId");
-
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
-
-    component.ngOnInit();
-    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
-  });
-
-  it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
-    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
-    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(testCustomerId);
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
-
-    component.ngOnInit();
-    expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
-    setTimeout(() => {
-      expect(
-        csAgentAuthService.startCustomerEmulationSession
-      ).toHaveBeenCalledWith(testCustomerId);
-      done();
-    }, 200);
-  });
-
-  it('should not call startCustomerEmulationSession when agent has logined and user is not login if no customerId shows in URL', (done) => {
-    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
-    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
-
-    component.ngOnInit();
-    setTimeout(() => {
-      expect(
-        csAgentAuthService.startCustomerEmulationSession
-      ).not.toHaveBeenCalled();
-      done();
-    }, 200);
-  });
-
   it('should call logoutCustomerSupportAgentAndCustomer() on agent logout', () => {
     spyOn(
       asmComponentService,
@@ -503,4 +452,56 @@ describe('AsmMainUiComponent', () => {
       component.addNewCustomerLink
     );
   });
+
+  it('should call logout when agent has logined and user is login if customerId shows in URL', () => {
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue("anyId");
+
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
+  });
+
+  it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(testCustomerId);
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
+    setTimeout(() => {
+      expect(
+        csAgentAuthService.startCustomerEmulationSession
+      ).toHaveBeenCalledWith(testCustomerId);
+      done();
+    }, 200);
+  });
+
+  it('should not call startCustomerEmulationSession when agent has logined and user is not login if no customerId shows in URL', (done) => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    setTimeout(() => {
+      expect(
+        csAgentAuthService.startCustomerEmulationSession
+      ).not.toHaveBeenCalled();
+      done();
+    }, 200);
+  });
+
 });
