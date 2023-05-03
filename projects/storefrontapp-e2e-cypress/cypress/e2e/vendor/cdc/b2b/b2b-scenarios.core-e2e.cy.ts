@@ -163,20 +163,40 @@ describe('CDC B2B scenarios', () => {
   });
 
   describe('Update profile', () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/cdc/login');
       cdc.loginUser(cdc.b2bUser.email, cdc.b2bUser.password);
-    });
-
-    it('should update profile (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Profile Details',
       });
+    });
 
+    it('should update last name in profile (CXSPA-3016)', () => {
       cdc.updateUserProfile();
       cdc.verifyProfileUpdateSuccess(cdc.b2bUser);
       cdc.restoreUserLastName(cdc.b2bUser);
+    });
+
+    it('should update password in profile details with screen set (CXINT-1912)', () => {
+      cdc.updateUserProfilePassword(cdc.b2bUser.password, cdc.updatedPassword);
+      cdc.verifyUpdatePasswordSuccess(
+        cdc.b2bUser.email,
+        cdc.updatedPassword,
+        cdc.b2bUser.fullName
+      );
+      cdc.restoreUserPassword(cdc.b2bUser);
+    });
+
+    it('should update email in profile details with screen set and logout the user (CXINT-1912)', () => {
+      const tempEmail = cdc.generateRandomEmail();
+      cdc.updateUserProfileEmail(tempEmail);
+      cdc.verifyUpdateEmailSuccess(
+        tempEmail,
+        cdc.b2bUser.password,
+        cdc.b2bUser.fullName
+      );
+      cdc.restoreUserEmail({ ...cdc.b2bUser, email: tempEmail });
     });
   });
 
@@ -199,17 +219,25 @@ describe('CDC B2B scenarios', () => {
   });
 
   describe('Update email without screenset', () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
-    });
-
-    it('should update email (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Email Address',
       });
+    });
 
+    it('should NOT update email with wrong password and show error (CXINT-23)', () => {
+      cdc.updateEmailWithoutScreenset(
+        cdc.b2bUser.email,
+        'WRONG_Pswd', //wrong password
+        true //error testing
+      );
+      cdc.verifyUpdateEmailError();
+    });
+
+    it('should update email (CXSPA-3016)', () => {
       cdc.updateEmailWithoutScreenset(
         cdc.updatedB2BEmail,
         cdc.b2bUser.password
@@ -224,17 +252,25 @@ describe('CDC B2B scenarios', () => {
   });
 
   describe('Update password without screenset', () => {
-    before(() => {
+    beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/login');
       cdc.loginWithoutScreenSet(cdc.b2bUser.email, cdc.b2bUser.password);
-    });
-
-    it('should update password in Native UI (CXSPA-3016)', () => {
       cy.selectUserMenuOption({
         option: 'Password',
       });
+    });
 
+    it('should NOT update password in Native UI with wrong password (CXINT-23)', () => {
+      cdc.updatePasswordWithoutScreenset(
+        'WRONG_Pswd', //wrong password
+        cdc.updatedPassword,
+        true
+      );
+      cdc.verifyUpdatePasswordError();
+    });
+
+    it('should update password in Native UI (CXSPA-3016)', () => {
       cdc.updatePasswordWithoutScreenset(
         cdc.b2bUser.password,
         cdc.updatedPassword
@@ -245,6 +281,38 @@ describe('CDC B2B scenarios', () => {
         cdc.b2bUser.fullName
       );
       cdc.restoreUserPassword(cdc.b2bUser);
+    });
+  });
+
+  describe('Forgot password in screenset', () => {
+    beforeEach(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+
+    it('should NOT send email to invalid email address in CDC screenset (CXINT-23)', () => {
+      cdc.forgotPassword('invalid_email@sapcx.com');
+      cdc.verifyForgotPasswordError();
+    });
+
+    it('should send email to invalid email address in CDC screenset (CXINT-23)', () => {
+      cdc.forgotPassword(cdc.b2bUser.email);
+      cdc.verifyForgotPasswordSuccess();
+    });
+  });
+
+  describe('Forgot password with Native UI', () => {
+    beforeEach(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+
+    it('should NOT send email to invalid email address in CDC (CXINT-23)', () => {
+      cdc.forgotPasswordWithoutScreenset('invalid_email@sapcx.com');
+      cdc.verifyForgotPasswordWithoutScreensetError();
+    });
+
+    it('should send email to valid email address in CDC (CXINT-23)', () => {
+      cdc.forgotPasswordWithoutScreenset(cdc.b2bUser.email);
+      cdc.verifyForgotPasswordWithoutScreensetSuccess();
     });
   });
 
@@ -295,7 +363,7 @@ describe('CDC B2B scenarios', () => {
   });
 
   after(() => {
-    cdc.logoutUser();
+    cy.visit('/logout');
     cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });

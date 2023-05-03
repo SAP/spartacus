@@ -110,7 +110,7 @@ module.exports = function (config) {
 
   - add the lint `targets > lint`
 
-    replace the TODO: with the library name
+    replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
 
     ```json
     "lint": {
@@ -120,6 +120,19 @@ module.exports = function (config) {
           "integration-libs/TODO:/**/*.ts",
           "integration-libs/TODO:/**/*.html"
         ]
+      }
+    }
+    ```
+  - add the test-jest `targets > test-jest`
+
+    replace the TODO: with the library name. Please remember it can either be a feature-libs or integration-libs.
+
+    ```json
+    "test-jest": {
+      "executor": "nx:run-commands",,
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/TODO:
       }
     }
     ```
@@ -322,6 +335,7 @@ The following files should be modified:
 - `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can be toggled on/off, add your feature environment variable to the `Env` interface located in this file
 - `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can be toggled on/off, set you feature for development as enabled or disabled by default
 - `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can be toggled on/off, pass the created env. variable to your feature
+- look for `EXCLUDE_INTEGRATION_LIBS` in the entire codebase, and add the new library to the comma separated string `IF AND ONLY IF` it is a new integration library.
 
 - Root `package.json`
 
@@ -339,19 +353,8 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `ci-scripts/unit-tests.sh`
 
-Add the library unit tests with code coverage
+`IF AND ONLY IF` you are creating a new integration-lib, then include the library's name to the command separated string for `EXCLUDE_INTEGRATION_LIBS`.
 
-```sh
-echo "Running unit tests and code coverage for TODO:"
-
-npx nx test TODO: --source-map --no-watch --code-coverage --browsers ChromeHeadless
-
-echo "Running schematics unit tests and code coverage for TODO: library"
-
-npm --prefix feature-libs/TODO: run test:schematics -- --coverage
-```
-
-Replace `TODO:` with the appropriate name.
 
 
 ### Sample data release entry ONLY if applicable

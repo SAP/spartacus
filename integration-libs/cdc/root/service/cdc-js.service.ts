@@ -32,7 +32,7 @@ import {
   Subscription,
   throwError,
 } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -375,10 +375,11 @@ export class CdcJsService implements OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     } else {
+      const errorMessage = response?.errorMessage || {
+        key: 'httpHandlers.unknownError',
+      };
       this.globalMessageService.add(
-        {
-          key: 'httpHandlers.unknownError',
-        },
+        errorMessage,
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
@@ -457,7 +458,16 @@ export class CdcJsService implements OnDestroy {
       const userDetails: User = {};
       userDetails.firstName = response.profile.firstName;
       userDetails.lastName = response.profile.lastName;
-      this.userProfileFacade.update(userDetails);
+      userDetails.uid = response.profile.email;
+      //logout the user only in case of email update.
+      this.getLoggedInUserEmail().subscribe((user) => {
+        const currentEmail = user?.uid;
+        this.userProfileFacade.update(userDetails).subscribe(() => {
+          if (currentEmail !== userDetails.uid) {
+            this.logoutUser();
+          }
+        });
+      });
     }
   }
 
@@ -509,15 +519,13 @@ export class CdcJsService implements OnDestroy {
                       tap({
                         error: (error) => of(error),
                         complete: () => {
-                          this.auth.coreLogout();
-                          this.invokeAPI('accounts.logout', {});
+                          this.logoutUser();
                         },
                       })
                     ),
                 })
               )
-            ),
-            catchError((error) => of(error))
+            )
           );
         })
       );
@@ -608,6 +616,11 @@ export class CdcJsService implements OnDestroy {
         },
       });
     });
+  }
+
+  protected logoutUser() {
+    this.auth.logout();
+    this.invokeAPI('accounts.logout', {});
   }
 
   ngOnDestroy(): void {

@@ -29,6 +29,13 @@
         "karmaConfig": "integration-libs/s4om/karma.conf.js"
       }
     },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "integration-libs/s4om"
+      }
+    },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
