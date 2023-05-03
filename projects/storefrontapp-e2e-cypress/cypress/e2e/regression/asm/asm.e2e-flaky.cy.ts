@@ -15,6 +15,11 @@ import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flo
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
+const agentToken = {
+  userName: 'asagent',
+  pwd: 'pw4all'
+};
+
 context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
@@ -34,7 +39,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Should has assignCart');
       cy.get('.cx-asm-assignCart').should('exist');
@@ -51,7 +56,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customer);
 
       cy.log('--> login as agent');
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Agent visting URL with deeplink');
       checkout.visitHomePage('asm=true&customerId=' + customer.email);
@@ -70,7 +75,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Agent logging in deeplink with valid id');
       checkout.visitHomePage('asm=true&customerId=' + customer.email);
@@ -100,7 +105,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       checkout.registerUser(false, customerNew);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Agent logging in deeplink with old customer');
       checkout.visitHomePage('asm=true&customerId=' + customerOld.email);
@@ -131,7 +136,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -184,7 +189,7 @@ context('Assisted Service Module', () => {
           checkout.visitHomePage('asm=true');
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
-          asm.agentLogin('asagent', 'pw4all');
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
 
           cy.log('--> Starting customer emulation');
           asm.startCustomerEmulation(customer);
@@ -260,7 +265,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -346,7 +351,7 @@ context('Assisted Service Module', () => {
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       login(customer.email, customer.password);
       getErrorAlert().should(
         'contain',
@@ -384,7 +389,7 @@ context('Assisted Service Module', () => {
       const customer = getSampleUser();
       checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       asm.startCustomerEmulation(customer);
 
