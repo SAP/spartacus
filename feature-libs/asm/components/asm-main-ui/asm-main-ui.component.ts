@@ -35,7 +35,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -58,7 +58,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   customerIdInURL: string;
-  emulated = false;
+  emulated$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -169,8 +170,17 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscribeForDeeplink();
   }
 
-  private subscribeForDeeplink(): void {
-    if ((this.featureConfig?.isLevel('6.1') ?? false) && this.location) {
+  protected getParametersFromUrl() {
+    const ALLOWED_PARAMETERS: string[] = ['customerId'];
+    const queryString = this.location?.path().split('?')[1];
+    const params = ALLOWED_PARAMETERS.map((param) => ({
+      [param]: new URLSearchParams(queryString).get(param),
+    }));
+    return params;
+  }
+
+  protected subscribeForDeeplink(): void {
+    if (this.featureConfig?.isLevel('6.1') && this.location) {
       const queryString = this.location.path().split('?')[1];
       this.customerIdInURL =
         new URLSearchParams(queryString).get('customerId') || '';
@@ -180,8 +190,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           this.authService.isUserLoggedIn(),
         ]).subscribe(([loggedIn, userLoggedin]) => {
           if (loggedIn && this.customerIdInURL) {
-            if (userLoggedin && !this.emulated) {
-              this.asmComponentService.logoutCustomer();
+            if (userLoggedin) {
+              this.emulated$.subscribe((emulated) => {
+                if (!emulated) {
+                  this.asmComponentService.logoutCustomer();
+                } else {
+                  setTimeout(() => this.startSessionWithParameters());
+                }
+              });
             } else {
               setTimeout(() => this.startSessionWithParameters());
             }
@@ -214,10 +230,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
-  private startSessionWithParameters(): void {
-    if (this.customerIdInURL && !this.emulated) {
-      this.emulated = true;
-      this.startCustomerEmulationSession({ customerId: this.customerIdInURL });
+  protected startSessionWithParameters(): void {
+    if (this.customerIdInURL) {
+      this.emulated$.subscribe((emulated) => {
+        if (!emulated) {
+          this.emulated$.next(true);
+          this.startCustomerEmulationSession({
+            customerId: this.customerIdInURL,
+          });
+        }
+      });
     }
   }
 
