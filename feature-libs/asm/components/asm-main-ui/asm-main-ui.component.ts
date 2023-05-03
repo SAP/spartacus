@@ -184,13 +184,15 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         ]).subscribe(([agentLoggedIn, userLoggedin]) => {
           if (agentLoggedIn && customerIdInURL) {
             if (userLoggedin) {
-              this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
-                if (!emulated) {
-                  this.asmComponentService.logoutCustomer();
-                } else {
-                  setTimeout(() => this.startSessionWithParameters());
-                }
-              });
+              this.asmComponentService
+                .isEmulatedByDeepLink()
+                .subscribe((emulated) => {
+                  if (!emulated) {
+                    this.asmComponentService.logoutCustomer();
+                  } else {
+                    setTimeout(() => this.startSessionWithParameters());
+                  }
+                });
             } else {
               setTimeout(() => this.startSessionWithParameters());
             }

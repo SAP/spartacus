@@ -30,13 +30,11 @@ export class AsmComponentService {
     return this.searchparam.get(key) || '';
   }
 
-  isEmulatedByDeepLink(): BehaviorSubject<boolean>
-  {
+  isEmulatedByDeepLink(): BehaviorSubject<boolean> {
     return this.isEmulatedByDeepLink$;
   }
 
-  setEmulated(emulated: boolean)
-  {
+  setEmulated(emulated: boolean) {
     this.isEmulatedByDeepLink$.next(emulated);
   }
 

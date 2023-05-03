@@ -36,9 +36,9 @@ const MockWindowRef = {
       }
     },
   },
-  location:{
-    search: 'customerId=testId'
-  }
+  location: {
+    search: 'customerId=testId',
+  },
 };
 
 describe('AsmComponentService', () => {
@@ -126,7 +126,7 @@ describe('AsmComponentService', () => {
     });
   });
 
-  it('should emit false when setEmulated called with true', (done) => {
+  describe('asmComponentService and setEmulated ', () => {
     it('should emit true when user is emulated', (done) => {
       asmComponentService.setEmulated(true);
 

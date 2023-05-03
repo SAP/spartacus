@@ -121,7 +121,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockAsmComponentService extends AsmComponentService{
+class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
   isCustomerEmulationSessionInProgress() {
@@ -455,7 +455,7 @@ describe('AsmMainUiComponent', () => {
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue("anyId");
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
 
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
@@ -470,7 +470,9 @@ describe('AsmMainUiComponent', () => {
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(testCustomerId);
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+      testCustomerId
+    );
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
@@ -499,5 +501,4 @@ describe('AsmMainUiComponent', () => {
       done();
     }, 200);
   });
-
 });

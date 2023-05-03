@@ -17,7 +17,7 @@ import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 const agentToken = {
   userName: 'asagent',
-  pwd: 'pw4all'
+  pwd: 'pw4all',
 };
 
 context('Assisted Service Module', () => {
