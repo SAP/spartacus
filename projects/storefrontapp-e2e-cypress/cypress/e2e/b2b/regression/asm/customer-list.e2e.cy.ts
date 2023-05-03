@@ -23,5 +23,15 @@ context('Assisted Service Module', () => {
       asm.asmB2bCustomerLists();
       asm.agentSignOut();
     });
+
+    it('checking pagination', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin('jules.hasson@acme.com', 'pw4all');
+      asm.asmB2bCustomerListPagination();
+      asm.agentSignOut();
+    });
   });
 });
