@@ -34,7 +34,7 @@ export class AsmComponentService {
     return this.isEmulatedByDeepLink$;
   }
 
-  setEmulated(emulated: boolean) {
+  setEmulatedByDeepLink(emulated: boolean) {
     this.isEmulatedByDeepLink$.next(emulated);
   }
 

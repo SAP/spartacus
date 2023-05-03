@@ -241,7 +241,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     if (customerIdInURL) {
       this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
         if (!emulated) {
-          this.asmComponentService.setEmulated(true);
+          this.asmComponentService.setEmulatedByDeepLink(true);
           this.startCustomerEmulationSession({
             customerId: customerIdInURL,
           });
