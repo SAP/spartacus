@@ -165,6 +165,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscribeForDeeplink();
   }
 
+  /**
+   * try to check URL to see whether try to emulate customer directly with logic as below.
+   * When agent is logged in and has customerId in URL. Logic as below:
+   * 1) If customer already emulated(userLoggedin) but not emulated by deeplink(isEmulatedByDeepLink),
+   *    we'll logout first, then when userLoggedin to false, we;ll call startSessionWithParameters;
+   * 2) If customer not emulated, agent logined, we'll call startSessionWithParameters directly;
+   * 3) If agent not login, we'll wait till agentLoggedIn. and the go to solution 2
+   */
   protected subscribeForDeeplink(): void {
     if (this.featureConfig?.isLevel('6.1')) {
       const customerIdInURL =
@@ -173,8 +181,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         combineLatest([
           this.customerSupportAgentLoggedIn$,
           this.authService.isUserLoggedIn(),
-        ]).subscribe(([loggedIn, userLoggedin]) => {
-          if (loggedIn && customerIdInURL) {
+        ]).subscribe(([agentLoggedIn, userLoggedin]) => {
+          if (agentLoggedIn && customerIdInURL) {
             if (userLoggedin) {
               this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
                 if (!emulated) {
@@ -214,7 +222,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }): void {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
-
+  /**
+   * If url contains customerId and we haven't emulatedFromURL, we'll change the isEmulatedByDeepLink flag and
+   * start emulate customer in URL.
+   */
   protected startSessionWithParameters(): void {
     const customerIdInURL =
       this.asmComponentService.getSearchParameter('customerId');
