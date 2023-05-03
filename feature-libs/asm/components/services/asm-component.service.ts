@@ -10,13 +10,14 @@ import {
   CsAgentAuthService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AsmComponentService {
   searchparam: URLSearchParams;
+  isEmulatedByDeepLink$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -27,6 +28,16 @@ export class AsmComponentService {
 
   getSearchParameter(key: string): string {
     return this.searchparam.get(key) || '';
+  }
+
+  isEmulatedByDeepLink(): BehaviorSubject<boolean>
+  {
+    return this.isEmulatedByDeepLink$;
+  }
+
+  setEmulated(emulated: boolean)
+  {
+    this.isEmulatedByDeepLink$.next(emulated);
   }
 
   logoutCustomerSupportAgentAndCustomer(): void {

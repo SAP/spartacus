@@ -33,7 +33,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { BehaviorSubject, combineLatest, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -56,7 +56,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   customerIdInURL: string;
-  emulated$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
@@ -177,7 +176,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         ]).subscribe(([loggedIn, userLoggedin]) => {
           if (loggedIn && customerIdInURL) {
             if (userLoggedin) {
-              this.emulated$.subscribe((emulated) => {
+              this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
                 if (!emulated) {
                   this.asmComponentService.logoutCustomer();
                 } else {
@@ -220,9 +219,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     const customerIdInURL =
       this.asmComponentService.getSearchParameter('customerId');
     if (customerIdInURL) {
-      this.emulated$.subscribe((emulated) => {
+      this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
         if (!emulated) {
-          this.emulated$.next(true);
+          this.asmComponentService.setEmulated(true);
           this.startCustomerEmulationSession({
             customerId: customerIdInURL,
           });

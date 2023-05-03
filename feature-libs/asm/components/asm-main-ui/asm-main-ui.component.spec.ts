@@ -121,15 +121,11 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockAsmComponentService {
+class MockAsmComponentService extends AsmComponentService{
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
   isCustomerEmulationSessionInProgress() {
     return of(false);
-  }
-  logoutCustomer(): void {}
-  getSearchParameter(): string{
-    return '';
   }
 }
 
