@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Location } from '@angular/common';
-
 import {
   Component,
   ElementRef,
@@ -82,7 +80,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     userAccountFacade: UserAccountFacade,
     launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    location: Location,
     featureConfig: FeatureConfigService
   );
   /**
@@ -107,7 +104,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected location?: Location,
     @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
@@ -170,26 +166,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscribeForDeeplink();
   }
 
-  protected getParametersFromUrl() {
-    const ALLOWED_PARAMETERS: string[] = ['customerId'];
-    const queryString = this.location?.path().split('?')[1];
-    const params = ALLOWED_PARAMETERS.map((param) => ({
-      [param]: new URLSearchParams(queryString).get(param),
-    }));
-    return params;
-  }
-
   protected subscribeForDeeplink(): void {
-    if (this.featureConfig?.isLevel('6.1') && this.location) {
-      const queryString = this.location.path().split('?')[1];
-      this.customerIdInURL =
-        new URLSearchParams(queryString).get('customerId') || '';
+    if (this.featureConfig?.isLevel('6.1')) {
+      const customerIdInURL =
+        this.asmComponentService.getSearchParameter('customerId');
       this.subscription.add(
         combineLatest([
           this.customerSupportAgentLoggedIn$,
           this.authService.isUserLoggedIn(),
         ]).subscribe(([loggedIn, userLoggedin]) => {
-          if (loggedIn && this.customerIdInURL) {
+          if (loggedIn && customerIdInURL) {
             if (userLoggedin) {
               this.emulated$.subscribe((emulated) => {
                 if (!emulated) {
@@ -231,12 +217,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   protected startSessionWithParameters(): void {
-    if (this.customerIdInURL) {
+    const customerIdInURL =
+      this.asmComponentService.getSearchParameter('customerId');
+    if (customerIdInURL) {
       this.emulated$.subscribe((emulated) => {
         if (!emulated) {
           this.emulated$.next(true);
           this.startCustomerEmulationSession({
-            customerId: this.customerIdInURL,
+            customerId: customerIdInURL,
           });
         }
       });

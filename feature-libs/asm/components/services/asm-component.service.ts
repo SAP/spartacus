@@ -16,11 +16,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AsmComponentService {
+  searchparam: URLSearchParams;
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef
-  ) {}
+  ) {
+    this.searchparam = new URLSearchParams(this.winRef?.location?.search);
+  }
+
+  getSearchParameter(key: string): string {
+    return this.searchparam.get(key) || '';
+  }
 
   logoutCustomerSupportAgentAndCustomer(): void {
     this.csAgentAuthService.logoutCustomerSupportAgent();

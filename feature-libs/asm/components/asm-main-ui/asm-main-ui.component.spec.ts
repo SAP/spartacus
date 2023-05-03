@@ -26,7 +26,6 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
-import { Location } from '@angular/common';
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -129,6 +128,9 @@ class MockAsmComponentService {
     return of(false);
   }
   logoutCustomer(): void {}
+  getSearchParameter(): string{
+    return '';
+  }
 }
 
 class MockAsmService implements Partial<AsmService> {
@@ -154,7 +156,6 @@ describe('AsmMainUiComponent', () => {
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
   let featureConfig: FeatureConfigService;
-  let location: Location;
   const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(
@@ -193,7 +194,6 @@ describe('AsmMainUiComponent', () => {
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    location = TestBed.inject(Location);
     featureConfig = TestBed.inject(FeatureConfigService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -221,9 +221,8 @@ describe('AsmMainUiComponent', () => {
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(location, 'path').and.returnValue(
-      'https://host/url/?asm=true&customerId=' + testCustomerId
-    );
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue("anyId");
+
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
@@ -237,9 +236,7 @@ describe('AsmMainUiComponent', () => {
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(location, 'path').and.returnValue(
-      'https://host/url/?asm=true&customerId=' + testCustomerId
-    );
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(testCustomerId);
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
@@ -258,7 +255,6 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(location, 'path').and.returnValue('https://host/url/?asm=true');
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
