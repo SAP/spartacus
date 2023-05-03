@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Optional,
+  ViewChild,
+} from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -17,6 +25,7 @@ import {
   SortModel,
   TranslationService,
   User,
+  OccConfig,
   FeatureConfigService,
 } from '@spartacus/core';
 import {
@@ -24,6 +33,7 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
+  LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
@@ -82,7 +92,36 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   enableAsmB2bCustomerList = false;
 
+  customerListColumnActionType = CustomerListColumnActionType;
+
+  searchBox: UntypedFormControl = new UntypedFormControl();
+
   protected teardown: Subscription = new Subscription();
+
+  @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
+
+  constructor(
+    launchDialogService: LaunchDialogService,
+    breakpointService: BreakpointService,
+    asmConfig: AsmConfig,
+    translation: TranslationService,
+    asmCustomerListFacade: AsmCustomerListFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    occConfig?: OccConfig
+  );
+
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    launchDialogService: LaunchDialogService,
+    breakpointService: BreakpointService,
+    asmConfig: AsmConfig,
+    translation: TranslationService,
+    asmCustomerListFacade: AsmCustomerListFacade
+  );
 
   constructor(
     launchDialogService: LaunchDialogService,
@@ -109,8 +148,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
     protected asmCustomerListFacade: AsmCustomerListFacade,
-    // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
-    @Optional() protected featureConfig?: FeatureConfigService
+    // TODO:(CXSPA-3090) for next major release remove feature level
+    @Optional() protected featureConfig?: FeatureConfigService,
+    @Optional() protected occConfig?: OccConfig
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -199,6 +239,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       if (this.sortCode) {
         options.sort = this.sortCode;
       }
+      if (this.searchBox?.value) {
+        options.query = this.searchBox.value;
+      }
 
       this.asmCustomerListFacade.customerListCustomersSearchReset();
 
@@ -252,6 +295,28 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.closeModal(closeValue);
   }
 
+  onKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.fetchCustomers();
+    }
+  }
+
+  isRequired(customerEntry: User, type: string): boolean {
+    if (
+      type === CustomerListColumnActionType.ACTIVE_CART &&
+      !customerEntry.lastCartId
+    ) {
+      return true;
+    }
+    if (
+      type === CustomerListColumnActionType.ORDER_HISTORY &&
+      customerEntry.hasOrder !== true
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   changeSortCode(sortCode: string): void {
     this.sortCode = sortCode;
     this.fetchCustomers();
@@ -292,32 +357,50 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     byDateDesc: string;
   }> {
     return combineLatest([
+      this.translation.translate('asm.customerList.tableSort.byName'),
       this.translation.translate('asm.customerList.tableSort.byNameAsc'),
       this.translation.translate('asm.customerList.tableSort.byNameDesc'),
       this.translation.translate('asm.customerList.tableSort.byDateAsc'),
       this.translation.translate('asm.customerList.tableSort.byDateDesc'),
       this.translation.translate('asm.customerList.tableSort.byOrderDateAsc'),
       this.translation.translate('asm.customerList.tableSort.byOrderDateDesc'),
+      this.translation.translate('asm.customerList.tableSort.byUnit'),
+      this.translation.translate('asm.customerList.tableSort.byUnitDesc'),
     ]).pipe(
       map(
         ([
+          textByName,
           textByNameAsc,
           textByNameDesc,
-          textByOrderDateAsc,
-          textByOrderDateDesc,
           textByDateAsc,
           textByDateDesc,
+          textByOrderDateAsc,
+          textByOrderDateDesc,
+          textByUnit,
+          textByUnitDesc,
         ]) => {
           return {
+            byName: textByName,
             byNameAsc: textByNameAsc,
             byNameDesc: textByNameDesc,
             byOrderDateAsc: textByOrderDateAsc,
             byOrderDateDesc: textByOrderDateDesc,
             byDateAsc: textByDateAsc,
             byDateDesc: textByDateDesc,
+            byUnit: textByUnit,
+            byUnitDesc: textByUnitDesc,
           };
         }
       )
+    );
+  }
+
+  createCustomer(): void {
+    this.launchDialogService.closeDialog('Create customer click');
+
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.addNewCustomerLink
     );
   }
 

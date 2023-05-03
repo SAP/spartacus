@@ -21,9 +21,10 @@ import {
   BreakpointService,
   FocusConfig,
   ICON_TYPE,
+  LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
 import { CustomerListAction } from './customer-list.model';
 import createSpy = jasmine.createSpy;
@@ -141,9 +142,25 @@ const mockReturnData: CustomerListAction = {
   actionType: CustomerListColumnActionType.ORDER_HISTORY,
 };
 
+const enterKeyEvent: any = {
+  key: 'Enter',
+};
+
+const badKeyEvent: any = {
+  key: 'Enter95',
+};
+
+const query = {
+  queryParams: {
+    query: 'customer',
+  },
+};
+
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
-
+  openDialogAndSubscribe() {
+    return EMPTY;
+  }
   data$ = of(mockReturnData);
 }
 
@@ -329,6 +346,37 @@ describe('CustomerListComponent', () => {
     expect(
       asmCustomerListFacade.customerListCustomersSearch
     ).toHaveBeenCalledWith(expectedOptions);
+  });
+
+  it('should call enter onKey and dispatch query param', () => {
+    component.searchBox.setValue(query.queryParams.query);
+    fixture.detectChanges();
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+
+    component.onKey(enterKeyEvent);
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).toHaveBeenCalledWith({
+      customerListId: mockCustomerListPage?.userGroups?.[0].uid,
+      pageSize: 5,
+      currentPage: 0,
+      sort: 'byNameAsc',
+      query: query.queryParams.query,
+    });
+  });
+
+  it('should only call enter onKey', () => {
+    component.onKey(badKeyEvent);
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).not.toHaveBeenCalled();
   });
 
   it('should close modal when select a customer', () => {
@@ -634,5 +682,14 @@ describe('CustomerListComponent', () => {
     component.customerSearchError$.subscribe((isError) => (actual = isError));
 
     expect(actual).toBe(true);
+  });
+
+  it('should be able to open dialog', () => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    component.createCustomer();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      component.addNewCustomerLink
+    );
   });
 });

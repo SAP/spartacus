@@ -46,6 +46,14 @@ export const defaultAsmConfig: AsmConfig = {
           },
         },
         {
+          headerLocalizationKey: 'asm.customerList.tableHeader.cart',
+          icon: {
+            symbol: ICON_TYPE.CART,
+            captionLocalizationKey: 'asm.customerList.tableHeader.cart',
+          },
+          actionType: CustomerListColumnActionType.ACTIVE_CART,
+        },
+        {
           headerLocalizationKey: 'asm.customerList.tableHeader.order',
           icon: {
             symbol: ICON_TYPE.ORDER,

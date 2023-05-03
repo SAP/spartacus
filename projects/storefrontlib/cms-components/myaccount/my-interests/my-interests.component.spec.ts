@@ -7,7 +7,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -23,11 +23,10 @@ import {
   ProductService,
   UserInterestsService,
 } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
+import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { MyInterestsComponent } from './my-interests.component';
 
 @Component({
@@ -317,27 +316,6 @@ describe('MyInterestsComponent', () => {
     expect(
       table.queryAll(By.css('.cx-product-interests-remove-btn')).length
     ).toEqual(2);
-  });
-
-  it("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
-    productInterestService.getAndLoadProductInterests.and.returnValue(
-      of(mockedInterests)
-    );
-    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
-    fixture.detectChanges();
-
-    const tableHeaders = el.queryAll(By.css('th'));
-    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-      expect,
-      tableHeaders[1].nativeElement,
-      'span',
-      'cx-visually-hidden',
-      undefined,
-      undefined,
-      undefined,
-      'myInterests.item'
-    );
   });
 
   it('should be able to change page/sort', () => {

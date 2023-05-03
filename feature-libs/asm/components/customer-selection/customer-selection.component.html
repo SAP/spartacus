@@ -57,7 +57,16 @@
       results.entries.length <= 0
     "
   >
-    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+    <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
+    <ng-container *cxFeatureLevel="'!6.1'">
+      {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+    </ng-container>
+    <ng-container *cxFeatureLevel="'6.1'">
+      {{ 'asm.customerSearch.noMatchResult' | cxTranslate }}
+      <a #createCustomerLink class="link" (click)="createCustomer()">{{
+        'asm.customerSearch.createCustomer' | cxTranslate
+      }}</a>
+    </ng-container>
   </button>
 </div>
 

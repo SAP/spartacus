@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
 import { ScheduleLine } from '@spartacus/s4om/root';
-import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { FeaturesConfigModule } from 'projects/core/src/features-config';
 import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
 import { Observable, of, ReplaySubject } from 'rxjs';
@@ -93,6 +92,12 @@ describe('ScheduleLinesCartEntryComponent', () => {
     mockCartItemContext.item$.next(orderEntry);
   });
 
+  it('should return empty string when no date is provided', () => {
+    const date = component.getLongDate();
+
+    expect(date).toEqual('');
+  });
+
   describe('schedule lines', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
@@ -141,76 +146,54 @@ describe('ScheduleLinesCartEntryComponent', () => {
       });
 
       it("should contain div element with class name 'cx-visually-hidden' that contains a hidden schedule line info", function () {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-visually-hidden',
-          0,
-          undefined,
-          undefined,
+        const divElementWithVisuallyHiddenClass = htmlElem.querySelector(
+          '.cx-visually-hidden'
+        );
+
+        expect(divElementWithVisuallyHiddenClass?.innerHTML).toContain(
           's4omScheduleLines.a11y.scheduleLineEntryInfo'
         );
       });
 
       it("should contain div element with 'cx-schedule-line-info' and aria-describedby attribute that refers to a corresponding attribute-value pair", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-schedule-line-info',
-          undefined,
-          'aria-describedby',
-          'cx-schedule-line-info-0'
+        const divElementWithScheduleLineInfoClass = htmlElem.querySelector(
+          '.cx-schedule-line-info'
         );
-      });
 
-      it("should contain div element with class name 'cx-visually-hidden' that refers to a corresponding attribute-value pair", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-visually-hidden',
-          1,
-          undefined,
-          undefined,
-          's4omScheduleLines.a11y.scheduleLineEntryInfo'
+        expect(
+          divElementWithScheduleLineInfoClass?.attributes?.hasOwnProperty(
+            'aria-describedby'
+          )
         );
+        expect(
+          divElementWithScheduleLineInfoClass?.getAttribute('aria-describedby')
+        ).toEqual('cx-schedule-line-info-0');
       });
 
       it('should contain div elements for label and value with corresponding content', () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-label',
-          undefined,
-          'aria-hidden',
-          'true',
-          undefined
-        );
+        const divElementWithCxLabelClass = htmlElem.querySelector('.cx-label');
 
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-value',
-          0,
-          'aria-hidden',
-          'true',
-          undefined
+        expect(
+          divElementWithCxLabelClass?.attributes?.hasOwnProperty('aria-hidden')
         );
+        expect(divElementWithCxLabelClass?.ariaHidden).toEqual('true');
 
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'div',
-          'cx-value',
-          1,
-          'aria-hidden',
-          'true',
-          undefined
+        const divElementWithCxValueClasses =
+          htmlElem.querySelectorAll('.cx-value');
+
+        expect(
+          divElementWithCxValueClasses[0]?.attributes?.hasOwnProperty(
+            'aria-hidden'
+          )
         );
+        expect(divElementWithCxValueClasses[0]?.ariaHidden).toEqual('true');
+
+        expect(
+          divElementWithCxValueClasses[1]?.attributes?.hasOwnProperty(
+            'aria-hidden'
+          )
+        );
+        expect(divElementWithCxValueClasses[1]?.ariaHidden).toEqual('true');
       });
     });
   });
