@@ -166,12 +166,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * try to check URL to see whether try to emulate customer directly with logic as below.
-   * When agent is logged in and has customerId in URL. Logic as below:
-   * 1) If customer already emulated(userLoggedin) but not emulated by deeplink(isEmulatedByDeepLink),
-   *    we'll logout first, then when userLoggedin to false, we;ll call startSessionWithParameters;
-   * 2) If customer not emulated, agent logined, we'll call startSessionWithParameters directly;
-   * 3) If agent not login, we'll wait till agentLoggedIn. and the go to solution 2
+   * When agent is logged in and deep link has customerID,
+   * call handleDeepLinkAfterAgentLogin with userLoggedin to indicate whether we are emuating user
    */
   protected subscribeForDeeplink(): void {
     if (this.featureConfig?.isLevel('6.1')) {
@@ -183,22 +179,33 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           this.authService.isUserLoggedIn(),
         ]).subscribe(([agentLoggedIn, userLoggedin]) => {
           if (agentLoggedIn && customerIdInURL) {
-            if (userLoggedin) {
-              this.asmComponentService
-                .isEmulatedByDeepLink()
-                .subscribe((emulated) => {
-                  if (!emulated) {
-                    this.asmComponentService.logoutCustomer();
-                  } else {
-                    setTimeout(() => this.startSessionWithParameters());
-                  }
-                });
-            } else {
-              setTimeout(() => this.startSessionWithParameters());
-            }
+            this.handleDeepLinkAfterAgentLogin(userLoggedin);
           }
         })
       );
+    }
+  }
+  /**
+   * When agent logged in and customerId shows as deep link parameter
+   * 1) If customer already emulated(userLoggedin) but not emulated by deeplink(isEmulatedByDeepLink),
+   *    we'll logout first. subscribeForDeeplink will call us again once status userLoggedin changed.
+   * 2) If customer not emulated, agent logined, we'll call startSessionWithParameters directly;
+   * @param userLoggedin indicates whether we have emulate customer
+   */
+  protected handleDeepLinkAfterAgentLogin(userLoggedin: boolean): void {
+    if (userLoggedin) {
+      this.asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((emulated) => {
+          if (!emulated) {
+            this.asmComponentService.logoutCustomer();
+          } else {
+            setTimeout(() => this.startSessionWithParameters());
+          }
+        });
+    } else {
+      setTimeout(() => this.startSessionWithParameters());
     }
   }
 
