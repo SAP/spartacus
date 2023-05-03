@@ -585,12 +585,15 @@ describe('CustomerListComponent', () => {
       'customerListCustomersSearch'
     ).and.callThrough();
     component.pageChange(1);
-
-    fixture.detectChanges();
-
+    const expectedOptions: CustomerSearchOptions = {
+      customerListId: component.selectedUserGroupId,
+      pageSize: component.pageSize,
+      currentPage: 1,
+      sort: component.sortCode,
+    };
     expect(
       asmCustomerListFacade.customerListCustomersSearch
-    ).toHaveBeenCalledWith(1);
+    ).toHaveBeenCalledWith(expectedOptions);
   });
 
   it('should get user group name', () => {

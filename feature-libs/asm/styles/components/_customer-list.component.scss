@@ -145,6 +145,7 @@ $sapFioriContent_LabelColor: #6a6d70;
 
   .cx-dialog-body {
     padding-top: 0;
+    padding-bottom: 0;
     max-height: calc(100vh - 260px);
     overflow-y: auto;
   }
@@ -295,9 +296,8 @@ $sapFioriContent_LabelColor: #6a6d70;
       font-weight: 400;
       font-size: 14px;
       line-height: 16px;
-      color: #0064D9;   
-      border-color:  #FFFFFF;
-      // vertical-align:middle;
+      color: #0064d9;
+      border-color: #ffffff;
       &:first-child {
         width: 48px;
         height: 26px;
@@ -307,9 +307,8 @@ $sapFioriContent_LabelColor: #6a6d70;
         font-size: 20px;
         line-height: 16px;
         text-align: center;
-        color: #0064D9;
+        color: #0064d9;
         margin-top: 8px;
-        
       }
       &:last-child {
         width: 48px;
@@ -320,8 +319,8 @@ $sapFioriContent_LabelColor: #6a6d70;
         font-size: 20px;
         line-height: 16px;
         text-align: center;
-        color: #0064D9;
-        border-color:  #FFFFFF;
+        color: #0064d9;
+        border-color: #ffffff;
         margin-top: 8px;
       }
       &.current {
@@ -333,13 +332,14 @@ $sapFioriContent_LabelColor: #6a6d70;
         font-size: 14px;
         line-height: 16px;
         text-align: center;
-        color: #1D2D3E;
-        background: #EAECEE;
+        color: #1d2d3e;
+        background: #eaecee;
         border-radius: 8px;
-        border-color:  #FFFFFF;
-      }}
+        border-color: #ffffff;
+      }
     }
-    
+  }
+
   @include forVersion(6.1) {
     .cx-asm-create-customer-btn {
       background-color: #eaecee;

@@ -64,7 +64,6 @@
           [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
         >
           <ng-template *ngTemplateOutlet="sort"></ng-template>
-          <!-- <ng-template *ngTemplateOutlet="pagination"></ng-template> -->
           <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
           <ng-container *cxFeatureLevel="'!6.1'">
             <ng-template *ngTemplateOutlet="pagination"></ng-template>
@@ -281,11 +280,6 @@
               >
                 {{ 'asm.customerList.noCustomers' | cxTranslate }}
               </div>
-                <cx-pagination
-                  [pagination]="customerSearchPage.pagination"
-                  (viewPageEvent)="pageChange($event)"
-                  [paginationConfig]="paginationConfig"
-                ></cx-pagination>
             </div>
           </div>
         </div>
@@ -302,7 +296,13 @@
             class="cx-header-actions"
             [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
           >
-            <ng-template *ngTemplateOutlet="pagination"></ng-template>
+            <div *ngIf="customerSearchPage$ | async as customerSearchPage">
+              <cx-pagination
+                [pagination]="customerSearchPage.pagination"
+                (viewPageEvent)="pageChange($event)"
+                [paginationConfig]="paginationConfig"
+              ></cx-pagination>
+            </div>
           </div>
         </div>
         <div class="cx-dialog-footer modal-footer">
