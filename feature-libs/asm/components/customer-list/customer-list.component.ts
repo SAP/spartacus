@@ -226,6 +226,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           ? 'asm.customerList.tableHeader.account'
           : 'hideAccount';
       }
+      if (item.headerLocalizationKey === 'asm.customerList.tableHeader.cart') {
+        item.headerLocalizationKey = this.featureConfig?.isLevel('6.1')
+          ? item.headerLocalizationKey
+          : 'hideAccount';
+      }
     });
   }
 
@@ -267,8 +272,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   onKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
-      this.fetchCustomers();
+      this.searchCustomers();
     }
+  }
+  searchCustomers(): void {
+    this.currentPage = 0;
+    this.fetchCustomers();
   }
 
   isRequired(customerEntry: User, type: string): boolean {

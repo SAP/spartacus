@@ -362,6 +362,7 @@
       *ngIf="column.actionType"
       (click)="startColumnAction(customerEntry, column.actionType)"
       class="btn btn-link cx-action-link cx-btn-cell"
+      [class]="column.actionType === 'ACTIVE_CART' ? 'cx-cart' : ''"
       [disabled]="isRequired(customerEntry, column.actionType)"
       [attr.title]="
         column.icon
@@ -426,7 +427,7 @@
       role="button"
       [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
       class="search"
-      (click)="fetchCustomers()"
+      (click)="searchCustomers()"
     ></cx-icon>
   </div>
 </ng-template>
