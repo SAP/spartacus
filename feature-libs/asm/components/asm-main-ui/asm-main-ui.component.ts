@@ -182,7 +182,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   /**
    * When agent is logged in and deep link has customerID,
-   * call handleDeepLinkAfterAgentLogin with userLoggedin to indicate whether we are emuating user
+   * call logout if has customer emulated(userLoggedin) but not emulated by deep link.
+   * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
     if (this.featureConfig?.isLevel('6.1')) {
@@ -192,35 +193,17 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         combineLatest([
           this.customerSupportAgentLoggedIn$,
           this.authService.isUserLoggedIn(),
-        ]).subscribe(([agentLoggedIn, userLoggedin]) => {
+          this.asmComponentService.isEmulatedByDeepLink(),
+        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
           if (agentLoggedIn && customerIdInURL) {
-            this.handleDeepLinkAfterAgentLogin(userLoggedin);
+            if (!isEmulatedByDeepLink && userLoggedin) {
+              this.asmComponentService.logoutCustomer();
+            } else {
+              setTimeout(() => this.startSessionWithParameters());
+            }
           }
         })
       );
-    }
-  }
-  /**
-   * When agent logged in and customerId shows as deep link parameter
-   * 1) If customer already emulated(userLoggedin) but not emulated by deeplink(isEmulatedByDeepLink),
-   *    we'll logout first. subscribeForDeeplink will call us again once status userLoggedin changed.
-   * 2) If customer not emulated, agent logined, we'll call startSessionWithParameters directly;
-   * @param userLoggedin indicates whether we have emulate customer
-   */
-  protected handleDeepLinkAfterAgentLogin(userLoggedin: boolean): void {
-    if (userLoggedin) {
-      this.asmComponentService
-        .isEmulatedByDeepLink()
-        .pipe(take(1))
-        .subscribe((emulated) => {
-          if (!emulated) {
-            this.asmComponentService.logoutCustomer();
-          } else {
-            setTimeout(() => this.startSessionWithParameters());
-          }
-        });
-    } else {
-      setTimeout(() => this.startSessionWithParameters());
     }
   }
 
