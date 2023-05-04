@@ -530,5 +530,4 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     expect(routingService.go).not.toHaveBeenCalledWith('/');
   });
-
 });
