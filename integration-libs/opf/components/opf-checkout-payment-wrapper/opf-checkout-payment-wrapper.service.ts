@@ -6,13 +6,14 @@
 
 import { ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import { RoutingService, ScriptLoader, UserIdService } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
+  PaymentDynamicScriptResource,
   PaymentSessionData,
 } from '@spartacus/opf/root';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, throwError } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { OpfCheckoutPaymentLinkComponent } from './payment-link/opf-checkout-payment-link.component';
 
@@ -23,10 +24,42 @@ export class OpfCheckoutPaymentWrapperService {
     protected opfOtpService: OpfOtpFacade,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected scriptLoader: ScriptLoader
   ) {}
 
   protected activeCartId: string;
+
+  protected executeScriptFromHtml(html: string) {
+    const element = new DOMParser().parseFromString(html, 'text/html');
+    const script = element.getElementsByTagName('script');
+    Function(script[0].innerText)();
+  }
+
+  protected loadProviderScripts(
+    scripts: PaymentDynamicScriptResource[] | undefined
+  ): Promise<void> {
+    return new Promise((resolve) => {
+      let loaded = 0;
+
+      scripts?.forEach((script: PaymentDynamicScriptResource) => {
+        if (script.url) {
+          this.scriptLoader.embedScript({
+            src: script.url,
+            attributes: { type: 'text/javascript' },
+            callback: () => {
+              loaded++;
+              if (loaded === scripts?.length) {
+                resolve();
+              }
+            },
+            errorCallback: () =>
+              throwError(`Error while loading external ${script.url} script.`),
+          });
+        }
+      });
+    });
+  }
 
   initiatePayment(paymentOptionId: number): Observable<PaymentSessionData> {
     return combineLatest([
@@ -63,17 +96,24 @@ export class OpfCheckoutPaymentWrapperService {
   ) {
     container.clear();
 
+    const component: ComponentRef<OpfCheckoutPaymentLinkComponent> =
+      container.createComponent(OpfCheckoutPaymentLinkComponent);
+
     // case for destination url
     if (config?.destination) {
-      const component: ComponentRef<OpfCheckoutPaymentLinkComponent> =
-        container.createComponent(OpfCheckoutPaymentLinkComponent);
       component.instance.link = config.destination.url;
-      component.instance.ngOnInit();
     }
 
     // case for dynamic script
     if (config?.dynamicScript) {
-      // container.insert(config.dynamicScript.html);
+      const html = config.dynamicScript.html || '';
+
+      this.loadProviderScripts(config.dynamicScript.jsUrls).then(() => {
+        this.executeScriptFromHtml(html);
+      });
+      component.instance.html = html;
     }
+
+    component.instance.ngOnInit();
   }
 }

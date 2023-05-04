@@ -1,5 +1,9 @@
-<div class="cx-payment-link">
-  <a class="btn btn-primary" [href]="link">
-    {{ 'opf.checkout.proceedPayment' | cxTranslate }}
-  </a>
-</div>
+<ng-container>
+  <div *ngIf="link" class="cx-payment-link">
+    <a class="btn btn-primary" [href]="link">
+      {{ 'opf.checkout.proceedPayment' | cxTranslate }}
+    </a>
+  </div>
+
+  <div *ngIf="html" [innerHTML]="renderHtml(html)"></div>
+</ng-container>

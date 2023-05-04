@@ -57,7 +57,11 @@ export interface PaymentDestination {
 }
 
 export interface PaymentDynamicScript {
-  cssUrls?: string[];
-  jsUrls?: string[];
+  cssUrls?: PaymentDynamicScriptResource[];
+  jsUrls?: PaymentDynamicScriptResource[];
   html?: string;
+}
+
+export interface PaymentDynamicScriptResource {
+  url?: string;
 }
