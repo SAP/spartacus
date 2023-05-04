@@ -313,7 +313,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
+  it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
@@ -323,6 +323,12 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
+
+    cy.window().should((win: any) => {
+      cy.log(`######1 CategoryPageEvent count: ${profileTagHelper.eventCount(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED)}`);
+      cy.log(`######1 Event Layer: ${JSON.stringify(win.Y_TRACKING.eventLayer)}`);
+    });
+
     cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
@@ -331,8 +337,19 @@ describe('Profile-tag events', () => {
         )
       ).to.equal(1);
     });
+
+    cy.window().should((win: any) => {
+      cy.log(`######2 CategoryPageEvent count: ${profileTagHelper.eventCount(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED)}`);
+      cy.log(`######2 Event Layer: ${JSON.stringify(win.Y_TRACKING.eventLayer)}`);
+    });
+
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
+
+    cy.window().should((win: any) => {
+      cy.log(`######3 CategoryPageEvent count: ${profileTagHelper.eventCount(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED)}`);
+      cy.log(`######3 Event Layer: ${JSON.stringify(win.Y_TRACKING.eventLayer)}`);
+    });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
@@ -340,8 +357,20 @@ describe('Profile-tag events', () => {
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
+
+    cy.window().should((win: any) => {
+      cy.log(`######4 CategoryPageEvent count: ${profileTagHelper.eventCount(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED)}`);
+      cy.log(`######4 Event Layer: ${JSON.stringify(win.Y_TRACKING.eventLayer)}`);
+    });
+
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest2');
+
+    cy.window().should((win: any) => {
+      cy.log(`######5 CategoryPageEvent count: ${profileTagHelper.eventCount(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED)}`);
+      cy.log(`######5 Event Layer: ${JSON.stringify(win.Y_TRACKING.eventLayer)}`);
+    });
+
     cy.window().should((win2) => {
       expect(
         profileTagHelper.eventCount(
