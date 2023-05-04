@@ -579,7 +579,26 @@ describe('CustomerListComponent', () => {
     expect(component.currentPage).toBe(0);
   });
 
-  it('should change to corresponding page when page changed', () => {
+  it('should change to corresponding page when page changed with search query', () => {
+    spyOn(
+      asmCustomerListFacade,
+      'customerListCustomersSearch'
+    ).and.callThrough();
+    component.searchBox.setValue(query.queryParams.query);
+    component.pageChange(1);
+    const expectedOptions: CustomerSearchOptions = {
+      customerListId: component.selectedUserGroupId,
+      pageSize: component.pageSize,
+      currentPage: 1,
+      sort: component.sortCode,
+      query: component.searchBox?.value,
+    };
+    expect(
+      asmCustomerListFacade.customerListCustomersSearch
+    ).toHaveBeenCalledWith(expectedOptions);
+  });
+
+  it('should change to corresponding page when page changed without search query', () => {
     spyOn(
       asmCustomerListFacade,
       'customerListCustomersSearch'

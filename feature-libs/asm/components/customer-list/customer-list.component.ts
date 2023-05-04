@@ -202,6 +202,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       currentPage: page,
       sort: this.sortCode,
     };
+    if (this.searchBox?.value) {
+      options.query = this.searchBox.value;
+    }
 
     this.asmCustomerListFacade.customerListCustomersSearch(options);
   }
