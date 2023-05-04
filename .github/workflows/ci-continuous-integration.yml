@@ -11,6 +11,8 @@ on:
   
 env:
   NODE_VERSION: '16'
+  NX_BASE: origin/${{ github.event.pull_request.base.ref }}
+  NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
 
 concurrency: 
   group: ci-continuous-integration-${{ github.head_ref || github.run_id }}
@@ -18,11 +20,13 @@ concurrency:
 
 name: Continuous Integration
 jobs:
-  unit_tests_core:
-    name: CI - Unit tests for core Spartacus libs
+  unit_tests:
+    name: CI - Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -39,31 +43,7 @@ jobs:
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Package installation
         run: npm ci
-      - name: Run unit tests for Spartacus libs
-        run: |
-          ci-scripts/unit-tests-core-lib.sh
-  unit_tests_libs:
-    name: CI - Unit tests for integration libs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
-      - name: Run unit tests for integration libs
+      - name: Run unit tests
         run: |
           ci-scripts/unit-tests.sh          
   sonarqube_scan:
@@ -108,7 +88,7 @@ jobs:
         run: |
           ci-scripts/validate-lint.sh
   ci_result:
-    needs: [unit_tests_core, unit_tests_libs, sonarqube_scan, linting]
+    needs: [unit_tests, sonarqube_scan, linting]
     name: CI - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -117,7 +97,6 @@ jobs:
         run: |
             exit 1
         if: |
-          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
-          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || 
+          needs.unit_tests.result == 'failure' || needs.unit_tests.result == 'cancelled' || 
           needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled'
