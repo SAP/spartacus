@@ -173,10 +173,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * If emulate customer, navigate to home page
    * */
   protected checkIsEmulateFromDeepLinkAndNavigate(): void {
-    if (this.featureConfig?.isLevel('6.1') && this.asmEnableService) {
-      if (this.asmEnableService.isEmulatedByDeepLink()) {
-        this.routingService.go('/');
-      }
+    if (
+      this.featureConfig?.isLevel('6.1') &&
+      this.asmEnableService?.isEmulatedByDeepLink()
+    ) {
+      this.routingService.go('/');
     }
   }
 
