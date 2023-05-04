@@ -4,16 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
-import * as cart from '../../../helpers/cart';
-import * as checkout from '../../../helpers/checkout-flow';
-import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
-import { getErrorAlert } from '../../../helpers/global-message';
-import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
-import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
-import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import * as asm from '../../../../helpers/asm';
+import { login } from '../../../../helpers/auth-forms';
+import * as cart from '../../../../helpers/cart';
+import * as checkout from '../../../../helpers/checkout-flow';
+import { waitForPage } from '../../../../helpers/navigation';
+import { getSampleUser } from '../../../../sample-data/checkout-flow';
 
 const agentToken = {
   userName: 'asagent',
@@ -21,6 +17,7 @@ const agentToken = {
 };
 
 context('Assisted Service Module', () => {
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/e2e/regression/asm/asm.e2e-flaky.cy.ts
   before(() => {
     clearAllStorage();
   });
@@ -163,8 +160,10 @@ context('Assisted Service Module', () => {
     });
   });
 
+=======
+>>>>>>> fdbf9247539b2f36c49781816889f8e2242f6704:projects/storefrontapp-e2e-cypress/cypress/e2e/vendor/asm/b2c/bind-cart.e2e.cy.ts
   describe('Bind cart', () => {
-    it('should be able to bind anonymous cart to customer', () => {
+    it('should be able to bind anonymous cart to customer (CXSAP-153)', () => {
       const customer = getSampleUser();
 
       let anonymousCartCode: string;
@@ -236,7 +235,7 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should be able to replace current customer cart with anonymous cart', () => {
+    it('should be able to replace current customer cart with anonymous cart (CXSAP-153)', () => {
       const customer = getSampleUser();
 
       checkout.visitHomePage();
@@ -333,6 +332,7 @@ context('Assisted Service Module', () => {
       });
     });
   });
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/e2e/regression/asm/asm.e2e-flaky.cy.ts
 
   describe('When a customer session and an asm agent session are both active', () => {
     let customer;
@@ -402,4 +402,6 @@ context('Assisted Service Module', () => {
       cy.get('cx-product-list').should('exist');
     });
   });
+=======
+>>>>>>> fdbf9247539b2f36c49781816889f8e2242f6704:projects/storefrontapp-e2e-cypress/cypress/e2e/vendor/asm/b2c/bind-cart.e2e.cy.ts
 });
