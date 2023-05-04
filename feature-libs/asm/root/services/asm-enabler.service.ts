@@ -45,7 +45,7 @@ export class AsmEnablerService {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
-    return this.isLaunched() || this.isUsedBefore();
+    return this.isLaunched() || this.isUsedBefore() || this.isEmulatedByDeepLink();
   }
 
   /**
@@ -55,6 +55,13 @@ export class AsmEnablerService {
   protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
     return !!params && params.split('&').includes('asm=true');
+  }
+
+  /**
+   * check whether try to emulate custoemr from deeplink
+   * */
+  protected isEmulatedByDeepLink(): boolean {
+    return this.location.path().indexOf('assisted-service/emulate?') > 0;
   }
 
   /**
