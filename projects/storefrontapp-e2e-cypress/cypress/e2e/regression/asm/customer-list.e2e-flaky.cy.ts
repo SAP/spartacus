@@ -24,7 +24,7 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
     });
 
-    it('checking pagination', () => {
+    it('checking pagination (CXSPA-2109)', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
