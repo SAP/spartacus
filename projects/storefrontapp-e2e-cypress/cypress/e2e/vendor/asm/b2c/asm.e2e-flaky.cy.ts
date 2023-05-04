@@ -30,7 +30,7 @@ context('Assisted Service Module', () => {
       const customer = getSampleUser();
 
       cy.log('--> Agent logging in with deeplink');
-      checkout.visitHomePage('asm=true&customerId=' + customer.email);
+      cy.visit('/assisted-service/emulate?customerId=' + customer.email);
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
@@ -57,7 +57,7 @@ context('Assisted Service Module', () => {
       asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Agent visting URL with deeplink');
-      checkout.visitHomePage('asm=true&customerId=' + customer.email);
+      cy.visit('/assisted-service/emulate?customerId=' + customer.email);
 
       cy.log('--> Should has assignCart');
       cy.get('.cx-asm-assignCart').should('exist');
@@ -76,14 +76,14 @@ context('Assisted Service Module', () => {
       asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Agent logging in deeplink with valid id');
-      checkout.visitHomePage('asm=true&customerId=' + customer.email);
+      cy.visit('/assisted-service/emulate?customerId=' + customer.email);
 
       cy.log('--> Should has assignCart');
       cy.get('.cx-asm-assignCart').should('exist');
 
       cy.log('--> Agent logging in deeplink with invalid id');
-      checkout.visitHomePage(
-        'asm=true&customerId=' + customer.email + 'invalidTail'
+      cy.visit(
+        '/assisted-service/emulate?customerId=' + customer.email + 'invalidTail'
       );
 
       cy.log('--> Should not has assignCart');
@@ -106,14 +106,14 @@ context('Assisted Service Module', () => {
       asm.agentLogin(agentToken.userName, agentToken.pwd);
 
       cy.log('--> Agent logging in deeplink with old customer');
-      checkout.visitHomePage('asm=true&customerId=' + customerOld.email);
+      cy.visit('/assisted-service/emulate?customerId=' + customerOld.email);
 
       cy.log('--> Should has assignCart and uid is old customer');
       cy.get('.cx-asm-assignCart').should('exist');
       cy.get('.cx-asm-uid').should('have.text', customerOld.email);
 
       cy.log('--> Agent logging in deeplink with new customer');
-      checkout.visitHomePage('asm=true&customerId=' + customerNew.email);
+      cy.visit('/assisted-service/emulate?customerId=' + customerNew.email);
 
       cy.log('--> Should has assignCart and uid is new customer');
       cy.get('.cx-asm-assignCart').should('exist');
