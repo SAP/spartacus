@@ -5,22 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  AnonymousConsentsConfig,
-  ConsentTemplate,
-  UserConsentService,
-} from '@spartacus/core';
+import { ConsentTemplate } from '@spartacus/core';
 import { ConsentManagementService } from '@spartacus/storefront';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CdcConsentManagementService extends ConsentManagementService {
-  constructor(
-    protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected userConsentService: UserConsentService
-  ) {
-    super(anonymousConsentsConfig);
-  }
-  fillRequiredConsents(templateList: ConsentTemplate[]): string[] {
+  getRequiredConsents(templateList: ConsentTemplate[]): string[] {
     var requiredConsents: string[] = [];
     for (let consent of templateList) {
       /** make a consent disabled only if it is required and is already set */
