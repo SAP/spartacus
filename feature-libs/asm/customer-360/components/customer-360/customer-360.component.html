@@ -30,13 +30,15 @@
               class="cx-avatar-image"
               *ngIf="customerOverview?.userAvatar?.url"
             >
-              <cx-media [container]="customerOverview | avatarImage"></cx-media>
+              <cx-media
+                [container]="customerOverview | cxAvatarImage"
+              ></cx-media>
             </div>
           </ng-container>
 
           <ng-template #customerTextAvatar>
             <div class="cx-avatar" *ngIf="!customerOverview?.userAvatar?.url">
-              {{ customer | avatarLabel }}
+              {{ customer | cxAvatarLabel }}
             </div>
           </ng-template>
 

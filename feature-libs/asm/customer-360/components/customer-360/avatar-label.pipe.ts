@@ -7,7 +7,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { User } from '@spartacus/core';
 
-@Pipe({ name: 'avatarLabel' })
+@Pipe({ name: 'cxAvatarLabel' })
 export class AvatarLabelPipe implements PipeTransform {
   transform(customer?: User): string {
     customer = customer ?? {};
