@@ -11,157 +11,7 @@ import * as checkout from '../../../../helpers/checkout-flow';
 import { waitForPage } from '../../../../helpers/navigation';
 import { getSampleUser } from '../../../../sample-data/checkout-flow';
 
-const agentToken = {
-  userName: 'asagent',
-  pwd: 'pw4all',
-};
-
 context('Assisted Service Module', () => {
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/e2e/regression/asm/asm.e2e-flaky.cy.ts
-  before(() => {
-    clearAllStorage();
-  });
-
-  describe('Customer Support Agent - Emulation', () => {
-    asm.testCustomerEmulation();
-
-    it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-
-      cy.log('--> Agent logging in with deeplink');
-      checkout.visitHomePage('asm=true&customerId=' + customer.email);
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
-
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-      cy.log('--> Should has assignCart');
-      cy.get('.cx-asm-assignCart').should('exist');
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
-    });
-
-    it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-
-      cy.log('--> Register user');
-      checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, customer);
-
-      cy.log('--> login as agent');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-      cy.log('--> Agent visting URL with deeplink');
-      checkout.visitHomePage('asm=true&customerId=' + customer.email);
-
-      cy.log('--> Should has assignCart');
-      cy.get('.cx-asm-assignCart').should('exist');
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
-    });
-
-    it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-      checkout.visitHomePage('asm=true');
-
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-      cy.log('--> Agent logging in deeplink with valid id');
-      checkout.visitHomePage('asm=true&customerId=' + customer.email);
-
-      cy.log('--> Should has assignCart');
-      cy.get('.cx-asm-assignCart').should('exist');
-
-      cy.log('--> Agent logging in deeplink with invalid id');
-      checkout.visitHomePage(
-        'asm=true&customerId=' + customer.email + 'invalidTail'
-      );
-
-      cy.log('--> Should not has assignCart');
-      cy.get('.cx-asm-assignCart').should('not.exist');
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
-    });
-
-    it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
-      const customerOld = getSampleUser();
-      const customerNew = getSampleUser();
-
-      cy.log('--> Register 2 users');
-      checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, customerOld);
-      checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, customerNew);
-
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-      cy.log('--> Agent logging in deeplink with old customer');
-      checkout.visitHomePage('asm=true&customerId=' + customerOld.email);
-
-      cy.log('--> Should has assignCart and uid is old customer');
-      cy.get('.cx-asm-assignCart').should('exist');
-      cy.get('.cx-asm-uid').should('have.text', customerOld.email);
-
-      cy.log('--> Agent logging in deeplink with new customer');
-      checkout.visitHomePage('asm=true&customerId=' + customerNew.email);
-
-      cy.log('--> Should has assignCart and uid is new customer');
-      cy.get('.cx-asm-assignCart').should('exist');
-      cy.get('.cx-asm-uid').should('have.text', customerNew.email);
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
-    });
-
-    it('should checkout as customer', () => {
-      const customer = getSampleUser();
-
-      cy.log('--> Agent logging in');
-      checkout.visitHomePage('asm=true');
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
-
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
-
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-      cy.log('--> Starting customer emulation');
-      asm.startCustomerEmulation(customer);
-
-      cy.log('--> Add product to cart and go to checkout');
-      checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
-
-      cy.log('--> Go through delivery form');
-      cy.contains('Continue').click();
-      checkout.fillAddressFormWithCheapProduct();
-
-      cy.log('--> Choose delivery method');
-      checkout.verifyDeliveryMethod();
-
-      cy.log('--> Fill payment form and continue');
-      checkout.fillPaymentForm();
-
-      cy.log('--> Place order');
-      checkout.placeOrderWithCheapProduct();
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
-    });
-  });
-
-=======
->>>>>>> fdbf9247539b2f36c49781816889f8e2242f6704:projects/storefrontapp-e2e-cypress/cypress/e2e/vendor/asm/b2c/bind-cart.e2e.cy.ts
   describe('Bind cart', () => {
     it('should be able to bind anonymous cart to customer (CXSAP-153)', () => {
       const customer = getSampleUser();
@@ -188,7 +38,7 @@ context('Assisted Service Module', () => {
           checkout.visitHomePage('asm=true');
           cy.get('cx-asm-main-ui').should('exist');
           cy.get('cx-asm-main-ui').should('be.visible');
-          asm.agentLogin(agentToken.userName, agentToken.pwd);
+          asm.agentLogin('asagent', 'pw4all');
 
           cy.log('--> Starting customer emulation');
           asm.startCustomerEmulation(customer);
@@ -264,7 +114,7 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      asm.agentLogin('asagent', 'pw4all');
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -332,76 +182,4 @@ context('Assisted Service Module', () => {
       });
     });
   });
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/e2e/regression/asm/asm.e2e-flaky.cy.ts
-
-  describe('When a customer session and an asm agent session are both active', () => {
-    let customer;
-
-    before(() => {
-      clearAllStorage();
-
-      cy.visit('/', { qs: { asm: true } });
-
-      customer = getSampleUser();
-      checkout.registerUser(false, customer);
-    });
-
-    it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login?asm=true');
-      cy.wait(`@${loginPage}`);
-
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-      login(customer.email, customer.password);
-      getErrorAlert().should(
-        'contain',
-        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
-      );
-    });
-
-    // TODO(#9445): Add e2e test for this scenario
-    it.skip('agent login when user is logged in should start this user emulation', () => {});
-
-    // TODO(#9445): Add e2e test for this scenario
-    it.skip('agent logout when user was logged and emulated should restore the session', () => {});
-  });
-
-  describe('Apparel Site', () => {
-    before(() => {
-      Cypress.env('BASE_SITE', APPAREL_BASESITE);
-    });
-
-    after(() => {
-      Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
-    });
-
-    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side. (CXSPA-1355)
-    it.skip("should fetch products in a category based on the emulated user's authentication", () => {
-      cy.cxConfig({
-        context: {
-          baseSite: ['apparel-uk-spa'],
-          currency: ['GBP'],
-        },
-      });
-
-      cy.visit('/', { qs: { asm: true } });
-
-      const customer = getSampleUser();
-      checkout.registerUser(false, customer);
-
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-      asm.startCustomerEmulation(customer);
-
-      navigateToCategory('Brands', 'brands', true);
-
-      cy.get('cx-product-list').should('exist');
-
-      navigateToCategory('Snow', 'snow', true);
-
-      cy.get('cx-product-list').should('exist');
-    });
-  });
-=======
->>>>>>> fdbf9247539b2f36c49781816889f8e2242f6704:projects/storefrontapp-e2e-cypress/cypress/e2e/vendor/asm/b2c/bind-cart.e2e.cy.ts
 });
