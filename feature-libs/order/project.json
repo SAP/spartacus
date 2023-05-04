@@ -29,6 +29,13 @@
         "karmaConfig": "feature-libs/order/karma.conf.js"
       }
     },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/order"
+      }
+    },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
