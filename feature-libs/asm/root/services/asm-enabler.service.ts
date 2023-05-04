@@ -58,9 +58,9 @@ export class AsmEnablerService {
   }
 
   /**
-   * check whether try to emulate custoemr from deeplink
+   * check whether try to emulate customer from deeplink
    * */
-  protected isEmulatedByDeepLink(): boolean {
+  isEmulatedByDeepLink(): boolean {
     return this.location.path().indexOf('assisted-service/emulate?') > 0;
   }
 

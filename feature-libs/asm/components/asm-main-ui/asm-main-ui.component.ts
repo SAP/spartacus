@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
@@ -79,7 +80,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     userAccountFacade: UserAccountFacade,
     launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig: FeatureConfigService
+    featureConfig: FeatureConfigService,
+    asmEnableService: AsmEnablerService
   );
   /**
    * @deprecated since 7.0
@@ -103,7 +105,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected featureConfig?: FeatureConfigService
+    @Optional() protected featureConfig?: FeatureConfigService,
+    @Optional() protected asmEnableService?: AsmEnablerService
   ) {}
 
   ngOnInit(): void {
@@ -162,7 +165,21 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
+    this.checkIsEmulateFromDeepLinkAndNavigate();
     this.subscribeForDeeplink();
+  }
+
+  /**
+   * If emulate customer, navigate to home page
+   * */
+  protected checkIsEmulateFromDeepLinkAndNavigate()
+  {
+    if (this.featureConfig?.isLevel('6.1') && this.asmEnableService) {
+      if (this.asmEnableService.isEmulatedByDeepLink())
+      {
+        this.routingService.go('/');
+      }
+    }
   }
 
   /**

@@ -9,6 +9,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
@@ -152,6 +153,7 @@ describe('AsmMainUiComponent', () => {
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
   let featureConfig: FeatureConfigService;
+  let asmEnablerService: AsmEnablerService;
   const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(
@@ -191,6 +193,7 @@ describe('AsmMainUiComponent', () => {
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     featureConfig = TestBed.inject(FeatureConfigService);
+    asmEnablerService = TestBed.inject(AsmEnablerService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -501,4 +504,31 @@ describe('AsmMainUiComponent', () => {
       done();
     }, 200);
   });
+
+  it('should call naviate to home page when isEmulatedByDeepLink return true', () => {
+    spyOn(routingService, 'go').and.stub();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: null,
+    });
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    spyOn(asmEnablerService, 'isEmulatedByDeepLink').and.returnValue(true);
+    component.ngOnInit();
+    expect(routingService.go).toHaveBeenCalledWith('/');
+  });
+
+  it('should not call naviate to home page when isEmulatedByDeepLink return false', () => {
+    spyOn(routingService, 'go').and.stub();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: null,
+    });
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    spyOn(asmEnablerService, 'isEmulatedByDeepLink').and.returnValue(false);
+    component.ngOnInit();
+    expect(routingService.go).not.toHaveBeenCalledWith('/');
+  });
+
 });
