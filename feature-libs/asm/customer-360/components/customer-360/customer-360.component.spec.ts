@@ -5,13 +5,11 @@ import {
   AsmDialogActionType,
   Customer360Config,
   Customer360Facade,
+  Customer360Overview,
   Customer360Response,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { I18nTestingModule, User } from '@spartacus/core';
-import { OrderHistoryFacade, OrderHistoryList } from '@spartacus/order/root';
 import {
   DirectionMode,
   DirectionService,
@@ -19,6 +17,8 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Customer360Component } from './customer-360.component';
+import { AvatarImagePipe } from './avatar-image.pipe';
+import { AvatarLabelPipe } from './avatar-label.pipe';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -51,46 +51,65 @@ describe('AsmCustomer360Component', () => {
     },
   };
 
+  const mockOverview: Customer360Overview = {
+    type: Customer360Type.OVERVIEW,
+    overview: {
+      name: 'John Doe',
+      cartSize: 5,
+      cartCode: '00005033',
+      latestOrderTotal: '$12.34',
+      latestOrderCode: '00005032',
+      latestOrderTime: '2023-04-06T02:15:30.085Z',
+      latestOpenedTicketId: '00002000',
+      latestOpenedTicketCreatedAt: '2023-04-06T02:15:30.085Z',
+      email: 'johndoe@example.com',
+      registeredAt: '2023-04-06T02:15:30.085Z',
+      address: {
+        id: 'string',
+        title: 'string',
+        titleCode: 'string',
+        firstName: 'string',
+        lastName: 'string',
+        companyName: 'string',
+        line1: 'string',
+        line2: 'string',
+        town: 'string',
+        region: {
+          isocode: 'string',
+          isocodeShort: 'string',
+          countryIso: 'string',
+          name: 'string',
+        },
+        district: 'string',
+        postalCode: 'string',
+        phone: 'string',
+        cellphone: 'string',
+        email: 'string',
+        country: {
+          isocode: 'string',
+          name: 'string',
+        },
+        shippingAddress: true,
+        defaultAddress: true,
+        visibleInAddressBook: true,
+        formattedAddress: 'string',
+      },
+      userAvatar: {
+        url: '/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8YVcxaFoyVnpMMmc0WXk5b1ltSXZPRGM1TnpRNU5qYzNNRFU1TUM1d2JtY3w3MDRiODkxNWI2YWRmZTQ0NDFhZmIxZjZkYmZmYTA3MjM0NTY4NmNlYzU4OWM4Y2VmNDY5MzZkNmY0ZWMxZWUx',
+        format: 'png',
+      },
+    },
+  };
+
   @Component({
     selector: 'cx-asm-customer-section',
     template: '',
   })
   class MockAsmCustomerSectionComponent {}
 
-  class MockActiveCartService {
-    getActive(): Observable<Cart> {
-      return of({
-        totalItems: 3,
-        code: '00001089',
-      });
-    }
-  }
-
   class MockDirectionService {
     getDirection() {
       return DirectionMode.LTR;
-    }
-  }
-
-  class MockOrderHistoryService {
-    getOrderHistoryList(): Observable<OrderHistoryList> {
-      return of({
-        orders: [
-          {
-            code: '00001088',
-            placed: new Date('2022-11-21T20:14:59+0000'),
-            total: {
-              formattedValue: '$10.00',
-            },
-          },
-        ],
-      });
-    }
-  }
-
-  class MockSavedCartService {
-    getList(): Observable<Array<Cart>> {
-      return of([]);
     }
   }
 
@@ -106,14 +125,14 @@ describe('AsmCustomer360Component', () => {
           ],
         });
       } else {
-        return of({ value: [] });
+        return of({ value: [mockOverview] });
       }
     }
   }
 
   const customer: User = {
-    firstName: 'Justin',
-    lastName: 'Lee',
+    firstName: 'John',
+    lastName: 'Doe',
     uid: 'justin.lee01@sap.com',
   };
 
@@ -138,13 +157,15 @@ describe('AsmCustomer360Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [Customer360Component, MockAsmCustomerSectionComponent],
+      declarations: [
+        Customer360Component,
+        MockAsmCustomerSectionComponent,
+        AvatarImagePipe,
+        AvatarLabelPipe,
+      ],
       providers: [
         { provide: Customer360Config, useValue: mockAsmConfig },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        { provide: OrderHistoryFacade, useClass: MockOrderHistoryService },
-        { provide: SavedCartFacade, useClass: MockSavedCartService },
         { provide: Customer360Facade, useClass: MockAsm360Service },
         {
           provide: DirectionService,
@@ -159,7 +180,6 @@ describe('AsmCustomer360Component', () => {
     fixture = TestBed.createComponent(Customer360Component);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-
     fixture.detectChanges();
   });
 
@@ -170,14 +190,14 @@ describe('AsmCustomer360Component', () => {
   it("should show a label with information on the emulated user's active cart", () => {
     const label = el.query(By.css('.header-account-details-active-cart'));
     expect(label.nativeElement.textContent).toEqual(
-      ' customer360.header.activeCartLabel cartSize:3  00001089 '
+      ' customer360.header.activeCartLabel cartSize:5  00005033 '
     );
   });
 
   it("should show a label with information on the emulated user's most recent order", () => {
     const label = el.query(By.css('.header-account-details-recent-order'));
     expect(label.nativeElement.textContent).toEqual(
-      ' customer360.header.recentOrderLabel price:$10.00  00001088, 11-21-2022 '
+      ' customer360.header.recentOrderLabel price:$12.34  00005032, 04-05-2023 '
     );
   });
 
@@ -193,10 +213,6 @@ describe('AsmCustomer360Component', () => {
 
     const sections = el.queryAll(By.css('cx-asm-customer-section'));
     expect(sections.length).toBe(1);
-  });
-
-  it('should create an avatar for the customer', () => {
-    expect(component.getAvatar()).toBe('JL');
   });
 
   it('should close modal', () => {

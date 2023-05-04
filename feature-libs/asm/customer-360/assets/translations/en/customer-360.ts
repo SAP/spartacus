@@ -11,6 +11,7 @@ export const customer360 = {
       subTitle: '{{name}} Customer 360\xB0 View',
       activeCartLabel: '{{cartSize}} item added to cart',
       recentOrderLabel: 'Last order {{price}}',
+      recentTicketLabel: 'Last ticket',
     },
     productListing: {
       totalNoItems: 'Total No. Items {{count}}',

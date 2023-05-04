@@ -1,6 +1,6 @@
 %cx-asm-customer-map {
   display: inline-grid;
-  font-size: 13px;
+  font-size: 0.8125rem;
   grid-gap: 12px;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto 1fr;
@@ -15,7 +15,7 @@
   .store-count {
     align-self: center;
     color: #6c7079;
-    font-size: 16px;
+    font-size: 1rem;
     grid-column: 1 / span 2;
   }
 
@@ -89,7 +89,7 @@
   }
 
   .store-openings {
-    font-size: 14px;
+    font-size: 0.875rem;
 
     &-date {
       align-items: center;

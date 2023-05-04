@@ -97,23 +97,25 @@ describe('AsmCustomerSavedCartComponent', () => {
 
   const mockCart: Customer360SavedCart = {
     type: Customer360Type.SAVED_CART,
-    code: '00000001',
-    totalPrice: '$40.00',
-    totalItemCount: 4,
-    entries: [
-      {
-        quantity: 1,
-        basePrice: '$10.00',
-        totalPrice: '$10.00',
-        productCode: '553637',
-      },
-      {
-        quantity: 3,
-        basePrice: '$10.00',
-        totalPrice: '$30.00',
-        productCode: '553638',
-      },
-    ],
+    savedCart: {
+      code: '00000001',
+      totalPrice: '$100.00',
+      totalItemCount: 1,
+      entries: [
+        {
+          quantity: 1,
+          basePrice: '$10.00',
+          totalPrice: '$10.00',
+          productCode: '553637',
+        },
+        {
+          quantity: 3,
+          basePrice: '$10.00',
+          totalPrice: '$30.00',
+          productCode: '553638',
+        },
+      ],
+    },
   };
 
   const productService = jasmine.createSpyObj('ProductService', ['get']);
@@ -184,15 +186,19 @@ describe('AsmCustomerSavedCartComponent', () => {
     );
 
     const titleLink = productListing.query(By.css('.cx-overview-title-link'));
-    expect(titleLink.nativeElement.textContent).toContain(mockCart.code);
+    expect(titleLink.nativeElement.textContent).toContain(
+      mockCart.savedCart?.code
+    );
 
     const totalItems = productListing.query(By.css('.cart-total-no-items'));
     expect(totalItems.nativeElement.textContent).toContain(
-      mockCart.totalItemCount
+      mockCart.savedCart?.totalItemCount
     );
 
     const totalPrice = productListing.query(By.css('.cart-total-price'));
-    expect(totalPrice.nativeElement.textContent).toContain(mockCart.totalPrice);
+    expect(totalPrice.nativeElement.textContent).toContain(
+      mockCart.savedCart?.totalPrice
+    );
   });
   it('should render products', () => {
     breakpointSubject.next(BREAKPOINT.lg);
@@ -226,9 +232,9 @@ describe('AsmCustomerSavedCartComponent', () => {
       cxRoute: 'product',
       params: {
         ...mockProduct1,
-        quantity: mockCart?.entries?.[0]?.quantity,
-        basePrice: mockCart?.entries?.[0]?.basePrice,
-        totalPrice: mockCart?.entries?.[0]?.totalPrice,
+        quantity: mockCart?.savedCart?.entries?.[0]?.quantity,
+        basePrice: mockCart?.savedCart?.entries?.[0]?.basePrice,
+        totalPrice: mockCart?.savedCart?.entries?.[0]?.totalPrice,
       },
     });
   });
@@ -242,7 +248,7 @@ describe('AsmCustomerSavedCartComponent', () => {
     expect(contextSource.navigate$.next).toHaveBeenCalledWith({
       cxRoute: 'savedCartsDetails',
       params: {
-        savedCartId: mockCart.code,
+        savedCartId: mockCart.savedCart?.code,
       },
     });
   });

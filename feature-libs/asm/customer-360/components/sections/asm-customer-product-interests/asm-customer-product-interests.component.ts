@@ -34,11 +34,11 @@ export class AsmCustomerProductInterestsComponent {
               return this.productService
                 .get(interest.product.code, ProductScope.DETAILS)
                 .pipe(
-                  filter((product) => Boolean(product)),
+                  filter((product): product is Product => Boolean(product)),
                   take(1)
-                );
+                ) as Product;
             })
-          ) as Observable<Array<Product>>;
+          );
         }
       })
     );

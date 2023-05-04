@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Customer360SectionConfig } from '@spartacus/asm/customer-360/root';
-import { Cart } from '@spartacus/cart/base/root';
 import { UrlCommand, User } from '@spartacus/core';
-import { OrderHistoryList } from '@spartacus/order/root';
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -28,10 +26,6 @@ describe('AsmCustomerSectionComponent', () => {
   });
 
   it('should channel data to its children through the context source', (done) => {
-    const activeCart: Cart = {
-      code: 'cart001',
-    };
-
     const config: Customer360SectionConfig = {
       pageSize: 5,
     };
@@ -42,44 +36,29 @@ describe('AsmCustomerSectionComponent', () => {
 
     const data: any = 'foo';
 
-    const orderHistory: OrderHistoryList = {
-      orders: [],
-    };
-
-    const savedCarts: Array<Cart> = [activeCart, { code: 'cart002' }];
-
     const context = fixture.debugElement.injector.get(
       Customer360SectionContext
     );
 
     const subscription = combineLatest([
-      context.activeCart$,
       context.config$,
       context.customer$,
       context.data$,
-      context.orderHistory$,
-      context.savedCarts$,
     ])
       .pipe(take(1))
-      .subscribe(([value1, value2, value3, value4, value5, value6]) => {
-        expect(value1).toBe(activeCart);
-        expect(value2).toBe(config);
-        expect(value3).toBe(customer);
-        expect(value4).toBe(data);
-        expect(value5).toBe(orderHistory);
-        expect(value6).toBe(savedCarts);
+      .subscribe(([value1, value2, value3]) => {
+        expect(value1).toBe(config);
+        expect(value2).toBe(customer);
+        expect(value3).toBe(data);
 
         subscription.unsubscribe();
 
         done();
       });
 
-    component.activeCart = activeCart;
     component.config = config;
     component.customer = customer;
     component.data = data;
-    component.orderHistory = orderHistory;
-    component.savedCarts = savedCarts;
   });
 
   it('should channel data from its children to its parent', (done) => {

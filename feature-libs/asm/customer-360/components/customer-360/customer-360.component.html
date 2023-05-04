@@ -18,63 +18,112 @@
         </div>
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
-      <div class="header-content">
+      <div
+        class="header-content"
+        *ngIf="customerOverview$ | async as customerOverview"
+      >
         <div class="header-profile-details">
-          <div class="cx-avatar">
-            {{ getAvatar() }}
-          </div>
+          <ng-container
+            *ngIf="customerOverview?.userAvatar?.url; else customerTextAvatar"
+          >
+            <div
+              class="cx-avatar-image"
+              *ngIf="customerOverview?.userAvatar?.url"
+            >
+              <cx-media
+                [container]="customerOverview | cxAvatarImage"
+              ></cx-media>
+            </div>
+          </ng-container>
+
+          <ng-template #customerTextAvatar>
+            <div class="cx-avatar" *ngIf="!customerOverview?.userAvatar?.url">
+              {{ customer | cxAvatarLabel }}
+            </div>
+          </ng-template>
+
           <div class="cx-customer-info ml-3">
             <div class="cx-customer-name">
               {{
                 'customer360.header.subTitle'
-                  | cxTranslate: { name: customer.firstName }
+                  | cxTranslate: { name: customerOverview?.name }
               }}
             </div>
             <div class="cx-customer-email">
-              {{ customer.uid }}
+              {{ customerOverview?.email }}
             </div>
           </div>
         </div>
         <div class="header-account-details">
           <span
             class="header-account-details-active-cart"
-            *ngIf="activeCart$ | async as activeCart"
+            *ngIf="customerOverview?.cartCode"
           >
             <cx-icon class="account-icon" [type]="cartIcon"></cx-icon>
             {{
               'customer360.header.activeCartLabel'
-                | cxTranslate: { cartSize: activeCart.totalItems }
+                | cxTranslate: { cartSize: customerOverview?.cartSize }
             }}
             <button
               [attr.aria-label]="
                 'customer360.aria.activeCartCode'
-                  | cxTranslate: { code: activeCart.code }
+                  | cxTranslate: { code: customerOverview.cartCode }
               "
               class="cx-overview-title-link link"
               (click)="navigateTo({ cxRoute: 'cart' })"
             >
-              {{ activeCart.code }}
+              {{ customerOverview.cartCode }}
             </button>
           </span>
           <span
             class="header-account-details-recent-order"
-            *ngIf="(orderHistory$ | async)?.orders?.[0] as recentOrder"
+            *ngIf="customerOverview?.latestOrderCode"
           >
             <cx-icon class="account-icon" [type]="orderIcon"></cx-icon>
             {{
               'customer360.header.recentOrderLabel'
-                | cxTranslate: { price: recentOrder.total.formattedValue }
+                | cxTranslate: { price: customerOverview?.latestOrderTotal }
             }}
             <button
               [attr.aria-label]="
                 'customer360.aria.recentOrderCode'
-                  | cxTranslate: { code: recentOrder.code }
+                  | cxTranslate: { code: customerOverview.latestOrderCode }
               "
               class="cx-overview-title-link link"
-              (click)="navigateTo({ cxRoute: 'orders' })"
+              (click)="
+                navigateTo({
+                  cxRoute: 'orderDetails',
+                  params: { code: customerOverview.latestOrderCode }
+                })
+              "
             >
-              {{ recentOrder.code }}</button
-            >, {{ recentOrder.placed | date: 'MM-dd-yyyy' }}
+              {{ customerOverview.latestOrderCode }}</button
+            >, {{ customerOverview?.latestOrderTime | date: 'MM-dd-yyyy' }}
+          </span>
+          <span
+            class="header-account-details-recent-ticket"
+            *ngIf="customerOverview?.latestOpenedTicketId"
+          >
+            <cx-icon class="account-icon" [type]="ticketIcon"></cx-icon>
+            {{ 'customer360.header.recentTicketLabel' | cxTranslate }}
+            <button
+              [attr.aria-label]="
+                'customer360.aria.recentOrderCode'
+                  | cxTranslate: { code: customerOverview.latestOpenedTicketId }
+              "
+              class="cx-overview-title-link link"
+              (click)="
+                navigateTo({
+                  cxRoute: 'supportTicketDetails',
+                  params: { ticketCode: customerOverview.latestOpenedTicketId }
+                })
+              "
+            >
+              {{ customerOverview.latestOpenedTicketId }}</button
+            >,
+            {{
+              customerOverview?.latestOpenedTicketCreatedAt | date: 'MM-dd-yyyy'
+            }}
           </span>
         </div>
       </div>
@@ -104,9 +153,6 @@
             [component]="config.component"
             [config]="config.config"
             [data]="customer360Tabs?.[i]"
-            [savedCarts]="savedCarts$ | async"
-            [activeCart]="activeCart$ | async"
-            [orderHistory]="orderHistory$ | async"
             (navigate)="navigateTo($event)"
           ></cx-asm-customer-section>
         </ng-container>

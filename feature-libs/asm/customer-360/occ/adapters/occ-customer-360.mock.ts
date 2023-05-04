@@ -98,7 +98,7 @@ export const mockCustomerProfile: Customer360CustomerProfile = {
     paymentDetails: [
       {
         id: '8796125822999',
-        cardTypeName: 'visa',
+        cardType: { code: 'visa', name: 'Visa' },
         cardNumber: '************6182',
         expiryMonth: '02',
         expiryYear: '2999',
@@ -155,92 +155,98 @@ export const mockInterestList: Customer360ProductInterestList = {
 
 export const mockActiveCart: Customer360ActiveCart = {
   type: Customer360Type.ACTIVE_CART,
-  code: '00000001',
-  totalPrice: '$100.00',
-  totalItemCount: 1,
-  entries: [
-    {
-      quantity: 1,
-      basePrice: '$10.00',
-      totalPrice: '$10.00',
-      productCode: '300938',
-    },
-    {
-      quantity: 3,
-      basePrice: '$10.00',
-      totalPrice: '$30.00',
-      productCode: '1981415',
-    },
-  ],
+  cart: {
+    code: '00000001',
+    totalPrice: '$100.00',
+    totalItemCount: 1,
+    entries: [
+      {
+        quantity: 1,
+        basePrice: '$10.00',
+        totalPrice: '$10.00',
+        productCode: '300938',
+      },
+      {
+        quantity: 3,
+        basePrice: '$10.00',
+        totalPrice: '$30.00',
+        productCode: '1981415',
+      },
+    ],
+  },
 };
 
 export const mockOverview: Customer360Overview = {
   type: Customer360Type.OVERVIEW,
-  name: 'John Doe',
-  cartSize: 5,
-  cartCode: '00005033',
-  lastOrderTotal: '$12.34',
-  lastOrderCode: '00005032',
-  lastOrderedAt: '2023-04-06T02:15:30.085Z',
-  lastOpenedTicketId: '00002000',
-  lastTicketCreatedAt: '2023-04-06T02:15:30.085Z',
-  email: 'johndoe@example.com',
-  registeredAt: '2023-04-06T02:15:30.085Z',
-  defaultShippingAddress: {
-    id: 'string',
-    title: 'string',
-    titleCode: 'string',
-    firstName: 'string',
-    lastName: 'string',
-    companyName: 'string',
-    line1: 'string',
-    line2: 'string',
-    town: 'string',
-    region: {
-      isocode: 'string',
-      isocodeShort: 'string',
-      countryIso: 'string',
-      name: 'string',
+  overview: {
+    name: 'John Doe',
+    cartSize: 5,
+    cartCode: '00005033',
+    latestOrderTotal: '$12.34',
+    latestOrderCode: '00005032',
+    latestOrderTime: '2023-04-06T02:15:30.085Z',
+    latestOpenedTicketId: '00002000',
+    latestOpenedTicketCreatedAt: '2023-04-06T02:15:30.085Z',
+    email: 'johndoe@example.com',
+    registeredAt: '2023-04-06T02:15:30.085Z',
+    address: {
+      id: 'string',
+      title: 'string',
+      titleCode: 'string',
+      firstName: 'string',
+      lastName: 'string',
+      companyName: 'string',
+      line1: 'string',
+      line2: 'string',
+      town: 'string',
+      region: {
+        isocode: 'string',
+        isocodeShort: 'string',
+        countryIso: 'string',
+        name: 'string',
+      },
+      district: 'string',
+      postalCode: 'string',
+      phone: 'string',
+      cellphone: 'string',
+      email: 'string',
+      country: {
+        isocode: 'string',
+        name: 'string',
+      },
+      shippingAddress: true,
+      defaultAddress: true,
+      visibleInAddressBook: true,
+      formattedAddress: 'string',
     },
-    district: 'string',
-    postalCode: 'string',
-    phone: 'string',
-    cellphone: 'string',
-    email: 'string',
-    country: {
-      isocode: 'string',
-      name: 'string',
+    userAvatar: {
+      url: '/medias/?context=bWFzdGVyfHJvb3R8NTY0MjB8aW1hZ2UvanBlZ3xhRFUwTDJnek55ODROemszT0RJNE16RTNNakUwfDYyOTcxYjAzZWExMDdmZjgyMjYzNDI0ODI4MDdjMDRkMjlkM2U1Njc4ZDkxMzI5NTQ0M2Y1ZjRiMzkxZDhkMjM',
+      format: 'png',
     },
-    shippingAddress: true,
-    defaultAddress: true,
-    visibleInAddressBook: true,
-    formattedAddress: 'string',
-  },
-  userAvatar: {
-    url: '/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8YVcxaFoyVnpMMmc0WXk5b1ltSXZPRGM1TnpRNU5qYzNNRFU1TUM1d2JtY3w3MDRiODkxNWI2YWRmZTQ0NDFhZmIxZjZkYmZmYTA3MjM0NTY4NmNlYzU4OWM4Y2VmNDY5MzZkNmY0ZWMxZWUx',
-    format: 'png',
   },
 };
 
 export const mockSavedCart: Customer360SavedCart = {
   type: Customer360Type.SAVED_CART,
-  code: '00000001',
-  totalPrice: '$100.00',
-  totalItemCount: 1,
-  entries: [
-    {
-      quantity: 1,
-      basePrice: '$10.00',
-      totalPrice: '$10.00',
-      productCode: '300938',
-    },
-    {
-      quantity: 3,
-      basePrice: '$10.00',
-      totalPrice: '$30.00',
-      productCode: '1981415',
-    },
-  ],
+  savedCart: {
+    code: '00000001',
+    totalPrice: '$100.00',
+    totalItemCount: 1,
+    entries: [
+      {
+        quantity: 1,
+        basePrice: '$10.00',
+        totalPrice: '$10.00',
+        productCode: '300938',
+      },
+      {
+        quantity: 3,
+        basePrice: '$10.00',
+        totalPrice: '$30.00',
+        productCode: '1981415',
+      },
+    ],
+  },
 };
 
 export const mockActivityList: Customer360ActivityList = {
