@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
+import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
@@ -14,7 +15,7 @@ import {
   OpfRenderPaymentMethodEvent,
   PaymentSessionData,
 } from '@spartacus/opf/root';
-import { OpfResourceLoaderService } from 'integration-libs/opf/core/services/opf-resource-loader.service';
+
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
