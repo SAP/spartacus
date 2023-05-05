@@ -139,10 +139,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.customerSelectionForm.valid && !!this.selectedCustomer) {
-      this.submitEvent.emit({
-        customerId:
-          this.selectedCustomer.customerId || this.selectedCustomer.uid,
-      });
+      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
     } else {
       this.customerSelectionForm.markAllAsTouched();
     }
