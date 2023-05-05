@@ -2,7 +2,7 @@
   "name": "opf",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "integration-libs/opf/src",
+  "sourceRoot": "integration-libs/opf",
   "prefix": "cx",
   "targets": {
     "build": {
