@@ -10,7 +10,7 @@ import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import { GlobalMessageType, HttpErrorModel } from '@spartacus/core';
+import { GlobalMessageType, HttpErrorModel, User } from '@spartacus/core';
 import {
   CustomFormValidators,
   FocusConfig,
@@ -80,7 +80,7 @@ export class AsmCreateCustomerFormComponent {
     );
 
     obs$.subscribe({
-      next: () => this.onRegisterUserSuccess(),
+      next: (result: User) => this.onRegisterUserSuccess(result),
       error: (error: HttpErrorModel) => this.onRegisterUserFail(error),
     });
 
@@ -109,8 +109,8 @@ export class AsmCreateCustomerFormComponent {
     this.showDialogBackendErrorAlert = false;
   }
 
-  protected onRegisterUserSuccess(): void {
-    this.launchDialogService.closeDialog(this.createdCustomer);
+  protected onRegisterUserSuccess(user: User): void {
+    this.launchDialogService.closeDialog(user);
   }
 
   protected onRegisterUserFail(error: HttpErrorModel): void {

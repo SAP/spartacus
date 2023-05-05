@@ -40,7 +40,6 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CreatedCustomer } from '../asm-create-customer-form/asm-create-customer-form.model';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -110,7 +109,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
-        .subscribe((result: CustomerListAction | CreatedCustomer | string) => {
+        .subscribe((result: CustomerListAction | User | string) => {
           if (typeof result !== 'string') {
             if ('selectedUser' in result) {
               this.startCustomerEmulationSession(result.selectedUser);
@@ -119,8 +118,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
               ) {
                 this.routingService.go({ cxRoute: 'orders' });
               }
-            } else if ('email' in result) {
-              this.startCustomerEmulationSession({ customerId: result.email });
+            } else if ('customerId' in result) {
+              this.startCustomerEmulationSession({
+                customerId: result.customerId,
+              });
               this.showCreateCustomerSuccessfullyAlert = true;
             }
             if (
