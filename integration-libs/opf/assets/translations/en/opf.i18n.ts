@@ -19,8 +19,15 @@ export const opf = {
       notSupportedPaymentMethod:
         'This payment method is not supported yet. Please choose a different one.',
       proceedPayment: 'Place Order',
+      errors: {
+        proceedPayment:
+          'We are unable to proceed with this payment method at this time. Please try again later or choose a different payment option.',
+        cancelPayment:
+          'You have cancelled your payment. To proceed with the order, try again, or choose a different payment option.',
+        cardExpired: 'Card is expired.',
+        insufficientFunds: 'Insufficient funds.',
+        invalidCreditCard: 'Invalid credit card.  Please review card details.',
+      },
     },
-    errorToProcessPayment:
-      'We are unable to process your payment at this time. Please try again later.',
   },
 };
