@@ -50,6 +50,15 @@ export const profileTagHelper = {
       win.dispatchEvent(event);
     });
   },
+  triggerDebugFlagChanged(debug: boolean) {
+    cy.window().then((win) => {
+      const event = new CustomEvent('profiletag_debugFlagChanged', {
+        detail: { debug },
+      });
+      win.dispatchEvent(event);
+      console.info(`###### PT debug flag changed to ${debug}`);
+    });
+  },
   waitForCMSComponents(): Cypress.Chainable {
     return cy.get('cx-profiletag');
   },
