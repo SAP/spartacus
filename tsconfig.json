@@ -488,5 +488,14 @@
     },
     "useDefineForClassFields": false
   },
-  "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
+  "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
+  }
 }
