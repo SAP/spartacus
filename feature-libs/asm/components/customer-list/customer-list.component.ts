@@ -224,13 +224,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     const columns = this.customerListConfig?.columns || [];
 
     for (const column of columns) {
-      if (column.headerLocalizationKey === 'asm.customerList.tableHeader.account' ||
-          column.headerLocalizationKey === 'hideAccount') {
+      if (
+        column.headerLocalizationKey ===
+          'asm.customerList.tableHeader.account' ||
+        column.headerLocalizationKey === 'hideAccount'
+      ) {
         column.headerLocalizationKey = this.enableAsmB2bCustomerList
           ? 'asm.customerList.tableHeader.account'
           : 'hideAccount';
       }
-      if (column.headerLocalizationKey === 'asm.customerList.tableHeader.cart') {
+      if (
+        column.headerLocalizationKey === 'asm.customerList.tableHeader.cart'
+      ) {
         column.headerLocalizationKey = this.featureConfig?.isLevel('6.1')
           ? column.headerLocalizationKey
           : 'hideAccount';
