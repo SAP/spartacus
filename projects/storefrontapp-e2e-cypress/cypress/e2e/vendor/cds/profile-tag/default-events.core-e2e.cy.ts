@@ -316,7 +316,7 @@ describe('Profile-tag events', () => {
 
   it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
 
-    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 1); });
+    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 1); });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
@@ -328,7 +328,7 @@ describe('Profile-tag events', () => {
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
 
-    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 2); });
+    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 2); });
 
     cy.window().should((win) => {
       expect(
@@ -339,12 +339,12 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
 
-    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 3); });
+    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 3); });
 
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
-    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 4); });
+    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 4); });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
@@ -353,12 +353,12 @@ describe('Profile-tag events', () => {
       .contains('Cameras')
       .click({ force: true });
 
-    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 5); });
+    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 5); });
 
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest2');
 
-    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 6); });
+    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 6); });
 
     cy.window({ timeout: 30000 }).should((win: any) => {
       expect(
