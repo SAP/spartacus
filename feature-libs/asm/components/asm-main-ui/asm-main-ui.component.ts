@@ -56,7 +56,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
-  customerIdInURL: string;
 
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
@@ -107,7 +106,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     @Optional() protected featureConfig?: FeatureConfigService,
     @Optional() protected asmEnableService?: AsmEnablerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
@@ -165,20 +164,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
-    this.checkIsEmulateFromDeepLinkAndNavigate();
     this.subscribeForDeeplink();
-  }
-
-  /**
-   * If emulate customer, navigate to home page
-   * */
-  protected checkIsEmulateFromDeepLinkAndNavigate(): void {
-    if (
-      this.featureConfig?.isLevel('6.1') &&
-      this.asmEnableService?.isEmulatedByDeepLink()
-    ) {
-      this.routingService.go('/');
-    }
   }
 
   /**
@@ -188,24 +174,42 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    */
   protected subscribeForDeeplink(): void {
     if (this.featureConfig?.isLevel('6.1')) {
-      const customerIdInURL =
-        this.asmComponentService.getSearchParameter('customerId');
+      const parameters = {
+        customerId: this.asmComponentService.getSearchParameter('customerId'),
+        someId: this.asmComponentService.getSearchParameter('someId'),
+      }
+
       this.subscription.add(
         combineLatest([
           this.customerSupportAgentLoggedIn$,
           this.authService.isUserLoggedIn(),
           this.asmComponentService.isEmulatedByDeepLink(),
         ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
-          if (agentLoggedIn && customerIdInURL) {
+          if (agentLoggedIn && parameters.customerId) {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.asmComponentService.logoutCustomer();
             } else {
-              setTimeout(() => this.startSessionWithParameters());
+              setTimeout(() => this.startSessionWithParameters(parameters));
             }
           }
         })
       );
     }
+  }
+
+  /**
+   * If url contains customerId and we haven't emulatedFromURL, we'll change the isEmulatedByDeepLink flag and
+   * start emulate customer in URL.
+   */
+  protected startSessionWithParameters(parameters: any): void {
+    this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
+      if (!emulated) {
+        this.asmComponentService.setEmulatedByDeepLink(true);
+        this.startCustomerEmulationSession({
+          customerId: parameters.customerId,
+        }, parameters);
+      }
+    });
   }
 
   protected handleCustomerSessionStartRedirection(): void {
@@ -230,39 +234,29 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }): void {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
-  /**
-   * If url contains customerId and we haven't emulatedFromURL, we'll change the isEmulatedByDeepLink flag and
-   * start emulate customer in URL.
-   */
-  protected startSessionWithParameters(): void {
-    const customerIdInURL =
-      this.asmComponentService.getSearchParameter('customerId');
-    if (customerIdInURL) {
-      this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
-        if (!emulated) {
-          this.asmComponentService.setEmulatedByDeepLink(true);
-          this.startCustomerEmulationSession({
-            customerId: customerIdInURL,
-          });
-        }
-      });
-    }
-  }
+
 
   logout(): void {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
-  startCustomerEmulationSession({ customerId }: { customerId?: string }): void {
+  startCustomerEmulationSession({ customerId }: { customerId?: string }, options?: any): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
+      if (options) {
+        this.andThen(options)
+      }
     } else {
       this.globalMessageService.add(
         { key: 'asm.error.noCustomerId' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
+  }
+
+  andThen(options: any) {
+    console.log(options)
   }
 
   hideUi(): void {
