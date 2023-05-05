@@ -9,7 +9,6 @@ import {
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
-  SPARTACUS_ESLINT_PLUGIN,
   SPARTACUS_OPF,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
@@ -24,9 +23,9 @@ import {
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
+  Graph,
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
-  Graph,
   kahnsAlgorithm,
 } from './graph-utils';
 
@@ -146,7 +145,6 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_CUSTOMER_TICKETING,
-        SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
   });

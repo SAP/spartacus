@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { WindowRef } from 'projects/core/src/window';
 import { BehaviorSubject } from 'rxjs';
+import { WindowRef } from '../../../window';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 

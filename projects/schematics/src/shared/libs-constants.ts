@@ -195,8 +195,6 @@ export const SPARTACUS_OPF = `@spartacus/opf`;
 export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;
 export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;
 
-export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
-
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
 export const SPARTACUS_CUSTOMER_TICKETING = '@spartacus/customer-ticketing';
@@ -268,7 +266,6 @@ export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
-
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
 /***** Feature name end *****/
