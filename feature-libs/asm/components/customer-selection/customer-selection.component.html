@@ -41,8 +41,8 @@
   </button>
   <button
     #searchResultItem
-    (click)="closeResults($event)"
-    (keydown.enter)="closeResults($event)"
+    (click)="createCustomer()"
+    (keydown.enter)="createCustomer()"
     (keydown.escape)="closeResults($event)"
     (keydown.arrowright)="focusInputText($event)"
     (keydown.arrowleft)="focusInputText($event)"
@@ -63,9 +63,12 @@
     </ng-container>
     <ng-container *cxFeatureLevel="'6.1'">
       {{ 'asm.customerSearch.noMatchResult' | cxTranslate }}
-      <a #createCustomerLink class="link" (click)="createCustomer()">{{
-        'asm.customerSearch.createCustomer' | cxTranslate
-      }}</a>
+      <span
+        #createCustomerLink
+        class="createNewCustomerLabel"
+        (click)="createCustomer()"
+        >{{ 'asm.customerSearch.createCustomer' | cxTranslate }}</span
+      >
     </ng-container>
   </button>
 </div>
