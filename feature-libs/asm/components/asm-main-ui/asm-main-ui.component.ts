@@ -175,7 +175,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   protected checkIsEmulateFromDeepLinkAndNavigate(): void {
     if (
       this.featureConfig?.isLevel('6.1') &&
-      this.asmEnableService?.isEmulatedByDeepLink()
+      this.asmEnableService?.isEmulateInURL()
     ) {
       this.routingService.go('/');
     }
