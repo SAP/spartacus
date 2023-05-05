@@ -143,10 +143,10 @@ export class ProfileTagPushEventsService {
           [previouslyEmittedCategoryPage],
           [currentCategoryPage, [previousRoute, currentRoute]]
         ) => {
-          console.info(`###### Is duplicate CategoryPageEvent: ${previouslyEmittedCategoryPage.categoryCode ===
-            currentCategoryPage.categoryCode &&
-          previousRoute.navigation.semanticRoute ===
-            currentRoute.navigation.semanticRoute}`);
+          // console.info(`###### Is duplicate CategoryPageEvent: ${previouslyEmittedCategoryPage.categoryCode ===
+          //   currentCategoryPage.categoryCode &&
+          // previousRoute.navigation.semanticRoute ===
+          //   currentRoute.navigation.semanticRoute}`);
           return (
             previouslyEmittedCategoryPage.categoryCode ===
               currentCategoryPage.categoryCode &&
@@ -159,7 +159,7 @@ export class ProfileTagPushEventsService {
       ),
       map(
         ([categoryPageEvent]) => {
-          console.info(`###### New CategoryPageEvent: ${categoryPageEvent.categoryCode, categoryPageEvent.categoryName}`);
+          // console.info(`###### New CategoryPageEvent: ${categoryPageEvent.categoryCode, categoryPageEvent.categoryName}`);
           return new CategoryViewPushEvent({
             productCategory: categoryPageEvent.categoryCode,
             productCategoryName: categoryPageEvent.categoryName,

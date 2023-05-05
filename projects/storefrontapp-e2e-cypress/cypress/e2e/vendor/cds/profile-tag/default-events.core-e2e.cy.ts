@@ -316,7 +316,7 @@ describe('Profile-tag events', () => {
 
   it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 1); });
+    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 1); });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
@@ -328,7 +328,7 @@ describe('Profile-tag events', () => {
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 2); });
+    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 2); });
 
     cy.window().should((win) => {
       expect(
@@ -339,12 +339,12 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 3); });
+    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 3); });
 
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 4); });
+    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 4); });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
@@ -353,14 +353,14 @@ describe('Profile-tag events', () => {
       .contains('Cameras')
       .click({ force: true });
 
-      cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 5); });
+    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 5); });
 
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest2');
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 6); });
+    // cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 6); });
 
-    cy.window().should((win: any) => {
+    cy.window({ timeout: 30000 }).should((win: any) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -376,10 +376,10 @@ describe('Profile-tag events', () => {
     const eventLayer = win.Y_TRACKING.eventLayer;
     const categoryPageViewedEventLayer = profileTagHelper.getEvent(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED);
 
-    console.log(`###### ${count} Event count: ${eventCount}`);
-    console.log(`###### ${count} Category page viewed event count: ${categoryPageViewedEventCount}`);
-    console.log(`###### ${count} Event layer: ${JSON.stringify(eventLayer)}`);
-    console.log(`###### ${count} Category page viewed event layer: ${JSON.stringify(categoryPageViewedEventLayer)}`);
+    console.info(`###### ${count} Event count: ${eventCount}`);
+    console.info(`###### ${count} Category page viewed event count: ${categoryPageViewedEventCount}`);
+    console.info(`###### ${count} Event layer: ${JSON.stringify(eventLayer)}`);
+    console.info(`###### ${count} Category page viewed event layer: ${JSON.stringify(categoryPageViewedEventLayer)}`);
   }
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {

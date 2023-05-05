@@ -56,7 +56,7 @@ export const profileTagHelper = {
         detail: { debug },
       });
       win.dispatchEvent(event);
-      console.info(`###### PT debug flag changed to ${debug}`);
+      // console.info(`###### PT debug flag changed to ${debug}`);
     });
   },
   waitForCMSComponents(): Cypress.Chainable {
