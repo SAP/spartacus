@@ -1,4 +1,4 @@
-<ng-container *ngIf="paymentData$ | async as paymentData; else loading">
+<ng-container *ngIf="paymentData$ | async as paymentData; else noPaymentData">
   <div class="cx-payment-option-container">
     <ng-container *ngIf="!paymentData?.destination?.url; else paymentLink">
       <span class="cx-info">
@@ -16,6 +16,18 @@
   </div>
 </ng-container>
 
-<ng-template #loading>
-  <cx-spinner></cx-spinner>
+<ng-template #noPaymentData>
+  <ng-container *ngIf="isInitPaymentFailed$ | async; else loading">
+    <div class="cx-payment-option-container">
+      <div class="cx-payment-link">
+        <button [ngClass]="'btn btn-primary'" (click)="retryInitPayment()">
+          {{ 'opf.checkout.retryPayment' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <cx-spinner></cx-spinner>
+  </ng-template>
 </ng-template>
