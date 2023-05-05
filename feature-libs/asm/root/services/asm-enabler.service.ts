@@ -45,9 +45,7 @@ export class AsmEnablerService {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
-    return (
-      this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL()
-    );
+    return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
   }
 
   /**
