@@ -26,6 +26,13 @@
         "karmaConfig": "feature-libs/product-configurator/karma.conf.js"
       }
     },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "feature-libs/product-configurator"
+      }
+    },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
