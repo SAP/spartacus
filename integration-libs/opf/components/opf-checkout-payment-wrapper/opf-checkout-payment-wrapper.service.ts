@@ -4,64 +4,47 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { RoutingService, ScriptLoader, UserIdService } from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
-  PaymentDynamicScriptResource,
+  OpfPaymentMethodType,
+  OpfRenderPaymentMethodEvent,
   PaymentSessionData,
 } from '@spartacus/opf/root';
-import { Observable, combineLatest, throwError } from 'rxjs';
+import { OpfResourceLoaderService } from 'integration-libs/opf/core/services/opf-resource-loader.service';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { OpfCheckoutPaymentLinkComponent } from './payment-link/opf-checkout-payment-link.component';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfOtpService: OpfOtpFacade,
+    protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected routingService: RoutingService,
-    protected scriptLoader: ScriptLoader
+    protected routingService: RoutingService
   ) {}
 
   protected activeCartId: string;
 
-  protected executeScriptFromHtml(html: string) {
-    const element = new DOMParser().parseFromString(html, 'text/html');
-    const script = element.getElementsByTagName('script');
-    Function(script[0].innerText)();
-  }
-
-  protected loadProviderScripts(
-    scripts: PaymentDynamicScriptResource[] | undefined
-  ): Promise<void> {
-    return new Promise((resolve) => {
-      let loaded = 0;
-
-      scripts?.forEach((script: PaymentDynamicScriptResource) => {
-        if (script.url) {
-          this.scriptLoader.embedScript({
-            src: script.url,
-            attributes: { type: 'text/javascript' },
-            callback: () => {
-              loaded++;
-              if (loaded === scripts?.length) {
-                resolve();
-              }
-            },
-            errorCallback: () =>
-              throwError(`Error while loading external ${script.url} script.`),
-          });
-        }
-      });
+  protected renderPaymentMethodEvent$ =
+    new BehaviorSubject<OpfRenderPaymentMethodEvent>({
+      isLoading: false,
     });
+
+  getRenderPaymentMethodEvent(): BehaviorSubject<OpfRenderPaymentMethodEvent> {
+    return this.renderPaymentMethodEvent$;
   }
 
   initiatePayment(paymentOptionId: number): Observable<PaymentSessionData> {
+    this.renderPaymentMethodEvent$.next({
+      isLoading: true,
+    });
+
     return combineLatest([
       this.userIdService.getUserId(),
       this.activeCartService.getActiveCartId(),
@@ -90,30 +73,30 @@ export class OpfCheckoutPaymentWrapperService {
     );
   }
 
-  renderPaymentGateway(
-    config: PaymentSessionData,
-    container: ViewContainerRef
-  ) {
-    container.clear();
-
-    const component: ComponentRef<OpfCheckoutPaymentLinkComponent> =
-      container.createComponent(OpfCheckoutPaymentLinkComponent);
-
-    // case for destination url
+  renderPaymentGateway(config: PaymentSessionData) {
     if (config?.destination) {
-      component.instance.link = config.destination.url;
-    }
-
-    // case for dynamic script
-    if (config?.dynamicScript) {
-      const html = config.dynamicScript.html || '';
-
-      this.loadProviderScripts(config.dynamicScript.jsUrls).then(() => {
-        this.executeScriptFromHtml(html);
+      this.renderPaymentMethodEvent$.next({
+        isLoading: false,
+        renderType: OpfPaymentMethodType.DESTINATION,
+        data: config?.destination.url,
       });
-      component.instance.html = html;
     }
 
-    component.instance.ngOnInit();
+    if (config?.dynamicScript) {
+      const html = config?.dynamicScript?.html;
+
+      this.opfResourceLoaderService
+        .loadProviderScripts(config.dynamicScript.jsUrls)
+        .then(() => {
+          this.renderPaymentMethodEvent$.next({
+            isLoading: false,
+            renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
+            data: html,
+          });
+          setTimeout(() => {
+            this.opfResourceLoaderService.executeScriptFromHtml(html);
+          });
+        });
+    }
   }
 }
