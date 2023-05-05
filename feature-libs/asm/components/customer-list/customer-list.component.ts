@@ -195,7 +195,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.teardown.unsubscribe();
   }
 
-  pageChange(page: number): void {
+  changePage(page: number): void {
     const options: CustomerSearchOptions = {
       customerListId: this.selectedUserGroupId,
       pageSize: this.pageSize,

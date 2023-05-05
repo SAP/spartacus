@@ -585,7 +585,7 @@ describe('CustomerListComponent', () => {
       'customerListCustomersSearch'
     ).and.callThrough();
     component.searchBox.setValue(query.queryParams.query);
-    component.pageChange(1);
+    component.changePage(1);
     const expectedOptions: CustomerSearchOptions = {
       customerListId: component.selectedUserGroupId,
       pageSize: component.pageSize,
@@ -603,7 +603,7 @@ describe('CustomerListComponent', () => {
       asmCustomerListFacade,
       'customerListCustomersSearch'
     ).and.callThrough();
-    component.pageChange(1);
+    component.changePage(1);
     const expectedOptions: CustomerSearchOptions = {
       customerListId: component.selectedUserGroupId,
       pageSize: component.pageSize,
