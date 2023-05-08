@@ -1098,4 +1098,33 @@ describe('CdcJsService', () => {
       expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
     });
   });
+  describe('setUserConsentPreferences', () => {
+    it('should set cdc consents for a user', (done) => {
+      let mockOutput = {
+        errorCode: 0,
+        errorMessage: '',
+        time: '2015-03-22T11:42:25.943Z',
+      };
+      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.returnValue(
+        of(mockOutput)
+      );
+      let mockUser = 'sampleuser@mail.com';
+      let userPreference = {
+        others: {
+          survey: {
+            isConsentGranted: false,
+          },
+        },
+      };
+      let lang = 'en';
+      service.setUserConsentPreferences(mockUser, lang, userPreference);
+      expect(service['gigyaSDK'].accounts.setAccountInfo).toHaveBeenCalledWith({
+        uid: mockUser,
+        lang: lang,
+        preferences: userPreference,
+      });
+      expect(service.setUserConsentPreferences).toBeTruthy();
+      done();
+    });
+  });
 });

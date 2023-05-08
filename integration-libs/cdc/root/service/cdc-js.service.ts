@@ -622,6 +622,23 @@ export class CdcJsService implements OnDestroy {
     this.auth.logout();
     this.invokeAPI('accounts.logout', {});
   }
+  setUserConsentPreferences(
+    uid: string,
+    lang: string,
+    preferences: any
+  ): Observable<{ errorCode: number; errorMessage: string; time: Date }> {
+    return this.invokeAPI(setAccountInfoAPI, {
+      uid: uid,
+      lang: lang,
+      preferences: preferences,
+    }).pipe(
+      tap({
+        error: (error) => {
+          throwError(error);
+        },
+      })
+    );
+  }
 
   ngOnDestroy(): void {
     if (this.subscription) {
