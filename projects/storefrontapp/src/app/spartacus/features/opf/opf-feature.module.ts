@@ -29,13 +29,6 @@ if (environment.b2b) {
 @NgModule({
   imports: [OpfRootModule],
   providers: [
-    provideConfig({
-      featureModules: {
-        [OPF_FEATURE]: {
-          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-        },
-      },
-    }),
     provideConfig(<RoutingConfig>{
       routing: {
         routes: {
@@ -62,7 +55,13 @@ if (environment.b2b) {
         fallbackLang: 'en',
       },
     }),
-
+    provideConfig({
+      featureModules: {
+        [OPF_FEATURE]: {
+          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
+        },
+      },
+    }),
     ...extensionProviders,
   ],
 })
