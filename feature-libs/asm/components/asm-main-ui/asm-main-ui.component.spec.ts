@@ -513,7 +513,7 @@ describe('AsmMainUiComponent', () => {
     });
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
-    spyOn(asmEnablerService, 'isEmulatedByDeepLink').and.returnValue(true);
+    spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(true);
     component.ngOnInit();
     expect(routingService.go).toHaveBeenCalledWith('/');
   });
@@ -526,7 +526,7 @@ describe('AsmMainUiComponent', () => {
     });
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
-    spyOn(asmEnablerService, 'isEmulatedByDeepLink').and.returnValue(false);
+    spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(false);
     component.ngOnInit();
     expect(routingService.go).not.toHaveBeenCalledWith('/');
   });

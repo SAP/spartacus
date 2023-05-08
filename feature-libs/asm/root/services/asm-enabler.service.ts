@@ -45,9 +45,7 @@ export class AsmEnablerService {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       }
     }
-    return (
-      this.isLaunched() || this.isUsedBefore() || this.isEmulatedByDeepLink()
-    );
+    return this.isLaunched() || this.isUsedBefore() || this.isEmulateInURL();
   }
 
   /**
@@ -62,7 +60,7 @@ export class AsmEnablerService {
   /**
    * check whether try to emulate customer from deeplink
    * */
-  isEmulatedByDeepLink(): boolean {
+  isEmulateInURL(): boolean {
     return this.location.path().indexOf('assisted-service/emulate?') > 0;
   }
 
