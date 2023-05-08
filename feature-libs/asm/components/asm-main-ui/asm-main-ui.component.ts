@@ -174,7 +174,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * */
   protected checkIsEmulateFromDeepLinkAndNavigate(): void {
     if (
-      this.featureConfig?.isLevel('6.1') &&
+      this.featureConfig?.isLevel('6.2') &&
       this.asmEnableService?.isEmulateInURL()
     ) {
       this.routingService.go('/');
@@ -187,7 +187,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    if (this.featureConfig?.isLevel('6.1')) {
+    if (this.featureConfig?.isLevel('6.2')) {
       const customerIdInURL =
         this.asmComponentService.getSearchParameter('customerId');
       this.subscription.add(
