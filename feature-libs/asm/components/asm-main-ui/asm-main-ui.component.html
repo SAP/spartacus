@@ -70,6 +70,15 @@
         >
         </cx-message>
       </ng-container>
+      <ng-container *cxFeatureLevel="'6.2'">
+        <cx-message
+          *ngIf="showInactiveCartInfoAlert"
+          [text]="'asm.saveInactiveCartAlertInfo' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_INFO"
+          (closeMessage)="closeInactiveCartInfoAlert()"
+        >
+        </cx-message>
+      </ng-container>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection

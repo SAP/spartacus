@@ -30,8 +30,8 @@ import {
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  LAUNCH_CALLER,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
@@ -58,6 +58,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   customerIdInURL: string;
 
+  showInactiveCartInfoAlert = false;
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -167,6 +168,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     );
     this.checkIsEmulateFromDeepLinkAndNavigate();
     this.subscribeForDeeplink();
+    this.subscribeForShowInactiveCartInfo();
   }
 
   /**
@@ -204,6 +206,18 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             }
           }
         })
+      );
+    }
+  }
+
+  protected subscribeForShowInactiveCartInfo(): void {
+    if (this.featureConfig?.isLevel('6.2')) {
+      this.subscription.add(
+        this.asmComponentService
+          .showInactiveCartInfoAlert()
+          .subscribe((value) => {
+            this.showInactiveCartInfoAlert = value;
+          })
       );
     }
   }
@@ -289,6 +303,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
   closeDialogConfirmationAlert(): void {
     this.showCreateCustomerSuccessfullyAlert = false;
+  }
+
+  closeInactiveCartInfoAlert(): void {
+    this.showInactiveCartInfoAlert = false;
   }
 
   ngOnDestroy() {

@@ -181,4 +181,19 @@
       margin-top: 30px;
     }
   }
+
+  .cx-message-info {
+    background-color: #e1f4ff;
+    border-color: #7bcfff;
+
+    .cx-message-icon {
+      cx-icon {
+        color: #0070f2;
+      }
+    }
+
+    .close {
+      color: #0064d8;
+    }
+  }
 }

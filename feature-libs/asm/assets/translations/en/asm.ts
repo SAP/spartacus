@@ -13,6 +13,8 @@ export const asm = {
     customers: 'Customers',
     createCustomerSuccessfullyAlert:
       'The customer account has been created and the customer session has started.',
+    saveInactiveCartAlertInfo:
+      "Selected cart is an 'inactive cart'. To active the cart you need to save the cart.",
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -97,6 +99,22 @@ export const asm = {
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
       searchBox: 'Search',
+    },
+    saveCart: {
+      saveCartBtn: 'Save for Later',
+      dialog: {
+        saveInfo: 'Save the cart before you can active it.',
+        disableInfo: 'Cannot save the cart as it is empty.',
+        title: 'Save Cart',
+        row: {
+          id: 'ID',
+          qty: 'Qty',
+          total: 'Total',
+        },
+        actions: {
+          save: 'Save for Later',
+        },
+      },
     },
     bindCart: {
       cartNumber: 'Cart Number',
