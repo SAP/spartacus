@@ -80,10 +80,7 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
     this.context.navigate$.next({ cxRoute: 'product', params });
   }
 
-  private getLongDate(date: Date) {
-    if (!date) {
-      return '';
-    }
-    return this.datePipe.transform(date, 'dd-MM-yy hh:mm a') ?? '';
+  protected getLongDate(date: Date) {
+    return date ? this.datePipe.transform(date, 'dd-MM-yy hh:mm a') ?? '' : '';
   }
 }
