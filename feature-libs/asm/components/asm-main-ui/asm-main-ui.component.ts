@@ -264,7 +264,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   andThen(_options: any) {
-    //console.log(options);
+    //navigate to other pages
   }
 
   hideUi(): void {
