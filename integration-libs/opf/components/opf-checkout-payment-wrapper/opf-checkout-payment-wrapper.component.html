@@ -12,7 +12,10 @@
       }}</a>
     </div>
     <ng-container
-      *ngIf="paymentLink.renderType === RENDER_TYPES.DYNAMIC_SCRIPT"
+      *ngIf="
+        paymentLink.data &&
+        paymentLink.renderType === RENDER_TYPES.DYNAMIC_SCRIPT
+      "
     >
       <div [innerHTML]="renderHtml(paymentLink.data)"></div>
     </ng-container>
