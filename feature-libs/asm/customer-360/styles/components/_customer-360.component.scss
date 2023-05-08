@@ -1,5 +1,13 @@
 %cx-customer-360 {
   height: 100%;
+  button.link:focus,
+  button.link:active {
+    outline-style: solid;
+    outline-color: var(--cx-color-visual-focus);
+    outline-width: var(--cx-visual-focus-width, 2px);
+    outline-offset: 4px;
+    transition: none;
+  }
   .cx-overview-title-link {
     text-decoration: none;
     cursor: pointer;

@@ -26,11 +26,11 @@ import { Pipe, PipeTransform } from '@angular/core';
  * my-component.component.html:
  * ```
  *   <div *ngFor="let targetString of targetStrings">
- *     <app-some-component [filteredArray]="filterArrayByString | args: unfilteredArray : targetString">
+ *     <app-some-component [filteredArray]="filterArrayByString | cxArgs: unfilteredArray : targetString">
  *  </div>
  * ```
  */
-@Pipe({ name: 'args' })
+@Pipe({ name: 'cxArgs' })
 export class ArgsPipe implements PipeTransform {
   transform<A extends Array<any>, R>(
     projectionFunction: (...arglist: A) => R,

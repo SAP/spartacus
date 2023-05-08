@@ -49,14 +49,17 @@
           [class.asc]="listSortOrder === SortOrder.ASC"
           [class.desc]="listSortOrder !== SortOrder.ASC"
           [attr.aria-sort]="
-            sortDirection | args: column.property:sortProperty:listSortOrder
+            sortDirection | cxArgs: column.property:sortProperty:listSortOrder
           "
           (click)="setSelectedTabIndex(columnIndex, 0)"
         >
           <button
             [tabindex]="
               tabIndexValue
-                | args: focusedTableColumnIndex:focusedTableRowIndex:columnIndex
+                | cxArgs
+                  : focusedTableColumnIndex
+                  : focusedTableRowIndex
+                  : columnIndex
             "
             class="link"
             (click)="sortEntriesAndUpdatePages(column.property)"
@@ -93,6 +96,10 @@
               [attr.aria-label]="entry[column.property]"
               (click)="selectItem.emit(entry)"
               class="cx-asm-customer-table-link link"
+              [title]="
+                entry[column.property] ||
+                ('customer360.emptyCellValue' | cxTranslate)
+              "
             >
               {{
                 entry[column.property] ||

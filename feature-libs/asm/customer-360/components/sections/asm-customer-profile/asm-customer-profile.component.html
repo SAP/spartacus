@@ -84,12 +84,12 @@
       </div>
       <div>
         <span class="address-town" *ngIf="address?.town"
-          >{{ address?.town }},
+          >{{ address.town }},
         </span>
-        <span class="address-region" *ngIf="address?.region?.isocode"
-          >{{ address?.region?.isocode }},
+        <span class="address-region" *ngIf="address?.region?.name"
+          >{{ address.region.name }},
         </span>
-        <span class="address-country">{{ address?.country?.isocode }}</span>
+        <span class="address-country">{{ address?.country?.name }}</span>
       </div>
     </div>
   </ng-template>
