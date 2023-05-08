@@ -12,7 +12,7 @@
     "i18next": "^21.9.1",
     "i18next-http-backend": "^1.4.1",
     "i18next-resources-to-backend": "^1.1.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/schematics": {
     "@angular-devkit/core": "^15.2.4",
@@ -37,7 +37,7 @@
     "@ngrx/store": "^15.3.0",
     "@spartacus/core": "5.0.0",
     "ngx-infinite-scroll": "^15.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/styles": {
     "@fontsource/open-sans": "^4.5.14",
@@ -66,7 +66,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/cart": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -83,7 +83,7 @@
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/checkout": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -101,7 +101,7 @@
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/customer-ticketing": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -114,7 +114,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/order": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -131,7 +131,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/organization": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -150,7 +150,7 @@
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/pickup-in-store": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -169,7 +169,7 @@
     "@spartacus/styles": "5.0.0",
     "@spartacus/user": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/product": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -181,7 +181,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/product-configurator": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -199,7 +199,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -209,7 +209,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/smartedit": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -217,7 +217,7 @@
     "@angular/core": "^15.2.4",
     "@spartacus/core": "5.0.0",
     "@spartacus/schematics": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/storefinder": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -232,7 +232,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/tracking": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -240,7 +240,7 @@
     "@angular/core": "^15.2.4",
     "@spartacus/core": "5.0.0",
     "@spartacus/schematics": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/user": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -254,7 +254,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/cdc": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -271,7 +271,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/user": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -285,7 +285,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/tracking": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/digital-payments": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -299,7 +299,7 @@
     "@spartacus/core": "5.0.0",
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/epd-visualization": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -314,7 +314,7 @@
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "@spartacus/s4om": {
     "@angular-devkit/schematics": "^15.2.4",
@@ -325,7 +325,7 @@
     "@spartacus/schematics": "5.0.0",
     "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^7.8.0"
   },
   "storefrontapp": {
     "@angular/animations": "^15.2.4",
@@ -356,7 +356,7 @@
     "i18next-http-backend": "^1.4.1",
     "i18next-resources-to-backend": "^1.1.2",
     "ngx-infinite-scroll": "^15.0.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.8.0",
     "ts-loader": "^9.3.1",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.8"

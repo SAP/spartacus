@@ -14,7 +14,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { config, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
@@ -54,6 +54,9 @@ class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
     of({ loading: false, error: false, data: undefined })
   );
 }
+
+// configure rxjs to not crash node instance with thrown errors
+config.onUnhandledError = (err) => console.warn(err);
 
 describe(`CheckoutDeliveryAddressService`, () => {
   let service: CheckoutDeliveryAddressService;
