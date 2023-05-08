@@ -263,8 +263,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     }
   }
 
-  andThen(options: any) {
-    console.log(options);
+  andThen(_options: any) {
+    ;//console.log(options);
   }
 
   hideUi(): void {
