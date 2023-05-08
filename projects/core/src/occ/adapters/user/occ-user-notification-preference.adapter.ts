@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import {
   NotificationPreference,
@@ -48,7 +48,9 @@ export class OccUserNotificationPreferenceAdapter
       .pipe(
         map((list) => list.preferences ?? []),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 
@@ -69,7 +71,9 @@ export class OccUserNotificationPreferenceAdapter
         { headers }
       )
       .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 }

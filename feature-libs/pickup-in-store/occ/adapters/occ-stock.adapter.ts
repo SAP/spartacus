@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -41,7 +41,9 @@ export class OccStockAdapter implements StockAdapter {
         })
       )
       .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 
@@ -56,7 +58,9 @@ export class OccStockAdapter implements StockAdapter {
         })
       )
       .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 }

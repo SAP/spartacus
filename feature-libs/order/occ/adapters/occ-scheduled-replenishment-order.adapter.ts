@@ -7,20 +7,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  backOff,
   ConverterService,
+  OccEndpointsService,
+  backOff,
   isJaloError,
   normalizeHttpError,
-  OccEndpointsService,
 } from '@spartacus/core';
 import { ScheduledReplenishmentOrderAdapter } from '@spartacus/order/core';
 import {
-  ReplenishmentOrder,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
+  ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -57,7 +57,9 @@ export class OccScheduledReplenishmentOrderAdapter
         { headers }
       )
       .pipe(
-        catchError((error) => throwError(() => normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
       );

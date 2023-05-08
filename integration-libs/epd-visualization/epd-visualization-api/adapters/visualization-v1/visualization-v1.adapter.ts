@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import {
-  LookupVisualizationsResponse,
   LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
+  LookupVisualizationsResponse,
   VisualizationAdapter,
 } from '@spartacus/epd-visualization/core';
 import {
@@ -18,7 +18,7 @@ import {
   UsageId,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -73,7 +73,9 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
     folderUsageId: UsageId
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
-      catchError((error) => throwError(() => normalizeHttpError(error))),
+      catchError((error) => {
+        throw normalizeHttpError(error);
+      }),
       this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
     );
   }

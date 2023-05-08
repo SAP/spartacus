@@ -11,7 +11,7 @@ import {
   AuthToken,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -51,7 +51,9 @@ export class CdcUserAuthenticationTokenService {
     return this.http
       .post<Partial<AuthToken> & { expires_in?: number }>(url, params)
       .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 }

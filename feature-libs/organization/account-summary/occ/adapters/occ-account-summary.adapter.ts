@@ -8,20 +8,20 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ConverterService,
-  normalizeHttpError,
   OccEndpointsService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
-  AccountSummaryAdapter,
   ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER,
   ACCOUNT_SUMMARY_NORMALIZER,
+  AccountSummaryAdapter,
 } from '@spartacus/organization/account-summary/core';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
   DocumentQueryParams,
 } from '@spartacus/organization/account-summary/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -41,9 +41,9 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         this.buildAccountSummaryUrl(userId, orgUnitId)
       )
       .pipe(
-        catchError((error: HttpErrorResponse) =>
-          throwError(() => normalizeHttpError(error))
-        ),
+        catchError((error: HttpErrorResponse) => {
+          throw normalizeHttpError(error);
+        }),
         this.converter.pipeable(ACCOUNT_SUMMARY_NORMALIZER)
       );
   }
@@ -58,9 +58,9 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         this.buildDocumentListUrl(userId, orgUnitId, params)
       )
       .pipe(
-        catchError((error: HttpErrorResponse) =>
-          throwError(() => normalizeHttpError(error))
-        ),
+        catchError((error: HttpErrorResponse) => {
+          throw normalizeHttpError(error);
+        }),
         this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
       );
   }
@@ -86,9 +86,9 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
         options
       )
       .pipe(
-        catchError((error: HttpErrorResponse) =>
-          throwError(() => normalizeHttpError(error))
-        )
+        catchError((error: HttpErrorResponse) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 

@@ -16,7 +16,7 @@ import {
   USE_CLIENT_TOKEN,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -55,7 +55,9 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     const headers = this.getHeaders(userId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
-      catchError((error: any) => throwError(() => normalizeHttpError(error))),
+      catchError((error: any) => {
+        throw normalizeHttpError(error);
+      }),
       this.converter.pipeable(CART_VOUCHER_NORMALIZER)
     );
   }
@@ -68,10 +70,10 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
 
     const headers = this.getHeaders(userId);
 
-    return this.http
-      .delete(url, { headers })
-      .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
-      );
+    return this.http.delete(url, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error);
+      })
+    );
   }
 }

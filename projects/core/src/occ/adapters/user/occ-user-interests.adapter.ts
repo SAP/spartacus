@@ -6,7 +6,7 @@
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin, throwError } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
   NotificationType,
@@ -67,7 +67,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       )
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 
@@ -91,9 +93,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
             }
           )
           .pipe(
-            catchError((error: any) =>
-              throwError(() => normalizeHttpError(error))
-            )
+            catchError((error: any) => {
+              throw normalizeHttpError(error);
+            })
           )
       );
     });
@@ -120,7 +122,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         }
       )
       .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
       );
   }
 }

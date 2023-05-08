@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Observable,
-  of,
-  OperatorFunction,
-  range,
-  throwError,
-  timer,
-  zip,
-} from 'rxjs';
+import { Observable, of, OperatorFunction, range, timer, zip } from 'rxjs';
 import { map, mergeMap, retryWhen } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
 
@@ -62,7 +54,7 @@ export function backOff<T>(options?: BackOffOptions): OperatorFunction<T, T> {
             // if we've re-tried more than the maxTries, OR
             // if the source error is not the one we want to exponentially retry
             if (currentRetry > maxTries || !shouldRetry(attemptError)) {
-              return throwError(() => attemptError);
+              throw attemptError;
             }
 
             return of(currentRetry);

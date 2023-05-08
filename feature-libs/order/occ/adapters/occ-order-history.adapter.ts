@@ -33,7 +33,7 @@ import {
   ReturnRequestList,
   ReturnRequestModification,
 } from '@spartacus/order/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
@@ -113,11 +113,11 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       ...CONTENT_TYPE_JSON_HEADER,
     });
 
-    return this.http
-      .post(url, cancelRequestInput, { headers })
-      .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
-      );
+    return this.http.post(url, cancelRequestInput, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error);
+      })
+    );
   }
 
   public createReturnRequest(
@@ -137,7 +137,9 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     );
 
     return this.http.post(url, returnRequestInput, { headers }).pipe(
-      catchError((error: any) => throwError(() => normalizeHttpError(error))),
+      catchError((error: any) => {
+        throw normalizeHttpError(error);
+      }),
       this.converter.pipeable(ORDER_RETURN_REQUEST_NORMALIZER)
     );
   }
@@ -194,10 +196,10 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       ...CONTENT_TYPE_JSON_HEADER,
     });
 
-    return this.http
-      .patch(url, returnRequestModification, { headers })
-      .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error)))
-      );
+    return this.http.patch(url, returnRequestModification, { headers }).pipe(
+      catchError((error: any) => {
+        throw normalizeHttpError(error);
+      })
+    );
   }
 }

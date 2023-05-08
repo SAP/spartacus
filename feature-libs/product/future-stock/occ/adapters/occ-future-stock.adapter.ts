@@ -14,13 +14,13 @@ import {
 } from '@spartacus/core';
 
 import {
-  FutureStockAdapter,
   FUTURE_STOCK_LIST_NORMALIZER,
   FUTURE_STOCK_NORMALIZER,
+  FutureStockAdapter,
   ProductFutureStock,
   ProductFutureStockList,
 } from '@spartacus/product/future-stock/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -38,7 +38,9 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
     return this.http
       .get<ProductFutureStock>(this.getFutureStockEndpoint(userId, productCode))
       .pipe(
-        catchError((error) => throwError(() => normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         this.converter.pipeable(FUTURE_STOCK_NORMALIZER)
       );
   }
@@ -52,7 +54,9 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
         this.getFutureStocksEndpoint(userId, productCodes)
       )
       .pipe(
-        catchError((error) => throwError(() => normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         this.converter.pipeable(FUTURE_STOCK_LIST_NORMALIZER)
       );
   }

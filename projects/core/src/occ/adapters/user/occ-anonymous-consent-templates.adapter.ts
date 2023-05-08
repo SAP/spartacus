@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
 import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
@@ -34,7 +34,9 @@ export class OccAnonymousConsentTemplatesAdapter
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     const url = this.occEndpoints.buildUrl('anonymousConsentTemplates');
     return this.http.get<Occ.ConsentTemplateList>(url).pipe(
-      catchError((error: any) => throwError(() => normalizeHttpError(error))),
+      catchError((error: any) => {
+        throw normalizeHttpError(error);
+      }),
       map((consentList) => consentList.consentTemplates ?? []),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
@@ -46,7 +48,9 @@ export class OccAnonymousConsentTemplatesAdapter
     return this.http
       .head<Occ.ConsentTemplateList>(url, { observe: 'response' })
       .pipe(
-        catchError((error: any) => throwError(() => normalizeHttpError(error))),
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        }),
         map(
           (response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER) ?? ''
         ),
