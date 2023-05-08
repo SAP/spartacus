@@ -181,6 +181,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       const parameters = {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         someId: this.asmComponentService.getSearchParameter('someId'),
+        emulated: false,
       };
       this.subscription.add(
         combineLatest([
@@ -192,6 +193,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.asmComponentService.logoutCustomer();
             } else {
+              parameters.emulated = isEmulatedByDeepLink;
               setTimeout(() => this.startSessionWithParameters(parameters));
             }
           }
@@ -205,17 +207,15 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * start emulate customer in URL.
    */
   protected startSessionWithParameters(parameters: any): void {
-    this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
-      if (!emulated) {
-        this.asmComponentService.setEmulatedByDeepLink(true);
-        this.startCustomerEmulationSession(
-          {
-            customerId: parameters.customerId,
-          },
-          parameters
-        );
-      }
-    });
+    if (!parameters.emulated) {
+      this.asmComponentService.setEmulatedByDeepLink(true);
+      this.startCustomerEmulationSession(
+        {
+          customerId: parameters.customerId,
+        },
+        parameters
+      );
+    }
   }
 
   protected handleCustomerSessionStartRedirection(): void {
@@ -264,7 +264,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   andThen(_options: any) {
-    ;//console.log(options);
+    //console.log(options);
   }
 
   hideUi(): void {
