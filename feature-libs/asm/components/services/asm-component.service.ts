@@ -18,11 +18,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AsmComponentService {
   protected searchparam: URLSearchParams;
   isEmulatedByDeepLink$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
-    protected winRef: WindowRef,
+    protected winRef: WindowRef
   ) {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }

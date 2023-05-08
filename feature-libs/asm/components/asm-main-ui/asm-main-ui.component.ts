@@ -106,7 +106,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     @Optional() protected featureConfig?: FeatureConfigService,
     @Optional() protected asmEnableService?: AsmEnablerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
@@ -173,12 +173,15 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    if (this.featureConfig?.isLevel('6.1')) {
+    if (this.featureConfig?.isLevel('6.2')) {
+      if (this.asmEnableService?.isEmulateInURL()) {
+        //Always route to home page to avoid 404
+        this.routingService.go('/');
+      }
       const parameters = {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         someId: this.asmComponentService.getSearchParameter('someId'),
-      }
-
+      };
       this.subscription.add(
         combineLatest([
           this.customerSupportAgentLoggedIn$,
@@ -205,9 +208,12 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.asmComponentService.isEmulatedByDeepLink().subscribe((emulated) => {
       if (!emulated) {
         this.asmComponentService.setEmulatedByDeepLink(true);
-        this.startCustomerEmulationSession({
-          customerId: parameters.customerId,
-        }, parameters);
+        this.startCustomerEmulationSession(
+          {
+            customerId: parameters.customerId,
+          },
+          parameters
+        );
       }
     });
   }
@@ -235,17 +241,19 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
-
   logout(): void {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
-  startCustomerEmulationSession({ customerId }: { customerId?: string }, options?: any): void {
+  startCustomerEmulationSession(
+    { customerId }: { customerId?: string },
+    options?: any
+  ): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (options) {
-        this.andThen(options)
+        this.andThen(options);
       }
     } else {
       this.globalMessageService.add(
@@ -256,7 +264,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   andThen(options: any) {
-    console.log(options)
+    console.log(options);
   }
 
   hideUi(): void {
