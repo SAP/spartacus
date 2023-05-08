@@ -63,21 +63,27 @@ export const asm = {
       cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',
+        customerName: 'Customer Name',
         name: 'Name',
         email: 'Email',
+        emailId: 'Email/ID',
         phone: 'Phone',
         account: 'Account',
         cart: 'Cart',
         order: 'Order',
+        view: '360 View',
       },
       tableSort: {
         sortBy: 'Sort by',
+        byName: 'Name (Asc)',
         byNameAsc: 'Name (Asc)',
         byNameDesc: 'Name (Desc)',
         byDateAsc: 'Date (Asc)',
         byDateDesc: 'Date (Desc)',
         byOrderDateAsc: 'Order date (Asc)',
         byOrderDateDesc: 'Order date (Desc)',
+        byUnit: 'Unit (Asc)',
+        byUnitDesc: 'Unit (Desc)',
       },
       page: {
         page: 'Page {{count}}',
@@ -90,6 +96,7 @@ export const asm = {
         'There are currently no customer lists available. Contact your system administrator.',
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
+      searchBox: 'Search',
     },
     bindCart: {
       cartNumber: 'Cart Number',

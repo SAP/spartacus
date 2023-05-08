@@ -8,9 +8,9 @@ import {
   RoutingService,
   ScriptLoader,
 } from '@spartacus/core';
-import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
-import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
 import { EMPTY, Observable, of } from 'rxjs';
+import { defaultSmartEditConfig } from '../../root/config/default-smart-edit-config';
+import { SmartEditConfig } from '../../root/config/smart-edit-config';
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {
