@@ -225,39 +225,39 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     elementToFocus.tabIndex = 0;
     elementToFocus.focus();
   }
-  private handlePageUp(): void {
+  protected handlePageUp(): void {
     if (this.entryPages.length > 1 && this.currentPageNumber > 0) {
       const pageNumber = Math.max(0, this.currentPageNumber - 1);
       this.setPageNumber(pageNumber, true);
     }
   }
-  private handlePageDown(): void {
+  protected handlePageDown(): void {
     const maxPage = this.entryPages.length - 1;
     if (this.entryPages.length > 1 && this.currentPageNumber < maxPage) {
       const pageNumber = Math.min(maxPage, this.currentPageNumber + 1);
       this.setPageNumber(pageNumber, true);
     }
   }
-  private moveFocusEnd(event: KeyboardEvent, rowIndex: number): void {
+  protected moveFocusEnd(event: KeyboardEvent, rowIndex: number): void {
     const maxRow = this.table.nativeElement.rows.length - 1;
     rowIndex = event.ctrlKey ? maxRow : rowIndex;
     this.setSelectedTabIndex(this.columns.length - 1, rowIndex);
   }
-  private moveFocusHome(event: KeyboardEvent, rowIndex: number): void {
+  protected moveFocusHome(event: KeyboardEvent, rowIndex: number): void {
     rowIndex = event.ctrlKey ? 0 : rowIndex;
     this.setSelectedTabIndex(0, rowIndex);
   }
-  private moveFocusUp(columnIndex: number, rowIndex: number): void {
+  protected moveFocusUp(columnIndex: number, rowIndex: number): void {
     rowIndex = Math.max(0, rowIndex - 1);
     this.setSelectedTabIndex(columnIndex, rowIndex);
   }
-  private moveFocusDown(columnIndex: number, rowIndex: number): void {
+  protected moveFocusDown(columnIndex: number, rowIndex: number): void {
     const maxRow = this.table.nativeElement.rows.length - 1;
     rowIndex = Math.min(maxRow, rowIndex + 1);
     this.setSelectedTabIndex(columnIndex, rowIndex);
   }
 
-  private moveFocusLeftRight(
+  protected moveFocusLeftRight(
     event: KeyboardEvent,
     columnIndex: number,
     rowIndex: number
@@ -271,12 +271,11 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     this.setSelectedTabIndex(columnIndex, rowIndex);
   }
   /**
-   * Remove selected tab index (change tabIndex to -1)
-   * if cell has link(button) then update link
-   * @param columnIndex selected column index of table
-   * @param rowIndex selected row index of table
+   * Removes tabindex and CSS focus class from a cell in the table.
+   * @param columnIndex The index of the column containing the cell.
+   * @param rowIndex The index of the row containing the cell.
    */
-  private removeCellTabIndex(columnIndex: number, rowIndex: number): void {
+  protected removeCellTabIndex(columnIndex: number, rowIndex: number): void {
     const tableCell =
       this.table.nativeElement.rows?.[rowIndex]?.cells?.[columnIndex];
     const childElement = tableCell?.firstChild;
@@ -284,13 +283,14 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
       if (childElement.tagName === 'BUTTON') {
         childElement.tabIndex = -1;
       } else {
-        tableCell.tabIndex = -1;
+        if (tableCell) {
+          tableCell.tabIndex = -1;
+        }
       }
     }
   }
   /**
    * Verifies whether the user navigates from a subgroup back to the main group menu.
-   *
    * @param {KeyboardEvent} event - Keyboard event
    * @returns {boolean} -'true' if the user navigates back into the main group menu, otherwise 'false'.
    * @protected
@@ -309,7 +309,7 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     return this.directionService.getDirection() === DirectionMode.RTL;
   }
 
-  private updateEntryPages(
+  protected updateEntryPages(
     entries: Array<TableEntry>
   ): Array<Array<TableEntry>> {
     const newEntryPages = [];
@@ -319,7 +319,7 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
     return newEntryPages;
   }
 
-  private sortEntries(
+  protected sortEntries(
     entries: Array<TableEntry>,
     sortByProperty: keyof TableEntry,
     sortOrder: SortOrder
