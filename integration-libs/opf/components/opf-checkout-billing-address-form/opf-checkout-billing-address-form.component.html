@@ -53,7 +53,7 @@
 
 <ng-container *ngIf="isEditBillingAddress">
   <cx-address-form
-    [addressData]="billingAddress$ | async"
+    [addressData]="(billingAddress$ | async) || {}"
     class="cx-form"
     [showTitleCode]="true"
     [showCancelBtn]="true"
