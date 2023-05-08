@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpErrorModel } from '@spartacus/core';
 
 import { Subscription } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, tap } from 'rxjs/operators';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
@@ -28,18 +28,23 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     this.subscription = this.paymentService
       .verifyResultUrl(this.route)
       .pipe(
+        tap(() => console.log('flo6')),
         concatMap(({ paymentSessionId, responseMap }) => {
           return this.paymentService.verifyPayment(
             paymentSessionId,
             responseMap
           );
         }),
+        tap(() => console.log('flo7')),
         concatMap(() => {
           return this.paymentService.placeOrder();
         })
       )
       .subscribe({
-        error: (error: HttpErrorModel | undefined) => this.onError(error),
+        error: (error: HttpErrorModel | undefined) => {
+          console.log('flo8'), JSON.stringify(error);
+          this.onError(error);
+        },
         next: () => this.onSuccess(),
       });
   }
@@ -49,8 +54,9 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onError(error: HttpErrorModel | undefined): void {
+    console.log('flo9', error);
     this.paymentService.displayError(error);
-    this.paymentService.goToPage('checkoutReviewOrder');
+    // this.paymentService.goToPage('checkoutReviewOrder');
   }
 
   ngOnDestroy(): void {

@@ -66,17 +66,19 @@ export class OpfPaymentVerificationService {
     return route?.routeConfig?.data?.cxRoute === 'paymentVerificationResult'
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
+            console.log('flo1', params);
             if (!params) {
               return throwError(this.defaultError);
             }
 
             const responseMap: OpfResponseMapElement[] =
               this.getOpfResponseMap(params);
-
+            console.log('flo2', responseMap);
             const paymentSessionId = this.findInOpfResponseMap(
               OpfPaymenVerificationUrlInput.PAYMENT_SESSION_ID,
               responseMap
             );
+            console.log('flo3', paymentSessionId);
             if (!paymentSessionId) {
               return throwError(this.defaultError);
             }
@@ -114,6 +116,7 @@ export class OpfPaymentVerificationService {
   isPaymentSuccessful(
     response: OpfPaymentVerificationResponse
   ): Observable<boolean> {
+    console.log('flo4', response);
     if (
       response.result === OpfPaymentVerificationResult.AUTHORIZED ||
       response.result === OpfPaymentVerificationResult.DELAYED
@@ -130,6 +133,7 @@ export class OpfPaymentVerificationService {
   }
 
   displayError(error: HttpErrorModel | undefined): void {
+    console.log('flo5', error);
     this.globalMessageService.add(
       {
         key:
