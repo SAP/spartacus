@@ -20,7 +20,7 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "integration-libs/opf/src/test.ts",
+        "main": "integration-libs/opf/test.ts",
         "tsConfig": "integration-libs/opf/tsconfig.spec.json",
         "polyfills": ["zone.js", "zone.js/testing"],
         "karmaConfig": "integration-libs/opf/karma.conf.js"

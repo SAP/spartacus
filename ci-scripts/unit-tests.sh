@@ -4,7 +4,7 @@ set -o pipefail
 
 EXCLUDE_APPLICATIONS=storefrontapp
 EXCLUDE_JEST=storefrontstyles,schematics,setup
-EXCLUDE_INTEGRATION_LIBS=cdc,cds,digital-payments,epd-visualization,s4om
+EXCLUDE_INTEGRATION_LIBS=cdc,cds,digital-payments,epd-visualization,s4om,opf
 
 echo "-----"
 
@@ -27,7 +27,7 @@ function run_all_unit_tests {
 if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
     if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
         run_all_unit_tests
-    else 
+    else
         run_affected_unit_tests
     fi
 else
