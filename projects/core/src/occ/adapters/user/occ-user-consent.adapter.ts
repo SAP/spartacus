@@ -12,6 +12,7 @@ import { ConsentTemplate } from '../../../model/consent.model';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/connectors/consent/converters';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
 import { ConverterService } from '../../../util/converter.service';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -29,7 +30,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     });
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
     return this.http.get<Occ.ConsentTemplateList>(url, { headers }).pipe(
-      catchError((error: any) => throwError(() => error)),
+      catchError((error: any) => throwError(() => normalizeHttpError(error))),
       map((consentList) => consentList.consentTemplates ?? []),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
@@ -53,7 +54,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     return this.http
       .post<Occ.ConsentTemplate>(url, httpParams, { headers })
       .pipe(
-        catchError((error) => throwError(() => error)),
+        catchError((error: any) => throwError(() => normalizeHttpError(error))),
         this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
       );
   }

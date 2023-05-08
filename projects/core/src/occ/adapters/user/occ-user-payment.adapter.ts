@@ -12,6 +12,7 @@ import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment
 import { PaymentDetails } from '../../../model/payment.model';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { ConverterService } from '../../../util/converter.service';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -35,7 +36,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     });
 
     return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
-      catchError((error: any) => throwError(() => error)),
+      catchError((error: any) => throwError(() => normalizeHttpError(error))),
       map((methodList) => methodList.payments ?? []),
       this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
     );
@@ -51,7 +52,9 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
     return this.http
       .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(() => error)));
+      .pipe(
+        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+      );
   }
 
   setDefault(userId: string, paymentMethodID: string): Observable<{}> {
@@ -70,6 +73,8 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
         { headers }
       )
-      .pipe(catchError((error: any) => throwError(() => error)));
+      .pipe(
+        catchError((error: any) => throwError(() => normalizeHttpError(error)))
+      );
   }
 }

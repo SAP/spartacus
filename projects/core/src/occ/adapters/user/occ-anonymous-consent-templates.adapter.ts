@@ -11,12 +11,13 @@ import { catchError, map } from 'rxjs/operators';
 import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
 import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENTS_HEADER,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/connectors/consent/converters';
 import { ConverterService } from '../../../util/converter.service';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -33,7 +34,7 @@ export class OccAnonymousConsentTemplatesAdapter
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     const url = this.occEndpoints.buildUrl('anonymousConsentTemplates');
     return this.http.get<Occ.ConsentTemplateList>(url).pipe(
-      catchError((error) => throwError(() => error)),
+      catchError((error: any) => throwError(() => normalizeHttpError(error))),
       map((consentList) => consentList.consentTemplates ?? []),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
@@ -45,7 +46,7 @@ export class OccAnonymousConsentTemplatesAdapter
     return this.http
       .head<Occ.ConsentTemplateList>(url, { observe: 'response' })
       .pipe(
-        catchError((error) => throwError(() => error)),
+        catchError((error: any) => throwError(() => normalizeHttpError(error))),
         map(
           (response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER) ?? ''
         ),
