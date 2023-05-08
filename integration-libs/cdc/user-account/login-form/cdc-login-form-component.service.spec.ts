@@ -10,7 +10,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
-import { LoginFormComponentService } from 'feature-libs/user/account/components/login-form/login-form-component.service';
+import { LoginFormComponentService } from '@spartacus/user/account/components';
 import { FormErrorsModule } from 'projects/storefrontlib/shared';
 import { of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';

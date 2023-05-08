@@ -26,7 +26,7 @@
         </div>
       </label>
       <cx-opf-checkout-payment-wrapper
-        *ngIf="configuration.id === selectedPaymentId"
+        *ngIf="selectedPaymentId && configuration.id === selectedPaymentId"
         [selectedPaymentId]="selectedPaymentId"
       ></cx-opf-checkout-payment-wrapper>
     </div>

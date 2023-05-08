@@ -1,13 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import {
-  DisableInfoModule,
-  ItemService,
-} from 'feature-libs/organization/administration/components/shared';
-import { SubListTestingModule } from 'feature-libs/organization/administration/components/shared/sub-list/sub-list.testing.module';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { EMPTY } from 'rxjs';
+import { DisableInfoModule, ItemService } from '../../../../shared';
+import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 import { UnitUserListComponent } from './unit-user-list.component';
