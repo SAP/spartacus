@@ -8,3 +8,14 @@ export interface OpfUi {
   termsAndConditionsChecked?: boolean;
   selectedPaymentOptionId?: number;
 }
+
+export interface OpfRenderPaymentMethodEvent {
+  isLoading: boolean;
+  renderType?: OpfPaymentMethodType | null;
+  data?: string | null;
+}
+
+export enum OpfPaymentMethodType {
+  DESTINATION = 'DESTINATION',
+  DYNAMIC_SCRIPT = 'DYNAMIC_SCRIPT',
+}

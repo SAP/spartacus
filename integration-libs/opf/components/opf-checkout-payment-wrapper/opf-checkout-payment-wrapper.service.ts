@@ -6,40 +6,64 @@
 
 import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-  UserIdService,
-} from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
+import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
+  OpfPaymentMethodType,
+  OpfRenderPaymentMethodEvent,
   PaymentSessionData,
 } from '@spartacus/opf/root';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap } from 'rxjs/operators';
+
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
-  protected activeCartId: string;
-  protected isInitPaymentFailedSub = new BehaviorSubject(false);
-
-  isInitPaymentFailed$ = this.isInitPaymentFailedSub.asObservable();
-
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfOtpService: OpfOtpFacade,
+    protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected routingService: RoutingService
   ) {}
 
-  initiatePayment(
-    selectedPaymentId: number
-  ): Observable<PaymentSessionData | boolean> {
-    this.isInitPaymentFailedSub.next(false);
+  protected activeCartId: string;
+
+  protected renderPaymentMethodEvent$ =
+    new BehaviorSubject<OpfRenderPaymentMethodEvent>({
+      isLoading: false,
+    });
+
+  protected setPaymentInitiationConfig(
+    otpKey: string,
+    paymentOptionId: number
+  ) {
+    return {
+      otpKey,
+      config: {
+        configurationId: String(paymentOptionId),
+        cartId: this.activeCartId,
+        resultURL: this.routingService.getFullUrl({
+          cxRoute: 'paymentVerificationResult',
+        }),
+        cancelURL: this.routingService.getFullUrl({
+          cxRoute: 'paymentVerificationCancel',
+        }),
+      },
+    };
+  }
+
+  getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
+    return this.renderPaymentMethodEvent$.asObservable();
+  }
+
+  initiatePayment(paymentOptionId: number): Observable<PaymentSessionData> {
+    this.renderPaymentMethodEvent$.next({
+      isLoading: true,
+    });
 
     return combineLatest([
       this.userIdService.getUserId(),
@@ -50,36 +74,37 @@ export class OpfCheckoutPaymentWrapperService {
         return this.opfOtpService.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) => {
-        return {
-          otpKey,
-          config: {
-            configurationId: String(selectedPaymentId),
-            cartId: this.activeCartId,
-            resultURL: this.routingService.getFullUrl({
-              cxRoute: 'paymentVerificationResult',
-            }),
-            cancelURL: this.routingService.getFullUrl({
-              cxRoute: 'paymentVerificationCancel',
-            }),
-          },
-        };
-      }),
-      switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
-      catchError(() => this.onInitPaymentError())
+      map(({ value: otpKey }) =>
+        this.setPaymentInitiationConfig(otpKey, paymentOptionId)
+      ),
+      switchMap((params) => this.opfCheckoutService.initiatePayment(params))
     );
   }
 
-  protected onInitPaymentError(): Observable<boolean> {
-    this.isInitPaymentFailedSub.next(true);
+  renderPaymentGateway(config: PaymentSessionData) {
+    if (config?.destination) {
+      this.renderPaymentMethodEvent$.next({
+        isLoading: false,
+        renderType: OpfPaymentMethodType.DESTINATION,
+        data: config?.destination.url,
+      });
+    }
 
-    this.globalMessageService.add(
-      {
-        key: 'opf.checkout.errors.proceedPayment',
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
+    if (config?.dynamicScript) {
+      const html = config?.dynamicScript?.html;
 
-    return of(false);
+      this.opfResourceLoaderService
+        .loadProviderScripts(config.dynamicScript.jsUrls)
+        .then(() => {
+          this.renderPaymentMethodEvent$.next({
+            isLoading: false,
+            renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
+            data: html,
+          });
+          setTimeout(() => {
+            this.opfResourceLoaderService.executeScriptFromHtml(html);
+          });
+        });
+    }
   }
 }
