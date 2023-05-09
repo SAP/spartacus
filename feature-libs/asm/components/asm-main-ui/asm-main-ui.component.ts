@@ -206,8 +206,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       );
     }
   }
-  
-  
+
   /**
    * If url contains customerId and we haven't emulatedFromURL, we'll change the isEmulatedByDeepLink flag and
    * start emulate customer in URL.
