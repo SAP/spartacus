@@ -10,16 +10,19 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -31,7 +34,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, Subscription, of } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -52,6 +55,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -65,6 +69,32 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig: FeatureConfigService,
+    asmEnableService: AsmEnablerService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
+    launchDialogService: LaunchDialogService
+  );
+  constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected asmComponentService: AsmComponentService,
@@ -72,7 +102,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    @Optional() protected featureConfig?: FeatureConfigService,
+    @Optional() protected asmEnableService?: AsmEnablerService
   ) {}
 
   ngOnInit(): void {
@@ -133,6 +165,57 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
+    this.subscribeForDeeplink();
+  }
+
+  /**
+   * When agent is logged in and deep link has customerID,
+   * call logout if has customer emulated(userLoggedin) but not emulated by deep link.
+   * call startSessionWithParameters
+   */
+  protected subscribeForDeeplink(): void {
+    if (this.featureConfig?.isLevel('6.2')) {
+      if (this.asmEnableService?.isEmulateInURL()) {
+        //Always route to home page to avoid 404
+        this.routingService.go('/');
+      }
+      const parameters = {
+        customerId: this.asmComponentService.getSearchParameter('customerId'),
+        emulated: false,
+      };
+      this.subscription.add(
+        combineLatest([
+          this.customerSupportAgentLoggedIn$,
+          this.authService.isUserLoggedIn(),
+          this.asmComponentService.isEmulatedByDeepLink(),
+        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+          if (agentLoggedIn && parameters.customerId) {
+            if (!isEmulatedByDeepLink && userLoggedin) {
+              this.asmComponentService.logoutCustomer();
+            } else {
+              parameters.emulated = isEmulatedByDeepLink;
+              setTimeout(() => this.startSessionWithParameters(parameters));
+            }
+          }
+        })
+      );
+    }
+  }
+
+  /**
+   * If url contains customerId and we haven't emulatedFromURL, we'll change the isEmulatedByDeepLink flag and
+   * start emulate customer in URL.
+   */
+  protected startSessionWithParameters(parameters: any): void {
+    if (!parameters.emulated) {
+      this.asmComponentService.setEmulatedByDeepLink(true);
+      this.startCustomerEmulationSession(
+        {
+          customerId: parameters.customerId,
+        },
+        parameters
+      );
+    }
   }
 
   protected handleCustomerSessionStartRedirection(): void {
@@ -162,16 +245,26 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
-  startCustomerEmulationSession({ customerId }: { customerId?: string }): void {
+  startCustomerEmulationSession(
+    { customerId }: { customerId?: string },
+    options?: any
+  ): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
+      if (options) {
+        this.andThen(options);
+      }
     } else {
       this.globalMessageService.add(
         { key: 'asm.error.noCustomerId' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
+  }
+
+  andThen(_options: any) {
+    //navigate to other pages
   }
 
   hideUi(): void {

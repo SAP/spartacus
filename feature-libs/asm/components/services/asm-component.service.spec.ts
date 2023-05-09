@@ -36,6 +36,9 @@ const MockWindowRef = {
       }
     },
   },
+  location: {
+    search: 'customerId=testId',
+  },
 };
 
 describe('AsmComponentService', () => {
@@ -112,6 +115,39 @@ describe('AsmComponentService', () => {
       expect(
         windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
       ).toBeNull();
+    });
+  });
+
+  describe('getSearchParameter', () => {
+    it('should get parameter from search result', () => {
+      expect(asmComponentService.getSearchParameter('customerId')).toEqual(
+        'testId'
+      );
+    });
+  });
+
+  describe('isEmulatedByDeepLink and setEmulated ', () => {
+    it('should emit true when user is emulated', (done) => {
+      asmComponentService.setEmulatedByDeepLink(true);
+
+      asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
+    });
+
+    it('should emit false when setEmulated called with false', (done) => {
+      asmComponentService.setEmulatedByDeepLink(false);
+      asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
     });
   });
 });
