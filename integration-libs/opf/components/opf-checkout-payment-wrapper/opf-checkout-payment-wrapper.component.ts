@@ -45,7 +45,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     this.initiatePayment();
   }
 
-  initiatePayment(): void {
+  protected initiatePayment(): void {
     this.service
       .initiatePayment(this.selectedPaymentId)
       .pipe(take(1))
