@@ -27,7 +27,6 @@ import { ActiveConfiguration } from '../model/opf-checkout.model';
         'verifyPayment',
         'initiatePayment',
       ],
-      async: true,
     }),
 })
 export abstract class OpfCheckoutFacade {
