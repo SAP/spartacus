@@ -8,7 +8,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { GlobalMessageType } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { Subscription } from 'rxjs';
 
 export enum SAVE_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',
