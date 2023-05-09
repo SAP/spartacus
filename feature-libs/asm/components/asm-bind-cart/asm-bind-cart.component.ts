@@ -191,7 +191,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
     this.savedCartFacade
       .getSaveCartProcessSuccess()
-      .pipe(take(1))
+      .pipe(
+        filter((success) => success),
+        take(1)
+      )
       .subscribe(() => {
         this.goToSavedCartDetails(this.inactiveCartId);
         this.isInactiveCartSaved = true;
@@ -199,7 +202,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
     this.savedCartFacade
       .getSaveCartProcessError()
-      .pipe(take(1))
+      .pipe(
+        filter((error) => error),
+        take(1)
+      )
       .subscribe(() => {
         this.isInactiveCartSaved = true;
       });
@@ -321,7 +327,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected isDeepLinkInactiveCart(): boolean {
     const cartId = this.asmComponentService.getSearchParameter('cartId');
     const cartType = this.asmComponentService.getSearchParameter('cartType');
-    if (cartType === 'inactive' && !cartId) {
+    if (cartType === 'inactive' && !!cartId) {
       return true;
     }
     return false;
