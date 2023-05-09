@@ -51,7 +51,7 @@ export class TreeFileSystem implements FileSystemHost {
   readFileSync(filePath: string, encoding?: string | undefined): string {
     const result = this.tree
       .get(this.resolvePath(filePath))
-      ?.content.toString(encoding);
+      ?.content.toString(encoding as BufferEncoding);
     if (result) {
       return result;
     }
