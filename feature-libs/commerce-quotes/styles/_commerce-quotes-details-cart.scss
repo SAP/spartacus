@@ -3,7 +3,7 @@
     cursor: pointer;
     user-select: none;
     cx-icon {
-      margin-inline-start: 0.5rem;
+      margin-inline-end: 0.5rem;
       font-size: var(--cx-font-size, 1.125rem);
       font-weight: var(--cx-font-weight-semi);
     }
@@ -11,5 +11,9 @@
       font-size: var(--cx-font-size, 1.125rem);
       font-weight: var(--cx-font-weight-semi);
     }
+  }
+  cx-media {
+    height: 4rem;
+    width: 4rem;
   }
 }

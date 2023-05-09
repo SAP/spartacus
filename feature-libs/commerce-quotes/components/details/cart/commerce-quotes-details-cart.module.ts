@@ -10,14 +10,34 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
+  UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { IconModule, OutletModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  ItemCounterModule,
+  MediaModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CommerceQuotesDetailsCartComponent } from './commerce-quotes-details-cart.component';
 import { CommerceQuotesDetailsCartSummaryComponent } from './summary/commerce-quote-details-cart-summary.component';
+import { CommerceQuotesTableComponentModule } from '../../presentational/commerce-quotes-table/commerce-quotes-table.module';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, IconModule, I18nModule],
+  imports: [
+    CommonModule,
+    OutletModule,
+    IconModule,
+    I18nModule,
+    ItemCounterModule,
+    CommerceQuotesTableComponentModule,
+    MediaModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

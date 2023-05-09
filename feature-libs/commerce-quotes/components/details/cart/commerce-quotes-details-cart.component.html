@@ -9,7 +9,7 @@
   }}</span>
 </div>
 
-<ng-container *ngIf="showCart && (quoteDetails$ | async) as quoteDetailsState">
+<!-- <ng-container *ngIf="showCart && (quoteDetails$ | async) as quoteDetailsState">
   <ng-template
     [cxOutlet]="cartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
@@ -18,4 +18,72 @@
     }"
   >
   </ng-template>
+</ng-container> -->
+<ng-container *ngIf="showCart">
+  <form [formGroup]="quoteDetailsForm">
+    <div>Start of form</div>
+    <div formArrayName="quantities">
+      <div *ngFor="let control of quantities?.controls; let i = index">
+        X {{ i }}
+        <div [formGroupName]="i">
+          <input
+            type="text"
+            formControlName="itemQuantity"
+            placeholder="Quantity"
+          />
+
+          <cx-item-counter
+            [control]="control?.get('itemQuantity')"
+            [allowZero]="true"
+          ></cx-item-counter>
+        </div>
+      </div>
+    </div>
+    <div>End of form</div>
+  </form>
+
+  <form [formGroup]="quoteDetailsForm">
+    <cx-commerce-quotes-table [data]="quoteDetailsData$ | async">
+      <ng-template #headers>
+        <th>Item</th>
+        <th>&nbsp;</th>
+        <th>Item Price</th>
+        <th>Qty</th>
+        <th>Total</th>
+      </ng-template>
+      <ng-template #rows let-row formArrayName="quantities" let-index="index">
+        <td>
+          <!-- Item Image -->
+          <a [routerLink]="['product/' + row?.productUrl]" tabindex="0">
+            <cx-media
+              [container]="row?.images?.PRIMARY"
+              format="cartIcon"
+            ></cx-media>
+          </a>
+        </td>
+        <td>
+          <div>
+            <a [routerLink]="['product/' + row?.productUrl]" tabindex="0">{{
+              row.name
+            }}</a>
+          </div>
+          <div>ID {{ row.code }}</div>
+          <div *ngFor="let configOption of row.configurationInfos">
+            {{ configOption.label }}: {{ configOption.value }}
+          </div>
+        </td>
+        <td>{{ row.price }}</td>
+        <td>
+          <ng-container [formGroupName]="index">
+            <cx-item-counter
+              [control]="quantities?.controls[index].get('itemQuantity')"
+            ></cx-item-counter>
+          </ng-container>
+        </td>
+        <td>
+          {{ row.totalPrice.value | currency: row.totalPrice.currencyIso }}
+        </td>
+      </ng-template>
+    </cx-commerce-quotes-table>
+  </form>
 </ng-container>
