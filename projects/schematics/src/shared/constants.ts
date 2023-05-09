@@ -710,6 +710,7 @@ export const CUSTOMER_SEARCH_RESET = 'CUSTOMER_SEARCH_RESET';
 export const CUSTOMER_SEARCH_RESET_CLASS = 'CustomerSearchReset';
 export const CUSTOMER_ACTION = 'CustomerAction';
 export const ASM_FEATURE = 'ASM_FEATURE';
+export const OPF_FEATURE = 'OPF_FEATURE';
 export const CUSTOMER_SEARCH_DATA = 'CUSTOMER_SEARCH_DATA';
 export const STATE_WITH_ASM = 'StateWithAsm';
 export const ASM_STATE = 'AsmState';
