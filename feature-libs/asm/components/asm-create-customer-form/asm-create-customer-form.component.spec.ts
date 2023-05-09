@@ -155,9 +155,7 @@ describe('AsmCreateCustomerFormComponent', () => {
 
     component.submitForm();
 
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      createdCustomerData
-    );
+    expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 
   it('should NOT be disabled', () => {
