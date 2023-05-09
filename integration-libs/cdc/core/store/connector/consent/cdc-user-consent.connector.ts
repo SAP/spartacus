@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 import { withLatestFrom, map } from 'rxjs/operators';
 import { CDC_USER_PREFERENCE_SERIALIZER } from './converter';
 
-Injectable();
+@Injectable()
 export class CdcUserConsentConnector {
   constructor(
     protected languageService: LanguageService,
@@ -21,10 +21,10 @@ export class CdcUserConsentConnector {
     protected userConsentService: UserConsentService
   ) {}
   updateCdcConsent(
-    userId: string,
     isConsentGranted: boolean,
     consentCode: string
   ): Observable<ConsentTemplate> {
+    console.log( isConsentGranted, consentCode);
     var consent: ConsentTemplate = {};
     consent.id = consentCode;
     consent.currentConsent = {};
@@ -41,8 +41,9 @@ export class CdcUserConsentConnector {
     else if (consent.currentConsent)
       consent.currentConsent.consentWithdrawnDate = new Date();
 
-    var uid: string | undefined = this.getUserID();
-    if (uid) userId = uid;
+    var userId: string | undefined = this.getUserID();
+    if (!userId)
+    userId = '';
 
     var currentLanguage = this.getActiveLanguage();
 

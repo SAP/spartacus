@@ -1,67 +1,52 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  GlobalMessageActions,
-  normalizeHttpError,
+  GlobalMessageService,
+  GlobalMessageType,
   UserActions,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { map, concatMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { CdcUserConsentConnector } from '../connector/consent/cdc-user-consent.connector';
 
-Injectable();
+@Injectable()
 export class CdcUserConsentsEffects {
-  giveCdcConsent$: Observable<
-    UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType<UserActions.GiveUserConsent>(UserActions.GIVE_USER_CONSENT),
-      concatMap((action) =>
-        this.cdcUserConsentConnector
-          .updateCdcConsent(
-            action.payload.userId,
+  giveCdcConsent$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<UserActions.GiveUserConsentSuccess>(
+          UserActions.GIVE_USER_CONSENT_SUCCESS
+        ),
+        mergeMap((action) =>
+          this.cdcUserConsentConnector.updateCdcConsent(
             true,
-            action.payload.consentTemplateId ?? ''
+            action.consentTemplate?.id ?? ''
           )
-          .pipe(
-            map((consent) => new UserActions.GiveUserConsentSuccess(consent)),
-            catchError((error) => {
-              const errors: Array<
-                | UserActions.UserConsentsAction
-                | GlobalMessageActions.RemoveMessagesByType
-              > = [
-                new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
-              ];
-              return of(...errors);
-            })
-          )
-      )
-    )
+        ),
+        tap({ error: (error) => this.showErrorMessage(error) })
+      ),
+    { dispatch: false }
   );
 
-  withdrawCdcConsent$: Observable<UserActions.UserConsentsAction> =
-    createEffect(() =>
+  withdrawCdcConsent$ = createEffect(
+    () =>
       this.actions$.pipe(
         ofType(UserActions.WITHDRAW_USER_CONSENT_SUCCESS),
-        map((action: UserActions.WithdrawUserConsent) => action.payload),
-        concatMap(({ userId, consentCode }) =>
-          this.cdcUserConsentConnector
-            .updateCdcConsent(userId, false, consentCode)
-            .pipe(
-              map(() => new UserActions.WithdrawUserConsentSuccess()),
-              catchError((error) =>
-                of(
-                  new UserActions.WithdrawUserConsentFail(
-                    normalizeHttpError(error)
-                  )
-                )
-              )
-            )
-        )
-      )
-    );
+        map((action: UserActions.WithdrawUserConsentSuccess) => action.payload),
+        mergeMap((consentId) =>
+          this.cdcUserConsentConnector.updateCdcConsent(false, consentId)
+        ),
+        tap({ error: (error) => this.showErrorMessage(error) })
+      ),
+    { dispatch: false }
+  );
+
+  showErrorMessage(error: any) {
+    const errorMessage = error?.errorMessage;
+    this.messageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
+  }
   constructor(
-    private actions$: Actions,
-    protected cdcUserConsentConnector: CdcUserConsentConnector
+    protected actions$: Actions,
+    protected cdcUserConsentConnector: CdcUserConsentConnector,
+    protected messageService: GlobalMessageService
   ) {}
 }

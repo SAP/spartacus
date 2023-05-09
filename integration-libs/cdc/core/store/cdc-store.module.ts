@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import {
   CDC_USER_PREFERENCE_SERIALIZER,
   CdcUserPreferenceSerializer,
+  CdcUserConsentConnector,
 } from './connector/consent';
 import { CdcAuthModule } from '../auth/cdc-auth.module';
 import { CdcAuthService } from '../auth/facade/cdc-auth.service';
@@ -18,6 +19,7 @@ import { effects } from './effects/index';
 @NgModule({
   imports: [CommonModule, CdcAuthModule, EffectsModule.forFeature(effects)],
   providers: [
+    CdcUserConsentConnector,
     CdcAuthService,
     {
       provide: CDC_USER_PREFERENCE_SERIALIZER,

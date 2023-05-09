@@ -13,7 +13,6 @@ import * as fromEffect from './cdc-user-consents.effect';
 
 class MockCdcUserConsentConnector implements Partial<CdcUserConsentConnector> {
   updateCdcConsent(
-    _userId: string,
     _isConsentGranted: boolean,
     _consentCode: string
   ): Observable<{}> {

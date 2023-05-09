@@ -116,7 +116,7 @@ describe('CdcSiteConsentService', () => {
         of(mockCurrentConsents)
       );
       service
-        .updateCdcConsent('current', true, 'others.survey')
+        .updateCdcConsent(true, 'others.survey')
         .subscribe((output) => {
           expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
             'sampleuser@mail.com',
@@ -152,7 +152,7 @@ describe('CdcSiteConsentService', () => {
         of(mockCurrentConsents)
       );
       service
-        .updateCdcConsent('current', false, 'others.survey')
+        .updateCdcConsent(false, 'others.survey')
         .subscribe((output) => {
           expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
             'sampleuser@mail.com',
@@ -169,7 +169,7 @@ describe('CdcSiteConsentService', () => {
         });
     });
     it('do not call update for required consents in withdraw scneario', () => {
-      service.updateCdcConsent('current', false, 'terms.of.use').subscribe();
+      service.updateCdcConsent(false, 'terms.of.use').subscribe();
       expect(cdcJsService.setUserConsentPreferences).not.toHaveBeenCalled();
     });
   });

@@ -111,6 +111,7 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       consentCode: string;
+      consentId?: string;
     }
   ) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
@@ -126,8 +127,8 @@ export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
 
 export class WithdrawUserConsentSuccess extends StateUtils.EntitySuccessAction {
   readonly type = WITHDRAW_USER_CONSENT_SUCCESS;
-  constructor() {
-    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
+  constructor(consentId?: string) {
+    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID,consentId);
   }
 }
 
