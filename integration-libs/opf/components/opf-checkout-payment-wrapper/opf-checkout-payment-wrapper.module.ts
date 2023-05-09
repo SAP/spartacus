@@ -16,6 +16,5 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
   providers: [OpfCheckoutPaymentWrapperService],
   exports: [OpfCheckoutPaymentWrapperComponent],
   imports: [CommonModule, I18nModule, SpinnerModule],
-  providers: [OpfCheckoutPaymentWrapperService],
 })
 export class OpfCheckoutPaymentWrapperModule {}

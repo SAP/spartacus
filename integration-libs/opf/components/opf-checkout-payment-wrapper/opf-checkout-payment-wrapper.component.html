@@ -2,7 +2,7 @@
   class="cx-payment-option-container"
   *ngIf="renderPaymentMethodEvent$ | async as paymentLink"
 >
-  <div *ngIf="!paymentLink.isLoading; else loading">
+  <div *ngIf="!paymentLink.isLoading; else noPaymentData">
     <div
       *ngIf="paymentLink.renderType === RENDER_TYPES.DESTINATION"
       class="cx-payment-link"
@@ -22,4 +22,18 @@
   </div>
 </div>
 
-<ng-template #loading><cx-spinner></cx-spinner></ng-template>
+<ng-template #noPaymentData>
+  <ng-container *ngIf="isInitPaymentFailed$ | async; else loading">
+    <div class="cx-payment-option-container">
+      <div class="cx-payment-link">
+        <button [ngClass]="'btn btn-primary'" (click)="retryInitiatePayment()">
+          {{ 'opf.checkout.retryPayment' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <cx-spinner></cx-spinner>
+  </ng-template>
+</ng-template>

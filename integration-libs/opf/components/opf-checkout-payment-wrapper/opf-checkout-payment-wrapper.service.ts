@@ -6,7 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
   OpfCheckoutFacade,
@@ -16,8 +21,8 @@ import {
   PaymentSessionData,
 } from '@spartacus/opf/root';
 
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
@@ -27,7 +32,8 @@ export class OpfCheckoutPaymentWrapperService {
     protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   protected activeCartId: string;
@@ -37,33 +43,23 @@ export class OpfCheckoutPaymentWrapperService {
       isLoading: false,
     });
 
-  protected setPaymentInitiationConfig(
-    otpKey: string,
-    paymentOptionId: number
-  ) {
-    return {
-      otpKey,
-      config: {
-        configurationId: String(paymentOptionId),
-        cartId: this.activeCartId,
-        resultURL: this.routingService.getFullUrl({
-          cxRoute: 'paymentVerificationResult',
-        }),
-        cancelURL: this.routingService.getFullUrl({
-          cxRoute: 'paymentVerificationCancel',
-        }),
-      },
-    };
-  }
+  protected isInitPaymentFailed$ = new BehaviorSubject(false);
 
   getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
-  initiatePayment(paymentOptionId: number): Observable<PaymentSessionData> {
+  getIsInitPaymentFailed(): Observable<boolean> {
+    return this.isInitPaymentFailed$.asObservable();
+  }
+
+  initiatePayment(
+    paymentOptionId: number
+  ): Observable<PaymentSessionData | boolean> {
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
     });
+    this.isInitPaymentFailed$.next(false);
 
     return combineLatest([
       this.userIdService.getUserId(),
@@ -77,7 +73,8 @@ export class OpfCheckoutPaymentWrapperService {
       map(({ value: otpKey }) =>
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
-      switchMap((params) => this.opfCheckoutService.initiatePayment(params))
+      switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
+      catchError(() => this.onInitPaymentError())
     );
   }
 
@@ -106,5 +103,37 @@ export class OpfCheckoutPaymentWrapperService {
           });
         });
     }
+  }
+
+  protected onInitPaymentError(): Observable<boolean> {
+    this.isInitPaymentFailed$.next(true);
+
+    this.globalMessageService.add(
+      {
+        key: 'opf.checkout.errors.proceedPayment',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+
+    return of(false);
+  }
+
+  protected setPaymentInitiationConfig(
+    otpKey: string,
+    paymentOptionId: number
+  ) {
+    return {
+      otpKey,
+      config: {
+        configurationId: String(paymentOptionId),
+        cartId: this.activeCartId,
+        resultURL: this.routingService.getFullUrl({
+          cxRoute: 'paymentVerificationResult',
+        }),
+        cancelURL: this.routingService.getFullUrl({
+          cxRoute: 'paymentVerificationCancel',
+        }),
+      },
+    };
   }
 }
