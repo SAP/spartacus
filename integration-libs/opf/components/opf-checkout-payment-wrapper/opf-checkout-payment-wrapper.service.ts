@@ -37,8 +37,27 @@ export class OpfCheckoutPaymentWrapperService {
       isLoading: false,
     });
 
-  getRenderPaymentMethodEvent(): BehaviorSubject<OpfRenderPaymentMethodEvent> {
-    return this.renderPaymentMethodEvent$;
+  protected setPaymentInitiationConfig(
+    otpKey: string,
+    paymentOptionId: number
+  ) {
+    return {
+      otpKey,
+      config: {
+        configurationId: String(paymentOptionId),
+        cartId: this.activeCartId,
+        resultURL: this.routingService.getFullUrl({
+          cxRoute: 'paymentVerificationResult',
+        }),
+        cancelURL: this.routingService.getFullUrl({
+          cxRoute: 'paymentVerificationCancel',
+        }),
+      },
+    };
+  }
+
+  getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
+    return this.renderPaymentMethodEvent$.asObservable();
   }
 
   initiatePayment(paymentOptionId: number): Observable<PaymentSessionData> {
@@ -55,21 +74,9 @@ export class OpfCheckoutPaymentWrapperService {
         return this.opfOtpService.generateOtpKey(userId, cartId);
       }),
       filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) => {
-        return {
-          otpKey,
-          config: {
-            configurationId: String(paymentOptionId),
-            cartId: this.activeCartId,
-            resultURL: this.routingService.getFullUrl({
-              cxRoute: 'paymentVerificationResult',
-            }),
-            cancelURL: this.routingService.getFullUrl({
-              cxRoute: 'paymentVerificationCancel',
-            }),
-          },
-        };
-      }),
+      map(({ value: otpKey }) =>
+        this.setPaymentInitiationConfig(otpKey, paymentOptionId)
+      ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params))
     );
   }
