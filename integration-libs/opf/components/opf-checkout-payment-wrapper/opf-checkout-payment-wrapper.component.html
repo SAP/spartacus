@@ -1,21 +1,25 @@
-<ng-container *ngIf="paymentData$ | async as paymentData; else loading">
-  <div class="cx-payment-option-container">
-    <ng-container *ngIf="!paymentData?.destination?.url; else paymentLink">
-      <span class="cx-info">
-        {{ 'opf.checkout.notSupportedPaymentMethod' | cxTranslate }}
-      </span>
+<div
+  class="cx-payment-option-container"
+  *ngIf="renderPaymentMethodEvent$ | async as paymentLink"
+>
+  <div *ngIf="!paymentLink.isLoading; else loading">
+    <div
+      *ngIf="paymentLink.renderType === RENDER_TYPES.DESTINATION"
+      class="cx-payment-link"
+    >
+      <a class="btn btn-primary" [href]="paymentLink.data">{{
+        'opf.checkout.proceedPayment' | cxTranslate
+      }}</a>
+    </div>
+    <ng-container
+      *ngIf="
+        paymentLink.data &&
+        paymentLink.renderType === RENDER_TYPES.DYNAMIC_SCRIPT
+      "
+    >
+      <div [innerHTML]="renderHtml(paymentLink.data)"></div>
     </ng-container>
-
-    <ng-template #paymentLink>
-      <div class="cx-payment-link">
-        <a [ngClass]="'btn btn-primary'" [href]="paymentData?.destination?.url">
-          {{ 'opf.checkout.proceedPayment' | cxTranslate }}
-        </a>
-      </div>
-    </ng-template>
   </div>
-</ng-container>
+</div>
 
-<ng-template #loading>
-  <cx-spinner></cx-spinner>
-</ng-template>
+<ng-template #loading><cx-spinner></cx-spinner></ng-template>

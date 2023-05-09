@@ -32,25 +32,36 @@ export interface PaymentBrowserInfo {
   originUrl?: string;
 }
 
+export interface PaymentSessionFormField {
+  name?: string;
+  value?: string;
+}
+
 export interface PaymentSessionData {
   paymentSessionId?: string;
   relayResultUrl?: string;
   relayCancelUrl?: string;
   paymentIntent?: string;
   pattern?: string;
-  destination?: PaymentSessionDestination;
+  destination?: PaymentDestination;
+  dynamicScript?: PaymentDynamicScript;
 }
 
-export interface PaymentSessionFormField {
-  name?: string;
-  value?: string;
-}
-
-export interface PaymentSessionDestination {
+export interface PaymentDestination {
   url?: string;
   method?: string;
   contentType?: string;
   body?: string;
   authenticationIds?: number[];
   form?: PaymentSessionFormField[];
+}
+
+export interface PaymentDynamicScript {
+  cssUrls?: PaymentDynamicScriptResource[];
+  jsUrls?: PaymentDynamicScriptResource[];
+  html?: string;
+}
+
+export interface PaymentDynamicScriptResource {
+  url?: string;
 }
