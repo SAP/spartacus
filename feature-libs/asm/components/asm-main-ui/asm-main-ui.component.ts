@@ -182,7 +182,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       }
       const parameters = {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
-        someId: this.asmComponentService.getSearchParameter('someId'),
         emulated: false,
       };
       this.subscription.add(
