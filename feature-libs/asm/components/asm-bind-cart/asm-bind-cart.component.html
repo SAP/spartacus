@@ -27,12 +27,12 @@
   </div>
   <button
     #bindToCart
+    *ngIf="inactiveCartId.length === 0"
     class="cx-asm-bindCartToCustomer"
     [disabled]="!(valid$ | async)"
     type="submit"
     [class.cx-asm-active]="valid$ | async"
     [class.cx-bind-loading]="loading$ | async"
-    *ngIf="inactiveCartId.length === 0"
     (click)="bindCartToCustomer()"
   >
     <span [attr.aria-hidden]="loading$ | async">
@@ -47,10 +47,10 @@
   <ng-container *cxFeatureLevel="'6.2'">
     <button
       #saveInactiveCart
+      *ngIf="inactiveCartId.length > 0 && !isInactiveCartSaved"
       class="cx-asm-bindCartToCustomer"
       type="submit"
       [class.cx-asm-active]="inactiveCartId.length > 0"
-      *ngIf="inactiveCartId.length > 0 && !savedInactiveCart"
       (click)="onSaveInactiveCart()"
     >
       <span>

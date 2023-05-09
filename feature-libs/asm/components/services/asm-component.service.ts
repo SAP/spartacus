@@ -46,7 +46,7 @@ export class AsmComponentService {
     this.showInactiveCartInfoAlert$.next(display);
   }
 
-  showInactiveCartInfoAlert() {
+  showInactiveCartInfoAlert(): BehaviorSubject<boolean> {
     return this.showInactiveCartInfoAlert$;
   }
 

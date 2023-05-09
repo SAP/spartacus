@@ -57,7 +57,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
 
-  showInactiveCartInfoAlert = false;
+  showInactiveCartInfoAlert$: Observable<boolean>;
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -166,7 +166,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         })
     );
     this.subscribeForDeeplink();
-    this.subscribeForShowInactiveCartInfo();
+    if (this.featureConfig?.isLevel('6.2')) {
+      this.showInactiveCartInfoAlert$ =
+        this.asmComponentService.showInactiveCartInfoAlert();
+    }
   }
 
   /**
@@ -199,18 +202,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             }
           }
         })
-      );
-    }
-  }
-
-  protected subscribeForShowInactiveCartInfo(): void {
-    if (this.featureConfig?.isLevel('6.2')) {
-      this.subscription.add(
-        this.asmComponentService
-          .showInactiveCartInfoAlert()
-          .subscribe((value) => {
-            this.showInactiveCartInfoAlert = value;
-          })
       );
     }
   }
@@ -301,12 +292,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.addNewCustomerLink
     );
   }
+
   closeDialogConfirmationAlert(): void {
     this.showCreateCustomerSuccessfullyAlert = false;
   }
 
   closeInactiveCartInfoAlert(): void {
-    this.showInactiveCartInfoAlert = false;
+    this.asmComponentService.setShowInactiveCartInfoAlert(false);
   }
 
   ngOnDestroy() {

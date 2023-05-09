@@ -13,24 +13,28 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
-      <div class="message-container">
-        <cx-message
-          *ngIf="showDialogAlert && cartQty > 0"
-          [text]="'asm.saveCart.dialog.saveInfo' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_INFO"
-          (closeMessage)="closeDialogAlert()"
-        >
-        </cx-message>
-      </div>
-      <div class="message-container">
-        <cx-message
-          *ngIf="showDialogAlert && cartQty === 0"
-          [text]="'asm.saveCart.dialog.disableInfo' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_WARNING"
-          (closeMessage)="closeDialogAlert()"
-        >
-        </cx-message>
-      </div>
+      <ng-container *ngIf="cartQty > 0; else showSaveCartWarning">
+        <div class="message-container">
+          <cx-message
+            *ngIf="showDialogAlert"
+            [text]="'asm.saveCart.dialog.saveInfo' | cxTranslate"
+            [type]="globalMessageType.MSG_TYPE_INFO"
+            (closeMessage)="closeDialogAlert()"
+          >
+          </cx-message>
+        </div>
+      </ng-container>
+      <ng-template #showSaveCartWarning>
+        <div class="message-container">
+          <cx-message
+            *ngIf="showDialogAlert"
+            [text]="'asm.saveCart.dialog.disableInfo' | cxTranslate"
+            [type]="globalMessageType.MSG_TYPE_WARNING"
+            (closeMessage)="closeDialogAlert()"
+          >
+          </cx-message>
+        </div>
+      </ng-template>
 
       <div class="cx-dialog-content">
         <div class="cx-dialog-row row">

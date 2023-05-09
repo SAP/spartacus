@@ -23,7 +23,7 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
   showDialogAlert = true;
   globalMessageType = GlobalMessageType;
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
   cart: Cart;
   cartQty: int;
 

@@ -80,7 +80,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   activeCartId = '';
   inactiveCartId = '';
-  savedInactiveCart = false;
+  isInactiveCartSaved = false;
 
   @ViewChild('bindToCart') bindToCartElemRef: ElementRef<HTMLButtonElement>;
   @ViewChild('saveInactiveCart')
@@ -106,11 +106,11 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response) => {
         this.activeCartId = response ?? '';
+        const deeplinkCartId =
+          this.asmComponentService.getSearchParameter('cartId');
 
         this.cartId.setValue(
-          this.inactiveCartId.length > 0
-            ? this.inactiveCartId
-            : this.activeCartId
+          !deeplinkCartId ? this.activeCartId : deeplinkCartId
         );
       })
     );
@@ -175,7 +175,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       this.asmComponentService.getSearchParameter('customerId');
     this.multiCartFacade.loadCart({
       cartId: this.inactiveCartId,
-      userId: customerId,
+      userId: customerId as string,
     });
     this.multiCartFacade
       .getCartEntity(this.inactiveCartId)
@@ -191,23 +191,17 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
     this.savedCartFacade
       .getSaveCartProcessSuccess()
-      .pipe(
-        filter((success) => success),
-        take(1)
-      )
+      .pipe(take(1))
       .subscribe(() => {
         this.goToSavedCartDetails(this.inactiveCartId);
-        this.savedInactiveCart = true;
+        this.isInactiveCartSaved = true;
       });
 
     this.savedCartFacade
       .getSaveCartProcessError()
-      .pipe(
-        filter((error) => error),
-        take(1)
-      )
+      .pipe(take(1))
       .subscribe(() => {
-        this.savedInactiveCart = true;
+        this.isInactiveCartSaved = true;
       });
   }
 
@@ -219,7 +213,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected clearInactiveCart(): void {
     if (this.featureConfig?.isLevel('6.2')) {
       this.inactiveCartId = '';
-      this.savedInactiveCart = false;
+      this.isInactiveCartSaved = false;
       this.asmComponentService.setShowInactiveCartInfoAlert(false);
     }
   }
@@ -314,10 +308,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
           .isEmulatedByDeepLink()
           .pipe(filter((emulated) => emulated && this.isDeepLinkInactiveCart()))
           .subscribe(() => {
-            this.savedInactiveCart = false;
-            this.inactiveCartId =
-              this.asmComponentService.getSearchParameter('cartId');
-            this.cartId.setValue(this.inactiveCartId);
+            this.isInactiveCartSaved = false;
+            this.inactiveCartId = this.asmComponentService.getSearchParameter(
+              'cartId'
+            ) as string;
             this.asmComponentService.setShowInactiveCartInfoAlert(true);
           })
       );
@@ -327,14 +321,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   protected isDeepLinkInactiveCart(): boolean {
     const cartId = this.asmComponentService.getSearchParameter('cartId');
     const cartType = this.asmComponentService.getSearchParameter('cartType');
-    if (cartType === 'inactive' && !this.isEmptyStr(cartId)) {
+    if (cartType === 'inactive' && !cartId) {
       return true;
     }
     return false;
-  }
-
-  protected isEmptyStr(string?: string): boolean {
-    return string?.trim() === '' || string == null;
   }
 
   protected openASMSaveCartDialog(inactiveCart: Cart) {

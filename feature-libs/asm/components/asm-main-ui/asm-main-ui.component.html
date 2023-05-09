@@ -72,7 +72,7 @@
       </ng-container>
       <ng-container *cxFeatureLevel="'6.2'">
         <cx-message
-          *ngIf="showInactiveCartInfoAlert"
+          *ngIf="showInactiveCartInfoAlert$ | async"
           [text]="'asm.saveInactiveCartAlertInfo' | cxTranslate"
           [type]="globalMessageType.MSG_TYPE_INFO"
           (closeMessage)="closeInactiveCartInfoAlert()"
