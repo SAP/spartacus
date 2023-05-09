@@ -27,7 +27,7 @@ export function checkOAuthParamsInUrl(
   authService: AuthService,
   configInit: ConfigInitializerService
 ): () => Promise<void> {
-  const result = () =>
+  return () =>
     lastValueFrom(
       configInit.getStable().pipe(
         switchMap(() =>
@@ -36,8 +36,6 @@ export function checkOAuthParamsInUrl(
         )
       )
     );
-
-  return result;
 }
 
 export function authStatePersistenceFactory(
