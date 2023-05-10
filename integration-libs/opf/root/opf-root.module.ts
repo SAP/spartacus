@@ -6,7 +6,10 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
+import { OrderConfirmationOrderEntriesContextToken } from '@spartacus/order/root';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
 import { defaultOpfRoutingConfig } from './config';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
@@ -32,6 +35,18 @@ import { OpfEventModule } from './events/opf-event.module';
         component: OpfPaymentVerificationComponent,
         data: {
           cxRoute: 'paymentVerificationCancel',
+        },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'opfOrderConfirmation',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
+          },
         },
       },
     ]),
