@@ -105,12 +105,12 @@ context('Assisted Service Module', () => {
     });
 
     it('should redirect to the interests page (CXSPA-700)', () => {
-      const interestPage = waitForPage(
+      const interestsPage = waitForPage(
         '/my-account/my-interests',
         'getInterestsPage'
       );
       cy.contains('div.product-listing-header > button', 'Interests').click();
-      cy.wait(`@${interestPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${interestsPage}`).its('response.statusCode').should('eq', 200);
     });
   });
 });
