@@ -2,7 +2,17 @@
   class="cx-payment-option-container"
   *ngIf="renderPaymentMethodEvent$ | async as paymentLink"
 >
-  <div *ngIf="!paymentLink.isLoading; else noPaymentData">
+  <ng-container
+    *ngTemplateOutlet="
+      !paymentLink?.isLoading ? paymentData : noPaymentData;
+      context: { paymentLink: paymentLink }
+    "
+  >
+  </ng-container>
+</div>
+
+<ng-template #paymentData let-paymentLink="paymentLink">
+  <div>
     <div
       *ngIf="paymentLink.renderType === RENDER_TYPES.DESTINATION"
       class="cx-payment-link"
@@ -20,10 +30,10 @@
       <div [innerHTML]="renderHtml(paymentLink.data)"></div>
     </ng-container>
   </div>
-</div>
+</ng-template>
 
-<ng-template #noPaymentData>
-  <ng-container *ngIf="isInitPaymentFailed$ | async; else loading">
+<ng-template #noPaymentData let-paymentLink="paymentLink">
+  <ng-container *ngIf="paymentLink?.isError; else loading">
     <div class="cx-payment-option-container">
       <div class="cx-payment-link">
         <button [ngClass]="'btn btn-primary'" (click)="retryInitiatePayment()">

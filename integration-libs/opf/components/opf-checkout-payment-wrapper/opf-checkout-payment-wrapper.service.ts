@@ -41,16 +41,11 @@ export class OpfCheckoutPaymentWrapperService {
   protected renderPaymentMethodEvent$ =
     new BehaviorSubject<OpfRenderPaymentMethodEvent>({
       isLoading: false,
+      isError: false,
     });
-
-  protected isInitPaymentFailed$ = new BehaviorSubject(false);
 
   getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
     return this.renderPaymentMethodEvent$.asObservable();
-  }
-
-  getIsInitPaymentFailed(): Observable<boolean> {
-    return this.isInitPaymentFailed$.asObservable();
   }
 
   initiatePayment(
@@ -58,8 +53,8 @@ export class OpfCheckoutPaymentWrapperService {
   ): Observable<PaymentSessionData | boolean> {
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
+      isError: false,
     });
-    this.isInitPaymentFailed$.next(false);
 
     return combineLatest([
       this.userIdService.getUserId(),
@@ -74,7 +69,7 @@ export class OpfCheckoutPaymentWrapperService {
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
-      catchError(() => this.onInitPaymentError())
+      catchError(() => this.handlePaymentInitiationError())
     );
   }
 
@@ -82,6 +77,7 @@ export class OpfCheckoutPaymentWrapperService {
     if (config?.destination) {
       this.renderPaymentMethodEvent$.next({
         isLoading: false,
+        isError: false,
         renderType: OpfPaymentMethodType.DESTINATION,
         data: config?.destination.url,
       });
@@ -95,6 +91,7 @@ export class OpfCheckoutPaymentWrapperService {
         .then(() => {
           this.renderPaymentMethodEvent$.next({
             isLoading: false,
+            isError: false,
             renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
             data: html,
           });
@@ -105,8 +102,11 @@ export class OpfCheckoutPaymentWrapperService {
     }
   }
 
-  protected onInitPaymentError(): Observable<boolean> {
-    this.isInitPaymentFailed$.next(true);
+  protected handlePaymentInitiationError(): Observable<boolean> {
+    this.renderPaymentMethodEvent$.next({
+      ...this.renderPaymentMethodEvent$.value,
+      isError: true,
+    });
 
     this.globalMessageService.add(
       {

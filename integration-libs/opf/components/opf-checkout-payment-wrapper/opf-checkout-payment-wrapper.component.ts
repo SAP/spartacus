@@ -24,7 +24,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
   @Input() selectedPaymentId: number;
 
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
-  isInitPaymentFailed$ = this.service.getIsInitPaymentFailed();
 
   RENDER_TYPES = OpfPaymentMethodType;
 
