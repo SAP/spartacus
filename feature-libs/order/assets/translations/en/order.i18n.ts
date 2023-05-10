@@ -47,6 +47,7 @@ export const order = {
     deliveryStatus_TAX_NOT_COMMITTED: 'Tax Issue',
     deliveryStatus_CANCELLED: 'Cancelled',
     statusDisplay_cancelled: 'Cancelled',
+    statusDisplay_undefined: 'Undefined',
     statusDisplay_cancelling: 'Cancel Pending',
     statusDisplay_completed: 'Completed',
     statusDisplay_created: 'Created',
