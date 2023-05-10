@@ -19,7 +19,7 @@
     "lazy": {
       "type": "boolean",
       "description": "Lazy load the opf features.",
-      "default": true
+      "default": false
     },
     "features": {
       "type": "array",
