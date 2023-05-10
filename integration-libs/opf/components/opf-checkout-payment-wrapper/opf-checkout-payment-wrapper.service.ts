@@ -6,7 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
   OpfCheckoutFacade,
@@ -16,8 +21,8 @@ import {
   PaymentSessionData,
 } from '@spartacus/opf/root';
 
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
@@ -27,7 +32,8 @@ export class OpfCheckoutPaymentWrapperService {
     protected opfResourceLoaderService: OpfResourceLoaderService,
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   protected activeCartId: string;
@@ -35,7 +41,82 @@ export class OpfCheckoutPaymentWrapperService {
   protected renderPaymentMethodEvent$ =
     new BehaviorSubject<OpfRenderPaymentMethodEvent>({
       isLoading: false,
+      isError: false,
     });
+
+  getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
+    return this.renderPaymentMethodEvent$.asObservable();
+  }
+
+  initiatePayment(
+    paymentOptionId: number
+  ): Observable<PaymentSessionData | boolean> {
+    this.renderPaymentMethodEvent$.next({
+      isLoading: true,
+      isError: false,
+    });
+
+    return combineLatest([
+      this.userIdService.getUserId(),
+      this.activeCartService.getActiveCartId(),
+    ]).pipe(
+      switchMap(([userId, cartId]) => {
+        this.activeCartId = cartId;
+        return this.opfOtpService.generateOtpKey(userId, cartId);
+      }),
+      filter((response) => Boolean(response?.value)),
+      map(({ value: otpKey }) =>
+        this.setPaymentInitiationConfig(otpKey, paymentOptionId)
+      ),
+      switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
+      catchError(() => this.handlePaymentInitiationError())
+    );
+  }
+
+  renderPaymentGateway(config: PaymentSessionData) {
+    if (config?.destination) {
+      this.renderPaymentMethodEvent$.next({
+        isLoading: false,
+        isError: false,
+        renderType: OpfPaymentMethodType.DESTINATION,
+        data: config?.destination.url,
+      });
+    }
+
+    if (config?.dynamicScript) {
+      const html = config?.dynamicScript?.html;
+
+      this.opfResourceLoaderService
+        .loadProviderScripts(config.dynamicScript.jsUrls)
+        .then(() => {
+          this.renderPaymentMethodEvent$.next({
+            isLoading: false,
+            isError: false,
+            renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
+            data: html,
+          });
+          setTimeout(() => {
+            this.opfResourceLoaderService.executeScriptFromHtml(html);
+          });
+        });
+    }
+  }
+
+  protected handlePaymentInitiationError(): Observable<boolean> {
+    this.renderPaymentMethodEvent$.next({
+      ...this.renderPaymentMethodEvent$.value,
+      isError: true,
+    });
+
+    this.globalMessageService.add(
+      {
+        key: 'opf.checkout.errors.proceedPayment',
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+
+    return of(false);
+  }
 
   protected setPaymentInitiationConfig(
     otpKey: string,
@@ -54,57 +135,5 @@ export class OpfCheckoutPaymentWrapperService {
         }),
       },
     };
-  }
-
-  getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
-    return this.renderPaymentMethodEvent$.asObservable();
-  }
-
-  initiatePayment(paymentOptionId: number): Observable<PaymentSessionData> {
-    this.renderPaymentMethodEvent$.next({
-      isLoading: true,
-    });
-
-    return combineLatest([
-      this.userIdService.getUserId(),
-      this.activeCartService.getActiveCartId(),
-    ]).pipe(
-      switchMap(([userId, cartId]) => {
-        this.activeCartId = cartId;
-        return this.opfOtpService.generateOtpKey(userId, cartId);
-      }),
-      filter((response) => Boolean(response?.value)),
-      map(({ value: otpKey }) =>
-        this.setPaymentInitiationConfig(otpKey, paymentOptionId)
-      ),
-      switchMap((params) => this.opfCheckoutService.initiatePayment(params))
-    );
-  }
-
-  renderPaymentGateway(config: PaymentSessionData) {
-    if (config?.destination) {
-      this.renderPaymentMethodEvent$.next({
-        isLoading: false,
-        renderType: OpfPaymentMethodType.DESTINATION,
-        data: config?.destination.url,
-      });
-    }
-
-    if (config?.dynamicScript) {
-      const html = config?.dynamicScript?.html;
-
-      this.opfResourceLoaderService
-        .loadProviderScripts(config.dynamicScript.jsUrls)
-        .then(() => {
-          this.renderPaymentMethodEvent$.next({
-            isLoading: false,
-            renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
-            data: html,
-          });
-          setTimeout(() => {
-            this.opfResourceLoaderService.executeScriptFromHtml(html);
-          });
-        });
-    }
   }
 }

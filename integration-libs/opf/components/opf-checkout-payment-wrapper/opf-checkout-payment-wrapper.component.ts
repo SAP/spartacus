@@ -8,12 +8,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { OpfPaymentMethodType, PaymentSessionData } from '@spartacus/opf/root';
-import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
@@ -21,38 +20,38 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
   templateUrl: './opf-checkout-payment-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
-  protected subscription = new Subscription();
+export class OpfCheckoutPaymentWrapperComponent implements OnInit {
+  @Input() selectedPaymentId: number;
 
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
   RENDER_TYPES = OpfPaymentMethodType;
-
-  @Input() selectedPaymentId: number;
 
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
     protected sanitizer: DomSanitizer
   ) {}
 
-  initiatePayment(): Observable<PaymentSessionData> {
-    return this.service.initiatePayment(this.selectedPaymentId);
-  }
-
   renderHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   ngOnInit() {
-    this.subscription.add(
-      this.initiatePayment().subscribe(
-        (paymentOptionConfig: PaymentSessionData) =>
-          this.service.renderPaymentGateway(paymentOptionConfig)
-      )
-    );
+    this.initiatePayment();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  retryInitiatePayment(): void {
+    this.initiatePayment();
+  }
+
+  protected initiatePayment(): void {
+    this.service
+      .initiatePayment(this.selectedPaymentId)
+      .pipe(take(1))
+      .subscribe((paymentOptionConfig: PaymentSessionData | boolean) => {
+        if (typeof paymentOptionConfig !== 'boolean') {
+          this.service.renderPaymentGateway(paymentOptionConfig);
+        }
+      });
   }
 }

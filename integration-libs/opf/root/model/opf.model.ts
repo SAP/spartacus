@@ -11,6 +11,7 @@ export interface OpfUi {
 
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
+  isError: boolean;
   renderType?: OpfPaymentMethodType | null;
   data?: string | null;
 }

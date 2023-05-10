@@ -6,3 +6,4 @@
 
 export * from './opf-checkout-payment-wrapper.component';
 export * from './opf-checkout-payment-wrapper.module';
+export * from './opf-checkout-payment-wrapper.service';

@@ -19,6 +19,7 @@ export const opf = {
       notSupportedPaymentMethod:
         'This payment method is not supported yet. Please choose a different one.',
       proceedPayment: 'Place Order',
+      retryPayment: 'Retry to Continue',
       errors: {
         proceedPayment:
           'We are unable to proceed with this payment method at this time. Please try again later or choose a different payment option.',
