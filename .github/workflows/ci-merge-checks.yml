@@ -12,6 +12,7 @@ env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   GH_TOKEN: ${{ github.token }}
   NODE_VERSION: '16'
+  BRANCH_NAME: ${{github.head_ref}}
 
 concurrency: 
   group: ci-merge-checks-${{ github.head_ref || github.run_id }}
@@ -80,7 +81,7 @@ jobs:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
-          ci-scripts/e2e-cypress.sh
+          ci-scripts/e2e-cypress-merge-check.sh --branch ${{github.head_ref}}
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: MC - E2E SSR (B2C)
@@ -149,7 +150,7 @@ jobs:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |     
-          ci-scripts/e2e-cypress.sh -s b2b
+          ci-scripts/e2e-cypress-merge-check.sh -s b2b --branch ${{github.head_ref}}
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
     name: MC - Result

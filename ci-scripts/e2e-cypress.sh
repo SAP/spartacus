@@ -2,6 +2,8 @@
 set -e
 set -o pipefail
 
+source ./ci-scripts/e2e-cypress-common.sh
+
 POSITIONAL=()
 
 readonly help_display="Usage: $0 [ command_options ] [ param ]
@@ -54,27 +56,7 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
     export SPA_ENV='ccv2,b2b'
 fi
 
-echo '-----'
-echo "Building Spartacus libraries"
-
-npm ci
-
-(cd projects/storefrontapp-e2e-cypress && npm ci)
-
-npm run build:libs 2>&1 | tee build.log
-
-results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
-if [[ -z "${results}" ]]; then
-    echo "Success: Spartacus production build was successful."
-    rm build.log
-else
-    echo "ERROR: Spartacus production build failed. Check the import statements. 'Warning: Can't resolve all parameters for ...' found in the build log."
-    rm build.log
-    exit 1
-fi
-echo '-----'
-echo "Building Spartacus storefrontapp"
-npm run build
+buildLibsAndStorefront
 
 if [[ "${SSR}" = true ]]; then
     echo "Building Spartacus storefrontapp (SSR PROD mode)"
