@@ -23,5 +23,15 @@ context('Assisted Service Module', () => {
       asm.asmCustomerLists();
       asm.agentSignOut();
     });
+
+    it('checking pagination (CXSPA-2109)', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin('asagent', 'pw4all');
+      asm.asmCustomerListPagination();
+      asm.agentSignOut();
+    });
   });
 });

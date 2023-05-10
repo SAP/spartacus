@@ -145,6 +145,9 @@ $sapFioriContent_LabelColor: #6a6d70;
 
   .cx-dialog-body {
     padding-top: 0;
+    @include forVersion(6.1) {
+      padding-bottom: 0;
+    }
     max-height: calc(100vh - 260px);
     overflow-y: auto;
   }
@@ -281,6 +284,63 @@ $sapFioriContent_LabelColor: #6a6d70;
     .ng-value-label {
       font-weight: 700;
       color: $sapFioriLinkColor;
+    }
+  }
+
+  @include forVersion(6.1) {
+    cx-pagination {
+      float: right;
+      a {
+        margin-top: 10px;
+        width: 24px;
+        height: 26px;
+        font-family: '72';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        color: #0064d9;
+        border-color: #ffffff;
+        &:first-child {
+          width: 48px;
+          height: 26px;
+          font-family: 'SAP-icons';
+          font-style: normal;
+          font-weight: 800;
+          font-size: 20px;
+          line-height: 16px;
+          text-align: center;
+          color: #0064d9;
+          margin-top: 8px;
+        }
+        &:last-child {
+          width: 48px;
+          height: 26px;
+          font-family: 'SAP-icons';
+          font-style: normal;
+          font-weight: 800;
+          font-size: 20px;
+          line-height: 16px;
+          text-align: center;
+          color: #0064d9;
+          border-color: #ffffff;
+          margin-top: 8px;
+        }
+        &.current {
+          width: 32px;
+          height: 26px;
+          font-family: '72';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 16px;
+          text-align: center;
+          color: #1d2d3e;
+          background: #eaecee;
+          border-radius: 8px;
+          border-color: #ffffff;
+        }
+      }
     }
   }
 
