@@ -13,22 +13,17 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
-  ConnectableObservable,
+  Connectable,
   Observable,
+  ReplaySubject,
   Subscription,
   combineLatest,
+  connectable,
   from,
   of,
   queueScheduler,
 } from 'rxjs';
-import {
-  concatMap,
-  map,
-  observeOn,
-  publishReplay,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { concatMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
 import { CombinedInjector } from '../util/combined-injector';
 import { createFrom } from '../util/create-from';
@@ -45,12 +40,15 @@ export class LazyModulesService implements OnDestroy {
   /**
    * Expose lazy loaded module references
    */
-  readonly modules$: Observable<NgModuleRef<any>> = this.events
-    .get(ModuleInitializedEvent)
-    .pipe(
-      map((event) => event.moduleRef),
-      publishReplay()
-    );
+  readonly modules$: Observable<NgModuleRef<any>> = connectable(
+    this.events
+      .get(ModuleInitializedEvent)
+      .pipe(map((event) => event.moduleRef)),
+    {
+      connector: () => new ReplaySubject(),
+      resetOnDisconnect: false,
+    }
+  );
 
   private readonly dependencyModules = new Map<any, NgModuleRef<any>>();
   private readonly eventSubscription: Subscription;
@@ -61,7 +59,7 @@ export class LazyModulesService implements OnDestroy {
     protected events: EventService
   ) {
     this.eventSubscription = (
-      this.modules$ as ConnectableObservable<NgModuleRef<any>>
+      this.modules$ as Connectable<NgModuleRef<any>>
     ).connect();
   }
 
