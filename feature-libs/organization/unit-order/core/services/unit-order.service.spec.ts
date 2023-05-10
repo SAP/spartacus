@@ -120,7 +120,7 @@ describe('UnitOrderService', () => {
 
   it('should NOT load order list data when user is anonymous', () => {
     spyOn(userIdService, 'takeUserId').and.callFake(() => {
-      return throwError('Error');
+      return throwError(() => 'Error');
     });
 
     unitOrderService.loadOrderList(10, 1, 'byDate');

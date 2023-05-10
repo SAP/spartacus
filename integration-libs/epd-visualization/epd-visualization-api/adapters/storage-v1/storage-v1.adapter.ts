@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import {
-  NodesResponse,
   NODES_RESPONSE_NORMALIZER,
+  NodesResponse,
   SceneAdapter,
 } from '@spartacus/epd-visualization/core';
 import {
@@ -17,7 +17,7 @@ import {
   EpdVisualizationInnerConfig,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
@@ -92,7 +92,9 @@ export class StorageV1Adapter implements SceneAdapter {
     return this.http
       .get(this.getUrl(sceneId, nodeIds, $expand, $filter, contentType))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         this.converter.pipeable(NODES_RESPONSE_NORMALIZER)
       );
   }

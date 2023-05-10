@@ -12,7 +12,7 @@ import {
   PointOfService,
 } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -32,6 +32,10 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
           queryParams: { fields: 'FULL' },
         })
       )
-      .pipe(catchError((error: any) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error: any) => {
+          throw normalizeHttpError(error);
+        })
+      );
   }
 }

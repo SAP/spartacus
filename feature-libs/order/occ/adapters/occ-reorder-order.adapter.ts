@@ -9,12 +9,12 @@ import { Injectable } from '@angular/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  normalizeHttpError,
   OccEndpointsService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { ReorderOrderAdapter } from '@spartacus/order/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -31,7 +31,9 @@ export class OccReorderOrderAdapter implements ReorderOrderAdapter {
     return this.http
       .post(this.getReorderOrderEndpoint(orderId, userId), {}, { headers })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         this.converter.pipeable(REORDER_ORDER_NORMALIZER)
       );
   }

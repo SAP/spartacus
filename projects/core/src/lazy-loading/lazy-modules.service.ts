@@ -22,16 +22,8 @@ import {
   from,
   of,
   queueScheduler,
-  throwError,
 } from 'rxjs';
-import {
-  catchError,
-  concatMap,
-  map,
-  observeOn,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { concatMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
 import { CombinedInjector } from '../util/combined-injector';
 import { createFrom } from '../util/create-from';
@@ -163,12 +155,13 @@ export class LazyModulesService implements OnDestroy {
       this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
-        catchError((error) => {
-          console.error(
-            'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
-            error
-          );
-          return throwError(error);
+        tap({
+          error: (error) => {
+            console.error(
+              'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
+              error
+            );
+          },
         }),
         switchMap(() => of(moduleRef))
       );

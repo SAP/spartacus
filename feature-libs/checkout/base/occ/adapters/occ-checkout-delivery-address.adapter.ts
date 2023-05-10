@@ -8,17 +8,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CheckoutDeliveryAddressAdapter } from '@spartacus/checkout/base/core';
 import {
-  Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
-  backOff,
+  Address,
   ConverterService,
-  isJaloError,
-  normalizeHttpError,
   Occ,
   OccEndpointsService,
+  backOff,
+  isJaloError,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -47,7 +47,9 @@ export class OccCheckoutDeliveryAddressAdapter
         }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -78,7 +80,9 @@ export class OccCheckoutDeliveryAddressAdapter
         {}
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -103,7 +107,9 @@ export class OccCheckoutDeliveryAddressAdapter
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })

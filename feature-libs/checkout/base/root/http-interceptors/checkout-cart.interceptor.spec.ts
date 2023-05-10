@@ -128,7 +128,7 @@ describe('CheckoutCartInterceptor', () => {
   function createRequest(): TestRequest {
     http
       .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
+      .pipe(catchError((error: any) => throwError(() => error)))
       .subscribe({
         next: () => {},
         error: () => {},

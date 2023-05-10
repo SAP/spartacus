@@ -19,7 +19,7 @@ import {
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
@@ -40,7 +40,9 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .put(this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId), {})
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -68,7 +70,9 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -90,7 +94,9 @@ export class OccCheckoutDeliveryModesAdapter
     return this.http
       .delete<unknown>(this.getClearDeliveryModeEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) => {
+          throw normalizeHttpError(error);
+        }),
         backOff({
           shouldRetry: isJaloError,
         })
