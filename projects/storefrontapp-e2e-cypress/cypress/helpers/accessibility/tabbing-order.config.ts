@@ -2373,4 +2373,24 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Start Session',
     },
   ],
+  asmWithCustomerLists: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Create New Customer',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+      value: 'Search',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    }
+  ],
 };
