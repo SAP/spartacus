@@ -45,4 +45,25 @@
       }
     }
   }
+
+  div.cx-conflicts-resolved-msg {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: fit-content;
+    top: 0;
+    @include type('6', 'semi');
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    padding-block-start: 10px;
+    padding-block-end: 10px;
+    background-color: mix(#ffffff, theme-color('success'), 80%);
+    position: sticky;
+
+    &.visible {
+      display: flex;
+    }
+  }
 }

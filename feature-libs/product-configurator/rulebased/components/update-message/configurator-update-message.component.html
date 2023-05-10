@@ -3,4 +3,10 @@
     <cx-spinner></cx-spinner>
     <strong>{{ 'configurator.header.updateMessage' | cxTranslate }}</strong>
   </div>
+  <div
+    class="cx-conflicts-resolved-msg"
+    [class.visible]="displayConflictMessage$ | async"
+  >
+    <strong>{{ 'configurator.header.conflictsResolved' | cxTranslate }}</strong>
+  </div>
 </div>
