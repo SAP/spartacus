@@ -129,22 +129,6 @@ export function asmCustomerLists(): void {
   cy.get('cx-customer-list table').should('contain', 'Order');
   cy.get('cx-customer-list table').should('not.contain', 'Account');
 
-  cy.log('--> checking customer list pagination');
-  cy.get('cx-customer-list .cx-btn-previous').should('be.disabled');
-  cy.get('cx-customer-list .cx-btn-next').then((button) => {
-    cy.wrap(button).click();
-    cy.wait(customerSearchRequestAlias)
-      .its('response.statusCode')
-      .should('eq', 200);
-  });
-  cy.get('cx-customer-list .cx-btn-previous').should('not.be.disabled');
-  cy.get('cx-customer-list .cx-btn-previous').then((button) => {
-    cy.wrap(button).click();
-    cy.wait(customerSearchRequestAlias)
-      .its('response.statusCode')
-      .should('eq', 200);
-  });
-
   cy.log('--> checking customer number');
   cy.get('cx-customer-list .cx-total')
     .should('exist')
@@ -269,6 +253,79 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list table').contains('Account');
   cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
+}
+
+export function asmB2bCustomerListPagination(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+
+  cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-pagination').should('not.be.visible');
+
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+  cy.get('cx-pagination').should('be.visible');
+  cy.get('button').contains('Cancel').click();
+}
+
+export function asmCustomerListPagination(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+
+  cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-pagination').should('be.visible');
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+  cy.get('cx-pagination').should('not.be.visible');
+  cy.get('button').contains('Cancel').click();
 }
 
 export function startCustomerEmulation(customer, b2b = false): void {
