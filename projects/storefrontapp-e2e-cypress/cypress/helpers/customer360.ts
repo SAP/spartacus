@@ -21,8 +21,7 @@ function createUser(): SampleUser {
   placeOrder();
   saveCart();
   createTicket();
-  // subscribeStockNotification('872912');
-  subscribeStockNotification('1986316');
+  subscribeStockNotification('872912');
   addProductToCart();
   return user;
 }
