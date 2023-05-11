@@ -296,7 +296,12 @@
             class="cx-header-actions"
             [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
           >
-            <ng-template *ngTemplateOutlet="pagination"></ng-template>
+            <div *ngIf="customerSearchPage$ | async as customerSearchPage">
+              <cx-pagination
+                [pagination]="customerSearchPage.pagination"
+                (viewPageEvent)="changePage($event)"
+              ></cx-pagination>
+            </div>
           </div>
         </div>
         <div class="cx-dialog-footer modal-footer">
