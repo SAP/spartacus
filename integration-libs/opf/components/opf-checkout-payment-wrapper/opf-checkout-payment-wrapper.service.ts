@@ -87,7 +87,10 @@ export class OpfCheckoutPaymentWrapperService {
       const html = config?.dynamicScript?.html;
 
       this.opfResourceLoaderService
-        .loadProviderScripts(config.dynamicScript.jsUrls)
+        .loadProviderResources(
+          config.dynamicScript.jsUrls,
+          config.dynamicScript.cssUrls
+        )
         .then(() => {
           this.renderPaymentMethodEvent$.next({
             isLoading: false,

@@ -64,4 +64,10 @@ export interface PaymentDynamicScript {
 
 export interface PaymentDynamicScriptResource {
   url?: string;
+  type?: PaymentDynamicScriptResourceType;
+}
+
+export enum PaymentDynamicScriptResourceType {
+  SCRIPT = 'SCRIPT',
+  STYLES = 'STYLES',
 }
