@@ -1100,26 +1100,30 @@ describe('CdcJsService', () => {
   });
 
   describe('setUserConsentPreferences', () => {
-    it('should set cdc consents for a user', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.returnValue(
-        of({})
-      );
-      let mockUser = 'sampleuser@mail.com';
-      let userPreference = {
-        others: {
-          survey: {
-            isConsentGranted: false,
-          },
+    var mockUser = 'sampleuser@mail.com';
+    var userPreference = {
+      others: {
+        survey: {
+          isConsentGranted: false,
         },
-      };
-      let lang = 'en';
+      },
+    };
+    var lang = 'en';
+    it('should set cdc consents for a user', (done) => {
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
       service.setUserConsentPreferences(mockUser, lang, userPreference);
-      expect(service['gigyaSDK'].accounts.setAccountInfo).toHaveBeenCalledWith({
-        uid: mockUser,
-        lang: lang,
-        preferences: userPreference,
-      });
+      expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.setUserConsentPreferences).toBeTruthy();
+      done();
+    });
+    it('should throw error', (done) => {
+      spyOn(service as any, 'invokeAPI').and.returnValue(
+        of({ status: 'ERROR' })
+      );
+      service.setUserConsentPreferences(mockUser, lang, userPreference);
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(service.setUserConsentPreferences).toBeTruthy();
+      expect(service.setUserConsentPreferences).toThrowError();
       done();
     });
   });
@@ -1129,12 +1133,9 @@ describe('CdcJsService', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(
         of('electronics-spa')
       );
-      service.getSiteConsentDetails();
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      service.getSiteConsentDetails();
       expect(service['invokeAPI']).toHaveBeenCalled();
-      expect(
-        service['gigyaSDK'].accounts.getSiteConsentDetails
-      ).toHaveBeenCalled();
       expect(service.getSiteConsentDetails).toBeTruthy();
     });
   });
