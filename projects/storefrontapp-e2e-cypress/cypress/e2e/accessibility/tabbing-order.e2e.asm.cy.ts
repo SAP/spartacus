@@ -14,7 +14,7 @@ describe('Tabbing order for ASM', () => {
 
   context('ASM', () => {
     it('should allow to navigate with tab key for customer List', () => {
-      asmTabbingOrderWithCustomerList(config.asmWithCustomerLists,'asagent');
+      asmTabbingOrderWithCustomerList(config.asmWithCustomerLists, 'asagent');
     });
   });
 });
