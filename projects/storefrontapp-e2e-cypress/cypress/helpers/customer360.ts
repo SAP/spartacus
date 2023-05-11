@@ -11,8 +11,10 @@ import * as customerTicketing from '../helpers/customer-ticketing/customer-ticke
 import * as asm from '../helpers/asm';
 import { subscribeStockNotification } from './notification';
 
+let user: SampleUser | undefined;
+
 export function setup() {
-  const user = createUser();
+  user = createUser();
   asmCustomerEmulation(user);
 }
 
@@ -23,6 +25,10 @@ function createUser(): SampleUser {
   createTicket();
   subscribeStockNotification('872912');
   addProductToCart();
+  return user;
+}
+
+export function getUser(): SampleUser {
   return user;
 }
 

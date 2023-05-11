@@ -13,6 +13,7 @@ context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
     customer360.setup();
+    cy.saveLocalStorage();
   });
 
   describe('Overview', () => {
@@ -111,6 +112,28 @@ context('Assisted Service Module', () => {
         .its('response.statusCode')
         .should('eq', 200);
       cy.get('h1').contains('Entering a subject');
+    });
+  });
+
+  describe('Profile', () => {
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      checkout.visitHomePage('asm=true');
+      cy.get('button.cx-360-button').click();
+      cy.get('button.cx-tab-header').contains('Profile').click();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    it('should contain all profile information  (CXSPA-700)', () => {
+      const user = customer360.getUser();
+      cy.get('.cx-asm-customer-profile').within(() => {
+        cy.get('.address-line1').should('contain', user.address.line1);
+        cy.get('.profile-phone1').should('contain', user.phone);
+        cy.get('cx-card').should('contain', user.payment.expires.year);
+      });
     });
   });
 });
