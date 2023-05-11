@@ -51,6 +51,9 @@ export const defaultCustomer360Config: Customer360Config = {
             component: 'AsmCustomer360CustomerActivityComponent',
             requestData: {
               type: Customer360Type.ACTIVITY_LIST,
+              additionalRequestParameters: {
+                listSize: 10,
+              },
             },
             config: { pageSize: 5 },
           },
@@ -63,6 +66,9 @@ export const defaultCustomer360Config: Customer360Config = {
             component: 'AsmCustomer360SupportTicketsComponent',
             requestData: {
               type: Customer360Type.SUPPORT_TICKET_LIST,
+              additionalRequestParameters: {
+                listSize: 10,
+              },
             },
             config: { pageSize: 5 },
           },
@@ -70,6 +76,9 @@ export const defaultCustomer360Config: Customer360Config = {
             component: 'AsmCustomer360ProductReviewsComponent',
             requestData: {
               type: Customer360Type.REVIEW_LIST,
+              additionalRequestParameters: {
+                listSize: 10,
+              },
             },
             config: { pageSize: 5 },
           },
