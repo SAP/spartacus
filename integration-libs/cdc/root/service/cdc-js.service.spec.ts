@@ -1100,13 +1100,8 @@ describe('CdcJsService', () => {
   });
   describe('setUserConsentPreferences', () => {
     it('should set cdc consents for a user', (done) => {
-      let mockOutput = {
-        errorCode: 0,
-        errorMessage: '',
-        time: '2015-03-22T11:42:25.943Z',
-      };
       spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.returnValue(
-        of(mockOutput)
+        of({})
       );
       let mockUser = 'sampleuser@mail.com';
       let userPreference = {

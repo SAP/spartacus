@@ -24,6 +24,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
+import { CdcSiteConsentTemplate } from '../../core/models/cdc-site-consents.model';
 import {
   combineLatest,
   Observable,
@@ -622,11 +623,21 @@ export class CdcJsService implements OnDestroy {
     this.auth.logout();
     this.invokeAPI('accounts.logout', {});
   }
-  setUserConsentPreferences(
-    uid: string,
-    lang: string,
-    preferences: any
-  ): Observable<{ errorCode: number; errorMessage: string; time: Date }> {
+
+  getSiteConsentDetails(): Observable<CdcSiteConsentTemplate> {
+    let baseSite: string = this.getCurrentBaseSite();
+    let javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
+    let queryParams = new URLSearchParams(
+      javascriptURL.substring(javascriptURL.indexOf('?'))
+    );
+    let siteApiKey: string | null = queryParams.get('apikey');
+
+    return this.invokeAPI('accounts.getSiteConsentDetails', {
+      apiKey: siteApiKey,
+    });
+  }
+
+  setUserConsentPreferences(uid: string, lang: string, preferences: any) {
     return this.invokeAPI(setAccountInfoAPI, {
       uid: uid,
       lang: lang,

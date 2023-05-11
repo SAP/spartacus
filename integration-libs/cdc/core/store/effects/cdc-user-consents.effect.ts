@@ -10,6 +10,17 @@ import { CdcUserConsentConnector } from '../connector/consent/cdc-user-consent.c
 
 @Injectable()
 export class CdcUserConsentsEffects {
+  loadCdcConsents$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<UserActions.LoadUserConsentsSuccess>(
+          UserActions.LOAD_USER_CONSENTS_SUCCESS
+        ),
+        mergeMap(() => this.cdcUserConsentConnector.loadCdcSiteConsents()),
+        tap({ error: (error) => this.showErrorMessage(error) })
+      ),
+    { dispatch: false }
+  );
   giveCdcConsent$ = createEffect(
     () =>
       this.actions$.pipe(

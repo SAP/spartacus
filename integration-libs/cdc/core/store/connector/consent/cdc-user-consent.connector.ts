@@ -4,46 +4,34 @@ import {
   ConsentTemplate,
   ConverterService,
   LanguageService,
-  UserConsentService,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
-import { withLatestFrom, map } from 'rxjs/operators';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import { CDC_USER_PREFERENCE_SERIALIZER } from './converter';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CdcUserConsentConnector {
   constructor(
     protected languageService: LanguageService,
     protected userProfileFacade: UserProfileFacade,
     protected cdcJsService: CdcJsService,
     protected converter: ConverterService,
-    protected userConsentService: UserConsentService
+    protected cdcConsentsStorage: CdcConsentsLocalStorageService
   ) {}
-  updateCdcConsent(
-    isConsentGranted: boolean,
-    consentCode: string
-  ): Observable<ConsentTemplate> {
-    console.log( isConsentGranted, consentCode);
+
+  updateCdcConsent(isConsentGranted: boolean, consentCode: string) {
+    if (!this.cdcConsentsStorage.checkIfConsentExists(consentCode))
+      return EMPTY;
+    console.log('cdc called');
     var consent: ConsentTemplate = {};
     consent.id = consentCode;
     consent.currentConsent = {};
+    if (isConsentGranted) consent.currentConsent.consentGivenDate = new Date();
+    else consent.currentConsent.consentWithdrawnDate = new Date();
 
-    /**if consent is of type terms or privacy - withdrawing them should not be allowed */
-    if (
-      (consentCode.startsWith('terms') || consentCode.startsWith('privacy')) &&
-      isConsentGranted === false
-    )
-      return of({});
-
-    if (isConsentGranted && consent.currentConsent)
-      consent.currentConsent.consentGivenDate = new Date();
-    else if (consent.currentConsent)
-      consent.currentConsent.consentWithdrawnDate = new Date();
-
-    var userId: string | undefined = this.getUserID();
-    if (!userId)
-    userId = '';
+    var userId: string | undefined = this.getUserID() ?? '';
 
     var currentLanguage = this.getActiveLanguage();
 
@@ -55,23 +43,10 @@ export class CdcUserConsentConnector {
     return this.cdcJsService
       .setUserConsentPreferences(userId, currentLanguage, serializedPreference)
       .pipe(
-        withLatestFrom(this.userConsentService.getConsents()), //to fetch from state instead of api
-        map(([updateResponse, allConsents]) => {
-          let updatedConsent: ConsentTemplate = {};
-          if (isConsentGranted) {
-            for (let template of allConsents) {
-              if (template?.id === consentCode) {
-                updatedConsent = JSON.parse(JSON.stringify(template)); //copy
-                if (updatedConsent.currentConsent) {
-                  updatedConsent.currentConsent.consentGivenDate =
-                    updateResponse.time;
-                  updatedConsent.currentConsent.consentWithdrawnDate =
-                    undefined;
-                }
-              }
-            }
-          }
-          return updatedConsent;
+        tap({
+          error: (error) => {
+            throwError(error);
+          },
         })
       );
   }
@@ -90,5 +65,22 @@ export class CdcUserConsentConnector {
       .subscribe((language) => (currentLanguage = language))
       .unsubscribe();
     return currentLanguage;
+  }
+
+  loadCdcSiteConsents(): Observable<string[]> {
+    var consents: string[] = [];
+    this.cdcJsService
+      .getSiteConsentDetails()
+      .subscribe((siteConsent) => {
+        for (var key in siteConsent.siteConsentDetails) {
+          //key will be a string with dot separated IDs
+          if (Object.hasOwn(siteConsent.siteConsentDetails, key)) {
+            consents.push(key);
+          }
+        }
+        this.cdcConsentsStorage.syncCdcConsentsState(consents);
+      })
+      .unsubscribe();
+    return of(consents);
   }
 }

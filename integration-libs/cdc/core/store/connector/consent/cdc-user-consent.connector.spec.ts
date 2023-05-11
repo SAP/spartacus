@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
-import {
-  LanguageService,
-  UserConsentService,
-} from '@spartacus/core';
+import { ConverterService, LanguageService } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { CdcJsService } from '../../../../root/service';
 import { of } from 'rxjs';
 import { CdcUserConsentConnector } from './cdc-user-consent.connector';
+import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import createSpy = jasmine.createSpy;
 const mockUser = { uid: 'sampleuser@mail.com' };
 const mockCdcSdkOutput = {
@@ -15,28 +12,6 @@ const mockCdcSdkOutput = {
   errorMessage: '',
   time: new Date('3 march 2023'),
 };
-const mockCurrentConsents = [
-  {
-    id: 'terms.of.use',
-    description: 'Accept the terms of use to proceed further',
-    version: 1.0,
-    currentConsent: {
-      code: 'terms.of.use',
-      consentGivenDate: undefined,
-      consentWithdrawnDate: undefined,
-    },
-  },
-  {
-    id: 'others.survey',
-    description: 'Accept to receive all survey emails',
-    version: 1.0,
-    currentConsent: {
-      code: 'others.survey',
-      consentGivenDate: undefined,
-      consentWithdrawnDate: undefined,
-    },
-  },
-];
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get = createSpy();
 }
@@ -47,19 +22,23 @@ class MockCdcJsService implements Partial<CdcJsService> {
   getUserConsentPreferences = createSpy();
   setUserConsentPreferences = createSpy();
 }
-class MockUserConsentService implements Partial<UserConsentService> {
-  getConsents = createSpy();
+class MockCdcConsentsLocalStorageService
+  implements Partial<CdcConsentsLocalStorageService>
+{
+  checkIfConsentExists = createSpy();
 }
-describe('CdcSiteConsentService', () => {
+class MockConverterService implements Partial<ConverterService> {
+  convert = createSpy();
+}
+describe('CdcUserConsentConnector', () => {
   let service: CdcUserConsentConnector;
   let userProfileFacade: UserProfileFacade;
   let languageService: LanguageService;
   let cdcJsService: CdcJsService;
-  let userConsentService: UserConsentService;
+  let converter: ConverterService;
+  let cdcConsentStorage: CdcConsentsLocalStorageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [],
       providers: [
         {
           provide: UserProfileFacade,
@@ -74,8 +53,12 @@ describe('CdcSiteConsentService', () => {
           useClass: MockCdcJsService,
         },
         {
-          provide: UserConsentService,
-          useClass: MockUserConsentService,
+          provide: CdcConsentsLocalStorageService,
+          useClass: MockCdcConsentsLocalStorageService,
+        },
+        {
+          provide: ConverterService,
+          useClass: MockConverterService,
         },
       ],
     });
@@ -83,7 +66,8 @@ describe('CdcSiteConsentService', () => {
     userProfileFacade = TestBed.inject(UserProfileFacade);
     languageService = TestBed.inject(LanguageService);
     cdcJsService = TestBed.inject(CdcJsService);
-    userConsentService = TestBed.inject(UserConsentService);
+    converter = TestBed.inject(ConverterService);
+    cdcConsentStorage = TestBed.inject(CdcConsentsLocalStorageService);
     TestBed.compileComponents();
   });
   it('should create service', () => {
@@ -107,70 +91,68 @@ describe('CdcSiteConsentService', () => {
   });
   describe('updateCdcConsent()', () => {
     it('give consent via CDC SDK', () => {
+      cdcConsentStorage.checkIfConsentExists =
+        createSpy().and.returnValue(true);
       languageService.getActive = createSpy().and.returnValue(of('en'));
       userProfileFacade.get = createSpy().and.returnValue(of(mockUser));
+      converter.convert = createSpy().and.returnValue({
+        others: {
+          survey: {
+            isConsentGranted: true,
+          },
+        },
+      });
       cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
         of(mockCdcSdkOutput)
       );
-      userConsentService.getConsents = createSpy().and.returnValue(
-        of(mockCurrentConsents)
-      );
-      service
-        .updateCdcConsent(true, 'others.survey')
-        .subscribe((output) => {
-          expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
-            'sampleuser@mail.com',
-            'en',
-            {
-              others: {
-                survey: {
-                  isConsentGranted: true,
-                },
-              },
-            }
-          );
-          expect(output).toEqual({
-            id: 'others.survey',
-            description: 'Accept to receive all survey emails',
-            version: 1.0,
-            currentConsent: {
-              code: 'others.survey',
-              consentGivenDate: new Date('3 march 2023'),
-              consentWithdrawnDate: undefined,
+      service.updateCdcConsent(true, 'others.survey');
+      expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
+        'sampleuser@mail.com',
+        'en',
+        {
+          others: {
+            survey: {
+              isConsentGranted: true,
             },
-          });
-        });
+          },
+        }
+      );
     });
     it('withdraw consent via CDC SDK', () => {
+      cdcConsentStorage.checkIfConsentExists =
+        createSpy().and.returnValue(true);
       languageService.getActive = createSpy().and.returnValue(of('en'));
       userProfileFacade.get = createSpy().and.returnValue(of(mockUser));
-
+      converter.convert = createSpy().and.returnValue({
+        others: {
+          survey: {
+            isConsentGranted: false,
+          },
+        },
+      });
       cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
         of(mockCdcSdkOutput)
       );
-      userConsentService.getConsents = createSpy().and.returnValue(
-        of(mockCurrentConsents)
+      service.updateCdcConsent(false, 'others.survey');
+      expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
+        'sampleuser@mail.com',
+        'en',
+        {
+          others: {
+            survey: {
+              isConsentGranted: false,
+            },
+          },
+        }
       );
-      service
-        .updateCdcConsent(false, 'others.survey')
-        .subscribe((output) => {
-          expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
-            'sampleuser@mail.com',
-            'en',
-            {
-              others: {
-                survey: {
-                  isConsentGranted: false,
-                },
-              },
-            }
-          );
-          expect(output).toEqual({});
-        });
     });
-    it('do not call update for required consents in withdraw scneario', () => {
-      service.updateCdcConsent(false, 'terms.of.use').subscribe();
+    it('should return immediately without proceeding further for non-CDC consents', () => {
+      cdcConsentStorage.checkIfConsentExists =
+        createSpy().and.returnValue(false);
+      service.updateCdcConsent(false, 'others.survey');
       expect(cdcJsService.setUserConsentPreferences).not.toHaveBeenCalled();
+      expect(languageService.getActive).not.toHaveBeenCalled();
+      expect(userProfileFacade.get).not.toHaveBeenCalled();
     });
   });
 });

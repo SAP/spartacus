@@ -15,11 +15,13 @@ import {
 import { CdcAuthModule } from '../auth/cdc-auth.module';
 import { CdcAuthService } from '../auth/facade/cdc-auth.service';
 import { effects } from './effects/index';
+import { CdcConsentsLocalStorageService } from './connector/consent/cdc-consents-local-storage.service';
 
 @NgModule({
   imports: [CommonModule, CdcAuthModule, EffectsModule.forFeature(effects)],
   providers: [
     CdcUserConsentConnector,
+    CdcConsentsLocalStorageService,
     CdcAuthService,
     {
       provide: CDC_USER_PREFERENCE_SERIALIZER,

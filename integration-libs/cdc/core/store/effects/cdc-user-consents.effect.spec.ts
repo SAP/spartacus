@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import {
   ConsentTemplate,
-  normalizeHttpError,
+  GlobalMessageService,
   UserActions,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
@@ -11,18 +11,31 @@ import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CdcUserConsentConnector } from '../connector/consent';
 import * as fromEffect from './cdc-user-consents.effect';
 
+const consentTemplateId = 'xxx';
+const consentTemplateVersion = 0;
+const consentTemplate: ConsentTemplate = {
+  id: consentTemplateId,
+  version: consentTemplateVersion,
+};
+const mockError = {
+  errorCode: 409,
+  errorMessage: 'Mock error',
+};
+const expected = cold('');
 class MockCdcUserConsentConnector implements Partial<CdcUserConsentConnector> {
-  updateCdcConsent(
-    _isConsentGranted: boolean,
-    _consentCode: string
-  ): Observable<{}> {
+  updateCdcConsent(_isConsentGranted: boolean, _consentCode: string) {
     return EMPTY;
   }
 }
 
-describe('User Consents effect', () => {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add(): void {}
+}
+
+describe('CdcUserConsentsEffects', () => {
   let cdcUserConsentEffect: fromEffect.CdcUserConsentsEffects;
   let cdcUserConsentConnector: CdcUserConsentConnector;
+  let globalMessageService: GlobalMessageService;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
@@ -33,83 +46,91 @@ describe('User Consents effect', () => {
           provide: CdcUserConsentConnector,
           useClass: MockCdcUserConsentConnector,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         provideMockActions(() => actions$),
       ],
     });
 
     cdcUserConsentEffect = TestBed.inject(fromEffect.CdcUserConsentsEffects);
     cdcUserConsentConnector = TestBed.inject(CdcUserConsentConnector);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    spyOn(globalMessageService, 'add').and.stub();
   });
 
   describe('giveCdcConsent$', () => {
-    const userId = 'xxx@xxx.xxx';
-    const consentTemplateId = 'xxx';
-    const consentTemplateVersion = 0;
-    const consentTemplate: ConsentTemplate = {
-      id: consentTemplateId,
-      version: consentTemplateVersion,
-    };
-    it('should return GiveUserConsentSuccess', () => {
-      spyOn(cdcUserConsentConnector, 'updateCdcConsent').and.returnValue(
-        of(consentTemplate)
-      );
-
-      const action = new UserActions.GiveUserConsent({
-        userId,
-        consentTemplateId,
-        consentTemplateVersion,
-      });
-      const completion = new UserActions.GiveUserConsentSuccess(
-        consentTemplate
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(cdcUserConsentEffect.giveCdcConsent$).toBeObservable(expected);
-    });
-
-    it('should not close error message for GIVE_USER_CONSENT action', () => {
-      const mockError = {
-        status: 409,
-        msg: 'Mock error',
-      };
-      spyOn(cdcUserConsentConnector, 'updateCdcConsent').and.returnValue(
-        throwError(mockError)
-      );
-
-      const action = new UserActions.GiveUserConsent({
-        userId,
-        consentTemplateId,
-        consentTemplateVersion,
-      });
-      const completion = new UserActions.GiveUserConsentFail(
-        normalizeHttpError(mockError)
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(cdcUserConsentEffect.giveCdcConsent$).toBeObservable(expected);
-    });
-  });
-
-  describe('withdrawCdcConsent$', () => {
-    it('should return WithdrawUserConsentSuccess', () => {
+    it('should invoke cdc to give consent', () => {
       spyOn(cdcUserConsentConnector, 'updateCdcConsent').and.returnValue(
         of({})
       );
 
-      const action = new UserActions.WithdrawUserConsent({
-        userId: 'xxx@xxx.xxx',
-        consentCode: 'xxx',
-      });
-      const completion = new UserActions.WithdrawUserConsentSuccess();
+      const action = new UserActions.GiveUserConsentSuccess(consentTemplate);
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+
+      expect(cdcUserConsentEffect.giveCdcConsent$).toBeObservable();
+      expect(cdcUserConsentConnector.updateCdcConsent).toHaveBeenCalledWith(
+        true,
+        consentTemplateId
+      );
+    });
+
+    it('should show error message', () => {
+      spyOn(cdcUserConsentConnector, 'updateCdcConsent').and.returnValue(
+        throwError(mockError)
+      );
+
+      const action = new UserActions.GiveUserConsentSuccess(consentTemplate);
+
+      actions$ = hot('-a', { a: action });
+
+      expect(cdcUserConsentEffect.giveCdcConsent$).toBeObservable(expected);
+      expect(cdcUserConsentConnector.updateCdcConsent).toHaveBeenCalledWith(
+        true,
+        consentTemplateId
+      );
+      expect(cdcUserConsentEffect.showErrorMessage).toHaveBeenCalledWith(
+        mockError
+      );
+    });
+  });
+
+  describe('withdrawCdcConsent$', () => {
+    it('should invoke cdc to withdraw consent', () => {
+      spyOn(cdcUserConsentConnector, 'updateCdcConsent').and.returnValue(
+        of({})
+      );
+
+      const action = new UserActions.WithdrawUserConsentSuccess(
+        consentTemplateId
+      );
+
+      actions$ = hot('-a', { a: action });
 
       expect(cdcUserConsentEffect.withdrawCdcConsent$).toBeObservable(expected);
+      expect(cdcUserConsentConnector.updateCdcConsent).toHaveBeenCalledWith(
+        false,
+        consentTemplateId
+      );
+    });
+    it('should show error message', () => {
+      spyOn(cdcUserConsentConnector, 'updateCdcConsent').and.returnValue(
+        throwError(mockError)
+      );
+
+      const action = new UserActions.WithdrawUserConsentSuccess(
+        consentTemplateId
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      expect(cdcUserConsentEffect.withdrawCdcConsent$).toBeObservable(expected);
+      expect(cdcUserConsentConnector.updateCdcConsent).toHaveBeenCalledWith(
+        false,
+        consentTemplateId
+      );
+      expect(cdcUserConsentEffect.showErrorMessage).toHaveBeenCalledWith(
+        mockError
+      );
     });
   });
 });
