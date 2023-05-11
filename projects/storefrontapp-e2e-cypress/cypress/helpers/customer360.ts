@@ -10,8 +10,10 @@ import { getSampleUser } from '../sample-data/checkout-flow';
 import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as asm from '../helpers/asm';
 
+let user: SampleUser | undefined;
+
 export function setup() {
-  const user = createUser();
+  user = createUser();
   asmCustomerEmulation(user);
 }
 
@@ -21,6 +23,10 @@ function createUser(): SampleUser {
   saveCart();
   createTicket();
   addProductToCart();
+  return user;
+}
+
+export function getUser(): SampleUser {
   return user;
 }
 
