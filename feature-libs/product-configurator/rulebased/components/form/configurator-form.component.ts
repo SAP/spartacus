@@ -4,25 +4,42 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { delay, filter, switchMap, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import {
+  delay,
+  distinctUntilChanged,
+  filter,
+  map,
+  skip,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorFormComponent implements OnInit {
+export class ConfiguratorFormComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -45,16 +62,46 @@ export class ConfiguratorFormComponent implements OnInit {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-
+  //TODO CHHI deprecation
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configExpertModeService: ConfiguratorExpertModeService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  protected listenForConflictResolution(): void {
+    this.subscription.add(
+      this.routerData$
+        .pipe(
+          switchMap((routerData) =>
+            this.configuratorCommonsService.hasConflicts(routerData.owner)
+          ),
+          distinctUntilChanged(),
+          skip(1),
+          filter((hasConflicts) => !hasConflicts),
+          map((hasConflicts) => !hasConflicts)
+        )
+        .subscribe(() => this.displayConflictMessage())
+    );
+  }
+
+  protected displayConflictMessage(): void {
+    this.globalMessageService.add(
+      { key: 'configurator.header.conflictsResolved' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
+
   ngOnInit(): void {
+    this.listenForConflictResolution();
+
     this.routerData$
       .pipe(
         switchMap((routerData) => {

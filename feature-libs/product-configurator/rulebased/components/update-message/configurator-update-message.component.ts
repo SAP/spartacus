@@ -9,7 +9,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable, ReplaySubject, timer } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -20,7 +20,7 @@ import {
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
-import { GlobalMessageService } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-update-message',
@@ -62,18 +62,19 @@ export class ConfiguratorUpdateMessageComponent implements OnInit {
   }
 
   displayConflictMessage(): void {
-    (this.displayConflictMessage$ as ReplaySubject<boolean>).next(true);
-    const timer2 = timer(5000);
-    timer2
-      .pipe(
-        tap(() =>
-          (this.displayConflictMessage$ as ReplaySubject<boolean>).next(false)
-        )
-      )
-      .subscribe();
-    // this.globalMessageService.add(
-    //   { key: "configurator.header.conflictsResolved" },
-    //   GlobalMessageType.MSG_TYPE_CONFIRMATION, 5000
-    // );
+    // (this.displayConflictMessage$ as ReplaySubject<boolean>).next(true);
+    // const timer2 = timer(5000);
+    // timer2
+    //   .pipe(
+    //     tap(() =>
+    //       (this.displayConflictMessage$ as ReplaySubject<boolean>).next(false)
+    //     )
+    //   )
+    //   .subscribe();
+    this.globalMessageService.add(
+      { key: 'configurator.header.conflictsResolved' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      5000
+    );
   }
 }
