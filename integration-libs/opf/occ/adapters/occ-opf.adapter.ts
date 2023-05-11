@@ -31,6 +31,7 @@ import {
 } from '@spartacus/opf/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOpfAdapter implements OpfAdapter {
@@ -120,6 +121,10 @@ export class OccOpfAdapter implements OpfAdapter {
         catchError((error) => throwError(error)),
         backOff({
           shouldRetry: isJaloError,
+        }),
+        backOff({
+          shouldRetry: isHttp500Error,
+          maxTries: 2,
         }),
         this.converter.pipeable(OPF_PAYMENT_VERIFICATION_NORMALIZER)
       );
