@@ -119,7 +119,7 @@
                       <span
                         *ngIf="
                           column.headerLocalizationKey &&
-                          column.headerLocalizationKey !== 'hideAccount'
+                          column.headerLocalizationKey !== 'hideHeaders'
                         "
                       >
                         <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
@@ -326,7 +326,7 @@
 >
   <div
     class="cx-cell-container"
-    *ngIf="column.headerLocalizationKey !== 'hideAccount'"
+    *ngIf="column.headerLocalizationKey !== 'hideHeaders'"
   >
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
@@ -367,6 +367,7 @@
       *ngIf="column.actionType"
       (click)="startColumnAction(customerEntry, column.actionType)"
       class="btn btn-link cx-action-link cx-btn-cell"
+      [class]="column.actionType === 'ACTIVE_CART' ? 'cx-cart' : ''"
       [disabled]="isRequired(customerEntry, column.actionType)"
       [attr.title]="
         column.icon
@@ -425,13 +426,14 @@
       type="text"
       class="form-control"
       placeholder="{{ 'asm.customerList.searchBox' | cxTranslate }}"
+      attr.aria-label="{{ 'asm.customerList.enterSearchBox' | cxTranslate }}"
     />
     <cx-icon
       [type]="iconTypes.SEARCH"
       role="button"
       [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
       class="search"
-      (click)="fetchCustomers()"
+      (click)="searchCustomers()"
     ></cx-icon>
   </div>
 </ng-template>
