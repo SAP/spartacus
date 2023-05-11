@@ -601,4 +601,19 @@ describe('ConfigurationFormComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(3);
     });
   });
+
+  describe('displayConflictMessage()', () => {
+    it('should call global message service', () => {
+      createComponentWithoutData();
+      component['displayConflictMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle non availability of global message service', () => {
+      createComponentWithoutData();
+      component['globalMessageService'] = undefined;
+      component['displayConflictMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+  });
 });

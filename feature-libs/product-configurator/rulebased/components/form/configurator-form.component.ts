@@ -9,6 +9,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import {
   ConfiguratorRouter,
@@ -60,14 +61,36 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  //TODO CHHI deprecation
+  // TODO add release toggle
+  // TODO (CXSPA-3392): make globalMessageService a required dependency
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    configExpertModeService: ConfiguratorExpertModeService,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    globalMessageService: GlobalMessageService
+  );
+
+  /**
+   * @deprecated since 6.1
+   */
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    configExpertModeService: ConfiguratorExpertModeService,
+    launchDialogService: LaunchDialogService,
+  );
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected launchDialogService: LaunchDialogService,
-    protected globalMessageService: GlobalMessageService
+    @Optional() protected globalMessageService?: GlobalMessageService
   ) {}
 
   ngOnDestroy(): void {
@@ -90,10 +113,12 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   }
 
   protected displayConflictMessage(): void {
-    this.globalMessageService.add(
-      { key: 'configurator.header.conflictsResolved' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    if (this.globalMessageService) {
+      this.globalMessageService.add(
+        { key: 'configurator.header.conflictsResolved' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 
   ngOnInit(): void {
