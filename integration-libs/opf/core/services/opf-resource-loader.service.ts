@@ -87,6 +87,39 @@ export class OpfResourceLoaderService extends ScriptLoader {
     }
   }
 
+  protected loadScript(
+    resource: PaymentDynamicScriptResource,
+    resources: PaymentDynamicScriptResource[],
+    resolve: (value: void | PromiseLike<void>) => void
+  ) {
+    if (resource.url && !this.hasScript(resource.url)) {
+      super.embedScript({
+        src: resource.url,
+        attributes: { type: 'text/javascript' },
+        callback: () => this.markResourceAsLoaded(resource, resources, resolve),
+        errorCallback: () => this.handleLoadingResourceError(resource.url),
+      });
+    } else {
+      this.markResourceAsLoaded(resource, resources, resolve);
+    }
+  }
+
+  protected loadStyles(
+    resource: PaymentDynamicScriptResource,
+    resources: PaymentDynamicScriptResource[],
+    resolve: (value: void | PromiseLike<void>) => void
+  ) {
+    if (resource.url && !this.hasStyles(resource.url)) {
+      this.embedStyles({
+        src: resource.url,
+        callback: () => this.markResourceAsLoaded(resource, resources, resolve),
+        errorCallback: () => this.handleLoadingResourceError(resource.url),
+      });
+    } else {
+      this.markResourceAsLoaded(resource, resources, resolve);
+    }
+  }
+
   executeScriptFromHtml(html: string | undefined) {
     if (html) {
       const element = new DOMParser().parseFromString(html, 'text/html');
@@ -104,8 +137,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
         ...script,
         type: PaymentDynamicScriptResourceType.SCRIPT,
       })),
-      ...styles.map((styles) => ({
-        ...styles,
+      ...styles.map((style) => ({
+        ...style,
         type: PaymentDynamicScriptResourceType.STYLES,
       })),
     ];
@@ -117,33 +150,15 @@ export class OpfResourceLoaderService extends ScriptLoader {
         if (!resource.url) {
           this.markResourceAsLoaded(resource, resources, resolve);
         } else {
-          if (resource.type === PaymentDynamicScriptResourceType.SCRIPT) {
-            if (!this.hasScript(resource.url)) {
-              super.embedScript({
-                src: resource.url,
-                attributes: { type: 'text/javascript' },
-                callback: () =>
-                  this.markResourceAsLoaded(resource, resources, resolve),
-                errorCallback: () =>
-                  this.handleLoadingResourceError(resource.url),
-              });
-            } else {
-              this.markResourceAsLoaded(resource, resources, resolve);
-            }
-          }
-
-          if (resource.type === PaymentDynamicScriptResourceType.STYLES) {
-            if (!this.hasStyles(resource.url)) {
-              this.embedStyles({
-                src: resource.url,
-                callback: () =>
-                  this.markResourceAsLoaded(resource, resources, resolve),
-                errorCallback: () =>
-                  this.handleLoadingResourceError(resource.url),
-              });
-            } else {
-              this.markResourceAsLoaded(resource, resources, resolve);
-            }
+          switch (resource.type) {
+            case PaymentDynamicScriptResourceType.SCRIPT:
+              this.loadScript(resource, resources, resolve);
+              break;
+            case PaymentDynamicScriptResourceType.STYLES:
+              this.loadStyles(resource, resources, resolve);
+              break;
+            default:
+              break;
           }
         }
       });
