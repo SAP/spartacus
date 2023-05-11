@@ -26,6 +26,13 @@
         "karmaConfig": "integration-libs/epd-visualization/karma.conf.js"
       }
     },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "integration-libs/epd-visualization"
+      }
+    },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
