@@ -29,7 +29,7 @@ import {
   CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
 import { CsAgentAuthService } from '@spartacus/asm/root';
-import { UrlCommand, User } from '@spartacus/core';
+import { Image, UrlCommand, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -77,6 +77,10 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
 
   customerOverview$: Observable<CustomerOverview | undefined>;
 
+  avatarImage: Image | undefined;
+
+  avatarText = '';
+
   protected subscription = new Subscription();
 
   constructor(
@@ -97,6 +101,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
           const overviewItem = response?.value?.find(
             (item) => item.type === Customer360Type.OVERVIEW
           ) as Customer360Overview | undefined;
+          this.avatarImage = this.getAvatarImage(overviewItem?.overview);
           return overviewItem?.overview || undefined;
         })
       );
@@ -119,6 +124,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
         this.customer = data.customer;
+        this.avatarText = this.getAvatarText(this.customer);
       })
     );
 
@@ -227,6 +233,21 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
         });
       })
     );
+  }
+  protected getAvatarText(customer?: User): string {
+    customer = customer ?? {};
+    const { firstName = '', lastName = '' } = customer;
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+  }
+
+  protected getAvatarImage(overview?: CustomerOverview): Image | undefined {
+    return overview?.userAvatar?.url
+      ? {
+          altText: overview.name,
+          url: overview.userAvatar.url,
+          format: overview.userAvatar.format,
+        }
+      : undefined;
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.

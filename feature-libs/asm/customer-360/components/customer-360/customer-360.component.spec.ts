@@ -205,6 +205,15 @@ describe('AsmCustomer360Component', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should get avatar data', () => {
+    expect(component.avatarText).toBe('JD');
+    expect(component.avatarImage).toEqual({
+      altText: mockOverview?.overview?.name,
+      url: mockOverview?.overview?.userAvatar?.url,
+      format: mockOverview?.overview?.userAvatar?.format,
+    });
+  });
+
   it("should show a label with information on the emulated user's active cart", () => {
     const label = el.query(By.css('.header-account-details-active-cart'));
     expect(label.nativeElement.textContent).toEqual(
@@ -261,6 +270,12 @@ describe('AsmCustomer360Component', () => {
     });
   });
 
+  it('should close dialog when customer support agent logout', () => {
+    spyOn(launchDialogService, 'closeDialog').and.stub();
+    csAgentAuthService.logoutCustomerSupportAgent();
+    expect(launchDialogService.closeDialog).toHaveBeenCalled();
+  });
+
   describe('Tab navigation', () => {
     it('should display tabs', () => {
       expect(component.tabHeaderItems.length).toBe(
@@ -304,12 +319,6 @@ describe('AsmCustomer360Component', () => {
       component.switchTab(event as KeyboardEvent, 0);
       expect(firstTab.tabIndex).toBe(-1);
       expect(secondTab.tabIndex).toBe(0);
-    });
-
-    it('should close dialog when customer support agent logout', () => {
-      spyOn(launchDialogService, 'closeDialog').and.stub();
-      csAgentAuthService.logoutCustomerSupportAgent();
-      expect(launchDialogService.closeDialog).toHaveBeenCalled();
     });
   });
 });

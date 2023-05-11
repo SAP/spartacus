@@ -23,22 +23,15 @@
         *ngIf="customerOverview$ | async as customerOverview"
       >
         <div class="header-profile-details">
-          <ng-container
-            *ngIf="customerOverview?.userAvatar?.url; else customerTextAvatar"
-          >
-            <div
-              class="cx-avatar-image"
-              *ngIf="customerOverview?.userAvatar?.url"
-            >
-              <cx-media
-                [container]="customerOverview | cxAvatarImage"
-              ></cx-media>
+          <ng-container *ngIf="avatarImage; else customerTextAvatar">
+            <div class="cx-avatar-image">
+              <cx-media [container]="avatarImage"></cx-media>
             </div>
           </ng-container>
 
           <ng-template #customerTextAvatar>
-            <div class="cx-avatar" *ngIf="!customerOverview?.userAvatar?.url">
-              {{ customer | cxAvatarLabel }}
+            <div class="cx-avatar" *ngIf="!avatarImage">
+              {{ avatarText }}
             </div>
           </ng-template>
 
