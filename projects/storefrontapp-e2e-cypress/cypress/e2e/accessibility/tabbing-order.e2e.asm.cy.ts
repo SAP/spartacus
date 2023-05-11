@@ -5,12 +5,11 @@
  */
 
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { asmTabbingOrderWithCustomerList} from '../../helpers/accessibility/tabbing-order/asm';
+import { asmTabbingOrderWithCustomerList } from '../../helpers/accessibility/tabbing-order/asm';
 
-
-describe("Tabbing order for ASM", () => {
+describe('Tabbing order for ASM', () => {
   before(() => {
-    cy.window().then((win ) => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   context('ASM', () => {

@@ -119,7 +119,7 @@
                       <span
                         *ngIf="
                           column.headerLocalizationKey &&
-                          column.headerLocalizationKey !== 'hideAccount'
+                          column.headerLocalizationKey !== 'hideHeaders'
                         "
                       >
                         <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
@@ -321,7 +321,7 @@
 >
   <div
     class="cx-cell-container"
-    *ngIf="column.headerLocalizationKey !== 'hideAccount'"
+    *ngIf="column.headerLocalizationKey !== 'hideHeaders'"
   >
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}

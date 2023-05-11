@@ -2383,14 +2383,13 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
-      value: 'Search',
     },
     {
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
-    }
+    },
   ],
 };

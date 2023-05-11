@@ -8,7 +8,7 @@ $sapFioriContent_LabelColor: #6a6d70;
       min-height: 426px;
     }
 
-    @include forVersion(6) {
+    @include forVersion(6.1) {
       min-height: 352px;
     }
   }
@@ -67,9 +67,11 @@ $sapFioriContent_LabelColor: #6a6d70;
             background-color: #ffffff;
           }
         }
-        .form-control::-webkit-input-placeholder {
-          color: #74777a;
-          font-style: italic;
+        @include forVersion(6.1) {
+          .form-control::-webkit-input-placeholder {
+            color: #74777a;
+            font-style: italic;
+          }
         }
 
         cx-icon {
@@ -198,22 +200,24 @@ $sapFioriContent_LabelColor: #6a6d70;
     }
   }
 
-  .cx-avatar-cell {
-    width: 65px;
-    vertical-align: top;
-    .cx-avatar {
-      width: 44px;
-      height: 44px;
-      line-height: 44px;
-      border-radius: 50%;
-      color: #fff;
-      text-align: center;
-      background: #9259cd;
-      text-transform: uppercase;
-      margin-top: 2px;
-      margin-inline-end: 10px;
-      margin-bottom: 2px;
-      margin-inline-start: 0;
+  @include forVersion(1, 6) {
+    .cx-avatar-cell {
+      width: 65px;
+      vertical-align: top;
+      .cx-avatar {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 50%;
+        color: #fff;
+        text-align: center;
+        background: #9259cd;
+        text-transform: uppercase;
+        margin-top: 2px;
+        margin-inline-end: 10px;
+        margin-bottom: 2px;
+        margin-inline-start: 0;
+      }
     }
   }
 
@@ -242,8 +246,10 @@ $sapFioriContent_LabelColor: #6a6d70;
         border-radius: 50%;
       }
     }
-    .cx-cart {
-      padding-inline-end: 18px;
+    @include forVersion(6.1) {
+      .cx-cart {
+        padding-inline-end: 18px;
+      }
     }
   }
 
