@@ -4,7 +4,16 @@ import { Actions } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { EMPTY, NEVER, Observable, of, Subject, timer } from 'rxjs';
+import {
+  EMPTY,
+  firstValueFrom,
+  lastValueFrom,
+  NEVER,
+  Observable,
+  of,
+  Subject,
+  timer,
+} from 'rxjs';
 import { delay, switchMap, take } from 'rxjs/operators';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
@@ -81,7 +90,7 @@ describe('ProductLoadingService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(
         () => () => of(mockProduct)
       );
-      const result: Product = await service.get(code, ['']).toPromise();
+      const result: Product = await lastValueFrom(service.get(code, ['']));
       expect(result).toEqual(mockProduct);
     });
 
@@ -97,10 +106,9 @@ describe('ProductLoadingService', () => {
           )
         );
 
-        const result: Product = await service
-          .get(code, ['scope1', 'scope2'])
-          .pipe(take(1))
-          .toPromise();
+        const result: Product = await firstValueFrom(
+          service.get(code, ['scope1', 'scope2'])
+        );
         expect(result).toEqual({ code, name: 'test' });
       });
 
@@ -113,10 +121,9 @@ describe('ProductLoadingService', () => {
           )
         );
 
-        const result: Product = await service
-          .get(code, ['scope1', 'scope2'])
-          .pipe(take(1))
-          .toPromise();
+        const result: Product = await firstValueFrom(
+          service.get(code, ['scope1', 'scope2'])
+        );
         expect(result).toEqual(undefined);
       });
 
@@ -134,10 +141,9 @@ describe('ProductLoadingService', () => {
           )
         );
 
-        const result: Product = await service
-          .get(code, ['scope1', 'scope2'])
-          .pipe(take(1))
-          .toPromise();
+        const result: Product = await firstValueFrom(
+          service.get(code, ['scope1', 'scope2'])
+        );
         expect(result).toEqual({
           code,
           name: 'second',
@@ -219,13 +225,11 @@ describe('ProductLoadingService', () => {
     it('should be able to trigger the product load action for a product.', async () => {
       spyOn(store, 'dispatch').and.stub();
 
-      await service
-        .get('productCode', [''])
-        .pipe(
-          delay(0), // give actions some time for dispatch
-          take(1)
+      await firstValueFrom(
+        service.get('productCode', ['']).pipe(
+          delay(0) // give actions some time for dispatch
         )
-        .toPromise();
+      );
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProduct('productCode')
@@ -236,10 +240,7 @@ describe('ProductLoadingService', () => {
       spyOn(store, 'dispatch').and.stub();
 
       service.get('productCode', ['']).pipe(take(1)).subscribe();
-      await service
-        .get('productCode', [''])
-        .pipe(delay(0), take(1))
-        .toPromise();
+      await firstValueFrom(service.get('productCode', ['']).pipe(delay(0)));
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
