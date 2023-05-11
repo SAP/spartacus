@@ -97,6 +97,7 @@ export const asm = {
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
       searchBox: 'Search',
+      enterSearchBox: 'Enter customer name or email',
     },
     bindCart: {
       cartNumber: 'Cart Number',
