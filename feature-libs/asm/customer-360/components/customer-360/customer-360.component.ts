@@ -28,6 +28,7 @@ import {
   Customer360Overview,
   CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import { UrlCommand, User } from '@spartacus/core';
 import {
   DirectionMode,
@@ -37,7 +38,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,7 +66,9 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   };
 
   tabs: Array<Customer360TabConfig>;
+
   activeTab = 0;
+
   currentTab: Customer360TabConfig;
 
   customer: User;
@@ -80,6 +83,7 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     protected customer360Config: Customer360Config,
     protected customer360Facade: Customer360Facade,
     protected launchDialogService: LaunchDialogService,
+    protected csAgentAuthService: CsAgentAuthService,
     protected directionService: DirectionService
   ) {
     this.customerOverview$ = this.customer360Facade
@@ -102,10 +106,19 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.launchDialogService.data$.subscribe((data) => {
-        const customer: User = data.customer;
+      this.csAgentAuthService
+        .isCustomerSupportAgentLoggedIn()
+        .pipe(distinctUntilChanged())
+        .subscribe((loggedIn) => {
+          if (!loggedIn) {
+            this.launchDialogService.closeDialog('logout');
+          }
+        })
+    );
 
-        this.customer = customer;
+    this.subscription.add(
+      this.launchDialogService.data$.subscribe((data) => {
+        this.customer = data.customer;
       })
     );
 

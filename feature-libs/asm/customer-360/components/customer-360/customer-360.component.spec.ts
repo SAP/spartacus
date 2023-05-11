@@ -19,6 +19,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Customer360Component } from './customer-360.component';
 import { AvatarImagePipe } from './avatar-image.pipe';
 import { AvatarLabelPipe } from './avatar-label.pipe';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -150,9 +151,23 @@ describe('AsmCustomer360Component', () => {
     closeDialog() {}
   }
 
+  class MockCsAgentAuthService {
+    private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject(true);
+
+    isCustomerSupportAgentLoggedIn(): Observable<boolean> {
+      return this.loggedIn.asObservable();
+    }
+
+    logoutCustomerSupportAgent(): void {
+      this.loggedIn.next(false);
+    }
+  }
+
   let component: Customer360Component;
   let fixture: ComponentFixture<Customer360Component>;
   let el: DebugElement;
+  let csAgentAuthService: CsAgentAuthService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -171,6 +186,7 @@ describe('AsmCustomer360Component', () => {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -180,6 +196,8 @@ describe('AsmCustomer360Component', () => {
     fixture = TestBed.createComponent(Customer360Component);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    csAgentAuthService = TestBed.inject(CsAgentAuthService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
     fixture.detectChanges();
   });
 
@@ -216,8 +234,6 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should close modal', () => {
-    const launchDialogService = TestBed.inject(LaunchDialogService);
-
     spyOn(launchDialogService, 'closeDialog').and.stub();
 
     component.closeModal('foo');
@@ -227,8 +243,6 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should navigate to product details', () => {
-    const launchDialogService = TestBed.inject(LaunchDialogService);
-
     spyOn(launchDialogService, 'closeDialog').and.stub();
 
     component.navigateTo({
@@ -290,6 +304,12 @@ describe('AsmCustomer360Component', () => {
       component.switchTab(event as KeyboardEvent, 0);
       expect(firstTab.tabIndex).toBe(-1);
       expect(secondTab.tabIndex).toBe(0);
+    });
+
+    it('should close dialog when customer support agent logout', () => {
+      spyOn(launchDialogService, 'closeDialog').and.stub();
+      csAgentAuthService.logoutCustomerSupportAgent();
+      expect(launchDialogService.closeDialog).toHaveBeenCalled();
     });
   });
 });

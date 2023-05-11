@@ -9,6 +9,7 @@ import { SampleUser } from '../sample-data/checkout-flow';
 import { getSampleUser } from '../sample-data/checkout-flow';
 import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as asm from '../helpers/asm';
+import { subscribeStockNotification } from './notification';
 
 let user: SampleUser | undefined;
 
@@ -22,6 +23,7 @@ function createUser(): SampleUser {
   placeOrder();
   saveCart();
   createTicket();
+  subscribeStockNotification('872912');
   addProductToCart();
   return user;
 }
