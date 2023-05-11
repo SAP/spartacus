@@ -602,17 +602,17 @@ describe('ConfigurationFormComponent', () => {
     });
   });
 
-  describe('displayConflictMessage()', () => {
+  describe('displayConflictResolvedMessage()', () => {
     it('should call global message service', () => {
       createComponentWithoutData();
-      component['displayConflictMessage']();
+      component['displayConflictResolvedMessage']();
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
     it('should handle non availability of global message service', () => {
       createComponentWithoutData();
       component['globalMessageService'] = undefined;
-      component['displayConflictMessage']();
+      component['displayConflictResolvedMessage']();
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });

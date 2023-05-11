@@ -108,11 +108,11 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
           skip(1), // we skip the very first emission to avoid the change fron undefined -> no conflicts
           filter((hasConflicts) => !hasConflicts)
         )
-        .subscribe(() => this.displayConflictMessage())
+        .subscribe(() => this.displayConflictResolvedMessage())
     );
   }
 
-  protected displayConflictMessage(): void {
+  protected displayConflictResolvedMessage(): void {
     if (this.globalMessageService) {
       this.globalMessageService.add(
         { key: 'configurator.header.conflictsResolved' },
