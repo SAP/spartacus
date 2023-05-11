@@ -8,7 +8,7 @@ $sapFioriContent_LabelColor: #6a6d70;
       min-height: 426px;
     }
 
-    @include forVersion(6) {
+    @include forVersion(6.1) {
       min-height: 352px;
     }
   }
@@ -65,6 +65,12 @@ $sapFioriContent_LabelColor: #6a6d70;
             box-shadow: 0px 0px 1px rgba(120, 143, 166, 0.72);
             outline: none;
             background-color: #ffffff;
+          }
+        }
+        @include forVersion(6.1) {
+          .form-control::-webkit-input-placeholder {
+            color: #74777a;
+            font-style: italic;
           }
         }
 
@@ -196,6 +202,7 @@ $sapFioriContent_LabelColor: #6a6d70;
       vertical-align: top;
     }
   }
+
   @include forVersion(1, 6) {
     .cx-avatar-cell {
       width: 65px;
@@ -240,6 +247,11 @@ $sapFioriContent_LabelColor: #6a6d70;
         background: #9259cd;
         color: #fff;
         border-radius: 50%;
+      }
+    }
+    @include forVersion(6.1) {
+      .cx-cart {
+        padding-inline-end: 18px;
       }
     }
   }
