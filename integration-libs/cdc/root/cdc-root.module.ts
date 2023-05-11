@@ -24,7 +24,7 @@ export function cdcJsFactory(
   cdcJsService: CdcJsService,
   configInit: ConfigInitializerService
 ): () => Promise<Config> {
-  const func = () =>
+  return () =>
     lastValueFrom(
       configInit.getStable('context', 'cdc').pipe(
         tap(() => {
@@ -32,7 +32,6 @@ export function cdcJsFactory(
         })
       )
     );
-  return func;
 }
 
 export function defaultCdcComponentsConfig(): CmsConfig {

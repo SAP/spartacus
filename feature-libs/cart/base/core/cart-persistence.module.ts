@@ -20,7 +20,7 @@ export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
   configInit: ConfigInitializerService
 ): () => Promise<Config> {
-  const result = () =>
+  return () =>
     lastValueFrom(
       configInit.getStable('context').pipe(
         tap(() => {
@@ -28,7 +28,6 @@ export function cartStatePersistenceFactory(
         })
       )
     );
-  return result;
 }
 
 /**
