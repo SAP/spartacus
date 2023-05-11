@@ -31,7 +31,11 @@ export class UserConsentConnector {
     );
   }
 
-  withdrawConsent(userId: string, consentCode: string): Observable<{}> {
-    return this.adapter.withdrawConsent(userId, consentCode);
+  withdrawConsent(
+    userId: string,
+    consentCode: string,
+    consentId?: string
+  ): Observable<{}> {
+    return this.adapter.withdrawConsent(userId, consentCode, consentId);
   }
 }

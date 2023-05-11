@@ -8,9 +8,11 @@
       [disabled]="isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
-      {{ consentTemplate?.name }}
+      <div *ngIf="consentTemplate?.name">
+        {{ consentTemplate?.name }}
+        <br />
+      </div>
     </span>
-    <br />
     <span class="form-check-label">
       {{ consentTemplate?.description }}
     </span>

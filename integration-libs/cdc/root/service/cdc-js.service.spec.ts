@@ -1098,4 +1098,44 @@ describe('CdcJsService', () => {
       expect(service['invokeAPI']).toHaveBeenCalledWith('accounts.logout', {});
     });
   });
+
+  describe('setUserConsentPreferences', () => {
+    it('should set cdc consents for a user', (done) => {
+      spyOn(service['gigyaSDK'].accounts, 'setAccountInfo').and.returnValue(
+        of({})
+      );
+      let mockUser = 'sampleuser@mail.com';
+      let userPreference = {
+        others: {
+          survey: {
+            isConsentGranted: false,
+          },
+        },
+      };
+      let lang = 'en';
+      service.setUserConsentPreferences(mockUser, lang, userPreference);
+      expect(service['gigyaSDK'].accounts.setAccountInfo).toHaveBeenCalledWith({
+        uid: mockUser,
+        lang: lang,
+        preferences: userPreference,
+      });
+      expect(service.setUserConsentPreferences).toBeTruthy();
+      done();
+    });
+  });
+
+  describe('getSiteConsentDetails()', () => {
+    it('fetch consents from the current site', () => {
+      spyOn(baseSiteService, 'getActive').and.returnValue(
+        of('electronics-spa')
+      );
+      service.getSiteConsentDetails();
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(
+        service['gigyaSDK'].accounts.getSiteConsentDetails
+      ).toHaveBeenCalled();
+      expect(service.getSiteConsentDetails).toBeTruthy();
+    });
+  });
 });
