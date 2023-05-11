@@ -16,11 +16,11 @@ describe('Tabbing order for ASM', () => {
   });
 
   context('ASM', () => {
-    it('should allow to navigate with tab key for customer List', () => {
+    it('should allow to navigate with tab key for customer List （CXSPA-1595）', () => {
       asmTabbingOrderWithCustomerList(config.asmWithCustomerLists, 'asagent');
     });
 
-    it('should allow to navigate with tab key for create customer form', () => {
+    it('should allow to navigate with tab key for create customer form (CXSPA-1594)', () => {
       asmTabbingOrderWithCreateCustomerForm(config.asmWithCreateCustomerForm);
     });
   });
