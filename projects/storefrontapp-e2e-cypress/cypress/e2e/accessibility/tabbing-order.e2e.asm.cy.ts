@@ -5,7 +5,10 @@
  */
 
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { asmTabbingOrderWithCustomerList } from '../../helpers/accessibility/tabbing-order/asm';
+import {
+  asmTabbingOrderWithCreateCustomerForm,
+  asmTabbingOrderWithCustomerList,
+} from '../../helpers/accessibility/tabbing-order/asm';
 
 describe('Tabbing order for ASM', () => {
   before(() => {
@@ -15,6 +18,10 @@ describe('Tabbing order for ASM', () => {
   context('ASM', () => {
     it('should allow to navigate with tab key for customer List', () => {
       asmTabbingOrderWithCustomerList(config.asmWithCustomerLists);
+    });
+
+    it('should allow to navigate with tab key for create customer form', () => {
+      asmTabbingOrderWithCreateCustomerForm(config.asmWithCreateCustomerForm);
     });
   });
 });
