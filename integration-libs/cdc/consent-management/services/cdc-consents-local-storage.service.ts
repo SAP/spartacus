@@ -14,9 +14,7 @@ const KEY = 'cdc-consents-list';
   providedIn: 'root',
 })
 export class CdcConsentsLocalStorageService implements OnDestroy {
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-  ) {}
+  constructor(protected statePersistenceService: StatePersistenceService) {}
   protected subscription = new Subscription();
 
   syncCdcConsentsState(consents: string[]): void {
@@ -36,7 +34,7 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
     return false;
   }
 
-  protected clearCdcConsentsStorage() {
+  clearCdcConsentsStorage() {
     this.statePersistenceService.syncWithStorage({
       key: KEY,
       state$: of([]),

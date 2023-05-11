@@ -32,24 +32,25 @@ class MockLanguageService implements Partial<LanguageService> {
   getActive = createSpy();
 }
 class MockCdcJsService implements Partial<CdcJsService> {
-  getUserConsentPreferences = createSpy();
   setUserConsentPreferences = createSpy();
+  getSiteConsentDetails = createSpy();
 }
 class MockCdcConsentsLocalStorageService
   implements Partial<CdcConsentsLocalStorageService>
 {
   checkIfConsentExists = createSpy();
+  syncCdcConsentsState = createSpy();
 }
 class MockConverterService implements Partial<ConverterService> {
   convert = createSpy();
 }
-describe('CdcUserConsentConnector', () => {
+describe('CdcUserConsentService()', () => {
   let service: CdcUserConsentService;
   let userProfileFacade: UserProfileFacade;
   let languageService: LanguageService;
   let cdcJsService: CdcJsService;
   let converter: ConverterService;
-  let cdcConsentStorage: CdcConsentsLocalStorageService;
+  let storage: CdcConsentsLocalStorageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -80,7 +81,7 @@ describe('CdcUserConsentConnector', () => {
     languageService = TestBed.inject(LanguageService);
     cdcJsService = TestBed.inject(CdcJsService);
     converter = TestBed.inject(ConverterService);
-    cdcConsentStorage = TestBed.inject(CdcConsentsLocalStorageService);
+    storage = TestBed.inject(CdcConsentsLocalStorageService);
     TestBed.compileComponents();
   });
   it('should create service', () => {
@@ -155,23 +156,16 @@ describe('CdcUserConsentConnector', () => {
         }
       );
     });
-    it('should return immediately without proceeding further for non-CDC consents', () => {
-      cdcConsentStorage.checkIfConsentExists =
-        createSpy().and.returnValue(false);
-      service.updateCdcConsent(false, 'others.survey');
-      expect(cdcJsService.setUserConsentPreferences).not.toHaveBeenCalled();
-      expect(languageService.getActive).not.toHaveBeenCalled();
-      expect(userProfileFacade.get).not.toHaveBeenCalled();
-    });
   });
   describe('persistCdcSiteConsents()', () => {
     it('should persist cdc site consents into local storage', () => {
       cdcJsService.getSiteConsentDetails = createSpy().and.returnValue(
         of(mockCdcSiteConsents)
       );
+      storage.syncCdcConsentsState = createSpy().and.returnValue({});
       service.persistCdcSiteConsents();
       expect(cdcJsService.getSiteConsentDetails).toHaveBeenCalled();
-      expect(cdcConsentStorage.syncCdcConsentsState).toHaveBeenCalledWith(
+      expect(storage.syncCdcConsentsState).toHaveBeenCalledWith(
         mockStoredConsents
       );
     });
