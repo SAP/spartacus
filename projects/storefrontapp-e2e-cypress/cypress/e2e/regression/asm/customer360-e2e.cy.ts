@@ -127,7 +127,7 @@ context('Assisted Service Module', () => {
       cy.saveLocalStorage();
     });
 
-    it('should redirect to the support tickets page (CXSPA-700)', () => {
+    it('should contain all profile information  (CXSPA-700)', () => {
       const user = customer360.getUser();
       cy.get('.cx-asm-customer-profile').within(() => {
         cy.get('.address-line1').should('contain', user.address.line1);
