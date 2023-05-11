@@ -20,6 +20,20 @@ context('Assisted Service Module', () => {
     Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
   });
   describe('ASM Customer list', () => {
+    it('Should be able to create a b2b cart via API (CXSPA-1595)', function () {
+      const productCode = '1979039';
+      cy.cxConfig({
+        context: {
+          baseSite: ['powertools-spa'],
+          currency: ['USD'],
+        },
+      });
+      cy.login('gi.sun@pronto-hw.com', 'pw4all').then(() => {
+        const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+        cy.addToB2BCart(productCode, 1, auth.token.access_token);
+      });
+    });
+
     it('checking custom list features', () => {
       cy.cxConfig({
         context: {

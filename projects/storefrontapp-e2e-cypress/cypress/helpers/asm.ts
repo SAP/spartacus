@@ -253,6 +253,17 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list table').contains('Account');
   cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
+
+  cy.log('--> start emulation by click cart');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list')
+    .find('.cx-btn-cell')
+    .filter('.cx-cart')
+    .then(($rows) => {
+      cy.wrap($rows[0]).click();
+      cy.get('cx-customer-list').should('not.exist');
+      cy.get('cx-add-to-saved-cart').should('exist');
+    });
 }
 
 export function asmB2bCustomerListPagination(): void {
