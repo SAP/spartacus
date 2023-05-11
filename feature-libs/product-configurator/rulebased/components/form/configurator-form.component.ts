@@ -105,7 +105,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
             this.configuratorCommonsService.hasConflicts(routerData.owner)
           ),
           distinctUntilChanged(), // we are interested only in status changes
-          skip(1), // we skip the very first submission to avoid the change fron undefined -> no conflicts
+          skip(1), // we skip the very first emission to avoid the change fron undefined -> no conflicts
           filter((hasConflicts) => !hasConflicts)
         )
         .subscribe(() => this.displayConflictMessage())
