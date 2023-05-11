@@ -20,11 +20,9 @@ import {
   delay,
   distinctUntilChanged,
   filter,
-  map,
   skip,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -83,10 +81,9 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
           switchMap((routerData) =>
             this.configuratorCommonsService.hasConflicts(routerData.owner)
           ),
-          distinctUntilChanged(),
-          skip(1),
-          filter((hasConflicts) => !hasConflicts),
-          map((hasConflicts) => !hasConflicts)
+          distinctUntilChanged(), // we are interested only in status changes
+          skip(1), // we skip the very first submission to avoid the change fron undefined -> no conflicts
+          filter((hasConflicts) => !hasConflicts)
         )
         .subscribe(() => this.displayConflictMessage())
     );
