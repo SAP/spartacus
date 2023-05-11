@@ -15,6 +15,49 @@ context('Assisted Service Module', () => {
     customer360.setup();
   });
 
+  describe('Overview', () => {
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      checkout.visitHomePage('asm=true');
+      cy.get('button.cx-360-button').click();
+      cy.get('button.cx-tab-header').contains('Overview').click();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    it('should contain overview items (CXSPA-700)', () => {
+      cy.get('.product-listing-header').contains('Active Cart');
+      cy.get('.product-listing-header').contains('Last Saved Cart');
+      cy.get('.product-listing-header').contains('Interests');
+    });
+
+    it('should redirect to the cart page (CXSPA-700)', () => {
+      const cartPage = waitForPage('/cart', 'getCartPage');
+      cy.contains('div.product-listing-header', 'Active Cart').children().eq(1).click();
+      cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+    });
+
+    it('should redirect to the saved cart page (CXSPA-700)', () => {
+      const savedCartPage = waitForPage(
+        '/my-account/saved-cart/*',
+        'getSavedCartPage'
+      );
+      cy.contains('div.product-listing-header', 'Saved Cart').children().eq(1).click();
+      cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
+    });
+
+    it('should redirect to the interests page (CXSPA-700)', () => {
+      const interestsPage = waitForPage(
+        '/my-account/my-interests',
+        'getInterestsPage'
+      );
+      cy.contains('div.product-listing-header > button', 'Interests').click();
+      cy.wait(`@${interestsPage}`).its('response.statusCode').should('eq', 200);
+    });
+  });
+
   describe('Activity List', () => {
     beforeEach(() => {
       cy.restoreLocalStorage();
