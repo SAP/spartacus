@@ -47,9 +47,12 @@ export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
 }
 
-export function asmTabbingOrderWithCustomerList(config: TabElement[]) {
+export function asmTabbingOrderWithCustomerList(
+  config: TabElement[],
+  agent: string
+) {
   cy.visit('/?asm=true');
-  asm.agentLogin('asagent', 'pw4all');
+  asm.agentLogin(agent, 'pw4all');
 
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
