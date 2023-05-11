@@ -2390,6 +2390,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
       value: 'Cancel',
-    }
+    },
   ],
 };

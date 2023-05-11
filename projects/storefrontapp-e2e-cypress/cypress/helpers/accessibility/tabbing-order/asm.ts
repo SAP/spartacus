@@ -47,7 +47,10 @@ export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
 }
 
-export function asmTabbingOrderWithCustomerList(config: TabElement[], agent: string) {
+export function asmTabbingOrderWithCustomerList(
+  config: TabElement[],
+  agent: string
+) {
   cy.visit('/?asm=true');
   asm.agentLogin(agent, 'pw4all');
 
