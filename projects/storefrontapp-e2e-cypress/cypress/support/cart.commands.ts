@@ -26,7 +26,11 @@ declare namespace Cypress {
         cy.addToB2BCart(productCode, quantity, accessToken)
         ```
        */
-    addToB2BCart: (itemId: string, quantity: string, accessToken: string) => void;
+    addToB2BCart: (
+      itemId: string,
+      quantity: string,
+      accessToken: string
+    ) => void;
   }
 }
 

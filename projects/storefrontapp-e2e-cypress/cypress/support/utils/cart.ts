@@ -67,8 +67,8 @@ export function addToB2BCart(
             code: productCode,
           },
           quantity: quantity,
-        }
-      ]
+        },
+      ],
     },
     headers: {
       Authorization: `bearer ${accessToken}`,
