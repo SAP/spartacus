@@ -13,6 +13,10 @@
       margin: 0 0 15px;
       min-width: auto;
 
+      cx-form-errors p {
+        color: #db0002;
+      }
+
       .input-contaier {
         display: flex;
         .icon-wrapper {
