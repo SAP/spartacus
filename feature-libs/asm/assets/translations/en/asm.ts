@@ -82,8 +82,8 @@ export const asm = {
         byDateDesc: 'Date (Desc)',
         byOrderDateAsc: 'Order date (Asc)',
         byOrderDateDesc: 'Order date (Desc)',
-        byUnit: 'Unit (Asc)',
-        byUnitDesc: 'Unit (Desc)',
+        byUnit: 'Account (Asc)',
+        byUnitDesc: 'Account (Desc)',
       },
       page: {
         page: 'Page {{count}}',
@@ -97,6 +97,7 @@ export const asm = {
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
       searchBox: 'Search',
+      enterSearchBox: 'Enter customer name or email',
     },
     bindCart: {
       cartNumber: 'Cart Number',
