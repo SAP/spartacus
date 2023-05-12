@@ -97,7 +97,8 @@
 
       <ng-container
         *ngIf="
-          order?.paymentInfo?.billingAddress || order?.paymentInfo?.cardNumber
+          order?.paymentInfo?.billingAddress ||
+          isPaymentInfoCardFull(order?.paymentInfo)
         "
       >
         <div class="cx-summary-card">

@@ -214,7 +214,7 @@ export class OrderOverviewComponent {
         year: Boolean(payment) ? payment.expiryYear : '',
       }),
     ]).pipe(
-      filter(() => Boolean(payment?.cardNumber)),
+      filter(() => this.isPaymentInfoCardFull(payment)),
       map(
         ([textTitle, textExpires]) =>
           ({
@@ -223,6 +223,15 @@ export class OrderOverviewComponent {
             text: [payment.cardNumber, textExpires],
           } as Card)
       )
+    );
+  }
+
+  isPaymentInfoCardFull(payment: PaymentDetails): boolean {
+    return (
+      !!payment?.cardNumber &&
+      !!payment.expiryMonth &&
+      !!payment.expiryYear &&
+      !!payment.accountHolderName
     );
   }
 
