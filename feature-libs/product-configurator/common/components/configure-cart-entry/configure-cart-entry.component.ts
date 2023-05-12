@@ -17,7 +17,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 })
 export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean;
+  @Input() readOnly: boolean | null;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
 
@@ -79,7 +79,7 @@ export class ConfigureCartEntryComponent {
    *  @returns - 'true' if the configuration is read only, otherwise 'false'
    */
   getDisplayOnly(): boolean {
-    return this.readOnly;
+    return this.readOnly ?? true;
   }
 
   /**
