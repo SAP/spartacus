@@ -57,7 +57,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription.add(
       this.opfService.getOpfUiState().subscribe((state: OpfUi) => {
-        this.selectedPaymentId = state?.selectedPaymentOptionId;
+        this.selectedPaymentId = state.termsAndConditionsChecked
+          ? state?.selectedPaymentOptionId
+          : undefined;
       })
     );
   }

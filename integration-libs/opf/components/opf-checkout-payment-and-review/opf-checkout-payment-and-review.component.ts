@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -27,8 +22,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
 import { OpfService } from '@spartacus/opf/core';
-import { OpfUi } from '@spartacus/opf/root';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -38,16 +32,23 @@ import { map } from 'rxjs/operators';
 })
 export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent
-  implements OnInit, OnDestroy
+  implements OnInit
 {
-  protected subscription = new Subscription();
+  protected defaultTermsAndConditionsFieldValue = false;
 
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
-    termsAndConditions: [false, Validators.requiredTrue],
+    termsAndConditions: [
+      this.defaultTermsAndConditionsFieldValue,
+      Validators.requiredTrue,
+    ],
   });
 
   get termsAndConditionInvalid(): boolean {
     return this.checkoutSubmitForm.invalid;
+  }
+
+  get termsAndConditionsFieldValue(): boolean {
+    return Boolean(this.checkoutSubmitForm.get('termsAndConditions')?.value);
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
@@ -76,25 +77,17 @@ export class OpfCheckoutPaymentAndReviewComponent
     );
   }
 
-  toggleTermsAndConditions(): void {
+  protected updateTermsAndConditionsState() {
     this.opfService.updateOpfUiState({
-      termsAndConditionsChecked:
-        this.checkoutSubmitForm.get('termsAndConditions')?.value,
-      selectedPaymentOptionId: undefined,
+      termsAndConditionsChecked: this.termsAndConditionsFieldValue,
     });
   }
 
-  ngOnInit(): void {
-    this.subscription.add(
-      this.opfService.getOpfUiState().subscribe((uiState: OpfUi) => {
-        this.checkoutSubmitForm.setValue({
-          termsAndConditions: Boolean(uiState?.termsAndConditionsChecked),
-        });
-      })
-    );
+  toggleTermsAndConditions() {
+    this.updateTermsAndConditionsState();
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  ngOnInit() {
+    this.updateTermsAndConditionsState();
   }
 }
