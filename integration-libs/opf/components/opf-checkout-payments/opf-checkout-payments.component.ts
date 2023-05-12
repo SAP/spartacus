@@ -49,7 +49,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   /**
    * Method pre-selects (based on terms and conditions state)
-   * previously selected payment option ID  by customer .
+   * previously selected payment option ID by customer.
    */
   protected preselectPaymentOption() {
     this.subscription.add(
