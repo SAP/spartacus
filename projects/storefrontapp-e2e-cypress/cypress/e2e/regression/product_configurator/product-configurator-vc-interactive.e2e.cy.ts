@@ -498,7 +498,7 @@ context('Product Configuration', () => {
         );
       }
     });
-    it('should display a success message on conflict resolution', () => {
+    it('should display a success message on conflict resolution (CXSPA-2374)', () => {
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
