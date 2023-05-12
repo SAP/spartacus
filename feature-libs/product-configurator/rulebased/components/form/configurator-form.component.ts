@@ -29,7 +29,11 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -61,7 +65,6 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  // TODO add release toggle
   // TODO (CXSPA-3392): make globalMessageService a required dependency
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
@@ -69,6 +72,8 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     configRouterExtractorService: ConfiguratorRouterExtractorService,
     configExpertModeService: ConfiguratorExpertModeService,
     launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     globalMessageService: GlobalMessageService
   );
@@ -81,7 +86,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     configuratorGroupsService: ConfiguratorGroupsService,
     configRouterExtractorService: ConfiguratorRouterExtractorService,
     configExpertModeService: ConfiguratorExpertModeService,
-    launchDialogService: LaunchDialogService,
+    launchDialogService: LaunchDialogService
   );
 
   constructor(
@@ -90,6 +95,8 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configExpertModeService: ConfiguratorExpertModeService,
     protected launchDialogService: LaunchDialogService,
+    // TODO:(CXSPA-3392) for next major release remove feature config service
+    @Optional() protected featureConfigservice?: FeatureConfigService,
     @Optional() protected globalMessageService?: GlobalMessageService
   ) {}
 
@@ -113,7 +120,10 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   }
 
   protected displayConflictResolvedMessage(): void {
-    if (this.globalMessageService) {
+    if (
+      this.globalMessageService &&
+      (this.featureConfigservice?.isLevel('6.1') ?? false)
+    ) {
       this.globalMessageService.add(
         { key: 'configurator.header.conflictsResolved' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

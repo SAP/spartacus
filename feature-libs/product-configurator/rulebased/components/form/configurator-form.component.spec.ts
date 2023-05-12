@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -92,6 +93,7 @@ let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
+let testVersion: string;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -168,6 +170,12 @@ class MockLaunchDialogService {
 
 class MockGlobalMessageService {
   add(): void {}
+}
+
+class MockFeatureConfigService {
+  isLevel(version: string): boolean {
+    return version === testVersion;
+  }
 }
 
 function checkConfigurationObs(
@@ -273,6 +281,7 @@ describe('ConfigurationFormComponent', () => {
             useClass: MockRoutingService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -337,6 +346,7 @@ describe('ConfigurationFormComponent', () => {
       GlobalMessageService as Type<GlobalMessageService>
     );
     spyOn(globalMessageService, 'add').and.callThrough();
+    testVersion = '6.1';
 
     isConfigurationLoadingObservable = of(false);
 
@@ -612,6 +622,20 @@ describe('ConfigurationFormComponent', () => {
     it('should handle non availability of global message service', () => {
       createComponentWithoutData();
       component['globalMessageService'] = undefined;
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not call global message service if target version is not matched', () => {
+      createComponentWithoutData();
+      testVersion = '6.2';
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+
+    it('should handle non availability of feature config service', () => {
+      createComponentWithoutData();
+      component['featureConfigservice'] = undefined;
       component['displayConflictResolvedMessage']();
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
