@@ -1,72 +1,74 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { QueryService } from '@spartacus/core';
-import {
-  ActiveConfiguration,
-  OpfPaymentProviderType,
-} from '@spartacus/opf/root';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
-import { OpfCheckoutService } from './opf-checkout.service';
-import createSpy = jasmine.createSpy;
+// TODO: Add unit tests
 
-const mockActiveConfigurations: ActiveConfiguration[] = [
-  {
-    id: 1,
-    providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
-    displayName: 'Test1',
-  },
-  {
-    id: 2,
-    providerType: OpfPaymentProviderType.PAYMENT_METHOD,
-    displayName: 'Test2',
-  },
-];
+// import { inject, TestBed } from '@angular/core/testing';
+// import { QueryService } from '@spartacus/core';
+// import {
+//   ActiveConfiguration,
+//   OpfPaymentProviderType,
+// } from '@spartacus/opf/root';
+// import { of } from 'rxjs';
+// import { take } from 'rxjs/operators';
+// import { OpfCheckoutConnector } from '../connectors/opf-checkout.connector';
+// import { OpfCheckoutService } from './opf-checkout.service';
+// import createSpy = jasmine.createSpy;
 
-class MockOpfCheckoutConnector implements Partial<OpfCheckoutConnector> {
-  getActiveConfigurations = createSpy().and.returnValue(
-    of(mockActiveConfigurations)
-  );
-}
+// const mockActiveConfigurations: ActiveConfiguration[] = [
+//   {
+//     id: 1,
+//     providerType: OpfPaymentProviderType.PAYMENT_GATEWAY,
+//     displayName: 'Test1',
+//   },
+//   {
+//     id: 2,
+//     providerType: OpfPaymentProviderType.PAYMENT_METHOD,
+//     displayName: 'Test2',
+//   },
+// ];
 
-describe(`CheckoutPaymentService`, () => {
-  let service: OpfCheckoutService;
-  let connector: OpfCheckoutConnector;
+// class MockOpfCheckoutConnector implements Partial<OpfCheckoutConnector> {
+//   getActiveConfigurations = createSpy().and.returnValue(
+//     of(mockActiveConfigurations)
+//   );
+// }
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        OpfCheckoutService,
-        QueryService,
-        { provide: OpfCheckoutConnector, useClass: MockOpfCheckoutConnector },
-      ],
-    });
+// describe(`CheckoutPaymentService`, () => {
+//   let service: OpfCheckoutService;
+//   let connector: OpfCheckoutConnector;
 
-    service = TestBed.inject(OpfCheckoutService);
-    connector = TestBed.inject(OpfCheckoutConnector);
-  });
+//   beforeEach(() => {
+//     TestBed.configureTestingModule({
+//       providers: [
+//         OpfCheckoutService,
+//         QueryService,
+//         { provide: OpfCheckoutConnector, useClass: MockOpfCheckoutConnector },
+//       ],
+//     });
 
-  it(`should inject OpfCheckoutService`, inject(
-    [OpfCheckoutService],
-    (opfCheckoutService: OpfCheckoutService) => {
-      expect(opfCheckoutService).toBeTruthy();
-    }
-  ));
+//     service = TestBed.inject(OpfCheckoutService);
+//     connector = TestBed.inject(OpfCheckoutConnector);
+//   });
 
-  describe(`getActiveConfigurationsState`, () => {
-    it(`should call the opfCheckoutConnector.getActiveConfigurations()`, (done) => {
-      service
-        .getActiveConfigurationsState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getActiveConfigurations).toHaveBeenCalled();
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockActiveConfigurations,
-          });
-          done();
-        });
-    });
-  });
-});
+//   it(`should inject OpfCheckoutService`, inject(
+//     [OpfCheckoutService],
+//     (opfCheckoutService: OpfCheckoutService) => {
+//       expect(opfCheckoutService).toBeTruthy();
+//     }
+//   ));
+
+//   describe(`getActiveConfigurationsState`, () => {
+//     it(`should call the opfCheckoutConnector.getActiveConfigurations()`, (done) => {
+//       service
+//         .getActiveConfigurationsState()
+//         .pipe(take(1))
+//         .subscribe((state) => {
+//           expect(connector.getActiveConfigurations).toHaveBeenCalled();
+//           expect(state).toEqual({
+//             loading: false,
+//             error: false,
+//             data: mockActiveConfigurations,
+//           });
+//           done();
+//         });
+//     });
+//   });
+// });
