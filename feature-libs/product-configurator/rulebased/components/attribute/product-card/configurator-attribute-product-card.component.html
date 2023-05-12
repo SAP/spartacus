@@ -74,7 +74,7 @@
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
               [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions?.attributeName)
+                createAttributeUiKey('label', productCardOptions.attributeName)
               "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
@@ -92,7 +92,7 @@
                 [attr.aria-describedby]="
                   createAttributeUiKey(
                     'label',
-                    productCardOptions?.attributeName
+                    productCardOptions.attributeName
                   )
                 "
               >
@@ -115,7 +115,7 @@
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelSingleUnselected(product)"
               [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions?.attributeName)
+                createAttributeUiKey('label', productCardOptions.attributeName)
               "
             >
               {{ 'configurator.button.select' | cxTranslate }}
@@ -140,7 +140,7 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions?.attributeName
+                      productCardOptions.attributeName
                     )
                   "
                 >
@@ -168,7 +168,7 @@
         id="{{
           createAttributeUiKey(
             'attribute-msg',
-            productCardOptions?.attributeName
+            productCardOptions.attributeName
           )
         }}"
       >

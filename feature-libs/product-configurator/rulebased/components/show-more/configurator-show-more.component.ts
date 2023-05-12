@@ -23,14 +23,14 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
-  @Input() text: string;
+  @Input() text: string |undefined;
   @Input() textSize = 60;
-  @Input() productName: string;
+  @Input() productName: string | undefined;
 
   constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    this.textNormalized = this.normalize(this.text);
+    this.textNormalized = this.normalize(this.text ?? '');
 
     if (this.textNormalized.length > this.textSize) {
       this.showMore = true;

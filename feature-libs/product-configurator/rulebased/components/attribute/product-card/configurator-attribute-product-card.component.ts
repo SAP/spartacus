@@ -46,7 +46,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   loading$?: Observable<boolean>;
   attributeId: number;
   attributeLabel?: string;
-  attributeName?: string;
+  attributeName: string;
   itemCount: number;
   itemIndex: number;
 }
