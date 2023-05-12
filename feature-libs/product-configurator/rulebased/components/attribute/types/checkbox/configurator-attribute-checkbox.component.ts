@@ -25,6 +25,7 @@ export class ConfiguratorAttributeCheckBoxComponent
   group: string;
   ownerKey: string;
   expMode: boolean;
+  attributeValue: Configurator.Value;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
@@ -37,6 +38,9 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
+    this.attributeValue = this.attribute.values
+      ? this.attribute.values[0]
+      : { valueCode: '' };
   }
 
   ngOnInit() {
@@ -85,7 +89,7 @@ export class ConfiguratorAttributeCheckBoxComponent
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
+  ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,
       price: value.valuePrice,

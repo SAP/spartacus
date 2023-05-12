@@ -379,10 +379,10 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   });
 
   describe('extractValuePriceFormulaParameters', () => {
-    it('should return `undefined`', () => {
+    it('should return empty result for undefined input', () => {
       expect(
         component.extractValuePriceFormulaParameters(undefined)
-      ).toBeUndefined();
+      ).toEqual({});
     });
 
     it('should return price formula parameters', () => {
