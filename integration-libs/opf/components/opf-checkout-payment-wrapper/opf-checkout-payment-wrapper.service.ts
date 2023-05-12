@@ -21,8 +21,8 @@ import {
   PaymentSessionData,
 } from '@spartacus/opf/root';
 
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
@@ -35,6 +35,8 @@ export class OpfCheckoutPaymentWrapperService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {}
+
+  cancelObs$: Subject<void>;
 
   protected activeCartId: string;
 
@@ -56,6 +58,8 @@ export class OpfCheckoutPaymentWrapperService {
       isError: false,
     });
 
+    this.createObservableForPaymentCancelation();
+
     return combineLatest([
       this.userIdService.getUserId(),
       this.activeCartService.getActiveCartId(),
@@ -69,7 +73,8 @@ export class OpfCheckoutPaymentWrapperService {
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
-      catchError(() => this.handlePaymentInitiationError())
+      catchError(() => this.handlePaymentInitiationError()),
+      takeUntil(this.cancelObs$)
     );
   }
 
@@ -138,5 +143,14 @@ export class OpfCheckoutPaymentWrapperService {
         }),
       },
     };
+  }
+
+  protected createObservableForPaymentCancelation(): void {
+    if (!!this.cancelObs$) {
+      this.cancelObs$.next();
+      this.cancelObs$.complete();
+    }
+
+    this.cancelObs$ = new Subject();
   }
 }
