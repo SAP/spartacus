@@ -15,6 +15,10 @@ import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import 'zone.js/node';
+import {
+  handleHttpErrorResponse,
+  handleUnknownServerRenderErrors,
+} from './src/app/custom/handlers/express-error-handlers';
 import { AppServerModule } from './src/main.server';
 
 // Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
@@ -25,6 +29,7 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
+  debug: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -65,6 +70,9 @@ export function app() {
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
+
+  server.use(handleHttpErrorResponse());
+  server.use(handleUnknownServerRenderErrors());
 
   return server;
 }

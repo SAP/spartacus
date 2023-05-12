@@ -28,6 +28,9 @@ import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root'
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { logErrors } from './custom/handlers/browser-error-handlers';
+import { provideErrorHandlers } from './custom/providers/provide-error-handlers';
+import { provideMultiErrorHandler } from './custom/providers/provide-multi-error-handler';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);
@@ -92,6 +95,9 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
+
+    provideMultiErrorHandler(),
+    provideErrorHandlers([logErrors]),
   ],
   bootstrap: [StorefrontComponent],
 })

@@ -5,10 +5,18 @@
  */
 
 /* webpackIgnore: true */
+import { inject } from '@angular/core';
+import { NgSetupOptions } from '@nguniversal/express-engine';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { PropagateErrorFn, PROPAGATE_ERROR } from '@spartacus/core';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import {
+  NgExpressEngine,
+  NgExpressEngineInstance,
+} from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
+import { getServerRequestProviders } from '../providers/ssr-providers';
 import { RenderingCache } from './rendering-cache';
 import {
   defaultSsrOptimizationOptions,
@@ -54,13 +62,44 @@ export class OptimizedSsrEngine {
   private renderCallbacks = new Map<string, SsrCallbackFn[]>();
 
   get engineInstance(): NgExpressEngineInstance {
-    return this.renderResponse.bind(this);
+    // apply optimization wrapper only if any optimization options were defined. if are null/undefined, just use the default engine
+    return this.ssrOptions
+      ? this.renderResponse.bind(this)
+      : this.ngExpressEngineInstance;
   }
 
+  protected ngExpressEngineInstance: NgExpressEngineInstance;
+
   constructor(
-    protected expressEngine: NgExpressEngineInstance,
-    protected ssrOptions?: SsrOptimizationOptions
+    ngExpressEngine: NgExpressEngine,
+    protected ssrOptions: SsrOptimizationOptions | null | undefined,
+    protected setupOptions: NgSetupOptions
   ) {
+    // SPIKE TODO arch: move this logic from constructor to a separate method
+    this.ngExpressEngineInstance = ngExpressEngine({
+      ...setupOptions,
+      providers: [
+        // add spartacus related providers
+        // SPIKE TODO arch: can be moved to `provideServer()` function
+        ...getServerRequestProviders(),
+
+        // add OptimizedSsrEngine related providers:
+        {
+          provide: PROPAGATE_ERROR,
+          useFactory: (): PropagateErrorFn => {
+            const request = inject(REQUEST); // SPIKE TODO arch: move out injecting REQUEST (using Angular's `inject()` function) from the expressJS specific code (from OptimizedSsrEngine)
+            return (err: any) => {
+              const key = this.getRenderingKey(request);
+              this.shareRenderResult(key, err);
+            };
+          },
+        },
+
+        // add custom providers as last - to allow custom overwrites
+        ...(setupOptions.providers ?? []),
+      ],
+    });
+
     this.ssrOptions = ssrOptions
       ? {
           ...defaultSsrOptimizationOptions,
@@ -353,14 +392,7 @@ export class OptimizedSsrEngine {
         options,
         request,
         renderCallback: (err, html) => {
-          // Share the result of the render with all awaiting requests for the same key:
-
-          // Note: we access the Map at the moment of the render finished (don't store value in a local variable),
-          //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
-          this.renderCallbacks
-            .get(renderingKey)
-            ?.forEach((cb) => cb(err, html)); // pass the shared result to all waiting rendering callbacks
-          this.renderCallbacks.delete(renderingKey);
+          this.shareRenderResult(renderingKey, err, html);
         },
       });
     }
@@ -368,6 +400,20 @@ export class OptimizedSsrEngine {
     this.log(
       `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`
     );
+  }
+
+  // Share the result of the render with all awaiting requests for the same key:
+
+  // Note: we access the Map at the moment of the render finished (don't store value in a local variable),
+  //       because in the meantime something might have deleted the value (i.e. when `maxRenderTime` passed).
+  private shareRenderResult(
+    renderingKey: string,
+    err?: Error | null,
+    html?: string
+  ) {
+    const callbacks = this.renderCallbacks.get(renderingKey);
+    callbacks?.forEach((cb) => cb(err, html));
+    this.renderCallbacks.delete(renderingKey);
   }
 
   /**
@@ -413,7 +459,7 @@ export class OptimizedSsrEngine {
     this.renderingCache.setAsRendering(renderingKey);
     this.currentConcurrency++;
 
-    this.expressEngine(filePath, options, (err, html) => {
+    this.ngExpressEngineInstance(filePath, options, (err, html) => {
       if (!maxRenderTimeout) {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(

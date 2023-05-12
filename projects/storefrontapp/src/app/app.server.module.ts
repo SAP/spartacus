@@ -9,6 +9,12 @@ import { ServerModule } from '@angular/platform-server';
 import { provideServer } from '@spartacus/setup/ssr';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppModule } from './app.module';
+import { logErrors } from './custom/handlers/browser-error-handlers';
+import {
+  throwOups,
+  writeStateToFile,
+} from './custom/handlers/server-error-handlers';
+import { provideErrorHandlers } from './custom/providers/provide-error-handlers';
 
 @NgModule({
   imports: [
@@ -24,6 +30,7 @@ import { AppModule } from './app.module';
     ...provideServer({
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
+    provideErrorHandlers([logErrors, writeStateToFile, throwOups]),
   ],
 })
 export class AppServerModule {}

@@ -64,6 +64,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    setTimeout(() => {
+      throw new Error('FOO BAR BAZ!!!');
+    }, 3000);
+
     this.navigateSubscription = this.routingService
       .isNavigating()
       .subscribe((val) => {

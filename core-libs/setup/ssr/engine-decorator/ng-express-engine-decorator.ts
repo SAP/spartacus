@@ -10,10 +10,9 @@ import {
   SsrCallbackFn,
 } from '../optimized-engine/optimized-ssr-engine';
 import {
-  SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
+  SsrOptimizationOptions,
 } from '../optimized-engine/ssr-optimization-options';
-import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
   filePath: string,
@@ -51,19 +50,10 @@ export function decorateExpressEngine(
     | undefined = defaultSsrOptimizationOptions
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
-    const engineInstance = ngExpressEngine({
-      ...setupOptions,
-      providers: [
-        // add spartacus related providers
-        ...getServerRequestProviders(),
-        ...(setupOptions.providers ?? []),
-      ],
-    });
-
-    // apply optimization wrapper if optimization options were defined
-    return optimizationOptions
-      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
-          .engineInstance
-      : engineInstance;
+    return new OptimizedSsrEngine(
+      ngExpressEngine,
+      optimizationOptions,
+      setupOptions
+    ).engineInstance;
   };
 }
