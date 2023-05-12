@@ -43,12 +43,15 @@ export class TreeFileSystem implements FileSystemHost {
 
   async readFile(
     filePath: string,
-    encoding?: string | undefined
+    encoding?: BufferEncoding | undefined
   ): Promise<string> {
     return this.readFileSync(filePath, encoding);
   }
 
-  readFileSync(filePath: string, encoding?: string | undefined): string {
+  readFileSync(
+    filePath: string,
+    encoding?: BufferEncoding | undefined
+  ): string {
     const result = this.tree
       .get(this.resolvePath(filePath))
       ?.content.toString(encoding);
