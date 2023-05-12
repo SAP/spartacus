@@ -47,6 +47,20 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     protected opfService: OpfService
   ) {}
 
+  /**
+   * Method pre-selects (based on terms and conditions state)
+   * previously selected payment option ID by customer.
+   */
+  protected preselectPaymentOption() {
+    this.subscription.add(
+      this.opfService.getOpfUiState().subscribe((state: OpfUi) => {
+        this.selectedPaymentId = state.termsAndConditionsChecked
+          ? state?.selectedPaymentOptionId
+          : undefined;
+      })
+    );
+  }
+
   changePayment(payment: ActiveConfiguration): void {
     this.selectedPaymentId = payment.id;
     this.opfService.updateOpfUiState({
@@ -54,15 +68,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    this.subscription.add(
-      this.opfService.getOpfUiState().subscribe((state: OpfUi) => {
-        this.selectedPaymentId = state?.selectedPaymentOptionId;
-      })
-    );
+  ngOnInit() {
+    this.preselectPaymentOption();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 }
