@@ -82,8 +82,8 @@ export const asm = {
         byDateDesc: 'Date (Desc)',
         byOrderDateAsc: 'Order date (Asc)',
         byOrderDateDesc: 'Order date (Desc)',
-        byUnit: 'Unit (Asc)',
-        byUnitDesc: 'Unit (Desc)',
+        byUnit: 'Account (Asc)',
+        byUnitDesc: 'Account (Desc)',
       },
       page: {
         page: 'Page {{count}}',
