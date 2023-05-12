@@ -214,7 +214,7 @@ export class OrderOverviewComponent {
         year: Boolean(payment) ? payment.expiryYear : '',
       }),
     ]).pipe(
-      filter(() => Boolean(payment)),
+      filter(() => Boolean(payment?.cardNumber)),
       map(
         ([textTitle, textExpires]) =>
           ({

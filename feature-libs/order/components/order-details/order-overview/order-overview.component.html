@@ -95,7 +95,11 @@
         </ng-container>
       </div>
 
-      <ng-container *ngIf="order.paymentInfo">
+      <ng-container
+        *ngIf="
+          order?.paymentInfo?.billingAddress || order?.paymentInfo?.cardNumber
+        "
+      >
         <div class="cx-summary-card">
           <cx-card
             [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
