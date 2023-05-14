@@ -71,6 +71,38 @@ export const OPF_SCHEMATICS_CONFIG: SchematicConfig = {
   },
 };
 
+export const OPF_SCHEMATICS_STANDALONE_CONFIG: SchematicConfig = {
+  library: {
+    featureName: OPF_FEATURE_NAME,
+    mainScope: SPARTACUS_OPF,
+  },
+  folderName: OPF_FOLDER_NAME,
+  moduleName: OPF_MODULE_NAME,
+  featureModule: {
+    name: OPF_MODULE,
+    importPath: SPARTACUS_OPF,
+  },
+  rootModule: {
+    name: OPF_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_ROOT,
+  },
+  i18n: {
+    resources: OPF_TRANSLATIONS,
+    chunks: OPF_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_OPF_ASSETS,
+  },
+  styles: {
+    scssFileName: OPF_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_OPF,
+  },
+
+  customConfig: buildOpfConfig,
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_OPF,
+    namedImports: [OPF_FEATURE_NAME_CONSTANT],
+  },
+};
+
 function buildOpfConfig(
   options: SpartacusOpfOptions
 ): AdditionalFeatureConfiguration<SpartacusOpfOptions> {

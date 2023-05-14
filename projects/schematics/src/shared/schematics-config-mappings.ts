@@ -23,15 +23,18 @@ import { CDC_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cdc-schema
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
+import {
+  OPF_SCHEMATICS_CONFIG,
+  OPF_SCHEMATICS_STANDALONE_CONFIG,
+} from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
-import { OPF_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/opf-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
   ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
-  ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
+  ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
 import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickup-in-store-schematics-config';
 import {
@@ -41,9 +44,9 @@ import {
 } from './lib-configs/product-configurator-schematics-config';
 import {
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
+  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
-  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
@@ -124,6 +127,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   S4OM_SCHEMATICS_CONFIG,
 
   OPF_SCHEMATICS_CONFIG,
+
+  OPF_SCHEMATICS_STANDALONE_CONFIG,
 ];
 
 /**
