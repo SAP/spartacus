@@ -5,7 +5,7 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
+import { login } from '../../../../support/utils/login';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../../helpers/global-message';
@@ -28,99 +28,171 @@ context('Assisted Service Module', () => {
 
     it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
-
-      cy.log('--> Agent logging in with deeplink');
-      cy.visit('/assisted-service/emulate?customerId=' + customer.email);
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
-
-      cy.log('--> Register user');
+      cy.log('--> Register new user');
+      cy.visit('/?asm=true');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      login(agentToken.userName, agentToken.pwd, false).then((res) => {
 
-      cy.log('--> Should has assignCart');
-      cy.get('.cx-asm-assignCart').should('exist');
+        expect(res.status).to.eq(200);
+        // get customerId of it
+        cy.request({
+          method: 'get',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/users/` + customer.email,
+          headers: {
+            Authorization: `bearer ${res.body.access_token}`,
+          },
+        }).then((response) => {
+          expect(response.status).to.eq(200);
+          const customerId = response.body.customerId;
 
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
+          cy.visit('/assisted-service/emulate?customerId=' + customerId);
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+          cy.log('--> Should has assignCart');
+          cy.get('.cx-asm-assignCart').should('exist');
+
+          cy.log('--> sign out and close ASM UI');
+          asm.agentSignOut();
+        });
+      });
     });
 
     it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
-
-      cy.log('--> Register user');
-      checkout.visitHomePage('asm=true');
+      cy.log('--> Register new user');
+      cy.visit('/?asm=true');
       checkout.registerUser(false, customer);
 
-      cy.log('--> login as agent');
+      cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+        expect(res.status).to.eq(200);
+        // get customerId of it
+        cy.request({
+          method: 'get',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/users/` + customer.email,
+          headers: {
+            Authorization: `bearer ${res.body.access_token}`,
+          },
+        }).then((response) => {
+          expect(response.status).to.eq(200);
+          const customerId = response.body.customerId;
 
-      cy.log('--> Agent visting URL with deeplink');
-      cy.visit('/assisted-service/emulate?customerId=' + customer.email);
+          cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
-      cy.log('--> Should has assignCart');
-      cy.get('.cx-asm-assignCart').should('exist');
+          cy.log('--> Should has assignCart');
+          cy.get('.cx-asm-assignCart').should('exist');
 
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
+          cy.log('--> sign out and close ASM UI');
+          asm.agentSignOut();
+        });
+      });
     });
 
     it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
-      const customer = getSampleUser();
-      checkout.visitHomePage('asm=true');
 
-      cy.log('--> Register user');
+      const customer = getSampleUser();
+      cy.log('--> Register new user');
+      cy.visit('/?asm=true');
       checkout.registerUser(false, customer);
 
+      cy.log('--> login as agent');
+      cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+        expect(res.status).to.eq(200);
+        // get customerId of it
+        cy.request({
+          method: 'get',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/users/` + customer.email,
+          headers: {
+            Authorization: `bearer ${res.body.access_token}`,
+          },
+        }).then((response) => {
+          expect(response.status).to.eq(200);
+          const customerId = response.body.customerId;
 
-      cy.log('--> Agent logging in deeplink with valid id');
-      cy.visit('/assisted-service/emulate?customerId=' + customer.email);
+          cy.visit('/assisted-service/emulate?customerId=' + customerId + 'invalid end');
 
-      cy.log('--> Should has assignCart');
-      cy.get('.cx-asm-assignCart').should('exist');
+          cy.log('--> Should not has assignCart');
+          cy.get('.cx-asm-assignCart').should('not.exist');
 
-      cy.log('--> Agent logging in deeplink with invalid id');
-      cy.visit(
-        '/assisted-service/emulate?customerId=' + customer.email + 'invalidTail'
-      );
+          cy.log('--> sign out and close ASM UI')
+          asm.agentSignOut();
+        });
+      });
 
-      cy.log('--> Should not has assignCart');
-      cy.get('.cx-asm-assignCart').should('not.exist');
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
     });
 
     it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
-      const customerOld = getSampleUser();
-      const customerNew = getSampleUser();
+      const oldCustomer = getSampleUser();
+      const newCustomer = getSampleUser();
 
       cy.log('--> Register 2 users');
       checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, customerOld);
+      checkout.registerUser(false, oldCustomer);
       checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, customerNew);
-
+      checkout.registerUser(false, newCustomer);
+  
+      cy.log('--> login as agent');
+      cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+        expect(res.status).to.eq(200);
+        // get customerId of it
+        cy.request({
+          method: 'get',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/users/` + oldCustomer.email,
+          headers: {
+            Authorization: `bearer ${res.body.access_token}`,
+          },
+        }).then((response) => {
+          expect(response.status).to.eq(200);
+          const oldCustomerId = response.body.customerId;
+          cy.request({
+            method: 'get',
+            url: `${Cypress.env('API_URL')}/${Cypress.env(
+              'OCC_PREFIX'
+              )}/${Cypress.env('BASE_SITE')}/users/` + newCustomer.email,
+              headers: {
+              Authorization: `bearer ${res.body.access_token}`,
+            },
+          }).then((response2) => {
+            expect(response.status).to.eq(200);
+            const newCustomerId = response2.body.customerId;
 
-      cy.log('--> Agent logging in deeplink with old customer');
-      cy.visit('/assisted-service/emulate?customerId=' + customerOld.email);
+            cy.log('--> Agent logging in deeplink with old customer');
+            cy.visit('/assisted-service/emulate?customerId=' + oldCustomerId);
 
-      cy.log('--> Should has assignCart and uid is old customer');
-      cy.get('.cx-asm-assignCart').should('exist');
-      cy.get('.cx-asm-uid').should('have.text', customerOld.email);
+            cy.log('--> Should has assignCart and uid is old customer');
+            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-uid').should('have.text', oldCustomer.email);
 
-      cy.log('--> Agent logging in deeplink with new customer');
-      cy.visit('/assisted-service/emulate?customerId=' + customerNew.email);
 
-      cy.log('--> Should has assignCart and uid is new customer');
-      cy.get('.cx-asm-assignCart').should('exist');
-      cy.get('.cx-asm-uid').should('have.text', customerNew.email);
+            cy.log('--> Agent logging in deeplink with new customer');
+            cy.visit('/assisted-service/emulate?customerId=' + newCustomerId);
 
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
+            cy.log('--> Should has assignCart and uid is new customer');
+            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-uid').should('have.text', newCustomer.email);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        });
+      });
     });
 
     it('should checkout as customer', () => {
