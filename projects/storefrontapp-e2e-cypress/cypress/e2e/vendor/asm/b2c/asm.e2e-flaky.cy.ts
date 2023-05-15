@@ -5,7 +5,9 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../support/utils/login';
+import { login as fetchingToken } from '../../../../support/utils/login';
+import { login } from '../../../../helpers/auth-forms';
+
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../../helpers/global-message';
@@ -32,7 +34,7 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       checkout.registerUser(false, customer);
 
-      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
 
         expect(res.status).to.eq(200);
         // get customerId of it
@@ -69,7 +71,7 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
-      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
         expect(res.status).to.eq(200);
         // get customerId of it
         cy.request({
@@ -106,7 +108,7 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
-      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
         expect(res.status).to.eq(200);
         // get customerId of it
         cy.request({
@@ -147,7 +149,7 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
-      login(agentToken.userName, agentToken.pwd, false).then((res) => {
+      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
         expect(res.status).to.eq(200);
         // get customerId of it
         cy.request({
