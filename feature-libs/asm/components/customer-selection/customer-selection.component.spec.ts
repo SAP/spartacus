@@ -232,7 +232,7 @@ describe('CustomerSelectionComponent', () => {
     expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
-  it('should display customer registration message when no results are found', () => {
+  it('should display customer registration message if no result was found', () => {
     spyOn(asmService, 'customerSearch').and.callFake(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
