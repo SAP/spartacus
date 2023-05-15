@@ -7,7 +7,6 @@
 import * as asm from '../../../../helpers/asm';
 import { login as fetchingToken } from '../../../../support/utils/login';
 import { login } from '../../../../helpers/auth-forms';
-
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../../helpers/global-message';
