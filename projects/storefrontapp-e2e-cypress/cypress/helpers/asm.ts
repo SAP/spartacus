@@ -29,7 +29,7 @@ export function addCartForB2BCustomer(): void {
   const productCode = '1979039';
   cy.login('gi.sun@pronto-hw.com', 'pw4all').then(() => {
     const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
-    cy.addToB2BCart(productCode, 1, auth.token.access_token);
+    cy.addProductToB2BCart(productCode, 1, auth.token.access_token);
   });
 }
 

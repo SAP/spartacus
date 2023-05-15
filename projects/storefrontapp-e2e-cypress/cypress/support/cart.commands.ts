@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { addToB2BCart, addToCart, createCart } from './utils/cart';
+import { addProductToB2BCart, addToCart, createCart } from './utils/cart';
 
 declare namespace Cypress {
   interface Chainable {
@@ -23,10 +23,10 @@ declare namespace Cypress {
        * @memberof Cypress.Chainable
        * @example
         ```
-        cy.addToB2BCart(productCode, quantity, accessToken)
+        cy.addProductToB2BCart(productCode, quantity, accessToken)
         ```
        */
-    addToB2BCart: (
+    addProductToB2BCart: (
       itemId: string,
       quantity: string,
       accessToken: string
@@ -60,26 +60,28 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  'addToB2BCart',
+  'addProductToB2BCart',
   (productCode: string, quantity: string, accessToken: string) => {
     createCart(accessToken).then((response) => {
       const cartId = response.body.code;
-      addToB2BCart(cartId, productCode, quantity, accessToken).then(() => {
-        Cypress.log({
-          name: 'addToCart',
-          displayName: 'Add to B2B cart',
-          message: [`🛒 Product(s) added to cart`],
-          consoleProps: () => {
-            return {
-              'Cart ID': cartId,
-              'Product code': productCode,
-              Quantity: quantity,
-            };
-          },
-        });
+      addProductToB2BCart(cartId, productCode, quantity, accessToken).then(
+        () => {
+          Cypress.log({
+            name: 'addToCart',
+            displayName: 'Add to B2B cart',
+            message: [`🛒 Product(s) added to cart`],
+            consoleProps: () => {
+              return {
+                'Cart ID': cartId,
+                'Product code': productCode,
+                Quantity: quantity,
+              };
+            },
+          });
 
-        cy.wrap(cartId);
-      });
+          cy.wrap(cartId);
+        }
+      );
     });
   }
 );

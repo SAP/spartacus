@@ -48,7 +48,7 @@ export function addToCart(
   });
 }
 
-export function addToB2BCart(
+export function addProductToB2BCart(
   cartCode: string,
   productCode: string,
   quantity: string,
