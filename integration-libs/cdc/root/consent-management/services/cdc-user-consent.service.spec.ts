@@ -6,7 +6,7 @@ import { CdcUserConsentService } from './cdc-user-consent.service';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import createSpy = jasmine.createSpy;
 import { CdcJsService } from '@spartacus/cdc/root';
-import { CdcSiteConsentTemplate } from '../../core/models/cdc-site-consents.model';
+import { CdcSiteConsentTemplate } from '../../../core/models/cdc-site-consents.model';
 const mockUser = { uid: 'sampleuser@mail.com' };
 const mockCdcSiteConsents: CdcSiteConsentTemplate = {
   siteConsentDetails: {
