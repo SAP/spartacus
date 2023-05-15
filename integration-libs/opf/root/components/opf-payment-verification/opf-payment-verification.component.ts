@@ -50,13 +50,14 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onSuccess(): void {
+    console.log('flo10 success');
     this.paymentService.goToPage('orderConfirmation');
   }
 
   onError(error: HttpErrorModel | undefined): void {
     console.log('flo9', error);
     this.paymentService.displayError(error);
-    // this.paymentService.goToPage('checkoutReviewOrder');
+    this.paymentService.goToPage('checkoutReviewOrder');
   }
 
   ngOnDestroy(): void {

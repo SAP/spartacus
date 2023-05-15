@@ -45,7 +45,24 @@ export class FacadeFactoryService {
     facadeClass: AbstractType<T>,
     async = false
   ): Observable<T> {
+    console.log(
+      'flo feature:',
+      feature,
+      'facadeClass:',
+      facadeClass,
+      'async:',
+      async
+    );
     if (!this.featureModules.isConfigured(feature)) {
+      console.log('in error');
+      console.log(
+        'flo feature:',
+        feature,
+        'facadeClass:',
+        facadeClass,
+        'async:',
+        async
+      );
       return throwError(
         new Error(`Feature ${feature} is not configured properly`)
       );

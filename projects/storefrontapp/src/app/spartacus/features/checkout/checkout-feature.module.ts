@@ -26,7 +26,8 @@ import {
   checkoutScheduledReplenishmentTranslations,
 } from '@spartacus/checkout/scheduled-replenishment/assets';
 import { CheckoutScheduledReplenishmentRootModule } from '@spartacus/checkout/scheduled-replenishment/root';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
+import { OPF_FEATURE } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
 const extensionModules: Type<any>[] = [];
@@ -57,6 +58,17 @@ if (environment.b2b) {
   if (!environment.opf) {
     extensionProviders.push(provideConfig(defaultB2BCheckoutConfig));
   }
+}
+if (environment.opf) {
+  extensionProviders.push(
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [OPF_FEATURE]: {
+          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
+        },
+      },
+    })
+  );
 }
 
 @NgModule({

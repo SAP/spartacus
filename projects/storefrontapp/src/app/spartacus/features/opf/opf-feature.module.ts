@@ -15,7 +15,6 @@ import {
   defaultOPFCheckoutConfig,
   OpfConfig,
   OpfRootModule,
-  OPF_FEATURE,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -53,13 +52,6 @@ if (environment.b2b) {
         resources: opfTranslations,
         chunks: opfTranslationChunksConfig,
         fallbackLang: 'en',
-      },
-    }),
-    provideConfig({
-      featureModules: {
-        [OPF_FEATURE]: {
-          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-        },
       },
     }),
     ...extensionProviders,
