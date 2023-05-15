@@ -33,22 +33,8 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       checkout.registerUser(false, customer);
 
-      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
-
-        expect(res.status).to.eq(200);
-        // get customerId of it
-        cy.request({
-          method: 'get',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/` + customer.email,
-          headers: {
-            Authorization: `bearer ${res.body.access_token}`,
-          },
-        }).then((response) => {
-          expect(response.status).to.eq(200);
-          const customerId = response.body.customerId;
-
+      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+        (customerId) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId);
           asm.agentLogin(agentToken.userName, agentToken.pwd);
 
@@ -58,7 +44,6 @@ context('Assisted Service Module', () => {
           cy.log('--> sign out and close ASM UI');
           asm.agentSignOut();
         });
-      });
     });
 
     it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
@@ -70,21 +55,8 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
-      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
-        expect(res.status).to.eq(200);
-        // get customerId of it
-        cy.request({
-          method: 'get',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/` + customer.email,
-          headers: {
-            Authorization: `bearer ${res.body.access_token}`,
-          },
-        }).then((response) => {
-          expect(response.status).to.eq(200);
-          const customerId = response.body.customerId;
-
+      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+        (customerId) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId);
 
           cy.log('--> Should has assignCart');
@@ -94,10 +66,8 @@ context('Assisted Service Module', () => {
           asm.agentSignOut();
         });
       });
-    });
 
     it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
-
       const customer = getSampleUser();
       cy.log('--> Register new user');
       cy.visit('/?asm=true');
@@ -107,32 +77,20 @@ context('Assisted Service Module', () => {
       cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
-      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
-        expect(res.status).to.eq(200);
-        // get customerId of it
-        cy.request({
-          method: 'get',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/` + customer.email,
-          headers: {
-            Authorization: `bearer ${res.body.access_token}`,
-          },
-        }).then((response) => {
-          expect(response.status).to.eq(200);
-          const customerId = response.body.customerId;
-
-          cy.visit('/assisted-service/emulate?customerId=' + customerId + 'invalid end');
+      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+        (customerId) => {
+          cy.visit(
+            '/assisted-service/emulate?customerId=' + customerId + 'invalid end'
+          );
 
           cy.log('--> Should not has assignCart');
           cy.get('.cx-asm-assignCart').should('not.exist');
 
-          cy.log('--> sign out and close ASM UI')
+          cy.log('--> sign out and close ASM UI');
           asm.agentSignOut();
         });
-      });
-
     });
+
 
     it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
       const oldCustomer = getSampleUser();
@@ -143,96 +101,81 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, oldCustomer);
       checkout.visitHomePage('asm=true');
       checkout.registerUser(false, newCustomer);
-  
+
       cy.log('--> login as agent');
       cy.visit('/?asm=true');
       asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
-      fetchingToken(agentToken.userName, agentToken.pwd, false).then((res) => {
-        expect(res.status).to.eq(200);
-        // get customerId of it
-        cy.request({
-          method: 'get',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/` + oldCustomer.email,
-          headers: {
-            Authorization: `bearer ${res.body.access_token}`,
-          },
-        }).then((response) => {
-          expect(response.status).to.eq(200);
-          const oldCustomerId = response.body.customerId;
-          cy.request({
-            method: 'get',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-              )}/${Cypress.env('BASE_SITE')}/users/` + newCustomer.email,
-              headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response2) => {
-            expect(response.status).to.eq(200);
-            const newCustomerId = response2.body.customerId;
+      getCustomerId(
+        agentToken.userName,
+        agentToken.pwd,
+        oldCustomer.email
+      ).then((customerId) => {
+        const oldCustomerId = customerId;
+        getCustomerId(
+          agentToken.userName,
+          agentToken.pwd,
+          newCustomer.email
+        ).then((customerId) => {
+          const newCustomerId = customerId;
 
-            cy.log('--> Agent logging in deeplink with old customer');
-            cy.visit('/assisted-service/emulate?customerId=' + oldCustomerId);
+          cy.log('--> Agent logging in deeplink with old customer');
+          cy.visit('/assisted-service/emulate?customerId=' + oldCustomerId);
 
-            cy.log('--> Should has assignCart and uid is old customer');
-            cy.get('.cx-asm-assignCart').should('exist');
-            cy.get('.cx-asm-uid').should('have.text', oldCustomer.email);
+          cy.log('--> Should has assignCart and uid is old customer');
+          cy.get('.cx-asm-assignCart').should('exist');
+          cy.get('.cx-asm-uid').should('have.text', oldCustomer.email);
 
+          cy.log('--> Agent logging in deeplink with new customer');
+          cy.visit('/assisted-service/emulate?customerId=' + newCustomerId);
 
-            cy.log('--> Agent logging in deeplink with new customer');
-            cy.visit('/assisted-service/emulate?customerId=' + newCustomerId);
+          cy.log('--> Should has assignCart and uid is new customer');
+          cy.get('.cx-asm-assignCart').should('exist');
+          cy.get('.cx-asm-uid').should('have.text', newCustomer.email);
 
-            cy.log('--> Should has assignCart and uid is new customer');
-            cy.get('.cx-asm-assignCart').should('exist');
-            cy.get('.cx-asm-uid').should('have.text', newCustomer.email);
-
-            cy.log('--> sign out and close ASM UI');
-            asm.agentSignOut();
-          });
+          cy.log('--> sign out and close ASM UI');
+          asm.agentSignOut();
         });
       });
     });
 
-    it('should checkout as customer', () => {
-      const customer = getSampleUser();
+      it('should checkout as customer', () => {
+        const customer = getSampleUser();
 
-      cy.log('--> Agent logging in');
-      checkout.visitHomePage('asm=true');
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
+        cy.log('--> Agent logging in');
+        checkout.visitHomePage('asm=true');
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('be.visible');
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
+        cy.log('--> Register user');
+        checkout.registerUser(false, customer);
 
-      asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin('asagent', 'pw4all');
 
-      cy.log('--> Starting customer emulation');
-      asm.startCustomerEmulation(customer);
+        cy.log('--> Starting customer emulation');
+        asm.startCustomerEmulation(customer);
 
-      cy.log('--> Add product to cart and go to checkout');
-      checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
+        cy.log('--> Add product to cart and go to checkout');
+        checkout.goToCheapProductDetailsPage();
+        checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
 
-      cy.log('--> Go through delivery form');
-      cy.contains('Continue').click();
-      checkout.fillAddressFormWithCheapProduct();
+        cy.log('--> Go through delivery form');
+        cy.contains('Continue').click();
+        checkout.fillAddressFormWithCheapProduct();
 
-      cy.log('--> Choose delivery method');
-      checkout.verifyDeliveryMethod();
+        cy.log('--> Choose delivery method');
+        checkout.verifyDeliveryMethod();
 
-      cy.log('--> Fill payment form and continue');
-      checkout.fillPaymentForm();
+        cy.log('--> Fill payment form and continue');
+        checkout.fillPaymentForm();
 
-      cy.log('--> Place order');
-      checkout.placeOrderWithCheapProduct();
+        cy.log('--> Place order');
+        checkout.placeOrderWithCheapProduct();
 
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
+        cy.log('--> sign out and close ASM UI');
+        asm.agentSignOut();
+      });
     });
-  });
 
   describe('When a customer session and an asm agent session are both active', () => {
     let customer;
@@ -302,4 +245,30 @@ context('Assisted Service Module', () => {
       cy.get('cx-product-list').should('exist');
     });
   });
+
+  function getCustomerId(agentUserName, agentPwd, customerUid) {
+
+    return new Promise((resolve, reject) => {
+      fetchingToken(agentUserName, agentPwd, false).then((res) => {
+        // get customerId of it
+        cy.request({
+          method: 'get',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/users/` + customerUid,
+          headers: {
+            Authorization: `bearer ${res.body.access_token}`,
+          },
+        }).then((response) => {
+           if(response.status === 200)  {
+            resolve(response.body.customerId);
+           }
+           else {
+            reject(response.status);
+           }
+        });
+      });
+    });
+
+  }
 });
