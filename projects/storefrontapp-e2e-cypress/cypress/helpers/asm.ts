@@ -25,6 +25,14 @@ import {
 } from './navigation';
 import { generateMail, randomString } from './user';
 
+export function addCartForB2BCustomer(): void {
+  const productCode = '1979039';
+  cy.login('gi.sun@pronto-hw.com', 'pw4all').then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    cy.addProductToB2BCart(productCode, 1, auth.token.access_token);
+  });
+}
+
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
     'csAgentAuthentication',
@@ -253,6 +261,35 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list table').contains('Account');
   cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
+
+  cy.log('--> start emulation by click cart');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+
+  cy.get('cx-customer-list table')
+    .contains('tbody tr', 'Gi Sun')
+    .closest('tbody tr')
+    .find('td:nth-child(5)')
+    .then(($cart) => {
+      cy.wrap($cart).click();
+      cy.get('cx-customer-list').should('not.exist');
+      cy.get('cx-add-to-saved-cart').should('exist');
+    });
 }
 
 export function asmB2bCustomerListPagination(): void {

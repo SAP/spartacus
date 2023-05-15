@@ -19,7 +19,6 @@ context('Assisted Service Module', () => {
   after(() => {
     Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
   });
-  describe('ASM Customer list', () => {
     it('checking custom list features (CXSPA-2722)', () => {
       cy.cxConfig({
         context: {
@@ -27,6 +26,7 @@ context('Assisted Service Module', () => {
           currency: ['USD'],
         },
       });
+      asm.addCartForB2BCustomer();
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
