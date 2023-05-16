@@ -10,7 +10,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
-import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  GlobalMessageService,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -111,7 +117,12 @@ describe('CustomerSelectionComponent', () => {
       customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          FeaturesConfigModule,
+        ],
         declarations: [CustomerSelectionComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
@@ -122,6 +133,12 @@ describe('CustomerSelectionComponent', () => {
             useClass: MockDirectionService,
           },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
+          },
         ],
       }).compileComponents();
 
@@ -215,7 +232,7 @@ describe('CustomerSelectionComponent', () => {
     expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
-  it('should display no results message when no results are found', () => {
+  it('should display customer registration message if no result was found', () => {
     spyOn(asmService, 'customerSearch').and.callFake(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
@@ -226,10 +243,11 @@ describe('CustomerSelectionComponent', () => {
     );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
-    // TODO(CXSPA-2935): Refactor customer lookup in ASM to get rid of buttons in drop list
-    el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
-      new MouseEvent('click')
+    const createAccountButton = el.query(By.css('div.asm-results button'));
+    expect(createAccountButton.nativeElement.innerText).toEqual(
+      'asm.customerSearch.noMatchResult asm.customerSearch.createCustomer'
     );
+    createAccountButton.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.customerSearchReset).toHaveBeenCalled();
   });
 
