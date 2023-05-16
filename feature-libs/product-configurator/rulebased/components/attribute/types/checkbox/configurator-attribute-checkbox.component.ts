@@ -42,6 +42,7 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   ngOnInit() {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
+    //TODO CHHI how to handle that
     this.attributeValue = this.attribute.values
       ? this.attribute.values[0]
       : { valueCode: '' };

@@ -175,14 +175,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
-    if (value) {
-      return {
-        price: value.valuePrice,
-        isLightedUp: value.selected,
-      };
-    } else {
-      return {};
-    }
+    return {
+      price: value?.valuePrice,
+      isLightedUp: value ? value.selected : false,
+    };
   }
 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
