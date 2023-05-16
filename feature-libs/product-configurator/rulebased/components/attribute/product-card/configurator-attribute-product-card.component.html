@@ -15,7 +15,7 @@
     <div class="cx-product-card-rows">
       <div class="cx-product-card-imgs">
         <cx-media
-          [container]="product?.images?.PRIMARY"
+          [container]="product.images?.PRIMARY"
           format="product"
           aria-hidden="true"
         ></cx-media>
@@ -32,8 +32,8 @@
           {{ product.code }}
         </div>
         <cx-configurator-show-more
-          *ngIf="product?.description"
-          [text]="product?.description"
+          *ngIf="product.description && product.code"
+          [text]="product.description"
           [textSize]="45"
           [productName]="product.code"
         ></cx-configurator-show-more>

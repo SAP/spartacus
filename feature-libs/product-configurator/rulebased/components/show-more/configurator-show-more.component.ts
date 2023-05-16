@@ -23,9 +23,9 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   textToShow: string;
   textNormalized: string;
 
-  @Input() text: string | undefined;
+  @Input() text: string;
   @Input() textSize = 60;
-  @Input() productName: string | undefined;
+  @Input() productName: string;
 
   constructor(protected cdRef: ChangeDetectorRef) {}
 
