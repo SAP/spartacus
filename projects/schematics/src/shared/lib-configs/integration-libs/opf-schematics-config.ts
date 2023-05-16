@@ -95,12 +95,11 @@ export const OPF_SCHEMATICS_STANDALONE_CONFIG: SchematicConfig = {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-
-  customConfig: buildOpfConfig,
   lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_OPF,
+    moduleSpecifier: SPARTACUS_OPF_ROOT,
     namedImports: [OPF_FEATURE_NAME_CONSTANT],
   },
+  customConfig: buildOpfConfig,
 };
 
 function buildOpfConfig(
