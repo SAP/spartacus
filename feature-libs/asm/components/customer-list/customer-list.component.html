@@ -119,7 +119,7 @@
                       <span
                         *ngIf="
                           column.headerLocalizationKey &&
-                          column.headerLocalizationKey !== 'hideAccount'
+                          column.headerLocalizationKey !== 'hideHeaders'
                         "
                       >
                         <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
@@ -296,7 +296,12 @@
             class="cx-header-actions"
             [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
           >
-            <ng-template *ngTemplateOutlet="pagination"></ng-template>
+            <div *ngIf="customerSearchPage$ | async as customerSearchPage">
+              <cx-pagination
+                [pagination]="customerSearchPage.pagination"
+                (viewPageEvent)="changePage($event)"
+              ></cx-pagination>
+            </div>
           </div>
         </div>
         <div class="cx-dialog-footer modal-footer">
@@ -321,7 +326,7 @@
 >
   <div
     class="cx-cell-container"
-    *ngIf="column.headerLocalizationKey !== 'hideAccount'"
+    *ngIf="column.headerLocalizationKey !== 'hideHeaders'"
   >
     <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
@@ -362,6 +367,7 @@
       *ngIf="column.actionType"
       (click)="startColumnAction(customerEntry, column.actionType)"
       class="btn btn-link cx-action-link cx-btn-cell"
+      [class]="column.actionType === 'ACTIVE_CART' ? 'cx-cart' : ''"
       [disabled]="isRequired(customerEntry, column.actionType)"
       [attr.title]="
         column.icon
@@ -420,22 +426,30 @@
       type="text"
       class="form-control"
       placeholder="{{ 'asm.customerList.searchBox' | cxTranslate }}"
+      attr.aria-label="{{ 'asm.customerList.enterSearchBox' | cxTranslate }}"
     />
     <cx-icon
       [type]="iconTypes.SEARCH"
       role="button"
       [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
       class="search"
-      (click)="fetchCustomers()"
+      (click)="searchCustomers()"
     ></cx-icon>
   </div>
 </ng-template>
 
 <ng-template #total let-customerSearchPage="customerSearchPage">
-  <span class="cx-total"
-    >{{ customerSearchPage?.pagination?.totalResults }}
-    {{ 'asm.customers' | cxTranslate }}</span
-  >
+  <span class="cx-total" *ngIf="customerSearchPage?.pagination?.totalResults">
+    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults > 1">
+      {{
+        'asm.customerList.noOfCustomers'
+          | cxTranslate: { count: customerSearchPage?.pagination?.totalResults }
+      }}
+    </ng-container>
+    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults === 1">
+      {{ 'asm.customerList.oneCustomer' | cxTranslate }}
+    </ng-container>
+  </span>
 </ng-template>
 
 <ng-template #sort>
