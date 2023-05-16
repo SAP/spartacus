@@ -1,5 +1,5 @@
 import { ErrorHandler } from '@angular/core';
-import { ERROR_HANDLER } from '../../../../../core/src/error/tokens/error-handler.token';
+import { ERROR_HANDLER } from '@spartacus/core';
 
 export function provideErrorHandlers(
   factories: Array<() => (error: any) => void | Promise<void>>

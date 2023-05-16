@@ -1,7 +1,7 @@
 import {
   HttpErrorResponse,
   HttpHeaders,
-  HttpStatusCode,
+  HttpStatusCode
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,7 @@ import * as ejs from 'ejs';
 import * as fs from 'fs';
 import { first } from 'rxjs/operators';
 
-import { PROPAGATE_ERROR } from '../../../../../core/src/error/tokens/propagate-error.token';
+import { PROPAGATE_ERROR } from '@spartacus/core';
 import { UnknownServerRenderError } from '../errors/server-render-errors';
 
 export const logErrors = () => {
