@@ -43,7 +43,8 @@ context('Assisted Service Module', () => {
 
           cy.log('--> sign out and close ASM UI');
           asm.agentSignOut();
-        });
+        }
+      );
     });
 
     it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
@@ -64,8 +65,9 @@ context('Assisted Service Module', () => {
 
           cy.log('--> sign out and close ASM UI');
           asm.agentSignOut();
-        });
-      });
+        }
+      );
+    });
 
     it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
       const customer = getSampleUser();
@@ -88,9 +90,9 @@ context('Assisted Service Module', () => {
 
           cy.log('--> sign out and close ASM UI');
           asm.agentSignOut();
-        });
+        }
+      );
     });
-
 
     it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
       const oldCustomer = getSampleUser();
@@ -139,43 +141,43 @@ context('Assisted Service Module', () => {
       });
     });
 
-      it('should checkout as customer', () => {
-        const customer = getSampleUser();
+    it('should checkout as customer', () => {
+      const customer = getSampleUser();
 
-        cy.log('--> Agent logging in');
-        checkout.visitHomePage('asm=true');
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('be.visible');
+      cy.log('--> Agent logging in');
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
 
-        cy.log('--> Register user');
-        checkout.registerUser(false, customer);
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
 
-        asm.agentLogin('asagent', 'pw4all');
+      asm.agentLogin('asagent', 'pw4all');
 
-        cy.log('--> Starting customer emulation');
-        asm.startCustomerEmulation(customer);
+      cy.log('--> Starting customer emulation');
+      asm.startCustomerEmulation(customer);
 
-        cy.log('--> Add product to cart and go to checkout');
-        checkout.goToCheapProductDetailsPage();
-        checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
+      cy.log('--> Add product to cart and go to checkout');
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
 
-        cy.log('--> Go through delivery form');
-        cy.contains('Continue').click();
-        checkout.fillAddressFormWithCheapProduct();
+      cy.log('--> Go through delivery form');
+      cy.contains('Continue').click();
+      checkout.fillAddressFormWithCheapProduct();
 
-        cy.log('--> Choose delivery method');
-        checkout.verifyDeliveryMethod();
+      cy.log('--> Choose delivery method');
+      checkout.verifyDeliveryMethod();
 
-        cy.log('--> Fill payment form and continue');
-        checkout.fillPaymentForm();
+      cy.log('--> Fill payment form and continue');
+      checkout.fillPaymentForm();
 
-        cy.log('--> Place order');
-        checkout.placeOrderWithCheapProduct();
+      cy.log('--> Place order');
+      checkout.placeOrderWithCheapProduct();
 
-        cy.log('--> sign out and close ASM UI');
-        asm.agentSignOut();
-      });
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
     });
+  });
 
   describe('When a customer session and an asm agent session are both active', () => {
     let customer;
@@ -247,28 +249,26 @@ context('Assisted Service Module', () => {
   });
 
   function getCustomerId(agentUserName, agentPwd, customerUid) {
-
     return new Promise((resolve, reject) => {
       fetchingToken(agentUserName, agentPwd, false).then((res) => {
         // get customerId of it
         cy.request({
           method: 'get',
-          url: `${Cypress.env('API_URL')}/${Cypress.env(
-            'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/` + customerUid,
+          url:
+            `${Cypress.env('API_URL')}/${Cypress.env(
+              'OCC_PREFIX'
+            )}/${Cypress.env('BASE_SITE')}/users/` + customerUid,
           headers: {
             Authorization: `bearer ${res.body.access_token}`,
           },
         }).then((response) => {
-           if(response.status === 200)  {
+          if (response.status === 200) {
             resolve(response.body.customerId);
-           }
-           else {
+          } else {
             reject(response.status);
-           }
+          }
         });
       });
     });
-
   }
 });
