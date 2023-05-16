@@ -79,7 +79,7 @@ export class ConfigureCartEntryComponent {
    *  @returns - 'true' if the configuration is read only, otherwise 'false'
    */
   getDisplayOnly(): boolean {
-    return this.readOnly ?? true;
+    return this.readOnly;
   }
 
   /**
