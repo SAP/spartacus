@@ -46,7 +46,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   loading$?: Observable<boolean>;
   attributeId: number;
   attributeLabel?: string;
-  attributeName: string;
+  attributeName?: string;
   itemCount: number;
   itemIndex: number;
 }
@@ -109,6 +109,13 @@ export class ConfiguratorAttributeProductCardComponent
         this.productCardOptions.multiSelect) ??
       false
     );
+  }
+  //TODO CHHI comment indicating that we remove that with next major
+  get attributeName(): string {
+    const attributeName = this.productCardOptions.attributeName;
+    return attributeName
+      ? attributeName
+      : this.productCardOptions.attributeId.toString();
   }
 
   get focusConfig(): FocusConfig {
