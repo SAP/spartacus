@@ -99,11 +99,6 @@ describe('ConfigureCartEntryComponent', () => {
       component.readOnly = true;
       expect(component.getDisplayOnly()).toBe(true);
     });
-
-    it('should return true if readOnly is null on component', () => {
-      component.readOnly = null;
-      expect(component.getDisplayOnly()).toBe(true);
-    });
   });
 
   it("should return 'false' for disabled when readOnly true", () => {

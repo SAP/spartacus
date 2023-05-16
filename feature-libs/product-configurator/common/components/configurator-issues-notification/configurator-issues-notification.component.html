@@ -13,7 +13,7 @@
             (shouldShowButton$ | async) && orderEntry?.product?.configurable
           "
           [cartEntry]="orderEntry"
-          [readOnly]="readonly$ | async"
+          [readOnly]="(readonly$ | async) ?? true"
           [msgBanner]="true"
           [disabled]="quantityControl.disabled"
         ></cx-configure-cart-entry
