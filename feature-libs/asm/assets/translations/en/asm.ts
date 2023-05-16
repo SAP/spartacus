@@ -91,6 +91,7 @@ export const asm = {
         next: 'Next',
       },
       noOfCustomers: '{{count}} Customers',
+      oneCustomer: '1 Customer',
       noCustomers: 'There are currently no customers in this customer list.',
       noLists:
         'There are currently no customer lists available. Contact your system administrator.',
