@@ -13,6 +13,12 @@
       margin: 0 0 15px;
       min-width: auto;
 
+      @include forVersion(6.1) {
+        cx-form-errors p {
+          color: #db0002;
+        }
+      }
+
       .input-contaier {
         display: flex;
         .icon-wrapper {
