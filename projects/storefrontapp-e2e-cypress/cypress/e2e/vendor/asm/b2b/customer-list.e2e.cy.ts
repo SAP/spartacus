@@ -20,7 +20,7 @@ context('Assisted Service Module', () => {
     Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
   });
   describe('ASM Customer list', () => {
-    it('checking custom list features (CXSPA-1595)', () => {
+    it('checking custom list features (CXSPA-2722)', () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],
