@@ -90,13 +90,4 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       isLightedUp: value.selected,
     };
   }
-  /**
-   * Fetches the first image for a given value
-   * @param value Value
-   * @returns Image
-   */
-  getImage(value: Configurator.Value): Configurator.Image | undefined {
-    const images = value.images;
-    return images ? images[0] : undefined;
-  }
 }

@@ -39,7 +39,9 @@ function asSpy(f: any) {
 function initTestData() {
   ovConfig = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
-    overview: ConfigurationTestData.productConfiguration.overview,
+    overview: ConfigurationTestData.productConfiguration.overview
+      ? ConfigurationTestData.productConfiguration.overview
+      : { configId: '', productCode: '' },
   });
   ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
 }

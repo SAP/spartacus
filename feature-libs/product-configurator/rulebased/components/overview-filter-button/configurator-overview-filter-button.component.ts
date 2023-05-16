@@ -26,7 +26,7 @@ export class ConfiguratorOverviewFilterButtonComponent {
   @ViewChild('filterButton') filterButton: ElementRef;
   @HostBinding('class.ghost') ghostStyle = true;
 
-  config$: Observable<Configurator.Configuration> =
+  config$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner)

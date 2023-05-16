@@ -26,7 +26,7 @@ export class ConfiguratorOverviewSidebarComponent {
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
-  config$: Observable<Configurator.Configuration> =
+  config$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner)

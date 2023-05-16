@@ -38,13 +38,13 @@ export class ConfiguratorAttributeCheckBoxComponent
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;
-    this.attributeValue = this.attribute.values
-      ? this.attribute.values[0]
-      : { valueCode: '' };
   }
 
   ngOnInit() {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
+    this.attributeValue = this.attribute.values
+      ? this.attribute.values[0]
+      : { valueCode: '' };
   }
 
   /**

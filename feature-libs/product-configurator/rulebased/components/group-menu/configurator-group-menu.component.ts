@@ -267,8 +267,10 @@ export class ConfiguratorGroupMenuComponent {
    * @param {Configurator.GroupType} groupType - Group type
    * @return {boolean} - 'True' if the current group is conflict one, otherwise 'false'.
    */
-  isConflictGroupType(groupType: Configurator.GroupType): boolean {
-    return this.configuratorGroupsService.isConflictGroupType(groupType);
+  isConflictGroupType(groupType: Configurator.GroupType | undefined): boolean {
+    return groupType
+      ? this.configuratorGroupsService.isConflictGroupType(groupType)
+      : false;
   }
 
   /**
