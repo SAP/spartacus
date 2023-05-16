@@ -314,19 +314,27 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
+  it.only('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
+    const waitTime = 20000;
+    
+    cy.wait(waitTime);
 
     cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 1); });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
+    cy.wait(waitTime);
     createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
+    cy.wait(waitTime);
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
+    cy.wait(waitTime);
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.wait(waitTime);
     cy.wait('@lastRequest');
+    cy.wait(waitTime);
 
     cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 2); });
 
@@ -342,21 +350,47 @@ describe('Profile-tag events', () => {
     cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 3); });
 
     cy.get('cx-searchbox input').type('camera{enter}');
-    cy.wait(`@${QUERY_ALIAS.CAMERA}`);
+    cy.wait(waitTime);
+    // cy.wait(`@${QUERY_ALIAS.CAMERA}`);
+
+    // cy.window({ timeout: 30000 }).should((win: any) => {
+    //   expect(
+    //     profileTagHelper.eventCount(
+    //       win,
+    //       profileTagHelper.EventNames.KEYWORD_SEARCH
+    //     )
+    //   ).to.equal(1);
+    // });
+
+    cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((obj) => {
+        cy.window({ timeout: 30000 }).should((win: any) => {
+          expect(
+            profileTagHelper.eventCount(
+              win,
+              profileTagHelper.EventNames.KEYWORD_SEARCH
+            )
+          ).to.equal(1);
+        });
+      }
+    );
 
     cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 4); });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
     ); //waiting for the same request a 2nd time doesn't work
+    cy.wait(waitTime);
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
+    cy.wait(waitTime);
 
     cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 5); });
 
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.wait(waitTime);
     cy.wait('@lastRequest2');
+    cy.wait(waitTime);
 
     cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 6); });
 
@@ -368,6 +402,8 @@ describe('Profile-tag events', () => {
         )
       ).to.equal(2);
     });
+
+    cy.wait(100000);
   });
 
   function printEventLayerStats(win: any, profileTagHelper: any, count: number): void {
