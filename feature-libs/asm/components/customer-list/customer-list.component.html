@@ -439,10 +439,17 @@
 </ng-template>
 
 <ng-template #total let-customerSearchPage="customerSearchPage">
-  <span class="cx-total"
-    >{{ customerSearchPage?.pagination?.totalResults }}
-    {{ 'asm.customers' | cxTranslate }}</span
-  >
+  <span class="cx-total" *ngIf="customerSearchPage?.pagination?.totalResults">
+    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults > 1">
+      {{
+        'asm.customerList.noOfCustomers'
+          | cxTranslate: { count: customerSearchPage?.pagination?.totalResults }
+      }}
+    </ng-container>
+    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults === 1">
+      {{ 'asm.customerList.oneCustomer' | cxTranslate }}
+    </ng-container>
+  </span>
 </ng-template>
 
 <ng-template #sort>

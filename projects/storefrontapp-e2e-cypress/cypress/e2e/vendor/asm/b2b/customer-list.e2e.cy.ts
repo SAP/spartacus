@@ -20,13 +20,14 @@ context('Assisted Service Module', () => {
     Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
   });
   describe('ASM Customer list', () => {
-    it('checking custom list features', () => {
+    it('checking custom list features (CXSPA-1595)', () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],
           currency: ['USD'],
         },
       });
+      asm.addCartForB2BCustomer();
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');

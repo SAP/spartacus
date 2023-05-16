@@ -136,6 +136,14 @@ export function checkGlobalMessageNotDisplayed(): void {
 }
 
 /**
+ * Verifies whether the global message is displayed and contains a text
+ * @param {string} text - We expect this text to appear in the global message
+ */
+export function checkGlobalMessageContains(text: string): void {
+  cy.get('cx-global-message').should('contain', text);
+}
+
+/**
  * Clicks on 'Add to Cart' button in catalog list.
  */
 export function clickOnConfigureBtnInCatalog(productName: string): void {
