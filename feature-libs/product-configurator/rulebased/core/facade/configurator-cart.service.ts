@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,
@@ -100,6 +100,7 @@ export class ConfiguratorCartService {
       )
     );
   }
+
   /**
    * Reads a configuratiom that is attached to an order entry, dispatching the respective action
    * @param owner Configuration owner
@@ -157,7 +158,8 @@ export class ConfiguratorCartService {
   addToCart(
     productCode: string,
     configId: string,
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    quantity: number
   ): void {
     this.activeCartService
       .requireLoadedCart()
@@ -171,7 +173,7 @@ export class ConfiguratorCartService {
               userId: userId,
               cartId: this.commonConfigUtilsService.getCartId(cart),
               productCode: productCode,
-              quantity: 1,
+              quantity: quantity,
               configId: configId,
               owner: owner,
             };
@@ -212,6 +214,7 @@ export class ConfiguratorCartService {
           });
       });
   }
+
   /**
    * Can be used to check if the active cart has any product configuration issues.
    * @returns True if and only if there is at least one cart entry with product configuration issues
@@ -230,6 +233,14 @@ export class ConfiguratorCartService {
       ),
       map((entries) => entries.length > 0)
     );
+  }
+
+  getLastEntry(productCode: string): Observable<OrderEntry | undefined> {
+    return this.activeCartService.getLastEntry(productCode);
+  }
+
+  getEntries(): Observable<OrderEntry[]> {
+    return this.activeCartService.getEntries();
   }
 
   /**

@@ -15,6 +15,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
@@ -34,6 +35,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { UntypedFormControl } from '@angular/forms';
 
 const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 
@@ -44,6 +46,8 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
+  quantityControl = new UntypedFormControl(1);
+  iconType = ICON_TYPE;
 
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
@@ -82,8 +86,17 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService
   ) {}
+
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();
+  }
+
+  getQuantity(productCode: string): Observable<number | undefined> {
+    return this.configuratorCartService.getLastEntry(productCode).pipe(
+      map((entry) => {
+        return entry?.quantity ? entry?.quantity : 1;
+      })
+    );
   }
 
   protected navigateToCart(): void {
@@ -162,6 +175,41 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     }
   }
 
+  getIconType(
+    routerData: ConfiguratorRouter.Data,
+    configuration: Configurator.Configuration
+  ): ICON_TYPE {
+    if (
+      routerData.isOwnerCartEntry &&
+      configuration.isCartEntryUpdateRequired
+    ) {
+      //return 'configurator.addToCart.buttonUpdateCart';
+      return this.iconType.CART_CIRCLE_CHECK;
+    } else if (
+      routerData.isOwnerCartEntry &&
+      !configuration.isCartEntryUpdateRequired
+    ) {
+      //return 'configurator.addToCart.buttonAfterAddToCart';
+      return this.iconType.CART;
+    } else {
+      //return 'configurator.addToCart.button';
+      return this.iconType.CART_PLUS;
+    }
+  }
+
+  isOverview(routerData: ConfiguratorRouter.Data): boolean {
+    const pageType = routerData.pageType;
+    return pageType === ConfiguratorRouter.PageType.OVERVIEW;
+  }
+
+  isCartEntryOnConfiguration(routerData: ConfiguratorRouter.Data): boolean {
+    const pageType = routerData.pageType;
+    return (
+      pageType === ConfiguratorRouter.PageType.CONFIGURATION &&
+      (routerData.isOwnerCartEntry ? routerData.isOwnerCartEntry : false)
+    );
+  }
+
   /**
    * Triggers action and navigation, both depending on the context. Might result in an addToCart, updateCartEntry,
    * just a cart navigation or a browser back navigation
@@ -211,10 +259,12 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     configuratorType: string,
     isOverview: boolean
   ) {
+    const quantity = this.quantityControl?.value ?? 1;
     this.configuratorCartService.addToCart(
       owner.id,
       configuration.configId,
-      owner
+      owner,
+      quantity
     );
 
     this.configuratorCommonsService
@@ -370,6 +420,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         })
     );
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

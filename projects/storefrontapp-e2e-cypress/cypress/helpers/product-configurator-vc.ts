@@ -6,7 +6,8 @@
 
 import * as configuration from './product-configurator';
 
-const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
+const addToCartButtonSelector =
+  'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
