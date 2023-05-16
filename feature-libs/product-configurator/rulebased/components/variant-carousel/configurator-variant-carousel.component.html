@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="((items$ | async)?.length ?? 0 > 0) && (items$ | async) as items"
+  *ngIf="((items$ | async)?.length ?? 0) > 0 && (items$ | async) as items"
 >
   <div class="cx-variant-carousel-container">
     <cx-carousel
