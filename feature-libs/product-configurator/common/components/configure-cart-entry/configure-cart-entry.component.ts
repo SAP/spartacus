@@ -17,7 +17,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 })
 export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
-  @Input() readOnly: boolean | null;
+  @Input() readOnly: boolean;
   @Input() msgBanner: boolean;
   @Input() disabled: boolean;
 
