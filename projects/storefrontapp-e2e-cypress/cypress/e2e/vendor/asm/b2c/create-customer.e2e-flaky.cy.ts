@@ -16,7 +16,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('Create Customer', () => {
-    it('should be able to create a new customer by agent click button', () => {
+    it('should be able to create a new customer by agent click button (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
 
@@ -126,7 +126,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('Failed to Create Customer', () => {
-    it('should display validation errors if form is empty', () => {
+    it('should display validation errors if form is empty (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
@@ -150,7 +150,7 @@ context('Assisted Service Module', () => {
 
       asm.agentSignOut();
     });
-    it('should be not able to create a new customer with dupcated email by agent', () => {
+    it('should be not able to create a new customer with dupcated email by agent (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');

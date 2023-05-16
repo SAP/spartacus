@@ -622,8 +622,8 @@ export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results a').should('exist');
-  cy.get('cx-customer-selection div.asm-results a').click();
+  cy.get('cx-customer-selection div.asm-results button').should('exist');
+  cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-asm-create-customer-form').should('exist');
   cy.get('cx-asm-create-customer-form form').should('exist');
 }
