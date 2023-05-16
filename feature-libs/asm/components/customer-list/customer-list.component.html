@@ -166,7 +166,7 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="loaded">
                   <tr
                     role="row"
                     *ngFor="let customerEntry of customerSearchPage?.entries"
