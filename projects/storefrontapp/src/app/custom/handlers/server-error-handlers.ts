@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http';
 import { inject, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as ejs from 'ejs';
 import * as fs from 'fs';
 import { first } from 'rxjs/operators';
 
@@ -37,10 +36,25 @@ export const throwOups = () => {
   const propagateError = inject(PROPAGATE_ERROR);
 
   return async () => {
-    const html = await ejs.renderFile('./src/app/custom/errors/500.ejs', {
+    const context = {
       title: 'Oups!',
       text: 'An unknown error has occured',
-    });
+    };
+    const html = `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Unknown Error | Demo</title>
+        </head>
+        <body>
+          <h1>${context.title}</h1>
+          <p>${context.text}</p>
+        </body>
+      </html>
+`;
 
     const error = new UnknownServerRenderError(html);
 
