@@ -18,6 +18,7 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
+import { AsmComponentService } from '../services/asm-component.service';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
@@ -65,6 +66,14 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   saveCart(): void {}
 }
 
+class MockAsmComponentService extends AsmComponentService {
+  logoutCustomerSupportAgentAndCustomer(): void {}
+  unload() {}
+  isCustomerEmulationSessionInProgress() {
+    return of(false);
+  }
+}
+
 describe('AsmBindCartComponent', () => {
   let component: AsmBindCartComponent;
   let fixture: ComponentFixture<AsmBindCartComponent>;
@@ -92,6 +101,7 @@ describe('AsmBindCartComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
       ],
     }).compileComponents();
   });

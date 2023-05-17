@@ -25,7 +25,7 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
   globalMessageType = GlobalMessageType;
   protected subscription = new Subscription();
   cart: Cart;
-  cartQty: int;
+  cartQty: number;
 
   focusConfig: FocusConfig = {
     trap: true,
