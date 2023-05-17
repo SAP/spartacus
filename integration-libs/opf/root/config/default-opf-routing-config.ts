@@ -10,10 +10,10 @@ export const defaultOpfRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       paymentVerificationResult: {
-        paths: ['redirect/success'],
+        paths: ['payment-result'],
       },
       paymentVerificationCancel: {
-        paths: ['redirect/failure'],
+        paths: ['payment-cancel'],
       },
     },
   },

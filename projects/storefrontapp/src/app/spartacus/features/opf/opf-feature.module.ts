@@ -33,10 +33,10 @@ if (environment.b2b) {
       routing: {
         routes: {
           paymentVerificationResult: {
-            paths: ['redirect/success'],
+            paths: ['payment-result'],
           },
           paymentVerificationCancel: {
-            paths: ['redirect/failure'],
+            paths: ['payment-cancel'],
           },
         },
       },
@@ -59,6 +59,7 @@ if (environment.b2b) {
       featureModules: {
         [OPF_FEATURE]: {
           module: () => import('@spartacus/opf').then((m) => m.OpfModule),
+          cmsComponents: ['OpfPaymentVerificationComponent'],
         },
       },
     }),

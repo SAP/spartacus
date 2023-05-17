@@ -12,16 +12,17 @@ import {
   HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
-import { Observable, of, throwError } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
-import { OpfCheckoutFacade, OpfOrderFacade } from '../../facade';
 import {
+  OpfCheckoutFacade,
+  OpfOrderFacade,
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
   OpfPaymenVerificationUrlInput,
   OpfResponseMapElement,
-} from '../../model';
+} from '@spartacus/opf/root';
+import { Order } from '@spartacus/order/root';
+import { Observable, of, throwError } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
