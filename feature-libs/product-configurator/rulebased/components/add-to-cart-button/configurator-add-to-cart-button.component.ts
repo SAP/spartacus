@@ -91,6 +91,12 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     this.makeAddToCartButtonSticky();
   }
 
+  /**
+   * Retrieves a quantity for an order entry.
+   *
+   * @param {string} productCode - Product code
+   * @returns {number} - Quantity
+   */
   getQuantity(productCode: string): Observable<number | undefined> {
     return this.configuratorCartService.getLastEntry(productCode).pipe(
       map((entry) => {
@@ -151,7 +157,8 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
 
   /**
    * Decides on the resource key for the button. Depending on the business process (owner of the configuration) and the
-   * need for a cart update, the text will differ
+   * need for a cart update, the text will differ.
+   *
    * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
    * @param {Configurator.Configuration} configuration - Configuration
    * @returns {string} The resource key that controls the button description
@@ -175,6 +182,14 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Retrieves an icon type depending on the business process (owner of the configuration) and the
+   * need for a cart update, the text will differ.
+   *
+   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @returns {ICON_TYPE} Icon type that determines an icon that will be displayed on the button
+   */
   getIconType(
     routerData: ConfiguratorRouter.Data,
     configuration: Configurator.Configuration
@@ -183,29 +198,36 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       routerData.isOwnerCartEntry &&
       configuration.isCartEntryUpdateRequired
     ) {
-      //return 'configurator.addToCart.buttonUpdateCart';
       return this.iconType.CART_CIRCLE_CHECK;
     } else if (
       routerData.isOwnerCartEntry &&
       !configuration.isCartEntryUpdateRequired
     ) {
-      //return 'configurator.addToCart.buttonAfterAddToCart';
       return this.iconType.CART;
     } else {
-      //return 'configurator.addToCart.button';
       return this.iconType.CART_PLUS;
     }
   }
 
+  /**
+   * Verifies whether page type is overview.
+   *
+   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
+   * @returns {boolean} - 'true' if the expected page type, otherwise 'false'
+   */
   isOverview(routerData: ConfiguratorRouter.Data): boolean {
-    const pageType = routerData.pageType;
-    return pageType === ConfiguratorRouter.PageType.OVERVIEW;
+    return routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW;
   }
 
+  /**
+   * Verifies whether page type is configuration and it is a cart entry.
+   *
+   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
+   * @returns {boolean} - 'true' if the expected page type and cart entry, otherwise 'false'
+   */
   isCartEntryOnConfiguration(routerData: ConfiguratorRouter.Data): boolean {
-    const pageType = routerData.pageType;
     return (
-      pageType === ConfiguratorRouter.PageType.CONFIGURATION &&
+      routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION &&
       (routerData.isOwnerCartEntry ? routerData.isOwnerCartEntry : false)
     );
   }
@@ -276,7 +298,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe((configWithNextOwner) => {
-        //See preceeding filter operator: configWithNextOwner.nextOwner is always defined here
+        //See preceding filter operator: configWithNextOwner.nextOwner is always defined here
         this.navigateForProductBound(
           configWithNextOwner,
           configuratorType,

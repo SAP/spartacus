@@ -26,6 +26,8 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { OrderEntry } from '@spartacus/cart/base/root';
+import { UntypedFormControl } from '@angular/forms';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
@@ -96,13 +98,16 @@ let routerStateObservable: Observable<any>;
 let productConfigurationObservable: Observable<any>;
 let pendingChangesObservable: Observable<any>;
 let elementMock: { style: any };
+let orderEntryObservable: Observable<any>;
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
   productConfigurationObservable = of(mockProductConfiguration);
+  orderEntryObservable = of(mockOrderEntry);
   fixture = TestBed.createComponent(ConfiguratorAddToCartButtonComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
+  component.quantityControl = new UntypedFormControl(1);
   fixture.detectChanges();
 }
 
@@ -114,17 +119,26 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return productConfigurationObservable;
   }
+
   removeConfiguration() {}
+
   removeUiState() {}
+
   hasPendingChanges() {
     return pendingChangesObservable;
   }
 }
 
+const mockOrderEntry: OrderEntry = { orderCode: '123' };
+
 class MockConfiguratorCartService {
   updateCartEntry() {}
+
   addToCart() {}
-  getLastEntry() {}
+
+  getLastEntry() {
+    return orderEntryObservable;
+  }
 }
 
 class MockConfiguratorGroupsService {
@@ -139,6 +153,7 @@ class MockCommonConfiguratorUtilsService {
 
 class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   loadOrderDetails() {}
+
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
@@ -242,6 +257,7 @@ function performUpdateOnOV() {
   ensureCartBoundAndOnOverview();
   component.onAddToCart(mockProductConfiguration, mockRouterData);
 }
+
 const ROUTE_CONFIGURATION = 'configureCPQCONFIGURATOR';
 const mockRouterState: any = {
   state: {
@@ -253,20 +269,24 @@ const mockRouterState: any = {
     queryParams: {},
   },
 };
+
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
   }
+
   go() {}
 }
+
 class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
 }
 
-xdescribe('ConfigAddToCartButtonComponent', () => {
+describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let configuratorCartService: ConfiguratorCartService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let intersectionService: IntersectionService;
@@ -344,22 +364,31 @@ xdescribe('ConfigAddToCartButtonComponent', () => {
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
+
     globalMessageService = TestBed.inject(
       GlobalMessageService as Type<GlobalMessageService>
     );
+
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
+
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
+
     intersectionService = TestBed.inject(
       IntersectionService as Type<IntersectionService>
     );
+
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    configuratorCartService = TestBed.inject(
+      ConfiguratorCartService as Type<ConfiguratorCartService>
+    );
+    spyOn(configuratorCartService, 'getLastEntry').and.callThrough();
     spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
       elementMock as unknown as HTMLElement
     );
@@ -390,6 +419,22 @@ xdescribe('ConfigAddToCartButtonComponent', () => {
     } else {
       fail();
     }
+  });
+
+  describe('getQuantity', () => {
+    it('should return one because quantity is undefined for order entry', () => {
+      component.getQuantity('PRODUCT_CODE').subscribe((quantity) => {
+        expect(quantity).toBe(1);
+      });
+    });
+
+    it('should return quantity for order entry', () => {
+      mockOrderEntry.quantity = 20;
+      initialize();
+      component.getQuantity('PRODUCT_CODE').subscribe((quantity) => {
+        expect(quantity).toBe(20);
+      });
+    });
   });
 
   describe('onAddToCart', () => {
@@ -554,6 +599,7 @@ xdescribe('ConfigAddToCartButtonComponent', () => {
       });
     });
   });
+
   describe('Floating button', () => {
     it('should make button sticky', (done) => {
       spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
@@ -585,6 +631,7 @@ xdescribe('ConfigAddToCartButtonComponent', () => {
       });
     });
   });
+
   describe('Accessibility', () => {
     it('should return base price, selected option price and total price', () => {
       let result = {
@@ -693,6 +740,147 @@ xdescribe('ConfigAddToCartButtonComponent', () => {
           ' ' +
           expectedA11YString
       );
+    });
+  });
+
+  describe('getButtonResourceKey', () => {
+    let routerData: ConfiguratorRouter.Data;
+    let config: Configurator.Configuration;
+
+    function prepareTestData(
+      isOwnerCartEntry: boolean,
+      isCartEntryUpdateRequired: boolean
+    ) {
+      routerData = {
+        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        isOwnerCartEntry: isOwnerCartEntry,
+        owner: mockOwner,
+      };
+
+      config = structuredClone(mockProductConfiguration);
+      config.isCartEntryUpdateRequired = isCartEntryUpdateRequired;
+    }
+
+    it('should return configurator.addToCart.buttonUpdateCart', () => {
+      prepareTestData(true, true);
+      expect(component.getButtonResourceKey(routerData, config)).toBe(
+        'configurator.addToCart.buttonUpdateCart'
+      );
+    });
+
+    it('should return configurator.addToCart.buttonAfterAddToCart', () => {
+      prepareTestData(true, false);
+      expect(component.getButtonResourceKey(routerData, config)).toBe(
+        'configurator.addToCart.buttonAfterAddToCart'
+      );
+    });
+
+    it('should return configurator.addToCart.button', () => {
+      prepareTestData(false, false);
+
+      expect(component.getButtonResourceKey(routerData, config)).toBe(
+        'configurator.addToCart.button'
+      );
+    });
+  });
+
+  describe('getIconType', () => {
+    let routerData: ConfiguratorRouter.Data;
+    let config: Configurator.Configuration;
+
+    function prepareTestData(
+      isOwnerCartEntry: boolean,
+      isCartEntryUpdateRequired: boolean
+    ) {
+      routerData = {
+        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        isOwnerCartEntry: isOwnerCartEntry,
+        owner: mockOwner,
+      };
+
+      config = structuredClone(mockProductConfiguration);
+      config.isCartEntryUpdateRequired = isCartEntryUpdateRequired;
+    }
+
+    it('should return CART_CIRCLE_CHECK', () => {
+      prepareTestData(true, true);
+      expect(component.getIconType(routerData, config)).toBe(
+        component.iconType.CART_CIRCLE_CHECK
+      );
+    });
+
+    it('should return CART', () => {
+      prepareTestData(true, false);
+      expect(component.getIconType(routerData, config)).toBe(
+        component.iconType.CART
+      );
+    });
+
+    it('should return CART_PLUS', () => {
+      prepareTestData(false, false);
+      expect(component.getIconType(routerData, config)).toBe(
+        component.iconType.CART_PLUS
+      );
+    });
+  });
+
+  describe('isOverview', () => {
+    it("should return 'false' because page type is configuration", () => {
+      const routerData: ConfiguratorRouter.Data = {
+        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        owner: mockOwner,
+      };
+
+      expect(component.isOverview(routerData)).toBe(false);
+    });
+
+    it("should return 'true' because page type is overview", () => {
+      const routerData: ConfiguratorRouter.Data = {
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
+        owner: mockOwner,
+      };
+
+      expect(component.isOverview(routerData)).toBe(true);
+    });
+  });
+
+  describe('isCartEntryOnConfiguration', () => {
+    it("should return 'false' because page type is not configuration", () => {
+      const routerData: ConfiguratorRouter.Data = {
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
+        owner: mockOwner,
+      };
+
+      expect(component.isCartEntryOnConfiguration(routerData)).toBe(false);
+    });
+
+    it("should return 'false' because isOwnerCartEntry is undefined", () => {
+      const routerData: ConfiguratorRouter.Data = {
+        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        owner: mockOwner,
+      };
+
+      expect(component.isCartEntryOnConfiguration(routerData)).toBe(false);
+    });
+
+    it("should return 'false' because isOwnerCartEntry is 'false'", () => {
+      const routerData: ConfiguratorRouter.Data = {
+        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        owner: mockOwner,
+        isOwnerCartEntry: false,
+      };
+
+      expect(component.isCartEntryOnConfiguration(routerData)).toBe(false);
+    });
+
+    it("should return 'true' because page type is overview", () => {
+      const routerData: ConfiguratorRouter.Data = {
+        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        owner: mockOwner,
+        isOwnerCartEntry: true,
+      };
+
+      expect(component.isCartEntryOnConfiguration(routerData)).toBe(true);
     });
   });
 });
