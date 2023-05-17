@@ -20,14 +20,15 @@ context('Assisted Service Module', () => {
     Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
   });
   describe('ASM Customer list', () => {
-    it('checking custom list features (CXSPA-2722)', () => {
+    it('checking custom list features (CXSPA-1595)', () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],
           currency: ['USD'],
         },
       });
-      asm.addCartForB2BCustomer();
+      const productCode = '1979039';
+      asm.addProductToB2BCart('gi.sun@pronto-hw.com', 'pw4all', productCode);
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
