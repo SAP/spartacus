@@ -1,12 +1,11 @@
-import { ErrorHandler } from '@angular/core';
+import { ErrorHandler, inject } from '@angular/core';
+import { ERROR_HANDLER } from '@spartacus/core';
 
 export class MultiErrorHandler implements ErrorHandler {
-  // #handlers = inject(ERROR_HANDLER, { optional: true }) || [];
+  #handlers = inject(ERROR_HANDLER, { optional: true }) || [];
 
   handleError(error: any) {
-    // this.#handlers.forEach((handler) => handler.handleError(error));
-    console.error('SPIKE'); // spike todo remove
-    console.error(error);
+    this.#handlers.forEach((handler) => handler.handleError(error));
   }
 }
 

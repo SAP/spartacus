@@ -1,9 +1,9 @@
 import {
   HttpErrorResponse,
   HttpHeaders,
-  HttpStatusCode
+  HttpStatusCode,
 } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
@@ -19,9 +19,10 @@ export const logErrors = () => {
 };
 
 export const writeStateToFile = () => {
-  const store = inject(Store);
+  const injector = inject(Injector);
 
   return () => {
+    const store = injector.get(Store);
     const state$ = store.select((state) => JSON.stringify(state, null, 2));
 
     state$
