@@ -10,6 +10,7 @@ import {
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
+  LoggerModule,
   ProductModule,
   ProductOccModule,
   UserModule,
@@ -37,16 +38,16 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
+  PDFModule,
   PageTitleModule,
   PaymentMethodsModule,
-  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
   ProductImagesModule,
   ProductIntroModule,
-  ProductListingPageModule,
   ProductListModule,
+  ProductListingPageModule,
   ProductPageEventModule,
   ProductReferencesModule,
   ProductSummaryModule,
@@ -146,6 +147,9 @@ if (environment.s4om) {
     PDFModule,
     ScrollToTopModule,
     VideoModule,
+
+    // Logger
+    LoggerModule,
 
     // User Core
     UserModule,

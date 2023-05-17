@@ -5,15 +5,23 @@
  */
 
 /* webpackIgnore: true */
+import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
+import {
+  DefaultExpressSsrLogger,
+  LogMetadata,
+  SsrLogger,
+  loggerFeatureFlag,
+  ssrLoggerToken,
+} from '../logger';
 import { RenderingCache } from './rendering-cache';
 import {
-  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
 
 /**
@@ -39,6 +47,7 @@ export type SsrCallbackFn = (
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache = new RenderingCache(this.ssrOptions);
+  protected logger: SsrLogger;
   private templateCache = new Map<string, string>();
 
   /**
@@ -68,6 +77,7 @@ export class OptimizedSsrEngine {
           ...ssrOptions,
         }
       : undefined;
+    this.logger = this.initLogger(ssrOptions);
     this.logOptions();
   }
 
@@ -80,14 +90,26 @@ export class OptimizedSsrEngine {
       if (typeof value === 'function') {
         return value.toString();
       }
+      if (value instanceof SsrLogger) {
+        return value.constructor.name;
+      }
       return value;
     };
 
     const stringifiedOptions = JSON.stringify(this.ssrOptions, replacer, 2);
-    this.log(
-      `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
-      false
-    );
+    // This check has been introduced to avoid breaking changes. Remove it in Spartacus version 7.0
+    const message = this.ssrOptions.logger
+      ? `[spartacus] SSR optimization engine initialized`
+      : `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`;
+    this.log(message, {
+      options: {
+        ...this.ssrOptions,
+        logger:
+          typeof this.ssrOptions.logger === 'boolean'
+            ? this.ssrOptions.logger
+            : this.ssrOptions.logger?.constructor.name,
+      },
+    });
   }
 
   /**
@@ -233,11 +255,16 @@ export class OptimizedSsrEngine {
     options: any,
     callback: SsrCallbackFn
   ): void {
+    const render = { uuid: randomUUID(), timeStart: new Date().toISOString() };
+    options.req.res.locals = { cx: { render } };
+
     const request: Request = options.req;
-    const response: Response = options.res || options.req.res;
+    const response: Response = options.req.res;
 
     if (this.returnCachedRender(request, callback)) {
-      this.log(`Render from cache (${request?.originalUrl})`);
+      this.log(`Render from cache (${request?.originalUrl})`, {
+        request,
+      });
       return;
     }
     if (!this.shouldRender(request)) {
@@ -254,12 +281,13 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
         this.log(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
-          false
+          { request }
         );
       }, timeout);
     } else {
       // Here we respond with the fallback to CSR, but we don't `return`.
       // We let the actual rendering task to happen in the background
+
       // to eventually store the rendered result in the cache.
       this.fallbackToCsr(response, filePath, callback);
     }
@@ -272,7 +300,8 @@ export class OptimizedSsrEngine {
         callback(err, html);
 
         this.log(
-          `Request is resolved with the SSR rendering result (${request?.originalUrl})`
+          `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
+          { request }
         );
 
         // store the render only if caching is enabled
@@ -295,9 +324,13 @@ export class OptimizedSsrEngine {
     });
   }
 
-  protected log(message: string, debug = true): void {
-    if (!debug || this.ssrOptions?.debug) {
-      console.log(message);
+  protected log(
+    message: string,
+    logMetadata?: LogMetadata,
+    debug = true
+  ): void {
+    if (debug || this.ssrOptions?.debug) {
+      this.logger.log(message, logMetadata);
     }
   }
 
@@ -366,7 +399,8 @@ export class OptimizedSsrEngine {
     }
 
     this.log(
-      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`
+      `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`,
+      { request }
     );
   }
 
@@ -405,29 +439,55 @@ export class OptimizedSsrEngine {
         }
         this.log(
           `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
+          { request },
           false
         );
       }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
 
-    this.log(`Rendering started (${request?.originalUrl})`);
+    this.log(`Rendering started (${request?.originalUrl})`, { request });
     this.renderingCache.setAsRendering(renderingKey);
     this.currentConcurrency++;
+
+    options = {
+      ...options,
+      providers: [
+        {
+          provide: ssrLoggerToken,
+          useValue: this.logger,
+        },
+        {
+          provide: loggerFeatureFlag,
+          useValue: !!this.ssrOptions?.logger,
+        },
+      ],
+    };
 
     this.expressEngine(filePath, options, (err, html) => {
       if (!maxRenderTimeout) {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(
           `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+          { request },
           false
         );
         return;
       }
       clearTimeout(maxRenderTimeout);
 
-      this.log(`Rendering completed (${request?.originalUrl})`);
+      this.log(`Rendering completed (${request?.originalUrl})`, {
+        request,
+      });
       this.currentConcurrency--;
 
       renderCallback(err, html);
     });
+  }
+
+  private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
+    if (typeof ssrOptions?.logger === 'boolean') {
+      console.log(ssrOptions.logger);
+      return new DefaultExpressSsrLogger();
+    }
+    return ssrOptions?.logger ?? new SsrLogger();
   }
 }

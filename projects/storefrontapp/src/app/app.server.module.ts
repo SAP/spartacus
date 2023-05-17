@@ -4,11 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { ErrorHandler, Injectable, NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
-import { provideServer } from '@spartacus/setup/ssr';
+import { Logger } from '@spartacus/core';
+import {
+  ServerLogger,
+  provideServer,
+  ssrErrorHandlerFactory,
+  ssrLoggerFactory,
+  ssrLoggerToken,
+} from '@spartacus/setup/ssr';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppModule } from './app.module';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SomeErrorHandler implements ErrorHandler {
+  handleError(error: any): void {
+    console.error(error);
+  }
+}
 
 @NgModule({
   imports: [
@@ -24,6 +40,19 @@ import { AppModule } from './app.module';
     ...provideServer({
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
+    {
+      provide: Logger,
+      useClass: ServerLogger,
+    },
+    {
+      provide: ErrorHandler,
+      useFactory: ssrErrorHandlerFactory,
+    },
+    // for pre-rendering purposes - "there is no Express" fallback
+    {
+      provide: ssrLoggerToken,
+      useFactory: ssrLoggerFactory,
+    },
   ],
 })
 export class AppServerModule {}

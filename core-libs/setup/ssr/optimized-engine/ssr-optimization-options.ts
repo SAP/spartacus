@@ -5,6 +5,7 @@
  */
 
 import { Request } from 'express';
+import { SsrLogger } from '../logger/ssr-logger';
 
 export interface SsrOptimizationOptions {
   /**
@@ -109,6 +110,12 @@ export interface SsrOptimizationOptions {
    * Enable detailed logs for troubleshooting problems
    */
   debug?: boolean;
+
+  /**
+   * Logger for troubleshooting problems
+   * related to the rendering process
+   */
+  logger?: true | SsrLogger;
 }
 
 export enum RenderingStrategy {
