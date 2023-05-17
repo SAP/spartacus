@@ -31,7 +31,6 @@ describe('Profile-tag events', () => {
     });
     profileTagHelper.waitForCMSComponents();
     anonymousConsents.clickAllowAllFromBanner();
-    profileTagHelper.triggerDebugFlagChanged(true);
   });
   describe('cart events', () => {
     it('should send AddedToCart and CartSnapshot events on adding an item to cart', () => {
