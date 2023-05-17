@@ -9,14 +9,14 @@ import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
-} from '@spartacus/opf/assets';
+} from '@spartacus/opf/checkout/assets';
 import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
+  OpfCheckoutRootModule,
   OpfConfig,
-  OpfRootModule,
-  OPF_FEATURE,
-} from '@spartacus/opf/root';
+} from '@spartacus/opf/checkout/root';
+
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
@@ -27,7 +27,7 @@ if (environment.b2b) {
 }
 
 @NgModule({
-  imports: [OpfRootModule],
+  imports: [OpfCheckoutRootModule],
   providers: [
     provideConfig(<RoutingConfig>{
       routing: {
@@ -55,13 +55,13 @@ if (environment.b2b) {
         fallbackLang: 'en',
       },
     }),
-    provideConfig({
-      featureModules: {
-        [OPF_FEATURE]: {
-          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-        },
-      },
-    }),
+    // provideConfig({
+    //   featureModules: {
+    //     [OPF_FEATURE]: {
+    //       module: () => import('@spartacus/opf').then((m) => m.OpfModule),
+    //     },
+    //   },
+    // }),
     ...extensionProviders,
   ],
 })
