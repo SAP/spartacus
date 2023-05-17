@@ -5,10 +5,10 @@
  */
 
 import * as checkout from '../helpers/checkout-flow';
-import { SampleUser } from '../sample-data/checkout-flow';
-import { getSampleUser } from '../sample-data/checkout-flow';
+import { SampleUser, getSampleUser } from '../sample-data/checkout-flow';
 import * as customerTicketing from '../helpers/customer-ticketing/customer-ticketing';
 import * as asm from '../helpers/asm';
+import * as productDetails from '../helpers/product-details';
 import { subscribeStockNotification } from './notification';
 
 let user: SampleUser | undefined;
@@ -21,6 +21,7 @@ export function setup() {
 function createUser(): SampleUser {
   const user = registerUser();
   placeOrder();
+  writeReview();
   saveCart();
   createTicket();
   subscribeStockNotification('872912');
@@ -85,6 +86,12 @@ function addProductToCart(): void {
   checkout.goToProductDetailsPage();
   checkout.addProductToCart();
   cy.findByText(/view cart/i).click();
+}
+
+function writeReview(): void {
+  checkout.goToProductDetailsPage();
+  productDetails.verifyShowReviewsLink();
+  productDetails.verifyReviewForm();
 }
 
 export function redirect(rowName: string) {

@@ -8,6 +8,7 @@ import * as customer360 from '../../../helpers/customer360';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/navigation';
+import { waitForProductPage } from '../../../helpers/checkout-flow';
 
 context('Assisted Service Module', () => {
   before(() => {
@@ -36,7 +37,10 @@ context('Assisted Service Module', () => {
 
     it('should redirect to the cart page (CXSPA-700)', () => {
       const cartPage = waitForPage('/cart', 'getCartPage');
-      cy.contains('div.product-listing-header', 'Active Cart').children().eq(1).click();
+      cy.contains('div.product-listing-header', 'Active Cart')
+        .children()
+        .eq(1)
+        .click();
       cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
     });
 
@@ -45,7 +49,10 @@ context('Assisted Service Module', () => {
         '/my-account/saved-cart/*',
         'getSavedCartPage'
       );
-      cy.contains('div.product-listing-header', 'Saved Cart').children().eq(1).click();
+      cy.contains('div.product-listing-header', 'Saved Cart')
+        .children()
+        .eq(1)
+        .click();
       cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
     });
 
@@ -134,6 +141,47 @@ context('Assisted Service Module', () => {
         cy.get('.profile-phone1').should('contain', user.phone);
         cy.get('cx-card').should('contain', user.payment.expires.year);
       });
+    });
+  });
+
+  describe('Feedback', () => {
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      checkout.visitHomePage('asm=true');
+      cy.get('button.cx-360-button').click();
+      cy.get('button.cx-tab-header').contains('Feedback').click();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    it('should contain all feedback information (CXSPA-700)', () => {
+      cy.get('.cx-asm-customer-table').contains('Complaint');
+      cy.get('.cx-asm-customer-table').contains('My review title');
+    });
+
+    it('should redirect to the support tickets page (CXSPA-700)', () => {
+      const supportTicketsPage = waitForPage(
+        '/my-account/support-ticket/*',
+        'getSupportTicketsPage'
+      );
+      cy.get('cx-asm-customer-support-tickets').within(() => {
+        cy.get('.cx-asm-customer-table-row > td > button').click();
+      });
+      cy.wait(`@${supportTicketsPage}`)
+        .its('response.statusCode')
+        .should('eq', 200);
+      cy.get('h1').contains('Entering a subject');
+    });
+
+    it('should redirect to product page (CXSPA-700)', () => {
+      const productPage = waitForProductPage('*', 'getProductPage');
+      cy.get('cx-asm-customer-product-reviews').within(() => {
+        cy.get('.cx-asm-customer-table-row > td > button').click();
+      });
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      cy.contains('Show reviews');
     });
   });
 });
