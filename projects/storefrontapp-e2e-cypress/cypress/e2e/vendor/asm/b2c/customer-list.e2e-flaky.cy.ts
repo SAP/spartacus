@@ -15,7 +15,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('ASM Customer list', () => {
-    it('checking custom list features', () => {
+    it('checking custom list features (CXSPA-1595)', () => {
       const custom = 'aaron.customer@hybris.com';
       const pwd = 'pw4all';
       const productCode = '479742';
