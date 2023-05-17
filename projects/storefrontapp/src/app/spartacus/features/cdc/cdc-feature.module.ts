@@ -5,9 +5,14 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
+import {
+  CdcConfig,
+  CdcRootModule,
+  cdcTranslationChunksConfig,
+  cdcTranslations,
+  CDC_FEATURE,
+} from '@spartacus/cdc/root';
 import { CmsConfig, provideConfig } from '@spartacus/core';
-
 @NgModule({
   imports: [CdcRootModule],
   providers: [
@@ -15,12 +20,14 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
       cdc: [
         {
           baseSite: 'electronics-spa',
-          javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
+          javascriptUrl:
+            'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3_k_wG-sllOhu2rjDEWHjG9-ncnnGAMHfkIcUKzl94weJU1Y18hITRgnTDp1LP8QdC',
           sessionExpiration: 3600,
         },
         {
           baseSite: 'powertools-spa',
-          javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
+          javascriptUrl:
+            'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3__pAj9UsaNXJAaDi-d8xvhzNBvGXDYx0GlTg1R9YQWVgTIQbdBZzR98_y-nFZWUNl',
           sessionExpiration: 3600,
         },
       ],
@@ -30,6 +37,12 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
         [CDC_FEATURE]: {
           module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
         },
+      },
+    }),
+    provideConfig({
+      i18n: {
+        resources: cdcTranslations,
+        chunks: cdcTranslationChunksConfig,
       },
     }),
   ],

@@ -23,7 +23,8 @@ export class CdcUserConsentService {
 
   updateCdcConsent(
     isConsentGranted: boolean,
-    consentCode: string
+    consentCode: string,
+    user?: string
   ): Observable<{ errorCode: number; errorMessage: string }> {
     var consent: ConsentTemplate = {};
     consent.id = consentCode;
@@ -31,7 +32,9 @@ export class CdcUserConsentService {
     if (isConsentGranted) consent.currentConsent.consentGivenDate = new Date();
     else consent.currentConsent.consentWithdrawnDate = new Date();
 
-    var userId: string | undefined = this.getUserID() ?? '';
+    var userId: string = '';
+    if (user === undefined) userId = this.getUserID() ?? '';
+    else if (user !== undefined) userId = user;
 
     var currentLanguage = this.getActiveLanguage();
 

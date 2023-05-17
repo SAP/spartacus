@@ -5,7 +5,6 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -13,7 +12,9 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { LoginFormComponentService } from '@spartacus/user/account/components';
+import { CdcJsService } from '../../root/service';
 import { Subscription } from 'rxjs';
+import { CdcReconsentService } from '../reconsent/cdc-reconsent.service';
 
 @Injectable()
 export class CdcLoginFormComponentService
@@ -24,7 +25,8 @@ export class CdcLoginFormComponentService
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected winRef: WindowRef,
-    protected cdcJsService: CdcJsService
+    protected cdcJsService: CdcJsService,
+    protected cdcReconsentService: CdcReconsentService
   ) {
     super(auth, globalMessageService, winRef);
   }
@@ -49,7 +51,16 @@ export class CdcLoginFormComponentService
             )
             .subscribe({
               next: () => this.busy$.next(false),
-              error: () => this.busy$.next(false),
+              error: (errorResponse) => {
+                if (errorResponse.errorCode === 206001) {
+                  this.cdcJsService.raiseCdcReconsentEvent(
+                    this.form.value.userId.toLowerCase(),
+                    errorResponse.missingRequiedFields,
+                    errorResponse.errorMessage
+                  );
+                }
+                this.busy$.next(false);
+              },
             });
         } else {
           // CDC Gigya SDK not loaded, show error to the user
