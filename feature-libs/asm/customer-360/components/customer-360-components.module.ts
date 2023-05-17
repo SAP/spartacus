@@ -12,6 +12,7 @@ import {
   IconModule,
   KeyboardFocusModule,
   MediaModule,
+  MessageComponentModule,
   PageComponentModule,
   StarRatingModule,
 } from '@spartacus/storefront';
@@ -48,6 +49,7 @@ import { AvatarLabelPipe } from './customer-360/avatar-label.pipe';
     IconModule,
     KeyboardFocusModule,
     PageComponentModule,
+    MessageComponentModule,
     AsmCustomerActiveCartModule,
     AsmCustomerProductInterestsModule,
     AsmCustomerSavedCartModule,

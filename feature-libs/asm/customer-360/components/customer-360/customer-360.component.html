@@ -18,23 +18,34 @@
         </div>
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
+      <cx-message
+        *ngIf="errorAlert$ | async"
+        [text]="'customer360.alertErrorMessage' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_ERROR"
+        (closeMessage)="closeErrorAlert()"
+      >
+      </cx-message>
       <div
         class="header-content"
         *ngIf="customerOverview$ | async as customerOverview"
       >
         <div class="header-profile-details">
-          <ng-container *ngIf="avatarImage; else customerTextAvatar">
+          <ng-container
+            *ngIf="
+              getAvatarImage | cxArgs: customerOverview as avatarImage;
+              else customerTextAvatar
+            "
+          >
             <div class="cx-avatar-image">
               <cx-media [container]="avatarImage"></cx-media>
             </div>
           </ng-container>
 
           <ng-template #customerTextAvatar>
-            <div class="cx-avatar" *ngIf="!avatarImage">
-              {{ avatarText }}
+            <div class="cx-avatar">
+              {{ getAvatarText | cxArgs: customer }}
             </div>
           </ng-template>
-
           <div class="cx-customer-info ml-3">
             <div class="cx-customer-name">
               {{
@@ -140,15 +151,28 @@
         </button>
       </div>
       <div id="asm-customer-360-tab-panel" class="cx-tab-content modal-body">
-        <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
-          <cx-asm-customer-section
-            *ngFor="let config of currentTab?.components; let i = index"
-            [component]="config.component"
-            [config]="config.config"
-            [data]="customer360Tabs?.[i]"
-            (navigate)="navigateTo($event)"
-          ></cx-asm-customer-section>
+        <ng-container *ngIf="showErrorTab$ | async; else tabContent">
+          <div class="cx-tab-error">
+            <div class="cx-tab-error-image"></div>
+            <div class="cx-tab-error-header">
+              {{ 'customer360.errorMessageHeader' | cxTranslate }}
+            </div>
+            <div class="cx-tab-error-message">
+              {{ 'customer360.alertErrorMessage' | cxTranslate }}
+            </div>
+          </div>
         </ng-container>
+        <ng-template #tabContent>
+          <ng-container *ngIf="customer360Tabs$ | async as customer360Tabs">
+            <cx-asm-customer-section
+              *ngFor="let config of currentTab?.components; let i = index"
+              [component]="config.component"
+              [config]="config.config"
+              [data]="customer360Tabs?.[i]"
+              (navigate)="navigateTo($event)"
+            ></cx-asm-customer-section>
+          </ng-container>
+        </ng-template>
       </div>
     </div>
   </div>

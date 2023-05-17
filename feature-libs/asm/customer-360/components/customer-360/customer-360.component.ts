@@ -20,7 +20,6 @@ import {
   AsmDialogActionEvent,
   AsmDialogActionType,
   Customer360Data,
-  Customer360Response,
   Customer360TabConfig,
   Customer360Config,
   Customer360Facade,
@@ -29,7 +28,13 @@ import {
   CustomerOverview,
 } from '@spartacus/asm/customer-360/root';
 import { CsAgentAuthService } from '@spartacus/asm/root';
-import { Image, UrlCommand, User } from '@spartacus/core';
+import {
+  GlobalMessageType,
+  Image,
+  UrlCommand,
+  User,
+  isNotUndefined,
+} from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -37,8 +42,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
+import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +62,8 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   readonly closeIcon = ICON_TYPE.CLOSE;
   readonly orderIcon = ICON_TYPE.ORDER;
   readonly ticketIcon = ICON_TYPE.FILE;
+
+  globalMessageType = GlobalMessageType;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -77,11 +84,11 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
 
   customerOverview$: Observable<CustomerOverview | undefined>;
 
-  avatarImage: Image | undefined;
-
-  avatarText = '';
-
   protected subscription = new Subscription();
+
+  protected showErrorAlert$ = new BehaviorSubject<boolean>(false);
+
+  protected showErrorTab$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     protected customer360Config: Customer360Config,
@@ -101,10 +108,14 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
           const overviewItem = response?.value?.find(
             (item) => item.type === Customer360Type.OVERVIEW
           ) as Customer360Overview | undefined;
-          this.avatarImage = this.getAvatarImage(overviewItem?.overview);
           return overviewItem?.overview || undefined;
+        }),
+        catchError(() => {
+          this.showErrorAlert$.next(true);
+          return of(undefined);
         })
       );
+
     this.tabs = customer360Config?.customer360?.tabs ?? [];
     this.currentTab = this.tabs[0];
   }
@@ -124,10 +135,8 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
         this.customer = data.customer;
-        this.avatarText = this.getAvatarText(this.customer);
       })
     );
-
     this.setTabData();
   }
 
@@ -138,6 +147,15 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
+  get errorAlert$(): Observable<boolean> {
+    return this.showErrorAlert$.asObservable();
+  }
+
+  get errorTab$(): Observable<boolean> {
+    return this.showErrorTab$.asObservable();
+  }
+
   /**
    * Triggered when a tab is selected.
    * @param {number} selectedTab selected tab index
@@ -192,8 +210,28 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
     this.closeModal(event);
   }
 
+  closeErrorAlert(): void {
+    this.showErrorAlert$.next(false);
+  }
+
   closeModal(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
+  }
+
+  getAvatarText(customer?: User): string {
+    customer = customer ?? {};
+    const { firstName = '', lastName = '' } = customer;
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+  }
+
+  getAvatarImage(overview?: CustomerOverview): Image | undefined {
+    return overview?.userAvatar?.url
+      ? {
+          altText: overview.name,
+          url: overview.userAvatar.url,
+          format: overview.userAvatar.format,
+        }
+      : undefined;
   }
 
   /**
@@ -213,18 +251,24 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
   }
 
   protected setTabData(): void {
-    const get360Data = this.customer360Facade.get360Data(
-      this.currentTab.components
-    );
+    this.showErrorTab$.next(false);
+    const get360Data = this.customer360Facade
+      .get360Data(this.currentTab.components)
+      .pipe(
+        catchError(() => {
+          this.showErrorTab$.next(true);
+          this.showErrorAlert$.next(true);
+          return of(undefined);
+        })
+      );
 
     this.customer360Tabs$ = get360Data.pipe(
-      filter((response) => Boolean(response)),
+      filter(isNotUndefined),
       map((response) => {
         return this.currentTab.components.map((component) => {
           const requestData = component.requestData;
-
           if (requestData) {
-            return (response as Customer360Response).value.find(
+            return response.value.find(
               (data) => data.type === requestData.type
             );
           } else {
@@ -233,21 +277,6 @@ export class Customer360Component implements OnDestroy, OnInit, AfterViewInit {
         });
       })
     );
-  }
-  protected getAvatarText(customer?: User): string {
-    customer = customer ?? {};
-    const { firstName = '', lastName = '' } = customer;
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
-  }
-
-  protected getAvatarImage(overview?: CustomerOverview): Image | undefined {
-    return overview?.userAvatar?.url
-      ? {
-          altText: overview.name,
-          url: overview.userAvatar.url,
-          format: overview.userAvatar.format,
-        }
-      : undefined;
   }
   /**
    * Verifies whether the user navigates into a subgroup of the main group menu.
