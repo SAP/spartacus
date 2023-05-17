@@ -5,7 +5,10 @@
  */
 
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { asmTabbingOrderWithCustomerList } from '../../helpers/accessibility/tabbing-order/asm';
+import {
+  asmTabbingOrderWithCreateCustomerForm,
+  asmTabbingOrderWithCustomerList,
+} from '../../helpers/accessibility/tabbing-order/asm';
 
 describe('Tabbing order for ASM', () => {
   before(() => {
@@ -13,8 +16,12 @@ describe('Tabbing order for ASM', () => {
   });
 
   context('ASM', () => {
-    it('should allow to navigate with tab key for customer List', () => {
+    it('should allow to navigate with tab key for customer List （CXSPA-1595）', () => {
       asmTabbingOrderWithCustomerList(config.asmWithCustomerLists, 'asagent');
+    });
+
+    it('should allow to navigate with tab key for create customer form (CXSPA-1594)', () => {
+      asmTabbingOrderWithCreateCustomerForm(config.asmWithCreateCustomerForm);
     });
   });
 });
