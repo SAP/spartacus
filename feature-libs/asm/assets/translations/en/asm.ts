@@ -34,7 +34,7 @@ export const asm = {
       },
       submit: 'Start Session',
       noMatch: 'No customer found.',
-      noMatchResult: 'This account cannot be found. ',
+      noMatchResult: 'This account cannot be found.',
       createCustomer: 'Create New Customer',
     },
     createCustomerForm: {

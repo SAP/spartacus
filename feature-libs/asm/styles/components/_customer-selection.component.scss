@@ -82,15 +82,23 @@
     position: absolute;
     line-height: 1.5rem;
     left: 2rem;
-    top: 4rem;
     z-index: 11;
     box-shadow: 0 5px 20px 0 #d9d9d9, 0 2px 8px 0 #ededed;
     background-color: #fff;
     border-radius: 4px;
-    width: 100%;
     max-width: 50vw;
     max-height: 70vh;
     overflow-y: auto;
+
+    @include forVersion(1, 6) {
+      top: 4rem;
+      width: 100%;
+    }
+
+    @include forVersion(6.1) {
+      top: 3.3rem;
+      width: 33%;
+    }
 
     @media (max-width: 1200px) {
       max-width: calc(100% - 4rem);
@@ -151,7 +159,11 @@
       }
 
       @include forVersion(6.1) {
-        a {
+        .linkStyleLabel {
+          font-family: '72';
+          font-weight: 600;
+          font-size: 13px;
+          padding-inline-start: 8px;
           color: #0064d9;
         }
       }

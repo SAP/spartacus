@@ -20,7 +20,7 @@ context('Tabbing order for ASM B2b Customer List', () => {
   });
 
   describe('ASM', () => {
-    it('should allow to navigate with tab key for customer List', () => {
+    it('should allow to navigate with tab key for customer List (CXSPA-2722)', () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],
