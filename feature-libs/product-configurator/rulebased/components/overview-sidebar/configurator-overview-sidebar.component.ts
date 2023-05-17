@@ -26,7 +26,27 @@ export class ConfiguratorOverviewSidebarComponent {
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
-  config$: Observable<Configurator.ConfigurationWithOverview> =
+  //TODO CHHI comment to remove this in next major
+  config$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      // filter 'strict null check safe'
+      filter(
+        (configuration) => configuration.overview != null
+      ) as OperatorFunction<
+        Configurator.Configuration,
+        Configurator.ConfigurationWithOverview
+      >,
+      tap((data) => {
+        if (data) {
+          this.ghostStyle = false;
+        }
+      })
+    );
+
+  configurationWithOv$: Observable<Configurator.ConfigurationWithOverview> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getConfiguration(routerData.owner)

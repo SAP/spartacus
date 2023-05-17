@@ -105,6 +105,17 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     expect(component.attributeCheckBoxForm.value).toBeFalsy();
   });
 
+  describe('getValueFromAttribute', () => {
+    it('should find value in case values present on attribute', () => {
+      expect(component['getValueFromAttribute']()).toBe(value1);
+    });
+
+    it('should return empty value if no values are present', () => {
+      component.attribute.values = undefined;
+      expect(component['getValueFromAttribute']()).toEqual({ valueCode: '' });
+    });
+  });
+
   it('should select and deselect a checkbox value', () => {
     const checkboxId =
       '#cx-configurator--checkBox--' +

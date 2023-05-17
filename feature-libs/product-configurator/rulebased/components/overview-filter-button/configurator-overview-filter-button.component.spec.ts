@@ -109,6 +109,13 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       expect(component).toBeDefined();
     });
 
+    it('should support obsolete observable that we keep until next major for compatibility reasons', (done) => {
+      component.config$.subscribe((config) => {
+        expect(config.configId).toBe(configId);
+        done();
+      });
+    });
+
     it('should open filter modal on request', () => {
       fixture.debugElement
         .query(By.css('.cx-config-filter-button'))

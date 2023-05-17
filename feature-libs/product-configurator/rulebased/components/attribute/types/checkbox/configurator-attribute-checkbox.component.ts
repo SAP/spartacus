@@ -42,10 +42,7 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   ngOnInit() {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
-    //TODO CHHI how to handle that
-    this.attributeValue = this.attribute.values
-      ? this.attribute.values[0]
-      : { valueCode: '' };
+    this.attributeValue = this.getValueFromAttribute();
   }
 
   /**
@@ -64,19 +61,24 @@ export class ConfiguratorAttributeCheckBoxComponent
     );
   }
 
+  protected getValueFromAttribute(): Configurator.Value {
+    //we can assume that for this component, value is always present
+    //otherwise attribute type would not be correct,
+    //could only happen in exceptional cases, on wrong modifications e.g.
+    return this.attribute.values ? this.attribute.values[0] : { valueCode: '' };
+  }
+
   protected assembleSingleValue(): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
-    const value = this.attribute.values ? this.attribute.values[0] : undefined;
-    //we can assume that for this component, value is always present
-    if (value) {
-      const localAttributeValue: Configurator.Value = {
-        valueCode: value.valueCode,
-      };
+    const value = this.getValueFromAttribute();
 
-      localAttributeValue.name = value.name;
-      localAttributeValue.selected = this.attributeCheckBoxForm.value;
-      localAssembledValues.push(localAttributeValue);
-    }
+    const localAttributeValue: Configurator.Value = {
+      valueCode: value.valueCode,
+    };
+
+    localAttributeValue.name = value.name;
+    localAttributeValue.selected = this.attributeCheckBoxForm.value;
+    localAssembledValues.push(localAttributeValue);
 
     return localAssembledValues;
   }
