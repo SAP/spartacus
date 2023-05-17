@@ -110,7 +110,8 @@ export class ConfiguratorAttributeProductCardComponent
       false
     );
   }
-  //TODO CHHI (CXSPA-3392) comment indicating that we remove that with next major
+  //TODO(CXSPA-3392) for next major: turn ConfiguratorAttributeProductCardComponentOptions#attributeName
+  //into a required field and get rid of this method, use this.productCardOptions.attributeName instead
   get attributeName(): string {
     const attributeName = this.productCardOptions.attributeName;
     return attributeName

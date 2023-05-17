@@ -271,7 +271,8 @@ export class ConfiguratorGroupMenuComponent {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
   }
 
-  //TODO CHHI comment to remove that for next major and merge with previous one
+  //TODO(CXSPA-3392) get rid of this method in next major. Change signature of
+  //isConflictGroupType to allow undefined, and use this method instead
   /**
    * Verifies whether the current group is conflict one but allows for undefined input
    *

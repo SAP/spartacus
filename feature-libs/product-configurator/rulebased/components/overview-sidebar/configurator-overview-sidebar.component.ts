@@ -26,7 +26,10 @@ export class ConfiguratorOverviewSidebarComponent {
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {}
 
-  //TODO CHHI comment to remove this in next major
+  //TODO(CXSPA-3392) remove this member in next major, it is not used
+  /**
+   * @deprecated since 6.1. Use configurationWithOv$ instead
+   */
   config$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
