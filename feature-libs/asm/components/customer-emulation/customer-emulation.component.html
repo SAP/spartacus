@@ -5,6 +5,7 @@
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
   <button
+    *ngIf="isCustomer360Configured"
     #customer360Launcher
     class="cx-360-button"
     (click)="openCustomer360()"
