@@ -16,6 +16,7 @@ import {
 import {
   AuthService,
   BaseSiteService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
@@ -36,6 +37,8 @@ import {
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
+import { CdcReconsentService } from '../../user-account/reconsent/cdc-reconsent.service';
+import { CdcReConsentEvent } from '../events';
 
 const defaultSessionTimeOut = 3600;
 const setAccountInfoAPI = 'accounts.setAccountInfo';
@@ -59,7 +62,9 @@ export class CdcJsService implements OnDestroy {
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected eventService: EventService,
+    protected reconsentService: CdcReconsentService
   ) {}
 
   /**
@@ -252,12 +257,17 @@ export class CdcJsService implements OnDestroy {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
+          include: 'missing-required-fields',
+          ignoreInterruptions: true,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
         }).pipe(
           take(1),
           tap({
-            error: (response) => this.handleLoginError(response),
+            error: (response) => {
+              if (response.errorCode !== 206001)
+                this.handleLoginError(response);
+            },
           })
         );
       })
@@ -309,7 +319,7 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  protected handleLoginError(response: any) {
+  handleLoginError(response: any) {
     if (response && response.status === 'FAIL') {
       this.globalMessageService.add(
         {
@@ -597,12 +607,16 @@ export class CdcJsService implements OnDestroy {
    * @returns - Observable with the response
    */
   protected invokeAPI(methodName: string, payload: Object): Observable<any> {
+    console.log('here1');
     return new Observable<any>((result) => {
+      console.log('here2');
       const actualAPI = this.getSdkFunctionFromName(methodName);
       if (typeof actualAPI != 'function') {
+        console.log('err');
         result.error('CDC API name is incorrect');
         return;
       }
+      console.log(actualAPI);
       actualAPI({
         ...payload,
         callback: (response: any) => {
@@ -634,6 +648,7 @@ export class CdcJsService implements OnDestroy {
     lang: string,
     preferences: any
   ): Observable<{ errorCode: number; errorMessage: string }> {
+    console.log('here');
     return this.invokeAPI(setAccountInfoAPI, {
       uid: uid,
       lang: lang,
@@ -641,10 +656,21 @@ export class CdcJsService implements OnDestroy {
     }).pipe(
       tap({
         error: (error) => {
+          console.log(error);
           throwError(error);
         },
       })
     );
+  }
+
+  raiseCdcReconsentEvent(user: string, reconsentIds: string[], errorMessage: string): void {
+    let event: CdcReConsentEvent =
+      this.reconsentService.generateCdcReConsentEvent(
+        user,
+        reconsentIds,
+        errorMessage
+      );
+    this.eventService.dispatch(event);
   }
 
   protected logoutUser() {

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './login-form/index';
-export * from './cdc-user-account.module';
-export * from './reconsent';
+import { cdc } from './cdc.i18n';
+
+export const en = {
+  cdc,
+};
