@@ -89,7 +89,12 @@
             </div>
             <cx-spinner *ngIf="customerSearchLoading$ | async"></cx-spinner>
             <div *ngIf="customerSearchPage$ | async as customerSearchPage">
-              <table id="asm-cusomer-list-table" role="table" class="table">
+              <table
+                id="asm-cusomer-list-table"
+                role="table"
+                class="table"
+                *ngIf="loaded"
+              >
                 <caption class="cx-visually-hidden">
                   {{
                     'asm.customerList.title' | cxTranslate
