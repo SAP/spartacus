@@ -110,7 +110,7 @@ export class ConfiguratorAttributeProductCardComponent
       false
     );
   }
-  //TODO CHHI comment indicating that we remove that with next major
+  //TODO CHHI (CXSPA-3392) comment indicating that we remove that with next major
   get attributeName(): string {
     const attributeName = this.productCardOptions.attributeName;
     return attributeName

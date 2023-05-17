@@ -8,7 +8,7 @@
       'configurator.a11y.itemOfAttribute'
         | cxTranslate
           : {
-              attribute: productCardOptions?.attributeLabel
+              attribute: productCardOptions.attributeLabel
             }
     "
   >
@@ -85,7 +85,7 @@
                 class="btn btn-primary"
                 (click)="onHandleSelect()"
                 [disabled]="
-                  productCardOptions?.disableAllButtons || (loading$ | async)
+                  productCardOptions.disableAllButtons || (loading$ | async)
                 "
                 [cxFocus]="focusConfig"
                 [attr.aria-label]="getAriaLabelMultiUnselected(product)"
@@ -103,7 +103,7 @@
               class="btn btn-primary"
               (click)="onHandleSelect()"
               [disabled]="
-                productCardOptions?.disableAllButtons || (loading$ | async)
+                productCardOptions.disableAllButtons || (loading$ | async)
               "
               *ngIf="
                 !productCardOptions?.productBoundValue?.selected;
@@ -130,7 +130,7 @@
                   class="btn btn-secondary"
                   (click)="onHandleDeselect()"
                   [disabled]="
-                    productCardOptions?.hideRemoveButton || (loading$ | async)
+                    productCardOptions.hideRemoveButton || (loading$ | async)
                   "
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleSelected(product)"
