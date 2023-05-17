@@ -316,56 +316,36 @@ describe('Profile-tag events', () => {
 
   it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 1); });
-
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
-    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
-    cy.wait('@lastRequest');
-
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 2); });
-
-    cy.window().should((win) => {
-      expect(
-        profileTagHelper.eventCount(
-          win,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
-      ).to.equal(1);
+    cy.wait('@lastRequest').then(() => {
+      cy.window({ timeout: 10000 }).should((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+          )
+        ).to.equal(1);
+      });
     });
 
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 3); });
-
+    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-searchbox input').type('camera{enter}');
-    // cy.wait(`@${QUERY_ALIAS.CAMERA}`);
-
-    // cy.window({ timeout: 30000 }).should((win: any) => {
-    //   expect(
-    //     profileTagHelper.eventCount(
-    //       win,
-    //       profileTagHelper.EventNames.KEYWORD_SEARCH
-    //     )
-    //   ).to.equal(1);
-    // });
-
-    cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((obj) => {
-        cy.window({ timeout: 30000 }).should((win: any) => {
-          expect(
-            profileTagHelper.eventCount(
-              win,
-              profileTagHelper.EventNames.KEYWORD_SEARCH
-            )
-          ).to.equal(1);
-        });
-      }
-    );
-
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 4); });
+    cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(() => {
+      cy.window({ timeout: 10000 }).should((win: any) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.KEYWORD_SEARCH
+          )
+        ).to.equal(1);
+      });
+    });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
@@ -373,37 +353,18 @@ describe('Profile-tag events', () => {
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
-
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 5); });
-
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
-    cy.wait('@lastRequest2');
-
-    cy.window().then((win: any) => { printEventLayerStats(win, profileTagHelper, 6); });
-
-    cy.window({ timeout: 30000 }).should((win: any) => {
-      expect(
-        profileTagHelper.eventCount(
-          win,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
-      ).to.equal(2);
+    cy.wait('@lastRequest2').then(() => {
+      cy.window({ timeout: 10000 }).should((win: any) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+          )
+        ).to.equal(2);
+      });
     });
-
-    cy.wait(100000);
   });
-
-  function printEventLayerStats(win: any, profileTagHelper: any, count: number): void {
-    const eventCount = win.Y_TRACKING.eventLayer.length;
-    const categoryPageViewedEventCount = profileTagHelper.eventCount(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED);
-    const eventLayer = win.Y_TRACKING.eventLayer;
-    const categoryPageViewedEventLayer = profileTagHelper.getEvent(win, profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED);
-
-    console.info(`###### ${count} Event count: ${eventCount}`);
-    console.info(`###### ${count} Category page viewed event count: ${categoryPageViewedEventCount}`);
-    console.info(`###### ${count} Event layer: ${JSON.stringify(eventLayer)}`);
-    console.info(`###### ${count} Category page viewed event layer: ${JSON.stringify(categoryPageViewedEventLayer)}`);
-  }
 
   it('should send 1 Category View event when going to a Category and clicking a facet', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
