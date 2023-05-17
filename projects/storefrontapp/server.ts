@@ -7,10 +7,11 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
-  defaultSsrOptimizationOptions,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
+
 import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';

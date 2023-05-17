@@ -28,7 +28,6 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     },
   ];
 }
-
 /**
  * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
  *
