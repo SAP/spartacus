@@ -314,7 +314,6 @@ describe('Profile-tag events', () => {
   });
 
   it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
-
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );

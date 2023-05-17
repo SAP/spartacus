@@ -156,10 +156,11 @@ export class ProfileTagPushEventsService {
         }
       ),
       map(
-        ([categoryPageEvent]) => new CategoryViewPushEvent({
-          productCategory: categoryPageEvent.categoryCode,
-          productCategoryName: categoryPageEvent.categoryName,
-        })
+        ([categoryPageEvent]) =>
+          new CategoryViewPushEvent({
+            productCategory: categoryPageEvent.categoryCode,
+            productCategoryName: categoryPageEvent.categoryName,
+          })
       )
     );
   }
