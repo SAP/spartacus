@@ -10,7 +10,7 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
-import { SampleUser } from '../sample-data/checkout-flow';
+import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import {
   interceptGet,
   interceptPatch,
@@ -25,9 +25,47 @@ import {
 } from './navigation';
 import { generateMail, randomString } from './user';
 
-export function addCartForB2BCustomer(): void {
-  const productCode = '1979039';
-  cy.login('gi.sun@pronto-hw.com', 'pw4all').then(() => {
+const asmForB2CCustomer = 'aaron.customer@hybris.com';
+const asmForB2BCustomer = 'Gi Sun';
+
+export function placeOrderForB2CCustomer(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    console.info(auth);
+    cy.addToCart(productCode, 1, auth.token.access_token).then((cartId) => {
+      cy.requireDeliveryAddressAdded(
+        getSampleUser().address,
+        auth.token,
+        cartId
+      );
+      cy.requireDeliveryMethodSelected(auth.token, cartId);
+      cy.requirePaymentMethodAdded(cartId);
+      cy.requirePlacedOrder(auth.token, cartId);
+    });
+  });
+}
+
+export function addProductToB2CCart(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    cy.addToCart(productCode, 1, auth.token.access_token);
+  });
+}
+
+export function addProductToB2BCart(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
     const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
     cy.addProductToB2BCart(productCode, 1, auth.token.access_token);
   });
@@ -212,12 +250,21 @@ export function asmCustomerLists(): void {
 
   cy.log('--> start emulation by click order');
   asm.asmOpenCustomerList();
-  cy.get('cx-customer-list')
-    .find('.cx-btn-cell')
-    .filter('[aria-label="Order"]')
-    .then(($rows) => {
-      expect($rows.length).to.eq(5);
-      cy.wrap($rows[0]).click();
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${asmForB2CCustomer}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table')
+    .contains('tbody tr', asmForB2CCustomer)
+    .closest('tbody tr')
+    .find('td:nth-child(6)')
+    .then(($order) => {
+      cy.wrap($order).click();
       cy.get('cx-customer-list').should('not.exist');
       cy.get('cx-order-history').should('exist');
     });
@@ -281,8 +328,18 @@ export function asmB2bCustomerLists(): void {
     }
   );
 
+  cy.log('--> click cart to jump to the cart view page.');
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${asmForB2BCustomer}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
   cy.get('cx-customer-list table')
-    .contains('tbody tr', 'Gi Sun')
+    .contains('tbody tr', asmForB2BCustomer)
     .closest('tbody tr')
     .find('td:nth-child(5)')
     .then(($cart) => {

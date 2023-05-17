@@ -27,7 +27,8 @@ context('Assisted Service Module', () => {
           currency: ['USD'],
         },
       });
-      asm.addCartForB2BCustomer();
+      const productCode = '1979039';
+      asm.addProductToB2BCart('gi.sun@pronto-hw.com', 'pw4all', productCode);
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
