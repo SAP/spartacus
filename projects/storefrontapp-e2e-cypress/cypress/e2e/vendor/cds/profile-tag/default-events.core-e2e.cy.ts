@@ -322,7 +322,7 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest').then(() => {
-      cy.window({ timeout: 10000 }).should((win) => {
+      cy.window().should((win) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -335,7 +335,7 @@ describe('Profile-tag events', () => {
     createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(() => {
-      cy.window({ timeout: 10000 }).should((win: any) => {
+      cy.window().should((win: any) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -353,7 +353,7 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest2').then(() => {
-      cy.window({ timeout: 10000 }).should((win: any) => {
+      cy.window().should((win: any) => {
         expect(
           profileTagHelper.eventCount(
             win,
