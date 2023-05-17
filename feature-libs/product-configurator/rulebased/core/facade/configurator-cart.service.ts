@@ -17,7 +17,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
@@ -37,7 +37,8 @@ export class ConfiguratorCartService {
   ) {}
 
   /**
-   * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
+   * Reads a configuration that is attached to a cart entry, dispatching the respective action.
+   *
    * @param owner Configuration owner
    * @returns Observable of product configurations
    */
@@ -102,7 +103,8 @@ export class ConfiguratorCartService {
   }
 
   /**
-   * Reads a configuratiom that is attached to an order entry, dispatching the respective action
+   * Reads a configuration that is attached to an order entry, dispatching the respective action.
+   *
    * @param owner Configuration owner
    * @returns Observable of product configurations
    */
@@ -217,6 +219,7 @@ export class ConfiguratorCartService {
 
   /**
    * Can be used to check if the active cart has any product configuration issues.
+   *
    * @returns True if and only if there is at least one cart entry with product configuration issues
    */
   activeCartHasIssues(): Observable<boolean> {
@@ -235,12 +238,39 @@ export class ConfiguratorCartService {
     );
   }
 
-  getLastEntry(productCode: string): Observable<OrderEntry | undefined> {
-    return this.activeCartService.getLastEntry(productCode);
+  /**
+   * Retrieves cart entry by a cart entry number.
+   *
+   * @param {string} entryNumber - Entry number
+   * @returns {Observable<OrderEntry | undefined>} - Cart entry
+   */
+  getEntry(entryNumber: string): Observable<OrderEntry | undefined> {
+    let cartEntry: OrderEntry | undefined;
+
+    this.getEntries()
+      .pipe(take(1))
+      .subscribe((entries: OrderEntry[] | undefined) => {
+        entries?.forEach((entry: OrderEntry) => {
+          if (entry?.entryNumber?.toString() === entryNumber) {
+            cartEntry = entry;
+          }
+        });
+      });
+
+    return of(cartEntry);
   }
 
-  getEntries(): Observable<OrderEntry[]> {
-    return this.activeCartService.getEntries();
+  /**
+   * Retrieves a list of cart entries.
+   *
+   * @returns {Observable<OrderEntry[] | undefined>} - List of cart entries
+   */
+  getEntries(): Observable<OrderEntry[] | undefined> {
+    return this.activeCartService.requireLoadedCart().pipe(
+      map((cart) => {
+        return cart ? cart.entries : [];
+      })
+    );
   }
 
   /**

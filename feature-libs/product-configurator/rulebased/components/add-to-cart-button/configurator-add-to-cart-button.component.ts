@@ -92,13 +92,13 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Retrieves a quantity for an order entry.
+   * Retrieves a quantity for a cart entry.
    *
-   * @param {string} productCode - Product code
+   * @param {string} entryNumber - Entry number
    * @returns {number} - Quantity
    */
-  getQuantity(productCode: string): Observable<number | undefined> {
-    return this.configuratorCartService.getLastEntry(productCode).pipe(
+  getQuantity(entryNumber: string): Observable<number | undefined> {
+    return this.configuratorCartService.getEntry(entryNumber).pipe(
       map((entry) => {
         return entry?.quantity ? entry?.quantity : 1;
       })

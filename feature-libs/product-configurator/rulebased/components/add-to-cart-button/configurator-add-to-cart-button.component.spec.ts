@@ -136,7 +136,7 @@ class MockConfiguratorCartService {
 
   addToCart() {}
 
-  getLastEntry() {
+  getEntry() {
     return orderEntryObservable;
   }
 }
@@ -388,7 +388,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
-    spyOn(configuratorCartService, 'getLastEntry').and.callThrough();
+    spyOn(configuratorCartService, 'getEntry').and.callThrough();
     spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
       elementMock as unknown as HTMLElement
     );
