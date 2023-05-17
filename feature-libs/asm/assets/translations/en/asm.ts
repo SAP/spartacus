@@ -14,7 +14,7 @@ export const asm = {
     createCustomerSuccessfullyAlert:
       'The customer account has been created and the customer session has started.',
     saveInactiveCartAlertInfo:
-      "Selected cart is an 'inactive cart'. To active the cart you need to save the cart.",
+      'The identified cart is an inactive cart. To take further actions on this cart, save it first.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -103,7 +103,7 @@ export const asm = {
     saveCart: {
       saveCartBtn: 'Save for Later',
       dialog: {
-        saveInfo: 'Save the cart before you can active it.',
+        saveInfo: 'Save the cart before you can take further actions.',
         disableInfo: 'Cannot save the cart as it is empty.',
         title: 'Save Cart',
         row: {

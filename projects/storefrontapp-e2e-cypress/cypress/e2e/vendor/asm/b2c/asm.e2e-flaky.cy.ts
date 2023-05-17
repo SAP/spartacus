@@ -5,7 +5,6 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login as fetchingToken } from '../../../../support/utils/login';
 import { login } from '../../../../helpers/auth-forms';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
@@ -17,6 +16,9 @@ import {
 import { APPAREL_BASESITE } from '../../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import { login as fetchingToken } from '../../../../support/utils/login';
+
+import { addToCart, createCart } from '../../../../support/utils/cart';
 
 const agentToken = {
   userName: 'asagent',
@@ -139,6 +141,114 @@ context('Assisted Service Module', () => {
           asm.agentSignOut();
         });
       });
+    });
+
+    it('should save inative cart in deeplink after agent login (CXSPA-3278)', () => {
+      const customer = getSampleUser();
+      cy.log('--> Register new user');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customer);
+
+      cy.visit('/?asm=true');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+      getInactiveCartId(customer.email, customer.password, false).then(
+        (inactiveCartId) => {
+          // get customerId via token
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+            );
+
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
+
+            cy.log('--> Click save button the dialog shold display');
+            cy.get('button[id=asm-save-inactive-cart-btn]').click();
+            cy.get('cx-asm-save-cart-dialog').should('exist');
+            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              .should('exist')
+              .click();
+            cy.get('button[id=asm-save-cart-dialog-btn]')
+              .should('be.enabled')
+              .click();
+
+            cy.log(
+              '--> Click save button will navigate to the cart detail page'
+            );
+            cy.url().should('include', 'saved-cart');
+            cy.url().should('include', inactiveCartId);
+            cy.get('.cx-card-label').should('contain', inactiveCartId);
+            cy.get('cx-saved-cart-details-action .btn-primary').should(
+              'be.enabled'
+            );
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        }
+      );
+    });
+
+    it('should not save empty inative cart in deeplink after agent login (CXSPA-3278)', () => {
+      const customer = getSampleUser();
+      cy.log('--> Register new user');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customer);
+
+      cy.visit('/?asm=true');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+      getInactiveCartId(customer.email, customer.password, true).then(
+        (inactiveCartId) => {
+          cy.log('--> create inactive cart');
+          // get customerId via token
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+            );
+
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
+
+            cy.log(
+              '--> Click save button the dialog shold display, but the save button is disable'
+            );
+            cy.get('button[id=asm-save-inactive-cart-btn]').click();
+            cy.get('cx-asm-save-cart-dialog').should('exist');
+            cy.get('cx-asm-save-cart-dialog .cx-message-warning button cx-icon')
+              .should('exist')
+              .click();
+            cy.get('button[id=asm-save-cart-dialog-btn]').should('be.disabled');
+            cy.findByText(/Cancel/i).click();
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        }
+      );
     });
 
     it('should checkout as customer', () => {
@@ -264,6 +374,48 @@ context('Assisted Service Module', () => {
         }).then((response) => {
           if (response.status === 200) {
             resolve(response.body.customerId);
+          } else {
+            reject(response.status);
+          }
+        });
+      });
+    });
+  }
+
+  function getInactiveCartId(customerEmail, customerPwd, isEmpty: boolean) {
+    let token = null;
+    let inactiveCartId = null;
+    return new Promise((resolve, reject) => {
+      fetchingToken(customerEmail, customerPwd, false).then((res) => {
+        token = res.body.access_token;
+        createCart(token).then((response) => {
+          if (response.status === 201) {
+            inactiveCartId = response.body.code;
+            if (!isEmpty) {
+              addToCart(inactiveCartId, '1934793', '2', token).then(
+                (response) => {
+                  if (response.status === 200) {
+                    createCart(token).then((response) => {
+                      if (response.status === 201) {
+                        resolve(inactiveCartId);
+                      } else {
+                        reject(response.status);
+                      }
+                    });
+                  } else {
+                    reject(response.status);
+                  }
+                }
+              );
+            } else {
+              createCart(token).then((response) => {
+                if (response.status === 201) {
+                  resolve(inactiveCartId);
+                } else {
+                  reject(response.status);
+                }
+              });
+            }
           } else {
             reject(response.status);
           }
