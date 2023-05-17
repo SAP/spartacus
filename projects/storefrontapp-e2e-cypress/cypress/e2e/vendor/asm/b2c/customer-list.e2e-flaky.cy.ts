@@ -15,32 +15,12 @@ context('Assisted Service Module', () => {
   });
 
   describe('ASM Customer list', () => {
-    const productCode = '479742';
-    it('Should be able to checkout a b2c order via API (CXSPA-1595)', function () {
-      cy.login('aaron.customer@hybris.com', 'pw4all').then(() => {
-        const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
-        console.info(auth);
-        cy.addToCart(productCode, 1, auth.token.access_token).then((cartId) => {
-          cy.requireDeliveryAddressAdded(
-            getSampleUser().address,
-            auth.token,
-            cartId
-          );
-          cy.requireDeliveryMethodSelected(auth.token, cartId);
-          cy.requirePaymentMethodAdded(cartId);
-          cy.requirePlacedOrder(auth.token, cartId);
-        });
-      });
-    });
-
-    it('Should be able to create a b2c cart via API (CXSPA-1595)', function () {
-      cy.login('aaron.customer@hybris.com', 'pw4all').then(() => {
-        const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
-        cy.addToCart(productCode, 1, auth.token.access_token);
-      });
-    });
-
-    it('checking custom list features', () => {
+    it('checking custom list features (CXSPA-1595)', () => {
+      const custom = 'aaron.customer@hybris.com';
+      const pwd = 'pw4all';
+      const productCode = '479742';
+      asm.placeOrderForB2CCustomer(custom, pwd, productCode);
+      asm.addProductToB2CCart(custom, pwd, productCode);
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
