@@ -7,23 +7,25 @@
 import { Injectable } from '@angular/core';
 import { ConsentTemplate } from '@spartacus/core';
 import { ConsentManagementService } from '@spartacus/storefront';
+import { CdcLocalStorageTemplate } from '../../../core/models/cdc-site-consents.model';
+import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CdcConsentManagementService extends ConsentManagementService {
+  constructor(protected store: CdcConsentsLocalStorageService) {
+    super();
+  }
   getRequiredConsents(templateList: ConsentTemplate[]): string[] {
     var requiredConsents: string[] = [];
     requiredConsents = super.getRequiredConsents(templateList);
-    for (let consent of templateList) {
-      /** make a consent disabled if it starts with 'terms or privacy' and is already set */
-      if (
-        consent.id &&
-        (consent.id.startsWith('terms') || consent.id.startsWith('privacy')) &&
-        consent.currentConsent?.consentGivenDate
-      )
+    var consents: CdcLocalStorageTemplate[] = this.store.readCdcConsentState();
+    consents.forEach((consent) => {
+      if (consent.required === true) {
         requiredConsents.push(consent.id);
-    }
+      }
+    });
     return requiredConsents;
   }
 }

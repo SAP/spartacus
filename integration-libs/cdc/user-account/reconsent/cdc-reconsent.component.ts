@@ -13,7 +13,7 @@ import {
 } from '@spartacus/storefront';
 import { CdcJsService } from '../../root/service';
 import { Observable, of, Subscription } from 'rxjs';
-import {  map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CdcReconsentService } from './cdc-reconsent.service';
 
 @Component({
@@ -22,34 +22,18 @@ import { CdcReconsentService } from './cdc-reconsent.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
-  onConsentChange(event: { given: boolean; template: ConsentTemplate }) {
-    if (event.given === false && event.template?.id) {
-      let index: number = this.updateList.indexOf(event.template.id);
-      if (index !== -1) {
-        this.updateList.splice(index, 1);
-      }
-    } else if (event.given === true && event.template?.id) {
-      this.updateList.push(event.template.id);
-    }
-    if (this.totalConsents === this.updateList.length) this.submit = false;
-    else this.submit = true;
-  }
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected cdcJsService: CdcJsService,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected cdcReconsentService: CdcReconsentService
-  ) {}
   protected subscription = new Subscription();
-  iconTypes = ICON_TYPE;
-  templateList$: Observable<ConsentTemplate[]>;
-  updateList: string[] = []; // will contain consent IDs that needs to be saved
-  loaded$: Observable<boolean> = of(false);
+
   form: UntypedFormGroup = new UntypedFormGroup({});
-  errorMessage: string = '';
-  submit: boolean = true;
+  iconTypes = ICON_TYPE;
+  loaded$: Observable<boolean> = of(false);
+
+  templateList$: Observable<ConsentTemplate[]>;
+  reconsentEvent: any = {};
+
+  selectedConsents: string[] = [];
+  enableSubmitButton: boolean = true;
   totalConsents: number = 0;
-  user: string;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -57,11 +41,21 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     autofocus: 'button',
     focusOnEscape: true,
   };
+
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected cdcJsService: CdcJsService,
+    protected anonymousConsentsService: AnonymousConsentsService,
+    protected cdcReconsentService: CdcReconsentService
+  ) {}
+
   ngOnInit(): void {
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
-        this.user = data.user;
-        this.errorMessage = data.errorMessage;
+        this.reconsentEvent['user'] = data.user;
+        this.reconsentEvent['password'] = data.password;
+        this.reconsentEvent['regToken'] = data.regToken;
+        this.reconsentEvent['errorMessage'] = data.errorMessage;
         this.init(data.consentIds);
       })
     );
@@ -81,20 +75,38 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     );
     this.loaded$ = of(true);
   }
-  dismissModal(reason?: any): void {
+  onConsentChange(event: { given: boolean; template: ConsentTemplate }) {
+    if (event.given === false && event.template?.id) {
+      let index: number = this.selectedConsents.indexOf(event.template.id);
+      if (index !== -1) {
+        this.selectedConsents.splice(index, 1);
+      }
+    } else if (event.given === true && event.template?.id) {
+      this.selectedConsents.push(event.template.id);
+    }
+    if (this.totalConsents === this.selectedConsents.length)
+      this.enableSubmitButton = false;
+    else this.enableSubmitButton = true;
+  }
+  dismissModal(reason?: any, message?: string): void {
     this.launchDialogService.closeDialog(reason);
     if (reason === 'Proceed To Login') {
       this.save();
     } else {
       let response = {
         status: 'FAIL',
-        errorMessage: this.errorMessage,
+        errorMessage: message,
       };
       this.cdcJsService.handleLoginError(response);
     }
   }
   save(): void {
-    this.cdcReconsentService.saveConsent(this.updateList,this.user);
+    let errorMessage = this.cdcReconsentService.saveReconsent(
+      this.selectedConsents,
+      this.reconsentEvent
+    );
+    if (errorMessage !== '')
+      this.dismissModal('Error During Reconsent Update', errorMessage);
   }
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
