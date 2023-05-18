@@ -7,14 +7,18 @@
 import { NgModule, Provider } from '@angular/core';
 import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
 import {
-  opfTranslationChunksConfig,
-  opfTranslations,
+  opfCheckoutTranslationChunksConfig,
+  opfCheckoutTranslations,
 } from '@spartacus/opf/checkout/assets';
 import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
   OpfConfig,
 } from '@spartacus/opf/checkout/root';
+import {
+  opfPaymentTranslationChunksConfig,
+  opfPaymentTranslations,
+} from '@spartacus/opf/payment/assets';
 import {
   OpfPaymentRootModule,
   OPF_PAYMENT_FEATURE,
@@ -55,8 +59,15 @@ if (environment.b2b) {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfTranslations,
-        chunks: opfTranslationChunksConfig,
+        resources: opfCheckoutTranslations,
+        chunks: opfCheckoutTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: opfPaymentTranslations,
+        chunks: opfPaymentTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),
