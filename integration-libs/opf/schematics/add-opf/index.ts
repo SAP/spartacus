@@ -16,14 +16,15 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  readPackageJson,
   LibraryOptions as SpartacusOpfOptions,
+  readPackageJson,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
 export function addOpfFeature(options: SpartacusOpfOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
+    _context.logger.info('flo options: ' + JSON.stringify(options));
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 

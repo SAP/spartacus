@@ -24,7 +24,12 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["OPF"]
+      "items": {
+        "enum": ["OPF-Checkout", "OPF-Payment"],
+        "type": "string"
+      },
+      "default": ["OPF-Checkout", "OPF-Payment"],
+      "x-prompt": "the 2 libraries from OPF"
     },
     "baseUrl": {
       "type": "string",
