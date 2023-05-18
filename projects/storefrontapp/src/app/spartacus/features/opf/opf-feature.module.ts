@@ -13,10 +13,12 @@ import {
 import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
-  OpfCheckoutRootModule,
   OpfConfig,
-  OPF_CHECKOUT_FEATURE,
 } from '@spartacus/opf/checkout/root';
+import {
+  OpfPaymentRootModule,
+  OPF_PAYMENT_FEATURE,
+} from '@spartacus/opf/payment/root';
 
 import { environment } from '../../../../environments/environment';
 
@@ -28,28 +30,17 @@ if (environment.b2b) {
 }
 
 @NgModule({
-  imports: [OpfCheckoutRootModule],
+  imports: [OpfPaymentRootModule],
   providers: [
-    // provideConfig({
-    //   featureModules: {
-    //     [OPF_PAYMENT_FEATURE]: {
-    //       module: () =>
-    //         import('./opf-payment-wrapper.module').then(
-    //           (m) => m.OpfPaymentWrapperModule
-    //         ),
-    //     },
-    //   },
-    // }),
     provideConfig({
       featureModules: {
-        [OPF_CHECKOUT_FEATURE]: {
+        [OPF_PAYMENT_FEATURE]: {
           module: () =>
-            import('./opf-checkout-wrapper.module').then(
-              (m) => m.OpfCheckoutWrapperModule
-            ),
+            import('@spartacus/opf/payment').then((m) => m.OpfPaymentModule),
         },
       },
     }),
+
     provideConfig(<RoutingConfig>{
       routing: {
         routes: {
