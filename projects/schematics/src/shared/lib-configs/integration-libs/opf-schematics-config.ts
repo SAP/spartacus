@@ -41,16 +41,16 @@ export const OPF_CONFIG = 'OpfConfig';
 export const OPF_CHECKOUT_FEATURE_NAME_CONSTANT = 'OPF_CHECKOUT_FEATURE';
 export const OPF_CHECKOUT_MODULE = 'OpfCheckoutModule';
 export const OPF_CHECKOUT_ROOT_MODULE = 'OpfCheckoutRootModule';
-export const OPF_CHECKOUT_TRANSLATIONS = 'OpfCheckoutTranslations';
+export const OPF_CHECKOUT_TRANSLATIONS = 'opfCheckoutTranslations';
 export const OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG =
-  'OpfCheckoutTranslationChunksConfig';
+  'opfCheckoutTranslationChunksConfig';
 
 export const OPF_PAYMENT_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
 export const OPF_PAYMENT_MODULE = 'OpfPaymentModule';
 export const OPF_PAYMENT_ROOT_MODULE = 'OpfPaymentRootModule';
-export const OPF_PAYMENT_TRANSLATIONS = 'OpfPaymentTranslations';
+export const OPF_PAYMENT_TRANSLATIONS = 'opfPaymentTranslations';
 export const OPF_PAYMENT_TRANSLATION_CHUNKS_CONFIG =
-  'OpfPaymentTranslationChunksConfig';
+  'opfPaymentTranslationChunksConfig';
 ////
 
 export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
