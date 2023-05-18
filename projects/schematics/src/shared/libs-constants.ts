@@ -195,6 +195,14 @@ export const SPARTACUS_OPF = `@spartacus/opf`;
 export const SPARTACUS_OPF_ROOT = `@spartacus/opf/root`;
 export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;
 
+export const SPARTACUS_OPF_CHECKOUT = `@spartacus/opf/checkout`;
+export const SPARTACUS_OPF_CHECKOUT_ROOT = `@spartacus/opf/checkout/root`;
+export const SPARTACUS_OPF_CHECKOUT_ASSETS = `@spartacus/opf/checkout/assets`;
+
+export const SPARTACUS_OPF_PAYMENT = `@spartacus/opf/payment`;
+export const SPARTACUS_OPF_PAYMENT_ROOT = `@spartacus/opf/payment/root`;
+export const SPARTACUS_OPF_PAYMENT_ASSETS = `@spartacus/opf/payment/assets`;
+
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
 export const SPARTACUS_CUSTOMER_TICKETING = '@spartacus/customer-ticketing';
@@ -268,6 +276,8 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
+export const OPF_CHECKOUT_FEATURE_NAME = 'OPF Checkout';
+export const OPF_PAYMENT_FEATURE_NAME = 'OPF Payment';
 /***** Feature name end *****/
 
 /***** Feature name start *****/
