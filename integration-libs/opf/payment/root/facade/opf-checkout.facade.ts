@@ -5,16 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { facadeFactory, QueryState } from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OPF_PAYMENT_FEATURE } from '../feature-name';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  PaymentInitiationConfig,
-  PaymentSessionData,
 } from '../model';
-import { ActiveConfiguration } from '../model/opf-checkout.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,32 +19,10 @@ import { ActiveConfiguration } from '../model/opf-checkout.model';
     facadeFactory({
       facade: OpfCheckoutFacade,
       feature: OPF_PAYMENT_FEATURE,
-      methods: [
-        'getActiveConfigurationsState',
-        'verifyPayment',
-        'initiatePayment',
-      ],
+      methods: ['verifyPayment'],
     }),
 })
 export abstract class OpfCheckoutFacade {
-  /**
-   * Get checkout payment active configurations
-   */
-  abstract getActiveConfigurationsState(): Observable<
-    QueryState<ActiveConfiguration[] | undefined>
-  >;
-
-  /**
-   * Abstract method used to initiate payment session
-   * or call the PSP to initiate.
-   *
-   * @param {PaymentInitiationConfig} paymentConfig
-   *
-   */
-  abstract initiatePayment(
-    paymentConfig: PaymentInitiationConfig
-  ): Observable<PaymentSessionData>;
-
   /**
    * Endpoint to verify a response from PSP for Full Page Redirect and iFrame integration patterns.
    *

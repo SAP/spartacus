@@ -5,15 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfPaymentComponentsModule } from '@spartacus/opf/payment/components';
 import { OpfPaymentCoreModule } from '@spartacus/opf/payment/core';
 import { OpfPaymentOccModule } from '@spartacus/opf/payment/occ';
 
 @NgModule({
-  imports: [
-    OpfPaymentOccModule,
-    OpfPaymentCoreModule,
-    OpfPaymentComponentsModule,
-  ],
+  imports: [OpfPaymentOccModule, OpfPaymentCoreModule],
 })
 export class OpfPaymentModule {}

@@ -244,9 +244,6 @@
       "@spartacus/opf/payment/assets": [
         "integration-libs/opf/payment/assets/public_api"
       ],
-      "@spartacus/opf/payment/components": [
-        "integration-libs/opf/payment/components/public_api"
-      ],
       "@spartacus/opf/payment/core": [
         "integration-libs/opf/payment/core/public_api"
       ],
