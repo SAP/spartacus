@@ -1,7 +1,12 @@
 export interface CdcSiteConsentTemplate {
   siteConsentDetails: {
-    [key: string]: any;
+    [key: string]: { isMandatory: boolean };
   };
+}
+
+export interface CdcLocalStorageTemplate {
+  id: string;
+  required: boolean;
 }
 
 import '@spartacus/storefront';

@@ -37,7 +37,6 @@ import {
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
-import { CdcReconsentService } from '../../user-account/reconsent/cdc-reconsent.service';
 import { CdcReConsentEvent } from '../events';
 
 const defaultSessionTimeOut = 3600;
@@ -63,8 +62,7 @@ export class CdcJsService implements OnDestroy {
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
     protected globalMessageService: GlobalMessageService,
-    protected eventService: EventService,
-    protected reconsentService: CdcReconsentService
+    protected eventService: EventService
   ) {}
 
   /**
@@ -267,6 +265,15 @@ export class CdcJsService implements OnDestroy {
             error: (response) => {
               if (response.errorCode !== 206001)
                 this.handleLoginError(response);
+              else {
+                this.raiseCdcReconsentEvent(
+                  email,
+                  password,
+                  response.missingRequiredFields,
+                  response.errorMessage,
+                  response.regToken
+                );
+              }
             },
           })
         );
@@ -607,16 +614,12 @@ export class CdcJsService implements OnDestroy {
    * @returns - Observable with the response
    */
   protected invokeAPI(methodName: string, payload: Object): Observable<any> {
-    console.log('here1');
     return new Observable<any>((result) => {
-      console.log('here2');
       const actualAPI = this.getSdkFunctionFromName(methodName);
       if (typeof actualAPI != 'function') {
-        console.log('err');
         result.error('CDC API name is incorrect');
         return;
       }
-      console.log(actualAPI);
       actualAPI({
         ...payload,
         callback: (response: any) => {
@@ -646,13 +649,16 @@ export class CdcJsService implements OnDestroy {
   setUserConsentPreferences(
     uid: string,
     lang: string,
-    preferences: any
+    preferences: any,
+    regToken?: string
   ): Observable<{ errorCode: number; errorMessage: string }> {
-    console.log('here');
+    const regSource: string = this.winRef.nativeWindow?.location?.href || '';
     return this.invokeAPI(setAccountInfoAPI, {
       uid: uid,
       lang: lang,
       preferences: preferences,
+      regSource: regSource,
+      regToken: regToken,
     }).pipe(
       tap({
         error: (error) => {
@@ -663,14 +669,29 @@ export class CdcJsService implements OnDestroy {
     );
   }
 
-  raiseCdcReconsentEvent(user: string, reconsentIds: string[], errorMessage: string): void {
-    let event: CdcReConsentEvent =
-      this.reconsentService.generateCdcReConsentEvent(
-        user,
-        reconsentIds,
-        errorMessage
+  raiseCdcReconsentEvent(
+    user: string,
+    password: string,
+    reconsentIds: string[],
+    errorMessage: string,
+    regToken: string
+  ): void {
+    var consentIds: string[] = [];
+    reconsentIds.forEach((template) => {
+      let removePreference = template.replace('preferences.', '');
+      let removeIsConsentGranted = removePreference.replace(
+        '.isConsentGranted',
+        ''
       );
-    this.eventService.dispatch(event);
+      consentIds.push(removeIsConsentGranted);
+    });
+    const newReConsentEvent = new CdcReConsentEvent();
+    newReConsentEvent.user = user;
+    newReConsentEvent.password = password;
+    newReConsentEvent.consentIds = consentIds;
+    newReConsentEvent.errorMessage = errorMessage;
+    newReConsentEvent.regToken = regToken;
+    this.eventService.dispatch(newReConsentEvent);
   }
 
   protected logoutUser() {

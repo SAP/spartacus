@@ -22,6 +22,8 @@ export class CdcReConsentEvent extends CxEvent {
    */
   static readonly type = 'CdcReConsentEvent';
   user: string;
+  password: string;
   consentIds: string[];
   errorMessage: string;
+  regToken: string;
 }

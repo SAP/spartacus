@@ -7,9 +7,10 @@ import {
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import { CDC_USER_PREFERENCE_SERIALIZER } from '../converters/converter';
+import { tap } from 'rxjs/operators';
+import { CdcLocalStorageTemplate } from '../../../core/models/cdc-site-consents.model';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentService {
@@ -19,12 +20,13 @@ export class CdcUserConsentService {
     protected cdcJsService: CdcJsService,
     protected converter: ConverterService,
     protected cdcConsentsStorage: CdcConsentsLocalStorageService
-  ) {}
+  ) { }
 
   updateCdcConsent(
     isConsentGranted: boolean,
     consentCode: string,
-    user?: string
+    user?: string,
+    regToken?: string
   ): Observable<{ errorCode: number; errorMessage: string }> {
     var consent: ConsentTemplate = {};
     consent.id = consentCode;
@@ -42,9 +44,13 @@ export class CdcUserConsentService {
       consent,
       CDC_USER_PREFERENCE_SERIALIZER
     );
-
     return this.cdcJsService
-      .setUserConsentPreferences(userId, currentLanguage, serializedPreference)
+      .setUserConsentPreferences(
+        userId,
+        currentLanguage,
+        serializedPreference,
+        regToken
+      )
       .pipe(
         tap({
           error: (error) => {
@@ -71,12 +77,16 @@ export class CdcUserConsentService {
   }
 
   persistCdcSiteConsents() {
-    var consents: string[] = [];
+    var consents: CdcLocalStorageTemplate[] = [];
     this.cdcJsService.getSiteConsentDetails().subscribe((siteConsent) => {
-      for (var key in siteConsent.siteConsentDetails) {
+      var siteDetails = siteConsent.siteConsentDetails;
+      for (var key in siteDetails) {
         //key will be a string with dot separated IDs
-        if (Object.hasOwn(siteConsent.siteConsentDetails, key)) {
-          consents.push(key);
+        if (Object.hasOwn(siteDetails, key)) {
+          let consent: any = {};
+          consent.id = key;
+          consent.required = siteDetails[key]?.isMandatory;
+          consents.push(consent);
         }
       }
       this.cdcConsentsStorage.syncCdcConsentsState(consents);
