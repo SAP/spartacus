@@ -8,14 +8,14 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { OPF_FEATURE } from '../feature-name';
+import { OPF_CHECKOUT_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: OpfOrderFacade,
-      feature: OPF_FEATURE,
+      feature: OPF_CHECKOUT_FEATURE,
       methods: ['placeOpfOrder'],
     }),
 })

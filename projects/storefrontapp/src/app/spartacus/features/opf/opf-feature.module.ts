@@ -15,6 +15,7 @@ import {
   defaultOPFCheckoutConfig,
   OpfCheckoutRootModule,
   OpfConfig,
+  OPF_CHECKOUT_FEATURE,
 } from '@spartacus/opf/checkout/root';
 
 import { environment } from '../../../../environments/environment';
@@ -29,6 +30,26 @@ if (environment.b2b) {
 @NgModule({
   imports: [OpfCheckoutRootModule],
   providers: [
+    // provideConfig({
+    //   featureModules: {
+    //     [OPF_PAYMENT_FEATURE]: {
+    //       module: () =>
+    //         import('./opf-payment-wrapper.module').then(
+    //           (m) => m.OpfPaymentWrapperModule
+    //         ),
+    //     },
+    //   },
+    // }),
+    provideConfig({
+      featureModules: {
+        [OPF_CHECKOUT_FEATURE]: {
+          module: () =>
+            import('./opf-checkout-wrapper.module').then(
+              (m) => m.OpfCheckoutWrapperModule
+            ),
+        },
+      },
+    }),
     provideConfig(<RoutingConfig>{
       routing: {
         routes: {
@@ -41,13 +62,6 @@ if (environment.b2b) {
         },
       },
     }),
-    provideConfig(<OpfConfig>{
-      opf: {
-        baseUrl:
-          'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
-        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
-      },
-    }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: opfTranslations,
@@ -55,13 +69,13 @@ if (environment.b2b) {
         fallbackLang: 'en',
       },
     }),
-    // provideConfig({
-    //   featureModules: {
-    //     [OPF_FEATURE]: {
-    //       module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-    //     },
-    //   },
-    // }),
+    provideConfig(<OpfConfig>{
+      opf: {
+        baseUrl:
+          'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
+        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+      },
+    }),
     ...extensionProviders,
   ],
 })

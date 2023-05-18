@@ -1,0 +1,15 @@
+%cx-opf-checkout-payment-wrapper {
+  .cx-payment-option-container {
+    padding: 1rem 0 0 0;
+    .cx-info {
+      text-align: center;
+      font-size: var(--cx-font-size, 1rem);
+      color: var(--cx-color-dark);
+      display: block;
+      margin: 0.5rem 0 0.5rem 0;
+    }
+    .cx-payment-link {
+      text-align: end;
+    }
+  }
+}

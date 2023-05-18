@@ -240,7 +240,7 @@
         "integration-libs/opf/checkout/root/public_api"
       ],
       //////
-      "@spartacus/opf/payment": ["integration-libs/opf/checkout/public_api"],
+      "@spartacus/opf/payment": ["integration-libs/opf/payment/public_api"],
       "@spartacus/opf/payment/assets": [
         "integration-libs/opf/payment/assets/public_api"
       ],

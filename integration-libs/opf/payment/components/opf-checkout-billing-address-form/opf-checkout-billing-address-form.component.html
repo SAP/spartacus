@@ -1,0 +1,67 @@
+<ng-container *ngIf="!(isLoadingAddress$ | async); else loading">
+  <div class="form-group">
+    <div class="form-check">
+      <label>
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [checked]="isSameAsDelivery"
+          (change)="toggleSameAsDeliveryAddress()"
+          [attr.aria-label]="
+            'paymentForm.billingAddressSameAsShipping' | cxTranslate
+          "
+        />
+        <span class="form-check-label">{{
+          'paymentForm.sameAsDeliveryAddress' | cxTranslate
+        }}</span>
+      </label>
+    </div>
+  </div>
+
+  <ng-container
+    *ngIf="
+      !isEditBillingAddress &&
+      isSameAsDelivery &&
+      (deliveryAddress$ | async) as deliveryAddress
+    "
+  >
+    <cx-card [content]="deliveryAddress | cxGetAddressCardContent"></cx-card>
+  </ng-container>
+
+  <ng-container
+    *ngIf="
+      !isEditBillingAddress &&
+      !isSameAsDelivery &&
+      (billingAddress$ | async) as userCustomBillingAddress
+    "
+  >
+    <div class="cx-custom-address-info">
+      <cx-card
+        [content]="userCustomBillingAddress | cxGetAddressCardContent"
+      ></cx-card>
+
+      <button (click)="editCustomBillingAddress()">
+        <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+      </button>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>
+
+<ng-container *ngIf="isEditBillingAddress">
+  <cx-address-form
+    [addressData]="(billingAddress$ | async) || {}"
+    class="cx-form"
+    [showTitleCode]="true"
+    [showCancelBtn]="true"
+    actionBtnLabel="{{ 'common.save' | cxTranslate }}"
+    cancelBtnLabel="{{ 'common.cancel' | cxTranslate }}"
+    (submitAddress)="onSubmitAddress($event)"
+    (backToAddress)="cancelAndHideForm()"
+    [setAsDefaultField]="false"
+    [countries]="countries$"
+  ></cx-address-form>
+</ng-container>

@@ -1,0 +1,25 @@
+@import './components/index';
+
+$opf-components-allowlist: cx-opf-checkout-payment-and-review,
+  cx-opf-checkout-payments, cx-opf-checkout-billing-address-form,
+  cx-opf-checkout-payment-wrapper !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $opf-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $opf-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}
