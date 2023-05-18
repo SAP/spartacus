@@ -148,9 +148,11 @@ export class ProfileTagPushEventsService {
               currentCategoryPage.categoryCode &&
             previousRoute.navigation.semanticRoute ===
               currentRoute.navigation.semanticRoute
-          ); // A true means that this item is not unique, so this is hard to wrap your head around.
-          // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
-          // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode
+          );
+          // A true means that this item is not unique, so this is hard to wrap your head around.
+          // What we are saying, is that if the category code is the same AND the last emitted semantic route is the
+          // same then this is a duplicate (i.e. via a facet change). In other words, no other page type was visited,
+          // and we are on the same category code.
         }
       ),
       map(

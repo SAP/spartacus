@@ -313,26 +313,37 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
+  it('should send 2 Category View events when going to a Category, going to a different page type, and then back to the same category', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
-    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
-    cy.wait('@lastRequest');
-    cy.window().should((win) => {
-      expect(
-        profileTagHelper.eventCount(
-          win,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
-      ).to.equal(1);
+    cy.wait('@lastRequest').then(() => {
+      cy.window().should((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+          )
+        ).to.equal(1);
+      });
     });
+
+    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-searchbox input').type('camera{enter}');
-    cy.wait(`@${QUERY_ALIAS.CAMERA}`);
+    cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(() => {
+      cy.window().should((win: any) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.KEYWORD_SEARCH
+          )
+        ).to.equal(1);
+      });
+    });
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest2'
@@ -341,14 +352,15 @@ describe('Profile-tag events', () => {
       .contains('Cameras')
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
-    cy.wait('@lastRequest2');
-    cy.window().should((win2) => {
-      expect(
-        profileTagHelper.eventCount(
-          win2,
-          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
-        )
-      ).to.equal(2);
+    cy.wait('@lastRequest2').then(() => {
+      cy.window().should((win: any) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
+          )
+        ).to.equal(2);
+      });
     });
   });
 
