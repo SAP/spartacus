@@ -5,9 +5,8 @@
  */
 
 /* webpackIgnore: true */
-import { inject } from '@angular/core';
+import { FactoryProvider } from '@angular/core';
 import { NgSetupOptions } from '@nguniversal/express-engine';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { PropagateErrorFn, PROPAGATE_ERROR } from '@spartacus/core';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
@@ -82,18 +81,6 @@ export class OptimizedSsrEngine {
         // add spartacus related providers
         // SPIKE TODO arch: can be moved to `provideServer()` function
         ...getServerRequestProviders(),
-
-        // add OptimizedSsrEngine related providers:
-        {
-          provide: PROPAGATE_ERROR,
-          useFactory: (): PropagateErrorFn => {
-            const request = inject(REQUEST); // SPIKE TODO arch: move out injecting REQUEST (using Angular's `inject()` function) from the expressJS specific code (from OptimizedSsrEngine)
-            return (err: any) => {
-              const key = this.getRenderingKey(request);
-              this.shareRenderResult(key, err);
-            };
-          },
-        },
 
         // add custom providers as last - to allow custom overwrites
         ...(setupOptions.providers ?? []),
@@ -376,7 +363,6 @@ export class OptimizedSsrEngine {
       this.startRender({
         filePath,
         options,
-        renderCallback,
         request,
       });
       return;
@@ -393,9 +379,6 @@ export class OptimizedSsrEngine {
         filePath,
         options,
         request,
-        renderCallback: (err, html) => {
-          this.shareRenderResult(renderingKey, err, html);
-        },
       });
     }
 
@@ -430,12 +413,10 @@ export class OptimizedSsrEngine {
   private startRender({
     filePath,
     options,
-    renderCallback,
     request,
   }: {
     filePath: string;
     options: any;
-    renderCallback: SsrCallbackFn;
     request: Request;
   }): void {
     const renderingKey = this.getRenderingKey(request);
@@ -461,6 +442,22 @@ export class OptimizedSsrEngine {
     this.renderingCache.setAsRendering(renderingKey);
     this.currentConcurrency++;
 
+    // SPIKE NEW
+    const customProviders: FactoryProvider[] = [
+      // add render-related providers:
+      {
+        provide: PROPAGATE_ERROR,
+        useFactory: (): PropagateErrorFn => {
+          return (err: any) => {
+            const key = this.getRenderingKey(request);
+            this.shareRenderResult(key, err);
+          };
+        },
+      },
+    ];
+    options.providers = [customProviders, ...(options.providers ?? [])];
+    // SPIKE NEW END
+
     this.ngExpressEngineInstance(filePath, options, (err, html) => {
       if (!maxRenderTimeout) {
         // ignore this render's result because it exceeded maxRenderTimeout
@@ -475,7 +472,7 @@ export class OptimizedSsrEngine {
       this.log(`Rendering completed (${request?.originalUrl})`);
       this.currentConcurrency--;
 
-      renderCallback(err, html);
+      this.shareRenderResult(renderingKey, err, html);
     });
   }
 }
