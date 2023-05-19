@@ -194,6 +194,8 @@ export class OptimizedSsrEngine {
    * @returns true if rendering this request would exceed the concurrency limit
    */
   private isConcurrencyLimitExceeded(renderingKey: string): boolean {
+    console.log({ concurrency: this.currentConcurrency }); // SPIKE TODO REMOVE
+
     // If we can reuse a pending render for this request, we don't take up a new concurrency slot.
     // In that case we don't exceed the concurrency limit even if the `currentConcurrency`
     // already reaches the limit.
