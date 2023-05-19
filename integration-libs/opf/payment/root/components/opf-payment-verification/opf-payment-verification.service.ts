@@ -15,7 +15,7 @@ import {
 import { Order } from '@spartacus/order/root';
 import { Observable, of, throwError } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import { OpfCheckoutFacade, OpfOrderFacade } from '../../facade';
+import { OpfOrderFacade, OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
@@ -31,7 +31,7 @@ export class OpfPaymentVerificationService {
     protected opfOrderFacade: OpfOrderFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected opfCheckoutService: OpfCheckoutFacade
+    protected opfCheckoutService: OpfPaymentFacade
   ) {}
 
   defaultError: HttpErrorModel = {

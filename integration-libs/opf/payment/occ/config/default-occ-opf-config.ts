@@ -10,8 +10,6 @@ export const defaultOccOpfConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        getActiveConfigurations: 'active-configurations',
-        initiatePayment: 'payments',
         verifyPayment: 'payments/${paymentSessionId}/verify',
       },
     },

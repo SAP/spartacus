@@ -5,30 +5,15 @@
  */
 
 import {
-  ActiveConfiguration,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  PaymentInitiationConfig,
-  PaymentSessionData,
 } from '@spartacus/opf/payment/root';
 import { Observable } from 'rxjs';
 
 export abstract class OpfAdapter {
   /**
-   * Abstract method used to get checkout payment
-   * active configurations
+   * Abstract method used to verify payment
    */
-  abstract getActiveConfigurations(): Observable<ActiveConfiguration[]>;
-  /**
-   * Abstract method used to initiate payment session
-   * or call the PSP to initiate.
-   *
-   * @param {PaymentInitiationConfig} paymentConfig
-   *
-   */
-  abstract initiatePayment(
-    paymentConfig: PaymentInitiationConfig
-  ): Observable<PaymentSessionData>;
 
   abstract verifyPayment(
     paymentSessionId: string,

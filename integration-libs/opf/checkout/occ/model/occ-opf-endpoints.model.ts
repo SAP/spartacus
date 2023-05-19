@@ -16,10 +16,5 @@ declare module '@spartacus/core' {
      * Endpoint to initiate payment session or call the PSP to initiate.
      */
     initiatePayment?: string | OccEndpoint;
-    /**
-     * Endpoint to verify a response from PSP for Full Page Redirect
-     * and iFrame integration patterns.
-     */
-    verifyPayment?: string | OccEndpoint;
   }
 }

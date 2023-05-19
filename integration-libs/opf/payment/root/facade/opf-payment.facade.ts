@@ -17,12 +17,12 @@ import {
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: OpfCheckoutFacade,
+      facade: OpfPaymentFacade,
       feature: OPF_PAYMENT_FEATURE,
       methods: ['verifyPayment'],
     }),
 })
-export abstract class OpfCheckoutFacade {
+export abstract class OpfPaymentFacade {
   /**
    * Endpoint to verify a response from PSP for Full Page Redirect and iFrame integration patterns.
    *

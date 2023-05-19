@@ -6,29 +6,16 @@
 
 import { Injectable } from '@angular/core';
 import {
-  ActiveConfiguration,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  PaymentInitiationConfig,
-  PaymentSessionData,
 } from '@spartacus/opf/payment/root';
 
 import { Observable } from 'rxjs';
 import { OpfAdapter } from './opf.adapter';
 
 @Injectable()
-export class OpfCheckoutConnector {
+export class OpfPaymentConnector {
   constructor(protected adapter: OpfAdapter) {}
-
-  public getActiveConfigurations(): Observable<ActiveConfiguration[]> {
-    return this.adapter.getActiveConfigurations();
-  }
-
-  public initiatePayment(
-    paymentConfig: PaymentInitiationConfig
-  ): Observable<PaymentSessionData> {
-    return this.adapter.initiatePayment(paymentConfig);
-  }
 
   public verifyPayment(
     paymentSessionId: string,

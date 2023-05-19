@@ -5,36 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { MODULE_INITIALIZER } from '@spartacus/core';
-import {
-  OpfCheckoutConnector,
-  OpfOrderConnector,
-  OtpConnector,
-} from './connectors';
-import { OpfEventModule } from './events/opf-event.module';
+import { OpfOrderConnector, OpfPaymentConnector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
-import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
-import { OpfStoreModule } from './store/opf-store.module';
-
-export function opfStatePersistenceFactory(
-  opfStatePersistenceService: OpfStatePersistenceService
-): () => void {
-  return () => opfStatePersistenceService.initSync();
-}
 
 @NgModule({
-  imports: [OpfStoreModule, OpfEventModule],
-  providers: [
-    {
-      provide: MODULE_INITIALIZER,
-      useFactory: opfStatePersistenceFactory,
-      deps: [OpfStatePersistenceService],
-      multi: true,
-    },
-    ...facadeProviders,
-    OpfCheckoutConnector,
-    OtpConnector,
-    OpfOrderConnector,
-  ],
+  imports: [],
+  providers: [...facadeProviders, OpfPaymentConnector, OpfOrderConnector],
 })
 export class OpfPaymentCoreModule {}
