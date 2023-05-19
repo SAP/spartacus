@@ -1,7 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, User } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
@@ -32,11 +36,18 @@ describe('CustomerEmulationComponent', () => {
     }
   }
 
+  class mockFeatureModulesService implements Partial<FeatureModulesService> {
+    isConfigured(): boolean {
+      return true;
+    }
+  }
+
   let component: CustomerEmulationComponent;
   let fixture: ComponentFixture<CustomerEmulationComponent>;
   let userAccountFacade: UserAccountFacade;
   let asmComponentService: AsmComponentService;
   let el: DebugElement;
+  let featureModulesService: FeatureModulesService;
 
   beforeEach(
     waitForAsync(() => {
@@ -44,6 +55,10 @@ describe('CustomerEmulationComponent', () => {
         imports: [I18nTestingModule],
         declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
         providers: [
+          {
+            provide: FeatureModulesService,
+            useClass: mockFeatureModulesService,
+          },
           { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -58,6 +73,7 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
     userAccountFacade = TestBed.inject(UserAccountFacade);
     asmComponentService = TestBed.inject(AsmComponentService);
+    featureModulesService = TestBed.inject(FeatureModulesService);
     el = fixture.debugElement;
   });
 
@@ -125,5 +141,29 @@ describe('CustomerEmulationComponent', () => {
     expect(asmComponentService.handleAsmDialogAction).toHaveBeenCalledWith(
       {} as any
     );
+  });
+
+  it('should display customer 360 button if customer360 is configured.', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ uid: 'user@test.com', name: 'Test User' })
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.isCustomer360Configured).toBeTruthy();
+    expect(el.query(By.css('.cx-360-button'))).toBeTruthy();
+  });
+
+  it('should not display customer 360 button if customer360 is not configured.', () => {
+    spyOn(featureModulesService, 'isConfigured').and.returnValue(false);
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ uid: 'user@test.com', name: 'Test User' })
+    );
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.isCustomer360Configured).toBeFalsy();
+    expect(el.query(By.css('.cx-360-button'))).toBeFalsy();
   });
 });
