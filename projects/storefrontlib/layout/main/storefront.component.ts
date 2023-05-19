@@ -66,7 +66,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     setTimeout(() => {
       throw new Error('FOO BAR BAZ!!!');
-    }, 3000);
+    }, 100);
+
+    const longTaskDuration = 5000;
+    console.log(`artificial long task ${longTaskDuration}ms start`);
+    setTimeout(() => {
+      console.log(`artificial long task ${longTaskDuration}ms finish`);
+    }, longTaskDuration);
 
     this.navigateSubscription = this.routingService
       .isNavigating()
