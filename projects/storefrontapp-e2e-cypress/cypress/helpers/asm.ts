@@ -25,6 +25,15 @@ import {
 } from './navigation';
 import { generateMail, randomString } from './user';
 
+export const invalidUser: SampleUser = {
+  firstName:
+    'JohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohn',
+  lastName:
+    'SmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmith',
+  email:
+    'john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith@test.com',
+};
+
 export function addCartForB2BCustomer(): void {
   const productCode = '1979039';
   cy.login('gi.sun@pronto-hw.com', 'pw4all').then(() => {
@@ -664,9 +673,9 @@ export function fillCreateCustomerForm({
 }: SampleUser) {
   cy.get('cx-asm-create-customer-form').should('be.visible');
   cy.get('cx-asm-create-customer-form').within(() => {
-    cy.get('[formcontrolname="firstName"]').type(firstName);
-    cy.get('[formcontrolname="lastName"]').type(lastName);
-    cy.get('[formcontrolname="email"]').type(email);
+    cy.get('[formcontrolname="firstName"]').clear().type(firstName);
+    cy.get('[formcontrolname="lastName"]').clear().type(lastName);
+    cy.get('[formcontrolname="email"]').clear().type(email);
   });
 }
 

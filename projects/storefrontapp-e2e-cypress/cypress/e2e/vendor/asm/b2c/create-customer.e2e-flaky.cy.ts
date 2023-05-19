@@ -61,12 +61,14 @@ context('Assisted Service Module', () => {
         cy.get('[ytestid="j_username"]').clear({ force: true });
         cy.get('[ytestid="j_password"]').clear({ force: true });
 
-        cy.get('[ytestid="j_username"]').type('CustomerSupportAgent');
+        cy.get('[ytestid="j_username"]')
+          .scrollIntoView()
+          .type('CustomerSupportAgent');
         cy.get('[ytestid="j_username"]').should(
           'have.value',
           'CustomerSupportAgent'
         );
-        cy.get('[ytestid="j_password"]').type('pw4all');
+        cy.get('[ytestid="j_password"]').scrollIntoView().type('pw4all');
         cy.get('[ytestid="j_password"]').should('have.value', 'pw4all');
         cy.get('[ytestid="loginButton"]').click({ force: true });
 
@@ -150,7 +152,7 @@ context('Assisted Service Module', () => {
 
       asm.agentSignOut();
     });
-    it('should be not able to create a new customer with dupcated email by agent (CXSPA-1594)', () => {
+    it('should be not able to create a new customer with invalid user data by agent (CXSPA-1594)', () => {
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
@@ -170,6 +172,36 @@ context('Assisted Service Module', () => {
         .submitCreateCustomerForm()
         .its('response.statusCode')
         .should('eq', 400);
+
+      cy.get('div.message-container cx-message').should('exist');
+      cy.get('div.message-container cx-message').should('be.visible');
+      cy.get('div.message-container cx-message').should('have.length', 2);
+      cy.get('div.message-container cx-message')
+        .eq(1)
+        .should('contain', 'Please enter with a different email address.');
+
+      let invalidUser = asm.invalidUser;
+      cy.log('--> fill form');
+      asm.fillCreateCustomerForm(invalidUser);
+
+      cy.log('--> submit form');
+      asm
+        .submitCreateCustomerForm()
+        .its('response.statusCode')
+        .should('eq', 400);
+
+      cy.get('div.message-container cx-message').should('exist');
+      cy.get('div.message-container cx-message').should('be.visible');
+      cy.get('div.message-container cx-message').should('have.length', 4);
+      cy.get('div.message-container cx-message')
+        .eq(1)
+        .should('contain', 'Email Address entered is not valid.');
+      cy.get('div.message-container cx-message')
+        .eq(2)
+        .should('contain', 'First Name entered is not valid.');
+      cy.get('div.message-container cx-message')
+        .eq(3)
+        .should('contain', 'Last Name entered is not valid.');
 
       cy.log('--> close create customer dialog');
       asm.asmCloseCreateCustomerDialog();
