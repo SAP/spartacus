@@ -15,8 +15,6 @@ import {
 import {
   ActiveConfiguration,
   OpfCheckoutFacade,
-  OpfPaymentVerificationPayload,
-  OpfPaymentVerificationResponse,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -40,19 +38,6 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     this.opfCheckoutConnector.initiatePayment(payload.paymentConfig)
   );
 
-  protected verifyPaymentCommand: Command<
-    {
-      paymentSessionId: string;
-      paymentVerificationPayload: OpfPaymentVerificationPayload;
-    },
-    OpfPaymentVerificationResponse
-  > = this.commandService.create((payload) =>
-    this.opfCheckoutConnector.verifyPayment(
-      payload.paymentSessionId,
-      payload.paymentVerificationPayload
-    )
-  );
-
   constructor(
     protected queryService: QueryService,
     protected commandService: CommandService,
@@ -69,15 +54,5 @@ export class OpfCheckoutService implements OpfCheckoutFacade {
     paymentConfig: PaymentInitiationConfig
   ): Observable<PaymentSessionData> {
     return this.initiatePaymentCommand.execute({ paymentConfig });
-  }
-
-  verifyPayment(
-    paymentSessionId: string,
-    paymentVerificationPayload: OpfPaymentVerificationPayload
-  ): Observable<OpfPaymentVerificationResponse> {
-    return this.verifyPaymentCommand.execute({
-      paymentSessionId,
-      paymentVerificationPayload,
-    });
   }
 }

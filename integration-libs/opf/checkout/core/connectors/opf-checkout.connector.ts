@@ -7,8 +7,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveConfiguration,
-  OpfPaymentVerificationPayload,
-  OpfPaymentVerificationResponse,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
@@ -28,12 +26,5 @@ export class OpfCheckoutConnector {
     paymentConfig: PaymentInitiationConfig
   ): Observable<PaymentSessionData> {
     return this.adapter.initiatePayment(paymentConfig);
-  }
-
-  public verifyPayment(
-    paymentSessionId: string,
-    payload: OpfPaymentVerificationPayload
-  ): Observable<OpfPaymentVerificationResponse> {
-    return this.adapter.verifyPayment(paymentSessionId, payload);
   }
 }

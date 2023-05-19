@@ -17,13 +17,10 @@ import {
   OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
   OPF_PAYMENT_CONFIG_SERIALIZER,
-  OPF_PAYMENT_VERIFICATION_NORMALIZER,
 } from '@spartacus/opf/checkout/core';
 import {
   ActiveConfiguration,
   OpfConfig,
-  OpfPaymentVerificationPayload,
-  OpfPaymentVerificationResponse,
   OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
   PaymentInitiationConfig,
@@ -32,7 +29,6 @@ import {
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
 export class OccOpfAdapter implements OpfAdapter {
@@ -98,42 +94,5 @@ export class OccOpfAdapter implements OpfAdapter {
 
   protected getInitiatePaymentEndpoint(): string {
     return this.opfEndpointsService.buildUrl('initiatePayment');
-  }
-
-  verifyPayment(
-    paymentSessionId: string,
-    payload: OpfPaymentVerificationPayload
-  ): Observable<OpfPaymentVerificationResponse> {
-    const headers = new HttpHeaders({
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Content-Language': 'en-us',
-    }).set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '');
-
-    return this.http
-      .post<OpfPaymentVerificationResponse>(
-        this.verifyPaymentEndpoint(paymentSessionId),
-        JSON.stringify(payload),
-        {
-          headers,
-        }
-      )
-      .pipe(
-        catchError((error) => throwError(error)),
-        backOff({
-          shouldRetry: isJaloError,
-        }),
-        backOff({
-          shouldRetry: isHttp500Error,
-          maxTries: 2,
-        }),
-        this.converter.pipeable(OPF_PAYMENT_VERIFICATION_NORMALIZER)
-      );
-  }
-
-  protected verifyPaymentEndpoint(paymentSessionId: string): string {
-    return this.opfEndpointsService.buildUrl('verifyPayment', {
-      urlParams: { paymentSessionId },
-    });
   }
 }
