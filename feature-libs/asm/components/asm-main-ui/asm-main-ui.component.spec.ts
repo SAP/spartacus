@@ -532,10 +532,10 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should emit false when close inactive cart info', () => {
-    spyOn(asmComponentService, 'setEmulatedByDeepLink').and.stub();
+    spyOn(asmComponentService, 'setShowInactiveCartInfoAlert').and.stub();
     component.closeInactiveCartInfoAlert();
-    expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
-      false
-    );
+    expect(
+      asmComponentService.setShowInactiveCartInfoAlert
+    ).toHaveBeenCalledWith(false);
   });
 });
