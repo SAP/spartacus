@@ -22,7 +22,6 @@ export class AsmComponentService {
     false
   );
 
-
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
