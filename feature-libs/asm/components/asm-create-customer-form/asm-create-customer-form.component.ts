@@ -11,7 +11,6 @@ import {
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
 import {
-  ErrorModel,
   GlobalMessageType,
   HttpErrorModel,
   TranslationService,
@@ -126,9 +125,11 @@ export class AsmCreateCustomerFormComponent {
     this.backendErrorMessages = [];
     this.showDialogBackendErrorAlerts = [];
 
+    const unknownError = 'httpHandlers.unknownError';
     const errorDetails = error.details ?? [];
+
     if (errorDetails.length === 0) {
-      this.addErrorMessage('httpHandlers.unknownError');
+      this.addErrorMessage(unknownError);
     }
     errorDetails.forEach((errorDetail) => {
       switch (errorDetail.type || '') {
@@ -138,22 +139,21 @@ export class AsmCreateCustomerFormComponent {
           );
           break;
         case 'AssistedServiceError':
-          this.addAssistedServiceError(errorDetail);
+          if (errorDetail.message === 'Duplicate User id') {
+            this.addErrorMessage(
+              'asm.createCustomerForm.badRequestDuplicateEmail',
+              {
+                emailAddress: this.createdCustomer.email,
+              }
+            );
+          } else {
+            this.addErrorMessage(unknownError);
+          }
           break;
         default:
-          this.addErrorMessage('httpHandlers.unknownError');
+          this.addErrorMessage(unknownError);
       }
     });
-  }
-
-  protected addAssistedServiceError(errorDetail: ErrorModel): void {
-    if (errorDetail.message === 'Duplicate User id') {
-      this.addErrorMessage('asm.createCustomerForm.badRequestDuplicateEmail', {
-        emailAddress: this.createdCustomer.email,
-      });
-    } else {
-      this.addErrorMessage('httpHandlers.unknownError');
-    }
   }
 
   protected addErrorMessage(key: string, options?: unknown): void {
