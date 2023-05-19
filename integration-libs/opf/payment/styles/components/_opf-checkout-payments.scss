@@ -1,0 +1,15 @@
+%cx-opf-checkout-payments {
+  .form-check {
+    margin-bottom: 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    & ~ .form-check {
+      padding-top: 1rem;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #d3d6db;
+    }
+  }
+}

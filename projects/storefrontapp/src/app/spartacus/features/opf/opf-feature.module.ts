@@ -7,16 +7,23 @@
 import { NgModule, Provider } from '@angular/core';
 import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
 import {
-  opfTranslationChunksConfig,
-  opfTranslations,
-} from '@spartacus/opf/assets';
+  opfCheckoutTranslationChunksConfig,
+  opfCheckoutTranslations,
+} from '@spartacus/opf/checkout/assets';
 import {
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
   OpfConfig,
-  OpfRootModule,
-  OPF_FEATURE,
-} from '@spartacus/opf/root';
+} from '@spartacus/opf/checkout/root';
+import {
+  opfPaymentTranslationChunksConfig,
+  opfPaymentTranslations,
+} from '@spartacus/opf/payment/assets';
+import {
+  OpfPaymentRootModule,
+  OPF_PAYMENT_FEATURE,
+} from '@spartacus/opf/payment/root';
+
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
@@ -27,8 +34,17 @@ if (environment.b2b) {
 }
 
 @NgModule({
-  imports: [OpfRootModule],
+  imports: [OpfPaymentRootModule],
   providers: [
+    provideConfig({
+      featureModules: {
+        [OPF_PAYMENT_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/payment').then((m) => m.OpfPaymentModule),
+        },
+      },
+    }),
+
     provideConfig(<RoutingConfig>{
       routing: {
         routes: {
@@ -41,25 +57,25 @@ if (environment.b2b) {
         },
       },
     }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: opfCheckoutTranslations,
+        chunks: opfCheckoutTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: opfPaymentTranslations,
+        chunks: opfPaymentTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
     provideConfig(<OpfConfig>{
       opf: {
         baseUrl:
           'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
-      },
-    }),
-    provideConfig(<I18nConfig>{
-      i18n: {
-        resources: opfTranslations,
-        chunks: opfTranslationChunksConfig,
-        fallbackLang: 'en',
-      },
-    }),
-    provideConfig({
-      featureModules: {
-        [OPF_FEATURE]: {
-          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-        },
       },
     }),
     ...extensionProviders,
