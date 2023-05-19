@@ -49,7 +49,7 @@ For more information about using Verdaccio or another registry software, see the
 
     **Note:** You can use the dropdown menu for switching branches in the top left of the main page of the [Spartacus GitHub repository](https://github.com/SAP/spartacus) to see which releases are available. Click on **develop**, enter `release/5` in the search field that appears in the dropdown menu, and you will see all of the available releases for version 5.0.0 and newer, as shown in the following example:
 
-    ![GitHub Branch Selector](/assets/github-branch-selector.png)
+    ![GitHub Branch Selector](./assets/github-branch-selector.png)
 
 1. Run the following command to install packages and then build the libraries:
 
