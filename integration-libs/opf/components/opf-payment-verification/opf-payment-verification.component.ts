@@ -49,6 +49,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onError(error: HttpErrorModel | undefined): void {
+    console.log('flo error', error);
     this.paymentService.displayError(error);
     this.paymentService.goToPage('checkoutReviewOrder');
   }

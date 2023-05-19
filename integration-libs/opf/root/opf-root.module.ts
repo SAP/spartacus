@@ -17,12 +17,12 @@ import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfidValidator } from './config/opf-config-validator';
 import { OpfEventModule } from './events/opf-event.module';
-import { OPF_FEATURE } from './feature-name';
+import { OPF_VERIF_FEATURE } from './feature-name';
 
 export function defaultOpfComponentsConfig() {
   const config = {
     featureModules: {
-      [OPF_FEATURE]: {
+      [OPF_VERIF_FEATURE]: {
         cmsComponents: ['OpfPaymentVerificationComponent'],
       },
     },

@@ -5,3 +5,4 @@
  */
 
 export const OPF_FEATURE = 'opf';
+export const OPF_VERIF_FEATURE = 'opfVerif';

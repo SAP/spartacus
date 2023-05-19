@@ -15,7 +15,7 @@ import {
   defaultOPFCheckoutConfig,
   OpfConfig,
   OpfRootModule,
-  OPF_FEATURE,
+  OPF_VERIF_FEATURE,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -57,9 +57,11 @@ if (environment.b2b) {
     }),
     provideConfig({
       featureModules: {
-        [OPF_FEATURE]: {
-          module: () => import('@spartacus/opf').then((m) => m.OpfModule),
-          cmsComponents: ['OpfPaymentVerificationComponent'],
+        [OPF_VERIF_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/components/opf-payment-verification').then(
+              (m) => m.OpfPaymentVerificationModule
+            ),
         },
       },
     }),
