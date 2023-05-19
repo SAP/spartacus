@@ -6,11 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { MODULE_INITIALIZER } from '@spartacus/core';
-import {
-  OpfCheckoutConnector,
-  OpfOrderConnector,
-  OtpConnector,
-} from './connectors';
+import { OpfCheckoutConnector, OtpConnector } from './connectors';
 import { OpfEventModule } from './events/opf-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
@@ -34,7 +30,6 @@ export function opfStatePersistenceFactory(
     ...facadeProviders,
     OpfCheckoutConnector,
     OtpConnector,
-    OpfOrderConnector,
   ],
 })
 export class OpfCheckoutCoreModule {}
