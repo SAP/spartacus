@@ -167,10 +167,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         })
     );
     this.subscribeForDeeplink();
-    if (this.featureConfig?.isLevel('6.2')) {
-      this.showInactiveCartInfoAlert$ =
-        this.asmComponentService.showInactiveCartInfoAlert();
-    }
   }
 
   /**
@@ -204,6 +200,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
       );
+
+      //inactive cart from deeplink will display the cart info alert
+      this.showInactiveCartInfoAlert$ =
+        this.asmComponentService.showInactiveCartInfoAlert();
     }
   }
 

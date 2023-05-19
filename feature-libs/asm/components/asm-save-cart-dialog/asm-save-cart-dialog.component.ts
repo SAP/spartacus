@@ -48,7 +48,7 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
   calEntitiesQty(): void {
     let count = 0;
     if (this.cart.entries) {
-      for (let entry of this.cart.entries) {
+      for (const entry of this.cart.entries) {
         count += entry.quantity ? entry.quantity : 0;
       }
     }
