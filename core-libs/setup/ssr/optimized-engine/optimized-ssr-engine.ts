@@ -442,6 +442,14 @@ export class OptimizedSsrEngine {
     this.renderingCache.setAsRendering(renderingKey);
     this.currentConcurrency++;
 
+    // spike todo improve naming
+    let didRenderOutput = false;
+    const shareRenderResult_safe = (err: any, html?: string) => {
+      if (!didRenderOutput) {
+        didRenderOutput = true;
+        this.shareRenderResult(renderingKey, err, html);
+      }
+    };
     // SPIKE NEW
     const customProviders: FactoryProvider[] = [
       // add render-related providers:
@@ -449,8 +457,7 @@ export class OptimizedSsrEngine {
         provide: PROPAGATE_ERROR,
         useFactory: (): PropagateErrorFn => {
           return (err: any) => {
-            const key = this.getRenderingKey(request);
-            this.shareRenderResult(key, err);
+            shareRenderResult_safe(err);
           };
         },
       },
@@ -472,7 +479,7 @@ export class OptimizedSsrEngine {
       this.log(`Rendering completed (${request?.originalUrl})`);
       this.currentConcurrency--;
 
-      this.shareRenderResult(renderingKey, err, html);
+      shareRenderResult_safe(err, html);
     });
   }
 }
