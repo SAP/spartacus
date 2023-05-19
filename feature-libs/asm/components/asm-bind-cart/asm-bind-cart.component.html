@@ -52,11 +52,16 @@
       class="cx-asm-bindCartToCustomer"
       type="submit"
       [class.cx-asm-active]="inactiveCartId.length > 0"
+      [class.cx-bind-loading]="loading$ | async"
       (click)="onSaveInactiveCart()"
     >
-      <span>
+      <span [attr.aria-hidden]="loading$ | async">
         {{ 'asm.saveCart.saveCartBtn' | cxTranslate }}
       </span>
+      <cx-dot-spinner
+        [attr.aria-hidden]="!(loading$ | async)"
+        [attr.aria-label]="'common.loading' | cxTranslate"
+      ></cx-dot-spinner>
     </button>
   </ng-container>
 </form>

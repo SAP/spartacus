@@ -530,4 +530,12 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     expect(routingService.go).not.toHaveBeenCalledWith('/');
   });
+
+  it('should emit false when close inactive cart info', () => {
+    spyOn(asmComponentService, 'setEmulatedByDeepLink').and.stub();
+    component.closeInactiveCartInfoAlert();
+    expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
+      false
+    );
+  });
 });

@@ -191,7 +191,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       .getSaveCartProcessSuccess()
       .pipe(
         filter((success) => success),
-        take(1)
+        take(1),
+        tap(() => this.loading$.next(false))
       )
       .subscribe(() => {
         this.goToSavedCartDetails(this.inactiveCartId);
@@ -202,7 +203,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       .getSaveCartProcessError()
       .pipe(
         filter((error) => error),
-        take(1)
+        take(1),
+        tap(() => this.loading$.next(false))
       )
       .subscribe(() => {
         this.isInactiveCartSaved = true;
@@ -351,6 +353,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   }
 
   protected saveCart(inactiveCartId: string): Observable<unknown> {
+    this.loading$.next(true);
     return defer(() => {
       this.savedCartFacade.saveCart({
         cartId: inactiveCartId,

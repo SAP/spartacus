@@ -26,19 +26,26 @@ $sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
 %cx-asm-save-cart-dialog {
   .cx-message {
     border-radius: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
+    border-width: 1px;
+    border-style: solid;
+
     .cx-message-content {
       margin-inline-start: 0;
       max-width: 100%;
-
       .cx-message-header {
+        padding-inline-start: 10px;
         padding-inline-end: 1rem;
-        font-size: 14px;
-        font-family: '72';
-        font-style: normal;
-        font-weight: 400;
         line-height: 16px;
         text-align: start;
+        min-height: 35px;
+        .cx-message-text {
+          color: #1d2d3e;
+          font-size: 14px;
+          font-family: '72';
+          font-style: normal;
+          font-weight: 400;
+        }
       }
     }
 
@@ -61,6 +68,21 @@ $sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
     .cx-message-icon {
       cx-icon {
         color: #0070f2;
+      }
+    }
+  }
+
+  .cx-message-warning {
+    background-color: #fff8d6;
+    border-color: #ffe770;
+
+    .close {
+      color: #0064d9;
+    }
+
+    .cx-message-icon {
+      cx-icon {
+        color: #e76500;
       }
     }
   }
