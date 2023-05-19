@@ -6,20 +6,7 @@
 
 export const opf = {
   opf: {
-    checkout: {
-      tabs: {
-        shipping: 'Shipping',
-        deliveryMethod: 'Delivery Method',
-        paymentAndReview: 'Payment & Review',
-      },
-      paymentAndReviewTitle: 'Payment and review',
-      paymentOption: 'Payment option',
-      termsAndConditions: 'Terms & Conditions',
-      itemsToBeShipped: 'Items to be shipped',
-      notSupportedPaymentMethod:
-        'This payment method is not supported yet. Please choose a different one.',
-      proceedPayment: 'Place Order',
-      retryPayment: 'Retry to Continue',
+    payment: {
       errors: {
         proceedPayment:
           'We are unable to proceed with this payment method at this time. Please try again later or choose a different payment option.',
