@@ -412,5 +412,12 @@ $sapFioriContent_LabelColor: #6a6d70;
         box-shadow: none;
       }
     }
+
+    .sort-list {
+      .ng-dropdown-panel {
+        width: auto;
+      }
+    }
+  
   }
 }
