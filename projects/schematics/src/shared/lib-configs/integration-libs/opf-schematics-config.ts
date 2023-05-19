@@ -26,7 +26,7 @@ export interface SpartacusOpfOptions extends LibraryOptions {
 }
 
 export const OPF_FOLDER_NAME = 'opf';
-export const OPF_FEATURE_MODULE_NAME = 'Opf';
+export const OPF_MODULE_NAME = 'Opf';
 export const OPF_SCSS_FILE_NAME = 'opf.scss';
 
 export const OPF_CONFIG = 'OpfConfig';
@@ -52,7 +52,7 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     featureScope: SPARTACUS_OPF_CHECKOUT,
   },
   folderName: OPF_FOLDER_NAME,
-  moduleName: OPF_FEATURE_MODULE_NAME,
+  moduleName: OPF_MODULE_NAME,
   featureModule: {
     name: OPF_CHECKOUT_MODULE,
     importPath: SPARTACUS_OPF_CHECKOUT,
@@ -87,7 +87,7 @@ export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
     featureScope: SPARTACUS_OPF_PAYMENT,
   },
   folderName: OPF_FOLDER_NAME,
-  moduleName: OPF_FEATURE_MODULE_NAME,
+  moduleName: OPF_MODULE_NAME,
   featureModule: {
     name: OPF_PAYMENT_MODULE,
     importPath: SPARTACUS_OPF_PAYMENT,
