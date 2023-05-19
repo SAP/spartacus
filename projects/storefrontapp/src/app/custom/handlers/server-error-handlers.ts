@@ -5,10 +5,10 @@ import {
 } from '@angular/common/http';
 import { inject, Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { PROPAGATE_ERROR } from '@spartacus/core';
 import * as fs from 'fs';
 import { first } from 'rxjs/operators';
 
-import { PROPAGATE_ERROR } from '@spartacus/core';
 import { UnknownServerRenderError } from '../errors/server-render-errors';
 
 export const logErrors = () => {
@@ -35,10 +35,10 @@ export const writeStateToFile = () => {
 export const throwOups = () => {
   const propagateError = inject(PROPAGATE_ERROR);
 
-  return async () => {
+  return async (originalError: any) => {
     const context = {
       title: 'Oups!',
-      text: 'An unknown error has occured',
+      text: originalError?.message ?? 'An unknown error has occured',
     };
     const html = `
       <!DOCTYPE html>
