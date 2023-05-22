@@ -3,7 +3,7 @@
     *ngIf="{
       billingAddress: billingAddress$ | async,
       isSameAsDelivery: isSameAsDelivery$ | async
-    } as observables"
+    } as addressData"
   >
     <div class="form-group">
       <div class="form-check">
@@ -11,7 +11,7 @@
           <input
             type="checkbox"
             class="form-check-input"
-            [checked]="observables.isSameAsDelivery"
+            [checked]="addressData.isSameAsDelivery"
             (change)="toggleSameAsDeliveryAddress()"
             [attr.aria-label]="
               'paymentForm.billingAddressSameAsShipping' | cxTranslate
@@ -24,14 +24,14 @@
       </div>
     </div>
 
-    <ng-container *ngIf="!isEditBillingAddress && observables.billingAddress">
+    <ng-container *ngIf="!isEditBillingAddress && addressData.billingAddress">
       <div class="cx-custom-address-info">
         <cx-card
-          [content]="observables.billingAddress | cxGetAddressCardContent"
+          [content]="addressData.billingAddress | cxGetAddressCardContent"
         ></cx-card>
 
         <button
-          *ngIf="!observables.isSameAsDelivery"
+          *ngIf="!addressData.isSameAsDelivery"
           (click)="editCustomBillingAddress()"
         >
           <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
@@ -41,7 +41,7 @@
 
     <ng-container *ngIf="isEditBillingAddress">
       <cx-address-form
-        [addressData]="observables.billingAddress || {}"
+        [addressData]="addressData.billingAddress || {}"
         class="cx-form"
         [showTitleCode]="true"
         [showCancelBtn]="true"
