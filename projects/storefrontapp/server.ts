@@ -7,7 +7,6 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
-  defaultSsrOptimizationOptions,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
@@ -26,9 +25,7 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  timeout: Number(
-    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
-  ),
+  timeout: 10_000,
   debug: true,
 };
 
@@ -49,6 +46,7 @@ export function app() {
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
+      inlineCriticalCss: false,
     })
   );
 
