@@ -44,7 +44,6 @@
       <div class="cx-dialog-buttons">
         <a
           [class.disabled]="enableSubmitButton"
-          [routerLink]="{ cxRoute: 'login' } | cxUrl"
           (click)="
             dismissModal('Proceed To Login', reconsentEvent.errorMessage)
           "

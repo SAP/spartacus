@@ -89,10 +89,13 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     else this.enableSubmitButton = true;
   }
   dismissModal(reason?: any, message?: string): void {
-    this.launchDialogService.closeDialog(reason);
     if (reason === 'Proceed To Login') {
+      this.loaded$ = of(false);
       this.save();
+    } else if (reason === 'Login completed successfully') {
+      this.launchDialogService.closeDialog(reason);
     } else {
+      this.launchDialogService.closeDialog(reason);
       let response = {
         status: 'FAIL',
         errorMessage: message,
@@ -107,6 +110,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     );
     if (errorMessage !== '')
       this.dismissModal('Error During Reconsent Update', errorMessage);
+    else this.dismissModal('Login completed successfully');
   }
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
