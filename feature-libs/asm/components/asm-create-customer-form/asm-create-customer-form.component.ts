@@ -141,7 +141,7 @@ export class AsmCreateCustomerFormComponent {
         case 'AssistedServiceError':
           if (errorDetail.message === 'Duplicate User id') {
             this.addErrorMessage(
-              'asm.createCustomerForm.badRequestDuplicateEmail',
+              'asm.createCustomerForm.badRequestDuplicatedEmail',
               {
                 emailAddress: this.createdCustomer.email,
               }
