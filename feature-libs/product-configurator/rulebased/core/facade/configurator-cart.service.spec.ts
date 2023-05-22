@@ -50,16 +50,19 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
   entries: [
     {
+      entryNumber: 1,
       statusSummaryList: [
         { status: OrderEntryStatus.Success, numberOfIssues: 1 },
       ],
     },
     {
+      entryNumber: 2,
       statusSummaryList: [
         { status: OrderEntryStatus.Error, numberOfIssues: 0 },
       ],
     },
     {
+      entryNumber: 3,
       statusSummaryList: [{ status: OrderEntryStatus.Info, numberOfIssues: 3 }],
     },
   ],
@@ -401,6 +404,83 @@ describe('ConfiguratorCartService', () => {
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
+      );
+    });
+  });
+
+  describe('getEntry', () => {
+    it('should return undefined because a list of entries is empty', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: [],
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntry('4')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return an empty list of entries because the list of entries does not contain a searched entry', () => {
+      const newestCart: Cart = {
+        ...cart,
+      };
+
+      cartObs = cold('y', {
+        y: newestCart,
+      });
+
+      expect(serviceUnderTest.getEntry('5')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return a searched entry', () => {
+      const newestCart: Cart = {
+        ...cart,
+      };
+
+      cartObs = cold('y', {
+        y: newestCart,
+      });
+
+      expect(serviceUnderTest.getEntry('2')).toBeObservable(
+        cold('a', { a: newestCart.entries[1] })
+      );
+    });
+  });
+
+  describe('getEntries', () => {
+    it('should return undefined', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: undefined,
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntries()).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return an empty list of entries', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: [],
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntries()).toBeObservable(
+        cold('a', { a: [] })
       );
     });
   });

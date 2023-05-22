@@ -32,7 +32,7 @@
                 <label>{{
                   'configurator.addToCart.quantity' | cxTranslate
                 }}</label>
-                <cx-item-counter [control]="quantityControl"></cx-item-counter>
+                <cx-item-counter [control]="quantityControl" ></cx-item-counter>
               </ng-container>
 
               <ng-container
@@ -97,7 +97,7 @@
           (click)="leaveConfigurationOverview()"
           title="{{ 'configurator.addToCart.buttonDisplayOnly' | cxTranslate }}"
         >
-          <cx-icon [type]="iconType.CART_CIRCLE_CHECK"></cx-icon>
+          <cx-icon [type]="iconType.CART_ARROW_DOWN"></cx-icon>
         </button>
       </ng-container>
     </div>

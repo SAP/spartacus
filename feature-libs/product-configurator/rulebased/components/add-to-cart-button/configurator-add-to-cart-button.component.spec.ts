@@ -805,14 +805,14 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should return CART_CIRCLE_CHECK', () => {
       prepareTestData(true, true);
       expect(component.getIconType(routerData, config)).toBe(
-        component.iconType.CART_CIRCLE_CHECK
+        component.iconType.CART
       );
     });
 
     it('should return CART', () => {
       prepareTestData(true, false);
       expect(component.getIconType(routerData, config)).toBe(
-        component.iconType.CART
+        component.iconType.CART_ARROW_DOWN
       );
     });
 
