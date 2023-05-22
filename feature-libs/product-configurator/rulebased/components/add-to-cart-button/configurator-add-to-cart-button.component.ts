@@ -9,6 +9,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -83,6 +84,38 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     )
   );
 
+  // TODO (CXSPA-3392): make globalMessageService a required dependency
+  constructor(
+    routingService: RoutingService,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorCartService: ConfiguratorCartService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    globalMessageService: GlobalMessageService,
+    orderHistoryFacade: OrderHistoryFacade,
+    commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    intersectionService: IntersectionService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configQuantityService: ConfiguratorQuantityService
+  );
+
+  /**
+   * @deprecated since 6.1
+   */
+  constructor(
+    routingService: RoutingService,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorCartService: ConfiguratorCartService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    globalMessageService: GlobalMessageService,
+    orderHistoryFacade: OrderHistoryFacade,
+    commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
+    configUtils: ConfiguratorStorefrontUtilsService,
+    intersectionService: IntersectionService
+  );
+
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -94,20 +127,21 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService,
-    protected configQuantityService: ConfiguratorQuantityService
+    // TODO:(CXSPA-3392) for next major release remove feature config service
+    @Optional() protected configQuantityService?: ConfiguratorQuantityService
   ) {}
 
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();
 
     this.configQuantityService
-      .getQuantity()
+      ?.getQuantity()
       .pipe(take(1))
       .subscribe((quantity) => {
         if (quantity) {
           this.quantityControl.setValue(quantity);
         } else {
-          this.configQuantityService.setQuantity(1);
+          this.configQuantityService?.setQuantity(1);
           this.quantityControl.setValue(1);
         }
       });
@@ -119,7 +153,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
 
   onQuantityChange(): void {
     this.quantityControl.setValue(this.quantityControl.value);
-    this.configQuantityService.setQuantity(this.quantityControl.value);
+    this.configQuantityService?.setQuantity(this.quantityControl.value);
   }
 
   /**
@@ -313,7 +347,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean
   ) {
     const quantity = this.quantityControl?.value ?? 1;
-    this.configQuantityService.setQuantity(quantity);
+    this.configQuantityService?.setQuantity(quantity);
     this.configuratorCartService.addToCart(
       owner.id,
       configuration.configId,

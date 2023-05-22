@@ -409,6 +409,21 @@ describe('ConfiguratorCartService', () => {
   });
 
   describe('getEntry', () => {
+    it('should return undefined because a list of entries is undefined', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: undefined,
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntry('4')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
     it('should return undefined because a list of entries is empty', () => {
       const cartEmpty: Cart = {
         ...cart,
