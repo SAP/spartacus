@@ -55,6 +55,7 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
+  //TODO: check lifecycle of subscription
   protected quantitySubscription: Subscription;
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
@@ -146,6 +147,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         }
       });
 
+    //CHHI
     this.quantitySubscription = this.quantityControl.valueChanges
       .pipe(debounceTime(500))
       .subscribe(() => this.onQuantityChange());
@@ -347,7 +349,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean
   ) {
     const quantity = this.quantityControl?.value ?? 1;
-    this.configQuantityService?.setQuantity(quantity);
+    //this.configQuantityService?.setQuantity(quantity);
     this.configuratorCartService.addToCart(
       owner.id,
       configuration.configId,
