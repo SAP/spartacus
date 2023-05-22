@@ -158,6 +158,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     this.configQuantityService?.setQuantity(this.quantityControl.value);
   }
 
+  // CHHI: how we cover order history
   /**
    * Retrieves a quantity for a cart entry.
    *
