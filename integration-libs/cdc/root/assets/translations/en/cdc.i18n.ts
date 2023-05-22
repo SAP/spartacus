@@ -5,9 +5,10 @@
  */
 
 export const cdc = {
-  consentManagement: {
-    reconsent: 'Update Consent',
-    closeModal: 'Close',
-    submitReconsent: 'Submit'
+  reconsent: {
+    dialog: {
+      title: 'Profile Completion',
+      description: 'We still need a few more consents:',
+    },
   },
 };
