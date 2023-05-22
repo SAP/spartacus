@@ -143,7 +143,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
           this.quantityControl.setValue(quantity);
         } else {
           this.configQuantityService?.setQuantity(1);
-          this.quantityControl.setValue(1);
         }
       });
 
@@ -278,26 +277,13 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Verifies whether page type is overview.
+   * Verifies whether it is a cart entry.
    *
    * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
-   * @returns {boolean} - 'true' if the expected page type, otherwise 'false'
+   * @returns {boolean} - 'true' if it is a cart entry, otherwise 'false'
    */
-  isOverview(routerData: ConfiguratorRouter.Data): boolean {
-    return routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW;
-  }
-
-  /**
-   * Verifies whether page type is configuration and it is a cart entry.
-   *
-   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
-   * @returns {boolean} - 'true' if the expected page type and cart entry, otherwise 'false'
-   */
-  isCartEntryOnConfiguration(routerData: ConfiguratorRouter.Data): boolean {
-    return (
-      routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION &&
-      (routerData.isOwnerCartEntry ? routerData.isOwnerCartEntry : false)
-    );
+  isCartEntry(routerData: ConfiguratorRouter.Data): boolean {
+    return routerData.isOwnerCartEntry ? routerData.isOwnerCartEntry : false;
   }
 
   /**
@@ -350,7 +336,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     isOverview: boolean
   ) {
     const quantity = this.quantityControl?.value ?? 1;
-    //this.configQuantityService?.setQuantity(quantity);
     this.configuratorCartService.addToCart(
       owner.id,
       configuration.configId,

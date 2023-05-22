@@ -824,63 +824,34 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 
-  describe('isOverview', () => {
-    it("should return 'false' because page type is configuration", () => {
-      const routerData: ConfiguratorRouter.Data = {
-        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
-        owner: mockOwner,
-      };
-
-      expect(component.isOverview(routerData)).toBe(false);
-    });
-
-    it("should return 'true' because page type is overview", () => {
-      const routerData: ConfiguratorRouter.Data = {
-        pageType: ConfiguratorRouter.PageType.OVERVIEW,
-        owner: mockOwner,
-      };
-
-      expect(component.isOverview(routerData)).toBe(true);
-    });
-  });
-
-  describe('isCartEntryOnConfiguration', () => {
-    it("should return 'false' because page type is not configuration", () => {
-      const routerData: ConfiguratorRouter.Data = {
-        pageType: ConfiguratorRouter.PageType.OVERVIEW,
-        owner: mockOwner,
-      };
-
-      expect(component.isCartEntryOnConfiguration(routerData)).toBe(false);
-    });
-
+  describe('isCartEntry', () => {
     it("should return 'false' because isOwnerCartEntry is undefined", () => {
       const routerData: ConfiguratorRouter.Data = {
         pageType: ConfiguratorRouter.PageType.CONFIGURATION,
         owner: mockOwner,
       };
 
-      expect(component.isCartEntryOnConfiguration(routerData)).toBe(false);
+      expect(component.isCartEntry(routerData)).toBe(false);
     });
 
-    it("should return 'false' because isOwnerCartEntry is 'false'", () => {
+    it("should return 'false' because it is not a cart entry", () => {
       const routerData: ConfiguratorRouter.Data = {
         pageType: ConfiguratorRouter.PageType.CONFIGURATION,
         owner: mockOwner,
         isOwnerCartEntry: false,
       };
 
-      expect(component.isCartEntryOnConfiguration(routerData)).toBe(false);
+      expect(component.isCartEntry(routerData)).toBe(false);
     });
 
-    it("should return 'true' because page type is overview", () => {
+    it("should return 'true' because it is a cart entry", () => {
       const routerData: ConfiguratorRouter.Data = {
-        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+        pageType: ConfiguratorRouter.PageType.OVERVIEW,
         owner: mockOwner,
         isOwnerCartEntry: true,
       };
 
-      expect(component.isCartEntryOnConfiguration(routerData)).toBe(true);
+      expect(component.isCartEntry(routerData)).toBe(true);
     });
   });
 });

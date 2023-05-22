@@ -23,24 +23,14 @@
         <div class="cx-quantity-add-to-cart-container">
           <div class="cx-quantity-add-to-cart-row">
             <div class="cx-quantity">
-              <ng-container
-                *ngIf="
-                  !isCartEntryOnConfiguration(container.routerData) &&
-                  !isOverview(container.routerData)
-                "
-              >
+              <ng-container *ngIf="!isCartEntry(container.routerData)">
                 <label>{{
                   'configurator.addToCart.quantity' | cxTranslate
                 }}</label>
                 <cx-item-counter [control]="quantityControl"></cx-item-counter>
               </ng-container>
 
-              <ng-container
-                *ngIf="
-                  isCartEntryOnConfiguration(container.routerData) ||
-                  isOverview(container.routerData)
-                "
-              >
+              <ng-container *ngIf="isCartEntry(container.routerData)">
                 <label
                   >{{ 'configurator.addToCart.quantity' | cxTranslate }}:</label
                 >
