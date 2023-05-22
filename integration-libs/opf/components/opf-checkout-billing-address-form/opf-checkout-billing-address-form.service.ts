@@ -17,13 +17,16 @@ import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
-  deliveryAddress$ = new BehaviorSubject<Address | undefined>(undefined);
-  billingAddress$ = new BehaviorSubject<Address | undefined>(undefined);
-
+  protected readonly billingAddressSub = new BehaviorSubject<
+    Address | undefined
+  >(undefined);
+  protected readonly isLoadingAddressSub = new BehaviorSubject(false);
+  protected readonly isSameAsDeliverySub = new BehaviorSubject(true);
   protected billingAddressId: string | undefined;
 
-  protected readonly isLoadingAddressSub = new BehaviorSubject(false);
+  billingAddress$ = this.billingAddressSub.asObservable();
   isLoadingAddress$ = this.isLoadingAddressSub.asObservable();
+  isSameAsDelivery$ = this.isSameAsDeliverySub.asObservable();
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -55,15 +58,15 @@ export class OpfCheckoutBillingAddressFormService {
           Address | undefined,
           Address | undefined
         ]) => {
-          this.deliveryAddress$.next(deliveryAddress);
-
           if (!paymentAddress && !!deliveryAddress) {
             this.setBillingAddress(deliveryAddress);
+            this.billingAddressSub.next(deliveryAddress);
           }
 
           if (!!paymentAddress && !!deliveryAddress) {
             this.billingAddressId = paymentAddress.id;
-            this.billingAddress$.next(paymentAddress);
+            this.billingAddressSub.next(paymentAddress);
+            this.isSameAsDeliverySub.next(false);
           }
 
           this.isLoadingAddressSub.next(false);
@@ -72,7 +75,7 @@ export class OpfCheckoutBillingAddressFormService {
   }
 
   putDeliveryAddressAsPaymentAddress(): void {
-    this.deliveryAddress$
+    this.getDeliveryAddress()
       .pipe(
         switchMap((address: Address | undefined) =>
           !!address ? this.setBillingAddress(address) : EMPTY
@@ -99,7 +102,8 @@ export class OpfCheckoutBillingAddressFormService {
         tap((billingAddress: Address | undefined) => {
           if (!!billingAddress && !!billingAddress.id) {
             this.billingAddressId = billingAddress.id;
-            this.billingAddress$.next(billingAddress);
+
+            this.billingAddressSub.next(billingAddress);
 
             this.isLoadingAddressSub.next(false);
           }
@@ -109,11 +113,19 @@ export class OpfCheckoutBillingAddressFormService {
   }
 
   resetBillingAddress(): void {
-    this.billingAddress$.next(undefined);
+    this.billingAddressSub.next(undefined);
   }
 
   get billingAddressValue(): Address | undefined {
-    return this.billingAddress$.value;
+    return this.billingAddressSub.value;
+  }
+
+  get isSameAsDeliveryValue(): boolean {
+    return this.isSameAsDeliverySub.value;
+  }
+
+  setIsSameAsDeliveryValue(value: boolean): void {
+    this.isSameAsDeliverySub.next(value);
   }
 
   protected getDeliveryAddress(): Observable<Address | undefined> {
