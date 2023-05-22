@@ -250,12 +250,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     // configuration for the same cart entry number stored already.
     // (Cart entries might have been deleted)
     // Needs to happen only if we are on configuration page, navigation to
-    // cart will anyhow delete
-    // we do not clean up the product bound configuration yet, as existing
+    // cart will anyhow delete.
+    // We do not clean up the product bound configuration yet, as existing
     // observables would instantly trigger a re-create.
-    // Cleaning up this obsolete product bound configuration will only happen
-    // when a new config form requests a new observable for a product bound
-    // configuration
+    // Cleaning up this obsolete product bound configuration (with link to the cart) will
+    // only happen on leaving the configurator pages, see ConfiguratorRouterListener
     if (!isOverview) {
       this.configuratorCommonsService.removeConfiguration(nextOwner);
     }
