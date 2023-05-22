@@ -25,7 +25,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
 
     ui5: {
       bootstrapUrl:
-        'https://sapui5.hana.ondemand.com/1.108.5/resources/sap-ui-core.js',
+        'https://sapui5.hana.ondemand.com/1.108.14/resources/sap-ui-core.js',
     },
   },
 };
