@@ -1,3 +1,5 @@
+name: asm-e2e-test
+
 on:
   pull_request:
     types: [opened, synchronize]
@@ -22,7 +24,6 @@ concurrency:
   group: ci-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-name: asm-e2e-test
 jobs:
   no_retries:
     name: Verify re-run of all jobs
@@ -34,6 +35,7 @@ jobs:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
+
   validate_e2e_execution:
     name: Validate pull_request files
     runs-on: ubuntu-latest
@@ -100,4 +102,3 @@ jobs:
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled'
-
