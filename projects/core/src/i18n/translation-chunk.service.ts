@@ -53,10 +53,11 @@ export class TranslationChunkService {
         }.${key}'.`
       );
     });
-    console.warn(
-      `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
-        '\n'
-      )}`
-    );
+    // SPIKE TODO: uncomment:
+    // console.warn(
+    //   `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
+    //     '\n'
+    //   )}`
+    // );
   }
 }
