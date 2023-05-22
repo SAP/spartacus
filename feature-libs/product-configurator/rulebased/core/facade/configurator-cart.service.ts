@@ -17,7 +17,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
@@ -245,30 +245,17 @@ export class ConfiguratorCartService {
    * @returns {Observable<OrderEntry | undefined>} - Cart entry
    */
   getEntry(entryNumber: string): Observable<OrderEntry | undefined> {
-    let cartEntry: OrderEntry | undefined;
-
-    this.getEntries()
-      .pipe(take(1))
-      .subscribe((entries: OrderEntry[] | undefined) => {
-        entries?.forEach((entry: OrderEntry) => {
-          if (entry?.entryNumber?.toString() === entryNumber) {
-            cartEntry = entry;
-          }
-        });
-      });
-
-    return of(cartEntry);
-  }
-
-  /**
-   * Retrieves a list of cart entries.
-   *
-   * @returns {Observable<OrderEntry[] | undefined>} - List of cart entries
-   */
-  getEntries(): Observable<OrderEntry[] | undefined> {
     return this.activeCartService.requireLoadedCart().pipe(
       map((cart) => {
-        return cart ? cart.entries : [];
+        return cart.entries ? cart.entries : [];
+      }),
+      map((entries) => {
+        const filteredEntries = entries.filter(
+          (entry) => entry.entryNumber?.toString() === entryNumber
+        );
+        return filteredEntries
+          ? filteredEntries[filteredEntries.length - 1]
+          : undefined;
       })
     );
   }
