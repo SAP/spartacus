@@ -5,4 +5,3 @@
  */
 
 export * from './cdc-config';
-export * from './translations/translations';

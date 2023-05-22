@@ -12,3 +12,4 @@ export * from './feature-name';
 export * from './guards/index';
 export * from './service/index';
 export * from './consent-management';
+export * from './assets/translations/translations';
