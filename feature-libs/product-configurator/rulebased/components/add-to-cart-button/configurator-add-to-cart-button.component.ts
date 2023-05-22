@@ -31,8 +31,8 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import {
-  debounceTime,
   delay,
+  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -55,8 +55,6 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
-  //TODO: check lifecycle of subscription
-  protected quantitySubscription: Subscription;
   quantityControl = new UntypedFormControl(1);
   iconType = ICON_TYPE;
 
@@ -146,13 +144,14 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         }
       });
 
-    //CHHI
-    this.quantitySubscription = this.quantityControl.valueChanges
-      .pipe(debounceTime(500))
-      .subscribe(() => this.onQuantityChange());
+    this.subscription.add(
+      this.quantityControl.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe(() => this.onQuantityChange())
+    );
   }
 
-  onQuantityChange(): void {
+  protected onQuantityChange(): void {
     this.quantityControl.setValue(this.quantityControl.value);
     this.configQuantityService?.setQuantity(this.quantityControl.value);
   }
@@ -499,6 +498,5 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.quantitySubscription.unsubscribe();
   }
 }
