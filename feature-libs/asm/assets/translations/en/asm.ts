@@ -57,10 +57,10 @@ export const asm = {
         'The customer session starts once you create the customer account.',
       validationErrors: {
         firstName: 'Enter a valid first name.',
-        lastName: 'Enter a valid email address.',
+        lastName: 'Enter a valid last name.',
         emailAddress: 'Enter a valid email address.',
       },
-      badRequestDuplicateEmail:
+      badRequestDuplicatedEmail:
         'Enter a different email address as {{ emailAddress }} already exists.',
     },
     customerList: {
