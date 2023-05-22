@@ -20,6 +20,7 @@ import {
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthService,
   FeatureConfigService,
@@ -45,6 +46,14 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+
+const ROUTES_FROM_PARAMS = {
+  ticketId: '/',
+  orderId: 'orders',
+  activeCartId: 'activeCart',
+  savedCartId: 'savedCart',
+};
+
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
@@ -55,7 +64,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
-
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -104,7 +112,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
     @Optional() protected featureConfig?: FeatureConfigService,
-    @Optional() protected asmEnableService?: AsmEnablerService
+    @Optional() protected asmEnableService?: AsmEnablerService,
+    @Optional() protected multiCartFacade?: MultiCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -181,6 +190,11 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       }
       const parameters = {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
+        orderId: this.asmComponentService.getSearchParameter('orderId'),
+        ticketId: this.asmComponentService.getSearchParameter('ticketId'),
+        activeCartId:
+          this.asmComponentService.getSearchParameter('activeCartId'),
+        savedCartId: this.asmComponentService.getSearchParameter('savedCartId'),
         emulated: false,
       };
       this.subscription.add(
@@ -265,6 +279,31 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   andThen(_options: any) {
     //navigate to other pages
+    //this.routingService.go({ cxRoute: ROUTES_FROM_PARAMS['orderId'] });
+    ROUTES_FROM_PARAMS;
+    console.log('start navigating...');
+    console.log(_options);
+    if (_options.orderId) {
+      this.routingService.go({
+        cxRoute: 'orderDetails',
+        params: { code: _options.orderId },
+      });
+    } else if (_options.ticketId) {
+      this.routingService.go({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: _options.ticketId },
+      });
+    } else if (_options.activeCartId) {
+      this.routingService.go('cart');
+      this.multiCartFacade.getCarts().subscribe((carts) => console.log(carts));
+
+      this.multiCartFacade.loadCart({
+        cartId: _options.activeCartId,
+        userId: _options.customerId,
+      });
+    } else if (_options.savedCartId) {
+      this.routingService.go('my-account/saved-cart/' + _options.savedCartId);
+    }
   }
 
   hideUi(): void {

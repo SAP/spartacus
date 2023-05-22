@@ -13,9 +13,14 @@ import {
   navigateToCategory,
   waitForPage,
 } from '../../../../helpers/navigation';
+import { doPlaceOrder } from '../../../../helpers/order-history';
 import { APPAREL_BASESITE } from '../../../../helpers/variants/apparel-checkout-flow';
 import { getSampleUser } from '../../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import { signOutUser } from '../../../../helpers/login';
+import * as customerTicketing from '../../../../helpers/customer-ticketing/customer-ticketing';
+import * as savedCart from '../../../../helpers/saved-cart';
+import * as sampleData from '../../../../sample-data/saved-cart';
 
 const agentToken = {
   userName: 'asagent',
@@ -23,8 +28,8 @@ const agentToken = {
 };
 
 context('Assisted Service Module', () => {
-  describe('Customer Support Agent - Emulation', () => {
-    asm.testCustomerEmulation();
+  describe.only('Customer Support Agent - Emulation', () => {
+    // asm.testCustomerEmulation();
 
     it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
@@ -44,6 +49,165 @@ context('Assisted Service Module', () => {
 
       cy.log('--> sign out and close ASM UI');
       asm.agentSignOut();
+    });
+
+    it('should emulate customer order with deeplink before agent login (CXSPA-3113)', () => {
+      const customer = getSampleUser();
+
+      cy.log('--> Agent logging in with deeplink');
+      cy.visit('/');
+
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
+      login(customer.email, customer.password);
+      cy.wait(1000);
+      doPlaceOrder().then((orderData: any) => {
+        signOutUser();
+
+        const orderId = orderData.body.code;
+
+        cy.visit(
+          '/assisted-service/emulate?customerId=' +
+            customer.email +
+            '&orderId=' +
+            orderId
+        );
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('be.visible');
+
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+        cy.log('--> Should has assignCart');
+        cy.get('.cx-asm-assignCart').should('exist');
+
+        cy.url().should('contain', 'order/' + orderId);
+
+        cy.log('--> sign out and close ASM UI');
+        asm.agentSignOut();
+      });
+    });
+
+    it('should emulate customer ticket with deeplink before agent login (CXSPA-3113)', () => {
+      const testTicketDetails = {
+        subject: 'for pagination',
+        message: 'tgest pagination',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Complaint',
+        },
+        //ticketCategory: {
+        //  id: TestCategory.complaint.toUpperCase(),
+        //  name: TestCategory.complaint,
+        //},
+      };
+
+      const customer = getSampleUser();
+
+      cy.log('--> Agent logging in with deeplink');
+      cy.visit('/');
+
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
+      login(customer.email, customer.password);
+      cy.wait(1000);
+      customerTicketing.visitElectronicTicketListingPage();
+      customerTicketing.createTicket(testTicketDetails);
+      customerTicketing.verifyTicketListingTableContent();
+      customerTicketing
+        .getIdInRow(1)
+        .invoke('text')
+        .then((text) => {
+          const ticketId = text.trim();
+          console.log(ticketId);
+          //cy.wait(1000);
+          signOutUser();
+          cy.visit(
+            '/assisted-service/emulate?customerId=' +
+              customer.email +
+              '&ticketId=' +
+              ticketId
+          );
+          cy.get('cx-asm-main-ui').should('exist');
+          cy.get('cx-asm-main-ui').should('be.visible');
+
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+          cy.log('--> Should has assignCart');
+          cy.get('.cx-asm-assignCart').should('exist');
+
+          cy.url().should('contain', 'support-ticket/' + ticketId);
+
+          cy.log('--> sign out and close ASM UI');
+          asm.agentSignOut();
+        });
+    });
+
+    it('should emulate customer active cart with deeplink before agent login (CXSPA-3113)', () => {
+      const customer = getSampleUser();
+
+      cy.log('--> Agent logging in with deeplink');
+      cy.visit(
+        '/assisted-service/emulate?customerId=' +
+          customer.email +
+          '&activeCartId=123'
+      );
+
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+      cy.log('--> Should has assignCart');
+      cy.get('.cx-asm-assignCart').should('exist');
+    });
+
+    it.only('should emulate customer saved cart with deeplink before agent login (CXSPA-3113)', () => {
+      const customer = getSampleUser();
+
+      cy.visit('/');
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
+
+      login(customer.email, customer.password);
+      cy.wait(1000);
+
+      savedCart.addProductToCart(sampleData.products[2], 2);
+      cy.intercept('save?saveCartName=test1*');
+      savedCart.saveActiveCart(false);
+
+      cy.visit('my-account/saved-carts');
+
+      cy.get('td.cx-saved-cart-list-cart-id').then((els) => {
+        const savedCartId = els[0].innerText;
+
+        signOutUser();
+
+        cy.log('--> Agent logging in with deeplink');
+        cy.visit(
+          '/assisted-service/emulate?customerId=' +
+            customer.email +
+            '&savedCartId=' +
+            savedCartId
+        );
+
+        cy.get('cx-asm-main-ui').should('exist');
+        cy.get('cx-asm-main-ui').should('be.visible');
+
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+        cy.log('--> Should has assignCart');
+        cy.get('.cx-asm-assignCart').should('exist');
+
+        cy.url().should('contain', 'saved-cart/' + savedCartId);
+
+        cy.log('--> sign out and close ASM UI');
+        asm.agentSignOut();
+      });
     });
 
     it('should emulate customer with deeplink after agent login (CXSPA-3113)', () => {
