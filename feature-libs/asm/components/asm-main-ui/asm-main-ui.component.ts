@@ -15,12 +15,12 @@ import {
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmDeepLinkParameters,
   AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
-import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthService,
   FeatureConfigService,
@@ -46,13 +46,6 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-
-const ROUTES_FROM_PARAMS = {
-  ticketId: '/',
-  orderId: 'orders',
-  activeCartId: 'activeCart',
-  savedCartId: 'savedCart',
-};
 
 @Component({
   selector: 'cx-asm-main-ui',
@@ -112,8 +105,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
     @Optional() protected featureConfig?: FeatureConfigService,
-    @Optional() protected asmEnableService?: AsmEnablerService,
-    @Optional() protected multiCartFacade?: MultiCartFacade
+    @Optional() protected asmEnableService?: AsmEnablerService
   ) {}
 
   ngOnInit(): void {
@@ -192,8 +184,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         orderId: this.asmComponentService.getSearchParameter('orderId'),
         ticketId: this.asmComponentService.getSearchParameter('ticketId'),
-        activeCartId:
-          this.asmComponentService.getSearchParameter('activeCartId'),
         savedCartId: this.asmComponentService.getSearchParameter('savedCartId'),
         emulated: false,
       };
@@ -261,13 +251,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   startCustomerEmulationSession(
     { customerId }: { customerId?: string },
-    options?: any
+    parameters?: AsmDeepLinkParameters
   ): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
-      if (options) {
-        this.andThen(options);
+      if (parameters) {
+        this.handleDeepLinkParamsAfterStartSession(parameters);
       }
     } else {
       this.globalMessageService.add(
@@ -277,32 +267,24 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     }
   }
 
-  andThen(_options: any) {
-    //navigate to other pages
-    //this.routingService.go({ cxRoute: ROUTES_FROM_PARAMS['orderId'] });
-    ROUTES_FROM_PARAMS;
-    console.log('start navigating...');
-    console.log(_options);
-    if (_options.orderId) {
+  protected handleDeepLinkParamsAfterStartSession(
+    parameters: AsmDeepLinkParameters
+  ) {
+    if (parameters.orderId) {
+      // Navigate to order details
       this.routingService.go({
         cxRoute: 'orderDetails',
-        params: { code: _options.orderId },
+        params: { code: parameters.orderId },
       });
-    } else if (_options.ticketId) {
+    } else if (parameters.ticketId) {
+      // Navigate to support ticket details
       this.routingService.go({
         cxRoute: 'supportTicketDetails',
-        params: { ticketCode: _options.ticketId },
+        params: { ticketCode: parameters.ticketId },
       });
-    } else if (_options.activeCartId) {
-      this.routingService.go('cart');
-      this.multiCartFacade.getCarts().subscribe((carts) => console.log(carts));
-
-      this.multiCartFacade.loadCart({
-        cartId: _options.activeCartId,
-        userId: _options.customerId,
-      });
-    } else if (_options.savedCartId) {
-      this.routingService.go('my-account/saved-cart/' + _options.savedCartId);
+    } else if (parameters.savedCartId) {
+      // Navigate to saved cart
+      this.routingService.go('my-account/saved-cart/' + parameters.savedCartId);
     }
   }
 

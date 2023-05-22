@@ -23,3 +23,10 @@ export interface CustomerSearchOptions {
 export interface AsmUi {
   collapsed?: boolean;
 }
+
+export interface AsmDeepLinkParameters {
+  customerId?: string;
+  orderId?: string;
+  ticketId?: string;
+  savedCartId?: string;
+}

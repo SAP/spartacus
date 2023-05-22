@@ -166,7 +166,7 @@ context('Assisted Service Module', () => {
       cy.get('.cx-asm-assignCart').should('exist');
     });
 
-    it.only('should emulate customer saved cart with deeplink before agent login (CXSPA-3113)', () => {
+    it('should emulate customer saved cart with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
 
       cy.visit('/');
