@@ -48,33 +48,38 @@ export class CmsPageGuard implements CanActivate {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    return this.protectedRoutesGuard.canActivate(route).pipe(
-      switchMap((canActivate) =>
-        canActivate === true
-          ? this.routingService.getNextPageContext().pipe(
-              filter(isNotUndefined),
-              take(1),
-              switchMap((pageContext) =>
-                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
-                  first(),
-                  switchMap((pageData) =>
-                    pageData
-                      ? this.service.canActivatePage(
-                          pageContext,
-                          pageData,
-                          route,
-                          state
-                        )
-                      : this.service.canActivateNotFoundPage(
-                          pageContext,
-                          route,
-                          state
-                        )
-                  )
+    return (
+      of(true) || // SPIKE TODO REMOVE
+      this.protectedRoutesGuard.canActivate(route).pipe(
+        switchMap((canActivate) =>
+          canActivate === true
+            ? this.routingService.getNextPageContext().pipe(
+                filter(isNotUndefined),
+                take(1),
+                switchMap((pageContext) =>
+                  this.cmsService
+                    .getPage(pageContext, this.shouldReload())
+                    .pipe(
+                      first(),
+                      switchMap((pageData) =>
+                        pageData
+                          ? this.service.canActivatePage(
+                              pageContext,
+                              pageData,
+                              route,
+                              state
+                            )
+                          : this.service.canActivateNotFoundPage(
+                              pageContext,
+                              route,
+                              state
+                            )
+                      )
+                    )
                 )
               )
-            )
-          : of(canActivate)
+            : of(canActivate)
+        )
       )
     );
   }
