@@ -12,5 +12,5 @@ export const cdcTranslations: TranslationResources = {
 };
 
 export const cdcTranslationChunksConfig: TranslationChunksConfig = {
-  cdc: ['consentManagement'],
+  cdc: ['reconsent'],
 };
