@@ -61,14 +61,12 @@ context('Assisted Service Module', () => {
         cy.get('[ytestid="j_username"]').clear({ force: true });
         cy.get('[ytestid="j_password"]').clear({ force: true });
 
-        cy.get('[ytestid="j_username"]')
-          .scrollIntoView()
-          .type('CustomerSupportAgent');
+        cy.get('[ytestid="j_username"]').type('CustomerSupportAgent');
         cy.get('[ytestid="j_username"]').should(
           'have.value',
           'CustomerSupportAgent'
         );
-        cy.get('[ytestid="j_password"]').scrollIntoView().type('pw4all');
+        cy.get('[ytestid="j_password"]').type('pw4all');
         cy.get('[ytestid="j_password"]').should('have.value', 'pw4all');
         cy.get('[ytestid="loginButton"]').click({ force: true });
 
