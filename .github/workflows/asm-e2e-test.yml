@@ -6,7 +6,11 @@ on:
       - develop-*
       - release/**
   workflow_dispatch:
-    # empty as it is used only to manually trigger the workflow
+      inputs:
+        example_input:
+          description: An example input
+          required: true
+          default: 'example'
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
