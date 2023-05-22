@@ -448,39 +448,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       expect(serviceUnderTest.getEntry('2')).toBeObservable(
-        cold('a', { a: newestCart.entries[1] })
-      );
-    });
-  });
-
-  describe('getEntries', () => {
-    it('should return undefined', () => {
-      const cartEmpty: Cart = {
-        ...cart,
-        entries: undefined,
-      };
-
-      cartObs = cold('y', {
-        y: cartEmpty,
-      });
-
-      expect(serviceUnderTest.getEntries()).toBeObservable(
-        cold('a', { a: undefined })
-      );
-    });
-
-    it('should return an empty list of entries', () => {
-      const cartEmpty: Cart = {
-        ...cart,
-        entries: [],
-      };
-
-      cartObs = cold('y', {
-        y: cartEmpty,
-      });
-
-      expect(serviceUnderTest.getEntries()).toBeObservable(
-        cold('a', { a: [] })
+        cold('a', { a: newestCart.entries ? newestCart.entries[1] : {} })
       );
     });
   });
