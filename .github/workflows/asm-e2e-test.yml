@@ -6,11 +6,13 @@ on:
       - develop-*
       - release/**
   workflow_dispatch:
-      inputs:
-        example_input:
-          description: An example input
-          required: true
-          default: 'example'
+    inputs:
+      ccv2_branch:
+        description: Branch on ccv2 to update
+        default: spa_p4
+        required: true
+      source_branch_to_deploy:
+        description: source branch to deploy on ccv2 (repo default branch if left empty)
 
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
