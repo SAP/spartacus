@@ -131,7 +131,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    //TODO Larisa: Icon wrong after addToCart for product bound configuration, 
+    //TODO Larisa: Icon wrong after addToCart for product bound configuration,
     //still shows '+' on the OV page
     //TODO Larisa: Icon wrong in case navigating from checkout
     //TODO Larisa: Icon wrong in case navigating from order history
@@ -159,7 +159,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     this.quantityControl.setValue(this.quantityControl.value);
     this.configQuantityService?.setQuantity(this.quantityControl.value);
   }
-
 
   /**
    * Retrieves a quantity for a cart entry.
