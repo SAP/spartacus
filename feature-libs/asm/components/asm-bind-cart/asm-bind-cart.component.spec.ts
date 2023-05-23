@@ -45,6 +45,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   }
   startCustomerEmulationSession(_customerId: string) {}
 }
+
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
     return EMPTY;
