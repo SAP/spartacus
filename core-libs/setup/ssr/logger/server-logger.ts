@@ -18,18 +18,18 @@ export class ServerLogger implements Logger {
     @Inject(ssrLoggerToken) protected ssrLogger: SsrLogger,
     protected windowRef: WindowRef
   ) {}
-  log(message?: any, ...optionalParams: any[]): void {
-    this.ssrLogger.log(format(message, ...optionalParams), {
+  log(...args: Parameters<typeof console.log>): void {
+    this.ssrLogger.log(format(...args), {
       request: this.getRequest(),
     });
   }
-  error(message?: any, ...optionalParams: any[]): void {
-    this.ssrLogger.error(format(message, ...optionalParams), {
+  error(...args: Parameters<typeof console.error>): void {
+    this.ssrLogger.error(format(...args), {
       request: this.getRequest(),
     });
   }
-  warn(message?: any, ...optionalParams: any[]): void {
-    this.ssrLogger.warn(format(message, ...optionalParams), {
+  warn(...args: Parameters<typeof console.log>): void {
+    this.ssrLogger.warn(format(...args), {
       request: this.getRequest(),
     });
   }
