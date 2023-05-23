@@ -485,7 +485,6 @@ export class OptimizedSsrEngine {
 
   private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
     if (typeof ssrOptions?.logger === 'boolean') {
-      console.log(ssrOptions.logger);
       return new DefaultExpressSsrLogger();
     }
     return ssrOptions?.logger ?? new SsrLogger();
