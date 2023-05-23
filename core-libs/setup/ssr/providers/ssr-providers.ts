@@ -34,11 +34,6 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
       useFactory: serverRequestUrlFactory(options),
     },
     {
-      provide: Logger,
-      useClass: ServerLogger,
-      deps: [REQUEST, ssrLoggerToken, WindowRef],
-    },
-    {
       provide: ErrorHandler,
       useFactory: ssrErrorHandlerFactory,
     },
@@ -46,6 +41,11 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: ssrLoggerToken,
       useFactory: ssrLoggerFactory,
+    },
+    {
+      provide: Logger,
+      useClass: ServerLogger,
+      deps: [REQUEST, ssrLoggerToken, WindowRef],
     },
   ];
 }
