@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { inject } from '@angular/core';
 import { LogMetadata, SsrLogger, ssrLoggerToken } from '../ssr-logger';
 
