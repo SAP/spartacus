@@ -6,27 +6,20 @@
   border-top: solid 1px var(--cx-color-light);
   box-shadow: 0 0 5px var(--cx-color-light);
 
-  @include forVersion(6) {
-    .cx-add-to-cart-btn-container,
-    .cx-display-only-btn-container {
-      max-width: 1140px;
-      @include cx-configurator-footer-container();
-      margin-top: 0px;
+  .cx-add-to-cart-btn-container,
+  .cx-display-only-btn-container {
+    max-width: 1140px;
+    @include cx-configurator-footer-container();
+    margin-top: 0px;
 
-      button.cx-add-to-cart-btn,
-      button.cx-display-only-btn {
-        @include cx-configurator-footer-container-item();
-      }
+    button.cx-add-to-cart-btn,
+    button.cx-display-only-btn {
+      @include cx-configurator-footer-container-item();
     }
   }
 
   @include forVersion(6.1) {
-    .cx-add-to-cart-btn-container,
-    .cx-display-only-btn-container {
-      max-width: 1140px;
-      @include cx-configurator-footer-container();
-      margin-top: 0px;
-
+    .cx-add-to-cart-btn-container {
       .cx-quantity-add-to-cart-container {
         @include media-breakpoint-down(sm) {
           inline-size: 100%;
@@ -61,11 +54,6 @@
             }
           }
         }
-      }
-
-      button.cx-add-to-cart-btn,
-      button.cx-display-only-btn {
-        @include cx-configurator-footer-container-item();
       }
 
       button.cx-add-to-cart-btn {
