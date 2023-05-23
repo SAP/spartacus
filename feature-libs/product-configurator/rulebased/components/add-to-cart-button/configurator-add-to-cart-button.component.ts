@@ -155,7 +155,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   protected onQuantityChange(): void {
-    this.quantityControl.setValue(this.quantityControl.value);
     this.configuratorQuantityService?.setQuantity(this.quantityControl.value);
   }
 

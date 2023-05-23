@@ -33,6 +33,7 @@ import { ConfiguratorQuantityService } from '../../core/services/configurator-qu
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
 const QUANTITY = 99;
+const QUANTITY_CHANGED = 7;
 
 const configuratorType = ConfiguratorType.VARIANT;
 
@@ -299,6 +300,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let intersectionService: IntersectionService;
+  let configuratorQuantityService: ConfiguratorQuantityService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -382,6 +384,10 @@ describe('ConfigAddToCartButtonComponent', () => {
       GlobalMessageService as Type<GlobalMessageService>
     );
 
+    configuratorQuantityService = TestBed.inject(
+      ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
+    );
+
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -398,6 +404,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    spyOn(configuratorQuantityService, 'setQuantity').and.callThrough();
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
     );
@@ -442,10 +449,29 @@ describe('ConfigAddToCartButtonComponent', () => {
 
     it('should not set quantity in case quantity service not available', () => {
       initialize();
-      component.quantityControl.setValue(7);
+      component.quantityControl.setValue(QUANTITY_CHANGED);
       component['configuratorQuantityService'] = undefined;
       component.ngOnInit();
-      expect(component.quantityControl.value).toBe(7);
+      expect(component.quantityControl.value).toBe(QUANTITY_CHANGED);
+    });
+  });
+
+  describe('onQuantityChange', () => {
+    it('should push current quantity to qty service', () => {
+      initialize();
+      component.quantityControl.setValue(QUANTITY_CHANGED);
+      component['onQuantityChange']();
+      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
+        QUANTITY_CHANGED
+      );
+    });
+
+    it('should cope with qty service not being available', () => {
+      initialize();
+      component['configuratorQuantityService'] = undefined;
+      component.quantityControl.setValue(QUANTITY_CHANGED);
+      component['onQuantityChange']();
+      expect(configuratorQuantityService.setQuantity).toHaveBeenCalledTimes(0);
     });
   });
 
