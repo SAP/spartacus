@@ -51,7 +51,7 @@
       *ngIf="inactiveCartId && !isInactiveCartSaved"
       class="cx-asm-bindCartToCustomer"
       type="submit"
-      [class.cx-asm-active]="inactiveCartId.length > 0"
+      [class.cx-asm-active]="!!inactiveCartId"
       [class.cx-bind-loading]="loading$ | async"
       (click)="onSaveInactiveCart()"
     >
