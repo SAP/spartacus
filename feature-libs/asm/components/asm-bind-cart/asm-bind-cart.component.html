@@ -48,7 +48,7 @@
     <button
       id="asm-save-inactive-cart-btn"
       #saveInactiveCart
-      *ngIf="inactiveCartId.length > 0 && !isInactiveCartSaved"
+      *ngIf="inactiveCartId && !isInactiveCartSaved"
       class="cx-asm-bindCartToCustomer"
       type="submit"
       [class.cx-asm-active]="inactiveCartId.length > 0"
