@@ -132,10 +132,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    //TODO Larisa: Icon wrong after addToCart for product bound configuration,
-    //still shows '+' on the OV page
-    //TODO Larisa: Icon wrong in case navigating from checkout
-    //TODO Larisa: Icon wrong in case navigating from order history
     this.makeAddToCartButtonSticky();
 
     if (this.configuratorQuantityService) {
@@ -478,7 +474,9 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         .pipe(
           take(1),
           delay(0),
-          map(() => this.configUtils.getElement('.cx-price-summary-container')),
+          map(() =>
+            this.configUtils.getElement('cx-configurator-price-summary')
+          ),
           switchMap((priceSummary) =>
             priceSummary
               ? this.intersectionService.isIntersecting(priceSummary, options)

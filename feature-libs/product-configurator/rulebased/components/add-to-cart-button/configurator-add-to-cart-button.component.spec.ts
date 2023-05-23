@@ -227,6 +227,7 @@ function setRouterTestDataReadOnlyOrder() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
   mockRouterData.owner.id = ORDER_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+  mockRouterData.displayOnly = true;
 }
 
 function performAddToCartOnOverview() {
@@ -415,9 +416,54 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
   });
 
-  it('should create', () => {
+  afterEach(() => {
+    fixture.destroy();
+    mockRouterData.displayOnly = false;
+  });
+
+  it('should create cart-btn-container', () => {
     initialize();
     expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-add-to-cart-btn-container'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-quantity-add-to-cart-container'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-quantity'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'button.cx-add-to-cart-btn'
+    );
+  });
+
+  it('should create display-only-btn-container', () => {
+    setRouterTestDataReadOnlyOrder();
+    initialize();
+    expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-display-only-btn-container'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'button.cx-display-only-btn'
+    );
   });
 
   it('should render button that is not disabled in case there are no pending changes', () => {
@@ -854,14 +900,14 @@ describe('ConfigAddToCartButtonComponent', () => {
       config.isCartEntryUpdateRequired = isCartEntryUpdateRequired;
     }
 
-    it('should return CART_CIRCLE_CHECK', () => {
+    it('should return CART', () => {
       prepareTestData(true, true);
       expect(component.getIconType(routerData, config)).toBe(
         component.iconType.CART
       );
     });
 
-    it('should return CART', () => {
+    it('should return CART_ARROW_DOWN', () => {
       prepareTestData(true, false);
       expect(component.getIconType(routerData, config)).toBe(
         component.iconType.CART_ARROW_DOWN
