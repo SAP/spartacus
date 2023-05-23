@@ -86,7 +86,7 @@ jobs:
           ci-scripts/e2e-cypress-asm.sh
 
   build_conclusion:
-    needs: [no_retries, b2c_e2e_tests]
+    needs: [no_retries, asm_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -98,4 +98,4 @@ jobs:
             core.setFailed('Build failed')
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
-          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled'
+          needs.asm_e2e_tests.result == 'failure' || needs.asm_e2e_tests.result == 'cancelled'
