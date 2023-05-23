@@ -155,13 +155,14 @@ export class ConfiguratorCartService {
    *
    * @param productCode - Product code
    * @param configId - Configuration ID
-   * @param owner Configuration owner
+   * @param owner - Configuration owner
+   * @param quantity - Quantity
    */
   addToCart(
     productCode: string,
     configId: string,
     owner: CommonConfigurator.Owner,
-    quantity: number
+    quantity?: number
   ): void {
     this.activeCartService
       .requireLoadedCart()
@@ -175,7 +176,7 @@ export class ConfiguratorCartService {
               userId: userId,
               cartId: this.commonConfigUtilsService.getCartId(cart),
               productCode: productCode,
-              quantity: quantity,
+              quantity: quantity ?? 1,
               configId: configId,
               owner: owner,
             };

@@ -324,8 +324,9 @@ describe('ConfiguratorCartService', () => {
       );
     });
   });
+
   describe('addToCart', () => {
-    it('should get cart, create addToCartParameters and call addToCart action', () => {
+    it('should get cart, create addToCartParameters and call addToCart action without setting quantity', () => {
       const addToCartParams: Configurator.AddToCartParameters = {
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
@@ -337,13 +338,33 @@ describe('ConfiguratorCartService', () => {
 
       spyOn(store, 'dispatch').and.callThrough();
 
-      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT, 1);
+      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.AddToCart(addToCartParams)
+      );
+    });
+
+    it('should get cart, create addToCartParameters and call addToCart action with setting quantity', () => {
+      const addToCartParams: Configurator.AddToCartParameters = {
+        cartId: CART_GUID,
+        userId: OCC_USER_ID_ANONYMOUS,
+        productCode: PRODUCT_CODE,
+        quantity: 100,
+        configId: CONFIG_ID,
+        owner: OWNER_PRODUCT,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT, 100);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.AddToCart(addToCartParams)
       );
     });
   });
+
   describe('updateCartEntry', () => {
     it('should create updateParameters and call updateCartEntry action', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {

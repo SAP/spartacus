@@ -104,7 +104,7 @@ context('Product Configuration', () => {
       configurationCart.clickOnEditConfigurationLink(0);
     });
 
-    it.only('should be able to to add more than one piece of a configured product in the cart via a quantity stepper next to the add-to-cart button (CXSPA-3193)', () => {
+    it('should be able to to add more than one piece of a configured product in the cart via a quantity stepper next to the add-to-cart button (CXSPA-3193)', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
