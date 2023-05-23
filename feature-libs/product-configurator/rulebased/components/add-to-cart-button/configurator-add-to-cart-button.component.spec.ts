@@ -456,11 +456,10 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 
-  describe('onQuantityChange', () => {
+  describe('quantityChange', () => {
     it('should push current quantity to qty service', () => {
       initialize();
       component.quantityControl.setValue(QUANTITY_CHANGED);
-      component['onQuantityChange']();
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledWith(
         QUANTITY_CHANGED
       );
@@ -470,7 +469,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       initialize();
       component['configuratorQuantityService'] = undefined;
       component.quantityControl.setValue(QUANTITY_CHANGED);
-      component['onQuantityChange']();
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledTimes(0);
     });
   });

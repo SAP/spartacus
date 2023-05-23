@@ -150,12 +150,12 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.quantityControl.valueChanges
         .pipe(distinctUntilChanged())
-        .subscribe(() => this.onQuantityChange())
+        .subscribe(() =>
+          this.configuratorQuantityService?.setQuantity(
+            this.quantityControl.value
+          )
+        )
     );
-  }
-
-  protected onQuantityChange(): void {
-    this.configuratorQuantityService?.setQuantity(this.quantityControl.value);
   }
 
   /**
