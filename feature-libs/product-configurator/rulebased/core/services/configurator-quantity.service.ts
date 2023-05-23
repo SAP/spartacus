@@ -17,7 +17,7 @@ export class ConfiguratorQuantityService {
   private _quantity: Observable<number> = new ReplaySubject<number>(1);
 
   /**
-   * Sets a configuration quantity.
+   * Sets the configuration quantity.
    *
    * @param quantity
    */
@@ -26,7 +26,7 @@ export class ConfiguratorQuantityService {
   }
 
   /**
-   * Retrieves a configuration quantity.
+   * Retrieves the configuration quantity.
    *
    * @returns {Observable<number>} - Configuration quantity.
    */

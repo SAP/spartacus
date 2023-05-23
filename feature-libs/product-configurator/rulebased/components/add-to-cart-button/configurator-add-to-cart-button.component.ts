@@ -159,7 +159,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
    * @param {string} entryNumber - Entry number
    * @returns {number} - Quantity
    */
-  getQuantity(entryNumber: string): Observable<number | undefined> {
+  getCartEntryQuantity(entryNumber: string): Observable<number> {
     return this.configuratorCartService.getEntry(entryNumber).pipe(
       map((entry) => {
         return entry?.quantity ? entry?.quantity : 1;
@@ -246,7 +246,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves an icon type depending on the business process (owner of the configuration) and the
-   * need for a cart update, the text will differ.
+   * need for a cart update. The icon will differ.
    *
    * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
    * @param {Configurator.Configuration} configuration - Configuration

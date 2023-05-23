@@ -25,13 +25,13 @@ describe('ConfiguratorQuantityService', () => {
     });
 
     it('should return value that was set with setQuantity', (done) => {
-      const quantity = 100;
-      classUnderTest.setQuantity(quantity);
+      const result = 100;
+      classUnderTest.setQuantity(result);
       classUnderTest
         .getQuantity()
         .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe(quantity);
+        .subscribe((quantity) => {
+          expect(quantity).toBe(result);
           done();
         });
     });

@@ -534,9 +534,9 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 
-  describe('getQuantity', () => {
+  describe('getCartEntryQuantity', () => {
     it('should return one because quantity is undefined for order entry', () => {
-      component.getQuantity('PRODUCT_CODE').subscribe((quantity) => {
+      component.getCartEntryQuantity('PRODUCT_CODE').subscribe((quantity) => {
         expect(quantity).toBe(1);
       });
     });
@@ -544,7 +544,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should return quantity for order entry', () => {
       mockOrderEntry.quantity = 20;
       initialize();
-      component.getQuantity('PRODUCT_CODE').subscribe((quantity) => {
+      component.getCartEntryQuantity('PRODUCT_CODE').subscribe((quantity) => {
         expect(quantity).toBe(20);
       });
     });

@@ -35,7 +35,9 @@
                   >{{ 'configurator.addToCart.quantity' | cxTranslate }}:</label
                 >
                 <div class="cx-quantity-value">
-                  {{ getQuantity(container.routerData.owner.id) | async }}
+                  {{
+                    getCartEntryQuantity(container.routerData.owner.id) | async
+                  }}
                 </div>
               </ng-container>
             </div>
