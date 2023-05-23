@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './client-logger';
 export * from './logger';
-export * from './logger.module';

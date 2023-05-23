@@ -4,8 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export abstract class Logger {
-  abstract log(...args: Parameters<typeof console.log>): void;
-  abstract error(...args: Parameters<typeof console.error>): void;
-  abstract warn(...args: Parameters<typeof console.warn>): void;
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class Logger {
+  log(...args: Parameters<typeof console.log>): void {
+    console.log(...args);
+  }
+  error(...args: Parameters<typeof console.error>): void {
+    console.warn(...args);
+  }
+  warn(...args: Parameters<typeof console.warn>): void {
+    console.error(...args);
+  }
 }

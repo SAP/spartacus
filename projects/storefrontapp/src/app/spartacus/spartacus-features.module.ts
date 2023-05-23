@@ -10,7 +10,6 @@ import {
   AuthModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  LoggerModule,
   ProductModule,
   ProductOccModule,
   UserModule,
@@ -147,9 +146,6 @@ if (environment.s4om) {
     PDFModule,
     ScrollToTopModule,
     VideoModule,
-
-    // Logger
-    LoggerModule,
 
     // User Core
     UserModule,
