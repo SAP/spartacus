@@ -4,11 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StaticProvider } from '@angular/core';
+import { ErrorHandler, StaticProvider } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
+import {
+  Logger,
+  SERVER_REQUEST_ORIGIN,
+  SERVER_REQUEST_URL,
+  WindowRef,
+} from '@spartacus/core';
+import { ssrErrorHandlerFactory } from '../error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
+import { ServerLogger, ssrLoggerFactory, ssrLoggerToken } from '../logger';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
 import { serverRequestUrlFactory } from './server-request-url';
@@ -25,6 +32,20 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: SERVER_REQUEST_URL,
       useFactory: serverRequestUrlFactory(options),
+    },
+    {
+      provide: Logger,
+      useClass: ServerLogger,
+      deps: [REQUEST, ssrLoggerToken, WindowRef],
+    },
+    {
+      provide: ErrorHandler,
+      useFactory: ssrErrorHandlerFactory,
+    },
+    // for pre-rendering purposes - "there is no Express" fallback
+    {
+      provide: ssrLoggerToken,
+      useFactory: ssrLoggerFactory,
     },
   ];
 }
