@@ -28,9 +28,11 @@ import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { UntypedFormControl } from '@angular/forms';
+import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 
 const CART_ENTRY_KEY = '001+1';
 const ORDER_ENTRY_KEY = '001+1';
+const QUANTITY = 99;
 
 const configuratorType = ConfiguratorType.VARIANT;
 
@@ -113,6 +115,13 @@ function initialize() {
 
 class MockGlobalMessageService {
   add(): void {}
+}
+
+class MockConfiguratorQuantityService {
+  getQuantity(): Observable<number> {
+    return of(QUANTITY);
+  }
+  setQuantity(): void {}
 }
 
 class MockConfiguratorCommonsService {
@@ -306,6 +315,10 @@ describe('ConfigAddToCartButtonComponent', () => {
             useClass: MockRoutingService,
           },
           {
+            provide: ConfiguratorQuantityService,
+            useClass: MockConfiguratorQuantityService,
+          },
+          {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
@@ -419,6 +432,21 @@ describe('ConfigAddToCartButtonComponent', () => {
     } else {
       fail();
     }
+  });
+
+  describe('ngOnInit', () => {
+    it('should set quantity that was retrieved from quantity service', () => {
+      initialize();
+      expect(component.quantityControl.value).toBe(QUANTITY);
+    });
+
+    it('should not set quantity in case quantity service not available', () => {
+      initialize();
+      component.quantityControl.setValue(7);
+      component['configuratorQuantityService'] = undefined;
+      component.ngOnInit();
+      expect(component.quantityControl.value).toBe(7);
+    });
   });
 
   describe('getQuantity', () => {

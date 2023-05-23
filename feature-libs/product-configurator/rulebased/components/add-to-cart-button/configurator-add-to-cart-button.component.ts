@@ -127,7 +127,8 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService,
     // TODO:(CXSPA-3392) for next major release remove feature config service
-    @Optional() protected configQuantityService?: ConfiguratorQuantityService
+    @Optional()
+    protected configuratorQuantityService?: ConfiguratorQuantityService
   ) {}
 
   ngOnInit(): void {
@@ -137,16 +138,14 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     //TODO Larisa: Icon wrong in case navigating from order history
     this.makeAddToCartButtonSticky();
 
-    this.configQuantityService
-      ?.getQuantity()
-      .pipe(take(1))
-      .subscribe((quantity) => {
-        if (quantity) {
+    if (this.configuratorQuantityService) {
+      this.configuratorQuantityService
+        .getQuantity()
+        .pipe(take(1))
+        .subscribe((quantity) => {
           this.quantityControl.setValue(quantity);
-        } else {
-          this.configQuantityService?.setQuantity(1);
-        }
-      });
+        });
+    }
 
     this.subscription.add(
       this.quantityControl.valueChanges
@@ -157,7 +156,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
 
   protected onQuantityChange(): void {
     this.quantityControl.setValue(this.quantityControl.value);
-    this.configQuantityService?.setQuantity(this.quantityControl.value);
+    this.configuratorQuantityService?.setQuantity(this.quantityControl.value);
   }
 
   /**
@@ -337,7 +336,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     configuratorType: string,
     isOverview: boolean
   ) {
-    const quantity = this.quantityControl?.value ?? 1;
+    const quantity = this.quantityControl.value;
     this.configuratorCartService.addToCart(
       owner.id,
       configuration.configId,
