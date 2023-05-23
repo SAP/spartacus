@@ -42,9 +42,14 @@ Run `npm run compare`.  This compares both ./src/*/public-api.json files to crea
 
 Note: Some of the doc/schematics generators below read from the manual input files as well as the breaking change file.
 Thes input files should be present:
-- tools/breaking-changes/data/*_0/breaking-changes.json (created by comparing the API between 2 versions)
-- docs/migration/*_0/deleted-api.json (developer manual input)
-- docs/migration/*_0/deleted-renamed-api-members.json (developer manual input)
+- tools/breaking-changes/data/*_0/breaking-changes.json   (created by comparing the API between 2 versions)
+- docs/migration/*_0/migration-comments-api-elements.json (structured manual doc input for top level api elements, mainly for deleted ones.)
+- docs/migration/*_0/migration-comments-members.json      (structured manual doc input for deleted or renamed class members)
+- docs/migration/*_0/renamed-api-mappings.json            (structured manual doc input for renamed public api elements)
+
+The 6.0 migration files can be taken as a template or en example: https://github.com/SAP/spartacus/tree/release/6.0.x/docs/migration/6_0
+
+The full documentation about those files can be found here: https://wiki.one.int.sap/wiki/x/9WSWtQ
 
 `gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*_0/constructor-deprecations`
 
