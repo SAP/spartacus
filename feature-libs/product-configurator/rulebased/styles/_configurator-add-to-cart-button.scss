@@ -6,7 +6,7 @@
   border-top: solid 1px var(--cx-color-light);
   box-shadow: 0 0 5px var(--cx-color-light);
 
-  @include forVersion(1, 6) {
+  @include forVersion(6) {
     .cx-add-to-cart-btn-container,
     .cx-display-only-btn-container {
       max-width: 1140px;
