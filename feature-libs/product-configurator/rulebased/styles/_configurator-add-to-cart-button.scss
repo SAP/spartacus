@@ -66,6 +66,9 @@
       button.cx-add-to-cart-btn,
       button.cx-display-only-btn {
         @include cx-configurator-footer-container-item();
+      }
+
+      button.cx-add-to-cart-btn {
         inline-size: 45%;
       }
     }

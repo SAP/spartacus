@@ -83,11 +83,11 @@
       </ng-container>
       <ng-container *cxFeatureLevel="'6.1'">
         <button
-          class="cx-btn btn btn-block btn-primary cx-display-only-btn"
+          class="cx-btn btn btn-block btn-secondary cx-display-only-btn"
           (click)="leaveConfigurationOverview()"
-          title="{{ 'configurator.addToCart.buttonDisplayOnly' | cxTranslate }}"
+          title="{{ 'configurator.addToCart.buttonClose' | cxTranslate }}"
         >
-          <cx-icon [type]="iconType.CHECK"></cx-icon>
+          {{ 'configurator.addToCart.buttonClose' | cxTranslate }}
         </button>
       </ng-container>
     </div>

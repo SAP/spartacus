@@ -462,7 +462,22 @@ describe('ConfigAddToCartButtonComponent', () => {
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'button.cx-display-only-btn'
+      'button.btn-secondary.cx-display-only-btn'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      'button.btn-secondary.cx-display-only-btn',
+      'configurator.addToCart.buttonClose'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
+      expect,
+      htmlElem,
+      'button.btn-secondary.cx-display-only-btn',
+      'title',
+      'configurator.addToCart.buttonClose'
     );
   });
 

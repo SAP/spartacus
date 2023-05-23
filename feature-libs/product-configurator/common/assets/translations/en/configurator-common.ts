@@ -98,6 +98,7 @@ export const configurator = {
       buttonAfterAddToCart: 'Continue to Cart',
       buttonUpdateCart: 'Done',
       buttonDisplayOnly: 'Done',
+      buttonClose: 'Close',
       confirmation: 'Configuration has been added to the cart',
       confirmationUpdate: 'Cart has been updated with configuration',
       quantity: 'Qty',
