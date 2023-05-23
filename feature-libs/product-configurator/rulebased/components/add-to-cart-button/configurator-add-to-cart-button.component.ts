@@ -83,7 +83,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     )
   );
 
-  // TODO (CXSPA-3392): make globalMessageService a required dependency
+  // TODO (CXSPA-3392): make configuratorQuantityService a required dependency
   constructor(
     routingService: RoutingService,
     configuratorCommonsService: ConfiguratorCommonsService,
@@ -96,7 +96,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     configUtils: ConfiguratorStorefrontUtilsService,
     intersectionService: IntersectionService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configQuantityService: ConfiguratorQuantityService
+    configuratorQuantityService: ConfiguratorQuantityService
   );
 
   /**
@@ -126,7 +126,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService,
-    // TODO:(CXSPA-3392) for next major release remove feature config service
     @Optional()
     protected configuratorQuantityService?: ConfiguratorQuantityService
   ) {}
