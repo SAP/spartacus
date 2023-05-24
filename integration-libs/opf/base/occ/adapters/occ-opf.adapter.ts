@@ -8,8 +8,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { backOff, ConverterService, isJaloError } from '@spartacus/core';
 import {
-  OpfAdapter,
   OpfEndpointsService,
+  OpfPaymentAdapter,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
 } from 'integration-libs/opf/base/core/public_api';
 import {
@@ -24,7 +24,7 @@ import { catchError } from 'rxjs/operators';
 import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
-export class OccOpfAdapter implements OpfAdapter {
+export class OccOpfAdapter implements OpfPaymentAdapter {
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,

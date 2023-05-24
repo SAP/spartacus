@@ -6,5 +6,5 @@
 
 export * from './opf-order.adapter';
 export * from './opf-order.connector';
+export * from './opf-payment.adapter';
 export * from './opf-payment.connector';
-export * from './opf.adapter';

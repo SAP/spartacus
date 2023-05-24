@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const OPF_PAYMENT_FEATURE = 'opfPayment';
+export const OPF_BASE_FEATURE = 'opfBase';

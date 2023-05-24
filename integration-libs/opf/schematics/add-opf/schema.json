@@ -25,11 +25,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["OPF-Checkout", "OPF-Payment"],
+        "enum": ["OPF-Checkout", "OPF-Base"],
         "type": "string"
       },
-      "default": ["OPF-Checkout", "OPF-Payment"],
-      "x-prompt": "the 2 libraries from OPF"
+      "default": ["OPF-Checkout", "OPF-Base"]
     },
     "baseUrl": {
       "type": "string",

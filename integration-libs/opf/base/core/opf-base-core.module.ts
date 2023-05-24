@@ -12,4 +12,4 @@ import { facadeProviders } from './facade/facade-providers';
   imports: [],
   providers: [...facadeProviders, OpfPaymentConnector, OpfOrderConnector],
 })
-export class OpfPaymentCoreModule {}
+export class OpfBaseCoreModule {}

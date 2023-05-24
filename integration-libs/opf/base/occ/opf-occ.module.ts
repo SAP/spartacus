@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import {
-  OpfAdapter,
   OpfOrderAdapter,
+  OpfPaymentAdapter,
 } from 'integration-libs/opf/base/core/public_api';
 import { OccOpfOrderAdapter } from './adapters';
 import { OccOpfAdapter } from './adapters/occ-opf.adapter';
@@ -21,7 +21,7 @@ import { defaultOccOpfOrderConfig } from './config/default-occ-opf-order-config'
   providers: [
     provideDefaultConfig(defaultOccOpfConfig),
     {
-      provide: OpfAdapter,
+      provide: OpfPaymentAdapter,
       useClass: OccOpfAdapter,
     },
     provideDefaultConfig(defaultOccOpfOrderConfig),

@@ -6,6 +6,6 @@
 
 export * from './connectors/index';
 export * from './facade/index';
-export * from './opf-payment-core.module';
+export * from './opf-base-core.module';
 export * from './services/index';
 export * from './tokens/index';

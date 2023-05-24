@@ -5,10 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfPaymentCoreModule } from 'integration-libs/opf/base/core/public_api';
+import { OpfBaseCoreModule } from 'integration-libs/opf/base/core/public_api';
 import { OpfPaymentOccModule } from 'integration-libs/opf/base/occ/public_api';
 
 @NgModule({
-  imports: [OpfPaymentOccModule, OpfPaymentCoreModule],
+  imports: [OpfPaymentOccModule, OpfBaseCoreModule],
 })
 export class OpfPaymentModule {}

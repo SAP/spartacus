@@ -16,12 +16,12 @@ import {
   OpfConfig,
 } from '@spartacus/opf/checkout/root';
 import {
-  opfPaymentTranslationChunksConfig,
-  opfPaymentTranslations,
+  opfBaseTranslationChunksConfig,
+  opfBaseTranslations,
 } from 'integration-libs/opf/base/assets/public_api';
 import {
-  OpfPaymentRootModule,
-  OPF_PAYMENT_FEATURE,
+  OpfBaseRootModule,
+  OPF_BASE_FEATURE,
 } from 'integration-libs/opf/base/root/public_api';
 
 import { environment } from '../../../../environments/environment';
@@ -34,11 +34,11 @@ if (environment.b2b) {
 }
 
 @NgModule({
-  imports: [OpfPaymentRootModule],
+  imports: [OpfBaseRootModule],
   providers: [
     provideConfig({
       featureModules: {
-        [OPF_PAYMENT_FEATURE]: {
+        [OPF_BASE_FEATURE]: {
           module: () =>
             import('integration-libs/opf/base/public_api').then(
               (m) => m.OpfPaymentModule
@@ -68,8 +68,8 @@ if (environment.b2b) {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: opfPaymentTranslations,
-        chunks: opfPaymentTranslationChunksConfig,
+        resources: opfBaseTranslations,
+        chunks: opfBaseTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

@@ -11,11 +11,11 @@ import {
 } from 'integration-libs/opf/base/root/public_api';
 
 import { Observable } from 'rxjs';
-import { OpfAdapter } from './opf.adapter';
+import { OpfPaymentAdapter } from './opf-payment.adapter';
 
 @Injectable()
 export class OpfPaymentConnector {
-  constructor(protected adapter: OpfAdapter) {}
+  constructor(protected adapter: OpfPaymentAdapter) {}
 
   public verifyPayment(
     paymentSessionId: string,

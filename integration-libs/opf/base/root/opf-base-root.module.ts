@@ -44,4 +44,4 @@ import { OpfEventModule } from './events/opf-event.module';
     provideConfigValidator(opfConfidValidator),
   ],
 })
-export class OpfPaymentRootModule {}
+export class OpfBaseRootModule {}

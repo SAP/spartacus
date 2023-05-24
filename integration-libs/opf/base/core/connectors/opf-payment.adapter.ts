@@ -10,7 +10,7 @@ import {
 } from 'integration-libs/opf/base/root/public_api';
 import { Observable } from 'rxjs';
 
-export abstract class OpfAdapter {
+export abstract class OpfPaymentAdapter {
   /**
    * Abstract method used to verify payment
    */
