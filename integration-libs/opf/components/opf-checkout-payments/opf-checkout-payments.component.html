@@ -1,10 +1,15 @@
-<ng-container *ngIf="activeConfiguratons$ | async as activeConfiguratons">
-  <div>
-    <h3>
-      {{ 'opf.checkout.paymentOption' | cxTranslate }}
-    </h3>
-
-    <div class="form-check" *ngFor="let configuration of activeConfiguratons">
+<h3>
+  {{ 'opf.checkout.paymentOption' | cxTranslate }}
+</h3>
+<ng-container *ngIf="activeConfiguratons$ | async as activeConfiguratonsState">
+  <div
+    class="cx-payment-options-list"
+    *ngIf="!activeConfiguratonsState?.loading; else loading"
+  >
+    <div
+      class="form-check"
+      *ngFor="let configuration of activeConfiguratonsState?.data"
+    >
       <input
         id="paymentId-{{ configuration.id }}"
         class="form-check-input"
@@ -32,3 +37,7 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>
