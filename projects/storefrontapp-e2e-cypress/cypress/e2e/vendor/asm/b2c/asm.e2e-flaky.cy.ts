@@ -30,7 +30,7 @@ const agentToken = {
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
-    //asm.testCustomerEmulation();
+    asm.testCustomerEmulation();
 
     it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
@@ -181,8 +181,9 @@ context('Assisted Service Module', () => {
             cy.visit(
               '/assisted-service/emulate?customerId=' +
                 customerId +
-                '&savedCartId=' +
-                savedCartId
+                '&cartId=' +
+                savedCartId +
+                '&cartType=saved'
             );
 
             cy.get('cx-asm-main-ui').should('exist');
@@ -360,8 +361,9 @@ context('Assisted Service Module', () => {
             cy.visit(
               '/assisted-service/emulate?customerId=' +
                 customerId +
-                '&savedCartId=' +
-                savedCartId
+                '&cartId=' +
+                savedCartId +
+                '&cartType=saved'
             );
 
             cy.log('--> Should has assignCart');

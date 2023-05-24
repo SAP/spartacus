@@ -28,5 +28,6 @@ export interface AsmDeepLinkParameters {
   customerId?: string;
   orderId?: string;
   ticketId?: string;
-  savedCartId?: string;
+  cartId?: string;
+  cartType?: string;
 }

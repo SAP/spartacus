@@ -184,7 +184,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         orderId: this.asmComponentService.getSearchParameter('orderId'),
         ticketId: this.asmComponentService.getSearchParameter('ticketId'),
-        savedCartId: this.asmComponentService.getSearchParameter('savedCartId'),
+        cartId: this.asmComponentService.getSearchParameter('cartId'),
+        cartType: this.asmComponentService.getSearchParameter('cartType'),
         emulated: false,
       };
       this.subscription.add(
@@ -282,9 +283,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         cxRoute: 'supportTicketDetails',
         params: { ticketCode: parameters.ticketId },
       });
-    } else if (parameters.savedCartId) {
+    } else if (parameters.cartType === 'saved' && parameters.cartId) {
       // Navigate to saved cart
-      this.routingService.go('my-account/saved-cart/' + parameters.savedCartId);
+      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
     }
   }
 
