@@ -9,19 +9,23 @@ import { ActiveCartService } from '@spartacus/cart/base/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
+  HttpResponseStatus,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
   OpfCheckoutFacade,
+  OpfOrderFacade,
   OpfOtpFacade,
   OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
   PaymentSessionData,
 } from '@spartacus/opf/root';
+import { OpfPaymentVerificationService } from 'integration-libs/opf/root/components/opf-payment-verification';
 
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
@@ -33,7 +37,9 @@ export class OpfCheckoutPaymentWrapperService {
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected opfOrderFacade: OpfOrderFacade,
+    protected paymentService: OpfPaymentVerificationService
   ) {}
 
   protected activeCartId: string;
@@ -69,7 +75,9 @@ export class OpfCheckoutPaymentWrapperService {
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
-      catchError(() => this.handlePaymentInitiationError())
+      catchError((err: HttpErrorModel) =>
+        this.handlePaymentInitiationError(err)
+      )
     );
   }
 
@@ -105,7 +113,48 @@ export class OpfCheckoutPaymentWrapperService {
     }
   }
 
-  protected handlePaymentInitiationError(): Observable<boolean> {
+  protected handlePaymentInitiationError(
+    err: HttpErrorModel
+  ): Observable<boolean> {
+    console.log('payments', err);
+
+    return Number(err.status) === HttpResponseStatus.CONFLICT
+      ? this.handlePaymentAlreadyDoneError()
+      : this.handleGeneralPaymentError();
+  }
+
+  protected handlePaymentAlreadyDoneError(): Observable<boolean> {
+    return this.opfOrderFacade.placeOpfOrder(true).pipe(
+      catchError((error: HttpErrorModel | undefined) => {
+        console.log('place order', error);
+
+        this.onError(error);
+
+        return EMPTY;
+      }),
+      switchMap(() => {
+        this.onSuccess();
+
+        return of(false);
+      })
+    );
+  }
+
+  protected onSuccess(): void {
+    this.paymentService.goToPage('orderConfirmation');
+  }
+
+  protected onError(error: HttpErrorModel | undefined): void {
+    this.renderPaymentMethodEvent$.next({
+      ...this.renderPaymentMethodEvent$.value,
+      isError: true,
+    });
+
+    this.paymentService.displayError(error);
+    this.paymentService.goToPage('checkoutReviewOrder');
+  }
+
+  protected handleGeneralPaymentError(): Observable<boolean> {
     this.renderPaymentMethodEvent$.next({
       ...this.renderPaymentMethodEvent$.value,
       isError: true,
