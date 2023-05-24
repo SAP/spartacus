@@ -25,7 +25,13 @@ import {
 } from '@spartacus/opf/root';
 import { OpfPaymentVerificationService } from 'integration-libs/opf/root/components/opf-payment-verification';
 
-import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
@@ -56,7 +62,7 @@ export class OpfCheckoutPaymentWrapperService {
 
   initiatePayment(
     paymentOptionId: number
-  ): Observable<PaymentSessionData | boolean> {
+  ): Observable<PaymentSessionData | Error> {
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
       isError: false,
@@ -115,23 +121,23 @@ export class OpfCheckoutPaymentWrapperService {
 
   protected handlePaymentInitiationError(
     err: HttpErrorModel
-  ): Observable<boolean> {
+  ): Observable<Error> {
     return Number(err.status) === HttpResponseStatus.CONFLICT
       ? this.handlePaymentAlreadyDoneError()
       : this.handleGeneralPaymentError();
   }
 
-  protected handlePaymentAlreadyDoneError(): Observable<boolean> {
+  protected handlePaymentAlreadyDoneError(): Observable<Error> {
     return this.opfOrderFacade.placeOpfOrder(true).pipe(
       catchError(() => {
         this.onPlaceOrderError();
 
-        return EMPTY;
+        return of();
       }),
       switchMap(() => {
         this.onPlaceOrderSuccess();
 
-        return of(false);
+        return throwError('Payment already done');
       })
     );
   }
@@ -150,7 +156,7 @@ export class OpfCheckoutPaymentWrapperService {
     this.paymentService.goToPage('checkoutReviewOrder');
   }
 
-  protected handleGeneralPaymentError(): Observable<boolean> {
+  protected handleGeneralPaymentError(): Observable<Error> {
     this.renderPaymentMethodEvent$.next({
       ...this.renderPaymentMethodEvent$.value,
       isError: true,
@@ -158,7 +164,7 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.showErrorMessage('opf.checkout.errors.proceedPayment');
 
-    return of(false);
+    return throwError('Payment failed');
   }
 
   protected showErrorMessage(errorMessage: string): void {
