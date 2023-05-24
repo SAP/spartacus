@@ -9,14 +9,11 @@ import { RouterModule } from '@angular/router';
 import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
 import { defaultOpfRoutingConfig } from './config';
-import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfidValidator } from './config/opf-config-validator';
-import { OpfEventModule } from './events/opf-event.module';
 
 @NgModule({
   imports: [
-    OpfEventModule,
     RouterModule.forChild([
       {
         // @ts-ignore
@@ -38,7 +35,7 @@ import { OpfEventModule } from './events/opf-event.module';
   ],
   providers: [
     provideDefaultConfig(defaultOpfConfig),
-    provideDefaultConfig(defaultOPFCheckoutConfig),
+
     // TODO OPF: uncomment once proper type and routing is set up
     provideDefaultConfig(defaultOpfRoutingConfig),
     provideConfigValidator(opfConfidValidator),

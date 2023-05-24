@@ -5,8 +5,6 @@
  */
 
 export * from './constants';
-export * from './default-b2b-opf-checkout-config';
-export * from './default-opf-checkout-config';
 export * from './default-opf-config';
 // TODO OPF: uncomment once proper type and routing is set up
 export * from './default-opf-routing-config';
