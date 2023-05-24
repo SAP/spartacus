@@ -25,10 +25,10 @@ export class DefaultSsrLogger extends SsrLogger {
       context: { timestamp: new Date().toISOString(), ...context },
     });
   }
-  error(message: string, context?: LogMetadata) {
-    console.error({ message, context });
-  }
   warn(message: string, context?: LogMetadata) {
     console.warn({ message, context });
+  }
+  error(message: string, context?: LogMetadata) {
+    console.error({ message, context });
   }
 }

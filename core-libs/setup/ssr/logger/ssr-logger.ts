@@ -16,11 +16,11 @@ export class SsrLogger {
   log(message: string, _context?: LogMetadata): void {
     console.log(message);
   }
-  error(message: string, _context?: LogMetadata): void {
-    console.error(message);
-  }
   warn(message: string, _context?: LogMetadata): void {
     console.warn(message);
+  }
+  error(message: string, _context?: LogMetadata): void {
+    console.error(message);
   }
 }
 

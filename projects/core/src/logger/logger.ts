@@ -13,10 +13,10 @@ export class Logger {
   log(...args: Parameters<typeof console.log>): void {
     console.log(...args);
   }
-  error(...args: Parameters<typeof console.error>): void {
+  warn(...args: Parameters<typeof console.warn>): void {
     console.warn(...args);
   }
-  warn(...args: Parameters<typeof console.warn>): void {
+  error(...args: Parameters<typeof console.error>): void {
     console.error(...args);
   }
 }
