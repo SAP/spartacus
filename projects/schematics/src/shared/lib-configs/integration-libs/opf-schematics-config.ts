@@ -6,15 +6,15 @@
 
 import {
   CHECKOUT_BASE_FEATURE_NAME,
+  OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
-  OPF_PAYMENT_FEATURE_NAME,
   SPARTACUS_OPF,
+  SPARTACUS_OPF_BASE,
+  SPARTACUS_OPF_BASE_ASSETS,
+  SPARTACUS_OPF_BASE_ROOT,
   SPARTACUS_OPF_CHECKOUT,
   SPARTACUS_OPF_CHECKOUT_ASSETS,
   SPARTACUS_OPF_CHECKOUT_ROOT,
-  SPARTACUS_OPF_PAYMENT,
-  SPARTACUS_OPF_PAYMENT_ASSETS,
-  SPARTACUS_OPF_PAYMENT_ROOT,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -38,11 +38,11 @@ export const OPF_CHECKOUT_TRANSLATIONS = 'opfCheckoutTranslations';
 export const OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG =
   'opfCheckoutTranslationChunksConfig';
 
-export const OPF_PAYMENT_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
-export const OPF_PAYMENT_MODULE = 'OpfPaymentModule';
-export const OPF_PAYMENT_ROOT_MODULE = 'OpfPaymentRootModule';
-export const OPF_PAYMENT_TRANSLATIONS = 'opfPaymentTranslations';
-export const OPF_PAYMENT_TRANSLATION_CHUNKS_CONFIG =
+export const OPF_BASE_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
+export const OPF_BASE_MODULE = 'OpfPaymentModule';
+export const OPF_BASE_ROOT_MODULE = 'OpfPaymentRootModule';
+export const OPF_BASE_TRANSLATIONS = 'opfPaymentTranslations';
+export const OPF_BASE_TRANSLATION_CHUNKS_CONFIG =
   'opfPaymentTranslationChunksConfig';
 
 export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -82,34 +82,34 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
 
 export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    featureName: OPF_PAYMENT_FEATURE_NAME,
+    featureName: OPF_BASE_FEATURE_NAME,
     mainScope: SPARTACUS_OPF,
-    featureScope: SPARTACUS_OPF_PAYMENT,
+    featureScope: SPARTACUS_OPF_BASE,
   },
   folderName: OPF_FOLDER_NAME,
   moduleName: OPF_MODULE_NAME,
   featureModule: {
-    name: OPF_PAYMENT_MODULE,
-    importPath: SPARTACUS_OPF_PAYMENT,
+    name: OPF_BASE_MODULE,
+    importPath: SPARTACUS_OPF_BASE,
   },
   rootModule: {
-    name: OPF_PAYMENT_ROOT_MODULE,
-    importPath: SPARTACUS_OPF_PAYMENT_ROOT,
+    name: OPF_BASE_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_BASE_ROOT,
   },
   lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_OPF_PAYMENT_ROOT,
-    namedImports: [OPF_PAYMENT_FEATURE_NAME_CONSTANT],
+    moduleSpecifier: SPARTACUS_OPF_BASE_ROOT,
+    namedImports: [OPF_BASE_FEATURE_NAME_CONSTANT],
   },
   i18n: {
-    resources: OPF_PAYMENT_TRANSLATIONS,
-    chunks: OPF_PAYMENT_TRANSLATION_CHUNKS_CONFIG,
-    importPath: SPARTACUS_OPF_PAYMENT_ASSETS,
+    resources: OPF_BASE_TRANSLATIONS,
+    chunks: OPF_BASE_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_OPF_BASE_ASSETS,
   },
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
     importStyle: SPARTACUS_OPF,
   },
-  customConfig: buildOpfPaymentConfig,
+  customConfig: buildOpfBaseConfig,
 };
 
 function buildOpfCheckoutConfig(
@@ -136,14 +136,14 @@ function buildOpfCheckoutConfig(
   };
 }
 
-function buildOpfPaymentConfig(
+function buildOpfBaseConfig(
   options: SpartacusOpfOptions
 ): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
   return {
     providers: {
       import: [
         {
-          moduleSpecifier: SPARTACUS_OPF_PAYMENT_ROOT,
+          moduleSpecifier: SPARTACUS_OPF_BASE_ROOT,
           namedImports: [OPF_CONFIG],
         },
       ],
