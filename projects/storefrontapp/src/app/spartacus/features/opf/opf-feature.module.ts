@@ -18,11 +18,11 @@ import {
 import {
   opfPaymentTranslationChunksConfig,
   opfPaymentTranslations,
-} from '@spartacus/opf/payment/assets';
+} from 'integration-libs/opf/base/assets/public_api';
 import {
   OpfPaymentRootModule,
   OPF_PAYMENT_FEATURE,
-} from '@spartacus/opf/payment/root';
+} from 'integration-libs/opf/base/root/public_api';
 
 import { environment } from '../../../../environments/environment';
 
@@ -40,7 +40,9 @@ if (environment.b2b) {
       featureModules: {
         [OPF_PAYMENT_FEATURE]: {
           module: () =>
-            import('@spartacus/opf/payment').then((m) => m.OpfPaymentModule),
+            import('integration-libs/opf/base/public_api').then(
+              (m) => m.OpfPaymentModule
+            ),
         },
       },
     }),

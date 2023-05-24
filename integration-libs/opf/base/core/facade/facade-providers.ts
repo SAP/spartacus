@@ -5,7 +5,10 @@
  */
 
 import { Provider } from '@angular/core';
-import { OpfOrderFacade, OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import {
+  OpfOrderFacade,
+  OpfPaymentFacade,
+} from 'integration-libs/opf/base/root/public_api';
 
 import { OpfOrderService } from './opf-order.service';
 import { OpfPaymentService } from './opf-payment.service';

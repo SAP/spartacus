@@ -11,13 +11,13 @@ import {
   OpfAdapter,
   OpfEndpointsService,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
-} from '@spartacus/opf/payment/core';
+} from 'integration-libs/opf/base/core/public_api';
 import {
   OpfConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
   OPF_CC_PUBLIC_KEY,
-} from '@spartacus/opf/payment/root';
+} from 'integration-libs/opf/base/root/public_api';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

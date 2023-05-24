@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-} from '@spartacus/opf/payment/root';
+} from 'integration-libs/opf/base/root/public_api';
 
 import { Observable } from 'rxjs';
 import { OpfAdapter } from './opf.adapter';

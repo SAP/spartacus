@@ -5,8 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfPaymentCoreModule } from '@spartacus/opf/payment/core';
-import { OpfPaymentOccModule } from '@spartacus/opf/payment/occ';
+import { OpfPaymentCoreModule } from 'integration-libs/opf/base/core/public_api';
+import { OpfPaymentOccModule } from 'integration-libs/opf/base/occ/public_api';
 
 @NgModule({
   imports: [OpfPaymentOccModule, OpfPaymentCoreModule],

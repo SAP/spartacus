@@ -17,8 +17,8 @@ import {
   OCC_USER_ID_ANONYMOUS,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { OpfOrderAdapter } from '@spartacus/opf/payment/core';
 import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
+import { OpfOrderAdapter } from 'integration-libs/opf/base/core/public_api';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

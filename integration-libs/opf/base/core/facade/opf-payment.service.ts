@@ -10,7 +10,7 @@ import {
   OpfPaymentFacade,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-} from '@spartacus/opf/payment/root';
+} from 'integration-libs/opf/base/root/public_api';
 
 import { Observable } from 'rxjs';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';

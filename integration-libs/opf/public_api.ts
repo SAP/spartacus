@@ -5,4 +5,4 @@
  */
 
 export * from '@spartacus/opf/checkout';
-export * from '@spartacus/opf/payment';
+export * from 'integration-libs/opf/base/public_api';
