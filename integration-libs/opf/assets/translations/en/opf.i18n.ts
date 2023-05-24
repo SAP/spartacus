@@ -13,11 +13,10 @@ export const opf = {
         paymentAndReview: 'Payment & Review',
       },
       paymentAndReviewTitle: 'Payment and review',
+      billingAddress: 'Billing Address',
       paymentOption: 'Payment option',
       termsAndConditions: 'Terms & Conditions',
       itemsToBeShipped: 'Items to be shipped',
-      notSupportedPaymentMethod:
-        'This payment method is not supported yet. Please choose a different one.',
       proceedPayment: 'Place Order',
       retryPayment: 'Retry to Continue',
       errors: {
@@ -30,6 +29,8 @@ export const opf = {
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
         unknown:
           'Unknown error occurred while fetching payment. Please contact support',
+        loadActiveConfigurations:
+          'Payment options did not load. Please refresh the page.',
       },
     },
   },

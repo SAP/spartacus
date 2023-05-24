@@ -1,15 +1,19 @@
 %cx-opf-checkout-payments {
-  .form-check {
-    margin-bottom: 0;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+  .cx-payment-options-list {
+    margin: -1rem 0 0 0;
 
-    & ~ .form-check {
+    .form-check {
+      margin-bottom: 0;
       padding-top: 1rem;
-    }
+      padding-bottom: 1rem;
 
-    &:not(:last-child) {
-      border-bottom: 1px solid #d3d6db;
+      & ~ .form-check {
+        padding-top: 1rem;
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #d3d6db;
+      }
     }
   }
 }
