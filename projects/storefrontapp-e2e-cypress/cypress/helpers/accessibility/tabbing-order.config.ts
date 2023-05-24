@@ -204,8 +204,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Next',
       type: TabbingOrderTypes.BUTTON,
     },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -235,8 +236,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Basics',
       type: TabbingOrderTypes.LINK,
     },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'Add to Cart',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
