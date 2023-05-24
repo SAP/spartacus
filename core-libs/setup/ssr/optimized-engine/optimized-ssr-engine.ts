@@ -239,9 +239,9 @@ export class OptimizedSsrEngine {
       const cached = this.renderingCache.get(key)!;
       callback(cached.err, cached.html);
 
-      // SPIKE NEW: never don't drop cached ERROR result immediately after reused
-      // SPIKE TODO: don't drop cached ERROR result after TTL or cache size limit!!! <-------
-      if (!this.ssrOptions?.cache && !cached.err) {
+      // SPIKE NEW: caution: after first reusing of the cached error, the rendering cache is cleared!!!
+      // so only the first subsequent request will get the cached error
+      if (!this.ssrOptions?.cache) {
         // we drop cached rendering if caching is disabled
         this.renderingCache.clear(key);
       }
