@@ -40,9 +40,7 @@ if (environment.b2b) {
       featureModules: {
         [OPF_BASE_FEATURE]: {
           module: () =>
-            import('integration-libs/opf/base/public_api').then(
-              (m) => m.OpfPaymentModule
-            ),
+            import('@spartacus/opf/base').then((m) => m.OpfBaseModule),
         },
       },
     }),

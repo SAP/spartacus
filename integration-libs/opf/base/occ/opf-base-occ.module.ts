@@ -12,7 +12,7 @@ import {
   OpfPaymentAdapter,
 } from 'integration-libs/opf/base/core/public_api';
 import { OccOpfOrderAdapter } from './adapters';
-import { OccOpfAdapter } from './adapters/occ-opf.adapter';
+import { OccOpfPaymentAdapter } from './adapters/occ-opf.adapter';
 import { defaultOccOpfConfig } from './config/default-occ-opf-config';
 import { defaultOccOpfOrderConfig } from './config/default-occ-opf-order-config';
 
@@ -22,7 +22,7 @@ import { defaultOccOpfOrderConfig } from './config/default-occ-opf-order-config'
     provideDefaultConfig(defaultOccOpfConfig),
     {
       provide: OpfPaymentAdapter,
-      useClass: OccOpfAdapter,
+      useClass: OccOpfPaymentAdapter,
     },
     provideDefaultConfig(defaultOccOpfOrderConfig),
     {
@@ -31,4 +31,4 @@ import { defaultOccOpfOrderConfig } from './config/default-occ-opf-order-config'
     },
   ],
 })
-export class OpfPaymentOccModule {}
+export class OpfBaseOccModule {}

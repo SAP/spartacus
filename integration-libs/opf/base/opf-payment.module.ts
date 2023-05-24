@@ -6,9 +6,9 @@
 
 import { NgModule } from '@angular/core';
 import { OpfBaseCoreModule } from 'integration-libs/opf/base/core/public_api';
-import { OpfPaymentOccModule } from 'integration-libs/opf/base/occ/public_api';
+import { OpfBaseOccModule } from 'integration-libs/opf/base/occ/public_api';
 
 @NgModule({
-  imports: [OpfPaymentOccModule, OpfBaseCoreModule],
+  imports: [OpfBaseOccModule, OpfBaseCoreModule],
 })
-export class OpfPaymentModule {}
+export class OpfBaseModule {}

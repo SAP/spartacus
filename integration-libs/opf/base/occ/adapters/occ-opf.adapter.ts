@@ -24,7 +24,7 @@ import { catchError } from 'rxjs/operators';
 import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
 
 @Injectable()
-export class OccOpfAdapter implements OpfPaymentAdapter {
+export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
