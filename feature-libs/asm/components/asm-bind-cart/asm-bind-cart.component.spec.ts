@@ -367,16 +367,6 @@ describe('AsmBindCartComponent', () => {
         ).dialogClose = of(SAVE_CART_DIALOG_ACTION.SAVE);
       });
 
-      it('should save the inactive cart', () => {
-        component.onSaveInactiveCart();
-
-        expect(savedCartFacade.saveCart).toHaveBeenCalledWith({
-          cartId: inactiveCartId,
-          saveCartName: inactiveCartId,
-          saveCartDescription: '-',
-        });
-      });
-
       it('should navigate to saved cart detail page after save cart successed', () => {
         spyOn(savedCartFacade, 'getSaveCartProcessSuccess').and.returnValue(
           of(true)
@@ -386,27 +376,13 @@ describe('AsmBindCartComponent', () => {
         expect(component.isInactiveCartSaved).toEqual(true);
       });
 
-      it('should set isInactiveCartSaved as true after save cart failed', () => {
+      it('should not navigate to saved cart detail page after save cart failed', () => {
         spyOn(savedCartFacade, 'getSaveCartProcessError').and.returnValue(
           of(true)
         );
         component.onSaveInactiveCart();
         expect(routingService.go).not.toHaveBeenCalled();
-        expect(component.isInactiveCartSaved).toEqual(true);
-      });
-    });
-
-    describe('cancel', () => {
-      beforeEach(() => {
-        (
-          (<unknown>launchDialogService) as MockLaunchDialogService
-        ).dialogClose = of(SAVE_CART_DIALOG_ACTION.CANCEL);
-      });
-
-      it('should not try to bind cart', () => {
-        component.onSaveInactiveCart();
-
-        expect(savedCartFacade.saveCart).not.toHaveBeenCalled();
+        expect(component.isInactiveCartSaved).toEqual(false);
       });
     });
   });

@@ -56,7 +56,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
 
-  showInactiveCartInfoAlert$: Observable<boolean>;
+  showInactiveCartInfoAlert$: Observable<boolean> =
+    this.asmComponentService.shouldShowInactiveCartInfoAlert();
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -200,10 +201,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
       );
-
-      //inactive cart from deeplink will display the cart info alert
-      this.showInactiveCartInfoAlert$ =
-        this.asmComponentService.showInactiveCartInfoAlert();
     }
   }
 

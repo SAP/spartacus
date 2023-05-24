@@ -40,10 +40,34 @@ export function addToCart(
       product: {
         code: productCode,
       },
-      qty: quantity,
+      quantity: quantity,
     },
     headers: {
       Authorization: `bearer ${accessToken}`,
     },
+  });
+}
+
+/**
+ * @param accessToken access token
+ * @returns promise of inactive card id
+ */
+export function createInactiveCart(accessToken: string): Promise<string> {
+  let inactiveCartId = null;
+  return new Promise((resolve, reject) => {
+    createCart(accessToken).then((response) => {
+      if (response.status === 201) {
+        inactiveCartId = response.body.code;
+        createCart(accessToken).then((response) => {
+          if (response.status === 201) {
+            resolve(inactiveCartId);
+          } else {
+            reject(response.status);
+          }
+        });
+      } else {
+        reject(response.status);
+      }
+    });
   });
 }

@@ -2,8 +2,9 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Cart } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   AsmSaveCartDialogComponent,
   SAVE_CART_DIALOG_ACTION,
@@ -15,7 +16,15 @@ import {
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
-
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
+  saveCart(): void {}
+  getSaveCartProcessSuccess(): Observable<boolean> {
+    return EMPTY;
+  }
+  getSaveCartProcessError(): Observable<boolean> {
+    return EMPTY;
+  }
+}
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<Cart> {
     return of({
@@ -31,12 +40,14 @@ describe('AsmBindCartDialogComponent', () => {
   let fixture: ComponentFixture<AsmSaveCartDialogComponent>;
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
+  let savedCartFacade: SavedCartFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AsmSaveCartDialogComponent, MockTranslatePipe],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
       ],
     }).compileComponents();
   });
@@ -46,9 +57,11 @@ describe('AsmBindCartDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     launchDialogService = TestBed.inject(LaunchDialogService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
 
     fixture.detectChanges();
     spyOn(launchDialogService, 'closeDialog').and.stub();
+    spyOn(savedCartFacade, 'saveCart').and.stub();
   });
 
   it('should create', () => {
@@ -64,7 +77,7 @@ describe('AsmBindCartDialogComponent', () => {
     });
   });
 
-  it('should close with replace action when save button is clicked', () => {
+  it('should save cart when save button is clicked', () => {
     fixture.detectChanges();
 
     fixture.debugElement
@@ -74,9 +87,10 @@ describe('AsmBindCartDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       SAVE_CART_DIALOG_ACTION.SAVE
     );
+    expect(savedCartFacade.saveCart).toHaveBeenCalled();
   });
 
-  it('should close with cancel action when cancel button is clicked', () => {
+  it('should not save cart when cancel button is clicked', () => {
     fixture.detectChanges();
 
     fixture.debugElement
@@ -86,6 +100,7 @@ describe('AsmBindCartDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       SAVE_CART_DIALOG_ACTION.CANCEL
     );
+    expect(savedCartFacade.saveCart).not.toHaveBeenCalled();
   });
 
   it('should show meaasge based on `cx-message` selector', () => {
@@ -96,5 +111,20 @@ describe('AsmBindCartDialogComponent', () => {
   it('should show meaasge based on `cx-message` selector', () => {
     component.closeDialogAlert();
     expect(component.showDialogAlert).toEqual(false);
+  });
+
+  it('should set cart total Qty', () => {
+    component.cart = {
+      entries: [
+        {
+          quantity: 1,
+        },
+        {
+          quantity: 2,
+        },
+      ],
+    };
+    component.setCartTotalQty();
+    expect(component.cartQty).toEqual(3);
   });
 });

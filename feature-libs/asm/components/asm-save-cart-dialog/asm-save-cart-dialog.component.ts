@@ -6,9 +6,10 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { GlobalMessageType } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 export enum SAVE_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',
@@ -23,7 +24,6 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
   showDialogAlert = true;
   globalMessageType = GlobalMessageType;
-  protected subscription = new Subscription();
   cart: Cart;
   cartQty: number;
 
@@ -34,18 +34,19 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
     focusOnEscape: true,
   };
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected savedCartFacade: SavedCartFacade
+  ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.launchDialogService.data$.subscribe((data: any) => {
-        this.cart = data;
-        this.calEntitiesQty();
-      })
-    );
+    this.launchDialogService.data$.pipe(take(1)).subscribe((data: Cart) => {
+      this.cart = data;
+      this.setCartTotalQty();
+    });
   }
 
-  calEntitiesQty(): void {
+  setCartTotalQty(): void {
     let count = 0;
     if (this.cart.entries) {
       for (const entry of this.cart.entries) {
@@ -60,10 +61,19 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
   }
 
   closeModal(reason: SAVE_CART_DIALOG_ACTION): void {
+    if (reason === SAVE_CART_DIALOG_ACTION.SAVE) {
+      this.saveCart();
+    }
     this.launchDialogService.closeDialog(reason);
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  protected saveCart(): void {
+    this.savedCartFacade.saveCart({
+      cartId: this.cart.code as string,
+      saveCartName: this.cart.code as string,
+      saveCartDescription: '-',
+    });
   }
+
+  ngOnDestroy(): void {}
 }
