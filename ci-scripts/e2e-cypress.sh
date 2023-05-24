@@ -32,9 +32,13 @@ do
             ;;
         '--asm' )
             ASM=true
-            ASM_SUITE=":$2"
             shift
-            shift
+            case "$2" in
+                'b2b')
+                    ASM_SUITE=":b2b"
+                    shift
+                    ;;
+            esac
             ;;
         '--help' | '-h' )
             echo "$help_display"
