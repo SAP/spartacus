@@ -15,6 +15,11 @@ const nextBtnSelector =
 const previousBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Previous")';
 
+const quantityStepperSelector =
+  '.cx-add-to-cart-btn-container .cx-quantity cx-item-counter';
+
+const quantitySelector = '.cx-add-to-cart-btn-container .cx-quantity-value';
+
 /**
  * ui types
  */
@@ -583,4 +588,56 @@ export function clickExitConfigurationBtn(): void {
     .then(() => {
       cy.location('pathname').should('not.contain', '/configure/');
     });
+}
+
+/**
+ * Verifies whether a quantity value that is entered into the quantity stepper is equal to the expected value.
+ *
+ * @param {number} expectedValue - expected quantity value
+ */
+export function checkQuantityStepper(expectedValue: number) {
+  cy.get(quantityStepperSelector + ' input').should(
+    'have.value',
+    expectedValue.toString()
+  );
+}
+
+/**
+ * Verifies whether a quantity value that has been entered into the quantity stepper is equal to the expected value.
+ *
+ * @param {number} expectedValue - expected quantity value
+ */
+export function checkQuantity(expectedValue: number) {
+  cy.get(quantitySelector).then((elem) => {
+    expect(elem.text().trim()).to.equal(expectedValue.toString());
+  });
+}
+
+function changeQuantityValue(sign: string) {
+  cy.get(quantityStepperSelector + ' button')
+    .contains(sign)
+    .click();
+}
+
+/**
+ * Increase a quantity value of the quantity stepper.
+ */
+export function increaseQuantity() {
+  changeQuantityValue('+');
+}
+
+/**
+ * Decrease a quantity value of the quantity stepper.
+ */
+export function decreaseQuantity() {
+  changeQuantityValue('-');
+}
+
+/**
+ * Enter a new quantity value into the quantity stepper.
+ */
+export function enterQuantityValue(quantity: number) {
+  cy.get(quantityStepperSelector + ' input').type(
+    `{selectall}${quantity.toString()}{enter}`
+  );
 }
