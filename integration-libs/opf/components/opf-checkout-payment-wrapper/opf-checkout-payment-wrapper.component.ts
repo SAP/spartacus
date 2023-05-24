@@ -49,11 +49,9 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
       .initiatePayment(this.selectedPaymentId)
       .pipe(take(1))
       .subscribe((paymentOptionConfig: PaymentSessionData | Error) => {
-        if (paymentOptionConfig instanceof Error) {
-          return;
+        if (!(paymentOptionConfig instanceof Error)) {
+          this.service.renderPaymentGateway(paymentOptionConfig);
         }
-
-        this.service.renderPaymentGateway(paymentOptionConfig);
       });
   }
 }
