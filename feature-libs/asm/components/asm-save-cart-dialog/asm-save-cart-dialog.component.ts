@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { GlobalMessageType } from '@spartacus/core';
@@ -20,7 +20,7 @@ export enum SAVE_CART_DIALOG_ACTION {
   selector: 'cx-asm-save-cart-dialog',
   templateUrl: './asm-save-cart-dialog.component.html',
 })
-export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
+export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
   showDialogAlert = true;
   globalMessageType = GlobalMessageType;
@@ -74,6 +74,4 @@ export class AsmSaveCartDialogComponent implements OnInit, OnDestroy {
       saveCartDescription: '-',
     });
   }
-
-  ngOnDestroy(): void {}
 }
