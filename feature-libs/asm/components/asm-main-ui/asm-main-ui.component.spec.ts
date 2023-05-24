@@ -564,7 +564,7 @@ describe('AsmMainUiComponent', () => {
 
     component.startCustomerEmulationSession(
       { customerId: '123' },
-      { savedCartId: '456' }
+      { cartId: '456', cartType: 'saved' }
     );
 
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
