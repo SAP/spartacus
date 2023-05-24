@@ -30,6 +30,12 @@ do
             SSR=true
             shift
             ;;
+        '--asm' )
+            ASM=true
+            ASM_SUITE=":$2"
+            shift
+            shift
+            ;;
         '--help' | '-h' )
             echo "$help_display"
             exit 0
@@ -87,6 +93,21 @@ if [[ "${SSR}" = true ]]; then
     echo "Running SSR Cypress smoke test"
 
     npm run e2e:run:ci:ssr
+elif [[ "${ASM}" = true ]]; then
+    npm run start:pwa &
+
+    echo '-----'
+    echo "Running Cypress ASM end to end tests"
+
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+        npm run e2e:run:ci:asm"${ASM_SUITE}"
+      else
+        npm run e2e:run:ci:core:asm"${ASM_SUITE}"
+      fi
+    else
+        npm run e2e:run:ci:asm"${ASM_SUITE}"
+    fi
 else
     npm run start:pwa &
 
