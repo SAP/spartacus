@@ -23,13 +23,13 @@ export class ServerLogger implements Logger {
       request: this.getRequest(),
     });
   }
-  error(...args: Parameters<typeof console.error>): void {
-    this.ssrLogger.error(format(...args), {
+  warn(...args: Parameters<typeof console.log>): void {
+    this.ssrLogger.warn(format(...args), {
       request: this.getRequest(),
     });
   }
-  warn(...args: Parameters<typeof console.log>): void {
-    this.ssrLogger.warn(format(...args), {
+  error(...args: Parameters<typeof console.error>): void {
+    this.ssrLogger.error(format(...args), {
       request: this.getRequest(),
     });
   }

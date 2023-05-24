@@ -11,12 +11,10 @@ export class DefaultExpressSsrLogger extends SsrLogger {
   log(message: string, context: LogMetadata): void {
     console.log(this.createLogMessage(message, context));
   }
-
-  error(message: string, context: LogMetadata): void {
+  warn(message: string, context: LogMetadata): void {
     console.error(this.createLogMessage(message, context));
   }
-
-  warn(message: string, context: LogMetadata): void {
+  error(message: string, context: LogMetadata): void {
     console.error(this.createLogMessage(message, context));
   }
 
