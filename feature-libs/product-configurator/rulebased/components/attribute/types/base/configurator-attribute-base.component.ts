@@ -162,6 +162,16 @@ export class ConfiguratorAttributeBaseComponent {
     return title;
   }
 
+  /**
+   * Fetches the first image for a given value
+   * @param value Value
+   * @returns Image
+   */
+  getImage(value: Configurator.Value): Configurator.Image | undefined {
+    const images = value.images;
+    return images ? images[0] : undefined;
+  }
+
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {

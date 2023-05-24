@@ -150,6 +150,21 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(component.attributeRadioButtonForm.value).toEqual(value3.valueCode);
   });
 
+  describe('extractValuePriceFormulaParameters', () => {
+    it('should take over attributes from value if present', () => {
+      const parameters = component.extractValuePriceFormulaParameters(value1);
+      expect(parameters.price).toBe(value1.valuePrice);
+      expect(parameters.isLightedUp).toBe(value1.selected);
+    });
+
+    it('should create empty parameters if value is not present', () => {
+      const parameters =
+        component.extractValuePriceFormulaParameters(undefined);
+      expect(parameters.price).toBeUndefined();
+      expect(parameters.isLightedUp).toBe(false);
+    });
+  });
+
   it('should select another single selection image value', () => {
     spyOn(
       component['configuratorCommonsService'],

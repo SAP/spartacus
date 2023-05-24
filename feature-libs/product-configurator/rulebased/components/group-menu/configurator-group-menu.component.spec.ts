@@ -1654,4 +1654,21 @@ describe('ConfigurationGroupMenuComponent', () => {
         });
     });
   });
+
+  describe('isConflictGroupTypeAllowingUndefined', () => {
+    it('should know conflict group ', () => {
+      isConflictGroupType = true;
+      expect(
+        component.isConflictGroupTypeAllowingUndefined(
+          Configurator.GroupType.CONFLICT_HEADER_GROUP
+        )
+      ).toBe(true);
+    });
+
+    it('should return false for undefined input', () => {
+      expect(component.isConflictGroupTypeAllowingUndefined(undefined)).toBe(
+        false
+      );
+    });
+  });
 });
