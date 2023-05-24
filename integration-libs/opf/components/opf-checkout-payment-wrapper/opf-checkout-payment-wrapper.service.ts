@@ -116,8 +116,6 @@ export class OpfCheckoutPaymentWrapperService {
   protected handlePaymentInitiationError(
     err: HttpErrorModel
   ): Observable<boolean> {
-    console.log('payments', err);
-
     return Number(err.status) === HttpResponseStatus.CONFLICT
       ? this.handlePaymentAlreadyDoneError()
       : this.handleGeneralPaymentError();
@@ -125,32 +123,30 @@ export class OpfCheckoutPaymentWrapperService {
 
   protected handlePaymentAlreadyDoneError(): Observable<boolean> {
     return this.opfOrderFacade.placeOpfOrder(true).pipe(
-      catchError((error: HttpErrorModel | undefined) => {
-        console.log('place order', error);
-
-        this.onError(error);
+      catchError(() => {
+        this.onPlaceOrderError();
 
         return EMPTY;
       }),
       switchMap(() => {
-        this.onSuccess();
+        this.onPlaceOrderSuccess();
 
         return of(false);
       })
     );
   }
 
-  protected onSuccess(): void {
+  protected onPlaceOrderSuccess(): void {
     this.paymentService.goToPage('orderConfirmation');
   }
 
-  protected onError(error: HttpErrorModel | undefined): void {
+  protected onPlaceOrderError(): void {
     this.renderPaymentMethodEvent$.next({
       ...this.renderPaymentMethodEvent$.value,
       isError: true,
     });
 
-    this.paymentService.displayError(error);
+    this.showErrorMessage('opf.checkout.errors.unknown');
     this.paymentService.goToPage('checkoutReviewOrder');
   }
 
@@ -160,14 +156,18 @@ export class OpfCheckoutPaymentWrapperService {
       isError: true,
     });
 
+    this.showErrorMessage('opf.checkout.errors.proceedPayment');
+
+    return of(false);
+  }
+
+  protected showErrorMessage(errorMessage: string): void {
     this.globalMessageService.add(
       {
-        key: 'opf.checkout.errors.proceedPayment',
+        key: errorMessage,
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
-
-    return of(false);
   }
 
   protected setPaymentInitiationConfig(

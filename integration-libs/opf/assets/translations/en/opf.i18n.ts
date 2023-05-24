@@ -28,6 +28,8 @@ export const opf = {
         cardExpired: 'Card is expired.',
         insufficientFunds: 'Insufficient funds.',
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
+        unknown:
+          'Unknown error occurred while fetching payment. Please contact support',
       },
     },
   },
