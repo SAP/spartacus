@@ -239,7 +239,9 @@ export class OptimizedSsrEngine {
       const cached = this.renderingCache.get(key)!;
       callback(cached.err, cached.html);
 
-      if (!this.ssrOptions?.cache) {
+      // SPIKE NEW: never don't drop cached ERROR result immediately after reused
+      // SPIKE TODO: don't drop cached ERROR result after TTL or cache size limit!!! <-------
+      if (!this.ssrOptions?.cache && !cached.err) {
         // we drop cached rendering if caching is disabled
         this.renderingCache.clear(key);
       }
@@ -444,10 +446,29 @@ export class OptimizedSsrEngine {
 
     // spike todo improve naming
     let didRenderOutput = false;
-    const shareRenderResult_safe = (err: any, html?: string) => {
-      if (!didRenderOutput) {
-        didRenderOutput = true;
-        this.shareRenderResult(renderingKey, err, html);
+    const shareRenderResult_safe = (
+      err: any,
+      html: string | undefined,
+      { isEarlyError }: { isEarlyError: boolean }
+    ) => {
+      // prevent propagating any result (html or err) multiple times from one render
+      if (didRenderOutput) {
+        return;
+      }
+      didRenderOutput = true;
+      this.shareRenderResult(renderingKey, err, html);
+
+      if (isEarlyError) {
+        // individual callbacks (in shareRenderResult above) might have already cleared the renderingCache and isRendering flag
+        // but we've just propagated an early error and the render is still pending,
+        // so we should keep isRendering flag set (and especially put error to cache);
+
+        // note: if the render completed earlier than the 'propagate error" function is
+        //       called later after a delay (e.g. due to being out of zone.js control)
+        //       then we don't want to propagate this error.
+        //       It's already checked
+        this.renderingCache.setAsRendering(renderingKey);
+        this.renderingCache.store(renderingKey, err);
       }
     };
     // SPIKE NEW
@@ -457,7 +478,19 @@ export class OptimizedSsrEngine {
         provide: PROPAGATE_ERROR,
         useFactory: (): PropagateErrorFn => {
           return (err: any) => {
-            shareRenderResult_safe(err);
+            if (!maxRenderTimeout) {
+              // ignore this render's result because it exceeded maxRenderTimeout
+              this.log(
+                `Rendering of ${
+                  request.originalUrl
+                } thrown an error after the specified maxRenderTime, therefore it was ignored. Error: ${
+                  err?.message ?? err
+                }`,
+                false
+              );
+              return;
+            }
+            shareRenderResult_safe(err, undefined, { isEarlyError: true });
           };
         },
       },
@@ -479,7 +512,19 @@ export class OptimizedSsrEngine {
       this.log(`Rendering completed (${request?.originalUrl})`);
       this.currentConcurrency--;
 
-      shareRenderResult_safe(err, html);
+      // caution: don't compare with `0` below. it can be `undefined` as well
+      if (!this.renderCallbacks.get(renderingKey)?.length) {
+        // no one is waiting for this render's result, so we can forget it (unset the `isRendering` flag)
+        // note: if someone is waiting for this render's result, the function `this.shareRenderResult` calling those renders
+        //       will unset the `isRendering` flag (and probably put some data into cache)
+        //       if nobody is waiting, we have to do it manually here. why: we could have set it to true before - when wanting to cache the error result.
+        //       note: if `maxRenderTime` was reached for this render, `isRendering` flag is already unset, and this render is already forgotten.
+        // 💡 idea: refactor it, so individual callbacks don't unset the `isRendering` or put data into cache. Instead,
+        //       we should centralize logic for unsetting the `isRendering` flag and putting data into cache.
+        this.renderingCache.clear(renderingKey);
+      }
+
+      shareRenderResult_safe(err, html, { isEarlyError: false });
     });
   }
 }
