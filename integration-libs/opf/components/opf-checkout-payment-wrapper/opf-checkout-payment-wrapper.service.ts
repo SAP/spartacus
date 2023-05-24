@@ -12,7 +12,7 @@ import {
   HttpErrorModel,
   HttpResponseStatus,
   RoutingService,
-  UserIdService,
+  UserIdService
 } from '@spartacus/core';
 import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
@@ -21,16 +21,15 @@ import {
   OpfOtpFacade,
   OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
-  PaymentSessionData,
+  PaymentSessionData
 } from '@spartacus/opf/root';
-import { OpfPaymentVerificationService } from 'integration-libs/opf/root/components/opf-payment-verification';
 
 import {
   BehaviorSubject,
   combineLatest,
   Observable,
   of,
-  throwError,
+  throwError
 } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
@@ -45,7 +44,6 @@ export class OpfCheckoutPaymentWrapperService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected opfOrderFacade: OpfOrderFacade,
-    protected paymentService: OpfPaymentVerificationService
   ) {}
 
   protected activeCartId: string;
@@ -144,7 +142,7 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected onPlaceOrderSuccess(): void {
-    this.paymentService.goToPage('orderConfirmation');
+    this.routingService.go({ 'orderConfirmation' });
   }
 
   protected onPlaceOrderError(): void {
@@ -154,7 +152,7 @@ export class OpfCheckoutPaymentWrapperService {
     });
 
     this.showErrorMessage('opf.checkout.errors.unknown');
-    this.paymentService.goToPage('checkoutReviewOrder');
+    this.routingService.go({ 'checkoutReviewOrder' });
   }
 
   protected handleGeneralPaymentError(): Observable<Error> {
