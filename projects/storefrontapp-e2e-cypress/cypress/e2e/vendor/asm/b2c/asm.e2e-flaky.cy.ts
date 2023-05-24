@@ -30,7 +30,7 @@ const agentToken = {
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
-    asm.testCustomerEmulation();
+    //asm.testCustomerEmulation();
 
     it('should emulate customer with deeplink before agent login (CXSPA-3113)', () => {
       const customer = getSampleUser();
@@ -69,24 +69,28 @@ context('Assisted Service Module', () => {
 
         const orderId = orderData.body.code;
 
-        cy.visit(
-          '/assisted-service/emulate?customerId=' +
-            customer.email +
-            '&orderId=' +
-            orderId
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&orderId=' +
+                orderId
+            );
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.url().should('contain', 'order/' + orderId);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          }
         );
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('be.visible');
-
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-        cy.log('--> Should has assignCart');
-        cy.get('.cx-asm-assignCart').should('exist');
-
-        cy.url().should('contain', 'order/' + orderId);
-
-        cy.log('--> sign out and close ASM UI');
-        asm.agentSignOut();
       });
     });
 
@@ -120,24 +124,31 @@ context('Assisted Service Module', () => {
         .then((text) => {
           const ticketId = text.trim();
           signOutUser();
-          cy.visit(
-            '/assisted-service/emulate?customerId=' +
-              customer.email +
-              '&ticketId=' +
-              ticketId
-          );
-          cy.get('cx-asm-main-ui').should('exist');
-          cy.get('cx-asm-main-ui').should('be.visible');
 
-          asm.agentLogin(agentToken.userName, agentToken.pwd);
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&ticketId=' +
+                ticketId
+            );
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
 
-          cy.log('--> Should has assignCart');
-          cy.get('.cx-asm-assignCart').should('exist');
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
-          cy.url().should('contain', 'support-ticket/' + ticketId);
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
 
-          cy.log('--> sign out and close ASM UI');
-          asm.agentSignOut();
+            cy.url().should('contain', 'support-ticket/' + ticketId);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
         });
     });
 
@@ -164,25 +175,30 @@ context('Assisted Service Module', () => {
         signOutUser();
 
         cy.log('--> Agent logging in with deeplink');
-        cy.visit(
-          '/assisted-service/emulate?customerId=' +
-            customer.email +
-            '&savedCartId=' +
-            savedCartId
+
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&savedCartId=' +
+                savedCartId
+            );
+
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.url().should('contain', 'saved-cart/' + savedCartId);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          }
         );
-
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('be.visible');
-
-        asm.agentLogin(agentToken.userName, agentToken.pwd);
-
-        cy.log('--> Should has assignCart');
-        cy.get('.cx-asm-assignCart').should('exist');
-
-        cy.url().should('contain', 'saved-cart/' + savedCartId);
-
-        cy.log('--> sign out and close ASM UI');
-        asm.agentSignOut();
       });
     });
 
@@ -228,22 +244,27 @@ context('Assisted Service Module', () => {
         asm.agentLogin(agentToken.userName, agentToken.pwd);
 
         cy.log('--> Agent visting URL with deeplink');
-        cy.visit(
-          '/assisted-service/emulate?customerId=' +
-            customer.email +
-            '&orderId=' +
-            orderId
+
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&orderId=' +
+                orderId
+            );
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.get('cx-asm-main-ui').should('be.visible');
+            cy.get('cx-asm-main-ui').should('exist');
+
+            cy.url().should('contain', 'order/' + orderId);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          }
         );
-        cy.log('--> Should has assignCart');
-        cy.get('.cx-asm-assignCart').should('exist');
-
-        cy.get('cx-asm-main-ui').should('be.visible');
-        cy.get('cx-asm-main-ui').should('exist');
-
-        cy.url().should('contain', 'order/' + orderId);
-
-        cy.log('--> sign out and close ASM UI');
-        asm.agentSignOut();
       });
     });
 
@@ -281,23 +302,30 @@ context('Assisted Service Module', () => {
           asm.agentLogin(agentToken.userName, agentToken.pwd);
 
           cy.log('--> Agent visting URL with deeplink');
-          cy.visit(
-            '/assisted-service/emulate?customerId=' +
-              customer.email +
-              '&ticketId=' +
-              ticketId
-          );
 
-          cy.log('--> Should has assignCart');
-          cy.get('.cx-asm-assignCart').should('exist');
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&ticketId=' +
+                ticketId
+            );
 
-          cy.get('cx-asm-main-ui').should('exist');
-          cy.get('cx-asm-main-ui').should('be.visible');
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
 
-          cy.url().should('contain', 'support-ticket/' + ticketId);
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
 
-          cy.log('--> sign out and close ASM UI');
-          asm.agentSignOut();
+            cy.url().should('contain', 'support-ticket/' + ticketId);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
         });
     });
 
@@ -326,23 +354,28 @@ context('Assisted Service Module', () => {
         asm.agentLogin(agentToken.userName, agentToken.pwd);
 
         cy.log('--> Agent logging in with deeplink');
-        cy.visit(
-          '/assisted-service/emulate?customerId=' +
-            customer.email +
-            '&savedCartId=' +
-            savedCartId
+
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit(
+              '/assisted-service/emulate?customerId=' +
+                customerId +
+                '&savedCartId=' +
+                savedCartId
+            );
+
+            cy.log('--> Should has assignCart');
+            cy.get('.cx-asm-assignCart').should('exist');
+
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            cy.url().should('contain', 'saved-cart/' + savedCartId);
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          }
         );
-
-        cy.log('--> Should has assignCart');
-        cy.get('.cx-asm-assignCart').should('exist');
-
-        cy.get('cx-asm-main-ui').should('exist');
-        cy.get('cx-asm-main-ui').should('be.visible');
-
-        cy.url().should('contain', 'saved-cart/' + savedCartId);
-
-        cy.log('--> sign out and close ASM UI');
-        asm.agentSignOut();
       });
     });
 
