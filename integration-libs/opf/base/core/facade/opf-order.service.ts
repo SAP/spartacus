@@ -14,8 +14,8 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
+import { OpfOrderFacade } from '@spartacus/opf/base/root';
 import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
-import { OpfOrderFacade } from 'integration-libs/opf/base/root/public_api';
 
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';

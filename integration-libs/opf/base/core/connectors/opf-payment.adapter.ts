@@ -7,7 +7,7 @@
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-} from 'integration-libs/opf/base/root/public_api';
+} from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class OpfPaymentAdapter {

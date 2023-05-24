@@ -7,10 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import {
-  OpfOrderAdapter,
-  OpfPaymentAdapter,
-} from 'integration-libs/opf/base/core/public_api';
+import { OpfOrderAdapter, OpfPaymentAdapter } from '@spartacus/opf/base/core';
 import { OccOpfOrderAdapter } from './adapters';
 import { OccOpfPaymentAdapter } from './adapters/occ-opf.adapter';
 import { defaultOccOpfConfig } from './config/default-occ-opf-config';

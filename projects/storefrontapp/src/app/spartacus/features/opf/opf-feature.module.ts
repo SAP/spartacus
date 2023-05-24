@@ -7,6 +7,11 @@
 import { NgModule, Provider } from '@angular/core';
 import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
 import {
+  opfBaseTranslationChunksConfig,
+  opfBaseTranslations,
+} from '@spartacus/opf/base/assets';
+import { OpfBaseRootModule, OPF_BASE_FEATURE } from '@spartacus/opf/base/root';
+import {
   opfCheckoutTranslationChunksConfig,
   opfCheckoutTranslations,
 } from '@spartacus/opf/checkout/assets';
@@ -15,14 +20,6 @@ import {
   defaultOPFCheckoutConfig,
   OpfConfig,
 } from '@spartacus/opf/checkout/root';
-import {
-  opfBaseTranslationChunksConfig,
-  opfBaseTranslations,
-} from 'integration-libs/opf/base/assets/public_api';
-import {
-  OpfBaseRootModule,
-  OPF_BASE_FEATURE,
-} from 'integration-libs/opf/base/root/public_api';
 
 import { environment } from '../../../../environments/environment';
 
