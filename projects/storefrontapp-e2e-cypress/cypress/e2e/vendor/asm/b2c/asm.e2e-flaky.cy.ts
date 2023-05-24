@@ -144,7 +144,7 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should save inative cart in deeplink after agent login (CXSPA-3278)', () => {
+    it('should save inactive cart in deeplink after agent login (CXSPA-3278)', () => {
       let customer = emulateCustomerPrepare();
       getInactiveCartIdAndAddProducts(
         customer.email,
@@ -200,7 +200,7 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should not save empty inative cart in deeplink after agent login (CXSPA-3278)', () => {
+    it('should not save empty inactive cart in deeplink after agent login (CXSPA-3278)', () => {
       let customer = emulateCustomerPrepare();
       getInactiveCartIdAndAddProducts(customer.email, customer.password).then(
         (inactiveCartId) => {
