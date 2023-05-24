@@ -152,7 +152,7 @@ jobs:
           ci-scripts/e2e-cypress.sh -s b2b
   b2c_asm_e2e_tests:
     needs: [ no_retries, validate_e2e_execution ]
-    name: MC - E2E tests for B2C ASM core
+    name: MC - E2E B2C ASM core
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
@@ -185,7 +185,7 @@ jobs:
           ci-scripts/e2e-cypress.sh --asm
   b2b_asm_e2e_tests:
     needs: [ no_retries, validate_e2e_execution ]
-    name: MC - E2E tests for B2B ASM core
+    name: MC - E2E B2B ASM core
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
