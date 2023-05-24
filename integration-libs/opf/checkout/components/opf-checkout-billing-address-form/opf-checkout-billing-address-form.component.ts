@@ -8,44 +8,38 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Address, Country } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
   templateUrl: './opf-checkout-billing-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [OpfCheckoutBillingAddressFormService],
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  deliveryAddress$ = this.opfCheckoutBillingAddressFormService.deliveryAddress$;
-  billingAddress$ = this.opfCheckoutBillingAddressFormService.billingAddress$;
-  isLoadingAddress$ =
-    this.opfCheckoutBillingAddressFormService.isLoadingAddress$;
+  billingAddress$ = this.service.billingAddress$;
+  isLoadingAddress$ = this.service.isLoadingAddress$;
+  isSameAsDelivery$ = this.service.isSameAsDelivery$;
 
   isEditBillingAddress = false;
-  isSameAsDelivery = true;
   isAddingBillingAddressInProgress = false;
 
   countries$: Observable<Country[]>;
 
-  constructor(
-    protected opfCheckoutBillingAddressFormService: OpfCheckoutBillingAddressFormService
-  ) {}
+  constructor(protected service: OpfCheckoutBillingAddressFormService) {}
 
   ngOnInit() {
-    this.setIsSameAsDeliveryCheckboxState();
-
-    this.countries$ = this.opfCheckoutBillingAddressFormService.getCountries();
-    this.opfCheckoutBillingAddressFormService.getAddresses();
+    this.countries$ = this.service.getCountries();
+    this.service.getAddresses();
   }
 
   cancelAndHideForm(): void {
     this.isEditBillingAddress = false;
 
     if (this.isAddingBillingAddressInProgress) {
-      this.isSameAsDelivery = true;
+      this.service.setIsSameAsDeliveryValue(true);
       this.isAddingBillingAddressInProgress = false;
     }
   }
@@ -55,14 +49,14 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   }
 
   toggleSameAsDeliveryAddress(): void {
-    this.isSameAsDelivery = !this.isSameAsDelivery;
+    this.service.setIsSameAsDeliveryValue(!this.service.isSameAsDeliveryValue);
 
-    if (!this.isSameAsDelivery) {
-      this.opfCheckoutBillingAddressFormService.resetBillingAddress();
+    if (!this.service.isSameAsDeliveryValue) {
+      this.service.resetBillingAddress();
       this.isAddingBillingAddressInProgress = true;
       this.isEditBillingAddress = true;
     } else {
-      this.opfCheckoutBillingAddressFormService.putDeliveryAddressAsPaymentAddress();
+      this.service.putDeliveryAddressAsPaymentAddress();
       this.isEditBillingAddress = false;
     }
   }
@@ -75,17 +69,6 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
       return;
     }
 
-    this.opfCheckoutBillingAddressFormService
-      .setBillingAddress(address)
-      .subscribe();
-  }
-
-  protected setIsSameAsDeliveryCheckboxState(): void {
-    this.opfCheckoutBillingAddressFormService.billingAddress$
-      .pipe(
-        filter((address: Address | undefined) => !!address),
-        take(1)
-      )
-      .subscribe(() => (this.isSameAsDelivery = false));
+    this.service.setBillingAddress(address).subscribe();
   }
 }

@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OpfService } from '@spartacus/opf/checkout/core';
 import {
   ActiveConfiguration,
@@ -18,9 +19,8 @@ import {
   OpfOtpFacade,
   OpfUi,
 } from '@spartacus/opf/checkout/root';
-
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -33,8 +33,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   activeConfiguratons$ = this.opfCheckoutService
     .getActiveConfigurationsState()
     .pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data)
+      tap((state) => {
+        if (state?.error) {
+          this.globalMessageService.add(
+            { key: 'opf.checkout.errors.loadActiveConfigurations' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+      })
     );
 
   @Input()
@@ -45,7 +51,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfOtpService: OpfOtpFacade,
-    protected opfService: OpfService
+    protected opfService: OpfService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   /**
