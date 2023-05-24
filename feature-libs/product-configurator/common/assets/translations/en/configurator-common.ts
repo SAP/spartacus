@@ -91,14 +91,17 @@ export const configurator = {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
       totalPrice: 'Total',
+      totalPricePerItem: 'Total per Item',
     },
     addToCart: {
       button: 'Add to Cart',
       buttonAfterAddToCart: 'Continue to Cart',
       buttonUpdateCart: 'Done',
       buttonDisplayOnly: 'Done',
+      buttonClose: 'Close',
       confirmation: 'Configuration has been added to the cart',
       confirmationUpdate: 'Cart has been updated with configuration',
+      quantity: 'Qty',
     },
     overviewForm: {
       noAttributeHeader: 'No Results',

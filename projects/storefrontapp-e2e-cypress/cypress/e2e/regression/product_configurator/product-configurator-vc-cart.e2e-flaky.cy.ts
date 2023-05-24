@@ -103,6 +103,28 @@ context('Product Configuration', () => {
       cart.verifyCartNotEmpty();
       configurationCart.clickOnEditConfigurationLink(0);
     });
+
+    it('should be able to to add more than one piece of a configured product in the cart via a quantity stepper next to the add-to-cart button (CXSPA-3193)', () => {
+      clickAllowAllFromBanner();
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
+      configuration.checkQuantityStepper(1);
+      configuration.increaseQuantity();
+      configuration.increaseQuantity();
+      configuration.decreaseQuantity();
+      configuration.enterQuantityValue(10);
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.checkQuantity(10);
+      configurationVc.goToCart(electronicsShop);
+      configurationCart.checkQuantityStepper(0, 10);
+      configurationCart.increaseQuantity(0);
+      configurationCart.increaseQuantity(0);
+      configurationCart.decreaseQuantity(0);
+      configurationCart.clickOnEditConfigurationLink(0);
+      configuration.checkQuantity(11);
+    });
   });
 
   describe('Conflict Solver', () => {

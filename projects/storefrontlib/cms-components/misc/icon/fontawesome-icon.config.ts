@@ -17,6 +17,8 @@ export const fontawesomeIconConfig: IconConfig = {
       CARET_RIGHT: 'fas fa-angle-right',
       CARET_UP: 'fas fa-angle-up',
       CART: 'fas fa-shopping-cart',
+      CART_PLUS: 'fas fa-cart-plus',
+      CART_ARROW_DOWN: 'fas fa-cart-arrow-down',
       CHECK: 'fas fa-check',
       CIRCLE: 'fas fa-circle',
       CLIPBOARD_LIST: 'fas fa-clipboard-list',
