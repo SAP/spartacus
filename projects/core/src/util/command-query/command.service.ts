@@ -5,8 +5,16 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import {
+  EMPTY,
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+  zip,
+} from 'rxjs';
+import {
+  catchError,
   concatMap,
   finalize,
   mergeMap,
@@ -68,9 +76,11 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(tap(notifier$))
-          ),
-          retry()
+            commandFactory(cmd).pipe(
+              tap(notifier$),
+              catchError(() => EMPTY)
+            )
+          )
         );
         break;
 
@@ -78,9 +88,11 @@ export class CommandService implements OnDestroy {
       default:
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(tap(notifier$))
-          ),
-          retry()
+            commandFactory(cmd).pipe(
+              tap(notifier$),
+              catchError(() => EMPTY)
+            )
+          )
         );
         break;
     }

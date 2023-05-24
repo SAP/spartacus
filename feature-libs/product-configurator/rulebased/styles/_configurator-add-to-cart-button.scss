@@ -17,4 +17,48 @@
       @include cx-configurator-footer-container-item();
     }
   }
+
+  @include forVersion(6.1) {
+    .cx-add-to-cart-btn-container {
+      .cx-quantity-add-to-cart-container {
+        @include media-breakpoint-down(sm) {
+          inline-size: 100%;
+        }
+
+        inline-size: 40%;
+        padding-inline-start: 16px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 0px;
+        }
+
+        .cx-quantity-add-to-cart-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .cx-quantity {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-inline-end: 10px;
+
+            label {
+              padding-inline-end: 5px;
+              font-weight: var(--cx-font-weight-semi);
+              margin-block-end: 0px;
+            }
+
+            cx-item-counter {
+              background-color: var(--cx-color-inverse);
+            }
+          }
+        }
+      }
+
+      button.cx-add-to-cart-btn {
+        inline-size: 45%;
+      }
+    }
+  }
 }
