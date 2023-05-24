@@ -132,6 +132,7 @@ export class OpfCheckoutPaymentWrapperService {
       catchError(() => {
         this.onPlaceOrderError();
 
+        // If place order will fail after two attempts, we wan't to stop stream and show error message
         return of();
       }),
       switchMap(() => {
