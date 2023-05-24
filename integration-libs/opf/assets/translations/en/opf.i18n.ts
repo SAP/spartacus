@@ -28,7 +28,7 @@ export const opf = {
         insufficientFunds: 'Insufficient funds.',
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
         loadActiveConfigurations:
-          'Payment options did not load. Please refresh the page.',
+          'We are unable to load payment options at this time. Please try again later.',
       },
     },
   },
