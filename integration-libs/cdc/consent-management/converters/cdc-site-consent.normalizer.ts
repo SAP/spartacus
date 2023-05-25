@@ -5,10 +5,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Converter, ConsentTemplate, LanguageService } from '@spartacus/core';
+import { Converter, ConsentTemplate } from '@spartacus/core';
 import {
   CdcSiteConsentTemplate,
-  siteConsentDetailTemplate,
+  siteConsentDetail,
 } from '../cdc-consent.model';
 import { CdcSiteConsentService } from '../cdc-site-consent.service';
 
@@ -16,14 +16,11 @@ import { CdcSiteConsentService } from '../cdc-site-consent.service';
 export class CdcSiteConsentNormalizer
   implements Converter<CdcSiteConsentTemplate, ConsentTemplate[]>
 {
-  constructor(
-    protected languageService: LanguageService,
-    protected cdcSiteConsentService: CdcSiteConsentService
-  ) {}
+  constructor(protected cdcSiteConsentService: CdcSiteConsentService) {}
 
   convert(
     source: CdcSiteConsentTemplate,
-    target: ConsentTemplate[]
+    target?: ConsentTemplate[]
   ): ConsentTemplate[] {
     if (target === undefined) {
       target = { ...(source as any) } as ConsentTemplate[];
@@ -34,9 +31,9 @@ export class CdcSiteConsentNormalizer
     return target;
   }
 
-  private convertConsentEntries(
-    site: siteConsentDetailTemplate[]
-  ): ConsentTemplate[] {
+  private convertConsentEntries(site: {
+    [key: string]: siteConsentDetail;
+  }): ConsentTemplate[] {
     var consents: ConsentTemplate[] = [];
     var currentLanguage = this.cdcSiteConsentService.getActiveLanguage();
     for (var key in site) {

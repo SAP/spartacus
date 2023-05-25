@@ -19,15 +19,20 @@ export interface CdcSiteConsentTemplate {
   statusMessage: string;
   errorCode: number;
   errorMessage: string;
-  siteConsentDetails: siteConsentDetailTemplate[];
+  siteConsentDetails: {
+    [key: string]: siteConsentDetail;
+  };
 }
 
-export interface siteConsentDetailTemplate {
+export interface siteConsentDetail {
   defaultLang: string;
-  isActive: Boolean;
-  isMandatory: Boolean;
-  legalStatements: legalStatement[];
+  isActive: boolean;
+  isMandatory: boolean;
+  legalStatements: {
+    [key: string]: legalStatement;
+  };
 }
+
 export interface legalStatement {
   currentDocVersion: number;
   minDocVersion: number;
@@ -41,17 +46,4 @@ export interface userConsentPreferences {
   errorMessage: string;
   UID: string;
   preferences: any;
-}
-
-export interface preference {
-  isConsentGranted: boolean;
-  actionTimestamp: string;
-  lastConsentModified: Date;
-  language: string;
-  docVersion: float;
-  docDate: Date;
-  customdata: [{}];
-  tags: string[];
-  entitlements: [];
-  locales: [];
 }
