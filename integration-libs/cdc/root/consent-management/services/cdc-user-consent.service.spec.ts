@@ -6,19 +6,22 @@ import { CdcUserConsentService } from './cdc-user-consent.service';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import createSpy = jasmine.createSpy;
 import { CdcJsService } from '@spartacus/cdc/root';
-import { CdcSiteConsentTemplate } from '../../../core/models/cdc-site-consents.model';
+import {
+  CdcLocalStorageTemplate,
+  CdcSiteConsentTemplate,
+} from '../../../core/models/cdc-site-consents.model';
 const mockUser = { uid: 'sampleuser@mail.com' };
 const mockCdcSiteConsents: CdcSiteConsentTemplate = {
   siteConsentDetails: {
-    'terms.of.use': {},
-    'privacy.statement': {},
-    'consent.survey': {},
+    'terms.of.use': { isMandatory: true },
+    'privacy.statement': { isMandatory: true },
+    'consent.survey': { isMandatory: false },
   },
 };
-const mockStoredConsents: string[] = [
-  'terms.of.use',
-  'privacy.statement',
-  'consent.survey',
+const mockStoredConsents: CdcLocalStorageTemplate[] = [
+  { id: 'terms.of.use', required: true },
+  { id: 'privacy.statement', required: true },
+  { id: 'consent.survey', required: false },
 ];
 const mockCdcSdkOutput = {
   errorCode: 0,
@@ -127,7 +130,8 @@ describe('CdcUserConsentService()', () => {
               isConsentGranted: true,
             },
           },
-        }
+        },
+        undefined
       );
     });
     it('withdraw consent via CDC SDK', () => {
@@ -153,7 +157,8 @@ describe('CdcUserConsentService()', () => {
               isConsentGranted: false,
             },
           },
-        }
+        },
+        undefined
       );
     });
   });

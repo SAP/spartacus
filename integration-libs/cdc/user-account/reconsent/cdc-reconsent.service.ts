@@ -3,13 +3,15 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { CdcUserConsentService } from '../../root/consent-management';
 import { Subscription } from 'rxjs';
 import { CdcJsService } from '../../root/service';
+import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({ providedIn: 'root' })
 export class CdcReconsentService implements OnDestroy {
   constructor(
     protected cdcUserConsentService: CdcUserConsentService,
     protected cdcJsService: CdcJsService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected launchDialogService: LaunchDialogService
   ) {}
   protected subscription: Subscription = new Subscription();
   saveReconsent(consentId: string[], userParams: any): string {
@@ -28,11 +30,11 @@ export class CdcReconsentService implements OnDestroy {
               .subscribe({
                 next: (result) => {
                   if (result?.errorCode !== 0)
-                    errorMessage = result?.errorMessage;
+                    this.handleReconsentUpdateError(result?.errorMessage);
                   else this.reLogin(userParams.user, userParams.password);
                 },
                 error: (error) => {
-                  errorMessage = error?.errorMessage;
+                  this.handleReconsentUpdateError(error?.message);
                 },
               });
           });
@@ -56,7 +58,20 @@ export class CdcReconsentService implements OnDestroy {
           // Logging in using CDC Gigya SDK
           this.cdcJsService
             .loginUserWithoutScreenSet(userId, password)
-            .subscribe();
+            .subscribe({
+              next: (response) => {
+                if (response?.status === 'OK')
+                  this.launchDialogService.closeDialog(
+                    'Login completed successfully'
+                  );
+                else
+                  this.launchDialogService.closeDialog('Error During Relogin');
+              },
+              error: () => {
+                //error message already raised in loginUserWithoutScreenSet service
+                this.launchDialogService.closeDialog('Error During Relogin');
+              },
+            });
         } else {
           // CDC Gigya SDK not loaded, show error to the user
           this.globalMessageService.add(
@@ -69,7 +84,14 @@ export class CdcReconsentService implements OnDestroy {
       })
     );
   }
-
+  handleReconsentUpdateError(message: string) {
+    this.launchDialogService.closeDialog('Error During Reconsent Update');
+    let response = {
+      status: 'FAIL',
+      errorMessage: message,
+    };
+    this.cdcJsService.handleLoginError(response);
+  }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

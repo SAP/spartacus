@@ -32,7 +32,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   reconsentEvent: any = {};
 
   selectedConsents: string[] = [];
-  enableSubmitButton: boolean = true;
+  disableSubmitButton: boolean = true;
   totalConsents: number = 0;
 
   focusConfig: FocusConfig = {
@@ -56,11 +56,12 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
         this.reconsentEvent['password'] = data.password;
         this.reconsentEvent['regToken'] = data.regToken;
         this.reconsentEvent['errorMessage'] = data.errorMessage;
-        this.init(data.consentIds);
+        this.loadConsents(data.consentIds);
       })
     );
   }
-  init(reconsentIds: string[]): void {
+
+  loadConsents(reconsentIds: string[]): void {
     this.templateList$ = this.anonymousConsentsService.getTemplates(true).pipe(
       map((templateList) => {
         var output: ConsentTemplate[] = [];
@@ -75,6 +76,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     );
     this.loaded$ = of(true);
   }
+
   onConsentChange(event: { given: boolean; template: ConsentTemplate }) {
     if (event.given === false && event.template?.id) {
       let index: number = this.selectedConsents.indexOf(event.template.id);
@@ -85,15 +87,17 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
       this.selectedConsents.push(event.template.id);
     }
     if (this.totalConsents === this.selectedConsents.length)
-      this.enableSubmitButton = false;
-    else this.enableSubmitButton = true;
+      this.disableSubmitButton = false;
+    else this.disableSubmitButton = true;
   }
-  dismissModal(reason?: any, message?: string): void {
+
+  dismissDialog(reason?: any, message?: string): void {
     if (reason === 'Proceed To Login') {
       this.loaded$ = of(false);
-      this.save();
-    } else if (reason === 'Login completed successfully') {
-      this.launchDialogService.closeDialog(reason);
+      this.cdcReconsentService.saveReconsent(
+        this.selectedConsents,
+        this.reconsentEvent
+      );
     } else {
       this.launchDialogService.closeDialog(reason);
       let response = {
@@ -103,15 +107,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
       this.cdcJsService.handleLoginError(response);
     }
   }
-  save(): void {
-    let errorMessage = this.cdcReconsentService.saveReconsent(
-      this.selectedConsents,
-      this.reconsentEvent
-    );
-    if (errorMessage !== '')
-      this.dismissModal('Error During Reconsent Update', errorMessage);
-    else this.dismissModal('Login completed successfully');
-  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

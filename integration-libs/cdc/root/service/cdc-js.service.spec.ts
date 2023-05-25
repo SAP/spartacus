@@ -10,7 +10,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { EMPTY, Observable, of, Subscription } from 'rxjs';
+import { EMPTY, Observable, of, Subscription, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
@@ -433,6 +433,8 @@ describe('CdcJsService', () => {
         expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
           loginID: 'uid',
           password: 'password',
+          include: 'missing-required-fields',
+          ignoreInterruptions: true,
           sessionExpiry: sampleCdcConfig.cdc[0].sessionExpiration,
           callback: jasmine.any(Function),
         });
@@ -460,12 +462,26 @@ describe('CdcJsService', () => {
           expect(service['gigyaSDK'].accounts.login).toHaveBeenCalledWith({
             loginID: 'uid',
             password: 'password',
+            include: 'missing-required-fields',
+            ignoreInterruptions: true,
             context: 'RESET_EMAIL',
             sessionExpiry: sampleCdcConfig?.cdc[0]?.sessionExpiration,
             callback: jasmine.any(Function),
           });
           done();
         });
+    });
+    it('should raise reconsent event in case of error code 206001', (done) => {
+      spyOn(service['gigyaSDK'].accounts, 'login').and.returnValue(
+        throwError({ errorCode: 206001 })
+      );
+      spyOn(service, 'raiseCdcReconsentEvent').and.stub();
+      service.loginUserWithoutScreenSet('uid', 'password').subscribe({
+        error: () => {
+          expect(service.raiseCdcReconsentEvent).toHaveBeenCalled();
+        },
+      });
+      done();
     });
   });
 

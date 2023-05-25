@@ -14,6 +14,9 @@ export class CdcReconsentDialogEventListener implements OnDestroy {
     protected eventService: EventService,
     protected launchDialogService: LaunchDialogService
   ) {
+    this.onReconsent();
+  }
+  protected onReconsent() {
     this.subscription.add(
       this.eventService.get(CdcReConsentEvent).subscribe((event) => {
         this.openDialogue(event);
@@ -27,7 +30,7 @@ export class CdcReconsentDialogEventListener implements OnDestroy {
       password: event.password,
       consentIds: event.consentIds,
       errorMessage: event.errorMessage,
-      regToken: event.regToken
+      regToken: event.regToken,
     };
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.CDC_RECONSENT,

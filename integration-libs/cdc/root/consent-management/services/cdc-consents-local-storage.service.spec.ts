@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
+import { CdcLocalStorageTemplate } from '../../../core/models/cdc-site-consents.model';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 
 import createSpy = jasmine.createSpy;
-const initialState: string[] = [];
-const mockCdcConsents: string[] = [
-  'terms.of.use',
-  'privacy.statement',
-  'consent.survey',
+const initialState: CdcLocalStorageTemplate[] = [];
+const mockCdcConsents: CdcLocalStorageTemplate[] = [
+  { id: 'terms.of.use', required: true },
+  { id: 'privacy.statement', required: true },
+  { id: 'consent.survey', required: false },
 ];
 
 class MockStatePersistenceService implements Partial<StatePersistenceService> {
@@ -51,6 +52,8 @@ describe('CdcConsentsLocalStorageService', () => {
 
   describe('checkIfConsentExists()', () => {
     it('should return true if ID passed in request param exists in store', () => {
+      persistenceService.readStateFromStorage =
+        createSpy().and.returnValue(mockCdcConsents);
       let output = service.checkIfConsentExists('consent.survey');
       expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
         key: 'cdc-consents-list',
@@ -58,6 +61,8 @@ describe('CdcConsentsLocalStorageService', () => {
       expect(output).toEqual(true);
     });
     it('should return false if ID passed in request param doesnot exists in store', () => {
+      persistenceService.readStateFromStorage =
+        createSpy().and.returnValue(mockCdcConsents);
       let output = service.checkIfConsentExists('consent.training');
       expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
         key: 'cdc-consents-list',
