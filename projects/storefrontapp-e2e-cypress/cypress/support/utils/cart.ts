@@ -53,11 +53,10 @@ export function addToCart(
  * @returns promise of inactive card id
  */
 export function createInactiveCart(accessToken: string): Promise<string> {
-  let inactiveCartId = null;
   return new Promise((resolve, reject) => {
     createCart(accessToken).then((response) => {
       if (response.status === 201) {
-        inactiveCartId = response.body.code;
+        const inactiveCartId = response.body.code;
         createCart(accessToken).then((response) => {
           if (response.status === 201) {
             resolve(inactiveCartId);
