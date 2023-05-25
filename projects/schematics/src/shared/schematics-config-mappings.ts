@@ -24,8 +24,8 @@ import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schema
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
 import {
+  OPF_BASE_SCHEMATICS_CONFIG,
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
-  OPF_PAYMENT_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/opf-schematics-config';
 import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
 import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
@@ -127,7 +127,7 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   S4OM_SCHEMATICS_CONFIG,
 
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
-  OPF_PAYMENT_SCHEMATICS_CONFIG,
+  OPF_BASE_SCHEMATICS_CONFIG,
 ];
 
 /**

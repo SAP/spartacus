@@ -38,12 +38,12 @@ export const OPF_CHECKOUT_TRANSLATIONS = 'opfCheckoutTranslations';
 export const OPF_CHECKOUT_TRANSLATION_CHUNKS_CONFIG =
   'opfCheckoutTranslationChunksConfig';
 
-export const OPF_BASE_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
-export const OPF_BASE_MODULE = 'OpfPaymentModule';
-export const OPF_BASE_ROOT_MODULE = 'OpfPaymentRootModule';
-export const OPF_BASE_TRANSLATIONS = 'opfPaymentTranslations';
+export const OPF_BASE_FEATURE_NAME_CONSTANT = 'OPF_BASE_FEATURE';
+export const OPF_BASE_MODULE = 'OpfBaseModule';
+export const OPF_BASE_ROOT_MODULE = 'OpfBaseRootModule';
+export const OPF_BASE_TRANSLATIONS = 'opfBaseTranslations';
 export const OPF_BASE_TRANSLATION_CHUNKS_CONFIG =
-  'opfPaymentTranslationChunksConfig';
+  'opfBaseTranslationChunksConfig';
 
 export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -80,7 +80,7 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
   customConfig: buildOpfCheckoutConfig,
 };
 
-export const OPF_PAYMENT_SCHEMATICS_CONFIG: SchematicConfig = {
+export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: OPF_BASE_FEATURE_NAME,
     mainScope: SPARTACUS_OPF,
