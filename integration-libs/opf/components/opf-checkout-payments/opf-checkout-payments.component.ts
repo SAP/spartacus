@@ -38,10 +38,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     .getActiveConfigurationsState()
     .pipe(
       tap((state: QueryState<ActiveConfiguration[] | undefined>) => {
-        if (state?.error) {
+        if (state.error) {
           this.displayError('loadActiveConfigurations');
-        } else if (!state?.data) {
-          this.displayError('noPaymentMethods');
+        } else if (!state.loading && !Boolean(state.data?.length)) {
+          this.displayError('noActiveConfigurations');
         }
       })
     );
