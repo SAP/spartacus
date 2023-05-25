@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
-import { User } from '@spartacus/core';
+import { FeatureModulesService, User } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, Subscription } from 'rxjs';
@@ -27,6 +27,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
+  isCustomer360Configured = false;
+
   @ViewChild('customer360Launcher') customer360LauncherElement: ElementRef;
 
   protected subscription = new Subscription();
@@ -34,10 +36,14 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   constructor(
     protected asmComponentService: AsmComponentService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected featureModules: FeatureModulesService
   ) {}
 
   ngOnInit() {
+    this.isCustomer360Configured =
+      this.featureModules.isConfigured('customer360');
+
     this.subscription.add(
       this.userAccountFacade.get().subscribe((user) => {
         if (user) {

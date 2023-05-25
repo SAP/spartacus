@@ -7,6 +7,7 @@ import {
   Customer360Facade,
   Customer360Overview,
   Customer360Response,
+  Customer360TabComponent,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { I18nTestingModule, User } from '@spartacus/core';
@@ -15,11 +16,10 @@ import {
   DirectionService,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { Customer360Component } from './customer-360.component';
-import { AvatarImagePipe } from './avatar-image.pipe';
-import { AvatarLabelPipe } from './avatar-label.pipe';
 import { CsAgentAuthService } from '@spartacus/asm/root';
+import { ArgsPipe } from '@spartacus/asm/core';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
@@ -115,19 +115,8 @@ describe('AsmCustomer360Component', () => {
   }
 
   class MockAsm360Service {
-    get360Data(tab: number): Observable<Customer360Response> {
-      if (tab === 0) {
-        return of({
-          value: [
-            {
-              type: Customer360Type.REVIEW_LIST,
-              reviews: [],
-            },
-          ],
-        });
-      } else {
-        return of({ value: [mockOverview] });
-      }
+    get360Data(): Observable<Customer360Response> {
+      return of({ value: [mockOverview] });
     }
   }
 
@@ -168,6 +157,7 @@ describe('AsmCustomer360Component', () => {
   let el: DebugElement;
   let csAgentAuthService: CsAgentAuthService;
   let launchDialogService: LaunchDialogService;
+  let customer360Facade: Customer360Facade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -175,8 +165,7 @@ describe('AsmCustomer360Component', () => {
       declarations: [
         Customer360Component,
         MockAsmCustomerSectionComponent,
-        AvatarImagePipe,
-        AvatarLabelPipe,
+        ArgsPipe,
       ],
       providers: [
         { provide: Customer360Config, useValue: mockAsmConfig },
@@ -190,14 +179,16 @@ describe('AsmCustomer360Component', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
+    csAgentAuthService = TestBed.inject(CsAgentAuthService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    customer360Facade = TestBed.inject(Customer360Facade);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(Customer360Component);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    csAgentAuthService = TestBed.inject(CsAgentAuthService);
-    launchDialogService = TestBed.inject(LaunchDialogService);
+
     fixture.detectChanges();
   });
 
@@ -206,8 +197,8 @@ describe('AsmCustomer360Component', () => {
   });
 
   it('should get avatar data', () => {
-    expect(component.avatarText).toBe('JD');
-    expect(component.avatarImage).toEqual({
+    expect(component.getAvatarText(customer)).toBe('JD');
+    expect(component.getAvatarImage(mockOverview.overview)).toEqual({
       altText: mockOverview?.overview?.name,
       url: mockOverview?.overview?.userAvatar?.url,
       format: mockOverview?.overview?.userAvatar?.format,
@@ -239,7 +230,7 @@ describe('AsmCustomer360Component', () => {
     fixture.detectChanges();
 
     const sections = el.queryAll(By.css('cx-asm-customer-section'));
-    expect(sections.length).toBe(1);
+    expect(sections.length).toBe(2);
   });
 
   it('should close modal', () => {
@@ -274,6 +265,15 @@ describe('AsmCustomer360Component', () => {
     spyOn(launchDialogService, 'closeDialog').and.stub();
     csAgentAuthService.logoutCustomerSupportAgent();
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
+  });
+
+  it('should not display error', () => {
+    component.errorAlert$.subscribe((value) => {
+      expect(value).toBeFalsy();
+    });
+    component.errorTab$.subscribe((value) => {
+      expect(value).toBeFalsy();
+    });
   });
 
   describe('Tab navigation', () => {
@@ -319,6 +319,72 @@ describe('AsmCustomer360Component', () => {
       component.switchTab(event as KeyboardEvent, 0);
       expect(firstTab.tabIndex).toBe(-1);
       expect(secondTab.tabIndex).toBe(0);
+    });
+  });
+
+  describe('Unhappy path for header and tab content', () => {
+    it('should display error message if fail to get header data', () => {
+      spyOn(customer360Facade, 'get360Data').and.callFake(
+        (components: Array<Customer360TabComponent>) => {
+          const overview = components.filter(
+            (comp) => comp.requestData?.type === Customer360Type.OVERVIEW
+          );
+          if (overview.length) {
+            return throwError({
+              error: {
+                errors: [{ type: 'UnknownIdentifierError' }],
+              },
+            });
+          } else {
+            return of({ value: [mockOverview] });
+          }
+        }
+      );
+      fixture = TestBed.createComponent(Customer360Component);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+
+      fixture.detectChanges();
+      component.customerOverview$.subscribe().unsubscribe();
+
+      component.errorAlert$.subscribe((value) => {
+        expect(value).toBeTruthy();
+      });
+      component.errorTab$.subscribe((value) => {
+        expect(value).toBeFalsy();
+      });
+    });
+
+    it('should display the tab content with error if backend call fails', () => {
+      spyOn(customer360Facade, 'get360Data').and.callFake(
+        (components: Array<Customer360TabComponent>) => {
+          const overview = components.filter(
+            (comp) => comp.requestData?.type === Customer360Type.OVERVIEW
+          );
+          if (overview.length) {
+            return of({ value: [mockOverview] });
+          } else {
+            return throwError({
+              error: {
+                errors: [{ type: 'UnknownIdentifierError' }],
+              },
+            });
+          }
+        }
+      );
+      fixture = TestBed.createComponent(Customer360Component);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+
+      fixture.detectChanges();
+      component.customerOverview$.subscribe().unsubscribe();
+
+      component.errorAlert$.subscribe((value) => {
+        expect(value).toBeTruthy();
+      });
+      component.errorTab$.subscribe((value) => {
+        expect(value).toBeTruthy();
+      });
     });
   });
 });

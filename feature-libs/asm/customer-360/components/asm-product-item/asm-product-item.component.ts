@@ -20,7 +20,7 @@ import { ProductItem } from '../asm-customer-product-listing/product-item.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsmProductItemComponent {
-  @Input() product: Product | ProductItem;
+  @Input() product: ProductItem;
   @Input() quantity: number;
   @Input() isOrderEntry = true;
   @Output() selectProduct = new EventEmitter<Product>();
