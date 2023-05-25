@@ -33,7 +33,7 @@ do
         '--asm' )
             ASM=true
             shift
-            case "$2" in
+            case "$1" in
                 'b2b')
                     ASM_SUITE=":b2b"
                     shift
