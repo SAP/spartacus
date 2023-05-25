@@ -35,7 +35,7 @@
               : {
                   value: item.valueDisplay,
                   attribute: attribute.label,
-                  price: item.valuePriceTotal.formattedValue
+                  price: item.valuePriceTotal?.formattedValue ?? 0
                 })
           : ('configurator.a11y.selectedValueOfAttributeFull'
             | cxTranslate
