@@ -327,7 +327,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected afterCloseASMSaveCartDialog() {
+  protected afterCloseASMSaveCartDialog(): void {
     this.launchDialogService.dialogClose
       .pipe(
         filter((result) => result === SAVE_CART_DIALOG_ACTION.SAVE),
