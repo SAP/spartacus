@@ -36,8 +36,6 @@ import {
   AsmCustomerProfileComponent,
   AsmCustomerSavedCartComponent,
 } from './sections/components';
-import { AvatarImagePipe } from './customer-360/avatar-image.pipe';
-import { AvatarLabelPipe } from './customer-360/avatar-label.pipe';
 
 @NgModule({
   imports: [
@@ -59,12 +57,7 @@ import { AvatarLabelPipe } from './customer-360/avatar-label.pipe';
     AsmCustomerProductReviewsComponentModule,
     AsmCustomerSupportTicketsComponentModule,
   ],
-  declarations: [
-    Customer360Component,
-    AsmCustomerSectionComponent,
-    AvatarImagePipe,
-    AvatarLabelPipe,
-  ],
+  declarations: [Customer360Component, AsmCustomerSectionComponent],
   exports: [Customer360Component],
   providers: [
     provideDefaultConfig({

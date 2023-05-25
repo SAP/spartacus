@@ -1,7 +1,7 @@
 <cx-asm-customer-table
   [emptyStateText]="'customer360.supportTickets.emptyDescription' | cxTranslate"
   [headerText]="'customer360.supportTickets.header' | cxTranslate"
-  sortProperty="created"
+  sortProperty="createdAt"
   [columns]="supportTicketsColumns"
   [entries]="supportTicketsEntries$ | async"
   [pageSize]="(context.config$ | async)?.pageSize"
