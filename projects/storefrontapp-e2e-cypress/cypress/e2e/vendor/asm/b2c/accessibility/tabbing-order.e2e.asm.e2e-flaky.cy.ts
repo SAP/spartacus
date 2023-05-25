@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
+import { tabbingOrderConfig as config } from '../../../../../helpers/accessibility/tabbing-order.config';
 import {
   asmTabbingOrderWithCreateCustomerForm,
   asmTabbingOrderWithCustomerList,
-} from '../../helpers/accessibility/tabbing-order/asm';
+} from '../../../../../helpers/accessibility/tabbing-order/asm';
 
 describe('Tabbing order for ASM', () => {
   before(() => {
