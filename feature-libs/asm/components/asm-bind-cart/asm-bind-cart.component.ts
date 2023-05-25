@@ -104,6 +104,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     routing: RoutingService,
     featureConfig: FeatureConfigService
   );
+  /**
+   * @deprecated since 7.0
+   */
   constructor(
     globalMessageService: GlobalMessageService,
     activeCartFacade: ActiveCartFacade,
