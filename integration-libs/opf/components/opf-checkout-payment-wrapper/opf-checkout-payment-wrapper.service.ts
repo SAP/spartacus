@@ -9,19 +9,28 @@ import { ActiveCartService } from '@spartacus/cart/base/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
+  HttpResponseStatus,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { OpfResourceLoaderService } from '@spartacus/opf/core';
 import {
   OpfCheckoutFacade,
+  OpfOrderFacade,
   OpfOtpFacade,
   OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
   PaymentSessionData,
 } from '@spartacus/opf/root';
 
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
@@ -33,7 +42,8 @@ export class OpfCheckoutPaymentWrapperService {
     protected userIdService: UserIdService,
     protected activeCartService: ActiveCartService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected opfOrderFacade: OpfOrderFacade
   ) {}
 
   protected activeCartId: string;
@@ -50,7 +60,7 @@ export class OpfCheckoutPaymentWrapperService {
 
   initiatePayment(
     paymentOptionId: number
-  ): Observable<PaymentSessionData | boolean> {
+  ): Observable<PaymentSessionData | Error> {
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
       isError: false,
@@ -69,7 +79,9 @@ export class OpfCheckoutPaymentWrapperService {
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
-      catchError(() => this.handlePaymentInitiationError())
+      catchError((err: HttpErrorModel) =>
+        this.handlePaymentInitiationError(err)
+      )
     );
   }
 
@@ -105,20 +117,62 @@ export class OpfCheckoutPaymentWrapperService {
     }
   }
 
-  protected handlePaymentInitiationError(): Observable<boolean> {
+  protected handlePaymentInitiationError(
+    err: HttpErrorModel
+  ): Observable<Error> {
+    return Number(err.status) === HttpResponseStatus.CONFLICT
+      ? this.handlePaymentAlreadyDoneError()
+      : this.handleGeneralPaymentError();
+  }
+
+  protected handlePaymentAlreadyDoneError(): Observable<Error> {
+    return this.opfOrderFacade.placeOpfOrder(true).pipe(
+      catchError(() => {
+        this.onPlaceOrderError();
+
+        // If place order will fail after two attempts, we wan't to stop stream and show error message
+        return of();
+      }),
+      switchMap(() => {
+        this.onPlaceOrderSuccess();
+
+        return throwError('Payment already done');
+      })
+    );
+  }
+
+  protected onPlaceOrderSuccess(): void {
+    this.routingService.go({ cxRoute: 'orderConfirmation' });
+  }
+
+  protected onPlaceOrderError(): void {
     this.renderPaymentMethodEvent$.next({
       ...this.renderPaymentMethodEvent$.value,
       isError: true,
     });
 
+    this.showErrorMessage('opf.checkout.errors.unknown');
+    this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+  }
+
+  protected handleGeneralPaymentError(): Observable<Error> {
+    this.renderPaymentMethodEvent$.next({
+      ...this.renderPaymentMethodEvent$.value,
+      isError: true,
+    });
+
+    this.showErrorMessage('opf.checkout.errors.proceedPayment');
+
+    return throwError('Payment failed');
+  }
+
+  protected showErrorMessage(errorMessage: string): void {
     this.globalMessageService.add(
       {
-        key: 'opf.checkout.errors.proceedPayment',
+        key: errorMessage,
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
-
-    return of(false);
   }
 
   protected setPaymentInitiationConfig(
