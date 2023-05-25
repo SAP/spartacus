@@ -11,7 +11,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  QueryState,
+} from '@spartacus/core';
 import { OpfService } from '@spartacus/opf/core';
 import {
   ActiveConfiguration,
@@ -33,12 +37,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   activeConfiguratons$ = this.opfCheckoutService
     .getActiveConfigurationsState()
     .pipe(
-      tap((state) => {
-        if (state?.error) {
-          this.globalMessageService.add(
-            { key: 'opf.checkout.errors.loadActiveConfigurations' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
+      tap((state: QueryState<ActiveConfiguration[] | undefined>) => {
+        if (state.error) {
+          this.displayError('loadActiveConfigurations');
+        } else if (!state.loading && !Boolean(state.data?.length)) {
+          this.displayError('noActiveConfigurations');
         }
       })
     );
@@ -59,13 +62,20 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
    * Method pre-selects (based on terms and conditions state)
    * previously selected payment option ID by customer.
    */
-  protected preselectPaymentOption() {
+  protected preselectPaymentOption(): void {
     this.subscription.add(
       this.opfService.getOpfUiState().subscribe((state: OpfUi) => {
         this.selectedPaymentId = state.termsAndConditionsChecked
           ? state?.selectedPaymentOptionId
           : undefined;
       })
+    );
+  }
+
+  protected displayError(errorKey: string): void {
+    this.globalMessageService.add(
+      { key: `opf.checkout.errors.${errorKey}` },
+      GlobalMessageType.MSG_TYPE_ERROR
     );
   }
 
@@ -76,11 +86,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.preselectPaymentOption();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

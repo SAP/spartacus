@@ -31,6 +31,8 @@ export const opf = {
           'Unknown error occurred while fetching payment. Please contact support',
         loadActiveConfigurations:
           'We are unable to load payment options at this time. Please try again later.',
+        noActiveConfigurations:
+          'There are no payment options available at this time. Please try again later or contact support.',
       },
     },
   },
