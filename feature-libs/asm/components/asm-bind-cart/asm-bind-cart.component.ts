@@ -319,7 +319,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     return cartType === 'inactive' && !!cartId;
   }
 
-  protected openASMSaveCartDialog(inactiveCart: Cart) {
+  protected openASMSaveCartDialog(inactiveCart: Cart): void {
     this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_SAVE_CART,
       this.saveInactiveCartElemRef,
