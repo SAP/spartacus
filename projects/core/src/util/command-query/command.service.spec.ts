@@ -222,7 +222,7 @@ describe('CommandService', () => {
         parallelCommand = service.create(faultyCommandFactory, {
           strategy: strategy,
         });
-        const expected = '';
+        const expected = 'expected value';
         faultyCommandFactoryControl.shouldThrowError = true;
 
         parallelCommand.execute(NEVER).subscribe(observer1);
@@ -241,7 +241,7 @@ describe('CommandService', () => {
       });
 
       it('should not allow an error in one request to interfere with other in-progress requests', () => {
-        let expected = 'result2';
+        let expectedValue = 'result2';
         let expectedError = 'error1';
         const observer1 = createObserverSpy('observer1');
         const observer2 = createObserverSpy('observer2');
@@ -249,12 +249,12 @@ describe('CommandService', () => {
         parallelCommand.execute(request2).subscribe(observer2);
 
         request1.error(expectedError);
-        request2.next(expected);
+        request2.next(expectedValue);
         request2.complete();
 
         expect(observer1.next).not.toHaveBeenCalled();
         expect(observer1.error).toHaveBeenCalledWith(expectedError);
-        expect(observer2.next).toHaveBeenCalledWith(expected);
+        expect(observer2.next).toHaveBeenCalledWith(expectedValue);
         expect(observer2.complete).toHaveBeenCalled();
       });
     });

@@ -17,6 +17,7 @@ import {
 import {
   catchError,
   concatMap,
+  finalize,
   mergeMap,
   switchMap,
   tap,
@@ -58,42 +59,22 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
-          switchMap(
-            ([cmd, notifier$]) =>
-              new Observable((subscriber) => {
-                // connect notifier to command factory return observable
-                const commandSubscription = defer(() =>
-                  commandFactory(cmd)
-                ).subscribe({
-                  next: (n) => {
-                    notifier$.next(n);
-                  },
-                  error: (e) => {
-                    notifier$.error(e);
-                    subscriber.complete();
-                  },
-                  complete: () => {
+          switchMap(([cmd, notifier$]) =>
+            defer(() => commandFactory(cmd)).pipe(
+              tap(notifier$),
+              catchError(() => EMPTY),
+              finalize(() => {
+                // do not overwrite existing existing ending state
+                if (!notifier$.closed && !notifier$.hasError) {
+                  // command has not ended yet, so close notifier$ according to strategy
+                  if (options.strategy === CommandStrategy.ErrorPrevious) {
+                    notifier$.error(new Error('Canceled by next command'));
+                  } else {
                     notifier$.complete();
-                    subscriber.complete();
-                  },
-                });
-
-                // add unsubscribe logic
-                subscriber.add(() => {
-                  commandSubscription.unsubscribe();
-
-                  if (!notifier$.closed && !notifier$.hasError) {
-                    // command has ended yet, so close notifier$ according to strategy
-                    if (options.strategy === CommandStrategy.CancelPrevious) {
-                      notifier$.complete();
-                    } else {
-                      notifier$.error(new Error('Canceled by next command'));
-                    }
                   }
-                });
-
-                return commandSubscription;
+                }
               })
+            )
           )
         );
         break;
