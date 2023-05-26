@@ -5,6 +5,7 @@ on:
       - develop-*
       - 'epic/**'
       - 'release/**'
+      - 'release-*'
 name: Cache node modules
 
 env:

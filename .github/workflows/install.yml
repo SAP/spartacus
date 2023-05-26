@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - 'release/4.**'
       - 'epic/**'
       - 'develop'
       - 'develop-*'
+      - 'release-*'
 name: Installation
 jobs:
   install:
