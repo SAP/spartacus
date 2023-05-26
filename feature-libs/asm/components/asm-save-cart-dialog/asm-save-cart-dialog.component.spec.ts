@@ -110,7 +110,7 @@ describe('AsmBindCartDialogComponent', () => {
 
   it('should show meaasge based on `cx-message` selector', () => {
     component.closeDialogAlert();
-    expect(component.showDialogAlert).toEqual(false);
+    expect(component.showDialogAlert$.next).toHaveBeenCalledWith(false);
   });
 
   it('should set cart total Qty', () => {

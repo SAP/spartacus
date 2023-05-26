@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmDeepLinkParameters,
   AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
@@ -45,6 +46,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
@@ -183,6 +185,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       }
       const parameters = {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
+        orderId: this.asmComponentService.getSearchParameter('orderId'),
+        ticketId: this.asmComponentService.getSearchParameter('ticketId'),
+        cartId: this.asmComponentService.getSearchParameter('cartId'),
+        cartType: this.asmComponentService.getSearchParameter('cartType'),
         emulated: false,
       };
       this.subscription.add(
@@ -249,13 +255,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   startCustomerEmulationSession(
     { customerId }: { customerId?: string },
-    options?: any
+    parameters?: AsmDeepLinkParameters
   ): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
-      if (options) {
-        this.andThen(options);
+      if (parameters) {
+        this.handleDeepLinkParamsAfterStartSession(parameters);
       }
     } else {
       this.globalMessageService.add(
@@ -265,8 +271,25 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     }
   }
 
-  andThen(_options: any) {
-    //navigate to other pages
+  protected handleDeepLinkParamsAfterStartSession(
+    parameters: AsmDeepLinkParameters
+  ) {
+    if (parameters.orderId) {
+      // Navigate to order details
+      this.routingService.go({
+        cxRoute: 'orderDetails',
+        params: { code: parameters.orderId },
+      });
+    } else if (parameters.ticketId) {
+      // Navigate to support ticket details
+      this.routingService.go({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: parameters.ticketId },
+      });
+    } else if (parameters.cartType === 'saved' && parameters.cartId) {
+      // Navigate to saved cart
+      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
+    }
   }
 
   hideUi(): void {

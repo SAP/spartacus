@@ -10,7 +10,7 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
-import { SampleUser } from '../sample-data/checkout-flow';
+import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import {
   interceptGet,
   interceptPatch,
@@ -598,4 +598,13 @@ export function verifyFormErrors() {
 
     cy.get('cx-form-errors p').should('have.length', 4);
   });
+}
+
+export function emulateCustomerPrepare(agentToken, agentPwd) {
+  const customer = getSampleUser();
+  cy.log('--> Register new user');
+  cy.visit('/?asm=true');
+  checkout.registerUser(false, customer);
+  asm.agentLogin(agentToken, agentPwd);
+  return customer;
 }
