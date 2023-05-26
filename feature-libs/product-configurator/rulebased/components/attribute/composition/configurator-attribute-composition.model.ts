@@ -16,5 +16,5 @@ export class ConfiguratorAttributeCompositionContext {
   group: Configurator.Group;
   language: string;
   expMode: boolean;
-  isNavigationToGroupEnabled: boolean;
+  isNavigationToGroupEnabled?: boolean;
 }

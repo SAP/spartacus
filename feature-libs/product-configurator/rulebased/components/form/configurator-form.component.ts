@@ -65,7 +65,7 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
     )
   );
-  // TODO (CXSPA-3392): make globalMessageService a required dependency
+  // TODO(CXSPA-3392): make globalMessageService a required dependency
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
     configuratorGroupsService: ConfiguratorGroupsService,
