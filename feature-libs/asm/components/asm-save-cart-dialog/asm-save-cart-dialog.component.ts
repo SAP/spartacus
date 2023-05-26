@@ -9,6 +9,7 @@ import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { GlobalMessageType } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 export enum SAVE_CART_DIALOG_ACTION {
@@ -22,7 +23,7 @@ export enum SAVE_CART_DIALOG_ACTION {
 })
 export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
-  showDialogAlert = true;
+  showDialogAlert$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   globalMessageType = GlobalMessageType;
   cart: Cart;
   cartQty: number;
@@ -57,7 +58,7 @@ export class AsmSaveCartDialogComponent implements OnInit {
   }
 
   closeDialogAlert(): void {
-    this.showDialogAlert = false;
+    this.showDialogAlert$.next(false);
   }
 
   closeModal(reason: SAVE_CART_DIALOG_ACTION): void {
