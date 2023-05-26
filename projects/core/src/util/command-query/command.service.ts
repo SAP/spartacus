@@ -11,14 +11,13 @@ import {
   ReplaySubject,
   Subject,
   Subscription,
+  defer,
   zip,
 } from 'rxjs';
 import {
   catchError,
   concatMap,
-  finalize,
   mergeMap,
-  retry,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -47,36 +46,62 @@ export class CommandService implements OnDestroy {
   }
 
   create<PARAMS = undefined, RESULT = unknown>(
-    commandFactory: (command: PARAMS) => Observable<any>,
+    commandFactory: (command: PARAMS) => Observable<RESULT>,
     options?: { strategy?: CommandStrategy }
   ): Command<PARAMS, RESULT> {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
 
-    let process$: Observable<any>;
+    let process$: Observable<unknown>;
 
     switch (options?.strategy) {
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
-          switchMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
-              tap(notifier$),
-              finalize(() =>
-                options.strategy === CommandStrategy.CancelPrevious
-                  ? notifier$.complete()
-                  : notifier$.error(new Error('Canceled by next command'))
-              )
-            )
-          ),
-          retry()
+          switchMap(
+            ([cmd, notifier$]) =>
+              new Observable((subscriber) => {
+                // connect notifier to command factory return observable
+                const commandSubscription = defer(() =>
+                  commandFactory(cmd)
+                ).subscribe({
+                  next: (n) => {
+                    notifier$.next(n);
+                  },
+                  error: (e) => {
+                    notifier$.error(e);
+                    subscriber.complete();
+                  },
+                  complete: () => {
+                    notifier$.complete();
+                    subscriber.complete();
+                  },
+                });
+
+                // add unsubscribe logic
+                subscriber.add(() => {
+                  commandSubscription.unsubscribe();
+
+                  if (!notifier$.closed && !notifier$.hasError) {
+                    // command has ended yet, so close notifier$ according to strategy
+                    if (options.strategy === CommandStrategy.CancelPrevious) {
+                      notifier$.complete();
+                    } else {
+                      notifier$.error(new Error('Canceled by next command'));
+                    }
+                  }
+                });
+
+                return commandSubscription;
+              })
+          )
         );
         break;
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
+            defer(() => commandFactory(cmd)).pipe(
               tap(notifier$),
               catchError(() => EMPTY)
             )
@@ -88,7 +113,7 @@ export class CommandService implements OnDestroy {
       default:
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
+            defer(() => commandFactory(cmd)).pipe(
               tap(notifier$),
               catchError(() => EMPTY)
             )
