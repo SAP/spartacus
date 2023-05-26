@@ -109,6 +109,7 @@ describe('AsmBindCartDialogComponent', () => {
   });
 
   it('should show meaasge based on `cx-message` selector', () => {
+    spyOn(component.showDialogAlert$, 'next').and.stub();
     component.closeDialogAlert();
     expect(component.showDialogAlert$.next).toHaveBeenCalledWith(false);
   });
