@@ -530,4 +530,43 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     expect(routingService.go).not.toHaveBeenCalledWith('/');
   });
+
+  it('should call naviate to order details when starting session with orderId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { orderId: '456' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '456' },
+    });
+  });
+
+  it('should call naviate to support ticket details when starting session with ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { ticketId: '456' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'supportTicketDetails',
+      params: { ticketCode: '456' },
+    });
+  });
+
+  it('should call naviate to saved cart when starting session with savedCartId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'saved' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
 });
