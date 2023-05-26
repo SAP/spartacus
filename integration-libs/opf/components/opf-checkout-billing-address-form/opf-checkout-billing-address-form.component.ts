@@ -37,6 +37,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
 
   cancelAndHideForm(): void {
     this.isEditBillingAddress = false;
+
     if (this.isAddingBillingAddressInProgress) {
       this.service.setIsSameAsDeliveryValue(true);
       this.isAddingBillingAddressInProgress = false;
