@@ -131,4 +131,6 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
+  // TODO: This default option has been set for testing purpose - REMOVE BEFORE RELEASE
+  logger: true,
 };
