@@ -31,8 +31,8 @@ import {
 } from '@spartacus/core';
 import {
   ICON_TYPE,
-  LAUNCH_CALLER,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
@@ -57,6 +57,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+
+  showInactiveCartInfoAlert$: Observable<boolean> =
+    this.asmComponentService.shouldShowInactiveCartInfoAlert();
   showCreateCustomerSuccessfullyAlert = false;
   globalMessageType = GlobalMessageType;
 
@@ -311,8 +314,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.addNewCustomerLink
     );
   }
+
   closeDialogConfirmationAlert(): void {
     this.showCreateCustomerSuccessfullyAlert = false;
+  }
+
+  closeInactiveCartInfoAlert(): void {
+    this.asmComponentService.setShowInactiveCartInfoAlert(false);
   }
 
   ngOnDestroy() {

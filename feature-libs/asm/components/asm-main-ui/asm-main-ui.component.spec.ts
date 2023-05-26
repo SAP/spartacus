@@ -569,4 +569,12 @@ describe('AsmMainUiComponent', () => {
 
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
   });
+
+  it('should emit false when close inactive cart info', () => {
+    spyOn(asmComponentService, 'setShowInactiveCartInfoAlert').and.stub();
+    component.closeInactiveCartInfoAlert();
+    expect(
+      asmComponentService.setShowInactiveCartInfoAlert
+    ).toHaveBeenCalledWith(false);
+  });
 });

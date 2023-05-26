@@ -18,6 +18,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AsmComponentService {
   protected searchparam: URLSearchParams;
   isEmulatedByDeepLink$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  protected showInactiveCartInfoAlert$: BehaviorSubject<boolean> =
+    new BehaviorSubject(false);
 
   constructor(
     protected authService: AuthService,
@@ -37,6 +39,14 @@ export class AsmComponentService {
 
   setEmulatedByDeepLink(emulated: boolean) {
     this.isEmulatedByDeepLink$.next(emulated);
+  }
+
+  setShowInactiveCartInfoAlert(display: boolean) {
+    this.showInactiveCartInfoAlert$.next(display);
+  }
+
+  shouldShowInactiveCartInfoAlert(): Observable<boolean> {
+    return this.showInactiveCartInfoAlert$;
   }
 
   logoutCustomerSupportAgentAndCustomer(): void {

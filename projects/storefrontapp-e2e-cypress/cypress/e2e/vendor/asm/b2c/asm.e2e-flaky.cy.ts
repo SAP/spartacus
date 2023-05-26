@@ -5,23 +5,30 @@
  */
 
 import * as asm from '../../../../helpers/asm';
-import { login as fetchingToken } from '../../../../support/utils/login';
 import { login } from '../../../../helpers/auth-forms';
 import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
+import * as customerTicketing from '../../../../helpers/customer-ticketing/customer-ticketing';
 import { getErrorAlert } from '../../../../helpers/global-message';
+import { signOutUser } from '../../../../helpers/login';
 import {
   navigateToCategory,
   waitForPage,
 } from '../../../../helpers/navigation';
 import { doPlaceOrder } from '../../../../helpers/order-history';
-import { APPAREL_BASESITE } from '../../../../helpers/variants/apparel-checkout-flow';
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
-import { signOutUser } from '../../../../helpers/login';
-import * as customerTicketing from '../../../../helpers/customer-ticketing/customer-ticketing';
 import * as savedCart from '../../../../helpers/saved-cart';
+import { APPAREL_BASESITE } from '../../../../helpers/variants/apparel-checkout-flow';
 import * as sampleData from '../../../../sample-data/saved-cart';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+
+import { getSampleUser } from '../../../../sample-data/checkout-flow';
+import { login as fetchingToken } from '../../../../support/utils/login';
+
+import { emulateCustomerPrepare } from '../../../../helpers/asm';
+import {
+  addToCartWithProducts,
+  createInactiveCart,
+} from '../../../../support/utils/cart';
 
 const agentToken = {
   userName: 'asagent',
@@ -453,6 +460,115 @@ context('Assisted Service Module', () => {
       });
     });
 
+    it('should save inactive cart in deeplink after agent login (CXSPA-3278)', () => {
+      let customer = emulateCustomerPrepare(
+        agentToken.userName,
+        agentToken.pwd
+      );
+      getInactiveCartIdAndAddProducts(
+        customer.email,
+        customer.password,
+        '1934793',
+        '2'
+      ).then((inactiveCartId) => {
+        // get customerId via token
+        getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+          (customerId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+            );
+
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
+
+            cy.log('--> Click save button the dialog shold display');
+            cy.get('button[id=asm-save-inactive-cart-btn]').click();
+            cy.get('cx-asm-save-cart-dialog').should('exist');
+            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              .should('exist')
+              .click();
+            cy.get('.cx-dialog-item.item-right-text').should(
+              'have.text',
+              ` ${inactiveCartId}  2  $199.70 `
+            );
+            cy.get('button[id=asm-save-cart-dialog-btn]')
+              .should('be.enabled')
+              .click();
+
+            cy.log(
+              '--> Click save button will navigate to the cart detail page'
+            );
+
+            cy.get('.cx-card-label').should('contain', inactiveCartId);
+            cy.get('cx-saved-cart-details-action .btn-primary').should(
+              'be.enabled'
+            );
+            cy.url().should('include', 'saved-cart');
+            cy.url().should('include', inactiveCartId);
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          }
+        );
+      });
+    });
+
+    it('should not save empty inactive cart in deeplink after agent login (CXSPA-3278)', () => {
+      let customer = emulateCustomerPrepare(
+        agentToken.userName,
+        agentToken.pwd
+      );
+      getInactiveCartIdAndAddProducts(customer.email, customer.password).then(
+        (inactiveCartId) => {
+          cy.log('--> create inactive cart');
+          // get customerId via token
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customer.email
+          ).then((customerId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+            );
+
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
+
+            cy.log(
+              '--> Click save button the dialog shold display, but the save button is disable'
+            );
+            cy.get('button[id=asm-save-inactive-cart-btn]').click();
+            cy.get('cx-asm-save-cart-dialog').should('exist');
+            cy.get('cx-asm-save-cart-dialog .cx-message-warning button cx-icon')
+              .should('exist')
+              .click();
+            cy.get('.cx-dialog-item.item-right-text').should(
+              'have.text',
+              ` ${inactiveCartId}  0  $0.00 `
+            );
+            cy.get('button[id=asm-save-cart-dialog-btn]').should('be.disabled');
+            cy.findByText(/Cancel/i).click();
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        }
+      );
+    });
+
     it('should checkout as customer', () => {
       const customer = getSampleUser();
 
@@ -580,6 +696,40 @@ context('Assisted Service Module', () => {
             reject(response.status);
           }
         });
+      });
+    });
+  }
+
+  function getInactiveCartIdAndAddProducts(
+    customerEmail,
+    customerPwd,
+    productCode?,
+    quantity?
+  ) {
+    let token = null;
+    return new Promise((resolve, reject) => {
+      fetchingToken(customerEmail, customerPwd, false).then((res) => {
+        token = res.body.access_token;
+        createInactiveCart(token)
+          .then((inactiveCartId) => {
+            if (!!productCode && quantity) {
+              addToCartWithProducts(
+                inactiveCartId,
+                productCode,
+                quantity,
+                token
+              ).then((response) => {
+                if (response.status === 200) {
+                  resolve(inactiveCartId);
+                } else {
+                  reject(response.status);
+                }
+              });
+            } else {
+              resolve(inactiveCartId);
+            }
+          })
+          .catch((status) => reject(status));
       });
     });
   }
