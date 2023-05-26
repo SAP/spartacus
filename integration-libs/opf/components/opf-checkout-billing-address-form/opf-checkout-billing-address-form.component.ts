@@ -42,6 +42,10 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
       this.service.setIsSameAsDeliveryValue(true);
       this.isAddingBillingAddressInProgress = false;
     }
+
+    if (!this.service.billingAddressValue) {
+      this.service.putDeliveryAddressAsPaymentAddress();
+    }
   }
 
   editCustomBillingAddress(): void {
