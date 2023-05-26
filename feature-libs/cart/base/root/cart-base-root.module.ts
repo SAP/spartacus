@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  Logger,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -80,4 +81,33 @@ export function defaultCartComponentsConfig() {
     provideDefaultConfig(defaultCartRoutingConfig),
   ],
 })
-export class CartBaseRootModule {}
+export class CartBaseRootModule {
+  // TODO: This is for testing purpose - REMOVE BEFORE RELEASE
+  constructor() {
+    const logger = inject(Logger);
+    logger.log('Hello World');
+    setTimeout(() => {
+      logger.warn(
+        JSON.stringify({
+          message: 'WARN Hello World',
+          type: 'ERROR',
+          context: {
+            url: '/some/url',
+          },
+        })
+      );
+    }, 5000);
+    setTimeout(() => {
+      logger.error({
+        message: 'ERROR Hello World',
+        type: 'ERROR',
+        context: {
+          url: '/some/url',
+        },
+      });
+    }, 10000);
+    setTimeout(() => {
+      throw new Error('THROWN ERROR Hello World');
+    }, 15000);
+  }
+}
