@@ -59,14 +59,22 @@ describe('ConfigureCartEntryComponent', () => {
     );
   });
 
-  it('should find correct entity key for cart entry', () => {
-    component.cartEntry = { entryNumber: 0 };
-    expect(component.getEntityKey()).toBe('0');
-  });
+  describe('getEntityKey', () => {
+    it('should find correct entity key for cart entry', () => {
+      component.cartEntry = { entryNumber: 0 };
+      expect(component.getEntityKey()).toBe('0');
+    });
 
-  it('should throw error if entry number not present in entry', () => {
-    component.cartEntry = {};
-    expect(() => component.getEntityKey()).toThrowError();
+    it('should throw error if entry number not present in entry', () => {
+      component.cartEntry = {};
+      expect(() => component.getEntityKey()).toThrowError();
+    });
+
+    it('should take order code into account in case entry is from order', () => {
+      const orderCode = '01008765';
+      component.cartEntry = { entryNumber: 0, orderCode: orderCode };
+      expect(component.getEntityKey()).toBe(orderCode + '+0');
+    });
   });
 
   it('should compile correct route for cart entry', () => {
@@ -86,9 +94,11 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.getRoute()).toBe('configureOverview' + configuratorType);
   });
 
-  it('should compile displayOnly method', () => {
-    component.readOnly = true;
-    expect(component.getDisplayOnly()).toBe(true);
+  describe('getDisplayOnly', () => {
+    it('should derive result from component if available', () => {
+      component.readOnly = true;
+      expect(component.getDisplayOnly()).toBe(true);
+    });
   });
 
   it("should return 'false' for disabled when readOnly true", () => {

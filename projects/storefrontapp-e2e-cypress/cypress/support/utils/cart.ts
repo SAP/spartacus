@@ -67,6 +67,7 @@ export function addToCartWithProducts(
   const addToCartUrl = `${Cypress.env('API_URL')}/${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
+  
   return cy.request({
     method: 'POST',
     url: addToCartUrl,
@@ -75,6 +76,35 @@ export function addToCartWithProducts(
         code: productCode,
       },
       quantity: quantity,
+    },
+    headers: {
+      Authorization: `bearer ${accessToken}`,
+    },
+  });
+}
+
+export function addProductToB2BCart(
+  cartCode: string,
+  productCode: string,
+  quantity: string,
+  accessToken: string
+) {
+  const addToCartUrl = `${Cypress.env('API_URL')}/${Cypress.env(
+    'OCC_PREFIX'
+  )}/${Cypress.env('BASE_SITE')}/orgUsers/current/carts/${cartCode}/entries/`;
+
+  return cy.request({
+    method: 'POST',
+    url: addToCartUrl,
+    body: {
+      orderEntries: [
+        {
+          product: {
+            code: productCode,
+          },
+          quantity: quantity,
+        },
+      ],
     },
     headers: {
       Authorization: `bearer ${accessToken}`,

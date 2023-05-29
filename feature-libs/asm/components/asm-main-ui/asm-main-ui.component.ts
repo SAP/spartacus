@@ -159,6 +159,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                 customerId: result.customerId,
               });
               this.showCreateCustomerSuccessfullyAlert = true;
+              this.routingService.go('/');
             }
             if (
               'actionType' in result &&

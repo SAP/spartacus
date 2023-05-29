@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+const cartItemQuantityStepperSelector = '.cx-value cx-item-counter';
+
 /**
  * Clicks on the 'Edit Configuration' link in cart for a certain cart item.
  *
@@ -14,9 +16,12 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
     .as('aElement');
+
   cy.get('@aElement')
     .find('a:contains("Edit")')
-    .click()
+    .click({
+      force: true,
+    })
     .then(() => {
       cy.location('pathname').should('contain', '/cartEntry/entityKey/');
     });
@@ -76,4 +81,51 @@ export function defineOrderNumberAlias(): void {
       expect(orderNumber).match(/^[0-9]+$/);
       cy.wrap(orderNumber).as('orderNumber');
     });
+}
+
+/**
+ * Verifies whether a quantity value that has entered into the quantity stepper is equal to the expected value.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} quantity - Quantity value
+ */
+export function checkQuantityStepper(cartItemIndex: number, quantity: number) {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('.cx-quantity')
+    .as('aElement');
+
+  cy.get('@aElement')
+    .find(cartItemQuantityStepperSelector + ' input')
+    .should('have.value', quantity.toString());
+}
+
+function changeQuantityValue(cartItemIndex: number, sign: string) {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('.cx-quantity')
+    .as('aElement');
+
+  cy.get('@aElement')
+    .find(cartItemQuantityStepperSelector + ' button')
+    .contains(sign)
+    .click();
+}
+
+/**
+ * Increase a quantity value of the quantity stepper.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function increaseQuantity(cartItemIndex: number) {
+  changeQuantityValue(cartItemIndex, '+');
+}
+
+/**
+ * Decrease a quantity value of the quantity stepper.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function decreaseQuantity(cartItemIndex: number) {
+  changeQuantityValue(cartItemIndex, '-');
 }
