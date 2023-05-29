@@ -335,6 +335,7 @@ describe('AsmBindCartComponent', () => {
       spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
       spyOn(multiCartFacade, 'getCartEntity').and.returnValue(
         of({
+          loading: false,
           success: true,
           value: {
             code: inactiveCartId,
