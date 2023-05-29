@@ -10,7 +10,6 @@ import { Observable, throwError } from 'rxjs';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import { CDC_USER_PREFERENCE_SERIALIZER } from '../converters/converter';
 import { tap } from 'rxjs/operators';
-import { CdcLocalStorageTemplate } from '../../../core/models/cdc-site-consents.model';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentService {
@@ -20,7 +19,7 @@ export class CdcUserConsentService {
     protected cdcJsService: CdcJsService,
     protected converter: ConverterService,
     protected cdcConsentsStorage: CdcConsentsLocalStorageService
-  ) { }
+  ) {}
 
   updateCdcConsent(
     isConsentGranted: boolean,
@@ -76,20 +75,4 @@ export class CdcUserConsentService {
     return currentLanguage;
   }
 
-  persistCdcSiteConsents() {
-    var consents: CdcLocalStorageTemplate[] = [];
-    this.cdcJsService.getSiteConsentDetails().subscribe((siteConsent) => {
-      var siteDetails = siteConsent.siteConsentDetails;
-      for (var key in siteDetails) {
-        //key will be a string with dot separated IDs
-        if (Object.hasOwn(siteDetails, key)) {
-          let consent: any = {};
-          consent.id = key;
-          consent.required = siteDetails[key]?.isMandatory;
-          consents.push(consent);
-        }
-      }
-      this.cdcConsentsStorage.syncCdcConsentsState(consents);
-    });
-  }
 }

@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { CdcConsentManagementService } from './services/cdc-consent-management.service';
 import { CdcConsentsLocalStorageService } from './services/cdc-consents-local-storage.service';
 import { CdcUserConsentService } from './services/cdc-user-consent.service';
 
@@ -24,13 +25,14 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
     protected cdcUserConsentService: CdcUserConsentService,
-    protected cdcConsentsStorage: CdcConsentsLocalStorageService
+    protected cdcConsentsStorage: CdcConsentsLocalStorageService,
+    protected cdcConsentManagementService: CdcConsentManagementService,
   ) {
     super(http, occEndpoints, converter);
   }
 
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
-    this.cdcUserConsentService.persistCdcSiteConsents();
+    this.cdcConsentManagementService.persistCdcSiteConsents();
     return super.loadConsents(userId);
   }
   giveConsent(

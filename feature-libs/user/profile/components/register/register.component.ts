@@ -6,6 +6,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -28,12 +29,14 @@ import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
+import { RegisterFormService } from './register-form.service';
 
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+
   titles$: Observable<Title[]>;
 
   isLoading$ = new BehaviorSubject(false);
@@ -60,6 +63,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         value: false,
         disabled: this.isConsentRequired(),
       }),
+      extraConsents: this.registerFormService.generateConsentsFormControl(),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -69,6 +73,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
+  extraConsents = this. registerForm.controls.extraConsents as FormArray;
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -77,8 +82,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
-    protected registerComponentService: RegisterComponentService
+    protected registerComponentService: RegisterComponentService,
+    protected registerFormService: RegisterFormService
   ) {}
+
+  registrationConsents$: Observable<{
+    template: ConsentTemplate;
+    required: boolean;
+  }[]>;
+
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -131,6 +143,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this.registrationConsents$ = this.registerFormService.loadExtraRegistrationConsents();
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

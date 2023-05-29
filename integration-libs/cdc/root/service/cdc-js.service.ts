@@ -25,7 +25,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
-import { CdcSiteConsentTemplate } from '../../core/models/cdc-site-consents.model';
+import { CdcSiteConsentTemplate } from '../../core/models/cdc-consent-management.model';
 import {
   combineLatest,
   Observable,
@@ -226,6 +226,7 @@ export class CdcJsService implements OnDestroy {
           firstName: user.firstName,
           lastName: user.lastName,
         },
+        preferences: user.preferences,
         regSource: regSource,
         regToken: response.regToken,
         finalizeRegistration: true,

@@ -393,6 +393,7 @@ describe('CdcJsService', () => {
           password: 'password',
           firstName: 'fname',
           lastName: 'lname',
+          preferences: {},
         },
         { regToken: 'TOKEN' }
       ).subscribe({
@@ -404,6 +405,7 @@ describe('CdcJsService', () => {
               firstName: 'fname',
               lastName: 'lname',
             },
+            preferences: {},
             regToken: 'TOKEN',
             regSource: 'https://spartacus.cx',
             finalizeRegistration: true,

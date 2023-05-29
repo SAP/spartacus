@@ -6,11 +6,18 @@
 
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CdcJsService, CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
+import {
+  CdcConsentManagementService,
+  CdcJsService,
+  CdcLoadUserTokenFailEvent,
+  CDC_USER_PREFERENCE_SERIALIZER,
+} from '@spartacus/cdc/root';
 import {
   AuthService,
   Command,
   CommandService,
+  ConsentTemplate,
+  ConverterService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -56,7 +63,9 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected globalMessageService: GlobalMessageService,
     protected authService: AuthService,
     protected eventService: EventService,
-    protected userProfileFacade: UserProfileFacade
+    protected userProfileFacade: UserProfileFacade,
+    protected cdcConsentManagementService: CdcConsentManagementService,
+    protected converter: ConverterService
   ) {
     super(userRegisterFacade, globalMessageService);
   }
@@ -70,6 +79,9 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
       return throwError(`The provided user is not valid: ${user}`);
     }
+
+    /** fill the user preferences */
+    user.preferences = this.generatePreferencesObject();
 
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
@@ -101,6 +113,25 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           .pipe(filter((userObj): userObj is User => Boolean(userObj)));
       })
     );
+  }
+
+  generatePreferencesObject(): any {
+    var preferences = {};
+    let consentIDs = this.cdcConsentManagementService.getCdcRequiredConsents();
+    for (var id in consentIDs) {
+      if (Object.hasOwn(consentIDs, id)) {
+        let consent: ConsentTemplate = {};
+        consent.id = consentIDs[id];
+        consent.currentConsent = {};
+        consent.currentConsent.consentGivenDate = new Date();
+        let serializedPreference: any = this.converter.convert(
+          consent,
+          CDC_USER_PREFERENCE_SERIALIZER
+        );
+        preferences = Object.assign(preferences,serializedPreference);
+      }
+    }
+    return preferences;
   }
 
   // @override

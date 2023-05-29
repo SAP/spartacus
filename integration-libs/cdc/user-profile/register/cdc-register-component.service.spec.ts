@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { CdcJsService } from '@spartacus/cdc/root';
+import { CdcConsentManagementService, CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
+  ConverterService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -70,7 +71,14 @@ const mockedGlobalMessageService = {
   add: () => {},
   remove: () => {},
 };
-
+class MockConverterService implements Partial<ConverterService> {
+  convert = createSpy();
+}
+class MockCdcConsentManagementService
+  implements Partial<CdcConsentManagementService>
+{
+  getCdcRequiredConsents = createSpy();
+}
 describe('CdcRegisterComponentService', () => {
   let cdcUserRegisterService: CDCRegisterComponentService;
   let connector: UserProfileConnector;
@@ -79,6 +87,8 @@ describe('CdcRegisterComponentService', () => {
   let userRegisterFacade: UserRegisterFacade;
   let authService: AuthService;
   let eventService: EventService;
+  let converter: ConverterService;
+  let cdcConsentManagementService: CdcConsentManagementService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -95,6 +105,14 @@ describe('CdcRegisterComponentService', () => {
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: EventService, useClass: MockEventService },
         { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
+        {
+          provide: ConverterService,
+          useClass: MockConverterService,
+        },
+        {
+          provide: CdcConsentManagementService,
+          useClass: MockCdcConsentManagementService,
+        },
         CDCRegisterComponentService,
       ],
     });
@@ -106,7 +124,8 @@ describe('CdcRegisterComponentService', () => {
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
     authService = TestBed.inject(AuthService);
     eventService = TestBed.inject(EventService);
-
+    converter = TestBed.inject(ConverterService);
+    cdcConsentManagementService = TestBed.inject(CdcConsentManagementService);
     TestBed.compileComponents();
   });
 
@@ -128,6 +147,15 @@ describe('CdcRegisterComponentService', () => {
 
   describe('Register', () => {
     it('should be able to register user through CDC', (done) => {
+      converter.convert = createSpy().and.returnValue({
+        others: {
+          survey: {
+            isConsentGranted: true,
+          },
+        },
+      });
+      cdcConsentManagementService.getCdcRequiredConsents =
+        createSpy().and.returnValue(['others.survey']);
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();
         expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
@@ -136,6 +164,13 @@ describe('CdcRegisterComponentService', () => {
           lastName: 'lastName',
           uid: 'uid',
           password: 'password',
+          preferences: {
+            others: {
+              survey: {
+                isConsentGranted: true,
+              },
+            },
+          },
         });
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
@@ -213,7 +248,15 @@ describe('CdcRegisterComponentService', () => {
 
     it('should not do anything when user is not logged in', (done) => {
       authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
-
+      converter.convert = createSpy().and.returnValue({
+        others: {
+          survey: {
+            isConsentGranted: true,
+          },
+        },
+      });
+      cdcConsentManagementService.getCdcRequiredConsents =
+        createSpy().and.returnValue(['others.survey']);
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();
         expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
@@ -222,9 +265,40 @@ describe('CdcRegisterComponentService', () => {
           lastName: 'lastName',
           uid: 'uid',
           password: 'password',
+          preferences: {
+            others: {
+              survey: {
+                isConsentGranted: true,
+              },
+            },
+          },
         });
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
+      done();
+    });
+
+    it('should generate preferences for user registration', (done) => {
+      converter.convert = createSpy().and.returnValue({
+        others: {
+          survey: {
+            isConsentGranted: true,
+          },
+        },
+      });
+      cdcConsentManagementService.getCdcRequiredConsents =
+        createSpy().and.returnValue(['others.survey']);
+      let result = cdcUserRegisterService.generatePreferencesObject();
+      expect(
+        cdcConsentManagementService.getCdcRequiredConsents
+      ).toHaveBeenCalled();
+      expect(result).toEqual({
+        others: {
+          survey: {
+            isConsentGranted: true,
+          },
+        },
+      });
       done();
     });
   });
