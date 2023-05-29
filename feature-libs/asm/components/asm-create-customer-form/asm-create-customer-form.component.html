@@ -23,13 +23,17 @@
               (closeMessage)="closeDialogInfoAlert()"
             >
             </cx-message>
-            <cx-message
-              *ngIf="showDialogBackendErrorAlert"
-              [text]="backendErrorMessage"
-              [type]="globalMessageType.MSG_TYPE_ERROR"
-              (closeMessage)="closeDialogBackendErroAlert()"
+            <ng-container
+              *ngFor="let errorMessage of backendErrorMessages; let i = index"
             >
-            </cx-message>
+              <cx-message
+                *ngIf="showDialogBackendErrorAlerts[i]"
+                [text]="errorMessage"
+                [type]="globalMessageType.MSG_TYPE_ERROR"
+                (closeMessage)="closeDialogBackendErroAlert(i)"
+              >
+              </cx-message>
+            </ng-container>
           </div>
 
           <div class="form-group">
