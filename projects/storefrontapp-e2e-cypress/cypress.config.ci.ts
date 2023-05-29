@@ -29,7 +29,7 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
-    BACK_OFFICE_URL: 'https://20.83.184.244:9002',
+    BACK_OFFICE_URL: 'https://20.55.1.150:9002',
     BACK_OFFICE_PREFIX: '/backoffice',
   },
   e2e: {
