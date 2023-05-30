@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -41,6 +42,12 @@ const MockWindowRef = {
   },
 };
 
+class MockAsmEnablerService implements Partial<AsmEnablerService> {
+  isEmulateInURL(): boolean {
+    return true;
+  }
+}
+
 describe('AsmComponentService', () => {
   let authService: AuthService;
   let csAgentAuthService: CsAgentAuthService;
@@ -53,6 +60,7 @@ describe('AsmComponentService', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: AsmEnablerService, useClass: MockAsmEnablerService },
       ],
     });
 
