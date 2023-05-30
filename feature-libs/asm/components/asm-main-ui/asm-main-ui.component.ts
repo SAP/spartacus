@@ -79,9 +79,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     routingService: RoutingService,
     asmService: AsmService,
     userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig: FeatureConfigService
+    launchDialogService: LaunchDialogService
   );
   /**
    * @deprecated since 7.0
@@ -94,7 +92,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     routingService: RoutingService,
     asmService: AsmService,
     userAccountFacade: UserAccountFacade,
-    launchDialogService: LaunchDialogService
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig: FeatureConfigService
   );
   constructor(
     protected authService: AuthService,
