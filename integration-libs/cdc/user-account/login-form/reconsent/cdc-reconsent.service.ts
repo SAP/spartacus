@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { CdcUserConsentService } from '../../root/consent-management';
+import { CdcUserConsentService } from '../../../root/consent-management';
 import { Subscription } from 'rxjs';
-import { CdcJsService } from '../../root/service';
+import { CdcJsService } from '../../../root/service';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({ providedIn: 'root' })

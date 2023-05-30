@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { CdcReConsentEvent } from '../../root/events';
+import { CdcReConsentEvent } from '../../../root/events';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 @Injectable({

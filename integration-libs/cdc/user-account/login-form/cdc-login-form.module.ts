@@ -23,7 +23,7 @@ import {
   LoginFormComponent,
   LoginFormComponentService,
 } from '@spartacus/user/account/components';
-import { CdcReconsentModule } from '../reconsent/cdc-reconsent.module';
+import { CdcReconsentModule } from './reconsent/cdc-reconsent.module';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 
 @NgModule({

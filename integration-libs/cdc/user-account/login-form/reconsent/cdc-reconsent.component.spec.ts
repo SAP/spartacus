@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { CdcJsService } from '../../root/service';
+import { CdcJsService } from '../../../root/service';
 import { of, Subscription } from 'rxjs';
 import { CdcReconsentComponent } from './cdc-reconsent.component';
 import { CdcReconsentService } from './cdc-reconsent.service';
