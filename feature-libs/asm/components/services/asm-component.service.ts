@@ -26,6 +26,7 @@ export class AsmComponentService {
     authService: AuthService,
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     asmEnablerService: AsmEnablerService
   );
   /**
