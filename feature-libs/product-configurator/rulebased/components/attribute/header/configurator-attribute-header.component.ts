@@ -59,7 +59,7 @@ export class ConfiguratorAttributeHeaderComponent
       Configurator.GroupType.ATTRIBUTE_GROUP;
     this.expMode = attributeComponentContext.expMode;
     this.isNavigationToGroupEnabled =
-      attributeComponentContext.isNavigationToGroupEnabled;
+      attributeComponentContext.isNavigationToGroupEnabled ?? false;
   }
 
   ngOnInit(): void {

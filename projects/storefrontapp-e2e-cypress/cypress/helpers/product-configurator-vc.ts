@@ -6,7 +6,8 @@
 
 import * as configuration from './product-configurator';
 
-const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
+const addToCartButtonSelector =
+  'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
@@ -133,6 +134,14 @@ export function checkLoadingMsgNotDisplayed(): void {
  */
 export function checkGlobalMessageNotDisplayed(): void {
   cy.get('cx-global-message').should('not.be.visible');
+}
+
+/**
+ * Verifies whether the global message is displayed and contains a text
+ * @param {string} text - We expect this text to appear in the global message
+ */
+export function checkGlobalMessageContains(text: string): void {
+  cy.get('cx-global-message').should('contain', text);
 }
 
 /**

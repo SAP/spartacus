@@ -34,7 +34,7 @@ export const asm = {
       },
       submit: 'Start Session',
       noMatch: 'No customer found.',
-      noMatchResult: 'This account cannot be found. ',
+      noMatchResult: 'This account cannot be found.',
       createCustomer: 'Create New Customer',
     },
     createCustomerForm: {
@@ -55,6 +55,13 @@ export const asm = {
       },
       createAccountAlert:
         'The customer session starts once you create the customer account.',
+      validationErrors: {
+        firstName: 'Enter a valid first name.',
+        lastName: 'Enter a valid last name.',
+        emailAddress: 'Enter a valid email address.',
+      },
+      badRequestDuplicatedEmail:
+        'Enter a different email address as {{ emailAddress }} already exists.',
     },
     customerList: {
       title: 'Customer List',
@@ -82,8 +89,8 @@ export const asm = {
         byDateDesc: 'Date (Desc)',
         byOrderDateAsc: 'Order date (Asc)',
         byOrderDateDesc: 'Order date (Desc)',
-        byUnit: 'Unit (Asc)',
-        byUnitDesc: 'Unit (Desc)',
+        byUnit: 'Account (Asc)',
+        byUnitDesc: 'Account (Desc)',
       },
       page: {
         page: 'Page {{count}}',
@@ -91,12 +98,14 @@ export const asm = {
         next: 'Next',
       },
       noOfCustomers: '{{count}} Customers',
+      oneCustomer: '1 Customer',
       noCustomers: 'There are currently no customers in this customer list.',
       noLists:
         'There are currently no customer lists available. Contact your system administrator.',
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
       searchBox: 'Search',
+      enterSearchBox: 'Enter customer name or email',
     },
     bindCart: {
       cartNumber: 'Cart Number',

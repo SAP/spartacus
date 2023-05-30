@@ -8,6 +8,10 @@
     align-self: flex-end;
     padding-bottom: 2rem;
     padding-inline-start: 3rem;
+
+    @include forVersion(6.1) {
+      padding-inline-start: 0;
+    }
   }
 
   @include media-breakpoint-down(sm) {

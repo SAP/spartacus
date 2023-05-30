@@ -10,7 +10,7 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
-import { SampleUser } from '../sample-data/checkout-flow';
+import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import {
   interceptGet,
   interceptPatch,
@@ -24,6 +24,61 @@ import {
   waitForPage,
 } from './navigation';
 import { generateMail, randomString } from './user';
+
+export const invalidUser: SampleUser = {
+  firstName:
+    'JohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohn',
+  lastName:
+    'SmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmithSmith',
+  email:
+    'john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith.john.smith@test.com',
+};
+
+const asmForB2CCustomer = 'aaron.customer@hybris.com';
+const asmForB2BCustomer = 'Gi Sun';
+
+export function placeOrderForB2CCustomer(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    console.info(auth);
+    cy.addToCart(productCode, 1, auth.token.access_token).then((cartId) => {
+      cy.requireDeliveryAddressAdded(
+        getSampleUser().address,
+        auth.token,
+        cartId
+      );
+      cy.requireDeliveryMethodSelected(auth.token, cartId);
+      cy.requirePaymentMethodAdded(cartId);
+      cy.requirePlacedOrder(auth.token, cartId);
+    });
+  });
+}
+
+export function addProductToB2CCart(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    cy.addToCart(productCode, 1, auth.token.access_token);
+  });
+}
+
+export function addProductToB2BCart(
+  customer: string,
+  pwd: string,
+  productCode: string
+): void {
+  cy.login(customer, pwd).then(() => {
+    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    cy.addProductToB2BCart(productCode, 1, auth.token.access_token);
+  });
+}
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
@@ -129,22 +184,6 @@ export function asmCustomerLists(): void {
   cy.get('cx-customer-list table').should('contain', 'Order');
   cy.get('cx-customer-list table').should('not.contain', 'Account');
 
-  cy.log('--> checking customer list pagination');
-  cy.get('cx-customer-list .cx-btn-previous').should('be.disabled');
-  cy.get('cx-customer-list .cx-btn-next').then((button) => {
-    cy.wrap(button).click();
-    cy.wait(customerSearchRequestAlias)
-      .its('response.statusCode')
-      .should('eq', 200);
-  });
-  cy.get('cx-customer-list .cx-btn-previous').should('not.be.disabled');
-  cy.get('cx-customer-list .cx-btn-previous').then((button) => {
-    cy.wrap(button).click();
-    cy.wait(customerSearchRequestAlias)
-      .its('response.statusCode')
-      .should('eq', 200);
-  });
-
   cy.log('--> checking customer number');
   cy.get('cx-customer-list .cx-total')
     .should('exist')
@@ -220,12 +259,21 @@ export function asmCustomerLists(): void {
 
   cy.log('--> start emulation by click order');
   asm.asmOpenCustomerList();
-  cy.get('cx-customer-list')
-    .find('.cx-btn-cell')
-    .filter('[aria-label="Order"]')
-    .then(($rows) => {
-      expect($rows.length).to.eq(5);
-      cy.wrap($rows[0]).click();
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${asmForB2CCustomer}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table')
+    .contains('tbody tr', asmForB2CCustomer)
+    .closest('tbody tr')
+    .find('td:nth-child(6)')
+    .then(($order) => {
+      cy.wrap($order).click();
       cy.get('cx-customer-list').should('not.exist');
       cy.get('cx-order-history').should('exist');
     });
@@ -269,6 +317,118 @@ export function asmB2bCustomerLists(): void {
   cy.get('cx-customer-list table').contains('Account');
   cy.get('cx-customer-list button.cx-asm-customer-list-btn-cancel').click();
   cy.get('cx-customer-list').should('not.exist');
+
+  cy.log('--> start emulation by click cart');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+
+  cy.log('--> click cart to jump to the cart view page.');
+  cy.get('cx-customer-list .cx-header-actions .search-wrapper input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(`${asmForB2BCustomer}{enter}`);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table')
+    .contains('tbody tr', asmForB2BCustomer)
+    .closest('tbody tr')
+    .find('td:nth-child(5)')
+    .then(($cart) => {
+      cy.wrap($cart).click();
+      cy.get('cx-customer-list').should('not.exist');
+      cy.get('cx-add-to-saved-cart').should('exist');
+    });
+}
+
+export function asmB2bCustomerListPagination(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+
+  cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-pagination').should('not.be.visible');
+
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+  cy.get('cx-pagination').should('be.visible');
+  cy.get('button').contains('Cancel').click();
+}
+
+export function asmCustomerListPagination(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
+
+  cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-pagination').should('be.visible');
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
+  cy.get('cx-pagination').should('not.be.visible');
+  cy.get('button').contains('Cancel').click();
 }
 
 export function startCustomerEmulation(customer, b2b = false): void {
@@ -528,8 +688,8 @@ export function asmOpenCreateCustomerDialogOnCustomerSelectionDropdown(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results a').should('exist');
-  cy.get('cx-customer-selection div.asm-results a').click();
+  cy.get('cx-customer-selection div.asm-results button').should('exist');
+  cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-asm-create-customer-form').should('exist');
   cy.get('cx-asm-create-customer-form form').should('exist');
 }
@@ -570,9 +730,9 @@ export function fillCreateCustomerForm({
 }: SampleUser) {
   cy.get('cx-asm-create-customer-form').should('be.visible');
   cy.get('cx-asm-create-customer-form').within(() => {
-    cy.get('[formcontrolname="firstName"]').type(firstName);
-    cy.get('[formcontrolname="lastName"]').type(lastName);
-    cy.get('[formcontrolname="email"]').type(email);
+    cy.get('[formcontrolname="firstName"]').clear().type(firstName);
+    cy.get('[formcontrolname="lastName"]').clear().type(lastName);
+    cy.get('[formcontrolname="email"]').clear().type(email);
   });
 }
 
