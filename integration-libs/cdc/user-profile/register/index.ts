@@ -6,3 +6,4 @@
 
 export * from './cdc-register-component.service';
 export * from './cdc-register.module';
+export * from './cdc-register-form.service';
