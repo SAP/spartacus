@@ -74,5 +74,4 @@ export class CdcUserConsentService {
       .unsubscribe();
     return currentLanguage;
   }
-
 }

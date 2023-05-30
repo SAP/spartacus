@@ -16,7 +16,8 @@ const consentTemplateVersion = 0;
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
   updateCdcConsent = createSpy();
 }
-class MockCdcConsentManagementService implements Partial<CdcConsentManagementService>
+class MockCdcConsentManagementService
+  implements Partial<CdcConsentManagementService>
 {
   persistCdcSiteConsents = createSpy();
 }
@@ -65,7 +66,9 @@ describe('CdcUserConsentAdapter', () => {
   });
   it('loadConsents() - load cdc site consents', () => {
     service.loadConsents('current').subscribe();
-    expect(cdcConsentManagementService.persistCdcSiteConsents).toHaveBeenCalled();
+    expect(
+      cdcConsentManagementService.persistCdcSiteConsents
+    ).toHaveBeenCalled();
     httpMock.expectOne((req) => {
       return req.method === 'GET';
     });

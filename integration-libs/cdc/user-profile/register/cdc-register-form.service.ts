@@ -5,26 +5,25 @@ import {
   UntypedFormBuilder,
   Validators,
 } from '@angular/forms';
-import {
-  CdcConsentManagementService,
-} from '@spartacus/cdc/root';
+import { CdcConsentManagementService } from '@spartacus/cdc/root';
 import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
 import { RegisterFormService } from '@spartacus/user/profile/components';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CdcRegisterFormService extends RegisterFormService {
   constructor(
     protected cdcConsentManagementService: CdcConsentManagementService,
     protected fb: UntypedFormBuilder,
-    protected anonymousConsentsService: AnonymousConsentsService,
+    protected anonymousConsentsService: AnonymousConsentsService
   ) {
     super(fb);
     this.cdcConsentManagementService.persistCdcSiteConsents();
   }
   generateConsentsFormControl(): UntypedFormArray {
-    var cdcRequiredConsents: string[] =  this.cdcConsentManagementService.getCdcRequiredConsents();
+    var cdcRequiredConsents: string[] =
+      this.cdcConsentManagementService.getCdcRequiredConsents();
     var consentArray = this.fb.array([]);
     for (let consent of cdcRequiredConsents) {
       let element: any = {};
@@ -39,7 +38,8 @@ export class CdcRegisterFormService extends RegisterFormService {
       required: boolean;
     }[]
   > {
-    var cdcRequiredConsents: string[] =  this.cdcConsentManagementService.getCdcRequiredConsents();
+    var cdcRequiredConsents: string[] =
+      this.cdcConsentManagementService.getCdcRequiredConsents();
     return this.anonymousConsentsService.getTemplates().pipe(
       map((templates) => {
         var returnConsents: {

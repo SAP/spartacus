@@ -26,7 +26,7 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
     protected converter: ConverterService,
     protected cdcUserConsentService: CdcUserConsentService,
     protected cdcConsentsStorage: CdcConsentsLocalStorageService,
-    protected cdcConsentManagementService: CdcConsentManagementService,
+    protected cdcConsentManagementService: CdcConsentManagementService
   ) {
     super(http, occEndpoints, converter);
   }

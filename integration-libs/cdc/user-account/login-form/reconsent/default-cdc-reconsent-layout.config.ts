@@ -5,7 +5,7 @@ export const defaultCdcReconsentLayoutConfig: LayoutConfig = {
   launch: {
     CDC_RECONSENT: {
       inlineRoot: true,
-      component:  CdcReconsentComponent,
+      component: CdcReconsentComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

@@ -64,11 +64,14 @@ describe('CdcConsentManagementService', () => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],
-      providers: [CdcConsentsLocalStorageService, ConsentManagementService,
+      providers: [
+        CdcConsentsLocalStorageService,
+        ConsentManagementService,
         {
           provide: CdcJsService,
           useClass: MockCdcJsService,
-        },],
+        },
+      ],
     });
     service = TestBed.inject(CdcConsentManagementService);
     store = TestBed.inject(CdcConsentsLocalStorageService);

@@ -128,7 +128,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           consent,
           CDC_USER_PREFERENCE_SERIALIZER
         );
-        preferences = Object.assign(preferences,serializedPreference);
+        preferences = Object.assign(preferences, serializedPreference);
       }
     }
     return preferences;

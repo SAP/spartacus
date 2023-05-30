@@ -36,7 +36,7 @@ import { CdcLoginFormComponentService } from './cdc-login-form-component.service
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
-    CdcReconsentModule
+    CdcReconsentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

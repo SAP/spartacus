@@ -36,7 +36,6 @@ import { RegisterFormService } from './register-form.service';
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-
   titles$: Observable<Title[]>;
 
   isLoading$ = new BehaviorSubject(false);
@@ -73,7 +72,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
-  extraConsents = this. registerForm.controls.extraConsents as FormArray;
+  extraConsents = this.registerForm.controls.extraConsents as FormArray;
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -86,11 +85,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected registerFormService: RegisterFormService
   ) {}
 
-  registrationConsents$: Observable<{
-    template: ConsentTemplate;
-    required: boolean;
-  }[]>;
-
+  registrationConsents$: Observable<
+    {
+      template: ConsentTemplate;
+      required: boolean;
+    }[]
+  >;
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -144,7 +144,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.registrationConsents$ = this.registerFormService.loadExtraRegistrationConsents();
+    this.registrationConsents$ =
+      this.registerFormService.loadExtraRegistrationConsents();
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
