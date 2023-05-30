@@ -11,6 +11,7 @@ import {
   ReplaySubject,
   Subject,
   Subscription,
+  defer,
   zip,
 } from 'rxjs';
 import {
@@ -18,7 +19,6 @@ import {
   concatMap,
   finalize,
   mergeMap,
-  retry,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -47,36 +47,42 @@ export class CommandService implements OnDestroy {
   }
 
   create<PARAMS = undefined, RESULT = unknown>(
-    commandFactory: (command: PARAMS) => Observable<any>,
+    commandFactory: (command: PARAMS) => Observable<RESULT>,
     options?: { strategy?: CommandStrategy }
   ): Command<PARAMS, RESULT> {
     const commands$ = new Subject<PARAMS>();
     const results$ = new Subject<ReplaySubject<RESULT>>();
 
-    let process$: Observable<any>;
+    let process$: Observable<unknown>;
 
     switch (options?.strategy) {
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
           switchMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
+            defer(() => commandFactory(cmd)).pipe(
               tap(notifier$),
-              finalize(() =>
-                options.strategy === CommandStrategy.CancelPrevious
-                  ? notifier$.complete()
-                  : notifier$.error(new Error('Canceled by next command'))
-              )
+              catchError(() => EMPTY),
+              finalize(() => {
+                // do not overwrite existing existing ending state
+                if (!notifier$.closed && !notifier$.hasError) {
+                  // command has not ended yet, so close notifier$ according to strategy
+                  if (options.strategy === CommandStrategy.ErrorPrevious) {
+                    notifier$.error(new Error('Canceled by next command'));
+                  } else {
+                    notifier$.complete();
+                  }
+                }
+              })
             )
-          ),
-          retry()
+          )
         );
         break;
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
           mergeMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
+            defer(() => commandFactory(cmd)).pipe(
               tap(notifier$),
               catchError(() => EMPTY)
             )
@@ -88,7 +94,7 @@ export class CommandService implements OnDestroy {
       default:
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
-            commandFactory(cmd).pipe(
+            defer(() => commandFactory(cmd)).pipe(
               tap(notifier$),
               catchError(() => EMPTY)
             )
