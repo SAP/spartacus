@@ -29,13 +29,12 @@ mockEvent.password = 'password';
 mockEvent.consentIds = ['consent.survey', 'terms.of.use'];
 mockEvent.errorMessage = 'Account Registration Pending';
 mockEvent.regToken = 'xcEfsd123';
-describe(`CdcReconsentDialogEventListener`, () => {
+describe('CdcReconsentDialogEventListener', () => {
   let listener: CdcReconsentDialogEventListener;
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CdcReconsentDialogEventListener,
         {
           provide: EventService,
           useClass: MockEventService,
@@ -49,18 +48,32 @@ describe(`CdcReconsentDialogEventListener`, () => {
     listener = TestBed.inject(CdcReconsentDialogEventListener);
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
+  it('should create listener', () => {
+    expect(listener).toBeTruthy();
+  });
   describe('onReconsent', () => {
-    it('should open dialogue on event', () => {
+    it('should receive event and trigger dialog opening', () => {
       spyOn(listener as any, 'openDialogue').and.stub();
       mockEventStream$.next(mockEvent);
       expect(listener['openDialogue']).toHaveBeenCalledWith(mockEvent);
     });
   });
   describe('openDialogue', () => {
-    it('should open the reconsent dialog', () => {
-      spyOn(launchDialogService, 'openDialog').and.callThrough();
+    it('should open reconsent dialog', () => {
+      spyOn(launchDialogService, 'openDialog').and.stub();
       listener['openDialogue'](mockEvent);
-      expect(launchDialogService.openDialog).toHaveBeenCalled();
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CDC_RECONSENT,
+        undefined,
+        undefined,
+        {
+          user: mockEvent.user,
+          password: mockEvent.password,
+          consentIds: mockEvent.consentIds,
+          errorMessage: mockEvent.errorMessage,
+          regToken: mockEvent.regToken,
+        }
+      );
     });
   });
 });
