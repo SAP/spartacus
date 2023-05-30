@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CdcJsService } from '@spartacus/cdc/root';
 import {
   ConsentTemplate,
   ConverterService,
@@ -10,6 +9,7 @@ import { Observable, throwError } from 'rxjs';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import { CDC_USER_PREFERENCE_SERIALIZER } from '../converters/converter';
 import { tap } from 'rxjs/operators';
+import { CdcJsService } from '../../service';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentService {

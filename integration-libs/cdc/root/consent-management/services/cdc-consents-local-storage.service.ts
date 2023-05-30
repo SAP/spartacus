@@ -7,7 +7,8 @@
 import { of, Subscription } from 'rxjs';
 import { StatePersistenceService } from '@spartacus/core';
 import { Injectable, OnDestroy } from '@angular/core';
-import { CdcLocalStorageTemplate } from '../../../core/models/cdc-consent-management.model';
+import { CdcLocalStorageTemplate } from '../cdc-consent-management.model';
+
 
 const KEY = 'cdc-consents-list';
 

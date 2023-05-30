@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { ConverterService, LanguageService } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
+import { CdcJsService } from '../../service';
 import { CdcUserConsentService } from './cdc-user-consent.service';
 import createSpy = jasmine.createSpy;
-import { CdcJsService } from '@spartacus/cdc/root';
+
 const mockUser = { uid: 'sampleuser@mail.com' };
 const mockCdcSdkOutput = {
   errorCode: 0,

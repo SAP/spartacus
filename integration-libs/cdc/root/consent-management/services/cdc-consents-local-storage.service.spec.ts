@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
-import { CdcLocalStorageTemplate } from '../../../core/models/cdc-consent-management.model';
+import { CdcLocalStorageTemplate } from '../cdc-consent-management.model';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 
 import createSpy = jasmine.createSpy;
