@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { ConsentTemplate } from '@spartacus/core';
 import { ConsentManagementService } from '@spartacus/storefront';
-import { CdcLocalStorageTemplate } from '../cdc-consent-management.model';
+import { CdcLocalStorageTemplate } from '../model/cdc-consent-management.model';
 import { CdcJsService } from '../../service';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 

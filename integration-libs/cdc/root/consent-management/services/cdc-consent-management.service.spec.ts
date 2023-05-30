@@ -3,7 +3,7 @@ import { ConsentManagementService } from '@spartacus/storefront';
 import {
   CdcLocalStorageTemplate,
   CdcSiteConsentTemplate,
-} from '../cdc-consent-management.model';
+} from '../model/cdc-consent-management.model';
 import { of } from 'rxjs';
 import { CdcConsentManagementService } from './cdc-consent-management.service';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';

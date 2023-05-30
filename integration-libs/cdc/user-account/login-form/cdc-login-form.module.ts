@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CdcJsService } from '../../root/service';
 import {
   AuthService,
   CmsConfig,
@@ -25,6 +24,7 @@ import {
 } from '@spartacus/user/account/components';
 import { CdcReconsentModule } from './reconsent/cdc-reconsent.module';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
+import { CdcJsService } from '@spartacus/cdc/root';
 
 @NgModule({
   imports: [

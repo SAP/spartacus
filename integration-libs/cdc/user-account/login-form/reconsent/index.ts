@@ -3,3 +3,4 @@ export * from './cdc-reconsent.component';
 export * from './cdc-reconsent.module';
 export * from './cdc-reconsent.service';
 export * from './default-cdc-reconsent-layout.config';
+export * from './cdc-reconsent.model';

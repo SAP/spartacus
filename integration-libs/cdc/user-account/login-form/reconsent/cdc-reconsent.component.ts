@@ -5,13 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { CdcJsService } from '@spartacus/cdc/root';
 import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { CdcJsService } from '../../../root/service';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CdcReconsentService } from './cdc-reconsent.service';
