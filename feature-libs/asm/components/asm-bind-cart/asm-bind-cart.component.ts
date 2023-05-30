@@ -206,7 +206,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.multiCartFacade
       .getCartEntity(this.inactiveCartId)
       .pipe(
-        filter((state) => state.success === true),
+        filter((state) => state.loading === false && state.success === true),
         take(1),
         map((state) => state.value as Cart),
         filter((cart) => !!cart)
