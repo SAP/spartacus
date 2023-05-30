@@ -206,6 +206,12 @@ $sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
         border-color: $sapFiori_Button_Emphasized_Active_BorderColor;
         filter: none;
       }
+
+      &:disabled {
+        &:hover {
+          background-color: var(--cx-color-border-focus);
+        }
+      }
     }
 
     &-secondary {
