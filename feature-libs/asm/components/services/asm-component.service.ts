@@ -92,10 +92,8 @@ export class AsmComponentService {
 
   /**
    * check whether try to emulate customer from deeplink
-   *
-   * @deprecated since 7.0 (undefined will no longer be returned).
    */
-  isEmulateInURL(): boolean | undefined {
-    return this.asmEnablerService?.isEmulateInURL();
+  isEmulateInURL(): boolean {
+    return this.asmEnablerService?.isEmulateInURL() || false;
   }
 }
