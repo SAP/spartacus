@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AsmEnablerService } from '../../root/services/asm-enabler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +23,24 @@ export class AsmComponentService {
     new BehaviorSubject(false);
 
   constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    winRef: WindowRef,
+    asmEnableService: AsmEnablerService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    winRef: WindowRef
+  );
+  constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    @Optional() protected asmEnablerService?: AsmEnablerService
   ) {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }
@@ -72,5 +88,12 @@ export class AsmComponentService {
     if (this.winRef.localStorage) {
       this.winRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
     }
+  }
+
+  /**
+   * check whether try to emulate customer from deeplink
+   */
+  isEmulateInURL(): boolean {
+    return this.asmEnablerService.isEmulateInURL();
   }
 }

@@ -16,7 +16,6 @@ import {
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmDeepLinkParameters,
-  AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
@@ -82,8 +81,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     userAccountFacade: UserAccountFacade,
     launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig: FeatureConfigService,
-    asmEnableService: AsmEnablerService
+    featureConfig: FeatureConfigService
   );
   /**
    * @deprecated since 7.0
@@ -107,8 +105,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected featureConfig?: FeatureConfigService,
-    @Optional() protected asmEnableService?: AsmEnablerService
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -180,7 +177,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    */
   protected subscribeForDeeplink(): void {
     if (this.featureConfig?.isLevel('6.2')) {
-      if (this.asmEnableService?.isEmulateInURL()) {
+      if (this.asmComponentService.isEmulateInURL()) {
         //Always route to home page to avoid 404
         this.routingService.go('/');
       }
