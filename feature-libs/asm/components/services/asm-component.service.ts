@@ -8,10 +8,10 @@ import { Injectable, Optional } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AsmEnablerService } from '../../root/services/asm-enabler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class AsmComponentService {
     authService: AuthService,
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
-    asmEnableService: AsmEnablerService
+    asmEnablerService: AsmEnablerService
   );
   /**
    * @deprecated since 7.0
@@ -92,8 +92,10 @@ export class AsmComponentService {
 
   /**
    * check whether try to emulate customer from deeplink
+   *
+   * @deprecated since 7.0 (undefined will no longer be returned).
    */
-  isEmulateInURL(): boolean {
-    return this.asmEnablerService.isEmulateInURL();
+  isEmulateInURL(): boolean | undefined {
+    return this.asmEnablerService?.isEmulateInURL();
   }
 }
