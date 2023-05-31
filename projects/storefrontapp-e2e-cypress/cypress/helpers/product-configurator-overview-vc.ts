@@ -259,12 +259,8 @@ export function checkViewPortScrolledToGroup(groupIdx: number) {
 }
 
 /**
- * Verifies whether a quantity value that has been entered into the quantity stepper is equal to the expected value.
- *
- * @param expectedValue
+ * Verifies whether a quantity value that has been entered into the quantity stepper is not displayed next to the add-to-cart button.
  */
-export function checkQuantity(expectedValue: number) {
-  cy.get(addToCartQuantitySelector).then((elem) => {
-    expect(elem.text().trim()).to.equal(expectedValue.toString());
-  });
+export function checkQuantityNotDisplayed() {
+  cy.get(addToCartQuantitySelector).should('not.exist');
 }
