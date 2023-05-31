@@ -29,6 +29,8 @@ export const opf = {
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
         loadActiveConfigurations:
           'We are unable to load payment options at this time. Please try again later.',
+        noActiveConfigurations:
+          'There are no payment options available at this time. Please try again later or contact support.',
       },
     },
   },
