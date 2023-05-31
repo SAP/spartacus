@@ -7,15 +7,15 @@
 import { ErrorHandler, StaticProvider } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import {
-  Logger,
+  LoggerService,
   SERVER_REQUEST_ORIGIN,
   SERVER_REQUEST_URL,
-  WindowRef,
 } from '@spartacus/core';
 import { ssrErrorHandlerFactory } from '../error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
-import { ServerLogger, ssrLoggerFactory, ssrLoggerToken } from '../logger';
+import { serverLoggerServiceFactory, serverLoggerToken } from '../logger';
+import { serverLoggerFactory } from '../logger/loggers';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
 import { serverRequestUrlFactory } from './server-request-url';
@@ -39,13 +39,12 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     },
     // for pre-rendering purposes - "there is no Express" fallback
     {
-      provide: ssrLoggerToken,
-      useFactory: ssrLoggerFactory,
+      provide: serverLoggerToken,
+      useFactory: serverLoggerFactory,
     },
     {
-      provide: Logger,
-      useClass: ServerLogger,
-      deps: [REQUEST, ssrLoggerToken, WindowRef],
+      provide: LoggerService,
+      useFactory: serverLoggerServiceFactory,
     },
   ];
 }

@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './adapters/default-express-ssr-logger';
-export * from './adapters/default-ssr-logger';
-export * from './server-logger';
-export * from './ssr-logger';
+export * from './loggers/default-server-logger';
+export * from './loggers/express-server-logger';
+export * from './loggers/server-logger';
+export * from './services/express-logger.service';
+export * from './services/prerendering-logger.service';
+export * from './services/server-logger-factory';

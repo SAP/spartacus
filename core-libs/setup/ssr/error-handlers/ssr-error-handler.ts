@@ -5,11 +5,11 @@
  */
 
 import { ErrorHandler, Injectable, inject } from '@angular/core';
-import { Logger } from '@spartacus/core';
-import { loggerFeatureFlag } from '../logger';
+import { LoggerService } from '@spartacus/core';
+import { loggerEnabled } from '../logger';
 
 export const ssrErrorHandlerFactory = () => {
-  const isLoggerEnabled = inject(loggerFeatureFlag);
+  const isLoggerEnabled = inject(loggerEnabled);
 
   return isLoggerEnabled ? new SsrErrorHandler() : new ErrorHandler();
 };
@@ -18,7 +18,7 @@ export const ssrErrorHandlerFactory = () => {
   providedIn: 'root',
 })
 export class SsrErrorHandler implements ErrorHandler {
-  logger = inject(Logger);
+  logger = inject(LoggerService);
 
   handleError(error: any): void {
     this.logger.error(error);

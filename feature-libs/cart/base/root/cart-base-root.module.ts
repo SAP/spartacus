@@ -7,7 +7,7 @@
 import { NgModule, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  Logger,
+  LoggerService,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -84,7 +84,7 @@ export function defaultCartComponentsConfig() {
 export class CartBaseRootModule {
   // TODO: This is for testing purpose - REMOVE BEFORE RELEASE
   constructor() {
-    const logger = inject(Logger);
+    const logger = inject(LoggerService);
     logger.log('Hello World');
     setTimeout(() => {
       logger.warn(
