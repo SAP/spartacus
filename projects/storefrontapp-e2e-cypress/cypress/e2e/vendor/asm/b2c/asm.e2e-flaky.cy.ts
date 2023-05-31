@@ -782,7 +782,6 @@ context('Assisted Service Module', () => {
   function getCurrentCartId(customerName, customerPwd) {
     return new Promise((resolve, reject) => {
       fetchingToken(customerName, customerPwd, false).then((res) => {
-        // get customerId of it
         createCart(res.body.access_token).then((response) => {
           if (response.status === 200) {
             resolve(response.body.code);
