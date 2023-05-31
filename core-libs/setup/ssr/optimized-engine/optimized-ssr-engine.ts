@@ -11,11 +11,11 @@ import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
-  DefaultExpressSsrLogger,
-  LogMetadata,
-  SsrLogger,
-  loggerFeatureFlag,
-  ssrLoggerToken,
+  ExpressServerLogger,
+  LogContext,
+  ServerLogger,
+  loggerEnabled,
+  serverLoggerToken,
 } from '../logger';
 import { RenderingCache } from './rendering-cache';
 import {
@@ -47,7 +47,7 @@ export type SsrCallbackFn = (
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache = new RenderingCache(this.ssrOptions);
-  protected logger: SsrLogger;
+  protected logger: ServerLogger;
   private templateCache = new Map<string, string>();
 
   /**
@@ -90,7 +90,7 @@ export class OptimizedSsrEngine {
       if (typeof value === 'function') {
         return value.toString();
       }
-      if (value instanceof SsrLogger) {
+      if (value instanceof ServerLogger) {
         return value.constructor.name;
       }
       return value;
@@ -156,10 +156,14 @@ export class OptimizedSsrEngine {
       !this.ssrOptions?.reuseCurrentRendering;
 
     if (fallBack) {
-      this.log(`CSR fallback: rendering in progress (${request?.originalUrl})`);
+      this.log(
+        `CSR fallback: rendering in progress (${request?.originalUrl})`,
+        { request }
+      );
     } else if (concurrencyLimitExceeded) {
       this.log(
-        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
+        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`,
+        { request }
       );
     }
 
@@ -281,7 +285,8 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
         this.log(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
-          { request }
+          { request },
+          false
         );
       }, timeout);
     } else {
@@ -324,11 +329,7 @@ export class OptimizedSsrEngine {
     });
   }
 
-  protected log(
-    message: string,
-    logMetadata?: LogMetadata,
-    debug = true
-  ): void {
+  protected log(message: string, logMetadata?: LogContext, debug = true): void {
     if (debug || this.ssrOptions?.debug) {
       this.logger.log(message, logMetadata);
     }
@@ -452,11 +453,11 @@ export class OptimizedSsrEngine {
       ...options,
       providers: [
         {
-          provide: ssrLoggerToken,
+          provide: serverLoggerToken,
           useValue: this.logger,
         },
         {
-          provide: loggerFeatureFlag,
+          provide: loggerEnabled,
           useValue: !!this.ssrOptions?.logger,
         },
       ],
@@ -485,8 +486,8 @@ export class OptimizedSsrEngine {
 
   private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
     if (typeof ssrOptions?.logger === 'boolean') {
-      return new DefaultExpressSsrLogger();
+      return new ExpressServerLogger();
     }
-    return ssrOptions?.logger ?? new SsrLogger();
+    return ssrOptions?.logger ?? new ServerLogger();
   }
 }

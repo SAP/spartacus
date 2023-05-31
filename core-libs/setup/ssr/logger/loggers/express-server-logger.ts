@@ -5,20 +5,20 @@
  */
 
 import { Request } from 'express';
-import { LogMetadata, SsrLogger } from '../ssr-logger';
+import { LogContext, ServerLogger } from './server-logger';
 
-export class DefaultExpressSsrLogger extends SsrLogger {
-  log(message: string, context: LogMetadata): void {
+export class ExpressServerLogger extends ServerLogger {
+  log(message: string, context: LogContext): void {
     console.log(this.createLogMessage(message, context));
   }
-  warn(message: string, context: LogMetadata): void {
-    console.error(this.createLogMessage(message, context));
+  warn(message: string, context: LogContext): void {
+    console.warn(this.createLogMessage(message, context));
   }
-  error(message: string, context: LogMetadata): void {
+  error(message: string, context: LogContext): void {
     console.error(this.createLogMessage(message, context));
   }
 
-  protected createLogMessage(message: string, context: LogMetadata): string {
+  protected createLogMessage(message: string, context: LogContext): string {
     const timestamp = new Date().toISOString();
     const object = {
       message,

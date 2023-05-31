@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class Logger {
+export class LoggerService {
   log(...args: Parameters<typeof console.log>): void {
     console.log(...args);
   }

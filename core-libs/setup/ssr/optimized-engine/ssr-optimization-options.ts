@@ -5,7 +5,7 @@
  */
 
 import { Request } from 'express';
-import { SsrLogger } from '../logger/ssr-logger';
+import { ServerLogger } from '../logger/loggers/server-logger';
 
 export interface SsrOptimizationOptions {
   /**
@@ -115,7 +115,7 @@ export interface SsrOptimizationOptions {
    * Logger for troubleshooting problems
    * related to the rendering process
    */
-  logger?: true | SsrLogger;
+  logger?: true | ServerLogger;
 }
 
 export enum RenderingStrategy {
@@ -132,5 +132,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   reuseCurrentRendering: true,
   debug: false,
   // TODO: This default option has been set for testing purpose - REMOVE BEFORE RELEASE
-  logger: true,
+  // logger: true,
 };

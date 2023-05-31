@@ -1,15 +1,18 @@
 import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
+import { ServerLogger, loggerEnabled, serverLoggerToken } from '../logger';
 import {
-  decorateExpressEngine,
   NgExpressEngine,
   NgExpressEngineDecorator,
   NgExpressEngineInstance,
+  decorateExpressEngine,
 } from './ng-express-engine-decorator';
 
 jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
+
+jest.spyOn(console, 'log').mockImplementation(() => {});
 
 describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
@@ -100,9 +103,10 @@ describe('decorateExpressEngine', () => {
         get: jest.fn(() => 'site.com'),
         app,
         connection: {},
-      },
-      res: <Partial<Response>>{
-        set: jest.fn(() => {}),
+        res: <Partial<Response>>{
+          set: jest.fn(() => {}),
+          locals: {},
+        },
       },
     } as any;
 
@@ -184,7 +188,13 @@ describe('decorateExpressEngine', () => {
     it(`should pass parameters to the original engine instance`, () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
-        mockOptions,
+        {
+          ...mockOptions,
+          providers: [
+            { provide: serverLoggerToken, useValue: new ServerLogger() },
+            { provide: loggerEnabled, useValue: false },
+          ],
+        },
         expect.any(Function)
       );
     });
@@ -252,7 +262,13 @@ describe('decorateExpressEngine', () => {
     it(`should pass parameters to the original engine instance`, () => {
       expect(originalEngineInstance).toHaveBeenCalledWith(
         mockPath,
-        mockOptions,
+        {
+          ...mockOptions,
+          providers: [
+            { provide: serverLoggerToken, useValue: new ServerLogger() },
+            { provide: loggerEnabled, useValue: false },
+          ],
+        },
         expect.any(Function)
       );
     });

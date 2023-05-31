@@ -1,15 +1,16 @@
 /// <reference types="jest" />
 
 import { fakeAsync, flush, tick } from '@angular/core/testing';
-import { Application, Request } from 'express';
+import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { LogContext, ServerLogger } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
-  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
 
 const defaultRenderTime = 100;
@@ -19,6 +20,12 @@ jest.mock('fs', () => ({
   readFileSync: () => '',
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+
+class MockServerLogger extends ServerLogger {
+  log(message: string, context?: LogContext | undefined): void {
+    console.log(message, context);
+  }
+}
 
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
@@ -36,6 +43,9 @@ class TestEngineRunner {
 
   /** Accumulates response parameters for engine runs */
   responseParams: object[] = [];
+
+  /** Accumulates requests for engine runs */
+  requests: Record<string, Request>[] = [];
 
   renderCount = 0;
   optimizedSsrEngine: OptimizedSsrEngine;
@@ -88,11 +98,14 @@ class TestEngineRunner {
         },
         app,
         connection: <Partial<Socket>>{},
-      },
-      res: <Partial<Response>>{
-        set: (key: string, value: any) => (response[key] = value),
+        res: <Partial<Response>>{
+          set: (key: string, value: any) => (response[key] = value),
+          locals: {},
+        },
       },
     };
+
+    this.requests.push({ [url]: optionsMock.req as Request });
 
     this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
@@ -109,6 +122,17 @@ const getCurrentConcurrency = (
   return {
     currentConcurrency: engineRunner.optimizedSsrEngine['currentConcurrency'],
   };
+};
+
+const getRequest = (
+  engineRunner: TestEngineRunner,
+  url: string
+): Request | undefined => {
+  const idx = engineRunner.requests.findIndex((request) => request[url]);
+  const request = engineRunner.requests[idx][url];
+  engineRunner.requests.splice(idx, 1);
+
+  return request;
 };
 
 describe('OptimizedSsrEngine', () => {
@@ -650,6 +674,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(0);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
+        { request: getRequest(engineRunner, requestUrl) },
         false
       );
 
@@ -674,6 +699,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(0);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
+        { request: getRequest(engineRunner, requestUrl) },
         false
       );
 
@@ -703,7 +729,8 @@ describe('OptimizedSsrEngine', () => {
       tick(1);
       // while the concurrency slot is busy rendering the first hanging request, the second request gets the CSR version
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `CSR fallback: Concurrency limit exceeded (1)`
+        `CSR fallback: Concurrency limit exceeded (1)`,
+        { request: getRequest(engineRunner, csrRequest) }
       );
       expect(engineRunner.renderCount).toEqual(0);
       expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -713,6 +740,7 @@ describe('OptimizedSsrEngine', () => {
       tick(maxRenderTime);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
+        { request: getRequest(engineRunner, hangingRequest) },
         false
       );
       expect(engineRunner.renderCount).toEqual(0);
@@ -721,7 +749,8 @@ describe('OptimizedSsrEngine', () => {
       engineRunner.request(ssrRequest);
       tick(1);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `Rendering started (${ssrRequest})`
+        `Rendering started (${ssrRequest})`,
+        { request: getRequest(engineRunner, ssrRequest) }
       );
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
@@ -746,6 +775,7 @@ describe('OptimizedSsrEngine', () => {
       tick(fiveMinutes + 101);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+        { request: getRequest(engineRunner, requestUrl) },
         false
       );
       expect(engineRunner.renders).toEqual(['']);
@@ -795,11 +825,16 @@ describe('OptimizedSsrEngine', () => {
         });
 
         tick(100);
+        const firstRequest = getRequest(engineRunner, requestUrl);
+        const secondRequest = getRequest(engineRunner, requestUrl);
+
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-          `CSR fallback: rendering in progress (${requestUrl})`
+          `CSR fallback: rendering in progress (${requestUrl})`,
+          { request: secondRequest }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+          { request: firstRequest },
           false
         );
         expect(engineRunner.renders).toEqual(['', '']);
@@ -826,6 +861,7 @@ describe('OptimizedSsrEngine', () => {
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+            { request: getRequest(engineRunner, requestUrl) },
             false
           );
 
@@ -952,6 +988,7 @@ describe('OptimizedSsrEngine', () => {
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+            { request: getRequest(engineRunner, requestUrl) },
             false
           );
           expect(engineRunner.renders).toEqual(['']); // the first request fallback to CSR due to timeout
@@ -1082,6 +1119,7 @@ describe('OptimizedSsrEngine', () => {
           tick(maxRenderTime);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
+            { request: getRequest(engineRunner, hangingRequest) },
             false
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -1097,7 +1135,8 @@ describe('OptimizedSsrEngine', () => {
           engineRunner.request(ssrRequest);
           tick(1);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Rendering started (${ssrRequest})`
+            `Rendering started (${ssrRequest})`,
+            { request: getRequest(engineRunner, ssrRequest) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
@@ -1133,10 +1172,12 @@ describe('OptimizedSsrEngine', () => {
 
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
+          { request: getRequest(engineRunner, requestUrl) },
           false
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${differentUrl}`,
+          { request: getRequest(engineRunner, differentUrl) },
           false
         );
 
@@ -1145,6 +1186,70 @@ describe('OptimizedSsrEngine', () => {
 
         flush();
       }));
+    });
+  });
+
+  describe('logger option', () => {
+    it('should use ExpressServerLogger if logger is true', () => {
+      jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
+      new TestEngineRunner({
+        logger: true,
+      });
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        "{
+        "message": "[spartacus] SSR optimization engine initialized",
+        "context": {
+          "timestamp": "2023-05-26T00:00:00.000Z",
+          "options": {
+            "concurrency": 10,
+            "timeout": 3000,
+            "forcedSsrTimeout": 60000,
+            "maxRenderTime": 300000,
+            "reuseCurrentRendering": true,
+            "debug": false,
+            "logger": true
+          }
+        }
+      }",
+      ]
+      `);
+    });
+    it('should use the provided logger', () => {
+      new TestEngineRunner({
+        logger: new MockServerLogger(),
+      });
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        "[spartacus] SSR optimization engine initialized",
+        {
+          "options": {
+            "concurrency": 10,
+            "debug": false,
+            "forcedSsrTimeout": 60000,
+            "logger": "MockServerLogger",
+            "maxRenderTime": 300000,
+            "reuseCurrentRendering": true,
+            "timeout": 3000,
+          },
+        },
+      ]
+      `);
+    });
+    it('should use the default logger', () => {
+      new TestEngineRunner({});
+      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        "[spartacus] SSR optimization engine initialized with the following options: {
+        "concurrency": 10,
+        "timeout": 3000,
+        "forcedSsrTimeout": 60000,
+        "maxRenderTime": 300000,
+        "reuseCurrentRendering": true,
+        "debug": false
+      }",
+      ]
+      `);
     });
   });
 });
