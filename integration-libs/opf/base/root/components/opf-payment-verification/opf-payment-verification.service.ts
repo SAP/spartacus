@@ -130,7 +130,6 @@ export class OpfPaymentVerificationService {
   }
 
   displayError(error: HttpErrorModel | undefined): void {
-    console.log('flo Payment error:', error);
     this.globalMessageService.add(
       {
         key:
