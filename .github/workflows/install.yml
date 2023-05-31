@@ -4,7 +4,6 @@ on:
       - 'epic/**'
       - 'develop'
       - 'develop-*'
-      - 'release-*'
 name: Installation
 jobs:
   install:
