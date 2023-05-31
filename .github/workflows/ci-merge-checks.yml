@@ -4,22 +4,21 @@ on:
     branches:
       - develop
       - develop-*
-      - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
-  
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   GH_TOKEN: ${{ github.token }}
   NODE_VERSION: '16'
 
-concurrency: 
+concurrency:
   group: ci-merge-checks-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Merge Checks
 jobs:
-  no_retries: 
+  no_retries:
     name: MC - Prevent retries
     # E2Es can't be retried.  Moreover, in some retry cases, they don't run
     # and the job returns a success code.
@@ -34,7 +33,7 @@ jobs:
   validate_e2e_execution:
     name: MC - Confirm e2es should run
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +41,7 @@ jobs:
           fetch-depth: 0
       - name: Determine whether to run e2es
         id: save-e2e-output-result
-        run: |         
+        run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   b2c_e2e_tests:
@@ -69,14 +68,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        env: 
+        env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
@@ -102,14 +101,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        env: 
+        env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
@@ -138,7 +137,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -148,7 +147,7 @@ jobs:
         env:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |     
+        run: |
           ci-scripts/e2e-cypress.sh -s b2b
   merge_checks_result:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
