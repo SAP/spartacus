@@ -20,7 +20,14 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
-import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  NEVER,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -171,7 +178,7 @@ describe('AsmBindCartComponent', () => {
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
-    spyOn(asmComponentService, 'setShowInactiveCartInfoAlert').and.stub();
+    spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(activeCartFacade, 'getActive').and.returnValue(of(prevActiveCart));
     spyOn(globalMessageService, 'add').and.callThrough();
@@ -328,10 +335,45 @@ describe('AsmBindCartComponent', () => {
     });
   });
 
+  describe('subscribe deeplink cart id', () => {
+    beforeEach(() => {
+      spyOn(component.displayBindCartBtn$, 'next').and.stub();
+      spyOn(component.displaySaveCartBtn$, 'next').and.stub();
+      spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
+        new BehaviorSubject(true)
+      );
+    });
+
+    it('should subscribe deeplink inactive cart', () => {
+      spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+        'inactive'
+      );
+
+      component.ngOnInit();
+
+      expect(
+        asmComponentService.setShowDeeplinkCartInfoAlert
+      ).toHaveBeenCalledWith(true);
+      expect(component.displayBindCartBtn$.next).toHaveBeenCalledWith(false);
+      expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(true);
+    });
+
+    it('should subscribe deeplink active cart', () => {
+      spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+        'active'
+      );
+      component.ngOnInit();
+
+      expect(component.displayBindCartBtn$.next).toHaveBeenCalledWith(false);
+      expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(false);
+      expect(routingService.go).toHaveBeenCalled();
+    });
+  });
+
   describe('save inactive cart id as deeplink', () => {
     beforeEach(() => {
       fixture.detectChanges();
-      component.inactiveCartId = inactiveCartId;
+      component.deepLinkCartId = inactiveCartId;
       spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
       spyOn(multiCartFacade, 'getCartEntity').and.returnValue(
         of({
@@ -346,7 +388,7 @@ describe('AsmBindCartComponent', () => {
     it('should close inactive cart info alert', () => {
       component.onSaveInactiveCart();
       expect(
-        asmComponentService.setShowInactiveCartInfoAlert
+        asmComponentService.setShowDeeplinkCartInfoAlert
       ).toHaveBeenCalledWith(false);
     });
 
@@ -371,18 +413,24 @@ describe('AsmBindCartComponent', () => {
         spyOn(savedCartFacade, 'getSaveCartProcessSuccess').and.returnValue(
           of(true)
         );
+        spyOn(component.displayBindCartBtn$, 'next').and.stub();
+        spyOn(component.displaySaveCartBtn$, 'next').and.stub();
+
         component.onSaveInactiveCart();
         expect(routingService.go).toHaveBeenCalled();
-        expect(component.isInactiveCartSaved).toEqual(true);
+        expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(false);
       });
 
       it('should not navigate to saved cart detail page after save cart failed', () => {
         spyOn(savedCartFacade, 'getSaveCartProcessError').and.returnValue(
           of(true)
         );
+        spyOn(component.displaySaveCartBtn$, 'next').and.stub();
         component.onSaveInactiveCart();
         expect(routingService.go).not.toHaveBeenCalled();
-        expect(component.isInactiveCartSaved).toEqual(false);
+        expect(component.displaySaveCartBtn$.next).not.toHaveBeenCalledWith(
+          false
+        );
       });
     });
   });

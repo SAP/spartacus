@@ -15,6 +15,7 @@ export const asm = {
       'The customer account has been created and the customer session has started.',
     saveInactiveCartAlertInfo:
       'The identified cart is an inactive cart. To take further actions on this cart, save it first.',
+    activeCartAlertInfo: 'The identified cart is an active cart.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
