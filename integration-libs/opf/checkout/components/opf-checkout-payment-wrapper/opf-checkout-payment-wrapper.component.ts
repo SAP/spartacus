@@ -15,7 +15,6 @@ import {
   OpfPaymentMethodType,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
-
 import { take } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
@@ -52,8 +51,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
     this.service
       .initiatePayment(this.selectedPaymentId)
       .pipe(take(1))
-      .subscribe((paymentOptionConfig: PaymentSessionData | boolean) => {
-        if (typeof paymentOptionConfig !== 'boolean') {
+      .subscribe((paymentOptionConfig: PaymentSessionData | Error) => {
+        if (!(paymentOptionConfig instanceof Error)) {
           this.service.renderPaymentGateway(paymentOptionConfig);
         }
       });
