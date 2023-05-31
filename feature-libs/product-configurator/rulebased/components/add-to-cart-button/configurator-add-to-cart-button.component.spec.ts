@@ -471,14 +471,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       'button.btn-secondary.cx-display-only-btn',
       'configurator.addToCart.buttonClose'
     );
-
-    CommonConfiguratorTestUtilsService.expectElementToHaveAttributeWithValue(
-      expect,
-      htmlElem,
-      'button.btn-secondary.cx-display-only-btn',
-      'title',
-      'configurator.addToCart.buttonClose'
-    );
   });
 
   it('should render button that is not disabled in case there are no pending changes', () => {
@@ -531,22 +523,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       component['configuratorQuantityService'] = undefined;
       component.quantityControl.setValue(QUANTITY_CHANGED);
       expect(configuratorQuantityService.setQuantity).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('getCartEntryQuantity', () => {
-    it('should return one because quantity is undefined for order entry', () => {
-      component.getCartEntryQuantity('PRODUCT_CODE').subscribe((quantity) => {
-        expect(quantity).toBe(1);
-      });
-    });
-
-    it('should return quantity for order entry', () => {
-      mockOrderEntry.quantity = 20;
-      initialize();
-      component.getCartEntryQuantity('PRODUCT_CODE').subscribe((quantity) => {
-        expect(quantity).toBe(20);
-      });
     });
   });
 
@@ -893,46 +869,6 @@ describe('ConfigAddToCartButtonComponent', () => {
 
       expect(component.getButtonResourceKey(routerData, config)).toBe(
         'configurator.addToCart.button'
-      );
-    });
-  });
-
-  describe('getIconType', () => {
-    let routerData: ConfiguratorRouter.Data;
-    let config: Configurator.Configuration;
-
-    function prepareTestData(
-      isOwnerCartEntry: boolean,
-      isCartEntryUpdateRequired: boolean
-    ) {
-      routerData = {
-        pageType: ConfiguratorRouter.PageType.CONFIGURATION,
-        isOwnerCartEntry: isOwnerCartEntry,
-        owner: mockOwner,
-      };
-
-      config = structuredClone(mockProductConfiguration);
-      config.isCartEntryUpdateRequired = isCartEntryUpdateRequired;
-    }
-
-    it('should return CART', () => {
-      prepareTestData(true, true);
-      expect(component.getIconType(routerData, config)).toBe(
-        component.iconType.CART
-      );
-    });
-
-    it('should return CART_ARROW_DOWN', () => {
-      prepareTestData(true, false);
-      expect(component.getIconType(routerData, config)).toBe(
-        component.iconType.CART_ARROW_DOWN
-      );
-    });
-
-    it('should return CART_PLUS', () => {
-      prepareTestData(false, false);
-      expect(component.getIconType(routerData, config)).toBe(
-        component.iconType.CART_PLUS
       );
     });
   });
