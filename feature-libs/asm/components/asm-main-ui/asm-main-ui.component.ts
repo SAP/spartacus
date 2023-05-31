@@ -46,11 +46,11 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-interface cartTypeKey {
+interface CartTypeKey {
   [key: string]: string;
 }
 
-export const CART_TYPE_KEY: cartTypeKey = {
+export const CART_TYPE_KEY: CartTypeKey = {
   active: 'asm.activeCartAlertInfo',
   inactive: 'asm.saveInactiveCartAlertInfo',
 };
