@@ -259,7 +259,7 @@ export function checkViewPortScrolledToGroup(groupIdx: number) {
 }
 
 /**
- * Verifies whether a quantity value that has been entered into the quantity stepper is not displayed next to the add-to-cart button.
+ * Verifies that quantity is not displayed.
  */
 export function checkQuantityNotDisplayed() {
   cy.get(addToCartQuantitySelector).should('not.exist');
