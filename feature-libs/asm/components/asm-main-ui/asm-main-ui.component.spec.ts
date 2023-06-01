@@ -571,10 +571,10 @@ describe('AsmMainUiComponent', () => {
   });
 
   it('should emit false when close inactive cart info', () => {
-    spyOn(asmComponentService, 'setShowInactiveCartInfoAlert').and.stub();
-    component.closeInactiveCartInfoAlert();
+    spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
+    component.closeDeeplinkCartInfoAlert();
     expect(
-      asmComponentService.setShowInactiveCartInfoAlert
+      asmComponentService.setShowDeeplinkCartInfoAlert
     ).toHaveBeenCalledWith(false);
   });
 });

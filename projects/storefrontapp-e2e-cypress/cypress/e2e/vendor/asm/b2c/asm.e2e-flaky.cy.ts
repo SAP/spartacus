@@ -27,6 +27,7 @@ import { login as fetchingToken } from '../../../../support/utils/login';
 import { emulateCustomerPrepare } from '../../../../helpers/asm';
 import {
   addToCartWithProducts,
+  createCart,
   createInactiveCart,
 } from '../../../../support/utils/cart';
 
@@ -388,6 +389,53 @@ context('Assisted Service Module', () => {
       });
     });
 
+    it('should emulate customer and navigate to active cart with deeplink after agent login', () => {
+      const customer = emulateCustomerPrepare(
+        agentToken.userName,
+        agentToken.pwd
+      );
+
+      cy.log('--> Agent logging in with deeplink');
+      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+        (customerId) => {
+          getCurrentCartIdAndAddProducts(
+            customer.email,
+            customer.password,
+            '1934793',
+            '2'
+          ).then((activeCartId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
+            );
+
+            cy.log('--> set input should be active cart id');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', activeCartId);
+
+            cy.log('--> the message strip should be display');
+            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              .should('exist')
+              .click();
+
+            cy.log('--> Should navigate to current cart page');
+            cy.get('.cart-details-wrapper .cx-total').should(
+              'have.text',
+              `  Cart #${activeCartId} `
+            );
+
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            cy.url().should('contain', '/cart');
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        }
+      );
+    });
+
     it('should not emulate customer if uid is invalid - end emulation session is expected (CXSPA-3113)', () => {
       const customer = getSampleUser();
       cy.log('--> Register new user');
@@ -730,6 +778,42 @@ context('Assisted Service Module', () => {
             }
           })
           .catch((status) => reject(status));
+      });
+    });
+  }
+
+  function getCurrentCartIdAndAddProducts(
+    customerName,
+    customerPwd,
+    productCode?,
+    quantity?
+  ) {
+    return new Promise((resolve, reject) => {
+      fetchingToken(customerName, customerPwd, false).then((res) => {
+        const token = res.body.access_token;
+        createCart(token).then((response) => {
+          if (response.status === 200) {
+            const activeCartId = response.body.code;
+            if (!!productCode && quantity) {
+              addToCartWithProducts(
+                activeCartId,
+                productCode,
+                quantity,
+                token
+              ).then((response) => {
+                if (response.status === 200) {
+                  resolve(activeCartId);
+                } else {
+                  reject(response.status);
+                }
+              });
+            } else {
+              resolve(activeCartId);
+            }
+          } else {
+            reject(response.status);
+          }
+        });
       });
     });
   }

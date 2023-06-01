@@ -27,7 +27,7 @@
   </div>
   <button
     #bindToCart
-    *ngIf="inactiveCartId.length === 0"
+    *ngIf="displayBindCartBtn$ | async"
     class="cx-asm-bindCartToCustomer"
     [disabled]="!(valid$ | async)"
     type="submit"
@@ -48,7 +48,7 @@
     <button
       id="asm-save-inactive-cart-btn"
       #saveInactiveCart
-      *ngIf="inactiveCartId && !isInactiveCartSaved"
+      *ngIf="displaySaveCartBtn$ | async"
       class="cx-asm-bindCartToCustomer cx-asm-active"
       type="submit"
       [class.cx-bind-loading]="loading$ | async"
