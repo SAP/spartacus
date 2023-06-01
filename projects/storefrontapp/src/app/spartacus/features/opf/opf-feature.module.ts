@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule, Provider } from '@angular/core';
 import { I18nConfig, RoutingConfig, provideConfig } from '@spartacus/core';
 import {
