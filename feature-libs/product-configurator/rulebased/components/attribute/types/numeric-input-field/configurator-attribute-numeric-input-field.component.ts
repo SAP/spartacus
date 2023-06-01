@@ -70,6 +70,16 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     return wrongFormat;
   }
 
+  /**
+   * Do we need to display a validation message concerning intervals
+   */
+  mustDisplayIntervalMessage(): boolean {
+    const intervalNotMet: boolean =
+      (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
+      this.attributeInputForm.errors?.intervalNotMet;
+    return intervalNotMet;
+  }
+
   ngOnInit() {
     //locales are available as 'languages' in the commerce backend
     this.locale = this.getInstalledLocale(this.language);
@@ -96,6 +106,12 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         );
       }
     }
+    if (this.attribute.intervalInDomain) {
+      this.intervals =
+        this.configAttributeNumericInputFieldService.getIntervals(
+          this.attribute.values
+        );
+    }
 
     this.attributeInputForm = new UntypedFormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
@@ -103,6 +119,13 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         numDecimalPlaces,
         numTotalLength,
         negativeAllowed
+      ),
+      this.configAttributeNumericInputFieldService.getIntervalValidator(
+        this.locale,
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed,
+        this.intervals
       ),
     ]);
 
@@ -124,13 +147,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       !this.attributeInputForm.value
     ) {
       this.attributeInputForm.markAsTouched();
-    }
-
-    if (this.attribute.intervalInDomain) {
-      this.intervals =
-        this.configAttributeNumericInputFieldService.getIntervals(
-          this.attribute.values
-        );
     }
 
     this.sub = this.attributeInputForm.valueChanges

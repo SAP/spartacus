@@ -273,45 +273,138 @@ export class ConfiguratorAttributeNumericInputFieldService {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input: string = control.value;
       if (input) {
-        //allowed: only numbers and separators
-
-        const groupingSeparator = getLocaleNumberSymbol(
+        return this.getValidationErrorsNumericFormat(
+          input,
           locale,
-          NumberSymbol.Group
-        );
-        const decimalSeparator = getLocaleNumberSymbol(
-          locale,
-          NumberSymbol.Decimal
-        );
-        const expressionPrefix = negativeAllowed ? '^-?' : '^';
-        const expressionOnlyNumericalInput: RegExp = new RegExp(
-          expressionPrefix +
-            '[0123456789' +
-            groupingSeparator +
-            decimalSeparator +
-            ']*$'
-        );
-
-        if (!expressionOnlyNumericalInput.test(input)) {
-          return this.createValidationError(true);
-        }
-        return this.createValidationError(
-          this.performValidationAccordingToMetaData(
-            input,
-            groupingSeparator,
-            decimalSeparator,
-            numberTotalPlaces + (input.includes('-') ? 1 : 0),
-            numberDecimalPlaces
-          )
+          numberDecimalPlaces,
+          numberTotalPlaces,
+          negativeAllowed
         );
       }
       return null;
     };
   }
 
+  protected getValidationErrorsNumericFormat(
+    input: string,
+    locale: string,
+    numberDecimalPlaces: number,
+    numberTotalPlaces: number,
+    negativeAllowed: boolean
+  ): { [key: string]: any } | null {
+    //allowed: only numbers and separators
+
+    const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
+    const decimalSeparator = getLocaleNumberSymbol(
+      locale,
+      NumberSymbol.Decimal
+    );
+    const expressionPrefix = negativeAllowed ? '^-?' : '^';
+    const expressionOnlyNumericalInput: RegExp = new RegExp(
+      expressionPrefix +
+        '[0123456789' +
+        groupingSeparator +
+        decimalSeparator +
+        ']*$'
+    );
+
+    if (!expressionOnlyNumericalInput.test(input)) {
+      return this.createValidationError(true);
+    }
+    return this.createValidationError(
+      this.performValidationAccordingToMetaData(
+        input,
+        groupingSeparator,
+        decimalSeparator,
+        numberTotalPlaces + (input.includes('-') ? 1 : 0),
+        numberDecimalPlaces
+      )
+    );
+  }
+
+  /**
+   * Returns the validator for the input component that represents numeric input.
+   * The validator only allows the grouping separator, the decimal separator, an optional '-' sign,
+   * and the digits between 0..9. This validator does not support the scientific notation of
+   * attributes.
+   *
+   * @param locale The locale
+   * @param numberDecimalPlaces Number of decimal places
+   * @param numberTotalPlaces  Total number of digits
+   * @param negativeAllowed: Do we allow negative input?
+   * @returns {ValidatorFn} The validator
+   */
+
+  getIntervalValidator(
+    locale: string,
+    numberDecimalPlaces: number,
+    numberTotalPlaces: number,
+    negativeAllowed: boolean,
+    intervals: ConfiguratorAttributeNumericInterval[]
+  ): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const input: string = control.value;
+      if (
+        input &&
+        intervals.length !== 0 &&
+        this.getValidationErrorsNumericFormat(
+          input,
+          locale,
+          numberDecimalPlaces,
+          numberTotalPlaces,
+          negativeAllowed
+        ) == null
+      ) {
+        if (!this.checkIfPartOfIntervals(input, intervals)) {
+          return this.createIntervalValidationError(true);
+        }
+        return null;
+      }
+      return null;
+    };
+  }
+
+  protected checkIfPartOfIntervals(
+    input: string,
+    intervals: ConfiguratorAttributeNumericInterval[]
+  ): boolean {
+    return (
+      intervals.find((interval) =>
+        this.inputMatchesInterval(input, interval)
+      ) !== undefined
+    );
+  }
+
+  protected inputMatchesInterval(
+    input: string,
+    interval: ConfiguratorAttributeNumericInterval
+  ): boolean {
+    const inputNum: number = +input;
+
+    const matchesLower: boolean = interval.minValue
+      ? interval.minValueIncluded
+        ? interval.minValue <= inputNum
+        : interval.minValue < inputNum
+      : true;
+    const matchesHigher: boolean = interval.maxValue
+      ? interval.maxValueIncluded
+        ? interval.maxValue >= inputNum
+        : interval.maxValue > inputNum
+      : true;
+    return matchesLower && matchesHigher;
+    //TODO CHHI check for intervals with single values
+    //TODO CHHI parse input
+  }
+
   protected createValidationError(
     isError: boolean
   ): { [key: string]: any } | null {
     return isError ? { wrongFormat: {} } : null;
+  }
+
+  protected createIntervalValidationError(
+    isError: boolean
+  ): { [key: string]: any } | null {
+    return isError ? { intervalNotMet: {} } : null;
   }
 }
