@@ -176,7 +176,6 @@ describe('Graph utils', () => {
           "CPQ-Configurator",
           "Textfield-Configurator",
           "Store-Finder",
-          "OPF",
           "OPF-Base",
           "OPF-Checkout",
           "S4HANA-Order-Management",
