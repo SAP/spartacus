@@ -545,6 +545,20 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
+  it('should call naviate to order details when starting session with orderId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { orderId: '456', ticketId: '123' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '456' },
+    });
+  });
+
   it('should call naviate to support ticket details when starting session with ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
@@ -568,6 +582,39 @@ describe('AsmMainUiComponent', () => {
     );
 
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
+
+  it('should call naviate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'saved', ticketId: '123' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
+
+  it('should not call naviate when starting session with active cartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'active', ticketId: '123' }
+    );
+
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should not call naviate when starting session with inactive cartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'inactive', ticketId: '123' }
+    );
+
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 
   it('should emit false when close inactive cart info', () => {

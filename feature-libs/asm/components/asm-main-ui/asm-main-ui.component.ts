@@ -283,7 +283,18 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   protected handleDeepLinkParamsAfterStartSession(
     parameters: AsmDeepLinkParameters
   ) {
-    if (parameters.orderId) {
+    if (
+      (parameters.cartType === 'active' ||
+        parameters.cartType === 'inactive') &&
+      parameters.cartId
+    ) {
+      return;
+    }
+
+    if (parameters.cartType === 'saved' && parameters.cartId) {
+      // Navigate to saved cart
+      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
+    } else if (parameters.orderId) {
       // Navigate to order details
       this.routingService.go({
         cxRoute: 'orderDetails',
@@ -295,9 +306,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         cxRoute: 'supportTicketDetails',
         params: { ticketCode: parameters.ticketId },
       });
-    } else if (parameters.cartType === 'saved' && parameters.cartId) {
-      // Navigate to saved cart
-      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
     }
   }
 

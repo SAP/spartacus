@@ -389,7 +389,7 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should emulate customer and navigate to active cart with deeplink after agent login', () => {
+    it('should emulate customer and navigate to active cart with deeplink after agent login (CXSPA-3507)', () => {
       const customer = emulateCustomerPrepare(
         agentToken.userName,
         agentToken.pwd
@@ -406,6 +406,53 @@ context('Assisted Service Module', () => {
           ).then((activeCartId) => {
             cy.visit(
               `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
+            );
+
+            cy.log('--> set input should be active cart id');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', activeCartId);
+
+            cy.log('--> the message strip should be display');
+            cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+              .should('exist')
+              .click();
+
+            cy.log('--> Should navigate to current cart page');
+            cy.get('.cart-details-wrapper .cx-total').should(
+              'have.text',
+              `  Cart #${activeCartId} `
+            );
+
+            cy.get('cx-asm-main-ui').should('exist');
+            cy.get('cx-asm-main-ui').should('be.visible');
+
+            cy.url().should('contain', '/cart');
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        }
+      );
+    });
+
+    it('should emulate customer and navigate to active cart with deeplink ticketId and active cartId after agent login (CXSPA-3507)', () => {
+      const customer = emulateCustomerPrepare(
+        agentToken.userName,
+        agentToken.pwd
+      );
+
+      cy.log('--> Agent logging in with deeplink');
+      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+        (customerId) => {
+          getCurrentCartIdAndAddProducts(
+            customer.email,
+            customer.password,
+            '1934793',
+            '2'
+          ).then((activeCartId) => {
+            cy.visit(
+              `/assisted-service/emulate?customerId=${customerId}&ticketId=00000008&cartId=${activeCartId}&cartType=active`
             );
 
             cy.log('--> set input should be active cart id');
