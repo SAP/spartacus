@@ -30,7 +30,7 @@ export class CdcConsentManagementService extends ConsentManagementService {
   }
   getCdcRequiredConsents(): string[] {
     var requiredConsents: string[] = [];
-    var consents: CdcLocalStorageTemplate[] = this.store.readCdcConsentState();
+    var consents: CdcLocalStorageTemplate[] = this.store.readCdcConsentState() || [];
     consents.forEach((consent) => {
       if (consent.required === true) {
         requiredConsents.push(consent.id);

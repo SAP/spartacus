@@ -47,12 +47,15 @@ export class CdcRegisterFormService extends RegisterFormService {
           required: boolean;
         }[] = [];
         var returnConsent: any = {};
-        for (let template of templates) {
-          if (template.id && cdcRequiredConsents.includes(template.id)) {
-            returnConsent = {};
-            returnConsent['template'] = template;
-            returnConsent['required'] = true;
-            returnConsents.push(returnConsent);
+        if(templates && templates.length > 0)
+        {
+          for (let template of templates) {
+            if (template.id && cdcRequiredConsents.includes(template.id)) {
+              returnConsent = {};
+              returnConsent['template'] = template;
+              returnConsent['required'] = true;
+              returnConsents.push(returnConsent);
+            }
           }
         }
         return returnConsents;
