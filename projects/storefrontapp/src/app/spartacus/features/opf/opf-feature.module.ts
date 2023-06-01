@@ -5,17 +5,17 @@
  */
 
 import { NgModule, Provider } from '@angular/core';
-import { I18nConfig, provideConfig, RoutingConfig } from '@spartacus/core';
+import { I18nConfig, RoutingConfig, provideConfig } from '@spartacus/core';
 import {
   opfTranslationChunksConfig,
   opfTranslations,
 } from '@spartacus/opf/assets';
 import {
-  defaultB2BOPFCheckoutConfig,
-  defaultOPFCheckoutConfig,
+  OPF_FEATURE,
   OpfConfig,
   OpfRootModule,
-  OPF_FEATURE,
+  defaultB2BOPFCheckoutConfig,
+  defaultOPFCheckoutConfig,
 } from '@spartacus/opf/root';
 import { environment } from '../../../../environments/environment';
 
@@ -44,7 +44,7 @@ if (environment.b2b) {
     provideConfig(<OpfConfig>{
       opf: {
         baseUrl:
-          'https://opf-dev.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
+          'https://opf-iss-d0.api.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
         commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
       },
     }),
