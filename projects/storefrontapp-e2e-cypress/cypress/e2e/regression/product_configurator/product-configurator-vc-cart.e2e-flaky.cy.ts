@@ -115,15 +115,18 @@ context('Product Configuration', () => {
       configuration.increaseQuantity();
       configuration.decreaseQuantity();
       configuration.enterQuantityValue(10);
+      configuration.checkQuantityStepper(10);
       configurationVc.clickAddToCartBtn();
-      configurationOverviewVc.checkQuantity(10);
+      configurationOverviewVc.checkQuantityNotDisplayed();
       configurationVc.goToCart(electronicsShop);
       configurationCart.checkQuantityStepper(0, 10);
       configurationCart.increaseQuantity(0);
       configurationCart.increaseQuantity(0);
       configurationCart.decreaseQuantity(0);
+      configurationCart.checkQuantityStepper(0, 11);
       configurationCart.clickOnEditConfigurationLink(0);
-      configuration.checkQuantity(11);
+      configuration.checkQuantityStepperNotDisplayed();
+      configuration.checkQuantityNotDisplayed();
     });
   });
 
