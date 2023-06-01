@@ -27,8 +27,18 @@ context('Assisted Service Module', () => {
           currency: ['USD'],
         },
       });
-      const productCode = '1979039';
-      asm.addProductToB2BCart('gi.sun@pronto-hw.com', 'pw4all', productCode);
+
+      const b2bProductCodes = [
+        '1979039',
+        '3879436',
+        '3755219',
+        '3881018',
+        '3592865',
+      ];
+      b2bProductCodes.forEach((productCode) => {
+        asm.addProductToB2BCart('gi.sun@pronto-hw.com', 'pw4all', productCode);
+      });
+
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
