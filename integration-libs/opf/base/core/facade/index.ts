@@ -5,3 +5,4 @@
  */
 
 export * from './opf-payment.service';
+export * from './opf-order.service';
