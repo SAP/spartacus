@@ -1,7 +1,6 @@
 on:
   push:
     branches:
-      - 'release/4.**'
       - 'epic/**'
       - 'develop'
       - 'develop-*'

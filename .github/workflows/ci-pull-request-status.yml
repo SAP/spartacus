@@ -4,14 +4,13 @@ on:
     branches:
       - develop
       - develop-*
-      - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 
 env:
   GH_TOKEN: ${{ github.token }}
 
-concurrency: 
+concurrency:
   group: ci-merge-checks-${{ github.head_ref || github.run_id }}
   # This workflow has the same group id as the merge checks (e2e tests) workflow.
   # The goal is to cancel pending expensive tests when the PR is set to to draft.
