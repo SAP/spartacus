@@ -21,6 +21,7 @@ import {
 import { AsmCustomerTableComponent } from './asm-customer-table.component';
 import {
   CustomerTableColumn,
+  CustomerTableTextAlign,
   GeneralEntry,
   TableEntry,
 } from './asm-customer-table.model';
@@ -57,11 +58,20 @@ describe('AsmCustomerTableComponent', () => {
     {
       property: 'type',
       text: 'type',
+      headerTextAlign: CustomerTableTextAlign.START,
+      textAlign: CustomerTableTextAlign.START,
     },
-    { property: 'id', text: 'id' },
+    {
+      property: 'id',
+      text: 'id',
+      headerTextAlign: CustomerTableTextAlign.CENTER,
+      textAlign: CustomerTableTextAlign.CENTER,
+    },
     {
       property: 'description',
       text: 'description',
+      headerTextAlign: CustomerTableTextAlign.END,
+      textAlign: CustomerTableTextAlign.END,
     },
     {
       property: 'category',
@@ -234,6 +244,41 @@ describe('AsmCustomerTableComponent', () => {
     expect(tableRows.length).toBe(component.pageSize);
   });
 
+  it('should have correct text align classes', () => {
+    testHost.columns = mockColumns;
+    testHost.pageSize = 5;
+    testHost.emptyStateText = mockEmptyText;
+    testHost.sortProperty = mockColumns[0].property;
+    testHost.headerText = mockHeaderText;
+    testHost.entries = mockEntries;
+    fixture.detectChanges();
+
+    const table = el.query(By.css('.cx-asm-customer-table'));
+    const tableHeaders = table.queryAll(By.css('th'));
+    const tableBody = el.query(By.css('tbody'));
+    const tableRows = tableBody.queryAll(By.css('tr'));
+
+    expect(
+      tableHeaders[0].nativeElement.classList.contains('text-start')
+    ).toBeTruthy();
+    expect(
+      tableHeaders[1].nativeElement.classList.contains('text-center')
+    ).toBeTruthy();
+    expect(
+      tableHeaders[2].nativeElement.classList.contains('text-end')
+    ).toBeTruthy();
+
+    expect(
+      tableRows[1].childNodes[0].nativeNode.classList.contains('text-start')
+    ).toBeTruthy();
+    expect(
+      tableRows[1].childNodes[1].nativeNode.classList.contains('text-center')
+    ).toBeTruthy();
+    expect(
+      tableRows[1].childNodes[2].nativeNode.classList.contains('text-end')
+    ).toBeTruthy();
+  });
+
   describe('table pagination', () => {
     beforeEach(() => {
       testHost.columns = mockColumns;
@@ -298,10 +343,10 @@ describe('AsmCustomerTableComponent', () => {
       const tableRows = component.table.nativeElement.rows;
       const childElement = tableRows[0].cells[0].firstChild;
 
-      expect(tableRows[1].cells[0].innerText).toBe('Cart');
+      expect(tableRows[1].cells[0].innerText).toBe('Ticket');
 
       childElement.click();
-      expect(tableRows[1].cells[0].innerText).toBe('Ticket');
+      expect(tableRows[1].cells[0].innerText).toBe('Cart');
     });
   });
 

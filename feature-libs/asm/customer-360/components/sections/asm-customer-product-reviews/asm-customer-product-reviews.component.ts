@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 
 import {
   CustomerTableColumn,
+  CustomerTableTextAlign,
   TableEntry,
 } from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
@@ -29,6 +30,8 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
       property: 'item',
       i18nTextKey: 'customer360.productReviews.columnHeaders.item',
       navigatable: true,
+      headerTextAlign: CustomerTableTextAlign.START,
+      textAlign: CustomerTableTextAlign.START,
     },
     {
       property: 'dateAndStatus',

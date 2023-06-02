@@ -31,7 +31,11 @@ import {
 } from '@spartacus/asm/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { CustomerTableColumn, TableEntry } from './asm-customer-table.model';
+import {
+  CustomerTableColumn,
+  CustomerTableTextAlign,
+  TableEntry,
+} from './asm-customer-table.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,11 +61,13 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
 
   SortOrder = SortOrder;
 
+  CustomerTableTextAlign = CustomerTableTextAlign;
+
   currentPageNumber = 0;
 
   currentPage$ = new BehaviorSubject<Array<TableEntry> | undefined>(undefined);
 
-  listSortOrder = SortOrder.ASC;
+  listSortOrder = SortOrder.DESC;
 
   entryPages: Array<Array<TableEntry>>;
 
