@@ -26,6 +26,7 @@ import {
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -53,9 +54,15 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     protected config: ConfiguratorUISettingsConfig,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
-    super(config, attributeComponentContext, configuratorCommonsService);
+    super(
+      config,
+      attributeComponentContext,
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
+    );
     this.language = attributeComponentContext.language;
   }
 

@@ -8,7 +8,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -27,6 +31,8 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 import { StoreModule } from '@ngrx/store';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -57,6 +63,13 @@ class MockConfiguratorPriceComponent {
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
 }
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
@@ -116,6 +129,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           I18nTestingModule,
           RouterTestingModule,
           UrlTestingModule,
+          FeaturesConfigModule,
           StoreModule.forRoot({}),
           StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ],
@@ -124,6 +138,16 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
           },
         ],
       })

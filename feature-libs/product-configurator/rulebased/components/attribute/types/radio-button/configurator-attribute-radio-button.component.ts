@@ -12,6 +12,7 @@ import { TranslationService } from '@spartacus/core';
 
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
@@ -28,13 +29,15 @@ export class ConfiguratorAttributeRadioButtonComponent
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
     );
   }
 

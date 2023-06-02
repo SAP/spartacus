@@ -43,11 +43,23 @@ export class ConfiguratorAttributeFooterComponent
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute is a
-     * free input field
+     * free input field or a drop-dow list
      */
     this.showRequiredMessageForUserInput$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => (result ? this.needsUserInputMessage() : false)));
+      .pipe(
+        map((result) =>
+          result ? this.needsUserInputMsg() || this.needsDropDownMsg() : false
+        )
+      );
+  }
+
+  protected needsDropDownMsg(): boolean {
+    const needsMsg =
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isDropDown(this.attribute) &&
+      this.isNoValueSelected(this.attribute);
+    return needsMsg ?? false;
   }
 
   /**
@@ -59,14 +71,11 @@ export class ConfiguratorAttributeFooterComponent
     return input !== undefined && (!input.trim() || 0 === input.length);
   }
 
-  protected needsUserInputMessage(): boolean {
-    const uiType = this.attribute.uiType;
-    const needsMessage =
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      (uiType === Configurator.UiType.STRING ||
-        uiType === Configurator.UiType.NUMERIC) &&
+  protected needsUserInputMsg(): boolean {
+    const needsMsg =
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isUserInput(this.attribute) &&
       this.isUserInputEmpty(this.attribute.userInput);
-    return needsMessage ?? false;
+    return needsMsg ?? false;
   }
 }

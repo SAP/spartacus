@@ -13,6 +13,7 @@ import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -32,13 +33,15 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
     );
 
     this.group = attributeComponentContext.group.id;

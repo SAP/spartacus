@@ -214,4 +214,35 @@ export class ConfiguratorAttributeBaseComponent {
       uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
     );
   }
+
+  protected isRequiredErrorMsg(attribute: Configurator.Attribute): boolean {
+    if (attribute.required && attribute.incomplete) {
+      return attribute.required && attribute.incomplete;
+    }
+    return false;
+  }
+
+  protected isUserInput(attribute: Configurator.Attribute): boolean {
+    switch (attribute.uiType) {
+      case Configurator.UiType.STRING:
+      case Configurator.UiType.NUMERIC: {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  protected isDropDown(attribute: Configurator.Attribute): boolean {
+    switch (attribute.uiType) {
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT: {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  protected isNoValueSelected(attribute: Configurator.Attribute): boolean {
+    return !attribute.values?.find((value) => value.selected) ?? true;
+  }
 }

@@ -10,7 +10,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -23,6 +27,8 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -60,6 +66,13 @@ class MockConfiguratorPriceComponent {
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+}
+
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
 }
 
 describe('ConfigAttributeDropDownComponent', () => {
@@ -105,6 +118,16 @@ describe('ConfigAttributeDropDownComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
           },
         ],
       })

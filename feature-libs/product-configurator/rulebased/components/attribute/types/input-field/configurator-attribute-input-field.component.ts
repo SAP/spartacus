@@ -13,13 +13,13 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { Subscription, timer } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { Observable, Subscription, timer } from 'rxjs';
+import { debounce, map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-input-field',
@@ -35,8 +35,11 @@ export class ConfiguratorAttributeInputFieldComponent
 
   attribute: Configurator.Attribute;
   group: string;
+  owner: CommonConfigurator.Owner;
   ownerKey: string;
   ownerType: CommonConfigurator.OwnerType;
+
+  showRequiredErrorMessage$: Observable<boolean>;
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,
@@ -47,13 +50,26 @@ export class ConfiguratorAttributeInputFieldComponent
   constructor(
     protected config: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configUtils: ConfiguratorStorefrontUtilsService
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
+    this.owner = attributeComponentContext.owner;
     this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
+
+    this.showRequiredErrorMessage$ = this.configUtils
+      .isCartEntryOrGroupVisited(this.owner, this.group)
+      .pipe(
+        map((result) =>
+          result
+            ? this.isRequiredErrorMsg(this.attribute) &&
+              this.isUserInput(this.attribute)
+            : false
+        )
+      );
   }
 
   ngOnInit() {
@@ -104,9 +120,8 @@ export class ConfiguratorAttributeInputFieldComponent
    * @returns Required?
    */
   get isRequired(): boolean {
-    const isNonDomainAttributeType =
-      this.attribute.uiType === Configurator.UiType.STRING ||
-      this.attribute.uiType === Configurator.UiType.NUMERIC;
-    return isNonDomainAttributeType ? this.attribute.required ?? false : false;
+    return this.isUserInput(this.attribute)
+      ? this.attribute.required ?? false
+      : false;
   }
 }

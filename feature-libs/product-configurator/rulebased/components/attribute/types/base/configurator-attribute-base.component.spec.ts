@@ -264,4 +264,114 @@ describe('ConfigUIKeyGeneratorService', () => {
       );
     });
   });
+
+  describe('isRequiredErrorMsg', () => {
+    it('should return false because both required and incomplete properties are undefined', () => {
+      expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should return false because required property is undefined', () => {
+      currentAttribute.required = undefined;
+      currentAttribute.incomplete = true;
+      expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should return false because incomplete property is undefined', () => {
+      currentAttribute.required = true;
+      currentAttribute.incomplete = undefined;
+      expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should return false because required property is false', () => {
+      currentAttribute.required = false;
+      currentAttribute.incomplete = true;
+      expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should return false because incomplete property is false', () => {
+      currentAttribute.required = false;
+      currentAttribute.incomplete = true;
+      expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should return true because both required and incomplete properties are true', () => {
+      currentAttribute.required = true;
+      currentAttribute.incomplete = true;
+      expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(true);
+    });
+  });
+
+  describe('isUserInput', () => {
+    it('should return false because uiType is undefined', () => {
+      currentAttribute.uiType = undefined;
+      expect(classUnderTest['isUserInput'](currentAttribute)).toBe(false);
+    });
+
+    it('should return true because uiType is RADIOBUTTON', () => {
+      expect(classUnderTest['isUserInput'](currentAttribute)).toBe(false);
+    });
+
+    it('should return true because uiType is STRING', () => {
+      currentAttribute.uiType = Configurator.UiType.STRING;
+      expect(classUnderTest['isUserInput'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true because uiType is NUMERIC', () => {
+      currentAttribute.uiType = Configurator.UiType.NUMERIC;
+      expect(classUnderTest['isUserInput'](currentAttribute)).toBe(true);
+    });
+  });
+
+  describe('isDropDown', () => {
+    it('should return false because uiType is undefined', () => {
+      currentAttribute.uiType = undefined;
+      expect(classUnderTest['isDropDown'](currentAttribute)).toBe(false);
+    });
+
+    it('should return true because uiType is RADIOBUTTON', () => {
+      expect(classUnderTest['isDropDown'](currentAttribute)).toBe(false);
+    });
+
+    it('should return true because uiType is DROPDOWN', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN;
+      expect(classUnderTest['isDropDown'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true because uiType is DROPDOWN_PRODUCT', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      expect(classUnderTest['isDropDown'](currentAttribute)).toBe(true);
+    });
+  });
+
+  describe('isNoValueSelected', () => {
+    it('should return false because there are no values', () => {
+      expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
+    });
+
+    it('should return false because there is no selected value', () => {
+      currentAttribute.values = [
+        { name: 'V1', selected: false, valueCode: 'VALUE_CODE' },
+        { name: 'V2', selected: false, valueCode: 'VALUE_CODE2' },
+      ];
+      expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
+    });
+
+    it('should return true because there is selected value', () => {
+      currentAttribute.values = [
+        { name: 'V1', selected: false, valueCode: 'VALUE_CODE' },
+        { name: 'V2', selected: true, valueCode: 'VALUE_CODE2' },
+      ];
+      expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
+    });
+  });
 });

@@ -14,6 +14,7 @@ import { TranslationService } from '@spartacus/core';
 
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -31,14 +32,17 @@ export class ConfiguratorAttributeDropDownComponent
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
     );
+
     this.group = attributeComponentContext.group.id;
   }
 

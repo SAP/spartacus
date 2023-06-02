@@ -7,7 +7,7 @@
 import { Directive } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -17,6 +17,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -29,11 +30,14 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   language: string;
   expMode: boolean;
 
+  showRequiredErrorMessage$: Observable<boolean>;
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super();
 
@@ -42,6 +46,20 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.ownerType = attributeComponentContext.owner.type;
     this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
+
+    this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
+      .isCartEntryOrGroupVisited(
+        attributeComponentContext.owner,
+        attributeComponentContext.group.id
+      )
+      .pipe(
+        map((result) =>
+          result
+            ? this.isRequiredErrorMsg(this.attribute) &&
+              this.isDropDown(this.attribute)
+            : false
+        )
+      );
   }
 
   /**

@@ -80,23 +80,9 @@ export class ConfiguratorAttributeHeaderComponent
       return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
-    } else if (this.isMultiSelection) {
-      return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
-      //input attribute types
-      return 'configurator.attribute.singleSelectRequiredMessage';
+      return 'configurator.attribute.multiSelectRequiredMessage';
     }
-  }
-
-  protected get isMultiSelection(): boolean {
-    switch (this.attribute.uiType) {
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        return true;
-      }
-    }
-    return false;
   }
 
   protected isSingleSelection(): boolean {
@@ -105,9 +91,7 @@ export class ConfiguratorAttributeHeaderComponent
       case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
-      case Configurator.UiType.DROPDOWN:
       case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
       }
@@ -118,11 +102,12 @@ export class ConfiguratorAttributeHeaderComponent
   protected isRequiredAttributeWithDomain(): boolean {
     const uiType = this.attribute.uiType;
     return (
-      (this.attribute.required &&
-        this.attribute.incomplete &&
+      (this.isRequiredErrorMsg(this.attribute) &&
         uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
         uiType !== Configurator.UiType.STRING &&
-        uiType !== Configurator.UiType.NUMERIC) ??
+        uiType !== Configurator.UiType.NUMERIC &&
+        uiType !== Configurator.UiType.DROPDOWN &&
+        uiType !== Configurator.UiType.DROPDOWN_PRODUCT) ??
       false
     );
   }
