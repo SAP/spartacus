@@ -45,7 +45,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   }
 
   onSuccess(): void {
-    this.paymentService.goToPage('orderConfirmation');
+    this.paymentService.goToPage('opfOrderConfirmation');
   }
 
   onError(error: HttpErrorModel | undefined): void {

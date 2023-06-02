@@ -15,6 +15,7 @@ export const defaultOpfRoutingConfig: RoutingConfig = {
       paymentVerificationCancel: {
         paths: ['redirect/failure'],
       },
+      opfOrderConfirmation: { paths: ['opf-order-confirmation'] },
     },
   },
 };
