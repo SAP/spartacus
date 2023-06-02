@@ -329,4 +329,103 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(undefined);
     });
   });
+
+  describe('inputMatchesInterval', () => {
+    const locale = 'en';
+    const openInterval3To7: ConfiguratorAttributeNumericInterval = {
+      minValueIncluded: false,
+      maxValueIncluded: false,
+      minValue: 3,
+      maxValue: 7,
+    };
+    const closedInterval3To7: ConfiguratorAttributeNumericInterval = {
+      minValueIncluded: true,
+      maxValueIncluded: true,
+      minValue: 3,
+      maxValue: 7,
+    };
+    const openIndefiniteIntervalTo7: ConfiguratorAttributeNumericInterval = {
+      minValueIncluded: false,
+      maxValueIncluded: false,
+      maxValue: 7,
+    };
+    const closedIndefiniteIntervalFrom3: ConfiguratorAttributeNumericInterval =
+      { minValueIncluded: true, maxValueIncluded: true, minValue: 3 };
+
+    it('should assess input for open interval properly in case input is part of interval', () => {
+      const input = '5';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          openInterval3To7
+        )
+      ).toBe(true);
+    });
+
+    it('should assess input for open interval properly in case input is outside of interval', () => {
+      const input = '2';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          openInterval3To7
+        )
+      ).toBe(false);
+    });
+
+    it('should assess input for closed interval properly in case input is maximum value', () => {
+      const input = '7';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          closedInterval3To7
+        )
+      ).toBe(true);
+    });
+
+    it('should assess input for open indefinite interval properly in case input is maximum value', () => {
+      const input = '7';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          openIndefiniteIntervalTo7
+        )
+      ).toBe(false);
+    });
+
+    it('should assess input for closed indefinite interval properly in case input is minimum value', () => {
+      const input = '3';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          closedIndefiniteIntervalFrom3
+        )
+      ).toBe(true);
+    });
+
+    it('should assess input for closed indefinite interval properly in case input is part of interval', () => {
+      const input = '9,987,987,123';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          closedIndefiniteIntervalFrom3
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('parseInput', () => {
+    const locale = 'en';
+
+    it('should ignore gorup separators', () => {
+      const input = '5,998';
+      expect(serviceUnderTest['parseInput'](input, locale)).toBe(5998);
+      //TODO CHHI extend test
+    });
+  });
 });
