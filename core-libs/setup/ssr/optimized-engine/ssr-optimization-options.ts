@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Request } from 'express';
+import {Request} from 'express';
 
 export interface SsrOptimizationOptions {
   /**
@@ -58,6 +58,11 @@ export interface SsrOptimizationOptions {
    * @param req
    */
   renderingStrategyResolver?: (req: Request) => RenderingStrategy;
+
+  /**
+   * Block ssr from rendering for specific routes and queries
+   */
+  blockSsr?: Array<string>;
 
   /**
    * Time in milliseconds to wait for rendering when SSR_ALWAYS render strategy is set for the request.
@@ -124,4 +129,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
+  blockSsr: ['checkout', 'my-account', 'asm']
 };
