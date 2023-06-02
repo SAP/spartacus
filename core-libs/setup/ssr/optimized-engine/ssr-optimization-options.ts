@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {Request} from 'express';
+import { Request } from 'express';
 
 export interface SsrOptimizationOptions {
   /**
@@ -129,5 +129,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
-  blockSsr: ['checkout', 'my-account', 'asm']
+  blockSsr: ['checkout', 'my-account', 'asm'],
 };

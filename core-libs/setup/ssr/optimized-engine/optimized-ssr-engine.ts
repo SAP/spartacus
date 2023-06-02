@@ -5,12 +5,16 @@
  */
 
 /* webpackIgnore: true */
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import * as fs from 'fs';
-import {NgExpressEngineInstance} from '../engine-decorator/ng-express-engine-decorator';
-import {getRequestUrl} from '../express-utils/express-request-url';
-import {RenderingCache} from './rendering-cache';
-import {defaultSsrOptimizationOptions, RenderingStrategy, SsrOptimizationOptions,} from './ssr-optimization-options';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { getRequestUrl } from '../express-utils/express-request-url';
+import { RenderingCache } from './rendering-cache';
+import {
+  defaultSsrOptimizationOptions,
+  RenderingStrategy,
+  SsrOptimizationOptions,
+} from './ssr-optimization-options';
 
 /**
  * Returns the full url for the given SSR Request.
@@ -59,10 +63,10 @@ export class OptimizedSsrEngine {
   ) {
     this.ssrOptions = ssrOptions
       ? {
-        ...defaultSsrOptimizationOptions,
-        // overrides the default options
-        ...ssrOptions,
-      }
+          ...defaultSsrOptimizationOptions,
+          // overrides the default options
+          ...ssrOptions,
+        }
       : undefined;
     this.logOptions();
   }
@@ -117,8 +121,10 @@ export class OptimizedSsrEngine {
   }
 
   protected shouldBlockRendering(request: Request): boolean {
-    return !!this.ssrOptions?.blockSsr?.length ?
-      this.ssrOptions.blockSsr.some((route: string) => request.url?.includes(route))
+    return !!this.ssrOptions?.blockSsr?.length
+      ? this.ssrOptions.blockSsr.some((route: string) =>
+          request.url?.includes(route)
+        )
       : false;
   }
 
@@ -327,11 +333,11 @@ export class OptimizedSsrEngine {
    * Instead, it waits for the current rendering to complete and then reuse the result for all waiting requests.
    */
   private handleRender({
-                         filePath,
-                         options,
-                         renderCallback,
-                         request,
-                       }: {
+    filePath,
+    options,
+    renderCallback,
+    request,
+  }: {
     filePath: string;
     options: any;
     renderCallback: SsrCallbackFn;
@@ -386,11 +392,11 @@ export class OptimizedSsrEngine {
    * its result.
    */
   private startRender({
-                        filePath,
-                        options,
-                        renderCallback,
-                        request,
-                      }: {
+    filePath,
+    options,
+    renderCallback,
+    request,
+  }: {
     filePath: string;
     options: any;
     renderCallback: SsrCallbackFn;
