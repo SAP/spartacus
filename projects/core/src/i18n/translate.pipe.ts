@@ -6,12 +6,14 @@
 
 import {
   ChangeDetectorRef,
+  inject,
   isDevMode,
   OnDestroy,
   Pipe,
   PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { LoggerService } from '../logger';
 import { ObjectComparisonUtils } from '../util/object-comparison-utils';
 import { Translatable, TranslatableParams } from './translatable';
 import { TranslationService } from './translation.service';
@@ -22,6 +24,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastOptions: object;
   private translatedValue: string;
   private sub: Subscription;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected service: TranslationService,
@@ -34,7 +38,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   ): string {
     if (!input) {
       if (isDevMode()) {
-        console.error(
+        this.logger.error(
           `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
         );
       }

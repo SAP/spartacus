@@ -4,20 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ErrorHandler, Injectable, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ServerModule } from '@angular/platform-server';
 import { provideServer } from '@spartacus/setup/ssr';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { AppModule } from './app.module';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class SomeErrorHandler implements ErrorHandler {
-  handleError(error: any): void {
-    console.error(error);
-  }
-}
 
 @NgModule({
   imports: [

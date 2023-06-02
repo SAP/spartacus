@@ -5,6 +5,7 @@
  */
 
 import { InjectionToken, Provider } from '@angular/core';
+import { LoggerService } from '../../logger';
 import { Config } from '../config-tokens';
 
 export const ConfigValidatorToken = new InjectionToken(
@@ -35,12 +36,15 @@ export function provideConfigValidator(
 
 export function validateConfig(
   config: Config,
-  configValidators: ConfigValidator[]
+  configValidators: ConfigValidator[],
+  logger?: LoggerService
 ) {
   for (const validate of configValidators) {
     const warning = validate(config);
     if (warning) {
-      console.warn(warning);
+      // remove before 7.0 release
+      /* eslint-disable-next-line no-console */
+      logger ? logger.warn(warning) : console.warn(warning);
     }
   }
 }

@@ -8,24 +8,25 @@ import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   isDevMode,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
+import { LoggerService, TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -47,6 +48,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   iconType = ICON_TYPE;
   intervals: ConfiguratorAttributeNumericInterval[] = [];
   language: string;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
@@ -91,7 +94,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       numTotalLength = defaultSettings.numTotalLength;
       negativeAllowed = defaultSettings.negativeAllowed;
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           'Meta data for numeric attribute not present, falling back to defaults'
         );
       }
@@ -366,7 +369,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
-      console.warn(
+      this.logger.warn(
         `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }

@@ -132,5 +132,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   reuseCurrentRendering: true,
   debug: false,
   // TODO: This default option has been set for testing purpose - REMOVE BEFORE RELEASE
-  // logger: true,
+  logger: true,
 };
