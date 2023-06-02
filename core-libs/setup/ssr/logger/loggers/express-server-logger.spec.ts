@@ -1,7 +1,7 @@
 import { ExpressServerLogger } from './express-server-logger';
 import { ServerLogger } from './server-logger';
 
-describe.only('DefaultExpressSsrLogger', () => {
+describe('DefaultExpressSsrLogger', () => {
   const logger = new ExpressServerLogger();
   jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
 
