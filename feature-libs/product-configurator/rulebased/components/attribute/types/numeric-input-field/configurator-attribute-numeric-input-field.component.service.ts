@@ -130,6 +130,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
       minValueIncluded: false,
       maxValueIncluded: false,
     };
+
     if (!value || !value.name || value.selected) {
       return undefined;
     }
@@ -190,6 +191,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
     ) {
       minVal = valueName;
       maxVal = valueName;
+      interval.maxValueIncluded = true;
+      interval.minValueIncluded = true;
     }
     return { minVal, maxVal };
   }
@@ -340,12 +343,15 @@ export class ConfiguratorAttributeNumericInputFieldService {
     numberDecimalPlaces: number,
     numberTotalPlaces: number,
     negativeAllowed: boolean,
-    intervals: ConfiguratorAttributeNumericInterval[]
+    intervals: ConfiguratorAttributeNumericInterval[],
+    currentValue?: string
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input: string = control.value;
       if (
         input &&
+        input !== currentValue && //this is to ensure that selected interval consisting of only one value will not lead to a validation error
+        // in the next roundtrip, when this value has been removed from the list of intervals
         intervals.length !== 0 &&
         this.getValidationErrorsNumericFormat(
           input,
@@ -355,7 +361,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
           negativeAllowed
         ) == null
       ) {
-        if (!this.checkIfPartOfIntervals(input, intervals)) {
+        if (!this.checkIfPartOfIntervals(input, locale, intervals)) {
           return this.createIntervalValidationError(true);
         }
         return null;
@@ -366,21 +372,22 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   protected checkIfPartOfIntervals(
     input: string,
+    locale: string,
     intervals: ConfiguratorAttributeNumericInterval[]
   ): boolean {
     return (
       intervals.find((interval) =>
-        this.inputMatchesInterval(input, interval)
+        this.inputMatchesInterval(input, locale, interval)
       ) !== undefined
     );
   }
 
   protected inputMatchesInterval(
     input: string,
+    locale: string,
     interval: ConfiguratorAttributeNumericInterval
   ): boolean {
-    const inputNum: number = +input;
-
+    const inputNum: number = this.parseInput(input, locale);
     const matchesLower: boolean = interval.minValue
       ? interval.minValueIncluded
         ? interval.minValue <= inputNum
@@ -392,8 +399,19 @@ export class ConfiguratorAttributeNumericInputFieldService {
         : interval.maxValue > inputNum
       : true;
     return matchesLower && matchesHigher;
-    //TODO CHHI check for intervals with single values
-    //TODO CHHI parse input
+    //TODO CHHI check input issue with multiple group separators
+  }
+
+  protected parseInput(input: string, locale: string): number {
+    const groupingSeparator = getLocaleNumberSymbol(locale, NumberSymbol.Group);
+    const decimalSeparator = getLocaleNumberSymbol(
+      locale,
+      NumberSymbol.Decimal
+    );
+    const inputGroupSeparatorsRemoved = input
+      .replace(groupingSeparator, '')
+      .replace(decimalSeparator, '.');
+    return parseFloat(inputGroupSeparatorsRemoved);
   }
 
   protected createValidationError(

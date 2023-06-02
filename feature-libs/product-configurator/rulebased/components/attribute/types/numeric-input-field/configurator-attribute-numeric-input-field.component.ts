@@ -125,7 +125,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         numDecimalPlaces,
         numTotalLength,
         negativeAllowed,
-        this.intervals
+        this.intervals,
+        this.attribute.userInput
       ),
     ]);
 
