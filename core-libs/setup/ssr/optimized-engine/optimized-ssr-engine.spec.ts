@@ -145,6 +145,11 @@ describe('OptimizedSsrEngine', () => {
           "maxRenderTime": 300000,
           "reuseCurrentRendering": true,
           "debug": false,
+          "blockSsr": [
+            "checkout",
+            "my-account",
+            "asm"
+          ],
           "renderingStrategyResolver": "() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR"
         }",
         ]

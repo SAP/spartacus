@@ -118,7 +118,7 @@ export class OptimizedSsrEngine {
 
   protected shouldBlockRendering(request: Request): boolean {
     return !!this.ssrOptions?.blockSsr?.length ?
-      this.ssrOptions.blockSsr.some((route: string) => request.url.includes(route))
+      this.ssrOptions.blockSsr.some((route: string) => request.url?.includes(route))
       : false;
   }
 
