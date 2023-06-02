@@ -13,6 +13,7 @@ import {
   defaultSsrOptimizationOptions,
   SsrOptimizationOptions,
 } from '../optimized-engine/ssr-optimization-options';
+import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
   filePath: string,
@@ -50,10 +51,19 @@ export function decorateExpressEngine(
     | undefined = defaultSsrOptimizationOptions
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
-    return new OptimizedSsrEngine(
-      ngExpressEngine,
-      optimizationOptions,
-      setupOptions
-    ).engineInstance;
+    const engineInstance = ngExpressEngine({
+      ...setupOptions,
+      providers: [
+        // add spartacus related providers
+        ...getServerRequestProviders(),
+        ...(setupOptions.providers ?? []),
+      ],
+    });
+
+    // apply optimization wrapper if optimization options were defined
+    return optimizationOptions
+      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
+          .engineInstance
+      : engineInstance;
   };
 }

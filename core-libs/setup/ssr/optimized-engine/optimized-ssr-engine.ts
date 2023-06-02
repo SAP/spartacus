@@ -6,16 +6,11 @@
 
 /* webpackIgnore: true */
 import { FactoryProvider } from '@angular/core';
-import { NgSetupOptions } from '@nguniversal/express-engine';
 import { PropagateErrorFn, PROPAGATE_ERROR } from '@spartacus/core';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import {
-  NgExpressEngine,
-  NgExpressEngineInstance,
-} from '../engine-decorator/ng-express-engine-decorator';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
-import { getServerRequestProviders } from '../providers/ssr-providers';
 import { RenderingCache } from './rendering-cache';
 import {
   defaultSsrOptimizationOptions,
@@ -61,32 +56,15 @@ export class OptimizedSsrEngine {
   private renderCallbacks = new Map<string, SsrCallbackFn[]>();
 
   get engineInstance(): NgExpressEngineInstance {
-    // apply optimization wrapper only if any optimization options were defined. if are null/undefined, just use the default engine
-    return this.ssrOptions
-      ? this.renderResponse.bind(this)
-      : this.ngExpressEngineInstance;
+    return this.renderResponse.bind(this);
   }
 
   protected ngExpressEngineInstance: NgExpressEngineInstance;
 
   constructor(
-    ngExpressEngine: NgExpressEngine,
-    protected ssrOptions: SsrOptimizationOptions | null | undefined,
-    protected setupOptions: NgSetupOptions
+    protected expressEngine: NgExpressEngineInstance,
+    protected ssrOptions?: SsrOptimizationOptions
   ) {
-    // SPIKE TODO arch: move this logic from constructor to a separate method
-    this.ngExpressEngineInstance = ngExpressEngine({
-      ...setupOptions,
-      providers: [
-        // add spartacus related providers
-        // SPIKE TODO arch: can be moved to `provideServer()` function
-        ...getServerRequestProviders(),
-
-        // add custom providers as last - to allow custom overwrites
-        ...(setupOptions.providers ?? []),
-      ],
-    });
-
     this.ssrOptions = ssrOptions
       ? {
           ...defaultSsrOptimizationOptions,

@@ -15,29 +15,6 @@ import {
 } from './custom/handlers/server-error-handlers';
 import { provideErrorHandlers } from './custom/providers/provide-error-handlers';
 
-// @Injectable()
-// export class LogInterceptor implements HttpInterceptor {
-//   intercept(req: any, next: any) {
-//     return next.handle(req);
-
-//     // spike todo remove:
-//     console.log(req.url, 'intercepted');
-//     return next.handle(req).pipe(
-//       tap(
-//         () => console.log(req.url, 'succeeded'),
-//         () => console.log(req.url, 'failed')
-//       )
-//     );
-//   }
-// }
-
-// @NgModule({
-//   providers: [
-//     { provide: HTTP_INTERCEPTORS, useClass: LogInterceptor, multi: true },
-//   ],
-// })
-// export class InterceptorModule {}
-
 @NgModule({
   imports: [
     // InterceptorModule,
@@ -54,8 +31,6 @@ import { provideErrorHandlers } from './custom/providers/provide-error-handlers'
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
     provideErrorHandlers([writeStateToFile, throwOups]),
-
-    // ...provideLateErrorPropagator,
   ],
 })
 export class AppServerModule {}

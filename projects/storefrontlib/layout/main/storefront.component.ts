@@ -64,15 +64,17 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // SPIKE TODO REMOVE:
     setTimeout(() => {
       throw new Error('FOO BAR BAZ!!!');
     }, 100);
 
-    const longTaskDuration = 5000;
+    const longTaskDuration = 10_000;
     console.log(`artificial long task ${longTaskDuration}ms start`);
     setTimeout(() => {
       console.log(`artificial long task ${longTaskDuration}ms finish`);
     }, longTaskDuration);
+    // SPIKE TODO REMOVE END
 
     this.navigateSubscription = this.routingService
       .isNavigating()
