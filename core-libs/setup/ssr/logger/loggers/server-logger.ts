@@ -14,12 +14,15 @@ export interface LogContext {
 
 export class ServerLogger {
   log(message: string, _context?: LogContext): void {
+    /* eslint-disable-next-line no-console */
     console.log(message);
   }
   warn(message: string, _context?: LogContext): void {
+    /* eslint-disable-next-line no-console */
     console.warn(message);
   }
   error(message: string, _context?: LogContext): void {
+    /* eslint-disable-next-line no-console */
     console.error(message);
   }
 }

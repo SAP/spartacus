@@ -9,7 +9,9 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
+  inject,
 } from '@angular/core';
+import { LoggerService } from '../logger';
 import { LazyModulesService } from './lazy-modules.service';
 import { MODULE_INITIALIZER } from './tokens';
 
@@ -17,13 +19,14 @@ export function moduleInitializersFactory(
   lazyModuleService: LazyModulesService,
   moduleInitializerFunctions: (() => any)[]
 ): () => any {
+  const logger = inject(LoggerService);
   const factoryFunction = () => {
     return Promise.all(
       lazyModuleService.runModuleInitializerFunctions(
         moduleInitializerFunctions
       )
     ).catch((error) => {
-      console.error(
+      logger.error(
         'MODULE_INITIALIZER promise was rejected during app initialization.',
         error
       );

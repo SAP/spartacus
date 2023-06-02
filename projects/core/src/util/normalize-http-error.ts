@@ -46,6 +46,7 @@ export function normalizeHttpError(
   }
 
   if (isDevMode()) {
+    /* eslint-disable-next-line no-console */
     console.error(
       'Error passed to normalizeHttpError is not HttpErrorResponse instance',
       error
