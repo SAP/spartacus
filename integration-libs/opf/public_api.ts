@@ -4,4 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf.module';
+export * from '@spartacus/opf/base';
+export * from '@spartacus/opf/checkout';

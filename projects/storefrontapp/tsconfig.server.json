@@ -490,19 +490,43 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/opf/base/assets": [
+        "../../integration-libs/opf/base/assets/public_api"
+      ],
+      "@spartacus/opf/base/core": [
+        "../../integration-libs/opf/base/core/public_api"
+      ],
+      "@spartacus/opf/base": ["../../integration-libs/opf/base/public_api"],
+      "@spartacus/opf/base/occ": [
+        "../../integration-libs/opf/base/occ/public_api"
+      ],
+      "@spartacus/opf/base/root": [
+        "../../integration-libs/opf/base/root/public_api"
+      ],
+      "@spartacus/opf/checkout/assets": [
+        "../../integration-libs/opf/checkout/assets/public_api"
+      ],
+      "@spartacus/opf/checkout/components": [
+        "../../integration-libs/opf/checkout/components/public_api"
+      ],
+      "@spartacus/opf/checkout/core": [
+        "../../integration-libs/opf/checkout/core/public_api"
+      ],
+      "@spartacus/opf/checkout": [
+        "../../integration-libs/opf/checkout/public_api"
+      ],
+      "@spartacus/opf/checkout/occ": [
+        "../../integration-libs/opf/checkout/occ/public_api"
+      ],
+      "@spartacus/opf/checkout/root": [
+        "../../integration-libs/opf/checkout/root/public_api"
+      ],
+      "@spartacus/opf": ["../../integration-libs/opf/public_api"],
       "@spartacus/s4om/assets": [
         "../../integration-libs/s4om/assets/public_api"
       ],
       "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
       "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
-      "@spartacus/opf/assets": ["../../integration-libs/opf/assets/public_api"],
-      "@spartacus/opf/components": [
-        "../../integration-libs/opf/components/public_api"
-      ],
-      "@spartacus/opf/core": ["../../integration-libs/opf/core/public_api"],
-      "@spartacus/opf/occ": ["../../integration-libs/opf/occ/public_api"],
-      "@spartacus/opf": ["../../integration-libs/opf/public_api"],
-      "@spartacus/opf/root": ["../../integration-libs/opf/root/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
