@@ -4,14 +4,13 @@ on:
     branches:
       - develop
       - develop-*
-      - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
 
-concurrency: 
+concurrency:
   group: lighthouse-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -30,7 +29,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress

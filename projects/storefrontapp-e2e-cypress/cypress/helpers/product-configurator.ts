@@ -591,6 +591,20 @@ export function clickExitConfigurationBtn(): void {
 }
 
 /**
+ * Verifies whether the quantity stepper is not displayed next to the add-to-cart button.
+ */
+export function checkQuantityStepperNotDisplayed() {
+  cy.get(quantityStepperSelector).should('not.exist');
+}
+
+/**
+ * Verifies that quantity is not displayed.
+ */
+export function checkQuantityNotDisplayed() {
+  cy.get(quantitySelector).should('not.exist');
+}
+
+/**
  * Verifies whether a quantity value that is entered into the quantity stepper is equal to the expected value.
  *
  * @param {number} expectedValue - expected quantity value
