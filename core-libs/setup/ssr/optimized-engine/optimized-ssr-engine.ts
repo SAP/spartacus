@@ -59,8 +59,6 @@ export class OptimizedSsrEngine {
     return this.renderResponse.bind(this);
   }
 
-  protected ngExpressEngineInstance: NgExpressEngineInstance;
-
   constructor(
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
@@ -476,7 +474,7 @@ export class OptimizedSsrEngine {
     options.providers = [customProviders, ...(options.providers ?? [])];
     // SPIKE NEW END
 
-    this.ngExpressEngineInstance(filePath, options, (err, html) => {
+    this.expressEngine(filePath, options, (err, html) => {
       if (!maxRenderTimeout) {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(
