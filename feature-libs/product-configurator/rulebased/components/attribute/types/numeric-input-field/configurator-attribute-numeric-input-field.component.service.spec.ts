@@ -303,8 +303,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         maxValue: 5,
         minValue: 5,
-        maxValueIncluded: false,
-        minValueIncluded: false,
+        maxValueIncluded: true,
+        minValueIncluded: true,
       };
       let value: Configurator.Value = {
         valueCode: '1',
