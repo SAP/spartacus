@@ -1,16 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
-import { CdcLocalStorageTemplate } from '../model/cdc-consent-management.model';
+import { CdcLocalStorageTemplate, CdcSiteConsentTemplate } from '../model/cdc-consent-management.model';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
-
 import createSpy = jasmine.createSpy;
-const initialState: CdcLocalStorageTemplate[] = [];
+
 const mockCdcConsents: CdcLocalStorageTemplate[] = [
   { id: 'terms.of.use', required: true },
   { id: 'privacy.statement', required: true },
   { id: 'consent.survey', required: false },
 ];
-
+const mockCdcSiteConsents: CdcSiteConsentTemplate = {
+  siteConsentDetails: {
+    'terms.of.use': { isMandatory: true, isActive: true },
+    'privacy.statement': { isMandatory: true, isActive: true },
+    'consent.survey': { isMandatory: false, isActive: true },
+  },
+};
 class MockStatePersistenceService implements Partial<StatePersistenceService> {
   syncWithStorage = createSpy();
   readStateFromStorage = createSpy('readStateFromStorage').and.returnValue(
@@ -38,13 +43,13 @@ describe('CdcConsentsLocalStorageService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('syncCdcConsentsState()', () => {
+  describe('persistCdcConsentsToStorage()', () => {
     it('should sync state with storage', () => {
-      service.syncCdcConsentsState(initialState);
+      service.persistCdcConsentsToStorage(mockCdcSiteConsents);
       expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
         jasmine.objectContaining({
           key: 'cdc-consents-list',
-          state$: jasmine.objectContaining(initialState),
+          state$: jasmine.objectContaining(mockCdcConsents),
         })
       );
     });
@@ -71,11 +76,11 @@ describe('CdcConsentsLocalStorageService', () => {
     });
   });
 
-  describe('clearCdcConsentsStorage()', () => {
+  describe('clearCdcConsentsFromStorage()', () => {
     it('should reset state to empty', () => {
-      spyOn(service as any, 'clearCdcConsentsStorage');
+      spyOn(service as any, 'clearCdcConsentsFromStorage');
       service.ngOnDestroy();
-      expect(service['clearCdcConsentsStorage']).toHaveBeenCalled();
+      expect(service['clearCdcConsentsFromStorage']).toHaveBeenCalled();
     });
   });
 });

@@ -30,6 +30,7 @@ const userRegisterFormData: UserSignUp = {
   lastName: 'lastName',
   uid: 'uid',
   password: 'password',
+  preferences: {},
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
@@ -205,6 +206,8 @@ describe('CdcRegisterComponentService', () => {
       cdcJsService.registerUserWithoutScreenSet = createSpy().and.returnValue(
         throwError('ERROR')
       );
+      cdcUserRegisterService.generatePreferencesObject =
+        createSpy().and.returnValue({});
 
       cdcUserRegisterService.register(userRegisterFormData).subscribe({
         error: () => {
@@ -217,6 +220,7 @@ describe('CdcRegisterComponentService', () => {
             lastName: 'lastName',
             uid: 'uid',
             password: 'password',
+            preferences: {},
           });
         },
       });

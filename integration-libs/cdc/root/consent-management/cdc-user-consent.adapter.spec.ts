@@ -6,7 +6,6 @@ import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { CdcUserConsentAdapter } from './cdc-user-consent.adapter';
-import { CdcConsentManagementService } from './services/cdc-consent-management.service';
 import { CdcConsentsLocalStorageService } from './services/cdc-consents-local-storage.service';
 import { CdcUserConsentService } from './services/cdc-user-consent.service';
 import createSpy = jasmine.createSpy;
@@ -15,11 +14,6 @@ const consentTemplateId = 'xxxx';
 const consentTemplateVersion = 0;
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
   updateCdcConsent = createSpy();
-}
-class MockCdcConsentManagementService
-  implements Partial<CdcConsentManagementService>
-{
-  persistCdcSiteConsents = createSpy();
 }
 class MockCdcConsentsLocalStorageService
   implements Partial<CdcConsentsLocalStorageService>
@@ -33,7 +27,6 @@ describe('CdcUserConsentAdapter', () => {
   let cdcUserConsentService: CdcUserConsentService;
   let storage: CdcConsentsLocalStorageService;
   let httpMock: HttpTestingController;
-  let cdcConsentManagementService: CdcConsentManagementService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, StoreModule.forRoot()],
@@ -47,32 +40,17 @@ describe('CdcUserConsentAdapter', () => {
           provide: CdcConsentsLocalStorageService,
           useClass: MockCdcConsentsLocalStorageService,
         },
-        {
-          provide: CdcConsentManagementService,
-          useClass: MockCdcConsentManagementService,
-        },
       ],
     });
     service = TestBed.inject(CdcUserConsentAdapter);
     cdcUserConsentService = TestBed.inject(CdcUserConsentService);
     httpMock = TestBed.inject(HttpTestingController);
     storage = TestBed.inject(CdcConsentsLocalStorageService);
-    cdcConsentManagementService = TestBed.inject(CdcConsentManagementService);
     TestBed.compileComponents();
   });
 
   it('should create service', () => {
     expect(service).toBeTruthy();
-  });
-  it('loadConsents() - load cdc site consents', () => {
-    service.loadConsents('current').subscribe();
-    expect(
-      cdcConsentManagementService.persistCdcSiteConsents
-    ).toHaveBeenCalled();
-    httpMock.expectOne((req) => {
-      return req.method === 'GET';
-    });
-    httpMock.verify();
   });
   describe('giveConsent()', () => {
     it('should update cdc consent', () => {

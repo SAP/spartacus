@@ -9,7 +9,6 @@ class MockCdcConsentManagementService
   implements Partial<CdcConsentManagementService>
 {
   getCdcRequiredConsents = createSpy();
-  persistCdcSiteConsents = createSpy();
 }
 class MockAnonymousConsentsService
   implements Partial<AnonymousConsentsService>
@@ -51,18 +50,6 @@ describe('CdcRegisterFormService', () => {
   });
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-  it('constructor', () => {
-    cdcConsentManagementService.persistCdcSiteConsents = createSpy().and.stub();
-    const obj = new CdcRegisterFormService(
-      cdcConsentManagementService,
-      fb,
-      anonymousConsentsService
-    );
-    expect(obj).toEqual(jasmine.any(CdcRegisterFormService));
-    expect(
-      cdcConsentManagementService.persistCdcSiteConsents
-    ).toHaveBeenCalled();
   });
   it('generateConsentsFormControl', () => {
     cdcConsentManagementService.getCdcRequiredConsents =

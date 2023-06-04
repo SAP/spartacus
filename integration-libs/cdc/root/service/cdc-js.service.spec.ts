@@ -13,6 +13,10 @@ import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { EMPTY, Observable, of, Subscription, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
+import {
+  CdcConsentsLocalStorageService,
+  CdcSiteConsentTemplate,
+} from '../consent-management';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcJsService } from './cdc-js.service';
 import createSpy = jasmine.createSpy;
@@ -38,6 +42,12 @@ class LanguageServiceStub implements Partial<LanguageService> {
   getActive(): Observable<string> {
     return EMPTY;
   }
+}
+
+class MockCdcConsentsLocalStorageService
+  implements Partial<CdcConsentsLocalStorageService>
+{
+  persistCdcConsentsToStorage(_siteConsent: CdcSiteConsentTemplate) {}
 }
 
 declare var window: Window;
@@ -124,6 +134,7 @@ describe('CdcJsService', () => {
   let winRef: WindowRef;
   let authService: AuthService;
   let globalMessageService: GlobalMessageService;
+  let store: CdcConsentsLocalStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -138,6 +149,10 @@ describe('CdcJsService', () => {
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
+        {
+          provide: CdcConsentsLocalStorageService,
+          useClass: MockCdcConsentsLocalStorageService,
+        },
       ],
     });
 
@@ -150,6 +165,7 @@ describe('CdcJsService', () => {
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    store = TestBed.inject(CdcConsentsLocalStorageService);
     service['gigyaSDK'] = mockedWindowRef.nativeWindow.gigya;
   });
 
@@ -1147,12 +1163,27 @@ describe('CdcJsService', () => {
   });
 
   describe('getSiteConsentDetails()', () => {
-    it('fetch consents from the current site', () => {
+    it('fetch consents from the current site without persisting into Local Storage', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(
         of('electronics-spa')
       );
+      spyOn(store, 'persistCdcConsentsToStorage').and.stub();
       spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
-      service.getSiteConsentDetails();
+      service.getSiteConsentDetails(false).subscribe(() => {
+        expect(store.persistCdcConsentsToStorage).not.toHaveBeenCalled();
+      });
+      expect(service['invokeAPI']).toHaveBeenCalled();
+      expect(service.getSiteConsentDetails).toBeTruthy();
+    });
+    it('fetch consents from the current site, persisting into Local Storage', () => {
+      spyOn(baseSiteService, 'getActive').and.returnValue(
+        of('electronics-spa')
+      );
+      spyOn(store, 'persistCdcConsentsToStorage').and.stub();
+      spyOn(service as any, 'invokeAPI').and.returnValue(of({ status: 'OK' }));
+      service.getSiteConsentDetails(true).subscribe(() => {
+        expect(store.persistCdcConsentsToStorage).toHaveBeenCalled();
+      });
       expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.getSiteConsentDetails).toBeTruthy();
     });

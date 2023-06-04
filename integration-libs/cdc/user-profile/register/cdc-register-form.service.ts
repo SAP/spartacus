@@ -19,7 +19,6 @@ export class CdcRegisterFormService extends RegisterFormService {
     protected anonymousConsentsService: AnonymousConsentsService
   ) {
     super(fb);
-    this.cdcConsentManagementService.persistCdcSiteConsents();
   }
   generateConsentsFormControl(): UntypedFormArray {
     var cdcRequiredConsents: string[] =
@@ -47,8 +46,7 @@ export class CdcRegisterFormService extends RegisterFormService {
           required: boolean;
         }[] = [];
         var returnConsent: any = {};
-        if(templates && templates.length > 0)
-        {
+        if (templates && templates.length > 0) {
           for (let template of templates) {
             if (template.id && cdcRequiredConsents.includes(template.id)) {
               returnConsent = {};

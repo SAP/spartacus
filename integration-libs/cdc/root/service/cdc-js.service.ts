@@ -38,6 +38,7 @@ import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcReConsentEvent } from '../events';
 import { CdcSiteConsentTemplate } from '../consent-management/model/cdc-consent-management.model';
+import { CdcConsentsLocalStorageService } from '../consent-management';
 
 const defaultSessionTimeOut = 3600;
 const setAccountInfoAPI = 'accounts.setAccountInfo';
@@ -62,7 +63,8 @@ export class CdcJsService implements OnDestroy {
     protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any,
     protected globalMessageService: GlobalMessageService,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected consentStore: CdcConsentsLocalStorageService
   ) {}
 
   /**
@@ -109,6 +111,7 @@ export class CdcJsService implements OnDestroy {
                 attributes: { type: 'text/javascript' },
                 callback: () => {
                   this.registerEventListeners(baseSite);
+                  this.getSiteConsentDetails(true).subscribe(); //fetch CDC consents and persist to local storage
                   this.loaded$.next(true);
                   this.errorLoading$.next(false);
                 },
@@ -636,7 +639,9 @@ export class CdcJsService implements OnDestroy {
       });
     });
   }
-  getSiteConsentDetails(): Observable<CdcSiteConsentTemplate> {
+  getSiteConsentDetails(
+    persistToLocalStorage: boolean = false
+  ): Observable<CdcSiteConsentTemplate> {
     let baseSite: string = this.getCurrentBaseSite();
     let javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
     let queryParams = new URLSearchParams(
@@ -645,8 +650,17 @@ export class CdcJsService implements OnDestroy {
     let siteApiKey: string | null = queryParams.get('apikey');
     return this.invokeAPI('accounts.getSiteConsentDetails', {
       apiKey: siteApiKey,
-    });
+    }).pipe(
+      tap({
+        next: (response) => {
+          if (persistToLocalStorage) {
+            this.consentStore.persistCdcConsentsToStorage(response);
+          }
+        },
+      })
+    );
   }
+
   setUserConsentPreferences(
     uid: string,
     lang: string,
@@ -663,7 +677,6 @@ export class CdcJsService implements OnDestroy {
     }).pipe(
       tap({
         error: (error) => {
-          console.log(error);
           throwError(error);
         },
       })
