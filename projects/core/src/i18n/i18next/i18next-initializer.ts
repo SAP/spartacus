@@ -4,20 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, OnDestroy } from '@angular/core';
-import type { i18n, InitOptions } from 'i18next';
+import { Inject, Injectable, OnDestroy, inject } from '@angular/core';
+import type { InitOptions, i18n } from 'i18next';
 import { Subscription } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationResources } from '../translation-resources';
 import { I18nextBackendService } from './i18next-backend/i18next-backend.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
+import { I18nextLoggerPlugin } from './i18next-plugins/i18next-logger-pluggin';
 
 /**
  * Initializes the i18next instance.
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextInitializer implements OnDestroy {
+  protected loggerPlugin = inject(I18nextLoggerPlugin);
+
   constructor(
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
     protected config: I18nConfig,
@@ -32,12 +35,14 @@ export class I18nextInitializer implements OnDestroy {
    */
   initialize(): Promise<any> {
     const i18nextConfig = this.getI18nextConfig();
-    return this.i18next.init(i18nextConfig, () => {
-      // Don't use i18next's 'resources' config key for adding static translations,
-      // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-      this.addTranslationResources();
-      this.synchronizeLanguage();
-    });
+    return this.i18next
+      .use(this.loggerPlugin.getPlugin())
+      .init(i18nextConfig, () => {
+        // Don't use i18next's 'resources' config key for adding static translations,
+        // because it will disable loading chunks from backend. We add resources here, in the init's callback.
+        this.addTranslationResources();
+        this.synchronizeLanguage();
+      });
   }
 
   /**
@@ -47,7 +52,8 @@ export class I18nextInitializer implements OnDestroy {
     let i18nextConfig: InitOptions = {
       ns: [], // don't preload any namespaces
       fallbackLng: this.config.i18n?.fallbackLang,
-      debug: this.config.i18n?.debug,
+      // debug: this.config.i18n?.debug
+      debug: true, // REMOVE BEFORE PRODUCTION
       interpolation: {
         escapeValue: false,
         skipOnVariables: false,
