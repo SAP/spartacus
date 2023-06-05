@@ -404,7 +404,6 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
     return matchesLower && matchesHigher;
     //TODO CHHI check input issue with multiple group separators
-    //TODO CHHI feature toggling
   }
 
   protected parseInput(input: string, locale: string): number {
