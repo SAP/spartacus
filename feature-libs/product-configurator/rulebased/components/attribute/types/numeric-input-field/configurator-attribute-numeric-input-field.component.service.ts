@@ -424,8 +424,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
     groupingSeparator: string,
     decimalSeparator: string
   ) {
-    const escape = '\\';
-    const search: RegExp = new RegExp(escape + groupingSeparator, 'g');
+    const escapeString = '\\';
+    const search: RegExp = new RegExp(escapeString + groupingSeparator, 'g');
     const normalizedInput = input
       .replace(search, '')
       .replace(decimalSeparator, '.');
