@@ -9,15 +9,15 @@ import {
   Component,
   isDevMode,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { FeatureConfigService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '../../../core';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -44,11 +44,34 @@ export class ConfiguratorAttributeHeaderComponent
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
   constructor(
+    configUtils: ConfiguratorStorefrontUtilsService,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configuratorUiSettings: ConfiguratorUISettingsConfig,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    configUtils: ConfiguratorStorefrontUtilsService,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configuratorUiSettings: ConfiguratorUISettingsConfig,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext
+  );
+
+  constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorUiSettings: ConfiguratorUISettingsConfig,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    // TODO (CXSPA-3392): for next major release remove feature level
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -68,7 +91,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => result && this.isRequiredAttributeWithDomain()));
+      .pipe(map((result) => result && this.isNewestRelease()));
   }
 
   /**
@@ -112,7 +135,7 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isAttributeWithDomain(
+  protected isAttributeWithDomainAndDropDown(
     uiType: Configurator.UiType | undefined
   ): boolean {
     switch (uiType) {
@@ -128,10 +151,39 @@ export class ConfiguratorAttributeHeaderComponent
     return true;
   }
 
+  protected isAttributeWithDomain(
+    uiType: Configurator.UiType | undefined
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.NOT_IMPLEMENTED:
+      case Configurator.UiType.STRING:
+      case Configurator.UiType.NUMERIC:
+      case Configurator.UiType.CHECKBOX: {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  protected isNewestRelease(): boolean {
+    if (this.featureConfig?.isLevel('6.2')) {
+      return this.isRequiredAttributeWithDomainAndDropDown();
+    } else {
+      return this.isRequiredAttributeWithDomain();
+    }
+  }
+
   protected isRequiredAttributeWithDomain(): boolean {
     return (
       this.isRequiredErrorMsg(this.attribute) &&
       this.isAttributeWithDomain(this.attribute.uiType)
+    );
+  }
+
+  protected isRequiredAttributeWithDomainAndDropDown(): boolean {
+    return (
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isAttributeWithDomainAndDropDown(this.attribute.uiType)
     );
   }
 
@@ -146,7 +198,7 @@ export class ConfiguratorAttributeHeaderComponent
     }
     return false;
   }
-  R;
+
   /**
    * Verifies whether the conflict resolution is active.
    *

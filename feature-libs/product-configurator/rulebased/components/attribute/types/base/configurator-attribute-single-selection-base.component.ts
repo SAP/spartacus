@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
+import { Directive, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -32,12 +32,33 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   showRequiredErrorMessage$: Observable<boolean>;
 
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
+  );
+
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService
+  );
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    @Optional()
+    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
   ) {
     super();
 
@@ -47,20 +68,22 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.language = attributeComponentContext.language;
     this.expMode = attributeComponentContext.expMode;
 
-    this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
-      .isCartEntryOrGroupVisited(
-        attributeComponentContext.owner,
-        attributeComponentContext.group.id
-      )
-      .pipe(
-        map((result) =>
-          result
-            ? this.isRequiredErrorMsg(this.attribute) &&
-              this.isDropDown(this.attribute) &&
-              this.isNoValueSelected(this.attribute)
-            : false
+    if (this.configuratorStorefrontUtilsService) {
+      this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
+        .isCartEntryOrGroupVisited(
+          attributeComponentContext.owner,
+          attributeComponentContext.group.id
         )
-      );
+        .pipe(
+          map((result) =>
+            result
+              ? this.isRequiredErrorMsg(this.attribute) &&
+                this.isDropDown(this.attribute) &&
+                this.isNoValueSelected(this.attribute)
+              : false
+          )
+        );
+    }
   }
 
   /**

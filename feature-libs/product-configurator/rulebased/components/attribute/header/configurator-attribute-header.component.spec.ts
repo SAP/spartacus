@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -69,6 +74,12 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
+class MockFeatureConfigService {
+  isLevel(): boolean {
+    return true;
+  }
+}
+
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
@@ -110,7 +121,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
+        imports: [FeaturesConfigModule, I18nTestingModule, IconModule],
         declarations: [
           ConfiguratorAttributeHeaderComponent,
           MockFeatureLevelDirective,
@@ -133,9 +144,16 @@ describe('ConfigAttributeHeaderComponent', () => {
             provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
           },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
           },
         ],
       })
@@ -1060,6 +1078,66 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isAttributeWithDomainAndDropDown', () => {
+    it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
+      component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithDomainAndDropDown'](
+          component.attribute.uiType
+        )
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.STRING`', () => {
+      component.attribute.uiType = Configurator.UiType.STRING;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithDomainAndDropDown'](
+          component.attribute.uiType
+        )
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.NUMERIC`', () => {
+      component.attribute.uiType = Configurator.UiType.NUMERIC;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithDomainAndDropDown'](
+          component.attribute.uiType
+        )
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.DROPDOWN`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithDomainAndDropDown'](
+          component.attribute.uiType
+        )
+      ).toBe(false);
+    });
+
+    it('should return `false` because attribute UI type is `Configurator.UiType.DROPDOWN_PRODUCT`', () => {
+      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      fixture.detectChanges();
+      expect(
+        component['isAttributeWithDomainAndDropDown'](
+          component.attribute.uiType
+        )
+      ).toBe(false);
+    });
+
+    it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
+      expect(
+        component['isAttributeWithDomainAndDropDown'](
+          component.attribute.uiType
+        )
+      ).toBe(true);
+    });
+  });
+
   describe('isAttributeWithDomain', () => {
     it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
@@ -1085,26 +1163,46 @@ describe('ConfigAttributeHeaderComponent', () => {
       ).toBe(false);
     });
 
-    it('should return `false` because attribute UI type is `Configurator.UiType.DROPDOWN`', () => {
-      component.attribute.uiType = Configurator.UiType.DROPDOWN;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
-    it('should return `false` because attribute UI type is `Configurator.UiType.DROPDOWN_PRODUCT`', () => {
-      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
     it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
       expect(
         component['isAttributeWithDomain'](component.attribute.uiType)
       ).toBe(true);
+    });
+  });
+
+  describe('isRequiredAttributeWithDomainAndDropDown', () => {
+    it('should return `false` because because required attribute is `undefined`', () => {
+      component.attribute.required = undefined;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+        false
+      );
+    });
+
+    it('should return `false` because definition of attribute incompleteness is `undefined`', () => {
+      component.attribute.incomplete = undefined;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+        false
+      );
+    });
+
+    it('should return `false` because attribute attribute UI type is `Configurator.UiType.DROPDOWN`', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+        false
+      );
+    });
+
+    it('should return `true` because attribute attribute UI type is `Configurator.UiType.RADIOBUTTON`', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+        true
+      );
     });
   });
 
@@ -1128,11 +1226,20 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(component['isRequiredAttributeWithDomain']()).toBe(false);
     });
 
-    it('should return `true` because attribute attribute UI type is `Configurator.UiType.NUMERIC`', () => {
+    it('should return `true` because attribute attribute UI type is `Configurator.UiType.DROPDOWN_PRODUCT`', () => {
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      fixture.detectChanges();
+      expect(component['isRequiredAttributeWithDomain']()).toBe(true);
+    });
+  });
+
+  describe('isNewestRelease', () => {
+    it('should return `true` because the newest release is active', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomain']()).toBe(true);
+      expect(component['isNewestRelease']()).toBe(true);
     });
   });
 });

@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -28,8 +34,25 @@ export class ConfiguratorAttributeFooterComponent
   groupId: string;
 
   constructor(
+    configUtils: ConfiguratorStorefrontUtilsService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    configUtils: ConfiguratorStorefrontUtilsService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext
+  );
+
+  constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    // TODO (CXSPA-3392): for next major release remove feature level
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -47,11 +70,15 @@ export class ConfiguratorAttributeFooterComponent
      */
     this.showRequiredMessageForUserInput$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) =>
-          result ? this.needsUserInputMsg() || this.needsDropDownMsg() : false
-        )
-      );
+      .pipe(map((result) => (result ? this.isNewestRelease() : false)));
+  }
+
+  protected isNewestRelease(): boolean {
+    if (this.featureConfig?.isLevel('6.2')) {
+      return this.needsUserInputMsg() || this.needsDropDownMsg();
+    } else {
+      return this.needsUserInputMsg();
+    }
   }
 
   protected needsDropDownMsg(): boolean {

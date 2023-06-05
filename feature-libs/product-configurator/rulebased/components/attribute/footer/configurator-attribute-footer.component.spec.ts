@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -39,6 +44,12 @@ class MockConfigUtilsService {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel(): boolean {
+    return true;
+  }
+}
+
 const attributeName = '123';
 const attrLabel = 'attLabel';
 
@@ -61,7 +72,7 @@ describe('ConfigAttributeFooterComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, IconModule],
+        imports: [FeaturesConfigModule, I18nTestingModule, IconModule],
         declarations: [ConfiguratorAttributeFooterComponent],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
@@ -69,9 +80,16 @@ describe('ConfigAttributeFooterComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
           },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
           {
             provide: ConfiguratorAttributeCompositionContext,
             useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
           },
         ],
       })

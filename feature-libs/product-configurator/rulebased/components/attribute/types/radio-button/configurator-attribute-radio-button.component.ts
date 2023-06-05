@@ -25,12 +25,13 @@ export class ConfiguratorAttributeRadioButtonComponent
 {
   attributeRadioButtonForm = new UntypedFormControl('');
 
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
