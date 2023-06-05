@@ -125,7 +125,8 @@ export enum RenderingStrategy {
 }
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
-  concurrency: 10,
+  // TODO: This default option has been changed for testing purpose - REMOVE BEFORE RELEASE
+  concurrency: 50,
   timeout: 3_000,
   forcedSsrTimeout: 60_000,
   maxRenderTime: 300_000,

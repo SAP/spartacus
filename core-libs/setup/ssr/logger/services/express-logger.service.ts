@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { LoggerService } from '@spartacus/core';
-import { format } from 'util';
+import { formatWithOptions } from 'util';
 import { serverLoggerToken } from '../loggers/server-logger';
 
 @Injectable({ providedIn: 'root' })
@@ -32,6 +32,10 @@ export class ExpressLoggerService implements LoggerService {
   }
 
   protected formatLogMessage(message?: any, ...optionalParams: any[]): string {
-    return format(message, ...optionalParams);
+    return formatWithOptions(
+      { breakLength: Infinity },
+      message,
+      ...optionalParams
+    );
   }
 }
