@@ -32,6 +32,7 @@ export class ExpressLoggerService implements LoggerService {
   }
 
   protected formatLogMessage(message?: any, ...optionalParams: any[]): string {
+    // TODO: add comment about why - (because Kibana, to not split into separate lines)
     return formatWithOptions(
       { breakLength: Infinity },
       message,

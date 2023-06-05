@@ -12,7 +12,7 @@ import { I18nConfig } from '../config/i18n-config';
 import { TranslationResources } from '../translation-resources';
 import { I18nextBackendService } from './i18next-backend/i18next-backend.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
-import { I18nextLoggerPlugin } from './i18next-plugins/i18next-logger-pluggin';
+import { I18nextLoggerPlugin } from './i18next-plugins/i18next-logger-plugin';
 
 /**
  * Initializes the i18next instance.

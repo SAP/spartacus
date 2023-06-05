@@ -36,7 +36,7 @@ export class ExpressServerLogger extends ServerLogger {
       });
     }
 
-    return JSON.stringify(object, null, 2);
+    return JSON.stringify(object);
   }
 
   protected mapRequest(request: Request): Record<string, any> {
