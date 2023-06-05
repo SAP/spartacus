@@ -11,9 +11,10 @@ import {
   isDevMode,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
+import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
@@ -49,11 +50,34 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   language: string;
 
   constructor(
+    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    config: ConfiguratorUISettingsConfig,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    config: ConfiguratorUISettingsConfig,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService
+  );
+
+  constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    // TODO:(CXSPA-3392) for next major release remove feature config service
+    @Optional() protected featureConfigservice?: FeatureConfigService
   ) {
     super(config, attributeComponentContext, configuratorCommonsService);
     this.language = attributeComponentContext.language;
@@ -141,22 +165,29 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         );
     }
 
-    this.attributeInputForm = new UntypedFormControl('', [
+    const numberFormatValidator =
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
         numDecimalPlaces,
         numTotalLength,
         negativeAllowed
-      ),
-      this.configAttributeNumericInputFieldService.getIntervalValidator(
-        this.locale,
-        numDecimalPlaces,
-        numTotalLength,
-        negativeAllowed,
-        this.intervals,
-        this.attribute.userInput
-      ),
-    ]);
+      );
+
+    const validatorArray = this.featureConfigservice?.isLevel('6.2')
+      ? [
+          numberFormatValidator,
+          this.configAttributeNumericInputFieldService.getIntervalValidator(
+            this.locale,
+            numDecimalPlaces,
+            numTotalLength,
+            negativeAllowed,
+            this.intervals,
+            this.attribute.userInput
+          ),
+        ]
+      : [numberFormatValidator];
+
+    this.attributeInputForm = new UntypedFormControl('', validatorArray);
 
     this.numericFormatPattern =
       this.configAttributeNumericInputFieldService.getPatternForValidationMessage(

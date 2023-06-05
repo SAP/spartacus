@@ -12,7 +12,11 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  LanguageService,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -44,10 +48,12 @@ class MockCxIconComponent {
 }
 
 let DEBOUNCE_TIME: number;
+let testVersion: string;
 
 const userInput = '345.00';
 const NUMBER_DECIMAL_PLACES = 2;
 const ATTRIBUTE_NAME = 'attributeName';
+const VALUE_OUTSIDE_ALL_INTERVALS = '5';
 
 const attribute: Configurator.Attribute = {
   name: ATTRIBUTE_NAME,
@@ -97,6 +103,12 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+class MockFeatureConfigService {
+  isLevel(version: string): boolean {
+    return version === testVersion;
+  }
+}
+
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
 
@@ -142,6 +154,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
@@ -173,6 +186,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+
+    testVersion = '6.2';
 
     spyOn(
       component['configuratorCommonsService'],
@@ -312,7 +327,17 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   describe('Interval validation', () => {
     it('should display an issue if input does not match interval', () => {
-      checkForIntervalValidity('5', 1);
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 1);
+    });
+
+    it('should display no issue if input does not match interval but we did not opt for the 6.2 release', () => {
+      testVersion = '6.1';
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
+    });
+
+    it('should display no issue if input does not match interval but feature config service is not available', () => {
+      component['featureConfigservice'] = undefined;
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
     });
 
     it('should display no issue if input in part of interval', () => {
