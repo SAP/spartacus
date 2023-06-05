@@ -422,10 +422,33 @@ describe('ConfigAttributeNumericInputFieldService', () => {
   describe('parseInput', () => {
     const locale = 'en';
 
-    it('should ignore gorup separators', () => {
+    it('should ignore single group separator', () => {
       const input = '5,998';
       expect(serviceUnderTest['parseInput'](input, locale)).toBe(5998);
-      //TODO CHHI extend test
+    });
+
+    it('should ignore multiple group separators', () => {
+      const input = '5,998,2,3';
+      expect(serviceUnderTest['parseInput'](input, locale)).toBe(599823);
+    });
+
+    it('should handle decimal places properly', () => {
+      const input = '5,998.23';
+      expect(serviceUnderTest['parseInput'](input, locale)).toBe(5998.23);
+    });
+
+    it('should work with german locale', () => {
+      const input = '5.998,23';
+      expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
+        5998.23
+      );
+    });
+
+    it('should digest group separators included in the decimal part', () => {
+      const input = '9,2.3';
+      expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
+        9.23
+      );
     });
   });
 });

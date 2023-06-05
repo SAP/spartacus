@@ -403,7 +403,6 @@ export class ConfiguratorAttributeNumericInputFieldService {
     }
 
     return matchesLower && matchesHigher;
-    //TODO CHHI check input issue with multiple group separators
   }
 
   protected parseInput(input: string, locale: string): number {
@@ -412,10 +411,24 @@ export class ConfiguratorAttributeNumericInputFieldService {
       locale,
       NumberSymbol.Decimal
     );
-    const inputGroupSeparatorsRemoved = input
-      .replace(groupingSeparator, '')
+    return this.parseInputForSeparators(
+      input,
+      groupingSeparator,
+      decimalSeparator
+    );
+  }
+
+  protected parseInputForSeparators(
+    input: string,
+    groupingSeparator: string,
+    decimalSeparator: string
+  ) {
+    const escape = '\\';
+    const search: RegExp = new RegExp(escape + groupingSeparator, 'g');
+    const normalizedInput = input
+      .replace(search, '')
       .replace(decimalSeparator, '.');
-    return parseFloat(inputGroupSeparatorsRemoved);
+    return parseFloat(normalizedInput);
   }
 
   protected createValidationError(

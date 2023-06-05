@@ -58,7 +58,7 @@ export const configurator = {
       multiSelectRequiredMessage: 'Select one or more values',
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
-      wrongIntervalFormat: 'The value you entered does not match the interval',
+      wrongIntervalFormat: 'Enter a value within the indicated boundaries',
       deselectionNotPossible:
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
