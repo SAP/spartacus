@@ -43,6 +43,7 @@ export class ExpressServerLogger extends ServerLogger {
     return {
       url: request.originalUrl,
       render: request.res?.locals.cx.render,
+      headers: request.headers,
     };
   }
 }
