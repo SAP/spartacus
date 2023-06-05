@@ -59,7 +59,7 @@ export class ConfiguratorAttributeFooterComponent
       this.isRequiredErrorMsg(this.attribute) &&
       this.isDropDown(this.attribute) &&
       this.isNoValueSelected(this.attribute);
-    return needsMsg ?? false;
+    return needsMsg;
   }
 
   /**
@@ -76,6 +76,6 @@ export class ConfiguratorAttributeFooterComponent
       this.isRequiredErrorMsg(this.attribute) &&
       this.isUserInput(this.attribute) &&
       this.isUserInputEmpty(this.attribute.userInput);
-    return needsMsg ?? false;
+    return needsMsg;
   }
 }

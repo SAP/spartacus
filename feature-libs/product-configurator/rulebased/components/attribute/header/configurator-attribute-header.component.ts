@@ -99,16 +99,24 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isRequiredAttributeWithDomain(): boolean {
-    const uiType = this.attribute.uiType;
+  protected isAttributeWithDomain(
+    uiType: Configurator.UiType | undefined
+  ): boolean {
     return (
-      (this.isRequiredErrorMsg(this.attribute) &&
+      (uiType &&
         uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
         uiType !== Configurator.UiType.STRING &&
         uiType !== Configurator.UiType.NUMERIC &&
         uiType !== Configurator.UiType.DROPDOWN &&
         uiType !== Configurator.UiType.DROPDOWN_PRODUCT) ??
       false
+    );
+  }
+
+  protected isRequiredAttributeWithDomain(): boolean {
+    return (
+      this.isRequiredErrorMsg(this.attribute) &&
+      this.isAttributeWithDomain(this.attribute.uiType)
     );
   }
 

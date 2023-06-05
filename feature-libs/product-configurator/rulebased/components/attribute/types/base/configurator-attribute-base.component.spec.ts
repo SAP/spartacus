@@ -11,7 +11,7 @@ const currentAttribute: Configurator.Attribute = {
 
 const attributeIncomplete: Configurator.Attribute = { name: 'name' };
 
-describe('ConfigUIKeyGeneratorService', () => {
+describe('ConfiguratorAttributeBaseComponent', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
 
   beforeEach(() => {
@@ -354,22 +354,46 @@ describe('ConfigUIKeyGeneratorService', () => {
   });
 
   describe('isNoValueSelected', () => {
-    it('should return false because there are no values', () => {
+    it('should return `false` because there are no values', () => {
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
     });
 
-    it('should return false because there is no selected value', () => {
+    it('should return `false` because there is a selected value with value code `0`', () => {
       currentAttribute.values = [
-        { name: 'V1', selected: false, valueCode: 'VALUE_CODE' },
-        { name: 'V2', selected: false, valueCode: 'VALUE_CODE2' },
+        ConfiguratorTestUtils.createValue('0', undefined, true),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
       ];
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
     });
 
-    it('should return true because there is selected value', () => {
+    it('should return `false` because the selected value has a code `###RETRACT_VALUE_CODE###`', () => {
       currentAttribute.values = [
-        { name: 'V1', selected: false, valueCode: 'VALUE_CODE' },
-        { name: 'V2', selected: true, valueCode: 'VALUE_CODE2' },
+        ConfiguratorTestUtils.createValue(
+          '###RETRACT_VALUE_CODE###',
+          undefined,
+          true
+        ),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
+    });
+
+    it('should return `false` because there is selected value', () => {
+      currentAttribute.values = [
+        ConfiguratorTestUtils.createValue('123', 10, true),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
+    });
+
+    it('should return `true` because there is selected value', () => {
+      currentAttribute.values = [
+        ConfiguratorTestUtils.createValue('123', 10, true),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
       ];
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
     });

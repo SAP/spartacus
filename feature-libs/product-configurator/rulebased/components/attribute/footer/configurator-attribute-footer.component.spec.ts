@@ -177,7 +177,91 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  describe('isUserInputEmpty()', () => {
+  describe('needsDropDownMsg', () => {
+    it('should not display drop-down message because attribute is not required', () => {
+      classUnderTest.attribute.required = false;
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message because attribute is complete', () => {
+      classUnderTest.attribute.incomplete = false;
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message for another UI type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message because the list of values is undefined', () => {
+      classUnderTest.attribute.values = undefined;
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(false);
+    });
+
+    it('should not display drop-down message for UI type `DROPDOWN` because there is a selected value with value code `0`', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+      classUnderTest.attribute.values = [
+        ConfiguratorTestUtils.createValue('0', undefined),
+        ConfiguratorTestUtils.createValue('123', 10, true),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(false);
+      classUnderTest.attribute.values = undefined;
+      fixture.detectChanges();
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN`', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(true);
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN_PRODUCT`', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(true);
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN` because the selected value has a code `###RETRACT_VALUE_CODE###`', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+      classUnderTest.attribute.values = [
+        ConfiguratorTestUtils.createValue(
+          '###RETRACT_VALUE_CODE###',
+          undefined,
+          true
+        ),
+        ConfiguratorTestUtils.createValue('123', 10),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(true);
+      classUnderTest.attribute.values = undefined;
+      fixture.detectChanges();
+    });
+
+    it('should display drop-down message for UI type `DROPDOWN_PRODUCT` because the selected value has a code `0`', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      classUnderTest.attribute.values = [
+        ConfiguratorTestUtils.createValue('0', undefined, true),
+        ConfiguratorTestUtils.createValue('123', 10),
+        ConfiguratorTestUtils.createValue('456', 15),
+        ConfiguratorTestUtils.createValue('789', 20),
+      ];
+      fixture.detectChanges();
+      expect(classUnderTest['needsDropDownMsg']()).toBe(true);
+      classUnderTest.attribute.values = undefined;
+      fixture.detectChanges();
+    });
+  });
+
+  describe('isUserInputEmpty', () => {
     it('should return false because user input is undefined', () => {
       currentAttribute.userInput = undefined;
       expect(
@@ -207,7 +291,7 @@ describe('ConfigAttributeFooterComponent', () => {
     });
   });
 
-  describe('needsUserInputMessage()', () => {
+  describe('needsUserInputMsg', () => {
     it('should not display user input message because attribute is not required', () => {
       classUnderTest.attribute.required = false;
       fixture.detectChanges();

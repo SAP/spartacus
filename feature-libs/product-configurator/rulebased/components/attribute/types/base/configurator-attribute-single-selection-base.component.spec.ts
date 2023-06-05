@@ -13,7 +13,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { StoreModule } from '@ngrx/store';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {

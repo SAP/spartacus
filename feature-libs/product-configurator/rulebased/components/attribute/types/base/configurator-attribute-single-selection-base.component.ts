@@ -56,7 +56,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
         map((result) =>
           result
             ? this.isRequiredErrorMsg(this.attribute) &&
-              this.isDropDown(this.attribute)
+              this.isDropDown(this.attribute) &&
+              this.isNoValueSelected(this.attribute)
             : false
         )
       );
