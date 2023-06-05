@@ -80,9 +80,22 @@ export class ConfiguratorAttributeHeaderComponent
       return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
-    } else {
+    } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
+    } else {
+      return 'configurator.attribute.singleSelectRequiredMessage';
     }
+  }
+
+  protected get isMultiSelection(): boolean {
+    switch (this.attribute.uiType) {
+      case Configurator.UiType.CHECKBOXLIST:
+      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
+      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
+        return true;
+      }
+    }
+    return false;
   }
 
   protected isSingleSelection(): boolean {
@@ -102,15 +115,17 @@ export class ConfiguratorAttributeHeaderComponent
   protected isAttributeWithDomain(
     uiType: Configurator.UiType | undefined
   ): boolean {
-    return (
-      (uiType &&
-        uiType !== Configurator.UiType.NOT_IMPLEMENTED &&
-        uiType !== Configurator.UiType.STRING &&
-        uiType !== Configurator.UiType.NUMERIC &&
-        uiType !== Configurator.UiType.DROPDOWN &&
-        uiType !== Configurator.UiType.DROPDOWN_PRODUCT) ??
-      false
-    );
+    switch (uiType) {
+      case Configurator.UiType.NOT_IMPLEMENTED:
+      case Configurator.UiType.STRING:
+      case Configurator.UiType.NUMERIC:
+      case Configurator.UiType.CHECKBOX:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT: {
+        return false;
+      }
+    }
+    return true;
   }
 
   protected isRequiredAttributeWithDomain(): boolean {
@@ -131,7 +146,7 @@ export class ConfiguratorAttributeHeaderComponent
     }
     return false;
   }
-
+  R;
   /**
    * Verifies whether the conflict resolution is active.
    *

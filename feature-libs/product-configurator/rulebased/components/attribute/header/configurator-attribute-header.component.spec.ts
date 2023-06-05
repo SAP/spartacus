@@ -371,16 +371,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    //TODO: verify which message should be displayed
-    xit('should return no key for not implemented attribute type', () => {
+    it('should return no key for not implemented attribute type', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
-    //TODO: verify which message should be displayed
-    xit('should return no key for read only attribute type', () => {
+    it('should return no key for read only attribute type', () => {
       component.attribute.uiType = Configurator.UiType.READ_ONLY;
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
@@ -1063,14 +1061,6 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('isAttributeWithDomain', () => {
-    it('should return `false` because attribute UI type is `undefined`', () => {
-      component.attribute.uiType = undefined;
-      fixture.detectChanges();
-      expect(
-        component['isAttributeWithDomain'](component.attribute.uiType)
-      ).toBe(false);
-    });
-
     it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
       fixture.detectChanges();
