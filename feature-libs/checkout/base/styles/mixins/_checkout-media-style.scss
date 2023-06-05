@@ -12,8 +12,17 @@
     @include media-breakpoint-down(sm) {
       padding: 0 2.25rem;
     }
-  }
 
+    @include forVersion(6.2) {
+      @include media-breakpoint-down(md) {
+        padding: 0 0.625rem;
+      }
+  
+      @include media-breakpoint-down(sm) {
+        padding: 0 0.625rem;
+      }
+    }
+  }
   .container {
     @include media-breakpoint-down(md) {
       width: 100%;
@@ -49,6 +58,15 @@
     padding-inline-end: 0;
     @include type('4');
     background-color: var(--cx-color-background);
+
+    @include forVersion(6.2) {
+      background-color: var(--cx-color-transparent);
+      margin-top: 0;
+      padding-top: 0;
+      padding-bottom: .438rem;
+      margin-bottom: .5rem;
+      padding-inline-start: 0;
+    }
   }
 
   .cx-checkout-body {
@@ -59,6 +77,10 @@
         padding: 0;
       }
     }
+
+    @include forVersion(6.2) {
+      margin: 0;
+    }
   }
 
   .cx-checkout-text {
@@ -66,9 +88,17 @@
 
     @include media-breakpoint-down(md) {
       padding-inline-start: 3.5rem;
+
+      @include forVersion(6.2) {
+        padding-inline-start: 0;
+      }
     }
     @include media-breakpoint-down(sm) {
       padding-inline-start: 1.5rem;
+
+      @include forVersion(6.2) {
+        padding-inline-start: 0;
+      }
     }
   }
 
