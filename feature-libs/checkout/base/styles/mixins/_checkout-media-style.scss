@@ -17,7 +17,7 @@
       @include media-breakpoint-down(md) {
         padding: 0 0.625rem;
       }
-  
+
       @include media-breakpoint-down(sm) {
         padding: 0 0.625rem;
       }
@@ -63,8 +63,8 @@
       background-color: var(--cx-color-transparent);
       margin-top: 0;
       padding-top: 0;
-      padding-bottom: .438rem;
-      margin-bottom: .5rem;
+      padding-bottom: 0.438rem;
+      margin-bottom: 0.5rem;
       padding-inline-start: 0;
     }
   }

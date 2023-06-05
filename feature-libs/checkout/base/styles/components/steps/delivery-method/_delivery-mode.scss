@@ -3,7 +3,7 @@
 
   @include media-breakpoint-down(md) {
     padding: 20px 0;
-   
+
     @include forVersion(6.2) {
       background-color: var(--cx-color-transparent);
       margin-top: 32px;
