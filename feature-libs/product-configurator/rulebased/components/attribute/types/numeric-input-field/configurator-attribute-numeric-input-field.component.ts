@@ -81,6 +81,34 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   }
 
   ngOnInit() {
+    this.initializeValidation();
+
+    if (this.attribute.userInput) {
+      this.attributeInputForm.setValue(this.attribute.userInput);
+    }
+
+    if (
+      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      !this.attributeInputForm.value
+    ) {
+      this.attributeInputForm.markAsTouched();
+    }
+
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(
+            this.config.productConfigurator?.updateDebounceTime?.input ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
+        )
+      )
+      .subscribe(() => this.onChange());
+  }
+
+  protected initializeValidation() {
     //locales are available as 'languages' in the commerce backend
     this.locale = this.getInstalledLocale(this.language);
 
@@ -137,29 +165,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         negativeAllowed,
         this.locale
       );
-    if (this.attribute.userInput) {
-      this.attributeInputForm.setValue(this.attribute.userInput);
-    }
-
-    if (
-      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      !this.attributeInputForm.value
-    ) {
-      this.attributeInputForm.markAsTouched();
-    }
-
-    this.sub = this.attributeInputForm.valueChanges
-      .pipe(
-        debounce(() =>
-          timer(
-            this.config.productConfigurator?.updateDebounceTime?.input ??
-              this.FALLBACK_DEBOUNCE_TIME
-          )
-        )
-      )
-      .subscribe(() => this.onChange());
   }
 
   ngOnDestroy() {

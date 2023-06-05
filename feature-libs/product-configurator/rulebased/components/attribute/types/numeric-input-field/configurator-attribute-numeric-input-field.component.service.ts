@@ -352,7 +352,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
         input &&
         input !== currentValue && //this is to ensure that selected interval consisting of only one value will not lead to a validation error
         // in the next roundtrip, when this value has been removed from the list of intervals
-        intervals.length !== 0 &&
+        intervals.length !== 0 && // perform validation only if intervals exist
         this.getValidationErrorsNumericFormat(
           input,
           locale,
@@ -361,10 +361,9 @@ export class ConfiguratorAttributeNumericInputFieldService {
           negativeAllowed
         ) == null
       ) {
-        if (!this.checkIfPartOfIntervals(input, locale, intervals)) {
-          return this.createIntervalValidationError(true);
-        }
-        return null;
+        return this.createIntervalValidationError(
+          !this.checkIfPartOfIntervals(input, locale, intervals)
+        );
       }
       return null;
     };
@@ -388,16 +387,21 @@ export class ConfiguratorAttributeNumericInputFieldService {
     interval: ConfiguratorAttributeNumericInterval
   ): boolean {
     const inputNum: number = this.parseInput(input, locale);
-    const matchesLower: boolean = interval.minValue
-      ? interval.minValueIncluded
+
+    let matchesLower: boolean = true;
+    if (interval.minValue) {
+      matchesLower = interval.minValueIncluded
         ? interval.minValue <= inputNum
-        : interval.minValue < inputNum
-      : true;
-    const matchesHigher: boolean = interval.maxValue
-      ? interval.maxValueIncluded
+        : interval.minValue < inputNum;
+    }
+
+    let matchesHigher: boolean = true;
+    if (interval.maxValue) {
+      matchesHigher = interval.maxValueIncluded
         ? interval.maxValue >= inputNum
-        : interval.maxValue > inputNum
-      : true;
+        : interval.maxValue > inputNum;
+    }
+
     return matchesLower && matchesHigher;
     //TODO CHHI check input issue with multiple group separators
     //TODO CHHI feature toggling
