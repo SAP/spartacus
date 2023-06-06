@@ -63,15 +63,7 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
     return result;
   }
 
-  clearCdcConsentsFromStorage() {
-    this.statePersistenceService.syncWithStorage({
-      key: KEY,
-      state$: of([]),
-    });
-  }
-
   ngOnDestroy(): void {
-    this.clearCdcConsentsFromStorage();
     this.subscription.unsubscribe();
   }
 }

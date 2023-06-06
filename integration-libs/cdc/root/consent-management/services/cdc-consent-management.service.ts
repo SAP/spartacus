@@ -19,20 +19,24 @@ export class CdcConsentManagementService extends ConsentManagementService {
   }
   getRequiredConsents(templateList: ConsentTemplate[]): string[] {
     let requiredConsents: string[] = [];
-    let cdcConsents = this.getCdcRequiredConsents();
+    let cdcConsents = this.getCdcConsentIDs(true);
     requiredConsents = super.getRequiredConsents(templateList);
     requiredConsents.push(...cdcConsents);
     return requiredConsents;
   }
-  getCdcRequiredConsents(): string[] {
-    var requiredConsents: string[] = [];
+  getCdcConsentIDs(required: boolean = false): string[] {
+    var consentIDs: string[] = [];
     var consents: CdcLocalStorageTemplate[] =
       this.store.readCdcConsentsFromStorage() || [];
     consents.forEach((consent) => {
-      if (consent.required === true) {
-        requiredConsents.push(consent.id);
+      if (required === true) {
+        if (consent.required === true) {
+          consentIDs.push(consent.id);
+        }
+      } else {
+        consentIDs.push(consent.id);
       }
     });
-    return requiredConsents;
+    return consentIDs;
   }
 }

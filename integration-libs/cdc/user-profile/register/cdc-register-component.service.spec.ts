@@ -78,7 +78,7 @@ class MockConverterService implements Partial<ConverterService> {
 class MockCdcConsentManagementService
   implements Partial<CdcConsentManagementService>
 {
-  getCdcRequiredConsents = createSpy();
+  getCdcConsentIDs = createSpy();
 }
 describe('CdcRegisterComponentService', () => {
   let cdcUserRegisterService: CDCRegisterComponentService;
@@ -155,7 +155,7 @@ describe('CdcRegisterComponentService', () => {
           },
         },
       });
-      cdcConsentManagementService.getCdcRequiredConsents =
+      cdcConsentManagementService.getCdcConsentIDs =
         createSpy().and.returnValue(['others.survey']);
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();
@@ -259,7 +259,7 @@ describe('CdcRegisterComponentService', () => {
           },
         },
       });
-      cdcConsentManagementService.getCdcRequiredConsents =
+      cdcConsentManagementService.getCdcConsentIDs =
         createSpy().and.returnValue(['others.survey']);
       cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
         expect(connector.register).not.toHaveBeenCalled();
@@ -290,11 +290,11 @@ describe('CdcRegisterComponentService', () => {
           },
         },
       });
-      cdcConsentManagementService.getCdcRequiredConsents =
+      cdcConsentManagementService.getCdcConsentIDs =
         createSpy().and.returnValue(['others.survey']);
       let result = cdcUserRegisterService.generatePreferencesObject();
       expect(
-        cdcConsentManagementService.getCdcRequiredConsents
+        cdcConsentManagementService.getCdcConsentIDs
       ).toHaveBeenCalled();
       expect(result).toEqual({
         others: {

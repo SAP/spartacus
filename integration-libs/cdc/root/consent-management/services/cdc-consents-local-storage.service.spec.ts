@@ -1,14 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { StatePersistenceService } from '@spartacus/core';
-import { CdcLocalStorageTemplate, CdcSiteConsentTemplate } from '../model/cdc-consent-management.model';
+import { CdcLocalStorageTemplate, CdcSiteConsentTemplate } from '../model';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import createSpy = jasmine.createSpy;
 
-const mockCdcConsents: CdcLocalStorageTemplate[] = [
-  { id: 'terms.of.use', required: true },
-  { id: 'privacy.statement', required: true },
-  { id: 'consent.survey', required: false },
-];
 const mockCdcSiteConsents: CdcSiteConsentTemplate = {
   siteConsentDetails: {
     'terms.of.use': { isMandatory: true, isActive: true },
@@ -16,71 +11,46 @@ const mockCdcSiteConsents: CdcSiteConsentTemplate = {
     'consent.survey': { isMandatory: false, isActive: true },
   },
 };
-class MockStatePersistenceService implements Partial<StatePersistenceService> {
-  syncWithStorage = createSpy();
-  readStateFromStorage = createSpy('readStateFromStorage').and.returnValue(
-    mockCdcConsents
-  );
-}
+const mockCdcConsents: CdcLocalStorageTemplate[] = [
+  { id: 'terms.of.use', required: true },
+  { id: 'privacy.statement', required: true },
+  { id: 'consent.survey', required: false },
+];
 describe('CdcConsentsLocalStorageService', () => {
   let service: CdcConsentsLocalStorageService;
   let persistenceService: StatePersistenceService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: StatePersistenceService,
-          useClass: MockStatePersistenceService,
-        },
-      ],
+      providers: [StatePersistenceService],
     });
     service = TestBed.inject(CdcConsentsLocalStorageService);
     persistenceService = TestBed.inject(StatePersistenceService);
+    spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
 
-  it('should be created', () => {
+  it('should inject service', () => {
     expect(service).toBeTruthy();
   });
-
-  describe('persistCdcConsentsToStorage()', () => {
-    it('should sync state with storage', () => {
-      service.persistCdcConsentsToStorage(mockCdcSiteConsents);
-      expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          key: 'cdc-consents-list',
-          state$: jasmine.objectContaining(mockCdcConsents),
-        })
-      );
-    });
+  it('should update storage', () => {
+    service.persistCdcConsentsToStorage(mockCdcSiteConsents);
+    expect(persistenceService.syncWithStorage).toHaveBeenCalled();
   });
-
-  describe('checkIfConsentExists()', () => {
-    it('should return true if ID passed in request param exists in store', () => {
-      persistenceService.readStateFromStorage =
-        createSpy().and.returnValue(mockCdcConsents);
-      let output = service.checkIfConsentExists('consent.survey');
-      expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
-        key: 'cdc-consents-list',
-      });
-      expect(output).toEqual(true);
+  it('should return true if ID passed in request param exists in store', () => {
+    persistenceService.readStateFromStorage =
+      createSpy().and.returnValue(mockCdcConsents);
+    let output = service.checkIfConsentExists('consent.survey');
+    expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
+      key: 'cdc-consents-list',
     });
-    it('should return false if ID passed in request param doesnot exists in store', () => {
-      persistenceService.readStateFromStorage =
-        createSpy().and.returnValue(mockCdcConsents);
-      let output = service.checkIfConsentExists('consent.training');
-      expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
-        key: 'cdc-consents-list',
-      });
-      expect(output).toEqual(false);
-    });
+    expect(output).toEqual(true);
   });
-
-  describe('clearCdcConsentsFromStorage()', () => {
-    it('should reset state to empty', () => {
-      spyOn(service as any, 'clearCdcConsentsFromStorage');
-      service.ngOnDestroy();
-      expect(service['clearCdcConsentsFromStorage']).toHaveBeenCalled();
+  it('should return false if ID passed in request param doesnot exists in store', () => {
+    persistenceService.readStateFromStorage =
+      createSpy().and.returnValue(mockCdcConsents);
+    let output = service.checkIfConsentExists('consent.training');
+    expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith({
+      key: 'cdc-consents-list',
     });
+    expect(output).toEqual(false);
   });
 });

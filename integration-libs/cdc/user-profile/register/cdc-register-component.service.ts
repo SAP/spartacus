@@ -117,7 +117,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
 
   generatePreferencesObject(): any {
     var preferences = {};
-    let consentIDs = this.cdcConsentManagementService.getCdcRequiredConsents();
+    let consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents
     for (var id in consentIDs) {
       if (Object.hasOwn(consentIDs, id)) {
         let consent: ConsentTemplate = {};

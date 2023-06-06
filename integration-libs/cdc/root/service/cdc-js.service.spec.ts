@@ -10,7 +10,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { EMPTY, Observable, of, Subscription, throwError } from 'rxjs';
+import { EMPTY, Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
 import {
@@ -489,9 +489,11 @@ describe('CdcJsService', () => {
           done();
         });
     });
-    it('should raise reconsent event in case of error code 206001', (done) => {
-      spyOn(service['gigyaSDK'].accounts, 'login').and.returnValue(
-        throwError({ errorCode: 206001 })
+    it('should raise reconsent event in case of error code 206001', () => {
+      spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
+        (options: { callback: Function }) => {
+          options.callback({ status: 'NOT OK', errorCode: 206001 });
+        }
       );
       spyOn(service, 'raiseCdcReconsentEvent').and.stub();
       service.loginUserWithoutScreenSet('uid', 'password').subscribe({
@@ -499,7 +501,6 @@ describe('CdcJsService', () => {
           expect(service.raiseCdcReconsentEvent).toHaveBeenCalled();
         },
       });
-      done();
     });
   });
 
