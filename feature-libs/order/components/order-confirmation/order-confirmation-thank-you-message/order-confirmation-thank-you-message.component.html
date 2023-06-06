@@ -13,7 +13,7 @@
     </p>
   </div>
 
-  <div *ngIf="isGuestCustomer">
+  <div *ngIf="isGuestCustomer && order.paymentInfo?.billingAddress?.email">
     <cx-guest-register-form
       [guid]="orderGuid"
       [email]="order.paymentInfo.billingAddress.email"
