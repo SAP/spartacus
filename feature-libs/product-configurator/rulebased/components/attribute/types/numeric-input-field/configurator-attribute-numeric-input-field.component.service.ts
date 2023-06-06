@@ -327,7 +327,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   /**
    * Returns the interval validator for the input component that represents numeric input.
-   * It becomes active only if intervals are provided (they originate from the attributes' values),
+   * It becomes active only if intervals are provided (they originate from the attribute's values),
    * and matches the input with the list of intervals.
    * It also becomes active only if the validation for the numeric format itself is fine, in order
    * to avoid multiple validation messages.
