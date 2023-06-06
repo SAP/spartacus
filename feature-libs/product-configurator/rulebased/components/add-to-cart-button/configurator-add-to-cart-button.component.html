@@ -20,56 +20,63 @@
         </button>
       </ng-container>
       <ng-container *cxFeatureLevel="'6.1'">
-        <div class="cx-quantity-add-to-cart-container">
-          <div class="cx-quantity-add-to-cart-row">
-            <div class="cx-quantity">
-              <ng-container *ngIf="!isCartEntry(container.routerData)">
+        <ng-container *ngIf="!isCartEntry(container.routerData)">
+          <div class="cx-quantity-add-to-cart-container">
+            <div class="cx-quantity-add-to-cart-row">
+              <div class="cx-quantity">
                 <label>{{
                   'configurator.addToCart.quantity' | cxTranslate
                 }}</label>
                 <cx-item-counter [control]="quantityControl"></cx-item-counter>
-              </ng-container>
-
-              <ng-container *ngIf="isCartEntry(container.routerData)">
-                <label
-                  >{{ 'configurator.addToCart.quantity' | cxTranslate }}:</label
-                >
-                <div class="cx-quantity-value">
-                  {{
-                    getCartEntryQuantity(container.routerData.owner.id) | async
-                  }}
-                </div>
-              </ng-container>
-            </div>
-            <button
-              class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
-              (click)="
-                onAddToCart(container.configuration, container.routerData)
-              "
-              [attr.aria-label]="
-                (getButtonResourceKey(
-                  container.routerData,
-                  container.configuration
-                ) | cxTranslate) +
-                ' ' +
-                ('configurator.a11y.addToCartPrices'
-                  | cxTranslate: extractConfigPrices(container.configuration))
-              "
-              title="{{
-                getButtonResourceKey(
-                  container.routerData,
-                  container.configuration
-                ) | cxTranslate
-              }}"
-            >
-              <cx-icon
-                [type]="
-                  getIconType(container.routerData, container.configuration)
+              </div>
+              <button
+                class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
+                (click)="
+                  onAddToCart(container.configuration, container.routerData)
                 "
-              ></cx-icon>
-            </button>
+                [attr.aria-label]="
+                  (getButtonResourceKey(
+                    container.routerData,
+                    container.configuration
+                  ) | cxTranslate) +
+                  ' ' +
+                  ('configurator.a11y.addToCartPrices'
+                    | cxTranslate: extractConfigPrices(container.configuration))
+                "
+                title="{{
+                  getButtonResourceKey(
+                    container.routerData,
+                    container.configuration
+                  ) | cxTranslate
+                }}"
+              >
+                <cx-icon [type]="iconType.CART_PLUS"></cx-icon>
+              </button>
+            </div>
           </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="isCartEntry(container.routerData)">
+          <button
+            class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
+            (click)="onAddToCart(container.configuration, container.routerData)"
+            [attr.aria-label]="
+              (getButtonResourceKey(
+                container.routerData,
+                container.configuration
+              ) | cxTranslate) +
+              ' ' +
+              ('configurator.a11y.addToCartPrices'
+                | cxTranslate: extractConfigPrices(container.configuration))
+            "
+          >
+            {{
+              getButtonResourceKey(
+                container.routerData,
+                container.configuration
+              ) | cxTranslate
+            }}
+          </button>
+        </ng-container>
       </ng-container>
     </div>
   </ng-container>
@@ -87,7 +94,6 @@
         <button
           class="cx-btn btn btn-block btn-secondary cx-display-only-btn"
           (click)="leaveConfigurationOverview()"
-          title="{{ 'configurator.addToCart.buttonClose' | cxTranslate }}"
         >
           {{ 'configurator.addToCart.buttonClose' | cxTranslate }}
         </button>
