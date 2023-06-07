@@ -68,7 +68,7 @@ export class ConfiguratorOverviewFormComponent {
     if (groups) {
       let hasAttributes =
         groups.find((group) =>
-          group.attributes ? group.attributes.length : 0 > 0
+          (group.attributes ? group.attributes.length : 0) > 0
         ) !== undefined;
       if (!hasAttributes) {
         hasAttributes =
