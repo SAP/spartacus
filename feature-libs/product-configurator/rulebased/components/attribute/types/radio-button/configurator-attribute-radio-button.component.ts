@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { UntypedFormControl } from '@angular/forms';
@@ -31,6 +36,7 @@ export class ConfiguratorAttributeRadioButtonComponent
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
+    @Optional()
     protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
   ) {
     super(

@@ -9,6 +9,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -47,29 +48,52 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
+  constructor(
+    config: ConfiguratorUISettingsConfig,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
+  );
+
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    config: ConfiguratorUISettingsConfig,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService
+  );
+
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
     protected config: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    @Optional()
+    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
   ) {
     super();
+
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.owner = attributeComponentContext.owner;
     this.ownerKey = attributeComponentContext.owner.key;
     this.ownerType = attributeComponentContext.owner.type;
 
-    this.showRequiredErrorMessage$ = this.configUtils
-      .isCartEntryOrGroupVisited(this.owner, this.group)
-      .pipe(
-        map((result) =>
-          result
-            ? this.isRequiredErrorMsg(this.attribute) &&
-              this.isUserInput(this.attribute)
-            : false
-        )
-      );
+    if (this.configuratorStorefrontUtilsService) {
+      this.showRequiredErrorMessage$ = this.configuratorStorefrontUtilsService
+        .isCartEntryOrGroupVisited(this.owner, this.group)
+        .pipe(
+          map((result) =>
+            result
+              ? this.isRequiredErrorMsg(this.attribute) &&
+                this.isUserInput(this.attribute)
+              : false
+          )
+        );
+    }
   }
 
   ngOnInit() {
