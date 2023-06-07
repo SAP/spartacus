@@ -12,7 +12,11 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  I18nTestingModule,
+  LanguageService,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -44,18 +48,36 @@ class MockCxIconComponent {
 }
 
 let DEBOUNCE_TIME: number;
+let testVersion: string;
 
 const userInput = '345.00';
 const NUMBER_DECIMAL_PLACES = 2;
+const ATTRIBUTE_NAME = 'attributeName';
+const VALUE_OUTSIDE_ALL_INTERVALS = '5';
 
 const attribute: Configurator.Attribute = {
-  name: 'attributeName',
-  label: 'attributeName',
+  name: ATTRIBUTE_NAME,
+  label: ATTRIBUTE_NAME,
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
   numDecimalPlaces: NUMBER_DECIMAL_PLACES,
   numTotalLength: 10,
   negativeAllowed: false,
+};
+
+const attributeInterval: Configurator.Attribute = {
+  name: ATTRIBUTE_NAME,
+  label: ATTRIBUTE_NAME,
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: userInput,
+  numDecimalPlaces: NUMBER_DECIMAL_PLACES,
+  numTotalLength: 10,
+  negativeAllowed: false,
+  intervalInDomain: true,
+  values: [
+    { valueCode: 'a', name: '7 - 11' },
+    { valueCode: 'b', name: '17' },
+  ],
 };
 
 const attributeWoNumericalMetadata: Configurator.Attribute = {
@@ -79,6 +101,12 @@ function checkForValidationMessage(
 }
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+}
+
+class MockFeatureConfigService {
+  isLevel(version: string): boolean {
+    return version === testVersion;
+  }
 }
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
@@ -126,6 +154,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         ],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
@@ -158,6 +187,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
 
+    testVersion = '6.2';
+
     spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
@@ -173,6 +204,21 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.ngOnInit();
     component.attributeInputForm.setValue(input);
     checkForValidationMessage(component, fixture, htmlElem, isValid ? 0 : 1);
+  }
+
+  function checkForIntervalValidity(
+    input: string,
+    numberOfValidationIssues: number
+  ) {
+    component.attribute = attributeInterval;
+    component.ngOnInit();
+    component.attributeInputForm.setValue(input);
+    checkForValidationMessage(
+      component,
+      fixture,
+      htmlElem,
+      numberOfValidationIssues
+    );
   }
 
   it('should create', () => {
@@ -241,40 +287,70 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     });
   });
 
-  it('should display a validation issue if alphanumeric characters occur', () => {
-    checkForValidity('122A23', false, false);
+  describe('Validation', () => {
+    it('should display an issue if alphanumeric characters occur', () => {
+      checkForValidity('122A23', false, false);
+    });
+
+    it('should display an issue if negative sign is included but not allowed to', () => {
+      checkForValidity('-122323', false, false);
+    });
+
+    it('should display no issue if negative sign is included and allowed', () => {
+      checkForValidity('-122323', true, true);
+    });
+
+    it('should display an issue if input is too long', () => {
+      checkForValidity('123456789.34', false, false);
+    });
+
+    it('should display an issue if input is too long and negatives allowed', () => {
+      checkForValidity('123456789.34', true, false);
+    });
+
+    it('should display an issue if input length matches meta data exactly', () => {
+      checkForValidity('12345678.34', false, true);
+    });
+
+    it('should display an issue if input length matches meta data exactly and negatives are allowed', () => {
+      checkForValidity('12345678.34', true, true);
+    });
+
+    it('should display no issue for negative value if input length matches meta data exactly and negatives are allowed', () => {
+      checkForValidity('-12345678.34', true, true);
+    });
+
+    it('should display no issue for single minus if negatives are allowed', () => {
+      checkForValidity('-', true, true);
+    });
   });
 
-  it('should display a validation issue if negative sign is included but not allowed to', () => {
-    checkForValidity('-122323', false, false);
-  });
+  describe('Interval validation', () => {
+    it('should display an issue if input does not match interval', () => {
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 1);
+    });
 
-  it('should display no validation issue if negative sign is included and allowed', () => {
-    checkForValidity('-122323', true, true);
-  });
+    it('should display no issue if input does not match interval but we did not opt for the 6.2 release', () => {
+      testVersion = '6.1';
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
+    });
 
-  it('should display a validation issue if input is too long', () => {
-    checkForValidity('123456789.34', false, false);
-  });
+    it('should display no issue if input does not match interval but feature config service is not available', () => {
+      component['featureConfigservice'] = undefined;
+      checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
+    });
 
-  it('should display a validation issue if input is too long and negatives allowed', () => {
-    checkForValidity('123456789.34', true, false);
-  });
+    it('should display no issue if input in part of interval', () => {
+      checkForIntervalValidity('8', 0);
+    });
 
-  it('should display no validation issue if input length matches meta data exactly', () => {
-    checkForValidity('12345678.34', false, true);
-  });
+    it('should display no issue if input matches interval (in case for single valued interval', () => {
+      checkForIntervalValidity('17', 0);
+    });
 
-  it('should display no validation issue if input length matches meta data exactly and negatives are allowed', () => {
-    checkForValidity('12345678.34', true, true);
-  });
-
-  it('should display no validation issue for negative value if input length matches meta data exactly and negatives are allowed', () => {
-    checkForValidity('-12345678.34', true, true);
-  });
-
-  it('should display no validation issue for single minus if negatives are allowed', () => {
-    checkForValidity('-', true, true);
+    it('should display only one issue if input breaks both validations', () => {
+      checkForIntervalValidity('A', 1);
+    });
   });
 
   it('should not set control value in case the model attribute does not carry a value', () => {
