@@ -250,6 +250,21 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(loadingState[2]).toBe(false); // loading done
   });
 
+  describe('getAttributeName', () => {
+    it('should return attribute name if present', () => {
+      expect(component.attributeName).toBe(
+        component.productCardOptions.attributeName
+      );
+    });
+
+    it('should fall back to attribute ID in case name is not present', () => {
+      component.productCardOptions.attributeName = undefined;
+      expect(component.attributeName).toBe(
+        component.productCardOptions.attributeId.toString()
+      );
+    });
+  });
+
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
       const button = fixture.debugElement.query(

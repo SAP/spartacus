@@ -1,4 +1,6 @@
-<ng-container *ngIf="config$ | async as config; else ghostSidebar">
+<ng-container
+  *ngIf="configurationWithOv$ | async as configurationWithOv; else ghostSidebar"
+>
   <div class="cx-menu-bar" role="tablist">
     <button
       role="tab"
@@ -18,10 +20,16 @@
     </button>
   </div>
 
-  <cx-configurator-overview-filter *ngIf="showFilter" [config]="config">
+  <cx-configurator-overview-filter
+    *ngIf="showFilter"
+    [config]="configurationWithOv"
+  >
   </cx-configurator-overview-filter>
 
-  <cx-configurator-overview-menu *ngIf="!showFilter" [config]="config">
+  <cx-configurator-overview-menu
+    *ngIf="!showFilter"
+    [config]="configurationWithOv"
+  >
   </cx-configurator-overview-menu>
 </ng-container>
 

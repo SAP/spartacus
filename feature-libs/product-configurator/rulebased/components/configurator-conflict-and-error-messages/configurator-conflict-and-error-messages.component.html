@@ -1,5 +1,5 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="configuration?.warningMessages?.length > 0">
+  <ng-container *ngIf="(configuration?.warningMessages?.length ?? 0) > 0">
     <div
       aria-live="assertive"
       aria-atomic="true"
@@ -10,13 +10,13 @@
       </span>
       <span
         class="cx-warning-text"
-        *ngIf="configuration?.warningMessages?.length > 1"
+        *ngIf="(configuration?.warningMessages?.length ?? 0) > 1"
       >
         {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
       >
       <button
         (click)="toggleWarnings()"
-        *ngIf="configuration?.warningMessages?.length > 1"
+        *ngIf="(configuration?.warningMessages?.length ?? 0) > 1"
         class="cx-warning-toggle"
         [attr.aria-expanded]="showWarnings"
       >
@@ -46,7 +46,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="configuration?.errorMessages?.length > 0">
+  <ng-container *ngIf="(configuration?.errorMessages?.length ?? 0) > 0">
     <div
       aria-live="assertive"
       aria-atomic="true"
@@ -58,13 +58,13 @@
       </span>
       <span
         class="cx-error-text"
-        *ngIf="configuration?.errorMessages?.length > 1"
+        *ngIf="(configuration?.errorMessages?.length ?? 0) > 1"
       >
         {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
       >
       <button
         (click)="toggleErrors()"
-        *ngIf="configuration?.errorMessages?.length > 1"
+        *ngIf="(configuration?.errorMessages?.length ?? 0) > 1"
         class="cx-error-toggle"
         [attr.aria-expanded]="showErrors"
       >

@@ -108,6 +108,25 @@ describe('ConfigUIKeyGeneratorService', () => {
     });
   });
 
+  describe('getImage', () => {
+    const image: Configurator.Image = { url: 'url' };
+    const value: Configurator.Value = { valueCode: 'val', images: [image] };
+
+    it('should return first image if present', () => {
+      expect(classUnderTest.getImage(value)).toBe(image);
+    });
+
+    it('should return undefined in case no images present on value', () => {
+      value.images = undefined;
+      expect(classUnderTest.getImage(value)).toBeUndefined();
+    });
+
+    it('should return undefined in case empty image array present on value', () => {
+      value.images = [];
+      expect(classUnderTest.getImage(value)).toBeUndefined();
+    });
+  });
+
   it('should generate focus id for attribute value', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
       'attrCode--valueCode--focus'

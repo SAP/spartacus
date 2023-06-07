@@ -19,7 +19,7 @@ import {
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -167,18 +167,23 @@ describe('CdcRegisterComponentService', () => {
     });
 
     it('should not do anything when CDC registration fails', (done) => {
-      cdcJsService.registerUserWithoutScreenSet =
-        createSpy().and.throwError('ERROR');
+      cdcJsService.registerUserWithoutScreenSet = createSpy().and.returnValue(
+        throwError('ERROR')
+      );
 
-      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
-        expect(connector.register).not.toHaveBeenCalled();
-        expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
-          titleCode: 'Mr.',
-          firstName: 'firstName',
-          lastName: 'lastName',
-          uid: 'uid',
-          password: 'password',
-        });
+      cdcUserRegisterService.register(userRegisterFormData).subscribe({
+        error: () => {
+          expect(connector.register).not.toHaveBeenCalled();
+          expect(
+            cdcJsService.registerUserWithoutScreenSet
+          ).toHaveBeenCalledWith({
+            titleCode: 'Mr.',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            uid: 'uid',
+            password: 'password',
+          });
+        },
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
       done();
