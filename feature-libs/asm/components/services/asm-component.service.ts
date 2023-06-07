@@ -41,6 +41,7 @@ export class AsmComponentService {
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
+    // TODO: Remove optional flag in 7.0 where service is used
     @Optional() protected asmDeepLinkService?: AsmDeepLinkService
   ) {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
@@ -95,24 +96,16 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    // TODO: Remove optional flag in 7.0
     return this.asmDeepLinkService?.isEmulateInURL() || false;
   }
 
-  subscribeForDeeplink() {
-    // TODO: Remove optional flag in 7.0
-    return this.asmDeepLinkService?.subscribeForDeeplink();
-  }
-
   getDeepLinkUrlParams() {
-    // TODO: Remove optional flag in 7.0
     return this.asmDeepLinkService?.getParamsInUrl();
   }
 
   handleDeepLinkParamsAfterStartSession(
     parameters = this.getDeepLinkUrlParams()
   ): void {
-    // TODO: Remove optional flag in 7.0
-    this.asmDeepLinkService?.handleDeepLinkParamsAfterStartSession(parameters);
+    this.asmDeepLinkService?.handleNavigation(parameters);
   }
 }

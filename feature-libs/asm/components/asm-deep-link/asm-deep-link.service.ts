@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { RoutingService, WindowRef, AuthService } from '@spartacus/core';
 import { Injectable } from '@angular/core';
 import {
@@ -11,16 +5,7 @@ import {
   AsmEnablerService,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
-import { combineLatest, BehaviorSubject, Observable } from 'rxjs';
-
-// interface CartTypeKey {
-//   [key: string]: string;
-// }
-//
-// export const CART_TYPE_KEY: CartTypeKey = {
-//   active: 'asm.activeCartAlertInfo',
-//   inactive: 'asm.saveInactiveCartAlertInfo',
-// };
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -68,13 +53,14 @@ export class AsmDeepLinkService {
     return this.showDeeplinkCartInfoAlert$;
   }
 
-  handleDeepLinkParamsAfterStartSession(
-    parameters = this.getParamsInUrl()
-  ): void {
-    console.log(parameters);
-
-    if (parameters.cartType === 'inactive') {
-    } else if (parameters.cartType === 'active') {
+  /**
+   * Handles the navigation based on deep link parameters in the URL
+   * or passed parameters)
+   */
+  handleNavigation(parameters = this.getParamsInUrl()): void {
+    // console.log(parameters);
+    if (parameters.cartType === 'active') {
+      // Navigate to active cart
       this.routingService.go({ cxRoute: 'cart' });
     } else if (parameters.cartType === 'saved' && parameters.cartId) {
       // Navigate to saved cart
@@ -103,25 +89,5 @@ export class AsmDeepLinkService {
       cartId: this.getSearchParameter('cartId'),
       cartType: this.getSearchParameter('cartType'),
     };
-  }
-
-  /**
-   * When agent is logged in and deep link has customerID,
-   * call logout if has customer emulated(userLoggedin) but not emulated by deep link.
-   * call startSessionWithParameters
-   */
-  subscribeForDeeplink() {
-    if (this.isEmulateInURL()) {
-      //Always route to home page to avoid 404
-      this.routingService.go('/');
-    }
-
-    // this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
-
-    return combineLatest([
-      this.csAgentAuthService.isCustomerSupportAgentLoggedIn(),
-      this.authService.isUserLoggedIn(),
-      this.isEmulatedByDeepLink(),
-    ]);
   }
 }

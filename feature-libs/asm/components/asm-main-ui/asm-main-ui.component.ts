@@ -32,7 +32,7 @@ import {
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -157,28 +157,39 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    //this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
-    this.subscription.add(
-      // TODO: Remove any type casting in 7.0.
-      (<any>this.asmComponentService.subscribeForDeeplink()).subscribe(
-        ([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+    const parameters = this.asmComponentService.getDeepLinkUrlParams();
+    console.log(parameters);
+    // TODO: Acts as feature flag. `parameters` will be undefined if AsmDeepLinkService not included. Remove condition in 7.0
+    if (parameters) {
+      if (this.asmComponentService.isEmulateInURL()) {
+        //Always route to home page to avoid 404
+        this.routingService.go('/');
+      }
+
+      this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
+
+      this.subscription.add(
+        combineLatest([
+          this.customerSupportAgentLoggedIn$,
+          this.authService.isUserLoggedIn(),
+          this.asmComponentService.isEmulatedByDeepLink(),
+        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
           const parameters = this.asmComponentService.getDeepLinkUrlParams();
           if (agentLoggedIn && parameters.customerId) {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.asmComponentService.logoutCustomer();
             } else {
-              parameters.emulated = isEmulatedByDeepLink;
               setTimeout(() =>
                 this.startSessionWithParameters({
                   ...parameters,
-                  emulated: false,
+                  emulated: isEmulatedByDeepLink,
                 })
               );
             }
           }
-        }
-      )
-    );
+        })
+      );
+    }
   }
 
   /**

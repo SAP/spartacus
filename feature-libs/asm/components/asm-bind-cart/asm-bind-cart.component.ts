@@ -315,7 +315,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
           )
           .subscribe(() => {
             const cartType =
-              this.asmComponentService?.getSearchParameter('cartTyoe');
+              this.asmComponentService?.getSearchParameter('cartType');
             if (cartType === 'inactive' || cartType === 'active') {
               this.displayBindCartBtn$.next(cartType === 'inactive');
               this.displaySaveCartBtn$.next(true);
