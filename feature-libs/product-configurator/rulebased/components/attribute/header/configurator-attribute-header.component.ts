@@ -50,7 +50,7 @@ export class ConfiguratorAttributeHeaderComponent
     configuratorUiSettings: ConfiguratorUISettingsConfig,
     attributeComponentContext: ConfiguratorAttributeCompositionContext,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig?: FeatureConfigService
+    featureConfigService?: FeatureConfigService
   );
 
   /**
@@ -71,7 +71,7 @@ export class ConfiguratorAttributeHeaderComponent
     protected configuratorUiSettings: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     // TODO (CXSPA-3392): for next major release remove feature level
-    @Optional() protected featureConfig?: FeatureConfigService
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     super();
     this.attribute = attributeComponentContext.attribute;
@@ -165,8 +165,10 @@ export class ConfiguratorAttributeHeaderComponent
     return true;
   }
 
+  // TODO (CXSPA-3392): for next major release remove feature level
   protected isNewestRelease(): boolean {
-    if (this.featureConfig?.isLevel('6.2')) {
+    if (this.featureConfigService?.isLevel('6.2')) {
+      // TODO: for next major release this condition should be proved
       return this.isRequiredAttributeWithDomainAndDropDown();
     } else {
       return this.isRequiredAttributeWithDomain();

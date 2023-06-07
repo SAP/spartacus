@@ -184,6 +184,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         negativeAllowed
       );
 
+    // TODO (CXSPA-3392): for next major release remove feature level
     const validatorArray = this.featureConfigService?.isLevel('6.2')
       ? [
           numberFormatValidator,

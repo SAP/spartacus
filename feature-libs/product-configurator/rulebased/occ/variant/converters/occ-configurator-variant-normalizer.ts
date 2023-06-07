@@ -129,7 +129,7 @@ export class OccConfiguratorVariantNormalizer
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
-      required: sourceAttribute.required,
+      required: true, // sourceAttribute.required,
       uiType: uiType,
       uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
