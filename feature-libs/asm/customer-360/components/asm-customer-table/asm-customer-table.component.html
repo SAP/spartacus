@@ -51,6 +51,13 @@
           [attr.aria-sort]="
             sortDirection | cxArgs: column.property:sortProperty:listSortOrder
           "
+          [ngClass]="{
+            'text-start':
+              column.headerTextAlign === CustomerTableTextAlign.START,
+            'text-center':
+              column.headerTextAlign === CustomerTableTextAlign.CENTER,
+            'text-end': column.headerTextAlign === CustomerTableTextAlign.END
+          }"
           (click)="setSelectedTabIndex(columnIndex, 0)"
         >
           <button
@@ -85,6 +92,11 @@
           *ngFor="let column of columns; let columnIndex = index"
           (keydown)="onKeyDownCell($event, columnIndex, rowIndex + 1)"
           (click)="setSelectedTabIndex(columnIndex, rowIndex + 1)"
+          [ngClass]="{
+            'text-start': column.textAlign === CustomerTableTextAlign.START,
+            'text-center': column.textAlign === CustomerTableTextAlign.CENTER,
+            'text-end': column.textAlign === CustomerTableTextAlign.END
+          }"
         >
           <ng-container
             *ngIf="column.navigatable; then linkTemplate; else starRating"

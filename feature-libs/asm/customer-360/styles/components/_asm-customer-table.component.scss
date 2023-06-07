@@ -126,5 +126,27 @@
         }
       }
     }
+
+    th.text-start,
+    td.text-start {
+      text-align: start;
+      button {
+        text-align: start;
+      }
+    }
+    th.text-center,
+    td.text-center {
+      text-align: center;
+      button {
+        text-align: center;
+      }
+    }
+    th.text-end,
+    td.text-end {
+      text-align: end;
+      button {
+        text-align: end;
+      }
+    }
   }
 }

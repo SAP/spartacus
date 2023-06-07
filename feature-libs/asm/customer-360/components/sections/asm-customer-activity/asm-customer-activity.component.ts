@@ -9,7 +9,10 @@ import { Customer360ActivityList } from '@spartacus/asm/customer-360/root';
 import { UrlCommand } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CustomerTableColumn } from '../../asm-customer-table/asm-customer-table.model';
+import {
+  CustomerTableColumn,
+  CustomerTableTextAlign,
+} from '../../asm-customer-table/asm-customer-table.model';
 import { Customer360SectionContext } from '../customer-360-section-context.model';
 import { ActivityEntry, TypeCodes } from './asm-customer-activity.model';
 
@@ -24,17 +27,21 @@ export class AsmCustomerActivityComponent implements OnInit {
     {
       property: 'typeLabel',
       i18nTextKey: 'customer360.activity.type',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
     {
       property: 'associatedTypeId',
       text: 'id',
       i18nTextKey: 'customer360.activity.id',
+      headerTextAlign: CustomerTableTextAlign.START,
+      textAlign: CustomerTableTextAlign.START,
       navigatable: true,
     },
     {
       property: 'description',
       text: 'description',
       i18nTextKey: 'customer360.activity.description',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
     {
       property: 'statusLabel',
