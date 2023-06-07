@@ -26,7 +26,11 @@ export function registerUser(cdcUser) {
 
 export const user = getSampleUser(); //screenset UI user
 export const nativeUser = getSampleUser();
-
+export const b2cConsentTestUser = {
+  email: 'consenttester@xyz.com',
+  password: 'Password123.',
+  fullName: 'Consent Tester',
+};
 export const b2bUser = getSampleB2BUser();
 export const updatedFirstAddress = {
   ...editedAddress,
