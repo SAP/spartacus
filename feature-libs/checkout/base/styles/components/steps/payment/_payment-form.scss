@@ -36,4 +36,10 @@
   .form-check {
     margin: 0;
   }
+
+  @include forVersion(6.2) {
+    .label-content {
+      white-space: nowrap;
+    }
+  }
 }

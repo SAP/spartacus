@@ -15,7 +15,7 @@ export const payment = {
     },
     cardNumber: 'Card Number',
     expirationDate: 'Expiration Date',
-    securityCode: 'CVV/CVC',
+    securityCode: 'Security code (CVV)',
     securityCodeTitle: 'Card Verification Value',
     saveAsDefault: 'Save as default',
     setAsDefault: 'Set as default payment method',
