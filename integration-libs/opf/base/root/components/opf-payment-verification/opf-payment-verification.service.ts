@@ -146,8 +146,9 @@ export class OpfPaymentVerificationService {
 
   checkIfProcessingCartIdExist(): void {
     // TODO: Move this key to shared place for checkout and base
-    const paymentForCart =
-      this.winRef?.localStorage?.getItem('processingCartId');
+    const paymentForCart = this.winRef?.localStorage?.getItem(
+      'spaProcessingCartId'
+    );
     const params = new URLSearchParams(this.router.url);
     const orderId: string | null = params.get('orderId');
 
@@ -165,6 +166,6 @@ export class OpfPaymentVerificationService {
 
   removeProcessingCartId(): void {
     // TODO: Move this key to shared place for checkout and base
-    this.winRef?.localStorage?.removeItem('processingCartId');
+    this.winRef?.localStorage?.removeItem('spaProcessingCartId');
   }
 }

@@ -77,7 +77,7 @@ export class OpfCheckoutPaymentWrapperService {
     ]).pipe(
       tap(([_, cartId]) =>
         // TODO: Move this key to shared place for checkout and base
-        this.winRef?.localStorage?.setItem('processingCartId', cartId)
+        this.winRef?.localStorage?.setItem('spaProcessingCartId', cartId)
       ),
       switchMap(([userId, cartId]) => {
         this.activeCartId = cartId;
