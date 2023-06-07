@@ -5,6 +5,7 @@
       class="form-check-input"
       (change)="onConsentChange()"
       [checked]="consentGiven"
+      [name]="consentTemplate.id"
       [disabled]="isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
