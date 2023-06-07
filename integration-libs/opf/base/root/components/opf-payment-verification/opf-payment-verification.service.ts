@@ -152,7 +152,7 @@ export class OpfPaymentVerificationService {
     const orderId: string | null = params.get('orderId');
 
     if (!paymentForCart || paymentForCart !== orderId) {
-      this.goToPage('home');
+      this.goToPage('cart');
 
       this.globalMessageService.add(
         {
