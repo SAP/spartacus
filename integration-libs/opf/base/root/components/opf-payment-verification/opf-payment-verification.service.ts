@@ -5,12 +5,13 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable, of, throwError } from 'rxjs';
@@ -31,7 +32,9 @@ export class OpfPaymentVerificationService {
     protected opfOrderFacade: OpfOrderFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected opfCheckoutService: OpfPaymentFacade
+    protected opfCheckoutService: OpfPaymentFacade,
+    protected winRef: WindowRef,
+    protected router: Router
   ) {}
 
   defaultError: HttpErrorModel = {
@@ -139,5 +142,29 @@ export class OpfPaymentVerificationService {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  }
+
+  checkIfProcessingCartIdExist(): void {
+    // TODO: Move this key to shared place for checkout and base
+    const paymentForCart =
+      this.winRef?.localStorage?.getItem('processingCartId');
+    const params = new URLSearchParams(this.router.url);
+    const orderId: string | null = params.get('orderId');
+
+    if (!paymentForCart || paymentForCart !== orderId) {
+      this.goToPage('home');
+
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.cartNotFound',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
+
+  removeProcessingCartId(): void {
+    // TODO: Move this key to shared place for checkout and base
+    this.winRef?.localStorage?.removeItem('processingCartId');
   }
 }

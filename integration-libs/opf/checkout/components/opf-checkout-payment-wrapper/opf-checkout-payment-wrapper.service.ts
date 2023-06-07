@@ -13,9 +13,13 @@ import {
   HttpResponseStatus,
   RoutingService,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import { OpfOrderFacade } from '@spartacus/opf/base/root';
-import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
+import {
+  OpfResourceLoaderService,
+  OpfService,
+} from '@spartacus/opf/checkout/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
@@ -30,7 +34,7 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
@@ -42,7 +46,9 @@ export class OpfCheckoutPaymentWrapperService {
     protected activeCartService: ActiveCartService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected opfOrderFacade: OpfOrderFacade
+    protected opfOrderFacade: OpfOrderFacade,
+    protected opfService: OpfService,
+    protected winRef: WindowRef
   ) {}
 
   protected activeCartId: string;
@@ -69,6 +75,10 @@ export class OpfCheckoutPaymentWrapperService {
       this.userIdService.getUserId(),
       this.activeCartService.getActiveCartId(),
     ]).pipe(
+      tap(([_, cartId]) =>
+        // TODO: Move this key to shared place for checkout and base
+        this.winRef?.localStorage?.setItem('processingCartId', cartId)
+      ),
       switchMap(([userId, cartId]) => {
         this.activeCartId = cartId;
         return this.opfOtpService.generateOtpKey(userId, cartId);
