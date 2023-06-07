@@ -8,10 +8,10 @@ import { Injectable, Optional } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
-  AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AsmDeepLinkService } from '../asm-deep-link/asm-deep-link.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class AsmComponentService {
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmEnablerService: AsmEnablerService
+    asmDeepLinkService: AsmDeepLinkService
   );
   /**
    * @deprecated since 7.0
@@ -41,7 +41,7 @@ export class AsmComponentService {
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
-    @Optional() protected asmEnablerService?: AsmEnablerService
+    @Optional() protected asmDeepLinkService?: AsmDeepLinkService
   ) {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }
@@ -95,6 +95,24 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    return this.asmEnablerService?.isEmulateInURL() || false;
+    // TODO: Remove optional flag in 7.0
+    return this.asmDeepLinkService?.isEmulateInURL() || false;
+  }
+
+  subscribeForDeeplink() {
+    // TODO: Remove optional flag in 7.0
+    return this.asmDeepLinkService?.subscribeForDeeplink();
+  }
+
+  getDeepLinkUrlParams() {
+    // TODO: Remove optional flag in 7.0
+    return this.asmDeepLinkService?.getParamsInUrl();
+  }
+
+  handleDeepLinkParamsAfterStartSession(
+    parameters = this.getDeepLinkUrlParams()
+  ): void {
+    // TODO: Remove optional flag in 7.0
+    this.asmDeepLinkService?.handleDeepLinkParamsAfterStartSession(parameters);
   }
 }

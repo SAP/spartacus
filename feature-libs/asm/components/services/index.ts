@@ -5,3 +5,4 @@
  */
 
 export * from './asm-component.service';
+export * from '../asm-deep-link/asm-deep-link.service';

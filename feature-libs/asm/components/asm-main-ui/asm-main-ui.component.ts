@@ -10,7 +10,6 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
@@ -22,7 +21,6 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -34,7 +32,7 @@ import {
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -80,32 +78,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
-  // TODO: Commented out for SONAR to pass. Uncomment.
-  //  constructor(
-  //    authService: AuthService,
-  //    csAgentAuthService: CsAgentAuthService,
-  //    asmComponentService: AsmComponentService,
-  //    globalMessageService: GlobalMessageService,
-  //    routingService: RoutingService,
-  //    asmService: AsmService,
-  //    userAccountFacade: UserAccountFacade,
-  //    launchDialogService: LaunchDialogService
-  //  );
-  //  /**
-  //   * @deprecated since 7.0
-  //   */
-  //  constructor(
-  //    authService: AuthService,
-  //    csAgentAuthService: CsAgentAuthService,
-  //    asmComponentService: AsmComponentService,
-  //    globalMessageService: GlobalMessageService,
-  //    routingService: RoutingService,
-  //    asmService: AsmService,
-  //    userAccountFacade: UserAccountFacade,
-  //    launchDialogService: LaunchDialogService,
-  //    // eslint-disable-next-line @typescript-eslint/unified-signatures
-  //    featureConfig: FeatureConfigService
-  //  );
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -114,8 +86,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
-    @Optional() protected featureConfig?: FeatureConfigService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -186,37 +157,28 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    if (this.featureConfig?.isLevel('6.2')) {
-      if (this.asmComponentService.isEmulateInURL()) {
-        //Always route to home page to avoid 404
-        this.routingService.go('/');
-      }
-      const parameters = {
-        customerId: this.asmComponentService.getSearchParameter('customerId'),
-        orderId: this.asmComponentService.getSearchParameter('orderId'),
-        ticketId: this.asmComponentService.getSearchParameter('ticketId'),
-        cartId: this.asmComponentService.getSearchParameter('cartId'),
-        cartType: this.asmComponentService.getSearchParameter('cartType'),
-        emulated: false,
-      };
-      this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
-      this.subscription.add(
-        combineLatest([
-          this.customerSupportAgentLoggedIn$,
-          this.authService.isUserLoggedIn(),
-          this.asmComponentService.isEmulatedByDeepLink(),
-        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+    //this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
+    this.subscription.add(
+      // TODO: Remove any type casting in 7.0.
+      (<any>this.asmComponentService.subscribeForDeeplink()).subscribe(
+        ([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+          const parameters = this.asmComponentService.getDeepLinkUrlParams();
           if (agentLoggedIn && parameters.customerId) {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.asmComponentService.logoutCustomer();
             } else {
               parameters.emulated = isEmulatedByDeepLink;
-              setTimeout(() => this.startSessionWithParameters(parameters));
+              setTimeout(() =>
+                this.startSessionWithParameters({
+                  ...parameters,
+                  emulated: false,
+                })
+              );
             }
           }
-        })
-      );
-    }
+        }
+      )
+    );
   }
 
   /**
@@ -270,42 +232,15 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (parameters) {
-        this.handleDeepLinkParamsAfterStartSession(parameters);
+        this.asmComponentService.handleDeepLinkParamsAfterStartSession(
+          parameters
+        );
       }
     } else {
       this.globalMessageService.add(
         { key: 'asm.error.noCustomerId' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-    }
-  }
-
-  protected handleDeepLinkParamsAfterStartSession(
-    parameters: AsmDeepLinkParameters
-  ) {
-    if (
-      (parameters.cartType === 'active' ||
-        parameters.cartType === 'inactive') &&
-      parameters.cartId
-    ) {
-      return;
-    }
-
-    if (parameters.cartType === 'saved' && parameters.cartId) {
-      // Navigate to saved cart
-      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
-    } else if (parameters.orderId) {
-      // Navigate to order details
-      this.routingService.go({
-        cxRoute: 'orderDetails',
-        params: { code: parameters.orderId },
-      });
-    } else if (parameters.ticketId) {
-      // Navigate to support ticket details
-      this.routingService.go({
-        cxRoute: 'supportTicketDetails',
-        params: { ticketCode: parameters.ticketId },
-      });
     }
   }
 

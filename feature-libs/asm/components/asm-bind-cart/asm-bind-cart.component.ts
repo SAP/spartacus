@@ -300,6 +300,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     );
   }
 
+  // TODO: Remove optional service flags in 7.0
   protected subscribeForDeeplinkCart(): void {
     if (this.featureConfig?.isLevel('6.2')) {
       this.subscription.add(
@@ -313,37 +314,22 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             )
           )
           .subscribe(() => {
-            if (this.isDeepLinkInactiveCart()) {
-              this.displayBindCartBtn$.next(false);
+            const cartType =
+              this.asmComponentService?.getSearchParameter('cartTyoe');
+            if (cartType === 'inactive' || cartType === 'active') {
+              this.displayBindCartBtn$.next(cartType === 'inactive');
               this.displaySaveCartBtn$.next(true);
-              this.onDeeplinkCart();
-            } else if (this.isDeepLinkActiveCart()) {
-              this.onDeeplinkCart();
-              this.goToActiveCartDetail();
-              this.displayBindCartBtn$.next(false);
-              this.displaySaveCartBtn$.next(false);
+              this.deepLinkCartId =
+                this.asmComponentService?.getSearchParameter(
+                  'cartId'
+                ) as string;
+              this.cartId.setValue(this.deepLinkCartId);
+              this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
+              // this.asmComponentService?.handleDeepLinkParamsAfterStartSession();
             }
           })
       );
     }
-  }
-
-  protected onDeeplinkCart(): void {
-    this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
-      'cartId'
-    ) as string;
-    this.cartId.setValue(this.deepLinkCartId);
-    this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
-  }
-
-  protected isDeepLinkInactiveCart(): boolean {
-    const cartType = this.asmComponentService?.getSearchParameter('cartType');
-    return cartType === 'inactive';
-  }
-
-  protected isDeepLinkActiveCart(): boolean {
-    const cartType = this.asmComponentService?.getSearchParameter('cartType');
-    return cartType === 'active';
   }
 
   protected openASMSaveCartDialog(inactiveCart: Cart): void {
@@ -390,9 +376,5 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       cxRoute: 'savedCartsDetails',
       params: { savedCartId: cartId },
     });
-  }
-
-  protected goToActiveCartDetail(): void {
-    this.routing?.go({ cxRoute: 'cart' });
   }
 }
