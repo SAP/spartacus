@@ -2,6 +2,10 @@
   @include media-breakpoint-down(md) {
     display: block;
     background-color: var(--cx-color-background);
+
+    @include forVersion(6.2) {
+      background-color: var(--cx-color-transparent);
+    }
   }
 
   .col-md-12 {
