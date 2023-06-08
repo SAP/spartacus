@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import { isEmpty } from 'rxjs/operators';
 import { RegisterFormService } from './register-form.service';
 
 describe('RegisterFormService', () => {
@@ -8,26 +7,36 @@ describe('RegisterFormService', () => {
   let fb: UntypedFormBuilder;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      providers: [UntypedFormBuilder],
+      providers: [RegisterFormService, UntypedFormBuilder],
     });
     service = TestBed.inject(RegisterFormService);
     fb = TestBed.inject(UntypedFormBuilder);
-    TestBed.compileComponents();
   });
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  describe('generateConsentsFormControl', () => {
+  it('generateConsentsFormControl', () => {
+    spyOn(fb, 'array').and.callThrough();
     service.generateConsentsFormControl();
     expect(fb.array).toHaveBeenCalled();
   });
-  describe('loadExtraRegistrationConsents', () => {
-    service
-      .loadExtraRegistrationConsents()
-      .pipe(isEmpty())
-      .subscribe((res) => {
-        expect(res).toEqual(true);
-      });
+  it('loadExtraRegistrationConsents', () => {
+    var nextNeverCalled: boolean = true;
+    var errorNeverCalled: boolean = true;
+    var completeIsCalled: boolean = false;
+    service.loadExtraRegistrationConsents().subscribe({
+      next: () => {
+        nextNeverCalled = false;
+      },
+      error: () => {
+        errorNeverCalled = false;
+      },
+      complete: () => {
+        completeIsCalled = true;
+      },
+    });
+    expect(nextNeverCalled).toEqual(true);
+    expect(errorNeverCalled).toEqual(true);
+    expect(completeIsCalled).toEqual(true);
   });
 });

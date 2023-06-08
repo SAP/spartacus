@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
 import { CdcReconsentService } from './cdc-reconsent.service';
 
 @Component({
-  selector: 'cx-anonymous-consent-dialog',
+  selector: 'cx-anonymous-consent-dialog', //reusing existing selector
   templateUrl: './cdc-reconsent.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

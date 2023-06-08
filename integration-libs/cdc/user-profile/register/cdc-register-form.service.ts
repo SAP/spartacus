@@ -20,6 +20,7 @@ export class CdcRegisterFormService extends RegisterFormService {
   ) {
     super(fb);
   }
+
   generateConsentsFormControl(): UntypedFormArray {
     var cdcActiveConsents: string[] =
       this.cdcConsentManagementService.getCdcConsentIDs();
@@ -31,6 +32,7 @@ export class CdcRegisterFormService extends RegisterFormService {
     }
     return consentArray;
   }
+
   loadExtraRegistrationConsents(): Observable<
     {
       template: ConsentTemplate;

@@ -15,26 +15,34 @@ export class CdcUserPreferenceSerializer
     // Intentional empty constructor
   }
 
-  //maintaining any for target because 'preferences' can have any structure
   convert(source: ConsentTemplate, target?: any): any {
     if (target === undefined) {
       target = { ...(source as any) } as any;
     }
 
     if (source) {
-      target = {};
       let preference = source.id?.concat('.isConsentGranted');
       if (preference) {
         if (source.currentConsent?.consentGivenDate)
-          target = this.convertToCdcPreference(target, preference, true);
-        else target = this.convertToCdcPreference(target, preference, false);
+          target = this.convertToCdcPreference(preference, true);
+        else target = this.convertToCdcPreference(preference, false);
       }
     }
 
     return target;
   }
-
-  private convertToCdcPreference(target: any, path: string, value: any): any {
+  /**
+   * converts a dot separated string to deeply nested object
+   * @param path : dot separated string
+   * @param value : true if consent is given, false if consent is withdrawn
+   * @returns preference object compatible for cdc
+   * example:
+   * input path x.y.z.isConsentGranted
+   * input value: true
+   * output=  x:{y:{z:{isConsentGranted: true}}}
+   */
+  private convertToCdcPreference(path: string, value: any): any {
+    var target: any = {};
     var consentCode = target;
     var list = path.split('.');
     var len = list.length;
@@ -43,7 +51,6 @@ export class CdcUserPreferenceSerializer
       if (!consentCode[elem]) consentCode[elem] = {};
       consentCode = consentCode[elem];
     }
-
     consentCode[list[len - 1]] = value;
     return target;
   }

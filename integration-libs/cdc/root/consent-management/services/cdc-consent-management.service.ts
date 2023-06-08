@@ -24,12 +24,19 @@ export class CdcConsentManagementService extends ConsentManagementService {
     requiredConsents.push(...cdcConsents);
     return requiredConsents;
   }
-  getCdcConsentIDs(required: boolean = false): string[] {
+
+  /**
+   * Returns cdc consents from store
+   * @param mandatoryConsents - if passed true, only mandatory consents will be returned.
+   * if passed false, all active consents (irrespective of whether they are mandatory or not)
+   * @returns array of consents
+   */
+  getCdcConsentIDs(mandatoryConsents: boolean = false): string[] {
     var consentIDs: string[] = [];
     var consents: CdcLocalStorageTemplate[] =
       this.store.readCdcConsentsFromStorage() || [];
     consents.forEach((consent) => {
-      if (required === true) {
+      if (mandatoryConsents === true) {
         if (consent.required === true) {
           consentIDs.push(consent.id);
         }

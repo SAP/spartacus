@@ -26,7 +26,13 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  Observable,
+  Subscription,
+} from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterFormService } from './register-form.service';
@@ -62,7 +68,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         value: false,
         disabled: this.isConsentRequired(),
       }),
-      extraConsents: this.registerFormService.generateConsentsFormControl(),
+      extraConsents: this.registerFormService?.generateConsentsFormControl(),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -82,7 +88,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService,
-    protected registerFormService: RegisterFormService
+    protected registerFormService?: RegisterFormService
   ) {}
 
   registrationConsents$: Observable<
@@ -145,7 +151,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
 
     this.registrationConsents$ =
-      this.registerFormService.loadExtraRegistrationConsents();
+      this.registerFormService?.loadExtraRegistrationConsents() || EMPTY;
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

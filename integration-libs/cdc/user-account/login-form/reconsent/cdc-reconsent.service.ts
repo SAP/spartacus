@@ -13,6 +13,13 @@ export class CdcReconsentService implements OnDestroy {
     protected launchDialogService: LaunchDialogService
   ) {}
   protected subscription: Subscription = new Subscription();
+
+  /**
+   * saves the consent given from reconsent pop-up
+   * @param consentId - array of consent IDs
+   * @param userParams - data from login session
+   * @returns error message if any
+   */
   saveReconsent(consentId: string[], userParams: any): string {
     var errorMessage: string = '';
     this.subscription.add(
@@ -50,6 +57,12 @@ export class CdcReconsentService implements OnDestroy {
     );
     return errorMessage;
   }
+
+  /**
+   * Trigger Login into CDC
+   * @param userId - user id
+   * @param password - password
+   */
   reLogin(userId: string, password: string): void {
     this.subscription.add(
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
@@ -83,6 +96,11 @@ export class CdcReconsentService implements OnDestroy {
       })
     );
   }
+
+  /**
+   *
+   * @param message error message to be displayed after closing reconsent pop up
+   */
   handleReconsentUpdateError(message: string) {
     this.launchDialogService.closeDialog('Error During Reconsent Update');
     let response = {

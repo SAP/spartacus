@@ -21,6 +21,10 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
   constructor(protected statePersistenceService: StatePersistenceService) {}
   protected subscription = new Subscription();
 
+  /**
+   * saves active cdc consents to storage
+   * @param siteConsent - cdc site consent details
+   */
   persistCdcConsentsToStorage(siteConsent: CdcSiteConsentTemplate) {
     var consents: CdcLocalStorageTemplate[] = [];
     var siteDetails = siteConsent.siteConsentDetails;
@@ -45,6 +49,10 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
     );
   }
 
+  /**
+   * Returns cdc consents from storage
+   * @returns cdc consents
+   */
   readCdcConsentsFromStorage(): CdcLocalStorageTemplate[] {
     const consents = this.statePersistenceService.readStateFromStorage({
       key: KEY,
@@ -52,6 +60,11 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
     return consents;
   }
 
+  /**
+   * Returns true if input consent is present in storage, else returns false
+   * @param consentId - cdc consent id
+   * @returns - returns true/false
+   */
   checkIfConsentExists(consentId: string): boolean {
     const consents = this.readCdcConsentsFromStorage();
     var result: boolean = false;

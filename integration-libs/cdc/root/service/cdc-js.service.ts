@@ -639,6 +639,12 @@ export class CdcJsService implements OnDestroy {
       });
     });
   }
+
+  /**
+   * Retrieves consent statements for logged in CDC site (based on CDC site API Key)
+   * @param persistToLocalStorage - set this to true, if you want to save the fetched CDC consents to a local storage
+   * @returns - Observable with site consent details
+   */
   getSiteConsentDetails(
     persistToLocalStorage: boolean = false
   ): Observable<CdcSiteConsentTemplate> {
@@ -661,6 +667,14 @@ export class CdcJsService implements OnDestroy {
     );
   }
 
+  /**
+   * Triggers the update (give/withdraw) of a CDC consent for a user
+   * @param uid - user ID of the logged in user
+   * @param lang - current storefront language
+   * @param preferences - object containing the preference details
+   * @param regToken - optional parameter, which is necessary when reconsent is provided during login scenario
+   * @returns - returns Observable with error code and status
+   */
   setUserConsentPreferences(
     uid: string,
     lang: string,
@@ -683,6 +697,15 @@ export class CdcJsService implements OnDestroy {
     );
   }
 
+  /**
+   * Dispatch an event when reconsent is required during login. This will be listened
+   * by reconsent module to show reconsent pop-up
+   * @param user - user ID provided in login screen
+   * @param password - password provided in login screen
+   * @param reconsentIds - missing required cdc consent IDs
+   * @param errorMessage - error message indicating that reconsent is required
+   * @param regToken - token of the login session
+   */
   raiseCdcReconsentEvent(
     user: string,
     password: string,

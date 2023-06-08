@@ -14,6 +14,7 @@ describe('ConsentManagementService', () => {
       imports: [],
       declarations: [],
       providers: [
+        ConsentManagementService,
         {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,

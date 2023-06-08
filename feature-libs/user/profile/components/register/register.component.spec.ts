@@ -26,6 +26,7 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
+import { RegisterFormService } from './register-form.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
@@ -162,6 +163,7 @@ describe('RegisterComponent', () => {
             provide: AuthConfigService,
             useClass: MockAuthConfigService,
           },
+          RegisterFormService,
         ],
       }).compileComponents();
     })

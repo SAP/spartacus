@@ -19,12 +19,12 @@ export class CdcReconsentDialogEventListener implements OnDestroy {
   protected onReconsent() {
     this.subscription.add(
       this.eventService.get(CdcReConsentEvent).subscribe((event) => {
-        this.openDialogue(event);
+        this.openDialog(event);
       })
     );
   }
 
-  protected openDialogue(event: CdcReConsentEvent) {
+  protected openDialog(event: CdcReConsentEvent) {
     const reconsentData = {
       user: event.user,
       password: event.password,
@@ -42,6 +42,7 @@ export class CdcReconsentDialogEventListener implements OnDestroy {
       dialog.pipe(take(1)).subscribe();
     }
   }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

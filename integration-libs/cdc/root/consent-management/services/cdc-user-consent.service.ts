@@ -21,6 +21,14 @@ export class CdcUserConsentService {
     protected cdcConsentsStorage: CdcConsentsLocalStorageService
   ) {}
 
+  /**
+   *
+   * @param isConsentGranted - set true - if consent is given; false - if consent is withdrawn
+   * @param consentCode - cdc consent id
+   * @param user - If user is not passed, the logged in user id will be fetched and used. If passed, it will be considered.
+   * @param regToken - token
+   * @returns - returns Observable with error code and status
+   */
   updateCdcConsent(
     isConsentGranted: boolean,
     consentCode: string,
@@ -58,6 +66,11 @@ export class CdcUserConsentService {
         })
       );
   }
+
+  /**
+   * Returns logged in User ID
+   * @returns user id
+   */
   getUserID(): string | undefined {
     var uid: string | undefined;
     this.userProfileFacade.get().subscribe((user) => {
@@ -66,6 +79,10 @@ export class CdcUserConsentService {
     return uid;
   }
 
+  /**
+   * Returns current language of the current site
+   * @returns language iso code
+   */
   getActiveLanguage(): string {
     var currentLanguage: string = '';
     this.languageService

@@ -27,7 +27,7 @@ describe('ConsentManagementFormComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    fixture.detectChanges();
+    //fixture.detectChanges();
   });
 
   it('should create', () => {

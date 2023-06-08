@@ -53,15 +53,15 @@ describe('CdcReconsentDialogEventListener', () => {
   });
   describe('onReconsent', () => {
     it('should receive event and trigger dialog opening', () => {
-      spyOn(listener as any, 'openDialogue').and.stub();
+      spyOn(listener as any, 'openDialog').and.stub();
       mockEventStream$.next(mockEvent);
-      expect(listener['openDialogue']).toHaveBeenCalledWith(mockEvent);
+      expect(listener['openDialog']).toHaveBeenCalledWith(mockEvent);
     });
   });
   describe('openDialogue', () => {
     it('should open reconsent dialog', () => {
       spyOn(launchDialogService, 'openDialog').and.stub();
-      listener['openDialogue'](mockEvent);
+      listener['openDialog'](mockEvent);
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
         LAUNCH_CALLER.CDC_RECONSENT,
         undefined,
