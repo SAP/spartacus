@@ -37,13 +37,13 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
     consentTemplateId: string,
     consentTemplateVersion: number
   ): Observable<ConsentTemplate> {
-    if (!this.cdcConsentsStorage.checkIfConsentExists(consentTemplateId))
+    if (!this.cdcConsentsStorage.checkIfConsentExists(consentTemplateId)) {
       return super.giveConsent(
         userId,
         consentTemplateId,
         consentTemplateVersion
       );
-    else
+    } else {
       return this.cdcUserConsentService
         .updateCdcConsent(true, consentTemplateId)
         .pipe(
@@ -59,6 +59,7 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
             return EMPTY;
           })
         );
+    }
   }
 
   withdrawConsent(
@@ -66,9 +67,9 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
     consentCode: string,
     consentId?: string
   ): Observable<{}> {
-    if (!this.cdcConsentsStorage.checkIfConsentExists(consentId ?? ''))
+    if (!this.cdcConsentsStorage.checkIfConsentExists(consentId ?? '')) {
       return super.withdrawConsent(userId, consentCode);
-    else
+    } else {
       return this.cdcUserConsentService
         .updateCdcConsent(false, consentId ?? '')
         .pipe(
@@ -80,5 +81,6 @@ export class CdcUserConsentAdapter extends OccUserConsentAdapter {
             return EMPTY;
           })
         );
+    }
   }
 }

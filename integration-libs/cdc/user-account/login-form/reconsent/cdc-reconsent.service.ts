@@ -27,7 +27,7 @@ export class CdcReconsentService implements OnDestroy {
    * @returns error message if any
    */
   saveReconsent(consentId: string[], userParams: any): string {
-    var errorMessage: string = '';
+    let errorMessage: string = '';
     this.subscription.add(
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
         if (cdcLoaded) {
@@ -41,9 +41,11 @@ export class CdcReconsentService implements OnDestroy {
               )
               .subscribe({
                 next: (result) => {
-                  if (result?.errorCode !== 0)
+                  if (result?.errorCode !== 0) {
                     this.handleReconsentUpdateError(result?.errorMessage);
-                  else this.reLogin(userParams.user, userParams.password);
+                  } else {
+                    this.reLogin(userParams.user, userParams.password);
+                  }
                 },
                 error: (error) => {
                   this.handleReconsentUpdateError(error?.message);
@@ -78,12 +80,13 @@ export class CdcReconsentService implements OnDestroy {
             .loginUserWithoutScreenSet(userId, password)
             .subscribe({
               next: (response) => {
-                if (response?.status === 'OK')
+                if (response?.status === 'OK') {
                   this.launchDialogService.closeDialog(
                     'Login completed successfully'
                   );
-                else
+                } else {
                   this.launchDialogService.closeDialog('Error During Relogin');
+                }
               },
               error: () => {
                 //error message already raised in loginUserWithoutScreenSet service
@@ -109,7 +112,7 @@ export class CdcReconsentService implements OnDestroy {
    */
   handleReconsentUpdateError(message: string) {
     this.launchDialogService.closeDialog('Error During Reconsent Update');
-    let response = {
+    const response = {
       status: 'FAIL',
       errorMessage: message,
     };

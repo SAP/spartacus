@@ -26,13 +26,13 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
    * @param siteConsent - cdc site consent details
    */
   persistCdcConsentsToStorage(siteConsent: CdcSiteConsentTemplate) {
-    var consents: CdcLocalStorageTemplate[] = [];
-    var siteDetails = siteConsent.siteConsentDetails;
-    for (var key in siteDetails) {
+    let consents: CdcLocalStorageTemplate[] = [];
+    let siteDetails = siteConsent.siteConsentDetails;
+    for (let key in siteDetails) {
       //key will be a string with dot separated IDs
       if (Object.hasOwn(siteDetails, key)) {
         if (siteDetails[key]?.isActive === true) {
-          let consent: any = {};
+          const consent: any = {};
           consent.id = key;
           consent.required = siteDetails[key]?.isMandatory;
           consents.push(consent);
@@ -67,7 +67,7 @@ export class CdcConsentsLocalStorageService implements OnDestroy {
    */
   checkIfConsentExists(consentId: string): boolean {
     const consents = this.readCdcConsentsFromStorage();
-    var result: boolean = false;
+    let result: boolean = false;
     consents.forEach((consent) => {
       if (consent.id === consentId) {
         result = true;

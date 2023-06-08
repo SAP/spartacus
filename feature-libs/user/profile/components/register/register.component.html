@@ -169,7 +169,7 @@
               *ngFor="let control of extraConsents.controls; let i = index"
               [formGroupName]="i"
             >
-              <div *ngIf="registrationConsents[i].template.id as id">
+              <div *ngIf="registrationConsents[i]?.template?.id as id">
                 <label>
                   <input
                     type="checkbox"
@@ -178,7 +178,7 @@
                     [formControlName]="id"
                   />
                   <span class="form-check-label">
-                    {{ registrationConsents[i].template.description }}
+                    {{ registrationConsents[i]?.template?.description }}
                   </span>
                   <cx-form-errors
                     [control]="control.get([id])"

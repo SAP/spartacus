@@ -268,7 +268,7 @@ export class CdcJsService implements OnDestroy {
           tap({
             error: (response) => {
               if (response.errorCode !== 206001)
-                this.handleLoginError(response);
+                {this.handleLoginError(response);}
               else {
                 this.raiseCdcReconsentEvent(
                   email,
@@ -648,12 +648,12 @@ export class CdcJsService implements OnDestroy {
   getSiteConsentDetails(
     persistToLocalStorage: boolean = false
   ): Observable<CdcSiteConsentTemplate> {
-    let baseSite: string = this.getCurrentBaseSite();
-    let javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
-    let queryParams = new URLSearchParams(
+    const baseSite: string = this.getCurrentBaseSite();
+    const javascriptURL: string = this.getJavascriptUrlForCurrentSite(baseSite);
+    const queryParams = new URLSearchParams(
       javascriptURL.substring(javascriptURL.indexOf('?'))
     );
-    let siteApiKey: string | null = queryParams.get('apikey');
+    const siteApiKey: string | null = queryParams.get('apikey');
     return this.invokeAPI('accounts.getSiteConsentDetails', {
       apiKey: siteApiKey,
     }).pipe(
@@ -713,10 +713,10 @@ export class CdcJsService implements OnDestroy {
     errorMessage: string,
     regToken: string
   ): void {
-    var consentIds: string[] = [];
+    let consentIds: string[] = [];
     reconsentIds.forEach((template) => {
-      let removePreference = template.replace('preferences.', '');
-      let removeIsConsentGranted = removePreference.replace(
+      const removePreference = template.replace('preferences.', '');
+      const removeIsConsentGranted = removePreference.replace(
         '.isConsentGranted',
         ''
       );

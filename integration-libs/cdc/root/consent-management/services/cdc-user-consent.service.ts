@@ -41,17 +41,23 @@ export class CdcUserConsentService {
     user?: string,
     regToken?: string
   ): Observable<{ errorCode: number; errorMessage: string }> {
-    var consent: ConsentTemplate = {};
+    let consent: ConsentTemplate = {};
     consent.id = consentCode;
     consent.currentConsent = {};
-    if (isConsentGranted) consent.currentConsent.consentGivenDate = new Date();
-    else consent.currentConsent.consentWithdrawnDate = new Date();
+    if (isConsentGranted) {
+      consent.currentConsent.consentGivenDate = new Date();
+    } else {
+      consent.currentConsent.consentWithdrawnDate = new Date();
+    }
 
-    var userId: string = '';
-    if (user === undefined) userId = this.getUserID() ?? '';
-    else if (user !== undefined) userId = user;
+    let userId: string = '';
+    if (user === undefined) {
+      userId = this.getUserID() ?? '';
+    } else if (user !== undefined) {
+      userId = user;
+    }
 
-    var currentLanguage = this.getActiveLanguage();
+    let currentLanguage = this.getActiveLanguage();
 
     const serializedPreference: any = this.converter.convert(
       consent,
@@ -78,7 +84,7 @@ export class CdcUserConsentService {
    * @returns user id
    */
   getUserID(): string | undefined {
-    var uid: string | undefined;
+    let uid: string | undefined;
     this.userProfileFacade.get().subscribe((user) => {
       uid = user?.uid;
     });
@@ -90,7 +96,7 @@ export class CdcUserConsentService {
    * @returns language iso code
    */
   getActiveLanguage(): string {
-    var currentLanguage: string = '';
+    let currentLanguage: string = '';
     this.languageService
       .getActive()
       .subscribe((language) => (currentLanguage = language))

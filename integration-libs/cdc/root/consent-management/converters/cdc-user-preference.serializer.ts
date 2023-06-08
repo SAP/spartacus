@@ -21,11 +21,13 @@ export class CdcUserPreferenceSerializer
     }
 
     if (source) {
-      let preference = source.id?.concat('.isConsentGranted');
+      const preference = source.id?.concat('.isConsentGranted');
       if (preference) {
-        if (source.currentConsent?.consentGivenDate)
+        if (source.currentConsent?.consentGivenDate) {
           target = this.convertToCdcPreference(preference, true);
-        else target = this.convertToCdcPreference(preference, false);
+        } else {
+          target = this.convertToCdcPreference(preference, false);
+        }
       }
     }
 
@@ -42,13 +44,15 @@ export class CdcUserPreferenceSerializer
    * output=  x:{y:{z:{isConsentGranted: true}}}
    */
   private convertToCdcPreference(path: string, value: any): any {
-    var target: any = {};
-    var consentCode = target;
-    var list = path.split('.');
-    var len = list.length;
+    let target: any = {};
+    let consentCode = target;
+    let list = path.split('.');
+    let len = list.length;
     for (var i = 0; i < len - 1; i++) {
-      var elem = list[i];
-      if (!consentCode[elem]) consentCode[elem] = {};
+      let elem = list[i];
+      if (!consentCode[elem]) {
+        consentCode[elem] = {};
+      }
       consentCode = consentCode[elem];
     }
     consentCode[list[len - 1]] = value;

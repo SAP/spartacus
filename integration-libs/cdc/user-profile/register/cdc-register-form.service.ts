@@ -28,11 +28,11 @@ export class CdcRegisterFormService extends RegisterFormService {
   }
 
   generateConsentsFormControl(): UntypedFormArray {
-    var cdcActiveConsents: string[] =
+    let cdcActiveConsents: string[] =
       this.cdcConsentManagementService.getCdcConsentIDs();
-    var consentArray = this.fb.array([]);
-    for (let consent of cdcActiveConsents) {
-      let element: any = {};
+    let consentArray = this.fb.array([]);
+    for (const consent of cdcActiveConsents) {
+      const element: any = {};
       element[consent] = new FormControl(false, [Validators.requiredTrue]);
       consentArray.push(this.fb.group(element));
     }
@@ -45,17 +45,17 @@ export class CdcRegisterFormService extends RegisterFormService {
       required: boolean;
     }[]
   > {
-    var cdcActiveConsents: string[] =
+    let cdcActiveConsents: string[] =
       this.cdcConsentManagementService.getCdcConsentIDs();
     return this.anonymousConsentsService.getTemplates().pipe(
       map((templates) => {
-        var returnConsents: {
+        let returnConsents: {
           template: ConsentTemplate;
           required: boolean;
         }[] = [];
-        var returnConsent: any = {};
+        let returnConsent: any = {};
         if (templates && templates.length > 0) {
-          for (let template of templates) {
+          for (const template of templates) {
             if (template.id && cdcActiveConsents.includes(template.id)) {
               returnConsent = {};
               returnConsent['template'] = template;
@@ -64,6 +64,7 @@ export class CdcRegisterFormService extends RegisterFormService {
             }
           }
         }
+        console.log(returnConsents);
         return returnConsents;
       })
     );

@@ -70,7 +70,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   loadConsents(reconsentIds: string[]): void {
     this.templateList$ = this.anonymousConsentsService.getTemplates(true).pipe(
       map((templateList) => {
-        var output: ConsentTemplate[] = [];
+        let output: ConsentTemplate[] = [];
         templateList.forEach((template) => {
           if (template.id && reconsentIds.includes(template.id)) {
             output.push(template);
@@ -85,16 +85,18 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
 
   onConsentChange(event: { given: boolean; template: ConsentTemplate }) {
     if (event.given === false && event.template?.id) {
-      let index: number = this.selectedConsents.indexOf(event.template.id);
+      const index: number = this.selectedConsents.indexOf(event.template.id);
       if (index !== -1) {
         this.selectedConsents.splice(index, 1);
       }
     } else if (event.given === true && event.template?.id) {
       this.selectedConsents.push(event.template.id);
     }
-    if (this.totalConsents === this.selectedConsents.length)
+    if (this.totalConsents === this.selectedConsents.length) {
       this.disableSubmitButton = false;
-    else this.disableSubmitButton = true;
+    } else {
+      this.disableSubmitButton = true;
+    }
   }
 
   dismissDialog(reason?: any, message?: string): void {
@@ -106,7 +108,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
       );
     } else {
       this.launchDialogService.closeDialog(reason);
-      let response = {
+      const response = {
         status: 'FAIL',
         errorMessage: message,
       };
