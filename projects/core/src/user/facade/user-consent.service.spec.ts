@@ -422,7 +422,7 @@ describe('UserConsentService', () => {
           new UserActions.WithdrawUserConsent({
             userId,
             consentCode,
-            consentId
+            consentId,
           })
         );
       });
