@@ -34,32 +34,42 @@
       margin-top: 37px;
       .header-profile-details {
         display: flex;
+        justify-content: space-between;
         margin-bottom: 36px;
-        .login-info {
-          font-size: 0.875rem;
-          font-weight: var(--cx-font-weight-normal);
-          color: $asmMainSecondaryTextColor;
-        }
-        .cx-avatar {
-          font-size: 18px;
-          width: 48px;
-          height: 48px;
-          line-height: 48px;
-          border-radius: 50%;
-          color: #fff;
-          text-align: center;
-          background: #9259cd;
-          text-transform: uppercase;
-        }
-        .cx-avatar-image {
-          cx-media {
-            img {
-              object-fit: cover;
-              border-radius: 50%;
-              width: 48px;
-              height: 48px;
+        .header-profile-details-info {
+          display: flex;
+          .login-info {
+            font-size: 0.875rem;
+            font-weight: var(--cx-font-weight-normal);
+            color: $asmMainSecondaryTextColor;
+          }
+          .cx-avatar {
+            font-size: 18px;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            background: #9259cd;
+            text-transform: uppercase;
+          }
+          .cx-avatar-image {
+            cx-media {
+              img {
+                object-fit: cover;
+                border-radius: 50%;
+                width: 48px;
+                height: 48px;
+              }
             }
           }
+        }
+        .header-profile-details-log {
+          font-weight: var(--cx-font-weight-normal);
+          font-size: 0.875rem;
+          padding: 0 16px;
+          color: var(--cx-color-secondary);
         }
         .cx-customer-info {
           .cx-customer-name {
@@ -68,6 +78,10 @@
           }
           .cx-customer-email {
             color: $asmVisualFocusColor;
+            font-size: 0.875rem;
+          }
+          .cx-customer-address {
+            color: $asmMainTextColor;
             font-size: 0.875rem;
           }
         }

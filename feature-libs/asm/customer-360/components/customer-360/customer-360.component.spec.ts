@@ -10,7 +10,12 @@ import {
   Customer360TabComponent,
   Customer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { I18nTestingModule, User } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  LanguageService,
+  User,
+} from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -24,6 +29,8 @@ import { ArgsPipe } from '@spartacus/asm/core';
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: Customer360Config = {
     customer360: {
+      dateFormat: 'MM-dd-yyyy',
+      dateTimeFormat: 'dd-MM-yy hh:mm a',
       tabs: [
         {
           i18nNameKey: 'customer360.overviewTab',
@@ -64,36 +71,29 @@ describe('AsmCustomer360Component', () => {
       latestOpenedTicketId: '00002000',
       latestOpenedTicketCreatedAt: '2023-04-06T02:15:30.085Z',
       email: 'johndoe@example.com',
-      registeredAt: '2023-04-06T02:15:30.085Z',
+      signedUpAt: '2023-04-06T02:15:30.085Z',
       address: {
-        id: 'string',
-        title: 'string',
-        titleCode: 'string',
-        firstName: 'string',
-        lastName: 'string',
-        companyName: 'string',
-        line1: 'string',
-        line2: 'string',
-        town: 'string',
-        region: {
-          isocode: 'string',
-          isocodeShort: 'string',
-          countryIso: 'string',
-          name: 'string',
-        },
-        district: 'string',
-        postalCode: 'string',
-        phone: 'string',
-        cellphone: 'string',
-        email: 'string',
+        id: '00123',
+        title: 'Mr.',
+        titleCode: 'mr',
+        firstName: 'Jone',
+        lastName: 'Doe',
+        companyName: 'SAP',
+        line1: '55 State',
+        line2: '',
+        town: 'Boston',
+        postalCode: '02109',
+        phone: '4165556666',
+        cellphone: '9057778888',
+        email: 'johndoe@example.com',
         country: {
-          isocode: 'string',
-          name: 'string',
+          isocode: 'US',
+          name: 'United States',
         },
         shippingAddress: true,
         defaultAddress: true,
         visibleInAddressBook: true,
-        formattedAddress: 'string',
+        formattedAddress: '53 State St,, , Massachusetts, Boston, 02109',
       },
       userAvatar: {
         url: '/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8YVcxaFoyVnpMMmc0WXk5b1ltSXZPRGM1TnpRNU5qYzNNRFU1TUM1d2JtY3w3MDRiODkxNWI2YWRmZTQ0NDFhZmIxZjZkYmZmYTA3MjM0NTY4NmNlYzU4OWM4Y2VmNDY5MzZkNmY0ZWMxZWUx',
@@ -151,6 +151,9 @@ describe('AsmCustomer360Component', () => {
       this.loggedIn.next(false);
     }
   }
+  const mockLanguageService = {
+    getActive: () => {},
+  };
 
   let component: Customer360Component;
   let fixture: ComponentFixture<Customer360Component>;
@@ -158,6 +161,8 @@ describe('AsmCustomer360Component', () => {
   let csAgentAuthService: CsAgentAuthService;
   let launchDialogService: LaunchDialogService;
   let customer360Facade: Customer360Facade;
+  let datePipe: CxDatePipe;
+  let languageService: LanguageService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -168,6 +173,8 @@ describe('AsmCustomer360Component', () => {
         ArgsPipe,
       ],
       providers: [
+        CxDatePipe,
+        { provide: LanguageService, useValue: mockLanguageService },
         { provide: Customer360Config, useValue: mockAsmConfig },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: Customer360Facade, useClass: MockAsm360Service },
@@ -179,9 +186,12 @@ describe('AsmCustomer360Component', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
+    datePipe = TestBed.inject(CxDatePipe);
+    languageService = TestBed.inject(LanguageService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     customer360Facade = TestBed.inject(Customer360Facade);
+    spyOn(languageService, 'getActive').and.returnValue(of('en'));
   });
 
   beforeEach(() => {
@@ -205,18 +215,41 @@ describe('AsmCustomer360Component', () => {
     });
   });
 
-  it("should show a label with information on the emulated user's active cart", () => {
-    const label = el.query(By.css('.header-account-details-active-cart'));
-    expect(label.nativeElement.textContent).toEqual(
-      ' customer360.header.activeCartLabel cartSize:5  00005033 '
+  it('should display customer general information', () => {
+    const formatedDate = datePipe.transform(
+      mockOverview.overview?.signedUpAt,
+      mockAsmConfig.customer360?.dateFormat
+    );
+    const log = el.query(By.css('.header-profile-details-log'));
+    expect(log.nativeElement.textContent).toContain(formatedDate);
+    const email = el.query(By.css('.cx-customer-email'));
+    expect(email.nativeElement.textContent).toContain(
+      mockOverview.overview?.email
+    );
+
+    const town = el.query(By.css('.cx-customer-address'));
+    expect(town.nativeElement.textContent).toContain(
+      mockOverview.overview?.address?.town
     );
   });
 
+  it("should show a label with information on the emulated user's active cart", () => {
+    const label = el.query(By.css('.header-account-details-active-cart'))
+      .nativeElement.textContent;
+    expect(label).toContain(mockOverview.overview?.cartCode);
+    expect(label).toContain(mockOverview.overview?.cartSize);
+  });
+
   it("should show a label with information on the emulated user's most recent order", () => {
-    const label = el.query(By.css('.header-account-details-recent-order'));
-    expect(label.nativeElement.textContent).toEqual(
-      ' customer360.header.recentOrderLabel price:$12.34  00005032, 04-05-2023 '
+    const formatedLatestOrderTime = datePipe.transform(
+      mockOverview.overview?.latestOrderTime,
+      mockAsmConfig.customer360?.dateFormat
     );
+    const label = el.query(By.css('.header-account-details-recent-order'))
+      .nativeElement.textContent;
+    expect(label).toContain(mockOverview.overview?.latestOrderTotal);
+    expect(label).toContain(mockOverview.overview?.latestOrderCode);
+    expect(label).toContain(formatedLatestOrderTime);
   });
 
   it('should render component sections', () => {

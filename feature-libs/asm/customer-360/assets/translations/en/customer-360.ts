@@ -15,6 +15,7 @@ export const customer360 = {
       activeCartLabel: '{{cartSize}} item added to cart',
       recentOrderLabel: 'Last order {{price}}',
       recentTicketLabel: 'Last ticket',
+      signedUpAt: 'Account created on {{date}}',
     },
     productListing: {
       totalNoItems: 'Total No. Items {{count}}',

@@ -9,6 +9,8 @@ import { Customer360Config } from './customer-360-config';
 
 export const defaultCustomer360Config: Customer360Config = {
   customer360: {
+    dateFormat: 'MM-dd-yyyy',
+    dateTimeFormat: 'dd-MM-yy hh:mm a',
     tabs: [
       {
         i18nNameKey: 'customer360.overviewTab',

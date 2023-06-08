@@ -30,32 +30,54 @@
         *ngIf="customerOverview$ | async as customerOverview"
       >
         <div class="header-profile-details">
-          <ng-container
-            *ngIf="
-              getAvatarImage | cxArgs: customerOverview as avatarImage;
-              else customerTextAvatar
-            "
-          >
-            <div class="cx-avatar-image">
-              <cx-media [container]="avatarImage"></cx-media>
-            </div>
-          </ng-container>
+          <div class="header-profile-details-info">
+            <ng-container
+              *ngIf="
+                getAvatarImage | cxArgs: customerOverview as avatarImage;
+                else customerTextAvatar
+              "
+            >
+              <div class="cx-avatar-image">
+                <cx-media [container]="avatarImage"></cx-media>
+              </div>
+            </ng-container>
 
-          <ng-template #customerTextAvatar>
-            <div class="cx-avatar">
-              {{ getAvatarText | cxArgs: customer }}
+            <ng-template #customerTextAvatar>
+              <div class="cx-avatar">
+                {{ getAvatarText | cxArgs: customer }}
+              </div>
+            </ng-template>
+            <div class="cx-customer-info ml-3">
+              <div class="cx-customer-name">
+                {{
+                  'customer360.header.subTitle'
+                    | cxTranslate: { name: customerOverview?.name }
+                }}
+              </div>
+              <div class="cx-customer-email">
+                {{ customerOverview?.email }}
+              </div>
+              <div
+                class="cx-customer-address"
+                *ngIf="customerOverview?.address?.town"
+              >
+                {{ customerOverview.address.town }}
+              </div>
             </div>
-          </ng-template>
-          <div class="cx-customer-info ml-3">
-            <div class="cx-customer-name">
-              {{
-                'customer360.header.subTitle'
-                  | cxTranslate: { name: customerOverview?.name }
-              }}
-            </div>
-            <div class="cx-customer-email">
-              {{ customerOverview?.email }}
-            </div>
+          </div>
+          <div
+            class="header-profile-details-log"
+            *ngIf="customerOverview?.signedUpAt"
+          >
+            {{
+              'customer360.header.signedUpAt'
+                | cxTranslate
+                  : {
+                      date:
+                        customerOverview.signedUpAt
+                        | cxDate: customer360Config?.customer360?.dateFormat
+                    }
+            }}
           </div>
         </div>
         <div class="header-account-details">
@@ -102,7 +124,11 @@
               "
             >
               {{ customerOverview.latestOrderCode }}</button
-            >, {{ customerOverview?.latestOrderTime | date: 'MM-dd-yyyy' }}
+            >,
+            {{
+              customerOverview?.latestOrderTime
+                | cxDate: customer360Config?.customer360?.dateFormat
+            }}
           </span>
           <span
             class="header-account-details-recent-ticket"
@@ -126,7 +152,8 @@
               {{ customerOverview.latestOpenedTicketId }}</button
             >,
             {{
-              customerOverview?.latestOpenedTicketCreatedAt | date: 'MM-dd-yyyy'
+              customerOverview?.latestOpenedTicketCreatedAt
+                | cxDate: customer360Config?.customer360?.dateFormat
             }}
           </span>
         </div>

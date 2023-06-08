@@ -47,6 +47,7 @@ export class AsmCustomerActivityComponent implements OnInit {
       property: 'statusLabel',
       text: 'status',
       i18nTextKey: 'customer360.activity.status',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
     {
       property: 'createdAt',
