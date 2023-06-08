@@ -70,7 +70,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   loadConsents(reconsentIds: string[]): void {
     this.templateList$ = this.anonymousConsentsService.getTemplates(true).pipe(
       map((templateList) => {
-        let output: ConsentTemplate[] = [];
+        const output: ConsentTemplate[] = [];
         templateList.forEach((template) => {
           if (template.id && reconsentIds.includes(template.id)) {
             output.push(template);

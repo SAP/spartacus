@@ -16,10 +16,6 @@ export class CdcUserPreferenceSerializer
   }
 
   convert(source: ConsentTemplate, target?: any): any {
-    if (target === undefined) {
-      target = { ...(source as any) } as any;
-    }
-
     if (source) {
       const preference = source.id?.concat('.isConsentGranted');
       if (preference) {
@@ -44,12 +40,12 @@ export class CdcUserPreferenceSerializer
    * output=  x:{y:{z:{isConsentGranted: true}}}
    */
   private convertToCdcPreference(path: string, value: any): any {
-    let target: any = {};
+    const target: any = {};
     let consentCode = target;
-    let list = path.split('.');
-    let len = list.length;
-    for (var i = 0; i < len - 1; i++) {
-      let elem = list[i];
+    const list = path.split('.');
+    const len = list.length;
+    for (let i = 0; i < len - 1; i++) {
+      const elem = list[i];
       if (!consentCode[elem]) {
         consentCode[elem] = {};
       }

@@ -11,9 +11,9 @@ import { Config } from '@spartacus/core';
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class registerPreferences {
+export abstract class RegisterPreferences {
   preferences?: any;
 }
 declare module '@spartacus/user/profile/root' {
-  interface UserSignUp extends registerPreferences {}
+  interface UserSignUp extends RegisterPreferences {}
 }

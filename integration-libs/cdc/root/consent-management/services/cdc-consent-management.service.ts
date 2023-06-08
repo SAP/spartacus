@@ -32,7 +32,7 @@ export class CdcConsentManagementService extends ConsentManagementService {
    * @returns array of consents
    */
   getCdcConsentIDs(mandatoryConsents: boolean = false): string[] {
-    let consentIDs: string[] = [];
+    const consentIDs: string[] = [];
     const consents: CdcLocalStorageTemplate[] =
       this.store.readCdcConsentsFromStorage() || [];
     consents.forEach((consent) => {

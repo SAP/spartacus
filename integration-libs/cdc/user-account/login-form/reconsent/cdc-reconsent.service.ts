@@ -27,7 +27,7 @@ export class CdcReconsentService implements OnDestroy {
    * @returns error message if any
    */
   saveReconsent(consentId: string[], userParams: any): string {
-    let errorMessage: string = '';
+    const errorMessage: string = '';
     this.subscription.add(
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
         if (cdcLoaded) {

@@ -254,6 +254,7 @@ export class CdcJsService implements OnDestroy {
     password: string,
     context?: any
   ): Observable<{ status: string }> {
+    const missingConsentErrorCode = 206001;
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
         return this.invokeAPI('accounts.login', {
@@ -267,7 +268,7 @@ export class CdcJsService implements OnDestroy {
           take(1),
           tap({
             error: (response) => {
-              if (response.errorCode !== 206001)
+              if (response.errorCode !== missingConsentErrorCode)
                 {this.handleLoginError(response);}
               else {
                 this.raiseCdcReconsentEvent(
@@ -713,7 +714,7 @@ export class CdcJsService implements OnDestroy {
     errorMessage: string,
     regToken: string
   ): void {
-    let consentIds: string[] = [];
+    const consentIds: string[] = [];
     reconsentIds.forEach((template) => {
       const removePreference = template.replace('preferences.', '');
       const removeIsConsentGranted = removePreference.replace(

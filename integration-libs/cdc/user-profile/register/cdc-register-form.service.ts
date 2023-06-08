@@ -28,9 +28,9 @@ export class CdcRegisterFormService extends RegisterFormService {
   }
 
   generateConsentsFormControl(): UntypedFormArray {
-    let cdcActiveConsents: string[] =
+    const cdcActiveConsents: string[] =
       this.cdcConsentManagementService.getCdcConsentIDs();
-    let consentArray = this.fb.array([]);
+    const consentArray = this.fb.array([]);
     for (const consent of cdcActiveConsents) {
       const element: any = {};
       element[consent] = new FormControl(false, [Validators.requiredTrue]);
@@ -45,7 +45,7 @@ export class CdcRegisterFormService extends RegisterFormService {
       required: boolean;
     }[]
   > {
-    let cdcActiveConsents: string[] =
+    const cdcActiveConsents: string[] =
       this.cdcConsentManagementService.getCdcConsentIDs();
     return this.anonymousConsentsService.getTemplates().pipe(
       map((templates) => {
@@ -53,18 +53,16 @@ export class CdcRegisterFormService extends RegisterFormService {
           template: ConsentTemplate;
           required: boolean;
         }[] = [];
-        let returnConsent: any = {};
         if (templates && templates.length > 0) {
           for (const template of templates) {
             if (template.id && cdcActiveConsents.includes(template.id)) {
-              returnConsent = {};
+              let returnConsent: any = {};
               returnConsent['template'] = template;
               returnConsent['required'] = true;
               returnConsents.push(returnConsent);
             }
           }
         }
-        console.log(returnConsents);
         return returnConsents;
       })
     );

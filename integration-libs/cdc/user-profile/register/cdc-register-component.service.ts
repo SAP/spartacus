@@ -82,10 +82,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
       return throwError(`The provided user is not valid: ${user}`);
     }
-    console.log('i am here');
     /** fill the user preferences */
     user.preferences = this.generatePreferencesObject();
-    console.log(user);
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
         if (!cdcLoaded) {
@@ -125,7 +123,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
   generatePreferencesObject(): any {
     let preferences = {};
     const consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents
-    for (let id in consentIDs) {
+    for (const id in consentIDs) {
       if (Object.hasOwn(consentIDs, id)) {
         const consent: ConsentTemplate = {};
         consent.id = consentIDs[id];

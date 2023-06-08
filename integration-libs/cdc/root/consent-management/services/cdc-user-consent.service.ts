@@ -41,7 +41,7 @@ export class CdcUserConsentService {
     user?: string,
     regToken?: string
   ): Observable<{ errorCode: number; errorMessage: string }> {
-    let consent: ConsentTemplate = {};
+    const consent: ConsentTemplate = {};
     consent.id = consentCode;
     consent.currentConsent = {};
     if (isConsentGranted) {
@@ -57,7 +57,7 @@ export class CdcUserConsentService {
       userId = user;
     }
 
-    let currentLanguage = this.getActiveLanguage();
+    const currentLanguage = this.getActiveLanguage();
 
     const serializedPreference: any = this.converter.convert(
       consent,
