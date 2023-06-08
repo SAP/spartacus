@@ -115,10 +115,10 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     );
   }
 
-/**
- * Return preferences object that needs to be updated during register process
- * @returns preference object
- */
+  /**
+   * Return preferences object that needs to be updated during register process
+   * @returns preference object
+   */
   generatePreferencesObject(): any {
     var preferences = {};
     let consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents

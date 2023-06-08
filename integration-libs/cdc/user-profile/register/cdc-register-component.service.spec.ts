@@ -293,9 +293,7 @@ describe('CdcRegisterComponentService', () => {
       cdcConsentManagementService.getCdcConsentIDs =
         createSpy().and.returnValue(['others.survey']);
       let result = cdcUserRegisterService.generatePreferencesObject();
-      expect(
-        cdcConsentManagementService.getCdcConsentIDs
-      ).toHaveBeenCalled();
+      expect(cdcConsentManagementService.getCdcConsentIDs).toHaveBeenCalled();
       expect(result).toEqual({
         others: {
           survey: {

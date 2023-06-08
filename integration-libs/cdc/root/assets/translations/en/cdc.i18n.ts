@@ -8,7 +8,7 @@ export const cdc = {
   reconsent: {
     dialog: {
       title: 'Profile Completion',
-      description: 'We still need a few more consents:',
+      description: 'We still need your consent for the following',
     },
   },
 };

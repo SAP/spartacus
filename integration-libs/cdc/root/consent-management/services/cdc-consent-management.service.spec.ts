@@ -15,7 +15,7 @@ const mockStore = [
   },
 ];
 const mockRequiredOutput = ['terms.of.use'];
-const mockActiveOutput = ['terms.of.use','others.survey'];
+const mockActiveOutput = ['terms.of.use', 'others.survey'];
 class MockCdcConsentsLocalStorageService
   implements Partial<CdcConsentsLocalStorageService>
 {
@@ -46,9 +46,7 @@ describe('CdcConsentManagementService', () => {
   describe('getRequiredConsents()', () => {
     it('return all required consents', () => {
       let templateList: ConsentTemplate[] = [];
-      service.getCdcConsentIDs = createSpy().and.returnValue([
-        'terms.of.use',
-      ]);
+      service.getCdcConsentIDs = createSpy().and.returnValue(['terms.of.use']);
       let result = service.getRequiredConsents(templateList);
       expect(result).toEqual(mockRequiredOutput);
       expect(service.getCdcConsentIDs).toHaveBeenCalledWith(true);
@@ -56,7 +54,7 @@ describe('CdcConsentManagementService', () => {
   });
   describe('getCdcConsentIDs()', () => {
     it('return all required cdc consents', () => {
-      spyOn(service,'getCdcConsentIDs').and.callThrough();
+      spyOn(service, 'getCdcConsentIDs').and.callThrough();
       store.readCdcConsentsFromStorage = createSpy().and.returnValue(mockStore);
       let result: string[] = [];
       result = service.getCdcConsentIDs(true);
@@ -64,7 +62,7 @@ describe('CdcConsentManagementService', () => {
       expect(service.getCdcConsentIDs).toHaveBeenCalledWith(true);
     });
     it('return all active cdc consents', () => {
-      spyOn(service,'getCdcConsentIDs').and.callThrough();;
+      spyOn(service, 'getCdcConsentIDs').and.callThrough();
       store.readCdcConsentsFromStorage = createSpy().and.returnValue(mockStore);
       let result: string[] = [];
       result = service.getCdcConsentIDs();

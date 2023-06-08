@@ -8,4 +8,3 @@ export interface CdcLocalStorageTemplate {
   id: string;
   required: boolean;
 }
-

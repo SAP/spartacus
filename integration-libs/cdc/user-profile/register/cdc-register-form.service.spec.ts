@@ -52,18 +52,19 @@ describe('CdcRegisterFormService', () => {
     expect(service).toBeTruthy();
   });
   it('generateConsentsFormControl', () => {
-    cdcConsentManagementService.getCdcConsentIDs =
-      createSpy().and.returnValue(['consent1.terms1']);
+    cdcConsentManagementService.getCdcConsentIDs = createSpy().and.returnValue([
+      'consent1.terms1',
+    ]);
     fb.array = createSpy().and.returnValue([]);
     service.generateConsentsFormControl();
-    expect(
-      cdcConsentManagementService.getCdcConsentIDs
-    ).toHaveBeenCalled();
+    expect(cdcConsentManagementService.getCdcConsentIDs).toHaveBeenCalled();
     expect(fb.array).toHaveBeenCalled();
   });
   it('loadExtraRegistrationConsents', () => {
-    cdcConsentManagementService.getCdcConsentIDs =
-      createSpy().and.returnValue(['consent2.terms2', 'consent3.terms3']);
+    cdcConsentManagementService.getCdcConsentIDs = createSpy().and.returnValue([
+      'consent2.terms2',
+      'consent3.terms3',
+    ]);
     anonymousConsentsService.getTemplates = createSpy().and.returnValue(
       of([
         {
@@ -82,9 +83,7 @@ describe('CdcRegisterFormService', () => {
     );
     service.loadExtraRegistrationConsents().subscribe((value) => {
       expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
-      expect(
-        cdcConsentManagementService.getCdcConsentIDs
-      ).toHaveBeenCalled();
+      expect(cdcConsentManagementService.getCdcConsentIDs).toHaveBeenCalled();
       expect(value).toEqual([
         {
           template: {
