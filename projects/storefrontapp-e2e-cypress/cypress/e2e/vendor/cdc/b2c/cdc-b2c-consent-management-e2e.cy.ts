@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as cdc from '../../../../helpers/vendor/cdc/cdc';
 import * as alerts from '../../../../helpers/global-message';
 import { navigateToConsentPage } from '../../../../helpers/anonymous-consents';
