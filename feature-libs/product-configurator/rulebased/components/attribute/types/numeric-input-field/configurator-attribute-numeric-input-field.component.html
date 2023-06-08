@@ -37,3 +37,14 @@
       | cxTranslate: { pattern: numericFormatPattern }
   }}
 </div>
+<div
+  class="cx-validation-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  *ngIf="mustDisplayIntervalMessage()"
+  aria-live="assertive"
+  aria-atomic="true"
+  role="alert"
+>
+  <cx-icon [type]="iconType.WARNING"></cx-icon>
+  {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
+</div>

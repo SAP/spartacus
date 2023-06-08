@@ -153,20 +153,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * Retrieves a quantity for a cart entry.
-   *
-   * @param {string} entryNumber - Entry number
-   * @returns {number} - Quantity
-   */
-  getCartEntryQuantity(entryNumber: string): Observable<number> {
-    return this.configuratorCartService.getEntry(entryNumber).pipe(
-      map((entry) => {
-        return entry?.quantity ? entry?.quantity : 1;
-      })
-    );
-  }
-
   protected navigateToCart(): void {
     this.routingService.go('cart');
   }
@@ -241,33 +227,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       return 'configurator.addToCart.buttonAfterAddToCart';
     } else {
       return 'configurator.addToCart.button';
-    }
-  }
-
-  /**
-   * Retrieves an icon type depending on the business process (owner of the configuration) and the
-   * need for a cart update. The icon will differ.
-   *
-   * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @returns {ICON_TYPE} Icon type that determines an icon that will be displayed on the button
-   */
-  getIconType(
-    routerData: ConfiguratorRouter.Data,
-    configuration: Configurator.Configuration
-  ): ICON_TYPE {
-    if (
-      routerData.isOwnerCartEntry &&
-      configuration.isCartEntryUpdateRequired
-    ) {
-      return this.iconType.CART;
-    } else if (
-      routerData.isOwnerCartEntry &&
-      !configuration.isCartEntryUpdateRequired
-    ) {
-      return this.iconType.CART_ARROW_DOWN;
-    } else {
-      return this.iconType.CART_PLUS;
     }
   }
 
