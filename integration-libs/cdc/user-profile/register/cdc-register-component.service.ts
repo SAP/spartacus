@@ -123,10 +123,9 @@ export class CDCRegisterComponentService extends RegisterComponentService {
   generatePreferencesObject(): any {
     let preferences = {};
     const consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents
-    for (const id in consentIDs) {
-      if (Object.hasOwn(consentIDs, id)) {
+    for (const id of consentIDs) {
         const consent: ConsentTemplate = {};
-        consent.id = consentIDs[id];
+        consent.id = id;
         consent.currentConsent = {};
         consent.currentConsent.consentGivenDate = new Date();
         const serializedPreference: any = this.converter.convert(
@@ -134,7 +133,6 @@ export class CDCRegisterComponentService extends RegisterComponentService {
           CDC_USER_PREFERENCE_SERIALIZER
         );
         preferences = Object.assign(preferences, serializedPreference);
-      }
     }
     return preferences;
   }
