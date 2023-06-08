@@ -268,9 +268,9 @@ export class CdcJsService implements OnDestroy {
           take(1),
           tap({
             error: (response) => {
-              if (response.errorCode !== missingConsentErrorCode)
-                {this.handleLoginError(response);}
-              else {
+              if (response.errorCode !== missingConsentErrorCode) {
+                this.handleLoginError(response);
+              } else {
                 this.raiseCdcReconsentEvent(
                   email,
                   password,
