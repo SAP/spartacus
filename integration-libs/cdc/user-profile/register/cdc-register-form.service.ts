@@ -49,14 +49,14 @@ export class CdcRegisterFormService extends RegisterFormService {
       this.cdcConsentManagementService.getCdcConsentIDs();
     return this.anonymousConsentsService.getTemplates().pipe(
       map((templates) => {
-        let returnConsents: {
+        const returnConsents: {
           template: ConsentTemplate;
           required: boolean;
         }[] = [];
         if (templates && templates.length > 0) {
           for (const template of templates) {
             if (template.id && cdcActiveConsents.includes(template.id)) {
-              let returnConsent: any = {};
+              const returnConsent: any = {};
               returnConsent['template'] = template;
               returnConsent['required'] = true;
               returnConsents.push(returnConsent);
