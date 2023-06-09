@@ -49,6 +49,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   addressFormOpened = false;
   doneAutoSelect = false;
 
+  selectedAddress: Address | undefined;
+
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
   }
@@ -78,7 +80,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAddresses();
-
     this.cards$ = this.createCards();
     this.isUpdating$ = this.createIsUpdating();
   }
@@ -138,6 +139,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   addAddress(address: Address | undefined): void {
     if (!address) {
+      if (this.selectedAddress) {
+        this.next();
+      }
       return;
     }
 
@@ -242,6 +246,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         this.setAddress(selected);
       }
       this.doneAutoSelect = true;
+    } else if (selected) {
+      this.selectedAddress = selected;
     }
   }
 
