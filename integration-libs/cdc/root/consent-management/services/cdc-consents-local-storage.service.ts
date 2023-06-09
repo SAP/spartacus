@@ -10,7 +10,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   CdcLocalStorageTemplate,
   CdcSiteConsentTemplate,
-} from '../model/cdc-consent-management.model';
+} from '../model/index';
 
 const KEY = 'cdc-consents-list';
 
