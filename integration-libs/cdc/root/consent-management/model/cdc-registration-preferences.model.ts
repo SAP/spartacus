@@ -14,6 +14,7 @@ import { Config } from '@spartacus/core';
 export abstract class RegisterPreferences {
   preferences?: any;
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 declare module '@spartacus/user/profile/root' {
   interface UserSignUp extends RegisterPreferences {}
 }
