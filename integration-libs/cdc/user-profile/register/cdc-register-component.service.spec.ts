@@ -181,6 +181,8 @@ describe('CdcRegisterComponentService', () => {
     it('should NOT happen without CDC, should show error', (done) => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
+      cdcConsentManagementService.getCdcConsentIDs =
+        createSpy().and.returnValue(['others.survey']);
       cdcJsService.didLoad = createSpy().and.callFake(() => of(false));
       cdcUserRegisterService.register(userRegisterFormData).subscribe({
         error: () => {
@@ -230,7 +232,8 @@ describe('CdcRegisterComponentService', () => {
 
     it('should throw error when CDC user token fails', (done) => {
       eventService.get = createSpy().and.returnValue(of(true));
-
+      cdcConsentManagementService.getCdcConsentIDs =
+        createSpy().and.returnValue(['others.survey']);
       cdcUserRegisterService.register(userRegisterFormData).subscribe({
         error: () => {
           expect(connector.register).not.toHaveBeenCalled();
