@@ -25,7 +25,7 @@ describe('Tabbing order for ASM', () => {
       asmTabbingOrderWithCreateCustomerForm(config.asmWithCreateCustomerForm);
     });
 
-    it('should allow to navigate with tab key for deeplink inactive cart (CXSPA-3313)', () => {
+    it('should allow to navigate with tab key for save deeplink inactive cart dialog (CXSPA-3313)', () => {
       asmTabbingOrderWithSaveInactiveCartDialog(
         config.asmInactiveCartSaveDialog
       );
