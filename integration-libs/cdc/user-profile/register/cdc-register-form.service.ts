@@ -14,8 +14,6 @@ import {
 import { CdcConsentManagementService } from '@spartacus/cdc/root';
 import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
 import { RegisterFormService } from '@spartacus/user/profile/components';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CdcRegisterFormService extends RegisterFormService {
@@ -27,44 +25,47 @@ export class CdcRegisterFormService extends RegisterFormService {
     super(fb);
   }
 
-  generateConsentsFormControl(): UntypedFormArray {
+  fetchCdcConsentsForRegistration(): ConsentTemplate[] {
+    const consentList: ConsentTemplate[] = [];
     const cdcActiveConsents: string[] =
       this.cdcConsentManagementService.getCdcConsentIDs();
+    this.anonymousConsentsService.getTemplates().subscribe((templates) => {
+      if (templates && templates.length > 0) {
+        for (const template of templates) {
+          if (template.id && cdcActiveConsents.includes(template.id)) {
+            //fetch consents that exist in commerce and is active in cdc
+            consentList.push(template);
+          }
+        }
+      }
+    });
+    return consentList;
+  }
+
+  generateConsentsFormControl(): UntypedFormArray {
     const consentArray = this.fb.array([]);
-    for (const consent of cdcActiveConsents) {
-      const element: any = {};
-      element[consent] = new FormControl(false, [Validators.requiredTrue]);
-      consentArray.push(this.fb.group(element));
+    const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
+    for (const _template of templates) {
+      consentArray.push(new FormControl(false, [Validators.requiredTrue]));
     }
     return consentArray;
   }
 
-  loadExtraRegistrationConsents(): Observable<
-    {
+  loadExtraRegistrationConsents(): {
+    template: ConsentTemplate;
+    required: boolean;
+  }[] {
+    const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
+    const returnConsents: {
       template: ConsentTemplate;
       required: boolean;
-    }[]
-  > {
-    const cdcActiveConsents: string[] =
-      this.cdcConsentManagementService.getCdcConsentIDs();
-    return this.anonymousConsentsService.getTemplates().pipe(
-      map((templates) => {
-        const returnConsents: {
-          template: ConsentTemplate;
-          required: boolean;
-        }[] = [];
-        if (templates && templates.length > 0) {
-          for (const template of templates) {
-            if (template.id && cdcActiveConsents.includes(template.id)) {
-              const returnConsent: any = {};
-              returnConsent['template'] = template;
-              returnConsent['required'] = true;
-              returnConsents.push(returnConsent);
-            }
-          }
-        }
-        return returnConsents;
-      })
-    );
+    }[] = [];
+    for (const template of templates) {
+      const returnConsent: any = {};
+      returnConsent['template'] = template;
+      returnConsent['required'] = true;
+      returnConsents.push(returnConsent);
+    }
+    return returnConsents;
   }
 }

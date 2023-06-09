@@ -162,12 +162,11 @@
           <div
             formArrayName="extraConsents"
             class="form-group"
-            *ngIf="registrationConsents$ | async as registrationConsents"
+            *ngIf="registrationConsents"
           >
             <div
               class="form-check"
               *ngFor="let control of extraConsents.controls; let i = index"
-              [formGroupName]="i"
             >
               <div *ngIf="registrationConsents[i]?.template?.id as id">
                 <label>
@@ -175,14 +174,13 @@
                     type="checkbox"
                     [required]="registrationConsents[i].required"
                     [name]="id"
-                    [formControlName]="id"
+                    (change)="updateExtraConsents($any($event), i)"
+                    [formControlName]="i"
                   />
                   <span class="form-check-label">
-                    {{ registrationConsents[i]?.template?.description }}
+                    {{ registrationConsents[i].template.description }}
                   </span>
-                  <cx-form-errors
-                    [control]="control.get([id])"
-                  ></cx-form-errors>
+                  <cx-form-errors [control]="control"></cx-form-errors>
                 </label>
               </div>
             </div>

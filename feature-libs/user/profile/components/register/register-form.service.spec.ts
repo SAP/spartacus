@@ -21,22 +21,7 @@ describe('RegisterFormService', () => {
     expect(fb.array).toHaveBeenCalled();
   });
   it('loadExtraRegistrationConsents', () => {
-    var nextNeverCalled: boolean = true;
-    var errorNeverCalled: boolean = true;
-    var completeIsCalled: boolean = false;
-    service.loadExtraRegistrationConsents().subscribe({
-      next: () => {
-        nextNeverCalled = false;
-      },
-      error: () => {
-        errorNeverCalled = false;
-      },
-      complete: () => {
-        completeIsCalled = true;
-      },
-    });
-    expect(nextNeverCalled).toEqual(true);
-    expect(errorNeverCalled).toEqual(true);
-    expect(completeIsCalled).toEqual(true);
+    let result = service.loadExtraRegistrationConsents();
+    expect(result).toEqual([]);
   });
 });

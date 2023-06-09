@@ -6,7 +6,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormArray,
+  UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -26,13 +26,7 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
-import {
-  BehaviorSubject,
-  combineLatest,
-  EMPTY,
-  Observable,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterFormService } from './register-form.service';
@@ -78,7 +72,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
-  extraConsents = this.registerForm.controls.extraConsents as FormArray;
+
+  registrationConsents: {
+    template: ConsentTemplate;
+    required: boolean;
+  }[];
+
+  get extraConsents(): UntypedFormArray {
+    return this.registerForm?.get('extraConsents') as UntypedFormArray;
+  }
+
+  updateExtraConsents(event: MouseEvent, index: number) {
+    const { checked } = event.target as HTMLInputElement;
+    this.registerForm.value.extraConsents[index] = checked;
+  }
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -90,13 +97,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected registerComponentService: RegisterComponentService,
     protected registerFormService?: RegisterFormService
   ) {}
-
-  registrationConsents$: Observable<
-    {
-      template: ConsentTemplate;
-      required: boolean;
-    }[]
-  >;
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -150,8 +150,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.registrationConsents$ =
-      this.registerFormService?.loadExtraRegistrationConsents() || EMPTY;
+    this.registrationConsents =
+      this.registerFormService?.loadExtraRegistrationConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -162,6 +162,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
+    console.log(this.registerForm.status, this.registerForm);
     if (this.registerForm.valid) {
       this.registerUser();
     } else {
