@@ -22,14 +22,13 @@ import * as sampleData from '../../../../sample-data/saved-cart';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 import { getSampleUser } from '../../../../sample-data/checkout-flow';
-import { login as fetchingToken } from '../../../../support/utils/login';
 
-import { emulateCustomerPrepare } from '../../../../helpers/asm';
 import {
-  addToCartWithProducts,
-  createCart,
-  createInactiveCart,
-} from '../../../../support/utils/cart';
+  emulateCustomerPrepare,
+  getCurrentCartIdAndAddProducts,
+  getCustomerId,
+  getInactiveCartIdAndAddProducts,
+} from '../../../../helpers/asm';
 
 const agentToken = {
   userName: 'asagent',
@@ -770,98 +769,4 @@ context('Assisted Service Module', () => {
       cy.get('cx-product-list').should('exist');
     });
   });
-
-  function getCustomerId(agentUserName, agentPwd, customerUid) {
-    return new Promise((resolve, reject) => {
-      fetchingToken(agentUserName, agentPwd, false).then((res) => {
-        // get customerId of it
-        cy.request({
-          method: 'get',
-          url:
-            `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/` + customerUid,
-          headers: {
-            Authorization: `bearer ${res.body.access_token}`,
-          },
-        }).then((response) => {
-          if (response.status === 200) {
-            resolve(response.body.customerId);
-          } else {
-            reject(response.status);
-          }
-        });
-      });
-    });
-  }
-
-  function getInactiveCartIdAndAddProducts(
-    customerEmail,
-    customerPwd,
-    productCode?,
-    quantity?
-  ) {
-    let token = null;
-    return new Promise((resolve, reject) => {
-      fetchingToken(customerEmail, customerPwd, false).then((res) => {
-        token = res.body.access_token;
-        createInactiveCart(token)
-          .then((inactiveCartId) => {
-            if (!!productCode && quantity) {
-              addToCartWithProducts(
-                inactiveCartId,
-                productCode,
-                quantity,
-                token
-              ).then((response) => {
-                if (response.status === 200) {
-                  resolve(inactiveCartId);
-                } else {
-                  reject(response.status);
-                }
-              });
-            } else {
-              resolve(inactiveCartId);
-            }
-          })
-          .catch((status) => reject(status));
-      });
-    });
-  }
-
-  function getCurrentCartIdAndAddProducts(
-    customerName,
-    customerPwd,
-    productCode?,
-    quantity?
-  ) {
-    return new Promise((resolve, reject) => {
-      fetchingToken(customerName, customerPwd, false).then((res) => {
-        const token = res.body.access_token;
-        createCart(token).then((response) => {
-          if (response.status === 200) {
-            const activeCartId = response.body.code;
-            if (!!productCode && quantity) {
-              addToCartWithProducts(
-                activeCartId,
-                productCode,
-                quantity,
-                token
-              ).then((response) => {
-                if (response.status === 200) {
-                  resolve(activeCartId);
-                } else {
-                  reject(response.status);
-                }
-              });
-            } else {
-              resolve(activeCartId);
-            }
-          } else {
-            reject(response.status);
-          }
-        });
-      });
-    });
-  }
 });

@@ -8,6 +8,7 @@ import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbin
 import {
   asmTabbingOrderWithCreateCustomerForm,
   asmTabbingOrderWithCustomerList,
+  asmTabbingOrderWithSaveInactiveCartDialog,
 } from '../../helpers/accessibility/tabbing-order/asm';
 
 describe('Tabbing order for ASM', () => {
@@ -22,6 +23,12 @@ describe('Tabbing order for ASM', () => {
 
     it('should allow to navigate with tab key for create customer form (CXSPA-1594)', () => {
       asmTabbingOrderWithCreateCustomerForm(config.asmWithCreateCustomerForm);
+    });
+
+    it('should allow to navigate with tab key for deeplink inactive cart (CXSPA-3313)', () => {
+      asmTabbingOrderWithSaveInactiveCartDialog(
+        config.asmInactiveCartSaveDialog
+      );
     });
   });
 });
