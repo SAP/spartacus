@@ -38,6 +38,7 @@ export class AsmCustomerSupportTicketsComponent implements OnInit {
     {
       property: 'categoryLabel',
       i18nTextKey: 'customer360.supportTickets.columnHeaders.category',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
     {
       property: 'createdAt',
@@ -52,6 +53,7 @@ export class AsmCustomerSupportTicketsComponent implements OnInit {
     {
       property: 'statusLabel',
       i18nTextKey: 'customer360.activity.status',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
   ];
 

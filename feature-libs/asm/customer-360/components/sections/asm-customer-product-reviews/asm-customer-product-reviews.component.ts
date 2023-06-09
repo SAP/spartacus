@@ -36,6 +36,7 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
     {
       property: 'dateAndStatus',
       i18nTextKey: 'customer360.productReviews.columnHeaders.dateAndStatus',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
     {
       property: 'rating',
@@ -45,6 +46,7 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
     {
       property: 'reviewText',
       i18nTextKey: 'customer360.productReviews.columnHeaders.review',
+      headerTextAlign: CustomerTableTextAlign.START,
     },
   ];
 

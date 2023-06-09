@@ -36,6 +36,7 @@ import {
   CustomerTableTextAlign,
   TableEntry,
 } from './asm-customer-table.model';
+import { Customer360Config } from '@spartacus/asm/customer-360/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,7 +78,10 @@ export class AsmCustomerTableComponent implements OnChanges, AfterViewChecked {
 
   setFocusOnStartTableItem = false;
 
-  constructor(protected directionService: DirectionService) {}
+  constructor(
+    protected customer360Config: Customer360Config,
+    protected directionService: DirectionService
+  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.entries) {

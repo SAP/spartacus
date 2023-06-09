@@ -10,7 +10,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { ArgsPipe } from '@spartacus/asm/core';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  LanguageService,
+} from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -25,6 +29,11 @@ import {
   GeneralEntry,
   TableEntry,
 } from './asm-customer-table.model';
+import {
+  Customer360Config,
+  Customer360Type,
+} from '@spartacus/asm/customer-360/root';
+import { of } from 'rxjs';
 
 @Directive({
   selector: '[cxFocus]',
@@ -34,6 +43,41 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('AsmCustomerTableComponent', () => {
+  const mockAsmConfig: Customer360Config = {
+    customer360: {
+      dateFormat: 'MM-dd-yyyy',
+      dateTimeFormat: 'dd-MM-yy hh:mm a',
+      tabs: [
+        {
+          i18nNameKey: 'customer360.overviewTab',
+          components: [
+            {
+              component: 'AsmCustomer360OverviewComponent',
+            },
+          ],
+        },
+        {
+          i18nNameKey: 'customer360.profileTab',
+          components: [
+            {
+              component: 'AsmCustomer360ProfileComponent',
+            },
+            {
+              component: 'AsmCustomer360ProductReviewsComponent',
+              requestData: {
+                type: Customer360Type.REVIEW_LIST,
+              },
+              config: { pageSize: 5 },
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+  const mockLanguageService = {
+    getActive: () => {},
+  };
   @Pipe({
     name: 'cxTranslate',
   })
@@ -93,14 +137,15 @@ describe('AsmCustomerTableComponent', () => {
       type: 'Ticket',
       id: '00000001',
       description: 'Thing not work good',
+      category: 'New',
       created: new Date('2022-07-07T18:25:43+0000').getTime(),
       updated: new Date('2022-07-07T18:25:43+0000').getTime(),
-      category: 'New',
     },
     {
       type: 'Cart',
       id: '00002001',
       description: 'Cart with 1 item',
+      category: 'New',
       created: new Date('2022-07-01T18:25:43+0000').getTime(),
       updated: new Date('2022-07-02T18:25:43+0000').getTime(),
     },
@@ -115,6 +160,7 @@ describe('AsmCustomerTableComponent', () => {
       type: 'Saved Cart',
       id: '00002002',
       description: 'Cart with 2 items',
+      category: 'New',
       created: new Date('2022-07-02T18:25:43+0000').getTime(),
       updated: new Date('2022-07-04T18:25:43+0000').getTime(),
     },
@@ -122,6 +168,7 @@ describe('AsmCustomerTableComponent', () => {
       type: 'Saved Cart',
       id: '00002005',
       description: 'Cart with 3 items',
+      category: 'New',
       created: new Date('2022-06-09T18:25:43+0000').getTime(),
       updated: new Date('2022-06-12T18:25:43+0000').getTime(),
     },
@@ -129,6 +176,7 @@ describe('AsmCustomerTableComponent', () => {
       type: 'Saved Cart',
       id: '00002008',
       description: 'Cart with 4 items',
+      category: 'New',
       created: new Date('2022-06-22T18:25:43+0000').getTime(),
       updated: new Date('2022-06-22T18:25:43+0000').getTime(),
     },
@@ -136,17 +184,17 @@ describe('AsmCustomerTableComponent', () => {
       type: 'Order',
       id: '00002003',
       description: 'Cart with 1 item',
+      category: 'Draft',
       created: new Date('2022-05-30T18:25:43+0000').getTime(),
       updated: new Date('2022-05-31T18:25:43+0000').getTime(),
-      category: 'Draft',
     },
     {
       type: 'Order',
       id: '00002006',
       description: 'Cart with 2 items',
+      category: 'Completed',
       created: new Date('2022-06-05T18:25:43+0000').getTime(),
       updated: new Date('2022-06-06T18:25:43+0000').getTime(),
-      category: 'Completed',
     },
   ];
 
@@ -181,6 +229,8 @@ describe('AsmCustomerTableComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let testHost: TestHostComponent;
   let el: DebugElement;
+  let datePipe: CxDatePipe;
+  let languageService: LanguageService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -193,12 +243,18 @@ describe('AsmCustomerTableComponent', () => {
         ArgsPipe,
       ],
       providers: [
+        CxDatePipe,
+        { provide: LanguageService, useValue: mockLanguageService },
         {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
+        { provide: Customer360Config, useValue: mockAsmConfig },
       ],
     }).compileComponents();
+    datePipe = TestBed.inject(CxDatePipe);
+    languageService = TestBed.inject(LanguageService);
+    spyOn(languageService, 'getActive').and.returnValue(of('en'));
   });
 
   beforeEach(() => {
@@ -242,6 +298,28 @@ describe('AsmCustomerTableComponent', () => {
 
     const tableRows = tableBody.queryAll(By.css('tr'));
     expect(tableRows.length).toBe(component.pageSize);
+  });
+
+  it('should display correct date time format using configuration', () => {
+    testHost.columns = mockColumns;
+    testHost.pageSize = 5;
+    testHost.emptyStateText = mockEmptyText;
+    testHost.sortProperty = mockColumns[0].property;
+    testHost.headerText = mockHeaderText;
+    testHost.entries = mockEntries;
+    fixture.detectChanges();
+
+    const tableBody = el.query(By.css('tbody'));
+    const tableRows = tableBody.queryAll(By.css('tr'));
+
+    const formatedDate = datePipe.transform(
+      mockEntries[0].created,
+      mockAsmConfig.customer360?.dateTimeFormat
+    );
+
+    expect(tableRows[0].childNodes[4].nativeNode.textContent).toContain(
+      formatedDate
+    );
   });
 
   it('should have correct text align classes', () => {

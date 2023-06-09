@@ -163,7 +163,7 @@ export interface CustomerOverview {
   latestOpenedTicketId?: string;
   latestOpenedTicketCreatedAt?: string;
   email?: string;
-  registeredAt?: string;
+  signedUpAt?: string;
   defaultShippingAddress?: Address;
   userAvatar?: Customer360Avatar;
 }

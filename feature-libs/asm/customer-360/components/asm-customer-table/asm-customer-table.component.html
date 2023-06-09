@@ -132,7 +132,8 @@
             <ng-container
               *ngIf="column?.isDate && entry[column.property]; else tableCell"
               ><span>{{
-                entry[column.property] | cxDate: 'dd-MM-yy hh:mm a'
+                entry[column.property]
+                  | cxDate: customer360Config?.customer360?.dateTimeFormat
               }}</span></ng-container
             >
           </ng-template>
