@@ -162,7 +162,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
-    console.log(this.registerForm.status, this.registerForm);
     if (this.registerForm.valid) {
       this.registerUser();
     } else {

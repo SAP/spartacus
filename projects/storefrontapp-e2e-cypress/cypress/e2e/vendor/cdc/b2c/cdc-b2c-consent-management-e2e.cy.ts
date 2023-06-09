@@ -93,8 +93,8 @@ describe('CDC-B2C Consent Management', () => {
       cy.get('[name="terms.test.terms.of.use"]').check();
       cy.get('[name="consent.survey"]').check();
       cy.get('button[type=submit]').findByText('Register').click();
-      //verifyGlobalMessageAfterRegistration(); //should work after bug fix
-      cdc.verifyLoginOrRegistrationSuccess(cdc.user.fullName);
+      //verifyGlobalMessageAfterRegistration(); //add this after bug fix
+      cdc.verifyLoginOrRegistrationSuccess(cdc.user.fullName); //remove this after bug fix
     });
   });
 });

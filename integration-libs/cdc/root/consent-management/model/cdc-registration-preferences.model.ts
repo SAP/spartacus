@@ -4,18 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
-
-@Injectable({
-  providedIn: 'root',
-  useExisting: Config,
-})
-export abstract class RegisterPreferences {
-  preferences?: any;
-}
-
+// @ts-ignore
+import { UserSignUp } from '@spartacus/user/profile/root';
 declare module '@spartacus/user/profile/root' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface UserSignUp extends RegisterPreferences {}
+  interface UserSignUp {
+    /**
+     * contains cdc consents that needs to be set during registration of new user
+     *
+     * @member {any}
+     */
+    preferences?: any;
+  }
 }

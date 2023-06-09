@@ -12,12 +12,10 @@ import { ConsentTemplate } from '@spartacus/core';
 export class RegisterFormService {
   constructor(protected fb: UntypedFormBuilder) {}
 
-  loadExtraRegistrationConsents():
-    {
-      template: ConsentTemplate;
-      required: boolean;
-    }[]
-   {
+  loadExtraRegistrationConsents(): {
+    template: ConsentTemplate;
+    required: boolean;
+  }[] {
     return [];
   }
 
