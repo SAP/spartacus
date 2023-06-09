@@ -158,7 +158,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    */
   protected subscribeForDeeplink(): void {
     const parameters = this.asmComponentService.getDeepLinkUrlParams();
-    console.log(parameters);
+
     // TODO: Acts as feature flag. `parameters` will be undefined if AsmDeepLinkService not included. Remove condition in 7.0
     if (parameters) {
       if (this.asmComponentService.isEmulateInURL()) {
@@ -243,9 +243,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (parameters) {
-        this.asmComponentService.handleDeepLinkParamsAfterStartSession(
-          parameters
-        );
+        this.asmComponentService.handleDeepLinkNavigation(parameters);
       }
     } else {
       this.globalMessageService.add(

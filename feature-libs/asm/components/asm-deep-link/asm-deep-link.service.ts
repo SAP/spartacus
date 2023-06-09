@@ -1,29 +1,19 @@
-import { RoutingService, WindowRef, AuthService } from '@spartacus/core';
+import { RoutingService, WindowRef } from '@spartacus/core';
 import { Injectable } from '@angular/core';
-import {
-  AsmDeepLinkParameters,
-  AsmEnablerService,
-  CsAgentAuthService,
-} from '@spartacus/asm/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { AsmDeepLinkParameters, AsmEnablerService } from '@spartacus/asm/root';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AsmDeepLinkService {
-  protected searchparam: URLSearchParams;
-  protected showDeeplinkCartInfoAlert$: BehaviorSubject<boolean> =
-    new BehaviorSubject(false);
-  isEmulatedByDeepLink$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  protected searchParams: URLSearchParams;
 
   constructor(
     protected routingService: RoutingService,
     protected winRef: WindowRef,
-    protected asmEnablerService: AsmEnablerService,
-    protected authService: AuthService,
-    protected csAgentAuthService: CsAgentAuthService
+    protected asmEnablerService: AsmEnablerService
   ) {
-    this.searchparam = new URLSearchParams(this.winRef?.location?.search);
+    this.searchParams = new URLSearchParams(this.winRef?.location?.search);
   }
 
   /**
@@ -33,32 +23,18 @@ export class AsmDeepLinkService {
     return this.asmEnablerService?.isEmulateInURL() || false;
   }
 
-  getSearchParameter(key: string): string | null {
-    return this.searchparam.get(key);
-  }
-
-  isEmulatedByDeepLink(): BehaviorSubject<boolean> {
-    return this.isEmulatedByDeepLink$;
-  }
-
-  setEmulatedByDeepLink(emulated: boolean) {
-    this.isEmulatedByDeepLink$.next(emulated);
-  }
-
-  setShowDeeplinkCartInfoAlert(display: boolean) {
-    this.showDeeplinkCartInfoAlert$.next(display);
-  }
-
-  shouldShowDeeplinkCartInfoAlert(): Observable<boolean> {
-    return this.showDeeplinkCartInfoAlert$;
+  /**
+   * Returns a deep link parameter value if it is in the url.
+   */
+  getSearchParameter(key: string): string | undefined {
+    return this.searchParams.get(key) ?? undefined;
   }
 
   /**
    * Handles the navigation based on deep link parameters in the URL
-   * or passed parameters)
+   * or passed parameter.
    */
   handleNavigation(parameters = this.getParamsInUrl()): void {
-    // console.log(parameters);
     if (parameters.cartType === 'active') {
       // Navigate to active cart
       this.routingService.go({ cxRoute: 'cart' });
@@ -80,8 +56,10 @@ export class AsmDeepLinkService {
     }
   }
 
-  // TODO: remove any type
-  getParamsInUrl(): AsmDeepLinkParameters | any {
+  /**
+   * Returns valid deep link parameters in the url.
+   */
+  getParamsInUrl(): AsmDeepLinkParameters {
     return {
       customerId: this.getSearchParameter('customerId'),
       orderId: this.getSearchParameter('orderId'),

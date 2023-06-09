@@ -8,6 +8,7 @@ import { Injectable, Optional } from '@angular/core';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmDeepLinkParameters,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -47,8 +48,11 @@ export class AsmComponentService {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }
 
-  getSearchParameter(key: string): string | null {
-    return this.searchparam.get(key);
+  /**
+   * Returns a deep link parameter value if it is in the url.
+   */
+  getSearchParameter(key: string): string | undefined {
+    return this.asmDeepLinkService?.getSearchParameter(key);
   }
 
   isEmulatedByDeepLink(): BehaviorSubject<boolean> {
@@ -99,13 +103,18 @@ export class AsmComponentService {
     return this.asmDeepLinkService?.isEmulateInURL() || false;
   }
 
-  getDeepLinkUrlParams() {
+  /**
+   * Returns valid deep link parameters in the url.
+   */
+  getDeepLinkUrlParams(): AsmDeepLinkParameters | undefined {
     return this.asmDeepLinkService?.getParamsInUrl();
   }
 
-  handleDeepLinkParamsAfterStartSession(
-    parameters = this.getDeepLinkUrlParams()
-  ): void {
+  /**
+   * Handles the navigation based on deep link parameters in the URL
+   * or passed parameter.
+   */
+  handleDeepLinkNavigation(parameters = this.getDeepLinkUrlParams()): void {
     this.asmDeepLinkService?.handleNavigation(parameters);
   }
 }
