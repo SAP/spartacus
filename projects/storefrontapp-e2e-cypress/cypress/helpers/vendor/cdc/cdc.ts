@@ -8,7 +8,11 @@ import { editedAddress } from '../../../helpers/address-book';
 import { fillRegistrationForm, login } from '../../../helpers/auth-forms';
 import * as loginHelper from '../../../helpers/login';
 import { generateMail, randomString } from '../../../helpers/user';
-import { getSampleUser, SampleOrg, SampleUser } from '../../../sample-data/checkout-flow';
+import {
+  getSampleUser,
+  SampleOrg,
+  SampleUser,
+} from '../../../sample-data/checkout-flow';
 import { AddressData, fillShippingAddress } from '../../checkout-forms';
 import * as alerts from '../../global-message';
 import { listenForTokenRevocationRequest } from '../../login';
@@ -140,10 +144,7 @@ export function loginUser(email: string, password: string) {
   });
 }
 
-export function registerOrg(
-  user: SampleUser,
-  org: SampleOrg
-){
+export function registerOrg(user: SampleUser, org: SampleOrg) {
   cy.get('[id="gigya-org-register-form"]').within(() => {
     cy.get('[name="organization.name"]').type(org.companyName);
     cy.get('[name="organization.street_address"]').type(org.address);
@@ -167,8 +168,11 @@ export function verifyLoginOrRegistrationSuccess(fullName: string) {
   cy.get('[class="cx-login-greet"]').should('contain', fullName);
 }
 
-export function verifyOrgRegistrationRequestReceived(){
-  cy.get('[id="gigya-org-register-success-screen"]').should('contain', "We have received your request to register as a Customer. You'll receive an email once your request is approved.");
+export function verifyOrgRegistrationRequestReceived() {
+  cy.get('[id="gigya-org-register-success-screen"]').should(
+    'contain',
+    "We have received your request to register as a Customer. You'll receive an email once your request is approved."
+  );
 }
 
 export function interceptCDCSDKMethod(methodName: string) {

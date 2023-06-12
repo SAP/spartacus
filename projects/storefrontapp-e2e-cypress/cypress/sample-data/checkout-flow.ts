@@ -6,7 +6,7 @@
 
 import { generateMail, randomString } from '../helpers/user';
 
-export interface SampleOrg{
+export interface SampleOrg {
   companyName?: string;
   address?: string;
   city?: string;
@@ -99,7 +99,7 @@ export function getSampleOrg() {
     city: 'Los Angeles',
     state: 'California',
     zipCode: '90015',
-    country: 'United States'
+    country: 'United States',
   };
 }
 
