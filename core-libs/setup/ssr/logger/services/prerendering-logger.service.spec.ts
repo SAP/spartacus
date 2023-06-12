@@ -4,7 +4,7 @@ import { SERVER_LOGGER, ServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 
-class MockServerLogger extends ServerLogger {
+class MockServerLogger implements ServerLogger {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();

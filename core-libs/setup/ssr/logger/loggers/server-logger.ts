@@ -12,7 +12,23 @@ export interface LogContext {
   options?: any;
 }
 
-export class ServerLogger {
+export interface ServerLogger {
+  log(message: string, context?: LogContext): void;
+  warn(message: string, context?: LogContext): void;
+  error(message: string, context?: LogContext): void;
+  info(message: string, context?: LogContext): void;
+  debug(message: string, context?: LogContext): void;
+}
+
+/**
+ * @deprecated since 6.2, will be removed in 7.0 as contextual logging will be enabled by default.
+ * Default implementation of ServerLogger that delegates log messages to the native `console` object without providing any context.
+ * It's used when contextual logging is disabled.
+ *
+ *
+ */
+//CXSPA-3680 - remove this class in 7.0
+export class LegacyServerLogger {
   log(message: string, _context?: LogContext): void {
     /* eslint-disable-next-line no-console */
     console.log(message);
@@ -47,17 +63,3 @@ export class ServerLogger {
  *
  */
 export const SERVER_LOGGER = new InjectionToken<ServerLogger>('SERVER_LOGGER');
-
-/**
- * Injection token for enabling the contextual server logger.
- *
- * This flag has been introduced to provide to have notion about contextual logger availability state.
- * across Spartacus libraries. Such an value is used e.g. for providing proper instance of ErrorHandler that includes or not
- * reference to the contextual logger.
- *
- * This flag is going to be removed in 7.0 release when contextual logger will be enabled by default.
- *
- */
-export const ENABLE_CONTEXTUAL_SERVER_LOGGER = new InjectionToken<boolean>(
-  'ENABLE_CONTEXTUAL_SERVER_LOGGER'
-);

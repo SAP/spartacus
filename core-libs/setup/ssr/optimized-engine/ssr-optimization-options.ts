@@ -123,7 +123,7 @@ export interface SsrOptimizationOptions {
    *
    * By default, the logger is disabled, meaning that logs in SSR are not enhanced.
    */
-  logger?: true | ServerLogger;
+  logger?: true | ServerLogger; //CXSPA-3680 - allow only providing ServerLogger implementations
 }
 
 export enum RenderingStrategy {
@@ -141,5 +141,5 @@ export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   reuseCurrentRendering: true,
   debug: false,
   // TODO: This default option has been set for testing purpose - REMOVE BEFORE RELEASE
-  logger: true,
+  logger: true, //CXSPA-3680 - set ExpressServerLogger as default
 };

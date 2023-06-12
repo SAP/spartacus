@@ -4,10 +4,12 @@ import { PrerenderingServerLogger } from './prerendering-server-logger';
 import { SERVER_LOGGER, ServerLogger } from './server-logger';
 import { serverLoggerFactory } from './server-logger.factory';
 
-class MockServerLogger extends ServerLogger {
+class MockServerLogger implements ServerLogger {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();
+  info = jest.fn();
+  debug = jest.fn();
 }
 
 describe('serverLoggerFactory', () => {
@@ -15,11 +17,11 @@ describe('serverLoggerFactory', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: SERVER_LOGGER, useValue: undefined },
-        { provide: ServerLogger, useFactory: serverLoggerFactory },
+        { provide: SERVER_LOGGER, useFactory: serverLoggerFactory },
       ],
     });
 
-    expect(TestBed.inject(ServerLogger)).toBeInstanceOf(
+    expect(TestBed.inject(SERVER_LOGGER)).toBeInstanceOf(
       PrerenderingServerLogger
     );
   });
@@ -28,9 +30,9 @@ describe('serverLoggerFactory', () => {
     jest.spyOn(injectFn, 'inject').mockReturnValue(new MockServerLogger());
 
     TestBed.configureTestingModule({
-      providers: [{ provide: ServerLogger, useFactory: serverLoggerFactory }],
+      providers: [{ provide: SERVER_LOGGER, useFactory: serverLoggerFactory }],
     });
 
-    expect(TestBed.inject(ServerLogger)).toBeInstanceOf(MockServerLogger);
+    expect(TestBed.inject(SERVER_LOGGER)).toBeInstanceOf(MockServerLogger);
   });
 });

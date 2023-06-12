@@ -1,7 +1,7 @@
-import { ServerLogger } from './server-logger';
+import { LegacyServerLogger } from './server-logger';
 
-describe('ServerLogger', () => {
-  const logger = new ServerLogger();
+describe('LegacyServerLogger', () => {
+  const logger = new LegacyServerLogger();
 
   describe('log', () => {
     const message = 'test';
