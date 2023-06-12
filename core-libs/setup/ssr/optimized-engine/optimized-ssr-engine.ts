@@ -105,7 +105,7 @@ export class OptimizedSsrEngine {
       options: {
         ...this.ssrOptions,
         logger:
-          typeof this.ssrOptions.logger === 'boolean'
+          this.ssrOptions.logger === true
             ? this.ssrOptions.logger
             : this.ssrOptions.logger?.constructor.name,
       },
@@ -263,7 +263,7 @@ export class OptimizedSsrEngine {
   ): void {
     const requestContext = {
       uuid: randomUUID(),
-      timeStart: new Date().toISOString(),
+      timeReceived: new Date().toISOString(),
     };
     options.req.res.locals = { cx: { request: requestContext } };
 
