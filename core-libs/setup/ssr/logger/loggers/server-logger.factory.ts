@@ -9,12 +9,16 @@ import { PrerenderingServerLogger } from './prerendering-server-logger';
 import { SERVER_LOGGER } from './server-logger';
 
 /**
- * Factory provides logger that's used for pre-rendering purposes.
+ * Returns a `ServerLogger` instance
+ *
+ * If any specific `ServerLogger` implementation has been already provided
+ * on the platform injector level (e.g. in ExpressJS app), we use it.
+ * Otherwise we fallback to the `PrerenderigServerLogger`.
  */
 export const serverLoggerFactory = () => {
-  const originalSsrLogger = inject(SERVER_LOGGER, {
+  const originalServerLogger = inject(SERVER_LOGGER, {
     skipSelf: true,
     optional: true,
   });
-  return originalSsrLogger || new PrerenderingServerLogger();
+  return originalServerLogger || new PrerenderingServerLogger();
 };

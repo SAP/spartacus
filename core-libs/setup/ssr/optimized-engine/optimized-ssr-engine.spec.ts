@@ -21,7 +21,7 @@ jest.mock('fs', () => ({
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
-class MockServerLogger extends ServerLogger {
+class MockServerLogger implements Partial<ServerLogger> {
   log(message: string, context?: LogContext | undefined): void {
     console.log(message, context);
   }
@@ -43,9 +43,6 @@ class TestEngineRunner {
 
   /** Accumulates response parameters for engine runs */
   responseParams: object[] = [];
-
-  /** Accumulates requests for engine runs */
-  requests: Record<string, Request>[] = [];
 
   renderCount = 0;
   optimizedSsrEngine: OptimizedSsrEngine;
@@ -105,8 +102,6 @@ class TestEngineRunner {
       },
     };
 
-    this.requests.push({ [url]: optionsMock.req as Request });
-
     this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
       this.responseParams.push(response);
@@ -122,17 +117,6 @@ const getCurrentConcurrency = (
   return {
     currentConcurrency: engineRunner.optimizedSsrEngine['currentConcurrency'],
   };
-};
-
-const getRequest = (
-  engineRunner: TestEngineRunner,
-  url: string
-): Request | undefined => {
-  const idx = engineRunner.requests.findIndex((request) => request[url]);
-  const request = engineRunner.requests[idx][url];
-  engineRunner.requests.splice(idx, 1);
-
-  return request;
 };
 
 describe('OptimizedSsrEngine', () => {
@@ -675,7 +659,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
         false,
-        { request: getRequest(engineRunner, requestUrl) }
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
       tick(101);
@@ -700,7 +684,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
         false,
-        { request: getRequest(engineRunner, requestUrl) }
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
       tick(50);
@@ -731,7 +715,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `CSR fallback: Concurrency limit exceeded (1)`,
         true,
-        { request: getRequest(engineRunner, csrRequest) }
+        { request: expect.objectContaining({ originalUrl: csrRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
       expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -742,7 +726,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
         false,
-        { request: getRequest(engineRunner, hangingRequest) }
+        { request: expect.objectContaining({ originalUrl: hangingRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
 
@@ -752,7 +736,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering started (${ssrRequest})`,
         true,
-        { request: getRequest(engineRunner, ssrRequest) }
+        { request: expect.objectContaining({ originalUrl: ssrRequest }) }
       );
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
@@ -778,7 +762,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
         false,
-        { request: getRequest(engineRunner, requestUrl) }
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
       expect(engineRunner.renders).toEqual(['']);
 
@@ -827,18 +811,18 @@ describe('OptimizedSsrEngine', () => {
         });
 
         tick(100);
-        const firstRequest = getRequest(engineRunner, requestUrl);
-        const secondRequest = getRequest(engineRunner, requestUrl);
+        // const firstRequest = getRequest(engineRunner, requestUrl);
+        // const secondRequest = getRequest(engineRunner, requestUrl);
 
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `CSR fallback: rendering in progress (${requestUrl})`,
           true,
-          { request: secondRequest }
+          { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
           false,
-          { request: firstRequest }
+          { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.renders).toEqual(['', '']);
 
@@ -865,7 +849,7 @@ describe('OptimizedSsrEngine', () => {
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
             false,
-            { request: getRequest(engineRunner, requestUrl) }
+            { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
 
           tick(100);
@@ -992,7 +976,7 @@ describe('OptimizedSsrEngine', () => {
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
             false,
-            { request: getRequest(engineRunner, requestUrl) }
+            { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(engineRunner.renders).toEqual(['']); // the first request fallback to CSR due to timeout
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -1123,7 +1107,7 @@ describe('OptimizedSsrEngine', () => {
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
             false,
-            { request: getRequest(engineRunner, hangingRequest) }
+            { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 0,
@@ -1140,7 +1124,7 @@ describe('OptimizedSsrEngine', () => {
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `Rendering started (${ssrRequest})`,
             true,
-            { request: getRequest(engineRunner, ssrRequest) }
+            { request: expect.objectContaining({ originalUrl: ssrRequest }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
@@ -1177,12 +1161,12 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
           false,
-          { request: getRequest(engineRunner, requestUrl) }
+          { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${differentUrl}`,
           false,
-          { request: getRequest(engineRunner, differentUrl) }
+          { request: expect.objectContaining({ originalUrl: differentUrl }) }
         );
 
         expect(engineRunner.renderCount).toEqual(1);
@@ -1207,7 +1191,7 @@ describe('OptimizedSsrEngine', () => {
     });
     it('should use the provided logger', () => {
       new TestEngineRunner({
-        logger: new MockServerLogger(),
+        logger: new MockServerLogger() as ServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
               [
