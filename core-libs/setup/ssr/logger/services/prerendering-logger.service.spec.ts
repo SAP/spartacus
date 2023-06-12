@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { ServerLogger, serverLoggerToken } from '../loggers';
+import { SERVER_LOGGER, ServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 
@@ -24,11 +24,11 @@ describe('PrerenderingLoggerService', () => {
       providers: [
         ExpressLoggerService,
         { provide: WindowRef, useValue: mockWindowRef },
-        { provide: serverLoggerToken, useClass: MockServerLogger },
+        { provide: SERVER_LOGGER, useClass: MockServerLogger },
       ],
     });
 
-    ssrLogger = TestBed.inject(serverLoggerToken);
+    ssrLogger = TestBed.inject(SERVER_LOGGER);
     loggerService = TestBed.inject(PrerenderingLoggerService);
     request = { request: { url: TestBed.inject(WindowRef).location.href } };
   });

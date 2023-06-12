@@ -1,7 +1,7 @@
-import { DefaultServerLogger } from './default-server-logger';
+import { PrerenderingServerLogger } from './prerendering-server-logger';
 
-describe('DefaultServerLogger', () => {
-  const logger = new DefaultServerLogger();
+describe('PrerenderingServerLogger', () => {
+  const logger = new PrerenderingServerLogger();
   jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
 
   describe('log', () => {
@@ -42,7 +42,7 @@ describe('DefaultServerLogger', () => {
     it('should return object extended with timestamp', () => {
       const log = logger['createLogMessage']('test', {});
 
-      expect(log.context.timestamp).toBeDefined();
+      expect(log).toContain('timestamp');
     });
   });
 });

@@ -1,7 +1,7 @@
 import * as injectFn from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DefaultServerLogger } from './default-server-logger';
-import { ServerLogger, serverLoggerToken } from './server-logger';
+import { PrerenderingServerLogger } from './prerendering-server-logger';
+import { SERVER_LOGGER, ServerLogger } from './server-logger';
 import { serverLoggerFactory } from './server-logger.factory';
 
 class MockServerLogger extends ServerLogger {
@@ -14,12 +14,14 @@ describe('serverLoggerFactory', () => {
   it('should return DefaultServerLogger', () => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: serverLoggerToken, useValue: undefined },
+        { provide: SERVER_LOGGER, useValue: undefined },
         { provide: ServerLogger, useFactory: serverLoggerFactory },
       ],
     });
 
-    expect(TestBed.inject(ServerLogger)).toBeInstanceOf(DefaultServerLogger);
+    expect(TestBed.inject(ServerLogger)).toBeInstanceOf(
+      PrerenderingServerLogger
+    );
   });
 
   it('should return original logger', () => {

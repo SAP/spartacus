@@ -12,14 +12,14 @@ import { I18nConfig } from '../config/i18n-config';
 import { TranslationResources } from '../translation-resources';
 import { I18nextBackendService } from './i18next-backend/i18next-backend.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
-import { I18nextLoggerPlugin } from './i18next-plugins/i18next-logger-plugin';
+import { I18NEXT_LOGGER_PLUGIN } from './i18next-plugins/i18next-logger-plugin';
 
 /**
  * Initializes the i18next instance.
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextInitializer implements OnDestroy {
-  protected loggerPlugin = inject(I18nextLoggerPlugin);
+  loggerPlugin = inject(I18NEXT_LOGGER_PLUGIN);
 
   constructor(
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
@@ -35,14 +35,12 @@ export class I18nextInitializer implements OnDestroy {
    */
   initialize(): Promise<any> {
     const i18nextConfig = this.getI18nextConfig();
-    return this.i18next
-      .use(this.loggerPlugin.getPlugin())
-      .init(i18nextConfig, () => {
-        // Don't use i18next's 'resources' config key for adding static translations,
-        // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-        this.addTranslationResources();
-        this.synchronizeLanguage();
-      });
+    return this.i18next.use(this.loggerPlugin).init(i18nextConfig, () => {
+      // Don't use i18next's 'resources' config key for adding static translations,
+      // because it will disable loading chunks from backend. We add resources here, in the init's callback.
+      this.addTranslationResources();
+      this.synchronizeLanguage();
+    });
   }
 
   /**

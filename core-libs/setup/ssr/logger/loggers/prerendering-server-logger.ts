@@ -6,7 +6,7 @@
 
 import { LogContext, ServerLogger } from './server-logger';
 
-export class DefaultServerLogger extends ServerLogger {
+export class PrerenderingServerLogger extends ServerLogger {
   log(message: string, context?: LogContext) {
     /* eslint-disable-next-line no-console */
     console.log(this.createLogMessage(message, context));
@@ -21,12 +21,14 @@ export class DefaultServerLogger extends ServerLogger {
   }
 
   protected createLogMessage(message: string, context: LogContext | undefined) {
-    return {
+    const messageObject = {
       message,
       context: {
         timestamp: new Date().toISOString(),
         ...context,
       },
     };
+
+    return JSON.stringify(messageObject);
   }
 }
