@@ -118,6 +118,10 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(styleClasses).toContain('ng-invalid');
   });
 
+  it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    expect(component.attributeInputForm.valid).toBe(true);
+  });
+
   it('should set form as touched on init', () => {
     expect(component.attributeInputForm.touched).toEqual(true);
   });

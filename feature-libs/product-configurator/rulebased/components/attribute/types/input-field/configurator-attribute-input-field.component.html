@@ -1,9 +1,8 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
-    [required]="isRequired"
     class="form-control"
-    attr.required="{{ attribute.required }}"
+    [class.ng-invalid]="isRequired && (!attributeInputForm.value || attributeInputForm.value.length === 0)"
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="
       attribute.userInput === undefined || attribute.userInput.length === 0

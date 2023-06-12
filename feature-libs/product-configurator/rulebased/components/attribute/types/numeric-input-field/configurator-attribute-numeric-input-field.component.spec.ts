@@ -20,17 +20,17 @@ import {
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Directive({
   selector: '[cxFocus]',
@@ -223,6 +223,12 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    component.attribute.required = true;
+    fixture.detectChanges();
+    expect(component.attributeInputForm.valid).toBe(true);
   });
 
   describe('ngOnInit', () => {

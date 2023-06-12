@@ -4,7 +4,7 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
-    [required]="isRequired"
+    [class.ng-invalid]="isRequired && (!attributeInputForm.value || attributeInputForm.value.length === 0)"
     class="form-control"
     [attr.aria-describedby]="
       mustDisplayValidationMessage()
