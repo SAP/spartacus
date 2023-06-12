@@ -107,8 +107,8 @@ export class OpfCheckoutBillingAddressFormService {
 
             this.billingAddressSub.next(billingAddress);
             this.isLoadingAddressSub.next(false);
+            this.opfService.reloadPaymentMode();
           }
-          this.opfService.reloadPaymentMode();
         }),
         take(1)
       );
