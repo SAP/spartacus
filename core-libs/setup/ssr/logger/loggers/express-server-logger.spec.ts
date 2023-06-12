@@ -85,7 +85,7 @@ describe('ExpressServerLogger', () => {
         res: {
           locals: {
             cx: {
-              render: 'test',
+              request: { uuid: 'test', timeReceived: new Date() },
             },
           },
         },
@@ -95,7 +95,7 @@ describe('ExpressServerLogger', () => {
 
       expect(mappedRequest).toEqual({
         url: 'test',
-        render: 'test',
+        ...request.res.locals.cx.request,
       });
     });
   });

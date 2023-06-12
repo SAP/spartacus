@@ -8,9 +8,10 @@ import { Request } from 'express';
 import { LogContext, ServerLogger } from './server-logger';
 
 /**
- * Logger that's used for SSR purposes to enhance logs visible e.g. in monitoring tools like Kibana.
- * It logs to the console an object extended with a timestamp and provided context.
- * It also formats the request object to a more readable format.
+ *
+ * Default logger used in SSR (ExpressJS) to enhance logs visible e.g. in monitoring tools e.g. Kibana.
+ * It logs It outputs a JSON with properties "message" and "context",
+ * which contains a "timestamp" and details of the "request" ("url", "uuid", "timeReceived")
  */
 export class ExpressServerLogger implements ServerLogger {
   log(message: string, context: LogContext): void {
@@ -55,8 +56,8 @@ export class ExpressServerLogger implements ServerLogger {
   protected mapRequest(request: Request): Record<string, any> {
     return {
       url: request.originalUrl,
-      render: request.res?.locals.cx.render,
-      /* remove headers before release. Replace with information about about traceparent */
+      ...request.res?.locals.cx.request,
+      /* remove headers before release. */
       headers: request.headers, //
     };
   }

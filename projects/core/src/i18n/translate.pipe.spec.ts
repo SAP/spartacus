@@ -30,7 +30,7 @@ describe('TranslatePipe', () => {
 
   describe('transform', () => {
     it('should return falsy when input is undefined', () => {
-      const result = pipe.transform('');
+      const result = pipe.transform(undefined);
       expect(result).toBeFalsy();
     });
 
