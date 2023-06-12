@@ -157,7 +157,7 @@ $sapFioriContent_LabelColor: #6a6d70;
     max-height: calc(100vh - 260px);
     @include media-breakpoint-down(xs) {
       max-height: calc(100vh - 470px);
-   }
+    }
     overflow-y: auto;
   }
 
