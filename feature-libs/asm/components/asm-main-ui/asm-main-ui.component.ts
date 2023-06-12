@@ -157,7 +157,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    const parameters = this.asmComponentService.getDeepLinkUrlParams();
+    let parameters = this.asmComponentService.getDeepLinkUrlParams();
 
     // TODO: Acts as feature flag. `parameters` will be undefined if AsmDeepLinkService not included. Remove condition in 7.0
     if (parameters) {
@@ -174,7 +174,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           this.authService.isUserLoggedIn(),
           this.asmComponentService.isEmulatedByDeepLink(),
         ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
-          const parameters = this.asmComponentService.getDeepLinkUrlParams();
+          parameters = this.asmComponentService.getDeepLinkUrlParams();
           if (agentLoggedIn && parameters.customerId) {
             if (!isEmulatedByDeepLink && userLoggedin) {
               this.asmComponentService.logoutCustomer();

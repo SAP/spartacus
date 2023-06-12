@@ -64,47 +64,33 @@ export class AsmDeepLinkService {
     }
   }
 
+  /**
+   * Returns true if pairs of valid navigation params are in the url only.
+   * eg. customerId, customerId + ticketId return true.
+   */
   validParameters(parameters: AsmDeepLinkParameters): boolean {
-    const keys = Object.keys(parameters);
+    const keys = Object.keys(
+      Object.fromEntries(Object.entries(parameters).filter(([_, v]) => !!v))
+    );
 
-    if (keys.includes('customerId') && keys.length === 1) {
-      return true;
-    }
+    const ALLOWED_PARAMS = [
+      ['customerId'],
+      ['customerId', 'cartType'],
+      ['customerId', 'cartType', 'cartId'],
+      ['customerId', 'orderId'],
+      ['customerId', 'ticketId'],
+    ];
 
-    if (
-      keys.includes('customerId') &&
-      keys.includes('cartType') &&
-      keys.length === 2
-    ) {
-      return true;
-    }
+    const allowed = ALLOWED_PARAMS.find((params) => {
+      for (const param of params) {
+        if (!keys.includes(param)) {
+          return false;
+        }
+      }
+      return params.length === keys.length;
+    });
 
-    if (
-      keys.includes('customerId') &&
-      keys.includes('cartType') &&
-      keys.includes('cartId') &&
-      keys.length === 3
-    ) {
-      return true;
-    }
-
-    if (
-      keys.includes('customerId') &&
-      keys.includes('orderId') &&
-      keys.length === 2
-    ) {
-      return true;
-    }
-
-    if (
-      keys.includes('customerId') &&
-      keys.includes('ticketId') &&
-      keys.length === 2
-    ) {
-      return true;
-    }
-
-    return false;
+    return !!allowed;
   }
 
   /**
