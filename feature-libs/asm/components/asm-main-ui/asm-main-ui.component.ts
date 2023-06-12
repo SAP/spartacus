@@ -243,7 +243,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (parameters) {
-        this.asmComponentService.handleDeepLinkNavigation(parameters);
+        this.asmComponentService.handleDeepLinkNavigation({
+          customerId,
+          ...parameters,
+        });
       }
     } else {
       this.globalMessageService.add(

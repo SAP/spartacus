@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmDeepLinkService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+import { AuthService, WindowRef, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
@@ -42,11 +43,29 @@ const MockWindowRef = {
   },
 };
 
-class MockAsmEnablerService implements Partial<AsmEnablerService> {
+class MockAsmDeepLinkService implements Partial<AsmDeepLinkService> {
   isEmulateInURL(): boolean {
     return true;
   }
+
+  getSearchParameter(key: any) {
+    return key;
+  }
+
+  handleNavigation() {
+    return {};
+  }
+
+  getParamsInUrl() {
+    return {};
+  }
 }
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
+class MockAsmEnablerService implements Partial<AsmEnablerService> {}
 
 describe('AsmComponentService', () => {
   let authService: AuthService;
@@ -60,6 +79,8 @@ describe('AsmComponentService', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
+        { provice: AsmDeepLinkService, useClass: MockAsmDeepLinkService },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },
       ],
     });
@@ -68,6 +89,9 @@ describe('AsmComponentService', () => {
     authService = TestBed.inject(AuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     windowRef = TestBed.inject(WindowRef);
+    TestBed.inject(RoutingService);
+    TestBed.inject(AsmEnablerService);
+    TestBed.inject(AsmDeepLinkService);
   });
 
   it('should be created', () => {

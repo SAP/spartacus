@@ -9,10 +9,10 @@ import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
   AsmDeepLinkParameters,
+  AsmDeepLinkService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AsmDeepLinkService } from '../asm-deep-link/asm-deep-link.service';
 
 @Injectable({
   providedIn: 'root',
