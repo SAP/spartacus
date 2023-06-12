@@ -41,7 +41,7 @@ export class ConfiguratorAttributeFooterComponent
   );
 
   /**
-   * @deprecated since 7.0
+   * @deprecated since 6.2
    */
   constructor(
     configUtils: ConfiguratorStorefrontUtilsService,
@@ -51,7 +51,7 @@ export class ConfiguratorAttributeFooterComponent
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    // TODO (CXSPA-3392): for next major release remove feature level
+    // TODO (CXSPA-3392): for next major release remove featureConfigService
     @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     super();
@@ -70,15 +70,16 @@ export class ConfiguratorAttributeFooterComponent
      */
     this.showRequiredMessageForUserInput$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => (result ? this.isNewestRelease() : false)));
+      .pipe(map((result) => (result ? this.isGreaterOrEqual() : false)));
   }
 
-  // TODO (CXSPA-3392): for next major release remove feature level
-  protected isNewestRelease(): boolean {
+  // TODO (CXSPA-3392): for next major release remove featureConfigService
+  protected isGreaterOrEqual(): boolean {
     if (this.featureConfigService?.isLevel('6.2')) {
       // TODO: for next major release these requirements should be proved
       return this.needsUserInputMsg() || this.needsDropDownMsg();
     } else {
+      // This should work for older release versions inclusive 6.1 version
       return this.needsUserInputMsg();
     }
   }
@@ -88,7 +89,7 @@ export class ConfiguratorAttributeFooterComponent
       this.isRequiredErrorMsg(this.attribute) &&
       this.isDropDown(this.attribute) &&
       this.isNoValueSelected(this.attribute);
-    return needsMsg ?? false;
+    return needsMsg;
   }
 
   /**
@@ -105,6 +106,6 @@ export class ConfiguratorAttributeFooterComponent
       this.isRequiredErrorMsg(this.attribute) &&
       this.isUserInput(this.attribute) &&
       this.isUserInputEmpty(this.attribute.userInput);
-    return needsMsg ?? false;
+    return needsMsg;
   }
 }

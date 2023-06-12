@@ -36,6 +36,25 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+  );
+
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService
+  );
+
+  constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
