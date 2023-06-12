@@ -4,24 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { InjectionToken, inject } from '@angular/core';
 
 import { LoggerModule } from 'i18next';
 import { LoggerService } from '../../../logger';
 
 //TODO: add unit tests if approved
-@Injectable({
-  providedIn: 'root',
-})
-export class I18nextLoggerPlugin {
-  logger = inject(LoggerService);
-
-  getPlugin(): LoggerModule {
-    return {
-      type: 'logger',
-      log: (args) => this.logger.log(...args),
-      warn: (args) => this.logger.warn(...args),
-      error: (args) => this.logger.error(...args),
-    };
+export const I18NEXT_LOGGER_PLUGIN = new InjectionToken<LoggerModule>(
+  'I18NEXT_LOGGER_PLUGIN',
+  {
+    providedIn: 'root',
+    factory: () => {
+      const logger = inject(LoggerService);
+      return {
+        type: 'logger',
+        log: (args) => logger.log(...args),
+        warn: (args) => logger.warn(...args),
+        error: (args) => logger.error(...args),
+      };
+    },
   }
-}
+);

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { Request } from 'express';
-import { ServerLogger, serverLoggerToken } from '../loggers';
+import { SERVER_LOGGER, ServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 
 const mockRequest: Partial<Request> = { url: 'test/url' };
@@ -22,12 +22,12 @@ describe('ExpressLoggerService', () => {
       providers: [
         ExpressLoggerService,
         { provide: REQUEST, useValue: mockRequest },
-        { provide: serverLoggerToken, useClass: MockServerLogger },
+        { provide: SERVER_LOGGER, useClass: MockServerLogger },
       ],
     });
 
     request = TestBed.inject(REQUEST);
-    ssrLogger = TestBed.inject(serverLoggerToken);
+    ssrLogger = TestBed.inject(SERVER_LOGGER);
     loggerService = TestBed.inject(ExpressLoggerService);
   });
 

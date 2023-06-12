@@ -6,12 +6,12 @@
 
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import { loggerEnabled } from '../logger';
+import { ENABLE_CONTEXTUAL_SERVER_LOGGER } from '../logger';
 
 export const ssrErrorHandlerFactory = () => {
-  const isLoggerEnabled = inject(loggerEnabled);
+  const isLoggerEnabled = inject(ENABLE_CONTEXTUAL_SERVER_LOGGER);
 
-  return isLoggerEnabled ? new SsrErrorHandler() : new ErrorHandler();
+  return isLoggerEnabled ? inject(SsrErrorHandler) : new ErrorHandler();
 };
 
 @Injectable({

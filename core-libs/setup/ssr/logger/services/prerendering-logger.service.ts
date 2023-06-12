@@ -6,27 +6,36 @@
 
 import { Injectable, inject } from '@angular/core';
 import { LoggerService, WindowRef } from '@spartacus/core';
-import { format } from 'util';
-import { serverLoggerToken } from '../loggers/server-logger';
+import { formatWithOptions } from 'util';
+import { SERVER_LOGGER } from '../loggers/server-logger';
 
 @Injectable({ providedIn: 'root' })
 export class PrerenderingLoggerService implements LoggerService {
-  ssrLogger = inject(serverLoggerToken);
+  serverLogger = inject(SERVER_LOGGER);
   windowRef = inject(WindowRef);
 
   log(...args: Parameters<typeof console.log>) {
-    this.ssrLogger.log(format(...args), {
-      request: { url: this.windowRef.location.href },
-    });
+    this.serverLogger.log(
+      formatWithOptions({ breakLength: Infinity }, ...args),
+      {
+        request: { url: this.windowRef.location.href },
+      }
+    );
   }
   warn(...args: Parameters<typeof console.warn>) {
-    this.ssrLogger.warn(format(...args), {
-      request: { url: this.windowRef.location.href },
-    });
+    this.serverLogger.warn(
+      formatWithOptions({ breakLength: Infinity }, ...args),
+      {
+        request: { url: this.windowRef.location.href },
+      }
+    );
   }
   error(...args: Parameters<typeof console.error>) {
-    this.ssrLogger.error(format(...args), {
-      request: { url: this.windowRef.location.href },
-    });
+    this.serverLogger.error(
+      formatWithOptions({ breakLength: Infinity }, ...args),
+      {
+        request: { url: this.windowRef.location.href },
+      }
+    );
   }
 }

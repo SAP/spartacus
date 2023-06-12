@@ -1,7 +1,7 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '@spartacus/core';
-import { loggerEnabled } from '../logger';
+import { ENABLE_CONTEXTUAL_SERVER_LOGGER } from '../logger';
 import { SsrErrorHandler, ssrErrorHandlerFactory } from './ssr-error-handler';
 
 @Injectable()
@@ -41,7 +41,7 @@ describe('ssrErrorHandlerFactory', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: loggerEnabled, useValue: true },
+        { provide: ENABLE_CONTEXTUAL_SERVER_LOGGER, useValue: true },
         { provide: ErrorHandler, useFactory: ssrErrorHandlerFactory },
       ],
     });
@@ -52,7 +52,7 @@ describe('ssrErrorHandlerFactory', () => {
   it('should return default ErrorHandler', () => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: loggerEnabled, useValue: false },
+        { provide: ENABLE_CONTEXTUAL_SERVER_LOGGER, useValue: false },
         { provide: ErrorHandler, useFactory: ssrErrorHandlerFactory },
       ],
     });

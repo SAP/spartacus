@@ -11,11 +11,11 @@ import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
+  ENABLE_CONTEXTUAL_SERVER_LOGGER,
   ExpressServerLogger,
   LogContext,
+  SERVER_LOGGER,
   ServerLogger,
-  loggerEnabled,
-  serverLoggerToken,
 } from '../logger';
 import { RenderingCache } from './rendering-cache';
 import {
@@ -453,11 +453,11 @@ export class OptimizedSsrEngine {
       ...options,
       providers: [
         {
-          provide: serverLoggerToken,
+          provide: SERVER_LOGGER,
           useValue: this.logger,
         },
         {
-          provide: loggerEnabled,
+          provide: ENABLE_CONTEXTUAL_SERVER_LOGGER,
           useValue: !!this.ssrOptions?.logger,
         },
       ],
@@ -485,9 +485,9 @@ export class OptimizedSsrEngine {
   }
 
   private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
-    if (typeof ssrOptions?.logger === 'boolean') {
+    if (ssrOptions?.logger === true) {
       return new ExpressServerLogger();
     }
-    return ssrOptions?.logger ?? new ServerLogger();
+    return ssrOptions?.logger || new ServerLogger();
   }
 }

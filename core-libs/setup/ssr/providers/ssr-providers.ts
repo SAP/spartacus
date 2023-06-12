@@ -14,7 +14,7 @@ import {
 import { ssrErrorHandlerFactory } from '../error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
-import { serverLoggerServiceFactory, serverLoggerToken } from '../logger';
+import { SERVER_LOGGER, serverLoggerServiceFactory } from '../logger';
 import { serverLoggerFactory } from '../logger/loggers';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
@@ -36,10 +36,11 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: ErrorHandler,
       useFactory: ssrErrorHandlerFactory,
+      multi: true,
     },
     // for pre-rendering purposes - "there is no Express" fallback
     {
-      provide: serverLoggerToken,
+      provide: SERVER_LOGGER,
       useFactory: serverLoggerFactory,
     },
     {

@@ -1,6 +1,10 @@
 import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
-import { ServerLogger, loggerEnabled, serverLoggerToken } from '../logger';
+import {
+  ENABLE_CONTEXTUAL_SERVER_LOGGER,
+  SERVER_LOGGER,
+  ServerLogger,
+} from '../logger';
 import {
   NgExpressEngine,
   NgExpressEngineDecorator,
@@ -191,8 +195,8 @@ describe('decorateExpressEngine', () => {
         {
           ...mockOptions,
           providers: [
-            { provide: serverLoggerToken, useValue: new ServerLogger() },
-            { provide: loggerEnabled, useValue: false },
+            { provide: SERVER_LOGGER, useValue: new ServerLogger() },
+            { provide: ENABLE_CONTEXTUAL_SERVER_LOGGER, useValue: false },
           ],
         },
         expect.any(Function)
@@ -265,8 +269,8 @@ describe('decorateExpressEngine', () => {
         {
           ...mockOptions,
           providers: [
-            { provide: serverLoggerToken, useValue: new ServerLogger() },
-            { provide: loggerEnabled, useValue: false },
+            { provide: SERVER_LOGGER, useValue: new ServerLogger() },
+            { provide: ENABLE_CONTEXTUAL_SERVER_LOGGER, useValue: false },
           ],
         },
         expect.any(Function)

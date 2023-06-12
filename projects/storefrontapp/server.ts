@@ -76,7 +76,11 @@ function run() {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
-    /* eslint-disable-next-line no-console */
+    /* eslint-disable-next-line no-console
+    --
+    It's just an example application file. This message is not crucial
+    to be logged using any special logger. Moreover, we don't have
+    any special logger available in this context. */
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
