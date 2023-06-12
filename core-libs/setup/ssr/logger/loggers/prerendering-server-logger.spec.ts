@@ -36,6 +36,28 @@ describe('PrerenderingServerLogger', () => {
         logger['createLogMessage']('test', { request: {} })
       );
     });
+
+    it('should info message', () => {
+      const infoSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+      logger.info('test', { request: {} });
+
+      expect(infoSpy).toHaveBeenCalledWith(
+        logger['createLogMessage']('test', { request: {} })
+      );
+    });
+
+    it('should debug message', () => {
+      const debugSpy = jest
+        .spyOn(console, 'debug')
+        .mockImplementation(() => {});
+
+      logger.debug('test', { request: {} });
+
+      expect(debugSpy).toHaveBeenCalledWith(
+        logger['createLogMessage']('test', { request: {} })
+      );
+    });
   });
 
   describe('create log message', () => {

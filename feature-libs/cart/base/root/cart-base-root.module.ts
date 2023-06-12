@@ -109,5 +109,11 @@ export class CartBaseRootModule {
     setTimeout(() => {
       throw new Error('THROWN ERROR Hello World');
     }, 15000);
+    setTimeout(() => {
+      logger.info('[INFO] %cHello World', 'background: blue; color: white');
+    }, 20000);
+    setTimeout(() => {
+      logger.debug('[DEBUG] Hello World');
+    }, 25000);
   }
 }

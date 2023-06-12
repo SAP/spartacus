@@ -260,8 +260,7 @@ export class PageLayoutService implements OnDestroy {
     }
     if (page.template && !this.logSlots[page.template]) {
       // the info log is not printed in production
-      /* eslint-disable-next-line no-console */
-      console.info(
+      this.logger.info(
         `Available CMS page slots: '${(page.slots
           ? Object.keys(page.slots)
           : []

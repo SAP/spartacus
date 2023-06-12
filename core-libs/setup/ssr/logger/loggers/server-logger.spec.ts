@@ -29,5 +29,21 @@ describe('ServerLogger', () => {
 
       expect(errorSpy).toHaveBeenCalledWith(message);
     });
+    it('should info message', () => {
+      const infoSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+      logger.info(message);
+
+      expect(infoSpy).toHaveBeenCalledWith(message);
+    });
+    it('should debug message', () => {
+      const debugSpy = jest
+        .spyOn(console, 'debug')
+        .mockImplementation(() => {});
+
+      logger.debug(message);
+
+      expect(debugSpy).toHaveBeenCalledWith(message);
+    });
   });
 });

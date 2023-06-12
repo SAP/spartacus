@@ -25,6 +25,14 @@ export class ServerLogger {
     /* eslint-disable-next-line no-console */
     console.error(message);
   }
+  info(message: string, _context?: LogContext): void {
+    /* eslint-disable-next-line no-console */
+    console.info(message);
+  }
+  debug(message: string, _context?: LogContext): void {
+    /* eslint-disable-next-line no-console */
+    console.debug(message);
+  }
 }
 
 /**

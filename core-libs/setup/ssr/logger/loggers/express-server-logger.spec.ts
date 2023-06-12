@@ -1,5 +1,4 @@
 import { ExpressServerLogger } from './express-server-logger';
-import { ServerLogger } from './server-logger';
 
 describe('ExpressServerLogger', () => {
   const logger = new ExpressServerLogger();
@@ -8,10 +7,6 @@ describe('ExpressServerLogger', () => {
   describe('logging', () => {
     it('should be defined', () => {
       expect(logger).toBeDefined();
-    });
-
-    it('should extends SsrLogger', () => {
-      expect(logger).toBeInstanceOf(ServerLogger);
     });
 
     it('should log message', () => {
@@ -42,6 +37,28 @@ describe('ExpressServerLogger', () => {
       logger.error('test', { request: {} });
 
       expect(errorSpy).toHaveBeenCalledWith(
+        logger['createLogMessage']('test', { request: {} })
+      );
+    });
+
+    it('should info message', () => {
+      const infoSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
+
+      logger.info('test', { request: {} });
+
+      expect(infoSpy).toHaveBeenCalledWith(
+        logger['createLogMessage']('test', { request: {} })
+      );
+    });
+
+    it('should debug message', () => {
+      const debugSpy = jest
+        .spyOn(console, 'debug')
+        .mockImplementation(() => {});
+
+      logger.debug('test', { request: {} });
+
+      expect(debugSpy).toHaveBeenCalledWith(
         logger['createLogMessage']('test', { request: {} })
       );
     });

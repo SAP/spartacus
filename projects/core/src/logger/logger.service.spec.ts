@@ -22,7 +22,7 @@ describe('LoggerService', () => {
     ['test %i', 1],
   ];
 
-  ['log', 'warn', 'error'].forEach((method) => {
+  ['log', 'warn', 'error', 'info', 'debug'].forEach((method) => {
     testInput.forEach((input) => {
       it(`should ${method}`, () => {
         const methodSpy: jasmine.Spy<jasmine.Func> = spyOn(

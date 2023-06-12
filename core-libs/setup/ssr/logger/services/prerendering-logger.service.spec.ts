@@ -57,5 +57,21 @@ describe('PrerenderingLoggerService', () => {
 
       expect(error).toHaveBeenCalledWith('test', request);
     });
+
+    it('should info', () => {
+      const info = jest.spyOn(ssrLogger, 'info');
+
+      loggerService.info('test');
+
+      expect(info).toHaveBeenCalledWith('test', request);
+    });
+
+    it('should debug', () => {
+      const debug = jest.spyOn(ssrLogger, 'debug');
+
+      loggerService.debug('test');
+
+      expect(debug).toHaveBeenCalledWith('test', request);
+    });
   });
 });
