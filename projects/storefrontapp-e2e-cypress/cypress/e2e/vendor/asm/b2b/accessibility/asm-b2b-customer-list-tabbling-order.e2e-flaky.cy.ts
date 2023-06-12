@@ -27,6 +27,7 @@ context('Tabbing order for ASM B2b Customer List', () => {
           currency: ['USD'],
         },
       });
+
       asmTabbingOrderWithCustomerList(
         config.asmWithCustomerLists,
         'jules.hasson@acme.com'
