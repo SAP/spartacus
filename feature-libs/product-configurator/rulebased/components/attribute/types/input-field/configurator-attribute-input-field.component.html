@@ -2,7 +2,11 @@
   <input
     [formControl]="attributeInputForm"
     class="form-control"
-    [class.ng-invalid]="isRequired && (!attributeInputForm.value || attributeInputForm.value.length === 0)"
+    [class.ng-invalid]="
+      isRequired &&
+      attribute.incomplete &&
+      (!attributeInputForm.value || attributeInputForm.value.length === 0)
+    "
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="
       attribute.userInput === undefined || attribute.userInput.length === 0
