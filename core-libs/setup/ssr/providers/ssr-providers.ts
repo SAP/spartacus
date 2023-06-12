@@ -36,7 +36,6 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: ErrorHandler,
       useFactory: ssrErrorHandlerFactory,
-      multi: true,
     },
     // for pre-rendering purposes - "there is no Express" fallback
     {

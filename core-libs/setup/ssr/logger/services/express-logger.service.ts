@@ -30,6 +30,16 @@ export class ExpressLoggerService implements LoggerService {
       request: this.request,
     });
   }
+  info(...args: Parameters<typeof console.info>): void {
+    this.serverLogger.info(this.formatLogMessage(...args), {
+      request: this.request,
+    });
+  }
+  debug(...args: Parameters<typeof console.debug>): void {
+    this.serverLogger.debug(this.formatLogMessage(...args), {
+      request: this.request,
+    });
+  }
 
   protected formatLogMessage(message?: any, ...optionalParams: any[]): string {
     // TODO: add comment about why - (because Kibana, to not split into separate lines)

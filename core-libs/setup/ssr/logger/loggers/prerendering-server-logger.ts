@@ -6,7 +6,11 @@
 
 import { LogContext, ServerLogger } from './server-logger';
 
-export class PrerenderingServerLogger extends ServerLogger {
+/**
+ * Logger that's used for pre-rendering purposes.
+ * It logs to the console an object extended with a timestamp and provided context.
+ */
+export class PrerenderingServerLogger implements ServerLogger {
   log(message: string, context?: LogContext) {
     /* eslint-disable-next-line no-console */
     console.log(this.createLogMessage(message, context));
@@ -18,6 +22,14 @@ export class PrerenderingServerLogger extends ServerLogger {
   error(message: string, context?: LogContext) {
     /* eslint-disable-next-line no-console */
     console.error(this.createLogMessage(message, context));
+  }
+  info(message: string, context?: LogContext) {
+    /* eslint-disable-next-line no-console */
+    console.info(this.createLogMessage(message, context));
+  }
+  debug(message: string, context?: LogContext) {
+    /* eslint-disable-next-line no-console */
+    console.debug(this.createLogMessage(message, context));
   }
 
   protected createLogMessage(message: string, context: LogContext | undefined) {

@@ -7,7 +7,12 @@
 import { Request } from 'express';
 import { LogContext, ServerLogger } from './server-logger';
 
-export class ExpressServerLogger extends ServerLogger {
+/**
+ * Logger that's used for SSR purposes to enhance logs visible e.g. in monitoring tools like Kibana.
+ * It logs to the console an object extended with a timestamp and provided context.
+ * It also formats the request object to a more readable format.
+ */
+export class ExpressServerLogger implements ServerLogger {
   log(message: string, context: LogContext): void {
     /* eslint-disable-next-line no-console */
     console.log(this.createLogMessage(message, context));
@@ -19,6 +24,14 @@ export class ExpressServerLogger extends ServerLogger {
   error(message: string, context: LogContext): void {
     /* eslint-disable-next-line no-console */
     console.error(this.createLogMessage(message, context));
+  }
+  info(message: string, context: LogContext): void {
+    /* eslint-disable-next-line no-console */
+    console.info(this.createLogMessage(message, context));
+  }
+  debug(message: string, context: LogContext): void {
+    /* eslint-disable-next-line no-console */
+    console.debug(this.createLogMessage(message, context));
   }
 
   protected createLogMessage(message: string, context: LogContext): string {

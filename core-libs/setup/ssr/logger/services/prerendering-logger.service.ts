@@ -38,4 +38,20 @@ export class PrerenderingLoggerService implements LoggerService {
       }
     );
   }
+  info(...args: Parameters<typeof console.info>) {
+    this.serverLogger.info(
+      formatWithOptions({ breakLength: Infinity }, ...args),
+      {
+        request: { url: this.windowRef.location.href },
+      }
+    );
+  }
+  debug(...args: Parameters<typeof console.debug>) {
+    this.serverLogger.debug(
+      formatWithOptions({ breakLength: Infinity }, ...args),
+      {
+        request: { url: this.windowRef.location.href },
+      }
+    );
+  }
 }
