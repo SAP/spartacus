@@ -14,7 +14,7 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { Observable, Subscription, timer } from 'rxjs';
+import { Observable, of, Subscription, timer } from 'rxjs';
 import { debounce, map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -40,7 +40,7 @@ export class ConfiguratorAttributeInputFieldComponent
   ownerKey: string;
   ownerType: CommonConfigurator.OwnerType;
 
-  showRequiredErrorMessage$: Observable<boolean>;
+  showRequiredErrorMessage$: Observable<boolean> = of(false);
 
   /**
    * In case no config is injected, or when the debounce time is not configured at all,

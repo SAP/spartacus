@@ -76,11 +76,10 @@ export class ConfiguratorAttributeFooterComponent
   // TODO (CXSPA-3392): for next major release remove featureConfigService
   protected isGreaterOrEqual(): boolean {
     if (this.featureConfigService?.isLevel('6.2')) {
-      // TODO: for next major release these requirements should be proved
+      // TODO: for next major release only these requirements should be proved
       return this.needsUserInputMsg() || this.needsDropDownMsg();
     } else {
-      // This should work for older release versions inclusive 6.1 version
-      return this.needsUserInputMsg();
+      return this.needsUserInputMessage();
     }
   }
 
@@ -107,5 +106,19 @@ export class ConfiguratorAttributeFooterComponent
       this.isUserInput(this.attribute) &&
       this.isUserInputEmpty(this.attribute.userInput);
     return needsMsg;
+  }
+
+  /**
+   * @deprecated since 6.2
+   */
+  protected needsUserInputMessage(): boolean {
+    const uiType = this.attribute.uiType;
+    const needsMessage =
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      (uiType === Configurator.UiType.STRING ||
+        uiType === Configurator.UiType.NUMERIC) &&
+      this.isUserInputEmpty(this.attribute.userInput);
+    return needsMessage ?? false;
   }
 }

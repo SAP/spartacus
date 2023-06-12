@@ -16,7 +16,6 @@ export class ConfiguratorAttributeBaseComponent {
   private static PREFIX_LABEL = 'label';
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
-  private static RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   /**
    * Creates unique key for config value on the UI
@@ -217,10 +216,7 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected isRequiredErrorMsg(attribute: Configurator.Attribute): boolean {
-    if (attribute.required && attribute.incomplete) {
-      return attribute.required && attribute.incomplete;
-    }
-    return false;
+    return (attribute.required && attribute.incomplete) || false;
   }
 
   protected isUserInput(attribute: Configurator.Attribute): boolean {
@@ -253,8 +249,7 @@ export class ConfiguratorAttributeBaseComponent {
     const selectedValue = this.getSelectedValue(attribute);
     if (selectedValue) {
       return (
-        selectedValue.valueCode ===
-          ConfiguratorAttributeBaseComponent.RETRACT_VALUE_CODE ||
+        selectedValue.valueCode === Configurator.RetractValueCode ||
         selectedValue.valueCode === '0'
       );
     }

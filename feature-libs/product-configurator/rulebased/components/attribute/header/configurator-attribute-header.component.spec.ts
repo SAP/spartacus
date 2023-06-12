@@ -1234,12 +1234,12 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isNewestRelease', () => {
+  describe('isGreaterOrEqual', () => {
     it('should return `true` because the newest release is active', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
-      expect(component['isNewestRelease']()).toBe(true);
+      expect(component['isGreaterOrEqual']()).toBe(true);
     });
   });
 });

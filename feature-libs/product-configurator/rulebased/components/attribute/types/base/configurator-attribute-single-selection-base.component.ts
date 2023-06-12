@@ -7,7 +7,7 @@
 import { Directive, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -30,7 +30,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   language: string;
   expMode: boolean;
 
-  showRequiredErrorMessage$: Observable<boolean>;
+  showRequiredErrorMessage$: Observable<boolean> = of(false);
 
   // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
@@ -75,12 +75,13 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
           attributeComponentContext.group.id
         )
         .pipe(
-          map((result) =>
-            result
-              ? this.isRequiredErrorMsg(this.attribute) &&
+          map(
+            (result) =>
+              (result &&
+                this.isRequiredErrorMsg(this.attribute) &&
                 this.isDropDown(this.attribute) &&
-                this.isNoValueSelected(this.attribute)
-              : false
+                this.isNoValueSelected(this.attribute)) ||
+              false
           )
         );
     }

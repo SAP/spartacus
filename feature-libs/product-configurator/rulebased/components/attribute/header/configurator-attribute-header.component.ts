@@ -54,7 +54,7 @@ export class ConfiguratorAttributeHeaderComponent
   );
 
   /**
-   * @deprecated since 7.0
+   * @deprecated since 6.2
    */
   constructor(
     configUtils: ConfiguratorStorefrontUtilsService,
@@ -70,7 +70,7 @@ export class ConfiguratorAttributeHeaderComponent
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorUiSettings: ConfiguratorUISettingsConfig,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    // TODO (CXSPA-3392): for next major release remove feature level
+    // TODO (CXSPA-3392): for next major release remove featureConfigService
     @Optional() protected featureConfigService?: FeatureConfigService
   ) {
     super();
@@ -91,7 +91,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => result && this.isNewestRelease()));
+      .pipe(map((result) => result && this.isGreaterOrEqual()));
   }
 
   /**
@@ -165,8 +165,8 @@ export class ConfiguratorAttributeHeaderComponent
     return true;
   }
 
-  // TODO (CXSPA-3392): for next major release remove feature level
-  protected isNewestRelease(): boolean {
+  // TODO (CXSPA-3392): for next major release remove featureConfigService
+  protected isGreaterOrEqual(): boolean {
     if (this.featureConfigService?.isLevel('6.2')) {
       // TODO: for next major release this condition should be proved
       return this.isRequiredAttributeWithDomainAndDropDown();

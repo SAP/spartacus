@@ -21,6 +21,7 @@ import { ConfiguratorAttributeCompositionContext } from '../composition/configur
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { MockFeatureLevelDirective } from '../../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -36,10 +37,10 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
-const isCartEntryOrGroupVisited = true;
+let showRequiredMessageForUserInput: boolean;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
-    return of(isCartEntryOrGroupVisited);
+    return of(showRequiredMessageForUserInput);
   }
 }
 
@@ -51,8 +52,12 @@ class MockFeatureConfigService {
 }
 
 function createComponentWithData(
-  releaseVersion: string
+  releaseVersion: string,
+  isCartEntryOrGroupVisited: boolean = true
 ): ConfiguratorAttributeFooterComponent {
+  testVersion = releaseVersion;
+  showRequiredMessageForUserInput = isCartEntryOrGroupVisited;
+
   fixture = TestBed.createComponent(ConfiguratorAttributeFooterComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -65,7 +70,6 @@ function createComponentWithData(
   component.attribute.uiType = Configurator.UiType.STRING;
   component.attribute.userInput = '';
 
-  testVersion = releaseVersion;
   fixture.detectChanges();
   return component;
 }
@@ -92,7 +96,10 @@ describe('ConfigAttributeFooterComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [FeaturesConfigModule, I18nTestingModule, IconModule],
-        declarations: [ConfiguratorAttributeFooterComponent],
+        declarations: [
+          ConfiguratorAttributeFooterComponent,
+          MockFeatureLevelDirective,
+        ],
         providers: [
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
           {
@@ -115,14 +122,23 @@ describe('ConfigAttributeFooterComponent', () => {
     })
   );
 
-  it('should create component for release version greater or equal 6.2', () => {
-    createComponentWithData('6.2');
-    expect(component).toBeTruthy();
+  it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {
+    createComponentWithData('6.2', false).ngOnInit();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-required-error-msg'
+    );
   });
 
-  it('should create component for release version less or equal 6.1', () => {
-    createComponentWithData('6.1');
+  it('should render a required message for release version less than 6.2', () => {
+    createComponentWithData('6.1').ngOnInit();
     expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-required-error-msg'
+    );
   });
 
   it('should render a required message if attribute has no value, yet.', () => {
@@ -369,7 +385,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      createComponentWithData('6.2');
+      createComponentWithData('6.2', true);
     });
 
     it("should contain div element with class name 'cx-required-error-msg' and 'aria-label' attribute that defines an accessible name to label the current element", () => {

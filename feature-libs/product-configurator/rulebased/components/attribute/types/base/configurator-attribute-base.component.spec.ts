@@ -37,7 +37,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       ).toEqual('cx-configurator--label--attributeId');
     });
 
-    it("should return only attribute id for aria-labelledby because value id is 'undefined'", () => {
+    it("should return only attribute id for aria-labelledby in case value id is 'undefined'", () => {
       expect(
         classUnderTest.createAriaLabelledBy('prefix', 'attributeId', undefined)
       ).toEqual('cx-configurator--label--attributeId');
@@ -200,7 +200,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(classUnderTest.getLabel(true, label, techName)).toEqual(label);
     });
 
-    it('should return label with technical name because expert mode is set to true', () => {
+    it('should return label with technical name in case expert mode is set to true', () => {
       const label = 'label';
       const techName = 'techName';
       const techLabel = label + ' / [' + techName + ']';
@@ -236,16 +236,16 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   });
 
   describe('getValuePrice', () => {
-    it('should return empty string because value is undefined', () => {
+    it('should return empty string in case value is undefined', () => {
       expect(classUnderTest['getValuePrice'](undefined)).toEqual('');
     });
 
-    it('should return empty string because price is undefined', () => {
+    it('should return empty string in case price is undefined', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', undefined);
       expect(classUnderTest['getValuePrice'](value)).toEqual('');
     });
 
-    it('should return empty string because price is zero', () => {
+    it('should return empty string in case price is zero', () => {
       const value = ConfiguratorTestUtils.createValue('valueCode', 0);
       expect(classUnderTest['getValuePrice'](value)).toEqual('');
     });
@@ -266,13 +266,13 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   });
 
   describe('isRequiredErrorMsg', () => {
-    it('should return false because both required and incomplete properties are undefined', () => {
+    it('should return false in case both required and incomplete properties are undefined', () => {
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
         false
       );
     });
 
-    it('should return false because required property is undefined', () => {
+    it('should return false in case required property is undefined', () => {
       currentAttribute.required = undefined;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
@@ -280,7 +280,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       );
     });
 
-    it('should return false because incomplete property is undefined', () => {
+    it('should return false in case incomplete property is undefined', () => {
       currentAttribute.required = true;
       currentAttribute.incomplete = undefined;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
@@ -288,7 +288,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       );
     });
 
-    it('should return false because required property is false', () => {
+    it('should return false in case required property is false', () => {
       currentAttribute.required = false;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
@@ -296,7 +296,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       );
     });
 
-    it('should return false because incomplete property is false', () => {
+    it('should return false in case incomplete property is false', () => {
       currentAttribute.required = false;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(
@@ -304,7 +304,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       );
     });
 
-    it('should return true because both required and incomplete properties are true', () => {
+    it('should return true in case both required and incomplete properties are true', () => {
       currentAttribute.required = true;
       currentAttribute.incomplete = true;
       expect(classUnderTest['isRequiredErrorMsg'](currentAttribute)).toBe(true);
@@ -312,53 +312,53 @@ describe('ConfiguratorAttributeBaseComponent', () => {
   });
 
   describe('isUserInput', () => {
-    it('should return false because uiType is undefined', () => {
+    it('should return false in case uiType is undefined', () => {
       currentAttribute.uiType = undefined;
       expect(classUnderTest['isUserInput'](currentAttribute)).toBe(false);
     });
 
-    it('should return true because uiType is RADIOBUTTON', () => {
+    it('should return true in case uiType is RADIOBUTTON', () => {
       expect(classUnderTest['isUserInput'](currentAttribute)).toBe(false);
     });
 
-    it('should return true because uiType is STRING', () => {
+    it('should return true in case uiType is STRING', () => {
       currentAttribute.uiType = Configurator.UiType.STRING;
       expect(classUnderTest['isUserInput'](currentAttribute)).toBe(true);
     });
 
-    it('should return true because uiType is NUMERIC', () => {
+    it('should return true in case uiType is NUMERIC', () => {
       currentAttribute.uiType = Configurator.UiType.NUMERIC;
       expect(classUnderTest['isUserInput'](currentAttribute)).toBe(true);
     });
   });
 
   describe('isDropDown', () => {
-    it('should return false because uiType is undefined', () => {
+    it('should return false in case uiType is undefined', () => {
       currentAttribute.uiType = undefined;
       expect(classUnderTest['isDropDown'](currentAttribute)).toBe(false);
     });
 
-    it('should return true because uiType is RADIOBUTTON', () => {
+    it('should return true in case uiType is RADIOBUTTON', () => {
       expect(classUnderTest['isDropDown'](currentAttribute)).toBe(false);
     });
 
-    it('should return true because uiType is DROPDOWN', () => {
+    it('should return true in case uiType is DROPDOWN', () => {
       currentAttribute.uiType = Configurator.UiType.DROPDOWN;
       expect(classUnderTest['isDropDown'](currentAttribute)).toBe(true);
     });
 
-    it('should return true because uiType is DROPDOWN_PRODUCT', () => {
+    it('should return true in case uiType is DROPDOWN_PRODUCT', () => {
       currentAttribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       expect(classUnderTest['isDropDown'](currentAttribute)).toBe(true);
     });
   });
 
   describe('isNoValueSelected', () => {
-    it('should return `false` because there are no values', () => {
+    it('should return `false` in case there are no values', () => {
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
     });
 
-    it('should return `false` because there is a selected value with value code `0`', () => {
+    it('should return `false` in case there is a selected value with value code `0`', () => {
       currentAttribute.values = [
         ConfiguratorTestUtils.createValue('0', undefined, true),
         ConfiguratorTestUtils.createValue('456', 15),
@@ -367,7 +367,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
     });
 
-    it('should return `false` because the selected value has a code `###RETRACT_VALUE_CODE###`', () => {
+    it('should return `false` in case the selected value has a code `###RETRACT_VALUE_CODE###`', () => {
       currentAttribute.values = [
         ConfiguratorTestUtils.createValue(
           '###RETRACT_VALUE_CODE###',
@@ -380,7 +380,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(true);
     });
 
-    it('should return `false` because there is selected value', () => {
+    it('should return `false` in case there is selected value', () => {
       currentAttribute.values = [
         ConfiguratorTestUtils.createValue('123', 10, true),
         ConfiguratorTestUtils.createValue('456', 15),
@@ -389,7 +389,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
       expect(classUnderTest['isNoValueSelected'](currentAttribute)).toBe(false);
     });
 
-    it('should return `true` because there is selected value', () => {
+    it('should return `true` in case there is selected value', () => {
       currentAttribute.values = [
         ConfiguratorTestUtils.createValue('123', 10, true),
         ConfiguratorTestUtils.createValue('456', 15),
