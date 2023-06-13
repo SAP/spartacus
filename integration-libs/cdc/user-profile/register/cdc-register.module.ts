@@ -25,7 +25,7 @@ import {
   RegisterConsentsService,
 } from '@spartacus/user/profile/components';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
-import { CdcRegisterConsentsService } from './cdc-register-form.service';
+import { CdcRegisterConsentsService } from './cdc-register-consents.service';
 
 @NgModule({
   imports: [
