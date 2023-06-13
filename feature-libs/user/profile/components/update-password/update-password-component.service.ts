@@ -15,6 +15,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -71,7 +72,7 @@ export class UpdatePasswordComponentService {
 
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
-      error: (error: Error) => this.onError(error),
+      error: (error: HttpErrorModel) => this.onError(error),
     });
   }
 
@@ -93,7 +94,12 @@ export class UpdatePasswordComponentService {
     });
   }
 
-  protected onError(_error: Error): void {
+  protected onError(_error: HttpErrorModel): void {
+    if (_error.details?.[0].type === 'AccessDeniedError')
+    this.globalMessageService.add(
+      { key: 'updatePasswordForm.accessDeniedError' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
     this.busy$.next(false);
     this.form.reset();
   }
