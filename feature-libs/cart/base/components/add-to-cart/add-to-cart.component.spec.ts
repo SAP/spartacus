@@ -234,12 +234,16 @@ describe('AddToCartComponent', () => {
         addToCartComponent.ngOnInit();
         expect(addToCartComponent.productCode).toEqual(mockProduct.code);
         addToCartComponent.quantity = 5;
+        addToCartComponent.addToCartForm.controls['quantity'].setValue(5);
 
         //Product 2
         currentProduct.next(mockProduct2);
         expect(addToCartComponent.productCode).toEqual(mockProduct2.code);
         //Quantity is expected to be reset to 1 since it is a new product page
         expect(addToCartComponent.quantity).toEqual(1);
+        expect(addToCartComponent.addToCartForm.get('quantity')?.value).toEqual(
+          1
+        );
       });
 
       it('should disable input when the product has no stock', () => {
