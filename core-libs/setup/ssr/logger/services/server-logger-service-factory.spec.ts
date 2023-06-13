@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { LoggerService } from '@spartacus/core';
-import { SERVER_LOGGER, ServerLogger } from '../loggers';
+import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
-import { serverLoggerServiceFactory } from './server-logger-factory';
+import { serverLoggerServiceFactory } from './server-logger-service-factory';
 
-class MockServerLogger implements ServerLogger {
+class MockServerLogger implements ExpressServerLogger {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();
@@ -19,7 +19,7 @@ describe('serverLoggerServiceFactory', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: REQUEST, useValue: {} },
-        { provide: SERVER_LOGGER, useValue: new MockServerLogger() },
+        { provide: EXPRESS_SERVER_LOGGER, useValue: new MockServerLogger() },
         {
           provide: LoggerService,
           useFactory: serverLoggerServiceFactory,
@@ -31,7 +31,7 @@ describe('serverLoggerServiceFactory', () => {
   it('should return PrerenderingLoggerService if REQUEST is not available', () => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: SERVER_LOGGER, useValue: new MockServerLogger() },
+        { provide: EXPRESS_SERVER_LOGGER, useValue: new MockServerLogger() },
         {
           provide: LoggerService,
           useFactory: serverLoggerServiceFactory,

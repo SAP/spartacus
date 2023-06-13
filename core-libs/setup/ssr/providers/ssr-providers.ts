@@ -13,8 +13,7 @@ import {
 } from '@spartacus/core';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
-import { SERVER_LOGGER, serverLoggerServiceFactory } from '../logger';
-import { serverLoggerFactory } from '../logger/loggers';
+import { serverLoggerServiceFactory } from '../logger';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
 import { serverRequestUrlFactory } from './server-request-url';
@@ -31,11 +30,6 @@ export function provideServer(options?: ServerOptions): StaticProvider[] {
     {
       provide: SERVER_REQUEST_URL,
       useFactory: serverRequestUrlFactory(options),
-    },
-    // for pre-rendering purposes - "there is no Express" fallback
-    {
-      provide: SERVER_LOGGER,
-      useFactory: serverLoggerFactory,
     },
     {
       provide: LoggerService,

@@ -5,7 +5,7 @@
  */
 
 import { Request } from 'express';
-import { ServerLogger } from '../logger/loggers/server-logger';
+import { ExpressServerLogger } from '../logger';
 
 export interface SsrOptimizationOptions {
   /**
@@ -123,7 +123,7 @@ export interface SsrOptimizationOptions {
    *
    * By default, the logger is disabled, meaning that logs in SSR are not enhanced.
    */
-  logger?: true | ServerLogger; //CXSPA-3680 - allow only providing ServerLogger implementations
+  logger?: true | ExpressServerLogger; //CXSPA-3680 - allow only providing ExpressServerLogger implementations
 }
 
 export enum RenderingStrategy {

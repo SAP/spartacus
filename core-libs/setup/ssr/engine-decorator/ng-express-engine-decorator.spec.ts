@@ -1,6 +1,6 @@
 import { NgSetupOptions, RenderOptions } from '@nguniversal/express-engine';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
-import { LegacyServerLogger, SERVER_LOGGER } from '../logger';
+import { EXPRESS_SERVER_LOGGER, LegacyExpressServerLogger } from '../logger';
 import {
   NgExpressEngine,
   NgExpressEngineDecorator,
@@ -191,7 +191,10 @@ describe('decorateExpressEngine', () => {
         {
           ...mockOptions,
           providers: [
-            { provide: SERVER_LOGGER, useValue: new LegacyServerLogger() },
+            {
+              provide: EXPRESS_SERVER_LOGGER,
+              useValue: new LegacyExpressServerLogger(),
+            },
           ],
         },
         expect.any(Function)
@@ -264,7 +267,10 @@ describe('decorateExpressEngine', () => {
         {
           ...mockOptions,
           providers: [
-            { provide: SERVER_LOGGER, useValue: new LegacyServerLogger() },
+            {
+              provide: EXPRESS_SERVER_LOGGER,
+              useValue: new LegacyExpressServerLogger(),
+            },
           ],
         },
         expect.any(Function)

@@ -5,6 +5,4 @@
  */
 
 export * from './express-server-logger';
-export * from './prerendering-server-logger';
 export * from './server-logger';
-export * from './server-logger.factory';

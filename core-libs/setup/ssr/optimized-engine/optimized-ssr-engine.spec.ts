@@ -5,7 +5,7 @@ import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { LogContext, ServerLogger } from '../logger';
+import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
   RenderingStrategy,
@@ -21,8 +21,8 @@ jest.mock('fs', () => ({
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
-class MockServerLogger implements Partial<ServerLogger> {
-  log(message: string, context?: LogContext | undefined): void {
+class MockServerLogger implements Partial<ExpressServerLogger> {
+  log(message: string, context: ExpressServerLoggerContext): void {
     console.log(message, context);
   }
 }
@@ -1191,7 +1191,7 @@ describe('OptimizedSsrEngine', () => {
     });
     it('should use the provided logger', () => {
       new TestEngineRunner({
-        logger: new MockServerLogger() as ServerLogger,
+        logger: new MockServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
               [

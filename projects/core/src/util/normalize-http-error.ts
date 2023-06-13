@@ -48,15 +48,11 @@ export function normalizeHttpError(
   }
 
   if (isDevMode()) {
-    // CXSPA-3680 - use logger by default
     const logMessage =
       'Error passed to normalizeHttpError is not HttpErrorResponse instance';
-    if (logger) {
-      logger.error(logMessage, error);
-    } else {
-      /* eslint-disable-next-line no-console */
-      console.error(logMessage, error);
-    }
+    // CXSPA-3680 - use logger by default and make logger required param
+    /* eslint-disable-next-line no-console */
+    logger ? logger.error(logMessage, error) : console.error(logMessage, error);
   }
 
   return undefined;

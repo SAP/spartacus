@@ -4,8 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { InjectionToken } from '@angular/core';
 import { Request } from 'express';
-import { LogContext, ServerLogger } from './server-logger';
+import { SsrOptimizationOptions } from '../../optimized-engine';
+
+export interface ExpressServerLoggerContext {
+  request: Request;
+  options?: Partial<SsrOptimizationOptions>;
+}
+
+export interface ExpressServerLogger {
+  log(message: string, context: ExpressServerLoggerContext): void;
+  warn(message: string, context: ExpressServerLoggerContext): void;
+  error(message: string, context: ExpressServerLoggerContext): void;
+  info(message: string, context: ExpressServerLoggerContext): void;
+  debug(message: string, context: ExpressServerLoggerContext): void;
+}
 
 /**
  *
@@ -13,29 +27,32 @@ import { LogContext, ServerLogger } from './server-logger';
  * It logs It outputs a JSON with properties "message" and "context",
  * which contains a "timestamp" and details of the "request" ("url", "uuid", "timeReceived")
  */
-export class ExpressServerLogger implements ServerLogger {
-  log(message: string, context: LogContext): void {
+export class DefaultExpressServerLogger {
+  log(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
     console.log(this.createLogMessage(message, context));
   }
-  warn(message: string, context: LogContext): void {
+  warn(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
     console.warn(this.createLogMessage(message, context));
   }
-  error(message: string, context: LogContext): void {
+  error(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
     console.error(this.createLogMessage(message, context));
   }
-  info(message: string, context: LogContext): void {
+  info(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
     console.info(this.createLogMessage(message, context));
   }
-  debug(message: string, context: LogContext): void {
+  debug(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
     console.debug(this.createLogMessage(message, context));
   }
 
-  protected createLogMessage(message: string, context: LogContext): string {
+  protected createLogMessage(
+    message: string,
+    context: ExpressServerLoggerContext
+  ): string {
     const timestamp = new Date().toISOString();
     const object = {
       message,
@@ -62,3 +79,7 @@ export class ExpressServerLogger implements ServerLogger {
     };
   }
 }
+
+export const EXPRESS_SERVER_LOGGER = new InjectionToken<ExpressServerLogger>(
+  'EXPRESS_SERVER_LOGGER'
+);

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { Request } from 'express';
-import { SERVER_LOGGER, ServerLogger } from '../loggers';
+import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 
 const mockRequest: Partial<Request> = { url: 'test/url' };
 
-class MockServerLogger implements ServerLogger {
+class MockServerLogger implements ExpressServerLogger {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();
@@ -16,7 +16,7 @@ class MockServerLogger implements ServerLogger {
 
 describe('ExpressLoggerService', () => {
   let request: Request;
-  let ssrLogger: ServerLogger;
+  let logger: ExpressServerLogger;
   let loggerService: ExpressLoggerService;
 
   beforeEach(() => {
@@ -24,18 +24,18 @@ describe('ExpressLoggerService', () => {
       providers: [
         ExpressLoggerService,
         { provide: REQUEST, useValue: mockRequest },
-        { provide: SERVER_LOGGER, useClass: MockServerLogger },
+        { provide: EXPRESS_SERVER_LOGGER, useClass: MockServerLogger },
       ],
     });
 
     request = TestBed.inject(REQUEST);
-    ssrLogger = TestBed.inject(SERVER_LOGGER);
+    logger = TestBed.inject(EXPRESS_SERVER_LOGGER);
     loggerService = TestBed.inject(ExpressLoggerService);
   });
 
   describe('log', () => {
     it('should log', () => {
-      const log = jest.spyOn(ssrLogger, 'log');
+      const log = jest.spyOn(logger, 'log');
 
       loggerService.log('test');
 
@@ -43,7 +43,7 @@ describe('ExpressLoggerService', () => {
     });
 
     it('should warn', () => {
-      const warn = jest.spyOn(ssrLogger, 'warn');
+      const warn = jest.spyOn(logger, 'warn');
 
       loggerService.warn('test');
 
@@ -51,7 +51,7 @@ describe('ExpressLoggerService', () => {
     });
 
     it('should error', () => {
-      const error = jest.spyOn(ssrLogger, 'error');
+      const error = jest.spyOn(logger, 'error');
 
       loggerService.error('test');
 
@@ -59,7 +59,7 @@ describe('ExpressLoggerService', () => {
     });
 
     it('should info', () => {
-      const info = jest.spyOn(ssrLogger, 'info');
+      const info = jest.spyOn(logger, 'info');
 
       loggerService.info('test');
 
@@ -67,7 +67,7 @@ describe('ExpressLoggerService', () => {
     });
 
     it('should debug', () => {
-      const debug = jest.spyOn(ssrLogger, 'debug');
+      const debug = jest.spyOn(logger, 'debug');
 
       loggerService.debug('test');
 

@@ -8,12 +8,12 @@ import { Injectable, inject } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { LoggerService } from '@spartacus/core';
 import { formatWithOptions } from 'util';
-import { SERVER_LOGGER } from '../loggers/server-logger';
+import { EXPRESS_SERVER_LOGGER } from '../loggers';
 
 @Injectable({ providedIn: 'root' })
 export class ExpressLoggerService implements LoggerService {
   request = inject(REQUEST);
-  serverLogger = inject(SERVER_LOGGER);
+  serverLogger = inject(EXPRESS_SERVER_LOGGER);
 
   log(...args: Parameters<typeof console.log>): void {
     this.serverLogger.log(this.formatLogMessage(...args), {
@@ -42,7 +42,10 @@ export class ExpressLoggerService implements LoggerService {
   }
 
   protected formatLogMessage(message?: any, ...optionalParams: any[]): string {
-    // TODO: add comment about why - (because Kibana, to not split into separate lines)
+    /**
+     * built-in util function 'formatWithOptions' was used to not break provided message.
+     * That helps to present logs in moonitoring tools like Kibana in a proper way.
+     */
     return formatWithOptions(
       { breakLength: Infinity },
       message,

@@ -42,7 +42,7 @@ export function validateConfig(
   for (const validate of configValidators) {
     const warning = validate(config);
     if (warning) {
-      // remove console.log before 7.0 release and make `logger` required param
+      // CXSPA-3680 - remove console.log before 7.0 release and make `logger` required param
       /* eslint-disable-next-line no-console */
       logger ? logger.warn(warning) : console.warn(warning);
     }

@@ -1,79 +1,57 @@
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
-import { SERVER_LOGGER, ServerLogger } from '../loggers';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 
-class MockServerLogger implements ServerLogger {
-  log = jest.fn();
-  warn = jest.fn();
-  error = jest.fn();
-  info = jest.fn();
-  debug = jest.fn();
-}
-
-const mockWindowRef: Partial<WindowRef> = {
-  location: { href: 'test/url' },
-};
-
 describe('PrerenderingLoggerService', () => {
-  let ssrLogger: ServerLogger;
   let loggerService: PrerenderingLoggerService;
-  let request: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        ExpressLoggerService,
-        { provide: WindowRef, useValue: mockWindowRef },
-        { provide: SERVER_LOGGER, useClass: MockServerLogger },
-      ],
+      providers: [ExpressLoggerService],
     });
 
-    ssrLogger = TestBed.inject(SERVER_LOGGER);
     loggerService = TestBed.inject(PrerenderingLoggerService);
-    request = { request: { url: TestBed.inject(WindowRef).location.href } };
   });
 
   describe('log', () => {
     it('should log', () => {
-      const log = jest.spyOn(ssrLogger, 'log');
+      const log = jest.spyOn(console, 'log').mockImplementation(() => {});
 
       loggerService.log('test');
 
-      expect(log).toHaveBeenCalledWith('test', request);
+      expect(log).toHaveBeenCalledWith('test');
     });
 
     it('should warn', () => {
-      const warn = jest.spyOn(ssrLogger, 'warn');
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
       loggerService.warn('test');
 
-      expect(warn).toHaveBeenCalledWith('test', request);
+      expect(warn).toHaveBeenCalledWith('test');
     });
 
     it('should error', () => {
-      const error = jest.spyOn(ssrLogger, 'error');
+      const error = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       loggerService.error('test');
 
-      expect(error).toHaveBeenCalledWith('test', request);
+      expect(error).toHaveBeenCalledWith('test');
     });
 
     it('should info', () => {
-      const info = jest.spyOn(ssrLogger, 'info');
+      const info = jest.spyOn(console, 'info').mockImplementation(() => {});
 
       loggerService.info('test');
 
-      expect(info).toHaveBeenCalledWith('test', request);
+      expect(info).toHaveBeenCalledWith('test');
     });
 
     it('should debug', () => {
-      const debug = jest.spyOn(ssrLogger, 'debug');
+      const debug = jest.spyOn(console, 'debug').mockImplementation(() => {});
 
       loggerService.debug('test');
 
-      expect(debug).toHaveBeenCalledWith('test', request);
+      expect(debug).toHaveBeenCalledWith('test');
     });
   });
 });

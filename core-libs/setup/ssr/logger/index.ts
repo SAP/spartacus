@@ -5,8 +5,6 @@
  */
 
 export * from './loggers/express-server-logger';
-export * from './loggers/prerendering-server-logger';
 export * from './loggers/server-logger';
 export * from './services/express-logger.service';
-export * from './services/prerendering-logger.service';
-export * from './services/server-logger-factory';
+export * from './services/server-logger-service-factory';

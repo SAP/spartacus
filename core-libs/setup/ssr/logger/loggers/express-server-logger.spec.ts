@@ -1,7 +1,11 @@
-import { ExpressServerLogger } from './express-server-logger';
+import { Request } from 'express';
+import {
+  DefaultExpressServerLogger,
+  ExpressServerLoggerContext,
+} from './express-server-logger';
 
 describe('ExpressServerLogger', () => {
-  const logger = new ExpressServerLogger();
+  const logger = new DefaultExpressServerLogger();
   jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
 
   describe('logging', () => {
@@ -12,20 +16,20 @@ describe('ExpressServerLogger', () => {
     it('should log message', () => {
       const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
-      logger.log('test', { request: {} });
+      logger.log('test', { request: {} as Request });
 
       expect(logSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} })
+        logger['createLogMessage']('test', { request: {} as Request })
       );
     });
 
     it('should warn message', () => {
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-      logger.warn('test', { request: {} });
+      logger.warn('test', { request: {} as Request });
 
       expect(warnSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} })
+        logger['createLogMessage']('test', { request: {} as Request })
       );
     });
 
@@ -34,20 +38,20 @@ describe('ExpressServerLogger', () => {
         .spyOn(console, 'error')
         .mockImplementation(() => {});
 
-      logger.error('test', { request: {} });
+      logger.error('test', { request: {} as Request });
 
       expect(errorSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} })
+        logger['createLogMessage']('test', { request: {} as Request })
       );
     });
 
     it('should info message', () => {
       const infoSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
 
-      logger.info('test', { request: {} });
+      logger.info('test', { request: {} as Request });
 
       expect(infoSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} })
+        logger['createLogMessage']('test', { request: {} as Request })
       );
     });
 
@@ -56,23 +60,28 @@ describe('ExpressServerLogger', () => {
         .spyOn(console, 'debug')
         .mockImplementation(() => {});
 
-      logger.debug('test', { request: {} });
+      logger.debug('test', { request: {} as Request });
 
       expect(debugSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} })
+        logger['createLogMessage']('test', { request: {} as Request })
       );
     });
   });
 
   describe('create log message', () => {
     it('should return message without request', () => {
-      const logMessage = logger['createLogMessage']('test', {});
+      const logMessage = logger['createLogMessage'](
+        'test',
+        {} as ExpressServerLoggerContext
+      );
 
       expect(logMessage).not.toContain('request');
     });
 
     it('should return message with request', () => {
-      const logMessage = logger['createLogMessage']('test', { request: {} });
+      const logMessage = logger['createLogMessage']('test', {
+        request: {} as Request,
+      });
 
       expect(logMessage).toContain('request');
     });

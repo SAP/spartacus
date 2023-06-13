@@ -11,11 +11,11 @@ import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { getRequestUrl } from '../express-utils/express-request-url';
 import {
+  DefaultExpressServerLogger,
+  EXPRESS_SERVER_LOGGER,
   ExpressServerLogger,
-  LegacyServerLogger,
-  LogContext,
-  SERVER_LOGGER,
-  ServerLogger,
+  ExpressServerLoggerContext,
+  LegacyExpressServerLogger,
 } from '../logger';
 import { RenderingCache } from './rendering-cache';
 import {
@@ -47,7 +47,7 @@ export type SsrCallbackFn = (
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache = new RenderingCache(this.ssrOptions);
-  protected logger: ServerLogger;
+  protected logger: ExpressServerLogger;
   private templateCache = new Map<string, string>();
 
   /**
@@ -109,7 +109,7 @@ export class OptimizedSsrEngine {
             ? this.ssrOptions.logger
             : this.ssrOptions.logger?.constructor.name,
       },
-    });
+    } as ExpressServerLoggerContext);
   }
 
   /**
@@ -335,9 +335,16 @@ export class OptimizedSsrEngine {
     });
   }
 
-  protected log(message: string, debug = true, logMetadata?: LogContext): void {
+  protected log(
+    message: string,
+    debug = true,
+    logMetadata?: ExpressServerLoggerContext
+  ): void {
     if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, logMetadata);
+      this.logger.log(
+        message,
+        logMetadata || ({} as ExpressServerLoggerContext)
+      );
     }
   }
 
@@ -460,7 +467,7 @@ export class OptimizedSsrEngine {
       ...options,
       providers: [
         {
-          provide: SERVER_LOGGER,
+          provide: EXPRESS_SERVER_LOGGER,
           useValue: this.logger,
         },
       ],
@@ -490,12 +497,12 @@ export class OptimizedSsrEngine {
   //CXSPA-3680 - remove this method in 7.0
   private initLogger(ssrOptions: SsrOptimizationOptions | undefined) {
     if (ssrOptions?.logger === true) {
-      return new ExpressServerLogger();
+      return new DefaultExpressServerLogger();
     }
-    return ssrOptions?.logger || new LegacyServerLogger();
+    return ssrOptions?.logger || new LegacyExpressServerLogger();
   }
 
-  private isServerLogger(logger: unknown): logger is ServerLogger {
+  private isServerLogger(logger: unknown): logger is ExpressServerLogger {
     return (
       logger instanceof Object &&
       'log' in logger &&
