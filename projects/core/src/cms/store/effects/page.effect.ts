@@ -7,7 +7,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -19,6 +18,7 @@ import {
   take,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
+import { LoggerService } from '../../../logger';
 import { RoutingService } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';

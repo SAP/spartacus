@@ -6,11 +6,11 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
+import { LoggerService } from '../../../logger';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
