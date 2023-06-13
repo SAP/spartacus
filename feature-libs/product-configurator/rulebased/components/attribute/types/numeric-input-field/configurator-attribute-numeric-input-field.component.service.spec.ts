@@ -303,8 +303,8 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         maxValue: 5,
         minValue: 5,
-        maxValueIncluded: false,
-        minValueIncluded: false,
+        maxValueIncluded: true,
+        minValueIncluded: true,
       };
       let value: Configurator.Value = {
         valueCode: '1',
@@ -327,6 +327,128 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         valueCode: '1',
       };
       expect(serviceUnderTest.getInterval(value)).toEqual(undefined);
+    });
+  });
+
+  describe('inputMatchesInterval', () => {
+    const locale = 'en';
+    const openInterval3To7: ConfiguratorAttributeNumericInterval = {
+      minValueIncluded: false,
+      maxValueIncluded: false,
+      minValue: 3,
+      maxValue: 7,
+    };
+    const closedInterval3To7: ConfiguratorAttributeNumericInterval = {
+      minValueIncluded: true,
+      maxValueIncluded: true,
+      minValue: 3,
+      maxValue: 7,
+    };
+    const openIndefiniteIntervalTo7: ConfiguratorAttributeNumericInterval = {
+      minValueIncluded: false,
+      maxValueIncluded: false,
+      maxValue: 7,
+    };
+    const closedIndefiniteIntervalFrom3: ConfiguratorAttributeNumericInterval =
+      { minValueIncluded: true, maxValueIncluded: true, minValue: 3 };
+
+    it('should assess input for open interval properly in case input is part of interval', () => {
+      const input = '5';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          openInterval3To7
+        )
+      ).toBe(true);
+    });
+
+    it('should assess input for open interval properly in case input is outside of interval', () => {
+      const input = '2';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          openInterval3To7
+        )
+      ).toBe(false);
+    });
+
+    it('should assess input for closed interval properly in case input is maximum value', () => {
+      const input = '7';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          closedInterval3To7
+        )
+      ).toBe(true);
+    });
+
+    it('should assess input for open indefinite interval properly in case input is maximum value', () => {
+      const input = '7';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          openIndefiniteIntervalTo7
+        )
+      ).toBe(false);
+    });
+
+    it('should assess input for closed indefinite interval properly in case input is minimum value', () => {
+      const input = '3';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          closedIndefiniteIntervalFrom3
+        )
+      ).toBe(true);
+    });
+
+    it('should assess input for closed indefinite interval properly in case input is part of interval', () => {
+      const input = '9,987,987,123';
+      expect(
+        serviceUnderTest['inputMatchesInterval'](
+          input,
+          locale,
+          closedIndefiniteIntervalFrom3
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('parseInput', () => {
+    const locale = 'en';
+
+    it('should ignore single group separator', () => {
+      const input = '5,998';
+      expect(serviceUnderTest['parseInput'](input, locale)).toBe(5998);
+    });
+
+    it('should ignore multiple group separators', () => {
+      const input = '5,998,2,3';
+      expect(serviceUnderTest['parseInput'](input, locale)).toBe(599823);
+    });
+
+    it('should handle decimal places properly', () => {
+      const input = '5,998.23';
+      expect(serviceUnderTest['parseInput'](input, locale)).toBe(5998.23);
+    });
+
+    it('should work with german locale', () => {
+      const input = '5.998,23';
+      expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
+        5998.23
+      );
+    });
+
+    it('should digest group separators included in the decimal part', () => {
+      const input = '9,2.3';
+      expect(serviceUnderTest['parseInputForSeparators'](input, '.', ',')).toBe(
+        9.23
+      );
     });
   });
 });
