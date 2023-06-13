@@ -62,7 +62,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         value: false,
         disabled: this.isConsentRequired(),
       }),
-      additionalConsents: this.RegisterConsentsService?.generateAdditionalConsentsFormControl(),
+      additionalConsents:
+        this.registerConsentsService?.generateAdditionalConsentsFormControl(),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -95,7 +96,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService,
-    protected RegisterConsentsService?: RegisterConsentsService
+    protected registerConsentsService?: RegisterConsentsService
   ) {}
 
   ngOnInit() {
@@ -151,7 +152,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
 
     this.additionalRegistrationConsents =
-      this.RegisterConsentsService?.loadAdditionalConsents() || [];
+      this.registerConsentsService?.loadAdditionalConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
