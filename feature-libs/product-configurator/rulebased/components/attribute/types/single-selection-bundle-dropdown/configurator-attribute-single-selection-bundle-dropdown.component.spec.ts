@@ -33,7 +33,8 @@ import { StoreModule } from '@ngrx/store';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { MockFeatureLevelDirective } from '../../../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',

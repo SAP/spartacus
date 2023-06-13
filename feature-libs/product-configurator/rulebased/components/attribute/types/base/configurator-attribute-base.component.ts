@@ -249,6 +249,7 @@ export class ConfiguratorAttributeBaseComponent {
     const selectedValue = this.getSelectedValue(attribute);
     if (selectedValue) {
       return (
+        // TODO: talk to Sascha regarding CPQ
         selectedValue.valueCode === Configurator.RetractValueCode ||
         selectedValue.valueCode === '0'
       );

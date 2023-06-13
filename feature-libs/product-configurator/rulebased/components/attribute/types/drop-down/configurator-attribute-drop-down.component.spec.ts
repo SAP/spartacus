@@ -29,7 +29,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { MockFeatureLevelDirective } from '../../../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {

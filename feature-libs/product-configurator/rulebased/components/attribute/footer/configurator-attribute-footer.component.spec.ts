@@ -21,7 +21,7 @@ import { ConfiguratorAttributeCompositionContext } from '../composition/configur
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
-import { MockFeatureLevelDirective } from '../../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {

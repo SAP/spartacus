@@ -79,7 +79,7 @@ export class ConfiguratorAttributeFooterComponent
       // TODO: for next major release only these requirements should be proved
       return this.needsUserInputMsg() || this.needsDropDownMsg();
     } else {
-      return this.needsUserInputMessage();
+      return this.needsUserInputMsg();
     }
   }
 
