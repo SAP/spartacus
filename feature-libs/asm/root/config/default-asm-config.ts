@@ -63,8 +63,8 @@ export const defaultAsmConfig: AsmConfig = {
         },
       ],
     },
-    userIdHttpHeader:{
+    userIdHttpHeader: {
       enable: true,
-    }
+    },
   },
 };
