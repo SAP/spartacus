@@ -45,8 +45,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
     numberTotalPlaces: number,
     numberDecimalPlaces: number
   ): boolean {
-    const escape = '\\';
-    const search: RegExp = new RegExp(escape + groupingSeparator, 'g');
+    const regexEscape = '\\';
+    const search: RegExp = new RegExp(regexEscape + groupingSeparator, 'g');
     const woGrouping = input.replace(search, '');
     const splitParts = woGrouping.split(decimalSeparator);
 
