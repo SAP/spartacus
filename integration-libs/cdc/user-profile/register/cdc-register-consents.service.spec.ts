@@ -3,7 +3,7 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { AnonymousConsentsService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CdcConsentManagementService } from '../../root/consent-management/services/cdc-consent-management.service';
-import { CdcRegisterConsentsService } from './cdc-register-form.service';
+import { CdcRegisterConsentsService } from './cdc-register-consents.service';
 import createSpy = jasmine.createSpy;
 class MockCdcConsentManagementService
   implements Partial<CdcConsentManagementService>
