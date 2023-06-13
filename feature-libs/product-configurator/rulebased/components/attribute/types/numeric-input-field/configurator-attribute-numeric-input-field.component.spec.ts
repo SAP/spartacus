@@ -14,6 +14,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeatureConfigService,
+  FeaturesConfigModule,
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
@@ -139,7 +140,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           MockFocusDirective,
           MockCxIconComponent,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
+        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
@@ -457,6 +458,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
+      htmlElem = fixture.debugElement.nativeElement;
       tick(DEBOUNCE_TIME);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

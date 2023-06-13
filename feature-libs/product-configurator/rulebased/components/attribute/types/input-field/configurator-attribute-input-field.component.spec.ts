@@ -8,7 +8,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeaturesConfig, FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -46,7 +46,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
           ConfiguratorAttributeInputFieldComponent,
           MockFocusDirective,
         ],
-        imports: [ReactiveFormsModule, I18nTestingModule],
+        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
         providers: [
           {
             provide: ConfiguratorUISettingsConfig,
@@ -59,6 +59,12 @@ describe('ConfigAttributeInputFieldComponent', () => {
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
           },
         ],
       })
