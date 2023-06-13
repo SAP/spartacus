@@ -69,9 +69,7 @@ export class AsmDeepLinkService {
    * eg. customerId, customerId + ticketId return true.
    */
   validParameters(parameters: AsmDeepLinkParameters): boolean {
-    const keys = Object.keys(
-      Object.fromEntries(Object.entries(parameters).filter(([_, v]) => !!v))
-    );
+    const keys = Object.keys(parameters);
 
     const ALLOWED_PARAMS = [
       ['customerId'],
@@ -97,12 +95,14 @@ export class AsmDeepLinkService {
    * Returns valid deep link parameters in the url.
    */
   getParamsInUrl(): AsmDeepLinkParameters {
-    return {
+    const params: AsmDeepLinkParameters = {
       customerId: this.getSearchParameter('customerId'),
       orderId: this.getSearchParameter('orderId'),
       ticketId: this.getSearchParameter('ticketId'),
       cartId: this.getSearchParameter('cartId'),
       cartType: this.getSearchParameter('cartType'),
     };
+    // Filter undefined properties
+    return Object.fromEntries(Object.entries(params).filter(([_, v]) => !!v));
   }
 }
