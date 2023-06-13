@@ -7,10 +7,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { LoggerService } from '@spartacus/core';
 import { Observable, from } from 'rxjs';
 import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
+import { LoggerService } from '../../../logger';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';

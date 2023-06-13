@@ -6,9 +6,9 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';

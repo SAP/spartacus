@@ -7,9 +7,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
 import { StateUtils } from '../../../state/utils/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';

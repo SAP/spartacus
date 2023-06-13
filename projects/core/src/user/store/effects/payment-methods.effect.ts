@@ -7,11 +7,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
