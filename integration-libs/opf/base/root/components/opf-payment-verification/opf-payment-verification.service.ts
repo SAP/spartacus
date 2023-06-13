@@ -150,7 +150,7 @@ export class OpfPaymentVerificationService {
       'spaProcessingCartId'
     );
     const params = new URLSearchParams(this.router.url);
-    const orderId = params?.get('orderId');
+    const orderId = params?.get(OpfPaymenVerificationUrlInput.ORDER_ID);
 
     if (!paymentForCart || paymentForCart !== orderId) {
       this.goToPage('cart');

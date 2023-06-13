@@ -25,4 +25,5 @@ export enum OpfPaymentVerificationResult {
 
 export enum OpfPaymenVerificationUrlInput {
   PAYMENT_SESSION_ID = 'paymentSessionId',
+  ORDER_ID = 'orderId',
 }
