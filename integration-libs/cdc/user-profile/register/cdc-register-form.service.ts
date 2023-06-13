@@ -13,10 +13,10 @@ import {
 } from '@angular/forms';
 import { CdcConsentManagementService } from '@spartacus/cdc/root';
 import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
-import { RegisterFormService } from '@spartacus/user/profile/components';
+import { RegisterConsentsService } from '@spartacus/user/profile/components';
 
 @Injectable({ providedIn: 'root' })
-export class CdcRegisterFormService extends RegisterFormService {
+export class CdcRegisterConsentsService extends RegisterConsentsService {
   constructor(
     protected cdcConsentManagementService: CdcConsentManagementService,
     protected fb: UntypedFormBuilder,
@@ -42,7 +42,7 @@ export class CdcRegisterFormService extends RegisterFormService {
     return consentList;
   }
 
-  generateConsentsFormControl(): UntypedFormArray {
+  generateAdditionalConsentsFormControl(): UntypedFormArray {
     const consentArray = this.fb.array([]);
     const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
     for (const _template of templates) {
@@ -51,7 +51,7 @@ export class CdcRegisterFormService extends RegisterFormService {
     return consentArray;
   }
 
-  loadExtraRegistrationConsents(): {
+  loadAdditionalConsents(): {
     template: ConsentTemplate;
     required: boolean;
   }[] {

@@ -7,4 +7,4 @@
 export * from './register.component';
 export * from './register.module';
 export * from './register-component.service';
-export * from './register-form.service';
+export * from './register-consents.service';

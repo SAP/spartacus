@@ -29,7 +29,7 @@ import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
-import { RegisterFormService } from './register-form.service';
+import { RegisterConsentsService } from './register-consents.service';
 
 @Component({
   selector: 'cx-register',
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         value: false,
         disabled: this.isConsentRequired(),
       }),
-      extraConsents: this.registerFormService?.generateConsentsFormControl(),
+      additionalConsents: this.RegisterConsentsService?.generateAdditionalConsentsFormControl(),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -73,18 +73,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   );
 
-  registrationConsents: {
+  additionalRegistrationConsents: {
     template: ConsentTemplate;
     required: boolean;
   }[];
 
-  get extraConsents(): UntypedFormArray {
-    return this.registerForm?.get('extraConsents') as UntypedFormArray;
+  get additionalConsents(): UntypedFormArray {
+    return this.registerForm?.get('additionalConsents') as UntypedFormArray;
   }
 
-  updateExtraConsents(event: MouseEvent, index: number) {
+  updateAdditionalConsents(event: MouseEvent, index: number) {
     const { checked } = event.target as HTMLInputElement;
-    this.registerForm.value.extraConsents[index] = checked;
+    this.registerForm.value.additionalConsents[index] = checked;
   }
 
   constructor(
@@ -95,7 +95,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService,
-    protected registerFormService?: RegisterFormService
+    protected RegisterConsentsService?: RegisterConsentsService
   ) {}
 
   ngOnInit() {
@@ -150,8 +150,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.registrationConsents =
-      this.registerFormService?.loadExtraRegistrationConsents() || [];
+    this.additionalRegistrationConsents =
+      this.RegisterConsentsService?.loadAdditionalConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

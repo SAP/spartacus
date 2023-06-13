@@ -9,17 +9,17 @@ import { UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { ConsentTemplate } from '@spartacus/core';
 
 @Injectable()
-export class RegisterFormService {
+export class RegisterConsentsService {
   constructor(protected fb: UntypedFormBuilder) {}
 
-  loadExtraRegistrationConsents(): {
+  loadAdditionalConsents(): {
     template: ConsentTemplate;
     required: boolean;
   }[] {
     return [];
   }
 
-  generateConsentsFormControl(): UntypedFormArray {
+  generateAdditionalConsentsFormControl(): UntypedFormArray {
     return this.fb.array([]);
   }
 }

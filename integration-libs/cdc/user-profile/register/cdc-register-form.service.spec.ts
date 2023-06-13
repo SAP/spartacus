@@ -3,7 +3,7 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { AnonymousConsentsService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CdcConsentManagementService } from '../../root/consent-management/services/cdc-consent-management.service';
-import { CdcRegisterFormService } from './cdc-register-form.service';
+import { CdcRegisterConsentsService } from './cdc-register-form.service';
 import createSpy = jasmine.createSpy;
 class MockCdcConsentManagementService
   implements Partial<CdcConsentManagementService>
@@ -18,8 +18,8 @@ class MockAnonymousConsentsService
 class MockUntypedFormBuilder implements Partial<UntypedFormBuilder> {
   array = createSpy();
 }
-describe('CdcRegisterFormService', () => {
-  let service: CdcRegisterFormService;
+describe('CdcRegisterConsentsService', () => {
+  let service: CdcRegisterConsentsService;
   let cdcConsentManagementService: CdcConsentManagementService;
   let fb: UntypedFormBuilder;
   let anonymousConsentsService: AnonymousConsentsService;
@@ -41,7 +41,7 @@ describe('CdcRegisterFormService', () => {
         },
       ],
     });
-    service = TestBed.inject(CdcRegisterFormService);
+    service = TestBed.inject(CdcRegisterConsentsService);
     cdcConsentManagementService = TestBed.inject(CdcConsentManagementService);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
     fb = TestBed.inject(UntypedFormBuilder);
@@ -80,7 +80,7 @@ describe('CdcRegisterFormService', () => {
       },
     ]);
   });
-  it('generateConsentsFormControl', () => {
+  it('generateAdditionalConsentsFormControl', () => {
     spyOn(service, 'fetchCdcConsentsForRegistration').and.returnValue([
       {
         id: 'consent1.terms1',
@@ -88,11 +88,11 @@ describe('CdcRegisterFormService', () => {
       },
     ]);
     fb.array = createSpy().and.returnValue([]);
-    service.generateConsentsFormControl();
+    service.generateAdditionalConsentsFormControl();
     expect(service.fetchCdcConsentsForRegistration).toHaveBeenCalled();
     expect(fb.array).toHaveBeenCalled();
   });
-  it('loadExtraRegistrationConsents', () => {
+  it('loadAdditionalConsents', () => {
     spyOn(service, 'fetchCdcConsentsForRegistration').and.returnValue([
       {
         id: 'consent2.terms2',
@@ -104,7 +104,7 @@ describe('CdcRegisterFormService', () => {
       },
     ]);
 
-    let result = service.loadExtraRegistrationConsents();
+    let result = service.loadAdditionalConsents();
     expect(service.fetchCdcConsentsForRegistration).toHaveBeenCalled();
     expect(result).toEqual([
       {
