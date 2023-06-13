@@ -76,7 +76,7 @@ export class AnonymousConsentsEffects {
             catchError((error) =>
               of(
                 new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                  normalizeHttpError(error)
+                  normalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -118,7 +118,7 @@ export class AnonymousConsentsEffects {
               catchError((error) =>
                 of(
                   new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )

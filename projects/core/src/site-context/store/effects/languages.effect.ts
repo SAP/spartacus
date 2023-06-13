@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
   bufferCount,
@@ -23,6 +24,8 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class LanguagesEffects {
+  protected logger = inject(LoggerService);
+
   loadLanguages$: Observable<
     | SiteContextActions.LoadLanguagesSuccess
     | SiteContextActions.LoadLanguagesFail
@@ -38,7 +41,7 @@ export class LanguagesEffects {
           catchError((error) =>
             of(
               new SiteContextActions.LoadLanguagesFail(
-                normalizeHttpError(error)
+                normalizeHttpError(error, this.logger)
               )
             )
           )

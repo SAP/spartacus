@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CountryType } from '../../../model/address.model';
@@ -15,6 +16,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class DeliveryCountriesEffects {
+  protected logger = inject(LoggerService);
+
   loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -28,7 +31,7 @@ export class DeliveryCountriesEffects {
             catchError((error) =>
               of(
                 new UserActions.LoadDeliveryCountriesFail(
-                  normalizeHttpError(error)
+                  normalizeHttpError(error, this.logger)
                 )
               )
             )
