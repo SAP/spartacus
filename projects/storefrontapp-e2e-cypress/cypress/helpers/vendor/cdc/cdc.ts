@@ -30,6 +30,10 @@ export const b2cConsentTestUser = {
   email: 'consenttester@xyz.com',
   password: 'Password123.',
   fullName: 'Consent Tester',
+  encodedEmail: 'consenttester%40xyz.com',
+  stuntDoubleEmail: 'stuntdouble@xyz.com',
+  stuntDoublePassword: 'Password123.',
+  encodedStuntDoubleEmail: 'stuntdouble%40xyz.com',
 };
 export const b2bUser = getSampleB2BUser();
 export const updatedFirstAddress = {

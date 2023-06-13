@@ -12,13 +12,23 @@ import { clickHamburger } from '../../../../helpers/homepage';
 //import { verifyGlobalMessageAfterRegistration } from '../../../../helpers/register';
 const requiredFieldMessage = 'This field is required';
 
-/** Before executing this test, manually create a new version for terms.test.terms.of.use consent in cdc.
- *  This step is required to test the reconsent function
+/** System Setup: CDC site should contain only 2 active consents terms.test.terms.of.use (required) and consent.survey (not required)
+ *  The system should have 2 users - mentioned in cdc.b2cConsentTestUser
+ *  The cdc.b2cConsentTestUser.stuntDoubleEmail should require terms.test.terms.of.use for reconsent
+ *  The cdc.b2cConsentTestUser.email should have both consents given.
  */
+
 describe('CDC-B2C Consent Management', () => {
   describe('Providing Reconsent During Login', () => {
     it('error should appear without reconsent', () => {
       cy.window().then((win) => win.sessionStorage.clear());
+      cy.intercept('/accounts.login', { times: 1 }, (req) => {
+        req.body = req.body.replace(
+          cdc.b2cConsentTestUser.encodedEmail,
+          cdc.b2cConsentTestUser.encodedStuntDoubleEmail
+        );
+        req.continue();
+      });
       cy.visit('/login');
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
@@ -32,6 +42,27 @@ describe('CDC-B2C Consent Management', () => {
     });
     it('provide reconsent and proceed to login', () => {
       cy.window().then((win) => win.sessionStorage.clear());
+      cy.intercept('/accounts.login', { times: 1 }, (req) => {
+        req.body = req.body.replace(
+          cdc.b2cConsentTestUser.encodedEmail,
+          cdc.b2cConsentTestUser.encodedStuntDoubleEmail
+        );
+        req.continue();
+      });
+      cy.intercept(
+        '/accounts.setAccountInfo',
+        { times: 1 },
+        {
+          body: {
+            callId: 'c84243a81a0e4d2db0e28a25021faa66',
+            errorCode: 0,
+            apiVersion: 2,
+            statusCode: 200,
+            statusReason: 'OK',
+            time: '2023-06-12T17:25:50.729Z',
+          },
+        }
+      );
       cy.visit('/login');
       cdc.loginWithoutScreenSet(
         cdc.b2cConsentTestUser.email,
