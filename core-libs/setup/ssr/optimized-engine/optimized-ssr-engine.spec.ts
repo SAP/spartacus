@@ -1210,7 +1210,7 @@ describe('OptimizedSsrEngine', () => {
               ]
             `);
     });
-    it('should use the default logger', () => {
+    it('should use the legacy server logger, if logger option not specified', () => {
       new TestEngineRunner({});
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
               [

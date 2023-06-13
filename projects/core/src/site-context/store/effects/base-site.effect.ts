@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -14,6 +15,8 @@ import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class BaseSiteEffects {
+  protected logger = inject(LoggerService);
+
   loadBaseSite$: Observable<
     SiteContextActions.LoadBaseSiteSuccess | SiteContextActions.LoadBaseSiteFail
   > = createEffect(() =>
@@ -30,7 +33,9 @@ export class BaseSiteEffects {
           }),
           catchError((error) =>
             of(
-              new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error))
+              new SiteContextActions.LoadBaseSiteFail(
+                normalizeHttpError(error, this.logger)
+              )
             )
           )
         );
@@ -53,7 +58,7 @@ export class BaseSiteEffects {
           catchError((error) =>
             of(
               new SiteContextActions.LoadBaseSitesFail(
-                normalizeHttpError(error)
+                normalizeHttpError(error, this.logger)
               )
             )
           )
