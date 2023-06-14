@@ -133,13 +133,12 @@ export enum RenderingStrategy {
 }
 
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
-  // TODO: This default option has been changed for testing purpose - REMOVE BEFORE RELEASE
-  concurrency: 50,
+  concurrency: 10,
   timeout: 3_000,
   forcedSsrTimeout: 60_000,
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
   debug: false,
-  // TODO: This default option has been set for testing purpose - REMOVE BEFORE RELEASE
-  logger: true, //CXSPA-3680 - set ExpressServerLogger as default
+  //CXSPA-3680 - set ExpressServerLogger as default
+  //logger: new ExpressServerLogger(),
 };

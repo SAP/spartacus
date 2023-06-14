@@ -1,4 +1,4 @@
-import { LegacyExpressServerLogger } from './server-logger';
+import { LegacyExpressServerLogger } from './legacy-server-logger';
 
 describe('LegacyServerLogger', () => {
   const logger = new LegacyExpressServerLogger();

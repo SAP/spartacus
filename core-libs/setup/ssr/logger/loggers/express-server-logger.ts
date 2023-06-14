@@ -6,11 +6,10 @@
 
 import { InjectionToken } from '@angular/core';
 import { Request } from 'express';
-import { SsrOptimizationOptions } from '../../optimized-engine';
 
 export interface ExpressServerLoggerContext {
   request: Request;
-  options?: Partial<SsrOptimizationOptions>;
+  options?: any;
 }
 
 export interface ExpressServerLogger {

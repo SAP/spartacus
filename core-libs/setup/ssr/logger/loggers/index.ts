@@ -5,4 +5,4 @@
  */
 
 export * from './express-server-logger';
-export * from './server-logger';
+export * from './legacy-server-logger';

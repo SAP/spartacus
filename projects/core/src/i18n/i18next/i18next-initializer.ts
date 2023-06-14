@@ -50,8 +50,7 @@ export class I18nextInitializer implements OnDestroy {
     let i18nextConfig: InitOptions = {
       ns: [], // don't preload any namespaces
       fallbackLng: this.config.i18n?.fallbackLang,
-      // debug: this.config.i18n?.debug
-      debug: true, // REMOVE BEFORE PRODUCTION
+      debug: this.config.i18n?.debug,
       interpolation: {
         escapeValue: false,
         skipOnVariables: false,
