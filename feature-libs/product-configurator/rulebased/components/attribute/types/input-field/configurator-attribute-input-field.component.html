@@ -30,9 +30,7 @@
     <input
       [formControl]="attributeInputForm"
       class="form-control"
-      [class.ng-invalid]="
-        isRequired && isUserInputEmpty
-      "
+      [class.ng-invalid]="isRequired && isUserInputEmpty"
       maxlength="{{ attribute.maxlength }}"
       [attr.aria-label]="
         isUserInputEmpty
