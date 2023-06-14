@@ -89,7 +89,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   const nameFake = 'nameAttribute';
   const attrCode = 1234;
   const groupId = 'theGroupId';
-  const selectedSingleValue = '0';
+  const selectedSingleValue = Configurator.RetractValueCode;
   let values: Configurator.Value[];
 
   const createImage = (url: string, altText: string): Configurator.Image => {
@@ -133,7 +133,15 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     );
 
     values = [
-      createValue('', [], '', 1, true, '0', 'No Selected'),
+      createValue(
+        '',
+        [],
+        '',
+        1,
+        true,
+        Configurator.RetractValueCode,
+        'No Selected'
+      ),
       createValue(
         'Hih',
         [createImage('url', 'alt')],
@@ -375,6 +383,44 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           VALUE_DISPLAY_NAME
         );
       });
+    });
+  });
+
+  describe('isNotRetractValue', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2').ngOnInit();
+    });
+
+    it('should return `true` in case value is `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isNotRetractValue()).toBe(false);
+    });
+
+    it('should return `true` in case selectionValue is `undefined`', () => {
+      component.selectionValue = undefined;
+      fixture.detectChanges();
+      expect(component.isNotRetractValue()).toBe(false);
+    });
+
+    it('should return `true` in case value is not `###RETRACT_VALUE_CODE###`', () => {
+      component.selectionValue = values[1];
+      fixture.detectChanges();
+      expect(component.isNotRetractValue()).toBe(true);
+    });
+  });
+
+  describe('isRetractValue', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2').ngOnInit();
+    });
+
+    it('should return `true` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isRetractValue(Configurator.RetractValueCode)).toBe(
+        true
+      );
+    });
+
+    it('should return `false` in case value is not `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isRetractValue('8624')).toBe(false);
     });
   });
 });

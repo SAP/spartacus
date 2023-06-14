@@ -250,10 +250,13 @@ describe('ConfigAttributeFooterComponent', () => {
       expect(component['needsDropDownMsg']()).toBe(false);
     });
 
-    it('should not display drop-down message for UI type `DROPDOWN` because there is a selected value with value code `0`', () => {
+    it('should not display drop-down message for UI type `DROPDOWN` because there is a selected value', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       component.attribute.values = [
-        ConfiguratorTestUtils.createValue('0', undefined),
+        ConfiguratorTestUtils.createValue(
+          Configurator.RetractValueCode,
+          undefined
+        ),
         ConfiguratorTestUtils.createValue('123', 10, true),
         ConfiguratorTestUtils.createValue('456', 15),
         ConfiguratorTestUtils.createValue('789', 20),
@@ -280,24 +283,10 @@ describe('ConfigAttributeFooterComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       component.attribute.values = [
         ConfiguratorTestUtils.createValue(
-          '###RETRACT_VALUE_CODE###',
+          Configurator.RetractValueCode,
           undefined,
           true
         ),
-        ConfiguratorTestUtils.createValue('123', 10),
-        ConfiguratorTestUtils.createValue('456', 15),
-        ConfiguratorTestUtils.createValue('789', 20),
-      ];
-      fixture.detectChanges();
-      expect(component['needsDropDownMsg']()).toBe(true);
-      component.attribute.values = undefined;
-      fixture.detectChanges();
-    });
-
-    it('should display drop-down message for UI type `DROPDOWN_PRODUCT` because the selected value has a code `0`', () => {
-      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-      component.attribute.values = [
-        ConfiguratorTestUtils.createValue('0', undefined, true),
         ConfiguratorTestUtils.createValue('123', 10),
         ConfiguratorTestUtils.createValue('456', 15),
         ConfiguratorTestUtils.createValue('789', 20),

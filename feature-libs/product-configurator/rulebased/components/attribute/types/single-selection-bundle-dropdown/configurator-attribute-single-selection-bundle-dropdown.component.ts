@@ -103,4 +103,16 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       itemIndex: 0,
     };
   }
+
+  isNotRetractValue(): boolean {
+    return (
+      (this.selectionValue &&
+        this.selectionValue?.valueCode !== Configurator.RetractValueCode) ??
+      false
+    );
+  }
+
+  isRetractValue(valueCode: string): boolean {
+    return valueCode === Configurator.RetractValueCode;
+  }
 }

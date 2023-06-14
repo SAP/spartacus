@@ -360,7 +360,11 @@ describe('ConfiguratorAttributeBaseComponent', () => {
 
     it('should return `false` in case there is a selected value with value code `0`', () => {
       currentAttribute.values = [
-        ConfiguratorTestUtils.createValue('0', undefined, true),
+        ConfiguratorTestUtils.createValue(
+          Configurator.RetractValueCode,
+          undefined,
+          true
+        ),
         ConfiguratorTestUtils.createValue('456', 15),
         ConfiguratorTestUtils.createValue('789', 20),
       ];
@@ -370,7 +374,7 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     it('should return `false` in case the selected value has a code `###RETRACT_VALUE_CODE###`', () => {
       currentAttribute.values = [
         ConfiguratorTestUtils.createValue(
-          '###RETRACT_VALUE_CODE###',
+          Configurator.RetractValueCode,
           undefined,
           true
         ),

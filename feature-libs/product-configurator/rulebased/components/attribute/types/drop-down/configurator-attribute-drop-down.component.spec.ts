@@ -93,7 +93,11 @@ describe('ConfigAttributeDropDownComponent', () => {
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
-  const value1 = createValue('0', 'Please select a value', true);
+  const value1 = createValue(
+    Configurator.RetractValueCode,
+    'Please select a value',
+    true
+  );
   const value2 = createValue('2', 'val2', false);
   const value3 = createValue('3', 'val3', false);
 

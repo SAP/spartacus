@@ -235,6 +235,10 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  protected convertPaV_ID(paV_ID: number): string {
+    return paV_ID === 0 ? Configurator.RetractValueCode : paV_ID.toString();
+  }
+
   protected convertValue(
     sourceValue: Cpq.Value,
     sourceAttribute: Cpq.Attribute,
@@ -245,7 +249,7 @@ export class CpqConfiguratorNormalizer
       return;
     }
     const value: Configurator.Value = {
-      valueCode: sourceValue.paV_ID.toString(),
+      valueCode: this.convertPaV_ID(sourceValue.paV_ID),
       name: sourceValue.valueCode,
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
@@ -357,7 +361,7 @@ export class CpqConfiguratorNormalizer
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         if (
           !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === '0'
+          attribute.selectedSingleValue === Configurator.RetractValueCode
         ) {
           attribute.incomplete = true;
         }

@@ -248,11 +248,7 @@ export class ConfiguratorAttributeBaseComponent {
   protected isNoValueSelected(attribute: Configurator.Attribute): boolean {
     const selectedValue = this.getSelectedValue(attribute);
     if (selectedValue) {
-      return (
-        // TODO: talk to Sascha regarding CPQ
-        selectedValue.valueCode === Configurator.RetractValueCode ||
-        selectedValue.valueCode === '0'
-      );
+      return selectedValue.valueCode === Configurator.RetractValueCode;
     }
     return true;
   }

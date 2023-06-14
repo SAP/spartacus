@@ -404,6 +404,22 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(mappedConfiguration.pricingEnabled).toBe(true);
     });
   });
+
+  describe('convertPaV_ID', () => {
+    it('should return `###RETRACT_VALUE_CODE###` in case pav_ID is zero', () => {
+      expect(cpqConfiguratorNormalizer['convertPaV_ID'](0)).toEqual(
+        Configurator.RetractValueCode
+      );
+    });
+
+    it('should return string of pav_ID', () => {
+      const pav_ID = 8462;
+      expect(cpqConfiguratorNormalizer['convertPaV_ID'](pav_ID)).toEqual(
+        pav_ID.toString()
+      );
+    });
+  });
+
   describe('convertValue', () => {
     it('should convert values', () => {
       const cpqAttr: Cpq.Attribute = {
@@ -431,7 +447,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(value.quantity).toBe(3);
     });
 
-    it('should map prices during value convertion', () => {
+    it('should map prices during value conversion', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -498,7 +514,7 @@ describe('CpqConfiguratorNormalizer', () => {
         values
       );
       expect(values.length).toBe(1);
-      expect(values[0].valueCode).toBe('0');
+      expect(values[0].valueCode).toBe(Configurator.RetractValueCode);
     });
   });
 
