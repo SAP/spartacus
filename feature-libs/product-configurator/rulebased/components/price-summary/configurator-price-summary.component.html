@@ -22,7 +22,12 @@
         </ng-container>
         <div class="cx-summary-row cx-total-price">
           <div class="cx-label">
-            {{ 'configurator.priceSummary.totalPrice' | cxTranslate }}:
+            <ng-container *cxFeatureLevel="'!6.1'">
+              {{ 'configurator.priceSummary.totalPrice' | cxTranslate }}:
+            </ng-container>
+            <ng-container *cxFeatureLevel="'6.1'">
+              {{ 'configurator.priceSummary.totalPricePerItem' | cxTranslate }}:
+            </ng-container>
           </div>
           <div class="cx-amount">
             {{ configuration?.priceSummary?.currentTotal?.formattedValue }}
