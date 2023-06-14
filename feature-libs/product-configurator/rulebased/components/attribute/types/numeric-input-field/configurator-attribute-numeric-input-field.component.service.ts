@@ -274,7 +274,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     negativeAllowed: boolean
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      let input = control.value?.trim();
+      const input = control.value?.trim();
       if (input) {
         return this.getValidationErrorsNumericFormat(
           input,
