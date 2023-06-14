@@ -220,7 +220,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
   /**
    * Get pattern for the message that is displayed when the validation fails. This message e.g. looks like
-   * 'Wrong format, this numerical attribute should be entered according to pattern ##,###,###.##'
+   * 'Enter the number in the following format: ##,###,###.##'
    * for the 'en' locale for an attribute with total length of 10 and 2 decimal places.
    *
    * @param decimalPlaces Number of decimal places
