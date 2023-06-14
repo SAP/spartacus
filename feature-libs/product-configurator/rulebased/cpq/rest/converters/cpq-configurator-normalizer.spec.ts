@@ -405,16 +405,16 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  describe('convertPav_Id', () => {
+  describe('convertPaV_ID', () => {
     it('should return `###RETRACT_VALUE_CODE###` in case pav_ID is zero', () => {
-      expect(cpqConfiguratorNormalizer['convertPav_Id'](0)).toEqual(
+      expect(cpqConfiguratorNormalizer['convertPaV_ID'](0)).toEqual(
         Configurator.RetractValueCode
       );
     });
 
     it('should return string of pav_ID', () => {
       const pav_ID = 8462;
-      expect(cpqConfiguratorNormalizer['convertPav_Id'](pav_ID)).toEqual(
+      expect(cpqConfiguratorNormalizer['convertPaV_ID'](pav_ID)).toEqual(
         pav_ID.toString()
       );
     });

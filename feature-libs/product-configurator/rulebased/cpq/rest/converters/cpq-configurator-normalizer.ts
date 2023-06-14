@@ -235,8 +235,8 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  protected convertPav_Id(pav_Id: number): string {
-    return pav_Id === 0 ? Configurator.RetractValueCode : pav_Id.toString();
+  protected convertPaV_ID(paV_ID: number): string {
+    return paV_ID === 0 ? Configurator.RetractValueCode : paV_ID.toString();
   }
 
   protected convertValue(
@@ -249,7 +249,7 @@ export class CpqConfiguratorNormalizer
       return;
     }
     const value: Configurator.Value = {
-      valueCode: this.convertPav_Id(sourceValue.paV_ID),
+      valueCode: this.convertPaV_ID(sourceValue.paV_ID),
       name: sourceValue.valueCode,
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
