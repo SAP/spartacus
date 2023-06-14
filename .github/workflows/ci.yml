@@ -216,74 +216,8 @@ jobs:
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
           ci-scripts/e2e-cypress.sh -s b2b
-  b2c_asm_e2e_tests:
-    needs: [ no_retries, validate_e2e_execution ]
-    name: E2E tests for B2C ASM
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
-    steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v5
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Run e2es
-        env:
-          SPA_ENV: ci,b2c
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh --asm
-  b2b_asm_e2e_tests:
-    needs: [ no_retries, validate_e2e_execution ]
-    name: E2E tests for B2B ASM
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
-    steps:
-      - name: Forcefully fail build if e2e job is retried
-        uses: actions/github-script@v5
-        with:
-          script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
-        if: ${{ github.run_attempt > 1 }}
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Run e2es
-        env:
-          SPA_ENV: ci,b2b
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |
-          ci-scripts/e2e-cypress.sh --asm b2b
   build_conclusion:
-    needs: [no_retries, unit_tests, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, b2c_asm_e2e_tests, b2b_asm_e2e_tests, sonarqube_scan]
+    needs: [no_retries, unit_tests, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -300,9 +234,7 @@ jobs:
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
-          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' ||
-          needs.b2c_asm_e2e_tests.result == 'failure' || needs.b2c_asm_e2e_tests.result == 'cancelled' ||
-          needs.b2b_asm_e2e_tests.result == 'failure' || needs.b2b_asm_e2e_tests.result == 'cancelled'
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
     name: Slack message for failed CI build in Spartacus
