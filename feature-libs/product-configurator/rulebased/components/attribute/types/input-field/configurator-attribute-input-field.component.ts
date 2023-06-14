@@ -100,7 +100,7 @@ export class ConfiguratorAttributeInputFieldComponent
 
   /**
    * Verifies if the user input has a non-blank value.
-   * @returns isEmpty?
+   * @returns {boolean} - 'True' if the user input is undefined, empty or contains only blanks, otherwise 'false'.
    */
   get isUserInputEmpty(): boolean {
     return (
