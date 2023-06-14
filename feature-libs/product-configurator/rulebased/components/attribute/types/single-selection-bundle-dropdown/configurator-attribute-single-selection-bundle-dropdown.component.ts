@@ -104,6 +104,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     };
   }
 
+  // TODO: CXSPA-3720
   /**
    * Verifies whether a selection value is defined and its value code is not a retract one.
    *

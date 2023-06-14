@@ -91,7 +91,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => result && this.isRequiredAttrWithoutHeaderMsgMandatory()));
+      .pipe(map((result) => result && this.needsRequiredAttributeErrorMsg()));
   }
 
   /**
@@ -135,7 +135,7 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isAttributeWithoutHeaderMsgMandatory(
+  protected isAttributeWithoutErrorMsg(
     uiType: Configurator.UiType | undefined
   ): boolean {
     switch (uiType) {
@@ -166,10 +166,10 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   // TODO (CXSPA-3392): for next major release remove featureConfigService
-  protected isRequiredAttrWithoutHeaderMsgMandatory(): boolean {
+  protected needsRequiredAttributeErrorMsg(): boolean {
     if (this.featureConfigService?.isLevel('6.2')) {
       // TODO: for next major release this condition should be proved
-      return this.isRequiredWithoutHeaderMsgMandatory();
+      return this.isRequiredAttributeWithoutErrorMsg();
     } else {
       return this.isRequiredAttributeWithDomain();
     }
@@ -182,10 +182,10 @@ export class ConfiguratorAttributeHeaderComponent
     );
   }
 
-  protected isRequiredWithoutHeaderMsgMandatory(): boolean {
+  protected isRequiredAttributeWithoutErrorMsg(): boolean {
     return (
       this.isRequiredErrorMsg(this.attribute) &&
-      this.isAttributeWithoutHeaderMsgMandatory(this.attribute.uiType)
+      this.isAttributeWithoutErrorMsg(this.attribute.uiType)
     );
   }
 

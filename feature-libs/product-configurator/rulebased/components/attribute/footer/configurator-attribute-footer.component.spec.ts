@@ -372,6 +372,46 @@ describe('ConfigAttributeFooterComponent', () => {
     });
   });
 
+  describe('needsUserInputMessage', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2');
+    });
+
+    it('should not display user input message because attribute is not required', () => {
+      component.attribute.required = false;
+      fixture.detectChanges();
+      expect(component['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should not display user input message because attribute is complete', () => {
+      component.attribute.incomplete = false;
+      fixture.detectChanges();
+      expect(component['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should not display user input message because attribute user input is not empty', () => {
+      component.attribute.userInput = ' test ';
+      fixture.detectChanges();
+      expect(component['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should not display user input message for another UI type', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
+      fixture.detectChanges();
+      expect(component['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should display user input message for UI type `STRING`', () => {
+      expect(component['needsUserInputMessage']()).toBe(true);
+    });
+
+    it('should display user input message for UI type `NUMERIC`', () => {
+      component.attribute.uiType = Configurator.UiType.NUMERIC;
+      fixture.detectChanges();
+      expect(component['needsUserInputMessage']()).toBe(true);
+    });
+  });
+
   describe('Accessibility', () => {
     beforeEach(() => {
       createComponentWithData('6.2', true);

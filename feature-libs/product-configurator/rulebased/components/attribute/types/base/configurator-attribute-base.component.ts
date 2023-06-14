@@ -220,23 +220,17 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   protected isUserInput(attribute: Configurator.Attribute): boolean {
-    switch (attribute.uiType) {
-      case Configurator.UiType.STRING:
-      case Configurator.UiType.NUMERIC: {
-        return true;
-      }
-    }
-    return false;
+    return (
+      attribute.uiType === Configurator.UiType.STRING ||
+      attribute.uiType === Configurator.UiType.NUMERIC
+    );
   }
 
   protected isDropDown(attribute: Configurator.Attribute): boolean {
-    switch (attribute.uiType) {
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.DROPDOWN_PRODUCT: {
-        return true;
-      }
-    }
-    return false;
+    return (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT
+    );
   }
 
   protected getSelectedValue(

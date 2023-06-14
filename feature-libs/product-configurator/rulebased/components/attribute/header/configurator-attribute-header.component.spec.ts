@@ -1078,14 +1078,12 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isAttributeWithDomainAndDropDown', () => {
+  describe('isAttributeWithoutErrorMsg', () => {
     it('should return `false` because attribute UI type is `Configurator.UiType.NOT_IMPLEMENTED`', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutHeaderMsgMandatory'](
-          component.attribute.uiType
-        )
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
       ).toBe(false);
     });
 
@@ -1093,9 +1091,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.STRING;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutHeaderMsgMandatory'](
-          component.attribute.uiType
-        )
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
       ).toBe(false);
     });
 
@@ -1103,9 +1099,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.NUMERIC;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutHeaderMsgMandatory'](
-          component.attribute.uiType
-        )
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
       ).toBe(false);
     });
 
@@ -1113,9 +1107,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutHeaderMsgMandatory'](
-          component.attribute.uiType
-        )
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
       ).toBe(false);
     });
 
@@ -1123,17 +1115,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithoutHeaderMsgMandatory'](
-          component.attribute.uiType
-        )
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
       ).toBe(false);
     });
 
     it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
       expect(
-        component['isAttributeWithoutHeaderMsgMandatory'](
-          component.attribute.uiType
-        )
+        component['isAttributeWithoutErrorMsg'](component.attribute.uiType)
       ).toBe(true);
     });
   });
@@ -1170,39 +1158,31 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isRequiredAttributeWithDomainAndDropDown', () => {
+  describe('isRequiredAttributeWithoutErrorMsg', () => {
     it('should return `false` because because required attribute is `undefined`', () => {
       component.attribute.required = undefined;
       fixture.detectChanges();
-      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
-        false
-      );
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(false);
     });
 
     it('should return `false` because definition of attribute incompleteness is `undefined`', () => {
       component.attribute.incomplete = undefined;
       fixture.detectChanges();
-      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
-        false
-      );
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(false);
     });
 
     it('should return `false` because attribute attribute UI type is `Configurator.UiType.DROPDOWN`', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       fixture.detectChanges();
-      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
-        false
-      );
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(false);
     });
 
     it('should return `true` because attribute attribute UI type is `Configurator.UiType.RADIOBUTTON`', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
-      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
-        true
-      );
+      expect(component['isRequiredAttributeWithoutErrorMsg']()).toBe(true);
     });
   });
 
@@ -1234,12 +1214,12 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('isGreaterOrEqual', () => {
+  describe('needsRequiredAttributeErrorMsg', () => {
     it('should return `true` because the newest release is active', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
-      expect(component['isRequiredAttrWithoutHeaderMsgMandatory']()).toBe(true);
+      expect(component['needsRequiredAttributeErrorMsg']()).toBe(true);
     });
   });
 });

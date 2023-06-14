@@ -70,11 +70,15 @@ export class ConfiguratorAttributeFooterComponent
      */
     this.showRequiredMessageForUserInput$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => (result ? this.isGreaterOrEqual() : false)));
+      .pipe(
+        map((result) =>
+          result ? this.needsRequiredAttributeErrorMsg() : false
+        )
+      );
   }
 
   // TODO (CXSPA-3392): for next major release remove featureConfigService
-  protected isGreaterOrEqual(): boolean {
+  protected needsRequiredAttributeErrorMsg(): boolean {
     if (this.featureConfigService?.isLevel('6.2')) {
       // TODO: for next major release only these requirements should be proved
       return this.needsUserInputMsg() || this.needsDropDownMsg();
@@ -110,6 +114,8 @@ export class ConfiguratorAttributeFooterComponent
 
   /**
    * @deprecated since 6.2
+   *
+   * `needsUserInputMsg` method will be called instead.
    */
   protected needsUserInputMessage(): boolean {
     const uiType = this.attribute.uiType;

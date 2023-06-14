@@ -81,12 +81,6 @@
   aria-atomic="true"
   role="alert"
 >
-  <ng-container *cxFeatureLevel="'!6.2'">
-    <cx-icon [type]="iconType.WARNING"></cx-icon>
-    {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
-  </ng-container>
-  <ng-container *cxFeatureLevel="'6.2'">
-    <cx-icon [type]="iconType.ERROR"></cx-icon>
-    {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
-  </ng-container>
+  <cx-icon [type]="iconType.ERROR"></cx-icon>
+  {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
 </div>
