@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -18,6 +18,7 @@ import {
   take,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
+import { LoggerService } from '../../../logger';
 import { RoutingService } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -28,6 +29,8 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class PageEffects {
+  protected logger = inject(LoggerService);
+
   refreshPage$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -93,7 +96,7 @@ export class PageEffects {
                 of(
                   new CmsActions.LoadCmsPageDataFail(
                     pageContext,
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )

@@ -5,20 +5,21 @@
  */
 
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/base/root';
+import { Injectable, inject } from '@angular/core';
+import { CART_NORMALIZER, Cart, PaymentType } from '@spartacus/cart/base/root';
 import {
-  CheckoutPaymentTypeAdapter,
   CHECKOUT_PAYMENT_TYPE_NORMALIZER,
+  CheckoutPaymentTypeAdapter,
 } from '@spartacus/checkout/b2b/core';
 import {
-  backOff,
   ConverterService,
-  isJaloError,
-  normalizeHttpError,
+  LoggerService,
+  OCC_HTTP_TOKEN,
   Occ,
   OccEndpointsService,
-  OCC_HTTP_TOKEN,
+  backOff,
+  isJaloError,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -27,6 +28,8 @@ import { catchError, map } from 'rxjs/operators';
 export class OccCheckoutPaymentTypeAdapter
   implements CheckoutPaymentTypeAdapter
 {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -41,7 +44,9 @@ export class OccCheckoutPaymentTypeAdapter
     return this.http
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint(), { context })
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({ shouldRetry: isJaloError }),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(CHECKOUT_PAYMENT_TYPE_NORMALIZER)
@@ -69,7 +74,9 @@ export class OccCheckoutPaymentTypeAdapter
         {}
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );
