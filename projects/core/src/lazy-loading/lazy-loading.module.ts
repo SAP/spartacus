@@ -6,10 +6,10 @@
 
 import {
   APP_INITIALIZER,
+  inject,
   ModuleWithProviders,
   NgModule,
   Optional,
-  inject,
 } from '@angular/core';
 import { LoggerService } from '../logger';
 import { LazyModulesService } from './lazy-modules.service';
@@ -20,7 +20,7 @@ export function moduleInitializersFactory(
   moduleInitializerFunctions: (() => any)[]
 ): () => any {
   const logger = inject(LoggerService);
-  const factoryFunction = () => {
+  return () => {
     return Promise.all(
       lazyModuleService.runModuleInitializerFunctions(
         moduleInitializerFunctions
@@ -33,7 +33,6 @@ export function moduleInitializersFactory(
       throw error;
     });
   };
-  return factoryFunction;
 }
 
 @NgModule({})

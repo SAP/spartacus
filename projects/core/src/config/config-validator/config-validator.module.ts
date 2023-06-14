@@ -25,7 +25,7 @@ export function configValidatorFactory(
   validators: ConfigValidator[]
 ): () => void {
   const logger = inject(LoggerService);
-  const validate = () => {
+  return () => {
     if (isDevMode()) {
       configInitializer
         .getStable()
@@ -34,7 +34,6 @@ export function configValidatorFactory(
         );
     }
   };
-  return validate;
 }
 
 /**
