@@ -147,6 +147,12 @@ export function agentLogin(user, pwd): void {
   cy.get('cx-customer-selection').should('exist');
 }
 
+export function agentLogin2(user, pwd): void {
+  cy.get('cx-storefront cx-csagent-login-form').should('exist').then(($element) => {
+    agentLogin(user, pwd)
+  });
+}
+
 export function asmOpenCustomerList(): void {
   cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
   cy.get('cx-customer-list').should('exist');
@@ -490,7 +496,7 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLogin('asagent', 'pw4all');
+    asm.agentLogin2('asagent', 'pw4all');
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);
