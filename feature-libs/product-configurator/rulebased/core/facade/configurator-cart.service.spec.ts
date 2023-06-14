@@ -50,16 +50,19 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
   entries: [
     {
+      entryNumber: 1,
       statusSummaryList: [
         { status: OrderEntryStatus.Success, numberOfIssues: 1 },
       ],
     },
     {
+      entryNumber: 2,
       statusSummaryList: [
         { status: OrderEntryStatus.Error, numberOfIssues: 0 },
       ],
     },
     {
+      entryNumber: 3,
       statusSummaryList: [{ status: OrderEntryStatus.Info, numberOfIssues: 3 }],
     },
   ],
@@ -321,8 +324,9 @@ describe('ConfiguratorCartService', () => {
       );
     });
   });
+
   describe('addToCart', () => {
-    it('should get cart, create addToCartParameters and call addToCart action', () => {
+    it('should get cart, create addToCartParameters and call addToCart action without setting quantity', () => {
       const addToCartParams: Configurator.AddToCartParameters = {
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
@@ -340,7 +344,27 @@ describe('ConfiguratorCartService', () => {
         new ConfiguratorActions.AddToCart(addToCartParams)
       );
     });
+
+    it('should get cart, create addToCartParameters and call addToCart action with setting quantity', () => {
+      const addToCartParams: Configurator.AddToCartParameters = {
+        cartId: CART_GUID,
+        userId: OCC_USER_ID_ANONYMOUS,
+        productCode: PRODUCT_CODE,
+        quantity: 100,
+        configId: CONFIG_ID,
+        owner: OWNER_PRODUCT,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT, 100);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.AddToCart(addToCartParams)
+      );
+    });
   });
+
   describe('updateCartEntry', () => {
     it('should create updateParameters and call updateCartEntry action', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
@@ -401,6 +425,66 @@ describe('ConfiguratorCartService', () => {
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
+      );
+    });
+  });
+
+  describe('getEntry', () => {
+    it('should return undefined because a list of entries is undefined', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: undefined,
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntry('4')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return undefined because a list of entries is empty', () => {
+      const cartEmpty: Cart = {
+        ...cart,
+        entries: [],
+      };
+
+      cartObs = cold('y', {
+        y: cartEmpty,
+      });
+
+      expect(serviceUnderTest.getEntry('4')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return an empty list of entries because the list of entries does not contain a searched entry', () => {
+      const newestCart: Cart = {
+        ...cart,
+      };
+
+      cartObs = cold('y', {
+        y: newestCart,
+      });
+
+      expect(serviceUnderTest.getEntry('5')).toBeObservable(
+        cold('a', { a: undefined })
+      );
+    });
+
+    it('should return a searched entry', () => {
+      const newestCart: Cart = {
+        ...cart,
+      };
+
+      cartObs = cold('y', {
+        y: newestCart,
+      });
+
+      expect(serviceUnderTest.getEntry('2')).toBeObservable(
+        cold('a', { a: newestCart.entries ? newestCart.entries[1] : {} })
       );
     });
   });

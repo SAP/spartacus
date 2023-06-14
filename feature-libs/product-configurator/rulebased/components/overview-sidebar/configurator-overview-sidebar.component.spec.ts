@@ -121,6 +121,14 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     expect(component).toBeDefined();
   });
 
+  it('should support obsolete observable that we keep until next major for compatibility reasons', (done) => {
+    initTestComponent();
+    component.config$.subscribe((config) => {
+      expect(config.configId).toBe(CONFIG_ID);
+      done();
+    });
+  });
+
   it('should render overview menu component by default', () => {
     initTestComponent();
     CommonConfiguratorTestUtilsService.expectElementPresent(
