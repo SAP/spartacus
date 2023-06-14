@@ -47,7 +47,7 @@ export type SsrCallbackFn = (
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache = new RenderingCache(this.ssrOptions);
-  protected logger: ExpressServerLogger;
+  private logger: ExpressServerLogger;
   private templateCache = new Map<string, string>();
 
   /**
@@ -107,9 +107,9 @@ export class OptimizedSsrEngine {
         logger:
           this.ssrOptions.logger === true
             ? this.ssrOptions.logger
-            : this.ssrOptions.logger?.constructor.name,
+            : this.ssrOptions.logger?.constructor?.name,
       },
-    } as ExpressServerLoggerContext);
+    } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed a the start f the server and there is no request available yet.
   }
 
   /**
@@ -338,6 +338,7 @@ export class OptimizedSsrEngine {
   protected log(
     message: string,
     debug = true,
+    //CXSPA-3680 - in a new major, let's make this argument required
     logMetadata?: ExpressServerLoggerContext
   ): void {
     if (debug || this.ssrOptions?.debug) {

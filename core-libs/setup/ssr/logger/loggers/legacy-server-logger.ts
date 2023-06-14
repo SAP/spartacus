@@ -10,8 +10,8 @@ import {
 } from './express-server-logger';
 
 /**
- * @deprecated since 6.2, will be removed in 7.0 as contextual logging will be enabled by default.
- * Default implementation of ServerLogger that delegates log messages to the native `console` object without providing any context.
+ * @deprecated since 6.2, will be removed in a new major version, as contextual logging will be enabled by default.
+ * Default implementation of `ExpressServerLogger` that just delegates log messages to the native `console` object without providing any context.
  * It's used when contextual logging is disabled.
  *
  *

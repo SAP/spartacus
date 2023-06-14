@@ -21,7 +21,7 @@ jest.mock('fs', () => ({
 }));
 const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
-class MockServerLogger implements Partial<ExpressServerLogger> {
+class MockExpressServerLogger implements Partial<ExpressServerLogger> {
   log(message: string, context: ExpressServerLoggerContext): void {
     console.log(message, context);
   }
@@ -811,8 +811,6 @@ describe('OptimizedSsrEngine', () => {
         });
 
         tick(100);
-        // const firstRequest = getRequest(engineRunner, requestUrl);
-        // const secondRequest = getRequest(engineRunner, requestUrl);
 
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `CSR fallback: rendering in progress (${requestUrl})`,
@@ -1191,7 +1189,7 @@ describe('OptimizedSsrEngine', () => {
     });
     it('should use the provided logger', () => {
       new TestEngineRunner({
-        logger: new MockServerLogger() as ExpressServerLogger,
+        logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
               [
@@ -1201,7 +1199,7 @@ describe('OptimizedSsrEngine', () => {
                     "concurrency": 10,
                     "debug": false,
                     "forcedSsrTimeout": 60000,
-                    "logger": "MockServerLogger",
+                    "logger": "MockExpressServerLogger",
                     "maxRenderTime": 300000,
                     "reuseCurrentRendering": true,
                     "timeout": 3000,

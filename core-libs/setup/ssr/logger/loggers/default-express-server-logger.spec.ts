@@ -1,12 +1,14 @@
 import { Request } from 'express';
-import {
-  DefaultExpressServerLogger,
-  ExpressServerLoggerContext,
-} from './express-server-logger';
+import { DefaultExpressServerLogger } from './default-express-server-logger';
+import { ExpressServerLoggerContext } from './express-server-logger';
 
-describe('ExpressServerLogger', () => {
-  const logger = new DefaultExpressServerLogger();
-  jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
+describe('DefaultExpressServerLogger', () => {
+  let logger: DefaultExpressServerLogger;
+
+  beforeEach(() => {
+    logger = new DefaultExpressServerLogger();
+    jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
+  });
 
   describe('logging', () => {
     it('should be defined', () => {

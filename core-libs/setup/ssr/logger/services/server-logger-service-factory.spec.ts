@@ -6,7 +6,7 @@ import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 import { serverLoggerServiceFactory } from './server-logger-service-factory';
 
-class MockServerLogger implements ExpressServerLogger {
+class MockExpressServerLogger implements ExpressServerLogger {
   log = jest.fn();
   warn = jest.fn();
   error = jest.fn();
@@ -19,7 +19,10 @@ describe('serverLoggerServiceFactory', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: REQUEST, useValue: {} },
-        { provide: EXPRESS_SERVER_LOGGER, useValue: new MockServerLogger() },
+        {
+          provide: EXPRESS_SERVER_LOGGER,
+          useValue: new MockExpressServerLogger(),
+        },
         {
           provide: LoggerService,
           useFactory: serverLoggerServiceFactory,
@@ -31,7 +34,10 @@ describe('serverLoggerServiceFactory', () => {
   it('should return PrerenderingLoggerService if REQUEST is not available', () => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: EXPRESS_SERVER_LOGGER, useValue: new MockServerLogger() },
+        {
+          provide: EXPRESS_SERVER_LOGGER,
+          useValue: new MockExpressServerLogger(),
+        },
         {
           provide: LoggerService,
           useFactory: serverLoggerServiceFactory,
