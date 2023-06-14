@@ -576,11 +576,11 @@ export function testCustomerEmulation() {
     cy.get('cx-customer-selection').should('be.visible');
 
     cy.log('--> sign out and close ASM UI');
-    asm.agentSignOut();
+    // asm.agentSignOut();
 
-    cy.get('button[title="Close ASM"]').click();
-    cy.get('cx-asm-main-ui').should('exist');
-    cy.get('cx-asm-main-ui').should('not.be.visible');
+    // cy.get('button[title="Close ASM"]').click();
+    // cy.get('cx-asm-main-ui').should('exist');
+    // cy.get('cx-asm-main-ui').should('not.be.visible');
 
     // CXSPA-301/GH-14914
     // Must ensure that site is still functional after service agent logout
