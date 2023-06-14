@@ -291,4 +291,21 @@ describe('ConfigAttributeInputFieldComponent', () => {
       expect(component.isRequired).toBe(false);
     });
   });
+
+  describe('isUserInputEmpty', () => {
+    it('should return false if a value is present', () => {
+      component.attribute.userInput = 'abc';
+      expect(component.isUserInputEmpty).toBe(false);
+    });
+
+    it('should return true if the user input only contains blanks', () => {
+      component.attribute.userInput = '  ';
+      expect(component.isUserInputEmpty).toBe(true);
+    });
+
+    it('should return true if the ure is no user input', () => {
+      component.attribute.userInput = undefined;
+      expect(component.isUserInputEmpty).toBe(true);
+    });
+  });
 });

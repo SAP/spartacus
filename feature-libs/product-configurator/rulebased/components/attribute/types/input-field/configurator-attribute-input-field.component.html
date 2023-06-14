@@ -7,7 +7,7 @@
       attr.required="{{ attribute.required }}"
       maxlength="{{ attribute.maxlength }}"
       [attr.aria-label]="
-        attribute.userInput === undefined || attribute.userInput.length === 0
+        isUserInputEmpty
           ? ('configurator.a11y.valueOfAttributeBlank'
             | cxTranslate
               : {
@@ -31,13 +31,11 @@
       [formControl]="attributeInputForm"
       class="form-control"
       [class.ng-invalid]="
-        isRequired &&
-        attribute.incomplete &&
-        (!attributeInputForm.value || attributeInputForm.value.length === 0)
+        isRequired && isUserInputEmpty
       "
       maxlength="{{ attribute.maxlength }}"
       [attr.aria-label]="
-        attribute.userInput === undefined || attribute.userInput.length === 0
+        isUserInputEmpty
           ? ('configurator.a11y.valueOfAttributeBlank'
             | cxTranslate
               : {
