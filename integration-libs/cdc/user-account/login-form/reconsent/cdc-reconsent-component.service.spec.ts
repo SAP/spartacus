@@ -3,7 +3,7 @@ import { CdcUserConsentService, CdcJsService } from '@spartacus/cdc/root';
 import { GlobalMessageService } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { CdcReconsentService } from './cdc-reconsent.service';
+import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
 import createSpy = jasmine.createSpy;
 const reconsentIds = ['consent.survey'];
 const userParams = {
@@ -23,11 +23,10 @@ class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
 }
 class MockCdcJsService implements Partial<CdcJsService> {
   didLoad = createSpy();
-  handleLoginError = createSpy();
   loginUserWithoutScreenSet = createSpy();
 }
-describe('CdcReconsentService', () => {
-  let service: CdcReconsentService;
+describe('CdcReconsentComponentService', () => {
+  let service: CdcReconsentComponentService;
   let cdcUserConsentService: CdcUserConsentService;
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
@@ -45,7 +44,7 @@ describe('CdcReconsentService', () => {
         { provide: GlobalMessageService, useClass: mockedGlobalMessageService },
       ],
     });
-    service = TestBed.inject(CdcReconsentService);
+    service = TestBed.inject(CdcReconsentComponentService);
     cdcJsService = TestBed.inject(CdcJsService);
     cdcUserConsentService = TestBed.inject(CdcUserConsentService);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -142,13 +141,13 @@ describe('CdcReconsentService', () => {
   });
   describe('handleReconsentUpdateError', () => {
     it('should close dialog and raise error', () => {
-      cdcJsService.handleLoginError = createSpy().and.stub();
       launchDialogService.closeDialog = createSpy().and.stub();
-      service.handleReconsentUpdateError('error message');
-      expect(cdcJsService.handleLoginError).toHaveBeenCalledWith({
-        status: 'FAIL',
-        errorMessage: 'error message',
-      });
+      globalMessageService.add = createSpy().and.stub();
+      service.handleReconsentUpdateError(
+        'Error During Reconsent Update',
+        'error message'
+      );
+      expect(globalMessageService.add).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'Error During Reconsent Update'
       );

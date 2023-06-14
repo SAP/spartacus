@@ -18,12 +18,12 @@ export class CdcUserPreferenceSerializer
   convert(source: ConsentTemplate, target?: any): any {
     if (source) {
       const preference = source.id?.concat('.isConsentGranted');
+      let giveConsent: boolean = false;
       if (preference) {
         if (source.currentConsent?.consentGivenDate) {
-          target = this.convertToCdcPreference(preference, true);
-        } else {
-          target = this.convertToCdcPreference(preference, false);
+          giveConsent = true;
         }
+        target = this.convertToCdcPreference(preference, giveConsent);
       }
     }
 

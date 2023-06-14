@@ -25,7 +25,6 @@ import {
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { RegisterComponentService } from './register-component.service';
-import { RegisterConsentsService } from './register-consents.service';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
@@ -42,7 +41,6 @@ import { RegisterComponent } from './register.component';
     PasswordVisibilityToggleModule,
   ],
   providers: [
-    RegisterConsentsService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {

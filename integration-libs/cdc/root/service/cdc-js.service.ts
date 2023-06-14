@@ -331,7 +331,7 @@ export class CdcJsService implements OnDestroy {
    *
    * @param response
    */
-  handleLoginError(response: any) {
+  protected handleLoginError(response: any) {
     if (response && response.status === 'FAIL') {
       this.globalMessageService.add(
         {

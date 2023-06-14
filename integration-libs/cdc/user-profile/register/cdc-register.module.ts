@@ -20,12 +20,8 @@ import {
   NgSelectA11yModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  RegisterComponentService,
-  RegisterConsentsService,
-} from '@spartacus/user/profile/components';
+import { RegisterComponentService } from '@spartacus/user/profile/components';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
-import { CdcRegisterConsentsService } from './cdc-register-consents.service';
 
 @NgModule({
   imports: [
@@ -47,10 +43,6 @@ import { CdcRegisterConsentsService } from './cdc-register-consents.service';
             {
               provide: RegisterComponentService,
               useClass: CDCRegisterComponentService,
-            },
-            {
-              provide: RegisterConsentsService,
-              useClass: CdcRegisterConsentsService,
             },
           ],
         },

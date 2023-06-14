@@ -29,7 +29,6 @@ import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
-import { RegisterConsentsService } from './register-consents.service';
 
 @Component({
   selector: 'cx-register',
@@ -63,7 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         disabled: this.isConsentRequired(),
       }),
       additionalConsents:
-        this.registerConsentsService?.generateAdditionalConsentsFormControl(),
+        this.registerComponentService?.generateAdditionalConsentsFormControl(),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -96,7 +95,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService,
-    protected registerConsentsService?: RegisterConsentsService
   ) {}
 
   ngOnInit() {
@@ -152,7 +150,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
 
     this.additionalRegistrationConsents =
-      this.registerConsentsService?.loadAdditionalConsents() || [];
+      this.registerComponentService?.getAdditionalConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

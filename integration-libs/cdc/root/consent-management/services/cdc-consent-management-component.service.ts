@@ -6,21 +6,21 @@
 
 import { Injectable } from '@angular/core';
 import { ConsentTemplate } from '@spartacus/core';
-import { ConsentManagementService } from '@spartacus/storefront';
+import { ConsentManagementComponentService } from '@spartacus/storefront';
 import { CdcLocalStorageTemplate } from '../model/index';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CdcConsentManagementService extends ConsentManagementService {
+export class CdcConsentManagementComponentService extends ConsentManagementComponentService {
   constructor(protected store: CdcConsentsLocalStorageService) {
     super();
   }
   getRequiredConsents(templateList: ConsentTemplate[]): string[] {
     let requiredConsents: string[] = [];
     const cdcConsents = this.getCdcConsentIDs(true);
-    requiredConsents = super.getRequiredConsents(templateList);
+    requiredConsents.push(...super.getRequiredConsents(templateList));
     requiredConsents.push(...cdcConsents);
     return requiredConsents;
   }

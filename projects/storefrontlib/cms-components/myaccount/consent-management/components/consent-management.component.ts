@@ -30,7 +30,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { ConsentManagementService } from '../consent-management.service';
+import { ConsentManagementComponentService } from '../consent-management-component.service';
 
 @Component({
   selector: 'cx-consent-management',
@@ -51,7 +51,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected authService: AuthService,
-    protected consentManagementService?: ConsentManagementService
+    protected consentManagementComponentService?: ConsentManagementComponentService
   ) {}
 
   ngOnInit(): void {
@@ -97,8 +97,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         }
       }),
       map(([templateList, anonymousTemplates]) => {
-        this.requiredConsents = this?.consentManagementService
-          ? this.consentManagementService.getRequiredConsents(templateList)
+        this.requiredConsents = this.consentManagementComponentService
+          ? this.consentManagementComponentService.getRequiredConsents(templateList)
           : [];
         if (this.anonymousConsentsConfig.anonymousConsents) {
           if (

@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cdc-consent-management.service';
+export * from './cdc-consent-management-component.service';
 export * from './cdc-consents-local-storage.service';
 export * from './cdc-user-consent.service';

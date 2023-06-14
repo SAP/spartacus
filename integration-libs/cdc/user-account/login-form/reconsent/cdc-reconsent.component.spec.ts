@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { CdcJsService } from '../../../root/service';
 import { of, Subscription } from 'rxjs';
 import { CdcReconsentComponent } from './cdc-reconsent.component';
-import { CdcReconsentService } from './cdc-reconsent.service';
-import createSpy = jasmine.createSpy;
+import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
 import { AnonymousConsentsService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import createSpy = jasmine.createSpy;
 const reconsentEvent = {
   user: 'sample@user.com',
   password: 'password',
@@ -18,24 +17,20 @@ class MockSubscription {
   unsubscribe() {}
   add() {}
 }
-class MockCdcReconsentService implements Partial<CdcReconsentService> {
+class MockCdcReconsentService implements Partial<CdcReconsentComponentService> {
   saveReconsent = createSpy();
+  handleReconsentUpdateError = createSpy();
 }
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog = createSpy();
   data$ = of(reconsentEvent);
 }
-class MockCdcJsService implements Partial<CdcJsService> {
-  handleLoginError = createSpy();
-}
+
 class MockAnonymousConsentsService
   implements Partial<AnonymousConsentsService> {}
 describe('CdcReconsentComponent', () => {
   let component: CdcReconsentComponent;
   let fixture: ComponentFixture<CdcReconsentComponent>;
-  let cdcReconsentService: CdcReconsentService;
-  let cdcJsService: CdcJsService;
-  let launchDialogService: LaunchDialogService;
+  let cdcReconsentService: CdcReconsentComponentService;
   let anonymousConsentsService: AnonymousConsentsService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,16 +41,16 @@ describe('CdcReconsentComponent', () => {
           provide: AnonymousConsentsService,
           useClass: MockAnonymousConsentsService,
         },
-        { provide: CdcJsService, useClass: MockCdcJsService },
-        { provide: CdcReconsentService, useValue: MockCdcReconsentService },
+        {
+          provide: CdcReconsentComponentService,
+          useValue: MockCdcReconsentService,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
       declarations: [CdcReconsentComponent],
     });
-    cdcReconsentService = TestBed.inject(CdcReconsentService);
+    cdcReconsentService = TestBed.inject(CdcReconsentComponentService);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
-    cdcJsService = TestBed.inject(CdcJsService);
-    launchDialogService = TestBed.inject(LaunchDialogService);
     fixture = TestBed.createComponent(CdcReconsentComponent);
     component = fixture.componentInstance;
   });
@@ -135,11 +130,11 @@ describe('CdcReconsentComponent', () => {
       expect(cdcReconsentService.saveReconsent).toHaveBeenCalled();
     });
     it('should not proceed to login', () => {
-      launchDialogService.closeDialog = createSpy().and.stub();
-      cdcJsService.handleLoginError = createSpy().and.stub();
-      component.dismissDialog('Error', 'Error message during login');
-      expect(launchDialogService.closeDialog).toHaveBeenCalled();
-      expect(cdcJsService.handleLoginError).toHaveBeenCalled();
+      cdcReconsentService.handleReconsentUpdateError = createSpy().and.stub();
+      component.dismissDialog('Error Reason', 'Error message during login');
+      expect(
+        cdcReconsentService.handleReconsentUpdateError
+      ).toHaveBeenCalledWith('Error Reason', 'Error message during login');
     });
   });
   describe('ngOnDestroy', () => {

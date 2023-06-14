@@ -20,7 +20,7 @@ import {
   UserConsentService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { ConsentManagementService } from '../consent-management.service';
+import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
@@ -134,7 +134,7 @@ describe('ConsentManagementComponent', () => {
           ConsentManagementComponent,
         ],
         providers: [
-          ConsentManagementService,
+          ConsentManagementComponentService,
           { provide: UserConsentService, useClass: UserConsentServiceMock },
           { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
           {

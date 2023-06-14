@@ -5,14 +5,21 @@
  */
 
 import { Injectable } from '@angular/core';
+import {
+  FormControl,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import {
-  CdcConsentManagementService,
+  CdcConsentManagementComponentService,
   CdcJsService,
   CdcLoadUserTokenFailEvent,
   CDC_USER_PREFERENCE_SERIALIZER,
 } from '@spartacus/cdc/root';
 import {
+  AnonymousConsentsService,
   AuthService,
   Command,
   CommandService,
@@ -67,10 +74,12 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected authService: AuthService,
     protected eventService: EventService,
     protected userProfileFacade: UserProfileFacade,
-    protected cdcConsentManagementService: CdcConsentManagementService,
-    protected converter: ConverterService
+    protected cdcConsentManagementService: CdcConsentManagementComponentService,
+    protected converter: ConverterService,
+    protected fb: UntypedFormBuilder,
+    protected anonymousConsentsService: AnonymousConsentsService
   ) {
-    super(userRegisterFacade, globalMessageService);
+    super(userRegisterFacade, globalMessageService, fb);
   }
 
   /**
@@ -140,5 +149,60 @@ export class CDCRegisterComponentService extends RegisterComponentService {
   // @override
   postRegisterMessage(): void {
     // don't show the message
+  }
+
+  /**
+   * fetch consents that exist in commerce and is active in cdc
+   * @returns array of consent templates
+   */
+  fetchCdcConsentsForRegistration(): ConsentTemplate[] {
+    const consentList: ConsentTemplate[] = [];
+    const cdcActiveConsents: string[] =
+      this.cdcConsentManagementService.getCdcConsentIDs();
+    this.anonymousConsentsService.getTemplates().subscribe((templates) => {
+      if (templates && templates.length > 0) {
+        for (const template of templates) {
+          if (template.id && cdcActiveConsents.includes(template.id)) {
+            consentList.push(template);
+          }
+        }
+      }
+    });
+    return consentList;
+  }
+
+  /**
+   * generates a form array with form control for each consent
+   * @returns a form array
+   */
+  generateAdditionalConsentsFormControl(): UntypedFormArray {
+    const consentArray = this.fb.array([]);
+    const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
+    for (const _template of templates) {
+      consentArray.push(new FormControl(false, [Validators.requiredTrue]));
+    }
+    return consentArray;
+  }
+
+  /**
+   * creates an array of active cdc consents and makes them mandatory to be provided during registration
+   * @returns consent templates in the necessary format for the component
+   */
+  getAdditionalConsents(): {
+    template: ConsentTemplate;
+    required: boolean;
+  }[] {
+    const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
+    const returnConsents: {
+      template: ConsentTemplate;
+      required: boolean;
+    }[] = [];
+    for (const template of templates) {
+      const returnConsent: any = {};
+      returnConsent['template'] = template;
+      returnConsent['required'] = true; //these consents are always mandatory
+      returnConsents.push(returnConsent);
+    }
+    return returnConsents;
   }
 }

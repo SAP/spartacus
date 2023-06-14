@@ -11,7 +11,7 @@ import { LaunchDialogService } from '@spartacus/storefront';
 import { CdcJsService, CdcUserConsentService } from '@spartacus/cdc/root';
 
 @Injectable({ providedIn: 'root' })
-export class CdcReconsentService implements OnDestroy {
+export class CdcReconsentComponentService implements OnDestroy {
   constructor(
     protected cdcUserConsentService: CdcUserConsentService,
     protected cdcJsService: CdcJsService,
@@ -42,13 +42,19 @@ export class CdcReconsentService implements OnDestroy {
               .subscribe({
                 next: (result) => {
                   if (result?.errorCode !== 0) {
-                    this.handleReconsentUpdateError(result?.errorMessage);
+                    this.handleReconsentUpdateError(
+                      'Error During Reconsent Update',
+                      result?.errorMessage
+                    );
                   } else {
                     this.reLogin(userParams.user, userParams.password);
                   }
                 },
                 error: (error) => {
-                  this.handleReconsentUpdateError(error?.message);
+                  this.handleReconsentUpdateError(
+                    'Error During Reconsent Update',
+                    error?.message
+                  );
                 },
               });
           });
@@ -110,13 +116,17 @@ export class CdcReconsentService implements OnDestroy {
    *
    * @param message error message to be displayed after closing reconsent pop up
    */
-  handleReconsentUpdateError(message: string) {
-    this.launchDialogService.closeDialog('Error During Reconsent Update');
-    const response = {
-      status: 'FAIL',
-      errorMessage: message,
-    };
-    this.cdcJsService.handleLoginError(response);
+  handleReconsentUpdateError(reason?: string, message?: string) {
+    this.launchDialogService.closeDialog(reason);
+    this.globalMessageService.add(
+      {
+        key: 'httpHandlers.badRequestPleaseLoginAgain',
+        params: {
+          errorMessage: message,
+        },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

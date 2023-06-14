@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ConsentTemplate } from '@spartacus/core';
-import { CdcConsentManagementService } from './cdc-consent-management.service';
+import { CdcConsentManagementComponentService } from './cdc-consent-management-component.service';
 import { CdcConsentsLocalStorageService } from './cdc-consents-local-storage.service';
 import createSpy = jasmine.createSpy;
 
@@ -23,7 +23,7 @@ class MockCdcConsentsLocalStorageService
 }
 
 describe('CdcConsentManagementService', () => {
-  let service: CdcConsentManagementService;
+  let service: CdcConsentManagementComponentService;
   let store: CdcConsentsLocalStorageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +36,7 @@ describe('CdcConsentManagementService', () => {
         },
       ],
     });
-    service = TestBed.inject(CdcConsentManagementService);
+    service = TestBed.inject(CdcConsentManagementComponentService);
     store = TestBed.inject(CdcConsentsLocalStorageService);
     TestBed.compileComponents();
   });

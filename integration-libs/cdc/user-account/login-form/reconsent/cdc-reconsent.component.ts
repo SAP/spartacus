@@ -11,7 +11,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { CdcJsService } from '@spartacus/cdc/root';
 import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
 import {
   FocusConfig,
@@ -20,7 +19,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CdcReconsentService } from './cdc-reconsent.service';
+import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog', //reusing existing selector
@@ -50,9 +49,8 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected cdcJsService: CdcJsService,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected cdcReconsentService: CdcReconsentService
+    protected cdcReconsentService: CdcReconsentComponentService
   ) {}
 
   ngOnInit(): void {
@@ -107,12 +105,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
         this.reconsentEvent
       );
     } else {
-      this.launchDialogService.closeDialog(reason);
-      const response = {
-        status: 'FAIL',
-        errorMessage: message,
-      };
-      this.cdcJsService.handleLoginError(response);
+      this.cdcReconsentService.handleReconsentUpdateError(reason, message);
     }
   }
 

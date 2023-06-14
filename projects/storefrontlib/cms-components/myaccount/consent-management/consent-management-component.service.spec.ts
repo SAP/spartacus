@@ -1,27 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { AnonymousConsentsConfig, ConsentTemplate } from '@spartacus/core';
-import { ConsentManagementService } from './consent-management.service';
+import { ConsentManagementComponentService } from './consent-management-component.service';
 const mockAnonymousConsentsConfig = {
   anonymousConsents: {
     requiredConsents: ['test.required.consent'],
   },
 };
 const mockOutput = ['test.required.consent'];
-describe('ConsentManagementService', () => {
-  let service: ConsentManagementService;
+describe('ConsentManagementComponentService', () => {
+  let service: ConsentManagementComponentService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [],
       providers: [
-        ConsentManagementService,
+        ConsentManagementComponentService,
         {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
       ],
     });
-    service = TestBed.inject(ConsentManagementService);
+    service = TestBed.inject(ConsentManagementComponentService);
     TestBed.compileComponents();
   });
   it('should create service', () => {
