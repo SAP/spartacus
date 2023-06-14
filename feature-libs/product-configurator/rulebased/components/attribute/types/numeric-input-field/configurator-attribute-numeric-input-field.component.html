@@ -27,11 +27,11 @@
   <ng-container *cxFeatureLevel="'6.2'">
     <input
       [formControl]="attributeInputForm"
-      [required]="isRequired"
       class="form-control"
       [ngClass]="{
         'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
       }"
+      [class.ng-invalid]="isRequired && isUserInputEmpty"
       [attr.aria-describedby]="
         mustDisplayValidationMessage()
           ? createAttributeUiKey('label', attribute.name) +

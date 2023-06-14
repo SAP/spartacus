@@ -139,6 +139,16 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   /**
+   * Checks if the user input has a non blank value.
+   * @returns isEmpty?
+   */
+  get isUserInputEmpty(): boolean {
+    return (
+      !this.attribute.userInput || this.attribute.userInput.trim().length === 0
+    );
+  }
+
+  /**
    * Checks if the component needs to be marked as required.
    * This is never the case if it is used as sub component for an attribute type which allows an additional value
    * @returns Required?

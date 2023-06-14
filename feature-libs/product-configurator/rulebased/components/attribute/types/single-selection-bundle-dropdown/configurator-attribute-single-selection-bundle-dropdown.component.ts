@@ -104,6 +104,11 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     };
   }
 
+  /**
+   * Verifies whether a selection value is defined and its value code is not a retract one.
+   *
+   * @returns {boolean} - 'True' if a selection value is defined and its value code is not a retract one, otherwise 'false'.
+   */
   isNotRetractValue(): boolean {
     return (
       (this.selectionValue &&
@@ -112,6 +117,12 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     );
   }
 
+  /**
+   * Verifies whether a value code is a retract one.
+   *
+   * @param {string} valueCode - Value code
+   * @returns {boolean} - 'True' if a value code is a retract one, otherwise 'false'.
+   */
   isRetractValue(valueCode: string): boolean {
     return valueCode === Configurator.RetractValueCode;
   }

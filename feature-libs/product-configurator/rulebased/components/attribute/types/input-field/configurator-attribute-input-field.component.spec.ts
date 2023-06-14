@@ -141,6 +141,10 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(styleClasses).toContain('ng-invalid');
   });
 
+  it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
+    expect(component.attributeInputForm.valid).toBe(true);
+  });
+
   it('should set form as touched on init', () => {
     expect(component.attributeInputForm.touched).toEqual(true);
   });
@@ -298,6 +302,23 @@ describe('ConfigAttributeInputFieldComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       expect(component.isRequired).toBe(false);
+    });
+  });
+
+  describe('isUserInputEmpty', () => {
+    it('should return false if a value is present', () => {
+      component.attribute.userInput = 'abc';
+      expect(component.isUserInputEmpty).toBe(false);
+    });
+
+    it('should return true if the user input only contains blanks', () => {
+      component.attribute.userInput = '  ';
+      expect(component.isUserInputEmpty).toBe(true);
+    });
+
+    it('should return true if the ure is no user input', () => {
+      component.attribute.userInput = undefined;
+      expect(component.isUserInputEmpty).toBe(true);
     });
   });
 });
