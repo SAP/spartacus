@@ -1,27 +1,55 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
-  <input
-    [formControl]="attributeInputForm"
-    [required]="isRequired"
-    class="form-control"
-    attr.required="{{ attribute.required }}"
-    maxlength="{{ attribute.maxlength }}"
-    [attr.aria-label]="
-      attribute.userInput === undefined || attribute.userInput.length === 0
-        ? ('configurator.a11y.valueOfAttributeBlank'
-          | cxTranslate
-            : {
-                attribute: attribute.label
-              })
-        : ('configurator.a11y.valueOfAttributeFull'
-          | cxTranslate
-            : {
-                value: attribute.userInput,
-                attribute: attribute.label
-              })
-    "
-    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-    [cxFocus]="{
-      key: createAttributeIdForConfigurator(attribute)
-    }"
-  />
+  <ng-container *cxFeatureLevel="'!6.2'">
+    <input
+      [formControl]="attributeInputForm"
+      [required]="isRequired"
+      class="form-control"
+      attr.required="{{ attribute.required }}"
+      maxlength="{{ attribute.maxlength }}"
+      [attr.aria-label]="
+        isUserInputEmpty
+          ? ('configurator.a11y.valueOfAttributeBlank'
+            | cxTranslate
+              : {
+                  attribute: attribute.label
+                })
+          : ('configurator.a11y.valueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute.userInput,
+                  attribute: attribute.label
+                })
+      "
+      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+      [cxFocus]="{
+        key: createAttributeIdForConfigurator(attribute)
+      }"
+    />
+  </ng-container>
+  <ng-container *cxFeatureLevel="'6.2'">
+    <input
+      [formControl]="attributeInputForm"
+      class="form-control"
+      [class.ng-invalid]="isRequired && isUserInputEmpty"
+      maxlength="{{ attribute.maxlength }}"
+      [attr.aria-label]="
+        isUserInputEmpty
+          ? ('configurator.a11y.valueOfAttributeBlank'
+            | cxTranslate
+              : {
+                  attribute: attribute.label
+                })
+          : ('configurator.a11y.valueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute.userInput,
+                  attribute: attribute.label
+                })
+      "
+      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+      [cxFocus]="{
+        key: createAttributeIdForConfigurator(attribute)
+      }"
+    />
+  </ng-container>
 </div>
