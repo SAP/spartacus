@@ -1083,7 +1083,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithDomainAndDropDown'](
+        component['isAttributeWithoutHeaderMsgMandatory'](
           component.attribute.uiType
         )
       ).toBe(false);
@@ -1093,7 +1093,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.STRING;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithDomainAndDropDown'](
+        component['isAttributeWithoutHeaderMsgMandatory'](
           component.attribute.uiType
         )
       ).toBe(false);
@@ -1103,7 +1103,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.NUMERIC;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithDomainAndDropDown'](
+        component['isAttributeWithoutHeaderMsgMandatory'](
           component.attribute.uiType
         )
       ).toBe(false);
@@ -1113,7 +1113,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithDomainAndDropDown'](
+        component['isAttributeWithoutHeaderMsgMandatory'](
           component.attribute.uiType
         )
       ).toBe(false);
@@ -1123,7 +1123,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       fixture.detectChanges();
       expect(
-        component['isAttributeWithDomainAndDropDown'](
+        component['isAttributeWithoutHeaderMsgMandatory'](
           component.attribute.uiType
         )
       ).toBe(false);
@@ -1131,7 +1131,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it('should return `true` because attribute UI type is `RADIOBUTTON`', () => {
       expect(
-        component['isAttributeWithDomainAndDropDown'](
+        component['isAttributeWithoutHeaderMsgMandatory'](
           component.attribute.uiType
         )
       ).toBe(true);
@@ -1174,7 +1174,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should return `false` because because required attribute is `undefined`', () => {
       component.attribute.required = undefined;
       fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
         false
       );
     });
@@ -1182,7 +1182,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should return `false` because definition of attribute incompleteness is `undefined`', () => {
       component.attribute.incomplete = undefined;
       fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
         false
       );
     });
@@ -1191,7 +1191,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.DROPDOWN;
       fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
         false
       );
     });
@@ -1200,7 +1200,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
-      expect(component['isRequiredAttributeWithDomainAndDropDown']()).toBe(
+      expect(component['isRequiredWithoutHeaderMsgMandatory']()).toBe(
         true
       );
     });
@@ -1239,7 +1239,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.required = true;
       component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       fixture.detectChanges();
-      expect(component['isGreaterOrEqual']()).toBe(true);
+      expect(component['isRequiredAttrWithoutHeaderMsgMandatory']()).toBe(true);
     });
   });
 });

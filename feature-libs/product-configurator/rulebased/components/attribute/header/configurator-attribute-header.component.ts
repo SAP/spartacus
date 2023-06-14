@@ -91,7 +91,7 @@ export class ConfiguratorAttributeHeaderComponent
      */
     this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(map((result) => result && this.isGreaterOrEqual()));
+      .pipe(map((result) => result && this.isRequiredAttrWithoutHeaderMsgMandatory()));
   }
 
   /**
@@ -135,7 +135,7 @@ export class ConfiguratorAttributeHeaderComponent
     return false;
   }
 
-  protected isAttributeWithDomainAndDropDown(
+  protected isAttributeWithoutHeaderMsgMandatory(
     uiType: Configurator.UiType | undefined
   ): boolean {
     switch (uiType) {
@@ -166,10 +166,10 @@ export class ConfiguratorAttributeHeaderComponent
   }
 
   // TODO (CXSPA-3392): for next major release remove featureConfigService
-  protected isGreaterOrEqual(): boolean {
+  protected isRequiredAttrWithoutHeaderMsgMandatory(): boolean {
     if (this.featureConfigService?.isLevel('6.2')) {
       // TODO: for next major release this condition should be proved
-      return this.isRequiredAttributeWithDomainAndDropDown();
+      return this.isRequiredWithoutHeaderMsgMandatory();
     } else {
       return this.isRequiredAttributeWithDomain();
     }
@@ -182,10 +182,10 @@ export class ConfiguratorAttributeHeaderComponent
     );
   }
 
-  protected isRequiredAttributeWithDomainAndDropDown(): boolean {
+  protected isRequiredWithoutHeaderMsgMandatory(): boolean {
     return (
       this.isRequiredErrorMsg(this.attribute) &&
-      this.isAttributeWithDomainAndDropDown(this.attribute.uiType)
+      this.isAttributeWithoutHeaderMsgMandatory(this.attribute.uiType)
     );
   }
 
