@@ -84,11 +84,11 @@ export class ConfiguratorAttributeFooterComponent
   }
 
   protected needsDropDownMsg(): boolean {
-    const needsMsg =
+    return (
       this.isRequiredErrorMsg(this.attribute) &&
       this.isDropDown(this.attribute) &&
-      this.isNoValueSelected(this.attribute);
-    return needsMsg;
+      this.isNoValueSelected(this.attribute)
+    );
   }
 
   /**
@@ -101,11 +101,11 @@ export class ConfiguratorAttributeFooterComponent
   }
 
   protected needsUserInputMsg(): boolean {
-    const needsMsg =
+    return (
       this.isRequiredErrorMsg(this.attribute) &&
       this.isUserInput(this.attribute) &&
-      this.isUserInputEmpty(this.attribute.userInput);
-    return needsMsg;
+      this.isUserInputEmpty(this.attribute.userInput)
+    );
   }
 
   /**
