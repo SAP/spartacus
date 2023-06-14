@@ -303,7 +303,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
       expect(component.isUserInputEmpty).toBe(true);
     });
 
-    it('should return true if the ure is no user input', () => {
+    it('should return true if there is no user input', () => {
       component.attribute.userInput = undefined;
       expect(component.isUserInputEmpty).toBe(true);
     });
