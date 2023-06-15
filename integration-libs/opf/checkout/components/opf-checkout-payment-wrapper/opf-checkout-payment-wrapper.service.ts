@@ -29,12 +29,12 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
-  combineLatest,
   Observable,
+  combineLatest,
   of,
   throwError,
 } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
@@ -51,6 +51,8 @@ export class OpfCheckoutPaymentWrapperService {
     protected winRef: WindowRef
   ) {}
 
+  protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
+
   protected activeCartId: string;
 
   protected renderPaymentMethodEvent$ =
@@ -58,6 +60,27 @@ export class OpfCheckoutPaymentWrapperService {
       isLoading: false,
       isError: false,
     });
+
+  protected executeScriptFromHtml(html: string): void {
+    /**
+     * Verify first if customer is still on the payment and review page.
+     * Then execute script extracted from HTML to render payment provider gateway.
+     */
+    this.routingService
+      .getRouterState()
+      .pipe(
+        take(1),
+        filter(
+          (route) =>
+            route.state.semanticRoute === this.CHECKOUT_REVIEW_SEMANTIC_ROUTE
+        )
+      )
+      .subscribe(() => {
+        setTimeout(() => {
+          this.opfResourceLoaderService.executeScriptFromHtml(html);
+        });
+      });
+  }
 
   getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
     return this.renderPaymentMethodEvent$.asObservable();
@@ -119,9 +142,10 @@ export class OpfCheckoutPaymentWrapperService {
             renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
             data: html,
           });
-          setTimeout(() => {
-            this.opfResourceLoaderService.executeScriptFromHtml(html);
-          });
+
+          if (html) {
+            this.executeScriptFromHtml(html);
+          }
         });
     }
   }
