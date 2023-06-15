@@ -8,6 +8,10 @@
     margin-block-start: 0.5rem;
     margin-block-end: 0.5rem;
 
+    .cx-required-error-msg {
+      border-color: var(--cx-color-danger);
+    }
+
     @include media-breakpoint-up(md) {
       select {
         width: 80%;

@@ -32,6 +32,7 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -63,6 +64,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     attributeComponentContext: ConfiguratorAttributeCompositionContext,
     configuratorCommonsService: ConfiguratorCommonsService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfigService: FeatureConfigService
   );
 
@@ -77,16 +80,24 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     configuratorCommonsService: ConfiguratorCommonsService
   );
 
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService,
+    @Optional()
+    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService,
     // TODO:(CXSPA-3392) for next major release remove feature config service
-    @Optional() protected featureConfigservice?: FeatureConfigService
+    @Optional() protected featureConfigService?: FeatureConfigService
   ) {
-    super(config, attributeComponentContext, configuratorCommonsService);
+    super(
+      config,
+      attributeComponentContext,
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
+    );
     this.language = attributeComponentContext.language;
   }
 
@@ -180,7 +191,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         negativeAllowed
       );
 
-    const validatorArray = this.featureConfigservice?.isLevel('6.2')
+    // TODO (CXSPA-3392): for next major release remove feature level
+    const validatorArray = this.featureConfigService?.isLevel('6.2')
       ? [
           numberFormatValidator,
           this.configAttributeNumericInputFieldService.getIntervalValidator(
