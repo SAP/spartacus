@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  normalizeHttpError,
+  LoggerService,
   SiteContextActions,
   UserIdService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -29,6 +30,8 @@ import { StateWithOrder } from '../order-state';
 
 @Injectable()
 export class OrderDetailsEffect {
+  protected logger = inject(LoggerService);
+
   loadOrderDetails$: Observable<OrderActions.OrderDetailsAction> = createEffect(
     () =>
       this.actions$.pipe(
@@ -44,7 +47,7 @@ export class OrderDetailsEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderDetailsFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -71,7 +74,9 @@ export class OrderDetailsEffect {
               );
 
               return of(
-                new OrderActions.CancelOrderFail(normalizeHttpError(error))
+                new OrderActions.CancelOrderFail(
+                  normalizeHttpError(error, this.logger)
+                )
               );
             })
           );
@@ -102,7 +107,9 @@ export class OrderDetailsEffect {
             }),
             catchError((error) =>
               of(
-                new OrderActions.LoadOrderDetailsFail(normalizeHttpError(error))
+                new OrderActions.LoadOrderDetailsFail(
+                  normalizeHttpError(error, this.logger)
+                )
               )
             )
           );

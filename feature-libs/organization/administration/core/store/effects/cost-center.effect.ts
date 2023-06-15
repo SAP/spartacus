@@ -5,15 +5,16 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   CostCenter,
   EntitiesModel,
-  normalizeHttpError,
+  LoggerService,
   StateUtils,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 import { Budget } from '../../model/budget.model';
@@ -25,6 +26,8 @@ import {
 
 @Injectable()
 export class CostCenterEffects {
+  protected logger = inject(LoggerService);
+
   loadCostCenter$: Observable<
     | CostCenterActions.LoadCostCenterSuccess
     | CostCenterActions.LoadCostCenterFail
@@ -41,7 +44,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.LoadCostCenterFail({
                 costCenterCode,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -77,7 +80,7 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.LoadCostCentersFail({
                 params: payload.params,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -106,7 +109,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.CreateCostCenterFail({
                   costCenterCode: payload.costCenter.code ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -136,7 +139,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.UpdateCostCenterFail({
                   costCenterCode: payload.costCenter.code ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -182,7 +185,7 @@ export class CostCenterEffects {
                     new CostCenterActions.LoadAssignedBudgetsFail({
                       costCenterCode,
                       params,
-                      error: normalizeHttpError(error),
+                      error: normalizeHttpError(error, this.logger),
                     })
                   )
                 )
@@ -216,7 +219,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.AssignBudgetFail({
                   budgetCode,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -249,7 +252,7 @@ export class CostCenterEffects {
               from([
                 new CostCenterActions.UnassignBudgetFail({
                   budgetCode,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

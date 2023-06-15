@@ -6,6 +6,7 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { isDevMode } from '@angular/core';
+import { LoggerService } from '../logger';
 import { HttpErrorModel } from '../model/misc.model';
 
 /**
@@ -17,7 +18,8 @@ import { HttpErrorModel } from '../model/misc.model';
  * (which usually happens when logic in NgRx Effect is not sealed correctly)
  */
 export function normalizeHttpError(
-  error: HttpErrorResponse | HttpErrorModel | any
+  error: HttpErrorResponse | HttpErrorModel | any,
+  logger?: LoggerService
 ): HttpErrorModel | undefined {
   if (error instanceof HttpErrorModel) {
     return error;
@@ -46,10 +48,11 @@ export function normalizeHttpError(
   }
 
   if (isDevMode()) {
-    console.error(
-      'Error passed to normalizeHttpError is not HttpErrorResponse instance',
-      error
-    );
+    const logMessage =
+      'Error passed to normalizeHttpError is not HttpErrorResponse instance';
+    // CXSPA-3680 - use logger by default and make logger required param
+    /* eslint-disable-next-line no-console */
+    logger ? logger.error(logMessage, error) : console.error(logMessage, error);
   }
 
   return undefined;

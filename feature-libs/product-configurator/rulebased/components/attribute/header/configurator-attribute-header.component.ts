@@ -7,10 +7,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   isDevMode,
   OnInit,
   Optional,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { FeatureConfigService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -19,9 +21,9 @@ import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
@@ -42,6 +44,8 @@ export class ConfiguratorAttributeHeaderComponent
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
+
+  protected logger = inject(LoggerService);
 
   constructor(
     configUtils: ConfiguratorStorefrontUtilsService,
@@ -300,7 +304,7 @@ export class ConfiguratorAttributeHeaderComponent
 
   protected logError(text: string): void {
     if (isDevMode()) {
-      console.error(text);
+      this.logger.error(text);
     }
   }
 

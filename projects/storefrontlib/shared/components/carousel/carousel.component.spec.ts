@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
@@ -80,9 +80,10 @@ describe('Carousel Component', () => {
     });
 
     it('should log an error when there is no render template given', () => {
-      spyOn(console, 'error');
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'error');
       component.ngOnInit();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
     });
