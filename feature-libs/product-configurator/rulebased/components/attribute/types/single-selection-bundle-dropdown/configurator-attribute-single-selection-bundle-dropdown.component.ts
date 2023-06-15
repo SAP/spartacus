@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -13,6 +18,7 @@ import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -28,17 +34,40 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   selectionValue: Configurator.Value;
   group: string;
 
+  // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+  );
+
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    quantityService: ConfiguratorAttributeQuantityService,
+    translation: TranslationService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    configuratorCommonsService: ConfiguratorCommonsService
+  );
+
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    @Optional()
+    protected configuratorStorefrontUtilsService?: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configuratorStorefrontUtilsService
     );
 
     this.group = attributeComponentContext.group.id;
@@ -73,5 +102,29 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       itemCount: 0,
       itemIndex: 0,
     };
+  }
+
+  // TODO: CXSPA-3720
+  /**
+   * Verifies whether a selection value is defined and its value code is not a retract one.
+   *
+   * @returns {boolean} - 'True' if a selection value is defined and its value code is not a retract one, otherwise 'false'.
+   */
+  isNotRetractValue(): boolean {
+    return (
+      (this.selectionValue &&
+        this.selectionValue?.valueCode !== Configurator.RetractValueCode) ??
+      false
+    );
+  }
+
+  /**
+   * Verifies whether a value code is a retract one.
+   *
+   * @param {string} valueCode - Value code
+   * @returns {boolean} - 'True' if a value code is a retract one, otherwise 'false'.
+   */
+  isRetractValue(valueCode: string): boolean {
+    return valueCode === Configurator.RetractValueCode;
   }
 }
