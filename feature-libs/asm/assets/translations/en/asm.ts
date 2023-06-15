@@ -110,6 +110,15 @@ export const asm = {
       searchBox: 'Search',
       enterSearchBox: 'Enter customer name or email',
     },
+    switchCustomer: {
+      dialog: {
+        title: 'Warning',
+        body: 'Clicking "Switch Customer" will end the emulation for "{{ customerA }}" and start for "{{ customerB }}". Any unsaved changes for "{{ customerA }}" will be lost.',
+        actions: {
+          switch: 'Switch Customer',
+        },
+      },
+    },
     saveCart: {
       saveCartBtn: 'Save for Later',
       dialog: {
