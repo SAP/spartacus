@@ -52,7 +52,6 @@ context('Assisted Service Module', () => {
       checkout.placeOrderWithCheapProduct();
 
       cy.log('--> sign out and close ASM UI');
-      // asm.agentSignOut();
     });
   });
 
