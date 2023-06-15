@@ -274,7 +274,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     negativeAllowed: boolean
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const input: string = control.value;
+      const input = control.value?.trim();
       if (input) {
         return this.getValidationErrorsNumericFormat(
           input,
@@ -348,7 +348,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     currentValue?: string
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const input: string = control.value;
+      const input = control.value?.trim();
       if (
         input &&
         input !== currentValue && //this is to ensure that selected interval consisting of only one value will not lead to a validation error

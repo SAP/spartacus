@@ -2,26 +2,50 @@
   this.getHelpTextForInterval()
 }}</label>
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
-  <input
-    [formControl]="attributeInputForm"
-    [required]="isRequired"
-    class="form-control"
-    [attr.aria-describedby]="
-      mustDisplayValidationMessage()
-        ? createAttributeUiKey('label', attribute.name) +
-          ' ' +
-          createAttributeUiKey('attribute-msg', attribute.name)
-        : createAttributeUiKey('label', attribute.name)
-    "
-    attr.role="{{ attribute.dataType }}"
-    attr.required="{{ attribute.required }}"
-    (change)="onChange()"
-    maxlength="{{ attribute.maxlength }}"
-    [attr.aria-label]="getAriaLabelComplete()"
-    [cxFocus]="{
-      key: createAttributeIdForConfigurator(attribute)
-    }"
-  />
+  <ng-container *cxFeatureLevel="'!6.2'">
+    <input
+      [formControl]="attributeInputForm"
+      [required]="isRequired"
+      class="form-control"
+      [attr.aria-describedby]="
+        mustDisplayValidationMessage()
+          ? createAttributeUiKey('label', attribute.name) +
+            ' ' +
+            createAttributeUiKey('attribute-msg', attribute.name)
+          : createAttributeUiKey('label', attribute.name)
+      "
+      attr.role="{{ attribute.dataType }}"
+      attr.required="{{ attribute.required }}"
+      (change)="onChange()"
+      maxlength="{{ attribute.maxlength }}"
+      [attr.aria-label]="getAriaLabelComplete()"
+      [cxFocus]="{
+        key: createAttributeIdForConfigurator(attribute)
+      }"
+    />
+  </ng-container>
+  <ng-container *cxFeatureLevel="'6.2'">
+    <input
+      [formControl]="attributeInputForm"
+      [class.ng-invalid]="isRequired && isUserInputEmpty"
+      class="form-control"
+      [attr.aria-describedby]="
+        mustDisplayValidationMessage()
+          ? createAttributeUiKey('label', attribute.name) +
+            ' ' +
+            createAttributeUiKey('attribute-msg', attribute.name)
+          : createAttributeUiKey('label', attribute.name)
+      "
+      attr.role="{{ attribute.dataType }}"
+      attr.required="{{ attribute.required }}"
+      (change)="onChange()"
+      maxlength="{{ attribute.maxlength }}"
+      [attr.aria-label]="getAriaLabelComplete()"
+      [cxFocus]="{
+        key: createAttributeIdForConfigurator(attribute)
+      }"
+    />
+  </ng-container>
 </div>
 <div
   class="cx-validation-msg"

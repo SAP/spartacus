@@ -5,13 +5,14 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { CheckoutCostCenterAdapter } from '@spartacus/checkout/b2b/core';
 import {
   backOff,
   ConverterService,
   isJaloError,
+  LoggerService,
   normalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -20,6 +21,8 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -34,7 +37,9 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     return this.http
       .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );

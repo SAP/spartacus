@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '../../../global-message/index';
+import { LoggerService } from '../../../logger';
 import { Address } from '../../../model/address.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
@@ -20,6 +21,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserAddressesEffects {
+  protected logger = inject(LoggerService);
+
   loadUserAddresses$: Observable<UserActions.UserAddressesAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -32,7 +35,9 @@ export class UserAddressesEffects {
             }),
             catchError((error) =>
               of(
-                new UserActions.LoadUserAddressesFail(normalizeHttpError(error))
+                new UserActions.LoadUserAddressesFail(
+                  normalizeHttpError(error, this.logger)
+                )
               )
             )
           );
@@ -54,7 +59,9 @@ export class UserAddressesEffects {
               }),
               catchError((error) =>
                 of(
-                  new UserActions.AddUserAddressFail(normalizeHttpError(error))
+                  new UserActions.AddUserAddressFail(
+                    normalizeHttpError(error, this.logger)
+                  )
                 )
               )
             );
@@ -77,7 +84,7 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.UpdateUserAddressFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -101,7 +108,7 @@ export class UserAddressesEffects {
               catchError((error) =>
                 of(
                   new UserActions.DeleteUserAddressFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
