@@ -20,7 +20,10 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { UserRegistrationFormService } from '@spartacus/organization/user-registration/components';
-import { UserRegistrationFacade,OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
+import {
+  UserRegistrationFacade,
+  OrganizationUserRegistrationForm,
+} from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
