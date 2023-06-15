@@ -21,13 +21,11 @@ export class CdcReconsentComponentService implements OnDestroy {
   protected subscription: Subscription = new Subscription();
 
   /**
-   * saves the consent given from reconsent pop-up
+   * saves the consent given from reconsent pop-up and triggers a re-login
    * @param consentId - array of consent IDs
    * @param userParams - data from login session
-   * @returns error message if any
    */
-  saveReconsent(consentId: string[], userParams: any): string {
-    const errorMessage: string = '';
+  saveConsentAndLogin(consentId: string[], userParams: any) {
     this.subscription.add(
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
         if (cdcLoaded) {
@@ -40,61 +38,23 @@ export class CdcReconsentComponentService implements OnDestroy {
             )
             .subscribe({
               next: (result) => {
-                if (result?.errorCode !== 0) {
-                  this.handleReconsentUpdateError(
-                    'Error During Reconsent Update',
-                    result?.errorMessage
-                  );
-                } else {
-                  this.reLogin(userParams.user, userParams.password);
+                if (result?.errorCode === 0) {
+                  //do a automatic re-login
+                  this.cdcJsService
+                    .loginUserWithoutScreenSet(
+                      userParams.user,
+                      userParams.password
+                    )
+                    .subscribe(() => {
+                      this.launchDialogService.closeDialog('relogin triggered');
+                    });
                 }
               },
               error: (error) => {
                 this.handleReconsentUpdateError(
-                  'Error During Reconsent Update',
+                  'Reconsent Error',
                   error?.message
                 );
-              },
-            });
-        } else {
-          // CDC Gigya SDK not loaded, show error to the user
-          this.globalMessageService.add(
-            {
-              key: 'errorHandlers.scriptFailedToLoad',
-            },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      })
-    );
-    return errorMessage;
-  }
-
-  /**
-   * Trigger Login into CDC
-   * @param userId - user id
-   * @param password - password
-   */
-  reLogin(userId: string, password: string): void {
-    this.subscription.add(
-      this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
-        if (cdcLoaded) {
-          // Logging in using CDC Gigya SDK
-          this.cdcJsService
-            .loginUserWithoutScreenSet(userId, password)
-            .subscribe({
-              next: (response) => {
-                if (response?.status === 'OK') {
-                  this.launchDialogService.closeDialog(
-                    'Login completed successfully'
-                  );
-                } else {
-                  this.launchDialogService.closeDialog('Error During Relogin');
-                }
-              },
-              error: () => {
-                //error message already raised in loginUserWithoutScreenSet service
-                this.launchDialogService.closeDialog('Error During Relogin');
               },
             });
         } else {

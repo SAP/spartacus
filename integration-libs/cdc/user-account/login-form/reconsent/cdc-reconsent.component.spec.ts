@@ -125,9 +125,9 @@ describe('CdcReconsentComponent', () => {
   });
   describe('dismissDialog', () => {
     it('should proceed to login', () => {
-      cdcReconsentService.saveReconsent = createSpy().and.stub();
+      cdcReconsentService.saveConsentAndLogin = createSpy().and.stub();
       component.dismissDialog('Proceed To Login');
-      expect(cdcReconsentService.saveReconsent).toHaveBeenCalled();
+      expect(cdcReconsentService.saveConsentAndLogin).toHaveBeenCalled();
     });
     it('should not proceed to login', () => {
       cdcReconsentService.handleReconsentUpdateError = createSpy().and.stub();

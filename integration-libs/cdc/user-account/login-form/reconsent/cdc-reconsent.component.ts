@@ -100,7 +100,7 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   dismissDialog(reason?: any, message?: string): void {
     if (reason === 'Proceed To Login') {
       this.loaded$ = of(false);
-      this.cdcReconsentService.saveReconsent(
+      this.cdcReconsentService.saveConsentAndLogin(
         this.selectedConsents,
         this.reconsentEvent
       );
