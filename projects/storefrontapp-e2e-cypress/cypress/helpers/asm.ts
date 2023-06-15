@@ -147,7 +147,7 @@ export function agentLogin(user, pwd): void {
   cy.get('cx-customer-selection').should('exist');
 }
 
-export function agentLogin2(user, pwd): void {
+export function agentLoginNew(user, pwd): void {
   cy.get('cx-storefront').then(($storefront) => {
     if ($storefront.find('cx-csagent-login-form').length > 0) {
       agentLogin(user, pwd);
@@ -498,7 +498,7 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLogin2('asagent', 'pw4all');
+    asm.agentLoginNew('asagent', 'pw4all');
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);

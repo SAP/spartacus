@@ -36,7 +36,7 @@ context('B2B - ASM Account Checkout', () => {
     checkout.visitHomePage('asm=true');
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
-    asm.agentLogin2('brandon.leclair@acme.com', 'pw4all');
+    asm.agentLoginNew('brandon.leclair@acme.com', 'pw4all');
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 
@@ -49,6 +49,7 @@ context('B2B - ASM Account Checkout', () => {
 
     cy.get('cx-cost-center').within(() => {
       cy.get('select').then((select) => {
+        cy.get('select').select(valid_cost_center);
         if (select.find(`option:contains("${invalid_cost_center}")`).length) {
           cy.get('select').select(invalid_cost_center);
           cy.wait('@costCenterReq')
@@ -63,37 +64,5 @@ context('B2B - ASM Account Checkout', () => {
         }
       });
     });
-    // asm.agentSignOut();
-  });
-
-  it('should not show error on valid cost center', () => {
-    cy.log('--> Agent logging in');
-    checkout.visitHomePage('asm=true');
-    cy.get('cx-asm-main-ui').should('exist');
-    cy.get('cx-asm-main-ui').should('be.visible');
-    asm.agentLogin2('brandon.leclair@acme.com', 'pw4all');
-    cy.log('--> Agent emulate customer');
-    asm.startCustomerEmulation(customer, true);
-
-    b2bCheckout.addB2bProductToCartAndCheckout();
-    cy.get('cx-payment-type').within(() => {
-      cy.findByText('Account').click({ force: true });
-    });
-
-    cy.get('button.btn-primary').should('be.enabled').click({ force: true });
-
-    // cy.intercept('PUT', '*costcenter?costCenterId=*').as('costCenterReq');
-    cy.get('cx-cost-center').within(() => {
-      // cy.get('select').select(invalid_cost_center);
-      // cy.wait('@costCenterReq');
-
-      cy.get('select').select(valid_cost_center);
-    });
-
-    // cy.wait('@costCenterReq').its('response.statusCode').should('eq', 200);
-    // alerts.getErrorAlert().should('not.exist');
-
-    // cy.log('--> sign out');
-    // asm.agentSignOut();
   });
 });

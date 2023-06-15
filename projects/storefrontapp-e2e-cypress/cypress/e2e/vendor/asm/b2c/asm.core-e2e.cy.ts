@@ -32,7 +32,7 @@ context('Assisted Service Module', () => {
       cy.log('--> Register user');
       checkout.registerUser(false, customer);
 
-      asm.agentLogin2('asagent', 'pw4all');
+      asm.agentLoginNew('asagent', 'pw4all');
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -76,7 +76,7 @@ context('Assisted Service Module', () => {
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
 
-      asm.agentLogin2('asagent', 'pw4all');
+      asm.agentLoginNew('asagent', 'pw4all');
       login(customer.email, customer.password);
       getErrorAlert().should(
         'contain',
@@ -114,7 +114,7 @@ context('Assisted Service Module', () => {
       const customer = getSampleUser();
       checkout.registerUser(false, customer);
 
-      asm.agentLogin2('asagent', 'pw4all');
+      asm.agentLoginNew('asagent', 'pw4all');
 
       asm.startCustomerEmulation(customer);
 
