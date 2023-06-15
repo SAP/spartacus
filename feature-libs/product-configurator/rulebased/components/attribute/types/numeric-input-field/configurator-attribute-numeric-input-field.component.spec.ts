@@ -13,13 +13,14 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  FeatureConfigService,
+  FeaturesConfig,
   FeaturesConfigModule,
+  FeatureConfigService,
   I18nTestingModule,
   LanguageService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -32,6 +33,7 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 @Directive({
   selector: '[cxFocus]',
@@ -104,6 +106,12 @@ class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
 }
 
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
+}
 class MockFeatureConfigService {
   isLevel(version: string): boolean {
     return version === testVersion;
@@ -155,7 +163,17 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
           { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '*' },
+            },
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
@@ -343,7 +361,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     });
 
     it('should display no issue if input does not match interval but feature config service is not available', () => {
-      component['featureConfigservice'] = undefined;
+      component['featureConfigService'] = undefined;
       checkForIntervalValidity(VALUE_OUTSIDE_ALL_INTERVALS, 0);
     });
 
