@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
+import { LoggerService } from '../../../logger';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
@@ -17,6 +18,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
+  protected logger = inject(LoggerService);
+
   resetConsents$: Observable<UserActions.ResetLoadUserConsents> = createEffect(
     () =>
       this.actions$.pipe(
@@ -33,7 +36,11 @@ export class UserConsentsEffect {
         this.userConsentConnector.loadConsents(userId).pipe(
           map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
           catchError((error) =>
-            of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
+            of(
+              new UserActions.LoadUserConsentsFail(
+                normalizeHttpError(error, this.logger)
+              )
+            )
           )
         )
       )
@@ -61,7 +68,9 @@ export class UserConsentsEffect {
                 | UserActions.UserConsentsAction
                 | GlobalMessageActions.RemoveMessagesByType
               > = [
-                new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
+                new UserActions.GiveUserConsentFail(
+                  normalizeHttpError(error, this.logger)
+                ),
               ];
               if (
                 action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
@@ -91,7 +100,7 @@ export class UserConsentsEffect {
             catchError((error) =>
               of(
                 new UserActions.WithdrawUserConsentFail(
-                  normalizeHttpError(error)
+                  normalizeHttpError(error, this.logger)
                 )
               )
             )

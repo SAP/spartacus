@@ -7,10 +7,11 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
-  defaultSsrOptimizationOptions,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
+
 import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
@@ -75,6 +76,11 @@ function run() {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
+    /* eslint-disable-next-line no-console
+    --
+    It's just an example application file. This message is not crucial
+    to be logged using any special logger. Moreover, we don't have
+    any special logger available in this context. */
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
