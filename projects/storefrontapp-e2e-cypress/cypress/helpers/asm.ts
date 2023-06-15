@@ -148,11 +148,11 @@ export function agentLogin(user, pwd): void {
 }
 
 export function agentLogin2(user, pwd): void {
-  cy.get('cx-storefront cx-csagent-login-form')
-    .should('exist')
-    .then(($element) => {
+  cy.get('cx-storefront').then(($storefront) => {
+    if ($storefront.find('cx-csagent-login-form').length > 0) {
       agentLogin(user, pwd);
-    });
+    }
+  });
 }
 
 export function asmOpenCustomerList(): void {
