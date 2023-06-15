@@ -58,7 +58,6 @@ export class CdcUserConsentService {
       );
       serializedPreference = Object.assign(serializedPreference, preference);
     }
-    console.log(consentCodes, serializedPreference);
     let userId: string = '';
     if (user === undefined) {
       userId = this.getUserID() ?? '';
