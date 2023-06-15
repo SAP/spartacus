@@ -243,7 +243,9 @@ export class ConfiguratorAttributeProductCardComponent
    * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
-    return valueCode && valueCode !== '0' ? true : false;
+    return valueCode && valueCode !== Configurator.RetractValueCode
+      ? true
+      : false;
   }
 
   protected transformToProductType(
