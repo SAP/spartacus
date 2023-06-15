@@ -4,10 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -152,7 +152,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     it('should display price component of selected value for attribute with domain', () => {
       component.attribute.values = myValues;
       fixture.detectChanges();
-      console.log('html:  ' + htmlElem);
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
