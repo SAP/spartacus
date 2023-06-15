@@ -81,32 +81,31 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
-  // TODO: Commented out for SONAR to pass. Uncomment.
-  //  constructor(
-  //    authService: AuthService,
-  //    csAgentAuthService: CsAgentAuthService,
-  //    asmComponentService: AsmComponentService,
-  //    globalMessageService: GlobalMessageService,
-  //    routingService: RoutingService,
-  //    asmService: AsmService,
-  //    userAccountFacade: UserAccountFacade,
-  //    launchDialogService: LaunchDialogService
-  //  );
-  //  /**
-  //   * @deprecated since 7.0
-  //   */
-  //  constructor(
-  //    authService: AuthService,
-  //    csAgentAuthService: CsAgentAuthService,
-  //    asmComponentService: AsmComponentService,
-  //    globalMessageService: GlobalMessageService,
-  //    routingService: RoutingService,
-  //    asmService: AsmService,
-  //    userAccountFacade: UserAccountFacade,
-  //    launchDialogService: LaunchDialogService,
-  //    // eslint-disable-next-line @typescript-eslint/unified-signatures
-  //    featureConfig: FeatureConfigService
-  //  );
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
+    launchDialogService: LaunchDialogService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig: FeatureConfigService
+  );
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,

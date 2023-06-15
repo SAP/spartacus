@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -18,6 +19,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
+import { LoggerService } from '../../../logger';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -28,6 +30,8 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
+  protected logger = inject(LoggerService);
+
   checkConsentVersions$: Observable<
     | AnonymousConsentsActions.LoadAnonymousConsentTemplates
     | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
@@ -43,7 +47,7 @@ export class AnonymousConsentsEffects {
             map((newConsents) => {
               if (!newConsents) {
                 if (isDevMode()) {
-                  console.warn(
+                  this.logger.warn(
                     'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
                   );
                 }
@@ -72,7 +76,7 @@ export class AnonymousConsentsEffects {
             catchError((error) =>
               of(
                 new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                  normalizeHttpError(error)
+                  normalizeHttpError(error, this.logger)
                 )
               )
             )
@@ -114,7 +118,7 @@ export class AnonymousConsentsEffects {
               catchError((error) =>
                 of(
                   new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )

@@ -5,22 +5,25 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  CartValidationAdapter,
   CART_VALIDATION_NORMALIZER,
+  CartValidationAdapter,
 } from '@spartacus/cart/base/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  normalizeHttpError,
+  LoggerService,
   OccEndpointsService,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCartValidationAdapter implements CartValidationAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -33,7 +36,7 @@ export class OccCartValidationAdapter implements CartValidationAdapter {
     });
 
     return this.http.post<any>(url, null).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
+      catchError((error) => throwError(normalizeHttpError(error, this.logger))),
       this.converter.pipeable(CART_VALIDATION_NORMALIZER)
     );
   }

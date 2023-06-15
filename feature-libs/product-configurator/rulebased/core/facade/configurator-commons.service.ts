@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { LoggerService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -22,6 +23,8 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCommonsService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected store: Store<StateWithConfigurator>,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
@@ -138,7 +141,9 @@ export class ConfiguratorCommonsService {
             take(1),
             tap((stable) => {
               if (isDevMode() && cart.code && !stable) {
-                console.warn('Cart is busy, no configuration updates possible');
+                this.logger.warn(
+                  'Cart is busy, no configuration updates possible'
+                );
               }
             }),
             filter((stable) => !cart.code || stable),

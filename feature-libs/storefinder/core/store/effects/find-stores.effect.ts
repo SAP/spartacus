@@ -4,16 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
-import { normalizeHttpError } from '@spartacus/core';
 
 @Injectable()
 export class FindStoresEffect {
+  protected logger = inject(LoggerService);
+
   constructor(
     private actions$: Actions,
     private storeFinderConnector: StoreFinderConnector
@@ -49,7 +51,9 @@ export class FindStoresEffect {
             }),
             catchError((error) =>
               of(
-                new StoreFinderActions.FindStoresFail(normalizeHttpError(error))
+                new StoreFinderActions.FindStoresFail(
+                  normalizeHttpError(error, this.logger)
+                )
               )
             )
           )
@@ -70,7 +74,7 @@ export class FindStoresEffect {
           catchError((error) =>
             of(
               new StoreFinderActions.FindStoreByIdFail(
-                normalizeHttpError(error)
+                normalizeHttpError(error, this.logger)
               )
             )
           )

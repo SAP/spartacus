@@ -10,12 +10,7 @@ import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import {
-  GlobalMessageType,
-  HttpErrorModel,
-  TranslationService,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageType, HttpErrorModel, User } from '@spartacus/core';
 import {
   CustomFormValidators,
   FocusConfig,
@@ -23,7 +18,6 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { CreatedCustomer } from './asm-create-customer-form.model';
 
 @Component({
@@ -39,11 +33,11 @@ export class AsmCreateCustomerFormComponent {
 
   showDialogInfoAlert = true;
 
+  showDialogBackendErrorAlert = false;
+
   globalMessageType = GlobalMessageType;
 
-  showDialogBackendErrorAlerts: boolean[];
-
-  backendErrorMessages: string[];
+  backendErrorMessage: string;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -61,8 +55,7 @@ export class AsmCreateCustomerFormComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected fb: FormBuilder,
-    protected asmCreateCustomerFacade: AsmCreateCustomerFacade,
-    protected translationService: TranslationService
+    protected asmCreateCustomerFacade: AsmCreateCustomerFacade
   ) {}
 
   submitForm(): void {
@@ -112,8 +105,8 @@ export class AsmCreateCustomerFormComponent {
     this.showDialogInfoAlert = false;
   }
 
-  closeDialogBackendErroAlert(index: number): void {
-    this.showDialogBackendErrorAlerts[index] = false;
+  closeDialogBackendErroAlert(): void {
+    this.showDialogBackendErrorAlert = false;
   }
 
   protected onRegisterUserSuccess(user: User): void {
@@ -122,47 +115,7 @@ export class AsmCreateCustomerFormComponent {
 
   protected onRegisterUserFail(error: HttpErrorModel): void {
     this.isLoading$.next(false);
-    this.backendErrorMessages = [];
-    this.showDialogBackendErrorAlerts = [];
-
-    const unknownError = 'httpHandlers.unknownError';
-    const errorDetails = error.details ?? [];
-
-    if (errorDetails.length === 0) {
-      this.addErrorMessage(unknownError);
-    }
-    errorDetails.forEach((errorDetail) => {
-      switch (errorDetail.type || '') {
-        case 'ValidationError':
-          this.addErrorMessage(
-            `asm.createCustomerForm.validationErrors.${errorDetail.subject}`
-          );
-          break;
-        case 'AssistedServiceError':
-          if (errorDetail.message === 'Duplicate User id') {
-            this.addErrorMessage(
-              'asm.createCustomerForm.badRequestDuplicatedEmail',
-              {
-                emailAddress: this.createdCustomer.email,
-              }
-            );
-          } else {
-            this.addErrorMessage(unknownError);
-          }
-          break;
-        default:
-          this.addErrorMessage(unknownError);
-      }
-    });
-  }
-
-  protected addErrorMessage(key: string, options?: unknown): void {
-    this.translationService
-      .translate(key, options)
-      .pipe(first())
-      .subscribe((text) => {
-        this.backendErrorMessages.push(text);
-        this.showDialogBackendErrorAlerts.push(true);
-      });
+    this.backendErrorMessage = error.details?.[0].message ?? '';
+    this.showDialogBackendErrorAlert = true;
   }
 }

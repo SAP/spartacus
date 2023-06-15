@@ -22,15 +22,18 @@ import {
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { merge, Observable, throwError } from 'rxjs';
+import { Observable, merge, throwError } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
   protected registerCommand: Command<{ user: UserSignUp }, User> =
-    this.command.create(({ user }) =>
-      // Registering user through CDC Gigya SDK
-      this.cdcJSService.registerUserWithoutScreenSet(user)
+    this.command.create(
+      ({ user }) =>
+        // Registering user through CDC Gigya SDK
+        this.cdcJSService.registerUserWithoutScreenSet(
+          user
+        ) as unknown as Observable<User>
     );
 
   protected loadUserTokenFailed$: Observable<boolean> = this.eventService
