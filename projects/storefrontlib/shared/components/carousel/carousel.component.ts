@@ -8,11 +8,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   isDevMode,
   OnInit,
   TemplateRef,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -83,11 +85,13 @@ export class CarouselComponent implements OnInit {
   activeSlide: number;
   size$: Observable<number>;
 
+  protected logger = inject(LoggerService);
+
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
   ngOnInit() {
     if (!this.template && isDevMode()) {
-      console.error(
+      this.logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
       return;
