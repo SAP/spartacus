@@ -148,8 +148,8 @@ export function agentLogin(user, pwd): void {
 }
 
 export function agentLoginNew(user, pwd): void {
-  cy.get('cx-storefront').then(($storefront) => {
-    if ($storefront.find('cx-csagent-login-form').length > 0) {
+  cy.get('cx-storefront cx-csagent-login-form').then(($element) => {
+    if ($element.length > 0) {
       agentLogin(user, pwd);
     }
   });
