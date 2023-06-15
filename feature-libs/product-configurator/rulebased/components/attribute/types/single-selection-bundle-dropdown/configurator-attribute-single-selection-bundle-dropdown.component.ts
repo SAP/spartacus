@@ -30,8 +30,9 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
+  readonly RETRACT_VALUE_CODE = Configurator.RetractValueCode;
   attributeDropDownForm = new UntypedFormControl('');
-  selectionValue: Configurator.Value;
+  selectionValue?: Configurator.Value;
   group: string;
 
   // TODO (CXSPA-3392): make ConfiguratorStorefrontUtilsService a required dependency
@@ -84,6 +85,21 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       }
     }
   }
+  /**
+   * Returns selected value. We assume that when this method is called,
+   * a selection has been made before. In case this assumption is false,
+   * an error is thrown
+   * @returns selected value
+   */
+  get selectedValue(): Configurator.Value {
+    let selectedValue: Configurator.Value;
+    if (this.selectionValue) {
+      selectedValue = this.selectionValue;
+    } else {
+      throw new Error('selectedValue called without a defined selectionValue');
+    }
+    return selectedValue;
+  }
 
   /**
    * Extract corresponding product card parameters
@@ -93,7 +109,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extractProductCardParameters(): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: true,
-      productBoundValue: this.selectionValue,
+      productBoundValue: this.selectedValue,
       singleDropdown: true,
       withQuantity: false,
       loading$: this.loading$,
@@ -104,7 +120,6 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     };
   }
 
-  // TODO: CXSPA-3720
   /**
    * Verifies whether a selection value is defined and its value code is not a retract one.
    *
