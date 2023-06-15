@@ -63,7 +63,7 @@ describe('CdcUserConsentAdapter', () => {
         .subscribe();
       expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
         true,
-        'xxxx'
+        ['xxxx']
       );
       httpMock.expectOne((req) => {
         return (
@@ -82,7 +82,7 @@ describe('CdcUserConsentAdapter', () => {
       service.giveConsent('current', 'xxxx', 0).subscribe();
       expect(cdcUserConsentService.updateCdcConsent).not.toHaveBeenCalledWith(
         true,
-        'xxxx'
+        ['xxxx']
       );
     });
     it('should not call Commerce API', () => {
@@ -93,7 +93,7 @@ describe('CdcUserConsentAdapter', () => {
       service.giveConsent('current', 'xxxx', 0).subscribe();
       expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
         true,
-        'xxxx'
+        ['xxxx']
       );
       httpMock.expectNone((req) => {
         return (
@@ -114,7 +114,7 @@ describe('CdcUserConsentAdapter', () => {
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
         false,
-        'xxxx'
+        ['xxxx']
       );
       httpMock.expectOne((req) => {
         return req.method === 'DELETE';
@@ -129,7 +129,7 @@ describe('CdcUserConsentAdapter', () => {
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(cdcUserConsentService.updateCdcConsent).not.toHaveBeenCalledWith(
         false,
-        'xxxx'
+        ['xxxx']
       );
     });
     it('should not call Commerce API', () => {
@@ -140,7 +140,7 @@ describe('CdcUserConsentAdapter', () => {
       service.withdrawConsent('current', 'code', 'xxxx').subscribe();
       expect(cdcUserConsentService.updateCdcConsent).toHaveBeenCalledWith(
         false,
-        'xxxx'
+        ['xxxx']
       );
       httpMock.expectNone((req) => {
         return req.method === 'DELETE';

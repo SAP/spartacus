@@ -18,7 +18,7 @@ export class CdcConsentManagementComponentService extends ConsentManagementCompo
     super();
   }
   getRequiredConsents(templateList: ConsentTemplate[]): string[] {
-    let requiredConsents: string[] = [];
+    const requiredConsents: string[] = [];
     const cdcConsents = this.getCdcConsentIDs(true);
     requiredConsents.push(...super.getRequiredConsents(templateList));
     requiredConsents.push(...cdcConsents);

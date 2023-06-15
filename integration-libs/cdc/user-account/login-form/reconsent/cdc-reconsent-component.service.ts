@@ -31,33 +31,31 @@ export class CdcReconsentComponentService implements OnDestroy {
     this.subscription.add(
       this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
         if (cdcLoaded) {
-          consentId.forEach((consentTemplateId) => {
-            this.cdcUserConsentService
-              .updateCdcConsent(
-                true,
-                consentTemplateId,
-                userParams?.user,
-                userParams?.regToken
-              )
-              .subscribe({
-                next: (result) => {
-                  if (result?.errorCode !== 0) {
-                    this.handleReconsentUpdateError(
-                      'Error During Reconsent Update',
-                      result?.errorMessage
-                    );
-                  } else {
-                    this.reLogin(userParams.user, userParams.password);
-                  }
-                },
-                error: (error) => {
+          this.cdcUserConsentService
+            .updateCdcConsent(
+              true,
+              consentId,
+              userParams?.user,
+              userParams?.regToken
+            )
+            .subscribe({
+              next: (result) => {
+                if (result?.errorCode !== 0) {
                   this.handleReconsentUpdateError(
                     'Error During Reconsent Update',
-                    error?.message
+                    result?.errorMessage
                   );
-                },
-              });
-          });
+                } else {
+                  this.reLogin(userParams.user, userParams.password);
+                }
+              },
+              error: (error) => {
+                this.handleReconsentUpdateError(
+                  'Error During Reconsent Update',
+                  error?.message
+                );
+              },
+            });
         } else {
           // CDC Gigya SDK not loaded, show error to the user
           this.globalMessageService.add(
@@ -113,21 +111,23 @@ export class CdcReconsentComponentService implements OnDestroy {
   }
 
   /**
-   *
-   * @param message error message to be displayed after closing reconsent pop up
+   * Displays error message after closing reconsent dialog
    */
-  handleReconsentUpdateError(reason?: string, message?: string) {
+  handleReconsentUpdateError(reason?: string, errorMessage?: string) {
     this.launchDialogService.closeDialog(reason);
-    this.globalMessageService.add(
-      {
-        key: 'httpHandlers.badRequestPleaseLoginAgain',
-        params: {
-          errorMessage: message,
+    if (errorMessage) {
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage: errorMessage,
+          },
         },
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

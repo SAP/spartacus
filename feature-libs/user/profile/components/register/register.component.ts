@@ -94,7 +94,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
-    protected registerComponentService: RegisterComponentService,
+    protected registerComponentService: RegisterComponentService
   ) {}
 
   ngOnInit() {

@@ -2,7 +2,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { CdcConsentManagementComponentService, CdcJsService } from '@spartacus/cdc/root';
+import {
+  CdcConsentManagementComponentService,
+  CdcJsService,
+} from '@spartacus/cdc/root';
 import {
   AnonymousConsentsService,
   AuthService,
@@ -146,7 +149,9 @@ describe('CdcRegisterComponentService', () => {
     authService = TestBed.inject(AuthService);
     eventService = TestBed.inject(EventService);
     converter = TestBed.inject(ConverterService);
-    cdcConsentManagementService = TestBed.inject(CdcConsentManagementComponentService);
+    cdcConsentManagementService = TestBed.inject(
+      CdcConsentManagementComponentService
+    );
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
     fb = TestBed.inject(UntypedFormBuilder);
     TestBed.compileComponents();

@@ -30,26 +30,35 @@ export class CdcUserConsentService {
   /**
    *
    * @param isConsentGranted - set true - if consent is given; false - if consent is withdrawn
-   * @param consentCode - cdc consent id
+   * @param consentCodes - array of cdc consent ids
    * @param user - If user is not passed, the logged in user id will be fetched and used. If passed, it will be considered.
    * @param regToken - token
    * @returns - returns Observable with error code and status
    */
   updateCdcConsent(
     isConsentGranted: boolean,
-    consentCode: string,
+    consentCodes: string[],
     user?: string,
     regToken?: string
   ): Observable<{ errorCode: number; errorMessage: string }> {
-    const consent: ConsentTemplate = {};
-    consent.id = consentCode;
-    consent.currentConsent = {};
-    if (isConsentGranted) {
-      consent.currentConsent.consentGivenDate = new Date();
-    } else {
-      consent.currentConsent.consentWithdrawnDate = new Date();
+    let consent: ConsentTemplate;
+    let serializedPreference: any = {};
+    for (const consentCode of consentCodes) {
+      consent = {};
+      consent.id = consentCode;
+      consent.currentConsent = {};
+      if (isConsentGranted) {
+        consent.currentConsent.consentGivenDate = new Date();
+      } else {
+        consent.currentConsent.consentWithdrawnDate = new Date();
+      }
+      const preference: any = this.converter.convert(
+        consent,
+        CDC_USER_PREFERENCE_SERIALIZER
+      );
+      serializedPreference = Object.assign(serializedPreference, preference);
     }
-
+    console.log(consentCodes, serializedPreference);
     let userId: string = '';
     if (user === undefined) {
       userId = this.getUserID() ?? '';
@@ -59,10 +68,6 @@ export class CdcUserConsentService {
 
     const currentLanguage = this.getActiveLanguage();
 
-    const serializedPreference: any = this.converter.convert(
-      consent,
-      CDC_USER_PREFERENCE_SERIALIZER
-    );
     return this.cdcJsService
       .setUserConsentPreferences(
         userId,

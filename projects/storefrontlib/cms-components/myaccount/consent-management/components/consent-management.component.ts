@@ -98,7 +98,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       }),
       map(([templateList, anonymousTemplates]) => {
         this.requiredConsents = this.consentManagementComponentService
-          ? this.consentManagementComponentService.getRequiredConsents(templateList)
+          ? this.consentManagementComponentService.getRequiredConsents(
+              templateList
+            )
           : [];
         if (this.anonymousConsentsConfig.anonymousConsents) {
           if (

@@ -92,7 +92,7 @@ describe('CdcUserConsentService()', () => {
       cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
         of(mockCdcSdkOutput)
       );
-      service.updateCdcConsent(true, 'others.survey');
+      service.updateCdcConsent(true, ['others.survey']);
       expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
         'sampleuser@mail.com',
         'en',
@@ -119,7 +119,7 @@ describe('CdcUserConsentService()', () => {
       cdcJsService.setUserConsentPreferences = createSpy().and.returnValue(
         of(mockCdcSdkOutput)
       );
-      service.updateCdcConsent(false, 'others.survey');
+      service.updateCdcConsent(false, ['others.survey']);
       expect(cdcJsService.setUserConsentPreferences).toHaveBeenCalledWith(
         'sampleuser@mail.com',
         'en',
