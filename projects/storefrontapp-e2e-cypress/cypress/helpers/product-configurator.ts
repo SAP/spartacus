@@ -360,8 +360,6 @@ export function checkValueSelected(
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
-  cy.log('valueId: ' + valueId);
-  cy.log('valueName: ' + valueName);
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
     cy.get(`#${valueId} .cx-product-card`).should(
       'have.class',
@@ -373,7 +371,6 @@ export function checkValueSelected(
         // No product card for 'No option selected'
         // The RETRACT_VALUE_CODE constant contains special sing, namely `#`, that should be masked accordingly `\\#`
         const newValueId = valueId.replaceAll('#', '\\#');
-        cy.log('newValueId: ' + newValueId);
         cy.get(`#${newValueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
