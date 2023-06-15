@@ -5,13 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CheckoutOpfUiClearConditionsEventListener } from './opf-ui-clear-conditions.event.listener';
+import { CheckoutOpfEventListener } from './opf-event.listener';
 
 @NgModule({})
 export class OpfEventModule {
-  constructor(
-    _checkoutOpfUiClearConditionsEventListener: CheckoutOpfUiClearConditionsEventListener
-  ) {
+  constructor(_checkoutOpfEventListener: CheckoutOpfEventListener) {
     // Intentional empty constructor
   }
 }

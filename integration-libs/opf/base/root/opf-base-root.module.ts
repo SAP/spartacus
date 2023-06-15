@@ -11,6 +11,7 @@ import { OpfPaymentVerificationComponent } from './components/opf-payment-verifi
 import { defaultOpfRoutingConfig } from './config';
 import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfidValidator } from './config/opf-config-validator';
+import { OpfEventModule } from './events/opf-event.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { opfConfidValidator } from './config/opf-config-validator';
         },
       },
     ]),
+    OpfEventModule,
   ],
   providers: [
     provideDefaultConfig(defaultOpfConfig),

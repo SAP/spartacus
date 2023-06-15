@@ -11,7 +11,17 @@ import { CxEvent } from '@spartacus/core';
  */
 export class OpfUiClearEvent extends CxEvent {
   /**
-   * Emit this event to clear opf ui
+   * Emit type
+   */
+  static readonly type = 'CheckoutOpfUiClearEvent';
+}
+
+/**
+ * Emit this event to force processing payment flag reset
+ */
+export class OpfProcessingPaymentClearEvent extends CxEvent {
+  /**
+   * Emit type
    */
   static readonly type = 'CheckoutOpfUiClearEvent';
 }

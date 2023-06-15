@@ -6,7 +6,7 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
-import { OpfUiClearEvent } from '@spartacus/opf/checkout/root';
+import { OpfUiClearEvent } from '@spartacus/opf/base/root';
 import { Subscription } from 'rxjs';
 import { OpfService } from '../facade/opf.service';
 
