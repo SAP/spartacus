@@ -282,8 +282,8 @@ export class CdcJsService implements OnDestroy {
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
       const message = orgInfo.message;
-      let department = null,
-        position = null;
+      let department = null;
+      let position = null;
       if (message) {
         const msgList = message.replace('\n', '').split(';');
         for(const msg of msgList){
