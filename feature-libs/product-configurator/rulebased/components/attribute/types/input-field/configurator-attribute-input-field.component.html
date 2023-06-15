@@ -30,6 +30,9 @@
     <input
       [formControl]="attributeInputForm"
       class="form-control"
+      [ngClass]="{
+        'cx-required-error-msg ': (showRequiredErrorMessage$ | async)
+      }"
       [class.ng-invalid]="isRequired && isUserInputEmpty"
       maxlength="{{ attribute.maxlength }}"
       [attr.aria-label]="
