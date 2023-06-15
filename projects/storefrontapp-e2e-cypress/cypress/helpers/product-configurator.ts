@@ -367,9 +367,11 @@ export function checkValueSelected(
     );
   } else {
     if (uiType === 'dropdownProduct') {
-      if (valueName === '0') {
-        // no product card for 'no option selected'
-        cy.get(`#${valueId} .cx-product-card`).should('not.exist');
+      if (valueName.includes('RETRACT_VALUE_CODE')) {
+        // No product card for 'No option selected'
+        // The RETRACT_VALUE_CODE constant contains special sing, namely `#`, that should be masked accordingly `\\#`
+        const newValueId = valueId.replaceAll('#', '\\#');
+        cy.get(`#${newValueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
       }
