@@ -12,9 +12,8 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { FeatureConfigService, LoggerService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { FeatureConfigService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
