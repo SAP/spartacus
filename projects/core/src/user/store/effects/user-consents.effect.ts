@@ -85,19 +85,17 @@ export class UserConsentsEffect {
       this.actions$.pipe(
         ofType(UserActions.WITHDRAW_USER_CONSENT),
         map((action: UserActions.WithdrawUserConsent) => action.payload),
-        concatMap(({ userId, consentCode, consentId }) =>
-          this.userConsentConnector
-            .withdrawConsent(userId, consentCode, consentId)
-            .pipe(
-              map(() => new UserActions.WithdrawUserConsentSuccess()),
-              catchError((error) =>
-                of(
-                  new UserActions.WithdrawUserConsentFail(
-                    normalizeHttpError(error)
-                  )
+        concatMap(({ userId, consentCode }) =>
+          this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
+            map(() => new UserActions.WithdrawUserConsentSuccess()),
+            catchError((error) =>
+              of(
+                new UserActions.WithdrawUserConsentFail(
+                  normalizeHttpError(error)
                 )
               )
             )
+          )
         )
       )
   );
