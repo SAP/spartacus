@@ -95,8 +95,10 @@ export class UpdatePasswordComponentService {
   }
 
   protected onError(_error: HttpErrorModel | Error): void {
-    if (_error instanceof HttpErrorModel && _error.details?.[0].type === 'AccessDeniedError')
-    {
+    if (
+      _error instanceof HttpErrorModel &&
+      _error.details?.[0].type === 'AccessDeniedError'
+    ) {
       this.globalMessageService.add(
         { key: 'updatePasswordForm.accessDeniedError' },
         GlobalMessageType.MSG_TYPE_ERROR
