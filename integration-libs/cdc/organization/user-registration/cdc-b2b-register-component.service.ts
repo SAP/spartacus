@@ -20,9 +20,8 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { UserRegistrationFormService } from '@spartacus/organization/user-registration/components';
-import { UserRegistrationFacade } from '@spartacus/organization/user-registration/root';
+import { UserRegistrationFacade,OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { Observable, throwError } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
@@ -91,7 +90,7 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
       return throwError(`The provided user is not valid: ${form.value}`);
     }
 
-    let orgInfo: OrganizationUserRegistrationForm = {
+    const orgInfo: OrganizationUserRegistrationForm = {
       firstName: form.get('firstName')?.value,
       lastName: form.get('lastName')?.value,
       email: form.get('email')?.value,

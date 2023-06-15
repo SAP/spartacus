@@ -281,19 +281,20 @@ export class CdcJsService implements OnDestroy {
       return throwError(null);
     } else {
       const regSource: string = this.winRef.nativeWindow?.location?.href || '';
-      let message = orgInfo.message;
+      const message = orgInfo.message;
       let department = null,
         position = null;
       if (message) {
-        let msgList = message.replace('\n', '').split(';');
-        for (let i = 0; i < msgList.length; i++) {
-          if (msgList[i].toLowerCase().search('department') == 0) {
-            department = msgList[i].split(':')[1].trim();
-          } else if (msgList[i].toLowerCase().search('position') == 0) {
-            position = msgList[i].split(':')[1].trim();
+        const msgList = message.replace('\n', '').split(';');
+        for(let msg of msgList){
+          if (msg.toLowerCase().search('department') === 0) {
+            department = msg.split(':')[1].trim();
+          } else if (msg.toLowerCase().search('position') === 0) {
+            position = msg.split(':')[1].trim();
           }
         }
       }
+
       return this.invokeAPI('accounts.b2b.registerOrganization', {
         organization: {
           name: orgInfo.companyName,
