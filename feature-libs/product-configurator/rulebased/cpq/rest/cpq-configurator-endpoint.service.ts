@@ -5,13 +5,15 @@
  */
 
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { StringTemplate } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
+import { LoggerService, StringTemplate } from '@spartacus/core';
 import { MARKER_HEADER_CPQ_CONFIGURATOR } from '@spartacus/product-configurator/rulebased/root';
 import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorEndpointService {
+  protected logger = inject(LoggerService);
+
   constructor(protected config: CpqConfiguratorEndpointConfig) {}
 
   /**
@@ -46,7 +48,7 @@ export class CpqConfiguratorEndpointService {
 
     if (!endpoint) {
       endpoint = 'configurations';
-      console.warn(
+      this.logger.warn(
         `${endpointName} endpoint configuration missing for cpq backend, please provide it via key: "backend.cpq.endpoints.${endpointName}"`
       );
     }

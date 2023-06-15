@@ -86,8 +86,14 @@ export class CpqConfiguratorSerializer
     return updateAttribute;
   }
 
+  protected processValueCode(valueCode?: string): string | undefined {
+    return valueCode && valueCode === Configurator.RetractValueCode
+      ? '0'
+      : valueCode;
+  }
+
   protected processSelectedSingleValue(singleValue?: string): string {
-    let processedValue = singleValue;
+    let processedValue = this.processValueCode(singleValue);
     if (!processedValue) {
       // Is required to remove the value
       processedValue = VALUE_SEPARATOR;

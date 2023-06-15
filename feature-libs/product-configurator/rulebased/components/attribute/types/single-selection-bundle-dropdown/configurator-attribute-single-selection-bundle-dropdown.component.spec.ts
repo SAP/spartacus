@@ -8,7 +8,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -27,6 +31,10 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 import { StoreModule } from '@ngrx/store';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { Observable, of } from 'rxjs';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -59,6 +67,20 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
+let showRequiredErrorMessage: boolean;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(showRequiredErrorMessage);
+  }
+}
+
+let testVersion: string;
+class MockFeatureConfigService {
+  isLevel(version: string): boolean {
+    return version === testVersion;
+  }
+}
+
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleDropdownComponent>;
@@ -67,7 +89,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   const nameFake = 'nameAttribute';
   const attrCode = 1234;
   const groupId = 'theGroupId';
-  const selectedSingleValue = '0';
+  const selectedSingleValue = Configurator.RetractValueCode;
   let values: Configurator.Value[];
 
   const createImage = (url: string, altText: string): Configurator.Image => {
@@ -99,63 +121,27 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     return value;
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          ConfiguratorShowMoreComponent,
-          MockProductCardComponent,
-          MockConfiguratorAttributeQuantityComponent,
-          MockConfiguratorPriceComponent,
-          MockFocusDirective,
-        ],
-        imports: [
-          ReactiveFormsModule,
-          NgSelectModule,
-          I18nTestingModule,
-          RouterTestingModule,
-          UrlTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-        ],
+  function createComponentWithData(
+    releaseVersion: string,
+    isCartEntryOrGroupVisited: boolean = true
+  ): ConfiguratorAttributeSingleSelectionBundleDropdownComponent {
+    testVersion = releaseVersion;
+    showRequiredErrorMessage = isCartEntryOrGroupVisited;
 
-        providers: [
-          {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
-          },
-        ],
-      })
-        .overrideComponent(
-          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          {
-            set: {
-              changeDetection: ChangeDetectionStrategy.Default,
-              providers: [
-                {
-                  provide: ConfiguratorAttributeProductCardComponent,
-                  useClass: MockProductCardComponent,
-                },
-                {
-                  provide: ConfiguratorAttributeQuantityService,
-                  useClass: ConfiguratorAttributeQuantityService,
-                },
-              ],
-            },
-          }
-        )
-        .compileComponents();
-    })
-  );
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     );
 
     values = [
-      createValue('', [], '', 1, true, '0', 'No Selected'),
+      createValue(
+        '',
+        [],
+        '',
+        1,
+        true,
+        Configurator.RetractValueCode,
+        'No Selected'
+      ),
       createValue(
         'Hih',
         [createImage('url', 'alt')],
@@ -206,24 +192,102 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       groupId,
       name: nameFake,
       required: true,
+      incomplete: true,
       selectedSingleValue,
       values,
     };
 
     fixture.detectChanges();
+    return component;
+  }
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+          ConfiguratorShowMoreComponent,
+          MockProductCardComponent,
+          MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
+          MockFocusDirective,
+          MockFeatureLevelDirective,
+        ],
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          RouterTestingModule,
+          UrlTestingModule,
+          FeaturesConfigModule,
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
+
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ],
+      })
+        .overrideComponent(
+          ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+          {
+            set: {
+              changeDetection: ChangeDetectionStrategy.Default,
+              providers: [
+                {
+                  provide: ConfiguratorAttributeProductCardComponent,
+                  useClass: MockProductCardComponent,
+                },
+                {
+                  provide: ConfiguratorAttributeQuantityService,
+                  useClass: ConfiguratorAttributeQuantityService,
+                },
+              ],
+            },
+          }
+        )
+        .compileComponents();
+    })
+  );
+
+  afterEach(() => {
+    document.body.removeChild(htmlElem);
   });
 
   it('should create', () => {
-    component.ngOnInit();
+    createComponentWithData('6.2');
     expect(component).toBeTruthy();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'select.cx-required-error-msg'
+    );
+  });
+
+  it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
+    createComponentWithData('6.1', false).ngOnInit();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'select.cx-required-error-msg'
+    );
   });
 
   it('should set selectedSingleValue on init', () => {
-    component.ngOnInit();
+    createComponentWithData('6.2').ngOnInit();
     expect(component.attributeDropDownForm.value).toEqual(selectedSingleValue);
   });
 
   it('should show product card when product selected', () => {
+    createComponentWithData('6.2');
     component.selectionValue = values[1];
     fixture.detectChanges();
 
@@ -235,6 +299,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   });
 
   describe('quantity at attribute level', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2').ngOnInit();
+    });
+
     it('should display attribute quantity when dataType is with attribute quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
@@ -315,6 +383,44 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           VALUE_DISPLAY_NAME
         );
       });
+    });
+  });
+
+  describe('isNotRetractValue', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2').ngOnInit();
+    });
+
+    it('should return `true` in case value is `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isNotRetractValue()).toBe(false);
+    });
+
+    it('should return `true` in case selectionValue is `undefined`', () => {
+      component.selectionValue = undefined;
+      fixture.detectChanges();
+      expect(component.isNotRetractValue()).toBe(false);
+    });
+
+    it('should return `true` in case value is not `###RETRACT_VALUE_CODE###`', () => {
+      component.selectionValue = values[1];
+      fixture.detectChanges();
+      expect(component.isNotRetractValue()).toBe(true);
+    });
+  });
+
+  describe('isRetractValue', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2').ngOnInit();
+    });
+
+    it('should return `true` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isRetractValue(Configurator.RetractValueCode)).toBe(
+        true
+      );
+    });
+
+    it('should return `false` in case value is not `###RETRACT_VALUE_CODE###`', () => {
+      expect(component.isRetractValue('8624')).toBe(false);
     });
   });
 });
