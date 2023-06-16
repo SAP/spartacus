@@ -3,11 +3,12 @@
 exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcModule } from "@spartacus/cdc";
+import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
 import { CdcAdministrationModule } from "@spartacus/cdc/organization/administration";
 import { CdcConfig, CdcRootModule } from "@spartacus/cdc/root";
 import { CDCUserAccountModule } from "@spartacus/cdc/user-account";
 import { CDCUserProfileModule } from "@spartacus/cdc/user-profile";
-import { provideConfig } from "@spartacus/core";
+import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,13 @@ import { provideConfig } from "@spartacus/core";
     CDCUserProfileModule,
     CdcAdministrationModule
   ],
-  providers: [provideConfig(<CdcConfig>{
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cdcTranslations,
+      chunks: cdcTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CdcConfig>{
     cdc: [
       {
         baseSite: 'electronics-spa',
@@ -26,7 +33,8 @@ import { provideConfig } from "@spartacus/core";
         sessionExpiration: 3600
       },
     ],
-  })]
+  })
+  ]
 })
 export class CdcFeatureModule { }
 "
@@ -34,8 +42,9 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
+import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from "@spartacus/cdc/root";
-import { CmsConfig, provideConfig } from "@spartacus/core";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -49,6 +58,12 @@ import { CmsConfig, provideConfig } from "@spartacus/core";
           import('@spartacus/cdc').then((m) => m.CdcModule),
       },
     }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cdcTranslations,
+      chunks: cdcTranslationChunksConfig,
+    },
   }),
   provideConfig(<CdcConfig>{
     cdc: [
@@ -115,8 +130,9 @@ export class AdministrationWrapperModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature validation of jsSDKUrl should set the given javascriptUrl 1`] = `
 "import { NgModule } from '@angular/core';
+import { cdcTranslationChunksConfig, cdcTranslations } from "@spartacus/cdc/assets";
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from "@spartacus/cdc/root";
-import { CmsConfig, provideConfig } from "@spartacus/core";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -130,6 +146,12 @@ import { CmsConfig, provideConfig } from "@spartacus/core";
           import('@spartacus/cdc').then((m) => m.CdcModule),
       },
     }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cdcTranslations,
+      chunks: cdcTranslationChunksConfig,
+    },
   }),
   provideConfig(<CdcConfig>{
     cdc: [
