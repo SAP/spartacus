@@ -41,7 +41,7 @@ export function processesLoaderReducer<T>(
         state.processesCount + processesCountDiff < 0
       ) {
         /* eslint-disable-next-line no-console */
-        console.error(
+        console.error( //CXSPA-3670 - extract logging to an effect
           `Action '${action.type}' sets processesCount to value < 0!\n` +
             'Make sure to keep processesCount in sync.\n' +
             'There should always be only one decrement action for each increment action.\n' +

@@ -86,30 +86,33 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    const replacer = (_key: string, value: unknown): unknown => {
-      if (typeof value === 'function') {
-        return value.toString();
-      }
-      if (this.isServerLogger(value)) {
-        return value.constructor.name;
-      }
-      return value;
+    const options = {
+      ...this.ssrOptions,
+      logger:
+        this.ssrOptions.logger === true
+          ? this.ssrOptions.logger
+          : this.ssrOptions.logger?.constructor?.name,
     };
 
-    const stringifiedOptions = JSON.stringify(this.ssrOptions, replacer, 2);
     // This check has been introduced to avoid breaking changes. Remove it in Spartacus version 7.0
-    const message = this.ssrOptions.logger
-      ? `[spartacus] SSR optimization engine initialized`
-      : `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`;
-    this.log(message, true, {
-      options: {
-        ...this.ssrOptions,
-        logger:
-          this.ssrOptions.logger === true
-            ? this.ssrOptions.logger
-            : this.ssrOptions.logger?.constructor?.name,
-      },
-    } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed a the start f the server and there is no request available yet.
+    if (this.ssrOptions.logger) {
+      this.log(`[spartacus] SSR optimization engine initialized`, true, {
+        options,
+      } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed a the start f the server and there is no request available yet.
+    } else {
+      const replacer = (_key: string, value: unknown): unknown => {
+        if (typeof value === 'function') {
+          return value.toString();
+        }
+        return value;
+      };
+
+      const stringifiedOptions = JSON.stringify(options, replacer, 2);
+      this.log(
+        `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
+        true
+      );
+    }
   }
 
   /**
@@ -501,16 +504,5 @@ export class OptimizedSsrEngine {
       return new DefaultExpressServerLogger();
     }
     return ssrOptions?.logger || new LegacyExpressServerLogger();
-  }
-
-  private isServerLogger(logger: unknown): logger is ExpressServerLogger {
-    return (
-      logger instanceof Object &&
-      'log' in logger &&
-      'error' in logger &&
-      'warn' in logger &&
-      'info' in logger &&
-      'debug' in logger
-    );
   }
 }
