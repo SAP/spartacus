@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { commerceQuotes } from './commerce-quotes.i18n';
+import { quote } from './quote.i18n';
 
 export const en = {
-  commerceQuotes,
+  quote: quote,
 };

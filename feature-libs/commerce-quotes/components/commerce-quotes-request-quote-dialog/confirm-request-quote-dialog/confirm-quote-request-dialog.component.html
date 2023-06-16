@@ -10,7 +10,7 @@
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
-          'commerceQuotes.confirmSubmitDialog.title'
+          'quote.confirmSubmitDialog.title'
             | cxTranslate: { code: quoteCode$ | async }
         }}
       </div>
@@ -34,13 +34,13 @@
             <div class="quote-name">
               <div class="heading">
                 {{
-                  'commerceQuotes.confirmSubmitDialog.name.heading'
+                  'quote.confirmSubmitDialog.name.heading'
                     | cxTranslate
                 }}
               </div>
               <div class="content">
                 {{
-                  'commerceQuotes.confirmSubmitDialog.name.content'
+                  'quote.confirmSubmitDialog.name.content'
                     | cxTranslate: { code: quoteCode$ | async }
                 }}
               </div>
@@ -48,7 +48,7 @@
             <div class="quote-description">
               <div class="heading">
                 {{
-                  'commerceQuotes.confirmSubmitDialog.description.heading'
+                  'quote.confirmSubmitDialog.description.heading'
                     | cxTranslate
                 }}
               </div>
@@ -59,13 +59,13 @@
           <div class="notes">
             <p>
               {{
-                'commerceQuotes.confirmSubmitDialog.warningSubmitNote'
+                'quote.confirmSubmitDialog.warningSubmitNote'
                   | cxTranslate
               }}
             </p>
             <p>
               {{
-                'commerceQuotes.confirmSubmitDialog.confirmSubmitNote'
+                'quote.confirmSubmitDialog.confirmSubmitNote'
                   | cxTranslate
               }}
             </p>
@@ -73,13 +73,13 @@
           <div class="cx-dialog-buttons">
             <button class="btn btn-secondary" (click)="dismissModal('no')">
               {{
-                'commerceQuotes.confirmSubmitDialog.confirmSubmitOption.no'
+                'quote.confirmSubmitDialog.confirmSubmitOption.no'
                   | cxTranslate
               }}
             </button>
             <button class="btn btn-primary" (click)="dismissModal('yes')">
               {{
-                'commerceQuotes.confirmSubmitDialog.confirmSubmitOption.yes'
+                'quote.confirmSubmitDialog.confirmSubmitOption.yes'
                   | cxTranslate
               }}
             </button>
