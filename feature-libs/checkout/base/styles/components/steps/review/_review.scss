@@ -21,7 +21,7 @@
     justify-content: space-between;
     flex-direction: row;
 
-    @include forVersion(6.2) {
+    @include forVersion(6.3) {
       background-color: var(--cx-color-inverse);
     }
 
@@ -57,7 +57,7 @@
       border: 1px solid var(--cx-color-light);
       border-radius: 10px;
 
-      @include forVersion(6.2) {
+      @include forVersion(6.3) {
         flex-grow: 1;
       }
 
@@ -68,7 +68,7 @@
           margin-bottom: 40px;
           margin-inline-end: 15px;
 
-          @include forVersion(6.2) {
+          @include forVersion(6.3) {
             margin-inline-start: 0px;
           }
         }
@@ -79,7 +79,7 @@
           margin-bottom: 40px;
           margin-inline-end: 25px;
 
-          @include forVersion(6.2) {
+          @include forVersion(6.3) {
             margin-inline-end: 0px;
           }
         }

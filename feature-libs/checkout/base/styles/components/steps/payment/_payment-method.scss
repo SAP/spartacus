@@ -1,7 +1,7 @@
 %cx-payment-method {
   @include checkout-media-style();
 
-  @include forVersion(6.2) {
+  @include forVersion(6.3) {
     border: 1px solid var(--cx-color-medium);
     border-radius: 10px;
     margin-top: 32px;
@@ -24,9 +24,11 @@
   .cx-payment-card {
     padding-bottom: 30px;
 
-    @include forVersion(6.2) {
+    @include forVersion(6.3) {
       padding-inline-start: 0;
       padding-inline-end: 0;
+      padding-bottom: 0.625rem;
+      margin-bottom: 0.625rem;
 
       @include media-breakpoint-up(lg) {
         &:nth-child(odd) {
@@ -62,14 +64,14 @@
     @include media-breakpoint-down(md) {
       padding-inline-start: 3.5rem;
 
-      @include forVersion(6.2) {
+      @include forVersion(6.3) {
         padding-inline-start: 0;
       }
     }
     @include media-breakpoint-down(sm) {
       padding-inline-start: 1.5rem;
 
-      @include forVersion(6.2) {
+      @include forVersion(6.3) {
         padding-inline-start: 0;
       }
     }
@@ -85,6 +87,36 @@
     .btn-secondary {
       @include media-breakpoint-down(md) {
         margin-bottom: 1rem;
+      }
+    }
+  }
+
+  @include forVersion(6.3) {
+    .cx-checkout-btns-top {
+      display: flex;
+      justify-content: flex-end;
+      padding-inline-start: 1.875rem;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+
+      .btn {
+        width: 50%;
+      }
+    }
+  }
+
+  @include forVersion(6.3) {
+    .cx-checkout-btns-bottom {
+      padding-bottom: 0;
+
+      @include media-breakpoint-up(lg) {
+        display: none;
+      }
+
+      .btn-secondary {
+        margin-bottom: 0;
       }
     }
   }
