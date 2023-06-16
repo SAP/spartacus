@@ -17,23 +17,23 @@ import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-commerce-quotes-request-quote-button',
-  templateUrl: './commerce-quotes-request-quote-button.component.html',
+  selector: 'cx-quote-request-quote-button',
+  templateUrl: './quote-request-quote-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommerceQuotesRequestQuoteButtonComponent implements OnDestroy {
+export class QuoteRequestQuoteButtonComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;
 
   protected subscription = new Subscription();
 
   constructor(
-    protected commerceQuotesFacade: QuoteFacade,
+    protected quoteFacade: QuoteFacade,
     protected routingService: RoutingService
   ) {}
 
   goToQuoteDetails(): void {
     this.subscription.add(
-      this.commerceQuotesFacade
+      this.quoteFacade
         .createQuote(
           {},
           {

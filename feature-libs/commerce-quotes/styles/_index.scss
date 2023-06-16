@@ -1,19 +1,18 @@
-@import './commerce-quotes-list';
-@import './commerce-quotes-request-quote-button';
-@import './commerce-quotes-request-quote-dialog';
-@import './commerce-quotes-details-overview';
-@import './commerce-quotes-details-cart';
-@import './commerce-quotes-action-links';
-@import './commerce-quotes-actions-by-role';
-@import './commerce-quotes-details-vendor-contact';
-@import './confirm-quote-request-dialog';
+@import './quote-list';
+@import './quote-request-quote-button';
+@import './quote-request-quote-dialog';
+@import './quote-details-overview';
+@import './quote-details-cart';
+@import './quote-action-links';
+@import './quote-actions-by-role';
+@import './quote-details-vendor-contact';
+@import './quote-confirm-quote-request-dialog';
 @import './layout/index';
 
 $commerce-quotes-components-allowlist: cx-quote-list cx-quote-details-overview
-  cx-quote-details-cart cx-commerce-quotes-request-quote-button
-  cx-quote-action-links cx-commerce-quotes-request-quote-dialog
-  cx-quote-actions-by-role cx-quote-details-vendor-contact
-  cx-confirm-quote-request-dialog !default;
+  cx-quote-details-cart cx-quote-request-quote-button cx-quote-action-links
+  cx-quote-request-quote-dialog cx-quote-actions-by-role
+  cx-quote-details-vendor-contact cx-quote-confirm-quote-request-dialog !default;
 
 $skipComponentStyles: () !default;
 

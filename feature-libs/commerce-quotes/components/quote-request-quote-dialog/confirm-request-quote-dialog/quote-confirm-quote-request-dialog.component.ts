@@ -15,11 +15,11 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-confirm-quote-request-dialog.component',
-  templateUrl: './confirm-quote-request-dialog.component.html',
+  selector: 'cx-quote-confirm-quote-request-dialog.component',
+  templateUrl: './quote-confirm-quote-request-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmQuoteRequestDialogComponent implements OnInit {
+export class QuoteConfirmQuoteRequestDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   focusConfig: FocusConfig = {

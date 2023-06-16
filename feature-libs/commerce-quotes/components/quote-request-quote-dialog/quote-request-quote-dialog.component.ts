@@ -22,11 +22,11 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-commerce-quotes-request-quote-dialog',
-  templateUrl: './commerce-quotes-request-quote-dialog.component.html',
+  selector: 'cx-quote-request-quote-dialog',
+  templateUrl: './quote-request-quote-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommerceQuotesRequestQuoteDialogComponent {
+export class QuoteRequestQuoteDialogComponent {
   iconTypes = ICON_TYPE;
   requestInProgress$ = new BehaviorSubject<boolean>(false);
   minRequestInitiationValue =

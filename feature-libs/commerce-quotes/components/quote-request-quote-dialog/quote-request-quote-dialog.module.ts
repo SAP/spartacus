@@ -15,9 +15,9 @@ import {
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-request-quote-dialog.component';
-import { defaultCommerceQuotesRequestQuoteDialogConfig } from './default-commerce-quotes-request-quote-dialog-config';
-import { ConfirmQuoteRequestDialogComponent } from './confirm-request-quote-dialog/confirm-quote-request-dialog.component';
+import { QuoteRequestQuoteDialogComponent } from './quote-request-quote-dialog.component';
+import { defaultQuoteRequestQuoteDialogConfig } from './default-quote-request-quote-dialog-config';
+import { QuoteConfirmQuoteRequestDialogComponent } from './confirm-request-quote-dialog/quote-confirm-quote-request-dialog.component';
 
 @NgModule({
   imports: [
@@ -32,16 +32,14 @@ import { ConfirmQuoteRequestDialogComponent } from './confirm-request-quote-dial
     KeyboardFocusModule,
     SpinnerModule,
   ],
-  providers: [
-    provideDefaultConfig(defaultCommerceQuotesRequestQuoteDialogConfig),
-  ],
+  providers: [provideDefaultConfig(defaultQuoteRequestQuoteDialogConfig)],
   declarations: [
-    CommerceQuotesRequestQuoteDialogComponent,
-    ConfirmQuoteRequestDialogComponent,
+    QuoteRequestQuoteDialogComponent,
+    QuoteConfirmQuoteRequestDialogComponent,
   ],
   exports: [
-    CommerceQuotesRequestQuoteDialogComponent,
-    ConfirmQuoteRequestDialogComponent,
+    QuoteRequestQuoteDialogComponent,
+    QuoteConfirmQuoteRequestDialogComponent,
   ],
 })
-export class CommerceQuotesRequestQuoteDialogModule {}
+export class QuoteRequestQuoteDialogModule {}

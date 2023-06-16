@@ -12,21 +12,21 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CommerceQuotesRequestQuoteButtonComponent } from './commerce-quotes-request-quote-button.component';
+import { QuoteRequestQuoteButtonComponent } from './quote-request-quote-button.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
-  declarations: [CommerceQuotesRequestQuoteButtonComponent],
-  exports: [CommerceQuotesRequestQuoteButtonComponent],
+  declarations: [QuoteRequestQuoteButtonComponent],
+  exports: [QuoteRequestQuoteButtonComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CommerceQuotesRequestComponent: {
-          component: CommerceQuotesRequestQuoteButtonComponent,
+          component: QuoteRequestQuoteButtonComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
 })
-export class CommerceQuotesRequestQuoteButtonModule {}
+export class QuoteRequestQuoteButtonModule {}

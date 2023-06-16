@@ -17,7 +17,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
-import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-request-quote-dialog.component';
+import { QuoteRequestQuoteDialogComponent } from './quote-request-quote-dialog.component';
 import createSpy = jasmine.createSpy;
 
 const quoteCode = 'quote1';
@@ -41,7 +41,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
 }
 
-class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
+class MockQuoteFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
   performQuoteAction = createSpy().and.returnValue(of(EMPTY));
 }
@@ -50,16 +50,16 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-describe('CommerceQuotesRequestQuoteDialogComponent', () => {
-  let component: CommerceQuotesRequestQuoteDialogComponent;
-  let fixture: ComponentFixture<CommerceQuotesRequestQuoteDialogComponent>;
+describe('QuoteRequestQuoteDialogComponent', () => {
+  let component: QuoteRequestQuoteDialogComponent;
+  let fixture: ComponentFixture<QuoteRequestQuoteDialogComponent>;
   let launchDialogService: LaunchDialogService;
   let commerceQuotesService: QuoteFacade;
   let routingService: RoutingService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CommerceQuotesRequestQuoteDialogComponent, MockUrlPipe],
+      declarations: [QuoteRequestQuoteDialogComponent, MockUrlPipe],
       imports: [
         RouterTestingModule,
         SpinnerModule,
@@ -76,7 +76,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
         },
         {
           provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+          useClass: MockQuoteFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
@@ -90,9 +90,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(
-      CommerceQuotesRequestQuoteDialogComponent
-    );
+    fixture = TestBed.createComponent(QuoteRequestQuoteDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

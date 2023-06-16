@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { CommerceQuotesRequestQuoteButtonComponent } from './commerce-quotes-request-quote-button.component';
+import { QuoteRequestQuoteButtonComponent } from './quote-request-quote-button.component';
 import { QuoteFacade, Quote } from '@spartacus/commerce-quotes/root';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
@@ -17,23 +17,23 @@ const mockCreatedQuote: Quote = {
   allowedActions: [],
   code: quoteCode,
 };
-class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
+class MockQuoteFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
 }
-describe('CommerceQuotesRequestQuoteButtonComponent', () => {
-  let component: CommerceQuotesRequestQuoteButtonComponent;
-  let fixture: ComponentFixture<CommerceQuotesRequestQuoteButtonComponent>;
+describe('QuoteRequestQuoteButtonComponent', () => {
+  let component: QuoteRequestQuoteButtonComponent;
+  let fixture: ComponentFixture<QuoteRequestQuoteButtonComponent>;
   let commerceQuotesService: QuoteFacade;
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CommerceQuotesRequestQuoteButtonComponent, MockUrlPipe],
+      declarations: [QuoteRequestQuoteButtonComponent, MockUrlPipe],
       imports: [I18nTestingModule],
       providers: [
         {
           provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+          useClass: MockQuoteFacade,
         },
         { provide: RoutingService, useValue: mockRoutingService },
       ],
@@ -43,9 +43,7 @@ describe('CommerceQuotesRequestQuoteButtonComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(
-      CommerceQuotesRequestQuoteButtonComponent
-    );
+    fixture = TestBed.createComponent(QuoteRequestQuoteButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
