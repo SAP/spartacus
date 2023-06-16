@@ -683,7 +683,7 @@ context('Assisted Service Module', () => {
             cy.log(
               '--> Should has assign inactive cart to input and display alert info'
             );
-            cy.get('.cx-asm-assignCart', { timeout: 30000 }).should('exist');
+            cy.get('.cx-asm-assignCart', { timeout: 20000 }).should('exist');
             cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
             cy.get(
               'cx-customer-emulation input[formcontrolname="cartNumber"]'
@@ -742,7 +742,7 @@ context('Assisted Service Module', () => {
             cy.log(
               '--> Should has assign inactive cart to input and display alert info'
             );
-            cy.get('.cx-asm-assignCart', { timeout: 30000 }).should('exist');
+            cy.get('.cx-asm-assignCart', { timeout: 20000 }).should('exist');
             cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
             cy.get(
               'cx-customer-emulation input[formcontrolname="cartNumber"]'
