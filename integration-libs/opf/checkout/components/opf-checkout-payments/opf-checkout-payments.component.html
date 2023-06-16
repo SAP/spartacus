@@ -1,14 +1,16 @@
 <h3>
   {{ 'opf.checkout.paymentOption' | cxTranslate }}
 </h3>
-<ng-container *ngIf="activeConfiguratons$ | async as activeConfiguratonsState">
+<ng-container
+  *ngIf="activeConfigurations$ | async as activeConfigurationsState"
+>
   <div
     class="cx-payment-options-list"
-    *ngIf="!activeConfiguratonsState?.loading; else loading"
+    *ngIf="!activeConfigurationsState?.loading; else loading"
   >
     <div
       class="form-check"
-      *ngFor="let configuration of activeConfiguratonsState?.data"
+      *ngFor="let configuration of activeConfigurationsState?.data"
     >
       <input
         id="paymentId-{{ configuration.id }}"

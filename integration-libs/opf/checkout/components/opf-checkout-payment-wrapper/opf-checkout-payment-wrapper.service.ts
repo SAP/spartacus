@@ -38,6 +38,16 @@ import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutPaymentWrapperService {
+  protected lastPaymentOptionId?: number;
+
+  protected activeCartId?: string;
+
+  protected renderPaymentMethodEvent$ =
+    new BehaviorSubject<OpfRenderPaymentMethodEvent>({
+      isLoading: false,
+      isError: false,
+    });
+
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
     protected opfOtpService: OpfOtpFacade,
@@ -52,14 +62,6 @@ export class OpfCheckoutPaymentWrapperService {
   ) {}
 
   protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
-
-  protected activeCartId: string;
-
-  protected renderPaymentMethodEvent$ =
-    new BehaviorSubject<OpfRenderPaymentMethodEvent>({
-      isLoading: false,
-      isError: false,
-    });
 
   protected executeScriptFromHtml(html: string): void {
     /**
@@ -89,6 +91,7 @@ export class OpfCheckoutPaymentWrapperService {
   initiatePayment(
     paymentOptionId: number
   ): Observable<PaymentSessionData | Error> {
+    this.lastPaymentOptionId = paymentOptionId;
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
       isError: false,
@@ -102,7 +105,7 @@ export class OpfCheckoutPaymentWrapperService {
         // TODO: Move this key to shared place for checkout and base
         this.winRef?.localStorage?.setItem('spaProcessingCartId', cartId)
       ),
-      switchMap(([userId, cartId]) => {
+      switchMap(([userId, cartId]: [string, string]) => {
         this.activeCartId = cartId;
         return this.opfOtpService.generateOtpKey(userId, cartId);
       }),
@@ -111,10 +114,22 @@ export class OpfCheckoutPaymentWrapperService {
         this.setPaymentInitiationConfig(otpKey, paymentOptionId)
       ),
       switchMap((params) => this.opfCheckoutService.initiatePayment(params)),
+      tap((paymentOptionConfig: PaymentSessionData | Error) => {
+        if (!(paymentOptionConfig instanceof Error)) {
+          this.renderPaymentGateway(paymentOptionConfig);
+        }
+      }),
       catchError((err: HttpErrorModel) =>
         this.handlePaymentInitiationError(err)
-      )
+      ),
+      take(1)
     );
+  }
+
+  reloadPaymentMode(): void {
+    if (this.lastPaymentOptionId) {
+      this.initiatePayment(this.lastPaymentOptionId).subscribe();
+    }
   }
 
   renderPaymentGateway(config: PaymentSessionData) {
