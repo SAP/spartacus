@@ -6,12 +6,12 @@
 
 import { Provider } from '@angular/core';
 import { QuoteFacade } from '@spartacus/commerce-quotes/root';
-import { CommerceQuotesService } from './commerce-quotes.service';
+import { QuoteService } from './quote.service';
 
 export const facadeProviders: Provider[] = [
-  CommerceQuotesService,
+  QuoteService,
   {
     provide: QuoteFacade,
-    useExisting: CommerceQuotesService,
+    useExisting: QuoteService,
   },
 ];

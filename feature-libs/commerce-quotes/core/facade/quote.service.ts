@@ -42,10 +42,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector';
+import { QuoteConnector } from '../connectors/quote.connector';
 
 @Injectable()
-export class CommerceQuotesService implements QuoteFacade {
+export class QuoteService implements QuoteFacade {
   /**
    * Indicator whether an action is currently performing.
    */
@@ -250,7 +250,7 @@ export class CommerceQuotesService implements QuoteFacade {
 
   constructor(
     protected userIdService: UserIdService,
-    protected commerceQuotesConnector: CommerceQuotesConnector,
+    protected commerceQuotesConnector: QuoteConnector,
     protected eventService: EventService,
     protected queryService: QueryService,
     protected config: ViewConfig,

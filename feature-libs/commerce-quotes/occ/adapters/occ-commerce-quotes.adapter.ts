@@ -7,7 +7,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  CommerceQuotesAdapter,
+  QuoteAdapter,
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
   QUOTE_DISCOUNT_SERIALIZER,
@@ -36,7 +36,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
+export class OccCommerceQuotesAdapter implements QuoteAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

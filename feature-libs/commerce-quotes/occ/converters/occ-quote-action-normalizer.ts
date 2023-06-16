@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CQConfig } from '@spartacus/commerce-quotes/core';
+import { QuoteConfig } from '@spartacus/commerce-quotes/core';
 import {
   QuoteAction,
   OccQuote,
@@ -17,7 +17,7 @@ import { Converter } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(private commerceQuotesConfig: CQConfig) {}
+  constructor(private commerceQuotesConfig: QuoteConfig) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {

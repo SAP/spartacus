@@ -11,14 +11,14 @@ import {
 } from '@spartacus/commerce-quotes/root';
 import { Config } from '@spartacus/core';
 
-export interface CommerceQuotesTresholdsConfig {
+export interface QuoteTresholdsConfig {
   /** Value above which seller approval is required */
   sellerAutoApproval: number;
   /** Minimal value required to submit a quote */
   requestInitiation: number;
 }
 
-export interface CommerceQuotesActionsConfig {
+export interface QuoteActionsConfig {
   /** Actions that should be presented in template as primary */
   primaryActions?: QuoteActionType[];
   /** Order of action rendering based on quote state */
@@ -29,16 +29,16 @@ export interface CommerceQuotesActionsConfig {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CQConfig {
+export abstract class QuoteConfig {
   /**
    * Commerce quotes config
    */
   commerceQuotes?: {
-    tresholds?: CommerceQuotesTresholdsConfig;
-    actions?: CommerceQuotesActionsConfig;
+    tresholds?: QuoteTresholdsConfig;
+    actions?: QuoteActionsConfig;
   };
 }
 
 declare module '@spartacus/core' {
-  interface Config extends CQConfig {}
+  interface Config extends QuoteConfig {}
 }

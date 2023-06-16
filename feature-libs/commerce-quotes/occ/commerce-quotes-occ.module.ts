@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import {
-  CommerceQuotesAdapter,
+  QuoteAdapter,
   QUOTE_NORMALIZER,
 } from '@spartacus/commerce-quotes/core';
 import { OccCommerceQuotesAdapter } from './adapters/occ-commerce-quotes.adapter';
@@ -20,7 +20,7 @@ import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normaliz
   providers: [
     provideDefaultConfig(defaultOccCommerceQuotesConfig),
     {
-      provide: CommerceQuotesAdapter,
+      provide: QuoteAdapter,
       useClass: OccCommerceQuotesAdapter,
     },
     {

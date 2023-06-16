@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { CQConfig } from '@spartacus/commerce-quotes/core';
+import { QuoteConfig } from '@spartacus/commerce-quotes/core';
 import {
   OccQuote,
   Quote,
@@ -30,7 +30,7 @@ const mockConvertedQuote: Quote = {
   ],
 };
 
-const MockCQConfig: Partial<CQConfig> = {
+const MockCQConfig: Partial<QuoteConfig> = {
   commerceQuotes: {
     actions: {
       actionsOrderByState: mockActionOrderByState,
@@ -46,7 +46,7 @@ describe('BudgetNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [
         OccQuoteActionNormalizer,
-        { provide: CQConfig, useValue: MockCQConfig },
+        { provide: QuoteConfig, useValue: MockCQConfig },
       ],
     });
 

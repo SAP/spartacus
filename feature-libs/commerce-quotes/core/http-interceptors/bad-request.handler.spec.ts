@@ -6,11 +6,11 @@ import {
   GlobalMessageType,
   Config,
 } from '@spartacus/core';
-import { CQConfig } from '../config/cq-config';
+import { QuoteConfig } from '../config/quote-config';
 import { CommerceQuotesBadRequestHandler } from './bad-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;
-const MockCQConfig: CQConfig = {
+const MockCQConfig: QuoteConfig = {
   commerceQuotes: {
     tresholds: {
       requestInitiation: 10000,

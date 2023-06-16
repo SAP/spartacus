@@ -16,11 +16,11 @@ import {
   QuoteStarter,
   Comment,
 } from '@spartacus/commerce-quotes/root';
-import { CommerceQuotesAdapter } from './commerce-quotes.adapter';
+import { QuoteAdapter } from './quote.adapter';
 
 @Injectable()
-export class CommerceQuotesConnector {
-  constructor(protected adapter: CommerceQuotesAdapter) {}
+export class QuoteConnector {
+  constructor(protected adapter: QuoteAdapter) {}
 
   public getQuotes(
     userId: string,

@@ -22,8 +22,8 @@ import {
 import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CommerceQuotesConnector } from '../connectors';
-import { CommerceQuotesService } from './commerce-quotes.service';
+import { QuoteConnector } from '../connectors';
+import { QuoteService } from './quote.service';
 import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
@@ -83,7 +83,7 @@ class MockViewConfig implements ViewConfig {
   view = { defaultPageSize: mockPagination.pageSize };
 }
 
-class MockCommerceQuotesConnector implements Partial<CommerceQuotesConnector> {
+class MockCommerceQuotesConnector implements Partial<QuoteConnector> {
   getQuotes = createSpy().and.returnValue(of(mockQuoteList));
   getQuote = createSpy().and.returnValue(of(mockQuote));
   createQuote = createSpy().and.returnValue(of(mockQuote));
@@ -106,9 +106,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-describe('CommerceQuotesService', () => {
-  let service: CommerceQuotesService;
-  let connector: CommerceQuotesConnector;
+describe('QuoteService', () => {
+  let service: QuoteService;
+  let connector: QuoteConnector;
   let eventService: EventService;
   let config: ViewConfig;
   let multiCartFacade: MultiCartFacade;
@@ -117,12 +117,12 @@ describe('CommerceQuotesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CommerceQuotesService,
+        QuoteService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
         { provide: ViewConfig, useClass: MockViewConfig },
         {
-          provide: CommerceQuotesConnector,
+          provide: QuoteConnector,
           useClass: MockCommerceQuotesConnector,
         },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -132,8 +132,8 @@ describe('CommerceQuotesService', () => {
       ],
     });
 
-    service = TestBed.inject(CommerceQuotesService);
-    connector = TestBed.inject(CommerceQuotesConnector);
+    service = TestBed.inject(QuoteService);
+    connector = TestBed.inject(QuoteConnector);
     eventService = TestBed.inject(EventService);
     config = TestBed.inject(ViewConfig);
     multiCartFacade = TestBed.inject(MultiCartFacade);
@@ -141,8 +141,8 @@ describe('CommerceQuotesService', () => {
   });
 
   it('should inject CommerceQuotesService', inject(
-    [CommerceQuotesService],
-    (commerceQuotesService: CommerceQuotesService) => {
+    [QuoteService],
+    (commerceQuotesService: QuoteService) => {
       expect(commerceQuotesService).toBeTruthy();
     }
   ));

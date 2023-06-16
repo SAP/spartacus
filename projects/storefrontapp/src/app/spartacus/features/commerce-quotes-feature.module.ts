@@ -14,12 +14,12 @@ import {
   CommerceQuotesRootModule,
   COMMERCE_QUOTES_FEATURE,
 } from '@spartacus/commerce-quotes/root';
-import { CQConfig } from '@spartacus/commerce-quotes/core';
+import { QuoteConfig } from '@spartacus/commerce-quotes/core';
 
 @NgModule({
   imports: [CommerceQuotesRootModule],
   providers: [
-    provideConfig(<CQConfig>{
+    provideConfig(<QuoteConfig>{
       commerceQuotes: {
         tresholds: {
           sellerAutoApproval: 75000,

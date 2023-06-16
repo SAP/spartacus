@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CQConfig } from '@spartacus/commerce-quotes/core';
+import { QuoteConfig } from '@spartacus/commerce-quotes/core';
 import { QuoteActionType } from '@spartacus/commerce-quotes/root';
 import {
   AuthGuard,
@@ -19,7 +19,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 @NgModule({
   imports: [CommonModule, I18nModule],
   providers: [
-    provideDefaultConfig(<CQConfig>{
+    provideDefaultConfig(<QuoteConfig>{
       commerceQuotes: {
         actions: {
           primaryActions: [

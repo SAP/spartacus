@@ -8,8 +8,8 @@ import {
   QuoteMetadata,
   QuoteStarter,
 } from '@spartacus/commerce-quotes/root';
-import { CommerceQuotesAdapter } from './commerce-quotes.adapter';
-import { CommerceQuotesConnector } from './commerce-quotes.connector';
+import { QuoteAdapter } from './quote.adapter';
+import { QuoteConnector } from './quote.connector';
 
 import createSpy = jasmine.createSpy;
 
@@ -27,7 +27,7 @@ const comment = {
   text: 'text',
 };
 
-class MockCommerceQuotesAdapter implements Partial<CommerceQuotesAdapter> {
+class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
   getQuotes = createSpy('CommerceQuotesAdapter.getQuotes').and.callFake(
     (userId: string, pagination: PaginationModel) =>
       of(`getQuotes-${userId}-${pagination}`)
@@ -70,20 +70,20 @@ class MockCommerceQuotesAdapter implements Partial<CommerceQuotesAdapter> {
   );
 }
 
-describe('CommerceQuotesConnector', () => {
-  let service: CommerceQuotesConnector;
-  let adapter: CommerceQuotesAdapter;
+describe('QuoteConnector', () => {
+  let service: QuoteConnector;
+  let adapter: QuoteAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CommerceQuotesConnector,
-        { provide: CommerceQuotesAdapter, useClass: MockCommerceQuotesAdapter },
+        QuoteConnector,
+        { provide: QuoteAdapter, useClass: MockCommerceQuotesAdapter },
       ],
     });
 
-    service = TestBed.inject(CommerceQuotesConnector);
-    adapter = TestBed.inject(CommerceQuotesAdapter);
+    service = TestBed.inject(QuoteConnector);
+    adapter = TestBed.inject(QuoteAdapter);
   });
 
   it('should be created', () => {

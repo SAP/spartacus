@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './commerce-quotes-components.module';
+export * from './quote-components.module';
 export * from './quote-list/quote-list.component';
 export * from './details/overview/quote-details-overview.component';
 export * from './quote-request-quote-button/quote-request-quote-button.component';

@@ -16,7 +16,7 @@ import {
   QuoteDiscount,
 } from '@spartacus/commerce-quotes/root';
 
-export abstract class CommerceQuotesAdapter {
+export abstract class QuoteAdapter {
   /**
    * Abstract method used to list of quotes for user
    *
