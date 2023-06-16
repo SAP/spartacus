@@ -10,7 +10,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutReviewSubmitComponent,
   CheckoutStepService,
@@ -55,7 +55,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   get paymentType$(): Observable<PaymentType | undefined> {
     return this.activeCartFacade
       .getActive()
-      .pipe(map((cart) => cart.paymentType));
+      .pipe(map((cart: Cart) => cart.paymentType));
   }
 
   constructor(
