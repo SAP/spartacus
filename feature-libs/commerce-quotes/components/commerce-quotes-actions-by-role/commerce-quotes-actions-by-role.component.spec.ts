@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CommerceQuotesFacade,
   Quote,
   QuoteActionType,
   QuoteState,
@@ -10,7 +11,7 @@ import {
   QueryState,
   TranslationService,
 } from '@spartacus/core';
-import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
+
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommerceQuotesActionsByRoleComponent } from './commerce-quotes-actions-by-role.component';

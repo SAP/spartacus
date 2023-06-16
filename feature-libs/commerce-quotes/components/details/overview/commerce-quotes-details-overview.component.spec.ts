@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CommerceQuotesFacade,
   Quote,
   QuoteActionType,
   QuoteState,
@@ -13,7 +14,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
-import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
+
 import { Observable, of } from 'rxjs';
 import { CommerceQuotesDetailsOverviewComponent } from './commerce-quotes-details-overview.component';
 import createSpy = jasmine.createSpy;
