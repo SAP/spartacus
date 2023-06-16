@@ -5,15 +5,15 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommerceQuotesActionLinksService } from './commerce-quotes-action-links.service';
+import { QuoteActionLinksService } from './quote-action-links.service';
 
 @Component({
   selector: 'cx-commerce-quotes-action-links',
-  templateUrl: './commerce-quotes-action-links.component.html',
+  templateUrl: './quote-action-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommerceQuotesActionLinksComponent {
-  constructor(protected actionLinksService: CommerceQuotesActionLinksService) {}
+export class QuoteActionLinksComponent {
+  constructor(protected actionLinksService: QuoteActionLinksService) {}
 
   goToNewCart(): void {
     this.actionLinksService.goToNewCart();

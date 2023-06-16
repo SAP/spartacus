@@ -14,7 +14,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CommerceQuotesActionLinksComponent } from './commerce-quotes-action-links.component';
+import { QuoteActionLinksComponent } from './quote-action-links.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule, RouterModule, UrlModule],
@@ -22,13 +22,13 @@ import { CommerceQuotesActionLinksComponent } from './commerce-quotes-action-lin
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CommerceQuotesActionLinksComponent: {
-          component: CommerceQuotesActionLinksComponent,
+          component: QuoteActionLinksComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [CommerceQuotesActionLinksComponent],
-  exports: [CommerceQuotesActionLinksComponent],
+  declarations: [QuoteActionLinksComponent],
+  exports: [QuoteActionLinksComponent],
 })
-export class CommerceQuotesActionLinksModule {}
+export class QuoteActionLinksModule {}

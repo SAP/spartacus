@@ -10,18 +10,18 @@ import { EventService } from '@spartacus/core';
 import { ICON_TYPE, MessagingConfigs } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-commerce-quotes-details-vendor-contact',
-  templateUrl: './commerce-quotes-details-vendor-contact.component.html',
+  selector: 'cx-quote-details-vendor-contact',
+  templateUrl: './quote-details-vendor-contact.component.html',
 })
-export class CommerceQuotesDetailsVendorContactComponent {
-  quoteDetails$ = this.commerceQuotesService.getQuoteDetails();
+export class QuoteDetailsVendorContactComponent {
+  quoteDetails$ = this.quoteFacade.getQuoteDetails();
   showVendorContact = true;
   iconTypes = ICON_TYPE;
   vendorplaceHolder: string = 'Vendor Contact Component';
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
   constructor(
-    protected commerceQuotesService: QuoteFacade,
+    protected quoteFacade: QuoteFacade,
     protected eventService: EventService
   ) {}
   onSend(event: { message: string }) {

@@ -6,7 +6,7 @@
 
 export * from './commerce-quotes-components.module';
 export * from './quote-list/commerce-quotes-list.component';
-export * from './details/overview/commerce-quotes-details-overview.component';
+export * from './details/overview/quote-details-overview.component';
 export * from './quote-request-quote-button/commerce-quotes-request-quote-button.component';
 export * from './quote-request-quote-button/commerce-quotes-request-quote-button.module';
 export * from './quote-request-quote-dialog/commerce-quotes-request-quote-dialog.component';

@@ -6,7 +6,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
 import { UserIdService, EventService, RoutingService } from '@spartacus/core';
-import { CommerceQuotesActionLinksService } from './commerce-quotes-action-links.service';
+import { QuoteActionLinksService } from './quote-action-links.service';
 import createSpy = jasmine.createSpy;
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
@@ -35,8 +35,8 @@ class MockRoutingService implements Partial<RoutingService> {
   go = createSpy();
 }
 
-describe('CommerceQuotesActionLinksService', () => {
-  let service: CommerceQuotesActionLinksService;
+describe('QuoteActionLinksService', () => {
+  let service: QuoteActionLinksService;
   let activeCartFacade: ActiveCartFacade;
   let multiCartFacade: MultiCartFacade;
   let eventService: EventService;
@@ -54,7 +54,7 @@ describe('CommerceQuotesActionLinksService', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.inject(CommerceQuotesActionLinksService);
+    service = TestBed.inject(QuoteActionLinksService);
     eventService = TestBed.inject(EventService);
     userIdService = TestBed.inject(UserIdService);
     activeCartFacade = TestBed.inject(ActiveCartFacade);

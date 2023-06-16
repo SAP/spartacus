@@ -18,7 +18,7 @@ import { tap, take, withLatestFrom, switchMap, mapTo } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CommerceQuotesActionLinksService {
+export class QuoteActionLinksService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,

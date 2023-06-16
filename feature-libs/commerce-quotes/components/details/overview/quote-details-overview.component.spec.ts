@@ -16,7 +16,7 @@ import {
 import { CardModule } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
-import { CommerceQuotesDetailsOverviewComponent } from './commerce-quotes-details-overview.component';
+import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -37,7 +37,7 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_ORDERED,
 };
 
-export class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
+export class MockQuoteFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<QueryState<Quote>> {
     return of({ data: mockQuote, loading: false, error: false });
   }
@@ -52,26 +52,26 @@ class MockTranslationService implements Partial<TranslationService> {
 }
 
 @Component({
-  selector: 'cx-commerce-quotes-action-links',
+  selector: 'cx-quote-action-links',
   template: '',
 })
 export class MockCommerceQuotesActionLinksComponent {}
 
-describe('CommerceQuotesDetailsOverviewComponent', () => {
-  let fixture: ComponentFixture<CommerceQuotesDetailsOverviewComponent>;
-  let component: CommerceQuotesDetailsOverviewComponent;
+describe('QuoteDetailsOverviewComponent', () => {
+  let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
+  let component: QuoteDetailsOverviewComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, CardModule, RouterTestingModule],
       declarations: [
-        CommerceQuotesDetailsOverviewComponent,
+        QuoteDetailsOverviewComponent,
         MockCommerceQuotesActionLinksComponent,
       ],
       providers: [
         {
           provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+          useClass: MockQuoteFacade,
         },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
@@ -79,7 +79,7 @@ describe('CommerceQuotesDetailsOverviewComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommerceQuotesDetailsOverviewComponent);
+    fixture = TestBed.createComponent(QuoteDetailsOverviewComponent);
     component = fixture.componentInstance;
   });
 

@@ -10,14 +10,14 @@ import { QuoteFacade } from '@spartacus/commerce-quotes/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-commerce-quotes-details-cart',
-  templateUrl: './commerce-quotes-details-cart.component.html',
+  selector: 'cx-quote-details-cart',
+  templateUrl: './quote-details-cart.component.html',
 })
-export class CommerceQuotesDetailsCartComponent {
-  quoteDetails$ = this.commerceQuotesService.getQuoteDetails();
+export class QuoteDetailsCartComponent {
+  quoteDetails$ = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   showCart = true;
   readonly cartOutlets = CartOutlets;
 
-  constructor(protected commerceQuotesService: QuoteFacade) {}
+  constructor(protected quoteFacade: QuoteFacade) {}
 }

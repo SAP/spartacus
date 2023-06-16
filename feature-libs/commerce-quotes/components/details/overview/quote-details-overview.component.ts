@@ -12,14 +12,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-commerce-quotes-details-overview',
-  templateUrl: './commerce-quotes-details-overview.component.html',
+  selector: 'cx-quote-details-overview',
+  templateUrl: './quote-details-overview.component.html',
 })
-export class CommerceQuotesDetailsOverviewComponent {
-  quoteDetails$ = this.commerceQuotesService.getQuoteDetails();
+export class QuoteDetailsOverviewComponent {
+  quoteDetails$ = this.quoteFacade.getQuoteDetails();
 
   constructor(
-    protected commerceQuotesService: QuoteFacade,
+    protected quoteFacade: QuoteFacade,
     protected translationService: TranslationService
   ) {}
 

@@ -1,26 +1,26 @@
 import { TestBed } from '@angular/core/testing';
-import { CommerceQuotesDetailsCartComponent } from './commerce-quotes-details-cart.component';
+import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 import { QuoteFacade } from '@spartacus/commerce-quotes/root';
-import { MockCommerceQuotesFacade } from '../overview/commerce-quotes-details-overview.component.spec';
+import { MockQuoteFacade } from '../overview/quote-details-overview.component.spec';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
 
-describe('CommerceQuotesDetailsCartComponent', () => {
+describe('QuoteDetailsCartComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, IconTestingModule],
-      declarations: [CommerceQuotesDetailsCartComponent],
+      declarations: [QuoteDetailsCartComponent],
       providers: [
         {
           provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+          useClass: MockQuoteFacade,
         },
       ],
     });
   });
 
   it('should create the component', () => {
-    const fixture = TestBed.createComponent(CommerceQuotesDetailsCartComponent);
+    const fixture = TestBed.createComponent(QuoteDetailsCartComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });

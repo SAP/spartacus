@@ -9,22 +9,20 @@ import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { CommerceQuotesActionLinksComponent } from './commerce-quotes-action-links.component';
-import { CommerceQuotesActionLinksService } from './commerce-quotes-action-links.service';
+import { QuoteActionLinksComponent } from './quote-action-links.component';
+import { QuoteActionLinksService } from './quote-action-links.service';
 import createSpy = jasmine.createSpy;
 
-class MockActionLinksService
-  implements Partial<CommerceQuotesActionLinksService>
-{
+class MockActionLinksService implements Partial<QuoteActionLinksService> {
   goToNewCart = createSpy();
 }
 
 const mockRoutes = [{ path: 'cxRoute:quotes', component: {} }] as Routes;
 
-describe('CommerceQuotesActionLinksComponent', () => {
-  let fixture: ComponentFixture<CommerceQuotesActionLinksComponent>;
-  let component: CommerceQuotesActionLinksComponent;
-  let actionLinksService: CommerceQuotesActionLinksService;
+describe('QuoteActionLinksComponent', () => {
+  let fixture: ComponentFixture<QuoteActionLinksComponent>;
+  let component: QuoteActionLinksComponent;
+  let actionLinksService: QuoteActionLinksService;
   let router: Router;
 
   beforeEach(() => {
@@ -34,10 +32,10 @@ describe('CommerceQuotesActionLinksComponent', () => {
         RouterTestingModule.withRoutes(mockRoutes),
         UrlTestingModule,
       ],
-      declarations: [CommerceQuotesActionLinksComponent],
+      declarations: [QuoteActionLinksComponent],
       providers: [
         {
-          provide: CommerceQuotesActionLinksService,
+          provide: QuoteActionLinksService,
           useClass: MockActionLinksService,
         },
       ],
@@ -45,8 +43,8 @@ describe('CommerceQuotesActionLinksComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommerceQuotesActionLinksComponent);
-    actionLinksService = TestBed.inject(CommerceQuotesActionLinksService);
+    fixture = TestBed.createComponent(QuoteActionLinksComponent);
+    actionLinksService = TestBed.inject(QuoteActionLinksService);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
   });
