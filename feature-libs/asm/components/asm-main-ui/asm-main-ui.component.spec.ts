@@ -49,11 +49,11 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
-    return of({});
+    return EMPTY;
   }
 
   getById(): Observable<User> {
-    return of({});
+    return EMPTY;
   }
 }
 
