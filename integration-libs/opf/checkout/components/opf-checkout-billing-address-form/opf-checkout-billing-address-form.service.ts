@@ -11,9 +11,24 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, UserPaymentService } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import {
+  Address,
+  Country,
+  UserPaymentService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -33,7 +48,8 @@ export class OpfCheckoutBillingAddressFormService {
     protected checkoutBillingAddressFacade: CheckoutBillingAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartService: ActiveCartFacade,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   getCountries(): Observable<Country[]> {
@@ -98,15 +114,22 @@ export class OpfCheckoutBillingAddressFormService {
         }),
         filter((isStable) => isStable),
         switchMap(() => this.getPaymentAddress()),
-
         tap((billingAddress: Address | undefined) => {
           if (!!billingAddress && !!billingAddress.id) {
             this.billingAddressId = billingAddress.id;
 
             this.billingAddressSub.next(billingAddress);
-
-            this.isLoadingAddressSub.next(false);
           }
+        }),
+        catchError((error) => {
+          this.globalMessageService.add(
+            { key: 'opf.address.errors.cannotUpdate' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          return of(error);
+        }),
+        finalize(() => {
+          this.isLoadingAddressSub.next(false);
         }),
         take(1)
       );

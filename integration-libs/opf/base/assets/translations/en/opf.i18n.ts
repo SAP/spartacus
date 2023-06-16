@@ -17,5 +17,11 @@ export const opf = {
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
       },
     },
+    address: {
+      errors: {
+        cannotUpdate:
+          'We are currently unable to update this address. Please try again later. If the issue persists, kindly clear the cart.',
+      },
+    },
   },
 };
