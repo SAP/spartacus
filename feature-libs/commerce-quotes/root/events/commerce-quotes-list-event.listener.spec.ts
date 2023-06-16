@@ -6,7 +6,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { CommerceQuotesListEventListener } from './commerce-quotes-list-event.listener';
 import { CommerceQuotesListReloadQueryEvent } from './commerce-quotes-list.events';
 import createSpy = jasmine.createSpy;
@@ -24,6 +24,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 describe('CommerceQuotesListEventListener', () => {
   let globalMessageService: GlobalMessageService;
+  let commerceQuotesListEventListener: CommerceQuotesListEventListener;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,7 +41,9 @@ describe('CommerceQuotesListEventListener', () => {
       ],
     });
 
-    TestBed.inject(CommerceQuotesListEventListener);
+    commerceQuotesListEventListener = TestBed.inject(
+      CommerceQuotesListEventListener
+    );
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
@@ -54,5 +57,14 @@ describe('CommerceQuotesListEventListener', () => {
       GlobalMessageType.MSG_TYPE_ASSISTIVE,
       500
     );
+  });
+
+  it('onDestroy should clear subscriptions', () => {
+    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    //given
+    commerceQuotesListEventListener.ngOnDestroy();
+
+    //then
+    expect(spyUnsubscribe).toHaveBeenCalled();
   });
 });
