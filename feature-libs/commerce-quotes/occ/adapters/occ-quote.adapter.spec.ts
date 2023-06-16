@@ -23,7 +23,7 @@ import {
 } from '@spartacus/commerce-quotes/root';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { OccCommerceQuotesAdapter } from './occ-commerce-quotes.adapter';
+import { OccQuoteAdapter } from './occ-quote.adapter';
 
 const userId = '111111';
 const cartId = '222222';
@@ -83,8 +83,8 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe(`OccCommerceQuotesAdapter`, () => {
-  let service: OccCommerceQuotesAdapter;
+describe(`OccQuoteAdapter`, () => {
+  let service: OccQuoteAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -92,11 +92,11 @@ describe(`OccCommerceQuotesAdapter`, () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCommerceQuotesAdapter,
+        OccQuoteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.inject(OccCommerceQuotesAdapter);
+    service = TestBed.inject(OccQuoteAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 

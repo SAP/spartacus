@@ -11,7 +11,7 @@ import {
   QuoteAdapter,
   QUOTE_NORMALIZER,
 } from '@spartacus/commerce-quotes/core';
-import { OccCommerceQuotesAdapter } from './adapters/occ-commerce-quotes.adapter';
+import { OccQuoteAdapter } from './adapters/occ-quote.adapter';
 import { defaultOccCommerceQuotesConfig } from './config/default-occ-commerce-quotes-config';
 import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normalizer';
 
@@ -21,7 +21,7 @@ import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normaliz
     provideDefaultConfig(defaultOccCommerceQuotesConfig),
     {
       provide: QuoteAdapter,
-      useClass: OccCommerceQuotesAdapter,
+      useClass: OccQuoteAdapter,
     },
     {
       provide: QUOTE_NORMALIZER,

@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { HttpErrorHandler } from '@spartacus/core';
 import { QuoteConnector } from './connectors/quote.connector';
 import { facadeProviders } from './facade/facade-providers';
-import { CommerceQuotesBadRequestHandler } from './http-interceptors/bad-request.handler';
+import { QuoteBadRequestHandler } from './http-interceptors/quote-bad-request.handler';
 
 @NgModule({
   providers: [
@@ -16,9 +16,9 @@ import { CommerceQuotesBadRequestHandler } from './http-interceptors/bad-request
     QuoteConnector,
     {
       provide: HttpErrorHandler,
-      useExisting: CommerceQuotesBadRequestHandler,
+      useExisting: QuoteBadRequestHandler,
       multi: true,
     },
   ],
 })
-export class CommerceQuotesCoreModule {}
+export class QuoteCoreModule {}

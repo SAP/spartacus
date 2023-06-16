@@ -36,7 +36,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccCommerceQuotesAdapter implements QuoteAdapter {
+export class OccQuoteAdapter implements QuoteAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

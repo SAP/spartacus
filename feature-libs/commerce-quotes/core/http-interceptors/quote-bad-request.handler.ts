@@ -19,7 +19,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class CommerceQuotesBadRequestHandler extends HttpErrorHandler {
+export class QuoteBadRequestHandler extends HttpErrorHandler {
   constructor(
     protected globalMessageService: GlobalMessageService,
     private config: Config
@@ -48,7 +48,7 @@ export class CommerceQuotesBadRequestHandler extends HttpErrorHandler {
     if (result) {
       this.globalMessageService.add(
         {
-          key: 'commerceQuotes.httpHandlers.threshold.underTresholdError',
+          key: 'quote.httpHandlers.threshold.underTresholdError',
           params: {
             minValue: this.config.commerceQuotes?.tresholds?.requestInitiation,
           },

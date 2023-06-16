@@ -7,7 +7,7 @@ import {
   Config,
 } from '@spartacus/core';
 import { QuoteConfig } from '../config/quote-config';
-import { CommerceQuotesBadRequestHandler } from './bad-request.handler';
+import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;
 const MockCQConfig: QuoteConfig = {
@@ -36,14 +36,14 @@ class MockGlobalMessageService {
   remove() {}
 }
 
-describe('CommerceQuotesBadRequestHandler', () => {
-  let service: CommerceQuotesBadRequestHandler;
+describe('QuoteBadRequestHandler', () => {
+  let service: QuoteBadRequestHandler;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CommerceQuotesBadRequestHandler,
+        QuoteBadRequestHandler,
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -54,7 +54,7 @@ describe('CommerceQuotesBadRequestHandler', () => {
         },
       ],
     });
-    service = TestBed.inject(CommerceQuotesBadRequestHandler);
+    service = TestBed.inject(QuoteBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
@@ -72,7 +72,7 @@ describe('CommerceQuotesBadRequestHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'commerceQuotes.httpHandlers.threshold.underTresholdError',
+        key: 'quote.httpHandlers.threshold.underTresholdError',
         params: {
           minValue: MockCQConfig.commerceQuotes?.tresholds?.requestInitiation,
         },
