@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { QuoteActionLinksService } from './quote-action-links.service';
 
 @Component({
-  selector: 'cx-commerce-quotes-action-links',
+  selector: 'cx-quote-action-links',
   templateUrl: './quote-action-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

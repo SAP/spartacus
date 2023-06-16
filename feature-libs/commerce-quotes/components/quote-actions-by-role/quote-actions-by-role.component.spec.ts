@@ -14,7 +14,7 @@ import {
 
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CommerceQuotesActionsByRoleComponent } from './commerce-quotes-actions-by-role.component';
+import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
@@ -78,16 +78,16 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
-describe('CommerceQuotesActionsByRoleComponent', () => {
-  let fixture: ComponentFixture<CommerceQuotesActionsByRoleComponent>;
-  let component: CommerceQuotesActionsByRoleComponent;
+describe('QuoteActionsByRoleComponent', () => {
+  let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
+  let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
   let facade: QuoteFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CommerceQuotesActionsByRoleComponent],
+      declarations: [QuoteActionsByRoleComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -100,7 +100,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommerceQuotesActionsByRoleComponent);
+    fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(QuoteFacade);

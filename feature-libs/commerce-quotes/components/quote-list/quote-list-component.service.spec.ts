@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
+import { QuoteListComponentService as QuoteListComponentService } from './quote-list-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -64,8 +64,8 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
-describe('CommerceQuotesListComponentService', () => {
-  let service: CommerceQuotesListComponentService;
+describe('QuoteListComponentService', () => {
+  let service: QuoteListComponentService;
 
   let translateSpy: jasmine.Spy;
 
@@ -73,7 +73,7 @@ describe('CommerceQuotesListComponentService', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        CommerceQuotesListComponentService,
+        QuoteListComponentService,
         {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
@@ -92,7 +92,7 @@ describe('CommerceQuotesListComponentService', () => {
       'translate'
     ).and.callThrough();
 
-    service = TestBed.inject(CommerceQuotesListComponentService);
+    service = TestBed.inject(QuoteListComponentService);
   });
 
   it('should be created', () => {

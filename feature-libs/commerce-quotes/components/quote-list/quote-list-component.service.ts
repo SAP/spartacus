@@ -11,7 +11,7 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 
 @Injectable()
-export class CommerceQuotesListComponentService {
+export class QuoteListComponentService {
   protected sort = new BehaviorSubject('byCode');
   protected currentPage = new BehaviorSubject(0);
 
@@ -23,24 +23,23 @@ export class CommerceQuotesListComponentService {
     { code: 'byState' },
   ];
 
-  quotesState$: Observable<QueryState<QuoteList | undefined>> =
-    this.commerceQuotesFacade
-      .getQuotesState({
-        currentPage$: this.currentPage
-          .asObservable()
-          .pipe(distinctUntilChanged()),
-        sort$: this.sort.asObservable().pipe(distinctUntilChanged()),
+  quotesState$: Observable<QueryState<QuoteList | undefined>> = this.quoteFacade
+    .getQuotesState({
+      currentPage$: this.currentPage
+        .asObservable()
+        .pipe(distinctUntilChanged()),
+      sort$: this.sort.asObservable().pipe(distinctUntilChanged()),
+    })
+    .pipe(
+      tap((quotesState: QueryState<QuoteList | undefined>) => {
+        if (quotesState.data?.sorts) {
+          console.warn(
+            'Quote list sorts has been received from the API, but static values are still in use.'
+          );
+          this.sorts = quotesState.data.sorts;
+        }
       })
-      .pipe(
-        tap((quotesState: QueryState<QuoteList | undefined>) => {
-          if (quotesState.data?.sorts) {
-            console.warn(
-              'Quote list sorts has been received from the API, but static values are still in use.'
-            );
-            this.sorts = quotesState.data.sorts;
-          }
-        })
-      );
+    );
 
   sortLabels$: Observable<{ [key: string]: string }> = combineLatest([
     this.translationService.translate('sorting.date'),
@@ -66,7 +65,7 @@ export class CommerceQuotesListComponentService {
   );
 
   constructor(
-    protected commerceQuotesFacade: QuoteFacade,
+    protected quoteFacade: QuoteFacade,
     protected translationService: TranslationService
   ) {}
 

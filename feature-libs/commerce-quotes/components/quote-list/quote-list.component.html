@@ -5,8 +5,8 @@
     <ng-container
       *ngIf="quotesState.data.quotes.length > 0; else emptyQuoteList"
     >
-      <div class="cx-commerce-quotes-list-sort top">
-        <label class="cx-commerce-quotes-list-form-group form-group"
+      <div class="cx-quote-list-sort top">
+        <label class="cx-quote-list-form-group form-group"
           ><span class="sortBy-heading">
             {{ 'quote.list.sortBy' | cxTranslate }}
           </span>
@@ -17,12 +17,12 @@
             [selectedOption]="quotesState.data.pagination.sort"
             placeholder="{{ 'quote.list.sortBy' | cxTranslate }}"
             [ariaLabel]="'quote.list.sortOrders' | cxTranslate"
-            ariaControls="commerce-quotes-list"
+            ariaControls="quote-list"
           ></cx-sorting>
         </label>
       </div>
       <table
-        id="commerce-quotes-list"
+        id="quote-list"
         role="table"
         aria-describedby="commerceQuotesListDescription"
       >
@@ -44,7 +44,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let quote of quotesState.data.quotes">
-            <td class="cx-commerce-quotes-list-quote-name">
+            <td class="cx-quote-list-quote-name">
               <div class="cx-mobile-header">
                 {{ 'quote.list.name' | cxTranslate }}
               </div>
@@ -59,7 +59,7 @@
                 {{ quote?.name }}
               </a>
             </td>
-            <td class="cx-commerce-quotes-list-quote-code">
+            <td class="cx-quote-list-quote-code">
               <div class="cx-mobile-header">
                 {{ 'quote.commons.id' | cxTranslate }}
               </div>
@@ -74,7 +74,7 @@
                 {{ quote?.code }}
               </a>
             </td>
-            <td class="cx-commerce-quotes-list-quote-status">
+            <td class="cx-quote-list-quote-status">
               <div class="cx-mobile-header">
                 {{ 'quote.commons.status' | cxTranslate }}
               </div>
@@ -90,7 +90,7 @@
                 {{ 'quote.states.' + quote?.state | cxTranslate }}
               </a>
             </td>
-            <td class="cx-commerce-quotes-list-quote-updatedDate">
+            <td class="cx-quote-list-quote-updatedDate">
               <div class="cx-mobile-header">
                 {{ 'quote.list.updated' | cxTranslate }}
               </div>
@@ -108,7 +108,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="cx-commerce-quotes-list-sort bottom">
+      <div class="cx-quote-list-sort bottom">
         <div
           *ngIf="
             quotesState.data.pagination.totalPages &&
@@ -132,7 +132,7 @@
 </ng-template>
 
 <ng-template #emptyQuoteList>
-  <div class="cx-commerce-quotes-list-empty">
+  <div class="cx-quote-list-empty">
     {{ 'quote.list.empty' | cxTranslate }}
   </div>
 </ng-template>

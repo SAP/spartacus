@@ -5,20 +5,20 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
+import { QuoteListComponentService } from './quote-list-component.service';
 
 @Component({
-  selector: 'cx-commerce-quotes-list',
-  templateUrl: './commerce-quotes-list.component.html',
+  selector: 'cx-quote-list',
+  templateUrl: './quote-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommerceQuotesListComponent {
+export class QuoteListComponent {
   sorts = this.quoteListService.sorts;
   sortLabels$ = this.quoteListService.sortLabels$;
   quotesState$ = this.quoteListService.quotesState$;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
 
-  constructor(protected quoteListService: CommerceQuotesListComponentService) {
+  constructor(protected quoteListService: QuoteListComponentService) {
     this.changePage(0);
     this.changeSortCode('byCode');
   }

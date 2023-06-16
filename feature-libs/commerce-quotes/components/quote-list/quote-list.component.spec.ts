@@ -22,8 +22,8 @@ import {
   SortModel,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
-import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
+import { QuoteListComponentService } from './quote-list-component.service';
+import { QuoteListComponent } from './quote-list.component';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -84,7 +84,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockCommerceQuotesListComponentService
-  implements Partial<CommerceQuotesListComponentService>
+  implements Partial<QuoteListComponentService>
 {
   sorts?: SortModel[] | undefined = mockSorts;
   sortLabels$ = of({
@@ -100,23 +100,23 @@ class MockCommerceQuotesListComponentService
   setCurrentPage = createSpy();
 }
 
-describe('CommerceQuotesListComponent', () => {
-  let fixture: ComponentFixture<CommerceQuotesListComponent>;
-  let component: CommerceQuotesListComponent;
-  let componentService: CommerceQuotesListComponentService;
+describe('QuoteListComponent', () => {
+  let fixture: ComponentFixture<QuoteListComponent>;
+  let component: QuoteListComponent;
+  let componentService: QuoteListComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
-        CommerceQuotesListComponent,
+        QuoteListComponent,
         MockUrlPipe,
         MockPaginationComponent,
         MockSortingComponent,
       ],
       providers: [
         {
-          provide: CommerceQuotesListComponentService,
+          provide: QuoteListComponentService,
           useClass: MockCommerceQuotesListComponentService,
         },
       ],
@@ -124,10 +124,10 @@ describe('CommerceQuotesListComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommerceQuotesListComponent);
+    fixture = TestBed.createComponent(QuoteListComponent);
     component = fixture.componentInstance;
 
-    componentService = TestBed.inject(CommerceQuotesListComponentService);
+    componentService = TestBed.inject(QuoteListComponentService);
   });
 
   it('should call service if sort changed', () => {
@@ -159,7 +159,7 @@ describe('CommerceQuotesListComponent', () => {
     //when
     fixture.detectChanges();
     const sorting = fixture.debugElement.query(By.css('cx-sorting'));
-    const table = fixture.debugElement.query(By.css('#commerce-quotes-list'));
+    const table = fixture.debugElement.query(By.css('#quote-list'));
 
     //then
     expect(sorting.nativeElement).not.toBeNull();
@@ -175,9 +175,7 @@ describe('CommerceQuotesListComponent', () => {
 
     //when
     fixture.detectChanges();
-    const header = fixture.debugElement.query(
-      By.css('.cx-commerce-quotes-list-empty')
-    );
+    const header = fixture.debugElement.query(By.css('.cx-quote-list-empty'));
 
     //then
     expect(header.nativeElement.textContent.trim()).toEqual('quote.list.empty');
@@ -220,7 +218,7 @@ describe('CommerceQuotesListComponent', () => {
       fixture.detectChanges();
       //then
       const quoteStateLinks = fixture.debugElement.queryAll(
-        By.css('.cx-commerce-quotes-list-quote-status a')
+        By.css('.cx-quote-list-quote-status a')
       );
 
       expect(quoteStateLinks[0].attributes.class).toContain('quote-draft');

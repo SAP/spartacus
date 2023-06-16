@@ -19,8 +19,8 @@ import {
   SpinnerModule,
   ViewConfig,
 } from '@spartacus/storefront';
-import { CommerceQuotesListComponentService } from './commerce-quotes-list-component.service';
-import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
+import { QuoteListComponentService } from './quote-list-component.service';
+import { QuoteListComponent } from './quote-list.component';
 
 @NgModule({
   imports: [
@@ -40,14 +40,14 @@ import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountMyQuotesComponent: {
-          component: CommerceQuotesListComponent,
+          component: QuoteListComponent,
           guards: [AuthGuard],
         },
       },
     }),
-    CommerceQuotesListComponentService,
+    QuoteListComponentService,
   ],
-  declarations: [CommerceQuotesListComponent],
-  exports: [CommerceQuotesListComponent],
+  declarations: [QuoteListComponent],
+  exports: [QuoteListComponent],
 })
-export class CommerceQuotesListModule {}
+export class QuoteListModule {}

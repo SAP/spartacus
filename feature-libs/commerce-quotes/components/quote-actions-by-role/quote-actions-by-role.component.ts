@@ -17,11 +17,11 @@ import { Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-commerce-quotes-actions-by-role',
-  templateUrl: './commerce-quotes-actions-by-role.component.html',
+  selector: 'cx-quote-actions-by-role',
+  templateUrl: './quote-actions-by-role.component.html',
 })
-export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
-  quoteDetailsState$ = this.commerceQuotesService.getQuoteDetails();
+export class QuoteActionsByRoleComponent implements OnDestroy {
+  quoteDetailsState$ = this.quoteFacade.getQuoteDetails();
 
   @ViewChild('element') element: ElementRef;
 
@@ -30,7 +30,7 @@ export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected commerceQuotesService: QuoteFacade,
+    protected quoteFacade: QuoteFacade,
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef
   ) {}
@@ -44,7 +44,7 @@ export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
   }
   performAction(quoteCode: string, action: QuoteActionType) {
     if (action !== QuoteActionType.SUBMIT) {
-      this.commerceQuotesService.performQuoteAction(quoteCode, action);
+      this.quoteFacade.performQuoteAction(quoteCode, action);
       return;
     }
     this.launchDialogService
@@ -61,16 +61,14 @@ export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
       this.launchDialogService.dialogClose
         .pipe(
           filter((reason) => reason === 'yes'),
-          tap(() =>
-            this.commerceQuotesService.performQuoteAction(quoteCode, action)
-          )
+          tap(() => this.quoteFacade.performQuoteAction(quoteCode, action))
         )
         .subscribe()
     );
   }
 
   requote(quoteId: string) {
-    this.commerceQuotesService.requote(quoteId);
+    this.quoteFacade.requote(quoteId);
   }
 
   ngOnDestroy(): void {

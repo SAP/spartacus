@@ -14,7 +14,7 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CommerceQuotesActionsByRoleComponent } from './commerce-quotes-actions-by-role.component';
+import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule],
@@ -43,13 +43,13 @@ import { CommerceQuotesActionsByRoleComponent } from './commerce-quotes-actions-
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CommerceQuotesActionsByRoleComponent: {
-          component: CommerceQuotesActionsByRoleComponent,
+          component: QuoteActionsByRoleComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [CommerceQuotesActionsByRoleComponent],
-  exports: [CommerceQuotesActionsByRoleComponent],
+  declarations: [QuoteActionsByRoleComponent],
+  exports: [QuoteActionsByRoleComponent],
 })
-export class CommerceQuotesActionsByRoleModule {}
+export class QuoteActionsByRoleModule {}
