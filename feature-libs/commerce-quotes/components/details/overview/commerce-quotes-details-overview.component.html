@@ -19,7 +19,7 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.code,
+                quoteDetailsState?.data?.code || 'TODO CHHI',
                 'commerceQuotes.details.code'
               ) | async
             "
@@ -45,7 +45,7 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.previousEstimatedTotal.formattedValue,
+                quoteDetailsState?.data?.previousEstimatedTotal?.formattedValue || 'TODO CHHI',
                 'commerceQuotes.details.estimatedTotal'
               ) | async
             "
@@ -54,7 +54,7 @@
             class="cx-card-description"
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.description,
+                quoteDetailsState?.data?.description || 'TODO CHHI',
                 'commerceQuotes.details.description'
               ) | async
             "

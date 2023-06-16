@@ -85,7 +85,7 @@
                     params: { quoteId: quote?.code }
                   } | cxUrl
                 "
-                [ngClass]="getQuoteStateClass(quote?.state)"
+                [ngClass]="getQuoteStateClass(quote?.state || 'TODO CHHI')"
               >
                 {{ 'commerceQuotes.states.' + quote?.state | cxTranslate }}
               </a>
