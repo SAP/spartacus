@@ -15,11 +15,12 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { OpfOrderFacade } from '@spartacus/opf/base/root';
 import {
-  OpfResourceLoaderService,
+  OpfOrderFacade,
   OpfService,
-} from '@spartacus/opf/checkout/core';
+  PaymentProcessingState,
+} from '@spartacus/opf/base/root';
+import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
@@ -75,9 +76,10 @@ export class OpfCheckoutPaymentWrapperService {
       this.userIdService.getUserId(),
       this.activeCartService.getActiveCartId(),
     ]).pipe(
-      tap(([_, cartId]) =>
-        // TODO: Move this key to shared place for checkout and base
-        this.winRef?.localStorage?.setItem('spaProcessingCartId', cartId)
+      tap(() =>
+        this.opfService.updateOpfMetadataState({
+          paymentProcessingState: PaymentProcessingState.IN_PROGRESS,
+        })
       ),
       switchMap(([userId, cartId]) => {
         this.activeCartId = cartId;

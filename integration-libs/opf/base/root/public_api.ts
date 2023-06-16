@@ -10,3 +10,4 @@ export * from './facade/index';
 export * from './feature-name';
 export * from './model/index';
 export * from './opf-base-root.module';
+export * from './services/index';

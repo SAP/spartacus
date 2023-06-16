@@ -5,4 +5,3 @@
  */
 
 export * from './opf-event.listener';
-export * from './opf.events';

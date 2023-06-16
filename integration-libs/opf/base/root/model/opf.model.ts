@@ -4,11 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface OpfUi {
-  termsAndConditionsChecked?: boolean;
-  selectedPaymentOptionId?: number;
-}
-
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
@@ -19,4 +14,15 @@ export interface OpfRenderPaymentMethodEvent {
 export enum OpfPaymentMethodType {
   DESTINATION = 'DESTINATION',
   DYNAMIC_SCRIPT = 'DYNAMIC_SCRIPT',
+}
+
+export enum PaymentProcessingState {
+  IN_PROGRESS = 'inProgress',
+  NOT_IN_PROGRESS = 'notInProgress',
+}
+
+export interface OpfPaymentMetadata {
+  termsAndConditionsChecked: boolean;
+  selectedPaymentOptionId: number | undefined;
+  paymentProcessingState: PaymentProcessingState;
 }

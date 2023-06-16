@@ -5,11 +5,11 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { DeleteCartEvent } from '@spartacus/cart/base/root';
-import { EventService, LoginEvent, LogoutEvent } from '@spartacus/core';
+import { CreateCartEvent } from '@spartacus/cart/base/root';
+import { EventService, LoginEvent } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
 import { merge, Subscription } from 'rxjs';
-import { OpfProcessingPaymentClearEvent, OpfUiClearEvent } from './opf.events';
+import { OpfService } from '../services';
 
 @Injectable({
   providedIn: 'root',
@@ -17,29 +17,20 @@ import { OpfProcessingPaymentClearEvent, OpfUiClearEvent } from './opf.events';
 export class CheckoutOpfEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
-    this.onOpfUiStateResetConditionsMet();
+  constructor(
+    protected eventService: EventService,
+    protected opfService: OpfService
+  ) {
+    this.onOpfPaymentMetadataResetConditionsMet();
   }
 
-  protected onOpfUiStateResetConditionsMet(): void {
+  protected onOpfPaymentMetadataResetConditionsMet(): void {
     this.subscriptions.add(
       merge(
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(OrderPlacedEvent)
-      ).subscribe(() => this.eventService.dispatch({}, OpfUiClearEvent))
-    );
-  }
-
-  protected onOpfProcessingPaymentResetConditionsMet(): void {
-    this.subscriptions.add(
-      merge(
-        this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent),
         this.eventService.get(OrderPlacedEvent),
-        this.eventService.get(DeleteCartEvent)
-      ).subscribe(() =>
-        this.eventService.dispatch({}, OpfProcessingPaymentClearEvent)
-      )
+        this.eventService.get(CreateCartEvent)
+      ).subscribe(() => this.opfService.clearOpfMetadataState())
     );
   }
 

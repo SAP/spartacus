@@ -5,33 +5,30 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { StatePersistenceService } from '@spartacus/core';
-import { OpfUi } from '@spartacus/opf/checkout/root';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { OpfActions, OpfSelectors, StateWithOpf } from '../store';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { OpfPaymentMetadata } from '../model/opf.model';
+import { OpfPaymentMetadataStoreService } from './opf-payment-metadata-store.service';
 
 /**
  * OPF state synced to browser storage.
  */
 export interface SyncedOpfState {
-  ui?: OpfUi;
+  metadata?: OpfPaymentMetadata;
 }
 
 /**
  * Responsible for storing OPF state in the browser storage.
  * Uses `StatePersistenceService` mechanism.
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class OpfStatePersistenceService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithOpf>
+    protected opfPaymentMetadataStoreService: OpfPaymentMetadataStoreService
   ) {}
 
   /**
@@ -57,15 +54,10 @@ export class OpfStatePersistenceService implements OnDestroy {
    * be saved in storage.
    */
   protected getOpfState(): Observable<SyncedOpfState> {
-    return combineLatest([
-      this.store.pipe(
-        filter((store) => !!store.opf),
-        select(OpfSelectors.getOpfUi)
-      ),
-    ]).pipe(
-      map(([ui]) => {
+    return this.opfPaymentMetadataStoreService.getOpfMetadataState().pipe(
+      map((metadata: OpfPaymentMetadata) => {
         return {
-          ui,
+          metadata,
         };
       })
     );
@@ -76,8 +68,8 @@ export class OpfStatePersistenceService implements OnDestroy {
    * Used to update state from browser -> state.
    */
   protected onRead(state: SyncedOpfState | undefined) {
-    if (state && state.ui) {
-      this.store.dispatch(new OpfActions.OpfUiUpdate(state.ui));
+    if (state && state.metadata) {
+      this.opfPaymentMetadataStoreService.opfMetadataUpdate(state.metadata);
     }
   }
 
