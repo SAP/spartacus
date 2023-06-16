@@ -7,10 +7,7 @@
       </h3>
       <h3 class="status">
         {{ 'quote.commons.status' | cxTranslate }}
-        {{
-          'quote.states.' + quoteDetailsState?.data?.state
-            | cxTranslate
-        }}
+        {{ 'quote.states.' + quoteDetailsState?.data?.state | cxTranslate }}
       </h3>
     </div>
     <div class="cx-quote-overview">
@@ -67,8 +64,7 @@
           <cx-card
             [content]="
               getCardContent(
-                'quote.states.' + quoteDetailsState?.data?.state
-                  | cxTranslate,
+                'quote.states.' + quoteDetailsState?.data?.state | cxTranslate,
                 'quote.commons.status'
               ) | async
             "

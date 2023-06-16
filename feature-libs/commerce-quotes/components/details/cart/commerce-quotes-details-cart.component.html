@@ -4,9 +4,7 @@
     [type]="showCart ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
   >
   </cx-icon>
-  <span class="cart-toggle-text">{{
-    'quote.commons.cart' | cxTranslate
-  }}</span>
+  <span class="cart-toggle-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
 </div>
 
 <ng-container *ngIf="showCart && (quoteDetails$ | async) as quoteDetailsState">
