@@ -71,7 +71,6 @@ export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttribut
           );
         }
       } else {
-        const valueName = this.getCurrentValueName(attribute, value);
         ariaLabel = this.translate(
           'configurator.a11y.readOnlyValueOfAttributeFull',
           valueName,
