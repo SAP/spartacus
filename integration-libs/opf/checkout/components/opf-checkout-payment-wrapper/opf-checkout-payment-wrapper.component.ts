@@ -8,27 +8,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import {
-  OpfPaymentMethodType,
-  PaymentSessionData,
-} from '@spartacus/opf/checkout/root';
-import { take } from 'rxjs/operators';
+import { OpfPaymentMethodType } from '@spartacus/opf/checkout/root';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
   templateUrl: './opf-checkout-payment-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpfCheckoutPaymentWrapperComponent implements OnInit {
+export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   @Input() selectedPaymentId: number;
 
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
   RENDER_TYPES = OpfPaymentMethodType;
+
+  sub: Subscription = new Subscription();
 
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
@@ -40,21 +40,20 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initiatePayment();
+    this.initiatePaymentMode();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   retryInitiatePayment(): void {
-    this.initiatePayment();
+    this.service.reloadPaymentMode();
   }
 
-  protected initiatePayment(): void {
-    this.service
-      .initiatePayment(this.selectedPaymentId)
-      .pipe(take(1))
-      .subscribe((paymentOptionConfig: PaymentSessionData | Error) => {
-        if (!(paymentOptionConfig instanceof Error)) {
-          this.service.renderPaymentGateway(paymentOptionConfig);
-        }
-      });
+  protected initiatePaymentMode(): void {
+    this.sub.add(
+      this.service.initiatePayment(this.selectedPaymentId).subscribe()
+    );
   }
 }

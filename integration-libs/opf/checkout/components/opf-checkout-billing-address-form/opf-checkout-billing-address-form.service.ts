@@ -11,6 +11,10 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
+import { Address, Country, UserPaymentService } from '@spartacus/core';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
+import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 import {
   Address,
   Country,
@@ -49,7 +53,8 @@ export class OpfCheckoutBillingAddressFormService {
     protected userPaymentService: UserPaymentService,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected activeCartService: ActiveCartFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected opfService: OpfCheckoutPaymentWrapperService
   ) {}
 
   getCountries(): Observable<Country[]> {
@@ -112,15 +117,18 @@ export class OpfCheckoutBillingAddressFormService {
 
           return this.activeCartService.isStable();
         }),
-        filter((isStable) => isStable),
+        filter((isStable: boolean) => isStable),
         switchMap(() => this.getPaymentAddress()),
+
         tap((billingAddress: Address | undefined) => {
           if (!!billingAddress && !!billingAddress.id) {
             this.billingAddressId = billingAddress.id;
 
             this.billingAddressSub.next(billingAddress);
+            this.opfService.reloadPaymentMode();
           }
-        }),
+          };
+        ),
         catchError((error) => {
           this.globalMessageService.add(
             { key: 'opf.address.errors.cannotUpdate' },
