@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
+import { QuoteFacade } from '@spartacus/commerce-quotes/root';
 import { EventService } from '@spartacus/core';
 import { ICON_TYPE, MessagingConfigs } from '@spartacus/storefront';
 
@@ -21,7 +21,7 @@ export class CommerceQuotesDetailsVendorContactComponent {
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
   constructor(
-    protected commerceQuotesService: CommerceQuotesFacade,
+    protected commerceQuotesService: QuoteFacade,
     protected eventService: EventService
   ) {}
   onSend(event: { message: string }) {

@@ -33,10 +33,7 @@
           <div class="quote-name-description">
             <div class="quote-name">
               <div class="heading">
-                {{
-                  'quote.confirmSubmitDialog.name.heading'
-                    | cxTranslate
-                }}
+                {{ 'quote.confirmSubmitDialog.name.heading' | cxTranslate }}
               </div>
               <div class="content">
                 {{
@@ -48,8 +45,7 @@
             <div class="quote-description">
               <div class="heading">
                 {{
-                  'quote.confirmSubmitDialog.description.heading'
-                    | cxTranslate
+                  'quote.confirmSubmitDialog.description.heading' | cxTranslate
                 }}
               </div>
               <div class="content"></div>
@@ -58,23 +54,16 @@
 
           <div class="notes">
             <p>
-              {{
-                'quote.confirmSubmitDialog.warningSubmitNote'
-                  | cxTranslate
-              }}
+              {{ 'quote.confirmSubmitDialog.warningSubmitNote' | cxTranslate }}
             </p>
             <p>
-              {{
-                'quote.confirmSubmitDialog.confirmSubmitNote'
-                  | cxTranslate
-              }}
+              {{ 'quote.confirmSubmitDialog.confirmSubmitNote' | cxTranslate }}
             </p>
           </div>
           <div class="cx-dialog-buttons">
             <button class="btn btn-secondary" (click)="dismissModal('no')">
               {{
-                'quote.confirmSubmitDialog.confirmSubmitOption.no'
-                  | cxTranslate
+                'quote.confirmSubmitDialog.confirmSubmitOption.no' | cxTranslate
               }}
             </button>
             <button class="btn btn-primary" (click)="dismissModal('yes')">

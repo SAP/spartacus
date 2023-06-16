@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
+import { QuoteFacade } from '@spartacus/commerce-quotes/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ export class CommerceQuotesDetailsOverviewComponent {
   quoteDetails$ = this.commerceQuotesService.getQuoteDetails();
 
   constructor(
-    protected commerceQuotesService: CommerceQuotesFacade,
+    protected commerceQuotesService: QuoteFacade,
     protected translationService: TranslationService
   ) {}
 

@@ -6,7 +6,7 @@
 
 import { Component } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
+import { QuoteFacade } from '@spartacus/commerce-quotes/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -19,5 +19,5 @@ export class CommerceQuotesDetailsCartComponent {
   showCart = true;
   readonly cartOutlets = CartOutlets;
 
-  constructor(protected commerceQuotesService: CommerceQuotesFacade) {}
+  constructor(protected commerceQuotesService: QuoteFacade) {}
 }

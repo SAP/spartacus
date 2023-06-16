@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CommerceQuotesFacade,
+  QuoteFacade,
   Quote,
   QuoteActionType,
 } from '@spartacus/commerce-quotes/root';
@@ -41,7 +41,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
 }
 
-class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
   performQuoteAction = createSpy().and.returnValue(of(EMPTY));
 }
@@ -54,7 +54,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
   let component: CommerceQuotesRequestQuoteDialogComponent;
   let fixture: ComponentFixture<CommerceQuotesRequestQuoteDialogComponent>;
   let launchDialogService: LaunchDialogService;
-  let commerceQuotesService: CommerceQuotesFacade;
+  let commerceQuotesService: QuoteFacade;
   let routingService: RoutingService;
 
   beforeEach(async () => {
@@ -75,7 +75,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
           useClass: MockLaunchDialogService,
         },
         {
-          provide: CommerceQuotesFacade,
+          provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -83,7 +83,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
     }).compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    commerceQuotesService = TestBed.inject(CommerceQuotesFacade);
+    commerceQuotesService = TestBed.inject(QuoteFacade);
     routingService = TestBed.inject(RoutingService);
 
     spyOn(routingService, 'go').and.callThrough();

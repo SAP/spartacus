@@ -5,10 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  CommerceQuotesFacade,
-  QuoteList,
-} from '@spartacus/commerce-quotes/root';
+import { QuoteFacade, QuoteList } from '@spartacus/commerce-quotes/root';
 import { QueryState, SortModel, TranslationService } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -69,7 +66,7 @@ export class CommerceQuotesListComponentService {
   );
 
   constructor(
-    protected commerceQuotesFacade: CommerceQuotesFacade,
+    protected commerceQuotesFacade: QuoteFacade,
     protected translationService: TranslationService
   ) {}
 

@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
-  CommerceQuotesFacade,
+  QuoteFacade,
   CommerceQuotesListReloadQueryEvent,
   Quote,
   QuoteActionType,
@@ -45,7 +45,7 @@ import {
 import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector';
 
 @Injectable()
-export class CommerceQuotesService implements CommerceQuotesFacade {
+export class CommerceQuotesService implements QuoteFacade {
   /**
    * Indicator whether an action is currently performing.
    */

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  CommerceQuotesFacade,
+  QuoteFacade,
   Quote,
   QuoteActionType,
   QuoteState,
@@ -59,7 +59,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
-class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<QueryState<Quote>> {
     return mockQuoteDetailsState$.asObservable();
   }
@@ -82,7 +82,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
   let fixture: ComponentFixture<CommerceQuotesActionsByRoleComponent>;
   let component: CommerceQuotesActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
-  let facade: CommerceQuotesFacade;
+  let facade: QuoteFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -90,7 +90,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
       declarations: [CommerceQuotesActionsByRoleComponent],
       providers: [
         {
-          provide: CommerceQuotesFacade,
+          provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
         { provide: TranslationService, useClass: MockTranslationService },
@@ -103,7 +103,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
     fixture = TestBed.createComponent(CommerceQuotesActionsByRoleComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    facade = TestBed.inject(CommerceQuotesFacade);
+    facade = TestBed.inject(QuoteFacade);
     mockQuoteDetailsState$.next(mockQuoteDetailsState);
   });
 
@@ -238,7 +238,7 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
     expect(actionButtons).toBeDefined();
     actionButtons.filter((button, index) => {
       expect(button.nativeElement.textContent.trim()).toEqual(
-        `commerceQuotes.actions.${mockQuote.allowedActions[index].type}`
+        `quote.actions.${mockQuote.allowedActions[index].type}`
       );
       button.nativeElement.click();
     });

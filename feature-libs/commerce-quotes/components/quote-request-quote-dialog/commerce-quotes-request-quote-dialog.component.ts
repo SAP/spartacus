@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CQConfig } from '@spartacus/commerce-quotes/core';
 import {
-  CommerceQuotesFacade,
+  QuoteFacade,
   QuoteActionType,
   QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
@@ -46,7 +46,7 @@ export class CommerceQuotesRequestQuoteDialogComponent {
   });
 
   constructor(
-    protected commerceQuotesFacade: CommerceQuotesFacade,
+    protected commerceQuotesFacade: QuoteFacade,
     protected routingService: RoutingService,
     protected config: CQConfig,
     protected launchDialogService: LaunchDialogService

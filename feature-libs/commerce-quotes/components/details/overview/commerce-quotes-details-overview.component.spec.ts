@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CommerceQuotesFacade,
+  QuoteFacade,
   Quote,
   QuoteActionType,
   QuoteState,
@@ -37,7 +37,7 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_ORDERED,
 };
 
-export class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+export class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuoteDetails(): Observable<QueryState<Quote>> {
     return of({ data: mockQuote, loading: false, error: false });
   }
@@ -70,7 +70,7 @@ describe('CommerceQuotesDetailsOverviewComponent', () => {
       ],
       providers: [
         {
-          provide: CommerceQuotesFacade,
+          provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
         { provide: TranslationService, useClass: MockTranslationService },

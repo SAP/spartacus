@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { IconModule, OutletModule } from '@spartacus/storefront';
 import { CommerceQuotesDetailsCartComponent } from './commerce-quotes-details-cart.component';
-import { CommerceQuotesDetailsCartSummaryComponent } from './summary/commerce-quote-details-cart-summary.component';
+import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-summary.component';
 
 @NgModule({
   imports: [CommonModule, OutletModule, IconModule, I18nModule],
@@ -26,7 +26,7 @@ import { CommerceQuotesDetailsCartSummaryComponent } from './summary/commerce-qu
           guards: [AuthGuard],
         },
         CommerceQuotesCartSummaryComponent: {
-          component: CommerceQuotesDetailsCartSummaryComponent,
+          component: QuoteDetailsCartSummaryComponent,
           guards: [AuthGuard],
         },
       },
@@ -34,11 +34,11 @@ import { CommerceQuotesDetailsCartSummaryComponent } from './summary/commerce-qu
   ],
   declarations: [
     CommerceQuotesDetailsCartComponent,
-    CommerceQuotesDetailsCartSummaryComponent,
+    QuoteDetailsCartSummaryComponent,
   ],
   exports: [
     CommerceQuotesDetailsCartComponent,
-    CommerceQuotesDetailsCartSummaryComponent,
+    QuoteDetailsCartSummaryComponent,
   ],
 })
 export class CommerceQuotesDetailsCartModule {}

@@ -180,9 +180,7 @@ describe('CommerceQuotesListComponent', () => {
     );
 
     //then
-    expect(header.nativeElement.textContent.trim()).toEqual(
-      'commerceQuotes.list.empty'
-    );
+    expect(header.nativeElement.textContent.trim()).toEqual('quote.list.empty');
   });
 
   it('should display pagination if pages total is more than 1', () => {

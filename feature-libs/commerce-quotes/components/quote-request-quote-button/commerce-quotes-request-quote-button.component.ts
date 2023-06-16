@@ -11,7 +11,7 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
+import { QuoteFacade } from '@spartacus/commerce-quotes/root';
 import { RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -27,7 +27,7 @@ export class CommerceQuotesRequestQuoteButtonComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected commerceQuotesFacade: CommerceQuotesFacade,
+    protected commerceQuotesFacade: QuoteFacade,
     protected routingService: RoutingService
   ) {}
 

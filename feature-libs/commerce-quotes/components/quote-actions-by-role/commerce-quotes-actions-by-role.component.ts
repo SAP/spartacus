@@ -11,10 +11,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  CommerceQuotesFacade,
-  QuoteActionType,
-} from '@spartacus/commerce-quotes/root';
+import { QuoteFacade, QuoteActionType } from '@spartacus/commerce-quotes/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -33,7 +30,7 @@ export class CommerceQuotesActionsByRoleComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected commerceQuotesService: CommerceQuotesFacade,
+    protected commerceQuotesService: QuoteFacade,
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef
   ) {}

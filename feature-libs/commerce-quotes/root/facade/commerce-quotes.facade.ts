@@ -21,7 +21,7 @@ import {
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: CommerceQuotesFacade,
+      facade: QuoteFacade,
       feature: COMMERCE_QUOTES_FEATURE,
       methods: [
         'getQuotesState',
@@ -33,7 +33,7 @@ import {
       ],
     }),
 })
-export abstract class CommerceQuotesFacade {
+export abstract class QuoteFacade {
   /**
    * Returns the query list state.
    * @param params QueryStateParams

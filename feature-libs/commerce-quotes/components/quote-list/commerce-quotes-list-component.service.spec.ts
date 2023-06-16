@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CommerceQuotesFacade,
+  QuoteFacade,
   Quote,
   QuoteActionType,
   QuoteList,
@@ -50,7 +50,7 @@ const mockListWithSorts: QueryState<QuoteList> = {
 
 const mockQuoteListState$ = new BehaviorSubject(mockQuoteListState);
 
-class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   getQuotesState(): Observable<QueryState<QuoteList>> {
     return mockQuoteListState$.asObservable();
   }
@@ -75,7 +75,7 @@ describe('CommerceQuotesListComponentService', () => {
       providers: [
         CommerceQuotesListComponentService,
         {
-          provide: CommerceQuotesFacade,
+          provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
         {

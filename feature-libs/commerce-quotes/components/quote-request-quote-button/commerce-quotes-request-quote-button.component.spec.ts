@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { CommerceQuotesRequestQuoteButtonComponent } from './commerce-quotes-request-quote-button.component';
-import { CommerceQuotesFacade, Quote } from '@spartacus/commerce-quotes/root';
+import { QuoteFacade, Quote } from '@spartacus/commerce-quotes/root';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 
@@ -17,13 +17,13 @@ const mockCreatedQuote: Quote = {
   allowedActions: [],
   code: quoteCode,
 };
-class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
+class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
 }
 describe('CommerceQuotesRequestQuoteButtonComponent', () => {
   let component: CommerceQuotesRequestQuoteButtonComponent;
   let fixture: ComponentFixture<CommerceQuotesRequestQuoteButtonComponent>;
-  let commerceQuotesService: CommerceQuotesFacade;
+  let commerceQuotesService: QuoteFacade;
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(async () => {
@@ -32,14 +32,14 @@ describe('CommerceQuotesRequestQuoteButtonComponent', () => {
       imports: [I18nTestingModule],
       providers: [
         {
-          provide: CommerceQuotesFacade,
+          provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
         { provide: RoutingService, useValue: mockRoutingService },
       ],
     }).compileComponents();
 
-    commerceQuotesService = TestBed.inject(CommerceQuotesFacade);
+    commerceQuotesService = TestBed.inject(QuoteFacade);
   });
 
   beforeEach(() => {
