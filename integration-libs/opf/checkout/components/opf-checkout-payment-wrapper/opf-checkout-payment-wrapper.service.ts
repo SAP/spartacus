@@ -13,9 +13,13 @@ import {
   HttpResponseStatus,
   RoutingService,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import { OpfOrderFacade } from '@spartacus/opf/base/root';
-import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
+import {
+  OpfResourceLoaderService,
+  OpfService,
+} from '@spartacus/opf/checkout/core';
 import {
   OpfCheckoutFacade,
   OpfOtpFacade,
@@ -25,8 +29,8 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
-  combineLatest,
   Observable,
+  combineLatest,
   of,
   throwError,
 } from 'rxjs';
@@ -52,8 +56,33 @@ export class OpfCheckoutPaymentWrapperService {
     protected activeCartService: ActiveCartService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected opfOrderFacade: OpfOrderFacade
+    protected opfOrderFacade: OpfOrderFacade,
+    protected opfService: OpfService,
+    protected winRef: WindowRef
   ) {}
+
+  protected readonly CHECKOUT_REVIEW_SEMANTIC_ROUTE = 'checkoutReviewOrder';
+
+  protected executeScriptFromHtml(html: string): void {
+    /**
+     * Verify first if customer is still on the payment and review page.
+     * Then execute script extracted from HTML to render payment provider gateway.
+     */
+    this.routingService
+      .getRouterState()
+      .pipe(
+        take(1),
+        filter(
+          (route) =>
+            route.state.semanticRoute === this.CHECKOUT_REVIEW_SEMANTIC_ROUTE
+        )
+      )
+      .subscribe(() => {
+        setTimeout(() => {
+          this.opfResourceLoaderService.executeScriptFromHtml(html);
+        });
+      });
+  }
 
   getRenderPaymentMethodEvent(): Observable<OpfRenderPaymentMethodEvent> {
     return this.renderPaymentMethodEvent$.asObservable();
@@ -72,6 +101,10 @@ export class OpfCheckoutPaymentWrapperService {
       this.userIdService.getUserId(),
       this.activeCartService.getActiveCartId(),
     ]).pipe(
+      tap(([_, cartId]) =>
+        // TODO: Move this key to shared place for checkout and base
+        this.winRef?.localStorage?.setItem('spaProcessingCartId', cartId)
+      ),
       switchMap(([userId, cartId]: [string, string]) => {
         this.activeCartId = cartId;
         return this.opfOtpService.generateOtpKey(userId, cartId);
@@ -124,9 +157,10 @@ export class OpfCheckoutPaymentWrapperService {
             renderType: OpfPaymentMethodType.DYNAMIC_SCRIPT,
             data: html,
           });
-          setTimeout(() => {
-            this.opfResourceLoaderService.executeScriptFromHtml(html);
-          });
+
+          if (html) {
+            this.executeScriptFromHtml(html);
+          }
         });
     }
   }
