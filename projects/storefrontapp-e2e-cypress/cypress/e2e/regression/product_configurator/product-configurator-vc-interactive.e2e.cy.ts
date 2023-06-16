@@ -498,5 +498,39 @@ context('Product Configuration', () => {
         );
       }
     });
+    it('should display a success message on conflict resolution (CXSPA-2374)', () => {
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
+      configurationVc.registerConfigurationUpdateRoute();
+      configurationVc.clickOnNextBtnAndWait(PROJECTOR);
+      configurationVc.selectAttributeAndWait(
+        PROJECTOR_TYPE,
+        radioGroup,
+        PROJECTOR_LCD,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.clickOnPreviousBtnAndWait(GENERAL);
+      configurationVc.clickOnGroupAndWait(3);
+
+      configurationVc.selectConflictingValueAndWait(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_YES,
+        1,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.checkGlobalMessageNotDisplayed();
+      configurationVc.deselectConflictingValueAndWait(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_NO,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.checkGlobalMessageContains(
+        `Conflicts have been resolved`
+      );
+    });
   });
 });

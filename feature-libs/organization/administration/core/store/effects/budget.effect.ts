@@ -5,10 +5,15 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EntitiesModel, normalizeHttpError, StateUtils } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
+import {
+  EntitiesModel,
+  LoggerService,
+  StateUtils,
+  normalizeHttpError,
+} from '@spartacus/core';
+import { Observable, from, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { Budget } from '../../model/budget.model';
@@ -16,6 +21,8 @@ import { BudgetActions, OrganizationActions } from '../actions/index';
 
 @Injectable()
 export class BudgetEffects {
+  protected logger = inject(LoggerService);
+
   loadBudget$: Observable<
     BudgetActions.LoadBudgetSuccess | BudgetActions.LoadBudgetFail
   > = createEffect(() =>
@@ -31,7 +38,7 @@ export class BudgetEffects {
             of(
               new BudgetActions.LoadBudgetFail({
                 budgetCode,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -67,7 +74,7 @@ export class BudgetEffects {
             of(
               new BudgetActions.LoadBudgetsFail({
                 params: payload.params,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -94,7 +101,7 @@ export class BudgetEffects {
             from([
               new BudgetActions.CreateBudgetFail({
                 budgetCode: payload.budget.code ?? '',
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
             ])
@@ -124,7 +131,7 @@ export class BudgetEffects {
               from([
                 new BudgetActions.UpdateBudgetFail({
                   budgetCode: payload.budget.code ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

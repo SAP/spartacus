@@ -5,7 +5,9 @@
  */
 
 import { Injectable } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormArray } from '@angular/forms';
 import {
+  ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
   Title,
@@ -18,7 +20,8 @@ import { Observable } from 'rxjs';
 export class RegisterComponentService {
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected fb: UntypedFormBuilder
   ) {}
 
   /**
@@ -45,5 +48,28 @@ export class RegisterComponentService {
       { key: 'register.postRegisterMessage' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+  }
+
+  /**
+   * Get if any additional consents needs to be provided during registration
+   * In core feature, no additional consents are necessary during registration.
+   * In integration scenarios, eg: cdc, this method will be overridden to return
+   * necessary cdc consents
+   */
+  getAdditionalConsents(): {
+    template: ConsentTemplate;
+    required: boolean;
+  }[] {
+    return [];
+  }
+
+  /**
+   * Generate form control if any additional consents that needs to be provided during registration
+   * In core feature, no additional consents are necessary during registration.
+   * In integration scenarios, eg: cdc, this method will be overridden to return
+   * form controls for necessary cdc consents
+   */
+  generateAdditionalConsentsFormControl(): UntypedFormArray {
+    return this.fb.array([]);
   }
 }

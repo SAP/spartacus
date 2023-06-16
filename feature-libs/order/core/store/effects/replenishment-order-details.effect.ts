@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  LoggerService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
@@ -19,6 +20,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
+  protected logger = inject(LoggerService);
+
   loadReplenishmentOrderDetails$: Observable<OrderActions.ReplenishmentOrderDetailsAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -38,7 +41,7 @@ export class ReplenishmentOrderDetailsEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadReplenishmentOrderDetailsFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -75,7 +78,7 @@ export class ReplenishmentOrderDetailsEffect {
 
                 return of(
                   new OrderActions.CancelReplenishmentOrderFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 );
               })
