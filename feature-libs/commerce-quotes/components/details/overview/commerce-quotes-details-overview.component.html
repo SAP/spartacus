@@ -45,7 +45,8 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.previousEstimatedTotal?.formattedValue || 'TODO CHHI',
+                quoteDetailsState?.data?.previousEstimatedTotal
+                  ?.formattedValue || 'TODO CHHI',
                 'commerceQuotes.details.estimatedTotal'
               ) | async
             "

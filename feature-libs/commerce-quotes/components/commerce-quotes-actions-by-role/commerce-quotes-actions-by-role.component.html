@@ -7,7 +7,9 @@
         *ngFor="let action of quoteDetailsState.data?.allowedActions"
         class="btn"
         [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-secondary'"
-        (click)="onClick(action.type, quoteDetailsState.data?.code || 'TODO CHHI')"
+        (click)="
+          onClick(action.type, quoteDetailsState.data?.code || 'TODO CHHI')
+        "
       >
         {{ 'commerceQuotes.actions.' + action.type | cxTranslate }}
       </button>
