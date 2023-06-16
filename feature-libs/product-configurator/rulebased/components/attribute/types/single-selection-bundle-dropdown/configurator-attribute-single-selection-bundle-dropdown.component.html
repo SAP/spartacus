@@ -93,9 +93,9 @@
 <cx-configurator-attribute-product-card
   *ngIf="isNotRetractValue()"
   id="{{
-    createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
+    createAttributeValueIdForConfigurator(attribute, selectedValue.valueCode)
   }}"
-  (handleDeselect)="onSelect('0')"
+  (handleDeselect)="onSelect(RETRACT_VALUE_CODE)"
   [productCardOptions]="extractProductCardParameters()"
 >
 </cx-configurator-attribute-product-card>

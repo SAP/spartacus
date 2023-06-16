@@ -423,4 +423,15 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       expect(component.isRetractValue('8624')).toBe(false);
     });
   });
+
+  describe('selectedValue', () => {
+    beforeEach(() => {
+      createComponentWithData('6.2').ngOnInit();
+    });
+
+    it('should throw error in case no selection has been made', () => {
+      component.selectionValue = undefined;
+      expect(() => component.selectedValue).toThrow();
+    });
+  });
 });
