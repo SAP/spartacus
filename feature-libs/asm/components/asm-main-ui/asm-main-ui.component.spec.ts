@@ -483,7 +483,10 @@ describe('AsmMainUiComponent', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
     );
-    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
+      new BehaviorSubject(false)
+    );
 
     const oldUser = { customerId: 'olduser', name: 'Test old User' } as User;
     const newUser = { customerId: 'newuser', name: 'Test new User' } as User;
@@ -491,9 +494,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(userAccountFacade, 'get').and.returnValue(of(oldUser));
     spyOn(userAccountFacade, 'getById').and.returnValue(of(newUser));
 
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('olduser');
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('newuser');
 
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
