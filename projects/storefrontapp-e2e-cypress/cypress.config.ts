@@ -16,16 +16,14 @@ export default defineConfig({
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
-    API_URL:
-      'https://api.cp96avkh5f-integrati2-s1-public.model-t.cc.commerce.ondemand.com',
+    API_URL: 'https://40.76.109.9:9002',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
-    BACK_OFFICE_URL:
-      'https://api.cp96avkh5f-integrati2-s1-public.model-t.cc.commerce.ondemand.com',
+    BACK_OFFICE_URL: 'https://40.76.109.9:9002',
     BACK_OFFICE_PREFIX: '/backoffice',
   },
   e2e: {
