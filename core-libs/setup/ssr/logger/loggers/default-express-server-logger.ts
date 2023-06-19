@@ -12,6 +12,24 @@ import {
 } from './express-server-logger';
 
 /**
+ * TraceContext is used for log message in server side rendering.
+ * It contains values of traceparent header.
+ *
+ * @property version - version of traceparent header
+ * @property traceId - traceId of traceparent header
+ * @property spanId - spanId of traceparent header
+ * @property traceFlags - traceFlags of traceparent header
+ *
+ * @see https://www.w3.org/TR/trace-context/#traceparent-header-field
+ */
+interface Traceparent {
+  version: string;
+  traceId: string;
+  spanId: string;
+  traceFlags: string;
+}
+
+/**
  *
  * Default logger used in SSR (ExpressJS) to enhance logs visible e.g. in monitoring tools e.g. Kibana.
  * It outputs a JSON with properties "message" and "context",
@@ -63,9 +81,38 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   }
 
   protected mapRequest(request: Request): Record<string, any> {
-    return {
+    const mappedRequest = {
       url: request.originalUrl,
       ...request.res?.locals.cx.request,
+    };
+
+    if (
+      request.headers?.traceparent &&
+      typeof request.headers?.traceparent === 'string'
+    ) {
+      Object.assign(mappedRequest, {
+        openTracing: this.mapTraceprent(request.headers.traceparent),
+      });
+    }
+
+    return mappedRequest;
+  }
+
+  /**
+   * Maps traceparent header to object with properties version, traceId, spanId and traceFlags.
+   *
+   * @param traceparent
+   * @returns Params of the traceparent header
+   *
+   * @see https://www.w3.org/TR/trace-context/#traceparent-header-field-values
+   */
+  protected mapTraceprent(traceparent: string): Traceparent {
+    const [version, traceId, spanId, traceFlags] = traceparent.split('-');
+    return {
+      version,
+      traceId,
+      spanId,
+      traceFlags,
     };
   }
 }

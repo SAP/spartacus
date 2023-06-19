@@ -23,6 +23,7 @@ import {
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
+import { ssrOptimizationOptionsResolver } from './ssr-optimization-options-resolver';
 
 /**
  * Returns the full url for the given SSR Request.
@@ -86,13 +87,7 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    const options = {
-      ...this.ssrOptions,
-      logger:
-        this.ssrOptions.logger === true
-          ? this.ssrOptions.logger
-          : this.ssrOptions.logger?.constructor?.name,
-    };
+    const options = ssrOptimizationOptionsResolver(this.ssrOptions);
 
     // This check has been introduced to avoid breaking changes. Remove it in Spartacus version 7.0
     if (this.ssrOptions.logger) {
@@ -100,14 +95,7 @@ export class OptimizedSsrEngine {
         options,
       } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed a the start f the server and there is no request available yet.
     } else {
-      const replacer = (_key: string, value: unknown): unknown => {
-        if (typeof value === 'function') {
-          return value.toString();
-        }
-        return value;
-      };
-
-      const stringifiedOptions = JSON.stringify(options, replacer, 2);
+      const stringifiedOptions = JSON.stringify(options, null, 2);
       this.log(
         `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
         true
@@ -271,6 +259,8 @@ export class OptimizedSsrEngine {
     options.req.res.locals = { cx: { request: requestContext } };
 
     const request: Request = options.req;
+    // request.headers.traceparent =
+    //   '00-d745f6735b44e81c0ae5410cb1fc8a0c-1b527c3828976b39-01';
     const response: Response = options.req.res;
 
     if (this.returnCachedRender(request, callback)) {
@@ -342,13 +332,10 @@ export class OptimizedSsrEngine {
     message: string,
     debug = true,
     //CXSPA-3680 - in a new major, let's make this argument required
-    logMetadata?: ExpressServerLoggerContext
+    context?: ExpressServerLoggerContext
   ): void {
     if (debug || this.ssrOptions?.debug) {
-      this.logger.log(
-        message,
-        logMetadata || ({} as ExpressServerLoggerContext)
-      );
+      this.logger.log(message, context || ({} as ExpressServerLoggerContext));
     }
   }
 

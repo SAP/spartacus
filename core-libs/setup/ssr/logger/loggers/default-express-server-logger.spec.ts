@@ -3,6 +3,20 @@ import { Request } from 'express';
 import { DefaultExpressServerLogger } from './default-express-server-logger';
 import { ExpressServerLoggerContext } from './express-server-logger';
 
+const request = {
+  originalUrl: 'test',
+  res: {
+    locals: {
+      cx: {
+        request: { uuid: 'test', timeReceived: new Date('2023-05-26') },
+      },
+    },
+  },
+  headers: {
+    traceparent: '00-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e1-01',
+  },
+} as unknown as Request;
+
 describe('DefaultExpressServerLogger', () => {
   let logger: DefaultExpressServerLogger;
 
@@ -76,17 +90,6 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       it('should log proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'log')
           .mockImplementation(() => {});
@@ -95,23 +98,12 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
           ]
         `);
       });
 
       it('should warn proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
@@ -120,23 +112,12 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
           ]
         `);
       });
 
       it('should error proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'error')
           .mockImplementation(() => {});
@@ -145,7 +126,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
           ]
         `);
       });
@@ -176,17 +157,6 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       it('should debug proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'debug')
           .mockImplementation(() => {});
@@ -195,7 +165,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
           ]
         `);
       });
@@ -207,17 +177,6 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       it('should log proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'log')
           .mockImplementation(() => {});
@@ -233,7 +192,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "openTracing": {
+                  "version": "00",
+                  "traceId": "0af7651916cd43dd8448eb211c80319c",
+                  "spanId": "b9c7c989f97918e1",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -242,17 +207,6 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       it('should warn proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
@@ -268,7 +222,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "openTracing": {
+                  "version": "00",
+                  "traceId": "0af7651916cd43dd8448eb211c80319c",
+                  "spanId": "b9c7c989f97918e1",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -277,17 +237,6 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       it('should error proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'error')
           .mockImplementation(() => {});
@@ -303,7 +252,13 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z"
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "openTracing": {
+                  "version": "00",
+                  "traceId": "0af7651916cd43dd8448eb211c80319c",
+                  "spanId": "b9c7c989f97918e1",
+                  "traceFlags": "01"
+                }
               }
             }
           }",
@@ -312,17 +267,6 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       it('should info proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'info')
           .mockImplementation(() => {});
@@ -330,34 +274,29 @@ describe('DefaultExpressServerLogger', () => {
         logger.info('test', { request });
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-                  [
-                    "{
-                    "message": "test",
-                    "context": {
-                      "timestamp": "2023-05-26T00:00:00.000Z",
-                      "request": {
-                        "url": "test",
-                        "uuid": "test",
-                        "timeReceived": "2023-05-26T00:00:00.000Z"
-                      }
-                    }
-                  }",
-                  ]
-              `);
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "openTracing": {
+                  "version": "00",
+                  "traceId": "0af7651916cd43dd8448eb211c80319c",
+                  "spanId": "b9c7c989f97918e1",
+                  "traceFlags": "01"
+                }
+              }
+            }
+          }",
+          ]
+        `);
       });
 
       it('should debug proper shape of the JSON', () => {
-        const request = {
-          originalUrl: 'test',
-          res: {
-            locals: {
-              cx: {
-                request: { uuid: 'test', timeReceived: new Date() },
-              },
-            },
-          },
-        } as unknown as Request;
-
         const debugSpy = jest
           .spyOn(console, 'debug')
           .mockImplementation(() => {});
@@ -365,20 +304,26 @@ describe('DefaultExpressServerLogger', () => {
         logger.debug('test', { request });
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
-                  [
-                    "{
-                    "message": "test",
-                    "context": {
-                      "timestamp": "2023-05-26T00:00:00.000Z",
-                      "request": {
-                        "url": "test",
-                        "uuid": "test",
-                        "timeReceived": "2023-05-26T00:00:00.000Z"
-                      }
-                    }
-                  }",
-                  ]
-              `);
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z",
+                "openTracing": {
+                  "version": "00",
+                  "traceId": "0af7651916cd43dd8448eb211c80319c",
+                  "spanId": "b9c7c989f97918e1",
+                  "traceFlags": "01"
+                }
+              }
+            }
+          }",
+          ]
+        `);
       });
     });
   });
