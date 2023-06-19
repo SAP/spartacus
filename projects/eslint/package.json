@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/eslint-plugin-eslint",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "private": true,
   "main": "index.js",
   "dependencies": {
