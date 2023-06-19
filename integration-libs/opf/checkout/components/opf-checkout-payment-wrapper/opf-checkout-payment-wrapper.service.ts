@@ -15,11 +15,7 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import {
-  OpfOrderFacade,
-  OpfService,
-  PaymentProcessingState,
-} from '@spartacus/opf/base/root';
+import { OpfOrderFacade, OpfService } from '@spartacus/opf/base/root';
 import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
 import {
   OpfCheckoutFacade,
@@ -30,8 +26,8 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
-  Observable,
   combineLatest,
+  Observable,
   of,
   throwError,
 } from 'rxjs';
@@ -104,7 +100,7 @@ export class OpfCheckoutPaymentWrapperService {
     ]).pipe(
       tap(() =>
         this.opfService.updateOpfMetadataState({
-          paymentProcessingState: PaymentProcessingState.IN_PROGRESS,
+          paymentProcessingState: true,
         })
       ),
       switchMap(([userId, cartId]: [string, string]) => {

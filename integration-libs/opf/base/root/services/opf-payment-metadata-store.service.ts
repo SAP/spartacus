@@ -6,12 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { OpfPaymentMetadata, PaymentProcessingState } from '../model/opf.model';
+import { OpfPaymentMetadata } from '../model/opf.model';
 
 const initialState = {
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
-  paymentProcessingState: PaymentProcessingState.NOT_IN_PROGRESS,
+  paymentProcessingState: false,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class OpfPaymentMetadataStoreService {
     return this.opfPaymentMetadataState.asObservable();
   }
 
-  opfMetadataUpdate(payload: Partial<OpfPaymentMetadata>): void {
+  updateOpfMetadata(payload: Partial<OpfPaymentMetadata>): void {
     this.opfPaymentMetadataState.next({
       ...this.opfPaymentMetadataState.value,
       ...payload,

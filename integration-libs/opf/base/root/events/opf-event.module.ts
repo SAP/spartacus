@@ -5,11 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CheckoutOpfEventListener } from './opf-event.listener';
+import { OpfEventListenerService } from './opf-event.listener';
 
 @NgModule({})
 export class OpfEventModule {
-  constructor(_checkoutOpfEventListener: CheckoutOpfEventListener) {
+  constructor(_opfEventListenerService: OpfEventListenerService) {
     // Intentional empty constructor
   }
 }

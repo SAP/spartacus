@@ -16,13 +16,8 @@ export enum OpfPaymentMethodType {
   DYNAMIC_SCRIPT = 'DYNAMIC_SCRIPT',
 }
 
-export enum PaymentProcessingState {
-  IN_PROGRESS = 'inProgress',
-  NOT_IN_PROGRESS = 'notInProgress',
-}
-
 export interface OpfPaymentMetadata {
   termsAndConditionsChecked: boolean;
   selectedPaymentOptionId: number | undefined;
-  paymentProcessingState: PaymentProcessingState;
+  paymentProcessingState: boolean;
 }

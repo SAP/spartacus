@@ -22,7 +22,7 @@ export class OpfService {
    * Updates the state of the OPF metadata
    */
   updateOpfMetadataState(opfMetadata: Partial<OpfPaymentMetadata>): void {
-    this.opfPaymentMetadataStoreService.opfMetadataUpdate(opfMetadata);
+    this.opfPaymentMetadataStoreService.updateOpfMetadata(opfMetadata);
   }
 
   /**

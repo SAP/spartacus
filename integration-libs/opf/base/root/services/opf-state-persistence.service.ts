@@ -69,7 +69,7 @@ export class OpfStatePersistenceService implements OnDestroy {
    */
   protected onRead(state: SyncedOpfState | undefined) {
     if (state && state.metadata) {
-      this.opfPaymentMetadataStoreService.opfMetadataUpdate(state.metadata);
+      this.opfPaymentMetadataStoreService.updateOpfMetadata(state.metadata);
     }
   }
 

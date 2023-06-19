@@ -22,10 +22,7 @@ import {
   OpfPaymenVerificationUrlInput,
   OpfResponseMapElement,
 } from '../../model';
-import {
-  OpfPaymentMetadata,
-  PaymentProcessingState,
-} from '../../model/opf.model';
+import { OpfPaymentMetadata } from '../../model/opf.model';
 import { OpfService } from '../../services';
 
 @Injectable({
@@ -154,8 +151,7 @@ export class OpfPaymentVerificationService {
         take(1),
         filter(
           (opfPaymentMetadata: OpfPaymentMetadata) =>
-            opfPaymentMetadata.paymentProcessingState ===
-            PaymentProcessingState.NOT_IN_PROGRESS
+            opfPaymentMetadata.paymentProcessingState === false
         )
       )
       .subscribe(() => {

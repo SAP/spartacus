@@ -14,7 +14,7 @@ import { OpfService } from '../services';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutOpfEventListener implements OnDestroy {
+export class OpfEventListenerService implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(
