@@ -11,7 +11,7 @@ import { OpfPaymentMetadata } from '../model/opf.model';
 const initialState = {
   termsAndConditionsChecked: false,
   selectedPaymentOptionId: undefined,
-  paymentProcessingState: false,
+  isPaymentInProgress: false,
 };
 
 @Injectable({ providedIn: 'root' })

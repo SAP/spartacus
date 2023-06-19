@@ -100,7 +100,7 @@ export class OpfCheckoutPaymentWrapperService {
     ]).pipe(
       tap(() =>
         this.opfService.updateOpfMetadataState({
-          paymentProcessingState: true,
+          isPaymentInProgress: true,
         })
       ),
       switchMap(([userId, cartId]: [string, string]) => {

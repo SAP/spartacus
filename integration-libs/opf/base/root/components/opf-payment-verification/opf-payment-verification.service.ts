@@ -151,7 +151,7 @@ export class OpfPaymentVerificationService {
         take(1),
         filter(
           (opfPaymentMetadata: OpfPaymentMetadata) =>
-            opfPaymentMetadata.paymentProcessingState === false
+            opfPaymentMetadata.isPaymentInProgress === false
         )
       )
       .subscribe(() => {
