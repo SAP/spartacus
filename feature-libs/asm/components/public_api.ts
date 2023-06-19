@@ -9,6 +9,7 @@ export * from './asm-bind-cart/asm-bind-cart.component';
 export * from './asm-components.module';
 export * from './asm-create-customer-form/asm-create-customer-form.component';
 export * from './asm-main-ui/asm-main-ui.component';
+export * from './asm-save-cart-dialog/asm-save-cart-dialog.component';
 export * from './asm-session-timer/asm-session-timer.component';
 export * from './asm-session-timer/format-timer.pipe';
 export * from './asm-toggle-ui/asm-toggle-ui.component';
