@@ -9,5 +9,7 @@ import { QuoteListEventListener } from './quote-list-event.listener';
 
 @NgModule({})
 export class QuoteEventModule {
-  constructor(_quoteListEventListener: QuoteListEventListener) {}
+  constructor(_quoteListEventListener: QuoteListEventListener) {
+    // This is intentional
+  }
 }

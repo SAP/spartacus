@@ -11,13 +11,13 @@ import {
 } from '@spartacus/commerce-quotes/assets';
 import { provideConfig } from '@spartacus/core';
 import {
-  CommerceQuotesRootModule,
+  QuoteRootModule,
   QUOTE_FEATURE,
 } from '@spartacus/commerce-quotes/root';
 import { QuoteConfig } from '@spartacus/commerce-quotes/core';
 
 @NgModule({
-  imports: [CommerceQuotesRootModule],
+  imports: [QuoteRootModule],
   providers: [
     provideConfig(<QuoteConfig>{
       quote: {

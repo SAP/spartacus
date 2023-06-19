@@ -20,8 +20,8 @@ import {
 import { QuoteEventModule } from './events/quote-event.module';
 import { QUOTE_FEATURE } from './feature-name';
 
-export function defaultCommerceQuotesComponentsConfig() {
-  const config = {
+export function defaultQuoteComponentsConfig() {
+  return {
     featureModules: {
       [QUOTE_FEATURE]: {
         cmsComponents: [
@@ -37,10 +37,9 @@ export function defaultCommerceQuotesComponentsConfig() {
       },
     },
   };
-  return config;
 }
 
-export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
+export const defaultQuoteRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       quotes: {
@@ -58,7 +57,7 @@ export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
   },
 };
 
-export const defaultCommerceQuoteConfigLayoutConfig: LayoutConfig = {
+export const defaultQuoteConfigLayoutConfig: LayoutConfig = {
   layoutSlots: {
     QuoteDetailsPageTemplate: {
       slots: ['BodyContent', 'CenterRightContent'],
@@ -91,9 +90,9 @@ export const defaultCommerceQuoteConfigLayoutConfig: LayoutConfig = {
     QuoteEventModule,
   ],
   providers: [
-    provideDefaultConfigFactory(defaultCommerceQuotesComponentsConfig),
-    provideDefaultConfig(defaultCommerceQuotesRoutingConfig),
-    provideDefaultConfig(defaultCommerceQuoteConfigLayoutConfig),
+    provideDefaultConfigFactory(defaultQuoteComponentsConfig),
+    provideDefaultConfig(defaultQuoteRoutingConfig),
+    provideDefaultConfig(defaultQuoteConfigLayoutConfig),
   ],
 })
-export class CommerceQuotesRootModule {}
+export class QuoteRootModule {}
