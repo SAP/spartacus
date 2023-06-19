@@ -15,7 +15,7 @@ import {
   QuoteList,
   QuoteMetadata,
   QuoteStarter,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 
 export const QUOTE_LIST_NORMALIZER = new InjectionToken<
   Converter<any, QuoteList>

@@ -5,10 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import {
-  QuoteActionType,
-  QuoteActionsByState,
-} from 'feature-libs/quote/root/public_api';
+import { QuoteActionType, QuoteActionsByState } from '@spartacus/quote/root';
 import { Config } from '@spartacus/core';
 
 export interface QuoteTresholdsConfig {

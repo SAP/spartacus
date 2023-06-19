@@ -8,7 +8,7 @@ import {
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import {
   EventService,
   GlobalMessageService,

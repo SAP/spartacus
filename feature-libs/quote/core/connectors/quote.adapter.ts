@@ -14,7 +14,7 @@ import {
   QuoteActionType,
   Comment,
   QuoteDiscount,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 
 export abstract class QuoteAdapter {
   /**

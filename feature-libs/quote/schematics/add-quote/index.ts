@@ -16,15 +16,13 @@ import {
   analyzeApplication,
   analyzeCrossFeatureDependencies,
   finalizeInstallation,
-  LibraryOptions as SpartacusCommerceQuotesOptions,
+  LibraryOptions as SpartacusQuoteOptions,
   readPackageJson,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
-export function addCommerceQuotesFeatures(
-  options: SpartacusCommerceQuotesOptions
-): Rule {
+export function addQuoteFeatures(options: SpartacusQuoteOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);

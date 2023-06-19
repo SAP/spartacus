@@ -7,7 +7,7 @@ import {
   QuoteDiscount,
   QuoteMetadata,
   QuoteStarter,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import { QuoteAdapter } from './quote.adapter';
 import { QuoteConnector } from './quote.connector';
 

@@ -1,12 +1,12 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { QuoteConfig } from 'feature-libs/quote/core/public_api';
+import { QuoteConfig } from '@spartacus/quote/core';
 import {
   OccQuote,
   Quote,
   QuoteActionsByState,
   QuoteActionType,
   QuoteState,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
 
 const mockActionOrderByState: Partial<QuoteActionsByState> = {

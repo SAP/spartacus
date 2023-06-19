@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { QuoteFacade } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';

@@ -23,7 +23,7 @@ module.exports = {
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/commerce-quotes/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/quote/schematics',
   coverageThreshold: {
     global: {
       statements: 90,

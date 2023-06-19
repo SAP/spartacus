@@ -330,12 +330,8 @@
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
 
       "@spartacus/quote": ["../../dist/quote"],
-      "@spartacus/quote/assets": [
-        "../../dist/quote/assets"
-      ],
-      "@spartacus/quote/components": [
-        "../../dist/quote/components"
-      ],
+      "@spartacus/quote/assets": ["../../dist/quote/assets"],
+      "@spartacus/quote/components": ["../../dist/quote/components"],
       "@spartacus/quote/core": ["../../dist/quote/core"],
       "@spartacus/quote/occ": ["../../dist/quote/occ"],
       "@spartacus/quote/root": ["../../dist/quote/root"],

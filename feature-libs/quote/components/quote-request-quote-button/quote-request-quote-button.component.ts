@@ -11,7 +11,7 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { QuoteFacade } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';

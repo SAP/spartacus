@@ -5,7 +5,7 @@ import {
   Quote,
   QuoteActionType,
   QuoteState,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import {
   I18nTestingModule,
   QueryState,

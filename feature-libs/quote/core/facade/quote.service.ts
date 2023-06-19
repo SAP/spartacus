@@ -17,7 +17,7 @@ import {
   QuoteMetadata,
   QuotesStateParams,
   QuoteStarter,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import {
   Command,
   CommandService,

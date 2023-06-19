@@ -20,8 +20,7 @@ export const QUOTE_FEATURE_NAME_CONSTANT = 'QUOTE_FEATURE';
 export const QUOTE_MODULE = 'QuoteModule';
 export const QUOTE_ROOT_MODULE = 'QuoteRootModule';
 export const QUOTE_TRANSLATIONS = 'QuoteTranslations';
-export const QUOTE_TRANSLATION_CHUNKS_CONFIG =
-  'QuoteTranslationChunksConfig';
+export const QUOTE_TRANSLATION_CHUNKS_CONFIG = 'QuoteTranslationChunksConfig';
 export const QUOTE_SCSS_FILE_NAME = 'quote.scss';
 
 export const QUOTE_SCHEMATICS_CONFIG: SchematicConfig = {

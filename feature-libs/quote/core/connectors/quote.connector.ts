@@ -15,7 +15,7 @@ import {
   QuoteMetadata,
   QuoteStarter,
   Comment,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import { QuoteAdapter } from './quote.adapter';
 
 @Injectable()

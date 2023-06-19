@@ -5,14 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteConfig } from 'feature-libs/quote/core/public_api';
+import { QuoteConfig } from '@spartacus/quote/core';
 import {
   QuoteAction,
   OccQuote,
   Quote,
   QuoteActionType,
   QuoteState,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import { Converter } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })

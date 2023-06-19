@@ -3,11 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  QuoteFacade,
-  Quote,
-  QuoteActionType,
-} from 'feature-libs/quote/root/public_api';
+import { QuoteFacade, Quote, QuoteActionType } from '@spartacus/quote/root';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,

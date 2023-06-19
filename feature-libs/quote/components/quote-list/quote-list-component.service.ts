@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { QuoteFacade, QuoteList } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade, QuoteList } from '@spartacus/quote/root';
 import { QueryState, SortModel, TranslationService } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';

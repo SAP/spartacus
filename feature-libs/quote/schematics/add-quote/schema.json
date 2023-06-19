@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "CommerceQuotesSchematics",
-  "title": "CommerceQuotes Schematics",
+  "$id": "QuoteSchematics",
+  "title": "Quote Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -18,13 +18,13 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the commerce quotes features.",
+      "description": "Lazy load the quote features.",
       "default": true
     },
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Commerce-Quotes"]
+      "default": ["Quotes"]
     }
   },
   "required": []

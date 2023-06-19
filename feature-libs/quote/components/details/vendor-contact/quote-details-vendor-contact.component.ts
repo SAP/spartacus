@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { QuoteFacade } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { EventService } from '@spartacus/core';
 import { ICON_TYPE, MessagingConfigs } from '@spartacus/storefront';
 

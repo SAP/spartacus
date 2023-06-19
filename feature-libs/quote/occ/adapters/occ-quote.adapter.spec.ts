@@ -11,7 +11,7 @@ import {
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
   QUOTE_DISCOUNT_SERIALIZER,
-} from 'feature-libs/quote/core/public_api';
+} from '@spartacus/quote/core';
 import {
   Quote,
   QuoteActionType,
@@ -20,7 +20,7 @@ import {
   QuoteMetadata,
   QuoteStarter,
   Comment,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { OccQuoteAdapter } from './occ-quote.adapter';

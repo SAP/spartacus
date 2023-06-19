@@ -5,15 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { QuoteComponentsModule } from 'feature-libs/quote/components/public_api';
-import { QuoteCoreModule } from 'feature-libs/quote/core/public_api';
-import { QuoteOccModule } from 'feature-libs/quote/occ/public_api';
+import { QuoteCoreModule } from '@spartacus/quote/core';
+import { QuoteComponentsModule } from '@spartacus/quote/components';
+import { QuoteOccModule } from '@spartacus/quote/occ';
 
 @NgModule({
-  imports: [
-    QuoteComponentsModule,
-    QuoteCoreModule,
-    QuoteOccModule,
-  ],
+  imports: [QuoteComponentsModule, QuoteCoreModule, QuoteOccModule],
 })
 export class QuoteModule {}

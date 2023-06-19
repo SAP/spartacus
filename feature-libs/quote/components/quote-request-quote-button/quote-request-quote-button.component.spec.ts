@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { QuoteRequestQuoteButtonComponent } from './quote-request-quote-button.component';
-import { QuoteFacade, Quote } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade, Quote } from '@spartacus/quote/root';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 

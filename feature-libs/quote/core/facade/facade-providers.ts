@@ -5,7 +5,7 @@
  */
 
 import { Provider } from '@angular/core';
-import { QuoteFacade } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { QuoteService } from './quote.service';
 
 export const facadeProviders: Provider[] = [

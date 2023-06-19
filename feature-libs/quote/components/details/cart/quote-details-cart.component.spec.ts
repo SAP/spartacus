@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
-import { QuoteFacade } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade } from '@spartacus/quote/root';
 import { MockQuoteFacade } from '../overview/quote-details-overview.component.spec';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';

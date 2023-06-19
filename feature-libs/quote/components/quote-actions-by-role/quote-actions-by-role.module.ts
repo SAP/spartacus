@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { QuoteConfig } from 'feature-libs/quote/core/public_api';
-import { QuoteActionType } from 'feature-libs/quote/root/public_api';
+import { QuoteConfig } from '@spartacus/quote/core';
+import { QuoteActionType } from '@spartacus/quote/root';
 import {
   AuthGuard,
   CmsConfig,

@@ -6,12 +6,12 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { QuoteConfig } from 'feature-libs/quote/core/public_api';
+import { QuoteConfig } from '@spartacus/quote/core';
 import {
   QuoteFacade,
   QuoteActionType,
   QuoteMetadata,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import { RoutingService } from '@spartacus/core';
 import {
   FocusConfig,

@@ -11,7 +11,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { QuoteFacade, QuoteActionType } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade, QuoteActionType } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';

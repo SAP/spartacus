@@ -15,7 +15,7 @@ import {
   QUOTE_METADATA_SERIALIZER,
   QUOTE_NORMALIZER,
   QUOTE_STARTER_SERIALIZER,
-} from 'feature-libs/quote/core/public_api';
+} from '@spartacus/quote/core';
 import {
   Comment,
   OccQuote,
@@ -25,7 +25,7 @@ import {
   QuoteList,
   QuoteMetadata,
   QuoteStarter,
-} from 'feature-libs/quote/root/public_api';
+} from '@spartacus/quote/root';
 import {
   ConverterService,
   normalizeHttpError,

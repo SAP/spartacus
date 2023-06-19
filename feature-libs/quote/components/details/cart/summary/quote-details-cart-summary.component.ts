@@ -6,7 +6,7 @@
 
 import { Component } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { QuoteFacade } from 'feature-libs/quote/root/public_api';
+import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
   selector: 'cx-quote-details-cart-summary',

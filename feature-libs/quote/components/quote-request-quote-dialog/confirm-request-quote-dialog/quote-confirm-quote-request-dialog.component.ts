@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { QuoteConfig } from 'feature-libs/quote/core/public_api';
+import { QuoteConfig } from '@spartacus/quote/core';
 import {
   FocusConfig,
   ICON_TYPE,

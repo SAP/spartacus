@@ -7,10 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import {
-  QuoteAdapter,
-  QUOTE_NORMALIZER,
-} from 'feature-libs/quote/core/public_api';
+import { QuoteAdapter, QUOTE_NORMALIZER } from '@spartacus/quote/core';
+
 import { OccQuoteAdapter } from './adapters/occ-quote.adapter';
 import { defaultOccQuoteConfig } from './config/default-occ-quote-config';
 import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normalizer';

@@ -2,9 +2,9 @@
 
 exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CommerceQuotesModule } from "@spartacus/commerce-quotes";
-import { commerceQuotesTranslationChunksConfig, commerceQuotesTranslations } from "@spartacus/commerce-quotes/assets";
-import { CommerceQuotesRootModule } from "@spartacus/commerce-quotes/root";
+import { QuoteModule } from "@spartacus/quote";
+import { quoteTranslationChunksConfig, commerceQuotesTranslations } from "@spartacus/quote/assets";
+import { QuoteRootModule } from "@spartacus/quote/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
@@ -20,14 +20,14 @@ import { I18nConfig, provideConfig } from "@spartacus/core";
     },
   })]
 })
-export class CommerceQuotesFeatureModule { }
+export class QuoteFeatureModule { }
 "
 `;
 
 exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { commerceQuotesTranslationChunksConfig, commerceQuotesTranslations } from "@spartacus/commerce-quotes/assets";
-import { CommerceQuotesRootModule, COMMERCE_QUOTES_FEATURE } from "@spartacus/commerce-quotes/root";
+import { commerceQuotesTranslationChunksConfig, commerceQuotesTranslations } from "@spartacus/quote/assets";
+import { CommerceQuotesRootModule, COMMERCE_QUOTES_FEATURE } from "@spartacus/quote/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
@@ -39,7 +39,7 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
     featureModules: {
       [COMMERCE_QUOTES_FEATURE]: {
         module: () =>
-          import('@spartacus/commerce-quotes').then((m) => m.CommerceQuotesModule),
+          import('@spartacus/quote').then((m) => m.QuoteModule),
       },
     }
   }),
@@ -57,7 +57,7 @@ export class CommerceQuotesFeatureModule { }
 
 exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
-@import "@spartacus/commerce-quotes";
+@import "@spartacus/quote";
 "
 `;
 
@@ -95,7 +95,7 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
             ],
             "styles": [
               "src/styles.scss",
-              "src/styles/spartacus/commerce-quotes.scss"
+              "src/styles/spartacus/quote.scss"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
@@ -164,7 +164,7 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
             ],
             "styles": [
               "src/styles.scss",
-              "src/styles/spartacus/commerce-quotes.scss"
+              "src/styles/spartacus/quote.scss"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {

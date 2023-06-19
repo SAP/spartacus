@@ -15,5 +15,4 @@ export const QUOTE_FEATURE_NAME_CONSTANT = 'QUOTE_FEATURE';
 export const SPARTACUS_QUOTE_ROOT = `${SPARTACUS_QUOTE}/root`;
 export const SPARTACUS_QUOTE_ASSETS = `${SPARTACUS_QUOTE}/assets`;
 export const QUOTE_TRANSLATIONS = 'quoteTranslations';
-export const QUOTE_TRANSLATION_CHUNKS_CONFIG =
-  'quoteTranslationChunksConfig';
+export const QUOTE_TRANSLATION_CHUNKS_CONFIG = 'quoteTranslationChunksConfig';
