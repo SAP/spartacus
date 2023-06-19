@@ -17,7 +17,7 @@ import { Converter } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
-  constructor(private commerceQuotesConfig: QuoteConfig) {}
+  constructor(private quoteConfig: QuoteConfig) {}
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
@@ -36,16 +36,13 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
 
   protected getActionCategory(type: QuoteActionType): QuoteAction {
     const primaryActions: QuoteActionType[] =
-      this.commerceQuotesConfig.commerceQuotes?.actions?.primaryActions || [];
+      this.quoteConfig.quote?.actions?.primaryActions || [];
 
     return { type, isPrimary: primaryActions.includes(type) };
   }
 
   protected getOrderedActions(state: QuoteState, list: QuoteActionType[]) {
-    const order =
-      this.commerceQuotesConfig.commerceQuotes?.actions?.actionsOrderByState?.[
-        state
-      ];
+    const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
 
     return !order
       ? list

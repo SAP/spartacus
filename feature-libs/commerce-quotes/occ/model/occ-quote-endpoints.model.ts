@@ -6,7 +6,7 @@
 
 import { OccEndpoint } from '@spartacus/core';
 
-export interface CommerceQuotesOccEndpoints {
+export interface QuoteOccEndpoints {
   /**
    * Get all quotes for user.
    */
@@ -49,5 +49,5 @@ export interface CommerceQuotesOccEndpoints {
 }
 
 declare module '@spartacus/core' {
-  interface OccEndpoints extends CommerceQuotesOccEndpoints {}
+  interface OccEndpoints extends QuoteOccEndpoints {}
 }

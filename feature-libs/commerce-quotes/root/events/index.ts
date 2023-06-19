@@ -4,6 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './commerce-quotes-list.events';
-export * from './commerce-quotes-list-event.listener';
-export * from './commerce-quotes-event.module';
+export * from './quote-list.events';
+export * from './quote-list-event.listener';
+export * from './quote-event.module';

@@ -31,7 +31,7 @@ const mockConvertedQuote: Quote = {
 };
 
 const MockCQConfig: Partial<QuoteConfig> = {
-  commerceQuotes: {
+  quote: {
     actions: {
       actionsOrderByState: mockActionOrderByState,
       primaryActions: [mockPrimaryAction],
@@ -66,15 +66,15 @@ describe('BudgetNormalizer', () => {
   });
 
   it('should return unsorted list if order is not present', () => {
-    service['commerceQuotesConfig'] = {
-      commerceQuotes: undefined,
+    service['quoteConfig'] = {
+      quote: undefined,
     };
     expect(service['getOrderedActions'](mockState, mockAllowedActions)).toEqual(
       mockAllowedActions
     );
 
-    service['commerceQuotesConfig'] = {
-      commerceQuotes: {
+    service['quoteConfig'] = {
+      quote: {
         actions: undefined,
       },
     };
@@ -82,8 +82,8 @@ describe('BudgetNormalizer', () => {
       mockAllowedActions
     );
 
-    service['commerceQuotesConfig'] = {
-      commerceQuotes: {
+    service['quoteConfig'] = {
+      quote: {
         actions: {
           actionsOrderByState: undefined,
         },
@@ -97,20 +97,20 @@ describe('BudgetNormalizer', () => {
   it('should set isPrimary to false if primaryActions config is not defined', () => {
     const result = { type: mockAllowedActions[0], isPrimary: false };
 
-    service['commerceQuotesConfig'] = {
-      commerceQuotes: undefined,
+    service['quoteConfig'] = {
+      quote: undefined,
     };
     expect(service['getActionCategory'](mockAllowedActions[0])).toEqual(result);
 
-    service['commerceQuotesConfig'] = {
-      commerceQuotes: {
+    service['quoteConfig'] = {
+      quote: {
         actions: undefined,
       },
     };
     expect(service['getActionCategory'](mockAllowedActions[0])).toEqual(result);
 
-    service['commerceQuotesConfig'] = {
-      commerceQuotes: {
+    service['quoteConfig'] = {
+      quote: {
         actions: {
           primaryActions: undefined,
         },

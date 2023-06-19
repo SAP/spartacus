@@ -23,7 +23,7 @@ class MockQuoteFacade implements Partial<QuoteFacade> {
 describe('QuoteRequestQuoteButtonComponent', () => {
   let component: QuoteRequestQuoteButtonComponent;
   let fixture: ComponentFixture<QuoteRequestQuoteButtonComponent>;
-  let commerceQuotesService: QuoteFacade;
+  let quoteFacade: QuoteFacade;
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(async () => {
@@ -39,7 +39,7 @@ describe('QuoteRequestQuoteButtonComponent', () => {
       ],
     }).compileComponents();
 
-    commerceQuotesService = TestBed.inject(QuoteFacade);
+    quoteFacade = TestBed.inject(QuoteFacade);
   });
 
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe('QuoteRequestQuoteButtonComponent', () => {
   });
   it('should call the goToQuoteDetails page when button clicked', () => {
     component.goToQuoteDetails();
-    expect(commerceQuotesService.createQuote).toHaveBeenCalled();
+    expect(quoteFacade.createQuote).toHaveBeenCalled();
     expect(mockRoutingService.go).toHaveBeenCalledWith({
       cxRoute: 'quoteDetails',
       params: { quoteId: quoteCode },

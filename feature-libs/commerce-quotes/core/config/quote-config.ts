@@ -33,7 +33,7 @@ export abstract class QuoteConfig {
   /**
    * Commerce quotes config
    */
-  commerceQuotes?: {
+  quote?: {
     tresholds?: QuoteTresholdsConfig;
     actions?: QuoteActionsConfig;
   };

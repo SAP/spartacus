@@ -11,7 +11,7 @@ import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;
 const MockCQConfig: QuoteConfig = {
-  commerceQuotes: {
+  quote: {
     tresholds: {
       requestInitiation: 10000,
       sellerAutoApproval: 1,
@@ -74,7 +74,7 @@ describe('QuoteBadRequestHandler', () => {
       {
         key: 'quote.httpHandlers.threshold.underTresholdError',
         params: {
-          minValue: MockCQConfig.commerceQuotes?.tresholds?.requestInitiation,
+          minValue: MockCQConfig.quote?.tresholds?.requestInitiation,
         },
       },
       GlobalMessageType.MSG_TYPE_ERROR

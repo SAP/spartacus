@@ -7,10 +7,10 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const commerceQuotesTranslations: TranslationResources = {
+export const quoteTranslations: TranslationResources = {
   en,
 };
 
-export const commerceQuotesTranslationChunksConfig: TranslationChunksConfig = {
-  commerceQuotes: ['commerceQuotes'],
+export const quoteTranslationChunksConfig: TranslationChunksConfig = {
+  quote: ['quotes'],
 };

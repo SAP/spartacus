@@ -7,7 +7,7 @@
 import { ConfigurationInfo } from '@spartacus/product-configurator/common';
 import '@spartacus/storefront';
 
-import { Comment } from './commerce-quotes.model';
+import { Comment } from './quote.model';
 
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {

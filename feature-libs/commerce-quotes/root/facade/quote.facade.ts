@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { COMMERCE_QUOTES_FEATURE } from '../feature-name';
+import { QUOTE_FEATURE } from '../feature-name';
 import {
   Comment,
   Quote,
@@ -15,14 +15,14 @@ import {
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
-} from '../model/commerce-quotes.model';
+} from '../model/quote.model';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: QuoteFacade,
-      feature: COMMERCE_QUOTES_FEATURE,
+      feature: QUOTE_FEATURE,
       methods: [
         'getQuotesState',
         'getQuoteDetails',

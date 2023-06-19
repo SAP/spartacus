@@ -20,7 +20,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
   imports: [CommonModule, I18nModule],
   providers: [
     provideDefaultConfig(<QuoteConfig>{
-      commerceQuotes: {
+      quote: {
         actions: {
           primaryActions: [
             QuoteActionType.APPROVE,

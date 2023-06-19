@@ -12,13 +12,13 @@ import {
   QUOTE_NORMALIZER,
 } from '@spartacus/commerce-quotes/core';
 import { OccQuoteAdapter } from './adapters/occ-quote.adapter';
-import { defaultOccCommerceQuotesConfig } from './config/default-occ-commerce-quotes-config';
+import { defaultOccQuoteConfig } from './config/default-occ-quote-config';
 import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normalizer';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfig(defaultOccCommerceQuotesConfig),
+    provideDefaultConfig(defaultOccQuoteConfig),
     {
       provide: QuoteAdapter,
       useClass: OccQuoteAdapter,

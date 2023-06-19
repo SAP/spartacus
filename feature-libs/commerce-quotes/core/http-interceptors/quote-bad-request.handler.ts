@@ -50,7 +50,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
         {
           key: 'quote.httpHandlers.threshold.underTresholdError',
           params: {
-            minValue: this.config.commerceQuotes?.tresholds?.requestInitiation,
+            minValue: this.config.quote?.tresholds?.requestInitiation,
           },
         },
         GlobalMessageType.MSG_TYPE_ERROR

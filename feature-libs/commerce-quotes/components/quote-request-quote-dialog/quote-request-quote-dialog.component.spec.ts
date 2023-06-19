@@ -54,7 +54,7 @@ describe('QuoteRequestQuoteDialogComponent', () => {
   let component: QuoteRequestQuoteDialogComponent;
   let fixture: ComponentFixture<QuoteRequestQuoteDialogComponent>;
   let launchDialogService: LaunchDialogService;
-  let commerceQuotesService: QuoteFacade;
+  let quoteFacade: QuoteFacade;
   let routingService: RoutingService;
 
   beforeEach(async () => {
@@ -83,7 +83,7 @@ describe('QuoteRequestQuoteDialogComponent', () => {
     }).compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    commerceQuotesService = TestBed.inject(QuoteFacade);
+    quoteFacade = TestBed.inject(QuoteFacade);
     routingService = TestBed.inject(RoutingService);
 
     spyOn(routingService, 'go').and.callThrough();
@@ -160,7 +160,7 @@ describe('QuoteRequestQuoteDialogComponent', () => {
       .query(By.css('button.btn-action'))
       .nativeElement.click();
 
-    expect(commerceQuotesService.createQuote).toHaveBeenCalledWith(
+    expect(quoteFacade.createQuote).toHaveBeenCalledWith(
       {
         name: testForm.name,
       },
@@ -194,7 +194,7 @@ describe('QuoteRequestQuoteDialogComponent', () => {
       .query(By.css('button.btn-primary'))
       .nativeElement.click();
 
-    expect(commerceQuotesService.createQuote).toHaveBeenCalledWith(
+    expect(quoteFacade.createQuote).toHaveBeenCalledWith(
       {
         name: testForm.name,
       },
@@ -203,7 +203,7 @@ describe('QuoteRequestQuoteDialogComponent', () => {
       }
     );
 
-    expect(commerceQuotesService.performQuoteAction).toHaveBeenCalledWith(
+    expect(quoteFacade.performQuoteAction).toHaveBeenCalledWith(
       quoteCode,
       QuoteActionType.SUBMIT
     );

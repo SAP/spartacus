@@ -6,13 +6,13 @@
 
 import { NgModule } from '@angular/core';
 import {
-  commerceQuotesTranslationChunksConfig,
-  commerceQuotesTranslations,
+  quoteTranslationChunksConfig,
+  quoteTranslations,
 } from '@spartacus/commerce-quotes/assets';
 import { provideConfig } from '@spartacus/core';
 import {
   CommerceQuotesRootModule,
-  COMMERCE_QUOTES_FEATURE,
+  QUOTE_FEATURE,
 } from '@spartacus/commerce-quotes/root';
 import { QuoteConfig } from '@spartacus/commerce-quotes/core';
 
@@ -20,7 +20,7 @@ import { QuoteConfig } from '@spartacus/commerce-quotes/core';
   imports: [CommerceQuotesRootModule],
   providers: [
     provideConfig(<QuoteConfig>{
-      commerceQuotes: {
+      quote: {
         tresholds: {
           sellerAutoApproval: 75000,
           requestInitiation: 25000,
@@ -29,7 +29,7 @@ import { QuoteConfig } from '@spartacus/commerce-quotes/core';
     }),
     provideConfig({
       featureModules: {
-        [COMMERCE_QUOTES_FEATURE]: {
+        [QUOTE_FEATURE]: {
           module: () =>
             import('@spartacus/commerce-quotes').then(
               (m) => m.CommerceQuotesModule
@@ -37,8 +37,8 @@ import { QuoteConfig } from '@spartacus/commerce-quotes/core';
         },
       },
       i18n: {
-        resources: commerceQuotesTranslations,
-        chunks: commerceQuotesTranslationChunksConfig,
+        resources: quoteTranslations,
+        chunks: quoteTranslationChunksConfig,
       },
     }),
   ],

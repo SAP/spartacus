@@ -9,7 +9,7 @@ import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
   QuoteFacade,
-  CommerceQuotesListReloadQueryEvent,
+  QuoteListReloadQueryEvent,
   Quote,
   QuoteActionType,
   QuoteDetailsReloadQueryEvent,
@@ -65,20 +65,17 @@ export class QuoteService implements QuoteFacade {
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) =>
-          zip(
-            of(userId),
-            this.commerceQuotesConnector.createQuote(userId, { cartId })
-          )
+          zip(of(userId), this.quoteConnector.createQuote(userId, { cartId }))
         ),
         concatMap(([userId, quote]) =>
           zip(
             combineLatest([
-              this.commerceQuotesConnector.editQuote(
+              this.quoteConnector.editQuote(
                 userId,
                 quote.code,
                 payload.quoteMetadata
               ),
-              this.commerceQuotesConnector.addComment(
+              this.quoteConnector.addComment(
                 userId,
                 quote.code,
                 payload.quoteComment
@@ -116,7 +113,7 @@ export class QuoteService implements QuoteFacade {
       this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) =>
-          this.commerceQuotesConnector.editQuote(
+          this.quoteConnector.editQuote(
             userId,
             payload.quoteCode,
             payload.quoteMetadata
@@ -139,7 +136,7 @@ export class QuoteService implements QuoteFacade {
       this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) =>
-          this.commerceQuotesConnector.addComment(
+          this.quoteConnector.addComment(
             userId,
             payload.quoteCode,
             payload.quoteComment
@@ -163,7 +160,7 @@ export class QuoteService implements QuoteFacade {
       return this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) =>
-          this.commerceQuotesConnector.performQuoteAction(
+          this.quoteConnector.performQuoteAction(
             userId,
             payload.quoteCode,
             payload.quoteAction
@@ -187,17 +184,15 @@ export class QuoteService implements QuoteFacade {
         return this.userIdService.takeUserId().pipe(
           take(1),
           switchMap((userId) =>
-            this.commerceQuotesConnector
-              .createQuote(userId, payload.quoteStarter)
-              .pipe(
-                tap((quote) => {
-                  this.routingService.go({
-                    cxRoute: 'quoteDetails',
-                    params: { quoteId: quote.code },
-                  });
-                  this.isActionPerforming$.next(false);
-                })
-              )
+            this.quoteConnector.createQuote(userId, payload.quoteStarter).pipe(
+              tap((quote) => {
+                this.routingService.go({
+                  cxRoute: 'quoteDetails',
+                  params: { quoteId: quote.code },
+                });
+                this.isActionPerforming$.next(false);
+              })
+            )
           )
         );
       },
@@ -212,7 +207,7 @@ export class QuoteService implements QuoteFacade {
         this.routingService.getRouterState().pipe(
           withLatestFrom(this.userIdService.takeUserId()),
           switchMap(([{ state }, userId]) =>
-            this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
+            this.quoteConnector.getQuote(userId, state.params.quoteId)
           )
         ),
       {
@@ -232,7 +227,7 @@ export class QuoteService implements QuoteFacade {
           distinctUntilChanged(),
           switchMap(([userId, currentPage, sort]) => {
             console.log(userId, currentPage, sort);
-            return this.commerceQuotesConnector.getQuotes(userId, {
+            return this.quoteConnector.getQuotes(userId, {
               currentPage,
               sort,
               pageSize: this.config.view?.defaultPageSize,
@@ -241,7 +236,7 @@ export class QuoteService implements QuoteFacade {
         ),
       {
         reloadOn: [
-          CommerceQuotesListReloadQueryEvent,
+          QuoteListReloadQueryEvent,
           uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
         ],
         resetOn: [LoginEvent, NavigationEvent],
@@ -250,7 +245,7 @@ export class QuoteService implements QuoteFacade {
 
   constructor(
     protected userIdService: UserIdService,
-    protected commerceQuotesConnector: QuoteConnector,
+    protected quoteConnector: QuoteConnector,
     protected eventService: EventService,
     protected queryService: QueryService,
     protected config: ViewConfig,

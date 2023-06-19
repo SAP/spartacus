@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './occ-commerce-quotes-endpoints.model';
+export * from './occ-quote-endpoints.model';

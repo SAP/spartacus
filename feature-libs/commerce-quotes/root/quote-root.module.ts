@@ -17,13 +17,13 @@ import {
   LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { CommerceQuotesEventModule } from './events/commerce-quotes-event.module';
-import { COMMERCE_QUOTES_FEATURE } from './feature-name';
+import { QuoteEventModule } from './events/quote-event.module';
+import { QUOTE_FEATURE } from './feature-name';
 
 export function defaultCommerceQuotesComponentsConfig() {
   const config = {
     featureModules: {
-      [COMMERCE_QUOTES_FEATURE]: {
+      [QUOTE_FEATURE]: {
         cmsComponents: [
           'AccountMyQuotesComponent',
           'CommerceQuotesRequestComponent',
@@ -88,7 +88,7 @@ export const defaultCommerceQuoteConfigLayoutConfig: LayoutConfig = {
         },
       },
     ]),
-    CommerceQuotesEventModule,
+    QuoteEventModule,
   ],
   providers: [
     provideDefaultConfigFactory(defaultCommerceQuotesComponentsConfig),

@@ -7,8 +7,8 @@ import {
   GlobalMessageType,
 } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
-import { CommerceQuotesListEventListener } from './commerce-quotes-list-event.listener';
-import { CommerceQuotesListReloadQueryEvent } from './commerce-quotes-list.events';
+import { QuoteListEventListener } from './quote-list-event.listener';
+import { QuoteListReloadQueryEvent } from './quote-list.events';
 import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
@@ -22,14 +22,14 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-describe('CommerceQuotesListEventListener', () => {
+describe('QuoteListEventListener', () => {
   let globalMessageService: GlobalMessageService;
-  let commerceQuotesListEventListener: CommerceQuotesListEventListener;
+  let quoteListEventListener: QuoteListEventListener;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CommerceQuotesListEventListener,
+        QuoteListEventListener,
         {
           provide: EventService,
           useClass: MockEventService,
@@ -41,15 +41,13 @@ describe('CommerceQuotesListEventListener', () => {
       ],
     });
 
-    commerceQuotesListEventListener = TestBed.inject(
-      CommerceQuotesListEventListener
-    );
+    quoteListEventListener = TestBed.inject(QuoteListEventListener);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should call onQuoteListReload and add new global message', () => {
     //given
-    mockEventStream$.next(createFrom(CommerceQuotesListReloadQueryEvent, {}));
+    mockEventStream$.next(createFrom(QuoteListReloadQueryEvent, {}));
 
     //then
     expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -62,7 +60,7 @@ describe('CommerceQuotesListEventListener', () => {
   it('onDestroy should clear subscriptions', () => {
     const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
     //given
-    commerceQuotesListEventListener.ngOnDestroy();
+    quoteListEventListener.ngOnDestroy();
 
     //then
     expect(spyUnsubscribe).toHaveBeenCalled();

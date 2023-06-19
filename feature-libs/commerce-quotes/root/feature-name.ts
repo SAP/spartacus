@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const COMMERCE_QUOTES_FEATURE = 'commerceQuotes';
+export const QUOTE_FEATURE = 'quote';

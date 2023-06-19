@@ -29,8 +29,7 @@ import { tap } from 'rxjs/operators';
 export class QuoteRequestQuoteDialogComponent {
   iconTypes = ICON_TYPE;
   requestInProgress$ = new BehaviorSubject<boolean>(false);
-  minRequestInitiationValue =
-    this.config.commerceQuotes?.tresholds?.requestInitiation;
+  minRequestInitiationValue = this.config.quote?.tresholds?.requestInitiation;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -46,7 +45,7 @@ export class QuoteRequestQuoteDialogComponent {
   });
 
   constructor(
-    protected commerceQuotesFacade: QuoteFacade,
+    protected quoteFacade: QuoteFacade,
     protected routingService: RoutingService,
     protected config: QuoteConfig,
     protected launchDialogService: LaunchDialogService
@@ -69,7 +68,7 @@ export class QuoteRequestQuoteDialogComponent {
       quoteCreationPayload.description = this.form.controls.description.value;
     }
     this.requestInProgress$.next(true);
-    this.commerceQuotesFacade
+    this.quoteFacade
       .createQuote(quoteCreationPayload, {
         text: this.form.controls.comment.value,
       })
@@ -81,7 +80,7 @@ export class QuoteRequestQuoteDialogComponent {
               params: { quoteId: quote.code },
             });
           } else {
-            this.commerceQuotesFacade.performQuoteAction(
+            this.quoteFacade.performQuoteAction(
               quote.code,
               QuoteActionType.SUBMIT
             );

@@ -5,4 +5,4 @@
  */
 
 export * from './augmented-types';
-export * from './commerce-quotes.model';
+export * from './quote.model';

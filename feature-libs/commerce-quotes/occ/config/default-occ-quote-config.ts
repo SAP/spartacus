@@ -6,7 +6,7 @@
 
 import { OccConfig } from '@spartacus/core';
 
-export const defaultOccCommerceQuotesConfig: OccConfig = {
+export const defaultOccQuoteConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {

@@ -142,12 +142,12 @@ describe('QuoteService', () => {
 
   it('should inject CommerceQuotesService', inject(
     [QuoteService],
-    (commerceQuotesService: QuoteService) => {
-      expect(commerceQuotesService).toBeTruthy();
+    (quoteService: QuoteService) => {
+      expect(quoteService).toBeTruthy();
     }
   ));
 
-  it('should return quotes after calling commerceQuotesConnector.getQuotes', () => {
+  it('should return quotes after calling quoteConnector.getQuotes', () => {
     service
       .getQuotesState(mockQuotesStateParams)
       .pipe(take(1))
@@ -164,7 +164,7 @@ describe('QuoteService', () => {
       });
   });
 
-  it('should return quotes after calling commerceQuotesConnector.getQuotes with default CMS page size if not set', () => {
+  it('should return quotes after calling quoteConnector.getQuotes with default CMS page size if not set', () => {
     //given
     config.view = undefined;
 
@@ -185,7 +185,7 @@ describe('QuoteService', () => {
       });
   });
 
-  it('should return quote details after calling commerceQuotesConnector.getQuote', () => {
+  it('should return quote details after calling quoteConnector.getQuote', () => {
     service
       .getQuoteDetails()
       .pipe(take(1))
