@@ -8,13 +8,13 @@ import { NgModule } from '@angular/core';
 import {
   quoteTranslationChunksConfig,
   quoteTranslations,
-} from '@spartacus/commerce-quotes/assets';
+} from 'feature-libs/quote/assets/public_api';
 import { provideConfig } from '@spartacus/core';
 import {
   QuoteRootModule,
   QUOTE_FEATURE,
-} from '@spartacus/commerce-quotes/root';
-import { QuoteConfig } from '@spartacus/commerce-quotes/core';
+} from 'feature-libs/quote/root/public_api';
+import { QuoteConfig } from 'feature-libs/quote/core/public_api';
 
 @NgModule({
   imports: [QuoteRootModule],
@@ -31,8 +31,8 @@ import { QuoteConfig } from '@spartacus/commerce-quotes/core';
       featureModules: {
         [QUOTE_FEATURE]: {
           module: () =>
-            import('@spartacus/commerce-quotes').then(
-              (m) => m.CommerceQuotesModule
+            import('feature-libs/quote/public_api').then(
+              (m) => m.QuoteModule
             ),
         },
       },

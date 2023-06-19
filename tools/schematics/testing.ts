@@ -25,7 +25,7 @@ const featureLibsFolders: string[] = [
   'storefinder',
   'tracking',
   'user',
-  'commerce-quotes',
+  'quote',
   'customer-ticketing',
 ];
 
@@ -44,7 +44,7 @@ const commands = [
   'build cart/schematics',
   'build order/schematics',
   'build checkout/schematics',
-  'build commerce-quotes/schematics',
+  'build quote/schematics',
   'build cdc/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
@@ -192,7 +192,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build cart/schematics':
     case 'build order/schematics':
     case 'build checkout/schematics':
-    case 'build commerce-quotes/schematics':
+    case 'build quote/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':

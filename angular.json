@@ -78,8 +78,8 @@
                 "bundleName": "order"
               },
               {
-                "input": "projects/storefrontapp/src/styles/lib-commerce-quotes.scss",
-                "bundleName": "commerce-quotes"
+                "input": "projects/storefrontapp/src/styles/lib-quote.scss",
+                "bundleName": "quote"
               },
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
@@ -1115,39 +1115,39 @@
         }
       }
     },
-    "commerce-quotes": {
+    "quote": {
       "projectType": "library",
-      "root": "feature-libs/commerce-quotes",
-      "sourceRoot": "feature-libs/commerce-quotes",
+      "root": "feature-libs/quote",
+      "sourceRoot": "feature-libs/quote",
       "prefix": "cx",
       "architect": {
         "build": {
           "builder": "./tools/build-lib:augmented-types",
           "options": {
-            "tsConfig": "feature-libs/commerce-quotes/tsconfig.lib.json",
-            "project": "feature-libs/commerce-quotes/ng-package.json"
+            "tsConfig": "feature-libs/quote/tsconfig.lib.json",
+            "project": "feature-libs/quote/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "feature-libs/commerce-quotes/tsconfig.lib.prod.json"
+              "tsConfig": "feature-libs/quote/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/commerce-quotes/test.ts",
-            "tsConfig": "feature-libs/commerce-quotes/tsconfig.spec.json",
+            "main": "feature-libs/quote/test.ts",
+            "tsConfig": "feature-libs/quote/tsconfig.spec.json",
             "polyfills": ["zone.js", "zone.js/testing"],
-            "karmaConfig": "feature-libs/commerce-quotes/karma.conf.js"
+            "karmaConfig": "feature-libs/quote/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "feature-libs/commerce-quotes/**/*.ts",
-              "feature-libs/commerce-quotes/**/*.html"
+              "feature-libs/quote/**/*.ts",
+              "feature-libs/quote/**/*.html"
             ]
           }
         }

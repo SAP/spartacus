@@ -329,16 +329,16 @@
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
 
-      "@spartacus/commerce-quotes": ["../../dist/commerce-quotes"],
-      "@spartacus/commerce-quotes/assets": [
-        "../../dist/commerce-quotes/assets"
+      "@spartacus/quote": ["../../dist/quote"],
+      "@spartacus/quote/assets": [
+        "../../dist/quote/assets"
       ],
-      "@spartacus/commerce-quotes/components": [
-        "../../dist/commerce-quotes/components"
+      "@spartacus/quote/components": [
+        "../../dist/quote/components"
       ],
-      "@spartacus/commerce-quotes/core": ["../../dist/commerce-quotes/core"],
-      "@spartacus/commerce-quotes/occ": ["../../dist/commerce-quotes/occ"],
-      "@spartacus/commerce-quotes/root": ["../../dist/commerce-quotes/root"],
+      "@spartacus/quote/core": ["../../dist/quote/core"],
+      "@spartacus/quote/occ": ["../../dist/quote/occ"],
+      "@spartacus/quote/root": ["../../dist/quote/root"],
 
       "@spartacus/cdc/assets": ["../../dist/cdc/assets"],
 

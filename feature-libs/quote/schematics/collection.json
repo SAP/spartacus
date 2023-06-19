@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-quote/index#addCommerceQuotesFeatures",
+      "description": "Add and configure Spartacus' commerce quotes features",
+      "schema": "./add-quote/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-quote/index#addCommerceQuotesFeatures",
+      "description": "Add and configure Spartacus' commerce quotes features",
+      "schema": "./add-quote/schema.json"
+    }
+  }
+}

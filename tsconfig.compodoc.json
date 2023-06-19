@@ -191,23 +191,23 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
-      "@spartacus/commerce-quotes/assets": [
-        "feature-libs/commerce-quotes/assets/public_api"
+      "@spartacus/quote/assets": [
+        "feature-libs/quote/assets/public_api"
       ],
-      "@spartacus/commerce-quotes/components": [
-        "feature-libs/commerce-quotes/components/public_api"
+      "@spartacus/quote/components": [
+        "feature-libs/quote/components/public_api"
       ],
-      "@spartacus/commerce-quotes/core": [
-        "feature-libs/commerce-quotes/core/public_api"
+      "@spartacus/quote/core": [
+        "feature-libs/quote/core/public_api"
       ],
-      "@spartacus/commerce-quotes": [
-        "feature-libs/commerce-quotes/public_api"
+      "@spartacus/quote": [
+        "feature-libs/quote/public_api"
       ],
-      "@spartacus/commerce-quotes/occ": [
-        "feature-libs/commerce-quotes/occ/public_api"
+      "@spartacus/quote/occ": [
+        "feature-libs/quote/occ/public_api"
       ],
-      "@spartacus/commerce-quotes/root": [
-        "feature-libs/commerce-quotes/root/public_api"
+      "@spartacus/quote/root": [
+        "feature-libs/quote/root/public_api"
       ],
       "@spartacus/order/assets": [
         "feature-libs/order/assets/public_api"],

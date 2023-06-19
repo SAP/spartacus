@@ -1,0 +1,35 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "quote-${version}",
+    "commitMessage": "Bumping commerce quotes version to ${version}",
+    "tagAnnotation": "Bumping commerce quotes version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/quote"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && npm run build:quote"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/quote@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib quote --to quote-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/styles"
+          ]
+        }
+      ]
+    }
+  }
+}
