@@ -91,7 +91,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       typeof request.headers?.traceparent === 'string'
     ) {
       Object.assign(mappedRequest, {
-        openTracing: this.mapTraceprent(request.headers.traceparent),
+        openTracing: this.mapTraceparent(request.headers.traceparent),
       });
     }
 
@@ -106,7 +106,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
    *
    * @see https://www.w3.org/TR/trace-context/#traceparent-header-field-values
    */
-  protected mapTraceprent(traceparent: string): Traceparent {
+  protected mapTraceparent(traceparent: string): Traceparent {
     const [version, traceId, spanId, traceFlags] = traceparent.split('-');
     return {
       version,
