@@ -12,5 +12,4 @@ import { QuoteOccModule } from '@spartacus/quote/occ';
 @NgModule({
   imports: [QuoteComponentsModule, QuoteCoreModule, QuoteOccModule],
 })
-
 export class QuoteModule {}
