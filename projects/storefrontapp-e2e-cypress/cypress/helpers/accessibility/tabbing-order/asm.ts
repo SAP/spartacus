@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as asm from '../../../helpers/asm';
 import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
-import * as asm from '../../../helpers/asm';
 
 const containerSelector = 'cx-asm-main-ui';
 const containerSelectorForCustomerLists = 'cx-customer-list';
 const containerSelectorForCreateCustomerForm = 'cx-asm-create-customer-form';
+const containerSelectorForInactiveCartDialog = 'cx-asm-save-cart-dialog';
 
 export function asmTabbingOrderNotLoggedIn(config: TabElement[]) {
   cy.visit('/?asm=true');
@@ -79,4 +80,36 @@ export function asmTabbingOrderWithCreateCustomerForm(config: TabElement[]) {
   cy.get('cx-asm-create-customer-form form').should('exist');
 
   verifyTabbingOrder(containerSelectorForCreateCustomerForm, config);
+}
+
+export function asmTabbingOrderWithSaveInactiveCartDialog(
+  config: TabElement[]
+) {
+  const customer = asm.emulateCustomerPrepare('asagent', 'pw4all');
+
+  asm.getCustomerId('asagent', 'pw4all', customer.email).then((customerId) => {
+    asm
+      .getInactiveCartIdAndAddProducts(
+        customer.email,
+        customer.password,
+        '1934793',
+        '2'
+      )
+      .then((inactiveCartId) => {
+        cy.visit(
+          `/assisted-service/emulate?customerId=${customerId}&cartId=${inactiveCartId}&cartType=inactive`
+        );
+        cy.get('.cx-asm-assignCart').should('exist');
+        cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+        cy.get(
+          'cx-customer-emulation input[formcontrolname="cartNumber"]'
+        ).should('have.value', inactiveCartId);
+        cy.get('cx-asm-main-ui cx-message').should('exist');
+        cy.log('--> Click save button the dialog shold display');
+        cy.get('button[id=asm-save-inactive-cart-btn]').click();
+        verifyTabbingOrder(containerSelectorForInactiveCartDialog, config);
+        cy.findByText(/Cancel/i).click();
+        asm.agentSignOut();
+      });
+  });
 }
