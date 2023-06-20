@@ -6,6 +6,15 @@
 
 import { generateMail, randomString } from '../helpers/user';
 
+export interface SampleOrg {
+  companyName?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
+
 export interface SampleUser {
   titleCode?: string;
   firstName?: string;
@@ -78,6 +87,19 @@ export function getSampleUser() {
       },
       cvv: '123',
     },
+  };
+}
+
+export const organisation = getSampleOrg();
+
+export function getSampleOrg() {
+  return {
+    companyName: randomString(),
+    address: '1111 S Figueroa St',
+    city: 'Los Angeles',
+    state: 'California',
+    zipCode: '90015',
+    country: 'United States',
   };
 }
 
