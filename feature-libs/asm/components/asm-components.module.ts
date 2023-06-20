@@ -29,6 +29,7 @@ import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmCreateCustomerFormComponent } from './asm-create-customer-form/asm-create-customer-form.component';
 import { defaultAsmCreateCustomerFormLayoutConfig } from './asm-create-customer-form/default-asm-create-customer-form-layout.config';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
+import { AsmSaveCartDialogComponent } from './asm-save-cart-dialog/asm-save-cart-dialog.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
 import { AsmToggleUiComponent } from './asm-toggle-ui/asm-toggle-ui.component';
@@ -39,6 +40,7 @@ import { defaultCustomerListLayoutConfig } from './customer-list/default-custome
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { defaultBindCartLayoutConfig } from './default-bind-cart-layout.config';
+import { defaultSaveCartLayoutConfig } from './default-save-cart-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 import { defaultAsmPaginationConfig } from './default-asm-pagination.config';
 
@@ -62,6 +64,7 @@ import { defaultAsmPaginationConfig } from './default-asm-pagination.config';
   ],
   declarations: [
     AsmBindCartDialogComponent,
+    AsmSaveCartDialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -76,6 +79,7 @@ import { defaultAsmPaginationConfig } from './default-asm-pagination.config';
   ],
   exports: [
     AsmBindCartDialogComponent,
+    AsmSaveCartDialogComponent,
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
     CustomerListComponent,
@@ -91,6 +95,7 @@ import { defaultAsmPaginationConfig } from './default-asm-pagination.config';
   providers: [
     provideDefaultConfig(defaultAsmLayoutConfig),
     provideDefaultConfig(defaultBindCartLayoutConfig),
+    provideDefaultConfig(defaultSaveCartLayoutConfig),
     provideDefaultConfig(defaultCustomerListLayoutConfig),
     provideDefaultConfig(defaultAsmPaginationConfig),
     provideDefaultConfig(defaultAsmCreateCustomerFormLayoutConfig),
