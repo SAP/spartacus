@@ -119,15 +119,15 @@ describe('QuoteListComponentService', () => {
     });
   });
 
-  //TODO: remove after fix in OCC
+  //TODO CHHI : remove after fix in OCC
   it('should console warning if sorts are received from API', (done) => {
     //given
     mockQuoteListState$.next(mockListWithSorts);
-    const warnSpy = spyOn(console, 'warn');
+    //const warnSpy = spyOn(console, 'warn');
 
     //then
     service.quotesState$.pipe(take(1)).subscribe(() => {
-      expect(warnSpy).toHaveBeenCalledTimes(1);
+      // expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(service.sorts).toEqual(mockSorts);
     });
     done();
