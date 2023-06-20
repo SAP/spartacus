@@ -136,26 +136,22 @@ export function listenForCustomerCreateRequest(): string {
 }
 
 export function agentLogin(user, pwd): void {
-  const authRequest = listenForAuthenticationRequest();
-  cy.get('cx-storefront').within(() => {
-    cy.get('cx-csagent-login-form').should('exist');
-    cy.get('cx-customer-selection').should('not.exist');
-    cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]').clear().type(user);
-      cy.get('[formcontrolname="password"]').clear().type(pwd);
-      cy.get('button[type="submit"]').click();
-    });
-  });
-
-  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
-}
-
-export function agentLoginNew(user, pwd): void {
   cy.get('cx-storefront cx-csagent-login-form').then(($element) => {
     if ($element.length > 0) {
-      agentLogin(user, pwd);
+      const authRequest = listenForAuthenticationRequest();
+      cy.get('cx-storefront').within(() => {
+        cy.get('cx-csagent-login-form').should('exist');
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('cx-csagent-login-form form').within(() => {
+          cy.get('[formcontrolname="userId"]').clear().type(user);
+          cy.get('[formcontrolname="password"]').clear().type(pwd);
+          cy.get('button[type="submit"]').click();
+        });
+      });
+
+      cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('exist');
     }
   });
 }
@@ -503,7 +499,7 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
 
-    asm.agentLoginNew('asagent', 'pw4all');
+    asm.agentLogin('asagent', 'pw4all');
 
     cy.log('--> Starting customer emulation');
     asm.startCustomerEmulation(customer);

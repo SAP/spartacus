@@ -38,7 +38,7 @@ context('Assisted Service Module', () => {
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId) => {
           cy.visit('/assisted-service/emulate?customerId=' + customerId);
-          asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
 
           cy.log('--> Should has assignCart');
           cy.get('.cx-asm-assignCart').should('exist');
@@ -74,7 +74,7 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
 
-            asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
             cy.get('.cx-asm-assignCart').should('exist');
@@ -130,7 +130,7 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
 
-            asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
             cy.get('.cx-asm-assignCart').should('exist');
@@ -177,7 +177,7 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
             cy.get('cx-asm-main-ui').should('be.visible');
 
-            asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+            asm.agentLogin(agentToken.userName, agentToken.pwd);
 
             cy.log('--> Should has assignCart');
             cy.get('.cx-asm-assignCart').should('exist');
@@ -195,7 +195,7 @@ context('Assisted Service Module', () => {
       checkout.registerUser(false, customer);
 
       cy.visit('/?asm=true');
-      asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId) => {
@@ -224,7 +224,7 @@ context('Assisted Service Module', () => {
         const orderId = orderData.body.code;
 
         cy.log('--> login as agent');
-        asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
 
         cy.log('--> Agent visting URL with deeplink');
 
@@ -279,7 +279,7 @@ context('Assisted Service Module', () => {
           signOutUser();
 
           cy.log('--> login as agent');
-          asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+          asm.agentLogin(agentToken.userName, agentToken.pwd);
 
           cy.log('--> Agent visting URL with deeplink');
 
@@ -328,7 +328,7 @@ context('Assisted Service Module', () => {
 
         signOutUser();
 
-        asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+        asm.agentLogin(agentToken.userName, agentToken.pwd);
 
         cy.log('--> Agent logging in with deeplink');
 
@@ -453,7 +453,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> login as agent');
       cy.visit('/?asm=true');
-      asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
         (customerId) => {
@@ -482,7 +482,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> login as agent');
       cy.visit('/?asm=true');
-      asm.agentLoginNew(agentToken.userName, agentToken.pwd);
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
       // get customerId via token
       getCustomerId(
         agentToken.userName,

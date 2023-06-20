@@ -36,7 +36,7 @@ context('B2B - ASM Account Checkout', () => {
     checkout.visitHomePage('asm=true');
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('be.visible');
-    asm.agentLoginNew('brandon.leclair@acme.com', 'pw4all');
+    asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 
