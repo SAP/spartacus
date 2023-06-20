@@ -16,12 +16,10 @@ import {
   GlobalMessageType,
   QueryState,
 } from '@spartacus/core';
-import { OpfService } from '@spartacus/opf/checkout/core';
+import { OpfPaymentMetadata, OpfService } from '@spartacus/opf/base/root';
 import {
   ActiveConfiguration,
   OpfCheckoutFacade,
-  OpfOtpFacade,
-  OpfUi,
 } from '@spartacus/opf/checkout/root';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -34,7 +32,7 @@ import { tap } from 'rxjs/operators';
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
-  activeConfiguratons$ = this.opfCheckoutService
+  activeConfigurations$ = this.opfCheckoutService
     .getActiveConfigurationsState()
     .pipe(
       tap((state: QueryState<ActiveConfiguration[] | undefined>) => {
@@ -53,7 +51,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   constructor(
     protected opfCheckoutService: OpfCheckoutFacade,
-    protected opfOtpService: OpfOtpFacade,
     protected opfService: OpfService,
     protected globalMessageService: GlobalMessageService
   ) {}
@@ -64,11 +61,13 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
    */
   protected preselectPaymentOption(): void {
     this.subscription.add(
-      this.opfService.getOpfUiState().subscribe((state: OpfUi) => {
-        this.selectedPaymentId = state.termsAndConditionsChecked
-          ? state?.selectedPaymentOptionId
-          : undefined;
-      })
+      this.opfService
+        .getOpfMetadataState()
+        .subscribe((state: OpfPaymentMetadata) => {
+          this.selectedPaymentId = state.termsAndConditionsChecked
+            ? state?.selectedPaymentOptionId
+            : undefined;
+        })
     );
   }
 
@@ -81,7 +80,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   changePayment(payment: ActiveConfiguration): void {
     this.selectedPaymentId = payment.id;
-    this.opfService.updateOpfUiState({
+    this.opfService.updateOpfMetadataState({
       selectedPaymentOptionId: this.selectedPaymentId,
     });
   }

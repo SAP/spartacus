@@ -6,11 +6,23 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
+import {
+  MODULE_INITIALIZER,
+  provideConfigValidator,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
 import { defaultOpfRoutingConfig } from './config';
 import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfidValidator } from './config/opf-config-validator';
+import { OpfEventModule } from './events/opf-event.module';
+import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
+
+export function opfStatePersistenceFactory(
+  opfStatePersistenceService: OpfStatePersistenceService
+): () => void {
+  return () => opfStatePersistenceService.initSync();
+}
 
 @NgModule({
   imports: [
@@ -32,8 +44,15 @@ import { opfConfidValidator } from './config/opf-config-validator';
         },
       },
     ]),
+    OpfEventModule,
   ],
   providers: [
+    {
+      provide: MODULE_INITIALIZER,
+      useFactory: opfStatePersistenceFactory,
+      deps: [OpfStatePersistenceService],
+      multi: true,
+    },
     provideDefaultConfig(defaultOpfConfig),
 
     // TODO OPF: uncomment once proper type and routing is set up

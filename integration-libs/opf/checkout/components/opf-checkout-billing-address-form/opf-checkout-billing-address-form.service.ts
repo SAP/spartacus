@@ -11,9 +11,25 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, UserPaymentService } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import {
+  Address,
+  Country,
+  GlobalMessageService,
+  GlobalMessageType,
+  UserPaymentService,
+} from '@spartacus/core';
+import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
+import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -33,7 +49,9 @@ export class OpfCheckoutBillingAddressFormService {
     protected checkoutBillingAddressFacade: CheckoutBillingAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartService: ActiveCartFacade,
+    protected globalMessageService: GlobalMessageService,
+    protected opfService: OpfCheckoutPaymentWrapperService
   ) {}
 
   getCountries(): Observable<Country[]> {
@@ -96,7 +114,7 @@ export class OpfCheckoutBillingAddressFormService {
 
           return this.activeCartService.isStable();
         }),
-        filter((isStable) => isStable),
+        filter((isStable: boolean) => isStable),
         switchMap(() => this.getPaymentAddress()),
 
         tap((billingAddress: Address | undefined) => {
@@ -104,9 +122,18 @@ export class OpfCheckoutBillingAddressFormService {
             this.billingAddressId = billingAddress.id;
 
             this.billingAddressSub.next(billingAddress);
-
-            this.isLoadingAddressSub.next(false);
+            this.opfService.reloadPaymentMode();
           }
+        }),
+        catchError((error) => {
+          this.globalMessageService.add(
+            { key: 'opf.address.errors.cannotUpdate' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          return of(error);
+        }),
+        finalize(() => {
+          this.isLoadingAddressSub.next(false);
         }),
         take(1)
       );
