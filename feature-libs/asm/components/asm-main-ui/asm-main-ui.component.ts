@@ -243,7 +243,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
             },
           });
         } else {
-          this.asmComponentService.logoutCustomer();
+          this.asmComponentService.setEmulatedByDeepLink(true);
         }
       });
   }

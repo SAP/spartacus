@@ -6,6 +6,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -60,6 +61,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         value: false,
         disabled: this.isConsentRequired(),
       }),
+      additionalConsents:
+        this.registerComponentService?.generateAdditionalConsentsFormControl(),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
@@ -69,6 +72,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
+
+  additionalRegistrationConsents: {
+    template: ConsentTemplate;
+    required: boolean;
+  }[];
+
+  get additionalConsents(): UntypedFormArray {
+    return this.registerForm?.get('additionalConsents') as UntypedFormArray;
+  }
+
+  updateAdditionalConsents(event: MouseEvent, index: number) {
+    const { checked } = event.target as HTMLInputElement;
+    this.registerForm.value.additionalConsents[index] = checked;
+  }
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -131,6 +148,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this.additionalRegistrationConsents =
+      this.registerComponentService?.getAdditionalConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
