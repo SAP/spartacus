@@ -234,7 +234,7 @@ export function waitForSavedCartDetailsPageData(product: SampleProduct) {
     });
 }
 
-export function saveActiveCart() {
+export function saveActiveCart(verify = true) {
   clickSavedCartButtonsFromCartPage(1);
 
   cy.window()
@@ -269,7 +269,9 @@ export function saveActiveCart() {
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 
       // assert the cart was saved in the listing page
-      verifyActiveCartWasSaved(active);
+      if (verify) {
+        verifyActiveCartWasSaved(active);
+      }
     });
 }
 

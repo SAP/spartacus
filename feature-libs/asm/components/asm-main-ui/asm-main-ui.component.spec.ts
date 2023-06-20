@@ -9,12 +9,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmEnablerService,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -120,7 +122,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockAsmComponentService {
+class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
   isCustomerEmulationSessionInProgress() {
@@ -150,6 +152,9 @@ describe('AsmMainUiComponent', () => {
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
+  let featureConfig: FeatureConfigService;
+  let asmEnablerService: AsmEnablerService;
+  const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(
     waitForAsync(() => {
@@ -187,6 +192,8 @@ describe('AsmMainUiComponent', () => {
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    featureConfig = TestBed.inject(FeatureConfigService);
+    asmEnablerService = TestBed.inject(AsmEnablerService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -443,5 +450,178 @@ describe('AsmMainUiComponent', () => {
       LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
       component.addNewCustomerLink
     );
+  });
+
+  it('should call logout when agent has logined and user is login if customerId shows in URL', () => {
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
+
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
+  });
+
+  it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+      testCustomerId
+    );
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
+    setTimeout(() => {
+      expect(
+        csAgentAuthService.startCustomerEmulationSession
+      ).toHaveBeenCalledWith(testCustomerId);
+      done();
+    }, 200);
+  });
+
+  it('should not call startCustomerEmulationSession when agent has logined and user is not login if no customerId shows in URL', (done) => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    setTimeout(() => {
+      expect(
+        csAgentAuthService.startCustomerEmulationSession
+      ).not.toHaveBeenCalled();
+      done();
+    }, 200);
+  });
+
+  it('should call naviate to home page when isEmulatedByDeepLink return true', () => {
+    spyOn(routingService, 'go').and.stub();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: null,
+    });
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(true);
+    component.ngOnInit();
+    expect(routingService.go).toHaveBeenCalledWith('/');
+  });
+
+  it('should not call naviate to home page when isEmulatedByDeepLink return false', () => {
+    spyOn(routingService, 'go').and.stub();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: null,
+    });
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(false);
+    component.ngOnInit();
+    expect(routingService.go).not.toHaveBeenCalledWith('/');
+  });
+
+  it('should call naviate to order details when starting session with orderId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { orderId: '456' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '456' },
+    });
+  });
+
+  it('should call naviate to order details when starting session with orderId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { orderId: '456', ticketId: '123' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '456' },
+    });
+  });
+
+  it('should call naviate to support ticket details when starting session with ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { ticketId: '456' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'supportTicketDetails',
+      params: { ticketCode: '456' },
+    });
+  });
+
+  it('should call naviate to saved cart when starting session with savedCartId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'saved' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
+
+  it('should call naviate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'saved', ticketId: '123' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
+
+  it('should not call naviate when starting session with active cartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'active', ticketId: '123' }
+    );
+
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should not call naviate when starting session with inactive cartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'inactive', ticketId: '123' }
+    );
+
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should emit false when close inactive cart info', () => {
+    spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
+    component.closeDeeplinkCartInfoAlert();
+    expect(
+      asmComponentService.setShowDeeplinkCartInfoAlert
+    ).toHaveBeenCalledWith(false);
   });
 });

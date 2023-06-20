@@ -2416,4 +2416,18 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Cancel',
     },
   ],
+  asmInactiveCartSaveDialog: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Save for Later',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+      value: 'Cancel',
+    },
+  ],
 };

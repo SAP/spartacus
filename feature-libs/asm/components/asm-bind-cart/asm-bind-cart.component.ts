@@ -10,17 +10,24 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   OCC_CART_ID_CURRENT,
+  RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
@@ -42,6 +49,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
+import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -52,6 +61,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   activeCartValidator: ValidatorFn = (control) => {
     if (control.value === this.activeCartId) {
       return { activeCartError: true };
+    }
+
+    if (!!this.deepLinkCartId && control.value !== this.deepLinkCartId) {
+      this.resetDeeplinkCart();
     }
     return null;
   };
@@ -70,26 +83,59 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   );
 
   activeCartId = '';
+  deepLinkCartId = '';
+
+  displayBindCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  displaySaveCartBtn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @ViewChild('bindToCart') bindToCartElemRef: ElementRef<HTMLButtonElement>;
+  @ViewChild('saveInactiveCart')
+  saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
 
   protected subscription = new Subscription();
 
+  constructor(
+    globalMessageService: GlobalMessageService,
+    activeCartFacade: ActiveCartFacade,
+    multiCartFacade: MultiCartFacade,
+    asmBindCartFacade: AsmBindCartFacade,
+    launchDialogService: LaunchDialogService,
+    savedCartFacade: SavedCartFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    asmComponentService: AsmComponentService,
+    routing: RoutingService,
+    featureConfig: FeatureConfigService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    globalMessageService: GlobalMessageService,
+    activeCartFacade: ActiveCartFacade,
+    multiCartFacade: MultiCartFacade,
+    asmBindCartFacade: AsmBindCartFacade,
+    launchDialogService: LaunchDialogService,
+    savedCartFacade: SavedCartFacade
+  );
   constructor(
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
     protected asmBindCartFacade: AsmBindCartFacade,
     protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade
+    protected savedCartFacade: SavedCartFacade,
+    @Optional() protected asmComponentService?: AsmComponentService,
+    @Optional() protected routing?: RoutingService,
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
+    this.subscribeForDeeplinkCart();
+
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response) => {
         this.activeCartId = response ?? '';
-
-        this.cartId.setValue(this.activeCartId);
+        this.cartId.setValue(this.deepLinkCartId || this.activeCartId);
       })
     );
   }
@@ -147,8 +193,42 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.subscription.add(subscription);
   }
 
+  onSaveInactiveCart() {
+    this.asmComponentService?.setShowDeeplinkCartInfoAlert(false);
+    const customerId =
+      this.asmComponentService?.getSearchParameter('customerId');
+    this.multiCartFacade.loadCart({
+      cartId: this.deepLinkCartId,
+      userId: customerId as string,
+    });
+
+    this.multiCartFacade
+      .getCartEntity(this.deepLinkCartId)
+      .pipe(
+        filter((state) => state.loading === false && state.success === true),
+        take(1),
+        map((state) => state.value as Cart),
+        filter((cart) => !!cart)
+      )
+      .subscribe((cart) => {
+        this.openASMSaveCartDialog(cart);
+      });
+
+    this.afterCloseASMSaveCartDialog();
+  }
+
   clearText() {
     this.cartId.setValue('');
+    this.resetDeeplinkCart();
+  }
+
+  protected resetDeeplinkCart(): void {
+    if (this.featureConfig?.isLevel('6.2')) {
+      this.deepLinkCartId = '';
+      this.displayBindCartBtn$.next(true);
+      this.displaySaveCartBtn$.next(false);
+      this.asmComponentService?.setShowDeeplinkCartInfoAlert(false);
+    }
   }
 
   ngOnDestroy(): void {
@@ -218,5 +298,101 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
         });
       })
     );
+  }
+
+  protected subscribeForDeeplinkCart(): void {
+    if (this.featureConfig?.isLevel('6.2')) {
+      this.subscription.add(
+        this.asmComponentService
+          ?.isEmulatedByDeepLink()
+          .pipe(
+            filter(
+              (emulated) =>
+                emulated &&
+                !!this.asmComponentService?.getSearchParameter('cartId')
+            )
+          )
+          .subscribe(() => {
+            if (this.isDeepLinkInactiveCart()) {
+              this.displayBindCartBtn$.next(false);
+              this.displaySaveCartBtn$.next(true);
+              this.onDeeplinkCart();
+            } else if (this.isDeepLinkActiveCart()) {
+              this.onDeeplinkCart();
+              this.goToActiveCartDetail();
+              this.displayBindCartBtn$.next(false);
+              this.displaySaveCartBtn$.next(false);
+            }
+          })
+      );
+    }
+  }
+
+  protected onDeeplinkCart(): void {
+    this.deepLinkCartId = this.asmComponentService?.getSearchParameter(
+      'cartId'
+    ) as string;
+    this.cartId.setValue(this.deepLinkCartId);
+    this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
+  }
+
+  protected isDeepLinkInactiveCart(): boolean {
+    const cartType = this.asmComponentService?.getSearchParameter('cartType');
+    return cartType === 'inactive';
+  }
+
+  protected isDeepLinkActiveCart(): boolean {
+    const cartType = this.asmComponentService?.getSearchParameter('cartType');
+    return cartType === 'active';
+  }
+
+  protected openASMSaveCartDialog(inactiveCart: Cart): void {
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_SAVE_CART,
+      this.saveInactiveCartElemRef,
+      inactiveCart
+    );
+  }
+
+  protected afterCloseASMSaveCartDialog(): void {
+    this.launchDialogService.dialogClose
+      .pipe(
+        filter((result) => result === SAVE_CART_DIALOG_ACTION.SAVE),
+        take(1),
+        tap(() => this.loading$.next(true))
+      )
+      .subscribe();
+
+    this.savedCartFacade
+      .getSaveCartProcessSuccess()
+      .pipe(
+        filter((success) => success),
+        take(1),
+        tap(() => this.loading$.next(false))
+      )
+      .subscribe(() => {
+        this.goToSavedCartDetails(this.deepLinkCartId);
+        this.displaySaveCartBtn$.next(false);
+      });
+
+    this.savedCartFacade
+      .getSaveCartProcessError()
+      .pipe(
+        filter((error) => error),
+        take(1),
+        tap(() => this.loading$.next(false))
+      )
+      .subscribe();
+  }
+
+  protected goToSavedCartDetails(cartId: string): void {
+    this.routing?.go({
+      cxRoute: 'savedCartsDetails',
+      params: { savedCartId: cartId },
+    });
+  }
+
+  protected goToActiveCartDetail(): void {
+    this.routing?.go({ cxRoute: 'cart' });
   }
 }
