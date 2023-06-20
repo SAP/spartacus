@@ -9,7 +9,6 @@ import { asmTabbingOrderWithCustomerList } from '../../../../../../helpers/acces
 import { ELECTRONICS_BASESITE } from '../../../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../../../sample-data/b2b-checkout';
 
-
 context('Tabbing order for ASM B2b Customer List', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());

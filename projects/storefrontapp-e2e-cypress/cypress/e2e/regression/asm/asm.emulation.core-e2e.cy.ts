@@ -9,10 +9,7 @@ import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
-import {
-  navigateToCategory,
-  waitForPage,
-} from '../../../helpers/navigation';
+import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
