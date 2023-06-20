@@ -144,8 +144,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_CUSTOMER_TICKETING,
-        SPARTACUS_QUOTE,
-        SPARTACUS_ESLINT_PLUGIN,
+        SPARTACUS_QUOTE
       ]);
     });
   });
