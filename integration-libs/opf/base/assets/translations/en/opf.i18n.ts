@@ -20,7 +20,7 @@ export const opf = {
     address: {
       errors: {
         cannotUpdate:
-          'We are currently unable to update this address. Please try again later. If the issue persists, kindly clear the cart.',
+          'The address could not be updated. Please check that the address information is correct and that your device is connected to the internet. If the problem persists, you may need to clear your cart and start the checkout again.',
       },
     },
   },
