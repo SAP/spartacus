@@ -1,17 +1,19 @@
 %cx-opf-checkout-payments {
   .cx-payment-options-list {
-
     .form-check {
       margin-bottom: 0;
       padding-top: 0.625rem;
       padding-bottom: 1rem;
-      border-top: 1px solid #d3d6db;
+      border-top: 1px solid var(--cx-color-medium);
       text-transform: capitalize;
 
       & ~ .form-check {
         padding-top: 1rem;
       }
+    }
 
+    input:disabled + .form-check-label {
+      color: var(--cx-color-medium);
     }
 
     input[type='radio'] {
@@ -19,7 +21,8 @@
     }
 
     input[type='radio']:disabled {
-      border-color: var(--cx-color-light);
+      border-color: var(--cx-color-medium);
+      background-color: var(--cx-color-light);
     }
   }
 }
