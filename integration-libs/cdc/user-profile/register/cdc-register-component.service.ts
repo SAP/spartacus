@@ -5,12 +5,26 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { CdcJsService, CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import {
+  FormControl,
+  UntypedFormArray,
+  UntypedFormBuilder,
+  Validators,
+} from '@angular/forms';
+import { Store } from '@ngrx/store';
+import {
+  CdcConsentManagementComponentService,
+  CdcJsService,
+  CdcLoadUserTokenFailEvent,
+  CDC_USER_PREFERENCE_SERIALIZER,
+} from '@spartacus/cdc/root';
+import {
+  AnonymousConsentsService,
   AuthService,
   Command,
   CommandService,
+  ConsentTemplate,
+  ConverterService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -59,9 +73,13 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected globalMessageService: GlobalMessageService,
     protected authService: AuthService,
     protected eventService: EventService,
-    protected userProfileFacade: UserProfileFacade
+    protected userProfileFacade: UserProfileFacade,
+    protected cdcConsentManagementService: CdcConsentManagementComponentService,
+    protected converter: ConverterService,
+    protected fb: UntypedFormBuilder,
+    protected anonymousConsentsService: AnonymousConsentsService
   ) {
-    super(userRegisterFacade, globalMessageService);
+    super(userRegisterFacade, globalMessageService, fb);
   }
 
   /**
@@ -73,7 +91,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     if (!user.firstName || !user.lastName || !user.uid || !user.password) {
       return throwError(`The provided user is not valid: ${user}`);
     }
-
+    /** fill the user preferences */
+    user.preferences = this.generatePreferencesObject();
     return this.cdcJSService.didLoad().pipe(
       tap((cdcLoaded) => {
         if (!cdcLoaded) {
@@ -106,8 +125,84 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     );
   }
 
+  /**
+   * Return preferences object that needs to be updated during register process
+   * @returns preference object
+   */
+  generatePreferencesObject(): any {
+    let preferences = {};
+    const consentIDs = this.cdcConsentManagementService.getCdcConsentIDs(); //fetch all active consents
+    for (const id of consentIDs) {
+      const consent: ConsentTemplate = {};
+      consent.id = id;
+      consent.currentConsent = {};
+      consent.currentConsent.consentGivenDate = new Date();
+      const serializedPreference: any = this.converter.convert(
+        consent,
+        CDC_USER_PREFERENCE_SERIALIZER
+      );
+      preferences = Object.assign(preferences, serializedPreference);
+    }
+    return preferences;
+  }
+
   // @override
   postRegisterMessage(): void {
     // don't show the message
+  }
+
+  /**
+   * fetch consents that exist in commerce and is active in cdc
+   * @returns array of consent templates
+   */
+  fetchCdcConsentsForRegistration(): ConsentTemplate[] {
+    const consentList: ConsentTemplate[] = [];
+    const cdcActiveConsents: string[] =
+      this.cdcConsentManagementService.getCdcConsentIDs();
+    this.anonymousConsentsService.getTemplates().subscribe((templates) => {
+      if (templates && templates.length > 0) {
+        for (const template of templates) {
+          if (template.id && cdcActiveConsents.includes(template.id)) {
+            consentList.push(template);
+          }
+        }
+      }
+    });
+    return consentList;
+  }
+
+  /**
+   * generates a form array with form control for each consent
+   * @returns a form array
+   */
+  generateAdditionalConsentsFormControl(): UntypedFormArray {
+    const consentArray = this.fb.array([]);
+    const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
+    for (const _template of templates) {
+      consentArray.push(new FormControl(false, [Validators.requiredTrue]));
+    }
+    return consentArray;
+  }
+
+  /**
+   * creates an array of active cdc consents and makes them mandatory to be provided during registration
+   * @returns consent templates in the necessary format for the component
+   */
+  getAdditionalConsents(): {
+    template: ConsentTemplate;
+    required: boolean;
+  }[] {
+    const templates: ConsentTemplate[] = this.fetchCdcConsentsForRegistration();
+    const returnConsents: {
+      template: ConsentTemplate;
+      required: boolean;
+    }[] = [];
+    for (const template of templates) {
+      const returnConsent: any = {};
+      returnConsent['template'] = template;
+      returnConsent['required'] = true; //these consents are always mandatory
+      returnConsents.push(returnConsent);
+    }
+    return returnConsents;
   }
 }

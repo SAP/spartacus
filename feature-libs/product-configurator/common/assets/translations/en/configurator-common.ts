@@ -56,8 +56,11 @@ export const configurator = {
       singleSelectRequiredMessage: 'Select a value',
       singleSelectAdditionalRequiredMessage: 'Select or enter a value',
       multiSelectRequiredMessage: 'Select one or more values',
+      // TODO (CXSPA-3392): `wrongNumericFormat` is deprecated and will be removed for the next major release
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
+      wrongNumericFormatMessage:
+        'Enter the number in the following format: {{pattern}}',
       wrongIntervalFormat: 'Enter a value within the indicated boundaries',
       deselectionNotPossible:
         'Add a different product before removing this one',

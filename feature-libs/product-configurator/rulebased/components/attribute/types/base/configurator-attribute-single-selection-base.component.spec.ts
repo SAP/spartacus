@@ -13,6 +13,7 @@ import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-uti
 import { StoreModule } from '@ngrx/store';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -55,13 +56,15 @@ class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorA
     protected quantityService: ConfiguratorAttributeQuantityService,
     protected translation: TranslationService,
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configUtils: ConfiguratorStorefrontUtilsService
   ) {
     super(
       quantityService,
       translation,
       attributeComponentContext,
-      configuratorCommonsService
+      configuratorCommonsService,
+      configUtils
     );
   }
 }

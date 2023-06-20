@@ -20,6 +20,7 @@ import {
   UserConsentService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
+import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
@@ -133,6 +134,7 @@ describe('ConsentManagementComponent', () => {
           ConsentManagementComponent,
         ],
         providers: [
+          ConsentManagementComponentService,
           { provide: UserConsentService, useClass: UserConsentServiceMock },
           { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
           {
@@ -412,7 +414,8 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockConsentTemplate.currentConsent.code
+            mockConsentTemplate.currentConsent.code,
+            mockConsentTemplate.id
           );
           expect(userService.giveConsent).not.toHaveBeenCalled();
         });
@@ -524,7 +527,8 @@ describe('ConsentManagementComponent', () => {
           component.rejectAll([mockConsentTemplate]);
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockConsentTemplate.currentConsent.code
+            mockConsentTemplate.currentConsent.code,
+            mockConsentTemplate.id
           );
           expect(userService.withdrawConsent).toHaveBeenCalledTimes(1);
         });

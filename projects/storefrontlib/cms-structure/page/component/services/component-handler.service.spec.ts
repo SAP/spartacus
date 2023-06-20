@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponentMapping } from '@spartacus/core';
+import { CmsComponentMapping, LoggerService } from '@spartacus/core';
 import { EMPTY } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 import { ComponentHandlerService } from './component-handler.service';
@@ -54,7 +54,8 @@ describe('ComponentHandlerService', () => {
     });
 
     it('should return undefined if not matched', () => {
-      spyOn(console, 'warn').and.stub();
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'warn').and.stub();
       const launcher = service.getLauncher(
         { component: 'unknown' },
         undefined,
