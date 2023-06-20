@@ -42,6 +42,7 @@ export class UserAccountService implements UserAccountFacade {
 
   /**
    * Returns the user according the userId
+   * no use query for userId can change every time
    */
   getById(userId: string): Observable<User | undefined> {
     return this.userAccountConnector.get(userId);

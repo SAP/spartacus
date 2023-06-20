@@ -456,20 +456,6 @@ describe('AsmMainUiComponent', () => {
     );
   });
 
-  it('should call logout when agent has logined and user is login if customerId shows in URL', () => {
-    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
-
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
-
-    component.ngOnInit();
-    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
-  });
-
   it('should not display confirm switch dialog customer when agent has logined and customerId in deeplink is same', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
@@ -482,7 +468,7 @@ describe('AsmMainUiComponent', () => {
       of({ customerId: 'testuser' })
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'setEmulatedByDeepLink').and.stub();
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
       'testuser'
     );
@@ -490,7 +476,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
-    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
+    expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
+      true
+    );
   });
 
   it('should display confirm switch dialog customer when agent has logined and user is login if customerId shows in URL', () => {
