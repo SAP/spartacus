@@ -14,7 +14,7 @@ import {
 import { SchematicConfig } from '../utils';
 
 export const QUOTE_FOLDER_NAME = 'quote';
-export const QUOTE_MODULE_NAME = 'Quotes';
+export const QUOTE_MODULE_NAME = 'Quote';
 
 export const QUOTE_FEATURE_NAME_CONSTANT = 'QUOTE_FEATURE';
 export const QUOTE_MODULE = 'QuoteModule';

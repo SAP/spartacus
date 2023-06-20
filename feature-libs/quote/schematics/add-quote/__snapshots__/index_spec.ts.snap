@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature eager loading should import appropriate modules 1`] = `
+exports[`Spartacus Quote schematics: ng-add Quote feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { QuoteModule } from "@spartacus/quote";
-import { quoteTranslationChunksConfig, commerceQuotesTranslations } from "@spartacus/quote/assets";
-import { QuoteRootModule } from "@spartacus/quote/root";
 import { I18nConfig, provideConfig } from "@spartacus/core";
+import { QuoteModule } from "@spartacus/quote";
+import { QuoteTranslationChunksConfig, QuoteTranslations } from "@spartacus/quote/assets";
+import { QuoteRootModule } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    CommerceQuotesRootModule,
-    CommerceQuotesModule
+    QuoteRootModule,
+    QuoteModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: commerceQuotesTranslations,
-      chunks: commerceQuotesTranslationChunksConfig,
+      resources: QuoteTranslations,
+      chunks: QuoteTranslationChunksConfig,
     },
   })]
 })
@@ -24,20 +24,20 @@ export class QuoteFeatureModule { }
 "
 `;
 
-exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup should add the feature using the lazy loading syntax 1`] = `
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { commerceQuotesTranslationChunksConfig, commerceQuotesTranslations } from "@spartacus/quote/assets";
-import { CommerceQuotesRootModule, COMMERCE_QUOTES_FEATURE } from "@spartacus/quote/root";
 import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { QuoteTranslationChunksConfig, QuoteTranslations } from "@spartacus/quote/assets";
+import { QuoteRootModule, QUOTE_FEATURE } from "@spartacus/quote/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    CommerceQuotesRootModule
+    QuoteRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [COMMERCE_QUOTES_FEATURE]: {
+      [QUOTE_FEATURE]: {
         module: () =>
           import('@spartacus/quote').then((m) => m.QuoteModule),
       },
@@ -45,23 +45,23 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: commerceQuotesTranslations,
-      chunks: commerceQuotesTranslationChunksConfig,
+      resources: QuoteTranslations,
+      chunks: QuoteTranslationChunksConfig,
     },
   })
   ]
 })
-export class CommerceQuotesFeatureModule { }
+export class QuoteFeatureModule { }
 "
 `;
 
-exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup styling should create a proper scss file 1`] = `
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling should create a proper scss file 1`] = `
 "@import "../../styles-config";
 @import "@spartacus/quote";
 "
 `;
 
-exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Quote schematics: ng-add Quote feature general setup styling should update angular.json 1`] = `
 "{
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,

@@ -24,7 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Quotes"]
+      "default": ["Quote"]
     }
   },
   "required": []
