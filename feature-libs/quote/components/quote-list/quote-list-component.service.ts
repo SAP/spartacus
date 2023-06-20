@@ -33,9 +33,7 @@ export class QuoteListComponentService {
     .pipe(
       tap((quotesState: QueryState<QuoteList | undefined>) => {
         if (quotesState.data?.sorts) {
-          console.warn(
-            'Quote list sorts has been received from the API, but static values are still in use.'
-          );
+          //TODO CHHI how to cover that
           this.sorts = quotesState.data.sorts;
         }
       })
