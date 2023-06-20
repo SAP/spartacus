@@ -53,7 +53,7 @@
           "Pickup-In-Store",
           "User-Account",
           "User-Profile",
-          "Commerce-Quotes"
+          "Quotes"
         ],
         "type": "string"
       },
@@ -219,8 +219,8 @@
             "label": "User - Profile"
           },
           {
-            "value": "Commerce-Quotes",
-            "label": "Commerce Quotes"
+            "value": "Quotes",
+            "label": "Quotes"
           },
           {
             "value": "Customer-Ticketing",

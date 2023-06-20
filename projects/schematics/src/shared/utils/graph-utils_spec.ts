@@ -190,7 +190,7 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "Commerce-Quotes",
+          "Quotes",
           "ASM",
         ]
       `);
