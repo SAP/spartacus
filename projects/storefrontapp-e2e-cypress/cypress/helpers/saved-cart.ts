@@ -247,10 +247,10 @@ export function saveActiveCart(verify = true) {
       // open modal to save the cart
 
       cy.get('cx-saved-cart-form-dialog').within(() => {
-        cy.get('[formcontrolname="name"]').type(
+        cy.get('[formcontrolname="name"]').clear().type(
           sampleData.savedActiveCartForm[0].name
         );
-        cy.get('[formcontrolname="description"]').type(
+        cy.get('[formcontrolname="description"]').clear().type(
           sampleData.savedActiveCartForm[0].description
         );
 
