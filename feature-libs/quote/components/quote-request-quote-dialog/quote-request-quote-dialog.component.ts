@@ -55,7 +55,7 @@ export class QuoteRequestQuoteDialogComponent {
     this.launchDialogService.closeDialog(reason);
   }
 
-  onSubmit(goToDetails?: boolean): void {
+  onSubmit(goToDetails = false): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;

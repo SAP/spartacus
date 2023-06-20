@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 import { EventService } from '@spartacus/core';
 import { ICON_TYPE, MessagingConfigs } from '@spartacus/storefront';
@@ -25,7 +25,9 @@ export class QuoteDetailsVendorContactComponent {
     protected eventService: EventService
   ) {}
   onSend(event: { message: string }) {
-    console.log('message :>> ', event.message);
+    if (isDevMode()) {
+      console.log('TODO CHHI message :>> ', event.message);
+    }
   }
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {

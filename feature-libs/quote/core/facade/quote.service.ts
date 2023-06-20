@@ -87,8 +87,8 @@ export class QuoteService implements QuoteFacade {
         ),
         tap(([_, userId, quote]) => {
           this.multiCartService.loadCart({
-            cartId: quote.cartId as string,
             userId,
+            cartId: quote.cartId as string,
             extraData: {
               active: true,
             },
@@ -102,13 +102,13 @@ export class QuoteService implements QuoteFacade {
     }
   );
 
-  protected editQuoteCommand: Command<
-    { quoteCode: string; quoteMetadata: QuoteMetadata },
-    unknown
-  > = this.commandService.create<
-    { quoteCode: string; quoteMetadata: QuoteMetadata },
-    unknown
-  >(
+  protected editQuoteCommand: Command<{
+    quoteCode: string;
+    quoteMetadata: QuoteMetadata;
+  }> = this.commandService.create<{
+    quoteCode: string;
+    quoteMetadata: QuoteMetadata;
+  }>(
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
@@ -125,13 +125,10 @@ export class QuoteService implements QuoteFacade {
     }
   );
 
-  protected addQuoteCommentCommand: Command<
-    { quoteCode: string; quoteComment: Comment },
-    unknown
-  > = this.commandService.create<
-    { quoteCode: string; quoteComment: Comment },
-    unknown
-  >(
+  protected addQuoteCommentCommand: Command<{
+    quoteCode: string;
+    quoteComment: Comment;
+  }> = this.commandService.create<{ quoteCode: string; quoteComment: Comment }>(
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
@@ -148,13 +145,13 @@ export class QuoteService implements QuoteFacade {
     }
   );
 
-  protected performQuoteActionCommand: Command<
-    { quoteCode: string; quoteAction: QuoteActionType },
-    unknown
-  > = this.commandService.create<
-    { quoteCode: string; quoteAction: QuoteActionType },
-    unknown
-  >(
+  protected performQuoteActionCommand: Command<{
+    quoteCode: string;
+    quoteAction: QuoteActionType;
+  }> = this.commandService.create<{
+    quoteCode: string;
+    quoteAction: QuoteActionType;
+  }>(
     (payload) => {
       this.isActionPerforming$.next(true);
       return this.userIdService.takeUserId().pipe(
@@ -226,7 +223,6 @@ export class QuoteService implements QuoteFacade {
           withLatestFrom(currentPage$, sort$),
           distinctUntilChanged(),
           switchMap(([userId, currentPage, sort]) => {
-            console.log(userId, currentPage, sort);
             return this.quoteConnector.getQuotes(userId, {
               currentPage,
               sort,
