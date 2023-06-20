@@ -81,6 +81,14 @@
         flex-basis: 100%;
         color: var(--cx-color-success);
       }
+
+      @include forVersion(6.3) {
+        .cx-delivery-mode-description {
+          width: 100%;
+          display: block;
+          color: var(--cx-color-success);
+        }
+      }
     }
   }
 }
