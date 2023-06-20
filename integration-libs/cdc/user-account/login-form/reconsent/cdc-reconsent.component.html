@@ -1,0 +1,61 @@
+<div
+  class="cx-anonymous-consent-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="dismissDialog('Escape pressed', reconsentEvent.errorMessage)"
+>
+  <div class="cx-dialog-content">
+    <!-- Modal Header -->
+    <ng-container *ngIf="loaded$ | async; else loading">
+      <div class="cx-dialog-header">
+        <h3>
+          {{ 'reconsent.dialog.title' | cxTranslate }}
+        </h3>
+        <button
+          type="button"
+          class="close"
+          [attr.aria-label]="'common.close' | cxTranslate"
+          (click)="dismissDialog('Cross click', reconsentEvent.errorMessage)"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+      <div class="cx-dialog-description">
+        {{ 'reconsent.dialog.description' | cxTranslate }}
+        <div
+          class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+        ></div>
+      </div>
+      <div class="cx-dialog-buttons"></div>
+      <!-- Modal Body -->
+      <div class="cx-dialog-body" *ngIf="templateList$ | async as templateList">
+        <div
+          class="cx-dialog-row col-sm-12 col-md-6"
+          *ngFor="let consentTemplate of templateList"
+        >
+          <cx-consent-management-form
+            [consentTemplate]="consentTemplate"
+            (consentChanged)="onConsentChange($event)"
+          ></cx-consent-management-form>
+        </div>
+      </div>
+      <!-- Actions -->
+      <div class="cx-dialog-buttons">
+        <a
+          [class.disabled]="disableSubmitButton"
+          (click)="
+            dismissDialog('Proceed To Login', reconsentEvent.errorMessage)
+          "
+          class="btn btn-primary"
+          autofocus
+          >{{ 'common.submit' | cxTranslate }}</a
+        >
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template #loading>
+    <cx-spinner></cx-spinner>
+  </ng-template>
+</div>

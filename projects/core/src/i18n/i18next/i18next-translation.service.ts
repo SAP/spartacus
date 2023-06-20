@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, isDevMode } from '@angular/core';
+import { Inject, Injectable, inject, isDevMode } from '@angular/core';
 import { i18n } from 'i18next';
 import { Observable } from 'rxjs';
+import { LoggerService } from '../../logger';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { TranslationService } from '../translation.service';
@@ -16,6 +17,8 @@ import { I18NEXT_INSTANCE } from './i18next-instance';
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
+
+  protected logger = inject(LoggerService);
 
   constructor(
     protected config: I18nConfig,
@@ -81,7 +84,7 @@ export class I18nextTranslationService implements TranslationService {
 
   private reportMissingKey(key: string, chunkName: string) {
     if (isDevMode()) {
-      console.warn(
+      this.logger.warn(
         `Translation key missing '${key}' in the chunk '${chunkName}'`
       );
     }

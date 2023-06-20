@@ -13,6 +13,7 @@ import {
   USER_PROFILE_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION,
+  SPARTACUS_CDC_ASSETS,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -40,6 +41,9 @@ export const CDC_USER_ACCOUNT_MODULE = 'CDCUserAccountModule';
 
 export const CDC_USER_PROFILE_MODULE = 'CDCUserProfileModule';
 export const CDC_ADMINISTRATION_MODULE = 'CdcAdministrationModule';
+
+export const CDC_TRANSLATION_CHUNKS_CONFIG = 'cdcTranslationChunksConfig';
+export const CDC_TRANSLATIONS = 'cdcTranslations';
 
 export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -76,6 +80,11 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDC_ROOT_MODULE}`,
   },
   customConfig: buildCdcConfig,
+  i18n: {
+    resources: CDC_TRANSLATIONS,
+    chunks: CDC_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CDC_ASSETS,
+  },
   dependencyFeatures: [
     USER_PROFILE_FEATURE_NAME,
     ORGANIZATION_ADMINISTRATION_FEATURE_NAME,

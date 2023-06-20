@@ -16,5 +16,9 @@ export abstract class UserConsentAdapter {
     consentTemplateVersion: number
   ): Observable<ConsentTemplate>;
 
-  abstract withdrawConsent(userId: string, consentCode: string): Observable<{}>;
+  abstract withdrawConsent(
+    userId: string,
+    consentCode: string,
+    consentId?: string
+  ): Observable<{}>;
 }

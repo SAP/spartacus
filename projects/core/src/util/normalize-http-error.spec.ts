@@ -1,6 +1,10 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import * as isDevModeFunc from '@angular/core';
+import { LoggerService } from '../logger';
 import { HttpErrorModel } from '../model/index';
 import { normalizeHttpError } from './normalize-http-error';
+
+const logger = new LoggerService();
 
 describe('normalizeHttpError', () => {
   describe(`when the provided argument is not HttpError`, () => {
@@ -8,6 +12,28 @@ describe('normalizeHttpError', () => {
       const error = 'xxx';
       const result = normalizeHttpError(error);
       expect(result).toEqual(undefined);
+    });
+
+    it('should log an error to the console in dev mode if logger is not provided', () => {
+      spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
+      spyOn(console, 'error');
+      const error = 'xxx';
+      normalizeHttpError(error);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error passed to normalizeHttpError is not HttpErrorResponse instance',
+        error
+      );
+    });
+
+    it('should log an error to the logger in dev mode if logger is provided', () => {
+      spyOnProperty(isDevModeFunc, 'isDevMode').and.returnValue(() => true);
+      spyOn(logger, 'error');
+      const error = 'xxx';
+      normalizeHttpError(error, logger);
+      expect(logger.error).toHaveBeenCalledWith(
+        'Error passed to normalizeHttpError is not HttpErrorResponse instance',
+        error
+      );
     });
   });
 
