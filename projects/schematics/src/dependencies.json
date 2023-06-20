@@ -103,21 +103,6 @@
     "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/commerce-quotes": {
-    "@angular-devkit/schematics": "^15.2.4",
-    "@angular/common": "^15.2.4",
-    "@angular/core": "^15.2.4",
-    "@angular/forms": "^15.2.4",
-    "@angular/router": "^15.2.4",
-    "@spartacus/cart": "5.0.0",
-    "@spartacus/core": "5.0.0",
-    "@spartacus/product-configurator": "5.0.0",
-    "@spartacus/schematics": "5.0.0",
-    "@spartacus/storefront": "5.0.0",
-    "@spartacus/styles": "5.0.0",
-    "bootstrap": "^4.6.2",
-    "rxjs": "^6.6.0"
-  },
   "@spartacus/customer-ticketing": {
     "@angular-devkit/schematics": "^15.2.4",
     "@angular/common": "^15.2.4",
@@ -222,6 +207,21 @@
     "@angular/core": "^15.2.4",
     "@spartacus/core": "5.0.0",
     "@spartacus/schematics": "5.0.0",
+    "@spartacus/styles": "5.0.0",
+    "bootstrap": "^4.6.2",
+    "rxjs": "^6.6.0"
+  },
+  "@spartacus/quote": {
+    "@angular-devkit/schematics": "^15.2.4",
+    "@angular/common": "^15.2.4",
+    "@angular/core": "^15.2.4",
+    "@angular/forms": "^15.2.4",
+    "@angular/router": "^15.2.4",
+    "@spartacus/cart": "5.0.0",
+    "@spartacus/core": "5.0.0",
+    "@spartacus/product-configurator": "5.0.0",
+    "@spartacus/schematics": "5.0.0",
+    "@spartacus/storefront": "5.0.0",
     "@spartacus/styles": "5.0.0",
     "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"

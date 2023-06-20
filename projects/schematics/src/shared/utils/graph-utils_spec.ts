@@ -6,7 +6,7 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_COMMERCE_QUOTES,
+  SPARTACUS_QUOTE,
   SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
@@ -132,20 +132,19 @@ describe('Graph utils', () => {
         SPARTACUS_TRACKING,
         SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
-        SPARTACUS_STOREFINDER,
         SPARTACUS_PRODUCT_CONFIGURATOR,
+        SPARTACUS_STOREFINDER,
         SPARTACUS_S4OM,
         SPARTACUS_EPD_VISUALIZATION,
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CDS,
         SPARTACUS_CDC,
         SPARTACUS_SMARTEDIT,
+        SPARTACUS_QUOTE,
         SPARTACUS_QUALTRICS,
         SPARTACUS_PRODUCT,
         SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_CUSTOMER_TICKETING,
-        SPARTACUS_COMMERCE_QUOTES,
-        SPARTACUS_ESLINT_PLUGIN,
       ]);
     });
   });
@@ -190,7 +189,7 @@ describe('Graph utils', () => {
           "Image-Zoom",
           "Bulk-Pricing",
           "Pickup-In-Store",
-          "Commerce-Quotes",
+          "Quote",
           "ASM",
         ]
       `);

@@ -1,0 +1,35 @@
+@import './quote-list';
+@import './quote-request-quote-button';
+@import './quote-request-quote-dialog';
+@import './quote-details-overview';
+@import './quote-details-cart';
+@import './quote-action-links';
+@import './quote-actions-by-role';
+@import './quote-details-vendor-contact';
+@import './quote-confirm-quote-request-dialog';
+@import './layout/index';
+
+$quote-components-allowlist: cx-quote-list cx-quote-details-overview
+  cx-quote-details-cart cx-quote-request-quote-button cx-quote-action-links
+  cx-quote-request-quote-dialog cx-quote-actions-by-role
+  cx-quote-details-vendor-contact cx-quote-confirm-quote-request-dialog !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $quote-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $quote-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+%cx-quote-request-quote-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-dialog-header {
+    align-items: center;
+    .cx-dialog-title {
+      font-size: var(--cx-font-size, 1.375rem);
+      font-weight: var(--cx-font-weight-semi);
+      line-height: var(--cx-line-height, 1.2222222222);
+      margin-inline-start: 0.75rem;
+    }
+  }
+
+  .cx-dialog-body {
+    padding: 1rem;
+    @include media-breakpoint-down(sm) {
+      padding: 0;
+      background-color: var(--cx-color-inverse);
+    }
+    label {
+      margin-bottom: 1rem;
+
+      .label-content {
+        font-weight: var(--cx-font-weight-semi);
+      }
+    }
+
+    .notes {
+      margin-bottom: 1.5rem;
+      p {
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+    }
+  }
+
+  .cx-dialog-item {
+    @include media-breakpoint-down(sm) {
+      padding: 2rem;
+    }
+  }
+
+  .cx-dialog-buttons {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      .btn-primary {
+        margin: 0 0 0.625rem 0;
+      }
+    }
+
+    & > .btn {
+      flex: 1;
+    }
+  }
+}
