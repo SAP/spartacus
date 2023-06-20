@@ -437,9 +437,6 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('be.visible');
 
             cy.url().should('contain', '/cart');
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           });
         }
       );
@@ -463,9 +460,6 @@ context('Assisted Service Module', () => {
 
           cy.log('--> Should not has assignCart');
           cy.get('.cx-asm-assignCart').should('not.exist');
-
-          // cy.log('--> sign out and close ASM UI');
-          // asm.agentSignOut();
         }
       );
     });
@@ -510,9 +504,6 @@ context('Assisted Service Module', () => {
           cy.log('--> Should has assignCart and uid is new customer');
           cy.get('.cx-asm-assignCart').should('exist');
           cy.get('.cx-asm-uid').should('have.text', newCustomer.email);
-
-          // cy.log('--> sign out and close ASM UI');
-          // asm.agentSignOut();
         });
       });
     });
@@ -569,8 +560,6 @@ context('Assisted Service Module', () => {
             );
             cy.url().should('include', 'saved-cart');
             cy.url().should('include', inactiveCartId);
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           }
         );
       });
@@ -618,9 +607,6 @@ context('Assisted Service Module', () => {
             );
             cy.get('button[id=asm-save-cart-dialog-btn]').should('be.disabled');
             cy.findByText(/Cancel/i).click();
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           });
         }
       );
