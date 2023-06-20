@@ -42,9 +42,6 @@ context('Assisted Service Module', () => {
 
           cy.log('--> Should has assignCart');
           cy.get('.cx-asm-assignCart').should('exist');
-
-          // cy.log('--> sign out and close ASM UI');
-          // // asm.agentSignOut();
         }
       );
     });
@@ -83,9 +80,6 @@ context('Assisted Service Module', () => {
             cy.get('.cx-asm-assignCart').should('exist');
 
             cy.url().should('contain', 'order/' + orderId);
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           }
         );
       });
@@ -142,9 +136,6 @@ context('Assisted Service Module', () => {
             cy.get('.cx-asm-assignCart').should('exist');
 
             cy.url().should('contain', 'support-ticket/' + ticketId);
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           });
         });
     });
@@ -192,9 +183,6 @@ context('Assisted Service Module', () => {
             cy.get('.cx-asm-assignCart').should('exist');
 
             cy.url().should('contain', 'saved-cart/' + savedCartId);
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           }
         );
       });
@@ -215,9 +203,6 @@ context('Assisted Service Module', () => {
 
           cy.log('--> Should has assignCart');
           cy.get('.cx-asm-assignCart').should('exist');
-
-          // cy.log('--> sign out and close ASM UI');
-          // asm.agentSignOut();
         }
       );
     });
@@ -258,9 +243,6 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('exist');
 
             cy.url().should('contain', 'order/' + orderId);
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           }
         );
       });
@@ -320,9 +302,6 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('be.visible');
 
             cy.url().should('contain', 'support-ticket/' + ticketId);
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           });
         });
     });
@@ -370,9 +349,6 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('be.visible');
 
             cy.url().should('contain', 'saved-cart/' + savedCartId);
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           }
         );
       });
@@ -417,9 +393,6 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('be.visible');
 
             cy.url().should('contain', '/cart');
-
-            // cy.log('--> sign out and close ASM UI');
-            // asm.agentSignOut();
           });
         }
       );
