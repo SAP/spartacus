@@ -62,7 +62,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         disabled: this.isConsentRequired(),
       }),
       additionalConsents:
-        this.registerComponentService?.generateAdditionalConsentsFormControl(),
+        this.registerComponentService.generateAdditionalConsentsFormControl?.() ??
+        this.fb.array([]),
       termsandconditions: [false, Validators.requiredTrue],
     },
     {
