@@ -21,7 +21,7 @@ import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-s
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CommerceQuotesCartComponent: {
+        QuoteCartComponent: {
           component: QuoteDetailsCartComponent,
           guards: [AuthGuard],
         },

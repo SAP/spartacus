@@ -20,7 +20,7 @@ import { QuoteDetailsOverviewComponent } from './quote-details-overview.componen
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CommerceQuotesDetailsOverviewComponent: {
+        QuoteDetailsOverviewComponent: {
           component: QuoteDetailsOverviewComponent,
           guards: [AuthGuard],
         },

@@ -26,12 +26,12 @@ export function defaultQuoteComponentsConfig() {
       [QUOTE_FEATURE]: {
         cmsComponents: [
           'AccountMyQuotesComponent',
-          'CommerceQuotesRequestComponent',
-          'CommerceQuotesDetailsOverviewComponent',
-          'CommerceQuotesCartComponent',
-          'CommerceQuotesActionLinksComponent',
-          'CommerceQuotesActionsByRoleComponent',
-          'CommerceQuotesCartSummaryComponent',
+          'QuoteRequestComponent',
+          'QuoteDetailsOverviewComponent',
+          'QuoteCartComponent',
+          'QuoteActionLinksComponent',
+          'QuoteActionsByRoleComponent',
+          'CommerceQuotesCartSummaryComponent', //TODO CHHI probably not needed
           'QuoteContactVendorComponent',
         ],
       },
