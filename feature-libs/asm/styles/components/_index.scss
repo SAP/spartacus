@@ -1,5 +1,6 @@
 @import './_asm-bind-cart-dialog.component.scss';
 @import './_asm-save-cart-dialog.component.scss';
+@import './_asm-switch-customer-dialog.component.scss';
 @import './_asm-main-ui.component.scss';
 @import './_asm-session-timer.component.scss';
 @import './_asm-toggle-ui.component.scss';
@@ -13,6 +14,8 @@
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-bind-cart-dialog, cx-asm-save-cart-dialog,
+  cx-asm-switch-customer-dialog, cx-asm-toggle-ui, cx-csagent-login-form,
+  cx-customer-emulation, cx-customer-selection, cx-dot-spinner, cx-customer-list,
   cx-asm-toggle-ui, cx-csagent-login-form, cx-customer-emulation,
   cx-customer-selection, cx-dot-spinner, cx-customer-list,
   cx-asm-create-customer-form !default;
