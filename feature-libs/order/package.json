@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/order",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "Order feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -33,12 +33,12 @@
     "@ng-select/ng-select": "^10.0.3",
     "@ngrx/effects": "^15.3.0",
     "@ngrx/store": "^15.3.0",
-    "@spartacus/cart": "6.0.2",
-    "@spartacus/core": "6.0.2",
-    "@spartacus/schematics": "6.0.2",
-    "@spartacus/storefront": "6.0.2",
-    "@spartacus/styles": "6.0.2",
-    "@spartacus/user": "6.0.2",
+    "@spartacus/cart": "6.0.3",
+    "@spartacus/core": "6.0.3",
+    "@spartacus/schematics": "6.0.3",
+    "@spartacus/storefront": "6.0.3",
+    "@spartacus/styles": "6.0.3",
+    "@spartacus/user": "6.0.3",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
