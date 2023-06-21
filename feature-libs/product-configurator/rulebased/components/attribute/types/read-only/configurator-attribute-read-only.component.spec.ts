@@ -289,6 +289,30 @@ describe('ConfigAttributeReadOnlyComponent', () => {
             valueName
         );
       });
+
+      it('should return aria label without valuePrice', () => {
+        myValues[0].selected = false;
+        myValues[1].selected = true;
+        myValues[2].selected = false;
+        component.attribute.values = myValues;
+        fixture.detectChanges();
+        let attributeLabel = component.attribute.label;
+        let valueName = myValues[1].valueCode;
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-visually-hidden'
+        );
+        expect(
+          component.getAriaLabel(component.attribute, myValues[1])
+        ).toEqual(
+          'configurator.a11y.readOnlyValueOfAttributeFull' +
+            ' attribute:' +
+            attributeLabel +
+            ' value:' +
+            valueName
+        );
+      });
     });
 
     describe('noStaticDomain', () => {
