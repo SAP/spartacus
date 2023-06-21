@@ -25,6 +25,7 @@ import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -207,7 +208,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
           if (agentLoggedIn && parameters.customerId) {
             if (!isEmulatedByDeepLink && userLoggedin) {
-              this.asmComponentService.logoutCustomer();
+              this.confirmSwitchCustomer(parameters.customerId);
             } else {
               parameters.emulated = isEmulatedByDeepLink;
               setTimeout(() => this.startSessionWithParameters(parameters));
@@ -216,6 +217,35 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  protected confirmSwitchCustomer(switchCustomerId: string): void {
+    this.customer$
+      .pipe(
+        filter((curCustomer) => !!curCustomer),
+        take(1)
+      )
+      .subscribe((curCustomer) => {
+        if (curCustomer?.customerId !== switchCustomerId) {
+          this.userAccountFacade.getById(switchCustomerId).subscribe({
+            next: (switchCustomer) => {
+              this.launchDialogService.openDialogAndSubscribe(
+                LAUNCH_CALLER.ASM_SWITCH_CUSTOMER,
+                this.element,
+                { curCustomer: curCustomer, switchCustomer: switchCustomer }
+              );
+            },
+            error: (error: HttpErrorModel) => {
+              this.globalMessageService.add(
+                error.details?.[0].message ?? '',
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+            },
+          });
+        } else {
+          this.asmComponentService.setEmulatedByDeepLink(true);
+        }
+      });
   }
 
   /**
