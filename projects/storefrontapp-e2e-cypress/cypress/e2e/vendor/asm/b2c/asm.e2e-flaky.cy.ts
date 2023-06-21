@@ -232,6 +232,161 @@ context('Assisted Service Module', () => {
       );
     });
 
+    it('should switched emulated customer with deeplink when click switch customer after agent login (CXSPA-3380)', () => {
+      const customerOld = getSampleUser();
+      cy.log('--> Register new user1');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customerOld);
+
+      const customerNew = getSampleUser();
+      cy.log('--> Register new user2');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customerNew);
+
+      cy.visit('/?asm=true');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      getCustomerId(
+        agentToken.userName,
+        agentToken.pwd,
+        customerOld.email
+      ).then((customerOldId) => {
+        cy.visit('/assisted-service/emulate?customerId=' + customerOldId);
+
+        cy.log('--> Should has emulated old customer');
+        cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+          'have.text',
+          customerOld.fullName
+        );
+        cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+          'have.text',
+          customerOld.email
+        );
+
+        getCustomerId(
+          agentToken.userName,
+          agentToken.pwd,
+          customerNew.email
+        ).then((customerNewId) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerNewId);
+
+          cy.log('--> Switch emulated customer dialog should be exist');
+          cy.get('cx-asm-switch-customer-dialog').should('exist');
+
+          cy.log('--> Click switch button to switch to emulate new customer');
+          cy.get('cx-asm-switch-customer-dialog .cx-dialog-footer .btn-primary')
+            .should('exist')
+            .click();
+
+          cy.log('--> Should has emulated new customer');
+          cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+            'have.text',
+            customerNew.fullName
+          );
+          cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+            'have.text',
+            customerNew.email
+          );
+        });
+      });
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
+
+    it('should not to switch emulated customer with deeplink when click cancel after agent login (CXSPA-3380)', () => {
+      const customerA = getSampleUser();
+      cy.log('--> Register new user1');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customerA);
+
+      const customerB = getSampleUser();
+      cy.log('--> Register new user2');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customerB);
+
+      cy.visit('/?asm=true');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      getCustomerId(agentToken.userName, agentToken.pwd, customerA.email).then(
+        (customerId1) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerId1);
+
+          cy.log('--> Should has emulated customerA');
+          cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+            'have.text',
+            customerA.fullName
+          );
+          cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+            'have.text',
+            customerA.email
+          );
+
+          getCustomerId(
+            agentToken.userName,
+            agentToken.pwd,
+            customerB.email
+          ).then((customerId2) => {
+            cy.visit('/assisted-service/emulate?customerId=' + customerId2);
+
+            cy.log('--> Switch emulated customer dialog should be exist');
+            cy.get('cx-asm-switch-customer-dialog').should('exist');
+
+            cy.log('--> Click cancel button to not switch customer');
+            cy.get(
+              'cx-asm-switch-customer-dialog .cx-dialog-footer .btn-secondary'
+            ).should('exist');
+            cy.findByText(/Cancel/i).click();
+
+            cy.log('--> Should still emulated customerA');
+            cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+              'have.text',
+              customerA.fullName
+            );
+            cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+              'have.text',
+              customerA.email
+            );
+
+            cy.log('--> sign out and close ASM UI');
+            asm.agentSignOut();
+          });
+        }
+      );
+    });
+
+    it('should diaplay global error with deeplink when the switched customerId not exist after agent login (CXSPA-3380)', () => {
+      const customer = getSampleUser();
+      cy.log('--> Register new user1');
+      cy.visit('/?asm=true');
+      checkout.registerUser(false, customer);
+
+      cy.visit('/?asm=true');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      getCustomerId(agentToken.userName, agentToken.pwd, customer.email).then(
+        (customerId1) => {
+          cy.visit('/assisted-service/emulate?customerId=' + customerId1);
+
+          cy.log('--> Should has emulated customerA');
+          cy.get('.cx-asm-customerInfo .cx-asm-name').should(
+            'have.text',
+            customer.fullName
+          );
+          cy.get('.cx-asm-customerInfo .cx-asm-uid').should(
+            'have.text',
+            customer.email
+          );
+
+          cy.visit('/assisted-service/emulate?customerId=notexist');
+          cy.log('--> global error message should be display');
+          cy.get('cx-global-message .alert-danger').should('be.visible');
+
+          cy.log('--> sign out and close ASM UI');
+          asm.agentSignOut();
+        }
+      );
+    });
+
     it('should emulate customer and navigate to order with deeplink after agent login', () => {
       const customer = getSampleUser();
 
@@ -507,53 +662,6 @@ context('Assisted Service Module', () => {
       );
     });
 
-    it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
-      const oldCustomer = getSampleUser();
-      const newCustomer = getSampleUser();
-
-      cy.log('--> Register 2 users');
-      checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, oldCustomer);
-      checkout.visitHomePage('asm=true');
-      checkout.registerUser(false, newCustomer);
-
-      cy.log('--> login as agent');
-      cy.visit('/?asm=true');
-      asm.agentLogin(agentToken.userName, agentToken.pwd);
-      // get customerId via token
-      getCustomerId(
-        agentToken.userName,
-        agentToken.pwd,
-        oldCustomer.email
-      ).then((customerId) => {
-        const oldCustomerId = customerId;
-        getCustomerId(
-          agentToken.userName,
-          agentToken.pwd,
-          newCustomer.email
-        ).then((customerId) => {
-          const newCustomerId = customerId;
-
-          cy.log('--> Agent logging in deeplink with old customer');
-          cy.visit('/assisted-service/emulate?customerId=' + oldCustomerId);
-
-          cy.log('--> Should has assignCart and uid is old customer');
-          cy.get('.cx-asm-assignCart').should('exist');
-          cy.get('.cx-asm-uid').should('have.text', oldCustomer.email);
-
-          cy.log('--> Agent logging in deeplink with new customer');
-          cy.visit('/assisted-service/emulate?customerId=' + newCustomerId);
-
-          cy.log('--> Should has assignCart and uid is new customer');
-          cy.get('.cx-asm-assignCart').should('exist');
-          cy.get('.cx-asm-uid').should('have.text', newCustomer.email);
-
-          cy.log('--> sign out and close ASM UI');
-          asm.agentSignOut();
-        });
-      });
-    });
-
     it('should save inactive cart in deeplink after agent login (CXSPA-3278)', () => {
       let customer = emulateCustomerPrepare(
         agentToken.userName,
@@ -575,7 +683,7 @@ context('Assisted Service Module', () => {
             cy.log(
               '--> Should has assign inactive cart to input and display alert info'
             );
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
             cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
             cy.get(
               'cx-customer-emulation input[formcontrolname="cartNumber"]'
@@ -634,7 +742,7 @@ context('Assisted Service Module', () => {
             cy.log(
               '--> Should has assign inactive cart to input and display alert info'
             );
-            cy.get('.cx-asm-assignCart').should('exist');
+            cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
             cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
             cy.get(
               'cx-customer-emulation input[formcontrolname="cartNumber"]'
