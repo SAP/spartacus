@@ -59,7 +59,7 @@ context('Assisted Service Module', () => {
       );
     });
 
-    it('should emulate customer and navigate to order with deeplink before agent login', () => {
+    it('should emulate customer and navigate to order with deeplink before agent login (CXSPA-3263)', () => {
       const customer = getSampleUser();
 
       cy.log('--> Agent logging in with deeplink');
@@ -101,7 +101,7 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should emulate customer and navigate to support ticket with deeplink before agent login', () => {
+    it('should emulate customer and navigate to support ticket with deeplink before agent login (CXSPA-3263)', () => {
       const testTicketDetails = {
         subject: 'Testing',
         message: 'I am testing asm deep linking.',
@@ -159,7 +159,7 @@ context('Assisted Service Module', () => {
         });
     });
 
-    it('should emulate customer and navigate to saved cart with deeplink before agent login', () => {
+    it('should emulate customer and navigate to saved cart with deeplink before agent login (CXSPA-3263)', () => {
       const customer = getSampleUser();
 
       cy.visit('/');
@@ -387,7 +387,7 @@ context('Assisted Service Module', () => {
       );
     });
 
-    it('should emulate customer and navigate to order with deeplink after agent login', () => {
+    it('should emulate customer and navigate to order with deeplink after agent login (CXSPA-3263)', () => {
       const customer = getSampleUser();
 
       cy.visit('/?asm=true');
@@ -431,7 +431,7 @@ context('Assisted Service Module', () => {
       });
     });
 
-    it('should emulate customer and navigate to support ticket with deeplink after agent login', () => {
+    it('should emulate customer and navigate to support ticket with deeplink after agent login (CXSPA-3263)', () => {
       const testTicketDetails = {
         subject: 'Testing',
         message: 'I am testing asm deep linking.',
@@ -492,7 +492,7 @@ context('Assisted Service Module', () => {
         });
     });
 
-    it('should emulate customer and navigate to saved cart with deeplink after agent login', () => {
+    it('should emulate customer and navigate to saved cart with deeplink after agent login (CXSPA-3263)', () => {
       const customer = getSampleUser();
 
       cy.visit('/?asm=true');
