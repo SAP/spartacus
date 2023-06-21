@@ -17,13 +17,13 @@ import {
   ExpressServerLoggerContext,
   LegacyExpressServerLogger,
 } from '../logger';
+import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
 } from './ssr-optimization-options';
-import { ssrOptimizationOptionsResolver } from './ssr-optimization-options-resolver';
 
 /**
  * Returns the full url for the given SSR Request.
@@ -87,15 +87,17 @@ export class OptimizedSsrEngine {
       return;
     }
 
-    const options = ssrOptimizationOptionsResolver(this.ssrOptions);
+    const loggableSsrOptions = getLoggableSsrOptimizationOptions(
+      this.ssrOptions
+    );
 
     // This check has been introduced to avoid breaking changes. Remove it in Spartacus version 7.0
     if (this.ssrOptions.logger) {
       this.log(`[spartacus] SSR optimization engine initialized`, true, {
-        options,
-      } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed a the start f the server and there is no request available yet.
+        options: loggableSsrOptions,
+      } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed at the start of the server and there is no request available yet.
     } else {
-      const stringifiedOptions = JSON.stringify(options, null, 2);
+      const stringifiedOptions = JSON.stringify(loggableSsrOptions, null, 2);
       this.log(
         `[spartacus] SSR optimization engine initialized with the following options: ${stringifiedOptions}`,
         true

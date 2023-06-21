@@ -1,6 +1,6 @@
 import { DefaultExpressServerLogger } from '../logger';
+import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { SsrOptimizationOptions } from './ssr-optimization-options';
-import { ssrOptimizationOptionsResolver } from './ssr-optimization-options-resolver';
 
 class MockLogger extends DefaultExpressServerLogger {
   constructor() {
@@ -19,7 +19,8 @@ describe('SsrOptimizationOptionsResolver', () => {
   };
 
   it('should return options in the same shape as provided', () => {
-    expect(ssrOptimizationOptionsResolver(ssrOptions)).toMatchInlineSnapshot(`
+    expect(getLoggableSsrOptimizationOptions(ssrOptions))
+      .toMatchInlineSnapshot(`
       {
         "concurrency": 10,
         "debug": false,
@@ -33,7 +34,7 @@ describe('SsrOptimizationOptionsResolver', () => {
 
   it('should return constructor name if property is an object', () => {
     expect(
-      ssrOptimizationOptionsResolver({
+      getLoggableSsrOptimizationOptions({
         ...ssrOptions,
         logger: new MockLogger(),
       })
@@ -52,7 +53,7 @@ describe('SsrOptimizationOptionsResolver', () => {
 
   it('should change function to string if property is a function', () => {
     expect(
-      ssrOptimizationOptionsResolver({
+      getLoggableSsrOptimizationOptions({
         ...ssrOptions,
         renderKeyResolver: (req: any) => req.url,
       })

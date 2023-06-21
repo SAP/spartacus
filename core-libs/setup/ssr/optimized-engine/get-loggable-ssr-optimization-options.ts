@@ -11,9 +11,9 @@ import { SsrOptimizationOptions } from './ssr-optimization-options';
  * This is useful for logging and monitoring purposes.
  *
  * @param value optimization options that should be logged
- * @returns resolved options containing only primitive values that are easier to read by developers and monitoring tools
+ * @returns options containing only primitive values that are easier to read by developers and monitoring tools
  */
-export const ssrOptimizationOptionsResolver = (
+export const getLoggableSsrOptimizationOptions = (
   value: SsrOptimizationOptions
 ) => {
   const newValue: Record<string, any> = { ...value };

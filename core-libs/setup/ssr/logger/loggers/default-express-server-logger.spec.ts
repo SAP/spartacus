@@ -1,4 +1,4 @@
-import * as isDevModeFn from '@angular/core';
+import * as angularCore from '@angular/core';
 import { Request } from 'express';
 import { DefaultExpressServerLogger } from './default-express-server-logger';
 import { ExpressServerLoggerContext } from './express-server-logger';
@@ -11,9 +11,6 @@ const request = {
         request: { uuid: 'test', timeReceived: new Date('2023-05-26') },
       },
     },
-  },
-  headers: {
-    traceparent: '00-0af7651916cd43dd8448eb211c80319c-b9c7c989f97918e1-01',
   },
 } as unknown as Request;
 
@@ -86,7 +83,7 @@ describe('DefaultExpressServerLogger', () => {
 
     describe('is not dev mode', () => {
       beforeEach(() => {
-        jest.spyOn(isDevModeFn, 'isDevMode').mockReturnValue(false);
+        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(false);
       });
 
       it('should log proper shape of the JSON', () => {
@@ -98,7 +95,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
           ]
         `);
       });
@@ -112,7 +109,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
           ]
         `);
       });
@@ -126,7 +123,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
           ]
         `);
       });
@@ -165,7 +162,7 @@ describe('DefaultExpressServerLogger', () => {
 
         expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
           [
-            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z","openTracing":{"version":"00","traceId":"0af7651916cd43dd8448eb211c80319c","spanId":"b9c7c989f97918e1","traceFlags":"01"}}}}",
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
           ]
         `);
       });
@@ -173,7 +170,7 @@ describe('DefaultExpressServerLogger', () => {
 
     describe('is dev mode', () => {
       beforeEach(() => {
-        jest.spyOn(isDevModeFn, 'isDevMode').mockReturnValue(true);
+        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(true);
       });
 
       it('should log proper shape of the JSON', () => {
@@ -192,13 +189,7 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "openTracing": {
-                  "version": "00",
-                  "traceId": "0af7651916cd43dd8448eb211c80319c",
-                  "spanId": "b9c7c989f97918e1",
-                  "traceFlags": "01"
-                }
+                "timeReceived": "2023-05-26T00:00:00.000Z"
               }
             }
           }",
@@ -222,13 +213,7 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "openTracing": {
-                  "version": "00",
-                  "traceId": "0af7651916cd43dd8448eb211c80319c",
-                  "spanId": "b9c7c989f97918e1",
-                  "traceFlags": "01"
-                }
+                "timeReceived": "2023-05-26T00:00:00.000Z"
               }
             }
           }",
@@ -252,13 +237,7 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "openTracing": {
-                  "version": "00",
-                  "traceId": "0af7651916cd43dd8448eb211c80319c",
-                  "spanId": "b9c7c989f97918e1",
-                  "traceFlags": "01"
-                }
+                "timeReceived": "2023-05-26T00:00:00.000Z"
               }
             }
           }",
@@ -282,13 +261,7 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "openTracing": {
-                  "version": "00",
-                  "traceId": "0af7651916cd43dd8448eb211c80319c",
-                  "spanId": "b9c7c989f97918e1",
-                  "traceFlags": "01"
-                }
+                "timeReceived": "2023-05-26T00:00:00.000Z"
               }
             }
           }",
@@ -312,13 +285,7 @@ describe('DefaultExpressServerLogger', () => {
               "request": {
                 "url": "test",
                 "uuid": "test",
-                "timeReceived": "2023-05-26T00:00:00.000Z",
-                "openTracing": {
-                  "version": "00",
-                  "traceId": "0af7651916cd43dd8448eb211c80319c",
-                  "spanId": "b9c7c989f97918e1",
-                  "traceFlags": "01"
-                }
+                "timeReceived": "2023-05-26T00:00:00.000Z"
               }
             }
           }",
@@ -364,7 +331,7 @@ describe('DefaultExpressServerLogger', () => {
 
       expect(mappedRequest).toEqual({
         url: 'test',
-        ...request.res.locals.cx.request,
+        ...request.res?.locals.cx.request,
       });
     });
   });

@@ -7,6 +7,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
+  DefaultExpressServerLogger,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
@@ -26,7 +27,8 @@ const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
   ),
-  logger: true,
+  logger: new DefaultExpressServerLogger(),
+  renderKeyResolver: (req) => req.originalUrl,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
