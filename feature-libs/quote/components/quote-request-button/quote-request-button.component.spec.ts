@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { QuoteRequestQuoteButtonComponent } from './quote-request-quote-button.component';
+import { QuoteRequestButtonComponent } from './quote-request-button.component';
 import { QuoteFacade, Quote } from '@spartacus/quote/root';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
@@ -20,15 +20,15 @@ const mockCreatedQuote: Quote = {
 class MockQuoteFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
 }
-describe('QuoteRequestQuoteButtonComponent', () => {
-  let component: QuoteRequestQuoteButtonComponent;
-  let fixture: ComponentFixture<QuoteRequestQuoteButtonComponent>;
+describe('QuoteRequestButtonComponent', () => {
+  let component: QuoteRequestButtonComponent;
+  let fixture: ComponentFixture<QuoteRequestButtonComponent>;
   let quoteFacade: QuoteFacade;
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [QuoteRequestQuoteButtonComponent, MockUrlPipe],
+      declarations: [QuoteRequestButtonComponent, MockUrlPipe],
       imports: [I18nTestingModule],
       providers: [
         {
@@ -43,7 +43,7 @@ describe('QuoteRequestQuoteButtonComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteRequestQuoteButtonComponent);
+    fixture = TestBed.createComponent(QuoteRequestButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
