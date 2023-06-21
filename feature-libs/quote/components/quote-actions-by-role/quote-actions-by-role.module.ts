@@ -42,7 +42,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
     }),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CommerceQuotesActionsByRoleComponent: {
+        QuoteActionsByRoleComponent: {
           component: QuoteActionsByRoleComponent,
           guards: [AuthGuard],
         },

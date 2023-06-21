@@ -170,7 +170,7 @@ describe('QuoteActionsByRoleComponent', () => {
   //       commerceQuotes: null,
   //     },
   //   });
-  //   fixture = TestBed.createComponent(CommerceQuotesActionsByRoleComponent);
+  //   fixture = TestBed.createComponent(QuoteActionsByRoleComponent);
   //   component = fixture.componentInstance;
 
   //   expect(component.primaryActions).toEqual([]);

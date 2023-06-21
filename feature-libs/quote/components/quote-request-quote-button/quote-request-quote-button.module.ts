@@ -21,7 +21,7 @@ import { QuoteRequestQuoteButtonComponent } from './quote-request-quote-button.c
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CommerceQuotesRequestComponent: {
+        QuoteRequestComponent: {
           component: QuoteRequestQuoteButtonComponent,
           guards: [AuthGuard],
         },

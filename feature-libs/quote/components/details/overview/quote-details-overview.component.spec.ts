@@ -55,7 +55,7 @@ class MockTranslationService implements Partial<TranslationService> {
   selector: 'cx-quote-action-links',
   template: '',
 })
-export class MockCommerceQuotesActionLinksComponent {}
+export class MockQuoteActionLinksComponent {}
 
 describe('QuoteDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsOverviewComponent>;
@@ -66,7 +66,7 @@ describe('QuoteDetailsOverviewComponent', () => {
       imports: [I18nTestingModule, CardModule, RouterTestingModule],
       declarations: [
         QuoteDetailsOverviewComponent,
-        MockCommerceQuotesActionLinksComponent,
+        MockQuoteActionLinksComponent,
       ],
       providers: [
         {
