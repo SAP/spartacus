@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../../../support/utils/clear-all-storage';
-import * as asm from '../../../../../helpers/asm';
-import { ELECTRONICS_BASESITE } from '../../../../../helpers/checkout-flow';
-import { POWERTOOLS_BASESITE } from '../../../../../sample-data/b2b-checkout';
-import { user } from '../../../../../sample-data/checkout-flow';
-import { register } from '../../../../../helpers/auth-forms';
-import { addB2bProductToCartAndCheckout } from '../../../../../helpers/b2b/b2b-checkout';
-import { interceptGet } from '../../../../../support/utils/intercept';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import * as asm from '../../../../helpers/asm';
+import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
+import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
+import { user } from '../../../../sample-data/checkout-flow';
+import { register } from '../../../../helpers/auth-forms';
+import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
+import { interceptGet } from '../../../../support/utils/intercept';
 
 context('B2B - Assisted Service Module', () => {
   before(() => {
