@@ -20,7 +20,7 @@ export default defineConfig({
   },
   videoUploadOnPasses: false,
   env: {
-    API_URL: 'https://20.83.184.244:9002',
+    API_URL: 'https://20.62.192.23:9002',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
@@ -29,7 +29,7 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
-    BACK_OFFICE_URL: 'https://20.83.184.244:9002',
+    BACK_OFFICE_URL: 'https://20.62.192.23:9002',
     BACK_OFFICE_PREFIX: '/backoffice',
   },
   e2e: {
