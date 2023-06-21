@@ -16,9 +16,16 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  Observable,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -125,12 +132,12 @@ export class OpfCheckoutBillingAddressFormService {
             this.opfService.reloadPaymentMode();
           }
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorModel) => {
           this.globalMessageService.add(
             { key: 'opf.address.errors.cannotUpdate' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return of(error);
+          return throwError(error);
         }),
         finalize(() => {
           this.isLoadingAddressSub.next(false);
