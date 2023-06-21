@@ -63,11 +63,9 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
   }
 
   protected mapRequest(request: Request): Record<string, any> {
-    const mappedRequest = {
+    return {
       url: request.originalUrl,
       ...request.res?.locals.cx.request,
     };
-
-    return mappedRequest;
   }
 }
