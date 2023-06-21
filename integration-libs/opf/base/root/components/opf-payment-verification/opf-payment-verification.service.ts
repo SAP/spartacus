@@ -5,17 +5,16 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable, of, throwError } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, filter, take } from 'rxjs/operators';
 import { OpfOrderFacade, OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -23,6 +22,8 @@ import {
   OpfPaymenVerificationUrlInput,
   OpfResponseMapElement,
 } from '../../model';
+import { OpfPaymentMetadata } from '../../model/opf.model';
+import { OpfService } from '../../services';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +34,7 @@ export class OpfPaymentVerificationService {
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected opfCheckoutService: OpfPaymentFacade,
-    protected winRef: WindowRef,
-    protected router: Router
+    protected opfService: OpfService
   ) {}
 
   defaultError: HttpErrorModel = {
@@ -145,27 +145,24 @@ export class OpfPaymentVerificationService {
   }
 
   checkIfProcessingCartIdExist(): void {
-    // TODO: Move this key to shared place for checkout and base
-    const paymentForCart = this.winRef?.localStorage?.getItem(
-      'spaProcessingCartId'
-    );
-    const params = new URLSearchParams(this.router.url);
-    const orderId = params?.get(OpfPaymenVerificationUrlInput.ORDER_ID);
+    this.opfService
+      .getOpfMetadataState()
+      .pipe(
+        take(1),
+        filter(
+          (opfPaymentMetadata: OpfPaymentMetadata) =>
+            opfPaymentMetadata.isPaymentInProgress === false
+        )
+      )
+      .subscribe(() => {
+        this.goToPage('cart');
 
-    if (!paymentForCart || paymentForCart !== orderId) {
-      this.goToPage('cart');
-
-      this.globalMessageService.add(
-        {
-          key: 'httpHandlers.cartNotFound',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
-  }
-
-  removeProcessingCartId(): void {
-    // TODO: Move this key to shared place for checkout and base
-    this.winRef?.localStorage?.removeItem('spaProcessingCartId');
+        this.globalMessageService.add(
+          {
+            key: 'httpHandlers.cartNotFound',
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
   }
 }

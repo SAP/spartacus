@@ -21,7 +21,7 @@ import {
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import { TranslationService } from '@spartacus/core';
-import { OpfService } from '@spartacus/opf/checkout/core';
+import { OpfService } from '@spartacus/opf/base/root';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -79,7 +79,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   }
 
   protected updateTermsAndConditionsState() {
-    this.opfService.updateOpfUiState({
+    this.opfService.updateOpfMetadataState({
       termsAndConditionsChecked: this.termsAndConditionsFieldValue,
     });
   }

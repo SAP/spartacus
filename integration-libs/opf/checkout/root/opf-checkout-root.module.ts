@@ -9,10 +9,8 @@ import { provideConfigValidator, provideDefaultConfig } from '@spartacus/core';
 import { defaultOPFCheckoutConfig } from './config/default-opf-checkout-config';
 import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfidValidator } from './config/opf-config-validator';
-import { OpfEventModule } from './events/opf-event.module';
 
 @NgModule({
-  imports: [OpfEventModule],
   providers: [
     provideDefaultConfig(defaultOpfConfig),
     provideDefaultConfig(defaultOPFCheckoutConfig),

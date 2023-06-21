@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-payment.service';
 export * from './opf-order.service';
+export * from './opf-payment.service';
