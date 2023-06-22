@@ -11,6 +11,7 @@ import { Config } from '@spartacus/core';
 export interface QuoteTresholdsConfig {
   /** Value above which seller approval is required */
   sellerAutoApproval: number;
+  //TODO CHHI read this value via OCC
   /** Minimal value required to submit a quote */
   requestInitiation: number;
 }

@@ -1,18 +1,22 @@
 <ng-container *ngIf="quoteDetailsState$ | async as quoteDetailsState">
-  <ng-container *ngIf="!quoteDetailsState.loading">
-    <section>
-      <button
-        #element
-        type="button"
-        *ngFor="let action of quoteDetailsState.data?.allowedActions"
-        class="btn"
-        [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-secondary'"
-        (click)="
-          onClick(action.type, quoteDetailsState.data?.code || 'TODO CHHI')
-        "
-      >
-        {{ 'quote.actions.' + action.type | cxTranslate }}
-      </button>
-    </section>
-  </ng-container>
+  <section>
+    <button
+      #element
+      type="button"
+      *ngFor="let action of quoteDetailsState.data?.allowedActions"
+      class="btn"
+      [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-secondary'"
+      [disabled]="
+        mustDisableAction(
+          action.type,
+          quoteDetailsState.data?.totalPrice?.value
+        )
+      "
+      (click)="
+        onClick(action.type, quoteDetailsState.data?.code || 'TODO CHHI')
+      "
+    >
+      {{ 'quote.actions.' + action.type | cxTranslate }}
+    </button>
+  </section>
 </ng-container>
