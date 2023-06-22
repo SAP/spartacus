@@ -13,7 +13,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
-import { QuoteRequestQuoteDialogComponent } from './quote-request-quote-dialog.component';
+import { QuoteRequestDialogComponent } from './quote-request-dialog.component';
 import createSpy = jasmine.createSpy;
 
 const quoteCode = 'quote1';
@@ -46,16 +46,16 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-describe('QuoteRequestQuoteDialogComponent', () => {
-  let component: QuoteRequestQuoteDialogComponent;
-  let fixture: ComponentFixture<QuoteRequestQuoteDialogComponent>;
+describe('QuoteRequestDialogComponent', () => {
+  let component: QuoteRequestDialogComponent;
+  let fixture: ComponentFixture<QuoteRequestDialogComponent>;
   let launchDialogService: LaunchDialogService;
   let quoteFacade: QuoteFacade;
   let routingService: RoutingService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [QuoteRequestQuoteDialogComponent, MockUrlPipe],
+      declarations: [QuoteRequestDialogComponent, MockUrlPipe],
       imports: [
         RouterTestingModule,
         SpinnerModule,
@@ -86,7 +86,7 @@ describe('QuoteRequestQuoteDialogComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteRequestQuoteDialogComponent);
+    fixture = TestBed.createComponent(QuoteRequestDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
