@@ -18,10 +18,7 @@ export const getLoggableSsrOptimizationOptions = (
 ) => {
   const newValue: Record<string, any> = { ...value };
   Object.keys(value).forEach((key) => {
-    if (
-      typeof newValue[key] === 'object' &&
-      newValue[key].constructor !== Object
-    ) {
+    if (isClassInstance(newValue[key])) {
       newValue[key] = newValue[key].constructor?.name;
     }
     if (typeof newValue[key] === 'function') {
@@ -29,4 +26,14 @@ export const getLoggableSsrOptimizationOptions = (
     }
   });
   return newValue;
+};
+
+/**
+ * Checks if the given value is a class instance,
+ * but not a plain Object.
+ *
+ * @private
+ */
+const isClassInstance = (value: any): boolean => {
+  return typeof value === 'object' && value.constructor !== Object;
 };
