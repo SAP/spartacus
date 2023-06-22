@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { asmTabbingOrderWithCustomerList } from '../../helpers/accessibility/tabbing-order/asm';
-import { ELECTRONICS_BASESITE } from '../../helpers/checkout-flow';
-import { POWERTOOLS_BASESITE } from '../../sample-data/b2b-checkout';
+import { tabbingOrderConfig as config } from '../../../../../helpers/accessibility/tabbing-order.config';
+import { asmTabbingOrderWithCustomerList } from '../../../../../helpers/accessibility/tabbing-order/asm';
+import { ELECTRONICS_BASESITE } from '../../../../../helpers/checkout-flow';
+import { POWERTOOLS_BASESITE } from '../../../../../sample-data/b2b-checkout';
 
 context('Tabbing order for ASM B2b Customer List', () => {
   before(() => {

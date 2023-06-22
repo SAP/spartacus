@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
-import * as cart from '../../../../helpers/cart';
-import * as checkout from '../../../../helpers/checkout-flow';
-import { waitForPage } from '../../../../helpers/navigation';
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
+import * as asm from '../../../helpers/asm';
+import { login } from '../../../helpers/auth-forms';
+import * as cart from '../../../helpers/cart';
+import * as checkout from '../../../helpers/checkout-flow';
+import { waitForPage } from '../../../helpers/navigation';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
