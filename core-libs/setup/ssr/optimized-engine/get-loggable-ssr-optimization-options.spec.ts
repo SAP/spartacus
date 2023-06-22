@@ -8,7 +8,7 @@ class MockLogger extends DefaultExpressServerLogger {
   }
 }
 
-describe('SsrOptimizationOptionsResolver', () => {
+describe('getLoggableSsrOptimizationOptions', () => {
   const ssrOptions: SsrOptimizationOptions = {
     concurrency: 10,
     timeout: 3000,
@@ -32,7 +32,7 @@ describe('SsrOptimizationOptionsResolver', () => {
     `);
   });
 
-  it('should return constructor name if property is an object', () => {
+  it('should return constructor name if property is not a plain object', () => {
     expect(
       getLoggableSsrOptimizationOptions({
         ...ssrOptions,
@@ -46,6 +46,27 @@ describe('SsrOptimizationOptionsResolver', () => {
         "logger": "MockLogger",
         "maxRenderTime": 300000,
         "reuseCurrentRendering": true,
+        "timeout": 3000,
+      }
+    `);
+  });
+
+  it('should not return constructor name if property is a plain object', () => {
+    expect(
+      getLoggableSsrOptimizationOptions({
+        ...ssrOptions,
+        somePlainObject: { config: 'value' },
+      } as SsrOptimizationOptions)
+    ).toMatchInlineSnapshot(`
+      {
+        "concurrency": 10,
+        "debug": false,
+        "forcedSsrTimeout": 60000,
+        "maxRenderTime": 300000,
+        "reuseCurrentRendering": true,
+        "somePlainObject": {
+          "config": "value",
+        },
         "timeout": 3000,
       }
     `);

@@ -7,7 +7,7 @@
 import { SsrOptimizationOptions } from './ssr-optimization-options';
 
 /**
- * Helper functions that maps optimization options to primitive values.
+ * Helper function that maps optimization options to primitive values.
  * This is useful for logging and monitoring purposes.
  *
  * @param value optimization options that should be logged
@@ -18,7 +18,10 @@ export const getLoggableSsrOptimizationOptions = (
 ) => {
   const newValue: Record<string, any> = { ...value };
   Object.keys(value).forEach((key) => {
-    if (typeof newValue[key] === 'object') {
+    if (
+      typeof newValue[key] === 'object' &&
+      newValue[key].constructor !== Object
+    ) {
       newValue[key] = newValue[key].constructor?.name;
     }
     if (typeof newValue[key] === 'function') {

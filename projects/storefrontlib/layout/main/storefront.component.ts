@@ -61,11 +61,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
-  ) {
-    setTimeout(() => {
-      throw new Error('test');
-    }, 2000);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
