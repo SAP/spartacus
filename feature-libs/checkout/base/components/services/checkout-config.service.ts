@@ -77,7 +77,7 @@ export class CheckoutConfigService {
   }
 
   shouldUseAddressSavedInCart(): boolean {
-    return this.checkoutConfig?.checkout?.guestUseSavedAddress;
+    return !!this.checkoutConfig?.checkout?.guestUseSavedAddress;
   }
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {
