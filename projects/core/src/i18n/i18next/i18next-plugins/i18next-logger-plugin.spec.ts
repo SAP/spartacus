@@ -3,6 +3,8 @@ import { LoggerService } from '@spartacus/core';
 import { LoggerModule } from 'i18next';
 import { I18NEXT_LOGGER_PLUGIN } from './i18next-logger-plugin';
 
+const testInput: any[][] = [['test'], ['test2', 2], ['test3', 3, 4]];
+
 describe('i18next logger plugin', () => {
   let plugin: LoggerModule;
   let logger: LoggerService;
@@ -20,27 +22,31 @@ describe('i18next logger plugin', () => {
     expect(plugin.type).toEqual('logger');
   });
 
-  it('should log', () => {
-    const log = spyOn(logger, 'log');
+  testInput.forEach((input) => {
+    describe(`logging ${input.length} argument(s)`, () => {
+      it('should log', () => {
+        const log = spyOn(logger, 'log');
 
-    plugin.log(['test']);
+        plugin.log(input);
 
-    expect(log).toHaveBeenCalledWith('test');
-  });
+        expect(log).toHaveBeenCalledWith(...input);
+      });
 
-  it('should warn', () => {
-    const warn = spyOn(logger, 'warn');
+      it('should warn', () => {
+        const warn = spyOn(logger, 'warn');
 
-    plugin.warn(['test']);
+        plugin.warn(input);
 
-    expect(warn).toHaveBeenCalledWith('test');
-  });
+        expect(warn).toHaveBeenCalledWith(...input);
+      });
 
-  it('should error', () => {
-    const error = spyOn(logger, 'error');
+      it('should error', () => {
+        const error = spyOn(logger, 'error');
 
-    plugin.error(['test']);
+        plugin.error(input);
 
-    expect(error).toHaveBeenCalledWith('test');
+        expect(error).toHaveBeenCalledWith(...input);
+      });
+    });
   });
 });
