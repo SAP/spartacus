@@ -10,7 +10,7 @@ import { ListNavigationModule } from '@spartacus/storefront';
 import { QuoteActionLinksModule } from './quote-action-links/quote-action-links.module';
 import { QuoteActionsByRoleModule } from './quote-actions-by-role/quote-actions-by-role.module';
 import { QuoteListModule } from './quote-list/quote-list.module';
-import { QuoteRequestButtonModule } from './quote-request-button/quote-request-quote-button.module';
+import { QuoteRequestButtonModule } from './quote-request-button/quote-request-button.module';
 import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-dialog.module';
 import {
   QuoteDetailsCartModule,
