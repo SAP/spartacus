@@ -9,6 +9,7 @@ import { QuoteActionType, QuoteActionsByState } from '@spartacus/quote/root';
 import { Config } from '@spartacus/core';
 
 export interface QuoteTresholdsConfig {
+  //TODO CHHI probably not needed in SPA, later remove
   /** Value above which seller approval is required */
   sellerAutoApproval: number;
   //TODO CHHI read this value via OCC

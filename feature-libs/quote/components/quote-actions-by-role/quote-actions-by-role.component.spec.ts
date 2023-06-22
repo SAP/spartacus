@@ -7,6 +7,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import {
+  GlobalMessageService,
   I18nTestingModule,
   QueryState,
   TranslationService,
@@ -78,11 +79,16 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
+class MockGlobalMessageService {
+  add(): void {}
+}
+
 describe('QuoteActionsByRoleComponent', () => {
   let fixture: ComponentFixture<QuoteActionsByRoleComponent>;
   let component: QuoteActionsByRoleComponent;
   let launchDialogService: LaunchDialogService;
   let facade: QuoteFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -93,6 +99,7 @@ describe('QuoteActionsByRoleComponent', () => {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
@@ -104,6 +111,7 @@ describe('QuoteActionsByRoleComponent', () => {
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(QuoteFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
     mockQuoteDetailsState$.next(mockQuoteDetailsState);
   });
 
@@ -201,6 +209,88 @@ describe('QuoteActionsByRoleComponent', () => {
       component['viewContainerRef'],
       { quoteCode: newMockQuoteWithSubmitAction.data?.code }
     );
+  });
+
+  describe('Threshold check', () => {
+    it('should let submit button enabled is threshold is met', () => {
+      const allowedActions = [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+      ];
+      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
+        error: false,
+        loading: false,
+        data: {
+          ...mockQuote,
+          allowedActions: allowedActions,
+        },
+      };
+      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      fixture.detectChanges();
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+    });
+
+    it('should disable submit button if threshold is not met and raise message', () => {
+      spyOn(globalMessageService, 'add').and.callThrough();
+      const allowedActions = [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+      ];
+      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
+        error: false,
+        loading: false,
+        data: {
+          ...mockQuote,
+          totalPrice: { value: -1 },
+          allowedActions: allowedActions,
+        },
+      };
+      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      fixture.detectChanges();
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(true);
+      expect(globalMessageService.add).toHaveBeenCalled();
+    });
+
+    it('should not touch buttons other than submit', () => {
+      const allowedActions = [
+        { type: QuoteActionType.CANCEL, isPrimary: true },
+      ];
+      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
+        error: false,
+        loading: false,
+        data: {
+          ...mockQuote,
+          totalPrice: { value: -1 },
+          allowedActions: allowedActions,
+        },
+      };
+      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      fixture.detectChanges();
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+    });
+
+    it('should not raise message in case threshold not met and submit action not present', () => {
+      spyOn(globalMessageService, 'add').and.callThrough();
+      const allowedActions = [
+        { type: QuoteActionType.CANCEL, isPrimary: true },
+      ];
+      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
+        error: false,
+        loading: false,
+        data: {
+          ...mockQuote,
+          totalPrice: { value: -1 },
+          allowedActions: allowedActions,
+        },
+      };
+      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      fixture.detectChanges();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
   });
 
   it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
