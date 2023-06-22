@@ -82,7 +82,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     activeCartFacade: ActiveCartFacade,
     checkoutStepService: CheckoutStepService,
     checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    globalMessageService: GlobalMessageService
+    globalMessageService: GlobalMessageService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    checkoutConfigService: CheckoutConfigService
   );
   /**
    * @deprecated since 6.2
@@ -170,7 +172,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   addAddress(address: Address | undefined): void {
-    if (!address && this.selectedAddress) {
+    if (
+      !address &&
+      this.shouldUseAddressSavedInCart() &&
+      this.selectedAddress
+    ) {
       this.next();
     }
 
@@ -279,10 +285,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         this.setAddress(selected);
       }
       this.doneAutoSelect = true;
-    } else if (
-      selected &&
-      this.checkoutConfigService?.shouldUseAddressSavedInCart()
-    ) {
+    } else if (selected && this.shouldUseAddressSavedInCart()) {
       this.selectedAddress = selected;
     }
   }
@@ -337,5 +340,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected onError(): void {
     this.busy$.next(false);
+  }
+
+  protected shouldUseAddressSavedInCart(): boolean {
+    return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 }
