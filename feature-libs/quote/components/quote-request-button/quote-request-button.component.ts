@@ -17,11 +17,11 @@ import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-quote-request-quote-button',
-  templateUrl: './quote-request-quote-button.component.html',
+  selector: 'cx-quote-request-button',
+  templateUrl: './quote-request-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuoteRequestQuoteButtonComponent implements OnDestroy {
+export class QuoteRequestButtonComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;
 
   protected subscription = new Subscription();
