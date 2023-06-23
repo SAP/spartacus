@@ -212,19 +212,32 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   describe('Threshold check', () => {
-    it('should let submit button enabled is threshold is met', () => {
-      const allowedActions = [
-        { type: QuoteActionType.SUBMIT, isPrimary: true },
-      ];
-      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
-        error: false,
-        loading: false,
-        data: {
-          ...mockQuote,
-          allowedActions: allowedActions,
-        },
-      };
-      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+    const allowedActionsSubmit = [
+      { type: QuoteActionType.SUBMIT, isPrimary: true },
+    ];
+    const quoteFailingThreshold = {
+      ...mockQuote,
+      totalPrice: { value: -1 },
+      allowedActions: allowedActionsSubmit,
+    };
+    const queryStateSubmittableQuote: QueryState<Quote> = {
+      error: false,
+      loading: false,
+      data: {
+        ...mockQuote,
+        allowedActions: allowedActionsSubmit,
+      },
+    };
+    const queryStateCancellableQuote: QueryState<Quote> = {
+      ...queryStateSubmittableQuote,
+      data: {
+        ...quoteFailingThreshold,
+        allowedActions: [{ type: QuoteActionType.CANCEL, isPrimary: true }],
+      },
+    };
+
+    it('should let submit button enabled if threshold is met', () => {
+      mockQuoteDetailsState$.next(queryStateSubmittableQuote);
       fixture.detectChanges();
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
       expect(actionButtons).toBeDefined();
@@ -233,20 +246,16 @@ describe('QuoteActionsByRoleComponent', () => {
 
     it('should disable submit button if threshold is not met and raise message', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
-      const allowedActions = [
-        { type: QuoteActionType.SUBMIT, isPrimary: true },
-      ];
-      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
-        error: false,
-        loading: false,
+
+      const queryStateSubmittableQuoteFailingThreshold: QueryState<Quote> = {
+        ...queryStateSubmittableQuote,
         data: {
-          ...mockQuote,
-          totalPrice: { value: -1 },
-          allowedActions: allowedActions,
+          ...quoteFailingThreshold,
         },
       };
-      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      mockQuoteDetailsState$.next(queryStateSubmittableQuoteFailingThreshold);
       fixture.detectChanges();
+
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
       expect(actionButtons).toBeDefined();
       expect(actionButtons[0].nativeElement.disabled).toBe(true);
@@ -254,20 +263,9 @@ describe('QuoteActionsByRoleComponent', () => {
     });
 
     it('should not touch buttons other than submit', () => {
-      const allowedActions = [
-        { type: QuoteActionType.CANCEL, isPrimary: true },
-      ];
-      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
-        error: false,
-        loading: false,
-        data: {
-          ...mockQuote,
-          totalPrice: { value: -1 },
-          allowedActions: allowedActions,
-        },
-      };
-      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      mockQuoteDetailsState$.next(queryStateCancellableQuote);
       fixture.detectChanges();
+
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
       expect(actionButtons).toBeDefined();
       expect(actionButtons[0].nativeElement.disabled).toBe(false);
@@ -275,20 +273,9 @@ describe('QuoteActionsByRoleComponent', () => {
 
     it('should not raise message in case threshold not met and submit action not present', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
-      const allowedActions = [
-        { type: QuoteActionType.CANCEL, isPrimary: true },
-      ];
-      const newMockQuoteWithSubmitAction: QueryState<Quote> = {
-        error: false,
-        loading: false,
-        data: {
-          ...mockQuote,
-          totalPrice: { value: -1 },
-          allowedActions: allowedActions,
-        },
-      };
-      mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+      mockQuoteDetailsState$.next(queryStateCancellableQuote);
       fixture.detectChanges();
+
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });
