@@ -62,7 +62,7 @@ context('Assisted Service Module', () => {
       });
 
       cy.log(
-        '--> Stop customer emulation using the end session button in the ASM UI'
+        '--> Stop customer emulation using the end emulation button in the ASM UI'
       );
       asm.agentSignOut();
 
@@ -157,7 +157,7 @@ context('Assisted Service Module', () => {
       });
 
       cy.log(
-        '--> Stop customer emulation using the end session button in the ASM UI'
+        '--> Stop customer emulation using the end emulation button in the ASM UI'
       );
       asm.agentSignOut();
 
