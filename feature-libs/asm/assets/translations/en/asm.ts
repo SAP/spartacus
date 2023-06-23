@@ -36,6 +36,7 @@ export const asm = {
         label: 'Customer Name/Email Address',
       },
       submit: 'Start Session',
+      startEmulation: 'Start Emulation',
       noMatch: 'No customer found.',
       noMatchResult: 'This account cannot be found.',
       createCustomer: 'Create New Customer',
@@ -145,6 +146,7 @@ export const asm = {
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
+    endEmulation: 'End Emulation',
     agentSessionTimer: {
       label: 'Session Timeout',
       minutes: 'min',
