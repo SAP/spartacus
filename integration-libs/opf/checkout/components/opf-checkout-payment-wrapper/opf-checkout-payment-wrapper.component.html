@@ -4,7 +4,9 @@
 >
   <ng-container
     *ngTemplateOutlet="
-      !paymentLink?.isLoading ? paymentData : noPaymentData;
+      !paymentLink?.isLoading && !(isPaymentInProgress$ | async)
+        ? paymentData
+        : noPaymentData;
       context: { paymentLink: paymentLink }
     "
   >

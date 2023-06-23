@@ -18,13 +18,13 @@ import {
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
 import { Subscription } from 'rxjs';
-import { GlobalFunctionsRegistrationService } from '../opf-checkout-global-functions/opf-global-functions-registration.service';
+import { GlobalFunctionsService } from '../opf-checkout-global-functions/opf-global-functions.service';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
   templateUrl: './opf-checkout-payment-wrapper.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   @Input() selectedPaymentId: number;
@@ -35,10 +35,24 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   sub: Subscription = new Subscription();
 
+  isPaymentInProgress$ = this.globalFunctionsService.isPaymentInProgress$();
+
+  // isPaymentInProgress$ = this.globalFunctionsRegistrationService
+  // .isPaymentInProgress$()
+  // .pipe(
+  //   tap((value: boolean) => {
+  //     if (value) {
+  //       this.initiatePaymentMode();
+  //     }
+  //   })
+  // );
+
+  hostdFieldsPaymentProgress = false;
+
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
     protected sanitizer: DomSanitizer,
-    protected globalFunctionsRegistrationService: GlobalFunctionsRegistrationService
+    protected globalFunctionsService: GlobalFunctionsService
   ) {}
 
   renderHtml(html: string): SafeHtml {
@@ -51,6 +65,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.globalFunctionsService.removeService();
   }
 
   retryInitiatePayment(): void {
@@ -73,27 +88,13 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
       paymentSessionData?.paymentSessionId &&
       paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
     ) {
-      this.globalFunctionsRegistrationService.initializeService(
+      this.globalFunctionsService.initializeService(
         paymentSessionData.paymentSessionId
       );
     } else {
-      if (this.globalFunctionsRegistrationService.isGlobalFunctionInit) {
-        this.globalFunctionsRegistrationService.removeService();
+      if (this.globalFunctionsService.isGlobalFunctionInit) {
+        this.globalFunctionsService.removeService();
       }
     }
   }
-
-  // protected initiatePaymentMode(): void {
-  //   this.sub.add(
-  //     this.service.initiatePayment(this.selectedPaymentId).subscribe({
-  //       next: (paymentSessionData) => {
-  //         if ((paymentSessionData as PaymentSessionData)?.paymentSessionId) {
-  //           this.glob.initializeService(
-  //             (paymentSessionData as PaymentSessionData)?.paymentSessionId
-  //           );
-  //         }
-  //       },
-  //     })
-  //   );
-  // }
 }

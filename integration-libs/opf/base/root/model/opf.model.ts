@@ -28,7 +28,7 @@ export interface KeyValuePair {
 }
 
 export type MerchantCallback = (
-  response?: SubmitResponse
+  response?: SubmitResponse | SubmitCompleteResponse
 ) => void | Promise<void>;
 
 export interface GlobalUpscalePaymentMethods {
@@ -46,8 +46,8 @@ export interface GlobalUpscalePaymentMethods {
     submitSuccess: MerchantCallback;
     submitPending: MerchantCallback;
     submitFailure: MerchantCallback;
-  }): Promise<void>;
-  verify?(): Promise<void>;
+  }): Promise<boolean>;
+  test?(): Promise<void>;
 }
 
 export interface PaymentBrowserInfo {
@@ -84,11 +84,14 @@ export interface SubmitInput {
   paymentMethod: PaymentMethod;
 }
 
-export interface SubmitCompleteRequest {
-  paymentSessionId?: string;
-  otpKey?: string;
-  additionalData?: Array<KeyValuePair>;
+export interface SubmitCompleteInput {
+  additionalData: Array<KeyValuePair>;
+  paymentSessionId: string;
+  cartId: string;
+  callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
+  returnPath?: Array<string>;
 }
+
 export interface SubmitCompleteResponse {
   cartId?: string;
   status?: SubmitStatus;
@@ -118,7 +121,8 @@ export interface SubmitResponse {
 }
 
 export interface SubmitCompleteRequest {
-  paymentSessionID?: string;
+  paymentSessionId?: string;
   additionalData?: Array<KeyValuePair>;
   cartId?: string;
+  otpKey?: string;
 }
