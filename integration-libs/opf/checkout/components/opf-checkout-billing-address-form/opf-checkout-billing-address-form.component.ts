@@ -52,17 +52,20 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     this.isEditBillingAddress = true;
   }
 
-  toggleSameAsDeliveryAddress(): void {
-    this.service.setIsSameAsDeliveryValue(!this.service.isSameAsDeliveryValue);
-
-    if (!this.service.isSameAsDeliveryValue) {
-      this.service.resetBillingAddress();
-      this.isAddingBillingAddressInProgress = true;
-      this.isEditBillingAddress = true;
-    } else {
+  toggleSameAsDeliveryAddress(checked: boolean): void {
+    if (checked) {
       this.service.putDeliveryAddressAsPaymentAddress();
       this.isEditBillingAddress = false;
+    } else {
+      this.isAddingBillingAddressInProgress = true;
+      this.isEditBillingAddress = true;
     }
+  }
+
+  getAddressData(billingAddress: Address): Address {
+    return !!billingAddress.id && !this.isAddingBillingAddressInProgress
+      ? billingAddress
+      : {};
   }
 
   onSubmitAddress(address: Address): void {

@@ -107,7 +107,11 @@ export class OpfCheckoutBillingAddressFormService {
         ),
         take(1)
       )
-      .subscribe();
+      .subscribe({
+        next: () => this.setIsSameAsDeliveryValue(true),
+        complete: () => {},
+        error: () => this.setIsSameAsDeliveryValue(false), // Method is responsible for placing delivery address as a payment address, so if was not successful, we know for sure that checkbox 'Same as delivery' should be unchecked
+      });
   }
 
   setBillingAddress(address: Address): Observable<Address | undefined> {
@@ -144,10 +148,6 @@ export class OpfCheckoutBillingAddressFormService {
         }),
         take(1)
       );
-  }
-
-  resetBillingAddress(): void {
-    this.billingAddressSub.next(undefined);
   }
 
   get billingAddressValue(): Address | undefined {
