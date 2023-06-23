@@ -611,6 +611,56 @@ context('Assisted Service Module', () => {
       );
     });
 
+<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/e2e/regression/asm/asm.deeplink.core-e2e.cy.ts
+=======
+    it('should end emulation of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
+      const oldCustomer = getSampleUser();
+      const newCustomer = getSampleUser();
+
+      cy.log('--> Register 2 users');
+      checkout.visitHomePage('asm=true');
+      checkout.registerUser(false, oldCustomer);
+      checkout.visitHomePage('asm=true');
+      checkout.registerUser(false, newCustomer);
+
+      cy.log('--> login as agent');
+      cy.visit('/?asm=true');
+      asm.agentLogin(agentToken.userName, agentToken.pwd);
+      // get customerId via token
+      getCustomerId(
+        agentToken.userName,
+        agentToken.pwd,
+        oldCustomer.email
+      ).then((customerId) => {
+        const oldCustomerId = customerId;
+        getCustomerId(
+          agentToken.userName,
+          agentToken.pwd,
+          newCustomer.email
+        ).then((customerId) => {
+          const newCustomerId = customerId;
+
+          cy.log('--> Agent logging in deeplink with old customer');
+          cy.visit('/assisted-service/emulate?customerId=' + oldCustomerId);
+
+          cy.log('--> Should has assignCart and uid is old customer');
+          cy.get('.cx-asm-assignCart').should('exist');
+          cy.get('.cx-asm-uid').should('have.text', oldCustomer.email);
+
+          cy.log('--> Agent logging in deeplink with new customer');
+          cy.visit('/assisted-service/emulate?customerId=' + newCustomerId);
+
+          cy.log('--> Should has assignCart and uid is new customer');
+          cy.get('.cx-asm-assignCart').should('exist');
+          cy.get('.cx-asm-uid').should('have.text', newCustomer.email);
+
+          cy.log('--> sign out and close ASM UI');
+          asm.agentSignOut();
+        });
+      });
+    });
+
+>>>>>>> e50a9bca58 (CXSPA-3469: Fix in 6.3):projects/storefrontapp-e2e-cypress/cypress/e2e/vendor/asm/b2c/asm.e2e-flaky.cy.ts
     it('should save inactive cart in deeplink after agent login (CXSPA-3278)', () => {
       let customer = emulateCustomerPrepare(
         agentToken.userName,
