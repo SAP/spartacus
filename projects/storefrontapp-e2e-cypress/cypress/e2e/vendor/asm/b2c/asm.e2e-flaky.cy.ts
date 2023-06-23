@@ -507,7 +507,7 @@ context('Assisted Service Module', () => {
       );
     });
 
-    it('should end session of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
+    it('should end emulation of emulated customer and emulate new customer if valid uid shows in URL (CXSPA-3113)', () => {
       const oldCustomer = getSampleUser();
       const newCustomer = getSampleUser();
 
