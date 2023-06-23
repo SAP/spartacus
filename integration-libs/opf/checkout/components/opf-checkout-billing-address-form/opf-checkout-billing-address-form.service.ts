@@ -110,7 +110,9 @@ export class OpfCheckoutBillingAddressFormService {
       .subscribe({
         next: () => this.setIsSameAsDeliveryValue(true),
         complete: () => {},
-        error: () => this.setIsSameAsDeliveryValue(false), // Method is responsible for placing delivery address as a payment address, so if was not successful, we know for sure that checkbox 'Same as delivery' should be unchecked
+        error: () => this.setIsSameAsDeliveryValue(false),
+        // Method is responsible for placing delivery address as a payment address,
+        // so if was not successful, we know for sure that checkbox 'Same as delivery' should be unchecked
       });
   }
 
