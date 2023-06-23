@@ -34,6 +34,12 @@
       padding: 20px;
     }
 
+    @include forVersion(6.3) {
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+
     &-wrapper {
       display: flex;
       flex-direction: column;
