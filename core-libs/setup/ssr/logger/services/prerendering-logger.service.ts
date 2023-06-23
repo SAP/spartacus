@@ -7,6 +7,11 @@
 import { Injectable } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 
+/**
+ * Custom `LoggerService` used in pre-rendering in the server environment.
+ *
+ * It simply forwards the arguments to the native `console` methods.
+ */
 @Injectable({
   providedIn: 'root',
 })
