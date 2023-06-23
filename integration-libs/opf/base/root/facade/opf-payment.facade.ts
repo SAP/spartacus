@@ -11,6 +11,11 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
+  SubmitCompleteRequest,
+  SubmitCompleteResponse,
+  SubmitInput,
+  SubmitRequest,
+  SubmitResponse,
 } from '../model';
 
 @Injectable({
@@ -19,7 +24,12 @@ import {
     facadeFactory({
       facade: OpfPaymentFacade,
       feature: OPF_BASE_FEATURE,
-      methods: ['verifyPayment'],
+      methods: [
+        'verifyPayment',
+        'submitPayment',
+        'submitPayment2',
+        'submitCompletePayment',
+      ],
     }),
 })
 export abstract class OpfPaymentFacade {
@@ -33,4 +43,14 @@ export abstract class OpfPaymentFacade {
     paymentSessionId: string,
     paymentVerificationPayload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
+
+  abstract submitPayment(
+    submitRequest: SubmitRequest
+  ): Observable<SubmitResponse>;
+
+  abstract submitPayment2(submitRequest: SubmitInput): Observable<boolean>;
+
+  abstract submitCompletePayment(
+    submitCompleteRequest: SubmitCompleteRequest
+  ): Observable<SubmitCompleteResponse>;
 }

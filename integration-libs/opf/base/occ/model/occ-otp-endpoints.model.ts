@@ -9,11 +9,8 @@ import { OccEndpoint } from '@spartacus/core';
 declare module '@spartacus/core' {
   interface OccEndpoints {
     /**
-     * Endpoint to verify a response from PSP for Full Page Redirect
-     * and iFrame integration patterns.
+     * Endpoint to generate OTP for specified cart id.
      */
-    verifyPayment?: string | OccEndpoint;
-    submitPayment?: string | OccEndpoint;
-    submitCompletePayment?: string | OccEndpoint;
+    generateOtpKey?: string | OccEndpoint;
   }
 }

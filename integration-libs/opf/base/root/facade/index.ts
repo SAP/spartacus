@@ -5,4 +5,5 @@
  */
 
 export * from './opf-order.facade';
+export * from './opf-otp.facade';
 export * from './opf-payment.facade';

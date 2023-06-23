@@ -5,15 +5,20 @@
  */
 
 import { Provider } from '@angular/core';
-import { OpfOrderFacade, OpfPaymentFacade } from '@spartacus/opf/base/root';
+import {
+  OpfOrderFacade,
+  OpfOtpFacade,
+  OpfPaymentFacade,
+} from '@spartacus/opf/base/root';
 
 import { OpfOrderService } from './opf-order.service';
+import { OpfOtpService } from './opf-otp.service';
 import { OpfPaymentService } from './opf-payment.service';
 
 export const facadeProviders: Provider[] = [
   OpfPaymentService,
   OpfOrderService,
-
+  OpfOtpService,
   {
     provide: OpfPaymentFacade,
     useExisting: OpfPaymentService,
@@ -22,5 +27,9 @@ export const facadeProviders: Provider[] = [
   {
     provide: OpfOrderFacade,
     useExisting: OpfOrderService,
+  },
+  {
+    provide: OpfOtpFacade,
+    useExisting: OpfOtpService,
   },
 ];

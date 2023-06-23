@@ -26,8 +26,8 @@ import {
 } from '@spartacus/opf/checkout/root';
 import {
   BehaviorSubject,
-  combineLatest,
   Observable,
+  combineLatest,
   of,
   throwError,
 } from 'rxjs';

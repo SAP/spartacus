@@ -12,9 +12,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { OpfPaymentMethodType } from '@spartacus/opf/checkout/root';
-import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+import {
+  OpfPaymentMethodType,
+  PaymentPattern,
+  PaymentSessionData,
+} from '@spartacus/opf/checkout/root';
 import { Subscription } from 'rxjs';
+import { GlobalFunctionsRegistrationService } from '../opf-checkout-global-functions/opf-global-functions-registration.service';
+import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
@@ -32,7 +37,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    protected globalFunctionsRegistrationService: GlobalFunctionsRegistrationService
   ) {}
 
   renderHtml(html: string): SafeHtml {
@@ -53,7 +59,41 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   protected initiatePaymentMode(): void {
     this.sub.add(
-      this.service.initiatePayment(this.selectedPaymentId).subscribe()
+      this.service.initiatePayment(this.selectedPaymentId).subscribe({
+        next: (response) =>
+          this.initiateGlobalFunctions(response as PaymentSessionData),
+      })
     );
   }
+
+  protected initiateGlobalFunctions(
+    paymentSessionData: PaymentSessionData
+  ): void {
+    if (
+      paymentSessionData?.paymentSessionId &&
+      paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
+    ) {
+      this.globalFunctionsRegistrationService.initializeService(
+        paymentSessionData.paymentSessionId
+      );
+    } else {
+      if (this.globalFunctionsRegistrationService.isGlobalFunctionInit) {
+        this.globalFunctionsRegistrationService.removeService();
+      }
+    }
+  }
+
+  // protected initiatePaymentMode(): void {
+  //   this.sub.add(
+  //     this.service.initiatePayment(this.selectedPaymentId).subscribe({
+  //       next: (paymentSessionData) => {
+  //         if ((paymentSessionData as PaymentSessionData)?.paymentSessionId) {
+  //           this.glob.initializeService(
+  //             (paymentSessionData as PaymentSessionData)?.paymentSessionId
+  //           );
+  //         }
+  //       },
+  //     })
+  //   );
+  // }
 }

@@ -7,6 +7,10 @@
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
+  SubmitCompleteRequest,
+  SubmitCompleteResponse,
+  SubmitRequest,
+  SubmitResponse,
 } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 
@@ -19,4 +23,12 @@ export abstract class OpfPaymentAdapter {
     paymentSessionId: string,
     payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
+
+  abstract submitPayment(
+    submitRequest: SubmitRequest
+  ): Observable<SubmitResponse>;
+
+  abstract submitCompletePayment(
+    submitRequest: SubmitCompleteRequest
+  ): Observable<SubmitCompleteResponse>;
 }
