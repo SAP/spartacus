@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
  * By default it delegates logged messages to the native `console` object.
  *
  * It's a good extension point for customizing the destination of logs
- *(e.g. to use a 3rd party logger library) or to enhance logs with more contextual data.
+ * (e.g. to use a 3rd party logger library) or to enhance logs with more contextual data.
  */
 @Injectable({
   providedIn: 'root',
