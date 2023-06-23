@@ -1,6 +1,18 @@
+import * as angularCore from '@angular/core';
 import { Request } from 'express';
 import { DefaultExpressServerLogger } from './default-express-server-logger';
 import { ExpressServerLoggerContext } from './express-server-logger';
+
+const request = {
+  originalUrl: 'test',
+  res: {
+    locals: {
+      cx: {
+        request: { uuid: 'test', timeReceived: new Date('2023-05-26') },
+      },
+    },
+  },
+} as unknown as Request;
 
 describe('DefaultExpressServerLogger', () => {
   let logger: DefaultExpressServerLogger;
@@ -68,6 +80,219 @@ describe('DefaultExpressServerLogger', () => {
         logger['createLogMessage']('test', { request: {} as Request })
       );
     });
+
+    describe('is not dev mode', () => {
+      beforeEach(() => {
+        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(false);
+      });
+
+      it('should log proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'log')
+          .mockImplementation(() => {});
+
+        logger.log('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+          ]
+        `);
+      });
+
+      it('should warn proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'warn')
+          .mockImplementation(() => {});
+
+        logger.warn('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+          ]
+        `);
+      });
+
+      it('should error proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {});
+
+        logger.error('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+          ]
+        `);
+      });
+
+      it('should info proper shape of the JSON', () => {
+        const request = {
+          originalUrl: 'test',
+          res: {
+            locals: {
+              cx: {
+                request: { uuid: 'test', timeReceived: new Date() },
+              },
+            },
+          },
+        } as unknown as Request;
+
+        const debugSpy = jest
+          .spyOn(console, 'info')
+          .mockImplementation(() => {});
+
+        logger.info('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+          ]
+        `);
+      });
+
+      it('should debug proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'debug')
+          .mockImplementation(() => {});
+
+        logger.debug('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{"message":"test","context":{"timestamp":"2023-05-26T00:00:00.000Z","request":{"url":"test","uuid":"test","timeReceived":"2023-05-26T00:00:00.000Z"}}}",
+          ]
+        `);
+      });
+    });
+
+    describe('is dev mode', () => {
+      beforeEach(() => {
+        jest.spyOn(angularCore, 'isDevMode').mockReturnValue(true);
+      });
+
+      it('should log proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'log')
+          .mockImplementation(() => {});
+
+        logger.log('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z"
+              }
+            }
+          }",
+          ]
+        `);
+      });
+
+      it('should warn proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'warn')
+          .mockImplementation(() => {});
+
+        logger.warn('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z"
+              }
+            }
+          }",
+          ]
+        `);
+      });
+
+      it('should error proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'error')
+          .mockImplementation(() => {});
+
+        logger.error('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z"
+              }
+            }
+          }",
+          ]
+        `);
+      });
+
+      it('should info proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'info')
+          .mockImplementation(() => {});
+
+        logger.info('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z"
+              }
+            }
+          }",
+          ]
+        `);
+      });
+
+      it('should debug proper shape of the JSON', () => {
+        const debugSpy = jest
+          .spyOn(console, 'debug')
+          .mockImplementation(() => {});
+
+        logger.debug('test', { request });
+
+        expect(debugSpy.mock.lastCall).toMatchInlineSnapshot(`
+          [
+            "{
+            "message": "test",
+            "context": {
+              "timestamp": "2023-05-26T00:00:00.000Z",
+              "request": {
+                "url": "test",
+                "uuid": "test",
+                "timeReceived": "2023-05-26T00:00:00.000Z"
+              }
+            }
+          }",
+          ]
+        `);
+      });
+    });
   });
 
   describe('create log message', () => {
@@ -106,7 +331,7 @@ describe('DefaultExpressServerLogger', () => {
 
       expect(mappedRequest).toEqual({
         url: 'test',
-        ...request.res.locals.cx.request,
+        ...request.res?.locals.cx.request,
       });
     });
   });
