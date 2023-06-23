@@ -18,7 +18,7 @@ import {
   GlobalMessageType,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, combineLatest, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -127,7 +127,7 @@ export class OpfCheckoutBillingAddressFormService {
         }),
         catchError((error) => {
           this.globalMessageService.add(
-            { key: 'opf.address.errors.cannotUpdate' },
+            { key: 'opf.checkout.errors.updateBillingAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
           return of(error);
