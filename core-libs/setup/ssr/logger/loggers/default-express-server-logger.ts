@@ -20,26 +20,34 @@ import {
 export class DefaultExpressServerLogger implements ExpressServerLogger {
   log(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.log(this.createLogMessage(message, context));
+    console.log(this.stringifyWithContext(message, context));
   }
   warn(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.warn(this.createLogMessage(message, context));
+    console.warn(this.stringifyWithContext(message, context));
   }
   error(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.error(this.createLogMessage(message, context));
+    console.error(this.stringifyWithContext(message, context));
   }
   info(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.info(this.createLogMessage(message, context));
+    console.info(this.stringifyWithContext(message, context));
   }
   debug(message: string, context: ExpressServerLoggerContext): void {
     /* eslint-disable-next-line no-console */
-    console.debug(this.createLogMessage(message, context));
+    console.debug(this.stringifyWithContext(message, context));
   }
 
-  protected createLogMessage(
+  /**
+   * Converts a message and an ExpressServerLoggerContext object into a single JSON string containing both pieces of information, which can be used for logging purposes.
+   *
+   * @protected
+   * @param message - The message to be included in the log entry.
+   * @param context - The context object associated with the log entry.
+   * @returns A JSON string containing both the message and context information, suitable for logging.
+   */
+  protected stringifyWithContext(
     message: string,
     context: ExpressServerLoggerContext
   ): string {
@@ -50,6 +58,13 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       : JSON.stringify(logObject);
   }
 
+  /**
+   * Map the context for the ExpressServerLogger
+   *
+   * @protected
+   * @param context - The logging context object to be mapped
+   * @returns - The mapped context with timestamp and request (if available)
+   */
   protected mapContext(
     context: ExpressServerLoggerContext
   ): Record<string, any> {
@@ -65,6 +80,15 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
     return outputContext;
   }
 
+  /**
+   * Maps a Request object into a JavaScript object with specific properties.
+   *
+   * @protected
+   * @param request - An Express Request object.
+   * @returns - An object with properties "url" and "cxRequest" .
+   * "url" is the original URL from the request and "cxRequest" is an object containing additional information about the request.
+   * "cxRequest" contains properties "uuid" and "timeReceived"
+   */
   protected mapRequest(request: Request): Record<string, any> {
     return {
       url: request.originalUrl,

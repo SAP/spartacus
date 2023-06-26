@@ -32,7 +32,7 @@ describe('DefaultExpressServerLogger', () => {
       logger.log('test', { request: {} as Request });
 
       expect(logSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} as Request })
+        logger['stringifyWithContext']('test', { request: {} as Request })
       );
     });
 
@@ -42,7 +42,7 @@ describe('DefaultExpressServerLogger', () => {
       logger.warn('test', { request: {} as Request });
 
       expect(warnSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} as Request })
+        logger['stringifyWithContext']('test', { request: {} as Request })
       );
     });
 
@@ -54,7 +54,7 @@ describe('DefaultExpressServerLogger', () => {
       logger.error('test', { request: {} as Request });
 
       expect(errorSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} as Request })
+        logger['stringifyWithContext']('test', { request: {} as Request })
       );
     });
 
@@ -64,7 +64,7 @@ describe('DefaultExpressServerLogger', () => {
       logger.info('test', { request: {} as Request });
 
       expect(infoSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} as Request })
+        logger['stringifyWithContext']('test', { request: {} as Request })
       );
     });
 
@@ -76,7 +76,7 @@ describe('DefaultExpressServerLogger', () => {
       logger.debug('test', { request: {} as Request });
 
       expect(debugSpy).toHaveBeenCalledWith(
-        logger['createLogMessage']('test', { request: {} as Request })
+        logger['stringifyWithContext']('test', { request: {} as Request })
       );
     });
 
@@ -296,13 +296,13 @@ describe('DefaultExpressServerLogger', () => {
 
   describe('create log message', () => {
     it('should return message without request', () => {
-      const logMessage = logger['createLogMessage']('test', {});
+      const logMessage = logger['stringifyWithContext']('test', {});
 
       expect(logMessage).not.toContain('request');
     });
 
     it('should return message with request', () => {
-      const logMessage = logger['createLogMessage']('test', {
+      const logMessage = logger['stringifyWithContext']('test', {
         request: {} as Request,
       });
 
