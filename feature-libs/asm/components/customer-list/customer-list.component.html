@@ -294,7 +294,7 @@
         <!-- Modal Foot -->
         <div
           class="cx-dialog-sub-header modal-header cx-dialog-foot"
-          [class.tablet-pagination]="(breakpoint$ | async) !== BREAKPOINT.md"
+          [class.asm-mobile-pagination]="(breakpoint$ | async) !== BREAKPOINT.md"
           *ngIf="customerListsPage$ | async as customerListsPage"
         >
           <div
