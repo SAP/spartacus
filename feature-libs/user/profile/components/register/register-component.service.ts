@@ -21,7 +21,7 @@ export class RegisterComponentService {
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder
+    protected fb?: UntypedFormBuilder
   ) {}
 
   /**
@@ -69,7 +69,7 @@ export class RegisterComponentService {
    * In integration scenarios, eg: cdc, this method will be overridden to return
    * form controls for necessary cdc consents
    */
-  generateAdditionalConsentsFormControl(): UntypedFormArray {
-    return this.fb.array([]);
+  generateAdditionalConsentsFormControl(): UntypedFormArray | undefined {
+    return this.fb?.array([]) ?? undefined;
   }
 }

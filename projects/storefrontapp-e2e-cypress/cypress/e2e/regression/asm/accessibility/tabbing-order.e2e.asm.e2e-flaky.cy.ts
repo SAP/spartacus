@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
+import { tabbingOrderConfig as config } from '../../../../helpers/accessibility/tabbing-order.config';
 import {
   asmTabbingOrderWithCreateCustomerForm,
   asmTabbingOrderWithCustomerList,
-} from '../../helpers/accessibility/tabbing-order/asm';
+  asmTabbingOrderWithSaveInactiveCartDialog,
+} from '../../../../helpers/accessibility/tabbing-order/asm';
 
 describe('Tabbing order for ASM', () => {
   before(() => {
@@ -22,6 +23,12 @@ describe('Tabbing order for ASM', () => {
 
     it('should allow to navigate with tab key for create customer form (CXSPA-1594)', () => {
       asmTabbingOrderWithCreateCustomerForm(config.asmWithCreateCustomerForm);
+    });
+
+    it('should allow to navigate with tab key for save deeplink inactive cart dialog (CXSPA-3313)', () => {
+      asmTabbingOrderWithSaveInactiveCartDialog(
+        config.asmInactiveCartSaveDialog
+      );
     });
   });
 });

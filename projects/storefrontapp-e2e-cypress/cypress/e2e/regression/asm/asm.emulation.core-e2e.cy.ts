@@ -4,23 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
-import * as checkout from '../../../../helpers/checkout-flow';
-import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
-import { getErrorAlert } from '../../../../helpers/global-message';
-import {
-  navigateToCategory,
-  waitForPage,
-} from '../../../../helpers/navigation';
-import { APPAREL_BASESITE } from '../../../../helpers/variants/apparel-checkout-flow';
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import * as asm from '../../../helpers/asm';
+import { login } from '../../../helpers/auth-forms';
+import * as checkout from '../../../helpers/checkout-flow';
+import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
+import { getErrorAlert } from '../../../helpers/global-message';
+import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
+import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
-
     it('should checkout as customer', () => {
       const customer = getSampleUser();
 
@@ -53,9 +50,6 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Place order');
       checkout.placeOrderWithCheapProduct();
-
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
     });
   });
 
