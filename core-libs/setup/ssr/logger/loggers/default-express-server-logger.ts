@@ -43,23 +43,26 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
     message: string,
     context: ExpressServerLoggerContext
   ): string {
+    const logObject = { message, context: this.mapContext(context) };
+
+    return isDevMode()
+      ? JSON.stringify(logObject, null, 2)
+      : JSON.stringify(logObject);
+  }
+
+  protected mapContext(
+    context: ExpressServerLoggerContext
+  ): Record<string, any> {
     const timestamp = new Date().toISOString();
-    const object = {
-      message,
-      context: {
-        timestamp,
-        ...context,
-      },
-    };
+    const outputContext = { timestamp, ...context };
+
     if (context.request) {
-      Object.assign(object.context, {
+      Object.assign(outputContext, {
         request: this.mapRequest(context.request),
       });
     }
 
-    return isDevMode()
-      ? JSON.stringify(object, null, 2)
-      : JSON.stringify(object);
+    return outputContext;
   }
 
   protected mapRequest(request: Request): Record<string, any> {

@@ -1,7 +1,6 @@
 import * as angularCore from '@angular/core';
 import { Request } from 'express';
 import { DefaultExpressServerLogger } from './default-express-server-logger';
-import { ExpressServerLoggerContext } from './express-server-logger';
 
 const request = {
   originalUrl: 'test',
@@ -297,10 +296,7 @@ describe('DefaultExpressServerLogger', () => {
 
   describe('create log message', () => {
     it('should return message without request', () => {
-      const logMessage = logger['createLogMessage'](
-        'test',
-        {} as ExpressServerLoggerContext
-      );
+      const logMessage = logger['createLogMessage']('test', {});
 
       expect(logMessage).not.toContain('request');
     });
@@ -311,6 +307,36 @@ describe('DefaultExpressServerLogger', () => {
       });
 
       expect(logMessage).toContain('request');
+    });
+  });
+
+  describe('map context', () => {
+    it('should return context without request', () => {
+      const context = logger['mapContext']({
+        options: {},
+      });
+
+      expect(context).toMatchInlineSnapshot(`
+        {
+          "options": {},
+          "timestamp": "2023-05-26T00:00:00.000Z",
+        }
+      `);
+    });
+
+    it('should return context with request', () => {
+      const context = logger['mapContext']({ request });
+
+      expect(context).toMatchInlineSnapshot(`
+        {
+          "request": {
+            "timeReceived": 2023-05-26T00:00:00.000Z,
+            "url": "test",
+            "uuid": "test",
+          },
+          "timestamp": "2023-05-26T00:00:00.000Z",
+        }
+      `);
     });
   });
 
