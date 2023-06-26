@@ -1,0 +1,50 @@
+{
+  "name": "segment",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "integration-libs/segment",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "integration-libs/segment/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "integration-libs/segment/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "integration-libs/segment/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "integration-libs/segment/test.ts",
+        "tsConfig": "integration-libs/segment/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "integration-libs/segment/karma.conf.js"
+      }
+    },
+    "test-jest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:schematics",
+        "cwd": "integration-libs/segment"
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "integration-libs/segment/**/*.ts",
+          "integration-libs/segment/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:feature", "type:integration"]
+}

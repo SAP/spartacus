@@ -582,6 +582,12 @@
       "@spartacus/s4om/root": [
         "integration-libs/s4om/root/public_api"
       ],
+      "@spartacus/segment": [
+        "integration-libs/segment/public_api"
+      ],
+      "@spartacus/segment/root": [
+        "integration-libs/segment/root/public_api"
+      ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],
