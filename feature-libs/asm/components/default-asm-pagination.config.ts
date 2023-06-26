@@ -8,7 +8,7 @@ import { PaginationConfig } from '@spartacus/storefront';
 
 export const defaultAsmPaginationConfig: PaginationConfig = {
   pagination: {
-    rangeCount: 2,
+    rangeCount: 4,
     addPrevious: true,
     addNext: true,
     addStart: false,

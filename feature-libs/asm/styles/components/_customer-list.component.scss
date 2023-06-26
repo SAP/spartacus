@@ -149,10 +149,6 @@ $sapFioriContent_LabelColor: #6a6d70;
     flex-direction: column;
   }
 
-  .mobile-pagination{
-    flex-direction: row-reverse;
-  }
-
   .cx-dialog-body {
     padding-top: 0;
     @include forVersion(6.1) {
