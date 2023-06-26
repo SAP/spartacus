@@ -460,8 +460,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (element && container) {
       if (element.offsetTop > container.scrollTop) {
         const offsetBottom = element.offsetTop + element.offsetHeight;
-        const containerBottom = container.scrollTop + container.offsetHeight;
-        if (offsetBottom > containerBottom) {
+        if (offsetBottom > container.scrollTop) {
           container.scrollTop = offsetBottom - container.offsetHeight;
         }
       } else {
