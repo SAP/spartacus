@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 
 export interface ProductConfiguratorCpqConfig {
-  cpq?: {
+  cpqOrchestration?: {
     cpqOverOcc?: boolean;
   };
 }
