@@ -35,7 +35,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 
 @Component({
@@ -157,31 +157,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected handleAddressVerificationResults(results: AddressValidation) {
-    if (results.decision === 'ACCEPT') {
-      this.submitAddress.emit(this.addressForm.value);
-    } else if (results.decision === 'REJECT') {
-      // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
-      if (
-        results.errors?.errors.some(
-          (error: ErrorModel) => error.subject === 'titleCode'
-        )
-      ) {
-        this.globalMessageService.add(
-          { key: 'addressForm.titleRequired' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      } else {
-        this.globalMessageService.add(
-          { key: 'addressForm.invalidAddress' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
-    } else if (results.decision === 'REVIEW') {
-      this.openSuggestedAddress(results);
-    }
-  }
-
   countrySelected(country: Country | undefined): void {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode ?? '');
@@ -203,16 +178,23 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.addressForm.valid) {
-      if (this.addressForm.get('region')?.value.isocode) {
+      const regionControl = this.addressForm.get('region'),
+        isocode = regionControl?.value?.isocode;
+
+      // let region;
+
+      if (isocode) {
         this.regions$.pipe(take(1)).subscribe((regions) => {
-          const obj = regions.find(
-            (region) =>
-              region.isocode ===
-              this.addressForm.controls['region'].value.isocode
-          );
-          Object.assign(this.addressForm.value.region, {
-            isocodeShort: obj?.isocodeShort,
-          });
+          if (regions.length) {
+            const selectedRegion = regions.find(
+              (_region) => _region.isocode === isocode
+            );
+            regionControl?.patchValue({
+              isocodeShort: selectedRegion?.isocodeShort,
+            });
+          } else {
+            regionControl?.reset();
+          }
         });
       }
 
@@ -262,5 +244,30 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  protected handleAddressVerificationResults(results: AddressValidation) {
+    if (results.decision === 'ACCEPT') {
+      this.submitAddress.emit(this.addressForm.value);
+    } else if (results.decision === 'REJECT') {
+      // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+      if (
+        results.errors?.errors.some(
+          (error: ErrorModel) => error.subject === 'titleCode'
+        )
+      ) {
+        this.globalMessageService.add(
+          { key: 'addressForm.titleRequired' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      } else {
+        this.globalMessageService.add(
+          { key: 'addressForm.invalidAddress' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
+    } else if (results.decision === 'REVIEW') {
+      this.openSuggestedAddress(results);
+    }
   }
 }
