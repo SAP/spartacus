@@ -1,5 +1,10 @@
 %cx-opf-checkout-payment-and-review {
   @include checkout-media-style();
+  margin-top: 1.5rem;
+
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-color-transparent);
+  }
 
   h3 {
     padding-bottom: 1rem;
@@ -11,17 +16,15 @@
   cx-opf-checkout-payments,
   .cx-opf-terms-and-conditions {
     display: block;
-
-    margin-bottom: 1rem;
-
+    margin-bottom: 2rem;
     border: 1px solid #d3d6db;
     padding: 1.75rem 1.75rem;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: #ffffff;
   }
 
   .cx-opf-terms-and-conditions {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 
     .form-check,
     .form-group {
@@ -76,7 +79,7 @@
       border-radius: 10px;
       justify-content: space-between;
       padding: 1.75rem;
-      background-color: #fff;
+      background-color: #ffffff;
     }
 
     .cx-card-title {

@@ -15,12 +15,8 @@ export const opf = {
         cardExpired: 'Card is expired.',
         insufficientFunds: 'Insufficient funds.',
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
-      },
-    },
-    address: {
-      errors: {
-        cannotUpdate:
-          'The address could not be updated. Please check that the address information is correct and that your device is connected to the internet. If the problem persists, you may need to clear your cart and start the checkout again.',
+        unknown:
+          'Unknown error occurred while fetching payment. Please contact support',
       },
     },
   },
