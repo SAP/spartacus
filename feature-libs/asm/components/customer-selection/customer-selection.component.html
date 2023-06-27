@@ -67,7 +67,6 @@
     <button
       #searchResultItem
       (click)="createCustomer()"
-      (keydown.enter)="createCustomer()"
       (keydown.escape)="closeResults($event)"
       (keydown.arrowright)="focusInputText($event)"
       (keydown.arrowleft)="focusInputText($event)"
@@ -82,7 +81,7 @@
         results.entries.length <= 0
       "
     >
-      {{ 'asm.customerSearch.noMatchResult' | cxTranslate }}
+      <span>{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}</span>
       <span #createCustomerLink class="linkStyleLabel">{{
         'asm.customerSearch.createCustomer' | cxTranslate
       }}</span>
