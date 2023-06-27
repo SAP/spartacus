@@ -14,3 +14,7 @@ export interface ProductConfiguratorCpqConfig {
 export abstract class ConfiguratorCpqConfig {
   productConfigurator: ProductConfiguratorCpqConfig;
 }
+
+declare module '@spartacus/product-configurator/common' {
+  interface ProductConfiguratorConfig extends ProductConfiguratorCpqConfig {}
+}

@@ -5,7 +5,7 @@
  */
 
 import '@spartacus/product-configurator/common';
-import { ProductConfiguratorCpqConfig } from '../../cpq/config/configurator-cpq.config';
+
 import { ConfiguratorAttributeComposition } from '../attribute/composition/configurator-attribute-composition.config';
 import { ProductConfiguratorCoreConfig } from './../../core/config/configurator-core.config';
 import { ProductConfiguratorMessageConfig } from './configurator-message.config';
@@ -16,8 +16,7 @@ declare module '@spartacus/product-configurator/common' {
     extends ProductConfiguratorUISettingsConfig,
       ProductConfiguratorMessageConfig,
       ConfiguratorAttributeComposition,
-      ProductConfiguratorCoreConfig,
-      ProductConfiguratorCpqConfig {}
+      ProductConfiguratorCoreConfig {}
 }
 
 declare module '@spartacus/storefront' {

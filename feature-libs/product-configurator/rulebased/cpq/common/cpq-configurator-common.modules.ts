@@ -11,10 +11,10 @@ import { CpqConfiguratorOverviewNormalizer } from '../common/converters/cpq-conf
 import { CpqConfiguratorSerializer } from '../common/converters/cpq-configurator-serializer';
 import { CpqConfiguratorValueSerializer } from '../common/converters/cpq-configurator-value-serializer';
 import {
-    CPQ_CONFIGURATOR_NORMALIZER,
-    CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
-    CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
-    CPQ_CONFIGURATOR_SERIALIZER
+  CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
+  CPQ_CONFIGURATOR_SERIALIZER,
 } from '../common/converters/cpq-configurator.converters';
 
 @NgModule({
