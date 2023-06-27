@@ -9,13 +9,12 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
@@ -34,7 +33,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
@@ -115,16 +114,7 @@ class MockCardComponent {
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
-}
-
-/**
- * TODO: (#CXSPA-53) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
 describe('CheckoutDeliveryAddressComponent', () => {
@@ -160,10 +150,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
           {
             provide: CheckoutDeliveryModesFacade,
             useClass: MockCheckoutDeliveryModesFacade,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
           },
         ],
       })
@@ -344,7 +330,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   describe('UI back button', () => {
     const getBackBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find((el) => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
@@ -380,7 +366,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   describe('UI new address form', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
-        .queryAll(By.css('.btn-action'))
+        .queryAll(By.css('.btn-secondary'))
         .find(
           (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
         );

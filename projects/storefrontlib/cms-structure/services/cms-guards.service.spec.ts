@@ -44,6 +44,8 @@ describe('CmsGuardsService', () => {
     }
   }
 
+  class NotGuard {}
+
   const mockActivatedRouteSnapshot: ActivatedRouteSnapshot =
     'ActivatedRouteSnapshot ' as any;
   const mockRouterStateSnapshot: RouterStateSnapshot =
@@ -135,6 +137,69 @@ describe('CmsGuardsService', () => {
         .pipe(take(1))
         .subscribe((res) => (result = res));
       expect(result).toEqual(mockUrlTree);
+    });
+
+    it('should throw error if some guard is not CanActivate', () => {
+      guards.push(PositiveGuard, NotGuard, PositiveGuardObservable);
+
+      expect(() => {
+        service.cmsPageCanActivate(
+          [],
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        );
+      }).toThrowError('Invalid CanActivate guard in cmsMapping');
+    });
+  });
+
+  describe('canActivateGuard', () => {
+    it('should resolve to true if guard resolves to true', () => {
+      let result;
+      service
+        .canActivateGuard(
+          PositiveGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => (result = res));
+      expect(result).toEqual(true);
+    });
+
+    it('should resolve to false if guard resolves to false', () => {
+      let result;
+      service
+        .canActivateGuard(
+          NegativeGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => (result = res));
+      expect(result).toEqual(false);
+    });
+
+    it('should resolve to UrlTree if guard resolves to UrlTree', () => {
+      let result;
+      service
+        .canActivateGuard(
+          UrlTreeGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        )
+        .pipe(take(1))
+        .subscribe((res) => (result = res));
+      expect(result).toEqual(mockUrlTree);
+    });
+
+    it('should throw error if guard is not CanActivate', () => {
+      expect(() => {
+        service.canActivateGuard(
+          NotGuard,
+          mockActivatedRouteSnapshot,
+          mockRouterStateSnapshot
+        );
+      }).toThrowError('Invalid CanActivate guard in cmsMapping');
     });
   });
 });

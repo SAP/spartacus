@@ -14,10 +14,6 @@
         ariaLabel: 'updateProfileForm.title' | cxTranslate
       }"
     >
-      <!-- TODO:(CXSPA-1695) for next major release update below feature flag -->
-      <ng-option *cxFeatureLevel="'!5.2'" [value]="">{{
-        'updateProfileForm.none' | cxTranslate
-      }}</ng-option>
       <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
         title.name
       }}</ng-option>

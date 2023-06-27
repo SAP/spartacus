@@ -1,5 +1,10 @@
-import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentFactoryResolver,
+  Inject,
+} from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
 import { OutletService } from '@spartacus/storefront';
@@ -467,6 +472,65 @@ describe('OutletDirective', () => {
       mockContextSubject$.next('newFakeContext');
       fixture.detectChanges();
       expect(getLastValueSync(outletData.context$)).toEqual('newFakeContext');
+    });
+  });
+
+  describe('after component or view created', () => {
+    @Component({
+      template: `
+        <ng-template
+          [cxOutlet]="'${keptOutlet}'"
+          [(cxComponentRef)]="innerCompRef"
+        >
+        </ng-template>
+      `,
+      changeDetection: ChangeDetectionStrategy.OnPush,
+    })
+    class MockTestOutletComponent {
+      innerCompRef: any;
+    }
+
+    @Component({
+      template: ` <div id="component">TestData</div> `,
+      selector: 'cx-test-component',
+      //changeDetection: ChangeDetectionStrategy.OnPush,
+    })
+    class MockOutletComponent {}
+
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [
+            MockTestOutletComponent,
+            OutletDirective,
+            MockOutletComponent,
+          ],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
+
+    describe('with angular component', () => {
+      it('should be able to get componentRef or viewRef', () => {
+        const outletService = TestBed.inject(OutletService);
+        const cfr = TestBed.inject(ComponentFactoryResolver);
+        outletService.add(
+          keptOutlet,
+          cfr.resolveComponentFactory(MockOutletComponent)
+        );
+
+        const fixture = TestBed.createComponent(MockTestOutletComponent);
+        fixture.detectChanges();
+
+        const component = fixture.componentInstance;
+        expect(component.innerCompRef).not.toBeUndefined();
+      });
     });
   });
 });

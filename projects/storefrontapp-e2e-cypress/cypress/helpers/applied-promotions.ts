@@ -55,7 +55,7 @@ export function goToCartDetailsView() {
 
 export function selectShippingAddress() {
   cy.findByText(/proceed to checkout/i).click();
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .find('.cx-summary-amount')
     .should('not.be.empty');

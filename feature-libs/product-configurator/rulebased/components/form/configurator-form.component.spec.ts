@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -502,7 +508,7 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    it('should launch the restart config dialog with data if requested and when the config is not new', () => {
+    it('should launch the restart config dialog with data if requested and when the config is not new', fakeAsync(() => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayRestartDialog: 'true',
       });
@@ -510,23 +516,25 @@ describe('ConfigurationFormComponent', () => {
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
+      tick(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
         undefined,
         { owner: config.owner }
       );
-    });
+    }));
 
-    it('should NOT launch the restart config dialog if not requested and not a new config', () => {
+    it('should NOT launch the restart config dialog if not requested and not a new config', fakeAsync(() => {
       routerStateObservable = mockRouterStateWithQueryParams({});
       const config: Configurator.Configuration = structuredClone(configRead);
       config.interactionState.newConfiguration = false;
       configurationCreateObservable = of(config);
       createComponentWithData();
+      tick(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('should NOT launch the restart config dialog if requested but a new config', () => {
+    it('should NOT launch the restart config dialog if requested but a new config', fakeAsync(() => {
       routerStateObservable = mockRouterStateWithQueryParams({
         displayRestartDialog: 'true',
       });
@@ -534,7 +542,8 @@ describe('ConfigurationFormComponent', () => {
       config.interactionState.newConfiguration = true;
       configurationCreateObservable = of(config);
       createComponentWithData();
+      tick(0);
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
-    });
+    }));
   });
 });

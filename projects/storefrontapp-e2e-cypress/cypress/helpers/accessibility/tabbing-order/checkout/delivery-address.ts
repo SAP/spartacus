@@ -75,7 +75,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
 
   cy.wait('@setAddress').its('response.statusCode').should('eq', 200);
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')

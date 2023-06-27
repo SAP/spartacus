@@ -1,0 +1,32 @@
+<div
+  *ngIf="
+    !(isSearchRunning$ | async) && (stores$ | async) as stores;
+    else loading
+  "
+>
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+
+  <div
+    class="container"
+    *ngIf="(hasSearchStarted$ | async) && stores.length === 0"
+  >
+    <div class="row">
+      <span class="cx-no-stores" role="alert">
+        {{ 'storeList.noStoresMessage' | cxTranslate }}
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="stores.length">
+    <cx-store
+      *ngFor="let store of stores"
+      [storeDetails]="store"
+      (storeSelected)="onSelectStore($event)"
+    ></cx-store>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

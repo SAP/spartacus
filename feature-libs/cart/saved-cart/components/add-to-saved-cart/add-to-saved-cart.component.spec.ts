@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -46,7 +46,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -181,6 +181,7 @@ describe('AddToSavedCartComponent', () => {
     describe('when user is not logged in', () => {
       it('should redirect to login page', () => {
         spyOn(routingService, 'go').and.callThrough();
+        component.disableSaveCartForLater$ = of(false);
 
         component.saveCart(mockCart);
 
@@ -194,6 +195,7 @@ describe('AddToSavedCartComponent', () => {
       it('should open dialog ', () => {
         spyOn(launchDialogService, 'openDialog').and.stub();
         isLoggedInSubject$.next(true);
+        component.disableSaveCartForLater$ = of(false);
 
         component.saveCart(mockCart);
 
@@ -206,6 +208,19 @@ describe('AddToSavedCartComponent', () => {
             layoutOption: 'save',
           }
         );
+      });
+
+      describe('should not trigger save cart method', () => {
+        it('when saved cart button is disabled', () => {
+          spyOn(routingService, 'go').and.callThrough();
+          component.disableSaveCartForLater$ = of(true);
+
+          component.saveCart(mockCart);
+
+          expect(routingService.go).not.toHaveBeenCalledWith({
+            cxRoute: 'login',
+          });
+        });
       });
     });
   });

@@ -22,7 +22,7 @@ function validateTsConfigFile {
 }
 
 function validateNoHardCodedText {
-    echo "Validating no hard-coded text (usint i18n-lint)"
+    echo "Validating no hardcoded text (usint i18n-lint)"
     npm run i18n-lint
 }
 
@@ -31,7 +31,7 @@ TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
 
 echo "Validating that no 'fdescribe(' occurrences are present in tests..."
-results=$(grep -rl --include "*spec.ts" 'fdescribe(' projects feature-libs intergration-libs core-libs || true)
+results=$(grep -rl --include "*spec.ts" 'fdescribe(' projects feature-libs integration-libs core-libs || true)
 if [[ -z "$results" ]]; then
     echo "Success: No 'fdescribe(' occurrences detected in tests."
 else
@@ -41,7 +41,7 @@ else
 fi
 
 echo "Validating that no 'describe.only(' occurrences are present in tests..."
-results=$(grep -rl --include "*spec.ts" 'decsribe.only(' projects feature-libs intergration-libs core-libs || true)
+results=$(grep -rl --include "*spec.ts" 'describe.only(' projects feature-libs integration-libs core-libs || true)
 if [[ -z "$results" ]]; then
     echo "Success: No 'describe.only(' occurrences detected in tests."
 else
@@ -51,7 +51,7 @@ else
 fi
 
 echo "Validating that no 'fit(' occurrences are present in tests..."
-results=$(grep -rl --include "*spec.ts" 'fit(' projects feature-libs intergration-libs core-libs || true)
+results=$(grep -rl --include "*spec.ts" 'fit(' projects feature-libs integration-libs core-libs || true)
 if [[ -z "$results" ]]; then
     echo "Success: No 'fit(' occurrences detected in tests."
 else
@@ -61,7 +61,7 @@ else
 fi
 
 echo "Validating that no 'it.only(' occurrences are present in tests..."
-results=$(grep -rl --include "*spec.ts" 'it.only(' projects feature-libs intergration-libs core-libs || true)
+results=$(grep -rl --include "*spec.ts" 'it.only(' projects feature-libs integration-libs core-libs || true)
 if [[ -z "$results" ]]; then
     echo "Success: No 'it.only(' occurrences detected in tests."
 else
@@ -83,7 +83,7 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-node --max_old_space_size=3584 ./node_modules/@angular/cli/bin/ng lint
+node --max_old_space_size=3584 ./node_modules/@nrwl/cli/bin/nx run-many --all --target=lint
 
 echo "-----"
 

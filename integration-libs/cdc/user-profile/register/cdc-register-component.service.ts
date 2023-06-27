@@ -17,7 +17,11 @@ import {
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
-import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  UserProfileFacade,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { merge, Observable, throwError } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -51,7 +55,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected cdcJSService: CdcJsService,
     protected globalMessageService: GlobalMessageService,
     protected authService: AuthService,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected userProfileFacade: UserProfileFacade
   ) {
     super(userRegisterFacade, globalMessageService);
   }
@@ -82,9 +87,19 @@ export class CDCRegisterComponentService extends RegisterComponentService {
         // Logging in using CDC Gigya SDK, update the registerCommand
         this.registerCommand.execute({ user })
       ),
-      switchMap((user) =>
-        merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(map(() => user))
-      )
+      switchMap(() =>
+        merge(this.loadUserTokenFailed$, this.isLoggedIn$).pipe(
+          map(() => {
+            //update user title code
+            this.userProfileFacade.update(user);
+          })
+        )
+      ),
+      switchMap(() => {
+        return this.userProfileFacade
+          .get()
+          .pipe(filter((userObj): userObj is User => Boolean(userObj)));
+      })
     );
   }
 

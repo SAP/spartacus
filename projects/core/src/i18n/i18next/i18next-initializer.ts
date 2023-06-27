@@ -54,7 +54,7 @@ export class I18nextInitializer implements OnDestroy {
       },
     };
 
-    if (this.config.i18n?.backend?.loadPath) {
+    if (this.config.i18n?.backend) {
       i18nextConfig = {
         ...i18nextConfig,
         ...this.i18nextBackendService.initialize(),

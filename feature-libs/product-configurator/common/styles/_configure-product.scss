@@ -2,7 +2,7 @@
 %cx-configure-product {
   &:not(:empty) {
     .btn-block {
-      margin-block-start: 5px;
+      margin-block-start: 10px;
     }
   }
 }
@@ -12,6 +12,7 @@ cx-page-slot {
     %cx-configure-product {
       @include media-breakpoint-up(lg) {
         grid-column: 2;
+        grid-row: 4;
         padding-inline-start: 20px;
         padding-inline-end: 20px;
         padding-block-end: 0px;

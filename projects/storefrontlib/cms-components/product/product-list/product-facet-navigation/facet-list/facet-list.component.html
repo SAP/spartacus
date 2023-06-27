@@ -7,20 +7,7 @@
   (esc)="close($event)"
   (click)="block($event)"
 >
-  <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
-  <h4 *cxFeatureLevel="'!5.1'">
-    {{ 'productList.filterBy.label' | cxTranslate }}
-    <button
-      type="button"
-      class="close"
-      [attr.aria-label]="'common.close' | cxTranslate"
-      (click)="close()"
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-    </button>
-  </h4>
-
-  <div class="list-header" *cxFeatureLevel="'5.1'">
+  <div class="list-header">
     <h4>
       {{ 'productList.filterBy.label' | cxTranslate }}
     </h4>

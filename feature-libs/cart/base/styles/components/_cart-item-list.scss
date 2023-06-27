@@ -1,13 +1,24 @@
 %cx-cart-item-list {
   @extend .cx-agnostic-table;
 
+  .cx-item-list-header {
+    border-bottom: none;
+  }
+
+  .cx-item-list-items {
+    tr {
+      &:last-child {
+        border-bottom: 1px solid var(--cx-color-light);
+      }
+    }
+  }
+
   td.cx-actions {
     cx-add-to-cart,
     button {
       white-space: nowrap;
       display: block;
-      text-align: end;
-      width: 100%;
+      margin-inline-start: auto;
 
       @include media-breakpoint-down(sm) {
         min-height: 48px;

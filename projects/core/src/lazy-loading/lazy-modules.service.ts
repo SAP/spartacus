@@ -29,7 +29,6 @@ import {
   observeOn,
   publishReplay,
   switchMap,
-  switchMapTo,
   tap,
 } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
@@ -167,7 +166,7 @@ export class LazyModulesService implements OnDestroy {
           );
           return throwError(error);
         }),
-        switchMapTo(of(moduleRef))
+        switchMap(() => of(moduleRef))
       );
     } else {
       return of(moduleRef);

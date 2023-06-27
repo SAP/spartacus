@@ -10,7 +10,6 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Optional,
   Output,
 } from '@angular/core';
 import {
@@ -111,34 +110,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
     postalCode: ['', Validators.required],
   });
 
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(
-    checkoutPaymentFacade: CheckoutPaymentFacade,
-    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    userPaymentService: UserPaymentService,
-    globalMessageService: GlobalMessageService,
-    fb: UntypedFormBuilder,
-    userAddressService: UserAddressService,
-    launchDialogService: LaunchDialogService
-  );
-
-  /**
-   * TODO: (#CXSPA-53) Make translationService a required dependency in 6.0
-   */
-  constructor(
-    checkoutPaymentFacade: CheckoutPaymentFacade,
-    checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    userPaymentService: UserPaymentService,
-    globalMessageService: GlobalMessageService,
-    fb: UntypedFormBuilder,
-    userAddressService: UserAddressService,
-    launchDialogService: LaunchDialogService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    translationService?: TranslationService
-  );
-
   constructor(
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -147,7 +118,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
     protected launchDialogService: LaunchDialogService,
-    @Optional() protected translationService?: TranslationService
+    protected translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -232,58 +203,32 @@ export class CheckoutPaymentFormComponent implements OnInit {
   toggleSameAsDeliveryAddress(): void {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
+  getAddressCardContent(address: Address): Observable<Card> {
+    return this.translationService
+      ? combineLatest([
+          this.translationService.translate('addressCard.phoneNumber'),
+          this.translationService.translate('addressCard.mobileNumber'),
+        ]).pipe(
+          map(([textPhone, textMobile]) => {
+            let region = '';
+            if (address.region && address.region.isocode) {
+              region = address.region.isocode + ', ';
+            }
+            const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-  /**
-   * TODO: (CXSPA-53) Remove synchronous overload signature and return only an observable.
-   */
-  getAddressCardContent(address: Address): Card;
-  getAddressCardContent(address: Address, returnAsync: true): Observable<Card>;
-  getAddressCardContent(
-    address: Address,
-    returnAsync?: true
-  ): Card | Observable<Card> {
-    if (returnAsync) {
-      return this.translationService
-        ? combineLatest([
-            this.translationService.translate('addressCard.phoneNumber'),
-            this.translationService.translate('addressCard.mobileNumber'),
-          ]).pipe(
-            map(([textPhone, textMobile]) => {
-              let region = '';
-              if (address.region && address.region.isocode) {
-                region = address.region.isocode + ', ';
-              }
-              const numbers = getAddressNumbers(address, textPhone, textMobile);
-
-              return {
-                textBold: address.firstName + ' ' + address.lastName,
-                text: [
-                  address.line1,
-                  address.line2,
-                  address.town + ', ' + region + address.country?.isocode,
-                  address.postalCode,
-                  numbers,
-                ],
-              } as Card;
-            })
-          )
-        : EMPTY;
-    } else {
-      let region = '';
-      if (address.region && address.region.isocode) {
-        region = address.region.isocode + ', ';
-      }
-      return {
-        textBold: address.firstName + ' ' + address.lastName,
-        text: [
-          address.line1,
-          address.line2,
-          address.town + ', ' + region + address.country?.isocode,
-          address.postalCode,
-          address.phone,
-        ],
-      } as Card;
-    }
+            return {
+              textBold: address.firstName + ' ' + address.lastName,
+              text: [
+                address.line1,
+                address.line2,
+                address.town + ', ' + region + address.country?.isocode,
+                address.postalCode,
+                numbers,
+              ],
+            } as Card;
+          })
+        )
+      : EMPTY;
   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.

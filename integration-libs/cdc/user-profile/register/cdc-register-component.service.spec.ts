@@ -12,10 +12,13 @@ import {
 import { User } from '@spartacus/user/account/root';
 import {
   UserProfileConnector,
-  UserProfileService,
   UserRegisterService,
 } from '@spartacus/user/profile/core';
-import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  UserProfileFacade,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
@@ -28,11 +31,14 @@ const userRegisterFormData: UserSignUp = {
   password: 'password',
 };
 
-class MockUserProfileService implements Partial<UserProfileService> {
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
   getTitles = createSpy().and.returnValue(of([]));
+  update(): Observable<User> {
+    return of({});
+  }
 }
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
@@ -60,12 +66,17 @@ class MockCDCJsService implements Partial<CdcJsService> {
   onLoginEventHandler = createSpy();
 }
 
+const mockedGlobalMessageService = {
+  add: () => {},
+  remove: () => {},
+};
+
 describe('CdcRegisterComponentService', () => {
   let cdcUserRegisterService: CDCRegisterComponentService;
   let connector: UserProfileConnector;
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
-  let userRegisterFacde: UserRegisterFacade;
+  let userRegisterFacade: UserRegisterFacade;
   let authService: AuthService;
   let eventService: EventService;
 
@@ -79,10 +90,11 @@ describe('CdcRegisterComponentService', () => {
           provide: UserProfileConnector,
           useClass: MockUserProfileConnector,
         },
-        { provide: UserProfileService, useClass: MockUserProfileService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: CdcJsService, useClass: MockCDCJsService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: EventService, useClass: MockEventService },
+        { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
         CDCRegisterComponentService,
       ],
     });
@@ -91,7 +103,7 @@ describe('CdcRegisterComponentService', () => {
     cdcUserRegisterService = TestBed.inject(CDCRegisterComponentService);
     connector = TestBed.inject(UserProfileConnector);
     cdcJsService = TestBed.inject(CdcJsService);
-    userRegisterFacde = TestBed.inject(UserRegisterFacade);
+    userRegisterFacade = TestBed.inject(UserRegisterFacade);
     authService = TestBed.inject(AuthService);
     eventService = TestBed.inject(EventService);
 
@@ -109,9 +121,9 @@ describe('CdcRegisterComponentService', () => {
     }
   ));
 
-  it('should get titles from profileService', () => {
+  it('should get titles from UserRegisterService', () => {
     cdcUserRegisterService.getTitles();
-    expect(userRegisterFacde.getTitles).toHaveBeenCalled();
+    expect(userRegisterFacade.getTitles).toHaveBeenCalled();
   });
 
   describe('Register', () => {

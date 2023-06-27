@@ -1,19 +1,7 @@
-<!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
-<ng-container *cxFeatureLevel="'!5.2'">
-  <button
-    *ngIf="(entries$ | async)?.length > 0 && (entries$ | async) as entries"
-    class="link cx-action-link"
-    (click)="exportCsv(entries)"
-  >
-    {{ 'exportEntries.exportToCsv' | cxTranslate }}
-  </button>
-</ng-container>
-<ng-container *cxFeatureLevel="'5.2'">
-  <button
-    *ngIf="(entries$ | async)?.length > 0 && (entries$ | async) as entries"
-    class="link cx-action-link"
-    (click)="exportCsv(entries)"
-  >
-    {{ 'exportEntries.exportProductToCsv' | cxTranslate }}
-  </button>
-</ng-container>
+<button
+  *ngIf="(entries$ | async)?.length > 0 && (entries$ | async) as entries"
+  class="btn btn-tertiary cx-export-btn"
+  (click)="exportCsv(entries)"
+>
+  {{ 'exportEntries.exportProductToCsv' | cxTranslate }}
+</button>

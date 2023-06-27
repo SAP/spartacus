@@ -124,13 +124,6 @@ describe('OrderConsignedEntriesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return getConsignmentProducts', () => {
-    const products = component.getConsignmentProducts(
-      mockOrder.consignments[0]
-    );
-    expect(products).toEqual([mockProduct]);
-  });
-
   it('should order consignment entries be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();

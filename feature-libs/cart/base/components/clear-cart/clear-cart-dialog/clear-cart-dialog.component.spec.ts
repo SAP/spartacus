@@ -66,7 +66,7 @@ describe('ClearCartDialogComponent', () => {
   it('should close dialog on cancel', () => {
     spyOn(clearCartService, 'closeDialog');
     const clearBtn = fixture.debugElement.query(
-      By.css('.btn-action')
+      By.css('.btn-secondary')
     ).nativeElement;
 
     clearBtn.click();

@@ -14,13 +14,14 @@
     "test": "../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "hamburgers": "^1.1.3"
+    "hamburgers": "^1.2.1"
   },
   "devDependencies": {},
   "peerDependencies": {
+    "@fontsource/open-sans": "^4.5.14",
     "@fortawesome/fontawesome-free": "5.8.1",
     "@ng-select/ng-select": "^10.0.3",
-    "bootstrap": "^4.6.1"
+    "bootstrap": "^4.6.2"
   },
   "publishConfig": {
     "access": "public"

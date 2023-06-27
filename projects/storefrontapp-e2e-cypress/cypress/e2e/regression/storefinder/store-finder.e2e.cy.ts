@@ -50,7 +50,7 @@ context('Store finder', { testIsolation: false }, () => {
   // Test depends on core tests for setup.
   it('should call back action and go to country all stores', () => {
     cy.get('.cx-store').should('exist');
-    cy.get('cx-store-finder .btn-action')
+    cy.get('cx-store-finder .btn-secondary')
       .should('have.text', ' Back to list ')
       .click();
     cy.url().should('contain', '/store-finder/country/');

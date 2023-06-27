@@ -56,21 +56,23 @@ export class ProfileTagEventService implements OnDestroy {
   }
 
   private setConsentReferenceFromLocalStorage(): void {
-    const profileTagMetadata = JSON.parse(
-      localStorage.getItem('profiletag') || '{"cr":{}}'
-    );
-    this.subscription.add(
-      this.baseSiteService
-        .getActive()
-        .pipe(take(1))
-        .subscribe((baseSite) => {
-          this.latestConsentReference = new BehaviorSubject(
-            profileTagMetadata.cr[
-              `${baseSite}-consentReference`
-            ]?.consentReference
-          );
-        })
-    );
+    if (this.winRef.isBrowser() && this.winRef.localStorage) {
+      const profileTagMetadata = JSON.parse(
+        this.winRef.localStorage.getItem('profiletag') || '{"cr":{}}'
+      );
+      this.subscription.add(
+        this.baseSiteService
+          .getActive()
+          .pipe(take(1))
+          .subscribe((baseSite) => {
+            this.latestConsentReference = new BehaviorSubject(
+              profileTagMetadata.cr[
+                `${baseSite}-consentReference`
+              ]?.consentReference
+            );
+          })
+      );
+    }
   }
 
   getProfileTagEvents(): Observable<string | DebugEvent | Event> {
@@ -106,7 +108,7 @@ export class ProfileTagEventService implements OnDestroy {
     );
   }
 
-  notifyProfileTagOfEventOccurence(event: ProfileTagPushEvent): void {
+  notifyProfileTagOfEventOccurrence(event: ProfileTagPushEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {

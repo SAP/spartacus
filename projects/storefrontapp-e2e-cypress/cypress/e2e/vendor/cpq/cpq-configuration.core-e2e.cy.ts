@@ -487,7 +487,6 @@ context('CPQ Configuration', () => {
         // Checkout
         configurationCartCpq.clickOnProceedToCheckoutBtnInCart();
         configurationCartCpq.checkoutB2B();
-        // Order historyorderHistory();
         configurationCartCpq.selectOrderByOrderNumberAlias(POWERTOOLS);
         configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
         configurationOverviewCpq.checkAttrDisplayed(

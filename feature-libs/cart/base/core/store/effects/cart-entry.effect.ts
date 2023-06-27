@@ -40,7 +40,8 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.productCode,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore
           )
           .pipe(
             map(
@@ -117,7 +118,9 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.entryNumber,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore,
+            payload.pickupToDelivery
           )
           .pipe(
             map(() => {

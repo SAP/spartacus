@@ -2,7 +2,7 @@
   <div *ngIf="consignmentStatus.includes(consignment.status)">
     <button
       (click)="openTrackingDialog(consignment)"
-      class="btn btn-action btn-track"
+      class="btn btn-secondary btn-track"
       type="button"
     >
       {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}

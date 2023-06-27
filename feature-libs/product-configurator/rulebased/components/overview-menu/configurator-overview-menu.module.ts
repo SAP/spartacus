@@ -6,12 +6,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, FeaturesConfigModule],
+  imports: [CommonModule, I18nModule, IconModule],
   declarations: [ConfiguratorOverviewMenuComponent],
   exports: [ConfiguratorOverviewMenuComponent],
 })

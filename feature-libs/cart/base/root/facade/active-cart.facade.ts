@@ -35,6 +35,10 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'addEntries',
         'requireLoadedCart',
         'reloadActiveCart',
+        'hasPickupItems',
+        'hasDeliveryItems',
+        'getPickupEntries',
+        'getDeliveryEntries',
       ],
       async: true,
     }),
@@ -91,8 +95,13 @@ export abstract class ActiveCartFacade {
    *
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
-  abstract addEntry(productCode: string, quantity: number): void;
+  abstract addEntry(
+    productCode: string,
+    quantity: number,
+    pickupStore?: string
+  ): void;
 
   /**
    * Remove entry
@@ -106,8 +115,15 @@ export abstract class ActiveCartFacade {
    *
    * @param entryNumber
    * @param quantity
+   * @param pickupStore
+   * @param pickupToDelivery
    */
-  abstract updateEntry(entryNumber: number, quantity: number): void;
+  abstract updateEntry(
+    entryNumber: number,
+    quantity: number,
+    pickupStore?: string,
+    pickupToDelivery?: boolean
+  ): void;
 
   /**
    * Returns cart entry
@@ -143,4 +159,24 @@ export abstract class ActiveCartFacade {
   abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 
   abstract reloadActiveCart(): void;
+
+  /**
+   * Return whether cart has pickup items
+   */
+  abstract hasPickupItems(): Observable<boolean>;
+
+  /**
+   * Return whether cart has delivery items
+   */
+  abstract hasDeliveryItems(): Observable<boolean>;
+
+  /**
+   * Return cart's pickup entries
+   */
+  abstract getPickupEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Return cart's delivery entries
+   */
+  abstract getDeliveryEntries(): Observable<OrderEntry[]>;
 }

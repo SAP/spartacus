@@ -1,0 +1,30 @@
+<div
+  [attr.data-preferred-store]="pointOfServiceName.name"
+  [attr.data-store-is-selected]="
+    pointOfServiceName.name === (storeSelected$ | async)?.name
+  "
+  class="setpreferredstore-container"
+  (click)="setAsPreferred()"
+>
+  <div
+    [ngClass]="{
+      'icon-selected':
+        pointOfServiceName.name === (storeSelected$ | async)?.name,
+      'icon-not-selected':
+        pointOfServiceName.name !== (storeSelected$ | async)?.name
+    }"
+  >
+    <cx-icon [type]="ICON_TYPE.HEART"></cx-icon>
+  </div>
+  <button
+    data-text="setPreferredStore.myStore"
+    [attr.data-preferred-store]="pointOfServiceName.name"
+    class="set-preferred-heading"
+  >
+    {{
+      pointOfServiceName.name === (storeSelected$ | async)?.name
+        ? ('setPreferredStore.myStore' | cxTranslate)
+        : ('setPreferredStore.makeThisMyStore' | cxTranslate)
+    }}
+  </button>
+</div>

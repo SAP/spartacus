@@ -36,6 +36,7 @@ import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import { TabbingOrderConfig } from '../accessibility/tabbing-order.model';
 import {
   addCheapProductToCart,
+  verifyReviewOrderPage,
   visitHomePage,
   waitForPage,
   waitForProductPage,
@@ -233,7 +234,7 @@ export function selectAccountShippingAddress() {
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -321,7 +322,7 @@ export function reviewB2bReviewOrderPage(
   orderType: string,
   conf: TabbingOrderConfig = config
 ) {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   if (isAccount) {
     cy.get('.cx-review-summary-card')

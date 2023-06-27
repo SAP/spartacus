@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address } from './address.model';
-import { Image } from './image.model';
-import { GeoPoint, PaginationModel, SortModel } from './misc.model';
-import { OpeningSchedule } from './point-of-service.model';
-import { Product, Stock } from './product.model';
+import { Product } from './product.model';
 
 export interface CategoryHierarchy {
   id?: string;
@@ -58,23 +54,6 @@ export interface OrderStatusUpdateElement {
   status?: string;
 }
 
-export interface PointOfServiceStock {
-  address?: Address;
-  description?: string;
-  displayName?: string;
-  distanceKm?: number;
-  features?: { [propertyName: string]: string };
-  formattedDistance?: string;
-  geoPoint?: GeoPoint;
-  mapIcon?: Image;
-  name?: string;
-  openingHours?: OpeningSchedule;
-  stockInfo?: Stock;
-  storeContent?: string;
-  storeImages?: Image[];
-  url?: string;
-}
-
 export interface ProductExpressUpdateElement {
   catalogId?: string;
   catalogVersion?: string;
@@ -88,17 +67,4 @@ export interface ProductList {
   totalPageCount?: number;
   totalProductCount?: number;
   version?: string;
-}
-
-export interface StoreFinderStockSearchPage {
-  boundEastLongitude?: number;
-  boundSouthLatitude?: number;
-  boundWestLongitude?: number;
-  locationText?: string;
-  pagination?: PaginationModel;
-  product?: Product;
-  sorts?: SortModel[];
-  sourceLatitude?: number;
-  sourceLongitude?: number;
-  stores?: PointOfServiceStock[];
 }

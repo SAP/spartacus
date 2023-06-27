@@ -10,8 +10,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeatureConfigService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   RoutingService,
@@ -23,14 +21,8 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -142,7 +134,7 @@ class MockRoutingService {
 
 class MockTranslationService {
   translate(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -177,16 +169,6 @@ describe('OrderHistoryComponent', () => {
           {
             provide: ReplenishmentOrderHistoryFacade,
             useClass: MockReplenishmentOrderHistoryFacade,
-          },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
           },
         ],
       }).compileComponents();
@@ -280,7 +262,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const header = fixture.debugElement.query(
-      By.css('.cx-order-history-thead-mobile')
+      By.css('.cx-order-history-thead-mobile > tr[role="row"')
     );
     expect(header.children.length).toEqual(4);
 
@@ -288,7 +270,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const headerPO = fixture.debugElement.query(
-      By.css('.cx-order-history-thead-mobile')
+      By.css('.cx-order-history-thead-mobile > tr[role="row"]')
     );
     expect(headerPO.children.length).toEqual(6);
     expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(

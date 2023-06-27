@@ -32,15 +32,15 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
-export function interceptCheckoutB2CDetailsEndpoint() {
+export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
 
-  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 
 /**
@@ -135,6 +135,7 @@ export function signOut() {
     'contain',
     'You have successfully signed out.'
   );
+  cy.get('cx-page-slot.Section1 cx-banner');
 }
 
 export function registerUser(
@@ -196,7 +197,7 @@ export function loginUser(sampleUser: SampleUser = user) {
 }
 
 export function fillAddressForm(shippingAddressData: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -257,8 +258,12 @@ export function fillPaymentForm(
   cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
+export function verifyItemsToBeShipped() {
+  cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+}
+
 export function verifyReviewOrderPage() {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  cy.contains('Cart total');
 }
 
 export function placeOrder() {
@@ -306,6 +311,10 @@ export function viewOrderHistory() {
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('not.be.empty');
+}
+
+export function clickCheckoutButton() {
+  cy.findByText(/proceed to checkout/i).click();
 }
 
 export function goToPaymentDetails() {
@@ -431,12 +440,12 @@ export function fillAddressFormWithCheapProduct(
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
-  const deliveryPage = waitForPage(
+  const deliveryModePage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage'
+    'getDeliveryModePage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${getCheckoutDetailsAlias}`);
@@ -460,7 +469,8 @@ export function proceedWithIncorrectPaymentForm(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  isExpressCheckout?: boolean
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -476,11 +486,32 @@ export function fillPaymentFormWithCheapProduct(
       'BASE_SITE'
     )}/**/payment/sop/response*`,
   }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP'
+  );
 
   fillPaymentDetails(paymentDetailsData, billingAddress);
-
   cy.wait('@submitPayment');
-  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${reviewPage}`);
+
+  if (isExpressCheckout) return;
+
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(
+      `Checkout details after payment step: ${JSON.stringify(
+        response.body,
+        null,
+        2
+      )}`
+    );
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
 }
 
 export function placeOrderWithCheapProduct(
@@ -490,6 +521,7 @@ export function placeOrderWithCheapProduct(
 ) {
   cy.log('🛒 Placing order');
   verifyReviewOrderPage();
+  verifyItemsToBeShipped();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
@@ -538,44 +570,45 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-summary .container').within(() => {
-    cy.get('.cx-summary-card:nth-child(1)').within(() => {
-      cy.get('cx-card:nth-child(1)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Order Number');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-      cy.get('cx-card:nth-child(2)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Placed on');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-      cy.get('cx-card:nth-child(3)').within(() => {
-        cy.get('.cx-card-title').should('contain', 'Status');
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
-    });
-    cy.get('.cx-summary-card:nth-child(2)').within(() => {
-      cy.contains(sampleUser.fullName);
-      cy.contains(sampleUser.address.line1);
-      cy.contains('Standard Delivery');
-    });
-    cy.get('.cx-summary-card:nth-child(3)').within(() => {
-      cy.contains(sampleUser.fullName);
-      cy.contains(sampleUser.address.line1);
-    });
+
+  cy.get('cx-order-confirmation-shipping').within(() => {
+    cy.get('.cx-review-header').should('contain', 'Items to be Shipped');
+
+    cy.get('.cx-review-summary-card-container')
+      .eq(0)
+      .should('contain', sampleUser.fullName);
+    cy.get('.cx-review-summary-card-container')
+      .eq(0)
+      .should('contain', sampleUser.address.line1);
+    cy.get('.cx-review-summary-card-container')
+      .eq(1)
+      .should('contain', 'Standard Delivery');
+
+    if (!isApparel) {
+      cy.get('.cx-item-list-row .cx-code').should(
+        'contain',
+        sampleProduct.code
+      );
+    } else {
+      cy.get('.cx-item-list-row .cx-code')
+        .should('have.length', products.length)
+        .each((_, index) => {
+          console.log('products', products[index]);
+          cy.get('.cx-item-list-row .cx-code').should(
+            'contain',
+            products[index].code
+          );
+        });
+    }
   });
-  if (!isApparel) {
-    cy.get('.cx-item-list-row .cx-code').should('contain', sampleProduct.code);
-  } else {
-    cy.get('.cx-item-list-row .cx-code')
-      .should('have.length', products.length)
-      .each((_, index) => {
-        console.log('products', products[index]);
-        cy.get('.cx-item-list-row .cx-code').should(
-          'contain',
-          products[index].code
-        );
-      });
-  }
+
+  cy.get('cx-order-detail-billing').within(() => {
+    cy.get('.cx-review-summary-card').eq(0).should('contain', 'Payment');
+    cy.get('.cx-review-summary-card')
+      .eq(1)
+      .should('contain', 'Billing address');
+  });
+
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 

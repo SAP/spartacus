@@ -50,6 +50,7 @@
           "Personalization",
           "TMS-GTM",
           "TMS-AEPL",
+          "Pickup-In-Store",
           "User-Account",
           "User-Profile"
         ],
@@ -219,6 +220,10 @@
           {
             "value": "Customer-Ticketing",
             "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup in Store"
           }
         ]
       }

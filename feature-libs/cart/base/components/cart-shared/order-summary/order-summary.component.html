@@ -60,9 +60,7 @@
   </ng-template>
 </div>
 
-<ng-container *cxFeatureLevel="'1.3'">
-  <cx-applied-coupons
-    [vouchers]="cart.appliedVouchers"
-    [isReadOnly]="true"
-  ></cx-applied-coupons>
-</ng-container>
+<cx-applied-coupons
+  [vouchers]="cart.appliedVouchers"
+  [isReadOnly]="true"
+></cx-applied-coupons>

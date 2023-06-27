@@ -1,8 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { CustomerListsPage } from '@spartacus/asm/root';
-import { QueryService, QueryState } from '@spartacus/core';
+import { Store, StoreModule } from '@ngrx/store';
+import {
+  CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
+import { QueryService, QueryState, User } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmConnector } from '../connectors';
+import { AsmActions } from '../store/actions/index';
+import { ASM_FEATURE, StateWithAsm } from '../store/asm-state';
+import * as fromReducers from '../store/reducers/index';
 import { AsmCustomerListService } from './asm-customer-list.service';
 
 const mockCustomerListsPage: CustomerListsPage = {
@@ -19,12 +27,30 @@ class MockAsmConnector implements Partial<AsmConnector> {
   }
 }
 
+const mockUser: User = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  uid: 'user@test.com',
+  customerId: '123456',
+};
+
+const mockCustomerSearchPage: CustomerSearchPage = {
+  entries: [mockUser],
+};
+
 describe('AsmCustomerListService', () => {
   let service: AsmCustomerListService;
   let asmConnector: AsmConnector;
+  let store: Store<StateWithAsm>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
+      ],
       providers: [
         AsmCustomerListService,
         QueryService,
@@ -36,6 +62,7 @@ describe('AsmCustomerListService', () => {
     spyOn(asmConnector, 'customerLists').and.callThrough();
 
     service = TestBed.inject(AsmCustomerListService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -74,5 +101,52 @@ describe('AsmCustomerListService', () => {
 
       expect(actual).toEqual(expected);
     });
+  });
+  it('should dispatch proper action for customer list customers search', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const searchOptions: CustomerSearchOptions = {
+      customerListId: 'mock-customer-list-id',
+    };
+
+    service.customerListCustomersSearch(searchOptions);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.CustomerListCustomersSearch(searchOptions)
+    );
+  });
+
+  it('should return customer list customers search result', () => {
+    store.dispatch(
+      new AsmActions.CustomerListCustomersSearchSuccess(mockCustomerSearchPage)
+    );
+    let result: CustomerSearchPage;
+
+    service
+      .getCustomerListCustomersSearchResults()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(mockCustomerSearchPage);
+  });
+
+  it('should return customer list customers search result loading status', () => {
+    let result: boolean;
+
+    service
+      .getCustomerListCustomersSearchResultsLoading()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(false);
+  });
+
+  it('should dispatch proper action for customer list customers search reset', () => {
+    spyOn(store, 'dispatch').and.stub();
+
+    service.customerListCustomersSearchReset();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.CustomerListCustomersSearchReset()
+    );
   });
 });

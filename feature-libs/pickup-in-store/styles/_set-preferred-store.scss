@@ -1,0 +1,21 @@
+%cx-set-preferred-store {
+  .icon-selected {
+    color: var(--cx-color-primary);
+  }
+  .icon-not-selected {
+    color: var(--cx-color-secondary);
+  }
+  .setpreferredstore-container {
+    display: flex;
+    margin-top: 0.75rem;
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight, 600);
+
+    .set-preferred-heading {
+      padding-inline-start: 0.5rem;
+      text-decoration: underline;
+      border: none;
+      background: none;
+    }
+  }
+}

@@ -17,4 +17,5 @@ export interface CheckoutStep {
   routeName: string;
   type: Array<CheckoutStepType>;
   disabled?: boolean;
+  nameMultiLine?: boolean;
 }

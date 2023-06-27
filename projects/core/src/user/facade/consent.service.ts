@@ -22,7 +22,7 @@ export class ConsentService {
   ) {}
 
   /**
-   * Returns either anonymous consent or registered consent as they are emmited.
+   * Returns either anonymous consent or registered consent as they are emitted.
    * @param templateCode for which to return either anonymous or registered consent.
    */
   getConsent(

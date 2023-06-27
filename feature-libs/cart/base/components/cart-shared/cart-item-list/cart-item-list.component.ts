@@ -22,6 +22,7 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
+  CartOutlets,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -83,7 +84,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     }
   }
-
+  readonly CartOutlets = CartOutlets;
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,

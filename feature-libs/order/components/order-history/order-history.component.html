@@ -60,37 +60,12 @@
             class="table cx-order-history-table"
             [ngClass]="{ 'cx-order-history-table-po': hasPONumber }"
           >
-            <caption class="cx-visually-hidden" *cxFeatureLevel="'5.1'">
+            <caption class="cx-visually-hidden">
               {{
                 'orderHistory.orderHistory' | cxTranslate
               }}
             </caption>
-            <!-- TODO:(CXSPA-1695) for next major release update below thead tag-->
-            <thead
-              class="cx-order-history-thead-mobile"
-              *cxFeatureLevel="'!5.1'"
-            >
-              <th scope="col">
-                {{ 'orderHistory.orderId' | cxTranslate }}
-              </th>
-              <ng-container *ngIf="hasPONumber">
-                <th scope="col">
-                  {{ 'orderHistory.PONumber' | cxTranslate }}
-                </th>
-                <th scope="col">
-                  {{ 'orderHistory.costCenter' | cxTranslate }}
-                </th>
-              </ng-container>
-              <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
-              <th scope="col">
-                {{ 'orderHistory.status' | cxTranslate }}
-              </th>
-              <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
-            </thead>
-            <thead
-              class="cx-order-history-thead-mobile"
-              *cxFeatureLevel="'5.1'"
-            >
+            <thead class="cx-order-history-thead-mobile">
               <tr role="row">
                 <th role="columnheader">
                   {{ 'orderHistory.orderId' | cxTranslate }}

@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import {
   OrderDetailItemsComponent,
-  OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
+  OrderOverviewComponent,
 } from '@spartacus/order/components';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
@@ -62,7 +62,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
           component: OrderDetailPermissionResultsComponent,
         },
         OrderApprovalDetailShippingComponent: {
-          component: OrderDetailShippingComponent,
+          component: OrderOverviewComponent,
           providers: [
             {
               provide: OrderDetailsService,

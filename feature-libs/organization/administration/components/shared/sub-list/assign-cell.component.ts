@@ -13,7 +13,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { EMPTY, combineLatest, Observable, of } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
@@ -81,7 +81,7 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
       (this.organizationSubListService as SubListService<T>).assign?.(
         key,
         linkKey
-      ) ?? of()
+      ) ?? EMPTY
     );
   }
 
@@ -93,7 +93,7 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
       (this.organizationSubListService as SubListService<T>).unassign?.(
         key,
         linkKey
-      ) ?? of()
+      ) ?? EMPTY
     );
   }
 

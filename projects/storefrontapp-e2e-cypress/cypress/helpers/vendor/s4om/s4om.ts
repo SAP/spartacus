@@ -201,7 +201,7 @@ export function proceedtoCheckOutS4Product() {
 export function selectS4OMAccountShippingAddress() {
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
   cy.wait(7000); //delivery address loads slow
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')

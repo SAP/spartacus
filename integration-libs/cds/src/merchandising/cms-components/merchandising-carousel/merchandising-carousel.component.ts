@@ -7,18 +7,17 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable, of, using } from 'rxjs';
+import { EMPTY, Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
   map,
   shareReplay,
   switchMap,
-  switchMapTo,
   take,
   tap,
 } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
+import { CmsMerchandisingCarouselComponent as model } from '../../../cds-models/cms.model';
 import { MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
@@ -32,7 +31,7 @@ export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;
 
   constructor(
-    protected componentData: CmsComponentData<CmsMerchandisingCarouselComponent>,
+    protected componentData: CmsComponentData<model>,
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
@@ -40,6 +39,14 @@ export class MerchandisingCarouselComponent {
   ) {
     this.lastEventModelId = '';
   }
+
+  /**
+   * returns an Observable string for the title.
+   */
+  title$: Observable<string | undefined> = this.componentData.data$.pipe(
+    filter((data) => Boolean(data)),
+    map((data) => data.title)
+  );
 
   private fetchProducts$: Observable<MerchandisingCarouselModel> =
     this.componentData.data$.pipe(
@@ -69,9 +76,9 @@ export class MerchandisingCarouselComponent {
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
     take(1),
-    switchMapTo(
+    switchMap(() =>
       this.routingService.getPageContext().pipe(
-        switchMapTo(this.componentData.data$),
+        switchMap(() => this.componentData.data$),
         map((data) =>
           this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
             data
@@ -94,7 +101,7 @@ export class MerchandisingCarouselComponent {
                     tap((model) => {
                       this.lastEventModelId = model.id;
                     }),
-                    switchMapTo(of())
+                    switchMap(() => EMPTY)
                   );
               })
             )

@@ -199,13 +199,7 @@
               else billingAddress
             "
           >
-            <!-- TODO: (#CXSPA-53) Remove feature config check in 6.0. -->
             <cx-card
-              *cxFeatureLevel="'5.2'"
-              [content]="getAddressCardContent(deliveryAddress, true) | async"
-            ></cx-card>
-            <cx-card
-              *cxFeatureLevel="'!5.2'"
               [content]="getAddressCardContent(deliveryAddress)"
             ></cx-card>
           </ng-container>
@@ -407,14 +401,14 @@
       <div class="col-md-12 col-lg-6">
         <button
           *ngIf="paymentMethodsCount === 0"
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="back()"
         >
           {{ 'common.back' | cxTranslate }}
         </button>
         <button
           *ngIf="paymentMethodsCount > 0"
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="close()"
         >
           {{ 'paymentForm.changePayment' | cxTranslate }}

@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -28,7 +27,6 @@ import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-v
     RouterModule,
     UrlModule,
     PromotionsModule,
-    FeaturesConfigModule,
     I18nModule,
     CartValidationWarningsModule,
   ],

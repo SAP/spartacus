@@ -75,7 +75,7 @@ describe('LoginFormComponentService', () => {
     it('should patch user id', () => {
       spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
         history: { state: { newUid: 'test.user@shop.com' } },
-      });
+      } as Window);
       service.isUpdating$.subscribe().unsubscribe();
       expect(service.form.value.userId).toEqual('test.user@shop.com');
     });

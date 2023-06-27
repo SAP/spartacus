@@ -92,7 +92,7 @@ export function processGlobPatterns(
 ): { positive: boolean; regex: string }[] {
   return urls.map((url) => {
     const positive = !url.startsWith('!');
-    url = positive ? url : url.substr(1);
+    url = positive ? url : url.substring(1);
     return { positive, regex: `^${globToRegex(url)}$` };
   });
 }

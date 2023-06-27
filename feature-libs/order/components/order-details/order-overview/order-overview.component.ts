@@ -4,12 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
-import { Address, CostCenter, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import {
+  Address,
+  CmsOrderDetailOverviewComponent,
+  CostCenter,
+  TranslationService,
+} from '@spartacus/core';
+import { Card, CmsComponentData } from '@spartacus/storefront';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-overview',
@@ -17,14 +23,21 @@ import { filter, map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
-  order: any;
+  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
+  isOrderLoading$: Observable<boolean> =
+    typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
+      ? this.orderDetailsService.isOrderDetailsLoading()
+      : of(false);
 
-  @Input('order')
-  set setOrder(order: any) {
-    this.order = order;
-  }
+  simple$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.simple)
+  );
 
-  constructor(protected translation: TranslationService) {}
+  constructor(
+    protected translation: TranslationService,
+    protected orderDetailsService: OrderDetailsService,
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+  ) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -235,8 +248,6 @@ export class OrderOverviewComponent {
       .split(',')
       .map((address) => address.trim());
 
-    const newFormattedAddress = addresses.filter(Boolean).join(', ');
-
-    return newFormattedAddress;
+    return addresses.filter(Boolean).join(', ');
   }
 }

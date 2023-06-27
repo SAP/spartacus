@@ -2,21 +2,22 @@ on:
   push:
     branches:
       - develop
+      - develop-*
       - release/**
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
-  
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
 
-concurrency: 
+concurrency:
   group: ci-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Spartacus build pipeline
 jobs:
-  no_retries: 
+  no_retries:
     name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
@@ -24,12 +25,12 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
   validate_e2e_execution:
     name: Validate pull_request files
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +38,7 @@ jobs:
           fetch-depth: 0
       - name: Determine whether to run e2es
         id: save-e2e-output-result
-        run: |         
+        run: |
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   unit_tests_core:
@@ -54,14 +55,12 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for Spartacus libs
@@ -81,14 +80,12 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run unit tests for integration libs
@@ -126,14 +123,12 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@15
       - name: Package installation
         run: npm ci
       - name: Run linting validation
@@ -152,7 +147,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Setup node
@@ -163,14 +158,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        env: 
+        env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
@@ -185,7 +180,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Setup node
@@ -196,14 +191,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        env: 
+        env:
           SPA_ENV: ci,b2c
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: |
@@ -214,14 +209,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        containers: [1, 2]
+        containers: [1, 2, 3, 4]
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - name: Forcefully fail build if e2e job is retried
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`')
         if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Setup node
@@ -232,7 +227,7 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: | 
+          path: |
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
@@ -242,7 +237,7 @@ jobs:
         env:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-        run: |     
+        run: |
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
     needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, sonarqube_scan]
@@ -262,14 +257,20 @@ jobs:
           needs.sonarqube_scan.result == 'failure' || needs.sonarqube_scan.result == 'cancelled' ||
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' ||
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
   send_slack_message:
     needs: build_conclusion
-    name: Slack message for failed develop CI build in Spartacus
+    name: Slack message for failed CI build in Spartacus
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
+      - run: |
+          echo "Context Info:"
+          echo "  Event = ${{ github.event_name }}"
+          echo "  Build Result = ${{ needs.build_conclusion.result }}"
+          echo "  Branch = ${{ github.ref_name }}"
+          echo "  Default branch = ${{ github.event.repository.default_branch }}"
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
@@ -283,7 +284,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":nuclear-bomb: :fireduck: *Broken build in develop*"
+                    "text": ":nuclear-bomb: :fireduck: *Broken build on ${{ github.ref_name }}*"
                   }
                 },
                 {
@@ -326,7 +327,7 @@ jobs:
                 }
               ]
             }
-        if: | 
+        if: |
           needs.build_conclusion.result == 'failure' &&
-          github.event_name == 'push' && 
-          github.ref_name == 'develop'
+          github.event_name == 'push' &&
+          github.ref_name == github.event.repository.default_branch

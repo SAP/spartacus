@@ -16,9 +16,9 @@ import { I18nConfigInitializer } from './config/i18n-config-initializer';
 import { CxDatePipe } from './date.pipe';
 import { i18nextProviders } from './i18next/i18next-providers';
 import { I18nextTranslationService } from './i18next/i18next-translation.service';
+import { CxNumericPipe } from './numeric.pipe';
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
-import { CxNumericPipe } from './numeric.pipe';
 
 export function initI18nConfig(
   configInitializer: I18nConfigInitializer,

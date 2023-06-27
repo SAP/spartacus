@@ -8,7 +8,6 @@ import {
 import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
   EventService,
-  FeatureConfigService,
   Product,
   ProductSearchConnector,
   ProductSearchPage,
@@ -101,15 +100,6 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
-/**
- * TODO: (#CXSPA-612) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let productSearchConnector: ProductSearchConnector;
@@ -130,10 +120,6 @@ describe('QuickOrderService', () => {
         {
           provide: ProductSearchConnector,
           useClass: MockProductSearchConnector,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     });

@@ -11,22 +11,7 @@
           [attr.aria-label]="'storeFinder.searchBoxLabel' | cxTranslate"
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
         />
-        <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
         <cx-icon
-          *cxFeatureLevel="'!5.2'"
-          [type]="iconTypes.SEARCH"
-          role="button"
-          [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
-          class="search"
-          (keyup)="onKey($event)"
-          [routerLink]="['/store-finder/find']"
-          [queryParams]="{ query: queryInput.value }"
-          [ngClass]="{
-            'disabled-action': !(queryInput.value && queryInput.value.length)
-          }"
-        ></cx-icon>
-        <cx-icon
-          *cxFeatureLevel="'5.2'"
           [attr.tabindex]="queryInput.value?.length ? 0 : -1"
           [type]="iconTypes.SEARCH"
           role="button"

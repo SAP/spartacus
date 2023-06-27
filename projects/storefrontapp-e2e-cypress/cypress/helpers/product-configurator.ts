@@ -521,7 +521,7 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/delivery-address');
-      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-delivery-address').should('be.visible');
     });
 }

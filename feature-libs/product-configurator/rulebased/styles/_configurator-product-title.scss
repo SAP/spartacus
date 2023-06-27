@@ -7,7 +7,6 @@
     @include media-breakpoint-down(lg) {
       width: 100%;
     }
-
     .cx-general-product-info,
     .cx-ghost-general-product-info {
       display: flex;
@@ -24,6 +23,7 @@
       padding-inline-end: 0px;
       padding-block-start: 15px;
       padding-block-end: 15px;
+      box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
 
       .cx-title {
         font-weight: bold;

@@ -1,0 +1,21 @@
+%OrderConfirmationPageTemplate {
+  cx-order-confirmation-shipping,
+  cx-order-detail-billing {
+    max-width: var(--cx-page-width-max);
+    padding-inline-end: 15px;
+    padding-inline-start: 15px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+      padding: 0 15px;
+      margin: 0 25px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin: 0;
+    }
+  }
+}

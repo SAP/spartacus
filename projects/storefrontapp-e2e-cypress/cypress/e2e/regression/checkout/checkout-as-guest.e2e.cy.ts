@@ -54,7 +54,7 @@ context('Checkout as guest', { testIsolation: false }, () => {
         .should('eq', 200);
 
       cy.get('cx-login div.cx-login-greet').should('exist');
-      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
 
       cy.get('cx-mini-cart .count').contains('1');
 

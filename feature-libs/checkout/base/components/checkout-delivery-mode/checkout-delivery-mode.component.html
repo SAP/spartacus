@@ -4,59 +4,55 @@
 
 <ng-container
   *ngIf="
-    (supportedDeliveryModes$ | async)?.length && !(isUpdating$ | async);
+    !(isUpdating$ | async) &&
+      (supportedDeliveryModes$ | async) as supportedDeliveryModes;
     else loading
   "
 >
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-  <div [formGroup]="mode">
-    <div class="row">
-      <div class="col-md-12 col-lg-9" role="radiogroup">
-        <div
-          class="form-check"
-          *ngFor="let mode of supportedDeliveryModes$ | async"
+  <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
+    <div role="radiogroup">
+      <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
+        <input
+          [attr.aria-checked]="getAriaChecked(mode.code)"
+          class="form-check-input"
+          role="radio"
+          type="radio"
+          id="deliveryMode-{{ mode.code }}"
+          (change)="changeMode(mode.code)"
+          [value]="mode.code"
+          formControlName="deliveryModeId"
+        />
+        <label
+          class="cx-delivery-label form-check-label form-radio-label"
+          for="deliveryMode-{{ mode.code }}"
         >
-          <input
-            [attr.aria-checked]="getAriaChecked(mode.code)"
-            class="form-check-input"
-            role="radio"
-            type="radio"
-            id="deliveryMode-{{ mode.code }}"
-            (change)="changeMode(mode.code)"
-            [value]="mode.code"
-            formControlName="deliveryModeId"
-          />
-          <label
-            class="cx-delivery-label form-check-label form-radio-label"
-            for="deliveryMode-{{ mode.code }}"
-          >
-            <div class="cx-delivery-mode">{{ mode.name }}</div>
-            <div class="cx-delivery-price">
-              {{ mode.deliveryCost.formattedValue }}
-            </div>
-            <div class="cx-delivery-details">{{ mode.description }}</div>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="row cx-checkout-btns">
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-action" (click)="back()">
-          {{ backBtnText | cxTranslate }}
-        </button>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <button
-          class="btn btn-block btn-primary"
-          [disabled]="deliveryModeInvalid"
-          (click)="next()"
-        >
-          {{ 'common.continue' | cxTranslate }}
-        </button>
+          <div class="cx-delivery-mode">
+            {{ mode.name }} ({{ mode.description }})
+          </div>
+          <div class="cx-delivery-price">
+            {{ mode.deliveryCost?.formattedValue }}
+          </div>
+          <div class="cx-delivery-details"></div>
+        </label>
       </div>
     </div>
   </div>
+</ng-container>
+
+<ng-container *ngIf="activeCartFacade.hasPickupItems() | async">
+  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
+  </h2>
+
+  <ng-template
+    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: activeCartFacade.getDeliveryEntries() | async,
+      readonly: true
+    }"
+  >
+  </ng-template>
 </ng-container>
 
 <ng-template #loading>
@@ -64,3 +60,22 @@
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
+
+<ng-container cxInnerComponentsHost></ng-container>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-secondary" (click)="back()">
+      {{ backBtnText | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button
+      class="btn btn-block btn-primary"
+      [disabled]="deliveryModeInvalid"
+      (click)="next()"
+    >
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>

@@ -15,7 +15,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
@@ -73,17 +73,17 @@ const mockPayments: PaymentDetails[] = [
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
-    return of();
+    return EMPTY;
   }
   getPaymentMethodsLoading(): Observable<boolean> {
-    return of();
+    return EMPTY;
   }
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  setPaymentDetails = createSpy().and.returnValue(of());
+  setPaymentDetails = createSpy().and.returnValue(EMPTY);
   createPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return of();
+    return EMPTY;
   }
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
@@ -91,7 +91,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   paymentProcessSuccess() {}
 
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return of();
+    return EMPTY;
   }
 }
 class MockCheckoutDeliveryFacade

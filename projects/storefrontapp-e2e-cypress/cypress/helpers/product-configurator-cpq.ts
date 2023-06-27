@@ -271,28 +271,21 @@ export function checkPrice(
 }
 
 /**
- * Returns nth group menu link
- *
- * @param {number} index
- * @returns {Chainable<JQuery<HTMLElement>>}
- */
-function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
-  return cy
-    .get('cx-configurator-group-menu:visible')
-    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
-}
-
-/**
  * Clicks on the group via its index in the group menu.
  *
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  getNthGroupMenu(groupIndex).within(() => {
-    cy.get('div.subGroupIndicator').within(($list) => {
-      cy.log('$list.children().length: ' + $list.children().length);
-      cy.wrap($list.children().length).as('subGroupIndicator');
-    });
+  cy.get('cx-configurator-group-menu:visible').within(() => {
+    cy.get('.cx-menu-item')
+      .not('.cx-menu-conflict')
+      .eq(groupIndex)
+      .within(() => {
+        cy.get('div.subGroupIndicator').within(($list) => {
+          cy.log('$list.children().length: ' + $list.children().length);
+          cy.wrap($list.children().length).as('subGroupIndicator');
+        });
+      });
   });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {

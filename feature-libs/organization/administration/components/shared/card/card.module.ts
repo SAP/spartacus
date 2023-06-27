@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { MessageModule } from '../message/message.module';
 import { CardComponent } from './card.component';
@@ -28,8 +28,6 @@ import { PopoverModule } from '@spartacus/storefront';
     UrlModule,
     MessageModule,
     PopoverModule,
-    // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
-    FeaturesConfigModule,
   ],
   declarations: [CardComponent],
   exports: [CardComponent],

@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import type { InitOptions } from 'i18next';
-import { I18nextHttpBackendService } from './i18next-http-backend.service';
+import { resolveApplicable } from '../../../util';
+import { I18nextBackendInitializer } from './i18next-backend.initializer';
 
 /**
  * Configures an i18next backend plugin, to allow for loading translations from external resources.
@@ -16,12 +17,23 @@ import { I18nextHttpBackendService } from './i18next-http-backend.service';
  * It's an extension point to allow for providing potentially different i18next backend plugins.
  * See the list of available plugins: https://www.i18next.com/overview/plugins-and-utils#backends
  */
-@Injectable({ providedIn: 'root', useExisting: I18nextHttpBackendService })
-export abstract class I18nextBackendService {
+@Injectable({ providedIn: 'root' })
+export class I18nextBackendService {
+  constructor(
+    @Optional()
+    @Inject(I18nextBackendInitializer)
+    protected backendInitializers: I18nextBackendInitializer[] | null
+  ) {}
+
   /**
    * Configures an i18next backend plugin, to allow for loading translations from external resources.
    *
    * @returns Additional configuration to be used when initializing the i18next instance.
    */
-  abstract initialize(): InitOptions;
+  initialize(): InitOptions {
+    const backendInitializer = resolveApplicable(
+      this.backendInitializers ?? []
+    );
+    return backendInitializer?.initialize() ?? {};
+  }
 }

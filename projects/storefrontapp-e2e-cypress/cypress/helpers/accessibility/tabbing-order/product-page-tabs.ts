@@ -23,7 +23,7 @@ export function productPageTabsTabbingOrder() {
   cy.get('cx-product-details-tab'); // wait for first tab to render
   cy.get('cx-product-attributes'); // wait for specs to render
   cy.get('cx-product-reviews'); // wait for reviews to render
-  cy.get('p .tab-delivery'); // wait for shipping to render
+  cy.get('button:contains("Shipping")'); // wait for shipping to render
 
   cy.get('button.active').contains('Product Details').first().focus();
 
@@ -31,16 +31,24 @@ export function productPageTabsTabbingOrder() {
 
   // we don't use checkAllElements(), because we have to click tabs between checks
 
+  // Product Details
+  cy.focused().click().should('contain', 'Product Details');
+
   // Specs
   cy.pressTab();
-
   cy.focused().click().should('contain', 'Specs');
+
+  // Technical details
+  cy.pressTab();
+  cy.focused().click().should('contain', 'Technical details');
 
   // Reviews
   cy.pressTab();
-
   cy.focused().click().should('contain', 'Reviews');
 
+  // Write a Review
+  cy.pressTab();
+  cy.focused().should('contain', 'Overall Rating');
   cy.pressTab();
   cy.focused().should('contain', 'Write a Review').click();
 
@@ -48,6 +56,9 @@ export function productPageTabsTabbingOrder() {
 
   cy.pressTab();
   cy.focused().should('have.attr', 'formcontrolname', 'comment');
+  cy.pressTab();
+
+  cy.focused().should('have.prop', 'tagName').should('eq', 'CX-STAR-RATING');
 
   for (let i = 0; i < 5; i++) {
     cy.pressTab();
@@ -60,7 +71,6 @@ export function productPageTabsTabbingOrder() {
   cy.pressTab();
   cy.focused().should('contain', 'Cancel');
 
-  // TODO: submit button (below) is not working when the form is empty
   cy.pressTab();
   cy.focused().should('contain', 'Submit');
 
@@ -86,6 +96,5 @@ export function productPageTabsTabbingOrder() {
 
   // Shipping
   cy.pressTab();
-
   cy.focused().click().should('contain', 'Shipping');
 }

@@ -30,7 +30,7 @@
       'importEntriesDialog.summary.warning'
         | cxTranslate: { count: summary.warningMessages.length }
     }}
-    <button class="link cx-action-link" (click)="toggleWarningList()">
+    <button class="btn btn-tertiary" (click)="toggleWarningList()">
       {{
         (warningDetailsOpened
           ? 'importEntriesDialog.summary.hide'
@@ -58,7 +58,7 @@
       'importEntriesDialog.summary.error'
         | cxTranslate: { count: summary.errorMessages.length }
     }}
-    <button class="link cx-action-link" (click)="toggleErrorList()">
+    <button class="btn btn-tertiary" (click)="toggleErrorList()">
       {{
         (errorDetailsOpened
           ? 'importEntriesDialog.summary.hide'
@@ -80,7 +80,7 @@
   <button
     *ngIf="!summary.loading; else info"
     (click)="close('Close Import Products Dialog')"
-    class="btn btn-action"
+    class="btn btn-secondary"
     type="button"
   >
     {{ 'importEntriesDialog.close' | cxTranslate }}

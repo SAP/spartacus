@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { FutureStockConnector } from '../connectors/future-stock.connector';
 import { FutureStockService } from './future-stock.service';
@@ -9,11 +14,17 @@ class MockFutureStockConnector implements Partial<FutureStockConnector> {
   getFutureStock = createSpy().and.callFake(() => of(mockFutureStocks));
 }
 
-const mockUserId = 'current';
+const mockUserId = OCC_USER_ID_CURRENT;
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId(): Observable<string> {
     return of(mockUserId);
+  }
+}
+
+class MockUserIdAnonymousService implements Partial<UserIdService> {
+  takeUserId(): Observable<string> {
+    return of(OCC_USER_ID_ANONYMOUS);
   }
 }
 
@@ -58,42 +69,73 @@ describe('FutureStockService', () => {
   let service: FutureStockService;
   let connector: FutureStockConnector;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        FutureStockService,
-        { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FutureStockConnector, useClass: MockFutureStockConnector },
-        { provide: RoutingService, useClass: MockRoutingService },
-      ],
+  describe('Current user', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          FutureStockService,
+          { provide: UserIdService, useClass: MockUserIdService },
+          { provide: FutureStockConnector, useClass: MockFutureStockConnector },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      });
+
+      service = TestBed.inject(FutureStockService);
+      connector = TestBed.inject(FutureStockConnector);
     });
 
-    service = TestBed.inject(FutureStockService);
-    connector = TestBed.inject(FutureStockConnector);
+    it('should be created', () => {
+      expect(service).toBeTruthy();
+    });
+
+    it('should get future stock', () => {
+      let result;
+
+      service
+        .getFutureStock()
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
+      expect(result).toEqual(mockFutureStocks);
+    });
+
+    it('should call connector', () => {
+      service
+        .getFutureStock()
+        .subscribe(() => {})
+        .unsubscribe();
+
+      expect(connector.getFutureStock).toHaveBeenCalled();
+    });
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+  describe('Anonymous user', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          FutureStockService,
+          { provide: UserIdService, useClass: MockUserIdAnonymousService },
+          { provide: FutureStockConnector, useClass: MockFutureStockConnector },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      });
 
-  it('should get future stock', () => {
-    let result;
+      service = TestBed.inject(FutureStockService);
+      connector = TestBed.inject(FutureStockConnector);
+    });
 
-    service
-      .getFutureStock()
-      .subscribe((data) => {
-        result = data;
-      })
-      .unsubscribe();
-    expect(result).toEqual(mockFutureStocks);
-  });
+    it('should NOT get future stock when user is not logged in', () => {
+      let result;
 
-  it('should call connector', () => {
-    service
-      .getFutureStock()
-      .subscribe(() => {})
-      .unsubscribe();
+      service
+        .getFutureStock()
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
 
-    expect(connector.getFutureStock).toHaveBeenCalled();
+      expect(result).toEqual(undefined);
+    });
   });
 });

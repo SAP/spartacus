@@ -46,6 +46,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       productCode: event.productCode,
       quantity: event.quantity,
       numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd,
+      pickupStoreName: event.pickupStoreName,
     };
 
     const dialog = this.launchDialogService.openDialog(

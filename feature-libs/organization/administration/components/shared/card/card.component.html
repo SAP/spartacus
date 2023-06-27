@@ -29,33 +29,19 @@
         <ng-content select="[actions]"></ng-content>
       </div>
     </div>
-    <!-- TODO:(CXSPA-1695) for next major release update below feature flags -->
-    <ng-container *cxFeatureLevel="'!5.2'">
-      <a *ngIf="!!previous" class="link close" routerLink="../">
-        <cx-icon
-          *ngIf="previous === true; else prevLabel"
-          type="CLOSE"
-          (click)="closeView($event)"
-        ></cx-icon>
-        <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
-      </a>
-    </ng-container>
-
-    <ng-container *cxFeatureLevel="'5.2'">
-      <button
-        *ngIf="!!previous"
-        class="link close"
-        [attr.aria-label]="'common.close' | cxTranslate"
-        routerLink="../"
-      >
-        <cx-icon
-          *ngIf="previous === true; else prevLabel"
-          type="CLOSE"
-          (click)="closeView($event)"
-        ></cx-icon>
-        <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
-      </button>
-    </ng-container>
+    <button
+      *ngIf="!!previous"
+      class="link close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      routerLink="../"
+    >
+      <cx-icon
+        *ngIf="previous === true; else prevLabel"
+        type="CLOSE"
+        (click)="closeView($event)"
+      ></cx-icon>
+      <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
+    </button>
   </div>
 
   <div class="main">

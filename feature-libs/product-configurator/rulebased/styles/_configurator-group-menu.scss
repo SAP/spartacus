@@ -179,6 +179,25 @@
           margin-block-end: 5px;
         }
       }
+
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-background);
+
+        .cx-menu-back {
+          font-weight: var(--cx-font-weight-semi);
+          border-bottom: 1px solid var(--cx-color-light);
+          background-color: var(--cx-color-medium);
+        }
+
+        .cx-menu-item {
+          text-transform: uppercase;
+          font-weight: var(--cx-font-weight-semi);
+        }
+
+        button:not(.cx-menu-conflict) {
+          border-bottom: 1px solid var(--cx-color-medium);
+        }
+      }
     }
 
     .cx-ghost-group-menu {

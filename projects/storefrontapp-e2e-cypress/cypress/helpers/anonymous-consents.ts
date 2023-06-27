@@ -113,7 +113,7 @@ export function clickAllowAllFromBanner() {
 }
 
 export function clickViewDetailsFromBanner() {
-  cy.get(ANONYMOUS_BANNER).find('.btn-action').click({ force: true });
+  cy.get(ANONYMOUS_BANNER).find('.btn-secondary').click({ force: true });
 }
 
 export function openAnonymousConsentsDialog() {

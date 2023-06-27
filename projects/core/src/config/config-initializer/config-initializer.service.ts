@@ -6,7 +6,7 @@
 
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, mapTo, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { Config, RootConfig } from '../config-tokens';
 import { deepMerge } from '../utils/deep-merge';
 import {
@@ -62,7 +62,7 @@ export class ConfigInitializerService {
           !!ongoingScopes && this.areReady(scopes, ongoingScopes)
       ),
       take(1),
-      mapTo(this.config)
+      map(() => this.config)
     );
   }
 

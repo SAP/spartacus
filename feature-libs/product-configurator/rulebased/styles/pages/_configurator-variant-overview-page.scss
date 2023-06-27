@@ -17,10 +17,6 @@
   @include media-breakpoint-up(lg) {
     cx-page-slot.VariantConfigOverviewNavigation {
       max-inline-size: 30%;
-      position: -webkit-sticky;
-      position: sticky;
-      top: 0;
-      margin-block-end: 268px;
     }
 
     cx-page-slot.VariantConfigOverviewContent {

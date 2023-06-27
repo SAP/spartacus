@@ -6,7 +6,7 @@ import {
   Budget,
   LoadStatus,
 } from '@spartacus/organization/administration/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
@@ -21,11 +21,11 @@ class MockMessageService {
 }
 
 class MockItemService {
-  current$ = of();
+  current$ = EMPTY;
   isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   delete() {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -70,7 +70,7 @@ describe('DeleteItemComponent', () => {
       organizationItemService = TestBed.inject(ItemService);
       messageService = TestBed.inject(MessageService);
 
-      spyOn(organizationItemService, 'delete').and.returnValue(of());
+      spyOn(organizationItemService, 'delete').and.returnValue(EMPTY);
     });
 
     it('should not enable active items right away', () => {

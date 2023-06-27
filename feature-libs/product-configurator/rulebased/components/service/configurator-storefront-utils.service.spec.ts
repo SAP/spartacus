@@ -469,7 +469,7 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     });
   });
 
-  describe('change styling of selected element', () => {
+  describe('getElement', () => {
     it('should not get HTML element based on query selector', () => {
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       expect(classUnderTest.getElement('elementMock')).toBeUndefined();
@@ -484,7 +484,9 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
+  });
 
+  describe('changeStyling', () => {
     it('should change styling of HTML element', () => {
       const theElement = document.createElement('elementMock');
       document.querySelector = jasmine
@@ -503,6 +505,32 @@ describe('ConfiguratorStorefrontUtilsService', () => {
 
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
+    });
+  });
+
+  describe('removeStyling', () => {
+    it('should not remove styling of HTML element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      classUnderTest.removeStyling('elementMock', 'position');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+
+    it('should remove styling of HTML element', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      theElement.style.position = 'sticky';
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      classUnderTest.removeStyling('elementMock', 'position');
+      expect(theElement.style.position).toBe('');
     });
   });
 

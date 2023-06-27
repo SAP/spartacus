@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -37,15 +36,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog = createSpy();
 }
 
-/**
- * TODO: (#CXSPA-741) Remove MockFeatureConfigService in 6.0
- */
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -64,10 +54,8 @@ describe('CloseAccountModalComponent', () => {
   let component: CloseAccountModalComponent;
   let fixture: ComponentFixture<CloseAccountModalComponent>;
   let userFacade: UserProfileFacade;
-  let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
-  let authService: AuthService;
 
   beforeEach(
     waitForAsync(() => {
@@ -99,10 +87,6 @@ describe('CloseAccountModalComponent', () => {
             provide: LaunchDialogService,
             useClass: MockLaunchDialogService,
           },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
         ],
       }).compileComponents();
     })
@@ -113,12 +97,8 @@ describe('CloseAccountModalComponent', () => {
     component = fixture.componentInstance;
 
     userFacade = TestBed.inject(UserProfileFacade);
-    routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    authService = TestBed.inject(AuthService);
-
-    spyOn(routingService, 'go').and.stub();
   });
 
   it('should create', () => {
@@ -139,9 +119,6 @@ describe('CloseAccountModalComponent', () => {
 
     expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
-    authService.coreLogout().then(() => {
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-    });
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 

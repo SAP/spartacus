@@ -1,9 +1,16 @@
 $space: 0.5rem;
 
 %header {
-  background-color: var(--cx-color-dark);
+  background-color: var(--cx-color-light);
   color: var(--cx-color-inverse);
-  display: block;
+
+  @include media-breakpoint-up(lg) {
+    background: linear-gradient(
+      to top,
+      var(--cx-color-background-dark) $header-height,
+      var(--cx-color-light) 0
+    );
+  }
 
   .header {
     max-width: var(--cx-page-width-max);
@@ -21,6 +28,10 @@ $space: 0.5rem;
       display: block;
       flex: none;
     }
+
+    .SiteLinks {
+      font-weight: var(--cx-font-weight-semi);
+    }
   }
 
   &.is-expanded {
@@ -28,6 +39,11 @@ $space: 0.5rem;
       position: absolute;
       width: 100%;
       z-index: 3;
+
+      @include media-breakpoint-down(md) {
+        height: 100vh;
+        background-color: var(--cx-color-background);
+      }
     }
     .PreHeader {
       z-index: 4;
@@ -42,7 +58,7 @@ $space: 0.5rem;
         height: 100%;
         top: 0;
         left: 0;
-        background-color: var(--cx-color-dark);
+        background-color: var(--cx-background-dark);
         z-index: 2;
       }
     }
@@ -57,7 +73,7 @@ $space: 0.5rem;
   .SiteContext,
   .SiteLinks {
     font-size: 0.75rem;
-    color: var(--cx-color-light);
+    color: var(--cx-color-medium);
     > * {
       flex: none;
     }
@@ -147,6 +163,10 @@ $space: 0.5rem;
     }
     .cx-hamburger {
       display: none;
+
+      &.is-active {
+        background-color: var(--cx-color-primary);
+      }
     }
 
     .SiteContext,
@@ -170,10 +190,27 @@ $space: 0.5rem;
 
     .SiteLinks {
       justify-content: flex-end;
+      color: var(--cx-color-primary);
     }
 
     .SiteLogin {
       padding: $space $space * 2;
     }
+  }
+
+  .cx-hamburger {
+    &.is-active {
+      .hamburger-inner,
+      .hamburger-inner::before,
+      .hamburger-inner::after {
+        background-color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    background-color: var(--cx-color-primary);
   }
 }

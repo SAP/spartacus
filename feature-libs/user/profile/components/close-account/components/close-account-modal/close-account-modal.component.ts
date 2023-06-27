@@ -10,11 +10,9 @@ import {
   ElementRef,
   HostListener,
   OnInit,
-  Optional,
 } from '@angular/core';
 import {
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -53,9 +51,6 @@ export class CloseAccountModalComponent implements OnInit {
     }
   }
 
-  /**
-   * TODO: (#CXSPA-741) Remove featureConfigService from constructor in 6.0.
-   */
   constructor(
     protected authService: AuthService,
     protected globalMessageService: GlobalMessageService,
@@ -63,8 +58,7 @@ export class CloseAccountModalComponent implements OnInit {
     protected translationService: TranslationService,
     protected userProfile: UserProfileFacade,
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected el: ElementRef
   ) {}
 
   get isLoading$(): Observable<boolean> {
@@ -87,16 +81,9 @@ export class CloseAccountModalComponent implements OnInit {
         );
       });
 
-    /**
-     * TODO: (#CXSPA-741) Remove feature config check and deprecated route to home in 6.0.
-     */
-    if (this.featureConfigService?.isLevel('5.1')) {
-      this.authService.coreLogout().then(() => {
-        this.routingService.go({ cxRoute: 'home' });
-      });
-    } else {
+    this.authService.coreLogout().then(() => {
       this.routingService.go({ cxRoute: 'home' });
-    }
+    });
   }
 
   onError(): void {

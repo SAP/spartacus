@@ -213,7 +213,7 @@ describe('Profile-tag events', () => {
         win,
         profileTagHelper.EventNames.KEYWORD_SEARCH
       )[0];
-      expect(keywordSearchEvent.data.numResults).to.equal(145);
+      expect(keywordSearchEvent.data.numResults).to.equal(149);
       expect(keywordSearchEvent.data.searchTerm).to.equal('camera');
     });
   });

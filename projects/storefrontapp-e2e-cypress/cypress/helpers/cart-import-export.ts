@@ -259,6 +259,7 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cy.wait(['@refreshCart', '@addToCart']);
   cy.get('cx-added-to-cart-dialog a.btn-primary')
     .contains('view cart')
+    .scrollIntoView()
     .should('be.visible');
 }
 

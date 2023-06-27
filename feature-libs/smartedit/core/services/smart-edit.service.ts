@@ -11,7 +11,6 @@ import {
   Page,
   PageType,
   RoutingService,
-  ScriptLoader,
   WindowRef,
 } from '@spartacus/core';
 import { SmartEditConfig } from '@spartacus/smartedit/root';
@@ -27,9 +26,6 @@ export class SmartEditService {
   private defaultPreviewProductCode: string | undefined;
   private defaultPreviewCategoryCode: string | undefined;
 
-  /**
-   * TODO: (#CXSPA-776) Remove ScriptLoader in 6.0
-   */
   constructor(
     protected cmsService: CmsService,
     protected routingService: RoutingService,
@@ -37,11 +33,7 @@ export class SmartEditService {
     protected zone: NgZone,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected config: SmartEditConfig,
-    /**
-     * @deprecated since 5.2
-     */
-    protected scriptLoader: ScriptLoader
+    protected config: SmartEditConfig
   ) {
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -81,23 +73,6 @@ export class SmartEditService {
             this.addPageContract(cmsPage);
           });
       });
-  }
-
-  /**
-   * load webApplicationInjector.js
-   */
-  /**
-   * @deprecated since 5.2
-   */
-  protected loadScript(): void {
-    this.scriptLoader.embedScript({
-      src: 'assets/webApplicationInjector.js',
-      params: undefined,
-      attributes: {
-        id: 'text/smartedit-injector',
-        'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
-      },
-    });
   }
 
   /**

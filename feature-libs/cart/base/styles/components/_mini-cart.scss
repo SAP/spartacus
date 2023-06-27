@@ -9,16 +9,12 @@
   a {
     display: flex;
     background: var(--cx-color-primary);
-
-    min-width: 70px;
+    min-width: 90px;
     height: 47px;
     padding: 10px;
-
     color: var(--cx-color-inverse);
     text-decoration: none;
     justify-content: space-around;
-
-    color: currentColor;
 
     &:hover {
       color: currentColor;

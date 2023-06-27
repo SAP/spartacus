@@ -12,13 +12,18 @@ import { CostCenterConnector } from './connectors/cost-center/cost-center.connec
 import { OrgUnitConnector } from './connectors/org-unit/org-unit.connector';
 import { PermissionConnector } from './connectors/permission/permission.connector';
 import { UserGroupConnector } from './connectors/user-group/user-group.connector';
+import { OrganizationsGuardsModule } from './guards/organization-guards.module';
 import { OrganizationBadRequestHandler } from './http-interceptors/bad-request/bad-request.handler';
 import { OrganizationConflictHandler } from './http-interceptors/conflict/conflict.handler';
 import { OrganizationPageMetaModule } from './services/organization-page-meta.module';
 import { OrganizationStoreModule } from './store/organization-store.module';
 
 @NgModule({
-  imports: [OrganizationPageMetaModule, OrganizationStoreModule],
+  imports: [
+    OrganizationPageMetaModule,
+    OrganizationStoreModule,
+    OrganizationsGuardsModule,
+  ],
   providers: [
     {
       provide: HttpErrorHandler,

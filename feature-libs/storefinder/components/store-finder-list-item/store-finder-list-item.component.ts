@@ -6,6 +6,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { StoreFinderOutlets } from '@spartacus/storefinder/root';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
 @Component({
@@ -23,6 +24,8 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   useClickEvent: boolean;
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
+
+  readonly StoreFinderOutlets = StoreFinderOutlets;
 
   constructor(protected storeFinderService: StoreFinderService) {
     super(storeFinderService);

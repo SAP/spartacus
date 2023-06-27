@@ -4,11 +4,9 @@
     <ng-template
       [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"
     ></ng-template>
-    <ng-container *cxFeatureLevel="'4.2'">
-      <cx-cart-item-validation-warning
-        [code]="item.product?.code"
-      ></cx-cart-item-validation-warning>
-    </ng-container>
+    <cx-cart-item-validation-warning
+      [code]="item.product?.code"
+    ></cx-cart-item-validation-warning>
     <div class="cx-table-item-container">
       <!-- Item Image -->
       <a
@@ -48,6 +46,13 @@
 
       <!-- Promotion -->
       <cx-promotions [promotions]="item.promotions"></cx-promotions>
+
+      <!-- Item Delivery Details Outlet -->
+      <ng-template
+        *ngIf="!readonly"
+        [cxOutlet]="CartOutlets.ITEM_DELIVERY_DETAILS"
+        [cxOutletContext]="{item, cartType: options.cartType}"
+      ></ng-template>
     </div>
 
     <!-- Variants -->
@@ -152,7 +157,7 @@
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
       [disabled]="quantityControl.disabled"
       attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
-      class="link cx-action-link cx-remove-btn"
+      class="btn btn-tertiary cx-remove-btn"
     >
       {{ 'common.remove' | cxTranslate }}
     </button>

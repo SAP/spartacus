@@ -5,7 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CartModificationList } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartModificationList,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -13,8 +17,8 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
@@ -22,13 +26,11 @@ export class ReorderOrderService implements ReorderOrderFacade {
   protected reorderCommand: Command<{ orderId: string }, CartModificationList> =
     this.commandService.create<{ orderId: string }, CartModificationList>(
       ({ orderId }) =>
-        this.userIdService
-          .takeUserId()
-          .pipe(
-            switchMap((userId: string) =>
-              this.reorderOrderConnector.reorder(orderId, userId)
-            )
-          ),
+        this.reorderPreconditions().pipe(
+          switchMap((userId: string) =>
+            this.reorderOrderConnector.reorder(orderId, userId)
+          )
+        ),
       {
         strategy: CommandStrategy.CancelPrevious,
       }
@@ -37,7 +39,9 @@ export class ReorderOrderService implements ReorderOrderFacade {
   constructor(
     protected commandService: CommandService,
     protected reorderOrderConnector: ReorderOrderConnector,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected multiCartFacade: MultiCartFacade
   ) {}
 
   /**
@@ -47,5 +51,25 @@ export class ReorderOrderService implements ReorderOrderFacade {
     return this.reorderCommand.execute({
       orderId,
     });
+  }
+
+  protected reorderPreconditions(): Observable<string> {
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartFacade.getActiveCartId(),
+    ]).pipe(
+      take(1),
+      map(([userId, cartId]) => {
+        if (!userId) {
+          throw new Error('Must be logged in to reorder');
+        }
+
+        if (cartId) {
+          this.multiCartFacade.deleteCart(cartId, userId);
+        }
+
+        return userId;
+      })
+    );
   }
 }

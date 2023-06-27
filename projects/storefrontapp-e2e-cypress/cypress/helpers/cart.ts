@@ -411,7 +411,7 @@ export function goToCart() {
 export function cancelClearCart() {
   getClearCartDialog().then(() => {
     checkClearCartDialog();
-    cy.get('.cx-clear-cart-footer .btn-action').click();
+    cy.get('.cx-clear-cart-footer .btn-secondary').click();
   });
 }
 

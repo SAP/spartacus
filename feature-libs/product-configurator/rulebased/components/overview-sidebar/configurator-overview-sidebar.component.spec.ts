@@ -66,6 +66,7 @@ class MockConfiguratorStorefrontUtilsService {
   getElements(): void {}
   getPrefixId(): void {}
   changeStyling(): void {}
+  removeStyling(): void {}
   createOvMenuItemId(): void {}
   getSpareViewportHeight(): void {}
   getVerticallyScrolledPixels(): void {}

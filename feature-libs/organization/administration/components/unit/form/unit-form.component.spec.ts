@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -13,7 +13,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UnitItemService } from '../services/unit-item.service';
 import { UnitFormComponent } from './unit-form.component';
@@ -36,7 +36,7 @@ class MockOrgUnitService {
   getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
   getApprovalProcesses() {
-    return of();
+    return EMPTY;
   }
 }
 

@@ -34,6 +34,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
   @HostBinding('class.ghost') ghostStyle = true;
   protected subscription = new Subscription();
+  protected readonly PRE_HEADER = '.PreHeader';
 
   displayedGroup$: Observable<Configurator.Group> =
     this.configRouterExtractorService.extractRouterData().pipe(
@@ -62,13 +63,13 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
       this.hamburgerMenuService.isExpanded.subscribe((isExpanded) => {
         if (!isExpanded) {
           this.configuratorStorefrontUtilsService.changeStyling(
-            '.PreHeader',
+            this.PRE_HEADER,
             'display',
             'none'
           );
         } else {
           this.configuratorStorefrontUtilsService.changeStyling(
-            '.PreHeader',
+            this.PRE_HEADER,
             'display',
             'block'
           );
@@ -79,6 +80,10 @@ export class ConfiguratorGroupTitleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.configuratorStorefrontUtilsService.removeStyling(
+      this.PRE_HEADER,
+      'display'
+    );
   }
 
   getGroupTitle(group: Configurator.Group): string | undefined {

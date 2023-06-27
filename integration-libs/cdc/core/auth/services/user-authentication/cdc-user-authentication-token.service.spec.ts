@@ -136,13 +136,12 @@ describe('CdcUserAuthenticationTokenService', () => {
           idToken,
           baseSite
         )
-        .subscribe(
-          (_result) => {},
-          (error: HttpErrorResponse) => {
+        .subscribe({
+          error: (error: HttpErrorResponse) => {
             expect(error.status).toBe(400);
             expect(error.statusText).toEqual('Error');
-          }
-        );
+          },
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === loginEndpoint;

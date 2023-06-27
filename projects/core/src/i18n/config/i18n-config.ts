@@ -6,7 +6,10 @@
 
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
-import { TranslationResources } from '../translation-resources';
+import {
+  TranslationResourceKey,
+  TranslationResources,
+} from '../translation-resources';
 
 @Injectable({
   providedIn: 'root',
@@ -26,15 +29,46 @@ export abstract class I18nConfig {
 
     backend?: {
       /**
-       * The path to JSON translations. It should contain placeholders:
+       * The path for loading JSON translations via HTTP requests.
+       * The path should contain the following placeholders:
        * - `{{lng}}` for language
        * - `{{ns}}` for the name of chunk.
        *
        * Example:
-       * `assets/i18n-assets/{{lng}}/{{ns}}.json`
+       * ```ts
+       * loadPath: 'assets/i18n-assets/{{lng}}/{{ns}}.json'
+       * ```
+       *
+       * **NOTE**:
+       * This option is NOT recommended for loading translations from local assets.
+       * For this case, use the config option `i18n.backend.loader` instead,
+       * which is more performant (especially in SSR).
+       *
+       * This option is recommended ONLY for loading translations resources
+       * from an external server.
        */
 
       loadPath?: string;
+
+      /**
+       * Function that load translation resources asynchronously.
+       *
+       * Returns a Promise with translation resources for the given language and the chunk name.
+       *
+       * This function can use e.g. a dynamic import() to code-split and lazy load
+       * the translation resources.
+       *
+       * @param lng language
+       * @param ns  translation's chunk name (namespace)
+       * @example
+       * ```ts
+       * loader: (language, chunkName) => import(`../../assets/i18n-assets/${language}/${chunkName}.json`)
+       * ```
+       */
+      loader?: (
+        language: string,
+        chunkName: string
+      ) => Promise<TranslationResourceKey>;
     };
 
     /**

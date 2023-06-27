@@ -178,6 +178,14 @@
       "@spartacus/organization/user-registration/root": [
         "dist/organization/user-registration/root"
       ],
+      "@spartacus/pickup-in-store/assets": ["dist/pickup-in-store/assets"],
+      "@spartacus/pickup-in-store/components": [
+        "dist/pickup-in-store/components"
+      ],
+      "@spartacus/pickup-in-store/core": ["dist/pickup-in-store/core"],
+      "@spartacus/pickup-in-store": ["dist/pickup-in-store"],
+      "@spartacus/pickup-in-store/occ": ["dist/pickup-in-store/occ"],
+      "@spartacus/pickup-in-store/root": ["dist/pickup-in-store/root"],
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
       ],
@@ -284,12 +292,12 @@
       "@spartacus/cdc/components": ["dist/cdc/components"],
       "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc": ["dist/cdc"],
-      "@spartacus/cdc/root": ["dist/cdc/root"],
-      "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
-      "@spartacus/cdc/user-profile": ["dist/cdc/user-profile"],
       "@spartacus/cdc/organization/administration": [
         "dist/cdc/organization/administration"
       ],
+      "@spartacus/cdc/root": ["dist/cdc/root"],
+      "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
+      "@spartacus/cdc/user-profile": ["dist/cdc/user-profile"],
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],

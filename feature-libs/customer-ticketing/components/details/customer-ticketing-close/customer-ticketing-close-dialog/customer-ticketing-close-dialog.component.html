@@ -44,7 +44,10 @@
       </div>
 
       <div class="cx-customer-ticket-form-footer">
-        <button (click)="close('Close Request Dialog')" class="btn btn-action">
+        <button
+          (click)="close('Close Request Dialog')"
+          class="btn btn-secondary"
+        >
           {{ 'customerTicketing.cancel' | cxTranslate }}
         </button>
         <button (click)="closeRequest()" class="btn btn-primary">

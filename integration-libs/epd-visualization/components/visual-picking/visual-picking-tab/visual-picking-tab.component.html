@@ -1,17 +1,13 @@
-<div [class.container-fluid]="!hideViewport" [class.container]="hideViewport">
-  <div
-    class="no-product-references"
-    [hidden]="hideNoProductReferencesIndicator"
-  >
-    <span>{{
-      'epdVisualization.visualPicking.visualPickingTab.noProductReferences'
-        | cxTranslate
-    }}</span>
-  </div>
-
+<div
+  [class.container-fluid]="!hideViewport"
+  [class.container]="hideViewport"
+  [hidden]="!hideNoProductReferencesIndicator"
+>
   <cx-epd-visualization-viewer
     [(selectedProductCodes)]="selectedProductCodes"
     [hidden]="hideViewport"
+    [outlineColor]="'--cx-color-primary'"
+    [outlineWidth]="8"
   >
   </cx-epd-visualization-viewer>
 
@@ -27,4 +23,14 @@
     >
     </cx-epd-visualization-product-list>
   </div>
+</div>
+
+<div
+  class="container no-product-references"
+  [hidden]="hideNoProductReferencesIndicator"
+>
+  <span>{{
+    'epdVisualization.visualPicking.visualPickingTab.noProductReferences'
+      | cxTranslate
+  }}</span>
 </div>

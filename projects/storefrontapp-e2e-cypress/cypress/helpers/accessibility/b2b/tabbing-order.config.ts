@@ -18,7 +18,7 @@ const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-  { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
+  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
@@ -119,7 +119,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   deliveryMode: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     backButton,
@@ -127,7 +127,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   paymentDetailsCard: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
@@ -162,9 +162,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   checkoutReviewOrder: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
+    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
-    { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
+    { value: 'Payment', type: TabbingOrderTypes.LINK },
     {
       value: '/powertools-spa/en/USD/checkout/payment-type',
       type: TabbingOrderTypes.IMG_LINK,
@@ -498,6 +498,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   userRegistrationForm: [
     { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.FORM_FIELD },
     { type: TabbingOrderTypes.FORM_FIELD },

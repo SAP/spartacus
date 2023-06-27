@@ -284,32 +284,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
   });
 
-  describe('isDesktop', () => {
-    it('should return `false` because we deal with mobile widget', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
-      let result: boolean;
-      component
-        .isDesktop()
-        .subscribe((br) => {
-          result = br;
-          expect(result).toBe(false);
-        })
-        .unsubscribe();
-    });
-
-    it('should return `true` because we deal with desktop widget', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-      let result: boolean;
-      component
-        .isDesktop()
-        .subscribe((br) => {
-          result = br;
-          expect(result).toBe(true);
-        })
-        .unsubscribe();
-    });
-  });
-
   describe('check component structure', () => {
     describe('without any line item information', () => {
       beforeEach(() => {

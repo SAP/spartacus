@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Address,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
@@ -32,29 +31,10 @@ export class AddressBookComponent implements OnInit {
   showEditAddressForm = false;
   editCard: string | null;
 
-  /**
-   * TODO: (#CXSPA-53) Remove featureConfigService from constructor in 6.0
-   */
-  constructor(
-    service: AddressBookComponentService,
-    translation: TranslationService,
-    globalMessageService: GlobalMessageService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(
-    service: AddressBookComponentService,
-    translation: TranslationService,
-    globalMessageService: GlobalMessageService
-  );
   constructor(
     public service: AddressBookComponentService,
     protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -127,12 +107,7 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
-          /**
-           * TODO: (#CXSPA-53) Remove feature config check in 6.0
-           */
-          const numbers = this.featureConfigService?.isLevel('5.2')
-            ? getAddressNumbers(address, textPhone, textMobile)
-            : address.phone;
+          const numbers = getAddressNumbers(address, textPhone, textMobile);
 
           return {
             role: 'region',
