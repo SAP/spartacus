@@ -85,9 +85,7 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
    *
    * @protected
    * @param request - An Express Request object.
-   * @returns - An object with properties "url" and "cxRequest" .
-   * "url" is the original URL from the request and "cxRequest" is an object containing additional information about the request.
-   * "cxRequest" contains properties "uuid" and "timeReceived"
+   * @returns - A mapped request object. By default, it contains only "url", a random "uuid" and "timeReceived" of the request.
    */
   protected mapRequest(request: Request): Record<string, any> {
     return {

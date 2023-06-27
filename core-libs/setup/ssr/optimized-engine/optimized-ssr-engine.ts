@@ -335,7 +335,7 @@ export class OptimizedSsrEngine {
     context?: ExpressServerLoggerContext
   ): void {
     if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, context || ({} as ExpressServerLoggerContext));
+      this.logger.log(message, context || {});
     }
   }
 
