@@ -41,7 +41,8 @@
       @include forVersion(6.1) {
         cx-cart-totals,
         cx-cart-coupon,
-        cx-cart-proceed-to-checkout {
+        cx-cart-proceed-to-checkout,
+        cx-quote-request-button {
           min-width: 100%;
         }
       }

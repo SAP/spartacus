@@ -71,7 +71,7 @@ export const quote = {
       confirmSubmitOption: { yes: 'Yes', no: 'No' },
     },
     requestDialog: {
-      requestQuote: 'Request a Quote',
+      requestQuote: 'Request Quote',
       title: 'Request Quote',
       continueToEdit: 'Continue to Edit',
       form: {
