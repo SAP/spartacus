@@ -16,9 +16,16 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, combineLatest, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  Observable,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -100,7 +107,13 @@ export class OpfCheckoutBillingAddressFormService {
         ),
         take(1)
       )
-      .subscribe();
+      .subscribe({
+        next: () => this.setIsSameAsDeliveryValue(true),
+        complete: () => {},
+        error: () => this.setIsSameAsDeliveryValue(false),
+        // Method is responsible for placing delivery address as a payment address,
+        // so if was not successful, we know for sure that checkbox 'Same as delivery' should be unchecked
+      });
   }
 
   setBillingAddress(address: Address): Observable<Address | undefined> {
@@ -125,22 +138,18 @@ export class OpfCheckoutBillingAddressFormService {
             this.opfService.reloadPaymentMode();
           }
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorModel) => {
           this.globalMessageService.add(
             { key: 'opf.checkout.errors.updateBillingAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return of(error);
+          return throwError(error);
         }),
         finalize(() => {
           this.isLoadingAddressSub.next(false);
         }),
         take(1)
       );
-  }
-
-  resetBillingAddress(): void {
-    this.billingAddressSub.next(undefined);
   }
 
   get billingAddressValue(): Address | undefined {
