@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isDevMode } from '@angular/core';
 import { Request } from 'express';
 import {
   ExpressServerLogger,
@@ -56,7 +57,9 @@ export class DefaultExpressServerLogger implements ExpressServerLogger {
       });
     }
 
-    return JSON.stringify(object);
+    return isDevMode()
+      ? JSON.stringify(object, null, 2)
+      : JSON.stringify(object);
   }
 
   protected mapRequest(request: Request): Record<string, any> {

@@ -10,6 +10,16 @@ import { LoggerService } from '@spartacus/core';
 import { formatWithOptions } from 'util';
 import { EXPRESS_SERVER_LOGGER } from '../loggers';
 
+/**
+ * Custom `LoggerService` used in ExpressJS.
+ *
+ * It converts the input arguments to a final string message similar as the native `console`
+ * does (using the native function `format` from `node:util`) and passes this message
+ * to a concrete server logger, used in ExpressJS.
+ *
+ * Besides the message, it also passes the current `request` of ExpressJS as an additional
+ * context to the concrete server logger.
+ */
 @Injectable({ providedIn: 'root' })
 export class ExpressLoggerService implements LoggerService {
   request = inject(REQUEST);
@@ -42,11 +52,9 @@ export class ExpressLoggerService implements LoggerService {
   }
 
   protected formatLogMessage(message?: any, ...optionalParams: any[]): string {
-    /**
-     * built-in util function 'formatWithOptions' was used to not break provided message.
-     * That helps to present logs in moonitoring tools like Kibana in a proper way.
-     */
     return formatWithOptions(
+      // Prevent automatically breaking a long string message into multiple lines.
+      // Otherwise, multi-line logs would be treated on the server as separate log
       { breakLength: Infinity },
       message,
       ...optionalParams
