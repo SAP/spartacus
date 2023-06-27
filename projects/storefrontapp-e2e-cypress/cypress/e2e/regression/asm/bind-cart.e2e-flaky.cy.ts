@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asm from '../../../../helpers/asm';
-import { login } from '../../../../helpers/auth-forms';
-import * as cart from '../../../../helpers/cart';
-import * as checkout from '../../../../helpers/checkout-flow';
-import { waitForPage } from '../../../../helpers/navigation';
-import { getSampleUser } from '../../../../sample-data/checkout-flow';
+import * as asm from '../../../helpers/asm';
+import { login } from '../../../helpers/auth-forms';
+import * as cart from '../../../helpers/cart';
+import * as checkout from '../../../helpers/checkout-flow';
+import { waitForPage } from '../../../helpers/navigation';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Assisted Service Module', () => {
   describe('Bind cart', () => {
@@ -62,7 +62,7 @@ context('Assisted Service Module', () => {
       });
 
       cy.log(
-        '--> Stop customer emulation using the end session button in the ASM UI'
+        '--> Stop customer emulation using the end emulation button in the ASM UI'
       );
       asm.agentSignOut();
 
@@ -157,7 +157,7 @@ context('Assisted Service Module', () => {
       });
 
       cy.log(
-        '--> Stop customer emulation using the end session button in the ASM UI'
+        '--> Stop customer emulation using the end emulation button in the ASM UI'
       );
       asm.agentSignOut();
 

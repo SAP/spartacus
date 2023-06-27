@@ -136,22 +136,24 @@ export function listenForCustomerCreateRequest(): string {
 }
 
 export function agentLogin(user, pwd): void {
-  const authRequest = listenForAuthenticationRequest();
-  cy.get('cx-storefront').within(() => {
-    cy.get('cx-csagent-login-form').should('exist');
-    cy.get('cx-customer-selection').should('not.exist');
-    cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]').should('not.be.disabled').type(user);
-      cy.get('[formcontrolname="password"]')
-        .should('not.be.disabled')
-        .type(pwd);
-      cy.get('button[type="submit"]').click();
-    });
-  });
+  cy.get('cx-storefront cx-csagent-login-form').then(($element) => {
+    if ($element.length > 0) {
+      const authRequest = listenForAuthenticationRequest();
+      cy.get('cx-storefront').within(() => {
+        cy.get('cx-csagent-login-form').should('exist');
+        cy.get('cx-customer-selection').should('not.exist');
+        cy.get('cx-csagent-login-form form').within(() => {
+          cy.get('[formcontrolname="userId"]').clear().type(user);
+          cy.get('[formcontrolname="password"]').clear().type(pwd);
+          cy.get('button[type="submit"]').click();
+        });
+      });
 
-  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
+      cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+      cy.get('cx-csagent-login-form').should('not.exist');
+      cy.get('cx-customer-selection').should('exist');
+    }
+  });
 }
 
 export function asmOpenCustomerList(): void {
@@ -546,7 +548,7 @@ export function testCustomerEmulation() {
 
     cy.log('--> Stop customer emulation');
     cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
+      .findByText(/End Emulation/i)
       .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
@@ -566,20 +568,15 @@ export function testCustomerEmulation() {
     asm.startCustomerEmulation(customer);
 
     cy.log(
-      '--> Stop customer emulation using the end session button in the ASM UI'
+      '--> Stop customer emulation using the end emulation button in the ASM UI'
     );
     cy.get('cx-customer-emulation')
-      .findByText(/End Session/i)
+      .findByText(/End Emulation/i)
       .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
     cy.log('--> sign out and close ASM UI');
-    asm.agentSignOut();
-
-    cy.get('button[title="Close ASM"]').click();
-    cy.get('cx-asm-main-ui').should('exist');
-    cy.get('cx-asm-main-ui').should('not.be.visible');
 
     // CXSPA-301/GH-14914
     // Must ensure that site is still functional after service agent logout

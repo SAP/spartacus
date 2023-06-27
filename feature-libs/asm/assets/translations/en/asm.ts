@@ -36,6 +36,7 @@ export const asm = {
         label: 'Customer Name/Email Address',
       },
       submit: 'Start Session',
+      startEmulation: 'Start Emulation',
       noMatch: 'No customer found.',
       noMatchResult: 'This account cannot be found.',
       createCustomer: 'Create New Customer',
@@ -103,6 +104,15 @@ export const asm = {
       searchBox: 'Search',
       enterSearchBox: 'Enter customer name or email',
     },
+    switchCustomer: {
+      dialog: {
+        title: 'Warning',
+        body: 'Clicking "Switch Customer" will end the emulation for "{{ customerA }}" and start for "{{ customerB }}". Any unsaved changes for "{{ customerA }}" will be lost.',
+        actions: {
+          switch: 'Switch Customer',
+        },
+      },
+    },
     saveCart: {
       saveCartBtn: 'Save for Later',
       dialog: {
@@ -136,6 +146,7 @@ export const asm = {
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
+    endEmulation: 'End Emulation',
     agentSessionTimer: {
       label: 'Session Timeout',
       minutes: 'min',
