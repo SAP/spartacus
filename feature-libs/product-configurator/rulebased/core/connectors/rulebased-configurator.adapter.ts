@@ -112,12 +112,15 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Overview>;
 
   /**
-   * Abstract method to get configuration overview
+   * Abstract method to get the supported configurator type
    *
-   * @param configId configuration id
-   * @param owner configuration owner
    */
   abstract getConfiguratorType(): string;
+
+  /**
+   * Abstract method to check if the adapter works only with OCC?
+   */
+  isOccOnly?(): boolean;
 
   /**
    * Searches for variants that are matching the configuration identified by its id.
