@@ -266,6 +266,11 @@ export class ConfiguratorCommonsService {
    */
   forceNewConfiguration(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
+      new ConfiguratorActions.RemoveConfiguration({
+        ownerKey: owner.key,
+      })
+    );
+    this.store.dispatch(
       new ConfiguratorActions.CreateConfiguration({
         owner: owner,
         configIdTemplate: undefined,
