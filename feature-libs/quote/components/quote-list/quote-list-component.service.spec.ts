@@ -14,6 +14,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { QuoteListComponentService as QuoteListComponentService } from './quote-list-component.service';
+import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -24,12 +25,9 @@ const mockPagination: PaginationModel = {
 };
 const mockAction = { type: QuoteActionType.EDIT, isPrimary: true };
 const mockQuote: Quote = {
+  ...createEmptyQuote(),
   allowedActions: [mockAction],
   cartId: mockCartId,
-  code: '333333',
-  comments: [],
-  name: 'Name',
-  totalPrice: { value: 20 },
 };
 const mockQuoteList: QuoteList = {
   pagination: mockPagination,
