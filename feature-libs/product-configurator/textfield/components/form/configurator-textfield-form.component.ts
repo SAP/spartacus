@@ -36,6 +36,11 @@ export class ConfiguratorTextfieldFormComponent {
             return this.configuratorTextfieldService.readConfigurationForOrderEntry(
               routerData.owner
             );
+          case CommonConfigurator.OwnerType.QUOTE_ENTRY:
+            ////TODO CONFIG_INTEGRATION cover quote
+            return this.configuratorTextfieldService.readConfigurationForOrderEntry(
+              routerData.owner
+            );
         }
       })
     );
