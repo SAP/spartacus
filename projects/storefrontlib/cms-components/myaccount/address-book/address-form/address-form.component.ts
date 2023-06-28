@@ -185,7 +185,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.regions$.pipe(take(1)).subscribe((regions) => {
           if (regions.length) {
             const selectedRegion = regions.find(
-              (_region) => _region.isocode === isocode
+              (region: Region) => region.isocode === isocode
             );
             regionControl?.patchValue({
               isocodeShort: selectedRegion?.isocodeShort,
