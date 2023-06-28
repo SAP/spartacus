@@ -11,7 +11,6 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  SubmitCompleteRequest,
   SubmitInput,
 } from '../model';
 
@@ -21,7 +20,7 @@ import {
     facadeFactory({
       facade: OpfPaymentFacade,
       feature: OPF_BASE_FEATURE,
-      methods: ['verifyPayment', 'submitPayment', 'submitCompletePayment'],
+      methods: ['verifyPayment', 'submitPayment'],
     }),
 })
 export abstract class OpfPaymentFacade {
@@ -36,9 +35,5 @@ export abstract class OpfPaymentFacade {
     paymentVerificationPayload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
 
-  abstract submitPayment(submitRequest: SubmitInput): Observable<boolean>;
-
-  abstract submitCompletePayment(
-    submitCompleteRequest: SubmitCompleteRequest
-  ): Observable<boolean>;
+  abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
 }

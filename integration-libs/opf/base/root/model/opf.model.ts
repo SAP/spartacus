@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpErrorModel } from '@spartacus/core';
+
 export interface OpfRenderPaymentMethodEvent {
   isLoading: boolean;
   isError: boolean;
@@ -28,10 +30,10 @@ export interface KeyValuePair {
 }
 
 export type MerchantCallback = (
-  response?: SubmitResponse | SubmitCompleteResponse
+  response?: SubmitResponse
 ) => void | Promise<void>;
 
-export interface GlobalUpscalePaymentMethods {
+export interface GlobalOpfPaymentMethods {
   submit?(options: {
     cartId: string;
     additionalData: Array<KeyValuePair>;
@@ -40,14 +42,6 @@ export interface GlobalUpscalePaymentMethods {
     submitFailure: MerchantCallback;
     paymentMethod: PaymentMethod;
   }): Promise<boolean>;
-  submitComplete?(options: {
-    cartId: string;
-    additionalData: Array<KeyValuePair>;
-    submitSuccess: MerchantCallback;
-    submitPending: MerchantCallback;
-    submitFailure: MerchantCallback;
-  }): Promise<boolean>;
-  test?(): Promise<void>;
 }
 
 export interface PaymentBrowserInfo {
@@ -71,8 +65,6 @@ export interface SubmitRequest {
   cartId?: string;
   channel?: string;
   additionalData?: Array<KeyValuePair>;
-  paymentSessionId?: string;
-  otpKey?: string;
 }
 
 export interface SubmitInput {
@@ -84,19 +76,50 @@ export interface SubmitInput {
   paymentMethod: PaymentMethod;
 }
 
-export interface SubmitCompleteInput {
-  additionalData: Array<KeyValuePair>;
-  paymentSessionId: string;
-  cartId: string;
-  callbackArray: [MerchantCallback, MerchantCallback, MerchantCallback];
-  returnPath?: Array<string>;
+export interface PaymentError extends HttpErrorModel {
+  /**
+   * The type of error message for further clarity, lower case with underscore eg validation_failure
+   */
+  type: string;
+  /**
+   * The description of the error and, in some cases, a solution to the API consumer to resolve the issue.
+   */
+  message: string;
+  /**
+   * An error can occur for multiple reasons, or it can be specified in more detail using a more precise error.
+   */
+  details?: Array<PaymentErrorDetails>;
+  moreInfo?: string;
+  checkoutValidationMessage?: string;
 }
 
-export interface SubmitCompleteResponse {
-  cartId?: string;
-  status?: SubmitStatus;
-  reasonCode?: string;
-  customFields?: Array<KeyValuePair>;
+export interface ValidationFailedProduct {
+  productId?: string;
+  quantity?: number;
+  maxQuantity?: number;
+  minQuantity?: number;
+}
+export interface MoreInfo {
+  validationFailedProducts?: Array<ValidationFailedProduct>;
+  maxQuantity?: number;
+  currentOrderAmount?: number;
+  minOrderAmount?: number;
+}
+export interface PaymentErrorDetails {
+  /**
+   * The specific payload attribute or query parameter causing the error.
+   */
+  field?: string;
+  /**
+   * Classification of the error detail type, lower case with underscore eg missing_value,
+   * this value must be always interpreted in context of the general error type.
+   */
+  type: string;
+  /**
+   * The description of the error and, in some cases, a solution to the API consumer to resolve the issue.
+   */
+  message?: string;
+  moreInfo?: string | MoreInfo;
 }
 
 export enum SubmitStatus {

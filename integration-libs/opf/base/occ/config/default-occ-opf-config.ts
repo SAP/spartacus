@@ -12,7 +12,6 @@ export const defaultOccOpfConfig: OccConfig = {
       endpoints: {
         verifyPayment: 'payments/${paymentSessionId}/verify',
         submitPayment: 'payments/${paymentSessionId}/submit',
-        submitCompletePayment: 'payments/${paymentSessionId}/submit-complete',
       },
     },
   },

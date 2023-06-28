@@ -12,11 +12,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import {
-  OpfPaymentMethodType,
-  PaymentPattern,
-  PaymentSessionData,
-} from '@spartacus/opf/checkout/root';
+import { OpfPaymentMethodType } from '@spartacus/opf/checkout/root';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionsService } from '../opf-checkout-global-functions/opf-global-functions.service';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
@@ -37,18 +33,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   isPaymentInProgress$ = this.globalFunctionsService.isPaymentInProgress$();
 
-  // isPaymentInProgress$ = this.globalFunctionsRegistrationService
-  // .isPaymentInProgress$()
-  // .pipe(
-  //   tap((value: boolean) => {
-  //     if (value) {
-  //       this.initiatePaymentMode();
-  //     }
-  //   })
-  // );
-
-  hostdFieldsPaymentProgress = false;
-
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
     protected sanitizer: DomSanitizer,
@@ -64,6 +48,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('ngOnDestroy');
     this.sub.unsubscribe();
     this.globalFunctionsService.removeService();
   }
@@ -76,25 +61,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.service.initiatePayment(this.selectedPaymentId).subscribe({
         next: (response) =>
-          this.initiateGlobalFunctions(response as PaymentSessionData),
+          this.globalFunctionsService.initializeService(response),
       })
     );
-  }
-
-  protected initiateGlobalFunctions(
-    paymentSessionData: PaymentSessionData
-  ): void {
-    if (
-      paymentSessionData?.paymentSessionId &&
-      paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
-    ) {
-      this.globalFunctionsService.initializeService(
-        paymentSessionData.paymentSessionId
-      );
-    } else {
-      if (this.globalFunctionsService.isGlobalFunctionInit) {
-        this.globalFunctionsService.removeService();
-      }
-    }
   }
 }

@@ -22,8 +22,6 @@ import {
   OpfConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  SubmitCompleteRequest,
-  SubmitCompleteResponse,
   SubmitRequest,
   SubmitResponse,
 } from '@spartacus/opf/base/root';
@@ -73,7 +71,11 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
       );
   }
 
-  submitPayment(submitRequest: SubmitRequest): Observable<SubmitResponse> {
+  submitPayment(
+    submitRequest: SubmitRequest,
+    otpKey: string,
+    paymentSessionId: string
+  ): Observable<SubmitResponse> {
     console.log('flo adapter submitRequest', submitRequest);
 
     const headers = new HttpHeaders({
@@ -82,38 +84,12 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
       'Content-Language': 'en-us',
     })
       .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
-      .set(OPF_CC_OTP_KEY, submitRequest?.otpKey || '');
+      .set(OPF_CC_OTP_KEY, otpKey || '');
 
-    const url = this.getSubmitPaymentEndpoint(
-      submitRequest.paymentSessionId as string
-    );
-    delete submitRequest.otpKey;
-    delete submitRequest.paymentSessionId;
+    const url = this.getSubmitPaymentEndpoint(paymentSessionId);
+
     return this.http
       .post<SubmitResponse>(url, submitRequest, { headers })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
-  }
-
-  submitCompletePayment(
-    submitCompleteRequest: SubmitCompleteRequest
-  ): Observable<SubmitCompleteResponse> {
-    console.log('flo adapter submitCompleteRequest', submitCompleteRequest);
-
-    const headers = new HttpHeaders({
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Content-Language': 'en-us',
-    })
-      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
-      .set(OPF_CC_OTP_KEY, submitCompleteRequest?.otpKey || '');
-
-    const url = this.getSubmitCompletePaymentEndpoint(
-      submitCompleteRequest.paymentSessionId as string
-    );
-    delete submitCompleteRequest.otpKey;
-    delete submitCompleteRequest.paymentSessionId;
-    return this.http
-      .post<SubmitCompleteResponse>(url, submitCompleteRequest, { headers })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
@@ -125,12 +101,6 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
 
   protected getSubmitPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('submitPayment', {
-      urlParams: { paymentSessionId },
-    });
-  }
-
-  protected getSubmitCompletePaymentEndpoint(paymentSessionId: string): string {
-    return this.opfEndpointsService.buildUrl('submitCompletePayment', {
       urlParams: { paymentSessionId },
     });
   }

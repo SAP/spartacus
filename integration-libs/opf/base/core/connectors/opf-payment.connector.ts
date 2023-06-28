@@ -8,8 +8,6 @@ import { Injectable } from '@angular/core';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  SubmitCompleteRequest,
-  SubmitCompleteResponse,
   SubmitRequest,
   SubmitResponse,
 } from '@spartacus/opf/base/root';
@@ -29,14 +27,10 @@ export class OpfPaymentConnector {
   }
 
   public submitPayment(
-    submitRequest: SubmitRequest
+    submitRequest: SubmitRequest,
+    otpKey: string,
+    paymentSessionId: string
   ): Observable<SubmitResponse> {
-    return this.adapter.submitPayment(submitRequest);
-  }
-
-  public submitCompletePayment(
-    submitCompleteRequest: SubmitCompleteRequest
-  ): Observable<SubmitCompleteResponse> {
-    return this.adapter.submitCompletePayment(submitCompleteRequest);
+    return this.adapter.submitPayment(submitRequest, otpKey, paymentSessionId);
   }
 }

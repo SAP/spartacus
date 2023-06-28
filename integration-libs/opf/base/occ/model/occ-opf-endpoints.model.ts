@@ -14,6 +14,5 @@ declare module '@spartacus/core' {
      */
     verifyPayment?: string | OccEndpoint;
     submitPayment?: string | OccEndpoint;
-    submitCompletePayment?: string | OccEndpoint;
   }
 }
