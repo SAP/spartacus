@@ -40,6 +40,9 @@ const mockQuote: Quote = {
   allowedActions: [mockAction],
   cartId: mockCartId,
   code: '333333',
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 const mockQuoteList: QuoteList = {
   pagination: mockPagination,

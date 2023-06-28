@@ -31,6 +31,9 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_DRAFT,
   cartId: mockCartId,
   code: mockCode,
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
   loading: false,
