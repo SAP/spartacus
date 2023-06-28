@@ -321,9 +321,6 @@ context('Assisted Service Module', () => {
               'have.text',
               customerA.email
             );
-
-            cy.log('--> sign out and close ASM UI');
-            asm.agentSignOut();
           });
         }
       );
@@ -355,9 +352,6 @@ context('Assisted Service Module', () => {
           cy.visit('/assisted-service/emulate?customerId=notexist');
           cy.log('--> global error message should be display');
           cy.get('cx-global-message .alert-danger').should('be.visible');
-
-          cy.log('--> sign out and close ASM UI');
-          asm.agentSignOut();
         }
       );
     });
