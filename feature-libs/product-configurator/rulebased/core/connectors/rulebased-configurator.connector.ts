@@ -9,8 +9,10 @@ import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
+import { ConfiguratorCpqConfig } from '../../cpq/config/configurator-cpq.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 
@@ -24,7 +26,8 @@ export class RulebasedConfiguratorConnector {
   constructor(
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
-    protected configUtilsService: CommonConfiguratorUtilsService
+    protected configUtilsService: CommonConfiguratorUtilsService,
+    protected config: ConfiguratorCpqConfig
   ) {}
 
   createConfiguration(
@@ -128,8 +131,8 @@ export class RulebasedConfiguratorConnector {
   }
 
   protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
-    const adapterResult = this.adapters.find(
-      (adapter) => adapter.getConfiguratorType() === configuratorType
+    const adapterResult = this.adapters.find((adapter) =>
+      this.isAdapterMatching(adapter, configuratorType)
     );
     if (adapterResult) {
       return adapterResult;
@@ -138,5 +141,19 @@ export class RulebasedConfiguratorConnector {
         'No adapter found for configurator type: ' + configuratorType
       );
     }
+  }
+
+  protected isAdapterMatching(
+    adapter: RulebasedConfiguratorAdapter,
+    configuratorType: string
+  ): boolean {
+    let matching = adapter.getConfiguratorType() === configuratorType;
+    if (matching && ConfiguratorType.CPQ === configuratorType) {
+      const isCpqOverOccRequested =
+        this.config?.productConfigurator?.cpqOverOcc ?? false;
+      const isCpqOverOccSupported = adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
+      matching = isCpqOverOccRequested === isCpqOverOccSupported;
+    }
+    return matching;
   }
 }
