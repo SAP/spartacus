@@ -7,4 +7,4 @@
 /*
  * Public API Surface of segment
  */
-export * from './segment.module';
+export * from './segment-refs.module';

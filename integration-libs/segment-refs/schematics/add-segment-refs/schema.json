@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "SegmentSchematics",
-  "title": "Segment Schematics",
+  "$id": "SegmentRefsSchematics",
+  "title": "Segment Refs Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -19,7 +19,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Segment"]
+      "default": ["Segment-Refs"]
     }
   },
   "required": []

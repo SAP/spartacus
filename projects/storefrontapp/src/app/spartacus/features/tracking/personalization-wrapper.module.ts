@@ -5,14 +5,14 @@
  */
 
 import { NgModule, Type } from '@angular/core';
-import { SegmentModule } from '@spartacus/segment';
+import { SegmentRefsModule } from '@spartacus/segment-refs';
 import { PersonalizationModule } from '@spartacus/tracking/personalization';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 
-if (environment.segment) {
-  extensions.push(SegmentModule);
+if (environment.segmentRefs) {
+  extensions.push(SegmentRefsModule);
 }
 @NgModule({
   imports: [PersonalizationModule, ...extensions],

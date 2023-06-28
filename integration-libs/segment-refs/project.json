@@ -1,21 +1,21 @@
 {
-  "name": "segment",
+  "name": "segment-refs",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "integration-libs/segment",
+  "sourceRoot": "integration-libs/segment-refs",
   "prefix": "cx",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "integration-libs/segment/ng-package.json"
+        "project": "integration-libs/segment-refs/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "integration-libs/segment/tsconfig.lib.prod.json"
+          "tsConfig": "integration-libs/segment-refs/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "integration-libs/segment/tsconfig.lib.json"
+          "tsConfig": "integration-libs/segment-refs/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
@@ -23,25 +23,25 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "integration-libs/segment/test.ts",
-        "tsConfig": "integration-libs/segment/tsconfig.spec.json",
+        "main": "integration-libs/segment-refs/test.ts",
+        "tsConfig": "integration-libs/segment-refs/tsconfig.spec.json",
         "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "integration-libs/segment/karma.conf.js"
+        "karmaConfig": "integration-libs/segment-refs/karma.conf.js"
       }
     },
     "test-jest": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npm run test:schematics",
-        "cwd": "integration-libs/segment"
+        "cwd": "integration-libs/segment-refs"
       }
     },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "integration-libs/segment/**/*.ts",
-          "integration-libs/segment/**/*.html"
+          "integration-libs/segment-refs/**/*.ts",
+          "integration-libs/segment-refs/**/*.html"
         ]
       }
     }

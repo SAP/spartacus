@@ -192,8 +192,8 @@ export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
 
-export const SPARTACUS_SEGMENT = '@spartacus/s4om';
-export const SPARTACUS_SEGMENT_ROOT = `@spartacus/segment/root`;
+export const SPARTACUS_SEGMENT_REFS = '@spartacus/segment-refs';
+export const SPARTACUS_SEGMENT_REFS_ROOT = `@spartacus/segment-refs/root`;
 
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;
@@ -267,7 +267,7 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
-export const SEGMENT_FEATURE_NAME = 'Segment';
+export const SEGMENT_REFS_FEATURE_NAME = 'SegmentRefs';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/

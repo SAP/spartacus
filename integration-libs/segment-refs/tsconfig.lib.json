@@ -12,7 +12,9 @@
     "importHelpers": true,
     "skipLibCheck": true,
     "lib": ["dom", "esnext"],
-    "paths": {},
+    "paths": {
+      "@spartacus/core": ["dist/core"]
+    },
     "resolveJsonModule": true,
     "esModuleInterop": true
   },

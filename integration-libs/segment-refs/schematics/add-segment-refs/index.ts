@@ -18,11 +18,13 @@ import {
   finalizeInstallation,
   readPackageJson,
   validateSpartacusInstallation,
-  LibraryOptions as SpartacusSegmentOptions,
+  LibraryOptions as SpartacusSegmentRefsOptions,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
-export function addSegmentFeature(options: SpartacusSegmentOptions): Rule {
+export function addSegmentRefsFeature(
+  options: SpartacusSegmentRefsOptions
+): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);

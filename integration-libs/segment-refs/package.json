@@ -1,7 +1,7 @@
 {
-  "name": "@spartacus/segment",
+  "name": "@spartacus/segment-refs",
   "version": "1.0.0",
-  "description": "segment",
+  "description": "segment-refs",
   "keywords": [
     "spartacus",
     "framework",
@@ -21,8 +21,11 @@
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^15.2.4",
+    "@angular/common": "^15.2.4",
     "@angular/core": "^15.2.4",
-    "@spartacus/schematics": "5.0.0"
+    "@spartacus/core": "5.0.0",
+    "@spartacus/schematics": "5.0.0",
+    "rxjs": "^6.6.0"
   },
   "publishConfig": {
     "access": "public"
