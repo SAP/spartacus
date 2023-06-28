@@ -108,6 +108,11 @@ export class ConfiguratorCommonsService {
           owner
         );
       }
+      case CommonConfigurator.OwnerType.QUOTE_ENTRY: {
+        return this.configuratorCartService.readConfigurationForQuoteEntry(
+          owner
+        );
+      }
       default: {
         return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }

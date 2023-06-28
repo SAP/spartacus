@@ -208,6 +208,10 @@ export interface OccEndpoints {
    */
   readVariantConfigurationOverviewForOrderEntry?: string;
   /**
+   * Endpoint for reading configuration overview attached to the quote entry
+   */
+  readVariantConfigurationOverviewForQuoteEntry?: string;
+  /**
    * Endpoint to read configuration price
    *
    * @member {string}

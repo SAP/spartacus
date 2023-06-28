@@ -151,6 +151,54 @@ export class ConfiguratorCartService {
   }
 
   /**
+   * Reads a configuration that is attached to a quote entry, dispatching the respective action.
+   *
+   * @param owner Configuration owner
+   * @returns Observable of product configurations
+   */
+  readConfigurationForQuoteEntry(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          owner.key
+        )
+      ),
+      tap((configurationState) => {
+        if (this.configurationNeedsReading(configurationState)) {
+          const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
+            owner.id
+          );
+          const readFromQuoteEntryParameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+            {
+              userId: OCC_USER_ID_CURRENT,
+              quoteId: ownerIdParts.documentId,
+              quoteEntryNumber: ownerIdParts.entryNumber,
+              owner: owner,
+            };
+          this.store.dispatch(
+            new ConfiguratorActions.ReadQuoteEntryConfiguration(
+              readFromQuoteEntryParameters
+            )
+          );
+        }
+      }),
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.isConfigurationCreated(configurationState.value)
+      ),
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
+    );
+  }
+
+  /**
    * Adds a configuration to the cart, specified by the product code, a configuration ID and configuration owner key.
    *
    * @param productCode - Product code
