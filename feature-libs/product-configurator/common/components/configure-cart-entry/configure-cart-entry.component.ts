@@ -31,14 +31,19 @@ export class ConfigureCartEntryComponent {
   }
 
   /**
-   * Verifies whether the cart entry has an order code and returns a corresponding owner type.
+   * Determines owner for an entry (can be part of cart, order or quote)
    *
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-    return this.cartEntry.orderCode !== undefined
-      ? CommonConfigurator.OwnerType.ORDER_ENTRY
-      : CommonConfigurator.OwnerType.CART_ENTRY;
+     //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
+    if (this.cartEntry.source === 'quote') {
+      return CommonConfigurator.OwnerType.QUOTE_ENTRY;
+    } else {
+      return this.cartEntry.orderCode !== undefined
+        ? CommonConfigurator.OwnerType.ORDER_ENTRY
+        : CommonConfigurator.OwnerType.CART_ENTRY;
+    }
   }
 
   /**

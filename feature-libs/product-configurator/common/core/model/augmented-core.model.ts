@@ -15,5 +15,6 @@ declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
     statusSummaryList?: StatusSummary[];
     configurationInfos?: ConfigurationInfo[];
+    source?: string;
   }
 }
