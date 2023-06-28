@@ -5,6 +5,7 @@
  */
 
 import { SchematicsException } from '@angular-devkit/schematics';
+import { QUOTE_SCHEMATICS_CONFIG } from './lib-configs';
 import { ASM_SCHEMATICS_CONFIG } from './lib-configs/asm-schematics-config';
 import {
   CART_BASE_SCHEMATICS_CONFIG,
@@ -77,6 +78,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
+
+  QUOTE_SCHEMATICS_CONFIG,
 
   ORDER_SCHEMATICS_CONFIG,
 

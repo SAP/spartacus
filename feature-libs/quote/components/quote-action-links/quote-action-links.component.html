@@ -1,0 +1,17 @@
+<section>
+  <ul>
+    <li>
+      <button (click)="goToNewCart()" class="link cx-action-link">
+        {{ 'quote.links.newCart' | cxTranslate }}
+      </button>
+    </li>
+    <li>
+      <button
+        [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
+        class="link cx-action-link"
+      >
+        {{ 'quote.links.quotes' | cxTranslate }}
+      </button>
+    </li>
+  </ul>
+</section>

@@ -188,6 +188,10 @@ export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
 export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
 
+export const SPARTACUS_QUOTE = '@spartacus/quote';
+export const SPARTACUS_QUOTE_ROOT = `@spartacus/quote/root`;
+export const SPARTACUS_QUOTE_ASSETS = `@spartacus/quote/assets`;
+
 export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
@@ -257,6 +261,8 @@ export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 export const CDC_FEATURE_NAME = 'CDC';
 
 export const CDS_FEATURE_NAME = 'CDS';
+
+export const QUOTE_FEATURE_NAME = 'Quote';
 
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
