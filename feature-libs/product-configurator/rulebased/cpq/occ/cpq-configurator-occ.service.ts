@@ -19,6 +19,13 @@ import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
+import {
+  CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  //CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
+  //CPQ_CONFIGURATOR_SERIALIZER,
+} from '../common/converters/cpq-configurator.converters';
+import { Cpq } from '../common/cpq.models';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorOccService {
@@ -112,5 +119,103 @@ export class CpqConfiguratorOccService {
         return response.configId;
       })
     );
+  }
+
+  /**
+   * Creates a new runtime configuration for the given product id
+   * and read this default configuration from the CPQ system over OCC.
+   *
+   * @param {string} productSystemId - Product system ID
+   * @returns {Observable<Configurator.Configuration>} - Created configuration
+   */
+  createConfiguration(
+    productSystemId: string
+  ): Observable<Configurator.Configuration> {
+    return this.callCreateConfiguration(productSystemId).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+        };
+      })
+    );
+  }
+
+  /**
+   * Retrieves a configuration from the CPQ system over OCC by its configuration ID and for a certain tab.
+   *
+   * @param {string} configId - Configuration ID
+   * @param {string} tabId - Tab ID
+   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   */
+  readConfiguration(
+    configId: string,
+    tabId?: string
+  ): Observable<Configurator.Configuration> {
+    return this.callReadConfiguration(configId, tabId).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+        };
+      })
+    );
+  }
+
+  /**
+   * Retrieves a configuration overview from the CPQ system over OCC by its configuration ID.
+   *
+   * @param {string} configId - Configuration ID
+   * @returns {Observable<Configurator.Overview>} - Retrieved overview
+   */
+  readConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.Overview> {
+    return this.callReadConfigurationOverview(configId).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+        };
+      })
+    );
+  }
+
+  protected callCreateConfiguration(
+    productSystemId: string
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('createCpqConfiguration', {
+      urlParams: {
+        productCode: productSystemId,
+      },
+    });
+    return this.http.get<Cpq.Configuration>(url);
+  }
+
+  protected callReadConfiguration(
+    configId: string,
+    tabId?: string
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('readCpqConfiguration', {
+      urlParams: {
+        configurationId: configId,
+      },
+      queryParams: tabId ? { tabId: tabId } : undefined,
+    });
+    return this.http.get<Cpq.Configuration>(url);
+  }
+
+  protected callReadConfigurationOverview(
+    configId: string
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readCpqConfigurationOverview',
+      {
+        urlParams: {
+          configurationId: configId,
+        },
+      }
+    );
+    return this.http.get<Cpq.Configuration>(url);
   }
 }

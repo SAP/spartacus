@@ -20,6 +20,12 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/cpqconfigurator',
           updateCpqConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
+          createCpqConfiguration:
+            'products/${productCode}/configurators/cpqconfigurator',
+          readCpqConfiguration:
+            'cpqconfigurator/${configurationId}/configuration?tabId=${tabId}',
+          readCpqConfigurationOverview:
+            'cpqconfigurator/${configurationId}/configurationOverview',
         },
       },
     },

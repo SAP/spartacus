@@ -27,7 +27,7 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
-      configId: '', //will later be populated with final value
+      configId: source.configurationId ? source.configurationId : '', //if empty, will later be populated with final value
       complete: !source.incompleteAttributes?.length,
       consistent:
         !source.invalidMessages?.length &&
@@ -162,7 +162,9 @@ export class CpqConfiguratorNormalizer
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
-      name: sourceAttribute.pA_ID.toString(),
+      name: sourceAttribute.pA_ID
+        ? sourceAttribute.pA_ID.toString()
+        : sourceAttribute.PA_ID.toString(),
       description: sourceAttribute.description,
       label:
         this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
