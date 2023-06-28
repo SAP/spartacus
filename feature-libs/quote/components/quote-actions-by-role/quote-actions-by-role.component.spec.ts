@@ -37,7 +37,7 @@ const mockQuote: Quote = {
   threshold: threshold,
   comments: [],
   name: 'Name',
-  totalPrice: { value: 20 },
+  totalPrice: totalPrice,
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
   loading: false,
