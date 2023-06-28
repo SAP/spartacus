@@ -12,14 +12,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { QuoteFacade, QuoteActionType, Quote } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import {   Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -27,9 +23,12 @@ import { filter, map, take, tap } from 'rxjs/operators';
   templateUrl: './quote-actions-by-role.component.html',
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
-  quoteDetailsState$ = this.quoteFacade
-    .getQuoteDetails()
-    .pipe(filter((state) => !state.loading));
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails().pipe(
+    filter((state) => !state.loading),
+    filter((state) => state.data !== undefined),
+    map((state) => state.data),
+    map((quote) => quote as Quote)
+  );
 
   @ViewChild('element') element: ElementRef;
 
@@ -41,45 +40,36 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected quoteFacade: QuoteFacade,
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
-    protected globalMessageService: GlobalMessageService,
-
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message
-    this.quoteDetailsState$
-      .pipe(
-        map((state) => state.data),
-        take(1)
-      )
-      .subscribe((quote) => {
-        const mustDisableAction = quote?.allowedActions.find((action) =>
-          this.mustDisableAction(action.type, quote)
-        );
-        if (mustDisableAction) {
-          this.globalMessageService.add(
-            {
-              key: 'quote.requestDialog.form.minRequestInitiationNote',
-              params: {
-                minValue: quote?.threshold
-              },
+    this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
+      const mustDisableAction = quote.allowedActions.find((action) =>
+        this.mustDisableAction(action.type, quote)
+      );
+      if (mustDisableAction) {
+        this.globalMessageService.add(
+          {
+            key: 'quote.requestDialog.form.minRequestInitiationNote',
+            params: {
+              minValue: quote.threshold,
             },
-            GlobalMessageType.MSG_TYPE_WARNING
-          );
-        }
-      });
+          },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
+      }
+    });
   }
 
   mustDisableAction(type: string, quote: Quote): boolean {
-    return (
-      type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote)
-    );
+    return type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote);
   }
 
   protected isThresholdReached(quote: Quote): boolean {
-    const requestThreshold =
-      quote.threshold || 0;
-    return (quote.totalPrice?.value || 0) >= requestThreshold;
+    const requestThreshold = quote.threshold || 0;
+    return (quote.totalPrice.value || 0) >= requestThreshold;
   }
 
   onClick(quoteActionType: QuoteActionType, code: string) {

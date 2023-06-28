@@ -24,7 +24,7 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 const mockCartId = '1234';
 const mockCode = '3333';
 const threshold = 20;
-const totalPrice: Price = {value:threshold+1};
+const totalPrice: Price = { value: threshold + 1 };
 
 const mockQuote: Quote = {
   allowedActions: [
@@ -128,8 +128,8 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   it('should read quote details state', (done) => {
-    component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
-      expect(state).toEqual(mockQuoteDetailsState);
+    component.quoteDetails$.pipe(take(1)).subscribe((state) => {
+      expect(state).toEqual(mockQuoteDetailsState.data);
       done();
     });
   });
@@ -222,9 +222,9 @@ describe('QuoteActionsByRoleComponent', () => {
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
-    const quoteFailingThreshold = {
+    const quoteFailingThreshold: Quote = {
       ...mockQuote,
-      totalPrice: { value: threshold-1 },
+      totalPrice: { value: threshold - 1 },
       allowedActions: allowedActionsSubmit,
     };
     const queryStateSubmittableQuote: QueryState<Quote> = {
@@ -251,6 +251,15 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(actionButtons[0].nativeElement.disabled).toBe(false);
     });
 
+    it('should let submit button enabled if threshold is not specified', () => {
+      mockQuote.threshold = undefined;
+      mockQuoteDetailsState$.next(queryStateSubmittableQuote);
+      fixture.detectChanges();
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+    });
+
     it('should disable submit button if threshold is not met and raise message', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
 
@@ -267,6 +276,23 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(actionButtons).toBeDefined();
       expect(actionButtons[0].nativeElement.disabled).toBe(true);
       expect(globalMessageService.add).toHaveBeenCalled();
+    });
+
+    it('should disable submit button if total price value is not provided', () => {
+      quoteFailingThreshold.totalPrice.value = undefined;
+
+      const queryStateSubmittableQuoteFailingThreshold: QueryState<Quote> = {
+        ...queryStateSubmittableQuote,
+        data: {
+          ...quoteFailingThreshold,
+        },
+      };
+      mockQuoteDetailsState$.next(queryStateSubmittableQuoteFailingThreshold);
+      fixture.detectChanges();
+
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(true);
     });
 
     it('should not touch buttons other than submit', () => {
