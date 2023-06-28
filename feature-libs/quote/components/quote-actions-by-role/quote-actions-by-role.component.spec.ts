@@ -9,6 +9,7 @@ import {
 import {
   GlobalMessageService,
   I18nTestingModule,
+  Price,
   QueryState,
   TranslationService,
 } from '@spartacus/core';
@@ -22,6 +23,8 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 
 const mockCartId = '1234';
 const mockCode = '3333';
+const threshold = 20;
+const totalPrice: Price = {value:threshold+1};
 
 const mockQuote: Quote = {
   allowedActions: [
@@ -31,6 +34,8 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_DRAFT,
   cartId: mockCartId,
   code: mockCode,
+  threshold: threshold,
+  totalPrice
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
   loading: false,
@@ -184,7 +189,7 @@ describe('QuoteActionsByRoleComponent', () => {
   //   expect(component.primaryActions).toEqual([]);
   // });
 
-  it('should open confirmation dialog when action is SUBMIT', () => {
+  it('should open confirmation dialog when action is SUBMIT', () => { 
     spyOn(launchDialogService, 'openDialog');
     const newMockQuoteWithSubmitAction: QueryState<Quote> = {
       error: false,
@@ -197,7 +202,7 @@ describe('QuoteActionsByRoleComponent', () => {
         ],
       },
     };
-    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction); 
     fixture.detectChanges();
     component.onClick(
       QuoteActionType.SUBMIT,
@@ -217,7 +222,7 @@ describe('QuoteActionsByRoleComponent', () => {
     ];
     const quoteFailingThreshold = {
       ...mockQuote,
-      totalPrice: { value: -1 },
+      totalPrice: { value: threshold-1 },
       allowedActions: allowedActionsSubmit,
     };
     const queryStateSubmittableQuote: QueryState<Quote> = {

@@ -15,11 +15,11 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
-  Config,
+
 } from '@spartacus/core';
-import { QuoteFacade, QuoteActionType } from '@spartacus/quote/root';
+import { QuoteFacade, QuoteActionType, Quote } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import {   Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -42,7 +42,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected viewContainerRef: ViewContainerRef,
     protected globalMessageService: GlobalMessageService,
-    protected config: Config
+
   ) {}
 
   ngOnInit(): void {
@@ -53,16 +53,15 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe((quote) => {
-        const total = quote?.totalPrice;
         const mustDisableAction = quote?.allowedActions?.find((action) =>
-          this.mustDisableAction(action.type, total?.value)
+          this.mustDisableAction(action.type, quote)
         );
         if (mustDisableAction) {
           this.globalMessageService.add(
             {
               key: 'quote.requestDialog.form.minRequestInitiationNote',
               params: {
-                minValue: this.config.quote?.tresholds?.requestInitiation,
+                minValue: quote?.threshold
               },
             },
             GlobalMessageType.MSG_TYPE_WARNING
@@ -71,16 +70,16 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       });
   }
 
-  mustDisableAction(type: string, totalPrice?: number): boolean {
+  mustDisableAction(type: string, quote: Quote): boolean {
     return (
-      type === QuoteActionType.SUBMIT && !this.isThresholdReached(totalPrice)
+      type === QuoteActionType.SUBMIT && !this.isThresholdReached(quote)
     );
   }
 
-  protected isThresholdReached(totalPrice?: number): boolean {
+  protected isThresholdReached(quote: Quote): boolean {
     const requestThreshold =
-      this.config.quote?.tresholds?.requestInitiation || 0;
-    return (totalPrice || 0) >= requestThreshold;
+      quote.threshold || 0;
+    return (quote.totalPrice?.value || 0) >= requestThreshold;
   }
 
   onClick(quoteActionType: QuoteActionType, code: string) {
