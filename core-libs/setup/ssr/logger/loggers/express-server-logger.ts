@@ -9,10 +9,10 @@ import { Request } from 'express';
 
 /**
  * ExpressServerLoggerContext is used for log message in server side rendering.
- * It contains request object and additional properties that can be used in log message.
+ * It contains optional request object and additional properties that can be used in log message.
  */
 export interface ExpressServerLoggerContext {
-  request: Request;
+  request?: Request;
   [_key: string]: any;
 }
 
