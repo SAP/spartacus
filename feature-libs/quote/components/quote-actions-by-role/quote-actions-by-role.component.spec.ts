@@ -19,11 +19,13 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const mockCartId = '1234';
 const mockCode = '3333';
 
 const mockQuote: Quote = {
+  ...createEmptyQuote(),
   allowedActions: [
     { type: QuoteActionType.EDIT, isPrimary: false },
     { type: QuoteActionType.REQUOTE, isPrimary: true },
@@ -31,9 +33,6 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_DRAFT,
   cartId: mockCartId,
   code: mockCode,
-  comments: [],
-  name: 'Name',
-  totalPrice: { value: 20 },
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
   loading: false,
