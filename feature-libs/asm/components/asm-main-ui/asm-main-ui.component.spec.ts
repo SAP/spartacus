@@ -49,7 +49,11 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
-    return of({});
+    return EMPTY;
+  }
+
+  getById(): Observable<User> {
+    return EMPTY;
   }
 }
 
@@ -452,18 +456,54 @@ describe('AsmMainUiComponent', () => {
     );
   });
 
-  it('should call logout when agent has logined and user is login if customerId shows in URL', () => {
+  it('should not display confirm switch dialog customer when agent has logined and customerId in deeplink is same', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)
     );
+
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ customerId: 'testuser' })
+    );
+    spyOn(userAccountFacade, 'getById').and.returnValue(
+      of({ customerId: 'testuser' })
+    );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
+    spyOn(asmComponentService, 'setEmulatedByDeepLink').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+      'testuser'
+    );
 
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
-    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
+    expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
+      true
+    );
+  });
+
+  it('should display confirm switch dialog customer when agent has logined and user is login if customerId shows in URL', () => {
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
+      new BehaviorSubject(false)
+    );
+
+    const oldUser = { customerId: 'olduser', name: 'Test old User' } as User;
+    const newUser = { customerId: 'newuser', name: 'Test new User' } as User;
+
+    spyOn(userAccountFacade, 'get').and.returnValue(of(oldUser));
+    spyOn(userAccountFacade, 'getById').and.returnValue(of(newUser));
+
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('newuser');
+
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
   });
 
   it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
