@@ -264,8 +264,6 @@ context('Assisted Service Module', () => {
           );
         });
       });
-      cy.log('--> sign out and close ASM UI');
-      asm.agentSignOut();
     });
 
     it('should not to switch emulated customer with deeplink when click cancel after agent login (CXSPA-3380)', () => {
