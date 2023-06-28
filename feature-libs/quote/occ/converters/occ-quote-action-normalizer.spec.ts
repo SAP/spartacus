@@ -8,6 +8,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const mockActionOrderByState: Partial<QuoteActionsByState> = {
   BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
@@ -17,12 +18,9 @@ const mockState = QuoteState.BUYER_DRAFT;
 const mockAllowedActions = [QuoteActionType.SUBMIT, QuoteActionType.CANCEL];
 
 const mockQuote: OccQuote = {
+  ...createEmptyQuote(),
   allowedActions: mockAllowedActions,
   state: mockState,
-  code: '1234',
-  comments: [],
-  name: 'Name',
-  totalPrice: { value: 20 },
 };
 
 const mockConvertedQuote: Quote = {
