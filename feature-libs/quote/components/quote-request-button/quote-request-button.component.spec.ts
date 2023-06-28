@@ -5,7 +5,7 @@ import { QuoteRequestButtonComponent } from './quote-request-button.component';
 import { QuoteFacade, Quote } from '@spartacus/quote/root';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
-import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 @Pipe({
   name: 'cxUrl',

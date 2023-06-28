@@ -14,7 +14,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { QuoteListComponentService as QuoteListComponentService } from './quote-list-component.service';
-import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';

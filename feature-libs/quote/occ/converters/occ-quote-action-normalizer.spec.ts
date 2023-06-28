@@ -8,7 +8,7 @@ import {
   QuoteState,
 } from '@spartacus/quote/root';
 import { OccQuoteActionNormalizer } from './occ-quote-action-normalizer';
-import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const mockActionOrderByState: Partial<QuoteActionsByState> = {
   BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],

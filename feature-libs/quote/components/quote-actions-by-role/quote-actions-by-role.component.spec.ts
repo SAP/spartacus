@@ -19,7 +19,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const mockCartId = '1234';
 const mockCode = '3333';

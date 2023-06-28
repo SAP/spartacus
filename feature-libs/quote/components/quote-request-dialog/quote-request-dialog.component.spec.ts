@@ -15,7 +15,7 @@ import {
 import { EMPTY, of } from 'rxjs';
 import { QuoteRequestDialogComponent } from './quote-request-dialog.component';
 import createSpy = jasmine.createSpy;
-import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {

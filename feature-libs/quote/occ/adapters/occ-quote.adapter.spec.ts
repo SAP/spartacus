@@ -24,7 +24,7 @@ import {
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { OccQuoteAdapter } from './occ-quote.adapter';
-import { createEmptyQuote } from './../../core/testing/quote-test-utils.service';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const userId = '111111';
 const cartId = '222222';
