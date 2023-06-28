@@ -35,7 +35,9 @@ const mockQuote: Quote = {
   cartId: mockCartId,
   code: mockCode,
   threshold: threshold,
-  totalPrice
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
   loading: false,
@@ -189,7 +191,7 @@ describe('QuoteActionsByRoleComponent', () => {
   //   expect(component.primaryActions).toEqual([]);
   // });
 
-  it('should open confirmation dialog when action is SUBMIT', () => { 
+  it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
     const newMockQuoteWithSubmitAction: QueryState<Quote> = {
       error: false,
@@ -202,7 +204,7 @@ describe('QuoteActionsByRoleComponent', () => {
         ],
       },
     };
-    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction); 
+    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
     component.onClick(
       QuoteActionType.SUBMIT,

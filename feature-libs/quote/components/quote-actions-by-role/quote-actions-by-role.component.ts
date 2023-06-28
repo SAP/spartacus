@@ -53,7 +53,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe((quote) => {
-        const mustDisableAction = quote?.allowedActions?.find((action) =>
+        const mustDisableAction = quote?.allowedActions.find((action) =>
           this.mustDisableAction(action.type, quote)
         );
         if (mustDisableAction) {

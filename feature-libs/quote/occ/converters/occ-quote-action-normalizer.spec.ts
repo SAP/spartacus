@@ -20,6 +20,9 @@ const mockQuote: OccQuote = {
   allowedActions: mockAllowedActions,
   state: mockState,
   code: '1234',
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 
 const mockConvertedQuote: Quote = {

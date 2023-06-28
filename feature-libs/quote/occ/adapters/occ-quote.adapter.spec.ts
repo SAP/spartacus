@@ -28,10 +28,15 @@ import { OccQuoteAdapter } from './occ-quote.adapter';
 const userId = '111111';
 const cartId = '222222';
 const mockAction = { type: QuoteActionType.CREATE, isPrimary: false };
+//TODO CHHI add test class that allows to retrieve quote with all mandatory attributes
+//without the need to specify them every time
 const mockQuote: Quote = {
   allowedActions: [mockAction],
   cartId: cartId,
   code: '333333',
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 const pagination = {
   currentPage: 1,
