@@ -151,7 +151,7 @@ export class RulebasedConfiguratorConnector {
     if (matching && ConfiguratorType.CPQ === configuratorType) {
       const isCpqOverOccRequested =
         this.config?.productConfigurator?.cpqOverOcc ?? false;
-      const isCpqOverOccSupported = adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
+      const isCpqOverOccSupported = !!adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
       matching = isCpqOverOccRequested === isCpqOverOccSupported;
     }
     return matching;

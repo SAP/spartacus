@@ -61,7 +61,7 @@ const cartModification: CartModification = {};
 
 class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   public configuratorType: string;
-  public cpqOverOcc: boolean;
+  public cpqOverOcc: boolean | undefined;
 
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
@@ -108,7 +108,7 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   getConfiguratorType(): string {
     return this.configuratorType ?? CONFIGURATOR_TYPE;
   }
-  supportsCpqOverOcc(): boolean {
+  supportsCpqOverOcc(): boolean{
     return this.cpqOverOcc ?? false;
   }
 }
@@ -139,7 +139,7 @@ describe('RulebasedConfiguratorConnector', () => {
   ): RulebasedConfiguratorAdapter {
     let adapter = new MockRulebasedConfiguratorAdapter();
     adapter.configuratorType = configuratorType ?? CONFIGURATOR_TYPE;
-    adapter.cpqOverOcc = supportsCpqOverOcc ?? false;
+    adapter.cpqOverOcc = supportsCpqOverOcc;
     return adapter;
   }
 
@@ -436,9 +436,10 @@ describe('RulebasedConfiguratorConnector', () => {
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
     });
 
-    it("should match if CPQ configurator with non-existing cpqOverOcc flag is requested and adapter doesn't support it", () => {
+    it("should match if CPQ configurator with non-existing cpqOverOcc flag is requested and adapter doesn't implement method", () => {
       setCpqOverOcc(undefined);
-      const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
+      const adapter = createMockAdapter(ConfiguratorType.CPQ, undefined);
+      adapter.supportsCpqOverOcc = undefined;
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
     });
   });
