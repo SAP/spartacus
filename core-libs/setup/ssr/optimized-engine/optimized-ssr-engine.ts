@@ -95,7 +95,7 @@ export class OptimizedSsrEngine {
     if (this.ssrOptions.logger) {
       this.log(`[spartacus] SSR optimization engine initialized`, true, {
         options: loggableSsrOptions,
-      } as unknown as ExpressServerLoggerContext); //it expects ExpressServerLoggerContext, but the current logged message is printed at the start of the server and there is no request available yet.
+      });
     } else {
       const stringifiedOptions = JSON.stringify(loggableSsrOptions, null, 2);
       this.log(
@@ -335,7 +335,7 @@ export class OptimizedSsrEngine {
     context?: ExpressServerLoggerContext
   ): void {
     if (debug || this.ssrOptions?.debug) {
-      this.logger.log(message, context || ({} as ExpressServerLoggerContext));
+      this.logger.log(message, context || {});
     }
   }
 
