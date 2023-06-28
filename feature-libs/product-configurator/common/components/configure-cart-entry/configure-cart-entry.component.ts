@@ -36,7 +36,7 @@ export class ConfigureCartEntryComponent {
    * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
-     //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
+    //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
     if (this.cartEntry.source === 'quote') {
       return CommonConfigurator.OwnerType.QUOTE_ENTRY;
     } else {
