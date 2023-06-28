@@ -9,15 +9,15 @@ import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export interface OccQuote {
-  allowedActions?: QuoteActionType[];
+  allowedActions: QuoteActionType[];
   cartId?: string;
   code: string;
-  comments?: Comment[];
+  comments: Comment[];
   creationTime?: Date;
   description?: string;
   entries?: OrderEntry[];
   expirationTime?: Date;
-  name?: string;
+  name: string;
   orderDiscounts?: Price;
   previousEstimatedTotal?: Price;
   productDiscounts?: Price;
@@ -26,7 +26,7 @@ export interface OccQuote {
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;
-  totalPrice?: Price;
+  totalPrice: Price;
   totalPriceWithTax?: Price;
   updatedTime?: Date;
   version?: number;

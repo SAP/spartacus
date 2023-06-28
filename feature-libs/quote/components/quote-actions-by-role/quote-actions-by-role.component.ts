@@ -54,7 +54,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
       )
       .subscribe((quote) => {
         const total = quote?.totalPrice;
-        const mustDisableAction = quote?.allowedActions?.find((action) =>
+        const mustDisableAction = quote?.allowedActions.find((action) =>
           this.mustDisableAction(action.type, total?.value)
         );
         if (mustDisableAction) {

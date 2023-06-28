@@ -20,6 +20,9 @@ const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
   allowedActions: [],
   code: quoteCode,
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 const testForm = {
   name: 'test name',

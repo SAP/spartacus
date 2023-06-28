@@ -23,6 +23,7 @@ const mockCartId = '1234';
 const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
 const mockQuote: Quote = {
   allowedActions: [mockAction],
+  comments: [],
   cartId: mockCartId,
   code: '00001233',
   creationTime: new Date('2022-06-07T11:45:42+0000'),
@@ -35,6 +36,8 @@ const mockQuote: Quote = {
     value: 0,
   },
   state: QuoteState.BUYER_ORDERED,
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {

@@ -16,6 +16,9 @@ const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
   allowedActions: [],
   code: quoteCode,
+  comments: [],
+  name: 'Name',
+  totalPrice: { value: 20 },
 };
 class MockQuoteFacade implements Partial<QuoteFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
