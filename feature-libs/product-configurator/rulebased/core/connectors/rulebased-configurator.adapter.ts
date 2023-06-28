@@ -118,9 +118,9 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract getConfiguratorType(): string;
 
   /**
-   * Abstract method to check if the adapter works only with OCC?
+   * Abstract method to check if the adapter supports to call CPQ over OCC. Only relevant for adapters supporting @see ConfiguratorType.CPQ
    */
-  isOccOnly?(): boolean;
+  abstract supportsCpqOverOcc?(): boolean;
 
   /**
    * Searches for variants that are matching the configuration identified by its id.

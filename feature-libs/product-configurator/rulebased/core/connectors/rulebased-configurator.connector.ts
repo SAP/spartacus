@@ -147,14 +147,12 @@ export class RulebasedConfiguratorConnector {
     adapter: RulebasedConfiguratorAdapter,
     configuratorType: string
   ): boolean {
-    console.log(this);
     let matching = adapter.getConfiguratorType() === configuratorType;
     if (matching && ConfiguratorType.CPQ === configuratorType) {
-      console.log(this.config);
-      let isCpqOverOccRequested =
-        this.config?.productConfigurator?.cpqOrchestration?.cpqOverOcc ?? false;
-      let supportsCpqOverOcc = adapter.isOccOnly && adapter.isOccOnly();
-      matching = isCpqOverOccRequested === supportsCpqOverOcc;
+      const isCpqOverOccRequested =
+        this.config?.productConfigurator?.cpqOverOcc ?? false;
+      const isCpqOverOccSupported = adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
+      matching = isCpqOverOccRequested === isCpqOverOccSupported;
     }
     return matching;
   }

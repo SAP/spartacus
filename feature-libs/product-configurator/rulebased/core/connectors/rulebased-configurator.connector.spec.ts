@@ -61,7 +61,7 @@ const cartModification: CartModification = {};
 
 class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   public configuratorType: string;
-  public occOnly: boolean;
+  public cpqOverOcc: boolean;
 
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
@@ -108,8 +108,8 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   getConfiguratorType(): string {
     return this.configuratorType ?? CONFIGURATOR_TYPE;
   }
-  isOccOnly(): boolean {
-    return this.occOnly ?? false;
+  supportsCpqOverOcc(): boolean {
+    return this.cpqOverOcc ?? false;
   }
 }
 
@@ -125,25 +125,21 @@ describe('RulebasedConfiguratorConnector', () => {
 
   const MockConfig: ConfiguratorCpqConfig = {
     productConfigurator: {
-      cpqOrchestration: {
-        cpqOverOcc: true,
-      },
+      cpqOverOcc: true,
     },
   };
 
-  function setCpqOrchestration(cpqOverOcc: boolean) {
-    (
-      configuratorCpqConfig.productConfigurator?.cpqOrchestration ?? {}
-    ).cpqOverOcc = cpqOverOcc;
+  function setCpqOverOcc(cpqOverOcc: boolean|undefined) {
+    (configuratorCpqConfig.productConfigurator ?? {}).cpqOverOcc = cpqOverOcc;
   }
 
   function createMockAdapter(
     configuratorType?: string,
-    isOccOnly?: boolean
+    supportsCpqOverOcc?: boolean
   ): RulebasedConfiguratorAdapter {
     let adapter = new MockRulebasedConfiguratorAdapter();
     adapter.configuratorType = configuratorType ?? CONFIGURATOR_TYPE;
-    adapter.occOnly = isOccOnly ?? false;
+    adapter.cpqOverOcc = supportsCpqOverOcc ?? false;
     return adapter;
   }
 
@@ -178,7 +174,7 @@ describe('RulebasedConfiguratorConnector', () => {
       ConfiguratorCpqConfig as Type<ConfiguratorCpqConfig>
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
-    setCpqOrchestration(false);
+    setCpqOverOcc(false);
   });
 
   it('should be created', () => {
@@ -406,36 +402,42 @@ describe('RulebasedConfiguratorConnector', () => {
       );
     }
 
-    it('should match for if configurator types are the same', () => {
+    it('should match if configurator types are the same', () => {
       const adapter = createMockAdapter(ConfiguratorType.VARIANT);
       expect(isAdapterMatching(adapter, ConfiguratorType.VARIANT)).toBe(true);
     });
 
-    it("should't match for if configurator types are not the same", () => {
+    it("should't match if configurator types aren't the same", () => {
       const adapter = createMockAdapter(ConfiguratorType.VARIANT);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
     });
 
-    it("should't match if CPQ configurator type with cpqOverOcc flag is requested, but adapter is not OCC only ", () => {
-      setCpqOrchestration(true);
+    it("should't match if CPQ configurator type with cpqOverOcc flag is requested, but adapter doesn't support it", () => {
+      setCpqOverOcc(true);
       const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
     });
 
-    it("should't match if CPQ configurator type without cpqOverOcc flag is requested, but adapter is OCC only ", () => {
-      setCpqOrchestration(false);
+    it("should't match if CPQ configurator type without cpqOverOcc flag is requested, but adapter supports it", () => {
+      setCpqOverOcc(false);
       const adapter = createMockAdapter(ConfiguratorType.CPQ, true);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
     });
 
-    it('should match if CPQ configurator type with cpqOverOcc flag is requested and adapter is OCC only ', () => {
-      setCpqOrchestration(true);
+    it('should match if CPQ configurator type with cpqOverOcc flag is requested and adapter supports it', () => {
+      setCpqOverOcc(true);
       const adapter = createMockAdapter(ConfiguratorType.CPQ, true);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
     });
 
-    it('should match if CPQ configurator type without cpqOverOcc flag is requested and adapter is not OCC only ', () => {
-      setCpqOrchestration(false);
+    it("should match if CPQ configurator type without cpqOverOcc flag is requested and adapter doesn't support it", () => {
+      setCpqOverOcc(false);
+      const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
+    });
+
+    it("should match if CPQ configurator with non-existing cpqOverOcc flag is requested and adapter doesn't support it", () => {
+      setCpqOverOcc(undefined);
       const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
     });
