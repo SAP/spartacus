@@ -30,7 +30,7 @@ export class CpqConfiguratorOverviewNormalizer
   ): Configurator.Overview {
     const resultTarget: Configurator.Overview = {
       ...target,
-      configId: '',
+      configId: source.configurationId ? source.configurationId : '',
       productCode: source.productSystemId,
       priceSummary:
         this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),

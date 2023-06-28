@@ -38,6 +38,7 @@ export namespace Cpq {
     responder?: Cpq.Responder;
     tabs?: Tab[];
     attributes?: Attribute[]; // attributes of current selected tab
+    configurationId?: string;
   }
 
   /**
@@ -68,6 +69,7 @@ export namespace Cpq {
    */
   export interface Attribute {
     pA_ID: number;
+    PA_ID: number;
     stdAttrCode: number;
     name?: string;
     description?: string;
