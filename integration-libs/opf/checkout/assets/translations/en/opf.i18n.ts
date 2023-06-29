@@ -20,20 +20,12 @@ export const opf = {
       proceedPayment: 'Place Order',
       retryPayment: 'Retry to Continue',
       errors: {
-        proceedPayment:
-          'We are unable to proceed with this payment method at this time. Please try again later or choose a different payment option.',
-        cancelPayment:
-          'You have cancelled your payment. To proceed with the order, try again, or choose a different payment option.',
-        cardExpired: 'Card is expired.',
-        insufficientFunds: 'Insufficient funds.',
-        invalidCreditCard: 'Invalid credit card.  Please review card details.',
-        cardReportedLost: 'Card is reported lost.',
-        unknown:
-          'Unknown error occurred while fetching payment. Please contact support',
         loadActiveConfigurations:
           'We are unable to load payment options at this time. Please try again later.',
         noActiveConfigurations:
           'There are no payment options available at this time. Please try again later or contact support.',
+        updateBillingAddress:
+          'The address could not be updated. Please check that the address information is correct and that your device is connected to the internet. If the problem persists, you may need to clear your cart and start the checkout again.',
       },
     },
   },

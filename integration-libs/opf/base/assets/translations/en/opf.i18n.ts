@@ -15,6 +15,7 @@ export const opf = {
         cardExpired: 'Card is expired.',
         insufficientFunds: 'Insufficient funds.',
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
+        cardReportedLost: 'Card is reported lost.',
       },
     },
     address: {
