@@ -13,7 +13,7 @@
             type="checkbox"
             class="form-check-input"
             [checked]="addressData.isSameAsDelivery"
-            (change)="toggleSameAsDeliveryAddress()"
+            (change)="toggleSameAsDeliveryAddress($event.target.checked)"
             [attr.aria-label]="
               'paymentForm.billingAddressSameAsShipping' | cxTranslate
             "
@@ -42,7 +42,7 @@
 
     <ng-container *ngIf="isEditBillingAddress">
       <cx-address-form
-        [addressData]="addressData.billingAddress || {}"
+        [addressData]="getAddressData(addressData.billingAddress)"
         class="cx-form"
         [showTitleCode]="true"
         [showCancelBtn]="true"
