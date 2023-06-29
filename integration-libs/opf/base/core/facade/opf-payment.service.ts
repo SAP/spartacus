@@ -10,7 +10,6 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   QueryService,
   RoutingService,
   UserIdService,
@@ -32,8 +31,16 @@ import {
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Order } from '@spartacus/order/root';
-import { EMPTY, Observable, combineLatest, from, of, throwError } from 'rxjs';
-import { catchError, concatMap, filter, switchMap, take } from 'rxjs/operators';
+import { EMPTY, Observable, combineLatest, from, throwError } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 
 @Injectable()
@@ -121,23 +128,27 @@ export class OpfPaymentService implements OpfPaymentFacade {
           );
         } else if (response.status === SubmitStatus.REJECTED) {
           return from(Promise.resolve(submitFailure(response))).pipe(
-            concatMap(() => throwError(this.defaultError))
+            concatMap(() =>
+              throwError({ ...this.defaultError, type: 'PAYMENT_REJECTED' })
+            )
           );
         } else {
           return from(Promise.resolve(submitFailure(response))).pipe(
-            concatMap(() => throwError(this.defaultError))
+            concatMap(() =>
+              throwError({
+                ...this.defaultError,
+                type: 'STATUS_NOT_RECOGNIZED',
+              })
+            )
           );
         }
       }),
-      concatMap((order: Order) => {
+      tap((order: Order) => {
         if (order) {
           this.routingService.go({ cxRoute: 'orderConfirmation' });
-          return of(true);
-        } else {
-          return of(false);
         }
       }),
-
+      map((order: Order) => (order ? true : false)),
       catchError((error: PaymentError | undefined) => {
         this.handlePaymentError(error, returnPath);
         return throwError(error);
@@ -158,10 +169,11 @@ export class OpfPaymentService implements OpfPaymentFacade {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  defaultError: HttpErrorModel = {
-    statusText: 'Payment Verification Error',
+  defaultError: PaymentError = {
+    statusText: 'Payment Error',
     message: 'opf.payment.errors.proceedPayment',
     status: -1,
+    type: '',
   };
 
   verifyPayment(
@@ -178,19 +190,18 @@ export class OpfPaymentService implements OpfPaymentFacade {
     return this.submitPaymentCommand.execute({ submitInput });
   }
 
-  displayError(error: HttpErrorModel | undefined): void {
+  protected displayError(error: PaymentError | undefined): void {
     this.globalMessageService.add(
       {
-        key:
-          error?.message && error?.status === -1
-            ? error.message
-            : 'opf.payment.errors.proceedPayment',
+        key: error?.message
+          ? error.message
+          : 'opf.payment.errors.proceedPayment',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }
 
-  private handlePaymentError(
+  protected handlePaymentError(
     error: PaymentError | undefined,
     returnPath: Array<string> = []
   ): void {
@@ -202,17 +213,17 @@ export class OpfPaymentService implements OpfPaymentFacade {
           break;
         case 'INSUFFICENT_FUNDS':
         case 'CREDIT_LIMIT':
-          message = 'opf.payment.errors.cardExpired';
+          message = 'opf.payment.errors.insufficientFunds';
           break;
         case 'INVALID_CARD':
         case 'INVALID_CVV':
           message = 'opf.payment.errors.invalidCreditCard';
           break;
         case 'LOST_CARD':
-          message = 'opf.payment.errors.invalidCreditCard';
+          message = 'opf.payment.errors.cardReportedLost';
           break;
         case 'business_error':
-          message = 'opf.payment.errors.invalidCreditCard';
+          message = 'opf.payment.errors.proceedPayment';
           break;
         default:
           message = 'opf.payment.errors.proceedPayment';
@@ -224,7 +235,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
         message = 'opf.payment.errors.cancelPayment';
       }
     }
-    this.displayError({ ...error, message });
+    this.displayError(error ? { ...error, message } : undefined);
     if (returnPath.length) {
       this.routingService.go([...returnPath]);
     }

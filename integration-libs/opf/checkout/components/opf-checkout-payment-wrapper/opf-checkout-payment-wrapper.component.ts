@@ -10,6 +10,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { OpfPaymentMethodType } from '@spartacus/opf/checkout/root';
@@ -31,12 +32,11 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   sub: Subscription = new Subscription();
 
-  isPaymentInProgress$ = this.globalFunctionsService.isPaymentInProgress$();
-
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
     protected sanitizer: DomSanitizer,
-    protected globalFunctionsService: GlobalFunctionsService
+    protected globalFunctionsService: GlobalFunctionsService,
+    protected vcr: ViewContainerRef
   ) {}
 
   renderHtml(html: string): SafeHtml {
@@ -48,7 +48,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy');
     this.sub.unsubscribe();
     this.globalFunctionsService.removeService();
   }
@@ -61,7 +60,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.service.initiatePayment(this.selectedPaymentId).subscribe({
         next: (response) =>
-          this.globalFunctionsService.initializeService(response),
+          this.globalFunctionsService.initializeService(response, this.vcr),
       })
     );
   }

@@ -76,8 +76,6 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     otpKey: string,
     paymentSessionId: string
   ): Observable<SubmitResponse> {
-    console.log('flo adapter submitRequest', submitRequest);
-
     const headers = new HttpHeaders({
       accept: 'application/json',
       'Content-Type': 'application/json',
