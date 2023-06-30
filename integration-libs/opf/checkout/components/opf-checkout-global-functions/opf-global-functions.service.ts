@@ -18,10 +18,6 @@ import {
   OpfPaymentFacade,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
-import {
-  PaymentPattern,
-  PaymentSessionData,
-} from '@spartacus/opf/checkout/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -121,20 +117,9 @@ export class GlobalFunctionsService {
     };
   }
 
-  initializeService(
-    paymentSessionData: PaymentSessionData | Error,
-    vcr?: ViewContainerRef
-  ): void {
-    if (
-      !(paymentSessionData instanceof Error) &&
-      paymentSessionData?.paymentSessionId &&
-      paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
-    ) {
-      this.registerSubmit(paymentSessionData.paymentSessionId, vcr);
-      this._isGlobalServiceInit = true;
-    } else if (this._isGlobalServiceInit) {
-      this.removeService();
-    }
+  initializeService(paymentSessionId: string, vcr?: ViewContainerRef): void {
+    this.registerSubmit(paymentSessionId, vcr);
+    this._isGlobalServiceInit = true;
   }
 
   removeService(): void {
