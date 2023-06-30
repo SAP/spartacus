@@ -5,6 +5,7 @@ import {
   Comment,
   Quote,
   QuoteActionType,
+  QuoteDetailsReloadQueryEvent,
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
@@ -184,6 +185,18 @@ describe('QuoteService', () => {
           error: false,
           data: mockQuoteList,
         });
+      });
+  });
+
+  it('should signal that quote details need to be re-read when performing search', () => {
+    service
+      .getQuotesState(mockQuotesStateParams)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          QuoteDetailsReloadQueryEvent
+        );
       });
   });
 
