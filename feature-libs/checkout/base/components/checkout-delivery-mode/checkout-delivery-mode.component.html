@@ -48,6 +48,13 @@
         </label>
       </div>
     </div>
+    <ng-template
+      [cxOutlet]="CartOutlets.DELIVERY_MODE"
+      [cxOutletContext]="{
+        item: activeCartFacade.getActive() | async
+      }"
+    >
+    </ng-template>
   </div>
 </ng-container>
 

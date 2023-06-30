@@ -144,6 +144,10 @@ export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
 export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
 export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
 
+export const SPARTACUS_REQUESTED_DELIVERY_DATE = `@spartacus/requested-delivery-date`;
+export const SPARTACUS_REQUESTED_DELIVERY_DATE_ROOT = `@spartacus/requested-delivery-date/root`;
+export const SPARTACUS_REQUESTED_DELIVERY_DATE_ASSETS = `@spartacus/requested-delivery-date/assets`;
+
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
 
@@ -246,6 +250,8 @@ export const PRODUCT_CONFIGURATOR_VC_FEATURE_NAME = 'VC-Configurator';
 export const PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME = 'CPQ-Configurator';
 
 export const QUALTRICS_FEATURE_NAME = 'Qualtrics';
+
+export const REQUESTED_DELIVERY_DATE_FEATURE_NAME = 'Requested-Delivery-Date';
 
 export const SMARTEDIT_FEATURE_NAME = 'SmartEdit';
 

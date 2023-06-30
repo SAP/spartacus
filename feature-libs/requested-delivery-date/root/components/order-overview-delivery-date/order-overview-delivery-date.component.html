@@ -1,0 +1,8 @@
+<ng-container *ngIf="order && order?.requestedRetrievalAt">
+  <cx-card
+    [content]="
+      getRequestedDeliveryDateCardContent(order?.requestedRetrievalAt | cxDate)
+        | async
+    "
+  ></cx-card>
+</ng-container>

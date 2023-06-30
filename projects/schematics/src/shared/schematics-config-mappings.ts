@@ -30,8 +30,8 @@ import {
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
   ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
-  ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
+  ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
 import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickup-in-store-schematics-config';
 import {
@@ -41,11 +41,12 @@ import {
 } from './lib-configs/product-configurator-schematics-config';
 import {
   PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
+  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
   PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
   PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
-  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 } from './lib-configs/product-schematics-config';
 import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
+import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
 import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
 import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
 import {
@@ -57,7 +58,6 @@ import {
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
-
 import { Module, SchematicConfig } from './utils/lib-utils';
 
 /**
@@ -98,6 +98,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
 
   QUALTRICS_SCHEMATICS_CONFIG,
+
+  REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG,
 
   SMARTEDIT_SCHEMATICS_CONFIG,
 

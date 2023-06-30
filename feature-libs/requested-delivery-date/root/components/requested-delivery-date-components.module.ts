@@ -1,0 +1,38 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { I18nModule } from '@spartacus/core';
+import { CardModule, DatePickerModule } from '@spartacus/storefront';
+import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker/delivery-mode-date-picker.component';
+import { OrderOverviewDeliveryDateComponent } from './order-overview-delivery-date/order-overview-delivery-date.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    DatePickerModule,
+    I18nModule,
+    ReactiveFormsModule,
+    CardModule,
+  ],
+  // providers: [
+  //   provideOutlet({
+  //     id: CartOutlets.DELIVERY_MODE, //CartOutlets.ORDER_SUMMARY
+  //     position: OutletPosition.AFTER,
+  //     component: DeliveryModeDatePickerComponent,
+  //   }),
+  //   provideOutlet({
+  //     id: CartOutlets.ORDER_OVERVIEW,
+  //     position: OutletPosition.AFTER,
+  //     component: OrderOverviewDeliveryDateComponent,
+  //   }),
+  // ],
+  declarations: [
+    DeliveryModeDatePickerComponent,
+    OrderOverviewDeliveryDateComponent,
+  ],
+  exports: [
+    DeliveryModeDatePickerComponent,
+    OrderOverviewDeliveryDateComponent,
+  ],
+})
+export class RequestedDeliveryDateComponentsModule {}
