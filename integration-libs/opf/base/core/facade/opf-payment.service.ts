@@ -101,9 +101,9 @@ export class OpfPaymentService implements OpfPaymentFacade {
       this.userIdService.getUserId(),
       this.activeCartFacade.getActiveCartId(),
     ]).pipe(
-      switchMap(([userId, cartId]: [string, string]) => {
-        submitRequest.cartId = cartId;
-        return this.opfOtpFacade.generateOtpKey(userId, cartId);
+      switchMap(([userId, activeCartId]: [string, string]) => {
+        submitRequest.cartId = activeCartId;
+        return this.opfOtpFacade.generateOtpKey(userId, activeCartId);
       }),
       filter((response) => Boolean(response?.value)),
       take(1),
@@ -193,45 +193,42 @@ export class OpfPaymentService implements OpfPaymentFacade {
   protected displayError(error: PaymentError | undefined): void {
     this.globalMessageService.add(
       {
-        key: error?.message
-          ? error.message
-          : 'opf.payment.errors.proceedPayment',
+        key: error?.message ? error.message : this.defaultError.message,
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  }
+
+  protected handle400error(errorType: string): string {
+    let message = this.defaultError.message;
+    switch (errorType) {
+      case 'EXPIRED':
+        message = 'opf.payment.errors.cardExpired';
+        break;
+      case 'INSUFFICENT_FUNDS':
+      case 'CREDIT_LIMIT':
+        message = 'opf.payment.errors.insufficientFunds';
+        break;
+      case 'INVALID_CARD':
+      case 'INVALID_CVV':
+        message = 'opf.payment.errors.invalidCreditCard';
+        break;
+      case 'LOST_CARD':
+        message = 'opf.payment.errors.cardReportedLost';
+        break;
+    }
+    return message;
   }
 
   protected handlePaymentError(
     error: PaymentError | undefined,
     returnPath: Array<string> = []
   ): void {
-    let message = 'opf.payment.errors.proceedPayment';
+    let message = this.defaultError.message;
     if (error?.status === 400) {
-      switch (error.type) {
-        case 'EXPIRED':
-          message = 'opf.payment.errors.cardExpired';
-          break;
-        case 'INSUFFICENT_FUNDS':
-        case 'CREDIT_LIMIT':
-          message = 'opf.payment.errors.insufficientFunds';
-          break;
-        case 'INVALID_CARD':
-        case 'INVALID_CVV':
-          message = 'opf.payment.errors.invalidCreditCard';
-          break;
-        case 'LOST_CARD':
-          message = 'opf.payment.errors.cardReportedLost';
-          break;
-        case 'business_error':
-          message = 'opf.payment.errors.proceedPayment';
-          break;
-        default:
-          message = 'opf.payment.errors.proceedPayment';
-      }
+      message = this.handle400error(error?.type);
     } else {
-      if (error?.type === 'PAYMENT_REJECTED') {
-        message = 'opf.payment.errors.proceedPayment';
-      } else if (error?.type !== 'PAYMENT_CANCELLED') {
+      if (error?.type !== 'PAYMENT_CANCELLED') {
         message = 'opf.payment.errors.cancelPayment';
       }
     }

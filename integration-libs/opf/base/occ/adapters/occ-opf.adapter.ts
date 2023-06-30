@@ -40,15 +40,20 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     protected config: OpfConfig
   ) {}
 
+  header: { [name: string]: string } = {
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Content-Language': 'en-us',
+  };
+
   verifyPayment(
     paymentSessionId: string,
     payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse> {
-    const headers = new HttpHeaders({
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Content-Language': 'en-us',
-    }).set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '');
+    const headers = new HttpHeaders(this.header).set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
 
     return this.http
       .post<OpfPaymentVerificationResponse>(
@@ -76,11 +81,7 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     otpKey: string,
     paymentSessionId: string
   ): Observable<SubmitResponse> {
-    const headers = new HttpHeaders({
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Content-Language': 'en-us',
-    })
+    const headers = new HttpHeaders(this.header)
       .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
       .set(OPF_CC_OTP_KEY, otpKey || '');
 
