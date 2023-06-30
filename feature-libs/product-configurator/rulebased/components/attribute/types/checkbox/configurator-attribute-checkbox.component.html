@@ -8,32 +8,32 @@
             id="{{
               createAttributeValueIdForConfigurator(
                 attribute,
-                attribute?.values[0].valueCode
+                attributeValue.valueCode
               )
             }}"
             type="checkbox"
             class="form-check-input"
-            [value]="attribute?.values[0].valueCode"
+            [value]="attributeValue.valueCode"
             [cxFocus]="{
-              key: attribute.name + '-' + attribute?.values[0].name
+              key: attribute.name + '-' + attributeValue.name
             }"
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
-              attribute?.values[0].valuePrice &&
-              attribute?.values[0].valuePrice?.value !== 0
+              attributeValue.valuePrice &&
+              attributeValue.valuePrice?.value !== 0
                 ? ('configurator.a11y.valueOfAttributeFullWithPrice'
                   | cxTranslate
                     : {
-                        value: attribute?.values[0].valueDisplay,
+                        value: attributeValue.valueDisplay,
                         attribute: attribute.label,
-                        price: attribute?.values[0].valuePrice.formattedValue
+                        price: attributeValue.valuePrice.formattedValue
                       })
                 : ('configurator.a11y.valueOfAttributeFull'
                   | cxTranslate
                     : {
-                        value: attribute?.values[0].valueDisplay,
+                        value: attributeValue.valueDisplay,
                         attribute: attribute.label
                       })
             "
@@ -48,13 +48,13 @@
               createValueUiKey(
                 'label',
                 attribute.name,
-                attribute?.values[0].valueCode
+                attributeValue.valueCode
               )
             }}"
             for="{{
               createAttributeValueIdForConfigurator(
                 attribute,
-                attribute?.values[0].valueCode
+                attributeValue.valueCode
               )
             }}"
             aria-hidden="true"
@@ -62,15 +62,15 @@
             >{{
               getLabel(
                 expMode,
-                attribute?.values[0].valueDisplay,
-                attribute?.values[0].valueCode
+                attributeValue.valueDisplay,
+                attributeValue.valueCode
               )
             }}</label
           >
         </div>
         <div class="cx-value-price">
           <cx-configurator-price
-            [formula]="extractValuePriceFormulaParameters(attribute?.values[0])"
+            [formula]="extractValuePriceFormulaParameters(attributeValue)"
           ></cx-configurator-price>
         </div>
       </div>

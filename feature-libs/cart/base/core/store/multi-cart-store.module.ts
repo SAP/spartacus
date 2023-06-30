@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StateModule } from '@spartacus/core';
 import { effects } from './effects/index';
+import { MultiCartEffectsService } from './effects/multi-cart-effect.service';
 import { MULTI_CART_FEATURE } from './multi-cart-state';
 import {
   multiCartMetaReducers,
@@ -26,6 +27,6 @@ import {
     }),
     EffectsModule.forFeature(effects),
   ],
-  providers: [multiCartReducerProvider],
+  providers: [multiCartReducerProvider, MultiCartEffectsService],
 })
 export class MultiCartStoreModule {}

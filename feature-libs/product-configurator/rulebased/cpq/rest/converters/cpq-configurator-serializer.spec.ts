@@ -18,6 +18,7 @@ const userInput = '123';
 const expectedValueIdsMulti = 'ValueCode1,ValueCode3,';
 const expectedValueIdsMultiNoSelection = ',';
 const expectedProcessedSingleValueNoValue = ',';
+const expectedProcessedSingleValueRetractValue = '0';
 const firstGroupId = '1';
 
 const firstAttribute: Configurator.Attribute = {
@@ -238,6 +239,27 @@ describe('CpqConfiguratorSerializer', () => {
     });
   });
 
+  describe('processValueCode', () => {
+    it('should return `undefined` valueCode', () => {
+      expect(cpqConfiguratorSerializer['processValueCode']()).toBeUndefined();
+    });
+
+    it('should return `0` in case valueCode is `###RETRACT_VALUE_CODE###`', () => {
+      expect(
+        cpqConfiguratorSerializer['processValueCode'](
+          Configurator.RetractValueCode
+        )
+      ).toEqual(expectedProcessedSingleValueRetractValue);
+    });
+
+    it('should return valueCode', () => {
+      const valueCode = '8624';
+      expect(cpqConfiguratorSerializer['processValueCode'](valueCode)).toEqual(
+        valueCode
+      );
+    });
+  });
+
   describe('multi selection types', () => {
     it('should convert checkbox', () => {
       verifyUpdateAttributeMultiValue(
@@ -305,6 +327,13 @@ describe('CpqConfiguratorSerializer', () => {
     const processedValue: string =
       cpqConfiguratorSerializer['processSelectedSingleValue'](singleValue);
     expect(processedValue).toBe(expectedProcessedSingleValueNoValue);
+  });
+
+  it('should process single selected value correctly when `###RETRACT_VALUE_CODE###` is selected', () => {
+    const singleValue = Configurator.RetractValueCode;
+    const processedValue: string =
+      cpqConfiguratorSerializer['processSelectedSingleValue'](singleValue);
+    expect(processedValue).toBe('0');
   });
 
   it('should prepare value ids correctly', () => {

@@ -14,6 +14,9 @@ export const asm = {
     customer360Button: '360 Customer View',
     createCustomerSuccessfullyAlert:
       'The customer account has been created and the customer session has started.',
+    saveInactiveCartAlertInfo:
+      'The identified cart is an inactive cart. To take further actions on this cart, save it first.',
+    activeCartAlertInfo: 'The identified cart is an active cart.',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',
@@ -34,8 +37,9 @@ export const asm = {
         label: 'Customer Name/Email Address',
       },
       submit: 'Start Session',
+      startEmulation: 'Start Emulation',
       noMatch: 'No customer found.',
-      noMatchResult: 'This account cannot be found. ',
+      noMatchResult: 'This account cannot be found.',
       createCustomer: 'Create New Customer',
     },
     createCustomerForm: {
@@ -56,6 +60,13 @@ export const asm = {
       },
       createAccountAlert:
         'The customer session starts once you create the customer account.',
+      validationErrors: {
+        firstName: 'Enter a valid first name.',
+        lastName: 'Enter a valid last name.',
+        emailAddress: 'Enter a valid email address.',
+      },
+      badRequestDuplicatedEmail:
+        'Enter a different email address as {{ emailAddress }} already exists.',
     },
     customerList: {
       title: 'Customer List',
@@ -64,21 +75,27 @@ export const asm = {
       cancel: 'Cancel',
       tableHeader: {
         customer: 'Customer',
+        customerName: 'Customer Name',
         name: 'Name',
         email: 'Email',
+        emailId: 'Email/ID',
         phone: 'Phone',
         account: 'Account',
         cart: 'Cart',
         order: 'Order',
+        view: '360 View',
       },
       tableSort: {
         sortBy: 'Sort by',
+        byName: 'Name (Asc)',
         byNameAsc: 'Name (Asc)',
         byNameDesc: 'Name (Desc)',
         byDateAsc: 'Date (Asc)',
         byDateDesc: 'Date (Desc)',
         byOrderDateAsc: 'Order date (Asc)',
         byOrderDateDesc: 'Order date (Desc)',
+        byUnit: 'Account (Asc)',
+        byUnitDesc: 'Account (Desc)',
       },
       page: {
         page: 'Page {{count}}',
@@ -86,11 +103,39 @@ export const asm = {
         next: 'Next',
       },
       noOfCustomers: '{{count}} Customers',
+      oneCustomer: '1 Customer',
       noCustomers: 'There are currently no customers in this customer list.',
       noLists:
         'There are currently no customer lists available. Contact your system administrator.',
       listsError:
         'The customer lists could not be retrieved. Please try again later.',
+      searchBox: 'Search',
+      enterSearchBox: 'Enter customer name or email',
+    },
+    switchCustomer: {
+      dialog: {
+        title: 'Warning',
+        body: 'Clicking "Switch Customer" will end the emulation for "{{ customerA }}" and start for "{{ customerB }}". Any unsaved changes for "{{ customerA }}" will be lost.',
+        actions: {
+          switch: 'Switch Customer',
+        },
+      },
+    },
+    saveCart: {
+      saveCartBtn: 'Save for Later',
+      dialog: {
+        saveInfo: 'Save the cart before you can take further actions.',
+        disableInfo: 'Cannot save the cart as it is empty.',
+        title: 'Save Cart',
+        row: {
+          id: 'ID',
+          qty: 'Qty',
+          total: 'Total',
+        },
+        actions: {
+          save: 'Save for Later',
+        },
+      },
     },
     bindCart: {
       cartNumber: 'Cart Number',
@@ -109,6 +154,7 @@ export const asm = {
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
+    endEmulation: 'End Emulation',
     agentSessionTimer: {
       label: 'Session Timeout',
       minutes: 'min',

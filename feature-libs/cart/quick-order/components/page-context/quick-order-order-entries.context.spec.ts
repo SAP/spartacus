@@ -5,7 +5,7 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { ProductConnector } from '@spartacus/core';
+import { LoggerService, ProductConnector } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries.context';
 import createSpy = jasmine.createSpy;
@@ -71,6 +71,7 @@ describe('QuickOrderOrderEntriesContext', () => {
   let service: QuickOrderOrderEntriesContext;
   let quickOrderFacade: QuickOrderFacade;
   let productConnector: ProductConnector;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,6 +83,7 @@ describe('QuickOrderOrderEntriesContext', () => {
     service = TestBed.inject(QuickOrderOrderEntriesContext);
     quickOrderFacade = TestBed.inject(QuickOrderFacade);
     productConnector = TestBed.inject(ProductConnector);
+    logger = TestBed.inject(LoggerService);
   });
 
   it('should be created', () => {
@@ -244,7 +246,7 @@ describe('QuickOrderOrderEntriesContext', () => {
         { productCode: unhandledItemErrorId, quantity: 1 },
       ];
       const results = [];
-      spyOn(console, 'warn').and.stub();
+      spyOn(logger, 'warn').and.stub();
 
       service
         .addEntries(unableToAddProductsData)
@@ -266,7 +268,7 @@ describe('QuickOrderOrderEntriesContext', () => {
           statusCode: ProductImportStatus.UNKNOWN_ERROR,
         },
       ]);
-      expect(console.warn).toHaveBeenCalledWith(
+      expect(logger.warn).toHaveBeenCalledWith(
         'Unrecognized cart add entry action type while mapping messages',
         {}
       );
