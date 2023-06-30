@@ -32,7 +32,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected translation: TranslationService,
     protected globalMessageService: GlobalMessageService,
-    @Optional() protected deliveryOutlet?: OutletContextData<any>
+    @Optional() protected deliveryOutlet?: OutletContextData
   ) {}
 
   protected cartEntry: Cart = {};
@@ -102,9 +102,9 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   }
 
   setRequestedDeliveryDate() {
-    let userId = this.cartEntry?.user?.uid || '';
-    let cartId = this.cartEntry?.code || '';
-    let requestedDate =
+    const userId = this.cartEntry?.user?.uid || '';
+    const cartId = this.cartEntry?.code || '';
+    const requestedDate =
       this.form?.get('requestDeliveryDate')?.value ||
       this.requestedRetrievalAt ||
       '';
@@ -112,7 +112,7 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
     if (
       userId.length === 0 ||
       cartId.length === 0 ||
-      requestedDate.length == 0
+      requestedDate.length === 0
     ) {
       return;
     }

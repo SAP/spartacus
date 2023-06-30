@@ -8,8 +8,7 @@ import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -19,7 +18,7 @@ import { filter, map } from 'rxjs/operators';
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(
     protected translation: TranslationService,
-    @Optional() protected orderOutlet?: OutletContextData<any>
+    @Optional() protected orderOutlet?: OutletContextData
   ) {}
 
   protected subscription = new Subscription();
