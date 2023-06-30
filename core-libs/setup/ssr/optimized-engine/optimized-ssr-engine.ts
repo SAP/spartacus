@@ -495,8 +495,6 @@ export class OptimizedSsrEngine {
    * @private
    */
   private getRequestContext(request: Request): ExpressServerLoggerContext {
-    request.headers.traceparent =
-      '00-d745f6735b44e81c0ae5410cb1fc8a0c-1b527c3828976b39-01';
     const requestContext: ExpressServerLoggerContext = {
       uuid: randomUUID(),
       timeReceived: new Date().toISOString(),
