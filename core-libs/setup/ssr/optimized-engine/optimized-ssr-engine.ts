@@ -17,6 +17,7 @@ import {
   ExpressServerLoggerContext,
   LegacyExpressServerLogger,
 } from '../logger';
+import { parseTraceparent } from '../logger/loggers/w3c-trace-context/parse-traceparent';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
 import {
@@ -254,11 +255,9 @@ export class OptimizedSsrEngine {
     options: any,
     callback: SsrCallbackFn
   ): void {
-    const requestContext = {
-      uuid: randomUUID(),
-      timeReceived: new Date().toISOString(),
+    options.req.res.locals = {
+      cx: { request: this.getRequestContext(options.req) },
     };
-    options.req.res.locals = { cx: { request: requestContext } };
 
     const request: Request = options.req;
     const response: Response = options.req.res;
@@ -483,6 +482,34 @@ export class OptimizedSsrEngine {
 
       renderCallback(err, html);
     });
+  }
+
+  /**
+   * Returns the request context object, which is used to enrich the logs.
+   * It contains the request's UUID, timestamp and trace context (if available).
+   * The trace context is parsed from the `traceparent` header, which is specified in
+   * the "W3C TraceContext" document. See https://www.w3.org/TR/trace-context/#traceparent-header
+   * for more details.
+   * @param request - the request object
+   * @returns the context of the request
+   * @private
+   */
+  private getRequestContext(request: Request): ExpressServerLoggerContext {
+    request.headers.traceparent =
+      '00-d745f6735b44e81c0ae5410cb1fc8a0c-1b527c3828976b39-01';
+    const requestContext: ExpressServerLoggerContext = {
+      uuid: randomUUID(),
+      timeReceived: new Date().toISOString(),
+    };
+
+    const traceparent = request.get('traceparent');
+    if (traceparent) {
+      const traceContext = parseTraceparent(traceparent);
+      if (traceContext) {
+        requestContext.traceContext = traceContext;
+      }
+    }
+    return requestContext;
   }
 
   //CXSPA-3680 - remove this method in 7.0

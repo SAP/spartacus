@@ -1,6 +1,7 @@
 /// <reference types="jest" />
 
 import { fakeAsync, flush, tick } from '@angular/core/testing';
+import crypto from 'crypto';
 import { Application, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { Socket } from 'net';
@@ -1175,9 +1176,120 @@ describe('OptimizedSsrEngine', () => {
     });
   });
 
+  describe('getRequestContext', () => {
+    let dateSpy: jest.SpyInstance;
+    let randomUUIDSpy: jest.SpyInstance;
+    const mockDate = new Date('2023-05-26');
+
+    beforeEach(() => {
+      dateSpy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      randomUUIDSpy = jest
+        .spyOn(crypto, 'randomUUID')
+        .mockReturnValue('ad90db04-a501-4dc5-9b4e-2cc2ab10d49c');
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+      randomUUIDSpy.mockReset();
+    });
+
+    const headers: Record<string, string> = {
+      traceparent: '00-d745f6735b44e81c0ae5410cb1fc8a0c-1b527c3828976b39-01',
+    };
+    const request = {
+      originalUrl: 'test',
+      headers,
+      get: (header: string): string | string[] | null | undefined => {
+        return headers[header];
+      },
+    } as unknown as Request;
+
+    it('should receive request context', () => {
+      const engineRunner = new TestEngineRunner({});
+      const result =
+        engineRunner.optimizedSsrEngine['getRequestContext'](request);
+
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "timeReceived": "2023-05-26T00:00:00.000Z",
+          "traceContext": {
+            "parentId": "1b527c3828976b39",
+            "traceFlags": "01",
+            "traceId": "d745f6735b44e81c0ae5410cb1fc8a0c",
+            "version": "00",
+          },
+          "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
+        }
+      `);
+    });
+
+    it('should receive request context without traceContext if traceparent is missing', () => {
+      const requestWithoutTraceparentHeader = {
+        ...request,
+        get: (_header: string): string | string[] | null | undefined => {
+          return undefined;
+        },
+      } as unknown as Request;
+
+      const engineRunner = new TestEngineRunner({});
+      const result = engineRunner.optimizedSsrEngine['getRequestContext'](
+        requestWithoutTraceparentHeader
+      );
+
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "timeReceived": "2023-05-26T00:00:00.000Z",
+          "uuid": "ad90db04-a501-4dc5-9b4e-2cc2ab10d49c",
+        }
+      `);
+    });
+
+    it('should add requestContext to the request', fakeAsync(() => {
+      const requestContext = {
+        timeReceived: '1970-01-01T00:00:00.500Z',
+        traceContext: {
+          parentId: '1b527c3828976b39',
+          traceFlags: '01',
+          traceId: 'd745f6735b44e81c0ae5410cb1fc8a0c',
+          version: '00',
+        },
+        uuid: 'ad90db04-a501-4dc5-9b4e-2cc2ab10d49c',
+      };
+
+      const engineRunner = new TestEngineRunner({});
+      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+
+      engineRunner.request('test', { httpHeaders: headers });
+      tick(200);
+      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        'Rendering started (test)',
+        true,
+        expect.objectContaining({
+          request: expect.objectContaining({
+            res: expect.objectContaining({
+              locals: { cx: { request: requestContext } },
+            }),
+          }),
+        })
+      );
+    }));
+  });
+
   describe('logger option', () => {
+    let dateSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      const mockDate = new Date('2023-05-26');
+      dateSpy = jest
+        .spyOn(global, 'Date')
+        .mockImplementationOnce(() => mockDate);
+    });
+
+    afterEach(() => {
+      dateSpy.mockReset();
+    });
+
     it('should use ExpressServerLogger if logger is true', () => {
-      jest.useFakeTimers().setSystemTime(new Date('2023-05-26'));
       new TestEngineRunner({
         logger: true,
       });
@@ -1201,6 +1313,7 @@ describe('OptimizedSsrEngine', () => {
         ]
       `);
     });
+
     it('should use the provided logger', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,
@@ -1222,6 +1335,7 @@ describe('OptimizedSsrEngine', () => {
               ]
             `);
     });
+
     it('should use the legacy server logger, if logger option not specified', () => {
       new TestEngineRunner({});
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`

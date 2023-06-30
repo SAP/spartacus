@@ -16,6 +16,11 @@ import {
  * Default logger used in SSR (ExpressJS) to enhance logs visible e.g. in monitoring tools e.g. Kibana.
  * It outputs a JSON with properties "message" and "context",
  * which contains a "timestamp" and details of the "request" ("url", "uuid", "timeReceived")
+ *
+ * The output "context" JSON will contain also a property "traceContext"
+ * with "traceId", "parentId", "version" and "traceFlags",
+ * if only the given request has the special header "traceparent" (specifed in
+ * the "W3C TraceContext" document. See https://www.w3.org/TR/trace-context/#traceparent-header ).
  */
 export class DefaultExpressServerLogger implements ExpressServerLogger {
   log(message: string, context: ExpressServerLoggerContext): void {
