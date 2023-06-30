@@ -29,7 +29,8 @@ import { tap } from 'rxjs/operators';
 export class QuoteRequestDialogComponent {
   iconTypes = ICON_TYPE;
   requestInProgress$ = new BehaviorSubject<boolean>(false);
-  minRequestInitiationValue = this.config.quote?.tresholds?.requestInitiation;
+  // TODO CHHI: Delete when decision has been taken about quote request dialog
+  minRequestInitiationValue = 0; // TODO CHHI: delete the entire component, obsolete // this.config.quote?.tresholds?.requestInitiation;
 
   focusConfig: FocusConfig = {
     trap: true,

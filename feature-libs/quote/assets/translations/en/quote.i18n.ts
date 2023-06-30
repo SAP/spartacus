@@ -98,8 +98,8 @@ export const quote = {
     },
     httpHandlers: {
       threshold: {
-        underTresholdError:
-          'Requested quote does not meet the threshold of minimum {{minValue}}$.',
+        underThresholdError:
+          'Total price of requested quote does not meet the minimum threshold',
       },
     },
   },

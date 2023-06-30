@@ -18,10 +18,11 @@ import { QuoteConfig } from '@spartacus/quote/core';
   providers: [
     provideConfig(<QuoteConfig>{
       quote: {
-        tresholds: {
-          sellerAutoApproval: 75000,
-          requestInitiation: 25000,
-        },
+        //TODO CHHI: Delete when decision has been taken about quote request dialog
+        // tresholds: {
+        //   sellerAutoApproval: 75000,
+        //   requestInitiation: 25000,
+        // },
       },
     }),
     provideConfig({
