@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { QuoteFacade } from '@spartacus/quote/root';
+import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -31,5 +31,11 @@ export class QuoteDetailsOverviewComponent {
         text: [value ?? '-'],
       }))
     );
+  }
+
+  getTotalPrice(quote?: Quote): string | undefined {
+    return quote?.previousEstimatedTotal?.value
+      ? quote.previousEstimatedTotal?.formattedValue
+      : quote?.totalPrice.formattedValue;
   }
 }
