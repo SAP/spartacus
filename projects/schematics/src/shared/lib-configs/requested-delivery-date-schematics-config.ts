@@ -20,7 +20,7 @@ export const REQUESTED_DELIVERY_DATE_FEATURE_NAME_CONSTANT =
   'REQUESTED_DELIVERY_DATE_FEATURE';
 export const REQUESTED_DELIVERY_DATE_FOLDER_NAME = 'requested-delivery-date';
 export const REQUESTED_DELIVERY_DATE_TRANSLATIONS =
-  'requestedDeliveryDateTranslations'; //TODO
+  'requestedDeliveryDateTranslations';
 export const REQUESTED_DELIVERY_DATE_TRANSLATION_CHUNKS_CONFIG =
   'requestedDeliveryDateTranslationChunksConfig';
 export const REQUESTED_DELIVERY_DATE_ROOT_MODULE =
