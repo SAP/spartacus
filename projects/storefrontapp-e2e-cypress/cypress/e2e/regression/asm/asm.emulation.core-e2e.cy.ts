@@ -78,7 +78,6 @@ context('Assisted Service Module', () => {
       );
     });
 
-    // TODO(#9445): Add e2e test for this scenario
     it.skip('agent login when user is logged in should start this user emulation', () => {
       cy.visit('/login');
       login(customer.email, customer.password);
@@ -96,7 +95,6 @@ context('Assisted Service Module', () => {
       cy.get('cx-customer-emulation').should('be.visible');
     });
 
-    // TODO(#9445): Add e2e test for this scenario
     it('agent logout when user was logged and emulated should restore the session', () => {
       checkout.visitHomePage('asm=true');
 
@@ -126,7 +124,6 @@ context('Assisted Service Module', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
-    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side. (CXSPA-1355)
     it("should fetch products in a category based on the emulated user's authentication", () => {
       cy.cxConfig({
         context: {
