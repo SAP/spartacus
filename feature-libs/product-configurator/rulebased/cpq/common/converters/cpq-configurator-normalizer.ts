@@ -162,9 +162,9 @@ export class CpqConfiguratorNormalizer
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
-      name: sourceAttribute.pA_ID
-        ? sourceAttribute.pA_ID.toString()
-        : sourceAttribute.PA_ID.toString(),
+      name: sourceAttribute.PA_ID
+        ? sourceAttribute.PA_ID.toString()
+        : sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
       label:
         this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(

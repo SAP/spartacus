@@ -22,8 +22,8 @@ import {
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  //CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
-  //CPQ_CONFIGURATOR_SERIALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
+  CPQ_CONFIGURATOR_SERIALIZER,
 } from '../common/converters/cpq-configurator.converters';
 import { Cpq } from '../common/cpq.models';
 
@@ -132,12 +132,7 @@ export class CpqConfiguratorOccService {
     productSystemId: string
   ): Observable<Configurator.Configuration> {
     return this.callCreateConfiguration(productSystemId).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-        };
-      })
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
     );
   }
 
@@ -153,12 +148,7 @@ export class CpqConfiguratorOccService {
     tabId?: string
   ): Observable<Configurator.Configuration> {
     return this.callReadConfiguration(configId, tabId).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-        };
-      })
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
     );
   }
 
@@ -172,12 +162,73 @@ export class CpqConfiguratorOccService {
     configId: string
   ): Observable<Configurator.Overview> {
     return this.callReadConfigurationOverview(configId).pipe(
-      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-        };
-      })
+      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER)
+    );
+  }
+
+  /**
+   * Updates an attribute of the runtime configuration for the given configuration id and attribute code
+   * and read this default configuration from the CPQ system over OCC.
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   */
+  updateAttribute(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    const updateAttribute: Cpq.UpdateAttribute = this.converterService.convert(
+      configuration,
+      CPQ_CONFIGURATOR_SERIALIZER
+    );
+    return this.callUpdateAttribute(updateAttribute).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
+   * Updates a quantity for an attribute of the runtime configuration for the given configuration id and attribute code
+   * and read this default configuration from the CPQ system over OCC.
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
+   */
+  updateValueQuantity(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    const updateValue: Cpq.UpdateValue = this.converterService.convert(
+      configuration,
+      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+    );
+    return this.callUpdateValue(updateValue).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
+   * Retrieves a configuration assigned to a cart entry.
+   *
+   * @param {CommonConfigurator.ReadConfigurationFromCartEntryParameters} parameters - Cart entry parameters
+   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   */
+  readConfigurationForCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callReadConfigurationForCartEntry(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
+  /**
+   * Retrieves a configuration assigned to an order entry.
+   *
+   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters - Order entry parameters
+   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   */
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callReadConfigurationForOrderEntry(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
     );
   }
 
@@ -213,6 +264,77 @@ export class CpqConfiguratorOccService {
       {
         urlParams: {
           configurationId: configId,
+        },
+      }
+    );
+    return this.http.get<Cpq.Configuration>(url);
+  }
+
+  protected callUpdateAttribute(
+    updateAttribute: Cpq.UpdateAttribute
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl('updateCpqAttribute', {
+      urlParams: {
+        configurationId: updateAttribute.configurationId,
+        attributeCode: updateAttribute.standardAttributeCode,
+      },
+      queryParams: updateAttribute.tabId
+        ? { tabId: updateAttribute.tabId }
+        : undefined,
+    });
+    return this.http.patch<Cpq.Configuration>(
+      url,
+      updateAttribute.changeAttributeValue
+    );
+  }
+
+  protected callUpdateValue(
+    updateValue: Cpq.UpdateValue
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'updateAttributeValueQuantity',
+      {
+        urlParams: {
+          configurationId: updateValue.configurationId,
+          attributeCode: updateValue.standardAttributeCode,
+          attributeValueId: updateValue.attributeValueId,
+        },
+        queryParams: updateValue.tabId
+          ? { tabId: updateValue.tabId }
+          : undefined,
+      }
+    );
+    return this.http.patch<Cpq.Configuration>(url, {
+      quantity: updateValue.quantity,
+    });
+  }
+
+  protected callReadConfigurationForCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readCpqConfigurationForCartEntryFull',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
+      }
+    );
+    return this.http.get<Cpq.Configuration>(url);
+  }
+
+  protected callReadConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readCpqConfigurationForOrderEntryFull',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          orderId: parameters.orderId,
+          orderEntryNumber: parameters.orderEntryNumber,
         },
       }
     );

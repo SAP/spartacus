@@ -59,7 +59,16 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
   updateConfiguration(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    throw new Error('TODO: has to be implemented' + configuration);
+    const updateMethod =
+      configuration.updateType === Configurator.UpdateType.VALUE_QUANTITY
+        ? this.cpqOccService.updateValueQuantity
+        : this.cpqOccService.updateAttribute;
+    return updateMethod.call(this.cpqOccService, configuration).pipe(
+      map((configResponse: Configurator.Configuration) => {
+        configResponse.owner = configuration.owner;
+        return configResponse;
+      })
+    );
   }
 
   updateConfigurationOverview(): Observable<Configurator.Overview> {
@@ -77,7 +86,12 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
-    throw new Error('TODO: has to be implemented' + parameters);
+    return this.cpqOccService.readConfigurationForCartEntry(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
   }
 
   updateConfigurationForCartEntry(
@@ -89,7 +103,12 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
   readConfigurationForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
-    throw new Error('TODO: has to be implemented' + parameters);
+    return this.cpqOccService.readConfigurationForOrderEntry(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
   }
 
   readPriceSummary(
