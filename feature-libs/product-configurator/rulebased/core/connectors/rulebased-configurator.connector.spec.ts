@@ -108,7 +108,7 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   getConfiguratorType(): string {
     return this.configuratorType ?? CONFIGURATOR_TYPE;
   }
-  supportsCpqOverOcc(): boolean{
+  supportsCpqOverOcc(): boolean {
     return this.cpqOverOcc ?? false;
   }
 }
@@ -129,7 +129,7 @@ describe('RulebasedConfiguratorConnector', () => {
     },
   };
 
-  function setCpqOverOcc(cpqOverOcc: boolean|undefined) {
+  function setCpqOverOcc(cpqOverOcc: boolean | undefined) {
     (configuratorCpqConfig.productConfigurator ?? {}).cpqOverOcc = cpqOverOcc;
   }
 
