@@ -7,22 +7,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  backOff,
   ConverterService,
+  backOff,
   isJaloError,
   normalizeHttpError,
 } from '@spartacus/core';
+import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import {
-  OpfAdapter,
-  OpfEndpointsService,
   OPF_ACTIVE_CONFIGURATION_NORMALIZER,
   OPF_PAYMENT_CONFIG_SERIALIZER,
+  OpfAdapter,
+  OpfEndpointsService,
 } from '@spartacus/opf/checkout/core';
 import {
   ActiveConfiguration,
-  OpfConfig,
-  OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
+  OpfConfig,
   PaymentInitiationConfig,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';

@@ -15,11 +15,14 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { OpfOrderFacade, OpfService } from '@spartacus/opf/base/root';
+import {
+  OpfOrderFacade,
+  OpfOtpFacade,
+  OpfService,
+} from '@spartacus/opf/base/root';
 import { OpfResourceLoaderService } from '@spartacus/opf/checkout/core';
 import {
   OpfCheckoutFacade,
-  OpfOtpFacade,
   OpfPaymentMethodType,
   OpfRenderPaymentMethodEvent,
   PaymentSessionData,
