@@ -1,32 +1,62 @@
-/*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import {
   ComponentRef,
   Injectable,
   NgZone,
   ViewContainerRef,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { Command, CommandService, WindowRef } from '@spartacus/core';
 import {
   GlobalOpfPaymentMethods,
   KeyValuePair,
   MerchantCallback,
+  OpfGlobalFunctionsFacade,
   OpfPaymentFacade,
   PaymentMethod,
 } from '@spartacus/opf/base/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class GlobalFunctionsService {
+@Injectable()
+export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
+  protected registerGlobalFunctionsCommand: Command<{
+    paymentSessionId: string;
+    vcr?: ViewContainerRef;
+  }> = this.commandService.create((payload) => {
+    this.registerSubmit(payload.paymentSessionId, payload.vcr);
+    this._isGlobalServiceInit = true;
+    return of();
+  });
+
+  protected removeGlobalFunctionsCommand: Command<void, unknown> =
+    this.commandService.create(() => {
+      if (!this._isGlobalServiceInit) {
+        return of();
+      }
+      const window = this.winRef.nativeWindow as any;
+      if (window?.Opf) {
+        window.Opf = undefined;
+      }
+      this._isGlobalServiceInit = false;
+      return of();
+    });
+
+  registerGlobalFunctions(
+    paymentSessionId: string,
+    vcr: ViewContainerRef
+  ): Observable<unknown> {
+    return this.registerGlobalFunctionsCommand.execute({
+      paymentSessionId,
+      vcr,
+    });
+  }
+
+  removeGlobalFunctions(): Observable<unknown> {
+    return this.removeGlobalFunctionsCommand.execute();
+  }
+
   constructor(
+    protected commandService: CommandService,
     protected winRef: WindowRef,
     private ngZone: NgZone,
     protected opfPaymentFacade: OpfPaymentFacade,
@@ -34,10 +64,6 @@ export class GlobalFunctionsService {
   ) {}
 
   protected _isGlobalServiceInit = false;
-
-  get isGlobalServiceInit() {
-    return this._isGlobalServiceInit;
-  }
 
   protected getGlobalFunctionContainer(): GlobalOpfPaymentMethods {
     const window = this.winRef.nativeWindow as any;
@@ -115,21 +141,5 @@ export class GlobalFunctionsService {
           .toPromise();
       });
     };
-  }
-
-  initializeService(paymentSessionId: string, vcr?: ViewContainerRef): void {
-    this.registerSubmit(paymentSessionId, vcr);
-    this._isGlobalServiceInit = true;
-  }
-
-  removeService(): void {
-    if (!this._isGlobalServiceInit) {
-      return;
-    }
-    const window = this.winRef.nativeWindow as any;
-    if (window?.Opf) {
-      window.Opf = undefined;
-    }
-    this._isGlobalServiceInit = false;
   }
 }

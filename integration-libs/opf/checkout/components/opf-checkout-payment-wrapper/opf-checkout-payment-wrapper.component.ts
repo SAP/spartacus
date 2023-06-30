@@ -13,13 +13,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { OpfGlobalFunctionsFacade } from '@spartacus/opf/base/root';
 import {
   OpfPaymentMethodType,
   PaymentPattern,
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
 import { Subscription } from 'rxjs';
-import { GlobalFunctionsService } from '../opf-checkout-global-functions/opf-global-functions.service';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
     protected sanitizer: DomSanitizer,
-    protected globalFunctionsService: GlobalFunctionsService,
+    protected globalFunctionsService: OpfGlobalFunctionsFacade,
     protected vcr: ViewContainerRef
   ) {}
 
@@ -52,8 +52,9 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.globalFunctionsService.removeGlobalFunctions();
+
     this.sub.unsubscribe();
-    this.globalFunctionsService.removeService();
   }
 
   retryInitiatePayment(): void {
@@ -78,12 +79,12 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
       paymentSessionData?.paymentSessionId &&
       paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
     ) {
-      this.globalFunctionsService.initializeService(
+      this.globalFunctionsService.registerGlobalFunctions(
         paymentSessionData.paymentSessionId,
         this.vcr
       );
     } else {
-      this.globalFunctionsService.removeService();
+      this.globalFunctionsService.removeGlobalFunctions();
     }
   }
 }
