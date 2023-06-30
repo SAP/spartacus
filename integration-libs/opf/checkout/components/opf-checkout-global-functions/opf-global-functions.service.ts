@@ -23,7 +23,7 @@ import {
   PaymentSessionData,
 } from '@spartacus/opf/checkout/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 @Injectable({
@@ -41,11 +41,6 @@ export class GlobalFunctionsService {
 
   get isGlobalServiceInit() {
     return this._isGlobalServiceInit;
-  }
-
-  protected _isPaymentInProgress$ = new BehaviorSubject<boolean>(false);
-  isPaymentInProgress$() {
-    return this._isPaymentInProgress$.asObservable();
   }
 
   protected getGlobalFunctionContainer(): GlobalOpfPaymentMethods {
