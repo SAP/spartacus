@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -36,7 +37,16 @@ const MockWindowRef = {
       }
     },
   },
+  location: {
+    search: 'customerId=testId',
+  },
 };
+
+class MockAsmEnablerService implements Partial<AsmEnablerService> {
+  isEmulateInURL(): boolean {
+    return true;
+  }
+}
 
 describe('AsmComponentService', () => {
   let authService: AuthService;
@@ -50,6 +60,7 @@ describe('AsmComponentService', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: AsmEnablerService, useClass: MockAsmEnablerService },
       ],
     });
 
@@ -112,6 +123,39 @@ describe('AsmComponentService', () => {
       expect(
         windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
       ).toBeNull();
+    });
+  });
+
+  describe('getSearchParameter', () => {
+    it('should get parameter from search result', () => {
+      expect(asmComponentService.getSearchParameter('customerId')).toEqual(
+        'testId'
+      );
+    });
+  });
+
+  describe('isEmulatedByDeepLink and setEmulated ', () => {
+    it('should emit true when user is emulated', (done) => {
+      asmComponentService.setEmulatedByDeepLink(true);
+
+      asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
+    });
+
+    it('should emit false when setEmulated called with false', (done) => {
+      asmComponentService.setEmulatedByDeepLink(false);
+      asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
     });
   });
 });

@@ -12,7 +12,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthHttpHeaderService } from '../services/auth-http-header.service';
@@ -68,7 +68,7 @@ export class AuthInterceptor implements HttpInterceptor {
                   this.errorIsInvalidToken(errResponse)
                 ) {
                   this.authHttpHeaderService.handleExpiredRefreshToken();
-                  return of<HttpEvent<any>>();
+                  return EMPTY;
                 }
                 break;
               case 400: // Bad Request

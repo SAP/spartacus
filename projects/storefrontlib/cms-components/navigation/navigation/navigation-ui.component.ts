@@ -67,7 +67,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   onResize() {
-    this.resize.next();
+    this.resize.next(undefined);
   }
 
   constructor(

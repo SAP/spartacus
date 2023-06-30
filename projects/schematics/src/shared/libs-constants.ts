@@ -176,6 +176,7 @@ export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
+export const SPARTACUS_CDC_ASSETS = `@spartacus/cdc/assets`;
 export const SPARTACUS_CDC_USER_ACCOUNT = `@spartacus/cdc/user-account`;
 export const SPARTACUS_CDC_USER_PROFILE = `@spartacus/cdc/user-profile`;
 export const SPARTACUS_CDC_ORGANIZATION_ADMINISTRATION = `@spartacus/cdc/organization/administration`;
@@ -190,8 +191,6 @@ export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/
 export const SPARTACUS_S4OM = '@spartacus/s4om';
 export const SPARTACUS_S4OM_ROOT = `@spartacus/s4om/root`;
 export const SPARTACUS_S4OM_ASSETS = `@spartacus/s4om/assets`;
-
-export const SPARTACUS_ESLINT_PLUGIN = `@spartacus/eslint-plugin-eslint`;
 
 export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `@spartacus/customer-ticketing/root`;
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `@spartacus/customer-ticketing/assets`;

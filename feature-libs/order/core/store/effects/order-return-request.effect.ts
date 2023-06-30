@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -15,6 +15,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class OrderReturnRequestEffect {
+  protected logger = inject(LoggerService);
+
   createReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -33,7 +35,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.CreateOrderReturnRequestFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -58,7 +60,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderReturnRequestFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -84,7 +86,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.CancelOrderReturnRequestFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -118,7 +120,7 @@ export class OrderReturnRequestEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderReturnRequestListFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )

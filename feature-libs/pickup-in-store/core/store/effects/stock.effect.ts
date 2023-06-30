@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { StockConnector } from '../../connectors/index';
@@ -14,6 +14,8 @@ import { StockLevelActions } from '../actions/index';
 
 @Injectable()
 export class StockEffect {
+  protected logger = inject(LoggerService);
+
   constructor(
     private actions$: Actions,
     private stockConnector: StockConnector
@@ -35,7 +37,11 @@ export class StockEffect {
               })
           ),
           catchError((error) =>
-            of(new StockLevelActions.StockLevelFail(normalizeHttpError(error)))
+            of(
+              new StockLevelActions.StockLevelFail(
+                normalizeHttpError(error, this.logger)
+              )
+            )
           )
         )
       )
