@@ -38,6 +38,12 @@
               ) | async
             "
           ></cx-card>
+
+          <ng-template
+            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+            [cxOutletContext]="{ item: order, readonly: true }"
+          >
+          </ng-template>
         </div>
       </ng-container>
 
@@ -56,6 +62,12 @@
           <cx-card
             [content]="getOrderStatusCardContent(order.statusDisplay) | async"
           ></cx-card>
+
+          <ng-template
+            [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+            [cxOutletContext]="{ item: order, readonly: true }"
+          >
+          </ng-template>
         </div>
       </ng-template>
 
@@ -126,6 +138,12 @@
         <cx-card
           [content]="getOrderStatusCardContent(order.statusDisplay) | async"
         ></cx-card>
+
+        <ng-template
+          [cxOutlet]="cartOutlets.ORDER_OVERVIEW"
+          [cxOutletContext]="{ item: order, readonly: true }"
+        >
+        </ng-template>
       </div>
       <cx-order-detail-billing></cx-order-detail-billing>
     </div>

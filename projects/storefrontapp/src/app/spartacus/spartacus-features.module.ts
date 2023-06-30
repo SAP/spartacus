@@ -90,6 +90,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking/tracking-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { RequestedDeliveryDateFeatureModule } from './features/requested-delivery-date/requested-delivery-date-feature.module';
 
 const featureModules = [];
 
@@ -121,6 +122,9 @@ if (environment.epdVisualization) {
 }
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);
+}
+if (environment.requestedDeliveryDate) {
+  featureModules.push(RequestedDeliveryDateFeatureModule);
 }
 
 @NgModule({

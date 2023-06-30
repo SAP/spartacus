@@ -286,6 +286,21 @@
       "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
+      "@spartacus/requested-delivery-date/assets": [
+        "../../dist/requested-delivery-date/assets"
+      ],
+      "@spartacus/requested-delivery-date/core": [
+        "../../dist/requested-delivery-date/core"
+      ],
+      "@spartacus/requested-delivery-date": [
+        "../../dist/requested-delivery-date"
+      ],
+      "@spartacus/requested-delivery-date/occ": [
+        "../../dist/requested-delivery-date/occ"
+      ],
+      "@spartacus/requested-delivery-date/root": [
+        "../../dist/requested-delivery-date/root"
+      ],
       "@spartacus/smartedit/core": ["../../dist/smartedit/core"],
       "@spartacus/smartedit": ["../../dist/smartedit"],
       "@spartacus/smartedit/root": ["../../dist/smartedit/root"],

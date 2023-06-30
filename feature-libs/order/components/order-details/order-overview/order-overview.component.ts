@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DeliveryMode, PaymentDetails } from '@spartacus/cart/base/root';
+import {
+  CartOutlets,
+  DeliveryMode,
+  PaymentDetails,
+} from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
@@ -23,6 +27,8 @@ import { OrderDetailsService } from '../order-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderOverviewComponent {
+  readonly cartOutlets = CartOutlets;
+
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
   isOrderLoading$: Observable<boolean> =
     typeof this.orderDetailsService.isOrderDetailsLoading === 'function'
