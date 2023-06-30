@@ -10,6 +10,7 @@ import {
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpResponseStatus,
   QueryService,
   RoutingService,
   UserIdService,
@@ -78,11 +79,12 @@ export class OpfPaymentService implements OpfPaymentFacade {
     const submitRequest: SubmitRequest = {
       paymentMethod,
       cartId,
+      additionalData,
       channel: 'BROWSER',
       browserInfo: {
         acceptHeader: 'application/json',
         colorDepth: this.winRef.nativeWindow?.screen?.colorDepth,
-        javaEnabled: this.winRef.nativeWindow?.navigator?.javaEnabled(),
+        javaEnabled: false,
         javaScriptEnabled: true,
         language: this.winRef.nativeWindow?.navigator?.language,
         screenHeight: this.winRef.nativeWindow?.screen?.height,
@@ -91,7 +93,6 @@ export class OpfPaymentService implements OpfPaymentFacade {
         originUrl: this.winRef.nativeWindow?.location?.origin,
         timeZoneOffset,
       },
-      additionalData,
     };
     if (paymentMethod !== PaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';
@@ -199,7 +200,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
     );
   }
 
-  protected handle400error(errorType: string): string {
+  protected handleBadRequestError(errorType: string): string {
     let message = this.defaultError.message;
     switch (errorType) {
       case 'EXPIRED':
@@ -225,8 +226,8 @@ export class OpfPaymentService implements OpfPaymentFacade {
     returnPath: Array<string> = []
   ): void {
     let message = this.defaultError.message;
-    if (error?.status === 400) {
-      message = this.handle400error(error?.type);
+    if (error?.status === HttpResponseStatus.BAD_REQUEST) {
+      message = this.handleBadRequestError(error?.type);
     } else {
       if (error?.type !== 'PAYMENT_CANCELLED') {
         message = 'opf.payment.errors.cancelPayment';

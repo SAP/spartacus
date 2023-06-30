@@ -34,7 +34,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return of();
   });
 
-  protected removeGlobalFunctionsCommand: Command<void, unknown> =
+  protected removeGlobalFunctionsCommand: Command<void> =
     this.commandService.create(() => {
       if (!this._isGlobalServiceInit) {
         return of();
@@ -125,8 +125,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             paymentSessionId,
             cartId,
             callbackArray,
-            returnPath: undefined,
             paymentMethod,
+            returnPath: undefined,
           })
           .pipe(
             finalize(() => {

@@ -18,6 +18,7 @@ import {
   OpfPaymentAdapter,
 } from '@spartacus/opf/base/core';
 import {
+  OPF_CC_OTP_KEY,
   OPF_CC_PUBLIC_KEY,
   OpfConfig,
   OpfPaymentVerificationPayload,
@@ -25,8 +26,6 @@ import {
   SubmitRequest,
   SubmitResponse,
 } from '@spartacus/opf/base/root';
-
-import { OPF_CC_OTP_KEY } from '@spartacus/opf/base/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
