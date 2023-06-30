@@ -371,6 +371,12 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         CommonConfigurator.OwnerType.ORDER_ENTRY
       ) {
         this.goToOrderDetails(container.routerData.owner);
+      } else if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.QUOTE_ENTRY
+      ) {
+        //TODO: load quote list
+        this.goToOrderDetails(container.routerData.owner);
       } else {
         this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
       }

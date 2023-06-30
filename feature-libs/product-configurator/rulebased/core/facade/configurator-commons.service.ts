@@ -108,6 +108,7 @@ export class ConfiguratorCommonsService {
           owner
         );
       }
+      // TODO: is it the right place for this request?
       case CommonConfigurator.OwnerType.QUOTE_ENTRY: {
         return this.configuratorCartService.readConfigurationForQuoteEntry(
           owner

@@ -37,7 +37,7 @@ export class ConfigureCartEntryComponent {
    */
   getOwnerType(): CommonConfigurator.OwnerType {
     //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
-    if (this.cartEntry.source === 'quote') {
+    if (this.cartEntry.quoteCode !== undefined) {
       return CommonConfigurator.OwnerType.QUOTE_ENTRY;
     } else {
       return this.cartEntry.orderCode !== undefined
@@ -58,12 +58,19 @@ export class ConfigureCartEntryComponent {
       throw new Error('No entryNumber present in entry');
     }
 
-    return this.cartEntry.orderCode
-      ? this.commonConfigUtilsService.getComposedOwnerId(
-          this.cartEntry.orderCode,
-          entryNumber
-        )
+    const code = this.getCode();
+    return code
+      ? this.commonConfigUtilsService.getComposedOwnerId(code, entryNumber)
       : entryNumber.toString();
+  }
+
+  protected getCode(): string | undefined {
+    if (this.cartEntry.quoteCode) {
+      return this.cartEntry.quoteCode;
+    } else if (this.cartEntry.orderCode) {
+      this.cartEntry.orderCode;
+    }
+    return undefined;
   }
 
   /**

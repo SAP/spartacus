@@ -9,7 +9,6 @@ import '@spartacus/storefront';
 declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
     comments?: Comment[];
-    source?: string;
   }
 }
 

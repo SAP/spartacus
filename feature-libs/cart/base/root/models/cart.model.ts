@@ -118,6 +118,8 @@ export interface CartItemComponentOptions {
 
 export interface OrderEntry {
   orderCode?: string;
+  //TODO: CHHI
+  quoteCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;

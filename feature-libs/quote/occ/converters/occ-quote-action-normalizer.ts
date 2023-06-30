@@ -33,7 +33,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
 
     //TODO CONFIG_INTEGRATION have this code in a dedicated entry normalizer
     //TODO CONFIG_INTEGRATION introduce constant for quote in model (no enum)
-    target.entries?.forEach((entry) => (entry.source = 'quote'));
+    target.entries?.forEach((entry) => (entry.quoteCode = source.code));
 
     return target;
   }

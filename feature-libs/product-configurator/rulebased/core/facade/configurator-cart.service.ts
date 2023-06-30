@@ -165,6 +165,17 @@ export class ConfiguratorCartService {
           owner.key
         )
       ),
+      //needed as we cannot read the cart in general and for the OV
+      //in parallel, this can lead to cache issues with promotions
+      delayWhen(() =>
+        this.activeCartService.isStable().pipe(filter((stable) => stable))
+      ),
+      delayWhen(() =>
+        this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
+          map((state) => state.loading),
+          filter((loading) => !loading)
+        )
+      ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
