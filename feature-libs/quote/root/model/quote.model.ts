@@ -14,7 +14,7 @@ export interface OccQuote {
   code: string;
   comments: Comment[];
   creationTime?: Date;
-  description?: string;
+  description: string;
   entries?: OrderEntry[];
   expirationTime?: Date;
   name: string;

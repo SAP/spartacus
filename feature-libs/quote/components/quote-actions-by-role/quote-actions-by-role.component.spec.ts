@@ -20,6 +20,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const mockCartId = '1234';
 const mockCode = '3333';
@@ -27,6 +28,7 @@ const threshold = 20;
 const totalPrice: Price = { value: threshold + 1 };
 
 const mockQuote: Quote = {
+  ...createEmptyQuote(),
   allowedActions: [
     { type: QuoteActionType.EDIT, isPrimary: false },
     { type: QuoteActionType.REQUOTE, isPrimary: true },
@@ -35,8 +37,6 @@ const mockQuote: Quote = {
   cartId: mockCartId,
   code: mockCode,
   threshold: threshold,
-  comments: [],
-  name: 'Name',
   totalPrice: totalPrice,
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
