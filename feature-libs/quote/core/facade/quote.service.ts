@@ -228,6 +228,9 @@ export class QuoteService implements QuoteFacade {
               sort,
               pageSize: this.config.view?.defaultPageSize,
             });
+          }),
+          tap(() => {
+            this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
           })
         ),
       {
