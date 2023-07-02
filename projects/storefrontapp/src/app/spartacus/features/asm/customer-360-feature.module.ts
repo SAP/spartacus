@@ -6,14 +6,14 @@
 
 import { NgModule } from '@angular/core';
 import {
+  customer360TranslationChunksConfig,
+  customer360Translations,
+} from '@spartacus/asm/customer-360/assets';
+import {
   Customer360RootModule,
   CUSTOMER_360_FEATURE,
 } from '@spartacus/asm/customer-360/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import {
-  customer360TranslationChunksConfig,
-  customer360Translations,
-} from 'feature-libs/asm/customer-360/assets/public_api';
 
 @NgModule({
   imports: [Customer360RootModule],
