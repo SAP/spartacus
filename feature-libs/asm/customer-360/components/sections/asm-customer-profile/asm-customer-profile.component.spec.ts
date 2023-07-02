@@ -152,7 +152,7 @@ describe('AsmCustomerProfileComponent', () => {
       mockCustomerProfile.profile?.billingAddress?.region?.isocode + ', '
     );
     expect(billingCountry.nativeElement.innerText).toBe(
-      mockCustomerProfile.profile?.billingAddress?.country?.isocode
+      mockCustomerProfile.profile?.billingAddress?.country?.name
     );
   });
 
@@ -176,7 +176,7 @@ describe('AsmCustomerProfileComponent', () => {
       mockCustomerProfile.profile?.deliveryAddress?.region?.isocode + ', '
     );
     expect(country.nativeElement.innerText).toBe(
-      mockCustomerProfile.profile?.deliveryAddress?.country?.isocode
+      mockCustomerProfile.profile?.deliveryAddress?.country?.name
     );
   });
 

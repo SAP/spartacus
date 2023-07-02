@@ -4,7 +4,8 @@ import {
   CsAgentAuthService,
   AsmEnablerService,
 } from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+import { AsmDialogActionType } from '@spartacus/asm/customer-360/root';
+import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
@@ -48,6 +49,10 @@ class MockAsmEnablerService implements Partial<AsmEnablerService> {
   }
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
+
 describe('AsmComponentService', () => {
   let authService: AuthService;
   let csAgentAuthService: CsAgentAuthService;
@@ -61,6 +66,7 @@ describe('AsmComponentService', () => {
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
         { provide: AsmEnablerService, useClass: MockAsmEnablerService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
@@ -156,6 +162,22 @@ describe('AsmComponentService', () => {
           expect(result).toBe(false);
           done();
         });
+    });
+  });
+
+  describe('customer 360()', () => {
+    it('should handle dialog actions', () => {
+      const routingService = TestBed.inject(RoutingService);
+      spyOn(routingService, 'go').and.stub();
+
+      asmComponentService.handleAsmDialogAction({
+        actionType: AsmDialogActionType.NAVIGATE,
+        route: '/',
+        selectedUser: {},
+      });
+
+      expect(routingService.go).toHaveBeenCalledTimes(1);
+      expect(routingService.go).toHaveBeenCalledWith('/');
     });
   });
 });
