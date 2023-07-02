@@ -47,7 +47,7 @@ export class AsmComponentService {
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
     @Optional() protected asmEnablerService?: AsmEnablerService,
-    @Optional() protected routingService?: RoutingService,
+    @Optional() protected routingService?: RoutingService
   ) {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }
