@@ -1,67 +1,54 @@
 import { TestBed } from '@angular/core/testing';
-import { AsmDialogActionType } from '@spartacus/asm/customer-360/root';
 import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
+  AsmEnablerService,
 } from '@spartacus/asm/root';
-import {
-  AuthService,
-  GlobalMessageEntities,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-  Translatable,
-  WindowRef,
-} from '@spartacus/core';
+import { AuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from './asm-component.service';
 
-describe('AsmComponentService', () => {
-  class MockAuthService implements Partial<AuthService> {
-    logout(): void {}
+class MockAuthService implements Partial<AuthService> {
+  logout(): void {}
+}
+
+class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
+  logoutCustomerSupportAgent(): Promise<void> {
+    return Promise.resolve();
   }
-
-  class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
-    logoutCustomerSupportAgent(): Promise<void> {
-      return Promise.resolve();
-    }
-    isCustomerEmulated(): Observable<boolean> {
-      return of(false);
-    }
-
-    startCustomerEmulationSession(): void {}
+  isCustomerEmulated(): Observable<boolean> {
+    return of(false);
   }
+}
 
-  const store: { [k: string]: string } = {};
-  const MockWindowRef = {
-    localStorage: {
-      getItem: (key: string): string | null => {
-        return key in store ? store[key] : null;
-      },
-      setItem: (key: string, value: string) => {
-        store[key] = `${value}`;
-      },
-      removeItem: (key: string): void => {
-        if (key in store) {
-          delete store[key];
-        }
-      },
+const store = {};
+const MockWindowRef = {
+  localStorage: {
+    getItem: (key: string): string => {
+      return key in store ? store[key] : null;
     },
-  };
+    setItem: (key: string, value: string) => {
+      store[key] = `${value}`;
+    },
+    removeItem: (key: string): void => {
+      if (key in store) {
+        delete store[key];
+      }
+    },
+  },
+  location: {
+    search: 'customerId=testId',
+  },
+};
 
-  class MockGlobalMessageService implements Partial<GlobalMessageService> {
-    get(): Observable<GlobalMessageEntities> {
-      return of({});
-    }
-    add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
-    remove(_: GlobalMessageType, __?: number): void {}
+class MockAsmEnablerService implements Partial<AsmEnablerService> {
+  isEmulateInURL(): boolean {
+    return true;
   }
+}
 
-  class MockRoutingService implements Partial<RoutingService> {
-    go = () => Promise.resolve(true);
-  }
-
+describe('AsmComponentService', () => {
   let authService: AuthService;
   let csAgentAuthService: CsAgentAuthService;
   let windowRef: WindowRef;
@@ -72,9 +59,8 @@ describe('AsmComponentService', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: RoutingService, useClass: MockRoutingService },
         { provide: WindowRef, useValue: MockWindowRef },
+        { provide: AsmEnablerService, useClass: MockAsmEnablerService },
       ],
     });
 
@@ -132,70 +118,44 @@ describe('AsmComponentService', () => {
 
   describe('Unload', () => {
     it('should remove local storage key to false on unload', () => {
-      const localStorage = windowRef.localStorage as Storage;
-      localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
-
+      windowRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');
       asmComponentService.unload();
-
-      expect(localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)).toBeNull();
+      expect(
+        windowRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY)
+      ).toBeNull();
     });
   });
 
-  describe('startCustomerEmulationSession()', () => {
-    let globalMessageService: GlobalMessageService;
-
-    beforeEach(() => {
-      globalMessageService = TestBed.inject(GlobalMessageService);
-
-      spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
-      spyOn(globalMessageService, 'add').and.stub();
-    });
-
-    it('should start a customer emulation session', () => {
-      const result =
-        asmComponentService.startCustomerEmulationSession('customer001');
-
-      expect(result).toBe(true);
-
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-
-      expect(
-        csAgentAuthService.startCustomerEmulationSession
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        csAgentAuthService.startCustomerEmulationSession
-      ).toHaveBeenCalledWith('customer001');
-    });
-
-    it('should warn there is no customer to emulate when trying to start a session', () => {
-      const result =
-        asmComponentService.startCustomerEmulationSession(undefined);
-
-      expect(result).toBe(false);
-
-      expect(
-        csAgentAuthService.startCustomerEmulationSession
-      ).not.toHaveBeenCalled();
-
-      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'asm.error.noCustomerId' },
-        GlobalMessageType.MSG_TYPE_ERROR
+  describe('getSearchParameter', () => {
+    it('should get parameter from search result', () => {
+      expect(asmComponentService.getSearchParameter('customerId')).toEqual(
+        'testId'
       );
     });
   });
 
-  it('should handle dialog actions', () => {
-    const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.stub();
+  describe('isEmulatedByDeepLink and setEmulated ', () => {
+    it('should emit true when user is emulated', (done) => {
+      asmComponentService.setEmulatedByDeepLink(true);
 
-    asmComponentService.handleAsmDialogAction({
-      actionType: AsmDialogActionType.NAVIGATE,
-      route: '/',
-      selectedUser: {},
+      asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
     });
 
-    expect(routingService.go).toHaveBeenCalledTimes(1);
-    expect(routingService.go).toHaveBeenCalledWith('/');
+    it('should emit false when setEmulated called with false', (done) => {
+      asmComponentService.setEmulatedByDeepLink(false);
+      asmComponentService
+        .isEmulatedByDeepLink()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+    });
   });
 });

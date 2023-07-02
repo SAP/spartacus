@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector, isDevMode } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Injectable, Injector, inject, isDevMode } from '@angular/core';
+import { Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { LoggerService } from '../../logger';
 import {
   getContextParameterDefault,
   getContextParameterValues,
@@ -17,6 +18,8 @@ import { ContextServiceMap } from '../providers/context-service-map';
 
 @Injectable()
 export class SiteContextParamsService {
+  protected logger = inject(LoggerService);
+
   constructor(
     private config: SiteContextConfig,
     private injector: Injector,
@@ -50,7 +53,9 @@ export class SiteContextParamsService {
         return this.injector.get<SiteContext<any>>(this.serviceMap[param]);
       } catch {
         if (isDevMode()) {
-          console.warn(`Couldn't find site context service for '${param}'.`);
+          this.logger.warn(
+            `Couldn't find site context service for '${param}'.`
+          );
         }
         return undefined;
       }

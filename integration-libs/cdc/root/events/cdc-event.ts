@@ -15,3 +15,15 @@ export class CdcLoadUserTokenFailEvent extends CxEvent {
    */
   static readonly type = 'CdcLoadUserTokenFailEvent';
 }
+
+export class CdcReConsentEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CdcReConsentEvent';
+  user: string;
+  password: string;
+  consentIds: string[];
+  errorMessage: string;
+  regToken: string;
+}

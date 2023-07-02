@@ -96,6 +96,15 @@ describe('AsmEnablerService', () => {
       expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
     });
 
+    it('should add UI when assisted-service/emulate? shows in the url', () => {
+      spyOn(location, 'path').and.returnValue(
+        '/any/assisted-service/emulate?customerId=1234'
+      );
+      spyOn(<any>asmEnablerService, 'addUi').and.stub();
+      asmEnablerService.load();
+      expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
+    });
+
     it('should not add UI when asm param is not used', () => {
       spyOn(location, 'path').and.returnValue('/any/url');
       spyOn(<any>asmEnablerService, 'addUi').and.stub();

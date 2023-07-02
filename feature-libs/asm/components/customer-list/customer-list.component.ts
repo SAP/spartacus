@@ -12,6 +12,7 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -21,10 +22,11 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
-  FeatureConfigService,
   SortModel,
   TranslationService,
   User,
+  OccConfig,
+  FeatureConfigService,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
@@ -34,7 +36,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { NEVER, Observable, Subscription, combineLatest } from 'rxjs';
+import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
@@ -90,6 +92,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   enableAsmB2bCustomerList = false;
 
+  customerListColumnActionType = CustomerListColumnActionType;
+
+  searchBox: UntypedFormControl = new UntypedFormControl();
+
   protected teardown: Subscription = new Subscription();
 
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
@@ -101,8 +107,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     translation: TranslationService,
     asmCustomerListFacade: AsmCustomerListFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfig?: FeatureConfigService
+    featureConfig?: FeatureConfigService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    occConfig?: OccConfig
   );
+
   /**
    * @deprecated since 7.0
    */
@@ -113,14 +122,16 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     translation: TranslationService,
     asmCustomerListFacade: AsmCustomerListFacade
   );
+
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected breakpointService: BreakpointService,
     protected asmConfig: AsmConfig,
     protected translation: TranslationService,
     protected asmCustomerListFacade: AsmCustomerListFacade,
-    // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
-    @Optional() protected featureConfig?: FeatureConfigService
+    // TODO:(CXSPA-3090) for next major release remove feature level
+    @Optional() protected featureConfig?: FeatureConfigService,
+    @Optional() protected occConfig?: OccConfig
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -184,6 +195,20 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.teardown.unsubscribe();
   }
 
+  changePage(page: number): void {
+    const options: CustomerSearchOptions = {
+      customerListId: this.selectedUserGroupId,
+      pageSize: this.pageSize,
+      currentPage: page,
+      sort: this.sortCode,
+    };
+    if (this.searchBox?.value) {
+      options.query = this.searchBox.value;
+    }
+
+    this.asmCustomerListFacade.customerListCustomersSearch(options);
+  }
+
   fetchCustomers(): void {
     // TODO: (CXSPA-2722 for remove ) Remove FeatureConfigService for 7.0
     this.enableAsmB2bCustomerList =
@@ -198,21 +223,38 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       if (this.sortCode) {
         options.sort = this.sortCode;
       }
+      if (this.searchBox?.value) {
+        options.query = this.searchBox.value;
+      }
 
       this.asmCustomerListFacade.customerListCustomersSearchReset();
 
       this.asmCustomerListFacade.customerListCustomersSearch(options);
     }
-    this.customerListConfig?.columns?.forEach((item) => {
+    this.updateCustomerListColumns();
+  }
+
+  private updateCustomerListColumns(): void {
+    const columns = this.customerListConfig?.columns || [];
+
+    for (const column of columns) {
       if (
-        item.headerLocalizationKey === 'asm.customerList.tableHeader.account' ||
-        item.headerLocalizationKey === 'hideAccount'
+        column.headerLocalizationKey ===
+          'asm.customerList.tableHeader.account' ||
+        column.headerLocalizationKey === 'hideHeaders'
       ) {
-        item.headerLocalizationKey = this.enableAsmB2bCustomerList
+        column.headerLocalizationKey = this.enableAsmB2bCustomerList
           ? 'asm.customerList.tableHeader.account'
-          : 'hideAccount';
+          : 'hideHeaders';
       }
-    });
+      if (
+        column.headerLocalizationKey === 'asm.customerList.tableHeader.cart'
+      ) {
+        column.headerLocalizationKey = this.featureConfig?.isLevel('6.1')
+          ? column.headerLocalizationKey
+          : 'hideHeaders';
+      }
+    }
   }
 
   onChangeCustomerGroup(): void {
@@ -249,6 +291,32 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       selectedUser: customerEntry,
     };
     this.closeModal(closeValue);
+  }
+
+  onKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.searchCustomers();
+    }
+  }
+  searchCustomers(): void {
+    this.currentPage = 0;
+    this.fetchCustomers();
+  }
+
+  isRequired(customerEntry: User, type: string): boolean {
+    if (
+      type === CustomerListColumnActionType.ACTIVE_CART &&
+      !customerEntry.lastCartId
+    ) {
+      return true;
+    }
+    if (
+      type === CustomerListColumnActionType.ORDER_HISTORY &&
+      customerEntry.hasOrder !== true
+    ) {
+      return true;
+    }
+    return false;
   }
 
   changeSortCode(sortCode: string): void {
@@ -291,29 +359,38 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     byDateDesc: string;
   }> {
     return combineLatest([
+      this.translation.translate('asm.customerList.tableSort.byName'),
       this.translation.translate('asm.customerList.tableSort.byNameAsc'),
       this.translation.translate('asm.customerList.tableSort.byNameDesc'),
       this.translation.translate('asm.customerList.tableSort.byDateAsc'),
       this.translation.translate('asm.customerList.tableSort.byDateDesc'),
       this.translation.translate('asm.customerList.tableSort.byOrderDateAsc'),
       this.translation.translate('asm.customerList.tableSort.byOrderDateDesc'),
+      this.translation.translate('asm.customerList.tableSort.byUnit'),
+      this.translation.translate('asm.customerList.tableSort.byUnitDesc'),
     ]).pipe(
       map(
         ([
+          textByName,
           textByNameAsc,
           textByNameDesc,
-          textByOrderDateAsc,
-          textByOrderDateDesc,
           textByDateAsc,
           textByDateDesc,
+          textByOrderDateAsc,
+          textByOrderDateDesc,
+          textByUnit,
+          textByUnitDesc,
         ]) => {
           return {
+            byName: textByName,
             byNameAsc: textByNameAsc,
             byNameDesc: textByNameDesc,
             byOrderDateAsc: textByOrderDateAsc,
             byOrderDateDesc: textByOrderDateDesc,
             byDateAsc: textByDateAsc,
             byDateDesc: textByDateDesc,
+            byUnit: textByUnit,
+            byUnitDesc: textByUnitDesc,
           };
         }
       )

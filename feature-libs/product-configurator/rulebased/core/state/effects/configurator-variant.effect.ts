@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { LoggerService, normalizeHttpError } from '@spartacus/core';
 import { ConfiguratorType } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { catchError, filter, switchMap } from 'rxjs/operators';
@@ -20,6 +20,8 @@ import { ConfiguratorActions } from '../actions/index';
  * Rulebased configurator effects related to variant search
  */
 export class ConfiguratorVariantEffects {
+  protected logger = inject(LoggerService);
+
   searchVariants$: Observable<
     | ConfiguratorActions.SearchVariantsSuccess
     | ConfiguratorActions.SearchVariantsFail
@@ -48,7 +50,7 @@ export class ConfiguratorVariantEffects {
             catchError((error) => [
               new ConfiguratorActions.SearchVariantsFail({
                 ownerKey: action.payload.owner.key,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               }),
             ])
           );

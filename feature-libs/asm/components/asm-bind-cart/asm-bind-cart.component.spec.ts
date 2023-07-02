@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmBindCartFacade } from '@spartacus/asm/root';
+import { AsmBindCartFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   ActiveCartFacade,
   Cart,
@@ -9,16 +9,49 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  AuthService,
+  FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   OCC_CART_ID_CURRENT,
+  RoutingService,
   Translatable,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { EMPTY, NEVER, Observable, of, throwError } from 'rxjs';
+import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
+import {
+  BehaviorSubject,
+  EMPTY,
+  NEVER,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
+import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
+import { AsmComponentService } from '../services/asm-component.service';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
+import createSpy = jasmine.createSpy;
+
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(false);
+  }
+}
+
+class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
+  authorizeCustomerSupportAgent(): Promise<void> {
+    return Promise.resolve();
+  }
+  isCustomerSupportAgentLoggedIn(): Observable<boolean> {
+    return of(false);
+  }
+  getCustomerSupportAgentTokenLoading(): Observable<boolean> {
+    return of(false);
+  }
+  startCustomerEmulationSession(_customerId: string) {}
+}
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
@@ -47,6 +80,10 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   reloadCart(_: string, __?: { active: boolean } | undefined): void {}
+  loadCart = createSpy();
+  getCartEntity(): Observable<ProcessesLoaderState<Cart | undefined>> {
+    return EMPTY;
+  }
 }
 
 class MockAsmBindCartFacade {
@@ -63,6 +100,24 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 class MockSavedCartFacade implements Partial<SavedCartFacade> {
   saveCart(): void {}
+  getSaveCartProcessSuccess(): Observable<boolean> {
+    return EMPTY;
+  }
+  getSaveCartProcessError(): Observable<boolean> {
+    return EMPTY;
+  }
+}
+
+class MockAsmComponentService extends AsmComponentService {
+  logoutCustomerSupportAgentAndCustomer(): void {}
+  unload() {}
+  isCustomerEmulationSessionInProgress() {
+    return of(false);
+  }
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
 }
 
 describe('AsmBindCartComponent', () => {
@@ -74,7 +129,11 @@ describe('AsmBindCartComponent', () => {
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
   let savedCartFacade: SavedCartFacade;
+  let asmComponentService: AsmComponentService;
+  let featureConfig: FeatureConfigService;
+  let routingService: RoutingService;
 
+  const inactiveCartId = '00000002';
   const prevActiveCartId = '00001122';
   const prevActiveCart: Cart = {
     code: prevActiveCartId,
@@ -86,12 +145,16 @@ describe('AsmBindCartComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AsmBindCartComponent, MockTranslatePipe],
       providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: AsmBindCartFacade, useClass: MockAsmBindCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: AsmComponentService, useClass: MockAsmComponentService },
       ],
     }).compileComponents();
   });
@@ -106,16 +169,22 @@ describe('AsmBindCartComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     savedCartFacade = TestBed.inject(SavedCartFacade);
+    featureConfig = TestBed.inject(FeatureConfigService);
+    asmComponentService = TestBed.inject(AsmComponentService);
+    routingService = TestBed.inject(RoutingService);
 
     spyOn(asmBindCartFacade, 'bindCart').and.returnValue(of(undefined));
     spyOn(multiCartFacade, 'reloadCart').and.stub();
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
+    spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
+    spyOn(routingService, 'go').and.callThrough();
     spyOn(activeCartFacade, 'getActive').and.returnValue(of(prevActiveCart));
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
     spyOn(savedCartFacade, 'saveCart').and.callThrough();
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
   });
 
   it('should fill the cart field with the current active cart for the customer', () => {
@@ -262,6 +331,107 @@ describe('AsmBindCartComponent', () => {
         component.bindCartToCustomer();
 
         expect(asmBindCartFacade.bindCart).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('subscribe deeplink cart id', () => {
+    beforeEach(() => {
+      spyOn(component.displayBindCartBtn$, 'next').and.stub();
+      spyOn(component.displaySaveCartBtn$, 'next').and.stub();
+      spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
+        new BehaviorSubject(true)
+      );
+    });
+
+    it('should subscribe deeplink inactive cart', () => {
+      spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+        'inactive'
+      );
+
+      component.ngOnInit();
+
+      expect(
+        asmComponentService.setShowDeeplinkCartInfoAlert
+      ).toHaveBeenCalledWith(true);
+      expect(component.displayBindCartBtn$.next).toHaveBeenCalledWith(false);
+      expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(true);
+    });
+
+    it('should subscribe deeplink active cart', () => {
+      spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+        'active'
+      );
+      component.ngOnInit();
+
+      expect(component.displayBindCartBtn$.next).toHaveBeenCalledWith(false);
+      expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(false);
+      expect(routingService.go).toHaveBeenCalled();
+    });
+  });
+
+  describe('save inactive cart id as deeplink', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      component.deepLinkCartId = inactiveCartId;
+      spyOn(asmComponentService, 'getSearchParameter').and.returnValue('anyId');
+      spyOn(multiCartFacade, 'getCartEntity').and.returnValue(
+        of({
+          loading: false,
+          success: true,
+          value: {
+            code: inactiveCartId,
+          },
+        })
+      );
+    });
+
+    it('should close inactive cart info alert', () => {
+      component.onSaveInactiveCart();
+      expect(
+        asmComponentService.setShowDeeplinkCartInfoAlert
+      ).toHaveBeenCalledWith(false);
+    });
+
+    it('should open the save inactive cart dialog', () => {
+      component.onSaveInactiveCart();
+
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ASM_SAVE_CART,
+        undefined,
+        jasmine.anything()
+      );
+    });
+
+    describe('save inactive cart', () => {
+      beforeEach(() => {
+        (
+          (<unknown>launchDialogService) as MockLaunchDialogService
+        ).dialogClose = of(SAVE_CART_DIALOG_ACTION.SAVE);
+      });
+
+      it('should navigate to saved cart detail page after save cart successed', () => {
+        spyOn(savedCartFacade, 'getSaveCartProcessSuccess').and.returnValue(
+          of(true)
+        );
+        spyOn(component.displayBindCartBtn$, 'next').and.stub();
+        spyOn(component.displaySaveCartBtn$, 'next').and.stub();
+
+        component.onSaveInactiveCart();
+        expect(routingService.go).toHaveBeenCalled();
+        expect(component.displaySaveCartBtn$.next).toHaveBeenCalledWith(false);
+      });
+
+      it('should not navigate to saved cart detail page after save cart failed', () => {
+        spyOn(savedCartFacade, 'getSaveCartProcessError').and.returnValue(
+          of(true)
+        );
+        spyOn(component.displaySaveCartBtn$, 'next').and.stub();
+        component.onSaveInactiveCart();
+        expect(routingService.go).not.toHaveBeenCalled();
+        expect(component.displaySaveCartBtn$.next).not.toHaveBeenCalledWith(
+          false
+        );
       });
     });
   });

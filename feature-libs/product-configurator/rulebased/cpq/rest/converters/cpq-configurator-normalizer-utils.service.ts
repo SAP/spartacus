@@ -9,8 +9,8 @@ import {
   getCurrencySymbol,
   getLocaleId,
 } from '@angular/common';
-import { Injectable, isDevMode } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LanguageService, LoggerService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
 
@@ -19,6 +19,7 @@ import { Cpq } from '../cpq.models';
  */
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorNormalizerUtilsService {
+  protected logger = inject(LoggerService);
   constructor(protected languageService: LanguageService) {}
 
   /**
@@ -299,7 +300,7 @@ export class CpqConfiguratorNormalizerUtilsService {
    */
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
-      console.warn(
+      this.logger.warn(
         `CpqConfiguratorNormalizerUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }
