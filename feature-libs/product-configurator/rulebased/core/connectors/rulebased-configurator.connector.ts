@@ -89,6 +89,14 @@ export class RulebasedConfiguratorConnector {
     ).readConfigurationForOrderEntry(parameters);
   }
 
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.getAdapter(
+      parameters.owner.configuratorType
+    ).readConfigurationForQuoteEntry(parameters);
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {

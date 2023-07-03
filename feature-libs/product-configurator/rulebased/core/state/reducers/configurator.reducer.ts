@@ -88,6 +88,10 @@ function ensureReducerMapCreated() {
       handleReadOrderEntryConfigurationSuccess
     );
     reducerMap.set(
+      ConfiguratorActions.READ_QUOTE_ENTRY_CONFIGURATION_SUCCESS,
+      handleReadQuoteEntryConfigurationSuccess
+    );
+    reducerMap.set(
       ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
       handleSetNextOwnerCartEntry
     );
@@ -266,6 +270,21 @@ function handleSearchVariantsSuccess(
 function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
+): Configurator.Configuration | undefined {
+  const configuration = { ...action.payload };
+
+  const result: Configurator.Configuration = {
+    ...state,
+    ...configuration,
+    priceSummary: configuration.overview?.priceSummary,
+  };
+
+  return result;
+}
+
+function handleReadQuoteEntryConfigurationSuccess(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.ReadQuoteEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
   const configuration = { ...action.payload };
 

@@ -121,6 +121,12 @@ export class CpqConfiguratorRestAdapter
     );
   }
 
+  readConfigurationForQuoteEntry(): Observable<Configurator.Configuration> {
+    throw new Error(
+      'Update the configuration overview is not supported for the CPQ configurator'
+    );
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {

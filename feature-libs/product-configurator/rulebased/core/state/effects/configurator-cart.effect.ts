@@ -202,6 +202,34 @@ export class ConfiguratorCartEffects {
     )
   );
 
+  readConfigurationForQuoteEntry$: Observable<
+    | ConfiguratorActions.ReadQuoteEntryConfigurationSuccess
+    | ConfiguratorActions.ReadQuoteEntryConfigurationFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.READ_QUOTE_ENTRY_CONFIGURATION),
+      switchMap((action: ConfiguratorActions.ReadQuoteEntryConfiguration) => {
+        const parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+          action.payload;
+        return this.configuratorCommonsConnector
+          .readConfigurationForQuoteEntry(parameters)
+          .pipe(
+            switchMap((result: Configurator.Configuration) => [
+              new ConfiguratorActions.ReadQuoteEntryConfigurationSuccess(
+                result
+              ),
+            ]),
+            catchError((error) => [
+              new ConfiguratorActions.ReadQuoteEntryConfigurationFail({
+                ownerKey: action.payload.owner.key,
+                error: normalizeHttpError(error, this.logger),
+              }),
+            ])
+          );
+      })
+    )
+  );
+
   removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
     createEffect(() =>
       this.actions$.pipe(
