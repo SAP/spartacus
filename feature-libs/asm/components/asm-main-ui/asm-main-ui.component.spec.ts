@@ -456,20 +456,6 @@ describe('AsmMainUiComponent', () => {
     );
   });
 
-  it('should call logout when agent has logged in and user is logged in if customerId shows in URL', () => {
-    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
-      of(true)
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
-    spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
-      customerId: 'anyId',
-    });
-
-    component.ngOnInit();
-    expect(asmComponentService.logoutCustomer).toHaveBeenCalledWith();
-  });
-
   it('should not display confirm switch dialog customer when agent has logined and customerId in deeplink is same', () => {
     spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
       of(true)

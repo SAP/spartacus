@@ -206,7 +206,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           parameters = this.asmComponentService.getDeepLinkUrlParams();
           if (agentLoggedIn && parameters.customerId) {
             if (!isEmulatedByDeepLink && userLoggedin) {
-              this.asmComponentService.logoutCustomer();
+              this.confirmSwitchCustomer(parameters.customerId);
             } else {
               setTimeout(() =>
                 this.startSessionWithParameters({

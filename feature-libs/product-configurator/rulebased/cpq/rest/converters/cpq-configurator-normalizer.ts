@@ -132,10 +132,10 @@ export class CpqConfiguratorNormalizer
   ) {
     const attributes: Configurator.Attribute[] = [];
     sourceAttributes.forEach((sourceAttribute) =>
-      this.convertAttribute(sourceAttribute, 0, currency, attributes)
+      this.convertAttribute(sourceAttribute, 1, currency, attributes)
     );
     const group: Configurator.Group = {
-      id: '0',
+      id: '1',
       name: '_GEN',
       configurable: true,
       complete: incompleteAttributes.length === 0,
