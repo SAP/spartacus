@@ -1183,7 +1183,21 @@ describe('OptimizedSsrEngine', () => {
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
         [
-          "{"message":"[spartacus] SSR optimization engine initialized","context":{"timestamp":"2023-05-26T00:00:00.000Z","options":{"concurrency":10,"timeout":3000,"forcedSsrTimeout":60000,"maxRenderTime":300000,"reuseCurrentRendering":true,"debug":false,"logger":true}}}",
+          "{
+          "message": "[spartacus] SSR optimization engine initialized",
+          "context": {
+            "timestamp": "2023-05-26T00:00:00.000Z",
+            "options": {
+              "concurrency": 10,
+              "timeout": 3000,
+              "forcedSsrTimeout": 60000,
+              "maxRenderTime": 300000,
+              "reuseCurrentRendering": true,
+              "debug": false,
+              "logger": true
+            }
+          }
+        }",
         ]
       `);
     });
@@ -1211,17 +1225,17 @@ describe('OptimizedSsrEngine', () => {
     it('should use the legacy server logger, if logger option not specified', () => {
       new TestEngineRunner({});
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-              [
-                "[spartacus] SSR optimization engine initialized with the following options: {
-                "concurrency": 10,
-                "timeout": 3000,
-                "forcedSsrTimeout": 60000,
-                "maxRenderTime": 300000,
-                "reuseCurrentRendering": true,
-                "debug": false
-              }",
-              ]
-            `);
+        [
+          "[spartacus] SSR optimization engine initialized with the following options: {
+          "concurrency": 10,
+          "timeout": 3000,
+          "forcedSsrTimeout": 60000,
+          "maxRenderTime": 300000,
+          "reuseCurrentRendering": true,
+          "debug": false
+        }",
+        ]
+      `);
     });
   });
 });

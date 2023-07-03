@@ -36,6 +36,7 @@ export const asm = {
         label: 'Customer Name/Email Address',
       },
       submit: 'Start Session',
+      startEmulation: 'Start Emulation',
       noMatch: 'No customer found.',
       noMatchResult: 'This account cannot be found.',
       createCustomer: 'Create New Customer',
@@ -58,6 +59,13 @@ export const asm = {
       },
       createAccountAlert:
         'The customer session starts once you create the customer account.',
+      validationErrors: {
+        firstName: 'Enter a valid first name.',
+        lastName: 'Enter a valid last name.',
+        emailAddress: 'Enter a valid email address.',
+      },
+      badRequestDuplicatedEmail:
+        'Enter a different email address as {{ emailAddress }} already exists.',
     },
     customerList: {
       title: 'Customer List',
@@ -145,6 +153,7 @@ export const asm = {
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
+    endEmulation: 'End Emulation',
     agentSessionTimer: {
       label: 'Session Timeout',
       minutes: 'min',
