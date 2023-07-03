@@ -8,7 +8,7 @@ import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OccSegmentRefsInterceptor } from './occ-segment-refs.interceptor';
 
-export const interceptors: Provider[] = [
+export const segmentRefsInterceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useExisting: OccSegmentRefsInterceptor,

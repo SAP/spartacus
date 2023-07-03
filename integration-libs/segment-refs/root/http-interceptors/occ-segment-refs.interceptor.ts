@@ -21,33 +21,33 @@ import { SegmentRefsConfig } from '../config/segment-refs-config';
 export class OccSegmentRefsInterceptor implements HttpInterceptor {
   private segmentRefs?: string | null;
   private requestHeader?: string;
-  private enabled = false;
   protected readonly SEGMENT_REFS_KEY = 'segment-refs';
 
   protected logger = inject(LoggerService);
 
   constructor(
-    private config: SegmentRefsConfig,
-    private occEndpoints: OccEndpointsService,
-    private winRef: WindowRef
+    protected config: SegmentRefsConfig,
+    protected occEndpoints: OccEndpointsService,
+    protected winRef: WindowRef
   ) {
+    const url = this.winRef.location.href ?? '';
+    const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
+    const segmentRef: string = queryParams.get('segmentrefs') ?? '';
+    // if (segmentRef !== '') {
+    //   this.winRef.localStorage?.setItem(this.SEGMENT_REFS_KEY, segmentRef);
+    // } else {
+    //   this.winRef.localStorage?.removeItem(this.SEGMENT_REFS_KEY);
+    // }
     if (this.winRef.isBrowser()) {
-      if (this.winRef.localStorage) {
-        this.enabled = true;
+      if (!this.config.segmentRefs?.httpHeaderName && isDevMode()) {
+        this.logger.warn(`There is no httpHeaderName configured in Segment`);
       }
-
-      if (this.enabled) {
-        if (!this.config.segmentRefs?.httpHeaderName && isDevMode()) {
-          this.logger.warn(`There is no httpHeaderName configured in Segment`);
-        }
-        this.requestHeader =
-          this.config.segmentRefs?.httpHeaderName?.id.toLowerCase();
-        this.segmentRefs = this.winRef.localStorage?.getItem(
-          this.SEGMENT_REFS_KEY
-        );
-      } else if (this.winRef.localStorage?.getItem(this.SEGMENT_REFS_KEY)) {
-        this.winRef.localStorage.removeItem(this.SEGMENT_REFS_KEY);
-      }
+      this.requestHeader =
+        this.config.segmentRefs?.httpHeaderName?.id.toLowerCase();
+      this.segmentRefs = segmentRef;
+      // = this.winRef.localStorage?.getItem(
+      //   this.SEGMENT_REFS_KEY
+      // );
     }
   }
 
@@ -55,10 +55,6 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!this.enabled) {
-      return next.handle(request);
-    }
-
     if (
       this.requestHeader &&
       this.segmentRefs &&
@@ -70,11 +66,8 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
         },
       });
     }
-
     return next.handle(request).pipe(
       tap((event) => {
-        // if(event instanceof HttpResponse)
-        //   console.log(event.headers.keys());
         if (
           event instanceof HttpResponse &&
           this.requestHeader &&

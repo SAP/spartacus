@@ -1,36 +1,37 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import {
+  NgModule,
+} from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { WindowRef } from '@spartacus/core';
 import { defaultSegmentRefsConfig } from './config/default-segment-refs-config';
-import { interceptors } from './http-interceptors';
+import { segmentRefsInterceptors } from './http-interceptors';
 
-export function segmentRefsFactory(winRef: WindowRef): () => Promise<string> {
-  return () => {
-    return new Promise((resolve) => {
-      const url = winRef.location.href ?? '';
-      const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-      const segmentRef: string = queryParams.get('segmentrefs') ?? '';
-      if (segmentRef) {
-        winRef.localStorage?.setItem('segmentRefs', segmentRef);
-      }
-      console.log(segmentRef);
-      resolve(segmentRef);
-    });
-  };
-}
+// const SEGMENT_REFS_KEY = 'segment-refs';
+// export function segmentRefsFactory(winRef: WindowRef): () => void {
+//   const isReady = () => {
+//     const url = winRef.location.href ?? '';
+//     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
+//     const segmentRef: string = queryParams.get('segmentrefs') ?? '';
+//     if (segmentRef !== '') {
+//       winRef.localStorage?.setItem(SEGMENT_REFS_KEY, segmentRef);
+//     } else {
+//       winRef.localStorage?.removeItem(SEGMENT_REFS_KEY);
+//     }
+//   };
+//   return isReady;
+// }
 
 @NgModule({
   declarations: [],
   imports: [],
   providers: [
-    ...interceptors,
+    ...segmentRefsInterceptors,
     provideDefaultConfig(defaultSegmentRefsConfig),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: segmentRefsFactory,
-      deps: [WindowRef],
-      multi: true,
-    },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: segmentRefsFactory,
+    //   deps: [WindowRef],
+    //   multi: true,
+    // },
   ],
 })
 export class SegmentRefsRootModule {}
