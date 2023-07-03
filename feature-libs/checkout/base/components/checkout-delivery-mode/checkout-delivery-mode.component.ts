@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -13,6 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -31,7 +32,12 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutDeliveryModeComponent {
   protected busy$ = new BehaviorSubject(false);
+  protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
+
   readonly CartOutlets = CartOutlets;
+
+  isSetDeliveryModeHttpError$ =
+    this.isSetDeliveryModeHttpErrorSub.asObservable();
 
   selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
     .getSelectedDeliveryModeState()
@@ -84,13 +90,36 @@ export class CheckoutDeliveryModeComponent {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 
+  // TODO(CXSPA-3976): make globalMessageService a required dependency
+  constructor(
+    fb: UntypedFormBuilder,
+    checkoutConfigService: CheckoutConfigService,
+    activatedRoute: ActivatedRoute,
+    checkoutStepService: CheckoutStepService,
+    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    activeCartFacade: ActiveCartFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    globalMessageService: GlobalMessageService
+  );
+  /**
+   * @deprecated since 6.2
+   */
+  constructor(
+    fb: UntypedFormBuilder,
+    checkoutConfigService: CheckoutConfigService,
+    activatedRoute: ActivatedRoute,
+    checkoutStepService: CheckoutStepService,
+    checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    activeCartFacade: ActiveCartFacade
+  );
   constructor(
     protected fb: UntypedFormBuilder,
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    @Optional() protected globalMessageService?: GlobalMessageService
   ) {}
 
   changeMode(code: string): void {
@@ -115,10 +144,17 @@ export class CheckoutDeliveryModeComponent {
   }
 
   protected onSuccess(): void {
+    this.isSetDeliveryModeHttpErrorSub.next(false);
     this.busy$.next(false);
   }
 
   protected onError(): void {
+    this.globalMessageService?.add(
+      { key: 'setDeliveryMode.unknownError' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+
+    this.isSetDeliveryModeHttpErrorSub.next(true);
     this.busy$.next(false);
   }
 }
