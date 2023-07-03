@@ -8,8 +8,6 @@ import { SegmentRefsConfig } from './segment-refs-config';
 
 export const defaultSegmentRefsConfig: SegmentRefsConfig = {
   segmentRefs: {
-    httpHeaderName: {
-      id: 'Segmentrefs',
-    },
+    httpHeaderName: 'Segmentrefs',
   },
 };

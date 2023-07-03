@@ -13,9 +13,7 @@ import { Config } from '@spartacus/core';
 })
 export abstract class SegmentRefsConfig {
   segmentRefs?: {
-    httpHeaderName?: {
-      id: string;
-    };
+    httpHeaderName: string;
   };
 }
 

@@ -43,7 +43,7 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
         this.logger.warn(`There is no httpHeaderName configured in Segment`);
       }
       this.requestHeader =
-        this.config.segmentRefs?.httpHeaderName?.id.toLowerCase();
+        this.config.segmentRefs?.httpHeaderName?.toLowerCase();
       this.segmentRefs = segmentRef;
       // = this.winRef.localStorage?.getItem(
       //   this.SEGMENT_REFS_KEY
