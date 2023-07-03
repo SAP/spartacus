@@ -1,89 +1,84 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails; else loading">
-  
-    <div class="cx-quote-details-header-status">
-      <h3 class="quote-details-header">
-        {{ 'quote.commons.id' | cxTranslate }}:
-        {{ quoteDetails.code }}
-      </h3>
-      <h3 class="status">
-        {{ 'quote.commons.status' | cxTranslate }}
-        {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
-      </h3>
-    </div>
-    <div class="cx-quote-overview">
-      <div class="container">
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetails.code,
-                'quote.details.code'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetails.creationTime | cxDate,
-                'quote.details.created'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetails.updatedTime | cxDate,
-                'quote.details.lastUpdated'
-              ) | async
-            "
-          ></cx-card>
-        </div>
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="
-              getCardContent(
-                getTotalPrice(quoteDetails),
-                'quote.details.estimatedTotal'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            class="cx-card-description"
-            [content]="
-              getCardContent(
-                quoteDetails.description,
-                'quote.details.description'
-              ) | async
-            "
-            [truncateText]="true"
-            [charactersLimit]="30"
-          ></cx-card>
-        </div>
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="
-              getCardContent(
-                'quote.states.' + quoteDetails.state | cxTranslate,
-                'quote.commons.status'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetails.expirationTime | cxDate,
-                'quote.details.expiryDate'
-              ) | async
-            "
-          ></cx-card>
-        </div>
+  <div class="cx-quote-details-header-status">
+    <h3 class="quote-details-header">
+      {{ 'quote.commons.id' | cxTranslate }}:
+      {{ quoteDetails.code }}
+    </h3>
+    <h3 class="status">
+      {{ 'quote.commons.status' | cxTranslate }}
+      {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
+    </h3>
+  </div>
+  <div class="cx-quote-overview">
+    <div class="container">
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCardContent(quoteDetails.code, 'quote.details.code') | async
+          "
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCardContent(
+              quoteDetails.creationTime | cxDate,
+              'quote.details.created'
+            ) | async
+          "
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCardContent(
+              quoteDetails.updatedTime | cxDate,
+              'quote.details.lastUpdated'
+            ) | async
+          "
+        ></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCardContent(
+              getTotalPrice(quoteDetails),
+              'quote.details.estimatedTotal'
+            ) | async
+          "
+        ></cx-card>
+        <cx-card
+          class="cx-card-description"
+          [content]="
+            getCardContent(
+              quoteDetails.description,
+              'quote.details.description'
+            ) | async
+          "
+          [truncateText]="true"
+          [charactersLimit]="30"
+        ></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCardContent(
+              'quote.states.' + quoteDetails.state | cxTranslate,
+              'quote.commons.status'
+            ) | async
+          "
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCardContent(
+              quoteDetails.expirationTime | cxDate,
+              'quote.details.expiryDate'
+            ) | async
+          "
+        ></cx-card>
       </div>
     </div>
-  </ng-container>
+  </div>
+</ng-container>
 
-  <ng-template #loading>
-    <div class="cx-spinner">
-      <cx-spinner></cx-spinner>
-    </div>
-  </ng-template>
-
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

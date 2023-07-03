@@ -38,9 +38,11 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
-  getTotalPrice(quote: Quote): string|null{
-    return (quote.previousEstimatedTotal?.value
-      ? quote.previousEstimatedTotal?.formattedValue
-      : quote.totalPrice.formattedValue) ?? null;
+  getTotalPrice(quote: Quote): string | null {
+    return (
+      (quote.previousEstimatedTotal?.value
+        ? quote.previousEstimatedTotal?.formattedValue
+        : quote.totalPrice.formattedValue) ?? null
+    );
   }
 }

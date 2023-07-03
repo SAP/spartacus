@@ -19,6 +19,10 @@ import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 import createSpy = jasmine.createSpy;
 
+const totalPriceFormattedValue = '$20';
+const estimatedTotalPriceFormattedValue = '$21';
+const estimatedTotalPriceValue = 21;
+
 const mockCartId = '1234';
 const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
 const mockQuote: Quote = {
@@ -37,7 +41,7 @@ const mockQuote: Quote = {
   },
   state: QuoteState.BUYER_ORDERED,
   name: 'Name',
-  totalPrice: { value: 20 },
+  totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {
@@ -141,6 +145,33 @@ describe('QuoteDetailsOverviewComponent', () => {
     //then
     component.getCardContent(value, titleKey).subscribe((result) => {
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getTotalPrice', () => {
+    it('should return the total price formatted value in case estimated total is not available', () => {
+      expect(component.getTotalPrice(mockQuote)).toBe(totalPriceFormattedValue);
+    });
+
+    it('should return the estimated total price formatted value in case estimated total is available', () => {
+      const quoteWEstimatedTotal: Quote = {
+        ...mockQuote,
+        previousEstimatedTotal: {
+          value: estimatedTotalPriceValue,
+          formattedValue: estimatedTotalPriceFormattedValue,
+        },
+      };
+      expect(component.getTotalPrice(quoteWEstimatedTotal)).toBe(
+        estimatedTotalPriceFormattedValue
+      );
+    });
+
+    it('should return null in case neither estimated or total price are available', () => {
+      const quoteWOPrices: Quote = {
+        ...mockQuote,
+        totalPrice: {},
+      };
+      expect(component.getTotalPrice(quoteWOPrices)).toBe(null);
     });
   });
 });
