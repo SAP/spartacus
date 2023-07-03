@@ -69,7 +69,6 @@ export namespace Cpq {
    */
   export interface Attribute {
     pA_ID: number;
-    PA_ID?: number;
     stdAttrCode: number;
     name?: string;
     description?: string;
