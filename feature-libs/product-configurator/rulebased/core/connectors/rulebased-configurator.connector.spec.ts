@@ -64,6 +64,9 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   readConfigurationForOrderEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
   );
+  readConfigurationForQuoteEntry = createSpy().and.callFake(() =>
+    of(productConfiguration)
+  );
   updateConfigurationForCartEntry = createSpy().and.callFake(() =>
     of(cartModification)
   );

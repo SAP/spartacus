@@ -68,7 +68,7 @@ export class ConfigureCartEntryComponent {
     if (this.cartEntry.quoteCode) {
       return this.cartEntry.quoteCode;
     } else if (this.cartEntry.orderCode) {
-      this.cartEntry.orderCode;
+      return this.cartEntry.orderCode;
     }
     return undefined;
   }

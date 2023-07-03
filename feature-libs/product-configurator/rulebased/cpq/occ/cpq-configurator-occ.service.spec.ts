@@ -104,6 +104,22 @@ describe('CpqConfigurationOccService', () => {
       },
     };
 
+  const readConfigQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+    {
+      userId: userId,
+      quoteId: documentId,
+      quoteEntryNumber: '3',
+      owner: {
+        type: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+        id: productCode,
+        key: ConfiguratorModelUtils.getOwnerKey(
+          CommonConfigurator.OwnerType.QUOTE_ENTRY,
+          productCode
+        ),
+        configuratorType: ConfiguratorType.CPQ,
+      },
+    };
+
   class MockOccEndpointsService {
     buildUrl(
       endpoint: string,
@@ -230,6 +246,32 @@ describe('CpqConfigurationOccService', () => {
           userId: userId,
           orderId: documentId,
           orderEntryNumber: '3',
+        },
+      }
+    );
+  });
+
+  it('should call readCpqConfigurationForQuoteEntry endpoint', () => {
+    serviceUnderTest
+      .getConfigIdForQuoteEntry(readConfigQuoteEntryParams)
+      .subscribe((response) => {
+        expect(response).toBe(configId);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' && req.url === 'readCpqConfigurationForQuoteEntry'
+      );
+    });
+    mockReq.flush({ configId: configId });
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForQuoteEntry',
+      {
+        urlParams: {
+          userId: userId,
+          quoteId: documentId,
+          quoteEntryNumber: '3',
         },
       }
     );

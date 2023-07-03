@@ -121,9 +121,18 @@ export class CpqConfiguratorRestAdapter
     );
   }
 
-  readConfigurationForQuoteEntry(): Observable<Configurator.Configuration> {
-    throw new Error(
-      'Update the configuration overview is not supported for the CPQ configurator'
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.getConfigIdForQuoteEntry(parameters).pipe(
+      switchMap((configId) => {
+        return this.cpqRestService.readConfiguration(configId).pipe(
+          map((configResponse) => {
+            configResponse.owner = parameters.owner;
+            return configResponse;
+          })
+        );
+      })
     );
   }
 

@@ -113,4 +113,25 @@ export class CpqConfiguratorOccService {
       })
     );
   }
+
+  getConfigIdForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<string> {
+    const url = this.occEndpointsService.buildUrl(
+      'readCpqConfigurationForQuoteEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          quoteId: parameters.quoteId,
+          quoteEntryNumber: parameters.quoteEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<{ configId: string }>(url).pipe(
+      map((response) => {
+        return response.configId;
+      })
+    );
+  }
 }
