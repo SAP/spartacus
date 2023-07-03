@@ -1329,12 +1329,12 @@ describe('CpqConfiguratorNormalizer', () => {
         })
       ).toBe('123');
     });
-      it("should map fallback field name 'PA_ID' if standard field name 'pA_ID' is not present", () => {
-        expect(
-          cpqConfiguratorNormalizer['mapPA_ID'](<any>{
-            PA_ID: 456,
-          })
-        ).toBe('456');
+    it("should map fallback field name 'PA_ID' if standard field name 'pA_ID' is not present", () => {
+      expect(
+        cpqConfiguratorNormalizer['mapPA_ID'](<any>{
+          PA_ID: 456,
+        })
+      ).toBe('456');
     });
   });
 });
