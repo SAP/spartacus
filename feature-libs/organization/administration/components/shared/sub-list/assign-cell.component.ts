@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
@@ -74,7 +74,7 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
       (this.organizationSubListService as SubListService<T>).assign?.(
         key,
         linkKey
-      ) ?? of()
+      ) ?? EMPTY
     );
   }
 
@@ -86,7 +86,7 @@ export class AssignCellComponent<T extends BaseItem> extends CellComponent {
       (this.organizationSubListService as SubListService<T>).unassign?.(
         key,
         linkKey
-      ) ?? of()
+      ) ?? EMPTY
     );
   }
 

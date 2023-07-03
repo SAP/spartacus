@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -102,7 +102,7 @@ export function verifySorting() {
 export function cancelReplenishmentInHistory() {
   const replenishmentHistoryAlias = visitReplenishmentHistory();
 
-  cy.get(replenishmentHistoryAlias).should((xhr) => {
+  cy.get(replenishmentHistoryAlias).then((xhr) => {
     const body = xhr.response.body;
     expect(body.replenishmentOrders[0].active).to.equal(true);
 

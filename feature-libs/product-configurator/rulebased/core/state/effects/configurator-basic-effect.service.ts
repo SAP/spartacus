@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,35 +14,63 @@ import { Configurator } from '../../model/configurator.model';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorBasicEffectService {
   /**
-   * Finds first group with attributes for a configuration. Throws error if such a group does not exist,
-   * as this is an illegal state
+   * Finds first attribute group with attributes for a configuration (ignores conflict groups per default).
+   * If optional parameter 'includeConflicts' is set to true it finds first group with attributes including conflict groups.
+   * Throws error if such a group does not exist, as this is an illegal state
    * @param configuration
+   * @param includeConflicts (optional) if true it includes also conflict groups in the search
    * @returns Group id
+   *
    */
   getFirstGroupWithAttributes(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    includeConflicts = false
   ): string {
-    const id = this.getFirstGroupWithAttributesForList(configuration.groups);
+    const id = this.getFirstGroupWithAttributesForList(
+      configuration.groups,
+      includeConflicts
+    );
     if (id) {
       return id;
     } else {
       throw new Error('Configuration does not have any attributes');
     }
   }
+
   /**
-   * Finds first group with attributes in a list of groups
+   * Finds first group with attributes in a list of groups. Dependent on 'includeConflicts' parameters it includes conflict groups in the search or it ignores them.
    * @param groups
-   * @returns Group or undefined if such a group does not exist
+   * @param includeConflicts set to true in order to include conflict groups in the seach
+   * @returns Group id
    */
   protected getFirstGroupWithAttributesForList(
-    groups: Configurator.Group[]
+    groups: Configurator.Group[],
+    includeConflicts: boolean
   ): string | undefined {
-    const groupWithAttributes: Configurator.Group | undefined = groups
-      .filter(
-        (currentGroup) =>
-          currentGroup.attributes && currentGroup.attributes.length > 0
-      )
-      .shift();
+    let groupWithAttributes: Configurator.Group | undefined;
+    if (
+      includeConflicts &&
+      groups.length > 0 &&
+      groups[0].groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    ) {
+      //check if conflicts exist and try to return first conflict group with attributes
+      groupWithAttributes = groups[0].subGroups
+        .filter(
+          (currentGroup) =>
+            currentGroup.attributes && currentGroup.attributes.length > 0
+        )
+        .shift();
+    }
+    if (groupWithAttributes === undefined) {
+      groupWithAttributes = groups
+        .filter(
+          (currentGroup) =>
+            currentGroup.attributes &&
+            currentGroup.attributes.length > 0 &&
+            currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP
+        )
+        .shift();
+    }
     let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
@@ -53,7 +81,10 @@ export class ConfiguratorBasicEffectService {
             currentGroup.subGroups && currentGroup.subGroups.length > 0
         )
         .flatMap((currentGroup) =>
-          this.getFirstGroupWithAttributesForList(currentGroup.subGroups)
+          this.getFirstGroupWithAttributesForList(
+            currentGroup.subGroups,
+            includeConflicts
+          )
         )
         .filter((groupId) => groupId) //Filter undefined strings
         .shift();

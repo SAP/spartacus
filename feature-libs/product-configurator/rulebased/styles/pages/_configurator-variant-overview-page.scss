@@ -1,12 +1,21 @@
 %VariantConfigurationOverviewTemplate {
   @include cx-configurator-template();
+}
+
+%VariantConfigurationOverviewTemplate {
+  cx-page-slot.VariantConfigOverviewBottombar {
+    cx-configurator-add-to-cart-button {
+      z-index: 10;
+    }
+  }
+
   cx-page-slot.VariantConfigOverviewContent,
-  cx-page-slot.VariantConfigOverviewSidebar {
+  cx-page-slot.VariantConfigOverviewNavigation {
     height: fit-content;
   }
 
   @include media-breakpoint-up(lg) {
-    cx-page-slot.VariantConfigOverviewSidebar {
+    cx-page-slot.VariantConfigOverviewNavigation {
       max-inline-size: 30%;
     }
 
@@ -16,7 +25,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    cx-page-slot.VariantConfigOverviewSidebar {
+    cx-page-slot.VariantConfigOverviewNavigation {
       max-inline-size: calc(1140px * 0.3);
     }
 

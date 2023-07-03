@@ -1,20 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -29,11 +23,19 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 {
   attributeRadioButtonForm = new UntypedFormControl('');
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  expMode: boolean;
 
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  constructor(
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
+    super();
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
+  }
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
@@ -45,24 +47,22 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
    * @param {string} value - Selected value
    */
   onClick(value: string): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         selectedSingleValue: value,
       },
-    };
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   extractValuePriceFormulaParameters(
     value?: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
-    if (value) {
-      return {
-        price: value.valuePrice,
-        isLightedUp: value.selected,
-      };
-    }
+  ): ConfiguratorPriceComponentOptions {
+    return {
+      price: value?.valuePrice,
+      isLightedUp: value ? value.selected : false,
+    };
   }
 }

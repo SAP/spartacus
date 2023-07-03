@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "4.1.0-next.0",
+  "version": "5.0.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -11,25 +11,25 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "yarn clean && yarn --cwd ../../ generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean": "../../node_modules/.bin/rimraf \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+    "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^14.2.3",
-    "@nguniversal/express-engine": "^14.0.0",
-    "semver": "^7.3.5",
+    "@angular/pwa": "^15.2.4",
+    "@nguniversal/express-engine": "^15.2.0",
+    "semver": "^7.5.0",
     "ts-morph": "^9.1.0",
     "tslib": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^14.2.3",
-    "@angular-devkit/schematics": "^14.2.3",
-    "@angular/compiler": "^14.2.3",
-    "@schematics/angular": "^14.2.3",
-    "jsonc-parser": "^3.0.0",
+    "@angular-devkit/core": "^15.2.4",
+    "@angular-devkit/schematics": "^15.2.4",
+    "@angular/compiler": "^15.2.4",
+    "@schematics/angular": "^15.2.4",
+    "jsonc-parser": "^3.2.0",
     "parse5": "^6.0.1",
-    "typescript": "^4.7.2"
+    "typescript": "^4.8.2"
   },
   "peerDependenciesMeta": {
     "canvas": {
@@ -58,11 +58,13 @@
       "@spartacus/smartedit",
       "@spartacus/storefinder",
       "@spartacus/tracking",
+      "@spartacus/pickup-in-store",
       "@spartacus/user",
       "@spartacus/cdc",
       "@spartacus/cds",
       "@spartacus/digital-payments",
-      "@spartacus/epd-visualization"
+      "@spartacus/epd-visualization",
+      "@spartacus/customer-ticketing"
     ]
   },
   "schematics": "./src/collection.json"

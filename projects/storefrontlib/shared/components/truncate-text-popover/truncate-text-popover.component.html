@@ -1,6 +1,6 @@
 <ng-container>
   <ng-container>
-    <span class="truncated-text">
+    <span class="truncated-text" [ngClass]="customClass">
       {{ content | cxTruncate: [charactersLimit] }}
     </span>
   </ng-container>

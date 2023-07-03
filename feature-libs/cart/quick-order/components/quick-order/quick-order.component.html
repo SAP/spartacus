@@ -164,11 +164,7 @@
 <ng-container *ngIf="quickOrderListLimit$ | async as quickOrderListLimit">
   <ng-container *ngIf="entries$ | async as entries">
     <div class="quick-order-header">
-      <!-- TODO:(CXSPA-1695) for next major release remove below h3 tag and feature level check from the h2 tag-->
-      <h3 *cxFeatureLevel="'!5.1'">
-        {{ 'quickOrderList.header' | cxTranslate }}
-      </h3>
-      <h2 *cxFeatureLevel="'5.1'">
+      <h2>
         {{ 'quickOrderList.header' | cxTranslate }}
       </h2>
       <p>
@@ -192,20 +188,20 @@
     </div>
 
     <div class="quick-order-footer row">
-      <div class="col-xs-12 col-md-5 col-lg-4">
+      <div class="col-xs-12 col-md-5 col-lg-3">
         <button
           *ngIf="entries.length"
           (click)="clear()"
           [attr.aria-label]="'quickOrderList.emptyList' | cxTranslate"
           [disabled]="!(isCartStable$ | async)"
-          class="btn btn-block btn-action clear-button"
+          class="btn btn-block btn-secondary clear-button"
           type="button"
         >
           {{ 'quickOrderList.emptyList' | cxTranslate }}
         </button>
       </div>
 
-      <div class="col-xs-12 col-md-5 col-lg-4">
+      <div class="col-xs-12 col-md-5 col-lg-3">
         <cx-progress-button
           (clickEvent)="addToCart(entries)"
           [ariaLabel]="'quickOrderList.addToCart' | cxTranslate"

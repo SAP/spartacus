@@ -12,7 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CdcAuthActions } from '../store';
+import { CdcAuthActions } from '../../store';
 import { CdcAuthService } from './cdc-auth.service';
 
 class MockAuthStorageService implements Partial<AuthStorageService> {

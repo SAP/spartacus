@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,7 +40,7 @@ export function loaderReducer<T, V extends Action = Action>(
         return {
           ...state,
           loading: true,
-          value: reducer ? reducer(state.value, action) : state.value,
+          value: getReducerIfExists(state.value),
         };
       } else if (entity.error) {
         return {
@@ -48,12 +48,12 @@ export function loaderReducer<T, V extends Action = Action>(
           loading: false,
           error: true,
           success: false,
-          value: reducer ? reducer(state.value, action) : undefined,
+          value: getReducerIfExists(undefined),
         };
       } else if (entity.success) {
         return {
           ...state,
-          value: reducer ? reducer(state.value, action) : action.payload,
+          value: getReducerIfExists(action.payload),
           loading: false,
           error: false,
           success: true,
@@ -76,5 +76,9 @@ export function loaderReducer<T, V extends Action = Action>(
       }
     }
     return state;
+
+    function getReducerIfExists(fallbackValue: any) {
+      return reducer ? reducer(state.value, action) : fallbackValue;
+    }
   };
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,10 +28,9 @@ import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
   map,
-  mapTo,
   pairwise,
   startWith,
-  switchMapTo,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -149,9 +148,11 @@ export class ProfileTagPushEventsService {
               currentCategoryPage.categoryCode &&
             previousRoute.navigation.semanticRoute ===
               currentRoute.navigation.semanticRoute
-          ); // A true means that this item is not unique, so this is hard to wrap your head around.
-          // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
-          // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode
+          );
+          // A true means that this item is not unique, so this is hard to wrap your head around.
+          // What we are saying, is that if the category code is the same AND the last emitted semantic route is the
+          // same then this is a duplicate (i.e. via a facet change). In other words, no other page type was visited,
+          // and we are on the same category code.
         }
       ),
       map(
@@ -221,7 +222,7 @@ export class ProfileTagPushEventsService {
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(PageEvent)
-      .pipe(mapTo(new NavigatedPushEvent()));
+      .pipe(map(() => new NavigatedPushEvent()));
   }
 
   /**
@@ -234,7 +235,7 @@ export class ProfileTagPushEventsService {
   protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(CartPageEvent)
-      .pipe(mapTo(new CartViewPushEvent()));
+      .pipe(map(() => new CartViewPushEvent()));
   }
 
   /**
@@ -247,7 +248,7 @@ export class ProfileTagPushEventsService {
   protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(HomePageEvent)
-      .pipe(mapTo(new HomePageViewPushEvent()));
+      .pipe(map(() => new HomePageViewPushEvent()));
   }
 
   /**
@@ -260,7 +261,7 @@ export class ProfileTagPushEventsService {
   protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(OrderPlacedEvent)
-      .pipe(mapTo(new OrderConfirmationPushEvent()));
+      .pipe(map(() => new OrderConfirmationPushEvent()));
   }
 
   /**
@@ -380,7 +381,7 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartRemoveEntrySuccessEvent),
       this.eventService.get(MergeCartSuccessEvent)
     ).pipe(
-      switchMapTo(this.activeCartFacade.takeActive()),
+      switchMap(() => this.activeCartFacade.takeActive()),
       map(
         (cart) =>
           new CartSnapshotPushEvent({

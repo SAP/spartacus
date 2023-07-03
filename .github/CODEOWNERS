@@ -8,8 +8,6 @@
 #
 #  More info: https://help.github.com/articles/about-codeowners/
 #
-
-
 # ================================================
 #  General rules / philosophy
 # ================================================
@@ -27,42 +25,53 @@
 #  - This approval can come from an appropriate codeowner, or any repo collaborator (person with write access) if the PR is authored by a codeowner.
 #  - Each codeowners team must have write access to the repo, otherwise their reviews won't count.
 
-
 # ================================================
 # All the files in the repo.
 # ================================================
-
 * @SAP/spartacus-codeowners
 
 
 # ================================================
-#  This code owner file
+#  This code owners file
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
 
 # ================================================
 #  Folders where anyone with write access to the repo can approve Pull Requests
 # ================================================
-
 /docs/
-
 /projects/storefrontapp-e2e-cypress/
-
 
 # @SAP/spartacus-codeowners needs to be repeated in each subsequent rules
 # to remain owner of all the sources in the repo.
 
 # ================================================
-#  ASM Feature
+#  ASM
 # ================================================
-/feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-iceman
+/feature-libs/asm/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
 
 # ================================================
-#  Product Configurator and CPQ integration Features
+#  User domain
+# ================================================
+/feature-libs/user/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
+
+# ================================================
+#  Product Configurator and CPQ integration
 # ================================================
 /feature-libs/product-configurator/          @SAP/spartacus-codeowners @SAP/spartacus-CPQ
 
 # ================================================
-#  Customer Ticketing Feature
+#  Intelligent services (ISS)
 # ================================================
-/feature-libs/customer-ticketing/         @SAP/spartacus-codeowners @SAP/spartacus-alchemysts
+/integration-libs/cds/          @SAP/spartacus-codeowners @SAP/spartacus-CDS
+
+# ================================================
+#  (CDC)
+# ================================================
+/integration-libs/cdc/          @SAP/spartacus-codeowners @SAP/spartacus-CDC
+
+# ================================================
+#  BOPIS
+# ================================================
+/feature-libs/pickup-in-store/         @SAP/spartacus-codeowners @SAP/spartacus-colossus
+

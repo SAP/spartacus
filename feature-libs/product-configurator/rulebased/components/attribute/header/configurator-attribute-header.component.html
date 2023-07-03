@@ -1,9 +1,8 @@
-<ng-container *cxFeatureLevel="'5.1'">
-  <div *ngIf="!attribute.visible" class="cx-hidden-msg">
-    <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
-    {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
-  </div>
-</ng-container>
+<div *ngIf="!attribute.visible" class="cx-hidden-msg">
+  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+  {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
+</div>
+
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
@@ -24,11 +23,11 @@
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-live]="isAttributeGroup() ? 'assertive' : 'off'"
-  [attr.aria-atomic]="isAttributeGroup() ? true : false"
-  [attr.role]="isAttributeGroup() ? 'alert' : null"
+  [attr.aria-live]="isConflictResolutionActive() ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isConflictResolutionActive() ? true : false"
+  [attr.role]="isConflictResolutionActive() ? 'alert' : null"
   [attr.aria-label]="
-    isAttributeGroup()
+    isConflictResolutionActive()
       ? ('configurator.a11y.conflictDetected' | cxTranslate)
       : ''
   "
@@ -73,6 +72,7 @@
 
 <ng-template #conflictGroup>
   <a
+    *ngIf="isNavigationToGroupEnabled"
     class="link cx-action-link"
     (click)="navigateToGroup()"
     (keydown.enter)="navigateToGroup()"

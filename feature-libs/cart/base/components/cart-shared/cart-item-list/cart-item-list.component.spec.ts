@@ -12,7 +12,6 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   UserIdService,
@@ -101,12 +100,6 @@ class MockCartItemComponent {
   };
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 const mockContext = {
   readonly: true,
   hasHeader: true,
@@ -144,10 +137,6 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
   }

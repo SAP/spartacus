@@ -1,0 +1,166 @@
+on:
+  pull_request:
+    types: [ready_for_review]
+    branches:
+      - develop
+      - develop-*
+      - release/**
+  workflow_dispatch:
+    # empty as it is used only to manually trigger the workflow
+  
+env:
+  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  GH_TOKEN: ${{ github.token }}
+  NODE_VERSION: '16'
+
+concurrency: 
+  group: ci-merge-checks-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+name: Merge Checks
+jobs:
+  no_retries: 
+    name: MC - Prevent retries
+    # E2Es can't be retried.  Moreover, in some retry cases, they don't run
+    # and the job returns a success code.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forcefully fail build if jobs are all retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
+  validate_e2e_execution:
+    name: MC - Confirm e2es should run
+    runs-on: ubuntu-latest
+    outputs: 
+      SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Determine whether to run e2es
+        id: save-e2e-output-result
+        run: |         
+          source ci-scripts/validate-e2e-execution.sh
+          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+  b2c_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: MC - E2E B2C core
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3, 4, 5]
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env: 
+          SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh
+  b2c_ssr_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: MC - E2E SSR (B2C)
+    runs-on: ubuntu-latest
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env: 
+          SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |
+          ci-scripts/e2e-cypress.sh --ssr
+  b2b_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: MC - E2E B2B core
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3, 4]
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: ci,b2b
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+        run: |     
+          ci-scripts/e2e-cypress.sh -s b2b
+  merge_checks_result:
+    needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
+    name: MC - Result
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Aggregate Required Job Results
+        run: |
+            gh pr ready --undo ${{github.event.number}} -R ${{ github.repository }} 
+            exit 1
+        if: |
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'

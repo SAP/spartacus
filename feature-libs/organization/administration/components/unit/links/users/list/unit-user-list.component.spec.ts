@@ -1,12 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  DisableInfoModule,
-  ItemService,
-} from 'feature-libs/organization/administration/components/shared';
-import { SubListTestingModule } from 'feature-libs/organization/administration/components/shared/sub-list/sub-list.testing.module';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
+import { DisableInfoModule, ItemService } from '../../../../shared';
+import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 import { UnitUserListComponent } from './unit-user-list.component';
@@ -15,8 +13,14 @@ class MockUnitUserListService {}
 
 class MockCurrentUnitService implements Partial<CurrentUnitService> {}
 
+class MockB2BUserService implements Partial<B2BUserService> {
+  isUpdatingUserAllowed(): boolean {
+    return true;
+  }
+}
+
 class MockItemService {
-  current$ = of();
+  current$ = EMPTY;
 }
 
 describe('UnitUserListComponent', () => {
@@ -39,6 +43,10 @@ describe('UnitUserListComponent', () => {
         {
           provide: CurrentUnitService,
           useClass: MockCurrentUnitService,
+        },
+        {
+          provide: B2BUserService,
+          useClass: MockB2BUserService,
         },
         {
           provide: ItemService,

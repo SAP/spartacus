@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -350,20 +350,23 @@ export function createStylePreprocessorOptions(
 function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions: {
   includePaths: string[];
 }): { includePaths: string[] } {
+  const NODE_MODULES_PATH = 'node_modules/';
   if (!angularJsonStylePreprocessorOptions) {
     angularJsonStylePreprocessorOptions = {
-      includePaths: ['node_modules/'],
+      includePaths: [NODE_MODULES_PATH],
     };
   } else {
     if (!angularJsonStylePreprocessorOptions.includePaths) {
-      angularJsonStylePreprocessorOptions.includePaths = ['node_modules/'];
+      angularJsonStylePreprocessorOptions.includePaths = [NODE_MODULES_PATH];
     } else {
       if (
         !angularJsonStylePreprocessorOptions.includePaths.includes(
-          'node_modules/'
+          NODE_MODULES_PATH
         )
       ) {
-        angularJsonStylePreprocessorOptions.includePaths.push('node_modules/');
+        angularJsonStylePreprocessorOptions.includePaths.push(
+          NODE_MODULES_PATH
+        );
       }
     }
   }

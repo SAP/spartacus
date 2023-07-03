@@ -18,8 +18,8 @@
     },
     "baseUrl": {
       "type": "string",
-      "description": "The base URL (origin) of the EPD Fiori Launchpad",
-      "x-prompt": "[EPD Visualization] What is the base URL (origin) of your EPD Fiori Launchpad? e.g. https://mytenant.epd.cfapps.eu20.hana.ondemand.com"
+      "description": "The base URL (origin) of the EPD Visualization Fiori Launchpad",
+      "x-prompt": "[EPD Visualization] What is the base URL (origin) of your EPD Visualization Fiori Launchpad? e.g. https://mytenant.visualization.eu20.epd.cloud.sap"
     }
   },
   "required": []

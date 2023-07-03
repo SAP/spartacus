@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,157 +7,216 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   Optional,
 } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import {
+  delay,
+  distinctUntilChanged,
+  filter,
+  skip,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { ConfigFormUpdateEvent } from './configurator-form.event';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import {
+  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorFormComponent implements OnInit {
-  protected subscriptions = new Subscription();
+export class ConfiguratorFormComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
 
   configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService.extractRouterData().pipe(
+    this.routerData$.pipe(
       filter(
         (routerData) =>
           routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
       ),
       switchMap((routerData) => {
         return this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
+          routerData.owner,
+          routerData.configIdTemplate
         );
       })
     );
-  currentGroup$: Observable<Configurator.Group> =
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-        )
-      );
 
-  activeLanguage$: Observable<string> = this.languageService.getActive();
-
-  uiType = Configurator.UiType;
-
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
+  currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+    )
+  );
+  // TODO(CXSPA-3392): make globalMessageService a required dependency
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
     configuratorGroupsService: ConfiguratorGroupsService,
     configRouterExtractorService: ConfiguratorRouterExtractorService,
-    languageService: LanguageService,
-    configUtils: ConfiguratorStorefrontUtilsService,
+    configExpertModeService: ConfiguratorExpertModeService,
+    launchDialogService: LaunchDialogService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService
+    featureConfigService: FeatureConfigService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    globalMessageService: GlobalMessageService
   );
 
   /**
-   * @deprecated since 5.1
+   * @deprecated since 6.1
    */
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
     configuratorGroupsService: ConfiguratorGroupsService,
     configRouterExtractorService: ConfiguratorRouterExtractorService,
-    languageService: LanguageService,
-    configUtils: ConfiguratorStorefrontUtilsService
+    configExpertModeService: ConfiguratorExpertModeService,
+    launchDialogService: LaunchDialogService
   );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected languageService: LanguageService,
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService,
+    protected launchDialogService: LaunchDialogService,
+    // TODO:(CXSPA-3392) for next major release remove feature config service
+    @Optional() protected featureConfigservice?: FeatureConfigService,
+    @Optional() protected globalMessageService?: GlobalMessageService
   ) {}
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  protected listenForConflictResolution(): void {
+    this.subscription.add(
+      this.routerData$
+        .pipe(
+          switchMap((routerData) =>
+            this.configuratorCommonsService.hasConflicts(routerData.owner)
+          ),
+          distinctUntilChanged(), // we are interested only in status changes
+          skip(1), // we skip the very first emission to avoid the change fron undefined -> no conflicts
+          filter((hasConflicts) => !hasConflicts)
+        )
+        .subscribe(() => this.displayConflictResolvedMessage())
+    );
+  }
+
+  protected displayConflictResolvedMessage(): void {
+    if (
+      this.globalMessageService &&
+      (this.featureConfigservice?.isLevel('6.1') ?? false)
+    ) {
+      this.globalMessageService.add(
+        { key: 'configurator.header.conflictsResolved' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
+  }
+
   ngOnInit(): void {
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(take(1))
-      .subscribe((routingData) => {
-        //In case of resolving issues, check if the configuration contains conflicts,
-        //if not, check if the configuration contains missing mandatory fields and show the group
-        if (routingData.resolveIssues) {
-          this.configuratorCommonsService
-            .hasConflicts(routingData.owner)
-            .pipe(take(1))
-            .subscribe((hasConflicts) => {
-              if (hasConflicts && !routingData.skipConflicts) {
-                this.configuratorGroupsService.navigateToConflictSolver(
-                  routingData.owner
-                );
+    this.listenForConflictResolution();
 
-                //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
-              } else {
-                this.configuratorGroupsService.navigateToFirstIncompleteGroup(
-                  routingData.owner
-                );
-              }
-            });
-        }
-        if (routingData.expMode) {
-          this.configExpertModeService?.setExpModeRequested(
-            routingData.expMode
+    this.routerData$
+      .pipe(
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
           );
-        }
+        }),
+        take(1)
+      )
+      .subscribe((configuration) => {
+        this.configuratorCommonsService.checkConflictSolverDialog(
+          configuration.owner
+        );
       });
-  }
 
-  updateConfiguration(event: ConfigFormUpdateEvent): void {
-    this.configuratorCommonsService.updateConfiguration(
-      event.ownerKey,
-      event.changedAttribute,
-      event.updateType
-    );
-  }
+    this.routerData$
+      .pipe(
+        filter((routingData) => routingData.displayRestartDialog === true),
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
+          );
+        }),
+        take(1),
+        filter(
+          (configuration) =>
+            configuration.interactionState.newConfiguration === false
+        ),
+        delay(0) // Delay because we first want the form to react on data changes
+      )
+      .subscribe((configuration) => {
+        this.launchDialogService.openDialogAndSubscribe(
+          LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
+          undefined,
+          { owner: configuration.owner }
+        );
+      });
 
-  isConflictGroupType(groupType: Configurator.GroupType): boolean {
-    return this.configuratorGroupsService.isConflictGroupType(groupType);
+    this.routerData$.pipe(take(1)).subscribe((routingData) => {
+      //In case of resolving issues (if no conflict solver dialog is present!), check if the configuration contains conflicts,
+      //if not, check if the configuration contains missing mandatory fields and show the group
+      if (routingData.resolveIssues) {
+        this.configuratorCommonsService
+          .hasConflicts(routingData.owner)
+          .pipe(take(1))
+          .subscribe((hasConflicts) => {
+            if (hasConflicts && !routingData.skipConflicts) {
+              this.configuratorGroupsService.navigateToConflictSolver(
+                routingData.owner
+              );
+
+              //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
+            } else {
+              this.configuratorGroupsService.navigateToFirstIncompleteGroup(
+                routingData.owner
+              );
+            }
+          });
+      }
+
+      if (routingData.expMode) {
+        this.configExpertModeService?.setExpModeRequested(routingData.expMode);
+      }
+    });
   }
 
   /**
-   * Display group description box only for conflict groups with a given group name (i.e. a conflict description)
-   * @param group
-   * @returns true if conflict description box should be displayed
+   * Verifies whether the navigation to a conflict group is enabled.
+   * @param configuration Current configuration
+   * @returns {boolean} Returns 'true' if the navigation to a conflict group is enabled, otherwise 'false'.
    */
-  displayConflictDescription(group: Configurator.Group): boolean {
-    return (
-      group.groupType !== undefined &&
-      this.configuratorGroupsService.isConflictGroupType(group.groupType) &&
-      group.name !== ''
-    );
+  isNavigationToGroupEnabled(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return !configuration.immediateConflictResolution;
   }
 
   /**
-   * Generates a group ID.
-   *
-   * @param {string} groupId - group ID
-   * @returns {string | undefined} - generated group ID
+   * Checks if conflict solver dialog is active
+   * @param configuration
+   * @returns Conflict solver dialog active?
    */
-  createGroupId(groupId?: string): string | undefined {
-    return this.configUtils.createGroupId(groupId);
-  }
-
-  get expMode(): Observable<boolean> | undefined {
-    return this.configExpertModeService?.getExpModeActive();
+  isDialogActive(configuration: Configurator.Configuration): boolean {
+    return configuration.interactionState.showConflictSolverDialog ?? false;
   }
 }

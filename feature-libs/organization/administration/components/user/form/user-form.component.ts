@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
+import { B2BUser, B2BUserRole, B2BUserRight, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
@@ -73,6 +73,7 @@ export class UserFormComponent implements OnInit {
   titles$: Observable<Title[]> = this.userProfileFacade.getTitles();
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
+  availableRights: B2BUserRight[] = this.b2bUserService.getAllRights();
 
   constructor(
     protected itemService: ItemService<B2BUser>,

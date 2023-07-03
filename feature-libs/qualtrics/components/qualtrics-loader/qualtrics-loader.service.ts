@@ -1,18 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { isPlatformBrowser } from '@angular/common';
 import {
+  inject,
   Inject,
   Injectable,
   isDevMode,
   OnDestroy,
   PLATFORM_ID,
 } from '@angular/core';
-import { ScriptLoader, WindowRef } from '@spartacus/core';
+import { LoggerService, ScriptLoader, WindowRef } from '@spartacus/core';
 import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -41,6 +42,8 @@ interface QualtricsWindow extends Window {
 export class QualtricsLoaderService implements OnDestroy {
   protected subscription = new Subscription();
 
+  protected logger = inject(LoggerService);
+
   /**
    * Reference to the QSI API.
    */
@@ -52,7 +55,7 @@ export class QualtricsLoaderService implements OnDestroy {
   private qsiLoaded$: Observable<any> =
     isPlatformBrowser(this.platformId) && this.window
       ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
-      : of();
+      : EMPTY;
 
   /**
    * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
@@ -120,7 +123,7 @@ export class QualtricsLoaderService implements OnDestroy {
   protected run(reload = false): void {
     if (!this.qsiApi?.API) {
       if (isDevMode()) {
-        console.log('The QSI api is not available');
+        this.logger.log('The QSI api is not available');
       }
       return;
     }

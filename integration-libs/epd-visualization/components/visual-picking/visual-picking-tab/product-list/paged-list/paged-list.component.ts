@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,9 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
+import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 /**
@@ -73,18 +75,20 @@ export class PagedListComponent implements OnInit {
     this.activeSlideStartIndexChange.emit(activeSlideStartIndex);
   }
 
+  protected logger = inject(LoggerService);
+
   constructor(protected el: ElementRef) {}
 
   ngOnInit() {
     if (!this.headerTemplate) {
-      console.error(
+      this.logger.error(
         'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
       return;
     }
 
     if (!this.template) {
-      console.error(
+      this.logger.error(
         'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
       return;

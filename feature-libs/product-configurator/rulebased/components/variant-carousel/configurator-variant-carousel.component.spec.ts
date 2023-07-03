@@ -10,10 +10,8 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';

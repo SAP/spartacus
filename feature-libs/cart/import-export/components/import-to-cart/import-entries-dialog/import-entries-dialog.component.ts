@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize, pluck } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -47,7 +47,9 @@ export class ImportEntriesDialogComponent {
   });
 
   context$: Observable<AddOrderEntriesContext> =
-    this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
+    this.launchDialogService.data$.pipe(
+      map((data) => data.orderEntriesContext)
+    );
 
   constructor(protected launchDialogService: LaunchDialogService) {}
 

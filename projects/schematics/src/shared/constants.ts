@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -142,6 +142,8 @@ export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
+export const UNIT_LEVEL_ORDER_HISTORY_COMPONENT =
+  'UnitLevelOrderHistoryComponent';
 export const ORDER_OVERVIEW_COMPONENT = 'OrderOverviewComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
@@ -1133,6 +1135,8 @@ export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 export const CSS_V5_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
+export const CSS_V6_DOCS_URL =
+  'https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT';
 
 export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';

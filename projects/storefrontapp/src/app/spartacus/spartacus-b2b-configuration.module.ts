@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,9 +16,11 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 
-const baseSite = environment.epdVisualization
-  ? ['powertools-epdvisualization-spa', 'powertools-spa']
-  : ['powertools-spa'];
+let baseSite = ['powertools-spa', 'powertools-standalone'];
+
+if (environment.epdVisualization) {
+  baseSite.unshift('powertools-epdvisualization-spa');
+}
 
 @NgModule({
   providers: [

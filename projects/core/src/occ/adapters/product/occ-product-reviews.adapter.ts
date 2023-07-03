@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Review } from '../../../model/product.model';
 import {
   PRODUCT_REVIEW_NORMALIZER,
@@ -30,7 +30,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
     return this.http
       .get<Occ.Product>(this.getEndpoint(productCode, maxCount))
       .pipe(
-        pluck('reviews'),
+        map((productResponse) => productResponse.reviews),
         map((reviews) => reviews ?? []),
         this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
       );

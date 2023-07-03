@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -109,6 +109,14 @@ export class ConfiguratorAttributeProductCardComponent
         this.productCardOptions.multiSelect) ??
       false
     );
+  }
+  //TODO(CXSPA-3392) for next major: turn ConfiguratorAttributeProductCardComponentOptions#attributeName
+  //into a required field and get rid of this method, use this.productCardOptions.attributeName instead
+  get attributeName(): string {
+    const attributeName = this.productCardOptions.attributeName;
+    return attributeName
+      ? attributeName
+      : this.productCardOptions.attributeId.toString();
   }
 
   get focusConfig(): FocusConfig {
@@ -235,7 +243,9 @@ export class ConfiguratorAttributeProductCardComponent
    * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
-    return valueCode && valueCode !== '0' ? true : false;
+    return valueCode && valueCode !== Configurator.RetractValueCode
+      ? true
+      : false;
   }
 
   protected transformToProductType(

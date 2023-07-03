@@ -1,0 +1,60 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-customer-ticket-form-dialog"
+>
+  <form [formGroup]="form" class="cx-customer-ticket-form-container">
+    <div class="modal-header cx-customer-ticket-form-header">
+      <div class="cx-customer-ticket-form-title modal-title">
+        {{ 'customerTicketingDetails.closeRequest' | cxTranslate }}
+      </div>
+      <button
+        (click)="close('Close Request Dialog')"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        class="cx-customer-ticket-form-close close"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <div class="cx-customer-ticket-form-body">
+      <div class="cx-customer-ticket-form-row">
+        <label>
+          <span class="cx-customer-ticket-label label-content">
+            {{ 'customerTicketing.message' | cxTranslate }}
+          </span>
+          <textarea
+            [maxLength]="inputCharactersLimit"
+            class="form-control"
+            formControlName="message"
+            rows="5"
+          ></textarea>
+
+          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'customerTicketing.charactersLeft'
+                | cxTranslate: { count: messagesCharacterLeft }
+            }}
+          </p>
+        </label>
+      </div>
+
+      <div class="cx-customer-ticket-form-footer">
+        <button
+          (click)="close('Close Request Dialog')"
+          class="btn btn-secondary"
+        >
+          {{ 'customerTicketing.cancel' | cxTranslate }}
+        </button>
+        <button (click)="closeRequest()" class="btn btn-primary">
+          {{ 'customerTicketing.submit' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+    <cx-spinner *ngIf="isDataLoading$ | async" class="overlay"></cx-spinner>
+  </form>
+</div>

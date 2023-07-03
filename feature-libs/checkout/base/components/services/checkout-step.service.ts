@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -83,7 +83,7 @@ export class CheckoutStepService {
   resetSteps(): void {
     this.allSteps = (this.checkoutConfig.checkout?.steps ?? [])
       .filter((step) => !step.disabled)
-      .map((x) => Object.assign({}, x));
+      .map((checkoutStep) => Object.assign({}, checkoutStep));
     this.steps$.next(this.allSteps);
   }
 

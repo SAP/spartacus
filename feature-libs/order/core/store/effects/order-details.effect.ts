@@ -1,24 +1,37 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  LoggerService,
+  SiteContextActions,
+  UserIdService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { EMPTY, Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
+import { StateWithOrder } from '../order-state';
 
 @Injectable()
 export class OrderDetailsEffect {
+  protected logger = inject(LoggerService);
+
   loadOrderDetails$: Observable<OrderActions.OrderDetailsAction> = createEffect(
     () =>
       this.actions$.pipe(
@@ -34,7 +47,7 @@ export class OrderDetailsEffect {
               catchError((error) =>
                 of(
                   new OrderActions.LoadOrderDetailsFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -61,7 +74,9 @@ export class OrderDetailsEffect {
               );
 
               return of(
-                new OrderActions.CancelOrderFail(normalizeHttpError(error))
+                new OrderActions.CancelOrderFail(
+                  normalizeHttpError(error, this.logger)
+                )
               );
             })
           );
@@ -69,9 +84,46 @@ export class OrderDetailsEffect {
     )
   );
 
+  resetOrderDetails$: Observable<
+    OrderActions.LoadOrderDetailsSuccess | OrderActions.LoadOrderDetailsFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      withLatestFrom(
+        this.userIdService.getUserId(),
+        this.store.pipe(
+          filter((store) => !!store.order?.orderDetail),
+          map((state) => state.order.orderDetail.value?.code)
+        )
+      ),
+      switchMap(([, userId, orderCode]) => {
+        if (orderCode) {
+          return this.orderConnector.get(userId, orderCode).pipe(
+            map((order: Order) => {
+              return new OrderActions.LoadOrderDetailsSuccess(order);
+            }),
+            catchError((error) =>
+              of(
+                new OrderActions.LoadOrderDetailsFail(
+                  normalizeHttpError(error, this.logger)
+                )
+              )
+            )
+          );
+        }
+        return EMPTY;
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orderConnector: OrderHistoryConnector,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private userIdService: UserIdService,
+    private store: Store<StateWithOrder>
   ) {}
 }

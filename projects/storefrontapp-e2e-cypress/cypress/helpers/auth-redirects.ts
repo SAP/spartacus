@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -110,4 +110,20 @@ export function testRedirectAfterForcedLogin() {
 
     cy.location('pathname').should('contain', '/my-account/address-book');
   });
+}
+
+/**
+ * Waits for the background work to complete after a cy.visit() call and the browser adds base parameters.
+ *
+ * Handling of authentication revocation can slow down page loads to the point that tests fail due to timeouts.
+ * When the background work completes after a cy.visit(), the base paramaters are added to the url and the page loads normally.
+ */
+export function visitAndWaitForRedirections(path: string) {
+  cy.visit(path);
+  cy.location('pathname', { timeout: 30000 }).should(
+    'contain',
+    `/${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+      'BASE_CURRENCY'
+    )}`
+  );
 }

@@ -16,7 +16,7 @@
         }
       } | cxUrl
     "
-    [queryParams]="{ forceReload: true, resolveIssues: hasIssues() }"
+    [queryParams]="getQueryParams()"
     cxAutoFocus
     attr.aria-describedby="{{ getResolveIssuesA11yDescription() }}"
   >

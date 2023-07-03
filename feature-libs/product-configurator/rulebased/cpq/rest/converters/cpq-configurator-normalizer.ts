@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,10 +132,10 @@ export class CpqConfiguratorNormalizer
   ) {
     const attributes: Configurator.Attribute[] = [];
     sourceAttributes.forEach((sourceAttribute) =>
-      this.convertAttribute(sourceAttribute, 0, currency, attributes)
+      this.convertAttribute(sourceAttribute, 1, currency, attributes)
     );
     const group: Configurator.Group = {
-      id: '0',
+      id: '1',
       name: '_GEN',
       configurable: true,
       complete: incompleteAttributes.length === 0,
@@ -235,6 +235,12 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  protected convertValueCode(valueCode: number): string {
+    return valueCode === 0
+      ? Configurator.RetractValueCode
+      : valueCode.toString();
+  }
+
   protected convertValue(
     sourceValue: Cpq.Value,
     sourceAttribute: Cpq.Attribute,
@@ -245,7 +251,7 @@ export class CpqConfiguratorNormalizer
       return;
     }
     const value: Configurator.Value = {
-      valueCode: sourceValue.paV_ID.toString(),
+      valueCode: this.convertValueCode(sourceValue.paV_ID),
       name: sourceValue.valueCode,
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
@@ -357,7 +363,7 @@ export class CpqConfiguratorNormalizer
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         if (
           !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === '0'
+          attribute.selectedSingleValue === Configurator.RetractValueCode
         ) {
           attribute.incomplete = true;
         }

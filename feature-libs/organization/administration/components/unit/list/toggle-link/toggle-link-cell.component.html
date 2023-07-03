@@ -8,6 +8,11 @@
     *ngIf="isSwitchable"
     class="button tree-item-toggle"
     type="button"
+    [attr.aria-label]="
+      expanded
+        ? ('orgUnit.tree.collapse' | cxTranslate)
+        : ('orgUnit.tree.expand' | cxTranslate)
+    "
     (click)="toggleItem($event)"
   >
     <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'"></cx-icon>

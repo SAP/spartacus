@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -69,6 +69,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (errorResponse instanceof HttpErrorResponse) {
       if (errorResponse.status === 403) {
+        this.cpqSessionId = null;
         this.cpqAccessStorageService.renewCpqAccessData();
         return this.cpqAccessStorageService.getCpqAccessData().pipe(
           take(1),

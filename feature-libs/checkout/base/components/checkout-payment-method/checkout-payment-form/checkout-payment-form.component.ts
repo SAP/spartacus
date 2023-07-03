@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,16 +29,18 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   Card,
+  getAddressNumbers,
   ICON_TYPE,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -115,7 +117,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected fb: UntypedFormBuilder,
     protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected translationService: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -200,23 +203,32 @@ export class CheckoutPaymentFormComponent implements OnInit {
   toggleSameAsDeliveryAddress(): void {
     this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
+  getAddressCardContent(address: Address): Observable<Card> {
+    return this.translationService
+      ? combineLatest([
+          this.translationService.translate('addressCard.phoneNumber'),
+          this.translationService.translate('addressCard.mobileNumber'),
+        ]).pipe(
+          map(([textPhone, textMobile]) => {
+            let region = '';
+            if (address.region && address.region.isocode) {
+              region = address.region.isocode + ', ';
+            }
+            const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-  getAddressCardContent(address: Address): Card {
-    let region = '';
-    if (address.region && address.region.isocode) {
-      region = address.region.isocode + ', ';
-    }
-
-    return {
-      textBold: address.firstName + ' ' + address.lastName,
-      text: [
-        address.line1,
-        address.line2,
-        address.town + ', ' + region + address.country?.isocode,
-        address.postalCode,
-        address.phone,
-      ],
-    } as Card;
+            return {
+              textBold: address.firstName + ' ' + address.lastName,
+              text: [
+                address.line1,
+                address.line2,
+                address.town + ', ' + region + address.country?.isocode,
+                address.postalCode,
+                numbers,
+              ],
+            } as Card;
+          })
+        )
+      : EMPTY;
   }
 
   //TODO: Add elementRef to trigger button when verifyAddress is used.

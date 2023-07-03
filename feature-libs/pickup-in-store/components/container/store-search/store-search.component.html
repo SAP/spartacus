@@ -1,0 +1,53 @@
+<div class="cx-find-a-store-container">
+  <div class="cx-find-a-store-label">
+    <label for="txtFindAStore">
+      {{ 'storeSearch.findAStore' | cxTranslate }}
+    </label>
+  </div>
+  <div class="cx-find-a-store-input">
+    <input
+      [placeholder]="'storeSearch.searchPlaceholder' | cxTranslate"
+      class="form-control"
+      type="text"
+      id="txtFindAStore"
+      #txtFindAStore
+    />
+  </div>
+  <div class="cx-find-a-store-button">
+    <button
+      (click)="onFindStores(txtFindAStore.value)"
+      class="btn btn-primary btn-block"
+      id="btnFindStores"
+    >
+      {{ 'storeSearch.findStores' | cxTranslate }}
+    </button>
+  </div>
+  <div class="cx-find-a-store-link-container">
+    <a
+      class="cx-find-a-store-link"
+      id="lnkUseMyLocation"
+      (click)="useMyLocation()"
+      tabindex="0"
+      role="button"
+    >
+      {{ 'storeSearch.useMyLocation' | cxTranslate }}
+    </a>
+  </div>
+  <div class="cx-find-a-store-hide-out-of-stock">
+    <div class="cx-find-a-store-checkbox-group form-check">
+      <label
+        class="cx-hide-out-of-stock-label form-check-label"
+        for="chkHideOutOfStock"
+      >
+        {{ 'storeSearch.hideOutOfStockOptions' | cxTranslate }}
+      </label>
+      <input
+        (click)="onHideOutOfStock()"
+        [checked]="hideOutOfStock"
+        class="form-check-input"
+        id="chkHideOutOfStock"
+        type="checkbox"
+      />
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,8 +68,8 @@ export class PageLinkService {
   ): string {
     const queryPos = url.indexOf('?');
     if (queryPos > -1) {
-      const urlBeforeQueryParam = url.substr(0, queryPos);
-      const params = new URLSearchParams(url.substr(queryPos));
+      const urlBeforeQueryParam = url.substring(0, queryPos);
+      const params = new URLSearchParams(url.substring(queryPos));
 
       url = urlBeforeQueryParam;
 

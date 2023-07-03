@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartFacade,
   DeliveryMode,
   PaymentDetails,
   PaymentType,
@@ -20,6 +21,7 @@ import {
 import {
   Address,
   CostCenter,
+  LoggerService,
   QueryState,
   RouteConfig,
   RoutingConfigService,
@@ -86,6 +88,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
     mockCheckoutSteps
   );
   disableEnableStep = createSpy();
+  getCheckoutStep = createSpy().and.returnValue({});
 }
 
 class MockCheckoutCostCenterService
@@ -135,6 +138,10 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   }
 }
 
+class MockCartService implements Partial<ActiveCartFacade> {
+  hasDeliveryItems = createSpy().and.returnValue(of(false));
+}
+
 describe(`CheckoutB2BStepsSetGuard`, () => {
   let guard: CheckoutB2BStepsSetGuard;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
@@ -169,6 +176,7 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
           useClass: MockCheckoutPaymentFacade,
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: ActiveCartFacade, useClass: MockCartService },
       ],
     });
 
@@ -323,11 +331,15 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
 
     describe('PAYMENT_DETAILS is not valid any more', () => {
       it('go to step3 (payment details), should return to checkout', (done) => {
-        spyOn(console, 'warn');
+        const logger = TestBed.inject(LoggerService);
+        spyOn(logger, 'warn');
         guard
           .canActivate(<any>{ url: ['checkout', 'route3'] })
           .subscribe((result) => {
             expect(result.toString()).toEqual('/checkout');
+            expect(logger.warn).toHaveBeenCalledWith(
+              `Missing step with route '/checkout/route3' in checkout configuration or this step is disabled.`
+            );
             done();
           });
       });

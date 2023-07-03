@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import { RenderingCache } from './rendering-cache';
 
 describe('RenderingCache', () => {
@@ -56,11 +58,11 @@ describe('RenderingCache', () => {
     });
     it('should return true if there is rendering', () => {
       renderingCache.store('test', undefined, 'testHtml');
-      expect(renderingCache.isReady('test')).toBeTrue();
+      expect(renderingCache.isReady('test')).toBeTruthy();
     });
     it('should return true if there is an error', () => {
       renderingCache.store('test', {} as any);
-      expect(renderingCache.isReady('test')).toBeTrue();
+      expect(renderingCache.isReady('test')).toBeTruthy();
     });
   });
 
@@ -90,7 +92,7 @@ describe('RenderingCache with ttl', () => {
 
     beforeEach(() => {
       mockedTime = 100;
-      spyOn(Date, 'now').and.callFake(() => mockedTime);
+      jest.spyOn(Date, 'now').mockImplementation(() => mockedTime);
     });
 
     it('should return false for non-existent renders', () => {

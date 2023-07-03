@@ -1,10 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
@@ -21,6 +26,10 @@ import { FacetService } from '../services/facet.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ActiveFacetsComponent {
+  @HostBinding('attr.role') role = 'group';
+  @HostBinding('attr.aria-labelledby') labelledby =
+    'cx-active-facets-groupName';
+
   /** Active facets which are applied to the product results. */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
 

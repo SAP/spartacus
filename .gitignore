@@ -20,7 +20,7 @@ docs.zip
 
 # dependencies
 node_modules/
-package-lock.json
+yarn.lock
 
 # verdaccio storage
 scripts/install/storage
@@ -61,6 +61,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 debug.log
+prettier.log
 
 # System Files
 .DS_Store

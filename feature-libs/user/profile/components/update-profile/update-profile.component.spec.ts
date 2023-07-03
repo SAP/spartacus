@@ -9,7 +9,11 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
@@ -57,12 +61,19 @@ describe('UpdateProfileComponent', () => {
           RouterTestingModule,
           UrlTestingModule,
           NgSelectModule,
+          FeaturesConfigModule,
         ],
         declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
         providers: [
           {
             provide: UpdateProfileComponentService,
             useClass: MockUpdateProfileService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '5.2' },
+            },
           },
         ],
       }).compileComponents();

@@ -88,7 +88,6 @@ class MockProductReferenceService {
 
 class MockVisualPickingProductFilterService {
   set filter(filter: string) {
-    expect(filter).toBe('2');
     this._filter = filter;
   }
   get filter() {
@@ -137,6 +136,18 @@ describe('VisualPickingProductListService', () => {
   });
 
   describe('getProductReferences()', () => {
+    it('should clear filter during initialization', () => {
+      const filterSetterSpy = spyOnProperty(
+        visualPickingProductFilterService,
+        'filter',
+        'set'
+      );
+
+      visualPickingProductListService.initialize();
+
+      expect(filterSetterSpy).toHaveBeenCalledWith('');
+    });
+
     it('should filter out undefined values returned by ProductReferenceService', (done) => {
       visualPickingProductListService['currentProduct$'] = of(currentProduct);
 
@@ -165,7 +176,7 @@ describe('VisualPickingProductListService', () => {
       visualPickingProductListService.initialize();
     });
 
-    it('should produce one value for each distinct set of product references', (done) => {
+    it('should produce one value for each set of product references', (done) => {
       visualPickingProductListService['currentProduct$'] = of(currentProduct);
 
       spyOn(
@@ -191,13 +202,19 @@ describe('VisualPickingProductListService', () => {
       visualPickingProductListService
         .getProductReferences()
         .subscribe((productRefs: ProductReference[]) => {
-          if (count === 0) {
-            expect(productRefs).toEqual([]);
-          } else if (count === 1) {
-            expect(productRefs).toEqual(oneProductReference);
-          } else {
-            expect(productRefs).toEqual(productReferences);
-            done();
+          switch (count) {
+            case 0:
+            case 1:
+              expect(productRefs).toEqual([]);
+              break;
+            case 2:
+            case 3:
+              expect(productRefs).toEqual(oneProductReference);
+              break;
+            case 4:
+              expect(productRefs).toEqual(productReferences);
+              done();
+              break;
           }
           count++;
         });
@@ -234,6 +251,12 @@ describe('VisualPickingProductListService', () => {
 
   describe('getFilteredProductReferences', () => {
     it('should produce product references for the current product that have been filtered by the VisualPickingProductFilterService', (done) => {
+      const filterSetterSpy = spyOnProperty(
+        visualPickingProductFilterService,
+        'filter',
+        'set'
+      );
+
       visualPickingProductFilterService.filter = '2';
       visualPickingProductListService
         .getFilteredProductReferences()
@@ -248,6 +271,9 @@ describe('VisualPickingProductListService', () => {
           expect(filteredProductReferences[1].target?.code).toBe(
             sparePart3.target?.code
           );
+
+          expect(filterSetterSpy).toHaveBeenCalledWith('2');
+          expect(filterSetterSpy).toHaveBeenCalledTimes(1);
           done();
         });
     });

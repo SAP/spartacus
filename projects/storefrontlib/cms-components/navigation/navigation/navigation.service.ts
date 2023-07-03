@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import {
   CmsService,
   SemanticPathService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { NavigationNode } from './navigation-node.model';
 
@@ -46,7 +46,7 @@ export class NavigationService {
     data$: Observable<CmsNavigationComponent>
   ): Observable<NavigationNode> {
     if (!data$) {
-      return of();
+      return EMPTY;
     }
     return data$.pipe(
       filter((data) => !!data),
@@ -58,25 +58,25 @@ export class NavigationService {
             tap((items) => {
               if (items === undefined) {
                 this.loadNavigationEntryItems(navigation, true);
-              } else {
-                // we should check whether the existing node items are what expected
-                const expectedItems: {
-                  superType: string | undefined;
-                  id: string | undefined;
-                }[] = [];
-                this.loadNavigationEntryItems(navigation, false, expectedItems);
-                const existingItems = Object.keys(items).map(
-                  (key) => items[key].uid ?? ''
+                return;
+              }
+              // we should check whether the existing node items are what expected
+              const expectedItems: {
+                superType: string | undefined;
+                id: string | undefined;
+              }[] = [];
+              this.loadNavigationEntryItems(navigation, false, expectedItems);
+              const existingItems = Object.keys(items).map(
+                (key) => items[key].uid ?? ''
+              );
+              const missingItems = expectedItems.filter(
+                (it) => it.id && !existingItems.includes(it.id)
+              );
+              if (missingItems.length > 0) {
+                this.cmsService.loadNavigationItems(
+                  navigation.uid ?? '',
+                  missingItems
                 );
-                const missingItems = expectedItems.filter(
-                  (it) => it.id && !existingItems.includes(it.id)
-                );
-                if (missingItems.length > 0) {
-                  this.cmsService.loadNavigationItems(
-                    navigation.uid ?? '',
-                    missingItems
-                  );
-                }
               }
             }),
             filter(Boolean),
@@ -222,3 +222,5 @@ export class NavigationService {
     }
   }
 }
+
+// CHECK SONAR

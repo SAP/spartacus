@@ -1,15 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   APP_INITIALIZER,
+  inject,
   ModuleWithProviders,
   NgModule,
   Optional,
 } from '@angular/core';
+import { LoggerService } from '../logger';
 import { LazyModulesService } from './lazy-modules.service';
 import { MODULE_INITIALIZER } from './tokens';
 
@@ -17,20 +19,20 @@ export function moduleInitializersFactory(
   lazyModuleService: LazyModulesService,
   moduleInitializerFunctions: (() => any)[]
 ): () => any {
-  const factoryFunction = () => {
+  const logger = inject(LoggerService);
+  return () => {
     return Promise.all(
       lazyModuleService.runModuleInitializerFunctions(
         moduleInitializerFunctions
       )
     ).catch((error) => {
-      console.error(
+      logger.error(
         'MODULE_INITIALIZER promise was rejected during app initialization.',
         error
       );
       throw error;
     });
   };
-  return factoryFunction;
 }
 
 @NgModule({})

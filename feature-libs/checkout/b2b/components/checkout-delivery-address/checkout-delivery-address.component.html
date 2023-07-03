@@ -1,5 +1,5 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-  {{ 'checkoutAddress.deliveryAddress' | cxTranslate }}
+  {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
 </h2>
 
 <ng-container *ngIf="cards$ | async as cards">
@@ -21,7 +21,7 @@
       <div class="cx-checkout-btns row" *ngIf="!isAccountPayment">
         <div class="col-sm-12 col-md-12 col-lg-6">
           <button
-            class="btn btn-block btn-action"
+            class="btn btn-block btn-secondary"
             (click)="showNewAddressForm()"
           >
             {{ 'checkoutAddress.addNewAddress' | cxTranslate }}
@@ -51,7 +51,7 @@
 
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
-          <button class="cx-btn btn btn-block btn-action" (click)="back()">
+          <button class="cx-btn btn btn-block btn-secondary" (click)="back()">
             {{ backBtnText | cxTranslate }}
           </button>
         </div>

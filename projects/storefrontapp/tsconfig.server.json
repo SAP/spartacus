@@ -153,6 +153,24 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "../../feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "../../feature-libs/customer-ticketing/assets/public_api"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "../../feature-libs/customer-ticketing/components/public_api"
+      ],
+      "@spartacus/customer-ticketing/core": [
+        "../../feature-libs/customer-ticketing/core/public_api"
+      ],
+      "@spartacus/customer-ticketing": [
+        "../../feature-libs/customer-ticketing/public_api"
+      ],
+      "@spartacus/customer-ticketing/occ": [
+        "../../feature-libs/customer-ticketing/occ/public_api"
+      ],
+      "@spartacus/customer-ticketing/root": [
+        "../../feature-libs/customer-ticketing/root/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"
@@ -207,6 +225,24 @@
       "@spartacus/organization/order-approval/root": [
         "../../feature-libs/organization/order-approval/root/public_api"
       ],
+      "@spartacus/organization/unit-order/assets": [
+        "../../feature-libs/organization/unit-order/assets/public_api"
+      ],
+      "@spartacus/organization/unit-order/components": [
+        "../../feature-libs/organization/unit-order/components/public_api"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "../../feature-libs/organization/unit-order/core/public_api"
+      ],
+      "@spartacus/organization/unit-order": [
+        "../../feature-libs/organization/unit-order/public_api"
+      ],
+      "@spartacus/organization/unit-order/occ": [
+        "../../feature-libs/organization/unit-order/occ/public_api"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "../../feature-libs/organization/unit-order/root/public_api"
+      ],
       "@spartacus/organization/user-registration/assets": [
         "../../feature-libs/organization/user-registration/assets/public_api"
       ],
@@ -224,6 +260,24 @@
       ],
       "@spartacus/organization/user-registration/root": [
         "../../feature-libs/organization/user-registration/root/public_api"
+      ],
+      "@spartacus/pickup-in-store/assets": [
+        "../../feature-libs/pickup-in-store/assets/public_api"
+      ],
+      "@spartacus/pickup-in-store/components": [
+        "../../feature-libs/pickup-in-store/components/public_api"
+      ],
+      "@spartacus/pickup-in-store/core": [
+        "../../feature-libs/pickup-in-store/core/public_api"
+      ],
+      "@spartacus/pickup-in-store": [
+        "../../feature-libs/pickup-in-store/public_api"
+      ],
+      "@spartacus/pickup-in-store/occ": [
+        "../../feature-libs/pickup-in-store/occ/public_api"
+      ],
+      "@spartacus/pickup-in-store/root": [
+        "../../feature-libs/pickup-in-store/root/public_api"
       ],
       "@spartacus/product-configurator/common/assets": [
         "../../feature-libs/product-configurator/common/assets/public_api"
@@ -266,6 +320,24 @@
       ],
       "@spartacus/product/bulk-pricing/root": [
         "../../feature-libs/product/bulk-pricing/root/public_api"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "../../feature-libs/product/future-stock/assets/public_api"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "../../feature-libs/product/future-stock/components/public_api"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "../../feature-libs/product/future-stock/core/public_api"
+      ],
+      "@spartacus/product/future-stock": [
+        "../../feature-libs/product/future-stock/public_api"
+      ],
+      "@spartacus/product/future-stock/occ": [
+        "../../feature-libs/product/future-stock/occ/public_api"
+      ],
+      "@spartacus/product/future-stock/root": [
+        "../../feature-libs/product/future-stock/root/public_api"
       ],
       "@spartacus/product/image-zoom/assets": [
         "../../feature-libs/product/image-zoom/assets/public_api"
@@ -378,18 +450,22 @@
       "@spartacus/user/profile/root": [
         "../../feature-libs/user/profile/root/public_api"
       ],
+      "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
       "@spartacus/cdc/components": [
         "../../integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
+      "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
+      "@spartacus/cdc/organization/administration": [
+        "../../integration-libs/cdc/organization/administration/public_api"
+      ],
+      "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"
       ],
       "@spartacus/cdc/user-profile": [
         "../../integration-libs/cdc/user-profile/public_api"
       ],
-      "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
-      "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
-      "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
@@ -415,13 +491,15 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/s4om/assets": [
+        "../../integration-libs/s4om/assets/public_api"
+      ],
+      "@spartacus/s4om": ["../../integration-libs/s4om/public_api"],
+      "@spartacus/s4om/root": ["../../integration-libs/s4om/root/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
     }
-  },
-  "angularCompilerOptions": {
-    "entryModule": "src/app/app.server.module#AppServerModule"
   },
   "files": [
     "src/main.server.ts",

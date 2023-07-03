@@ -2,9 +2,9 @@
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { provideConfig } from \\"@spartacus/core\\";
-import { SmartEditModule } from \\"@spartacus/smartedit\\";
-import { SmartEditConfig, SmartEditRootModule } from \\"@spartacus/smartedit/root\\";
+import { provideConfig } from "@spartacus/core";
+import { SmartEditModule } from "@spartacus/smartedit";
+import { SmartEditConfig, SmartEditRootModule } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],
@@ -25,124 +25,121 @@ export class SmartEditFeatureModule { }
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup assets should update angular.json 1`] = `
 "{
-  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
-  \\"version\\": 1,
-  \\"newProjectRoot\\": \\"\\",
-  \\"projects\\": {
-    \\"schematics-test\\": {
-      \\"projectType\\": \\"application\\",
-      \\"schematics\\": {
-        \\"@schematics/angular:component\\": {
-          \\"style\\": \\"scss\\"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
-      \\"root\\": \\"\\",
-      \\"sourceRoot\\": \\"src\\",
-      \\"prefix\\": \\"app\\",
-      \\"architect\\": {
-        \\"build\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
-          \\"options\\": {
-            \\"outputPath\\": \\"dist/schematics-test\\",
-            \\"index\\": \\"src/index.html\\",
-            \\"main\\": \\"src/main.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
               {
-                \\"glob\\": \\"**/*\\",
-                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
-                \\"output\\": \\"assets/\\"
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
               }
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\"
+            "styles": [
+              "src/styles.scss"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"budgets\\": [
+          "configurations": {
+            "production": {
+              "budgets": [
                 {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"2.5mb\\"
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2.5mb"
                 },
                 {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"2kb\\",
-                  \\"maximumError\\": \\"4kb\\"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              \\"fileReplacements\\": [
-                {
-                  \\"replace\\": \\"src/environments/environment.ts\\",
-                  \\"with\\": \\"src/environments/environment.prod.ts\\"
-                }
-              ],
-              \\"outputHashing\\": \\"all\\"
+              "outputHashing": "all"
             },
-            \\"development\\": {
-              \\"buildOptimizer\\": false,
-              \\"optimization\\": false,
-              \\"vendorChunk\\": true,
-              \\"extractLicenses\\": false,
-              \\"sourceMap\\": true,
-              \\"namedChunks\\": true
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          \\"defaultConfiguration\\": \\"production\\"
+          "defaultConfiguration": "production"
         },
-        \\"serve\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"browserTarget\\": \\"schematics-test:build:production\\"
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "schematics-test:build:production"
             },
-            \\"development\\": {
-              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            "development": {
+              "browserTarget": "schematics-test:build:development"
             }
           },
-          \\"defaultConfiguration\\": \\"development\\"
+          "defaultConfiguration": "development"
         },
-        \\"extract-i18n\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "schematics-test:build"
           }
         },
-        \\"test\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
-          \\"options\\": {
-            \\"main\\": \\"src/test.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.spec.json\\",
-            \\"karmaConfig\\": \\"karma.conf.js\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\",
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
               {
-                \\"glob\\": \\"**/*\\",
-                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
-                \\"output\\": \\"assets/\\"
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
               }
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\"
+            "styles": [
+              "src/styles.scss"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           }
@@ -155,8 +152,8 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],
@@ -185,8 +182,8 @@ export class SmartEditFeatureModule { }
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with allowOrigin config should configure the allowOrigin 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],
@@ -215,8 +212,8 @@ export class SmartEditFeatureModule { }
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with storefrontPreviewRoute config should configure the storefrontPreviewRoute 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],

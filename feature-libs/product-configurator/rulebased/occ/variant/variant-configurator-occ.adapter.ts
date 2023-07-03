@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
@@ -28,6 +28,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER,
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
@@ -39,30 +40,11 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 export class VariantConfiguratorOccAdapter
   implements RulebasedConfiguratorAdapter
 {
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
-  constructor(
-    http: HttpClient,
-    occEndpointsService: OccEndpointsService,
-    converterService: ConverterService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    http: HttpClient,
-    occEndpointsService: OccEndpointsService,
-    converterService: ConverterService
-  );
-
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   getConfiguratorType(): string {
@@ -72,18 +54,20 @@ export class VariantConfiguratorOccAdapter
   protected getExpModeRequested(): boolean {
     let expMode = false;
     this.configExpertModeService
-      ?.getExpModeRequested()
+      .getExpModeRequested()
       .pipe(take(1))
       .subscribe((mode) => (expMode = mode));
     return expMode;
   }
 
   protected setExpModeActive(expMode: boolean) {
-    this.configExpertModeService?.setExpModeActive(expMode);
+    this.configExpertModeService.setExpModeActive(expMode);
   }
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string,
+    forceReset: boolean = false
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     const expMode = this.getExpModeRequested();
@@ -91,7 +75,9 @@ export class VariantConfiguratorOccAdapter
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
-          queryParams: { expMode },
+          queryParams: configIdTemplate
+            ? { configIdTemplate, expMode, forceReset }
+            : { expMode, forceReset },
         }),
         { context: this.indicateSendUserForAsm() }
       )
@@ -132,6 +118,7 @@ export class VariantConfiguratorOccAdapter
           return {
             ...resultConfiguration,
             owner: configurationOwner,
+            newConfiguration: false,
           };
         })
       );
@@ -329,6 +316,36 @@ export class VariantConfiguratorOccAdapter
       })
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
+      );
+  }
+
+  updateConfigurationOverview(
+    ovInput: Configurator.Overview
+  ): Observable<Configurator.Overview> {
+    const url = this.occEndpointsService.buildUrl(
+      'getVariantConfigurationOverview',
+      { urlParams: { configId: ovInput.configId } }
+    );
+
+    const occOverview = this.converterService.convert(
+      ovInput,
+      VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER
+    );
+
+    return this.http
+      .patch<OccConfigurator.Overview>(url, occOverview, {
+        context: this.indicateSendUserForAsm(),
+      })
+      .pipe(
+        this.converterService.pipeable(
+          VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+        ),
+        map((overview) => ({
+          ...overview,
+          attributeFilters: ovInput.attributeFilters,
+          groupFilters: ovInput.groupFilters,
+          possibleGroups: ovInput.possibleGroups,
+        }))
       );
   }
 

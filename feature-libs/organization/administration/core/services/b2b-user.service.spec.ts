@@ -564,6 +564,12 @@ describe('B2BUserService', () => {
     });
   });
 
+  describe('isUpdatingUserAllowed()', () => {
+    it('should return if updating a user is allowed in current scenario', () => {
+      expect(service.isUpdatingUserAllowed()).toEqual(true);
+    });
+  });
+
   describe('get loading Status', () => {
     it('getLoadingStatus() should should be able to get status success change from loading with value', () => {
       let loadingStatus: OrganizationItemStatus<B2BUser>;

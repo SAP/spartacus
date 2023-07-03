@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -84,27 +84,22 @@ export class UrlMatcherService {
 
       // use function's argument, not the `route.path`
       if (path === '') {
-        if (
-          route.pathMatch === 'full' &&
-          (segmentGroup.hasChildren() || segments.length > 0)
-        ) {
-          return null;
-        }
-        return { consumed: [], posParams: {} };
+        return useFunctionArgument(segments, segmentGroup, route);
       }
 
       const parts = path.split('/'); // use function's argument, not the `route.path`
 
-      if (parts.length > segments.length) {
-        // The actual URL is shorter than the config, no match
-        return null;
-      }
-
       if (
-        route.pathMatch === 'full' &&
-        (segmentGroup.hasChildren() || parts.length < segments.length)
+        or(
+          // The actual URL is shorter than the config, no match
+          parts.length > segments.length,
+          // The config is longer than the actual URL but we are looking for a full match, return null
+          and(
+            route.pathMatch === 'full',
+            or(segmentGroup.hasChildren(), parts.length < segments.length)
+          )
+        )
       ) {
-        // The config is longer than the actual URL but we are looking for a full match, return null
         return null;
       }
 
@@ -129,6 +124,36 @@ export class UrlMatcherService {
       matcher['_path'] = path; // property added for easier debugging of routes
     }
     return matcher;
+
+    function useFunctionArgument(
+      segments: UrlSegment[],
+      segmentGroup: UrlSegmentGroup,
+      route: Route
+    ) {
+      if (
+        and(
+          route.pathMatch === 'full',
+          or(segmentGroup.hasChildren(), segments.length > 0)
+        )
+      ) {
+        return null;
+      }
+      return { consumed: [], posParams: {} };
+    }
+
+    /**
+     * Logical function to reduce sonar complexity score as matcher scope is limited to inner function.
+     */
+    function or(a: boolean, b: boolean) {
+      return a || b;
+    }
+
+    /**
+     * Logical function to reduce sonar complexity score as matcher scope is limited to inner function.
+     */
+    function and(a: boolean, b: boolean) {
+      return a && b;
+    }
   }
 
   /**

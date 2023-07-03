@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -259,6 +259,7 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cy.wait(['@refreshCart', '@addToCart']);
   cy.get('cx-added-to-cart-dialog a.btn-primary')
     .contains('view cart')
+    .scrollIntoView()
     .should('be.visible');
 }
 
@@ -273,7 +274,9 @@ export function exportCart(expectedData?: string) {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-export-order-entries button').contains('Export to CSV').click();
+  cy.get('cx-export-order-entries button')
+    .contains('Export Product to CSV')
+    .click();
   cy.get('cx-global-message').contains(
     'CSV file will download automatically to your device'
   );

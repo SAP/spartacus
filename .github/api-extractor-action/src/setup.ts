@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,7 @@ export async function prepareRepositoryForApiExtractor(
   core.startGroup('Prepare branches for extractor');
 
   // Install dependencies to build libraries
-  await exec.exec('yarn');
+  await exec.exec('npm', ['i']);
   // Create directory for reports
   await io.mkdirP(`${REPORT_DIR}`);
 
@@ -60,14 +60,14 @@ export async function prepareRepositoryForApiExtractor(
     );
 
     // If we didn't restore builded libs from cache on the BASE branch, we need to also build base branch
-    await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR]);
-    await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR, BUILD_COMMAND]);
+    await exec.exec('npm', ['--prefix', BASE_BRANCH_DIR]);
+    await exec.exec('npm', ['--prefix', BASE_BRANCH_DIR, 'run', BUILD_COMMAND]);
   }
 
   // Build the libraries from the HEAD branch
-  // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
-  await exec.exec('yarn');
-  await exec.exec('yarn', [BUILD_COMMAND]);
+  // TODO: We can parallel these builds, when schematics builds won't trigger npm install
+  await exec.exec('npm', ['i']);
+  await exec.exec('npm', ['run', BUILD_COMMAND]);
 
   core.endGroup();
 }

@@ -58,20 +58,11 @@
     <cx-configurator-attribute-numeric-input-field
       *ngIf="isAdditionalValueNumeric"
       class="cx-configurator-attribute-additional-value"
-      [attribute]="attribute"
-      [ownerType]="ownerType"
-      [ownerKey]="ownerKey"
-      [language]="language"
-      (inputChange)="onSelectAdditionalValue($event)"
     ></cx-configurator-attribute-numeric-input-field>
 
     <cx-configurator-attribute-input-field
       *ngIf="isAdditionalValueAlphaNumeric"
       class="cx-configurator-attribute-additional-value"
-      [attribute]="attribute"
-      [ownerType]="ownerType"
-      [ownerKey]="ownerKey"
-      (inputChange)="onSelectAdditionalValue($event)"
     >
     </cx-configurator-attribute-input-field>
   </div>

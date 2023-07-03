@@ -7,52 +7,91 @@
       formControlName="searchTerm"
       [attr.aria-label]="'asm.customerSearch.searchTerm.label' | cxTranslate"
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+      (keydown.arrowdown)="focusFirstItem($event)"
+      (keydown.end)="setSelectionEnd($event)"
     />
     <cx-form-errors
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>
-  <button *cxFeatureLevel="'!5.1'" type="submit">
-    {{ 'asm.customerSearch.submit' | cxTranslate }}
-  </button>
-  <button
-    *cxFeatureLevel="'5.1'"
-    type="submit"
-    [class.active]="selectedCustomer"
-  >
-    {{ 'asm.customerSearch.submit' | cxTranslate }}
+  <button type="submit" [class.active]="selectedCustomer">
+    {{ 'asm.customerSearch.startEmulation' | cxTranslate }}
   </button>
 </form>
 
 <div *ngIf="searchResults | async as results" class="asm-results" #resultList>
   <button
-    *ngFor="let result of results.entries"
-    (click)="selectCustomerFromList(result)"
+    #searchResultItem
+    *ngFor="let result of results.entries; let i = index"
+    [tabindex]="activeFocusedButtonIndex === i ? 0 : -1"
+    [attr.aria-selected]="activeFocusedButtonIndex === i"
+    [class.active]="activeFocusedButtonIndex === i"
+    (keydown.arrowup)="focusPreviousChild($event)"
+    (keydown.arrowdown)="focusNextChild($event)"
+    (keydown.arrowright)="focusInputText($event)"
+    (keydown.arrowleft)="focusInputText($event)"
+    (keydown.enter)="selectCustomerFromList($event, result)"
+    (keydown.escape)="closeResults($event)"
+    (keydown.home)="focusInputText($event)"
+    (keydown.end)="focusInputText($event)"
+    (click)="selectCustomerFromList($event, result)"
   >
     <span class="result-name">{{ result.name }}</span>
     <span class="result-id">{{ result.uid }}</span>
   </button>
-  <button
-    (click)="closeResults()"
-    *ngIf="
-      !(searchResultsLoading$ | async) &&
-      searchTerm.value.length >= 3 &&
-      !!results.entries &&
-      results.entries.length <= 0
-    "
-  >
-    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
-  </button>
+
+  <!-- TODO:(CXSPA-3090) for next major release remove feature level -->
+  <ng-container *cxFeatureLevel="'!6.1'">
+    <button
+      #searchResultItem
+      (click)="closeResults($event)"
+      (keydown.enter)="closeResults($event)"
+      (keydown.escape)="closeResults($event)"
+      (keydown.arrowright)="focusInputText($event)"
+      (keydown.arrowleft)="focusInputText($event)"
+      (keydown.home)="focusInputText($event)"
+      (keydown.end)="focusInputText($event)"
+      [class.active]="activeFocusedButtonIndex === 0"
+      [attr.aria-selected]="activeFocusedButtonIndex === 0"
+      *ngIf="
+        !(searchResultsLoading$ | async) &&
+        searchTerm.value.length >= 3 &&
+        !!results.entries &&
+        results.entries.length <= 0
+      "
+    >
+      {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+    </button>
+  </ng-container>
+  <ng-container *cxFeatureLevel="'6.1'">
+    <button
+      #searchResultItem
+      (click)="createCustomer()"
+      (keydown.escape)="closeResults($event)"
+      (keydown.arrowright)="focusInputText($event)"
+      (keydown.arrowleft)="focusInputText($event)"
+      (keydown.home)="focusInputText($event)"
+      (keydown.end)="focusInputText($event)"
+      [class.active]="activeFocusedButtonIndex === 0"
+      [attr.aria-selected]="activeFocusedButtonIndex === 0"
+      *ngIf="
+        !(searchResultsLoading$ | async) &&
+        searchTerm.value.length >= 3 &&
+        !!results.entries &&
+        results.entries.length <= 0
+      "
+    >
+      <span>{{ 'asm.customerSearch.noMatchResult' | cxTranslate }}</span>
+      <span #createCustomerLink class="linkStyleLabel">{{
+        'asm.customerSearch.createCustomer' | cxTranslate
+      }}</span>
+    </button>
+  </ng-container>
 </div>
 
 <div class="asm-results" *ngIf="searchResultsLoading$ | async">
-  <div
-    class="spinner"
+  <cx-dot-spinner
     aria-hidden="false"
     [attr.aria-label]="'common.loading' | cxTranslate"
-  >
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  ></cx-dot-spinner>
 </div>

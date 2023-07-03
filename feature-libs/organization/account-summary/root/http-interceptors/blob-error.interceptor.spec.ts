@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,13 +40,12 @@ describe('BlobErrorInterceptor', () => {
     http
       .get('/occ', { responseType: 'blob' as 'json' })
       .pipe(take(1))
-      .subscribe(
-        () => {},
-        (err) => {
+      .subscribe({
+        error: (err) => {
           expect(err.status).toEqual(401);
           expect(err.error.errors[0].type).toEqual('InvalidTokenError');
-        }
-      );
+        },
+      });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/occ';

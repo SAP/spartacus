@@ -5,10 +5,10 @@
   "license": "",
   "private": true,
   "scripts": {
-    "extract-all": "yarn extract-old && yarn extract-new",
+    "extract-all": "npm run extract-old && npm run extract-new",
     "extract-old": "ts-node extract.ts ./src/old",
     "extract-new": "ts-node extract.ts ./src/new",
-    "parse-all": "yarn parse-old && yarn parse-new",
+    "parse-all": "npm run parse-old && npm run parse-new",
     "parse-old": "ts-node parse.ts ./src/old",
     "parse-new": "ts-node parse.ts ./src/new",
     "compare": "ts-node compare.ts ./src/old/public-api.json ./src/new/public-api.json",
@@ -19,10 +19,10 @@
     "gen-methods-props": "ts-node generate-methods-props.ts",
     "gen-doc": "ts-node generate-doc.ts",
     "gen-stats": "ts-node generate-stats.ts",
-    "gen-all": "yarn gen-const && yarn gen-methods-props && yarn gen-deleted && yarn gen-moved && yarn gen-doc"
+    "gen-all": "npm run gen-const && npm run gen-methods-props && npm run gen-deleted && npm run gen-moved && npm run gen-doc"
   },
   "dependencies": {
-    "@microsoft/api-extractor": "^7.19.4"
+    "@microsoft/api-extractor": "^7.34.4"
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
@@ -30,7 +30,7 @@
     "deep-equal": "^2.0.5",
     "glob": "^7.2.0",
     "stringify-object": "3.3.0",
-    "ts-node": "^10.5.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.2.4"
   }
 }

@@ -319,33 +319,33 @@ describe('File utils', () => {
   };
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
   });
 
   describe('getTsSourceFile', () => {
     it('should return TS file', async () => {
-      const tsFile = getTsSourceFile(appTree, 'src/test.ts');
+      const tsFile = getTsSourceFile(appTree, 'src/main.ts');
       const tsFileName = tsFile.fileName.split('/').pop();
 
       expect(tsFile).toBeTruthy();
-      expect(tsFileName).toEqual('test.ts');
+      expect(tsFileName).toEqual('main.ts');
     });
   });
 
@@ -366,10 +366,10 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'main.ts', 'src');
 
       expect(pathsToFiles.length).toBeGreaterThan(0);
-      expect(pathsToFiles[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles[0]).toEqual('/src/main.ts');
     });
   });
 

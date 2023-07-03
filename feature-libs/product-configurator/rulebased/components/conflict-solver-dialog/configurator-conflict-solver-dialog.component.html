@@ -1,0 +1,49 @@
+<div class="cx-modal-container">
+  <!-- For screen reader purposes (not visual)-->
+  <div
+    class="cx-visually-hidden"
+    aria-atomic="true"
+    aria-live="assertive"
+    role="alert"
+    aria-relevant="additions"
+  >
+    {{ 'configurator.header.conflictWarning' | cxTranslate }}
+  </div>
+  <div class="cx-modal-content" [cxFocus]="focusConfig">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title" tabindex="0">
+        {{ 'configurator.header.resolveIssue' | cxTranslate }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{
+          'configurator.a11y.closeConflictSolverModal' | cxTranslate
+        }}"
+        (click)="dismissModal('Close conflict solver dialog')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-msg-warning">
+        <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+        {{ 'configurator.header.conflictWarning' | cxTranslate }}
+      </div>
+      <ng-container *ngIf="routerData$ | async as routerData">
+        <ng-container *ngIf="conflictGroup$ | async as conflictGroup">
+          <cx-configurator-group
+            [group]="conflictGroup"
+            [owner]="routerData.owner"
+            [isNavigationToGroupEnabled]="false"
+          >
+          </cx-configurator-group> </ng-container
+      ></ng-container>
+    </div>
+  </div>
+</div>

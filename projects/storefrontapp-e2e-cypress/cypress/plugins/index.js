@@ -1,6 +1,5 @@
 const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor');
 const fs = require('fs');
-const { rmdir } = require('fs');
 
 module.exports = (on, config) => {
   on('file:preprocessor', cypressTypeScriptPreprocessor);
@@ -15,18 +14,23 @@ module.exports = (on, config) => {
 
     deleteFolder(folderName) {
       return new Promise((resolve, reject) => {
-        rmdir(folderName, { maxRetries: 3, recursive: true }, (err) => {
-          if (err) {
-            console.error(err);
-            return reject(err);
+        fs.rm(
+          folderName,
+          { maxRetries: 3, recursive: true, force: true },
+          (err) => {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            resolve(null);
           }
-          resolve(null);
-        });
+        );
       });
     },
   });
 
   /* Set exact timestamp to be shared in all spec files */
   config.env.TIMESTAMP = Date.now() - 1535535333333;
+
   return config;
 };

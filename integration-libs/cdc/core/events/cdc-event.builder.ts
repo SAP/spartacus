@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import { EventService, StateEventService } from '@spartacus/core';
-import { CdcAuthActions } from '../auth/store/actions/index';
+import { CdcAuthActions } from '../store/actions';
 
 @Injectable({
   providedIn: 'root',

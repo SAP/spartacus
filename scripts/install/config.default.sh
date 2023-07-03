@@ -32,10 +32,12 @@ SPARTACUS_PROJECTS=(
         "dist/tracking:feature-libs/tracking"
         "dist/qualtrics:feature-libs/qualtrics"
         "dist/smartedit:feature-libs/smartedit"
+        "dist/customer-ticketing:feature-libs/customer-ticketing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/epd-visualization:integration-libs/epd-visualization"
         "dist/product-configurator:feature-libs/product-configurator"
+        "dist/pickup-in-store:feature-libs/pickup-in-store"
         "projects/storefrontstyles:projects/storefrontstyles"
         "projects/schematics:projects/schematics"
         )
@@ -51,7 +53,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^14.2.3'
+ANGULAR_CLI_VERSION='^15.2.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
@@ -68,14 +70,15 @@ ADD_CPQ=false
 ADD_CDC=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
+ADD_S4OM=false
 
-# The base URL (origin) of the SAP EPD Fiori launchpad
+# The base URL (origin) of the SAP EPD Visualization Fiori launchpad
 EPD_VISUALIZATION_BASE_URL=
 
 #NPM connection info
 #NPM_URL must start by 'https://' and end with '/' char
 NPM_TOKEN=
-NPM_URL= 
+NPM_URL=
 NPM_ALWAYS_AUTH=true
 
 SKIP_SANITY=false

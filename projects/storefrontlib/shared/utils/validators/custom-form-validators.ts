@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -196,29 +196,25 @@ export class CustomFormValidators {
     endDateKey: string,
     getDate: (value: string) => Date | undefined
   ): (_: UntypedFormGroup) => ValidationErrors | null {
-    const validator = (
-      formGroup: UntypedFormGroup
-    ): ValidationErrors | null => {
+    return (formGroup: UntypedFormGroup): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = getDate(startDateControl.value);
       const endDate = getDate(endDateControl.value);
-      if (!startDate || !endDate) {
-        return null;
-      }
-      if (!startDateControl.errors?.pattern) {
-        if (startDate > endDate) {
-          startDateControl.setErrors({ max: true });
+      if (startDate && endDate) {
+        if (!startDateControl.errors?.pattern) {
+          if (startDate > endDate) {
+            startDateControl.setErrors({ max: true });
+          }
         }
-      }
-      if (!endDateControl.errors?.pattern) {
-        if (endDate < startDate) {
-          endDateControl.setErrors({ min: true });
+        if (!endDateControl.errors?.pattern) {
+          if (endDate < startDate) {
+            endDateControl.setErrors({ min: true });
+          }
         }
       }
       return null;
     };
-    return validator;
   }
 }
 

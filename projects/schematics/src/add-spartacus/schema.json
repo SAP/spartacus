@@ -30,22 +30,27 @@
           "Order",
           "Digital-Payments",
           "EPD-Visualization",
+          "Customer-Ticketing",
           "Administration",
           "Order-Approval",
           "Organization-User-Registration",
+          "Unit-Order",
           "Account-Summary",
           "Bulk-Pricing",
           "Image-Zoom",
+          "Future-Stock",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
+          "S4HANA-Order-Management",
           "SmartEdit",
           "Store-Finder",
           "Personalization",
           "TMS-GTM",
           "TMS-AEPL",
+          "Pickup-In-Store",
           "User-Account",
           "User-Profile"
         ],
@@ -141,6 +146,10 @@
             "label": "Organization - User Registration (b2b feature)"
           },
           {
+            "value": "Unit-Order",
+            "label": "Organization - Unit Order (b2b feature)"
+          },
+          {
             "value": "Account-Summary",
             "label": "Organization - Account Summary (b2b feature, requires Organization - Administration)"
           },
@@ -157,6 +166,10 @@
             "label": "Product - Image Zoom"
           },
           {
+            "value": "Future-Stock",
+            "label": "Product - Future Stock"
+          },
+          {
             "value": "VC-Configurator",
             "label": "Product Configurator - Variant Configurator"
           },
@@ -171,6 +184,10 @@
           {
             "value": "Qualtrics",
             "label": "Qualtrics"
+          },
+          {
+            "value": "S4HANA-Order-Management",
+            "label": "S/4HANA Order Management (b2b feature)"
           },
           {
             "value": "SmartEdit",
@@ -199,6 +216,14 @@
           {
             "value": "User-Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
+          },
+          {
+            "value": "Pickup-In-Store",
+            "label": "Pickup in Store"
           }
         ]
       }
@@ -250,11 +275,6 @@
       "type": "boolean",
       "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
-    },
-    "pwa": {
-      "type": "boolean",
-      "description": "Add PWA support to the project.",
-      "default": false
     },
     "ssr": {
       "type": "boolean",

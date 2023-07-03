@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,11 +60,19 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   }
 
   saveCart(cart: Cart): void {
-    if (this.loggedIn) {
-      this.openDialog(cart);
-    } else {
-      this.routingService.go({ cxRoute: 'login' });
-    }
+    this.subscription.add(
+      this.disableSaveCartForLater$.subscribe((isDisabled) => {
+        if (isDisabled) {
+          return;
+        }
+
+        if (this.loggedIn) {
+          this.openDialog(cart);
+        } else {
+          this.routingService.go({ cxRoute: 'login' });
+        }
+      })
+    );
   }
 
   openDialog(cart: Cart) {

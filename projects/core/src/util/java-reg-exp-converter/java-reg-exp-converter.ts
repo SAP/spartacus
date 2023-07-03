@@ -1,13 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService } from '../../logger';
 
 @Injectable({ providedIn: 'root' })
 export class JavaRegExpConverter {
+  logger = inject(LoggerService);
+
   /**
    * Pattern that extracts modifiers from the Java regexp.
    *
@@ -46,7 +49,7 @@ export class JavaRegExpConverter {
       return new RegExp(jsSyntax, modifiers);
     } catch (error) {
       if (isDevMode()) {
-        console.warn(
+        this.logger.warn(
           `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`
         );
       }

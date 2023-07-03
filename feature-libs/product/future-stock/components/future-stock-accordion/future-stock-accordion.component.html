@@ -1,0 +1,40 @@
+<ng-container *ngIf="futureStocks$ | async as futureStocks">
+  <button
+    id="cx-future-stock-accordion-header"
+    class="cx-future-stock-accordion-header"
+    aria-controls="cx-future-stock-accordion-content"
+    [attr.aria-expanded]="expanded"
+    (click)="toggle()"
+  >
+    {{ 'futureStockDropdown.header' | cxTranslate }}
+    <cx-icon
+      [type]="expanded ? iconType.CARET_UP : iconType.CARET_DOWN"
+      aria-hidden="true"
+    ></cx-icon>
+  </button>
+
+  <ng-container *ngIf="expanded">
+    <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
+      <div
+        id="cx-future-stock-accordion-content"
+        class="cx-future-stock-accordion-content"
+        aria-labelledby="cx-future-stock-accordion-header"
+        *ngFor="let futureStock of futureStocks.futureStocks"
+      >
+        {{ futureStock.formattedDate }} -
+        {{ 'futureStockDropdown.quantity' | cxTranslate }}
+        {{ futureStock.stock.stockLevel }}
+      </div>
+    </ng-container>
+
+    <ng-template #noStocks>
+      <div
+        id="cx-future-stock-accordion-content"
+        class="cx-future-stock-accordion-content"
+        aria-labelledby="cx-future-stock-accordion-header"
+      >
+        {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-container>

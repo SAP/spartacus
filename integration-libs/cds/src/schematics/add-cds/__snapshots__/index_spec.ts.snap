@@ -2,8 +2,8 @@
 
 exports[`Spartacus CDS schematics: ng-add CDS feature with Profile tag configured general setup should create the feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdsConfig, CdsModule } from \\"@spartacus/cds\\";
-import { provideConfig } from \\"@spartacus/core\\";
+import { CdsConfig, CdsModule } from "@spartacus/cds";
+import { provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -41,8 +41,8 @@ export class CdsFeatureModule { }
 
 exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should create the feature module 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdsConfig, CdsModule } from \\"@spartacus/cds\\";
-import { provideConfig } from \\"@spartacus/core\\";
+import { CdsConfig, CdsModule } from "@spartacus/cds";
+import { provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],

@@ -98,40 +98,34 @@ describe('Spartacus Cart schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...libraryNoFeaturesOptions, features: [] },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...libraryNoFeaturesOptions, features: [] },
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
@@ -169,9 +163,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   describe('Cart Base feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', cartBaseFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          cartBaseFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -199,13 +195,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...cartBaseFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...cartBaseFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -218,9 +212,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   describe('Cart Import Export feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', cartImportExportFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          cartImportExportFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -243,13 +239,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...cartImportExportFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...cartImportExportFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -262,9 +256,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   describe('Quick Order feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', quickOrderFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          quickOrderFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -287,13 +283,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...quickOrderFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...quickOrderFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -306,9 +300,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   describe('Saved Cart feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', savedCartFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          savedCartFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -341,13 +337,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...savedCartFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...savedCartFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {
@@ -360,9 +354,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   describe('Wish List feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', wishListFeatureOptions, appTree)
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          wishListFeatureOptions,
+          appTree
+        );
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -395,13 +391,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...wishListFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...wishListFeatureOptions, lazy: false },
+          appTree
+        );
       });
 
       it('should import appropriate modules', async () => {

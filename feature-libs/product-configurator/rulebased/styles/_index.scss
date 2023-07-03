@@ -3,6 +3,7 @@
 
 // Components
 @import 'configurator-add-to-cart-button';
+@import 'configurator-attribute-not-supported';
 @import 'configurator-attribute-checkbox-list';
 @import 'configurator-attribute-checkbox';
 @import 'configurator-attribute-drop-down';
@@ -23,21 +24,28 @@
 @import 'configurator-conflict-description';
 @import 'configurator-conflict-suggestion';
 @import 'configurator-cpq-overview-attribute';
+@import 'configurator-group';
 @import 'configurator-form';
 @import 'configurator-group-menu';
 @import 'configurator-group-title';
 @import 'configurator-overview-attribute';
+@import 'configurator-overview-filter';
+@import 'configurator-overview-filter-bar';
+@import 'configurator-overview-filter-button';
+@import 'configurator-overview-filter-dialog';
 @import 'configurator-overview-form';
 @import 'configurator-overview-menu';
 @import 'configurator-overview-notification-banner';
 @import 'configurator-previous-next-buttons';
 @import 'configurator-price-summary';
 @import 'configurator-product-title';
+@import 'configurator-restart-dialog';
 @import 'configurator-show-more';
 @import 'configurator-tab-bar';
 @import 'configurator-update-message';
 @import 'configurator-conflict-and-error-messages';
-@import 'configurator-exit-button';
 @import 'configurator-variant-carousel';
+@import 'configurator-overview-sidebar';
+@import 'configurator-conflict-solver-dialog';
 // Pages
 @import './pages/index';

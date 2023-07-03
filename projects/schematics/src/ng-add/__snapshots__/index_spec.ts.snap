@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
+"import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from "@ngrx/store";
+import { AppRoutingModule } from "@spartacus/storefront";
+import { AppComponent } from './app.component';
+import { SpartacusModule } from './spartacus/spartacus.module';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    HttpClientModule,
+    AppRoutingModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    SpartacusModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+"
+`;
+
+exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`] = `
+"{
+  "name": "workspace",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "dev:ssr": "ng run schematics-test:serve-ssr",
+    "serve:ssr": "node dist/schematics-test/server/main.js",
+    "build:ssr": "ng build && ng run schematics-test:server",
+    "prerender": "ng run schematics-test:prerender"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^15.2.0",
+    "@angular/common": "^15.2.0",
+    "@angular/compiler": "^15.2.0",
+    "@angular/core": "^15.2.0",
+    "@angular/forms": "^15.2.0",
+    "@angular/platform-browser": "^15.2.0",
+    "@angular/platform-browser-dynamic": "^15.2.0",
+    "@angular/platform-server": "^15.2.4",
+    "@angular/router": "^15.2.0",
+    "@angular/service-worker": "^15.2.4",
+    "@fontsource/open-sans": "^4.5.14",
+    "@fortawesome/fontawesome-free": "5.8.1",
+    "@ng-select/ng-select": "^10.0.3",
+    "@ngrx/effects": "^15.3.0",
+    "@ngrx/router-store": "^15.3.0",
+    "@ngrx/store": "^15.3.0",
+    "@nguniversal/express-engine": "^15.2.0",
+    "@spartacus/assets": "~5.0.0",
+    "@spartacus/core": "~5.0.0",
+    "@spartacus/setup": "~5.0.0",
+    "@spartacus/storefront": "~5.0.0",
+    "@spartacus/styles": "~5.0.0",
+    "angular-oauth2-oidc": "^15.0.1",
+    "bootstrap": "^4.6.2",
+    "express": "^4.15.2",
+    "i18next": "^21.9.1",
+    "i18next-http-backend": "^1.4.1",
+    "i18next-resources-to-backend": "^1.1.2",
+    "ngx-infinite-scroll": "^15.0.0",
+    "rxjs": "^6.6.0",
+    "ts-loader": "^9.3.1",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.12.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^15.2.4",
+    "@angular/cli": "~0.5.0",
+    "@angular/compiler-cli": "^15.2.0",
+    "@nguniversal/builders": "^15.2.0",
+    "@types/express": "^4.17.0",
+    "@types/jasmine": "~4.3.0",
+    "@types/node": "^14.15.0",
+    "jasmine-core": "~4.5.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.0.0",
+    "typescript": "~4.9.4"
+  }
+}"
+`;
+
+exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 3`] = `
+"import { NgModule } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
+
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
+import { provideServer } from '@spartacus/setup/ssr';
+
+@NgModule({
+  imports: [
+    AppModule,
+    ServerModule,
+  ],
+  bootstrap: [AppComponent],
+  providers: [
+    ...provideServer({
+       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+     }),
+  ],
+})
+export class AppServerModule {}
+"
+`;

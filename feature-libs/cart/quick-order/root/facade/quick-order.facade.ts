@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry, ProductData } from '@spartacus/cart/base/root';
 import { facadeFactory, Product } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CART_QUICK_ORDER_CORE_FEATURE } from '../feature-name';
@@ -65,7 +65,10 @@ export abstract class QuickOrderFacade {
   /**
    * Get information about the possibility to add the next product
    */
-  abstract canAdd(code?: string): Observable<boolean>;
+  abstract canAdd(
+    code?: string,
+    productsData?: ProductData[]
+  ): Observable<boolean>;
 
   /**
    * Set quick order list limit property

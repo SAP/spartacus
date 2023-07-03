@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,9 @@ export class OccConfiguratorVariantSerializer
   implements
     Converter<Configurator.Configuration, OccConfigurator.Configuration>
 {
+  /**
+   * @deprecated since 6.2
+   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   convert(
@@ -65,10 +68,7 @@ export class OccConfiguratorVariantSerializer
   }
 
   protected isRetractValue(attribute: Configurator.Attribute): boolean {
-    return (
-      attribute.selectedSingleValue ===
-      OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE
-    );
+    return attribute.selectedSingleValue === Configurator.RetractValueCode;
   }
 
   protected getRetractedValue(

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,9 +37,13 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'AccountOrderDetailsActionsComponent',
           'AccountOrderDetailsItemsComponent',
           'AccountOrderDetailsTotalsComponent',
-          'AccountOrderDetailsShippingComponent',
+          'AccountOrderDetailsOverviewComponent',
+          'AccountOrderDetailsBillingComponent',
+          'AccountOrderDetailsGroupedItemsComponent',
+          'AccountOrderDetailsSimpleOverviewComponent',
           'AccountOrderHistoryComponent',
           'ReplenishmentDetailItemsComponent',
+          'AccountOrderDetailsReorderComponent',
           'ReplenishmentDetailTotalsComponent',
           'ReplenishmentDetailShippingComponent',
           'ReplenishmentDetailActionsComponent',
@@ -53,6 +57,9 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'OrderConfirmationItemsComponent',
           'OrderConfirmationTotalsComponent',
           'OrderConfirmationOverviewComponent',
+          'OrderConfirmationShippingComponent',
+          'OrderConfirmationBillingComponent',
+          'OrderConfirmationContinueButtonComponent',
           'ReplenishmentConfirmationMessageComponent',
           'ReplenishmentConfirmationOverviewComponent',
           'ReplenishmentConfirmationItemsComponent',

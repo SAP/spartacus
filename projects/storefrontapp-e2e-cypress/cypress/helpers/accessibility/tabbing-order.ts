@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -76,6 +76,7 @@ export function verifyTabElement(tabElement: TabElement) {
       regexpCheck(tabElement.value as string);
       return;
     }
+    case TabbingOrderTypes.H3:
     case TabbingOrderTypes.BUTTON: {
       cy.focused().should('contain', tabElement.value);
       return;
@@ -100,10 +101,6 @@ export function verifyTabElement(tabElement: TabElement) {
       cy.focused()
         .should('have.attr', 'type', 'radio')
         .should('have.attr', 'formcontrolname', tabElement.value);
-      return;
-    }
-    case TabbingOrderTypes.H3: {
-      cy.focused().should('contain', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_MEDIA: {

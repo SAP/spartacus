@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,7 +85,7 @@ export class MultiCartService implements MultiCartFacade {
    * Simple random temp cart id generator
    */
   protected generateTempCartId(): string {
-    const pseudoUuid = Math.random().toString(36).substr(2, 9);
+    const pseudoUuid = Math.random().toString(36).substring(2, 11);
     return `temp-${pseudoUuid}`;
   }
 
@@ -220,12 +220,14 @@ export class MultiCartService implements MultiCartFacade {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   addEntry(
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number
+    quantity: number,
+    pickupStore?: string
   ): void {
     this.store.dispatch(
       new CartActions.CartAddEntry({
@@ -233,6 +235,7 @@ export class MultiCartService implements MultiCartFacade {
         cartId,
         productCode,
         quantity,
+        pickupStore,
       })
     );
   }
@@ -285,24 +288,30 @@ export class MultiCartService implements MultiCartFacade {
    * @param cartId
    * @param entryNumber
    * @param quantity
+   * @param pickupStore
+   * @param pickupToDelivery
    */
   updateEntry(
     userId: string,
     cartId: string,
     entryNumber: number,
-    quantity: number
+    quantity?: number,
+    pickupStore?: string,
+    pickupToDelivery: boolean = false
   ): void {
-    if (quantity > 0) {
+    if (quantity !== undefined && quantity <= 0) {
+      this.removeEntry(userId, cartId, entryNumber);
+    } else {
       this.store.dispatch(
         new CartActions.CartUpdateEntry({
           userId,
           cartId,
+          pickupStore,
+          pickupToDelivery,
           entryNumber: `${entryNumber}`,
           quantity: quantity,
         })
       );
-    } else {
-      this.removeEntry(userId, cartId, entryNumber);
     }
   }
 

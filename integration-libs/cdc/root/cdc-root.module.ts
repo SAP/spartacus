@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,13 @@ import {
   CmsConfig,
   Config,
   ConfigInitializerService,
+  provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
+import { CdcConsentManagementModule } from './consent-management/cdc-consent.module';
+import { defaultCdcRoutingConfig } from './config/default-cdc-routing-config';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
@@ -47,6 +50,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
+  imports: [CdcConsentManagementModule],
   providers: [
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
@@ -56,6 +60,7 @@ export function defaultCdcComponentsConfig(): CmsConfig {
       deps: [CdcJsService, ConfigInitializerService],
       multi: true,
     },
+    provideDefaultConfig(defaultCdcRoutingConfig),
   ],
 })
 export class CdcRootModule {}

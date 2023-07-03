@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -346,7 +346,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${cartPage}`);
 
   validateEmptyCart();
 }
@@ -411,7 +411,7 @@ export function goToCart() {
 export function cancelClearCart() {
   getClearCartDialog().then(() => {
     checkClearCartDialog();
-    cy.get('.cx-clear-cart-footer .btn-action').click();
+    cy.get('.cx-clear-cart-footer .btn-secondary').click();
   });
 }
 
@@ -546,6 +546,10 @@ export function verifyCartIdAfterClearCart() {
   closeAddedToCartDialog();
 
   goToCart();
+  verifyCartIdIsDifferent();
+}
+
+export function verifyCartIdIsDifferent() {
   let _cartId;
   cy.get('cx-cart-details')
     .get('h2.cx-total')

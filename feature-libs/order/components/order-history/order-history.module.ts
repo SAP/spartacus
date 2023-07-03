@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -29,7 +28,6 @@ import { OrderHistoryComponent } from './order-history.component';
     ListNavigationModule,
     UrlModule,
     I18nModule,
-    FeaturesConfigModule,
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent],

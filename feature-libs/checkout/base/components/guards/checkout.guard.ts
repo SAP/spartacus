@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
@@ -19,7 +19,15 @@ import { ExpressCheckoutService } from '../services/express-checkout.service';
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  private readonly firstStep$: Observable<UrlTree>;
+  private readonly firstStep$: Observable<UrlTree> =
+    this.checkoutStepService.steps$.pipe(
+      map((steps) => {
+        return this.router.parseUrl(
+          this.routingConfigService.getRouteConfig(steps[0].routeName)
+            ?.paths?.[0] as string
+        );
+      })
+    );
 
   constructor(
     protected router: Router,
@@ -28,15 +36,7 @@ export class CheckoutGuard implements CanActivate {
     protected expressCheckoutService: ExpressCheckoutService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
-  ) {
-    this.firstStep$ = of(
-      this.router.parseUrl(
-        this.routingConfigService.getRouteConfig(
-          this.checkoutStepService.getFirstCheckoutStepRoute()
-        )?.paths?.[0] as string
-      )
-    );
-  }
+  ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     const expressCheckout$ = this.expressCheckoutService

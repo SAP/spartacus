@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,20 +7,20 @@
 import {
   Compiler,
   Injectable,
-  InjectFlags,
   Injector,
   NgModuleFactory,
   NgModuleRef,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import {
-  combineLatest,
   ConnectableObservable,
-  from,
   Observable,
+  Subscription,
+  combineLatest,
+  from,
   of,
   queueScheduler,
-  Subscription,
   throwError,
 } from 'rxjs';
 import {
@@ -30,10 +30,10 @@ import {
   observeOn,
   publishReplay,
   switchMap,
-  switchMapTo,
   tap,
 } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
+import { LoggerService } from '../logger';
 import { CombinedInjector } from '../util/combined-injector';
 import { createFrom } from '../util/create-from';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
@@ -46,6 +46,8 @@ import { MODULE_INITIALIZER } from './tokens';
   providedIn: 'root',
 })
 export class LazyModulesService implements OnDestroy {
+  protected logger = inject(LoggerService);
+
   /**
    * Expose lazy loaded module references
    */
@@ -155,20 +157,20 @@ export class LazyModulesService implements OnDestroy {
     const moduleInits: any[] = moduleRef.injector.get<any[]>(
       MODULE_INITIALIZER,
       [],
-      InjectFlags.Self
+      { self: true }
     );
     const asyncInitPromises: Promise<any>[] =
       this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         catchError((error) => {
-          console.error(
+          this.logger.error(
             'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
             error
           );
           return throwError(error);
         }),
-        switchMapTo(of(moduleRef))
+        switchMap(() => of(moduleRef))
       );
     } else {
       return of(moduleRef);
@@ -200,7 +202,7 @@ export class LazyModulesService implements OnDestroy {
       }
       return initPromises;
     } catch (error) {
-      console.error(
+      this.logger.error(
         `MODULE_INITIALIZER init function throwed an error. `,
         error
       );

@@ -1,20 +1,24 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeatureConfigService,
+  GlobalMessageService,
   I18nTestingModule,
-  LanguageService,
   RoutingService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -23,22 +27,25 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
-import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
-import { ConfiguratorAttributeCheckBoxComponent } from '../attribute/types/checkbox/configurator-attribute-checkbox.component';
-import { ConfiguratorAttributeDropDownComponent } from '../attribute/types/drop-down/configurator-attribute-drop-down.component';
-import { ConfiguratorAttributeInputFieldComponent } from '../attribute/types/input-field/configurator-attribute-input-field.component';
-import { ConfiguratorAttributeMultiSelectionImageComponent } from '../attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.component';
-import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/radio-button/configurator-attribute-radio-button.component';
-import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
-import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+
+@Component({
+  selector: 'cx-configurator-group',
+  template: '',
+})
+class MockConfiguratorDefaultFormComponent {
+  @Input() group: Configurator.Group;
+  @Input() owner: CommonConfigurator.Owner;
+  @Input() isNavigationToGroupEnabled = true;
+}
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
+const CONFIG_ID_TEMPLATE = 'abcd';
 
 const mockRouterState: any = {
   state: {
@@ -51,7 +58,14 @@ const mockRouterState: any = {
   },
 };
 
-const owner = ConfiguratorModelUtils.createOwner(
+const MOCK_ROUTER_STATE_WITH_TEMPLATE: any = {
+  state: {
+    ...mockRouterState.state,
+    queryParams: { configIdTemplate: CONFIG_ID_TEMPLATE },
+  },
+};
+
+const OWNER = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
   PRODUCT_CODE
 );
@@ -59,7 +73,7 @@ const owner = ConfiguratorModelUtils.createOwner(
 const groups = ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  ...ConfiguratorTestUtils.createConfiguration('a', OWNER),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
@@ -67,46 +81,19 @@ const configRead: Configurator.Configuration = {
 };
 
 const configRead2: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration('b', owner),
+  ...ConfiguratorTestUtils.createConfiguration('b', OWNER),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
   groups: groups,
 };
 
-const conflictGroup: Configurator.Group = {
-  id: 'GROUP_ID_CONFLICT_1',
-  name: 'The conflict text',
-  groupType: Configurator.GroupType.CONFLICT_GROUP,
-  subGroups: [],
-  attributes: [
-    { name: 'ATTRIBUTE_1_CHECKBOX', key: 'ATTRIBUTE_1' },
-    { name: 'ATTRIBUTE_2_RADIOBUTTON', key: 'ATTRIBUTE_2' },
-  ],
-};
-
-@Component({
-  selector: 'cx-configurator-price',
-  template: '',
-})
-class MockConfiguratorPriceComponent {
-  @Input() formula: ConfiguratorPriceComponentOptions;
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
 let routerStateObservable: Observable<RouterState> = EMPTY;
 let configurationCreateObservable: Observable<Configurator.Configuration> =
   EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
-let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
+let testVersion: string;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -116,6 +103,10 @@ class MockRoutingService {
 
 class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
+    return configurationCreateObservable;
+  }
+
+  getConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
 
@@ -130,6 +121,7 @@ class MockConfiguratorCommonsService {
   hasConflicts(): Observable<boolean> {
     return hasConfigurationConflictsObservable;
   }
+  checkConflictSolverDialog(): void {}
 }
 
 class MockConfiguratorGroupsService {
@@ -155,6 +147,8 @@ class MockConfiguratorGroupsService {
 
   navigateToConflictSolver(): void {}
 
+  navigateToFirstAttributeGroup(): void {}
+
   navigateToFirstIncompleteGroup(): void {}
 
   isConflictGroupType() {}
@@ -170,6 +164,20 @@ class MockConfiguratorExpertModeService {
   getExpModeActive() {}
 }
 
+class MockLaunchDialogService {
+  openDialogAndSubscribe() {}
+}
+
+class MockGlobalMessageService {
+  add(): void {}
+}
+
+class MockFeatureConfigService {
+  isLevel(version: string): boolean {
+    return version === testVersion;
+  }
+}
+
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -177,6 +185,7 @@ function checkConfigurationObs(
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
+    b: MOCK_ROUTER_STATE_WITH_TEMPLATE,
   });
   configurationCreateObservable = cold(configurationServiceMarbels, {
     x: configRead,
@@ -212,47 +221,67 @@ function checkCurrentGroupObs(
   );
 }
 
-describe('ConfigurationFormComponent', () => {
-  let configuratorUtils: CommonConfiguratorUtilsService;
-  let configuratorCommonsService: ConfiguratorCommonsService;
-  let configuratorGroupsService: ConfiguratorGroupsService;
-  let configExpertModeService: ConfiguratorExpertModeService;
-  let mockLanguageService;
-  let htmlElem: HTMLElement;
-  let fixture: ComponentFixture<ConfiguratorFormComponent>;
-  let component: ConfiguratorFormComponent;
+function createComponentWithoutData(): ConfiguratorFormComponent {
+  fixture = TestBed.createComponent(ConfiguratorFormComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+  return component;
+}
 
+const configuration: Configurator.Configuration =
+  structuredClone(productConfiguration);
+
+const group: Configurator.Group = structuredClone(
+  productConfiguration.groups[0]
+);
+
+function createComponentWithData(): ConfiguratorFormComponent {
+  fixture = TestBed.createComponent(ConfiguratorFormComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  component.currentGroup$ = of(group);
+  component.configuration$ = of(configuration);
+  fixture.detectChanges();
+  return component;
+}
+
+function mockRouterStateWithQueryParams(queryParams: {}): Observable<RouterState> {
+  return of({
+    ...mockRouterState,
+    state: {
+      ...mockRouterState.state,
+      queryParams: queryParams,
+    },
+  });
+}
+
+let configuratorCommonsService: ConfiguratorCommonsService;
+let globalMessageService: GlobalMessageService;
+let configuratorGroupsService: ConfiguratorGroupsService;
+let launchDialogService: LaunchDialogService;
+let fixture: ComponentFixture<ConfiguratorFormComponent>;
+let component: ConfiguratorFormComponent;
+let htmlElem: HTMLElement;
+let configExpertModeService: ConfiguratorExpertModeService;
+let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
+
+describe('ConfigurationFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
-      mockLanguageService = {
-        getAll: () => of([]),
-        getActive: jasmine.createSpy().and.returnValue(of('en')),
-      };
-
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
         declarations: [
+          MockConfiguratorDefaultFormComponent,
           ConfiguratorFormComponent,
-          ConfiguratorAttributeHeaderComponent,
-          ConfiguratorAttributeFooterComponent,
-          ConfiguratorAttributeRadioButtonComponent,
-          ConfiguratorAttributeInputFieldComponent,
-          ConfiguratorAttributeDropDownComponent,
-          ConfiguratorAttributeReadOnlyComponent,
-
-          ConfiguratorAttributeCheckBoxComponent,
-          ConfiguratorAttributeCheckBoxListComponent,
-          ConfiguratorAttributeMultiSelectionImageComponent,
-          ConfiguratorAttributeSingleSelectionImageComponent,
-          MockCxIconComponent,
-          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
             provide: RoutingService,
             useClass: MockRoutingService,
           },
-
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
           {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
@@ -261,14 +290,13 @@ describe('ConfigurationFormComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
           },
-          { provide: LanguageService, useValue: mockLanguageService },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: ConfiguratorStorefrontUtilsService,
-          },
           {
             provide: ConfiguratorExpertModeService,
             useClass: MockConfiguratorExpertModeService,
+          },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
           },
         ],
       })
@@ -282,79 +310,66 @@ describe('ConfigurationFormComponent', () => {
   );
 
   beforeEach(() => {
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
+
+    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
+    spyOn(
+      configuratorGroupsService,
+      'navigateToConflictSolver'
+    ).and.callThrough();
+
+    spyOn(
+      configuratorGroupsService,
+      'navigateToFirstIncompleteGroup'
+    ).and.callThrough();
+
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
     spyOn(
       configuratorCommonsService,
       'isConfigurationLoading'
     ).and.callThrough();
-    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
+    spyOn(
+      configuratorCommonsService,
+      'getOrCreateConfiguration'
+    ).and.callThrough();
+    spyOn(configuratorCommonsService, 'getConfiguration').and.callThrough();
+    spyOn(
+      configuratorCommonsService,
+      'checkConflictSolverDialog'
+    ).and.callThrough();
+
+    globalMessageService = TestBed.inject(
+      GlobalMessageService as Type<GlobalMessageService>
+    );
+    spyOn(globalMessageService, 'add').and.callThrough();
+    testVersion = '6.1';
+
+    isConfigurationLoadingObservable = of(false);
 
     configExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
     spyOn(configExpertModeService, 'setExpModeRequested').and.callThrough();
-    spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
-    configuratorUtils.setOwnerKey(owner);
-    configuratorCommonsService = TestBed.inject(
-      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
-    );
-    isConfigurationLoadingObservable = of(false);
     hasConfigurationConflictsObservable = of(false);
-  });
 
-  function createComponent(): ConfiguratorFormComponent {
-    fixture = TestBed.createComponent(ConfiguratorFormComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
-    return fixture.componentInstance;
-  }
-
-  it('should render ghost view if no data is present', () => {
-    createComponent();
-    fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectNumberOfElements(
-      expect,
-      htmlElem,
-      '.cx-ghost-attribute',
-      6
+    launchDialogService = TestBed.inject(
+      LaunchDialogService as Type<LaunchDialogService>
     );
-  });
-
-  it('should call configurator group service to check group type', () => {
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
-    createComponent().isConflictGroupType(
-      Configurator.GroupType.CONFLICT_GROUP
-    );
-    expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalledWith(
-      Configurator.GroupType.CONFLICT_GROUP
-    );
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
   });
 
   describe('resolve issues navigation', () => {
     it('should go to neither conflict solver nor first incomplete group', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
       routerStateObservable = of({
         ...mockRouterState,
       });
 
-      createComponent().ngOnInit();
+      createComponentWithData().ngOnInit();
 
       expect(
         configuratorGroupsService.navigateToConflictSolver
@@ -365,23 +380,13 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should go to conflict solver in case the router requires this - has conflicts', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true' },
-        },
+      routerStateObservable = mockRouterStateWithQueryParams({
+        resolveIssues: 'true',
       });
+
       hasConfigurationConflictsObservable = of(true);
-      createComponent().ngOnInit();
+      createComponentWithData();
+
       expect(
         configuratorGroupsService.navigateToConflictSolver
       ).toHaveBeenCalledTimes(1);
@@ -391,23 +396,12 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should go to first incomplete group in case the router requires this - has conflicts, but should be skipped', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true', skipConflicts: 'true' },
-        },
+      routerStateObservable = mockRouterStateWithQueryParams({
+        resolveIssues: 'true',
+        skipConflicts: 'true',
       });
       hasConfigurationConflictsObservable = of(true);
-      createComponent().ngOnInit();
+      createComponentWithData();
       expect(
         configuratorGroupsService.navigateToConflictSolver
       ).toHaveBeenCalledTimes(0);
@@ -417,22 +411,10 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
-      spyOn(
-        configuratorGroupsService,
-        'navigateToConflictSolver'
-      ).and.callThrough();
-      spyOn(
-        configuratorGroupsService,
-        'navigateToFirstIncompleteGroup'
-      ).and.callThrough();
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true' },
-        },
+      routerStateObservable = mockRouterStateWithQueryParams({
+        resolveIssues: 'true',
       });
-      createComponent().ngOnInit();
+      createComponentWithData();
 
       expect(
         configuratorGroupsService.navigateToConflictSolver
@@ -443,172 +425,219 @@ describe('ConfigurationFormComponent', () => {
     });
 
     it('should not call setExpMode method', () => {
-      routerStateObservable = of({
-        ...mockRouterState,
-        state: {
-          ...mockRouterState.state,
-          queryParams: { expMode: 'false' },
-        },
-      });
-      createComponent().ngOnInit();
+      (routerStateObservable = mockRouterStateWithQueryParams({
+        expMode: 'false',
+      })),
+        createComponentWithData().ngOnInit();
       expect(configExpertModeService.setExpModeRequested).toHaveBeenCalledTimes(
         0
       );
     });
   });
 
-  it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
-    checkConfigurationObs('aa', '---xy', '----xy');
-  });
-
-  it('should get 3 emissions of product configurations if both services emit fast', () => {
-    checkConfigurationObs('aa', 'xy', 'xxy');
-  });
-
-  it('should get the maximum 4 emissions of product configurations if router pauses between emissions', () => {
-    checkConfigurationObs('a---a', 'xy', 'xy--xy');
-  });
-
-  it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
-    checkCurrentGroupObs('aa', '---uv', '----uv');
-  });
-
-  it('should get 4 emissions of current groups if configurations service emits fast', () => {
-    checkCurrentGroupObs('a---a', '--uv', '--uv--uv');
-  });
-
-  it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
-    checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
-  });
-
-  it('check update configuration', () => {
-    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
-    isConfigurationLoadingObservable = cold('xy', {
-      x: true,
-      y: false,
-    });
-    routerStateObservable = of(mockRouterState);
-    createComponent().updateConfiguration({
-      ownerKey: owner.key,
-      changedAttribute: ConfigurationTestData.attributeCheckbox,
-    });
-
-    expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
-  });
-
-  describe('createGroupId', () => {
-    it('should return empty string because groupID is undefined', () => {
-      expect(createComponent().createGroupId(undefined)).toBeUndefined();
-    });
-
-    it('should return group ID string', () => {
-      expect(createComponent().createGroupId('1234')).toBe('1234-group');
-    });
-  });
-
   describe('Rendering', () => {
-    it('should support radio button attribute type', () => {
-      const component = createComponent();
-      component.configuration$ = of(ConfigurationTestData.productConfiguration);
-      component.currentGroup$ = of(
-        ConfigurationTestData.productConfiguration.groups[0]
-      );
-      fixture.detectChanges();
+    it('should render ghost view if no data is present', () => {
+      createComponentWithoutData();
 
       CommonConfiguratorTestUtilsService.expectNumberOfElements(
         expect,
         htmlElem,
-        'cx-configurator-attribute-radio-button',
+        '.cx-ghost-attribute',
+        6
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-group'
+      );
+    });
+
+    it('should render configuration form', () => {
+      createComponentWithData();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-group'
+      );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-ghost-attribute'
+      );
+    });
+  });
+
+  describe('configuration$ observable', () => {
+    it('should emit twice if router emits faster than commons service', () => {
+      checkConfigurationObs('aa', '---xy', '----xy');
+    });
+
+    it('should emit 3 times if both services emit fast', () => {
+      checkConfigurationObs('aa', 'xy', 'xxy');
+    });
+
+    it('should emit 4 times if router pauses between emissions', () => {
+      checkConfigurationObs('a---a', 'xy', 'xy--xy');
+    });
+
+    it('should forward configuration template ID to facade service', () => {
+      checkConfigurationObs('b', 'x', 'x');
+      expect(
+        configuratorCommonsService.getOrCreateConfiguration
+      ).toHaveBeenCalledWith(OWNER, CONFIG_ID_TEMPLATE);
+    });
+  });
+
+  describe('currentGroup$ observable', () => {
+    it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
+      checkCurrentGroupObs('aa', '---uv', '----uv');
+    });
+
+    it('should get 4 emissions of current groups if configurations service emits fast', () => {
+      checkCurrentGroupObs('a---a', '--uv', '--uv--uv');
+    });
+
+    it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
+      checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
+    });
+  });
+
+  describe('isNavigationToGroupEnabled()', () => {
+    it('should return true in case immediateConflictResolution is set to false', () => {
+      expect(component.isNavigationToGroupEnabled(configuration)).toBe(true);
+    });
+
+    it('should return false in case immediateConflictResolution is set to true', () => {
+      configuration.immediateConflictResolution = true;
+      expect(component.isNavigationToGroupEnabled(configuration)).toBe(false);
+    });
+  });
+
+  describe('ngOnInit()', () => {
+    it('should call getConfiguration in order to prepare conflict check', () => {
+      routerStateObservable = mockRouterStateWithQueryParams({});
+      createComponentWithData();
+      expect(configuratorCommonsService.getConfiguration).toHaveBeenCalledTimes(
         1
       );
     });
 
-    it('should display the radio button component for attribute type RADIOBUTTON_ADDITIONAL_INPUT', () => {
-      const component = createComponent();
-      const configurationWithAdditionalValueType =
-        ConfigurationTestData.productConfiguration;
-      configurationWithAdditionalValueType.groups[0].attributes?.push({
-        name: 'AdditionalVal',
-        uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+    it('should call checkConflictSolverDialog on facade in order to launch conflict check', () => {
+      routerStateObservable = mockRouterStateWithQueryParams({});
+      configurationCreateObservable = of(configRead);
+      createComponentWithData();
+      expect(
+        configuratorCommonsService.checkConflictSolverDialog
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should launch the restart config dialog with data if requested and when the config is not new', fakeAsync(() => {
+      routerStateObservable = mockRouterStateWithQueryParams({
+        displayRestartDialog: 'true',
       });
-      component.configuration$ = of(configurationWithAdditionalValueType);
-      component.currentGroup$ = of(
-        configurationWithAdditionalValueType.groups[0]
+      const config: Configurator.Configuration = structuredClone(configRead);
+      config.interactionState.newConfiguration = false;
+      configurationCreateObservable = of(config);
+      createComponentWithData();
+      tick(0);
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CONFIGURATOR_RESTART_DIALOG,
+        undefined,
+        { owner: config.owner }
       );
-      fixture.detectChanges();
-      //now we expect 2 attributes resulting in a radio button component
-      CommonConfiguratorTestUtilsService.expectNumberOfElements(
-        expect,
-        htmlElem,
-        'cx-configurator-attribute-radio-button',
-        2
+    }));
+
+    it('should NOT launch the restart config dialog if not requested and not a new config', fakeAsync(() => {
+      routerStateObservable = mockRouterStateWithQueryParams({});
+      const config: Configurator.Configuration = structuredClone(configRead);
+      config.interactionState.newConfiguration = false;
+      configurationCreateObservable = of(config);
+      createComponentWithData();
+      tick(0);
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+    }));
+
+    it('should NOT launch the restart config dialog if requested but a new config', fakeAsync(() => {
+      routerStateObservable = mockRouterStateWithQueryParams({
+        displayRestartDialog: 'true',
+      });
+      const config: Configurator.Configuration = structuredClone(configRead);
+      config.interactionState.newConfiguration = true;
+      configurationCreateObservable = of(config);
+      createComponentWithData();
+      tick(0);
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+    }));
+  });
+
+  describe('listenForConflictResolution()', () => {
+    it('should raise message in case a conflict has been resolved', () => {
+      hasConfigurationConflictsObservable = of(true, false);
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not raise a message in case the configuration has no issues (as we skipped the first submission)', () => {
+      hasConfigurationConflictsObservable = of(false);
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+
+    it('should only emit on status changes', () => {
+      hasConfigurationConflictsObservable = of(
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
       );
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should emit on every status change from conflicting to non-conflicting', () => {
+      hasConfigurationConflictsObservable = of(
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      );
+      createComponentWithData();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(3);
     });
   });
 
-  describe('expMode', () => {
-    it("should check whether expert mode status is set to 'true'", () => {
-      createComponent();
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(true)
-      );
-
-      if (component.expMode) {
-        component.expMode
-          .subscribe((expMode) => {
-            expect(expMode).toBe(true);
-          })
-          .unsubscribe();
-      }
+  describe('displayConflictResolvedMessage()', () => {
+    it('should call global message service', () => {
+      createComponentWithoutData();
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 
-    it("should check whether expert mode status is set to 'false'", () => {
-      createComponent();
-      spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
-        of(false)
-      );
+    it('should handle non availability of global message service', () => {
+      createComponentWithoutData();
+      component['globalMessageService'] = undefined;
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
 
-      if (component.expMode) {
-        component.expMode
-          .subscribe((expMode) => {
-            expect(expMode).toBe(false);
-          })
-          .unsubscribe();
-      }
+    it('should not call global message service if target version is not matched', () => {
+      createComponentWithoutData();
+      testVersion = '6.2';
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
-  });
 
-  describe('displayConflictDescription', () => {
-    it('should return true if group is conflict group and has a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        true
-      );
-    });
-    it('should return false if group is standard group', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        false
-      );
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        false
-      );
-    });
-    it('should return false if group is conflict group and does not have a name', () => {
-      spyOn(configuratorGroupsService, 'isConflictGroupType').and.returnValue(
-        true
-      );
-      conflictGroup.name = '';
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        false
-      );
-    });
-    it('should return false if group type is undefined', () => {
-      conflictGroup.groupType = undefined;
-      expect(createComponent().displayConflictDescription(conflictGroup)).toBe(
-        false
-      );
+    it('should handle non availability of feature config service', () => {
+      createComponentWithoutData();
+      component['featureConfigservice'] = undefined;
+      component['displayConflictResolvedMessage']();
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });
 });

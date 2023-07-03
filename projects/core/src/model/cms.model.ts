@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -202,6 +202,11 @@ export interface CmsAddToCartComponent extends CmsComponent {
 
 export interface CmsOrderDetailItemsComponent extends CmsComponent {
   enableAddToCart?: boolean;
+  groupCartItems?: boolean;
+}
+
+export interface CmsOrderDetailOverviewComponent extends CmsComponent {
+  simple?: boolean;
 }
 
 export interface CmsPDFDocumentComponent extends CmsComponent {
@@ -238,4 +243,9 @@ export enum ContainerBackgroundOptions {
 export enum ContainerSizeOptions {
   FIT_TO_CONTENT_SIZE = 'FIT_TO_CONTENT_SIZE',
   DEFINE_CONTAINER_HEIGHT = 'DEFINE_CONTAINER_HEIGHT',
+}
+
+export interface CmsPickupItemDetails extends CmsComponent {
+  showEdit: boolean;
+  context: string;
 }

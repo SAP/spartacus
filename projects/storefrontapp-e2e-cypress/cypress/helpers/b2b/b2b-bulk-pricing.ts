@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { waitForProductPage } from '../checkout-flow';
+import { verifyReviewOrderPage, waitForProductPage } from '../checkout-flow';
 import * as b2bCheckout from './b2b-checkout';
 
 export function visitProduct(productCode) {
@@ -91,7 +91,7 @@ export function placeOrder() {
   b2bCheckout.selectAccountShippingAddress();
   b2bCheckout.selectAccountDeliveryMode();
 
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 

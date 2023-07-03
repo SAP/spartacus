@@ -1,15 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUser } from '@spartacus/core';
+import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { UserItemService } from '../services/user-item.service';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 
 @Component({
   selector: 'cx-org-user-details',
@@ -31,5 +32,23 @@ export class UserDetailsComponent {
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
-  constructor(protected itemService: ItemService<B2BUser>) {}
+  isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
+
+  availableRoles: string[] = this.b2bUserService
+    .getAllRoles()
+    .map((role: B2BUserRole) => role.toString());
+  availableRights: string[] = this.b2bUserService
+    .getAllRights()
+    .map((right: B2BUserRight) => right.toString());
+
+  constructor(
+    protected itemService: ItemService<B2BUser>,
+    protected b2bUserService: B2BUserService
+  ) {}
+
+  hasRight(model: B2BUser): boolean {
+    return (model.roles ?? []).some((role: string) =>
+      this.availableRights.includes(role)
+    );
+  }
 }

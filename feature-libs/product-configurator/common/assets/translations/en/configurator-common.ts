@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,11 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
+      resolveIssue: 'Resolve Issue',
       resolveConflicts: 'Resolve Conflicts',
+      conflictWarning: 'Conflict must be resolved to continue',
       updateMessage: 'The configuration is being updated in the background',
+      conflictsResolved: 'Conflicts have been resolved',
       showMore: 'show more',
       showLess: 'show less',
       items: '{{count}} item',
@@ -53,8 +56,12 @@ export const configurator = {
       singleSelectRequiredMessage: 'Select a value',
       singleSelectAdditionalRequiredMessage: 'Select or enter a value',
       multiSelectRequiredMessage: 'Select one or more values',
+      // TODO (CXSPA-3392): `wrongNumericFormat` is deprecated and will be removed for the next major release
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
+      wrongNumericFormatMessage:
+        'Enter the number in the following format: {{pattern}}',
+      wrongIntervalFormat: 'Enter a value within the indicated boundaries',
       deselectionNotPossible:
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
@@ -75,6 +82,8 @@ export const configurator = {
       exitMobile: 'Exit',
       cancelConfiguration: 'Cancel Configuration',
       cancelConfigurationMobile: 'Cancel',
+      filterOverview: 'Filter',
+      filterOverviewWithCount: 'Filter ({{numAppliedFilters}})',
     },
     icon: {
       groupComplete: 'Complete',
@@ -86,25 +95,38 @@ export const configurator = {
       basePrice: 'Base Price',
       selectedOptions: 'Selected Options',
       totalPrice: 'Total',
+      totalPricePerItem: 'Total per Item',
     },
     addToCart: {
       button: 'Add to Cart',
       buttonAfterAddToCart: 'Continue to Cart',
       buttonUpdateCart: 'Done',
       buttonDisplayOnly: 'Done',
+      buttonClose: 'Close',
       confirmation: 'Configuration has been added to the cart',
       confirmationUpdate: 'Cart has been updated with configuration',
+      quantity: 'Qty',
     },
     overviewForm: {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
       itemPrice: 'Item Price',
     },
-    overviewMenu: {
-      title: 'Menu',
+    overviewSidebar: {
+      menu: 'Menu',
+      filter: 'Filter',
     },
     overviewFilter: {
-      title: 'Filter',
+      title: 'Select Filters',
+      byOption: 'Filter by Option',
+      byGroup: 'Filter by Group',
+      byPrice: 'Price-Relevant Options',
+      mySelections: 'My Selections',
+      removeAll: 'Remove All',
+      removeAllFilters: 'Remove All Filters',
+      removeByPrice: 'Remove Price-Relevant Filter',
+      removeMySelections: 'Remove My Selections Filter',
+      removeByGroup: 'Remove Group Filter for group {{group}}',
     },
     group: {
       general: 'General',
@@ -117,6 +139,13 @@ export const configurator = {
       viewConflictDetails: 'Conflict Detected - View Details',
       conflictDetected: 'Conflict Detected',
       viewConfigurationDetails: 'View In Configuration',
+    },
+    restartDialog: {
+      title: 'Unfinished Configuration',
+      description:
+        'There is an unfinished configuration from a previous session. Would you like to resume or start a new configuration?',
+      restartButton: 'Start New',
+      resumeButton: 'Resume',
     },
     a11y: {
       configureProduct: 'Configure product',
@@ -141,6 +170,8 @@ export const configurator = {
         'Selected value {{ value }} of attribute {{ attribute }}',
       selectedValueOfAttributeFullWithPrice:
         'Selected value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
+      readOnlyValueOfAttributeFullWithPrice:
+        'Read-only value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
@@ -227,6 +258,20 @@ export const configurator = {
       additionalValue: 'You can also enter an additional value.',
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
+      filterOverview: 'Open configuration overview filter menu',
+      filterOverviewWithCount:
+        'Open the configuration overview filter menu - {{numAppliedFilters}} active filters',
+      closeFilterMenu:
+        'Close the configuration overview filter menu and apply the selected filters',
+      filterOverviewByPrice:
+        'Filter configuration overview by price-relevant options',
+      filterOverviewByMySelections:
+        'Filter configuration overview by your selections',
+      filterOverviewByGroup:
+        'Filter configuration overview by group {{groupName}}',
+      closeConflictSolverModal: 'Close conflict solver modal',
+      closeRestartDialog:
+        'Close the "Unfinished Configuration" dialog and navigate back to the product details page',
     },
     variantCarousel: {
       title: 'Pre-configured Versions',

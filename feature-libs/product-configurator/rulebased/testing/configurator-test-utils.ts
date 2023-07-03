@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorAttributeCompositionContext } from '../components/attribute/composition/configurator-attribute-composition.model';
 import { Configurator } from '../core/model/configurator.model';
 
 export class ConfiguratorTestUtils {
@@ -325,5 +326,57 @@ export class ConfiguratorTestUtils {
       groups.push(group);
     }
     return groups;
+  }
+
+  static getFormattedValue(value: number | undefined): string | undefined {
+    if (value !== undefined) {
+      if (value > 0) {
+        return '$' + value;
+      } else if (value < 0) {
+        return '-$' + Math.abs(value);
+      }
+    }
+    return undefined;
+  }
+
+  static createPrice(
+    price: number | undefined
+  ): Configurator.PriceDetails | undefined {
+    if (price !== undefined) {
+      return {
+        currencyIso: '$',
+        formattedValue: this.getFormattedValue(price),
+        value: price,
+      };
+    }
+    return undefined;
+  }
+
+  static createValue = (
+    valueCode: string,
+    price: number | undefined,
+    isSelected = false
+  ): Configurator.Value => ({
+    valueCode: valueCode,
+    valuePrice: this.createPrice(price),
+    selected: isSelected,
+  });
+
+  static getAttributeContext(): ConfiguratorAttributeCompositionContext {
+    return {
+      componentKey: '',
+      attribute: { name: 'attributeName' },
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+      group: { id: 'id', subGroups: [] },
+      expMode: false,
+      language: 'en',
+      isNavigationToGroupEnabled: false,
+    };
+  }
+
+  static remove(element: HTMLElement | undefined): void {
+    if (element) {
+      element.remove();
+    }
   }
 }

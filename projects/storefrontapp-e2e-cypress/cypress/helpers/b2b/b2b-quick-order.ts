@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -103,16 +103,13 @@ export function clearList() {
 export function removeFirstRow() {
   cy.get(`cx-quick-order .cx-quick-order-table-row`)
     .first()
-    .find('button.link.cx-action-link')
+    .find('button.btn-tertiary')
     .click();
 }
 
 export function removeManyRows(quantity: number = 1) {
   for (let i = 0; i < quantity; i++) {
-    cy.get(`cx-quick-order .cx-quick-order-table-row`)
-      .first()
-      .find('button.link.cx-action-link')
-      .click();
+    removeFirstRow();
   }
 }
 

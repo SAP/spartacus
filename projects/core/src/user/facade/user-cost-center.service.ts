@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,14 +29,14 @@ export class UserCostCenterService {
    * Load all visible active cost centers for the currently login user
    */
   loadActiveCostCenters(): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   private getCostCentersState(): Observable<LoaderState<CostCenter[]>> {

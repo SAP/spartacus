@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,3 +43,7 @@ export const VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER =
 export const VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER = new InjectionToken<
   Converter<OccConfigurator.Overview, Configurator.Overview>
 >('VariantConfiguratorOverviewNormalizer');
+
+export const VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER = new InjectionToken<
+  Converter<Configurator.Overview, OccConfigurator.Overview>
+>('VariantConfiguratorOverviewSerializer');

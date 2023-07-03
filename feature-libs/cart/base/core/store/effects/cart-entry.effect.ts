@@ -1,18 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
-  normalizeHttpError,
+  LoggerService,
   SiteContextActions,
+  normalizeHttpError,
   withdrawOn,
 } from '@spartacus/core';
-import { from, Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
@@ -25,6 +26,8 @@ export class CartEntryEffects {
       SiteContextActions.LANGUAGE_CHANGE
     )
   );
+
+  protected logger = inject(LoggerService);
 
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
@@ -40,7 +43,8 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.productCode,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore
           )
           .pipe(
             map(
@@ -54,7 +58,7 @@ export class CartEntryEffects {
               from([
                 new CartActions.CartAddEntryFail({
                   ...payload,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,
@@ -89,7 +93,7 @@ export class CartEntryEffects {
               from([
                 new CartActions.CartRemoveEntryFail({
                   ...payload,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,
@@ -117,7 +121,9 @@ export class CartEntryEffects {
             payload.userId,
             payload.cartId,
             payload.entryNumber,
-            payload.quantity
+            payload.quantity,
+            payload.pickupStore,
+            payload.pickupToDelivery
           )
           .pipe(
             map(() => {
@@ -129,7 +135,7 @@ export class CartEntryEffects {
               from([
                 new CartActions.CartUpdateEntryFail({
                   ...payload,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new CartActions.LoadCart({
                   cartId: payload.cartId,

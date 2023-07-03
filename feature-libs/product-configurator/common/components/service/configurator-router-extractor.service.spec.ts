@@ -17,6 +17,7 @@ const CART_ENTRY_NUMBER = '0';
 const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 const OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
+const CONFIG_ID_TEMPLATE = 'abcd';
 
 let mockRouterState: any;
 
@@ -140,6 +141,18 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
+    it('should map the navigationId', () => {
+      mockRouterState.navigationId = 3;
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.navigationId).toBe(3);
+        })
+        .unsubscribe();
+    });
+
     it('should tell from the URL if we need to enforce a reload of a configuration', () => {
       mockRouterState.state.queryParams = { forceReload: 'true' };
       let routerData: ConfiguratorRouter.Data;
@@ -214,6 +227,58 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.expMode).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL that a configuration template ID has been passed', () => {
+      mockRouterState.state.queryParams = {
+        configIdTemplate: CONFIG_ID_TEMPLATE,
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.configIdTemplate).toBe(CONFIG_ID_TEMPLATE);
+        })
+        .unsubscribe();
+    });
+
+    it('should be fine with configuration template ID not provided', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.configIdTemplate).toBe(undefined);
+        })
+        .unsubscribe();
+    });
+
+    it('should set displayRestartDialog to true if requested via query parameter', () => {
+      mockRouterState.state.queryParams = {
+        displayRestartDialog: 'true',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.displayRestartDialog).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should set displayRestartDialog to false if the corresponding query parameter is missing', () => {
+      mockRouterState.state.queryParams = {};
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.displayRestartDialog).toBe(false);
         })
         .unsubscribe();
     });

@@ -68,6 +68,13 @@
       },
       "x-prompt": "What name would you like to use for the component?"
     },
+    "path": {
+      "type": "string",
+      "description": "The path of the component.",
+      "format": "path",
+      "default": "src/app",
+      "x-prompt": "What is the path you would like to generate the component in?"
+    },
     "inlineStyle": {
       "description": "When true, includes styles inline in the component.ts file. Only CSS styles can be included inline. By default, an external styles file is created and referenced in the component.ts file.",
       "type": "boolean",

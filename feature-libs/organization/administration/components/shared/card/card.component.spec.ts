@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
@@ -34,6 +38,7 @@ describe('CardComponent', () => {
         RouterTestingModule,
         MessageTestingModule,
         PopoverModule,
+        FeaturesConfigModule,
       ],
       declarations: [CardComponent, ViewComponent],
       providers: [
@@ -42,6 +47,13 @@ describe('CardComponent', () => {
           useClass: MockItemService,
         },
         SplitViewService,
+        // TODO:(CXSPA-1695) #deprecation for next major release remove below feature config
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.2' },
+          },
+        },
       ],
     }).compileComponents();
   });
@@ -87,7 +99,7 @@ describe('CardComponent', () => {
 
       it('should have back button by default', () => {
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a.close')
+          By.css('button.close')
         ).nativeElement;
         expect(el).toBeDefined();
       });
@@ -97,7 +109,7 @@ describe('CardComponent', () => {
       it('should not have back button', () => {
         component.previous = false;
         fixture.detectChanges();
-        const el = fixture.debugElement.query(By.css('a.close'));
+        const el = fixture.debugElement.query(By.css('button.close'));
         expect(el).toBeFalsy();
       });
 
@@ -105,7 +117,7 @@ describe('CardComponent', () => {
         component.previous = 'organization.assign';
         fixture.detectChanges();
         const el: HTMLElement = fixture.debugElement.query(
-          By.css('a.close')
+          By.css('button.close')
         ).nativeElement;
         expect(el.innerText).toContain('organization.assign');
       });

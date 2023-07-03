@@ -87,40 +87,34 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
 
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
-        'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
-        appTree
-      )
-      .toPromise();
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      SPARTACUS_SCHEMATICS,
+      'ng-add',
+      { ...spartacusDefaultOptions, name: 'schematics-test' },
+      appTree
+    );
   });
 
   describe('Without features', () => {
     beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...libraryNoFeaturesOptions, features: [] },
-          appTree
-        )
-        .toPromise();
+      appTree = await schematicRunner.runSchematic(
+        'ng-add',
+        { ...libraryNoFeaturesOptions, features: [] },
+        appTree
+      );
     });
 
     it('should not create any of the feature modules', () => {
@@ -157,9 +151,11 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     describe('base', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            checkoutBaseFeatureOptions,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -199,13 +195,11 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...checkoutBaseFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...checkoutBaseFeatureOptions, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
@@ -220,12 +214,17 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     describe('b2b', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            checkoutBaseFeatureOptions,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            checkoutB2BFeatureOptions,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -275,20 +274,17 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...checkoutBaseFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...checkoutB2BFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...checkoutBaseFeatureOptions, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...checkoutB2BFeatureOptions, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {
@@ -303,19 +299,23 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     describe('scheduled replenishment', () => {
       describe('general setup', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              checkoutScheduledReplenishmentFeatureOptions,
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            checkoutBaseFeatureOptions,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            checkoutB2BFeatureOptions,
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            checkoutScheduledReplenishmentFeatureOptions,
+            appTree
+          );
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -365,27 +365,23 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...checkoutBaseFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...checkoutB2BFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...checkoutScheduledReplenishmentFeatureOptions, lazy: false },
-              appTree
-            )
-            .toPromise();
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...checkoutBaseFeatureOptions, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...checkoutB2BFeatureOptions, lazy: false },
+            appTree
+          );
+
+          appTree = await schematicRunner.runSchematic(
+            'ng-add',
+            { ...checkoutScheduledReplenishmentFeatureOptions, lazy: false },
+            appTree
+          );
         });
 
         it('should import appropriate modules', async () => {

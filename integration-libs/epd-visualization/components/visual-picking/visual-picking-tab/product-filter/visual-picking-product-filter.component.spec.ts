@@ -19,7 +19,6 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
 
 class MockVisualPickingProductFilterService {
   set filter(filter: string) {
-    expect(filter).toBe('2');
     this._filter = filter;
   }
   get filter() {
@@ -74,20 +73,14 @@ describe('VisualPickingProductFilterComponent', () => {
 
   describe('filter', () => {
     it('should delegate to VisualPickingProductFilterService', () => {
-      const setterSpy = spyOnProperty(
-        mockVisualPickingProductFilterService,
-        'filter',
-        'set'
-      );
-      const getterSpy = spyOnProperty(
-        mockVisualPickingProductFilterService,
-        'filter',
-        'get'
-      );
-      visualPickingProductFilterComponent.filter =
-        visualPickingProductFilterComponent.filter;
-      expect(setterSpy).toHaveBeenCalledTimes(1);
-      expect(getterSpy).toHaveBeenCalledTimes(1);
+      mockVisualPickingProductFilterService.filter = 'initial value';
+
+      const initialValue = visualPickingProductFilterComponent.filter;
+      visualPickingProductFilterComponent.filter = 'new value';
+      const newValue = visualPickingProductFilterComponent.filter;
+
+      expect(initialValue).toEqual('initial value');
+      expect(newValue).toEqual('new value');
     });
   });
 });

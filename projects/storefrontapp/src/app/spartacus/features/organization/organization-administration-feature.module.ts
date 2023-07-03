@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,8 +23,8 @@ import {
       featureModules: {
         [ORGANIZATION_ADMINISTRATION_FEATURE]: {
           module: () =>
-            import('@spartacus/organization/administration').then(
-              (m) => m.AdministrationModule
+            import('./administration-wrapper.module').then(
+              (m) => m.AdministrationWrapperModule
             ),
         },
       },

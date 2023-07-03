@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,8 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable, isDevMode } from '@angular/core';
-import { OccEndpointsService, WindowRef } from '@spartacus/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
@@ -23,6 +23,8 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   private requestHeader?: string;
   private enabled = false;
   protected readonly PERSONALIZATION_ID_KEY = 'personalization-id';
+
+  protected logger = inject(LoggerService);
 
   constructor(
     private config: PersonalizationConfig,
@@ -36,7 +38,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         if (!this.config.personalization?.httpHeaderName && isDevMode()) {
-          console.warn(
+          this.logger.warn(
             `There is no httpHeaderName configured in Personalization`
           );
         }
@@ -75,20 +77,19 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       tap((event) => {
-        if (event instanceof HttpResponse) {
-          if (
-            this.requestHeader &&
-            event.headers.keys().includes(this.requestHeader)
-          ) {
-            const receivedId = event.headers.get(this.requestHeader);
-            if (this.personalizationId !== receivedId) {
-              this.personalizationId = receivedId;
-              if (this.personalizationId) {
-                this.winRef.localStorage?.setItem(
-                  this.PERSONALIZATION_ID_KEY,
-                  this.personalizationId
-                );
-              }
+        if (
+          event instanceof HttpResponse &&
+          this.requestHeader &&
+          event.headers.keys().includes(this.requestHeader)
+        ) {
+          const receivedId = event.headers.get(this.requestHeader);
+          if (this.personalizationId !== receivedId) {
+            this.personalizationId = receivedId;
+            if (this.personalizationId) {
+              this.winRef.localStorage?.setItem(
+                this.PERSONALIZATION_ID_KEY,
+                this.personalizationId
+              );
             }
           }
         }

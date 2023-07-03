@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import { ConfigValidatorModule } from './config/config-validator/config-validato
 import { ConfigModule } from './config/config.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { GlobalMessageModule } from './global-message/global-message.module';
+import { HttpModule } from './http/http.module';
 import { I18nModule } from './i18n/i18n.module';
 import { LazyLoadingModule } from './lazy-loading/lazy-loading.module';
 import { BaseOccModule } from './occ/base-occ.module';
@@ -34,6 +35,10 @@ import { StateModule } from './state/state.module';
     MetaTagConfigModule.forRoot(),
     BaseOccModule.forRoot(),
     LazyLoadingModule.forRoot(),
+    HttpModule.forRoot(),
+
+    /* This module should be imported by default starting from version 7.0 (CXSPA-3680)*/
+    //ErrorHandlingModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

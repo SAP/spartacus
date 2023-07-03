@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  ContentSlotComponentData,
-  PageRobotsMeta,
-} from 'projects/core/src/cms';
-import { CmsComponent } from 'projects/core/src/model';
+import { ContentSlotComponentData, PageRobotsMeta } from '../../../../cms';
+import { CmsComponent } from '../../../../model';
 import { ConverterService } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models';
 import { OccCmsPageNormalizer } from './occ-cms-page-normalizer';

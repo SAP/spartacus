@@ -9,6 +9,16 @@
 
   .cx-card-label-container {
     flex-grow: 2;
+    white-space: pre-line;
+  }
+
+  .cx-text-green {
+    color: var(--cx-color-success);
+    font-weight: var(--cx-font-weight-bold);
+  }
+
+  .cx-text-gray {
+    color: var(--cx-color-secondary);
   }
 
   .cx-card-title {

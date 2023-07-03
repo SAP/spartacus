@@ -1,15 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Injectable, inject } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { merge, Observable, of } from 'rxjs';
+import { Observable, merge, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions';
+import { LoggerService } from '../../../logger';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
@@ -20,6 +21,8 @@ import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
+  protected logger = inject(LoggerService);
+
   // we want to cancel all ongoing requests when currency or language changes,
   private contextChange$: Observable<Action> = this.actions$.pipe(
     ofType(
@@ -71,7 +74,7 @@ export class ProductEffects {
           return of(
             new ProductActions.LoadProductFail(
               productLoad.code,
-              normalizeHttpError(error),
+              normalizeHttpError(error, this.logger),
               productLoad.scope
             )
           );
@@ -87,11 +90,13 @@ export class ProductEffects {
     );
   }
 
-  @Effect()
-  clearProductPrice$: Observable<ProductActions.ClearProductPrice> = this.actions$.pipe(
-    ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
-    map(() => new ProductActions.ClearProductPrice())
-  );
+  clearProductPrice$: Observable<ProductActions.ClearProductPrice> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
+        map(() => new ProductActions.ClearProductPrice())
+      )
+    );
 
   constructor(
     private actions$: Actions,

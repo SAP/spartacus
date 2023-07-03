@@ -64,8 +64,10 @@ class MockTranslationService {
 const productCode = 'CONF_LAPTOP';
 const kbLogSys = 'RR5CLNT910';
 let expMode = true;
+let forceReset = false;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
+const CONFIG_ID_TEMPLATE = '1234-56-abcd';
 const groupId = 'GROUP1';
 const documentEntryNumber = '3';
 const userId = 'Anony';
@@ -183,86 +185,148 @@ describe('OccConfigurationVariantAdapter', () => {
     httpMock.verify();
   });
 
-  it('should call createConfiguration endpoint', (done) => {
-    expMode = false;
-    configExpertModeService.setExpModeRequested(expMode);
-    productConfigurationOcc.kbKey = undefined;
-    spyOn(converterService, 'pipeable').and.callThrough();
+  describe('createConfiguration', () => {
+    it('should call createConfiguration endpoint', (done) => {
+      expMode = false;
+      configExpertModeService.setExpModeRequested(expMode);
+      productConfigurationOcc.kbKey = undefined;
+      spyOn(converterService, 'pipeable').and.callThrough();
 
-    occConfiguratorVariantAdapter
-      .createConfiguration(configuration.owner)
-      .subscribe((resultConfiguration) => {
-        expect(resultConfiguration.configId).toEqual(configId);
-        done();
+      occConfiguratorVariantAdapter
+        .createConfiguration(configuration.owner)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+          done();
+        });
+
+      //this call doesn't do the actual mapping but retrieves the map function,
+      //therefore expectation is valid here outside the subscribe
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        VARIANT_CONFIGURATOR_NORMALIZER
+      );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === 'createVariantConfiguration';
       });
 
-    //this call doesn't do the actual mapping but retrieves the map function,
-    //therefore expectation is valid here outside the subscribe
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
-    );
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'createVariantConfiguration';
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVariantConfiguration',
+        {
+          urlParams: {
+            productCode,
+          },
+          queryParams: { expMode, forceReset },
+        }
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+        sendUserIdAsHeader: true,
+      });
+      mockReq.flush(productConfigurationOcc);
     });
 
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'createVariantConfiguration',
-      {
-        urlParams: {
-          productCode,
-        },
-        queryParams: { expMode },
-      }
-    );
+    it('should forward configuration template id', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
 
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
-      sendUserIdAsHeader: true,
-    });
-    mockReq.flush(productConfigurationOcc);
-  });
+      occConfiguratorVariantAdapter
+        .createConfiguration(configuration.owner, CONFIG_ID_TEMPLATE)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+          done();
+        });
 
-  it('should call createConfiguration endpoint for expert mode', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    productConfigurationOcc.kbKey = kbKeyOcc;
-
-    occConfiguratorVariantAdapter
-      .createConfiguration(configuration.owner)
-      .subscribe((resultConfiguration) => {
-        expect(resultConfiguration.configId).toEqual(configId);
-
-        //check if expert mode data has been transferred to model
-        expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
-
-        done();
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === 'createVariantConfiguration';
       });
 
-    //this call doesn't do the actual mapping but retrieves the map function,
-    //therefore expectation is valid here outside the subscribe
-    expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_NORMALIZER
-    );
-    const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'createVariantConfiguration';
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVariantConfiguration',
+        {
+          urlParams: {
+            productCode,
+          },
+          queryParams: {
+            configIdTemplate: CONFIG_ID_TEMPLATE,
+            expMode,
+            forceReset,
+          },
+        }
+      );
+      mockReq.flush(productConfigurationOcc);
     });
 
-    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-      'createVariantConfiguration',
-      {
-        urlParams: {
-          productCode,
-        },
-        queryParams: { expMode },
-      }
-    );
+    it('should call createConfiguration endpoint for expert mode', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+      productConfigurationOcc.kbKey = kbKeyOcc;
 
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
-      sendUserIdAsHeader: true,
+      occConfiguratorVariantAdapter
+        .createConfiguration(configuration.owner)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+
+          //check if expert mode data has been transferred to model
+          expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
+
+          done();
+        });
+
+      //this call doesn't do the actual mapping but retrieves the map function,
+      //therefore expectation is valid here outside the subscribe
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        VARIANT_CONFIGURATOR_NORMALIZER
+      );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === 'createVariantConfiguration';
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVariantConfiguration',
+        {
+          urlParams: {
+            productCode,
+          },
+          queryParams: { expMode, forceReset },
+        }
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.context.get(OCC_HTTP_TOKEN)).toEqual({
+        sendUserIdAsHeader: true,
+      });
+      mockReq.flush(productConfigurationOcc);
     });
-    mockReq.flush(productConfigurationOcc);
+
+    it('should set forceReset flag if requested', (done) => {
+      forceReset = true;
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .createConfiguration(configuration.owner, undefined, true)
+        .subscribe((resultConfiguration) => {
+          expect(resultConfiguration.configId).toEqual(configId);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET' && req.url === 'createVariantConfiguration';
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'createVariantConfiguration',
+        {
+          urlParams: {
+            productCode,
+          },
+          queryParams: {
+            expMode,
+            forceReset,
+          },
+        }
+      );
+      mockReq.flush(productConfigurationOcc);
+    });
   });
 
   it('should call readConfiguration endpoint', (done) => {
@@ -789,5 +853,89 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
       ConfiguratorType.VARIANT
     );
+  });
+
+  describe('updateConfigurationOverview', () => {
+    const overviewInput: Configurator.Overview = {
+      configId: configId,
+      productCode: productCode,
+      groupFilters: ['A'],
+      attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
+      possibleGroups: [{ id: '1' }, { id: '2' }],
+    };
+    it('should call overview endpoint and build url', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.configId).toEqual(configId);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'getVariantConfigurationOverview',
+        {
+          urlParams: {
+            configId,
+          },
+        }
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
+      );
+      mockReq.flush(overviewOcc);
+    });
+
+    it('should return filter attributes like provided as input', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.attributeFilters).toEqual(
+            overviewInput.attributeFilters
+          );
+          expect(resultOv.groupFilters).toEqual(overviewInput.groupFilters);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+      mockReq.flush(overviewOcc);
+    });
+
+    it('should return possible groups like provided as input', (done) => {
+      spyOn(converterService, 'pipeable').and.callThrough();
+
+      occConfiguratorVariantAdapter
+        .updateConfigurationOverview(overviewInput)
+        .subscribe((resultOv) => {
+          expect(resultOv.possibleGroups).toEqual(overviewInput.possibleGroups);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === 'getVariantConfigurationOverview'
+        );
+      });
+      mockReq.flush(overviewOcc);
+    });
   });
 });

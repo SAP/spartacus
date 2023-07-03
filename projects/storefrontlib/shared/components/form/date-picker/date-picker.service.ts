@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,7 +58,7 @@ export class DatePickerService {
       .replace('yyyy', '')
       .replace('mm', '')
       .replace('dd', '')
-      .substr(0, 1);
+      .substring(0, 1);
 
     const dateParts = value.split(delimiter);
 

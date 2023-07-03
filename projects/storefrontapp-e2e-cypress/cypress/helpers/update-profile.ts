@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as login from '../helpers/login';
 import { SampleUser } from '../sample-data/checkout-flow';
+import { isolateTests } from '../support/utils/test-isolation';
 import * as alerts from './global-message';
 import { checkBanner } from './homepage';
 
@@ -111,28 +112,33 @@ export function testSeeNewProfileInfo() {
 }
 
 export function testUpdateProfileLoggedInUser() {
-  describe('update profile test for logged in user', () => {
-    before(() => {
-      cy.requireLoggedIn();
-      cy.visit('/');
-    });
-
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
+  describe(
+    'update profile test for logged in user',
+    { testIsolation: false },
+    () => {
+      isolateTests();
+      before(() => {
+        cy.requireLoggedIn();
+        cy.visit('/');
       });
-    });
 
-    testUpdateProfileDetails();
-    testSeeNewProfileInfo();
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+        });
+      });
 
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
+      testUpdateProfileDetails();
+      testSeeNewProfileInfo();
 
-    after(() => {
-      login.signOutUser();
-    });
-  });
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      after(() => {
+        login.signOutUser();
+      });
+    }
+  );
 }

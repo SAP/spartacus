@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -30,7 +31,12 @@ describe('ToggleLinkCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ToggleLinkCellComponent],
-      imports: [RouterTestingModule, UrlTestingModule, IconModule],
+      imports: [
+        RouterTestingModule,
+        UrlTestingModule,
+        IconModule,
+        I18nTestingModule,
+      ],
       providers: [
         {
           provide: OutletContextData,

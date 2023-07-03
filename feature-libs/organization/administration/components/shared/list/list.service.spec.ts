@@ -130,4 +130,8 @@ describe('ListService', () => {
       expect(result.pagination.currentPage).toEqual(0);
     });
   });
+
+  it('should show Add hyperlink', () => {
+    expect(service.getCreateButtonType()).toEqual('LINK');
+  });
 });

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,16 +10,27 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
+import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
+
 import { User } from '@spartacus/core';
+import {
+  DirectionMode,
+  DirectionService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -43,10 +54,38 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
 
+  @ViewChild('createCustomerLink') createCustomerLink: ElementRef;
+  @ViewChildren('searchResultItem') searchResultItems: QueryList<
+    ElementRef<HTMLElement>
+  >;
+
+  activeFocusedButtonIndex = -1;
+
+  // TODO(CXSPA-3091): make LaunchDialogService are required dependency
+  constructor(
+    fb: UntypedFormBuilder,
+    asmService: AsmService,
+    config: AsmConfig,
+    directionService: DirectionService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    launchDialogService: LaunchDialogService
+  );
+  /**
+   * @deprecated since 6.1
+   */
+  constructor(
+    fb: UntypedFormBuilder,
+    asmService: AsmService,
+    config: AsmConfig,
+    directionService: DirectionService
+  );
+
   constructor(
     protected fb: UntypedFormBuilder,
     protected asmService: AsmService,
-    protected config: AsmConfig
+    protected config: AsmConfig,
+    protected directionService: DirectionService,
+    @Optional() protected launchDialogService?: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +117,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       return;
     }
     this.asmService.customerSearchReset();
+    this.activeFocusedButtonIndex = -1;
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
@@ -86,12 +126,15 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectCustomerFromList(customer: User) {
+  selectCustomerFromList(event: UIEvent, customer: User) {
     this.selectedCustomer = customer;
     this.customerSelectionForm.controls.searchTerm.setValue(
       this.selectedCustomer.name
     );
     this.asmService.customerSearchReset();
+    this.searchTerm.nativeElement.focus();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   onSubmit(): void {
@@ -102,7 +145,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDocumentClick(event: Event) {
+  onDocumentClick(event: UIEvent) {
     if (Boolean(this.resultList)) {
       if (
         this.resultList.nativeElement.contains(event.target) ||
@@ -115,12 +158,138 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeResults() {
+  closeResults(event: UIEvent) {
     this.asmService.customerSearchReset();
+    this.searchTerm.nativeElement.focus();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.asmService.customerSearchReset();
+  }
+
+  /**
+   * set focus to the first searched item
+   * @param event keyboard event
+   */
+  focusFirstItem(event: UIEvent): void {
+    event.preventDefault();
+    this.activeFocusedButtonIndex = 0;
+    this.updateItemIndex(this.activeFocusedButtonIndex);
+  }
+  /**
+   * set mouse cursor to the end of search text
+   * @param event keyboard event
+   */
+  setSelectionEnd(event: UIEvent): void {
+    event.preventDefault();
+    if (this.searchTerm.nativeElement.value?.length) {
+      const selectionStart = this.searchTerm.nativeElement.value.length;
+      this.searchTerm.nativeElement.selectionStart = selectionStart;
+      this.searchTerm.nativeElement.selectionEnd = selectionStart;
+    }
+  }
+  /**
+   * set focus on previous searh result item.  If no previous item then go to end of item.
+   * @param event keyboard event
+   */
+  focusPreviousChild(event: UIEvent): void {
+    event.preventDefault();
+    this.activeFocusedButtonIndex--;
+    if (this.activeFocusedButtonIndex < 0) {
+      this.activeFocusedButtonIndex = this.searchResultItems.length - 1;
+    }
+    this.updateItemIndex(this.activeFocusedButtonIndex);
+  }
+  /**
+   * set focus on next searh result item.  if no next item then go to the first item
+   * @param event keyboard event
+   */
+  focusNextChild(event: UIEvent): void {
+    event.preventDefault();
+    this.activeFocusedButtonIndex++;
+    if (this.activeFocusedButtonIndex > this.searchResultItems.length - 1) {
+      this.activeFocusedButtonIndex = 0;
+    }
+    this.updateItemIndex(this.activeFocusedButtonIndex);
+  }
+  /**
+   * set focus to input search text
+   * @param event keyboard event
+   */
+  focusInputText(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.activeFocusedButtonIndex = -1;
+    this.searchTerm.nativeElement.focus();
+    if (this.searchTerm.nativeElement.value?.length) {
+      let selectionPos = this.searchTerm.nativeElement.selectionEnd;
+      const searchTermLength = this.searchTerm.nativeElement.value.length;
+
+      if (this.isBackNavigation(event)) {
+        selectionPos = selectionPos <= 0 ? 0 : selectionPos - 1;
+      } else if (this.isForwardsNavigation(event)) {
+        selectionPos =
+          selectionPos >= searchTermLength
+            ? searchTermLength
+            : selectionPos + 1;
+      } else if (event.code === 'Home') {
+        selectionPos = 0;
+      } else if (event.code === 'End') {
+        selectionPos = searchTermLength;
+      }
+      this.searchTerm.nativeElement.selectionStart = selectionPos;
+      this.searchTerm.nativeElement.selectionEnd = selectionPos;
+    }
+  }
+  /**
+   * set focus to selected item
+   * @param {number} selectedIndex - current selected item index
+   */
+  updateItemIndex(selectedIndex: number): void {
+    this.searchResultItems.toArray()?.[selectedIndex]?.nativeElement.focus();
+  }
+
+  createCustomer(): void {
+    this.asmService.customerSearchReset();
+    this.launchDialogService?.openDialogAndSubscribe(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      this.createCustomerLink
+    );
+  }
+  /**
+   * Verifies whether the user navigates into a subgroup of the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
+   * @protected
+   */
+  protected isForwardsNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowRight' && this.isLTRDirection()) ||
+      (event.code === 'ArrowLeft' && this.isRTLDirection())
+    );
+  }
+
+  /**
+   * Verifies whether the user navigates from a subgroup back to the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates back into the main group menu, otherwise 'false'.
+   * @protected
+   */
+  protected isBackNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowLeft' && this.isLTRDirection()) ||
+      (event.code === 'ArrowRight' && this.isRTLDirection())
+    );
+  }
+  protected isLTRDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.LTR;
+  }
+
+  protected isRTLDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.RTL;
   }
 }

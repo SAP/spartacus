@@ -1,22 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CheckoutDeliveryAddressAdapter } from '@spartacus/checkout/base/core';
 import {
-  Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
-  backOff,
+  Address,
   ConverterService,
-  isJaloError,
-  normalizeHttpError,
+  LoggerService,
   Occ,
   OccEndpointsService,
+  backOff,
+  isJaloError,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -25,6 +26,8 @@ import { catchError } from 'rxjs/operators';
 export class OccCheckoutDeliveryAddressAdapter
   implements CheckoutDeliveryAddressAdapter
 {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -47,7 +50,9 @@ export class OccCheckoutDeliveryAddressAdapter
         }
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),
@@ -78,7 +83,9 @@ export class OccCheckoutDeliveryAddressAdapter
         {}
       )
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         })
@@ -103,7 +110,9 @@ export class OccCheckoutDeliveryAddressAdapter
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         })

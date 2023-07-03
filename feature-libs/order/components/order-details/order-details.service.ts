@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,6 +42,10 @@ export class OrderDetailsService {
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
+  }
+
+  isOrderDetailsLoading(): Observable<boolean> {
+    return this.orderHistoryFacade.getOrderDetailsLoading();
   }
 
   getOrderDetails(): Observable<Order> {

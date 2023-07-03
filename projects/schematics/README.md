@@ -19,7 +19,7 @@ To run all the schematics unit tests:
 To run schematics tests for a specific library:
 
 1. navigate to the library / project you want to test - e.g. `$ cd feature-libs/asm`
-2. Run `$ yarn test:schematics`. _NOTE_ that when testing `projects/schematics`, the command which to run is `$ yarn test`.
+2. Run `$ npm run test:schematics`. _NOTE_ that when testing `projects/schematics`, the command which to run is `$ npm run test`.
 
 The schematics already have unit tests to cover the migration tasks they were designed to perform. However, you might want to test if the new schematics configuration you added will produce the expected result when a user will perform a migration with the help of the schematics without running a full migration on an app, which would be very time consuming. A convenient way to test your new config is to temporarily modify a schematics unit test case and use an example that will use your new config instead. After you assess your migration scenario plays out as expected, you can revert the changes you did in the unit test.
 

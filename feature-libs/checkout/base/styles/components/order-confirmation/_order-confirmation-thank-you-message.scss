@@ -4,7 +4,8 @@
     padding: var(--cx-padding, 2.5rem);
 
     h2 {
-      font-weight: $font-weight-normal;
+      font-weight: var(--cx-font-weight-bold);
+      font-size: var(--cx-font-size, 1.5rem);
     }
 
     .btn-link {

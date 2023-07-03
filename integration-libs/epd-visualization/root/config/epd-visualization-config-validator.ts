@@ -1,24 +1,55 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { getUrl, isHttpOrHttps } from '../util/url-utils';
-import { EpdVisualizationConfig } from './epd-visualization-config';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
+} from './epd-visualization-config';
 
 export function epdVisualizationConfigValidator(
   epdVisualizationConfig: EpdVisualizationConfig
 ): string | void {
-  // -- epdVisualization
-
   const epdVisualization = epdVisualizationConfig.epdVisualization;
   if (!epdVisualization) {
     return unconfiguredPropertyMessage('epdVisualization');
   }
 
-  // -- apis section
+  if (invalidApis(epdVisualization)) {
+    return invalidApis(epdVisualization);
+  }
 
+  if (invalidUi5(epdVisualization)) {
+    return invalidUi5(epdVisualization);
+  }
+
+  if (invalidUsageIds(epdVisualization)) {
+    return invalidUsageIds(epdVisualization);
+  }
+
+  if (invalidVisualPicking(epdVisualization)) {
+    return invalidVisualPicking(epdVisualization);
+  }
+}
+
+function unconfiguredPropertyMessage(propertyName: string) {
+  return `No value configured for ${propertyName} in the EPD Visualization library configuration.`;
+}
+
+function invalidUrlMessage(propertyName: string, url: string) {
+  return `URL value '${url}' configured for ${propertyName} in the EPD Visualization library configuration is not valid.`;
+}
+
+function invalidUrlProtocolMessage(propertyName: string) {
+  return `URL for ${propertyName} must use HTTPS or HTTP protocol.`;
+}
+
+function invalidApis(
+  epdVisualization: EpdVisualizationInnerConfig
+): string | undefined {
   if (!epdVisualization.apis) {
     return unconfiguredPropertyMessage('epdVisualization.apis');
   }
@@ -39,8 +70,12 @@ export function epdVisualizationConfigValidator(
     return invalidUrlProtocolMessage(configApisBaseUrlProperty);
   }
 
-  // -- ui5 section
+  return undefined;
+}
 
+function invalidUi5(
+  epdVisualization: EpdVisualizationInnerConfig
+): string | undefined {
   if (!epdVisualization.ui5) {
     return unconfiguredPropertyMessage('epdVisualization.ui5');
   }
@@ -62,8 +97,12 @@ export function epdVisualizationConfigValidator(
     return invalidUrlProtocolMessage(configUi5BootstrapUrlProperty);
   }
 
-  // -- usageIds section
+  return undefined;
+}
 
+function invalidUsageIds(
+  epdVisualization: EpdVisualizationInnerConfig
+): string | undefined {
   if (!epdVisualization.usageIds) {
     return unconfiguredPropertyMessage('epdVisualization.usageIds');
   }
@@ -72,10 +111,7 @@ export function epdVisualizationConfigValidator(
       'epdVisualization.usageIds.folderUsageId.name'
     );
   }
-  if (
-    !epdVisualization.usageIds.folderUsageId.keys ||
-    !epdVisualization.usageIds.folderUsageId.keys.length
-  ) {
+  if (!epdVisualization.usageIds.folderUsageId.keys?.length) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.folderUsageId.keys'
     );
@@ -113,8 +149,12 @@ export function epdVisualizationConfigValidator(
     );
   }
 
-  // -- visualPicking section
+  return undefined;
+}
 
+function invalidVisualPicking(
+  epdVisualization: EpdVisualizationInnerConfig
+): string | undefined {
   if (!epdVisualization.visualPicking) {
     return unconfiguredPropertyMessage('epdVisualization.visualPicking');
   }
@@ -124,16 +164,6 @@ export function epdVisualizationConfigValidator(
       'epdVisualization.visualPicking.productReferenceType'
     );
   }
-}
 
-function unconfiguredPropertyMessage(propertyName: string) {
-  return `No value configured for ${propertyName} in the EPD Visualization library configuration.`;
-}
-
-function invalidUrlMessage(propertyName: string, url: string) {
-  return `URL value '${url}' configured for ${propertyName} in the EPD Visualization library configuration is not valid.`;
-}
-
-function invalidUrlProtocolMessage(propertyName: string) {
-  return `URL for ${propertyName} must use HTTPS or HTTP protocol.`;
+  return undefined;
 }

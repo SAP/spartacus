@@ -1,15 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -64,30 +59,11 @@ export class ConfiguratorProductTitleComponent {
   showMore = false;
   iconTypes = ICON_TYPE;
 
-  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    productService: ProductService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configExpertModeService: ConfiguratorExpertModeService
-  );
-
-  /**
-   * @deprecated since 5.1
-   */
-  constructor(
-    configuratorCommonsService: ConfiguratorCommonsService,
-    configRouterExtractorService: ConfiguratorRouterExtractorService,
-    productService: ProductService
-  );
-
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService,
-    @Optional()
-    protected configExpertModeService?: ConfiguratorExpertModeService
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   triggerDetails(): void {
@@ -95,6 +71,6 @@ export class ConfiguratorProductTitleComponent {
   }
 
   get expMode(): Observable<boolean> | undefined {
-    return this.configExpertModeService?.getExpModeActive();
+    return this.configExpertModeService.getExpModeActive();
   }
 }

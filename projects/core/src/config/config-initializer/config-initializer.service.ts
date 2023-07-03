@@ -1,17 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import { inject, Inject, Injectable, isDevMode, Optional } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, mapTo, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
+import { LoggerService } from '../../logger';
 import { Config, RootConfig } from '../config-tokens';
 import { deepMerge } from '../utils/deep-merge';
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER_FORROOT_GUARD,
+  ConfigInitializer,
 } from './config-initializer';
 
 /**
@@ -21,6 +22,8 @@ import {
   providedIn: 'root',
 })
 export class ConfigInitializerService {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected config: Config,
     @Optional()
@@ -62,7 +65,7 @@ export class ConfigInitializerService {
           !!ongoingScopes && this.areReady(scopes, ongoingScopes)
       ),
       take(1),
-      mapTo(this.config)
+      map(() => this.config)
     );
   }
 
@@ -143,7 +146,7 @@ export class ConfigInitializerService {
       }
 
       if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
-        console.warn(
+        this.logger.warn(
           'More than one CONFIG_INITIALIZER is initializing the same config scope.'
         );
       }

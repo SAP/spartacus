@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,15 +15,15 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, pluck, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../model/order-approval.model';
 import { OrderApprovalActions } from '../store/actions/index';
 import {
-  OrderApprovalState,
   ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+  OrderApprovalState,
 } from '../store/order-approval-state';
 import { OrderApprovalSelectors } from '../store/selectors';
 
@@ -92,8 +92,7 @@ export class OrderApprovalService {
    */
   getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
     return this.getOrderApproval(orderApprovalCode).pipe(
-      pluck('loading'),
-      map((loading) => loading ?? false)
+      map((orderApprovalState) => orderApprovalState.loading ?? false)
     );
   }
 

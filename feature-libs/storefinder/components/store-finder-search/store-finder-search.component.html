@@ -12,6 +12,7 @@
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
         />
         <cx-icon
+          [attr.tabindex]="queryInput.value?.length ? 0 : -1"
           [type]="iconTypes.SEARCH"
           role="button"
           [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"

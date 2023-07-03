@@ -15,27 +15,6 @@
     "types": [],
     "lib": ["es2020", "dom"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/order/assets": ["dist/order/assets"],
-      "@spartacus/order/components": ["dist/order/components"],
-      "@spartacus/order/core": ["dist/order/core"],
-      "@spartacus/order": ["dist/order"],
-      "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/user/account/assets": ["dist/user/account/assets"],
-      "@spartacus/user/account/components": ["dist/user/account/components"],
-      "@spartacus/user/account/core": ["dist/user/account/core"],
-      "@spartacus/user/account": ["dist/user/account"],
-      "@spartacus/user/account/occ": ["dist/user/account/occ"],
-      "@spartacus/user/account/root": ["dist/user/account/root"],
-      "@spartacus/user": ["dist/user"],
-      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
-      "@spartacus/user/profile/components": ["dist/user/profile/components"],
-      "@spartacus/user/profile/core": ["dist/user/profile/core"],
-      "@spartacus/user/profile": ["dist/user/profile"],
-      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
@@ -82,7 +61,28 @@
       ],
       "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
-      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"]
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/user/account/components": ["dist/user/account/components"],
+      "@spartacus/user/account/core": ["dist/user/account/core"],
+      "@spartacus/user/account": ["dist/user/account"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user": ["dist/user"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
+      "@spartacus/user/profile/components": ["dist/user/profile/components"],
+      "@spartacus/user/profile/core": ["dist/user/profile/core"],
+      "@spartacus/user/profile": ["dist/user/profile"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {
@@ -93,5 +93,5 @@
     "enableResourceInlining": true,
     "strictTemplates": true
   },
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "setup-jest.ts", "**/*.spec.ts"]
 }

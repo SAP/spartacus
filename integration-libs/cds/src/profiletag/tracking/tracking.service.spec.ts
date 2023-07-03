@@ -12,7 +12,7 @@ import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { TrackingService } from './tracking.service';
 
 describe('TrackingService', () => {
-  let postBehaviour: Subject<boolean>;
+  let postBehavior: Subject<boolean>;
   let trackingService: TrackingService;
   let profileTagEventTrackerMock: ProfileTagEventService;
   let consentBehavior: Subject<ConsentChangedPushEvent>;
@@ -21,7 +21,7 @@ describe('TrackingService', () => {
   let pushEvents: Subject<ProfileTagPushEvent>;
   function setVariables() {
     consentBehavior = new ReplaySubject<ConsentChangedPushEvent>();
-    postBehaviour = new ReplaySubject<boolean>();
+    postBehavior = new ReplaySubject<boolean>();
     pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     profileTagLifecycleServiceMock = <ProfileTagLifecycleService>(<unknown>{
       consentChanged: jasmine
@@ -29,7 +29,7 @@ describe('TrackingService', () => {
         .and.callFake(() => consentBehavior),
       loginSuccessful: jasmine
         .createSpy('loginSuccessful')
-        .and.callFake((_) => postBehaviour),
+        .and.callFake((_) => postBehavior),
     });
     profileTagPushEventsServiceMock = <ProfileTagPushEventsService>(<unknown>{
       getPushEvents: jasmine
@@ -37,8 +37,8 @@ describe('TrackingService', () => {
         .and.callFake((_) => pushEvents),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
-      notifyProfileTagOfEventOccurence: jasmine.createSpy(
-        'notifyProfileTagOfEventOccurence'
+      notifyProfileTagOfEventOccurrence: jasmine.createSpy(
+        'notifyProfileTagOfEventOccurrence'
       ),
     });
   }
@@ -73,14 +73,14 @@ describe('TrackingService', () => {
     consentBehavior.next(new ConsentChangedPushEvent(true));
     consentBehavior.next(new ConsentChangedPushEvent(false));
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalledTimes(2);
 
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalledWith(new ConsentChangedPushEvent(true));
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalledWith(new ConsentChangedPushEvent(false));
   });
 
@@ -90,10 +90,10 @@ describe('TrackingService', () => {
     const testEvent = new HomePageViewPushEvent();
     pushEvents.next(testEvent);
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalled();
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalledWith(testEvent);
   });
 
@@ -102,10 +102,10 @@ describe('TrackingService', () => {
     consentBehavior.next(new ConsentChangedPushEvent(true));
     pushEvents.next(new NavigatedPushEvent('test'));
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalled();
     expect(
-      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurrence
     ).toHaveBeenCalledWith(new NavigatedPushEvent('test'));
   });
 });

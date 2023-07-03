@@ -1,13 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { B2BUserRole, I18nTestingModule, Title } from '@spartacus/core';
+import {
+  B2BUserRight,
+  B2BUserRole,
+  I18nTestingModule,
+  Title,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
@@ -16,7 +21,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
@@ -39,7 +44,7 @@ const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   getTitles(): Observable<Title[]> {
-    return of();
+    return EMPTY;
   }
 
   loadTitles(): void {}
@@ -53,6 +58,9 @@ class MockB2BUserService implements Partial<B2BUserService> {
       B2BUserRole.APPROVER,
       B2BUserRole.ADMIN,
     ];
+  }
+  getAllRights() {
+    return [B2BUserRight.UNITORDERVIEWER];
   }
 }
 
@@ -69,6 +77,7 @@ describe('UserFormComponent', () => {
   let component: UserFormComponent;
   let fixture: ComponentFixture<UserFormComponent>;
   let b2bUnitService: OrgUnitService;
+  let b2bUserService: B2BUserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -92,6 +101,11 @@ describe('UserFormComponent', () => {
 
     spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
     spyOn(b2bUnitService, 'loadList').and.callThrough();
+
+    b2bUserService = TestBed.inject(B2BUserService);
+
+    spyOn(b2bUserService, 'getAllRights').and.callThrough();
+    spyOn(b2bUserService, 'getAllRoles').and.callThrough();
   });
 
   beforeEach(() => {
@@ -127,6 +141,12 @@ describe('UserFormComponent', () => {
     component.form = mockForm;
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
+  });
+
+  it('should load list of rights', () => {
+    component.form = mockForm;
+    fixture.detectChanges();
+    expect(b2bUserService.getAllRights).toHaveBeenCalled();
   });
 
   describe('autoSelect uid', () => {

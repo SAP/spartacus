@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Request } from 'express';
+import { ExpressServerLogger } from '../logger';
 
 export interface SsrOptimizationOptions {
   /**
@@ -109,6 +110,20 @@ export interface SsrOptimizationOptions {
    * Enable detailed logs for troubleshooting problems
    */
   debug?: boolean;
+
+  /**
+   * Config for improving logged messages with context and JSON structure.
+   *
+   * It enhances the logs in SSR by adding context, including the request's details,
+   * and structuring them as JSON.
+   *
+   * The `logger` property is optional and accepts two values:
+   * - `true`:         Enables the default logger and enhances the logs.
+   * - `ExpressServerLogger`: Interprets the given `ExpressServerLogger` as a custom logger
+   *
+   * By default, the logger is disabled, meaning that logs in SSR are not enhanced.
+   */
+  logger?: true | ExpressServerLogger; //CXSPA-3680 - allow only providing ExpressServerLogger implementations
 }
 
 export enum RenderingStrategy {
@@ -116,3 +131,14 @@ export enum RenderingStrategy {
   DEFAULT = 0,
   ALWAYS_SSR = 1,
 }
+
+export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
+  concurrency: 10,
+  timeout: 3_000,
+  forcedSsrTimeout: 60_000,
+  maxRenderTime: 300_000,
+  reuseCurrentRendering: true,
+  debug: false,
+  //CXSPA-3680 - set ExpressServerLogger as default
+  //logger: new ExpressServerLogger(),
+};

@@ -4,7 +4,7 @@
 yarn.lock
 *_spec.ts
 *_spec.ts.snap
-test-jest.ts
+setup-jest.ts
 jest.schematics.config.js
 tsconfig.schematics.json
 src/migrations/test/**/*

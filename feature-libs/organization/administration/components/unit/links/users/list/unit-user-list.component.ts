@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import { Observable, of } from 'rxjs';
 import { ListService } from '../../../../shared/list/list.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 
 @Component({
   selector: 'cx-org-unit-user-list',
@@ -31,5 +32,10 @@ export class UnitUserListComponent {
     ? this.currentUnitService.item$
     : of({ active: true });
 
-  constructor(protected currentUnitService: CurrentUnitService) {}
+  isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
+
+  constructor(
+    protected currentUnitService: CurrentUnitService,
+    protected b2bUserService: B2BUserService
+  ) {}
 }

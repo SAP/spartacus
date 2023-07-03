@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { PickupInStoreModule } from "@spartacus/pickup-in-store";
+import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslations } from "@spartacus/pickup-in-store/assets";
+import { PickupInStoreRootModule } from "@spartacus/pickup-in-store/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PickupInStoreRootModule,
+    PickupInStoreModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: pickupInStoreTranslations,
+      chunks: pickupInStoreTranslationChunksConfig,
+    },
+  })]
+})
+export class PickupInStoreFeatureModule { }
+"
+`;
+
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { pickupInStoreTranslationChunksConfig, pickupInStoreTranslations } from "@spartacus/pickup-in-store/assets";
+import { PickupInStoreRootModule, PICKUP_IN_STORE_FEATURE } from "@spartacus/pickup-in-store/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PickupInStoreRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PICKUP_IN_STORE_FEATURE]: {
+        module: () =>
+          import('@spartacus/pickup-in-store').then((m) => m.PickupInStoreModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: pickupInStoreTranslations,
+      chunks: pickupInStoreTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class PickupInStoreFeatureModule { }
+"
+`;
+
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/pickup-in-store";
+"
+`;
+
+exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature general setup styling should update angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/pickup-in-store.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "browserTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "schematics-test:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/pickup-in-store.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;

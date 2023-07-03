@@ -1,29 +1,28 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, Optional, Provider } from '@angular/core';
+import { APP_INITIALIZER, inject, Provider } from '@angular/core';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { LanguageService } from '../../site-context/facade/language.service';
-import { SERVER_REQUEST_ORIGIN } from '../../util/ssr.tokens';
-import { i18nextInit, SiteContextI18nextSynchronizer } from './i18next-init';
-import { I18NEXT_INSTANCE } from './i18next-instance';
+import { i18nextBackendProviders } from './i18next-backend/i18next-backend.providers';
+import { I18nextInitializer } from './i18next-initializer';
 
 export const i18nextProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
-    useFactory: i18nextInit,
-    deps: [
-      I18NEXT_INSTANCE,
-      ConfigInitializerService,
-      LanguageService,
-      HttpClient,
-      [new Optional(), SERVER_REQUEST_ORIGIN],
-      SiteContextI18nextSynchronizer,
-    ],
+    useFactory: () => {
+      const configInitializerService = inject(ConfigInitializerService);
+      const i18nextInitializer = inject(I18nextInitializer);
+      return () =>
+        configInitializerService
+          .getStable('i18n')
+          .toPromise()
+          .then(() => i18nextInitializer.initialize());
+    },
     multi: true,
   },
+
+  ...i18nextBackendProviders,
 ];

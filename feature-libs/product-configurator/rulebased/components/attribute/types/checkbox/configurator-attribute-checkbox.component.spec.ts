@@ -3,8 +3,6 @@ import {
   Component,
   Directive,
   Input,
-  TemplateRef,
-  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,20 +13,9 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-
-@Directive({
-  selector: '[cxFeatureLevel]',
-})
-export class MockFeatureLevelDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
-
-  @Input() set cxFeatureLevel(_feature: string | number) {
-    this.viewContainer.createEmbeddedView(this.templateRef);
-  }
-}
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
 
 @Directive({
   selector: '[cxFocus]',
@@ -45,6 +32,10 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
@@ -56,10 +47,19 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         declarations: [
           ConfiguratorAttributeCheckBoxComponent,
           MockFocusDirective,
-          MockFeatureLevelDirective,
           MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+        providers: [
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
           set: {
@@ -103,6 +103,17 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
   it('should have an entry after init with empty value', () => {
     expect(component.attributeCheckBoxForm.value).toBeFalsy();
+  });
+
+  describe('getValueFromAttribute', () => {
+    it('should find value in case values present on attribute', () => {
+      expect(component['getValueFromAttribute']()).toBe(value1);
+    });
+
+    it('should return empty value if no values are present', () => {
+      component.attribute.values = undefined;
+      expect(component['getValueFromAttribute']()).toEqual({ valueCode: '' });
+    });
   });
 
   it('should select and deselect a checkbox value', () => {

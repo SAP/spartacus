@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -180,15 +180,13 @@ export function convertCardTypeToUiType(cardType: cardType) {
  * @param {string} attributeName - Attribute name
  * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {string} value - Value
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
-  valueName: string,
-  value?: string
+  valueName: string
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, value);
+  configuration.selectAttribute(attributeName, uiType, valueName);
   cy.wait('@updateConfig');
   cy.wait('@readConfig');
 }
@@ -273,28 +271,21 @@ export function checkPrice(
 }
 
 /**
- * Returns nth group menu link
- *
- * @param {number} index
- * @returns {Chainable<JQuery<HTMLElement>>}
- */
-function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
-  return cy
-    .get('cx-configurator-group-menu:visible')
-    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
-}
-
-/**
  * Clicks on the group via its index in the group menu.
  *
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  getNthGroupMenu(groupIndex).within(() => {
-    cy.get('div.subGroupIndicator').within(($list) => {
-      cy.log('$list.children().length: ' + $list.children().length);
-      cy.wrap($list.children().length).as('subGroupIndicator');
-    });
+  cy.get('cx-configurator-group-menu:visible').within(() => {
+    cy.get('.cx-menu-item')
+      .not('.cx-menu-conflict')
+      .eq(groupIndex)
+      .within(() => {
+        cy.get('div.subGroupIndicator').within(($list) => {
+          cy.log('$list.children().length: ' + $list.children().length);
+          cy.wrap($list.children().length).as('subGroupIndicator');
+        });
+      });
   });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {

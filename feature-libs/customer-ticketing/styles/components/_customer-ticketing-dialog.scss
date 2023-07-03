@@ -1,0 +1,95 @@
+%cx-customer-ticketing-create-dialog,
+%cx-customer-ticketing-reopen-dialog,
+%cx-customer-ticketing-close-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-customer-ticket-form-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+
+    .cx-customer-ticket-form-container {
+      @extend .modal-content;
+
+      .cx-customer-ticket-form-header {
+        .cx-customer-ticket-form-title {
+          font-size: var(--cx-font-size, 1.375rem);
+          font-weight: var(--cx-font-weight-semi);
+          line-height: var(--cx-line-height, 1.2222222222);
+        }
+      }
+
+      .cx-customer-ticket-form-body {
+        @extend .modal-body;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .cx-customer-ticket-form-row {
+          .cx-customer-ticket-label {
+            font-weight: bold;
+          }
+
+          .cx-customer-ticket-input-hint {
+            text-align: end;
+          }
+
+          .cx-customer-ticket-label-optional {
+            font-weight: normal;
+          }
+        }
+        .cx-customer-ticket-input-hint {
+          font-size: 0.75rem;
+          font-style: italic;
+          text-align: end;
+          margin-bottom: 0;
+        }
+        .cx-customer-ticket-file-upload-hint {
+          font-size: 0.75rem;
+          font-style: italic;
+          text-align: start;
+          margin-bottom: 0;
+        }
+      }
+
+      cx-file-upload {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        text-align: start;
+        .cx-message-footer-text {
+          text-decoration: underline;
+          cursor: pointer;
+          padding: 0rem 0.5rem;
+        }
+        cx-icon {
+          color: #a1aabf;
+          cursor: pointer;
+          font-size: 1.25rem;
+        }
+        p {
+          margin-bottom: 0;
+        }
+      }
+
+      .cx-customer-ticket-form-footer {
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+    }
+  }
+}

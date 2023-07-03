@@ -2,13 +2,13 @@
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -38,10 +38,10 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { translationChunksConfig, translations } from "@spartacus/assets";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { defaultB2bOccConfig } from "@spartacus/setup";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
@@ -63,7 +63,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '4.1'
+      level: '5.0'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -73,11 +73,11 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -113,8 +113,8 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { CheckoutModule } from "@spartacus/checkout/base";
 
 @NgModule({
   declarations: [],
@@ -128,123 +128,120 @@ export class CheckoutWrapperModule { }
 `;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should create a proper scss file 1`] = `
-"@import \\"../../styles-config\\";
-@import \\"@spartacus/checkout\\";
+"@import "../../styles-config";
+@import "@spartacus/checkout";
 "
 `;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup styling should update angular.json 1`] = `
 "{
-  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
-  \\"version\\": 1,
-  \\"newProjectRoot\\": \\"\\",
-  \\"projects\\": {
-    \\"schematics-test\\": {
-      \\"projectType\\": \\"application\\",
-      \\"schematics\\": {
-        \\"@schematics/angular:component\\": {
-          \\"style\\": \\"scss\\"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
-      \\"root\\": \\"\\",
-      \\"sourceRoot\\": \\"src\\",
-      \\"prefix\\": \\"app\\",
-      \\"architect\\": {
-        \\"build\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
-          \\"options\\": {
-            \\"outputPath\\": \\"dist/schematics-test\\",
-            \\"index\\": \\"src/index.html\\",
-            \\"main\\": \\"src/main.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\"
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\",
-              \\"src/styles/spartacus/checkout.scss\\"
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/checkout.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"budgets\\": [
+          "configurations": {
+            "production": {
+              "budgets": [
                 {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"2.5mb\\"
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2.5mb"
                 },
                 {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"2kb\\",
-                  \\"maximumError\\": \\"4kb\\"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              \\"fileReplacements\\": [
-                {
-                  \\"replace\\": \\"src/environments/environment.ts\\",
-                  \\"with\\": \\"src/environments/environment.prod.ts\\"
-                }
-              ],
-              \\"outputHashing\\": \\"all\\"
+              "outputHashing": "all"
             },
-            \\"development\\": {
-              \\"buildOptimizer\\": false,
-              \\"optimization\\": false,
-              \\"vendorChunk\\": true,
-              \\"extractLicenses\\": false,
-              \\"sourceMap\\": true,
-              \\"namedChunks\\": true
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          \\"defaultConfiguration\\": \\"production\\"
+          "defaultConfiguration": "production"
         },
-        \\"serve\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"browserTarget\\": \\"schematics-test:build:production\\"
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "schematics-test:build:production"
             },
-            \\"development\\": {
-              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            "development": {
+              "browserTarget": "schematics-test:build:development"
             }
           },
-          \\"defaultConfiguration\\": \\"development\\"
+          "defaultConfiguration": "development"
         },
-        \\"extract-i18n\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "schematics-test:build"
           }
         },
-        \\"test\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
-          \\"options\\": {
-            \\"main\\": \\"src/test.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.spec.json\\",
-            \\"karmaConfig\\": \\"karma.conf.js\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\"
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\",
-              \\"src/styles/spartacus/checkout.scss\\"
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/checkout.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           }
@@ -257,10 +254,10 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -281,9 +278,9 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -311,123 +308,120 @@ export class CheckoutFeatureModule { }
 `;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should create a proper scss file 1`] = `
-"@import \\"../../styles-config\\";
-@import \\"@spartacus/checkout\\";
+"@import "../../styles-config";
+@import "@spartacus/checkout";
 "
 `;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup styling should update angular.json 1`] = `
 "{
-  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
-  \\"version\\": 1,
-  \\"newProjectRoot\\": \\"\\",
-  \\"projects\\": {
-    \\"schematics-test\\": {
-      \\"projectType\\": \\"application\\",
-      \\"schematics\\": {
-        \\"@schematics/angular:component\\": {
-          \\"style\\": \\"scss\\"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
-      \\"root\\": \\"\\",
-      \\"sourceRoot\\": \\"src\\",
-      \\"prefix\\": \\"app\\",
-      \\"architect\\": {
-        \\"build\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
-          \\"options\\": {
-            \\"outputPath\\": \\"dist/schematics-test\\",
-            \\"index\\": \\"src/index.html\\",
-            \\"main\\": \\"src/main.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\"
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\",
-              \\"src/styles/spartacus/checkout.scss\\"
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/checkout.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"budgets\\": [
+          "configurations": {
+            "production": {
+              "budgets": [
                 {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"2.5mb\\"
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2.5mb"
                 },
                 {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"2kb\\",
-                  \\"maximumError\\": \\"4kb\\"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              \\"fileReplacements\\": [
-                {
-                  \\"replace\\": \\"src/environments/environment.ts\\",
-                  \\"with\\": \\"src/environments/environment.prod.ts\\"
-                }
-              ],
-              \\"outputHashing\\": \\"all\\"
+              "outputHashing": "all"
             },
-            \\"development\\": {
-              \\"buildOptimizer\\": false,
-              \\"optimization\\": false,
-              \\"vendorChunk\\": true,
-              \\"extractLicenses\\": false,
-              \\"sourceMap\\": true,
-              \\"namedChunks\\": true
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          \\"defaultConfiguration\\": \\"production\\"
+          "defaultConfiguration": "production"
         },
-        \\"serve\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"browserTarget\\": \\"schematics-test:build:production\\"
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "schematics-test:build:production"
             },
-            \\"development\\": {
-              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            "development": {
+              "browserTarget": "schematics-test:build:development"
             }
           },
-          \\"defaultConfiguration\\": \\"development\\"
+          "defaultConfiguration": "development"
         },
-        \\"extract-i18n\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "schematics-test:build"
           }
         },
-        \\"test\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
-          \\"options\\": {
-            \\"main\\": \\"src/test.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.spec.json\\",
-            \\"karmaConfig\\": \\"karma.conf.js\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\"
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\",
-              \\"src/styles/spartacus/checkout.scss\\"
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/checkout.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           }
@@ -440,16 +434,16 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
-import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule } from "@spartacus/checkout/base/root";
+import { CheckoutScheduledReplenishmentModule } from "@spartacus/checkout/scheduled-replenishment";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
+import { I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -487,10 +481,10 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+import { translationChunksConfig, translations } from "@spartacus/assets";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
+import { defaultB2bOccConfig } from "@spartacus/setup";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
 
 @NgModule({
   declarations: [],
@@ -512,7 +506,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '4.1'
+      level: '5.0'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -522,13 +516,13 @@ export class SpartacusConfigurationModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from "@spartacus/checkout/b2b/assets";
+import { CheckoutB2BRootModule } from "@spartacus/checkout/b2b/root";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from "@spartacus/checkout/base/assets";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from "@spartacus/checkout/base/root";
+import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from "@spartacus/checkout/scheduled-replenishment/assets";
+import { CheckoutScheduledReplenishmentRootModule } from "@spartacus/checkout/scheduled-replenishment/root";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
 
 @NgModule({
   declarations: [],
@@ -571,9 +565,9 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
+import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
+import { CheckoutModule } from "@spartacus/checkout/base";
+import { CheckoutScheduledReplenishmentModule } from "@spartacus/checkout/scheduled-replenishment";
 
 @NgModule({
   declarations: [],
@@ -588,123 +582,120 @@ export class CheckoutWrapperModule { }
 `;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should create a proper scss file 1`] = `
-"@import \\"../../styles-config\\";
-@import \\"@spartacus/checkout\\";
+"@import "../../styles-config";
+@import "@spartacus/checkout";
 "
 `;
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup styling should update angular.json 1`] = `
 "{
-  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
-  \\"version\\": 1,
-  \\"newProjectRoot\\": \\"\\",
-  \\"projects\\": {
-    \\"schematics-test\\": {
-      \\"projectType\\": \\"application\\",
-      \\"schematics\\": {
-        \\"@schematics/angular:component\\": {
-          \\"style\\": \\"scss\\"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
-      \\"root\\": \\"\\",
-      \\"sourceRoot\\": \\"src\\",
-      \\"prefix\\": \\"app\\",
-      \\"architect\\": {
-        \\"build\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
-          \\"options\\": {
-            \\"outputPath\\": \\"dist/schematics-test\\",
-            \\"index\\": \\"src/index.html\\",
-            \\"main\\": \\"src/main.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\"
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/schematics-test",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\",
-              \\"src/styles/spartacus/checkout.scss\\"
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/checkout.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"budgets\\": [
+          "configurations": {
+            "production": {
+              "budgets": [
                 {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"500kb\\",
-                  \\"maximumError\\": \\"2.5mb\\"
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "2.5mb"
                 },
                 {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"2kb\\",
-                  \\"maximumError\\": \\"4kb\\"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              \\"fileReplacements\\": [
-                {
-                  \\"replace\\": \\"src/environments/environment.ts\\",
-                  \\"with\\": \\"src/environments/environment.prod.ts\\"
-                }
-              ],
-              \\"outputHashing\\": \\"all\\"
+              "outputHashing": "all"
             },
-            \\"development\\": {
-              \\"buildOptimizer\\": false,
-              \\"optimization\\": false,
-              \\"vendorChunk\\": true,
-              \\"extractLicenses\\": false,
-              \\"sourceMap\\": true,
-              \\"namedChunks\\": true
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          \\"defaultConfiguration\\": \\"production\\"
+          "defaultConfiguration": "production"
         },
-        \\"serve\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"browserTarget\\": \\"schematics-test:build:production\\"
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "schematics-test:build:production"
             },
-            \\"development\\": {
-              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            "development": {
+              "browserTarget": "schematics-test:build:development"
             }
           },
-          \\"defaultConfiguration\\": \\"development\\"
+          "defaultConfiguration": "development"
         },
-        \\"extract-i18n\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "schematics-test:build"
           }
         },
-        \\"test\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
-          \\"options\\": {
-            \\"main\\": \\"src/test.ts\\",
-            \\"polyfills\\": \\"src/polyfills.ts\\",
-            \\"tsConfig\\": \\"tsconfig.spec.json\\",
-            \\"karmaConfig\\": \\"karma.conf.js\\",
-            \\"inlineStyleLanguage\\": \\"scss\\",
-            \\"assets\\": [
-              \\"src/favicon.ico\\",
-              \\"src/assets\\"
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
             ],
-            \\"styles\\": [
-              \\"src/styles.scss\\",
-              \\"src/styles/spartacus/checkout.scss\\"
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
-            \\"scripts\\": [],
-            \\"stylePreprocessorOptions\\": {
-              \\"includePaths\\": [
-                \\"node_modules/\\"
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/checkout.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
               ]
             }
           }

@@ -41,7 +41,7 @@ function cmd_clean {
     delete_dir ${BASE_DIR}
     delete_dir storage
 
-    yarn cache clean
+    npm cache clean --force
 }
 
 function prepare_install {
@@ -62,32 +62,29 @@ function prepare_install {
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
 
-    ng config -g cli.packageManager yarn
+    ng config -g cli.packageManager npm
 
     mkdir -p ${INSTALLATION_DIR}
-    ng analytics off
 }
 
 function clone_repo {
     printh "Cloning Spartacus installation repo."
 
-    echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
+    echo "Cloning branch ${BRANCH} from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
     ls -l ${BASE_DIR}
 
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
 
 function update_projects_versions {
-    projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
 
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
-    for i in ${projects}
-        do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
-        done
+    (cd "${CLONE_DIR}/tools/config" && pwd && sed -i -E 's/PUBLISHING_VERSION = '\'\''/PUBLISHING_VERSION = '\'"${SPARTACUS_VERSION}"\''/g' const.ts);
+    (cd "${CLONE_DIR}" && pwd && npm run config:update -- --generate-deps);
+
 }
 
 function create_shell_app {
@@ -98,6 +95,7 @@ function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add @spartacus/organization@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
         ng add @spartacus/checkout --skip-confirmation --no-interactive --features "Checkout-B2B" --features "Checkout-Scheduled-Replenishment"
+        ng add @spartacus/product --skip-confirmation --no-interactive --features "Future-Stock"
     fi
 }
 
@@ -122,14 +120,22 @@ function add_product_configurator {
     fi
 }
 
+function add_s4om {
+  if [ "$ADD_S4OM" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
   ng add @spartacus/tracking --skip-confirmation --no-interactive --features "TMS-GTM" --features "TMS-AEPL"
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+  ng add @spartacus/customer-ticketing --skip-confirmation --no-interactive
+  ng add @spartacus/pickup-in-store --skip-confirmation --no-interactive
 }
 
 function add_spartacus_csr {
-    local IS_NPM_INSTALL="$2"   
+    local IS_NPM_INSTALL="$2"
     ( cd ${INSTALLATION_DIR}/${1}
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
         create_npmrc ${CSR_APP_NAME}
@@ -144,6 +150,7 @@ function add_spartacus_csr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_s4om
     remove_npmrc
     )
 }
@@ -154,7 +161,7 @@ function add_spartacus_ssr {
     if [ ! -z "$IS_NPM_INSTALL" ] ; then
         create_npmrc ${SSR_APP_NAME}
     fi
-    
+
     if [ "$BASE_SITE" = "" ] ; then
       ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwrite-app-component --base-url ${BACKEND_URL} --occ-prefix ${OCC_PREFIX} --url-parameters ${URL_PARAMETERS} --ssr --no-interactive --skip-confirmation
     else
@@ -165,6 +172,7 @@ function add_spartacus_ssr {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_s4om
     remove_npmrc
     )
 }
@@ -185,6 +193,7 @@ function add_spartacus_ssr_pwa {
     add_cdc
     add_epd_visualization
     add_product_configurator
+    add_s4om
     remove_npmrc
     )
 }
@@ -218,7 +227,7 @@ function create_apps {
 function publish_package {
     local PKG_PATH=${1}
     echo "Creating ${PKG_PATH} npm package"
-    (cd ${PKG_PATH} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version)
+    (cd ${PKG_PATH} && npm publish --registry=http://localhost:4873/ --no-git-tag-version)
 }
 
 
@@ -272,10 +281,13 @@ function install_from_sources {
     done
 
     printh "Installing dependencies."
-    ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
+    ( cd ${CLONE_DIR} && npm install)
 
     printh "Updating projects versions."
-    update_projects_versions ${project_sources[@]}
+    update_projects_versions
+
+    printh "Building libraries."
+    ( cd ${CLONE_DIR} && npm run build:libs)
 
     verdaccio --config ./config.yaml &
 
@@ -309,7 +321,7 @@ function install_from_sources {
 
 function install_from_npm {
     printh "Installing Spartacus from npm libraries"
-  
+
     if [ -z "${NPM_URL}" ]; then
         echo "Please fill NPM_URL"
     else
@@ -320,7 +332,7 @@ function install_from_npm {
 
         remove_npm_token
     fi
-    
+
 }
 
 function build_csr {
@@ -328,7 +340,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --configuration production )
+        ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
     fi
 }
 
@@ -337,7 +349,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
+        ( mkdir -p ${INSTALLATION_DIR}/${SSR_APP_NAME} && cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && npm run build && npm run build:ssr )
     fi
 }
 
@@ -346,7 +358,7 @@ function build_ssr_pwa {
         echo "Skipping ssr with PWA app build (No port defined)"
     else
         printh "Building ssr app with PWA"
-        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && npm run build && npm run build:ssr )
     fi
 }
 
@@ -507,8 +519,8 @@ function run_e2e {
         return 0
     fi
 
-    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
-    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts")
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npm i &> /dev/null)
+    local OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --spec "cypress/e2e/regression/checkout/checkout-flow.core-e2e.cy.ts")
     local EXIT_CODE=$?
 
     echo "$OUTPUT"
@@ -536,8 +548,8 @@ function run_e2e_b2b {
     local EXIT_CODE_1
     local EXIT_CODE_2
 
-    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; yarn &> /dev/null)
-    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts")
+    $(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npm i &> /dev/null)
+    OUTPUT=$(cd ${CLONE_DIR}/projects/storefrontapp-e2e-cypress; npx cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec "cypress/e2e/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e.cy.ts")
     EXIT_CODE_1=$?
 
     echo "$OUTPUT"
@@ -582,7 +594,7 @@ function ng_sanity_check {
             echo "   Example: ANGULAR_CLI_VERSION='^12.0.5'"
             echo ""
             read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^12.0.5' or [a]bort? (c/o/a) " yn
-            case $yn in 
+            case $yn in
                 c ) echo "continue";;
                 o ) echo "Overwrite ANGULAR_CLI_VERSION with '^12.0.5'"
                     ANGULAR_CLI_VERSION='^12.0.5';;
@@ -602,7 +614,7 @@ function ng_sanity_check {
             echo "   Example: ANGULAR_CLI_VERSION='^13.3.0'"
             echo ""
             read -p "Do you want to [c]ontinue anyways, [o]verwrite ANGULAR_CLI_VERSION with '^13.3.0' or [a]bort? (c/o/a) " yn
-            case $yn in 
+            case $yn in
                 c ) echo "continue";;
                 o ) echo "Overwrite ANGULAR_CLI_VERSION with '^13.3.0'"
                     ANGULAR_CLI_VERSION='^13.3.0';;
@@ -663,22 +675,27 @@ function parseInstallArgs {
                 ;;
             b2b)
                 ADD_B2B_LIBS=true
-                echo "➖ Added B2B Libs"         
+                echo "➖ Added B2B Libs"
                 shift
                 ;;
             cpq)
                 ADD_CPQ=true
-                echo "➖ Added CPQ"   
+                echo "➖ Added CPQ"
                 shift
                 ;;
             cdc)
                 ADD_CDC=true
-                echo "➖ Added CDC"   
+                echo "➖ Added CDC"
                 shift
                 ;;
             epd)
                 ADD_EPD_VISUALIZATION=true
-                echo "➖ Added EPD"   
+                echo "➖ Added EPD"
+                shift
+                ;;
+            s4om)
+                ADD_S4OM=true
+                echo "➖ Added S4OM"
                 shift
                 ;;
             -*|--*)
@@ -777,9 +794,9 @@ function add_time_measurement {
     local ELAPSED=$(($END_TIME - $START_TIME))
     TIME_MEASUREMENT_TIMES+=("$END_TIME")
 
-    if [ $ELAPSED -gt 30 ]; then 
+    if [ $ELAPSED -gt 30 ]; then
         TIME_MEASUREMENT_TITLES+=("\033[31m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
-    elif [ $ELAPSED -gt 10 ]; then 
+    elif [ $ELAPSED -gt 10 ]; then
         TIME_MEASUREMENT_TITLES+=("\033[33m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
     else
         TIME_MEASUREMENT_TITLES+=("\033[32m${ELAPSED}s\033[m\t$TIME_MEASUREMENT_CURR_TITLE")
@@ -808,17 +825,17 @@ function print_summary {
     printf "Total Time: \033[32m${ELAPSED}s\033[m\n\n"
 }
 
-function create_npmrc {   
+function create_npmrc {
     local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\n"
     if [ -z "$NPM_TOKEN" ] ; then
         echo "NPM_TOKEN is empty"
     fi
-    echo "creating .npmrc file in ${1} folder"    
+    echo "creating .npmrc file in ${1} folder"
     printf $NPMRC_CONTENT > .npmrc
-    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"   
+    echo "Spartacus registry url for ${1} app: $(npm config get '@spartacus:registry')"
 }
 
-function remove_npmrc {   
+function remove_npmrc {
     if [ -f "./.npmrc" ]; then
         echo 'removing .npmrc file'
         rm -rf .npmrc

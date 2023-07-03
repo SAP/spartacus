@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,21 +56,20 @@ export function parseFields(
   while (i < fields.length) {
     if (fields[i] === ',') {
       if (i > startIndex) {
-        parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+        parsedFields[fields.substring(startIndex, i)] = {};
       }
       startIndex = i + 1;
     } else if (fields[i] === '(') {
       const subFields = parseFields(fields, i + 1);
-      if (Array.isArray(subFields)) {
-        parsedFields[fields.substr(startIndex, i - startIndex)] = subFields[0];
-        startIndex = subFields[1];
-        i = startIndex - 1;
-      } else {
+      if (!Array.isArray(subFields)) {
         return parsedFields;
       }
+      parsedFields[fields.substring(startIndex, i)] = subFields[0];
+      startIndex = subFields[1];
+      i = startIndex - 1;
     } else if (fields[i] === ')') {
       if (i > startIndex) {
-        parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+        parsedFields[fields.substring(startIndex, i)] = {};
       }
       return [parsedFields, i + 1];
     }
@@ -78,7 +77,7 @@ export function parseFields(
   }
 
   if (startIndex < fields.length) {
-    parsedFields[fields.substr(startIndex, i - startIndex)] = {};
+    parsedFields[fields.substring(startIndex, i)] = {};
   }
 
   return parsedFields;
@@ -138,3 +137,5 @@ function getObjectPart<T>(data: T, fields: object): T {
 
   return result;
 }
+
+// CHECK SONAR

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -146,17 +146,41 @@ export class ConfiguratorAttributeBaseComponent {
    * @param expMode - Is expert mode set?
    * @param label - value label
    * @param techName - value technical name
+   * @param value - Configurator value
    */
   getLabel(
     expMode: boolean,
     label: string | undefined,
-    techName: string | undefined
+    techName: string | undefined,
+    value?: Configurator.Value
   ): string {
     let title = label ? label : '';
     if (expMode && techName) {
       title += ` / [${techName}]`;
     }
+    title += this.getValuePrice(value);
     return title;
+  }
+
+  /**
+   * Fetches the first image for a given value
+   * @param value Value
+   * @returns Image
+   */
+  getImage(value: Configurator.Value): Configurator.Image | undefined {
+    const images = value.images;
+    return images ? images[0] : undefined;
+  }
+
+  protected getValuePrice(value: Configurator.Value | undefined): string {
+    if (value?.valuePrice?.value && !value.selected) {
+      if (value.valuePrice.value < 0) {
+        return ` [${value.valuePrice?.formattedValue}]`;
+      } else if (value.valuePrice.value > 0) {
+        return ` [+${value.valuePrice?.formattedValue}]`;
+      }
+    }
+    return '';
   }
 
   /**
@@ -177,6 +201,7 @@ export class ConfiguratorAttributeBaseComponent {
       throw new Error('No attribute code for: ' + attribute.name);
     }
   }
+
   /**
    * Checks if attribute type allows additional values
    * @param attribute Attribute
@@ -188,5 +213,37 @@ export class ConfiguratorAttributeBaseComponent {
       uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
       uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
     );
+  }
+
+  protected isRequiredErrorMsg(attribute: Configurator.Attribute): boolean {
+    return (attribute.required && attribute.incomplete) || false;
+  }
+
+  protected isUserInput(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.STRING ||
+      attribute.uiType === Configurator.UiType.NUMERIC
+    );
+  }
+
+  protected isDropDown(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT
+    );
+  }
+
+  protected getSelectedValue(
+    attribute: Configurator.Attribute
+  ): Configurator.Value | undefined {
+    return attribute.values?.find((value) => value.selected);
+  }
+
+  protected isNoValueSelected(attribute: Configurator.Attribute): boolean {
+    const selectedValue = this.getSelectedValue(attribute);
+    if (selectedValue) {
+      return selectedValue.valueCode === Configurator.RetractValueCode;
+    }
+    return true;
   }
 }

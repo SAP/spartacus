@@ -5,6 +5,7 @@
 >
   <a
     actions
+    *ngIf="isUpdatingUserAllowed"
     class="link edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUserEdit', params: model } | cxUrl"
@@ -14,6 +15,7 @@
 
   <cx-org-toggle-status
     actions
+    *ngIf="isUpdatingUserAllowed"
     key="customerId"
     i18nRoot="orgUser"
   ></cx-org-toggle-status>
@@ -38,17 +40,35 @@
     <div class="property">
       <label>{{ 'orgUser.roles' | cxTranslate }}</label>
       <ul class="value">
-        <li
-          *ngFor="let role of model.roles; let isLast = last"
-          [innerText]="'organization.userRoles.' + role | cxTranslate"
-        ></li>
+        <ng-container *ngFor="let role of model.roles">
+          <li
+            *ngIf="availableRoles.includes(role)"
+            [innerText]="'organization.userRoles.' + role | cxTranslate"
+          ></li>
+        </ng-container>
         <li *ngIf="model.roles?.length === 0">-</li>
       </ul>
     </div>
 
+    <ng-container *ngIf="hasRight(model)">
+      <div class="property">
+        <label>{{ 'orgUser.rights' | cxTranslate }}</label>
+        <ul class="value">
+          <ng-container *ngFor="let role of model.roles">
+            <li
+              *ngIf="availableRights.includes(role)"
+              [innerText]="'organization.userRights.' + role | cxTranslate"
+            ></li>
+          </ng-container>
+          <li *ngIf="model.roles?.length === 0">-</li>
+        </ul>
+      </div>
+    </ng-container>
+
     <div class="property">
       <label>{{ 'orgUser.orgUnit' | cxTranslate }}</label>
       <a
+        *ngIf="isUpdatingUserAllowed; else showOrgUnitValueWithoutNavigation"
         class="value"
         [routerLink]="
           {
@@ -59,10 +79,13 @@
       >
         {{ model.orgUnit?.name }}
       </a>
+      <ng-template #showOrgUnitValueWithoutNavigation>
+        <div class="orgUnit">{{ model.orgUnit?.name }}</div>
+      </ng-template>
     </div>
     <div class="property full-width">
       <a
-        *ngIf="model.customerId"
+        *ngIf="model.customerId && isUpdatingUserAllowed"
         class="link"
         [class.disabled]="!model.active"
         [routerLink]="

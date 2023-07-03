@@ -1,0 +1,47 @@
+@import '../../sass-true/sass/true';
+@import '../scss/versioning';
+@import './versioning-test-util';
+
+@include describe('Style versioning functions') {
+  @include describe('compareVersion()') {
+    @include it('should return 0 (equal) for single digit version') {
+      @include assert-equal(compareVersion(1, 1), 0);
+    }
+    @include it('should return 1 (greater than) for single digit version') {
+      @include assert-equal(compareVersion(2, 1), 1);
+    }
+    @include it('should return -1 (lower than) for single digit version') {
+      @include assert-equal(compareVersion(1, 2), -1);
+    }
+    @include it('should return 0 for double digit version') {
+      @include assert-equal(compareVersion(1.2, 1.2), 0);
+    }
+    @include it('should return -1 for double digit version') {
+      @include assert-equal(compareVersion(1.2, 1.3), -1);
+    }
+    @include it('should return 1 (greater than)') {
+      @include assert-equal(compareVersion(1.3, 1.2), 1);
+    }
+    @include it('should return 0 for a string in the to version') {
+      @include assert-equal(compareVersion(1, '1.0'), 0);
+    }
+    @include it('should return 0 for a string in the from version') {
+      @include assert-equal(compareVersion('1.0', 1), 0);
+    }
+    @include it('should return 0 for a string in the from version') {
+      @include assert-equal(compareVersion('1.0', '1.0'), 0);
+    }
+    @include it('should return 1 (greater than)') {
+      @include assert-equal(compareVersion(1.3.2, 1.3.1), 1);
+    }
+    @include it('should return 0 for double digit version') {
+      @include assert-equal(compareVersion(1.1.2, 1.1.2), 0);
+    }
+    @include it('should return -1 for double digit version') {
+      @include assert-equal(compareVersion(1.1.2, 1.1.3), -1);
+    }
+    @include it('should return 1 (greater than)') {
+      @include assert-equal(compareVersion(1.1.3, 1.1.2), 1);
+    }
+  }
+}

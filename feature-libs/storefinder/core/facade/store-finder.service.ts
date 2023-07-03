@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,9 +16,9 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
+import { StoreEntities } from '@spartacus/storefinder/root';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { StoreEntities } from '../model';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
 import { StateWithStoreFinder } from '../store/store-finder-state';
@@ -240,5 +240,17 @@ export class StoreFinderService implements OnDestroy {
    */
   getStoreLongitude(location: PointOfService): number | undefined {
     return location?.geoPoint?.longitude;
+  }
+
+  /**
+   * Generates a link leading to the directions of the given store location
+   * @param location store location
+   * @returns URL for directions to the store
+   */
+  getDirections(location: PointOfService): string {
+    const url = 'https://www.google.com/maps/dir/Current+Location/';
+    const latitude = this.getStoreLatitude(location);
+    const longitude = this.getStoreLongitude(location);
+    return url + latitude + ',' + longitude;
   }
 }

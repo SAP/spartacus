@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   Input,
   OnDestroy,
   OnInit,
@@ -17,6 +18,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartItemComponentOptions,
+  CartOutlets,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import {
@@ -28,6 +30,7 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
+  ICON_TYPE,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -42,6 +45,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
   @Input() showQuantity = true;
   @Input() options: CartItemComponentOptions;
+  @Input() pickupStore: string | undefined;
   /**
    * As long as we do not support #5026, we require product input, as we need
    *  a reference to the product model to fetch the stock data.
@@ -63,6 +67,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   addToCartForm = new UntypedFormGroup({
     quantity: new UntypedFormControl(1, { updateOn: 'blur' }),
   });
+
+  readonly CartOutlets = CartOutlets;
+
+  pickupOptionCompRef: any;
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected currentProductService: CurrentProductService,
@@ -100,6 +110,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   protected setStockInfo(product: Product): void {
     this.quantity = 1;
+
+    this.addToCartForm.controls['quantity'].setValue(1);
+
     this.hasStock = Boolean(product.stock?.stockLevelStatus !== 'outOfStock');
 
     this.inventoryThreshold = product.stock?.isValueRounded ?? false;
@@ -140,11 +153,26 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.pickupOptionCompRef instanceof ComponentRef) {
+      this.pickupOptionCompRef.instance.intendedPickupLocation$
+        .pipe(take(1))
+        .subscribe((intendedPickupLocation: any) => {
+          this.pickupStore =
+            intendedPickupLocation?.pickupOption === 'pickup'
+              ? intendedPickupLocation.name
+              : undefined;
+        });
+    }
+
     this.activeCartService
       .getEntries()
       .pipe(take(1))
       .subscribe((cartEntries) => {
-        this.activeCartService.addEntry(this.productCode, quantity);
+        this.activeCartService.addEntry(
+          this.productCode,
+          quantity,
+          this.pickupStore
+        );
 
         // A CartUiEventAddToCart is dispatched.  This event is intended for the UI
         // responsible to provide feedback about what was added to the cart, like
@@ -156,7 +184,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.createCartUiEventAddToCart(
             this.productCode,
             quantity,
-            cartEntries.length
+            cartEntries.length,
+            this.pickupStore
           )
         );
       });
@@ -165,12 +194,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   protected createCartUiEventAddToCart(
     productCode: string,
     quantity: number,
-    numberOfEntriesBeforeAdd: number
+    numberOfEntriesBeforeAdd: number,
+    storeName?: string
   ) {
     const newEvent = new CartUiEventAddToCart();
     newEvent.productCode = productCode;
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    newEvent.pickupStoreName = storeName;
     return newEvent;
   }
 

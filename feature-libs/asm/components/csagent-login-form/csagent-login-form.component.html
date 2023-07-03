@@ -32,13 +32,8 @@
   </button>
 </form>
 
-<div
+<cx-dot-spinner
   *ngIf="csAgentTokenLoading"
-  class="spinner"
   aria-hidden="false"
   [attr.aria-label]="'common.loading' | cxTranslate"
->
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+></cx-dot-spinner>

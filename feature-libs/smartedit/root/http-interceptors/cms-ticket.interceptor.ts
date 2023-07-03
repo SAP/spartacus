@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,10 @@ export class CmsTicketInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.service.cmsTicketId && request.url.includes('/cms/')) {
+    if (
+      this.service.cmsTicketId &&
+      (request.url.includes('/cms/') || request.url.includes('/products/'))
+    ) {
       request = request.clone({
         setParams: {
           cmsTicketId: this.service.cmsTicketId,

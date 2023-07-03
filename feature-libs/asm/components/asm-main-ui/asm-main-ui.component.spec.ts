@@ -7,13 +7,16 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmEnablerService,
+  AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
@@ -21,7 +24,7 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -46,7 +49,11 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
-    return of({});
+    return EMPTY;
+  }
+
+  getById(): Observable<User> {
+    return EMPTY;
   }
 }
 
@@ -65,11 +72,13 @@ export class MockNgbModalRef {
 const dialogClose$ = new BehaviorSubject<any>('');
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe() {
-    return of();
+    return EMPTY;
   }
   get dialogClose() {
     return dialogClose$.asObservable();
   }
+
+  closeDialog() {}
 }
 
 @Component({
@@ -117,7 +126,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockAsmComponentService {
+class MockAsmComponentService extends AsmComponentService {
   logoutCustomerSupportAgentAndCustomer(): void {}
   unload() {}
   isCustomerEmulationSessionInProgress() {
@@ -147,6 +156,9 @@ describe('AsmMainUiComponent', () => {
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
+  let featureConfig: FeatureConfigService;
+  let asmEnablerService: AsmEnablerService;
+  const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(
     waitForAsync(() => {
@@ -184,6 +196,8 @@ describe('AsmMainUiComponent', () => {
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    featureConfig = TestBed.inject(FeatureConfigService);
+    asmEnablerService = TestBed.inject(AsmEnablerService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -431,5 +445,223 @@ describe('AsmMainUiComponent', () => {
       actionType: CustomerListColumnActionType.ORDER_HISTORY,
     });
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'orders' });
+  });
+
+  it('should be able to open create account dialog', () => {
+    spyOn(launchDialogService, 'openDialogAndSubscribe');
+    component.createCustomer();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
+      LAUNCH_CALLER.ASM_CREATE_CUSTOMER_FORM,
+      component.addNewCustomerLink
+    );
+  });
+
+  it('should not display confirm switch dialog customer when agent has logined and customerId in deeplink is same', () => {
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+
+    spyOn(userAccountFacade, 'get').and.returnValue(
+      of({ customerId: 'testuser' })
+    );
+    spyOn(userAccountFacade, 'getById').and.returnValue(
+      of({ customerId: 'testuser' })
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmComponentService, 'setEmulatedByDeepLink').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+      'testuser'
+    );
+
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
+      true
+    );
+  });
+
+  it('should display confirm switch dialog customer when agent has logined and user is login if customerId shows in URL', () => {
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
+      new BehaviorSubject(false)
+    );
+
+    const oldUser = { customerId: 'olduser', name: 'Test old User' } as User;
+    const newUser = { customerId: 'newuser', name: 'Test new User' } as User;
+
+    spyOn(userAccountFacade, 'get').and.returnValue(of(oldUser));
+    spyOn(userAccountFacade, 'getById').and.returnValue(of(newUser));
+
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue('newuser');
+
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+  });
+
+  it('should call startCustomerEmulationSession when agent has logined and user is not login if customerId shows in URL', (done) => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
+      testCustomerId
+    );
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
+    setTimeout(() => {
+      expect(
+        csAgentAuthService.startCustomerEmulationSession
+      ).toHaveBeenCalledWith(testCustomerId);
+      done();
+    }, 200);
+  });
+
+  it('should not call startCustomerEmulationSession when agent has logined and user is not login if no customerId shows in URL', (done) => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(
+      of(true)
+    );
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    component.ngOnInit();
+    setTimeout(() => {
+      expect(
+        csAgentAuthService.startCustomerEmulationSession
+      ).not.toHaveBeenCalled();
+      done();
+    }, 200);
+  });
+
+  it('should call naviate to home page when isEmulatedByDeepLink return true', () => {
+    spyOn(routingService, 'go').and.stub();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: null,
+    });
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(true);
+    component.ngOnInit();
+    expect(routingService.go).toHaveBeenCalledWith('/');
+  });
+
+  it('should not call naviate to home page when isEmulatedByDeepLink return false', () => {
+    spyOn(routingService, 'go').and.stub();
+    dialogClose$.next({
+      selectedUser: {},
+      actionType: null,
+    });
+    spyOn(featureConfig, 'isLevel').and.returnValue(true);
+
+    spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(false);
+    component.ngOnInit();
+    expect(routingService.go).not.toHaveBeenCalledWith('/');
+  });
+
+  it('should call naviate to order details when starting session with orderId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { orderId: '456' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '456' },
+    });
+  });
+
+  it('should call naviate to order details when starting session with orderId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { orderId: '456', ticketId: '123' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderDetails',
+      params: { code: '456' },
+    });
+  });
+
+  it('should call naviate to support ticket details when starting session with ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { ticketId: '456' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'supportTicketDetails',
+      params: { ticketCode: '456' },
+    });
+  });
+
+  it('should call naviate to saved cart when starting session with savedCartId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'saved' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
+
+  it('should call naviate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'saved', ticketId: '123' }
+    );
+
+    expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
+  });
+
+  it('should not call naviate when starting session with active cartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'active', ticketId: '123' }
+    );
+
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should not call naviate when starting session with inactive cartId and ticketId in parameters', () => {
+    spyOn(routingService, 'go').and.stub();
+
+    component.startCustomerEmulationSession(
+      { customerId: '123' },
+      { cartId: '456', cartType: 'inactive', ticketId: '123' }
+    );
+
+    expect(routingService.go).not.toHaveBeenCalled();
+  });
+
+  it('should emit false when close inactive cart info', () => {
+    spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').and.stub();
+    component.closeDeeplinkCartInfoAlert();
+    expect(
+      asmComponentService.setShowDeeplinkCartInfoAlert
+    ).toHaveBeenCalledWith(false);
   });
 });

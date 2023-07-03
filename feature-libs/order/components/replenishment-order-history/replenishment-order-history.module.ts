@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -26,7 +25,6 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
     ListNavigationModule,
     UrlModule,
     I18nModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),

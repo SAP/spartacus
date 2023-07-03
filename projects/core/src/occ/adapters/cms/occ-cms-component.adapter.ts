@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -62,8 +62,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
         }
       )
       .pipe(
-        pluck('component'),
-        map((components) => components ?? []),
+        map((componentList) => componentList.component ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }

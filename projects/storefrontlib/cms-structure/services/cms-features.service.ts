@@ -1,22 +1,22 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, InjectFlags, Injector, NgModuleRef } from '@angular/core';
+import { Injectable, Injector, NgModuleRef } from '@angular/core';
 import {
   CMSComponentConfig,
   CmsComponentMapping,
   CmsConfig,
   ConfigChunk,
   ConfigInitializerService,
-  deepMerge,
   DefaultConfigChunk,
   FeatureModuleConfig,
   FeatureModulesService,
+  deepMerge,
 } from '@spartacus/core';
-import { defer, Observable, of } from 'rxjs';
+import { EMPTY, Observable, defer, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 interface FeatureInstance extends FeatureModuleConfig {
@@ -147,7 +147,7 @@ export class CmsFeaturesService {
         );
       }
 
-      return this.featureInstances.get(featureName);
+      return this.featureInstances.get(featureName) ?? EMPTY;
     });
   }
 
@@ -187,16 +187,14 @@ export class CmsFeaturesService {
    */
   private resolveFeatureConfiguration(featureInjector: Injector): CmsConfig {
     // get config chunks from feature lib
-    const featureConfigChunks = featureInjector.get<any[]>(
-      ConfigChunk,
-      [],
-      InjectFlags.Self
-    );
+    const featureConfigChunks = featureInjector.get<any[]>(ConfigChunk, [], {
+      self: true,
+    });
     // get default config chunks from feature lib
     const featureDefaultConfigChunks = featureInjector.get<any[]>(
       DefaultConfigChunk,
       [],
-      InjectFlags.Self
+      { self: true }
     );
 
     return deepMerge(

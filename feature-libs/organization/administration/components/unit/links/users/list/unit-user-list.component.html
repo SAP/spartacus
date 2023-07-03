@@ -1,5 +1,6 @@
 <cx-org-sub-list key="customerId" [routerKey]="routerKey" [showHint]="true">
   <a
+    *ngIf="isUpdatingUserAllowed"
     actions
     class="link"
     routerLink="create"

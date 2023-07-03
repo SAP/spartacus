@@ -4,9 +4,16 @@ import { UntypedFormControl } from '@angular/forms';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfigFormUpdateEvent } from '../../../form';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { StoreModule } from '@ngrx/store';
+import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
+import { getConfiguratorReducers } from '../../../../core/state/reducers';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
@@ -36,6 +43,10 @@ const createTestValue = (
   },
 });
 
+class MockConfiguratorCommonsService {
+  updateConfiguration(): void {}
+}
+
 @Component({
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
@@ -43,9 +54,18 @@ const createTestValue = (
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configUtils: ConfiguratorStorefrontUtilsService
   ) {
-    super(quantityService, translation);
+    super(
+      quantityService,
+      translation,
+      attributeComponentContext,
+      configuratorCommonsService,
+      configUtils
+    );
   }
 }
 
@@ -64,8 +84,22 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ExampleConfiguratorAttributeSingleSelectionComponent],
-        imports: [I18nTestingModule],
-        providers: [ConfiguratorAttributeQuantityService],
+        imports: [
+          I18nTestingModule,
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
+        providers: [
+          ConfiguratorAttributeQuantityService,
+          {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
       }).compileComponents();
     })
   );
@@ -105,17 +139,17 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   describe('onSelect', () => {
     it('should call emit of selectionChange onSelect', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onSelect(changedSelectedValue);
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          ownerKey: ownerKey,
-          changedAttribute: jasmine.objectContaining({
-            selectedSingleValue: changedSelectedValue,
-            groupId: groupId,
-          }),
-          updateType: Configurator.UpdateType.ATTRIBUTE,
-        })
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        ownerKey,
+        { ...component.attribute, selectedSingleValue: changedSelectedValue },
+        Configurator.UpdateType.ATTRIBUTE
       );
     });
   });
@@ -126,59 +160,65 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       changedAttribute: { name: 'Attr' },
     };
     it('should not call emit of selectionChange in case no user input is present', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onSelectAdditionalValue(configFormUpdateEvent);
-      expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledTimes(0);
     });
 
-    it('should call emit of selectionChange in case user input is present', () => {
+    it('should call facade update in case user input is present', () => {
       configFormUpdateEvent.changedAttribute.userInput = 'userInput';
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onSelectAdditionalValue(configFormUpdateEvent);
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          ownerKey: ownerKey,
-          changedAttribute: jasmine.objectContaining({
-            selectedSingleValue:
-              configFormUpdateEvent.changedAttribute.userInput,
-          }),
-        })
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        ownerKey,
+        configFormUpdateEvent.changedAttribute,
+        Configurator.UpdateType.ATTRIBUTE
       );
     });
   });
 
   describe('onHandleQuantity', () => {
-    it('should call emit of selectionChange onHandleQuantity', () => {
+    it('should call facade update onHandleQuantity', () => {
       const quantity = 2;
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onHandleQuantity(quantity);
-
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            selectedSingleValue: selectedValue,
-            groupId: groupId,
-            quantity,
-          }),
-          ownerKey: ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-        })
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        ownerKey,
+        { ...component.attribute, quantity: 2 },
+        Configurator.UpdateType.ATTRIBUTE_QUANTITY
       );
     });
   });
 
   describe('onChangeQuantity', () => {
     it('should call emit of onSelect(empty)', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onChangeQuantity(undefined);
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          ownerKey: ownerKey,
-          changedAttribute: jasmine.objectContaining({
-            selectedSingleValue: '',
-          }),
-          updateType: Configurator.UpdateType.ATTRIBUTE,
-        })
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        ownerKey,
+        { ...component.attribute, selectedSingleValue: '' },
+        Configurator.UpdateType.ATTRIBUTE
       );
     });
 
@@ -189,19 +229,19 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       expect(form.setValue).toHaveBeenCalledWith('0');
     });
 
-    it('should call emit of onHandleQuantity', () => {
+    it('should call facade update onChangeQuantity', () => {
       const quantity = 10;
-      spyOn(component.selectionChange, 'emit').and.callThrough();
+      spyOn(
+        component['configuratorCommonsService'],
+        'updateConfiguration'
+      ).and.callThrough();
       component.onChangeQuantity(quantity);
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            selectedSingleValue: selectedValue,
-            quantity,
-          }),
-          ownerKey: ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-        })
+      expect(
+        component['configuratorCommonsService'].updateConfiguration
+      ).toHaveBeenCalledWith(
+        ownerKey,
+        { ...component.attribute, quantity: 10 },
+        Configurator.UpdateType.ATTRIBUTE_QUANTITY
       );
     });
   });
@@ -342,10 +382,11 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   });
 
   describe('extractValuePriceFormulaParameters', () => {
-    it('should return `undefined`', () => {
-      expect(
-        component.extractValuePriceFormulaParameters(undefined)
-      ).toBeUndefined();
+    it('should return empty result for undefined input', () => {
+      expect(component.extractValuePriceFormulaParameters(undefined)).toEqual({
+        price: undefined,
+        isLightedUp: false,
+      });
     });
 
     it('should return price formula parameters', () => {

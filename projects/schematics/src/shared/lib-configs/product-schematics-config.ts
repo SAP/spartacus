@@ -1,16 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
   PRODUCT_BULK_PRICING_FEATURE_NAME,
+  PRODUCT_FUTURE_STOCK_FEATURE_NAME,
   PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
   PRODUCT_VARIANTS_FEATURE_NAME,
   SPARTACUS_BULK_PRICING,
   SPARTACUS_BULK_PRICING_ASSETS,
   SPARTACUS_BULK_PRICING_ROOT,
+  SPARTACUS_FUTURE_STOCK,
+  SPARTACUS_FUTURE_STOCK_ASSETS,
+  SPARTACUS_FUTURE_STOCK_ROOT,
   SPARTACUS_IMAGE_ZOOM,
   SPARTACUS_IMAGE_ZOOM_ASSETS,
   SPARTACUS_IMAGE_ZOOM_ROOT,
@@ -136,6 +140,47 @@ export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: SchematicConfig = {
     resources: VARIANTS_TRANSLATIONS,
     chunks: VARIANTS_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_VARIANTS_ASSETS,
+  },
+  styles: {
+    scssFileName: PRODUCT_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_PRODUCT,
+  },
+};
+
+export const FUTURE_STOCK_MODULE = 'FutureStockModule';
+export const FUTURE_STOCK_ROOT_MODULE = 'FutureStockRootModule';
+export const FUTURE_STOCK_MODULE_NAME = 'ProductFutureStock';
+export const FUTURE_STOCK_FEATURE_NAME_CONSTANT =
+  'PRODUCT_FUTURE_STOCK_FEATURE';
+export const FUTURE_STOCK_TRANSLATIONS = 'futureStockTranslations';
+export const FUTURE_STOCK_TRANSLATION_CHUNKS_CONFIG =
+  'futureStockTranslationChunksConfig';
+
+export const PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: PRODUCT_FUTURE_STOCK_FEATURE_NAME,
+    mainScope: SPARTACUS_PRODUCT,
+    featureScope: SPARTACUS_FUTURE_STOCK,
+    b2b: true,
+  },
+  folderName: PRODUCT_FOLDER_NAME,
+  moduleName: FUTURE_STOCK_MODULE_NAME,
+  featureModule: {
+    name: FUTURE_STOCK_MODULE,
+    importPath: SPARTACUS_FUTURE_STOCK,
+  },
+  rootModule: {
+    name: FUTURE_STOCK_ROOT_MODULE,
+    importPath: SPARTACUS_FUTURE_STOCK_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_FUTURE_STOCK_ROOT,
+    namedImports: [FUTURE_STOCK_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: FUTURE_STOCK_TRANSLATIONS,
+    chunks: FUTURE_STOCK_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_FUTURE_STOCK_ASSETS,
   },
   styles: {
     scssFileName: PRODUCT_SCSS_FILE_NAME,

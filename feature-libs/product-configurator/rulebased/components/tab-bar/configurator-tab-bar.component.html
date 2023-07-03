@@ -1,10 +1,14 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="configuration$ | async; else ghostTabBar">
     <ng-container *ngIf="!routerData.displayOnly">
-      <div class="cx-tab-bar">
+      <div class="cx-tab-bar" role="tablist">
         <a
-          tabindex="0"
+          #configTab
+          [tabindex]="getTabIndexConfigTab()"
+          role="tab"
           [class.active]="!(isOverviewPage$ | async)"
+          [attr.aria-selected]="!(isOverviewPage$ | async)"
+          (keydown)="switchTabOnArrowPress($event, '#configTab')"
           [routerLink]="
             {
               cxRoute: 'configure' + routerData.owner.configuratorType,
@@ -22,8 +26,12 @@
           >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
         >
         <a
-          tabindex="0"
+          #overviewTab
+          [tabindex]="getTabIndexOverviewTab()"
+          role="tab"
           [class.active]="isOverviewPage$ | async"
+          [attr.aria-selected]="isOverviewPage$ | async"
+          (keydown)="switchTabOnArrowPress($event, '#overviewTab')"
           [routerLink]="
             {
               cxRoute: 'configureOverview' + routerData.owner.configuratorType,

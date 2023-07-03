@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
+export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -50,11 +51,11 @@ export function interceptCartPageEndpoint() {
 }
 
 export function verifyActionLinkHasText(text: string) {
-  cy.get('.cx-item-list-row .cx-action-link').should('contain', text);
+  cy.get('.cx-item-list-row .btn-tertiary').should('contain', text);
 }
 
 export function clickOnActionLink() {
-  cy.get('.cx-item-list-row .cx-action-link').click();
+  cy.get('.cx-item-list-row .btn-tertiary').click();
 }
 
 export function waitForResponse(alias: string) {
@@ -81,6 +82,17 @@ export function interceptOrdersEndpoint(): string {
   ).as(ORDERS_ALIAS);
 
   return ORDERS_ALIAS;
+}
+
+export function interceptCartFromOrderEndpoint(): string {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/orgUsers/current/cartFromOrder?*`
+  ).as(CART_FROM_ORDER_ALIAS);
+
+  return CART_FROM_ORDER_ALIAS;
 }
 
 export const orderHistoryTest = {
@@ -225,3 +237,37 @@ export const orderHistoryTest = {
     });
   },
 };
+
+export function goToOrderDetails() {
+  cy.visit('/my-account/orders');
+  const ordersAlias = interceptOrdersEndpoint();
+  waitForResponse(ordersAlias);
+
+  const orderDetailsPage = waitForPage(
+    '/my-account/order/*',
+    'getOrderDetails'
+  );
+  cy.get('.cx-order-history-value').first().click();
+  cy.wait(`@${orderDetailsPage}`).its('response.statusCode').should('eq', 200);
+  cy.get('cx-breadcrumb h1').should('contain', 'Order Details');
+}
+
+export function saveOrderDetails() {
+  cy.get('tr.cx-item-list-row').each(($row, index, list) => {
+    if (index === 0) {
+      cy.wrap(list.length).as('totalOrderHistoryListItems');
+    }
+    cy.wrap($row)
+      .find('.cx-code')
+      .then((code) => {
+        const itemCode = Cypress.$(code).html();
+        cy.wrap(itemCode).as(`itemCode${index}`);
+      });
+    cy.wrap($row)
+      .find('cx-item-counter input')
+      .then((input) => {
+        const inputValue = Cypress.$(input).val();
+        cy.wrap(inputValue).as(`quantityItem${index}`);
+      });
+  });
+}

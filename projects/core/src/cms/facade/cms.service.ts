@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,6 @@ import {
   filter,
   map,
   observeOn,
-  pluck,
   shareReplay,
   switchMap,
   take,
@@ -260,8 +259,7 @@ export class CmsService {
         }
         return Boolean(entity.success || (entity.error && !entity.loading));
       }),
-      pluck('success'),
-      map((success) => !!success),
+      map((loaderState) => !!loaderState.success),
       catchError(() => of(false))
     );
   }

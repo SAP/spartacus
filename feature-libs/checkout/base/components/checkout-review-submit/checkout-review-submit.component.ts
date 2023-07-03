@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { Address, TranslationService } from '@spartacus/core';
+import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -94,53 +95,27 @@ export class CheckoutReviewSubmitComponent {
     deliveryAddress: Address,
     countryName?: string
   ): Observable<Card> {
-    return this.translationService.translate('addressCard.shipTo').pipe(
-      map((textTitle) => {
-        if (!countryName) {
-          countryName = deliveryAddress?.country?.name as string;
-        }
-
-        let region = '';
-        if (
-          deliveryAddress &&
-          deliveryAddress.region &&
-          deliveryAddress.region.isocode
-        ) {
-          region = deliveryAddress.region.isocode + ', ';
-        }
-
-        return {
-          title: textTitle,
-          textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
-          text: [
-            deliveryAddress.line1,
-            deliveryAddress.line2,
-            deliveryAddress.town + ', ' + region + countryName,
-            deliveryAddress.postalCode,
-            deliveryAddress.phone,
-          ],
-        } as Card;
-      })
+    return combineLatest([
+      this.translationService.translate('addressCard.shipTo'),
+      this.translationService.translate('addressCard.phoneNumber'),
+      this.translationService.translate('addressCard.mobileNumber'),
+    ]).pipe(
+      map(([textTitle, textPhone, textMobile]) =>
+        deliveryAddressCard(
+          textTitle,
+          textPhone,
+          textMobile,
+          deliveryAddress,
+          countryName
+        )
+      )
     );
   }
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
       this.translationService.translate('checkoutMode.deliveryMethod'),
-    ]).pipe(
-      map(([textTitle]) => {
-        return {
-          title: textTitle,
-          textBold: deliveryMode.name,
-          text: [
-            deliveryMode.description,
-            deliveryMode.deliveryCost?.formattedValue
-              ? deliveryMode.deliveryCost?.formattedValue
-              : '',
-          ],
-        } as Card;
-      })
-    );
+    ]).pipe(map(([textTitle]) => deliveryModeCard(textTitle, deliveryMode)));
   }
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {

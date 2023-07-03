@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,6 +47,12 @@ export function migrateMissingPackage(
   }
 
   if (foundImport) {
+    warnIfPackageNotPresent();
+  }
+
+  return tree;
+
+  function warnIfPackageNotPresent() {
     const packagePresent = getPackageJsonDependency(
       tree,
       missingPackageConfig.package
@@ -58,6 +64,4 @@ export function migrateMissingPackage(
       context.logger.warn(`${comment}\n`);
     }
   }
-
-  return tree;
 }

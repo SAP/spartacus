@@ -8,18 +8,16 @@
       <h3>
         {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}
       </h3>
-      <ng-container *cxFeatureLevel="'5.1'">
-        <button
-          type="button"
-          class="close"
-          [attr.aria-label]="'common.close' | cxTranslate"
-          (click)="close('Cross click')"
-        >
-          <span aria-hidden="true">
-            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-          </span>
-        </button>
-      </ng-container>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        (click)="close('Cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
     </div>
     <div class="cx-cancel-replenishment-dialog-description">
       {{ 'orderDetails.cancelReplenishment.description' | cxTranslate }}
@@ -29,7 +27,7 @@
       <div class="cx-cancel-replenishment-btns row">
         <div class="col-md-6">
           <button
-            class="btn btn-block btn-action"
+            class="btn btn-block btn-secondary"
             (click)="close('Close Replenishment Dialog')"
           >
             {{ 'orderDetails.cancelReplenishment.reject' | cxTranslate }}

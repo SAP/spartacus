@@ -15,9 +15,9 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
 
@@ -76,7 +76,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -164,8 +164,8 @@ describe('CouponCardComponent', () => {
       .nativeElement.textContent;
     expect(couponNotificationLabel).toContain('myCoupons.notification');
 
-    const findProductBtn = el.query(By.css('button.btn-action')).nativeElement
-      .textContent;
+    const findProductBtn = el.query(By.css('button.btn-secondary'))
+      .nativeElement.textContent;
     expect(findProductBtn).toContain('myCoupons.findProducts');
   });
 
@@ -214,7 +214,7 @@ describe('CouponCardComponent', () => {
 
   it('should be able to click `Find Product` button', () => {
     fixture.detectChanges();
-    el.query(By.css('button.btn-action')).triggerEventHandler('click', null);
+    el.query(By.css('button.btn-secondary')).triggerEventHandler('click', null);
     expect(couponComponentService.launchSearchPage).toHaveBeenCalledWith(
       component.coupon
     );

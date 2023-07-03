@@ -29,7 +29,8 @@
           "Administration",
           "Order-Approval",
           "Account-Summary",
-          "Organization-User-Registration"
+          "Organization-User-Registration",
+          "Unit-Order"
         ],
         "type": "string"
       },
@@ -37,7 +38,8 @@
         "Administration",
         "Order-Approval",
         "Account-Summary",
-        "Organization-User-Registration"
+        "Organization-User-Registration",
+        "Unit-Order"
       ],
 
       "x-prompt": {
@@ -59,6 +61,10 @@
           {
             "value": "User-Registration",
             "label": "User Registration (b2b feature)"
+          },
+          {
+            "value": "Unit-Order",
+            "label": "Unit Order (b2b feature)"
           }
         ]
       }

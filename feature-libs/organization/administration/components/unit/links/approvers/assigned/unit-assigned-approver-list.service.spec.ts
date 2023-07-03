@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUnit, B2BUser, EntitiesModel, B2BUserRole } from '@spartacus/core';
+import { B2BUnit, B2BUser, B2BUserRole, EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
   LoadStatus,
@@ -9,7 +9,7 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';
 
 const mockUnitEntities: EntitiesModel<B2BUser> = {
@@ -90,7 +90,7 @@ describe('UnitAssignedApproverListService', () => {
 
   it('should clear approvers data before load', () => {
     spyOn(unitService, 'clearAssignedUsersList');
-    spyOn(unitService, 'getUsers').and.returnValue(of());
+    spyOn(unitService, 'getUsers').and.returnValue(EMPTY);
 
     service.getData('u1').subscribe();
     expect(unitService.clearAssignedUsersList).toHaveBeenCalledWith(

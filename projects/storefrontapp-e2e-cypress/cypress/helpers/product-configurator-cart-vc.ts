@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,7 +72,7 @@ export function verifyNotificationBannerInCart(
  */
 export function checkout(): void {
   cy.log('Complete checkout process');
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.log('Fulfill shipping address form');
   fillShippingAddress(shippingAddressData, false);
 
@@ -111,7 +111,7 @@ export function checkout(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/order-confirmation');
-      cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
+      cy.get('cx-order-confirmation-thank-you-message').should('be.visible');
     });
 
   cy.log('Define order number alias');

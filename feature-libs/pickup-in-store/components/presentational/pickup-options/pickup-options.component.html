@@ -1,0 +1,58 @@
+<form [formGroup]="pickupOptionsForm">
+  <div class="form-check">
+    <input
+      type="radio"
+      role="radio"
+      [attr.id]="deliveryId"
+      data-pickup="delivery"
+      value="delivery"
+      (click)="onPickupOptionChange('delivery')"
+      formControlName="pickupOption"
+      [attr.aria-label]="'pickupOptions.delivery' | cxTranslate"
+      [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'delivery'"
+    />
+    <label [attr.for]="deliveryId">
+      {{ 'pickupOptions.delivery' | cxTranslate }}
+    </label>
+  </div>
+  <div class="form-check">
+    <input
+      type="radio"
+      role="radio"
+      [attr.id]="pickupId"
+      data-pickup="pickup"
+      value="pickup"
+      (click)="onPickupOptionChange('pickup')"
+      formControlName="pickupOption"
+      [attr.aria-label]="'pickupOptions.pickup' | cxTranslate"
+      [attr.aria-checked]="pickupOptionsForm.value.pickupOption === 'pickup'"
+    />
+    <label [attr.for]="pickupId">
+      <p>
+        {{ 'pickupOptions.pickup' | cxTranslate
+        }}<ng-container *ngIf="displayPickupLocation"
+          >:
+          <strong [attr.data-pickup-location]="displayPickupLocation">{{
+            displayPickupLocation
+          }}</strong>
+        </ng-container>
+        |
+        <a
+          role="button"
+          [attr.data-store-location-link]="
+            displayPickupLocation ? 'change' : 'select'
+          "
+          class="cx-action-link"
+          (click)="onPickupLocationChange()"
+          tabindex="0"
+          >{{
+            (displayPickupLocation
+              ? 'pickupOptions.changeStore'
+              : 'pickupOptions.selectStore'
+            ) | cxTranslate
+          }}</a
+        >
+      </p>
+    </label>
+  </div>
+</form>

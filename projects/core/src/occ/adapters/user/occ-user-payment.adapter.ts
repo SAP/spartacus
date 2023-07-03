@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,8 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
+const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
+
 @Injectable()
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
   constructor(
@@ -29,7 +31,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
         urlParams: { userId },
       }) + '?saved=true';
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
@@ -44,7 +46,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
       urlParams: { userId, paymentDetailId: paymentMethodID },
     });
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http
@@ -58,7 +60,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     });
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      ...CONTENT_TYPE_JSON_HEADER,
     });
 
     return this.http

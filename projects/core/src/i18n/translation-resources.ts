@@ -1,14 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export interface TranslationResourceKey {
+  [key: string]: any;
+}
+
 export interface TranslationResources {
   [lang: string]: {
-    [chunkName: string]: {
-      [key: string]: any;
-    };
+    [chunkName: string]: TranslationResourceKey;
   };
 }
 export interface TranslationChunksConfig {

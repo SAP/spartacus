@@ -6,7 +6,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
@@ -23,7 +23,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _openElement?: ElementRef,
     _vcr?: ViewContainerRef
   ) {
-    return of();
+    return EMPTY;
   }
   closeDialog(_reason: string): void {}
 }
@@ -32,6 +32,7 @@ const mockEvent = new CartUiEventAddToCart();
 mockEvent.productCode = 'test';
 mockEvent.quantity = 3;
 mockEvent.numberOfEntriesBeforeAdd = 1;
+mockEvent.pickupStoreName = 'testStore';
 
 const mockFailEvent = new CartAddEntryFailEvent();
 mockFailEvent.error = {};

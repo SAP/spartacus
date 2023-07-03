@@ -24,6 +24,8 @@ class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
+
+  coreLogout = createSpy().and.returnValue(Promise.resolve());
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -52,7 +54,6 @@ describe('CloseAccountModalComponent', () => {
   let component: CloseAccountModalComponent;
   let fixture: ComponentFixture<CloseAccountModalComponent>;
   let userFacade: UserProfileFacade;
-  let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
 
@@ -96,11 +97,8 @@ describe('CloseAccountModalComponent', () => {
     component = fixture.componentInstance;
 
     userFacade = TestBed.inject(UserProfileFacade);
-    routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-
-    spyOn(routingService, 'go').and.stub();
   });
 
   it('should create', () => {
@@ -121,7 +119,6 @@ describe('CloseAccountModalComponent', () => {
 
     expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     expect(launchDialogService.closeDialog).toHaveBeenCalled();
   });
 

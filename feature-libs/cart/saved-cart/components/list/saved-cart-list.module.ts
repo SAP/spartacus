@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,6 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
@@ -26,7 +25,6 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     ListNavigationModule,
     I18nModule,
     SpinnerModule,
-    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

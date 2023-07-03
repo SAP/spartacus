@@ -57,11 +57,11 @@ fi
 echo '-----'
 echo "Building Spartacus libraries"
 
-yarn --frozen-lockfile
+npm ci
 
-(cd projects/storefrontapp-e2e-cypress && yarn --frozen-lockfile)
+(cd projects/storefrontapp-e2e-cypress && npm ci)
 
-yarn build:libs 2>&1 | tee build.log
+npm run build:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -74,28 +74,32 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-yarn build
+npm run build
 
 if [[ "${SSR}" = true ]]; then
     echo "Building Spartacus storefrontapp (SSR PROD mode)"
-    yarn build:ssr:ci
+    npm run build:ssr:ci
 
     echo "Starting Spartacus storefrontapp in SSR mode"
-    (yarn serve:ssr:ci &)
+    (npm run serve:ssr:ci &)
 
     echo '-----'
     echo "Running SSR Cypress smoke test"
 
-    yarn e2e:run:ci:ssr
+    npm run e2e:run:ci:ssr
 else
-    yarn start:pwa &
+    npm run start:pwa &
 
     echo '-----'
     echo "Running Cypress end to end tests"
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        yarn e2e:run:ci:core"${SUITE}"
+      if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+        npm run e2e:run:ci"${SUITE}"
+      else 
+        npm run e2e:run:ci:core"${SUITE}"
+      fi
     else
-        yarn e2e:run:ci"${SUITE}"
+        npm run e2e:run:ci"${SUITE}"
     fi
 fi

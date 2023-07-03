@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 
@@ -23,7 +23,18 @@ export class ConfiguratorUpdateMessageComponent {
       switchMap((routerData) =>
         this.configuratorCommonsService.hasPendingChanges(routerData.owner)
       ),
-      distinctUntilChanged() // avoid subsequent emissions of the same value from the source observable
+      distinctUntilChanged(), // avoid subsequent emissions of the same value from the source observable
+      switchMap(
+        (isLoading) =>
+          isLoading
+            ? of(isLoading).pipe(
+                delay(
+                  this.config.productConfigurator?.updateConfigurationMessage
+                    ?.waitingTime || 1000
+                )
+              ) // delay information if it is loading
+            : of(isLoading) // inform immediately if it's not loading anymore
+      )
     );
 
   constructor(

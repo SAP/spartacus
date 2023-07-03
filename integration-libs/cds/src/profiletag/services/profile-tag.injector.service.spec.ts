@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
-import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, ReplaySubject, Subject } from 'rxjs';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   ConsentChangedPushEvent,
@@ -12,7 +12,7 @@ import { ProfileTagInjectorService } from './profile-tag.injector.service';
 import { ProfileTagEventService } from './profiletag-event.service';
 
 describe('ProfileTagInjector', () => {
-  let postBehaviour: Subject<boolean>;
+  let postBehavior: Subject<boolean>;
   let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventService;
@@ -28,7 +28,7 @@ describe('ProfileTagInjector', () => {
     consentBehavior = new ReplaySubject<ConsentChangedPushEvent>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
-    postBehaviour = new ReplaySubject<boolean>();
+    postBehavior = new ReplaySubject<boolean>();
     pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
       notifySuccessfulLogin: jasmine
@@ -44,7 +44,7 @@ describe('ProfileTagInjector', () => {
         .and.callFake(() => navigatedBehavior),
       loginSuccessful: jasmine
         .createSpy('loginSuccessful')
-        .and.callFake((_) => postBehaviour),
+        .and.callFake((_) => postBehavior),
     });
     profileTagPushEventsServiceMock = <ProfileTagPushEventsService>(<unknown>{
       cartChanged: jasmine
@@ -58,12 +58,12 @@ describe('ProfileTagInjector', () => {
       addTracker: jasmine
         .createSpy('addTracker')
         .and.callFake(() => addTrackerBehavior),
-      notifyProfileTagOfEventOccurence: jasmine.createSpy(
-        'notifyProfileTagOfEventOccurence'
+      notifyProfileTagOfEventOccurrence: jasmine.createSpy(
+        'notifyProfileTagOfEventOccurrence'
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')
-        .and.callFake(() => of()),
+        .and.callFake(() => EMPTY),
     });
   }
   beforeEach(() => {
@@ -99,7 +99,7 @@ describe('ProfileTagInjector', () => {
   it('Should notify profile tag of successful login', () => {
     const subscription = profileTagInjector.track().subscribe();
     addTrackerBehavior.next(new CustomEvent('test'));
-    postBehaviour.next(true);
+    postBehavior.next(true);
     subscription.unsubscribe();
     expect(cdsBackendConnectorMock.notifySuccessfulLogin).toHaveBeenCalled();
   });

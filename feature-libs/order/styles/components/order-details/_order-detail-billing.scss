@@ -1,0 +1,25 @@
+%cx-order-detail-billing {
+  margin-bottom: 2.5rem;
+
+  .cx-review-summary {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--cx-color-background);
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+  }
+
+  .cx-review-summary-card {
+    width: 50%;
+
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+
+    .cx-card-title {
+      @include type('3');
+    }
+  }
+}

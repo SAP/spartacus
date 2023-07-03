@@ -4,6 +4,7 @@ on:
       - 'release/4.**'
       - 'epic/**'
       - 'develop'
+      - 'develop-*'
 name: Installation
 jobs:
   install:
@@ -19,8 +20,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Yarn
-        run: yarn --frozen-lockfile
+      - name: NPM
+        run: npm ci
         env:
           FORCE_COLOR: 2 # Support colors from chalk
       - name: run installation script

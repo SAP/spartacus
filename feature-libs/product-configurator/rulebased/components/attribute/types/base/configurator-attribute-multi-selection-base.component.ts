@@ -1,31 +1,39 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { Directive } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  attribute: Configurator.Attribute;
+  ownerKey: string;
+  expMode: boolean;
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
   }
 
   /**
@@ -89,16 +97,14 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   protected onHandleAttributeQuantity(quantity: number): void {
     this.loading$.next(true);
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         quantity,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE_QUANTITY
+    );
   }
 
   /**
@@ -128,7 +134,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
+  ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,
       price: value.valuePrice,

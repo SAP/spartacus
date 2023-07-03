@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { delay, map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -39,10 +39,10 @@ export class ConfiguratorGroupsService {
   getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
-        if (configuration?.interactionState.currentGroup) {
+        if (configuration.interactionState.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
-          return configuration?.groups[0]?.id;
+          return configuration.groups[0]?.id;
         }
       })
     );
@@ -101,7 +101,7 @@ export class ConfiguratorGroupsService {
       .subscribe((configuration) => {
         const groupId = this.getFirstConflictGroup(configuration)?.id;
         if (groupId) {
-          this.navigateToGroup(configuration, groupId, true);
+          this.navigateToGroup(configuration, groupId, true, true);
         }
       });
   }
@@ -169,6 +169,29 @@ export class ConfiguratorGroupsService {
   }
 
   /**
+   * Retrieves a conflict group for immediate conflict resolution.
+   *
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   * @return {Observable<Configurator.Group | undefined} - Conflict group
+   */
+  getConflictGroupForImmediateConflictResolution(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Group | undefined> {
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      //needed because we need have the form to react first on showConflictSolverDialog
+      delay(0),
+      map((configuration) => {
+        if (configuration.interactionState.showConflictSolverDialog) {
+          return configuration.flatGroups.find(
+            (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+          );
+        }
+        return undefined;
+      })
+    );
+  }
+
+  /**
    * Determines whether the group has been visited or not.
    *
    * @param {CommonConfigurator.Owner} owner - Owner
@@ -198,11 +221,14 @@ export class ConfiguratorGroupsService {
    * @param {Configurator.Configuration}configuration - Configuration
    * @param {string} groupId - Group ID
    * @param {boolean} setStatus - Group status will be set for previous group, default true
+   * @param {boolean} conflictResolutionMode - Parameter with default (false). If set to true, we enter the conflict resolution mode, i.e.
+   *  if a conflict is solved, the system will navigate to the next conflict present
    */
   navigateToGroup(
     configuration: Configurator.Configuration,
     groupId: string,
-    setStatus = true
+    setStatus = true,
+    conflictResolutionMode = false
   ): void {
     if (setStatus) {
       //Set Group status for current group
@@ -226,6 +252,7 @@ export class ConfiguratorGroupsService {
         configuration: configuration,
         groupId: groupId,
         parentGroupId: parentGroup ? parentGroup.id : undefined,
+        conflictResolutionMode: conflictResolutionMode,
       })
     );
   }
@@ -292,6 +319,19 @@ export class ConfiguratorGroupsService {
     return this.configuratorUtilsService.hasSubGroups(group);
   }
 
+  protected isConflictGroupInImmediateConflictResolutionMode(
+    groupType: Configurator.GroupType | undefined,
+    immediateConflictResolution = false
+  ): boolean {
+    if (groupType) {
+      return (
+        groupType === Configurator.GroupType.CONFLICT_GROUP &&
+        immediateConflictResolution
+      );
+    }
+    return false;
+  }
+
   /**
    * Retrieves a group ID of the neighboring group.
    *
@@ -308,14 +348,18 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
             let nextGroup;
-            configuration?.flatGroups.forEach((group, index) => {
+            configuration.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
-                configuration?.flatGroups &&
-                configuration?.flatGroups[index + neighboringIndex] //Check if neighboring group exists
+                configuration.flatGroups &&
+                configuration.flatGroups[index + neighboringIndex] && //Check if neighboring group exists
+                !this.isConflictGroupInImmediateConflictResolutionMode(
+                  configuration.flatGroups[index + neighboringIndex]?.groupType,
+                  configuration.immediateConflictResolution
+                )
               ) {
                 nextGroup =
-                  configuration?.flatGroups[index + neighboringIndex].id;
+                  configuration.flatGroups[index + neighboringIndex].id;
               }
             });
             return nextGroup;

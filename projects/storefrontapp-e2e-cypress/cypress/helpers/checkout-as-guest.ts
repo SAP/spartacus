@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -98,5 +98,7 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait(`@${homePage}`);
+  cy.get('cx-page-slot.Section1 cx-banner');
 }

@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
+import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
@@ -30,5 +31,12 @@ export class UnitDetailsComponent {
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
-  constructor(protected itemService: ItemService<B2BUnit>) {}
+  readonly isUpdatingUnitAllowed = this.orgUnitService
+    ? this.orgUnitService.isUpdatingUnitAllowed()
+    : true;
+
+  constructor(
+    protected itemService: ItemService<B2BUnit>,
+    protected orgUnitService?: OrgUnitService
+  ) {}
 }

@@ -95,6 +95,22 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "../../dist/checkout/scheduled-replenishment/root"
       ],
+      "@spartacus/customer-ticketing/assets": [
+        "../../dist/customer-ticketing/assets"
+      ],
+      "@spartacus/customer-ticketing/components": [
+        "../../dist/customer-ticketing/components"
+      ],
+      "@spartacus/customer-ticketing/core": [
+        "../../dist/customer-ticketing/core"
+      ],
+      "@spartacus/customer-ticketing": ["../../dist/customer-ticketing"],
+      "@spartacus/customer-ticketing/occ": [
+        "../../dist/customer-ticketing/occ"
+      ],
+      "@spartacus/customer-ticketing/root": [
+        "../../dist/customer-ticketing/root"
+      ],
       "@spartacus/order/assets": ["../../dist/order/assets"],
       "@spartacus/order/components": ["../../dist/order/components"],
       "@spartacus/order/core": ["../../dist/order/core"],
@@ -147,6 +163,24 @@
       "@spartacus/organization/order-approval/root": [
         "../../dist/organization/order-approval/root"
       ],
+      "@spartacus/organization/unit-order/assets": [
+        "../../dist/organization/unit-order/assets"
+      ],
+      "@spartacus/organization/unit-order/components": [
+        "../../dist/organization/unit-order/components"
+      ],
+      "@spartacus/organization/unit-order/core": [
+        "../../dist/organization/unit-order/core"
+      ],
+      "@spartacus/organization/unit-order": [
+        "../../dist/organization/unit-order"
+      ],
+      "@spartacus/organization/unit-order/occ": [
+        "../../dist/organization/unit-order/occ"
+      ],
+      "@spartacus/organization/unit-order/root": [
+        "../../dist/organization/unit-order/root"
+      ],
       "@spartacus/organization/user-registration/assets": [
         "../../dist/organization/user-registration/assets"
       ],
@@ -165,6 +199,16 @@
       "@spartacus/organization/user-registration/root": [
         "../../dist/organization/user-registration/root"
       ],
+      "@spartacus/pickup-in-store/assets": [
+        "../../dist/pickup-in-store/assets"
+      ],
+      "@spartacus/pickup-in-store/components": [
+        "../../dist/pickup-in-store/components"
+      ],
+      "@spartacus/pickup-in-store/core": ["../../dist/pickup-in-store/core"],
+      "@spartacus/pickup-in-store": ["../../dist/pickup-in-store"],
+      "@spartacus/pickup-in-store/occ": ["../../dist/pickup-in-store/occ"],
+      "@spartacus/pickup-in-store/root": ["../../dist/pickup-in-store/root"],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
       ],
@@ -202,6 +246,22 @@
       ],
       "@spartacus/product/bulk-pricing/root": [
         "../../dist/product/bulk-pricing/root"
+      ],
+      "@spartacus/product/future-stock/assets": [
+        "../../dist/product/future-stock/assets"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "../../dist/product/future-stock/components"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "../../dist/product/future-stock/core"
+      ],
+      "@spartacus/product/future-stock": ["../../dist/product/future-stock"],
+      "@spartacus/product/future-stock/occ": [
+        "../../dist/product/future-stock/occ"
+      ],
+      "@spartacus/product/future-stock/root": [
+        "../../dist/product/future-stock/root"
       ],
       "@spartacus/product/image-zoom/assets": [
         "../../dist/product/image-zoom/assets"
@@ -268,12 +328,16 @@
       "@spartacus/user/profile": ["../../dist/user/profile"],
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
+      "@spartacus/cdc/assets": ["../../dist/cdc/assets"],
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
-      "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
-      "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
+      "@spartacus/cdc/organization/administration": [
+        "../../dist/cdc/organization/administration"
+      ],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
+      "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
+      "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
@@ -295,6 +359,9 @@
       "@spartacus/epd-visualization/root": [
         "../../dist/epd-visualization/root"
       ],
+      "@spartacus/s4om/assets": ["../../dist/s4om/assets"],
+      "@spartacus/s4om": ["../../dist/s4om"],
+      "@spartacus/s4om/root": ["../../dist/s4om/root"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]

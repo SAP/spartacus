@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -96,7 +96,7 @@ export class SiteContextComponentService {
       } else if (context === SiteContextType.LANGUAGE) {
         return of(LANGUAGE_CONTEXT_ID);
       } else {
-        return of(context);
+        return of(context as SiteContextType);
       }
     } else if (this.componentData) {
       return this.componentData.data$.pipe(

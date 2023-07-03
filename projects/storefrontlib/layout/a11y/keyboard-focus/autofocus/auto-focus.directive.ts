@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -69,7 +69,7 @@ export class AutoFocusDirective
 
   ngOnChanges(changes: SimpleChanges): void {
     // responsible for refresh focus based on the configured refresh property name
-    if (!!(changes.config.currentValue as AutoFocusConfig)?.refreshFocus) {
+    if (!!(changes.config?.currentValue as AutoFocusConfig)?.refreshFocus) {
       // ensure the autofocus when it's to provided initially
       if (!this.config.autofocus) {
         this.config.autofocus = true;

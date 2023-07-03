@@ -4,7 +4,10 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -56,14 +59,22 @@ describe('ConfigureCartEntryComponent', () => {
     );
   });
 
-  it('should find correct entity key for cart entry', () => {
-    component.cartEntry = { entryNumber: 0 };
-    expect(component.getEntityKey()).toBe('0');
-  });
+  describe('getEntityKey', () => {
+    it('should find correct entity key for cart entry', () => {
+      component.cartEntry = { entryNumber: 0 };
+      expect(component.getEntityKey()).toBe('0');
+    });
 
-  it('should throw error if entry number not present in entry', () => {
-    component.cartEntry = {};
-    expect(() => component.getEntityKey()).toThrowError();
+    it('should throw error if entry number not present in entry', () => {
+      component.cartEntry = {};
+      expect(() => component.getEntityKey()).toThrowError();
+    });
+
+    it('should take order code into account in case entry is from order', () => {
+      const orderCode = '01008765';
+      component.cartEntry = { entryNumber: 0, orderCode: orderCode };
+      expect(component.getEntityKey()).toBe(orderCode + '+0');
+    });
   });
 
   it('should compile correct route for cart entry', () => {
@@ -83,9 +94,11 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.getRoute()).toBe('configureOverview' + configuratorType);
   });
 
-  it('should compile displayOnly method', () => {
-    component.readOnly = true;
-    expect(component.getDisplayOnly()).toBe(true);
+  describe('getDisplayOnly', () => {
+    it('should derive result from component if available', () => {
+      component.readOnly = true;
+      expect(component.getDisplayOnly()).toBe(true);
+    });
   });
 
   it("should return 'false' for disabled when readOnly true", () => {
@@ -215,6 +228,46 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component.getResolveIssuesA11yDescription()).toEqual(
         'cx-error-msg-0'
       );
+    });
+  });
+
+  describe('getQueryParams', () => {
+    it('should set "forceReload" parameter', () => {
+      expect(component.getQueryParams().forceReload).toBe(true);
+    });
+    it('should not set "resolveIssues" parameter in case no issues exist', () => {
+      component.readOnly = false;
+      component.msgBanner = false;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+        statusSummaryList: [],
+      };
+      expect(component.getQueryParams().resolveIssues).toBe(false);
+    });
+    it('should set "resolveIssues" parameter in case issues exist', () => {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+        statusSummaryList: [
+          { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+        ],
+      };
+      expect(component.getQueryParams().resolveIssues).toBe(true);
+    });
+    it('should not set "resolveIssues" parameter in case issues exist but component is not rendered in the context of the resolve issues banner', () => {
+      component.readOnly = false;
+      component.msgBanner = false;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+        statusSummaryList: [
+          { status: OrderEntryStatus.Error, numberOfIssues: 3 },
+        ],
+      };
+      expect(component.getQueryParams().resolveIssues).toBe(false);
     });
   });
 

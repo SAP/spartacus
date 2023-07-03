@@ -401,14 +401,14 @@
       <div class="col-md-12 col-lg-6">
         <button
           *ngIf="paymentMethodsCount === 0"
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="back()"
         >
           {{ 'common.back' | cxTranslate }}
         </button>
         <button
           *ngIf="paymentMethodsCount > 0"
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-secondary"
           (click)="close()"
         >
           {{ 'paymentForm.changePayment' | cxTranslate }}

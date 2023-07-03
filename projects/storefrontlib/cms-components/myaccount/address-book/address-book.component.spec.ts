@@ -10,8 +10,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
-  FeaturesConfig,
-  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   User,
@@ -107,7 +105,6 @@ describe('AddressBookComponent', () => {
           I18nTestingModule,
           CardModule,
           RouterTestingModule,
-          FeaturesConfigModule,
         ],
         providers: [
           {
@@ -115,12 +112,6 @@ describe('AddressBookComponent', () => {
             useClass: MockComponentService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: FeaturesConfig,
-            useValue: {
-              features: { level: '5.1' },
-            },
-          },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
       }).compileComponents();
@@ -158,7 +149,7 @@ describe('AddressBookComponent', () => {
   });
 
   it('should be able to add new address', () => {
-    el.query(By.css('.btn-action')).nativeElement.click();
+    el.query(By.css('.btn-secondary')).nativeElement.click();
     expect(component.addAddressButtonHandle).toHaveBeenCalled();
   });
 

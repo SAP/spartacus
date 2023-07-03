@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
+import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
 
 /**
@@ -83,10 +84,10 @@ export class OAuthLibWrapperService {
   revokeAndLogout(): Promise<void> {
     return new Promise((resolve) => {
       this.oAuthService
-        .revokeTokenAndLogout()
+        .revokeTokenAndLogout(true)
         .catch(() => {
           // when there would be some kind of error during revocation we can't do anything else, so at least we logout user.
-          this.oAuthService.logOut();
+          this.oAuthService.logOut(true);
         })
         .finally(() => {
           resolve();
@@ -98,7 +99,7 @@ export class OAuthLibWrapperService {
    * Clear tokens in library state (no revocation).
    */
   logout(): void {
-    this.oAuthService.logOut();
+    this.oAuthService.logOut(true);
   }
 
   /**
@@ -114,6 +115,10 @@ export class OAuthLibWrapperService {
    * Initialize Implicit Flow or Authorization Code flows with the redirect to OAuth login url.
    */
   initLoginFlow() {
+    if (this.winRef.localStorage) {
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    }
+
     return this.oAuthService.initLoginFlow();
   }
 

@@ -10,9 +10,8 @@
     font-weight: 600;
     line-break: normal;
     padding-inline-end: 10px;
-    @include forVersion(5.1) {
-      z-index: -6;
-    }
+
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 40%;
@@ -24,9 +23,8 @@
     padding-inline-end: 10px;
     line-break: normal;
     color: var(--cx-color-secondary);
-    @include forVersion(5.1) {
-      z-index: -6;
-    }
+
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 30%;
@@ -37,9 +35,7 @@
     align-self: flex-start;
     color: var(--cx-color-secondary);
     width: 50%;
-    @include forVersion(5.1) {
-      z-index: -6;
-    }
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 30%;

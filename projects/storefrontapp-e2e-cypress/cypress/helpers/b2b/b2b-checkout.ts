@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,10 @@ import {
 import { myCompanyAdminUser } from '../../sample-data/shared-users';
 import { login } from '../../support/utils/login';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
+import { TabbingOrderConfig } from '../accessibility/tabbing-order.model';
 import {
   addCheapProductToCart,
+  verifyReviewOrderPage,
   visitHomePage,
   waitForPage,
   waitForProductPage,
@@ -139,6 +141,23 @@ export function addB2bProductToCartAndCheckout() {
   cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
 }
 
+export function addB2bProductToCart() {
+  const code = products[0].code;
+  const productPage = waitForProductPage(code, 'getProductPage');
+
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.get('cx-product-intro').within(() => {
+    cy.get('.code').should('contain', products[0].code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', products[0].name);
+  });
+
+  addCheapProductToCart(products[0]);
+}
+
 export function enterPONumber() {
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',
@@ -215,7 +234,7 @@ export function selectAccountShippingAddress() {
   );
   const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -300,9 +319,10 @@ export function reviewB2bReviewOrderPage(
   sampleUser: SampleUser = b2bAccountShipToUser,
   cartData: SampleCartProduct,
   isAccount: boolean,
-  orderType: string
+  orderType: string,
+  conf: TabbingOrderConfig = config
 ) {
-  cy.get('.cx-review-title').should('contain', 'Review');
+  verifyReviewOrderPage();
 
   if (isAccount) {
     cy.get('.cx-review-summary-card')
@@ -383,12 +403,12 @@ export function reviewB2bReviewOrderPage(
   if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.replenishmentOrderAccountCheckoutReviewOrder
+      conf.replenishmentOrderAccountCheckoutReviewOrder
     );
   } else {
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
+      isAccount ? conf.checkoutReviewOrderAccount : conf.checkoutReviewOrder
     );
   }
 }
@@ -476,7 +496,7 @@ export function reviewB2bOrderConfirmation(
     });
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(2)').within(() => {
         cy.contains(poNumber);
         if (isAccount) {
           cy.contains('Account');
@@ -487,12 +507,12 @@ export function reviewB2bOrderConfirmation(
         }
       });
     } else {
-      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(2)').within(() => {
         cy.contains('Frequency');
         cy.contains(recurrencePeriodMap.get(replenishment));
       });
 
-      cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(3)').within(() => {
         cy.contains(poNumber);
         if (isAccount) {
           cy.contains('Account');
@@ -505,7 +525,7 @@ export function reviewB2bOrderConfirmation(
     }
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(3)').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
 
@@ -519,7 +539,7 @@ export function reviewB2bOrderConfirmation(
         }
       });
     } else {
-      cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(4)').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
         cy.contains('Premium Delivery');
@@ -527,7 +547,7 @@ export function reviewB2bOrderConfirmation(
     }
 
     if (!isAccount) {
-      cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
+      cy.get('.cx-summary-card:nth-child(4)').within(() => {
         cy.contains('Payment');
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);

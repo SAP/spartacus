@@ -1,22 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox',
@@ -27,16 +21,28 @@ export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-  @Input() expMode: boolean;
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  attribute: Configurator.Attribute;
+  group: string;
+  ownerKey: string;
+  expMode: boolean;
+  attributeValue: Configurator.Value;
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
+  constructor(
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
+    super();
+    this.attribute = attributeComponentContext.attribute;
+    this.group = attributeComponentContext.group.id;
+    this.ownerKey = attributeComponentContext.owner.key;
+    this.expMode = attributeComponentContext.expMode;
+  }
+
   ngOnInit() {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
+    this.attributeValue = this.getValueFromAttribute();
   }
 
   /**
@@ -45,29 +51,34 @@ export class ConfiguratorAttributeCheckBoxComponent
   onSelect(): void {
     const selectedValues = this.assembleSingleValue();
 
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         values: selectedValues,
       },
-    };
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
+  }
+
+  protected getValueFromAttribute(): Configurator.Value {
+    //we can assume that for this component, value is always present
+    //otherwise attribute type would not be correct,
+    //could only happen in exceptional cases, on wrong modifications e.g.
+    return this.attribute.values ? this.attribute.values[0] : { valueCode: '' };
   }
 
   protected assembleSingleValue(): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
-    const value = this.attribute.values ? this.attribute.values[0] : undefined;
-    //we can assume that for this component, value is always present
-    if (value) {
-      const localAttributeValue: Configurator.Value = {
-        valueCode: value.valueCode,
-      };
+    const value = this.getValueFromAttribute();
 
-      localAttributeValue.name = value.name;
-      localAttributeValue.selected = this.attributeCheckBoxForm.value;
-      localAssembledValues.push(localAttributeValue);
-    }
+    const localAttributeValue: Configurator.Value = {
+      valueCode: value.valueCode,
+    };
+
+    localAttributeValue.name = value.name;
+    localAttributeValue.selected = this.attributeCheckBoxForm.value;
+    localAssembledValues.push(localAttributeValue);
 
     return localAssembledValues;
   }
@@ -81,7 +92,7 @@ export class ConfiguratorAttributeCheckBoxComponent
    */
   extractValuePriceFormulaParameters(
     value: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
+  ): ConfiguratorPriceComponentOptions {
     return {
       quantity: value.quantity,
       price: value.valuePrice,

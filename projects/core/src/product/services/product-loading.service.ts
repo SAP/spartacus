@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,6 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  mapTo,
   shareReplay,
   tap,
   withLatestFrom,
@@ -214,7 +213,7 @@ export class ProductLoadingService {
 
       const timestampRefresh$ = timestamp$.pipe(
         delay(maxAge, scheduler),
-        mapTo(true),
+        map(() => true),
         withdrawOn(loadStart$)
       );
 

@@ -1,0 +1,21 @@
+%cx-configurator-group {
+  width: 100%;
+
+  .cx-group-attribute {
+    @include cx-configurator-group-attribute();
+  }
+
+  .cx-hidden {
+    background-color: var(--cx-color-background);
+  }
+
+  cx-item-counter {
+    &.readonly {
+      input {
+        border: solid 1px var(--cx-color-light);
+        min-height: 48px;
+        width: 10rem;
+      }
+    }
+  }
+}

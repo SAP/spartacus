@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,10 @@ export const userRegistrationForm = {
     lastName: {
       label: 'Last name',
       placeholder: 'Last name',
+    },
+    companyName: {
+      label: 'Company name',
+      placeholder: 'Company name',
     },
     email: {
       label: 'E-mail',
@@ -55,7 +59,8 @@ export const userRegistrationForm = {
       placeholder: `An example data for the message field: "Department: Ground support; Position: Chief safe guard; Report to: Steve Jackson; Comments: Please create new account for me".`,
     },
   },
-  messageToApproverTemplate: `Phone number: {{phoneNumber}},
+  messageToApproverTemplate: `Company name: {{companyName}},
+  Phone number: {{phoneNumber}},
   Address: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},
   Message: {{message}}`,
   successFormSubmitMessage:

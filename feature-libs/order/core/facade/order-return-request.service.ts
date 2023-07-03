@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -104,8 +104,8 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
+    this.userIdService.takeUserId(true).subscribe({
+      next: (userId) => {
         this.store.dispatch(
           new OrderActions.LoadOrderReturnRequestList({
             userId,
@@ -115,10 +115,10 @@ export class OrderReturnRequestService implements OrderReturnRequestFacade {
           })
         );
       },
-      () => {
+      error: () => {
         // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+      },
+    });
   }
 
   /**

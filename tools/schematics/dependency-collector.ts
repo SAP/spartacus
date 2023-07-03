@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -89,7 +89,7 @@ function compareFiles(options: {
       fs.unlinkSync(options.name);
     }
     console.error(
-      `The ${fileName} file is not up to date. Please re-generate it by running: yarn generate:deps`
+      `The ${fileName} file is not up to date. Please re-generate it by running: npm run generate:deps`
     );
     process.exit(1);
   }

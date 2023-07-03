@@ -32,6 +32,7 @@ import {
   GROUP_ID_7,
   mockRouterState,
   productConfiguration,
+  productConfigurationWithConflicts,
   PRODUCT_CODE,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -39,7 +40,6 @@ import { ConfiguratorStorefrontUtilsService } from './../service/configurator-st
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -1554,8 +1554,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(true)
       );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
@@ -1567,8 +1566,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
         of(true)
       );
-      const configForExpMode =
-        ConfigurationTestData.productConfigurationWithConflicts;
+      const configForExpMode = productConfigurationWithConflicts;
       initialize();
 
       expect(
@@ -1616,6 +1614,60 @@ describe('ConfigurationGroupMenuComponent', () => {
         0,
         'title',
         'configurator.icon.groupConflict'
+      );
+    });
+  });
+
+  describe('displayMenuItem', () => {
+    it('should display conflict header menu item', (done) => {
+      let configurationWithConflicts = productConfigurationWithConflicts;
+
+      productConfigurationObservable = of(configurationWithConflicts);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component
+        .displayMenuItem(configurationWithConflicts.groups[0])
+        .pipe(take(1))
+        .subscribe((displayMenuItem) => {
+          expect(displayMenuItem).toBe(true);
+          done();
+        });
+    });
+
+    it('should not display conflict header menu item', (done) => {
+      let configurationWithConflicts = structuredClone(
+        productConfigurationWithConflicts
+      );
+      configurationWithConflicts.immediateConflictResolution = true;
+
+      productConfigurationObservable = of(configurationWithConflicts);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      component
+        .displayMenuItem(configurationWithConflicts.groups[0])
+        .pipe(take(1))
+        .subscribe((displayMenuItem) => {
+          expect(displayMenuItem).toBe(false);
+          done();
+        });
+    });
+  });
+
+  describe('isConflictGroupTypeAllowingUndefined', () => {
+    it('should know conflict group ', () => {
+      isConflictGroupType = true;
+      expect(
+        component.isConflictGroupTypeAllowingUndefined(
+          Configurator.GroupType.CONFLICT_HEADER_GROUP
+        )
+      ).toBe(true);
+    });
+
+    it('should return false for undefined input', () => {
+      expect(component.isConflictGroupTypeAllowingUndefined(undefined)).toBe(
+        false
       );
     });
   });

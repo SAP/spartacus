@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,9 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
+  /**
+   * @deprecated since 6.2
+   */
   static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
 
   constructor(
@@ -43,6 +46,8 @@ export class OccConfiguratorVariantNormalizer
       kbKey: source.kbKey ?? undefined,
       pricingEnabled: source.pricingEnabled ?? true,
       hideBasePriceAndSelectedOptions: source.hideBasePriceAndSelectedOptions,
+      immediateConflictResolution: source.immediateConflictResolution ?? false,
+      newConfiguration: source.newConfiguration, // we need a trinary state true, false, undefined!
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
@@ -129,6 +134,7 @@ export class OccConfiguratorVariantNormalizer
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
       uiType: uiType,
+      uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput:
         uiType === Configurator.UiType.NUMERIC ||
@@ -242,7 +248,7 @@ export class OccConfiguratorVariantNormalizer
           attributeType === Configurator.UiType.DROPDOWN
         ) {
           const value: Configurator.Value = {
-            valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+            valueCode: Configurator.RetractValueCode,
             selected: this.isRetractValueSelected(sourceAttribute),
           };
 
@@ -304,7 +310,11 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute
   ): Configurator.UiType {
     let uiType: Configurator.UiType;
-    switch (sourceAttribute.type) {
+
+    const sourceType: string = sourceAttribute.type?.toString() ?? '';
+    const coreSourceType = this.determineCoreUiType(sourceType);
+
+    switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
@@ -358,6 +368,15 @@ export class OccConfiguratorVariantNormalizer
       }
     }
     return uiType;
+  }
+
+  protected determineCoreUiType(sourceType: string) {
+    const indexCustomSeparator = sourceType.indexOf(
+      Configurator.CustomUiTypeIndicator
+    );
+    return indexCustomSeparator > 0
+      ? sourceType.substring(0, indexCustomSeparator)
+      : sourceType;
   }
 
   convertGroupType(
@@ -441,8 +460,7 @@ export class OccConfiguratorVariantNormalizer
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue ===
-            OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+          attribute.selectedSingleValue === Configurator.RetractValueCode
         ) {
           attribute.incomplete = true;
         }

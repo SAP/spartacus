@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -60,6 +61,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         value: false,
         disabled: this.isConsentRequired(),
       }),
+      additionalConsents:
+        this.registerComponentService.generateAdditionalConsentsFormControl?.() ??
+        this.fb.array([]),
       termsandconditions: [false, Validators.requiredTrue],
       captcha: [false, Validators.requiredTrue],
     },
@@ -70,6 +74,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ),
     }
   );
+
+  additionalRegistrationConsents: {
+    template: ConsentTemplate;
+    required: boolean;
+  }[];
+
+  get additionalConsents(): UntypedFormArray {
+    return this.registerForm?.get('additionalConsents') as UntypedFormArray;
+  }
+
+  updateAdditionalConsents(event: MouseEvent, index: number) {
+    const { checked } = event.target as HTMLInputElement;
+    this.registerForm.value.additionalConsents[index] = checked;
+  }
 
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -100,7 +118,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           if (
             messages &&
-            messages.some((message) => message === 'This field is required.')
+            messages.some(
+              (message) => message.raw === 'This field is required.'
+            )
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
@@ -130,6 +150,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this.additionalRegistrationConsents =
+      this.registerComponentService?.getAdditionalConsents() || [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

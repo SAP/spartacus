@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { Product } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -45,7 +46,9 @@ export class WishListItemComponent implements OnChanges {
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {
-      this.productListItemContextSource.product$.next(this.cartEntry.product);
+      this.productListItemContextSource.product$.next(
+        this.cartEntry.product as Product
+      );
     }
   }
 

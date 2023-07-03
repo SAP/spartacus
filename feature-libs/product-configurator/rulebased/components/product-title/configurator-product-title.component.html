@@ -69,80 +69,79 @@
             {{ product.description }}
           </span>
         </div>
-        <ng-container *cxFeatureLevel="'5.1'">
-          <ng-container *ngIf="expMode | async">
-            <ng-container *ngIf="configuration$ | async as configuration">
-              <ng-container *ngIf="configuration.kbKey">
-                <div class="cx-kb-key-details">
-                  <ng-container *ngIf="configuration.kbKey.kbName">
-                    <div class="cx-kb-pair">
-                      <span
-                        class="cx-label"
-                        [attr.aria-label]="
-                          'configurator.a11y.kbKeyName'
-                            | cxTranslate: { name: configuration.kbKey.kbName }
-                        "
-                      >
-                        {{ 'configurator.header.kbKeyName' | cxTranslate }}
-                      </span>
-                      <span class="cx-value">
-                        {{ configuration.kbKey.kbName }}
-                      </span>
-                    </div>
-                  </ng-container>
-                  <ng-container *ngIf="configuration.kbKey.kbLogsys">
-                    <div class="cx-kb-pair">
-                      <span
-                        class="cx-label"
-                        [attr.aria-label]="
-                          'configurator.a11y.kbKeyLogsys'
-                            | cxTranslate
-                              : { logsys: configuration.kbKey.kbLogsys }
-                        "
-                      >
-                        {{ 'configurator.header.kbKeyLogsys' | cxTranslate }}
-                      </span>
-                      <span class="cx-value">
-                        {{ configuration.kbKey.kbLogsys }}
-                      </span>
-                    </div>
-                  </ng-container>
-                  <ng-container *ngIf="configuration.kbKey.kbVersion">
-                    <div class="cx-kb-pair">
-                      <span
-                        class="cx-label"
-                        [attr.aria-label]="
-                          'configurator.a11y.kbKeyVersion'
-                            | cxTranslate
-                              : { version: configuration.kbKey.kbVersion }
-                        "
-                      >
-                        {{ 'configurator.header.kbKeyVersion' | cxTranslate }}
-                      </span>
-                      <span class="cx-value">
-                        {{ configuration.kbKey.kbVersion }}
-                      </span>
-                    </div>
-                  </ng-container>
-                  <ng-container *ngIf="configuration.kbKey.kbBuildNumber">
-                    <div class="cx-kb-pair">
-                      <span
-                        class="cx-label"
-                        [attr.aria-label]="
-                          'configurator.a11y.kbKeyBuildNr'
-                            | cxTranslate
-                              : { number: configuration.kbKey.kbBuildNumber }
-                        "
-                      >
-                        {{ 'configurator.header.kbKeyBuildNr' | cxTranslate }}
-                      </span>
-                      <span class="cx-value">
-                        {{ configuration.kbKey.kbBuildNumber }}
-                      </span>
-                    </div>
-                  </ng-container>
-                </div>
-              </ng-container>
+
+        <ng-container *ngIf="expMode | async">
+          <ng-container *ngIf="configuration$ | async as configuration">
+            <ng-container *ngIf="configuration.kbKey">
+              <div class="cx-kb-key-details">
+                <ng-container *ngIf="configuration.kbKey.kbName">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyName'
+                          | cxTranslate: { name: configuration.kbKey.kbName }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyName' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbName }}
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="configuration.kbKey.kbLogsys">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyLogsys'
+                          | cxTranslate
+                            : { logsys: configuration.kbKey.kbLogsys }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyLogsys' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbLogsys }}
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="configuration.kbKey.kbVersion">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyVersion'
+                          | cxTranslate
+                            : { version: configuration.kbKey.kbVersion }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyVersion' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbVersion }}
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="configuration.kbKey.kbBuildNumber">
+                  <div class="cx-kb-pair">
+                    <span
+                      class="cx-label"
+                      [attr.aria-label]="
+                        'configurator.a11y.kbKeyBuildNr'
+                          | cxTranslate
+                            : { number: configuration.kbKey.kbBuildNumber }
+                      "
+                    >
+                      {{ 'configurator.header.kbKeyBuildNr' | cxTranslate }}
+                    </span>
+                    <span class="cx-value">
+                      {{ configuration.kbKey.kbBuildNumber }}
+                    </span>
+                  </div>
+                </ng-container>
+              </div>
             </ng-container>
           </ng-container>
         </ng-container>

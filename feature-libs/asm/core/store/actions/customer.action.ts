@@ -1,14 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
-import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '../../models/asm.models';
 import {
   CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA,
   CUSTOMER_SEARCH_DATA,

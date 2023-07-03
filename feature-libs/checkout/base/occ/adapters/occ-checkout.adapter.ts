@@ -1,28 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-  CheckoutAdapter,
   CHECKOUT_NORMALIZER,
+  CheckoutAdapter,
 } from '@spartacus/checkout/base/core';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
-  backOff,
   ConverterService,
+  LoggerService,
+  OccEndpointsService,
+  backOff,
   isJaloError,
   normalizeHttpError,
-  OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -36,7 +39,9 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     return this.http
       .get<CheckoutState>(this.getGetCheckoutDetailsEndpoint(userId, cartId))
       .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        ),
         backOff({
           shouldRetry: isJaloError,
         }),

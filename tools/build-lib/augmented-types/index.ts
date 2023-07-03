@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -127,21 +127,21 @@ async function propagateAugmentableTypes(
         publicApiFileSource.indexOf(DELIMITER_END) + DELIMITER_END.length + 1;
 
       // extract augmentable types block
-      const augTypes = publicApiFileSource.substr(
+      const augTypes = publicApiFileSource.substring(
         augTypesStart,
-        augTypesEnd - augTypesStart
+        augTypesEnd
       );
       // remove augmentable types block from public api file
       publicApiFileSource =
-        publicApiFileSource.substr(0, augTypesStart) +
-        publicApiFileSource.substr(augTypesEnd);
+        publicApiFileSource.substring(0, augTypesStart) +
+        publicApiFileSource.substring(augTypesEnd);
 
       // incorporate augmentable types block into typings file
       const firstExportPos = typingsFileSource.indexOf('export *');
       typingsFileSource =
-        typingsFileSource.substr(0, firstExportPos) +
+        typingsFileSource.substring(0, firstExportPos) +
         augTypes +
-        typingsFileSource.substr(firstExportPos);
+        typingsFileSource.substring(firstExportPos);
 
       // write results
       await fs.writeFile(apiFilePath, publicApiFileSource, 'utf8');

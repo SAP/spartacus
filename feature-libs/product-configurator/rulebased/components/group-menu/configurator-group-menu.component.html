@@ -1,123 +1,146 @@
 <ng-container *ngIf="configuration$ | async as configuration; else ghostGroups">
-  <div class="cx-group-menu" role="tablist">
-    <span id="listOfGroups" class="cx-visually-hidden">
-      {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
-    </span>
-    <span id="inListOfGroups" class="cx-visually-hidden" aria-hidden="true">
-      {{ 'configurator.a11y.inListOfGroups' | cxTranslate }}
-    </span>
-    <ng-container *ngIf="displayedGroups$ | async as groups">
-      <ng-container *ngIf="currentGroup$ | async as currentGroup">
-        <ng-container *ngFor="let group of groups; let groupIndex = index">
-          <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-            <button
-              *ngIf="parentGroup !== null && groupIndex === 0"
-              #groupItem
-              class="cx-menu-back"
-              role="tab"
-              [attr.aria-selected]="false"
-              [attr.aria-label]="
-                isConflictGroupType(parentGroup.groupType)
-                  ? ('configurator.a11y.conflictBack' | cxTranslate)
-                  : ('configurator.a11y.groupBack' | cxTranslate)
-              "
-              aria-describedby="listOfGroups"
-              [cxFocus]="{ key: 'cx-menu-back' }"
-              (click)="navigateUp()"
-              (keydown)="
-                switchGroupOnArrowPress($event, groupIndex, group, currentGroup)
-              "
-            >
-              <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
-              {{ 'configurator.button.back' | cxTranslate }}
-            </button>
+  <ng-container *ngIf="!isDialogActive(configuration); else ghostGroups">
+    <div class="cx-group-menu" role="tablist">
+      <span id="listOfGroups" class="cx-visually-hidden">
+        {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
+      </span>
+      <span id="inListOfGroups" class="cx-visually-hidden" aria-hidden="true">
+        {{ 'configurator.a11y.inListOfGroups' | cxTranslate }}
+      </span>
+      <ng-container *ngIf="displayedGroups$ | async as groups">
+        <ng-container *ngIf="currentGroup$ | async as currentGroup">
+          <ng-container *ngFor="let group of groups; let groupIndex = index">
+            <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
+              <button
+                *ngIf="parentGroup !== null && groupIndex === 0"
+                #groupItem
+                class="cx-menu-back"
+                role="tab"
+                [attr.aria-selected]="false"
+                [attr.aria-label]="
+                  isConflictGroupTypeAllowingUndefined(parentGroup.groupType)
+                    ? ('configurator.a11y.conflictBack' | cxTranslate)
+                    : ('configurator.a11y.groupBack' | cxTranslate)
+                "
+                aria-describedby="listOfGroups"
+                [cxFocus]="{ key: 'cx-menu-back' }"
+                (click)="navigateUp()"
+                (keydown)="
+                  switchGroupOnArrowPress(
+                    $event,
+                    groupIndex,
+                    group,
+                    currentGroup
+                  )
+                "
+              >
+                <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+                {{ 'configurator.button.back' | cxTranslate }}
+              </button>
+            </ng-container>
+            <ng-container *ngIf="displayMenuItem(group) | async">
+              <button
+                #groupItem
+                id="{{ group.id }}"
+                ngClass="{{
+                  getGroupStatusStyles(group, configuration) | async
+                }}"
+                role="tab"
+                [class.DISABLED]="!group.configurable"
+                [class.cx-menu-conflict]="
+                  isConflictGroupTypeAllowingUndefined(group.groupType)
+                "
+                [class.active]="isGroupSelected(group.id, currentGroup.id)"
+                [class.disable]="!group.configurable"
+                [attr.aria-describedby]="
+                  getAriaDescribedby(group, configuration) | async
+                "
+                [attr.aria-selected]="
+                  isGroupSelected(group.id, currentGroup.id)
+                "
+                [attr.aria-controls]="
+                  isGroupSelected(group.id, currentGroup.id)
+                    ? createAriaControls(group.id)
+                    : null
+                "
+                [attr.aria-label]="getAriaLabel(group)"
+                [cxFocus]="{
+                  key: group.id
+                }"
+                (click)="click(group)"
+                [tabindex]="getTabIndex(group, currentGroup.id)"
+                (keydown)="
+                  switchGroupOnArrowPress(
+                    $event,
+                    groupIndex,
+                    group,
+                    currentGroup
+                  )
+                "
+              >
+                <span title="{{ group.description }}">{{
+                  getGroupMenuTitle(group)
+                }}</span>
+                <div class="groupIndicators">
+                  <div class="conflictNumberIndicator">
+                    {{ getConflictNumber(group) }}
+                  </div>
+                  <div class="groupStatusIndicator">
+                    <cx-icon
+                      class="WARNING"
+                      [type]="iconTypes.WARNING"
+                      id="{{ createIconId(iconTypes.WARNING, group.id) }}"
+                      [attr.aria-label]="
+                        'configurator.a11y.iconConflict' | cxTranslate
+                      "
+                      title="{{
+                        'configurator.icon.groupConflict' | cxTranslate
+                      }}"
+                    ></cx-icon>
+                  </div>
+                  <div class="groupStatusIndicator">
+                    <cx-icon
+                      class="ERROR"
+                      [type]="iconTypes.ERROR"
+                      id="{{ createIconId(iconTypes.ERROR, group.id) }}"
+                      [attr.aria-label]="
+                        'configurator.a11y.iconIncomplete' | cxTranslate
+                      "
+                      title="{{
+                        'configurator.icon.groupIncomplete' | cxTranslate
+                      }}"
+                    ></cx-icon>
+                    <cx-icon
+                      class="COMPLETE"
+                      [type]="iconTypes.SUCCESS"
+                      id="{{ createIconId(iconTypes.SUCCESS, group.id) }}"
+                      [attr.aria-label]="
+                        'configurator.a11y.iconComplete' | cxTranslate
+                      "
+                      title="{{
+                        'configurator.icon.groupComplete' | cxTranslate
+                      }}"
+                    ></cx-icon>
+                  </div>
+                  <div class="subGroupIndicator">
+                    <cx-icon
+                      *ngIf="hasSubGroups(group)"
+                      [type]="iconTypes.CARET_RIGHT"
+                      id="{{ createIconId(iconTypes.CARET_RIGHT, group.id) }}"
+                      [attr.aria-label]="
+                        'configurator.a11y.iconSubGroup' | cxTranslate
+                      "
+                      title="{{ 'configurator.icon.subgroup' | cxTranslate }}"
+                    ></cx-icon>
+                  </div>
+                </div>
+              </button>
+            </ng-container>
           </ng-container>
-          <button
-            #groupItem
-            id="{{ group.id }}"
-            ngClass="{{ getGroupStatusStyles(group, configuration) | async }}"
-            role="tab"
-            [class.DISABLED]="!group.configurable"
-            [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
-            [class.active]="isGroupSelected(group.id, currentGroup.id)"
-            [class.disable]="!group.configurable"
-            [attr.aria-describedby]="
-              getAriaDescribedby(group, configuration) | async
-            "
-            [attr.aria-selected]="isGroupSelected(group.id, currentGroup.id)"
-            [attr.aria-controls]="
-              isGroupSelected(group.id, currentGroup.id)
-                ? createAriaControls(group.id)
-                : null
-            "
-            [attr.aria-label]="getAriaLabel(group)"
-            [cxFocus]="{
-              key: group.id
-            }"
-            (click)="click(group)"
-            [tabindex]="getTabIndex(group, currentGroup.id)"
-            (keydown)="
-              switchGroupOnArrowPress($event, groupIndex, group, currentGroup)
-            "
-          >
-            <span title="{{ group.description }}">{{
-              getGroupMenuTitle(group)
-            }}</span>
-            <div class="groupIndicators">
-              <div class="conflictNumberIndicator">
-                {{ getConflictNumber(group) }}
-              </div>
-              <div class="groupStatusIndicator">
-                <cx-icon
-                  class="WARNING"
-                  [type]="iconTypes.WARNING"
-                  id="{{ createIconId(iconTypes.WARNING, group.id) }}"
-                  [attr.aria-label]="
-                    'configurator.a11y.iconConflict' | cxTranslate
-                  "
-                  title="{{ 'configurator.icon.groupConflict' | cxTranslate }}"
-                ></cx-icon>
-              </div>
-              <div class="groupStatusIndicator">
-                <cx-icon
-                  class="ERROR"
-                  [type]="iconTypes.ERROR"
-                  id="{{ createIconId(iconTypes.ERROR, group.id) }}"
-                  [attr.aria-label]="
-                    'configurator.a11y.iconIncomplete' | cxTranslate
-                  "
-                  title="{{
-                    'configurator.icon.groupIncomplete' | cxTranslate
-                  }}"
-                ></cx-icon>
-                <cx-icon
-                  class="COMPLETE"
-                  [type]="iconTypes.SUCCESS"
-                  id="{{ createIconId(iconTypes.SUCCESS, group.id) }}"
-                  [attr.aria-label]="
-                    'configurator.a11y.iconComplete' | cxTranslate
-                  "
-                  title="{{ 'configurator.icon.groupComplete' | cxTranslate }}"
-                ></cx-icon>
-              </div>
-              <div class="subGroupIndicator">
-                <cx-icon
-                  *ngIf="hasSubGroups(group)"
-                  [type]="iconTypes.CARET_RIGHT"
-                  id="{{ createIconId(iconTypes.CARET_RIGHT, group.id) }}"
-                  [attr.aria-label]="
-                    'configurator.a11y.iconSubGroup' | cxTranslate
-                  "
-                  title="{{ 'configurator.icon.subgroup' | cxTranslate }}"
-                ></cx-icon>
-              </div>
-            </div>
-          </button>
         </ng-container>
       </ng-container>
-    </ng-container>
-  </div>
-</ng-container>
+    </div> </ng-container
+></ng-container>
 <ng-template #ghostGroups>
   <div class="cx-ghost-group-menu">
     <div

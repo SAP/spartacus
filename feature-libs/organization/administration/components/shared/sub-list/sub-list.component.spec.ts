@@ -57,6 +57,8 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
+  onCreateButtonClick(): void {}
+  getCreateButtonType = createSpy('getCreateButtonType');
 }
 
 class MockItemService {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -150,9 +150,9 @@ export interface MyCompanyConfig {
   deleteEntity?: string;
 
   /**
-   * SUBCATEGORY: Config for modifying user roles.
+   * SUBCATEGORY: Config for modifying user roles and rights.
    */
-  rolesConfig?: MyCompanyConfig;
+  rolesAndRightsConfig?: MyCompanyConfig;
 
   /**
    * Set to true to check status in details pane.

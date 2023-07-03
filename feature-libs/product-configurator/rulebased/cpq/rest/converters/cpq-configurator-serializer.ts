@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,8 +86,14 @@ export class CpqConfiguratorSerializer
     return updateAttribute;
   }
 
+  protected processValueCode(valueCode?: string): string | undefined {
+    return valueCode && valueCode === Configurator.RetractValueCode
+      ? '0'
+      : valueCode;
+  }
+
   protected processSelectedSingleValue(singleValue?: string): string {
-    let processedValue = singleValue;
+    let processedValue = this.processValueCode(singleValue);
     if (!processedValue) {
       // Is required to remove the value
       processedValue = VALUE_SEPARATOR;

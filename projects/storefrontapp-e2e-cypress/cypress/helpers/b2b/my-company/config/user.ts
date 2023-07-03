@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -103,6 +103,25 @@ export const userConfig: MyCompanyConfig = {
       showInDetails: false,
     },
     {
+      label: 'Rights',
+      variableName: 'roles',
+      inputType: INPUT_TYPE.CHECKBOX,
+      createValue: 'View Unit-Level Orders',
+      updateValue: 'View Unit-Level Orders',
+      showInTable: false,
+      showInDetails: true,
+    },
+    {
+      label: 'Rights',
+      variableName: 'rights',
+      formLabel: 'Rights',
+      inputType: INPUT_TYPE.CHECKBOX,
+      createValue: 'unitorderviewergroup',
+      updateValue: 'unitorderviewergroup',
+      showInTable: false,
+      showInDetails: false,
+    },
+    {
       label: 'Unit',
       variableName: 'orgUnit.name',
       link: `/organization/units/Rustic%20Retail`,
@@ -114,6 +133,7 @@ export const userConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       formLabel: 'Unit',
+      selector: 'cx-org-card label ng-select:contains(Unit)',
     },
   ],
   subCategories: [

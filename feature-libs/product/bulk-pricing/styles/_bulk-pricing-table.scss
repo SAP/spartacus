@@ -1,4 +1,12 @@
 cx-bulk-pricing-table {
+  .cx-bulk-pricing-table-container {
+    padding: 0 1.25rem;
+
+    @include media-breakpoint-down(md) {
+      padding: 0;
+    }
+  }
+
   table {
     text-align: center;
   }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,9 @@ import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
+
 import { Express } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
@@ -21,9 +23,10 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  concurrency: 20,
-  timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
-  reuseCurrentRendering: true,
+  timeout: Number(
+    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
+  ),
+  logger: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -74,6 +77,11 @@ function run() {
   // Start up the Node server
   const server = app();
   server.listen(port, () => {
+    /* eslint-disable-next-line no-console
+    --
+    It's just an example application file. This message is not crucial
+    to be logged using any special logger. Moreover, we don't have
+    any special logger available in this context. */
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }

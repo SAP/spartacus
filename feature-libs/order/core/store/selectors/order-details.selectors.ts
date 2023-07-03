@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,4 +18,9 @@ export const getOrderDetailState: MemoizedSelector<
 export const getOrderDetails: MemoizedSelector<StateWithOrder, Order> =
   createSelector(getOrderDetailState, (state: StateUtils.LoaderState<Order>) =>
     StateUtils.loaderValueSelector(state)
+  );
+
+export const getOrderDetailsLoading: MemoizedSelector<StateWithOrder, boolean> =
+  createSelector(getOrderDetailState, (state: StateUtils.LoaderState<Order>) =>
+    StateUtils.loaderLoadingSelector(state)
   );

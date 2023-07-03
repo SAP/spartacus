@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -14,9 +14,9 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { LaunchDialogService } from '../../../../layout';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LaunchDialogService } from '../../../../layout';
 import { FormErrorsModule } from '../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
@@ -68,12 +68,13 @@ const mockAddress: Address = {
   postalCode: 'zip',
   country: { isocode: 'JP' },
   phone: '123123123',
+  cellphone: '12763552',
   defaultAddress: false,
 };
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
-    return of();
+    return EMPTY;
   }
 
   loadTitles(): void {}
@@ -81,13 +82,13 @@ class MockUserService {
 
 class MockUserAddressService {
   getDeliveryCountries(): Observable<Country[]> {
-    return of();
+    return EMPTY;
   }
 
   loadDeliveryCountries(): void {}
 
   getRegions(): Observable<Region[]> {
-    return of();
+    return EMPTY;
   }
 
   getAddresses(): Observable<Address[]> {
@@ -101,7 +102,7 @@ const dialogClose$ = new BehaviorSubject<any>('');
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe() {
-    return of();
+    return EMPTY;
   }
   get dialogClose() {
     return dialogClose$.asObservable();
@@ -395,7 +396,7 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = 'Back to cart';
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-action').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').innerText
       ).toEqual('Back to cart');
     });
 
@@ -403,13 +404,14 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = undefined;
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-action').innerText
+        fixture.nativeElement.querySelector('.btn-secondary').innerText
       ).toEqual('addressForm.chooseAddress');
     });
   });
 
   describe('UI back button', () => {
-    const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
+    const getBackBtn = () =>
+      fixture.debugElement.query(By.css('.btn-secondary'));
 
     it('should default "showCancelBtn" to true and create button', () => {
       fixture.detectChanges();

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,7 +59,7 @@ export class CDCForgotPasswordComponentService
               next: (response) => {
                 this.busy$.next(false);
                 if (response.status === 'OK') {
-                  this.redirect();
+                  this.onSuccess();
                 }
               },
               error: () => this.busy$.next(false),

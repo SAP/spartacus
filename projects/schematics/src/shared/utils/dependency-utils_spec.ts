@@ -7,6 +7,7 @@ import {
   CHECKOUT_BASE_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
   ORDER_FEATURE_NAME,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   SPARTACUS_ASM,
   SPARTACUS_CART,
   SPARTACUS_CDC,
@@ -44,6 +45,7 @@ describe('dependency-util', () => {
         ORDER_FEATURE_NAME,
         CHECKOUT_BASE_FEATURE_NAME,
         CHECKOUT_B2B_FEATURE_NAME,
+        ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
         DIGITAL_PAYMENTS_FEATURE_NAME,
         CDC_FEATURE_NAME,
       ]);
@@ -82,6 +84,8 @@ describe('dependency-util', () => {
       expect(result).toEqual([
         SPARTACUS_USER,
         SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_CDC,
       ]);
@@ -100,6 +104,7 @@ describe('dependency-util', () => {
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
+        SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CDC,
@@ -114,6 +119,8 @@ describe('dependency-util', () => {
       expect(result).toEqual([
         SPARTACUS_USER,
         SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_ORGANIZATION,
         SPARTACUS_ASM,
         SPARTACUS_CDC,
       ]);
@@ -132,8 +139,8 @@ describe('dependency-util', () => {
         SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
-        SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_CORE,
         SPARTACUS_STOREFRONTLIB,
       ]);

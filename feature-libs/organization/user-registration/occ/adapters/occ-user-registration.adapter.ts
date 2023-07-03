@@ -1,17 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
-  normalizeHttpError,
+  LoggerService,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
 import {
   ORGANIZATION_USER_REGISTRATION_SERIALIZER,
@@ -25,6 +26,8 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
+  protected logger = inject(LoggerService);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -46,7 +49,11 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
 
     return this.http
       .post<OrganizationUserRegistration>(url, userData, { headers })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) =>
+          throwError(normalizeHttpError(error, this.logger))
+        )
+      );
   }
 
   protected getOrganizationUserRegistrationEndpoint(): string {
