@@ -78,6 +78,7 @@ context('Assisted Service Module', () => {
       );
     });
 
+    // TODO(#3974): fix the bug to enable e2e test for this scenario
     it.skip('agent login when user is logged in should start this user emulation', () => {
       cy.visit('/login');
       login(customer.email, customer.password);
