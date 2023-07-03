@@ -7,7 +7,7 @@ describe('Register', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it('should register and redirect to login page', () => {
+    it('should register and redirect to login page (CXSPA-805)', () => {
       cy.visit('/');
       cy.intercept('GET', /\.*\/basesites\?fields=.*/, (req) => {
         req.continue((res) => {
