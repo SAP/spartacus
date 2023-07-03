@@ -9,11 +9,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse,
+  // HttpResponse,
 } from '@angular/common/http';
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+// import { tap } from 'rxjs/operators';
 import { LoggerService, OccEndpointsService, WindowRef } from '@spartacus/core';
 import { SegmentRefsConfig } from '../config/segment-refs-config';
 
@@ -66,25 +66,26 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
         },
       });
     }
-    return next.handle(request).pipe(
-      tap((event) => {
-        if (
-          event instanceof HttpResponse &&
-          this.requestHeader &&
-          event.headers.keys().includes(this.requestHeader)
-        ) {
-          const receivedId = event.headers.get(this.requestHeader);
-          if (this.segmentRefs !== receivedId) {
-            this.segmentRefs = receivedId;
-            if (this.segmentRefs) {
-              this.winRef.localStorage?.setItem(
-                this.SEGMENT_REFS_KEY,
-                this.segmentRefs
-              );
-            }
-          }
-        }
-      })
-    );
+    return next.handle(request);
+    //.pipe(
+    //   tap((event) => {
+    //     if (
+    //       event instanceof HttpResponse &&
+    //       this.requestHeader &&
+    //       event.headers.keys().includes(this.requestHeader)
+    //     ) {
+    //       const receivedId = event.headers.get(this.requestHeader);
+    //       if (this.segmentRefs !== receivedId) {
+    //         this.segmentRefs = receivedId;
+    //         if (this.segmentRefs) {
+    //           this.winRef.localStorage?.setItem(
+    //             this.SEGMENT_REFS_KEY,
+    //             this.segmentRefs
+    //           );
+    //         }
+    //       }
+    //     }
+    //   })
+    // );
   }
 }
