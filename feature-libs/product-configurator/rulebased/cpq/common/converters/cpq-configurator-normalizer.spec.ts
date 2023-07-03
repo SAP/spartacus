@@ -727,6 +727,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(group.attributes?.length).toBe(1);
       if (group.attributes) {
         expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
+        expect(group.attributes[0].groupId).toBe(cpqGroupId.toString());
       } else {
         fail();
       }
@@ -746,7 +747,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(groups.length).toBe(1);
       expect(flatGroups.length).toBe(1);
       const group: Configurator.Group = groups[0];
-      expect(group.id).toBe('0');
+      expect(group.id).toBe('1');
       expect(group.name).toBe('_GEN');
       expect(group.description).toBe('General');
       expect(group.configurable).toBe(true);
