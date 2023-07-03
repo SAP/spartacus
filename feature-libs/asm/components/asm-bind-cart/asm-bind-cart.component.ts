@@ -314,6 +314,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
             )
           )
           .subscribe(() => {
+            // TODO: Remove feature flag in 7.0.
             if (this.featureConfig?.isLevel('6.3')) {
               const cartType =
                 this.asmComponentService?.getSearchParameter('cartType');
@@ -328,17 +329,19 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
                 this.asmComponentService?.setShowDeeplinkCartInfoAlert(true);
                 this.asmComponentService?.handleDeepLinkNavigation();
               }
-            } else {
-              if (this.isDeepLinkInactiveCart()) {
-                this.displayBindCartBtn$.next(false);
-                this.displaySaveCartBtn$.next(true);
-                this.onDeeplinkCart();
-              } else if (this.isDeepLinkActiveCart()) {
-                this.onDeeplinkCart();
-                this.goToActiveCartDetail();
-                this.displayBindCartBtn$.next(false);
-                this.displaySaveCartBtn$.next(false);
-              }
+              return;
+            }
+
+            // TODO: Remove this implementation in 7.0
+            if (this.isDeepLinkInactiveCart()) {
+              this.displayBindCartBtn$.next(false);
+              this.displaySaveCartBtn$.next(true);
+              this.onDeeplinkCart();
+            } else if (this.isDeepLinkActiveCart()) {
+              this.onDeeplinkCart();
+              this.goToActiveCartDetail();
+              this.displayBindCartBtn$.next(false);
+              this.displaySaveCartBtn$.next(false);
             }
           })
       );
