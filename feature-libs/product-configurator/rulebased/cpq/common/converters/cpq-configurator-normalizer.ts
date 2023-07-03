@@ -162,7 +162,7 @@ export class CpqConfiguratorNormalizer
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
-      name: this.mapPA_ID(sourceAttribute),
+      name: this.mapPAId(sourceAttribute),
       description: sourceAttribute.description,
       label:
         this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
@@ -205,11 +205,13 @@ export class CpqConfiguratorNormalizer
   }
 
   /**
-   * In case the CPQ API is called via REST the attribute id is returned using field name pA_ID. If we call CPQ via OCC the attribute is is mapped to field name PA_ID. This can't be changed easily and is related to the non-standard conform name 'pA_ID';
+   * In case the CPQ API is called via REST the attribute id is returned using field name pA_ID.
+   * If we call CPQ via OCC the attribute is is mapped to field name PA_ID.
+   * This can't be changed easily and is related to the non-standard conform name 'pA_ID';
    * @param sourceAttribute source attribute
    * @returns value of PA_ID or pA_ID, depending on which field is filled.
    */
-  protected mapPA_ID(sourceAttribute: Cpq.Attribute): string {
+  protected mapPAId(sourceAttribute: Cpq.Attribute): string {
     return sourceAttribute.pA_ID
       ? sourceAttribute.pA_ID.toString()
       : (<any>sourceAttribute).PA_ID.toString();

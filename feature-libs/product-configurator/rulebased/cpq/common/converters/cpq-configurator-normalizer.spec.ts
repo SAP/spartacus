@@ -1320,10 +1320,10 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  describe('mapPA_ID', () => {
+  describe('mapPAId', () => {
     it("should map standard field name 'pA_ID' if present", () => {
       expect(
-        cpqConfiguratorNormalizer['mapPA_ID'](<any>{
+        cpqConfiguratorNormalizer['mapPAId'](<any>{
           pA_ID: 123,
           PA_ID: 456,
         })
@@ -1331,7 +1331,7 @@ describe('CpqConfiguratorNormalizer', () => {
     });
     it("should map fallback field name 'PA_ID' if standard field name 'pA_ID' is not present", () => {
       expect(
-        cpqConfiguratorNormalizer['mapPA_ID'](<any>{
+        cpqConfiguratorNormalizer['mapPAId'](<any>{
           PA_ID: 456,
         })
       ).toBe('456');
