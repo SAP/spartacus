@@ -6,11 +6,13 @@
 
 import {
   APP_INITIALIZER,
+  inject,
   isDevMode,
   ModuleWithProviders,
   NgModule,
   Optional,
 } from '@angular/core';
+import { LoggerService } from '../../logger';
 import { ConfigInitializerService } from '../config-initializer/config-initializer.service';
 import {
   ConfigValidator,
@@ -22,14 +24,16 @@ export function configValidatorFactory(
   configInitializer: ConfigInitializerService,
   validators: ConfigValidator[]
 ): () => void {
-  const validate = () => {
+  const logger = inject(LoggerService);
+  return () => {
     if (isDevMode()) {
       configInitializer
         .getStable()
-        .subscribe((config) => validateConfig(config, validators || []));
+        .subscribe((config) =>
+          validateConfig(config, validators || [], logger)
+        );
     }
   };
-  return validate;
 }
 
 /**

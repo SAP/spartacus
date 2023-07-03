@@ -2,7 +2,6 @@
   class="cx-modal-container cx-asm-dialog"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
-  *ngIf="!(isLoading$ | async); else loading"
 >
   <div class="cx-modal-content">
     <ng-container>
@@ -36,65 +35,67 @@
             </ng-container>
           </div>
 
-          <div class="form-group">
-            <label>
-              <span class="label-content">{{
-                'asm.createCustomerForm.firstName.label' | cxTranslate
-              }}</span>
-              <input
-                required="true"
-                class="form-control"
-                placeholder="{{
-                  'asm.createCustomerForm.firstName.placeholder' | cxTranslate
-                }}"
-                formControlName="firstName"
-                name="text"
-              />
-              <cx-form-errors
-                [control]="registerForm.get('firstName')"
-              ></cx-form-errors>
-            </label>
-          </div>
+          <div *ngIf="!(isLoading$ | async); else loading">
+            <div class="form-group">
+              <label>
+                <span class="label-content">{{
+                  'asm.createCustomerForm.firstName.label' | cxTranslate
+                }}</span>
+                <input
+                  required="true"
+                  class="form-control"
+                  placeholder="{{
+                    'asm.createCustomerForm.firstName.placeholder' | cxTranslate
+                  }}"
+                  formControlName="firstName"
+                  name="text"
+                />
+                <cx-form-errors
+                  [control]="registerForm.get('firstName')"
+                ></cx-form-errors>
+              </label>
+            </div>
 
-          <div class="form-group">
-            <label>
-              <span class="label-content">{{
-                'asm.createCustomerForm.lastName.label' | cxTranslate
-              }}</span>
-              <input
-                required="true"
-                class="form-control"
-                placeholder="{{
-                  'asm.createCustomerForm.lastName.placeholder' | cxTranslate
-                }}"
-                name="text"
-                formControlName="lastName"
-              />
-              <cx-form-errors
-                [control]="registerForm.get('lastName')"
-              ></cx-form-errors>
-            </label>
-          </div>
+            <div class="form-group">
+              <label>
+                <span class="label-content">{{
+                  'asm.createCustomerForm.lastName.label' | cxTranslate
+                }}</span>
+                <input
+                  required="true"
+                  class="form-control"
+                  placeholder="{{
+                    'asm.createCustomerForm.lastName.placeholder' | cxTranslate
+                  }}"
+                  name="text"
+                  formControlName="lastName"
+                />
+                <cx-form-errors
+                  [control]="registerForm.get('lastName')"
+                ></cx-form-errors>
+              </label>
+            </div>
 
-          <div class="form-group">
-            <label>
-              <span class="label-content">{{
-                'asm.createCustomerForm.emailAddress.label' | cxTranslate
-              }}</span>
-              <input
-                required="true"
-                class="form-control"
-                placeholder="{{
-                  'asm.createCustomerForm.emailAddress.placeholder'
-                    | cxTranslate
-                }}"
-                name="email"
-                formControlName="email"
-              />
-              <cx-form-errors
-                [control]="registerForm.get('email')"
-              ></cx-form-errors>
-            </label>
+            <div class="form-group">
+              <label>
+                <span class="label-content">{{
+                  'asm.createCustomerForm.emailAddress.label' | cxTranslate
+                }}</span>
+                <input
+                  required="true"
+                  class="form-control"
+                  placeholder="{{
+                    'asm.createCustomerForm.emailAddress.placeholder'
+                      | cxTranslate
+                  }}"
+                  name="email"
+                  formControlName="email"
+                />
+                <cx-form-errors
+                  [control]="registerForm.get('email')"
+                ></cx-form-errors>
+              </label>
+            </div>
           </div>
         </div>
         <!-- Modal Footer -->

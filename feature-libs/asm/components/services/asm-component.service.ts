@@ -10,6 +10,7 @@ import {
   CsAgentAuthService,
   AsmDeepLinkParameters,
   AsmDeepLinkService,
+  AsmEnablerService,
 } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -28,7 +29,8 @@ export class AsmComponentService {
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmDeepLinkService: AsmDeepLinkService
+    asmDeepLinkService: AsmDeepLinkService,
+    asmEnablerService: AsmEnablerService
   );
   /**
    * @deprecated since 7.0
@@ -43,7 +45,8 @@ export class AsmComponentService {
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
     // TODO: Remove optional flag in 7.0 where service is used
-    @Optional() protected asmDeepLinkService?: AsmDeepLinkService
+    @Optional() protected asmDeepLinkService?: AsmDeepLinkService,
+    @Optional() protected asmEnablerService?: AsmEnablerService
   ) {
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }

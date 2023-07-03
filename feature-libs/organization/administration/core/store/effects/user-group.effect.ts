@@ -5,15 +5,16 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   B2BUser,
   EntitiesModel,
-  normalizeHttpError,
+  LoggerService,
   StateUtils,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 import { Permission } from '../../model/permission.model';
@@ -27,6 +28,8 @@ import {
 
 @Injectable()
 export class UserGroupEffects {
+  protected logger = inject(LoggerService);
+
   loadUserGroup$: Observable<
     UserGroupActions.LoadUserGroupSuccess | UserGroupActions.LoadUserGroupFail
   > = createEffect(() =>
@@ -42,7 +45,7 @@ export class UserGroupEffects {
             of(
               new UserGroupActions.LoadUserGroupFail({
                 userGroupId,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -78,7 +81,7 @@ export class UserGroupEffects {
             of(
               new UserGroupActions.LoadUserGroupsFail({
                 params: payload.params,
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               })
             )
           )
@@ -127,7 +130,7 @@ export class UserGroupEffects {
                     new UserGroupActions.LoadPermissionsFail({
                       userGroupId: payload.userGroupId,
                       params: payload.params,
-                      error: normalizeHttpError(error),
+                      error: normalizeHttpError(error, this.logger),
                     })
                   )
                 )
@@ -180,7 +183,7 @@ export class UserGroupEffects {
                     new UserGroupActions.LoadAvailableOrgCustomersFail({
                       userGroupId: payload.userGroupId,
                       params: payload.params,
-                      error: normalizeHttpError(error),
+                      error: normalizeHttpError(error, this.logger),
                     })
                   )
                 )
@@ -209,7 +212,7 @@ export class UserGroupEffects {
             from([
               new UserGroupActions.CreateUserGroupFail({
                 userGroupId: payload.userGroup.uid ?? '',
-                error: normalizeHttpError(error),
+                error: normalizeHttpError(error, this.logger),
               }),
               new OrganizationActions.OrganizationClearData(),
             ])
@@ -240,7 +243,7 @@ export class UserGroupEffects {
               from([
                 new UserGroupActions.UpdateUserGroupFail({
                   userGroupId: payload.userGroup.uid ?? '',
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -270,7 +273,7 @@ export class UserGroupEffects {
               from([
                 new UserGroupActions.DeleteUserGroupFail({
                   userGroupId: payload.userGroupId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -308,7 +311,7 @@ export class UserGroupEffects {
                 new UserGroupActions.AssignPermissionFail({
                   userGroupId: payload.userGroupId,
                   permissionUid: payload.permissionUid,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -342,7 +345,7 @@ export class UserGroupEffects {
                 new UserGroupActions.AssignMemberFail({
                   userGroupId: payload.userGroupId,
                   customerId: payload.customerId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -380,7 +383,7 @@ export class UserGroupEffects {
                 new UserGroupActions.UnassignMemberFail({
                   userGroupId: payload.userGroupId,
                   customerId: payload.customerId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -418,7 +421,7 @@ export class UserGroupEffects {
                 new UserGroupActions.UnassignPermissionFail({
                   userGroupId: payload.userGroupId,
                   permissionUid: payload.permissionUid,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])
@@ -450,7 +453,7 @@ export class UserGroupEffects {
               from([
                 new UserGroupActions.UnassignAllMembersFail({
                   userGroupId: payload.userGroupId,
-                  error: normalizeHttpError(error),
+                  error: normalizeHttpError(error, this.logger),
                 }),
                 new OrganizationActions.OrganizationClearData(),
               ])

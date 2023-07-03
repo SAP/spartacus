@@ -65,7 +65,11 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockAsmEnablerService implements Partial<AsmEnablerService> {}
+class MockAsmEnablerService implements Partial<AsmEnablerService> {
+  isEmulateInURL(): boolean {
+    return true;
+  }
+}
 
 describe('AsmComponentService', () => {
   let authService: AuthService;

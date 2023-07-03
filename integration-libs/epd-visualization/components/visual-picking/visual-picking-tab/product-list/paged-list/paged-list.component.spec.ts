@@ -2,6 +2,7 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 import { PagedListComponent } from './paged-list.component';
@@ -79,19 +80,21 @@ describe('PagedList Component', () => {
     });
 
     it('should log an error when there is no header template given', () => {
-      spyOn(console, 'error');
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'error');
       component.template = template;
       component.ngOnInit();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
     });
 
     it('should log an error when there is no template given', () => {
-      spyOn(console, 'error');
+      const logger = TestBed.inject(LoggerService);
+      spyOn(logger, 'error');
       component.headerTemplate = headerTemplate;
       component.ngOnInit();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
     });

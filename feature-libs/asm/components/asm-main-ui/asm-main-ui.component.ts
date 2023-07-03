@@ -10,6 +10,7 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
@@ -21,8 +22,10 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -79,6 +82,31 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
   constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
+    launchDialogService: LaunchDialogService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
+    launchDialogService: LaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfig: FeatureConfigService
+  );
+  constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected asmComponentService: AsmComponentService,
@@ -86,7 +114,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    @Optional() protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -192,6 +221,35 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected confirmSwitchCustomer(switchCustomerId: string): void {
+    this.customer$
+      .pipe(
+        filter((curCustomer) => !!curCustomer),
+        take(1)
+      )
+      .subscribe((curCustomer) => {
+        if (curCustomer?.customerId !== switchCustomerId) {
+          this.userAccountFacade.getById(switchCustomerId).subscribe({
+            next: (switchCustomer) => {
+              this.launchDialogService.openDialogAndSubscribe(
+                LAUNCH_CALLER.ASM_SWITCH_CUSTOMER,
+                this.element,
+                { curCustomer: curCustomer, switchCustomer: switchCustomer }
+              );
+            },
+            error: (error: HttpErrorModel) => {
+              this.globalMessageService.add(
+                error.details?.[0].message ?? '',
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+            },
+          });
+        } else {
+          this.asmComponentService.setEmulatedByDeepLink(true);
+        }
+      });
+  }
+
   /**
    * If url contains customerId and we haven't emulatedFromURL, we'll change the isEmulatedByDeepLink flag and
    * start emulate customer in URL.
@@ -253,6 +311,35 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         { key: 'asm.error.noCustomerId' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    }
+  }
+
+  protected handleDeepLinkParamsAfterStartSession(
+    parameters: AsmDeepLinkParameters
+  ) {
+    if (
+      (parameters.cartType === 'active' ||
+        parameters.cartType === 'inactive') &&
+      parameters.cartId
+    ) {
+      return;
+    }
+
+    if (parameters.cartType === 'saved' && parameters.cartId) {
+      // Navigate to saved cart
+      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
+    } else if (parameters.orderId) {
+      // Navigate to order details
+      this.routingService.go({
+        cxRoute: 'orderDetails',
+        params: { code: parameters.orderId },
+      });
+    } else if (parameters.ticketId) {
+      // Navigate to support ticket details
+      this.routingService.go({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: parameters.ticketId },
+      });
     }
   }
 
