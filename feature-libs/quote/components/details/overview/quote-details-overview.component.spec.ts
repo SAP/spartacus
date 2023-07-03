@@ -20,8 +20,6 @@ import { QuoteDetailsOverviewComponent } from './quote-details-overview.componen
 import createSpy = jasmine.createSpy;
 
 const totalPriceFormattedValue = '$20';
-const estimatedTotalPriceFormattedValue = '$21';
-const estimatedTotalPriceValue = 21;
 
 const mockCartId = '1234';
 const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
@@ -149,29 +147,34 @@ describe('QuoteDetailsOverviewComponent', () => {
   });
 
   describe('getTotalPrice', () => {
-    it('should return the total price formatted value in case estimated total is not available', () => {
+    it('should return the total price formatted value in case it is available', () => {
       expect(component.getTotalPrice(mockQuote)).toBe(totalPriceFormattedValue);
     });
 
-    it('should return the estimated total price formatted value in case estimated total is available', () => {
-      const quoteWEstimatedTotal: Quote = {
-        ...mockQuote,
-        previousEstimatedTotal: {
-          value: estimatedTotalPriceValue,
-          formattedValue: estimatedTotalPriceFormattedValue,
-        },
-      };
-      expect(component.getTotalPrice(quoteWEstimatedTotal)).toBe(
-        estimatedTotalPriceFormattedValue
-      );
-    });
-
-    it('should return null in case neither estimated or total price are available', () => {
+    it('should return null in case no formatted value is available', () => {
       const quoteWOPrices: Quote = {
         ...mockQuote,
         totalPrice: {},
       };
       expect(component.getTotalPrice(quoteWOPrices)).toBe(null);
+    });
+  });
+
+  describe('getTotalPriceDescription', () => {
+    it('should name total price as estimated as long as final status not reached', () => {
+      expect(component.getTotalPriceDescription(mockQuote)).toBe(
+        'quote.details.estimatedTotal'
+      );
+    });
+
+    it('should name total price as total as in case final status reached, i.e. checkout action is available', () => {
+      const quoteInOfferState: Quote = {
+        ...mockQuote,
+        allowedActions: [{ type: QuoteActionType.CHECKOUT, isPrimary: true }],
+      };
+      expect(component.getTotalPriceDescription(quoteInOfferState)).toBe(
+        'quote.details.total'
+      );
     });
   });
 });

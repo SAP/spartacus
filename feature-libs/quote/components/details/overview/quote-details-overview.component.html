@@ -39,7 +39,7 @@
           [content]="
             getCardContent(
               getTotalPrice(quoteDetails),
-              'quote.details.estimatedTotal'
+              getTotalPriceDescription(quoteDetails)
             ) | async
           "
         ></cx-card>

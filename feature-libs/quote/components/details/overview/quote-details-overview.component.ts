@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { Quote, QuoteFacade } from '@spartacus/quote/root';
+import { Quote, QuoteActionType, QuoteFacade } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -37,12 +37,26 @@ export class QuoteDetailsOverviewComponent {
       }))
     );
   }
-
+  /**
+   * Returns total price as formatted string
+   * @param quote Quote
+   * @returns Total price formatted format, null if that is not available
+   */
   getTotalPrice(quote: Quote): string | null {
-    return (
-      (quote.previousEstimatedTotal?.value
-        ? quote.previousEstimatedTotal?.formattedValue
-        : quote.totalPrice.formattedValue) ?? null
+    return quote.totalPrice.formattedValue ?? null;
+  }
+
+  /**
+   * Returns total price description
+   * @param quote Quote
+   * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
+   */
+  getTotalPriceDescription(quote: Quote): string {
+    const readyToSubmit = quote.allowedActions.find(
+      (action) => action.type === QuoteActionType.CHECKOUT
     );
+    return readyToSubmit
+      ? 'quote.details.total'
+      : 'quote.details.estimatedTotal';
   }
 }
