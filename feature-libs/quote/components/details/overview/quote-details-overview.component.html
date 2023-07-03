@@ -1,13 +1,13 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetailsState">
-  <ng-container *ngIf="!quoteDetailsState.loading; else loading">
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else loading">
+  
     <div class="cx-quote-details-header-status">
       <h3 class="quote-details-header">
         {{ 'quote.commons.id' | cxTranslate }}:
-        {{ quoteDetailsState?.data?.code }}
+        {{ quoteDetails.code }}
       </h3>
       <h3 class="status">
         {{ 'quote.commons.status' | cxTranslate }}
-        {{ 'quote.states.' + quoteDetailsState?.data?.state | cxTranslate }}
+        {{ 'quote.states.' + quoteDetails.state | cxTranslate }}
       </h3>
     </div>
     <div class="cx-quote-overview">
@@ -16,7 +16,7 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.code || 'TODO CHHI',
+                quoteDetails.code,
                 'quote.details.code'
               ) | async
             "
@@ -24,7 +24,7 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.creationTime | cxDate,
+                quoteDetails.creationTime | cxDate,
                 'quote.details.created'
               ) | async
             "
@@ -32,7 +32,7 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.updatedTime | cxDate,
+                quoteDetails.updatedTime | cxDate,
                 'quote.details.lastUpdated'
               ) | async
             "
@@ -42,7 +42,7 @@
           <cx-card
             [content]="
               getCardContent(
-                getTotalPrice(quoteDetailsState?.data) || 'TODO CHHI',
+                getTotalPrice(quoteDetails),
                 'quote.details.estimatedTotal'
               ) | async
             "
@@ -51,7 +51,7 @@
             class="cx-card-description"
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.description || 'TODO CHHI',
+                quoteDetails.description,
                 'quote.details.description'
               ) | async
             "
@@ -63,7 +63,7 @@
           <cx-card
             [content]="
               getCardContent(
-                'quote.states.' + quoteDetailsState?.data?.state | cxTranslate,
+                'quote.states.' + quoteDetails.state | cxTranslate,
                 'quote.commons.status'
               ) | async
             "
@@ -71,7 +71,7 @@
           <cx-card
             [content]="
               getCardContent(
-                quoteDetailsState?.data?.expirationTime | cxDate,
+                quoteDetails.expirationTime | cxDate,
                 'quote.details.expiryDate'
               ) | async
             "
@@ -86,4 +86,4 @@
       <cx-spinner></cx-spinner>
     </div>
   </ng-template>
-</ng-container>
+

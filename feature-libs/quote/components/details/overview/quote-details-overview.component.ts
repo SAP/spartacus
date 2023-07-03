@@ -9,14 +9,19 @@ import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quote-details-overview',
   templateUrl: './quote-details-overview.component.html',
 })
 export class QuoteDetailsOverviewComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails().pipe(
+    filter((state) => !state.loading),
+    filter((state) => state.data !== undefined),
+    map((state) => state.data),
+    map((quote) => quote as Quote)
+  );
 
   constructor(
     protected quoteFacade: QuoteFacade,
@@ -33,9 +38,9 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
-  getTotalPrice(quote?: Quote): string | undefined {
-    return quote?.previousEstimatedTotal?.value
+  getTotalPrice(quote: Quote): string|null{
+    return (quote.previousEstimatedTotal?.value
       ? quote.previousEstimatedTotal?.formattedValue
-      : quote?.totalPrice.formattedValue;
+      : quote.totalPrice.formattedValue) ?? null;
   }
 }
