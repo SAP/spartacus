@@ -21,6 +21,5 @@
       "uniqueItems": true,
       "default": ["Segment-Refs"]
     }
-  },
-  "required": []
+  }
 }

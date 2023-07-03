@@ -15,7 +15,6 @@ const mockSegmentRefsConfig: SegmentRefsConfig = {
     httpHeaderName: 'mock-Segmentrefs',
   },
 };
-
 const MockWindowRefWithSegmentRefs = {
   isBrowser(): boolean {
     return true;
@@ -24,7 +23,6 @@ const MockWindowRefWithSegmentRefs = {
     href: 'http://localhost:4200/electronics-spa/en/USD/?segmentrefs=footwear,bags',
   },
 };
-
 const MockWindowRefWithoutSegmentRefs = {
   isBrowser(): boolean {
     return true;

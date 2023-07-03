@@ -267,7 +267,7 @@ export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 
-export const SEGMENT_REFS_FEATURE_NAME = 'SegmentRefs';
+export const SEGMENT_REFS_FEATURE_NAME = 'Segment-Refs';
 
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/

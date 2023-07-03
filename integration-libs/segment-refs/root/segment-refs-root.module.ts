@@ -1,6 +1,4 @@
-import {
-  NgModule,
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultSegmentRefsConfig } from './config/default-segment-refs-config';
 import { segmentRefsInterceptors } from './http-interceptors';

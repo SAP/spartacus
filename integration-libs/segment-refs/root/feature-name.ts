@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const SEGMENT_FEATURE = 'segment-refs';
+export const SEGMENT_FEATURE = 'Segment-Refs';
