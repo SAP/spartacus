@@ -26,19 +26,3 @@ exports[`Spartacus segment-refs schematics: ng-add Segment-refs feature general 
 export class SegmentRefsFeatureModule { }
 "
 `;
-
-exports[`Spartacus segment-refs schematics: ng-add Segment-refs feature general setup should add the feature using the lazy loading syntax 2`] = `
-"import { NgModule } from '@angular/core';
-import { SegmentRefsModule } from "@spartacus/segment-refs";
-import { PersonalizationModule } from "@spartacus/tracking/personalization";
-
-@NgModule({
-  declarations: [],
-  imports: [
-    PersonalizationModule,
-    SegmentRefsModule
-  ]
-})
-export class PersonalizationWrapperModule { }
-"
-`;

@@ -29,10 +29,6 @@ export const SEGMENT_REFS_SCHEMATICS_CONFIG: SchematicConfig = {
     name: SEGMENT_REFS_MODULE,
     importPath: SPARTACUS_SEGMENT_REFS,
   },
-  lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_SEGMENT_REFS,
-    namedImports: [SEGMENT_REF_FEATURE_NAME_CONSTANT],
-  },
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   importAfter: [
     {

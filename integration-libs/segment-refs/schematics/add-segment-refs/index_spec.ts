@@ -11,11 +11,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as SegmentRefsOptions,
-  personalizationWrapperModulePath,
   SEGMENT_REFS_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SEGMENT_REFS,
+  trackingPersonalizationFeatureModulePath,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -59,10 +59,7 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
     lazy: true,
     features: [],
   };
-  const personalizationFeatureOptions: SegmentRefsOptions = {
-    ...libraryNoFeaturesOptions,
-    features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
-  };
+
   const segmentRefsFeatureOptions: SegmentRefsOptions = {
     ...libraryNoFeaturesOptions,
     features: [SEGMENT_REFS_FEATURE_NAME],
@@ -117,7 +114,10 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
-          personalizationFeatureOptions,
+          {
+            ...segmentRefsFeatureOptions,
+            features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
+          },
           appTree
         );
         appTree = await schematicRunner.runSchematic(
@@ -148,10 +148,6 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(segmentRefsFeatureModulePath);
         expect(module).toMatchSnapshot();
-        const wrapperModule = appTree.readContent(
-          personalizationWrapperModulePath
-        );
-        expect(wrapperModule).toMatchSnapshot();
       });
     });
 
@@ -159,7 +155,10 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
       beforeEach(async () => {
         appTree = await schematicRunner.runSchematic(
           'ng-add',
-          { ...personalizationFeatureOptions, lazy: false },
+          {
+            ...segmentRefsFeatureOptions,
+            features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
+          },
           appTree
         );
         appTree = await schematicRunner.runSchematic(
@@ -173,8 +172,8 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
         const module = appTree.readContent(segmentRefsFeatureModulePath);
         expect(module).toMatchSnapshot();
         expect(
-          appTree.readContent(personalizationWrapperModulePath)
-        ).toBeFalsy();
+          appTree.readContent(trackingPersonalizationFeatureModulePath)
+        ).toBeTruthy();
       });
     });
   });
