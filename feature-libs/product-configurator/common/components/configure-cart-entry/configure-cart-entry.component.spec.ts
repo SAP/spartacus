@@ -44,19 +44,28 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should find correct default owner type', () => {
-    orderOrCartEntry.orderCode = undefined;
-    expect(component.getOwnerType()).toBe(
-      CommonConfigurator.OwnerType.CART_ENTRY
-    );
-  });
+  describe('getOwnerType', () => {
+    it('should find correct default owner type', () => {
+      orderOrCartEntry.orderCode = undefined;
+      expect(component.getOwnerType()).toBe(
+        CommonConfigurator.OwnerType.CART_ENTRY
+      );
+    });
 
-  it('should find correct owner type in case entry knows order', () => {
-    component.readOnly = true;
-    orderOrCartEntry.orderCode = '112';
-    expect(component.getOwnerType()).toBe(
-      CommonConfigurator.OwnerType.ORDER_ENTRY
-    );
+    it('should find correct owner type in case entry knows order', () => {
+      component.readOnly = true;
+      orderOrCartEntry.orderCode = '112';
+      expect(component.getOwnerType()).toBe(
+        CommonConfigurator.OwnerType.ORDER_ENTRY
+      );
+    });
+
+    it('should find correct owner type in case entry knows quote', () => {
+      orderOrCartEntry.quoteCode = '112';
+      expect(component.getOwnerType()).toBe(
+        CommonConfigurator.OwnerType.QUOTE_ENTRY
+      );
+    });
   });
 
   describe('getEntityKey', () => {
@@ -74,6 +83,25 @@ describe('ConfigureCartEntryComponent', () => {
       const orderCode = '01008765';
       component.cartEntry = { entryNumber: 0, orderCode: orderCode };
       expect(component.getEntityKey()).toBe(orderCode + '+0');
+    });
+  });
+
+  describe('getCode', () => {
+    it('should return undefined', () => {
+      component.cartEntry = {};
+      expect(component['getCode']()).toBeUndefined();
+    });
+
+    it('should return a quote code', () => {
+      const quoteCode = '01008765';
+      component.cartEntry = { quoteCode: quoteCode };
+      expect(component['getCode']()).toEqual(quoteCode);
+    });
+
+    it('should return an order code', () => {
+      const orderCode = '01008765';
+      component.cartEntry = { orderCode: orderCode };
+      expect(component['getCode']()).toEqual(orderCode);
     });
   });
 
