@@ -41,7 +41,7 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
       featureModules: {
         [PERSONALIZATION_FEATURE]: {
           module: () =>
-            import('./personalization-wrapper.modulepersonalization').then(
+            import('./personalization-wrapper.module').then(
               (m) => m.PersonalizationWrapperModule
             ),
         },
