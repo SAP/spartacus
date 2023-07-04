@@ -8,8 +8,10 @@ import {
   SEGMENT_REFS_FEATURE_NAME,
   SPARTACUS_SEGMENT_REFS,
   SPARTACUS_SEGMENT_REFS_ROOT,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
+import { PERSONALIZATION_MODULE } from '../tracking-schematics-config';
 
 export const SEGMENT_REFS_FOLDER_NAME = 'segment-refs';
 export const SEGMENT_REFS_MODULE_NAME = 'SegmentRefs';
@@ -36,4 +38,11 @@ export const SEGMENT_REFS_SCHEMATICS_CONFIG: SchematicConfig = {
     moduleSpecifier: SPARTACUS_SEGMENT_REFS_ROOT,
     namedImports: [SEGMENT_REF_FEATURE_NAME_CONSTANT],
   },
+  dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
+  importAfter: [
+    {
+      markerModuleName: PERSONALIZATION_MODULE,
+      featureModuleName: SEGMENT_REFS_MODULE,
+    },
+  ],
 };

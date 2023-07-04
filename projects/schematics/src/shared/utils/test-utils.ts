@@ -73,6 +73,8 @@ export const storeFinderFeatureModulePath =
   'src/app/spartacus/features/storefinder/store-finder-feature.module.ts';
 export const trackingPersonalizationFeatureModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
+export const personalizationWrapperModulePath =
+  'src/app/spartacus/features/tracking/personalization-wrapper.module.ts';
 export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 export const userFeatureModulePath =

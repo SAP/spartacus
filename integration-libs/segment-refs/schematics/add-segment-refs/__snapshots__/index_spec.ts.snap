@@ -18,23 +18,31 @@ export class SegmentRefsFeatureModule { }
 
 exports[`Spartacus segment-refs schematics: ng-add Segment-refs feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from "@spartacus/core";
-import { SegmentRefsRootModule, SEGMENT_REFS_FEATURE } from "@spartacus/segment-refs/root";
+import { SegmentRefsRootModule } from "@spartacus/segment-refs/root";
 
 @NgModule({
   declarations: [],
   imports: [
     SegmentRefsRootModule
   ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [SEGMENT_REFS_FEATURE]: {
-        module: () =>
-          import('@spartacus/segment-refs').then((m) => m.SegmentRefsModule),
-      },
-    }
-  })]
+  providers: []
 })
 export class SegmentRefsFeatureModule { }
+"
+`;
+
+exports[`Spartacus segment-refs schematics: ng-add Segment-refs feature general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { SegmentRefsModule } from "@spartacus/segment-refs";
+import { PersonalizationModule } from "@spartacus/tracking/personalization";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PersonalizationModule,
+    SegmentRefsModule
+  ]
+})
+export class PersonalizationWrapperModule { }
 "
 `;

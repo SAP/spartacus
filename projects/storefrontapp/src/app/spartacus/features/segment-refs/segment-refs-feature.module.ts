@@ -5,9 +5,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SegmentRefsRootModule } from 'integration-libs/segment-refs/root/public_api';
 
-@NgModule({
-  imports: [SegmentRefsRootModule],
-})
+@NgModule({})
 export class SegmentRefsFeatureModule {}

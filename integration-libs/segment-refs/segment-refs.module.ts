@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
+import { SegmentRefsRootModule } from './root/segment-refs-root.module';
 @NgModule({
-  declarations: [],
-  imports: [],
+  imports: [SegmentRefsRootModule],
 })
 export class SegmentRefsModule {}
