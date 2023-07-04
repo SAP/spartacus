@@ -50,7 +50,7 @@ declare module '@spartacus/core' {
     /**
      * Endpoint for update a CPQ attribute value quantity over OCC
      */
-    updateAttributeValueQuantity?: string | OccEndpoint;
+    updateCpqAttributeValueQuantity?: string | OccEndpoint;
     /**
      * Endpoint for reading a CPQ configuration attached to the given cart entry over OCC
      */

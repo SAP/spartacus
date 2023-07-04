@@ -206,7 +206,7 @@ export class CpqConfiguratorNormalizer
 
   /**
    * In case the CPQ API is called via REST the attribute id is returned using field name pA_ID.
-   * If we call CPQ via OCC the attribute is is mapped to field name PA_ID.
+   * If we call CPQ via OCC the attribute is mapped to field name PA_ID.
    * This can't be changed easily and is related to the non-standard conform name 'pA_ID';
    * @param sourceAttribute source attribute
    * @returns value of PA_ID or pA_ID, depending on which field is filled.

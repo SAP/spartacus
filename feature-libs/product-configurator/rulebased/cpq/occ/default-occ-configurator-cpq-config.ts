@@ -28,7 +28,7 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
             'cpqconfigurator/${configurationId}/configurationOverview',
           updateCpqAttribute:
             'cpqconfigurator/${configurationId}/attributes/${attributeCode}?tabId=${tabId}',
-          updateAttributeValueQuantity:
+          updateCpqAttributeValueQuantity:
             'cpqconfigurator/${configurationId}/attributes/${attributeCode}/values/${attributeValueId}?tabId=${tabId}',
           readCpqConfigurationForCartEntryFull:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator/configuration',

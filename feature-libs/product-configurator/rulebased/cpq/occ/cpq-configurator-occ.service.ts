@@ -292,7 +292,7 @@ export class CpqConfiguratorOccService {
     updateValue: Cpq.UpdateValue
   ): Observable<Cpq.Configuration> {
     const url = this.occEndpointsService.buildUrl(
-      'updateAttributeValueQuantity',
+      'updateCpqAttributeValueQuantity',
       {
         urlParams: {
           configurationId: updateValue.configurationId,
