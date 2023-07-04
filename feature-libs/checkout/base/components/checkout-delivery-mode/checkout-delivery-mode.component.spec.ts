@@ -9,7 +9,11 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, QueryState } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  QueryState,
+} from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -88,6 +92,10 @@ class MockCartService implements Partial<ActiveCartFacade> {
   getPickupEntries = createSpy().and.returnValue(of([]));
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -111,6 +119,7 @@ describe('CheckoutDeliveryModeComponent', () => {
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: ActiveCartFacade, useClass: MockCartService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
 
