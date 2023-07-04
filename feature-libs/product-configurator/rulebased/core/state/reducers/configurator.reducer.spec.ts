@@ -676,6 +676,47 @@ describe('Configurator reducer', () => {
     });
   });
 
+  describe('ReadQuoteEntryConfigurationSuccess action', () => {
+    it('should put configuration overview for a quote into the state', () => {
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+      };
+      CONFIGURATION.overview = overview;
+      const action = new ConfiguratorActions.ReadQuoteEntryConfigurationSuccess(
+        CONFIGURATION
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.overview).toEqual(overview);
+    });
+
+    it('should copy price summary from OV to configuration for a quote', () => {
+      const priceSummary: Configurator.PriceSummary = {};
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+        priceSummary: priceSummary,
+      };
+      CONFIGURATION.overview = overview;
+      const action = new ConfiguratorActions.ReadQuoteEntryConfigurationSuccess(
+        CONFIGURATION
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.priceSummary).toBe(priceSummary);
+    });
+
+    it('should not copy price summary from OV to configuration for a quote if not yet available', () => {
+      const action = new ConfiguratorActions.ReadQuoteEntryConfigurationSuccess(
+        CONFIGURATION_WITHOUT_OV
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.priceSummary).toBeUndefined();
+    });
+  });
+
   describe('SetNextOwnerCartEntry action', () => {
     it('should set next owner', () => {
       const action = new ConfiguratorActions.SetNextOwnerCartEntry({
