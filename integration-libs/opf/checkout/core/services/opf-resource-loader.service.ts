@@ -25,6 +25,8 @@ export class OpfResourceLoaderService extends ScriptLoader {
     super(document, platformId);
   }
 
+  protected readonly OPF_RESOURCE_ATTRIBUTE_KEY = 'data-opf-resource';
+
   protected loadedResources: PaymentDynamicScriptResource[] = [];
 
   protected embedStyles(embedOptions: {
@@ -47,6 +49,7 @@ export class OpfResourceLoaderService extends ScriptLoader {
     link.href = src;
     link.rel = 'stylesheet';
     link.type = 'text/css';
+    link.setAttribute(this.OPF_RESOURCE_ATTRIBUTE_KEY, 'true');
 
     if (callback) {
       link.addEventListener('load', callback);
@@ -96,7 +99,11 @@ export class OpfResourceLoaderService extends ScriptLoader {
     if (resource.url && !this.hasScript(resource.url)) {
       super.embedScript({
         src: resource.url,
-        attributes: { type: 'text/javascript' },
+        attributes: {
+          type: 'text/javascript',
+          [this.OPF_RESOURCE_ATTRIBUTE_KEY]: true,
+        },
+
         callback: () => this.markResourceAsLoaded(resource, resources, resolve),
         errorCallback: () => this.handleLoadingResourceError(resource.url),
       });
@@ -127,6 +134,16 @@ export class OpfResourceLoaderService extends ScriptLoader {
       const script = element.getElementsByTagName('script');
       Function(script[0].innerText)();
     }
+  }
+
+  clearAllProviderResources() {
+    this.document
+      .querySelectorAll(`[${this.OPF_RESOURCE_ATTRIBUTE_KEY}]`)
+      .forEach((resource: undefined | HTMLLinkElement | HTMLScriptElement) => {
+        if (resource) {
+          resource.remove();
+        }
+      });
   }
 
   loadProviderResources(
