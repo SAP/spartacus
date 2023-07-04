@@ -7,7 +7,6 @@
 import {
   SEGMENT_REFS_FEATURE_NAME,
   SPARTACUS_SEGMENT_REFS,
-  SPARTACUS_SEGMENT_REFS_ROOT,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
@@ -30,12 +29,8 @@ export const SEGMENT_REFS_SCHEMATICS_CONFIG: SchematicConfig = {
     name: SEGMENT_REFS_MODULE,
     importPath: SPARTACUS_SEGMENT_REFS,
   },
-  rootModule: {
-    name: SEGMENT_REFS_ROOT_MODULE,
-    importPath: SPARTACUS_SEGMENT_REFS_ROOT,
-  },
   lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_SEGMENT_REFS_ROOT,
+    moduleSpecifier: SPARTACUS_SEGMENT_REFS,
     namedImports: [SEGMENT_REF_FEATURE_NAME_CONSTANT],
   },
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
