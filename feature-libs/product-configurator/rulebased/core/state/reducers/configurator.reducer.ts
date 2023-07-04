@@ -8,10 +8,10 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfiguratorStateUtils } from '../configurator-state-utils';
+import { StateUtils } from '@spartacus/core';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -267,9 +267,9 @@ function handleSearchVariantsSuccess(
   };
 }
 
-function handleReadOrderEntryConfigurationSuccess(
+function handleReadEntryConfigurationSuccess(
   state: Configurator.Configuration,
-  action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
+  action: StateUtils.EntitySuccessAction
 ): Configurator.Configuration | undefined {
   const configuration = { ...action.payload };
 
@@ -282,19 +282,19 @@ function handleReadOrderEntryConfigurationSuccess(
   return result;
 }
 
+
+function handleReadOrderEntryConfigurationSuccess(
+  state: Configurator.Configuration,
+  action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
+): Configurator.Configuration | undefined {
+  return handleReadEntryConfigurationSuccess(state, action);
+}
+
 function handleReadQuoteEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadQuoteEntryConfigurationSuccess
 ): Configurator.Configuration | undefined {
-  const configuration = { ...action.payload };
-
-  const result: Configurator.Configuration = {
-    ...state,
-    ...configuration,
-    priceSummary: configuration.overview?.priceSummary,
-  };
-
-  return result;
+  return handleReadEntryConfigurationSuccess(state, action);
 }
 
 function handleSetNextOwnerCartEntry(
