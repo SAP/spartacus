@@ -472,6 +472,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
       'testuser'
     );
+    spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
+      customerId: 'testuser',
+    });
 
     spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
@@ -489,6 +492,9 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmComponentService, 'isEmulatedByDeepLink').and.returnValue(
       new BehaviorSubject(false)
     );
+    spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
+      customerId: 'newuser',
+    });
 
     const oldUser = { customerId: 'olduser', name: 'Test old User' } as User;
     const newUser = { customerId: 'newuser', name: 'Test new User' } as User;
@@ -590,7 +596,7 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
-  it('should NOT call navigate to order details when starting session with orderId and ticketId in parameters', () => {
+  it('should call navigate to order details when starting session with orderId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -598,14 +604,13 @@ describe('AsmMainUiComponent', () => {
       { orderId: '456', ticketId: '123' }
     );
 
-    expect(routingService.go).not.toHaveBeenCalled();
-  });
-
-  it('should call navigate to support ticket details when starting session with ticketId in parameters', () => {
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderDetails',
       params: { code: '456' },
     });
+  });
+
+  it('should call navigate to support ticket details when starting session with ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -630,7 +635,7 @@ describe('AsmMainUiComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
   });
 
-  it('should NOT call navigate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
+  it('should call navigate to saved cart when starting session with savedCartId and ticketId in parameters', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.startCustomerEmulationSession(
@@ -638,10 +643,6 @@ describe('AsmMainUiComponent', () => {
       { cartId: '456', cartType: 'saved', ticketId: '123' }
     );
 
-    expect(routingService.go).not.toHaveBeenCalled();
-  });
-
-  it('should not call navigate when starting session with active cartId and ticketId in parameters', () => {
     expect(routingService.go).toHaveBeenCalledWith('my-account/saved-cart/456');
   });
 

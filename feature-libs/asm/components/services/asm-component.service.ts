@@ -58,7 +58,7 @@ export class AsmComponentService {
   getSearchParameter(key: string): string | undefined | null {
     // TODO: Use asmDeepLinkService only in 7.0
     return (
-      this.asmDeepLinkService?.getSearchParameter(key) ??
+      //      this.asmDeepLinkService?.getSearchParameter(key) ??
       this.searchparam.get(key)
     );
   }
