@@ -96,6 +96,7 @@ export class OpfCheckoutPaymentWrapperService {
       isLoading: true,
       isError: false,
     });
+    this.opfResourceLoaderService.clearAllProviderResources();
 
     return combineLatest([
       this.userIdService.getUserId(),
