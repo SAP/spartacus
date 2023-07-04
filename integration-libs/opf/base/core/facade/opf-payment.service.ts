@@ -229,7 +229,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
     if (error?.status === HttpResponseStatus.BAD_REQUEST) {
       message = this.handleBadRequestError(error?.type);
     } else {
-      if (error?.type !== 'PAYMENT_CANCELLED') {
+      if (error?.type === 'PAYMENT_CANCELLED') {
         message = 'opf.payment.errors.cancelPayment';
       }
     }
