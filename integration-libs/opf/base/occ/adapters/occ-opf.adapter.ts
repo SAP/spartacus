@@ -6,13 +6,9 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConverterService, backOff, isJaloError } from '@spartacus/core';
 import {
-  ConverterService,
-  backOff,
-  isJaloError,
-  normalizeHttpError,
-} from '@spartacus/core';
-import {
+  OPF_PAYMENT_SUBMIT_NORMALIZER,
   OPF_PAYMENT_VERIFICATION_NORMALIZER,
   OpfEndpointsService,
   OpfPaymentAdapter,
@@ -86,9 +82,17 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
 
     const url = this.getSubmitPaymentEndpoint(paymentSessionId);
 
-    return this.http
-      .post<SubmitResponse>(url, submitRequest, { headers })
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+    return this.http.post<SubmitResponse>(url, submitRequest, { headers }).pipe(
+      catchError((error) => throwError(error)),
+      backOff({
+        shouldRetry: isJaloError,
+      }),
+      backOff({
+        shouldRetry: isHttp500Error,
+        maxTries: 2,
+      }),
+      this.converter.pipeable(OPF_PAYMENT_SUBMIT_NORMALIZER)
+    );
   }
 
   protected verifyPaymentEndpoint(paymentSessionId: string): string {

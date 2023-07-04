@@ -26,7 +26,6 @@ export const facadeProviders: Provider[] = [
     provide: OpfPaymentFacade,
     useExisting: OpfPaymentService,
   },
-
   {
     provide: OpfOrderFacade,
     useExisting: OpfOrderService,

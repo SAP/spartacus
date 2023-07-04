@@ -6,7 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import { Command, CommandService, QueryService } from '@spartacus/core';
-
 import { OpfOtpFacade } from '@spartacus/opf/base/root';
 import { Observable } from 'rxjs';
 import { OtpConnector } from '../connectors/otp.connector';

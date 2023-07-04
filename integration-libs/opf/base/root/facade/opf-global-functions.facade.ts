@@ -19,15 +19,19 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 })
 export abstract class OpfGlobalFunctionsFacade {
   /**
-   * Endpoint to register global functions used in Hosted-Fields pattern
+   * Abstract method to register global functions used in Hosted-Fields pattern.
+   * Optional vcr ViewcontainerRef param is used to display an overlayed loader spinner.
    *
-   * @param paymentSessionId
-   * @param vcr
+   * @param {string} paymentSessionId
+   * @param {ViewContainerRef} vcr
    */
   abstract registerGlobalFunctions(
     paymentSessionId: string,
     vcr?: ViewContainerRef
   ): void;
 
+  /**
+   * Abstract method to remove global functions used in Hosted-Fields pattern
+   */
   abstract removeGlobalFunctions(): void;
 }

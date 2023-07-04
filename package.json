@@ -32,7 +32,7 @@
     "build:qualtrics": "npm --prefix feature-libs/qualtrics run build:schematics && nx build qualtrics --configuration production",
     "build:schematics": "npm --prefix projects/schematics run build",
     "build:setup": "nx build setup --configuration production",
-    "build:ssr": "env-cmd --no-override -e opf,b2c,$SPA_ENV nx run storefrontapp:server:production",
+    "build:ssr": "env-cmd --no-override -e dev,b2c,$SPA_ENV nx run storefrontapp:server:production",
     "build:ssr:ci": "env-cmd -e ci,b2c,$SPA_ENV nx run storefrontapp:server:production",
     "build:storefinder": "npm --prefix feature-libs/storefinder run build:schematics && nx build storefinder --configuration production",
     "build:smartedit": "npm --prefix feature-libs/smartedit run build:schematics && nx build smartedit --configuration production",

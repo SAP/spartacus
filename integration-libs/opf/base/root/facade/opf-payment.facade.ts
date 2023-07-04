@@ -35,5 +35,10 @@ export abstract class OpfPaymentFacade {
     paymentVerificationPayload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
 
+  /**
+   * abstract method to submit payment for Hosted Fields pattern.
+   *
+   * @param submitInput
+   */
   abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
 }
