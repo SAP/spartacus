@@ -41,54 +41,25 @@ export class AsmDeepLinkService {
    * or passed parameters.
    */
   handleNavigation(parameters = this.getParamsInUrl()): void {
-    if (this.validParameters(parameters)) {
-      if (parameters.cartType === 'active') {
-        // Navigate to active cart
-        this.routingService.go({ cxRoute: 'cart' });
-      } else if (parameters.cartType === 'saved' && parameters.cartId) {
-        // Navigate to saved cart
-        this.routingService.go('my-account/saved-cart/' + parameters.cartId);
-      } else if (parameters.orderId) {
-        // Navigate to order details
-        this.routingService.go({
-          cxRoute: 'orderDetails',
-          params: { code: parameters.orderId },
-        });
-      } else if (parameters.ticketId) {
-        // Navigate to support ticket details
-        this.routingService.go({
-          cxRoute: 'supportTicketDetails',
-          params: { ticketCode: parameters.ticketId },
-        });
-      }
+    if (parameters.cartType === 'active') {
+      // Navigate to active cart
+      this.routingService.go({ cxRoute: 'cart' });
+    } else if (parameters.cartType === 'saved' && parameters.cartId) {
+      // Navigate to saved cart
+      this.routingService.go('my-account/saved-cart/' + parameters.cartId);
+    } else if (parameters.orderId) {
+      // Navigate to order details
+      this.routingService.go({
+        cxRoute: 'orderDetails',
+        params: { code: parameters.orderId },
+      });
+    } else if (parameters.ticketId) {
+      // Navigate to support ticket details
+      this.routingService.go({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: parameters.ticketId },
+      });
     }
-  }
-
-  /**
-   * Returns true if pairs of valid navigation params are in the url only.
-   * eg. customerId, customerId + ticketId return true.
-   */
-  validParameters(parameters: AsmDeepLinkParameters): boolean {
-    const keys = Object.keys(parameters);
-
-    const ALLOWED_PARAMS = [
-      ['customerId'],
-      ['customerId', 'cartType'],
-      ['customerId', 'cartType', 'cartId'],
-      ['customerId', 'orderId'],
-      ['customerId', 'ticketId'],
-    ];
-
-    const allowed = ALLOWED_PARAMS.find((params) => {
-      for (const param of params) {
-        if (!keys.includes(param)) {
-          return false;
-        }
-      }
-      return params.length === keys.length;
-    });
-
-    return !!allowed;
   }
 
   /**

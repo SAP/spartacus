@@ -186,38 +186,47 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    * call startSessionWithParameters
    */
   protected subscribeForDeeplink(): void {
-    let parameters = this.asmComponentService.getDeepLinkUrlParams();
+    if (this.featureConfig?.isLevel('6.2')) {
+      // TODO: Use asmDeepLinkService only in 7.0.
+      let parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
+        customerId: this.asmComponentService.getSearchParameter('customerId'),
+        orderId: this.asmComponentService.getSearchParameter('orderId'),
+        ticketId: this.asmComponentService.getSearchParameter('ticketId'),
+        cartId: this.asmComponentService.getSearchParameter('cartId'),
+        cartType: this.asmComponentService.getSearchParameter('cartType'),
+        emulated: false,
+      };
 
-    // TODO: Acts as feature flag. `parameters` will be undefined if AsmDeepLinkService not included. Remove condition in 7.0
-    if (parameters) {
-      if (this.asmComponentService.isEmulateInURL()) {
-        //Always route to home page to avoid 404
-        this.routingService.go('/');
-      }
-
-      this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
-
-      this.subscription.add(
-        combineLatest([
-          this.customerSupportAgentLoggedIn$,
-          this.authService.isUserLoggedIn(),
-          this.asmComponentService.isEmulatedByDeepLink(),
-        ]).subscribe(([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
-          parameters = this.asmComponentService.getDeepLinkUrlParams();
-          if (agentLoggedIn && parameters.customerId) {
-            if (!isEmulatedByDeepLink && userLoggedin) {
-              this.confirmSwitchCustomer(parameters.customerId);
-            } else {
-              setTimeout(() =>
-                this.startSessionWithParameters({
-                  ...parameters,
-                  emulated: isEmulatedByDeepLink,
-                })
-              );
+      // TODO: Acts as feature flag. `parameters` will be undefined if AsmDeepLinkService not included. Remove condition in 7.0
+      if (parameters) {
+        if (this.asmComponentService.isEmulateInURL()) {
+          //Always route to home page to avoid 404
+          this.routingService.go('/');
+        }
+        this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
+        this.subscription.add(
+          combineLatest([
+            this.customerSupportAgentLoggedIn$,
+            this.authService.isUserLoggedIn(),
+            this.asmComponentService.isEmulatedByDeepLink(),
+          ]).subscribe(
+            ([agentLoggedIn, userLoggedin, isEmulatedByDeepLink]) => {
+              if (agentLoggedIn && parameters.customerId) {
+                if (!isEmulatedByDeepLink && userLoggedin) {
+                  this.confirmSwitchCustomer(parameters.customerId);
+                } else {
+                  setTimeout(() =>
+                    this.startSessionWithParameters({
+                      ...parameters,
+                      emulated: isEmulatedByDeepLink,
+                    })
+                  );
+                }
+              }
             }
-          }
-        })
-      );
+          )
+        );
+      }
     }
   }
 
@@ -301,10 +310,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (parameters) {
-        this.asmComponentService.handleDeepLinkNavigation({
-          customerId,
-          ...parameters,
-        });
+        // TODO: Remove feature flag in 7.0
+        if (this.featureConfig?.isLevel('6.3')) {
+          this.asmComponentService.handleDeepLinkNavigation({
+            customerId,
+            ...parameters,
+          });
+        } else {
+          // TODO: Remove this implementation in 7.0
+          this.handleDeepLinkParamsAfterStartSession(parameters);
+        }
       }
     } else {
       this.globalMessageService.add(

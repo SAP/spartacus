@@ -65,5 +65,4 @@ describe('AsmDeepLinkService', () => {
 
   // TODO: Complete these when final design decided on
   //describe('handleNavigation', () => {});
-  //describe('validParameters', () => {});
 });

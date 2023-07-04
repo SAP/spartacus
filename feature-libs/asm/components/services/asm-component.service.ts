@@ -29,8 +29,8 @@ export class AsmComponentService {
     csAgentAuthService: CsAgentAuthService,
     winRef: WindowRef,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    asmDeepLinkService: AsmDeepLinkService,
-    asmEnablerService: AsmEnablerService
+    asmEnablerService: AsmEnablerService,
+    asmDeepLinkService: AsmDeepLinkService
   );
   /**
    * @deprecated since 7.0
@@ -45,17 +45,22 @@ export class AsmComponentService {
     protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef,
     // TODO: Remove optional flag in 7.0 where service is used
-    @Optional() protected asmDeepLinkService?: AsmDeepLinkService,
-    @Optional() protected asmEnablerService?: AsmEnablerService
+    @Optional() protected asmEnablerService?: AsmEnablerService,
+    @Optional() protected asmDeepLinkService?: AsmDeepLinkService
   ) {
+    // TODO: We can remove this in 7.0 and use asmDeepLinkService instead.
     this.searchparam = new URLSearchParams(this.winRef?.location?.search);
   }
 
   /**
    * Returns a deep link parameter value if it is in the url.
    */
-  getSearchParameter(key: string): string | undefined {
-    return this.asmDeepLinkService?.getSearchParameter(key);
+  getSearchParameter(key: string): string | undefined | null {
+    // TODO: Use asmDeepLinkService only in 7.0
+    return (
+      this.asmDeepLinkService?.getSearchParameter(key) ??
+      this.searchparam.get(key)
+    );
   }
 
   isEmulatedByDeepLink(): BehaviorSubject<boolean> {
@@ -103,7 +108,12 @@ export class AsmComponentService {
    * check whether try to emulate customer from deeplink
    */
   isEmulateInURL(): boolean {
-    return this.asmDeepLinkService?.isEmulateInURL() || false;
+    // TODO: Use asmDeepLinkService only in 7.0
+    return (
+      (this.asmDeepLinkService?.isEmulateInURL() ??
+        this.asmEnablerService?.isEmulateInURL()) ||
+      false
+    );
   }
 
   /**
