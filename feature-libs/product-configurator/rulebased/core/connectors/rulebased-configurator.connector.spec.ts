@@ -139,9 +139,9 @@ describe('RulebasedConfiguratorConnector', () => {
   ): RulebasedConfiguratorAdapter {
     let adapter = new MockRulebasedConfiguratorAdapter();
     adapter.configuratorType = configuratorType ?? CONFIGURATOR_TYPE;
-    if(supportsCpqOverOcc){
-    adapter.cpqOverOcc = supportsCpqOverOcc;
-    }else{
+    if (supportsCpqOverOcc) {
+      adapter.cpqOverOcc = supportsCpqOverOcc;
+    } else {
       adapter.supportsCpqOverOcc = undefined;
     }
     return adapter;
