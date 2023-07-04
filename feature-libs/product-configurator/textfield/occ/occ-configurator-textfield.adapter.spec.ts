@@ -83,6 +83,14 @@ const readParamsForOrder: CommonConfigurator.ReadConfigurationFromOrderEntryPara
     owner: ConfiguratorModelUtils.createInitialOwner(),
   };
 
+const readParamsForQuote: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+  {
+    userId: USER_ID,
+    quoteId: ORDER_ID,
+    quoteEntryNumber: ORDER_ENTRY_NUMBER,
+    owner: ConfiguratorModelUtils.createInitialOwner(),
+  };
+
 describe('OccConfigurationTextfieldAdapter', () => {
   let occConfiguratorVariantAdapter: OccConfiguratorTextfieldAdapter;
   let httpMock: HttpTestingController;
@@ -198,6 +206,36 @@ describe('OccConfigurationTextfieldAdapter', () => {
           userId: USER_ID,
           orderId: ORDER_ID,
           orderEntryNumber: ORDER_ENTRY_NUMBER,
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_TEXTFIELD_NORMALIZER
+    );
+  });
+
+  it('should call readTextfieldConfigurationForQuoteEntry endpoint', () => {
+    occConfiguratorVariantAdapter
+      .readConfigurationForQuoteEntry(readParamsForQuote)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readTextfieldConfigurationForQuoteEntry'
+      );
+    });
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readTextfieldConfigurationForQuoteEntry',
+      {
+        urlParams: {
+          userId: USER_ID,
+          quoteId: ORDER_ID,
+          quoteEntryNumber: ORDER_ENTRY_NUMBER,
         },
       }
     );

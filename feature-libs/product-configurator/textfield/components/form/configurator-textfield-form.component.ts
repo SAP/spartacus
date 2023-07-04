@@ -37,8 +37,7 @@ export class ConfiguratorTextfieldFormComponent {
               routerData.owner
             );
           case CommonConfigurator.OwnerType.QUOTE_ENTRY:
-            ////TODO CONFIG_INTEGRATION cover quote
-            return this.configuratorTextfieldService.readConfigurationForOrderEntry(
+            return this.configuratorTextfieldService.readConfigurationForQuoteEntry(
               routerData.owner
             );
         }
