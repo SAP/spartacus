@@ -21,9 +21,9 @@ export const QUOTE_LIST_NORMALIZER = new InjectionToken<
   Converter<any, QuoteList>
 >('QuoteListNormalizer');
 
-export const QUOTE_NORMALIZER = new InjectionToken<Converter<OccQuote, Quote>>(
-  'QuoteNormalizer'
-);
+export const QUOTE_ACTION_NORMALIZER = new InjectionToken<
+  Converter<OccQuote, Quote>
+>('QuoteNormalizer');
 
 export const QUOTE_STARTER_SERIALIZER = new InjectionToken<
   Converter<any, QuoteStarter>

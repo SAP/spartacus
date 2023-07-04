@@ -13,7 +13,7 @@ import {
   QUOTE_DISCOUNT_SERIALIZER,
   QUOTE_LIST_NORMALIZER,
   QUOTE_METADATA_SERIALIZER,
-  QUOTE_NORMALIZER,
+  QUOTE_ACTION_NORMALIZER,
   QUOTE_STARTER_SERIALIZER,
 } from '@spartacus/quote/core';
 import {
@@ -86,7 +86,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
       .post<OccQuote>(this.getCreateQuoteEndpoint(userId), quoteStarter)
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(QUOTE_NORMALIZER)
+        this.converter.pipeable(QUOTE_ACTION_NORMALIZER)
       );
   }
 
@@ -101,7 +101,7 @@ export class OccQuoteAdapter implements QuoteAdapter {
       .get<OccQuote>(this.getQuoteEndpoint(userId, quoteCode))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(QUOTE_NORMALIZER)
+        this.converter.pipeable(QUOTE_ACTION_NORMALIZER)
       );
   }
 
