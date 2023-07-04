@@ -25,7 +25,7 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
   templateUrl: './opf-checkout-payment-wrapper.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   @Input() selectedPaymentId: number;
@@ -53,7 +53,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.globalFunctionsService.removeGlobalFunctions();
-
     this.sub.unsubscribe();
   }
 

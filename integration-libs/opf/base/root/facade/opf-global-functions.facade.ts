@@ -6,7 +6,6 @@
 
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { OPF_BASE_FEATURE } from '../feature-name';
 
 @Injectable({
@@ -28,7 +27,7 @@ export abstract class OpfGlobalFunctionsFacade {
   abstract registerGlobalFunctions(
     paymentSessionId: string,
     vcr?: ViewContainerRef
-  ): Observable<unknown>;
+  ): void;
 
-  abstract removeGlobalFunctions(): Observable<unknown>;
+  abstract removeGlobalFunctions(): void;
 }
