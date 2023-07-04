@@ -187,6 +187,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
    */
   protected subscribeForDeeplink(): void {
     if (this.featureConfig?.isLevel('6.2')) {
+      if (this.asmComponentService.isEmulateInURL()) {
+        //Always route to home page to avoid 404
+        this.routingService.go('/');
+      }
       // TODO: Use asmDeepLinkService only in 7.0.
       const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
@@ -196,11 +200,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         cartType: this.asmComponentService.getSearchParameter('cartType'),
         emulated: false,
       };
-
-      if (this.asmComponentService.isEmulateInURL()) {
-        //Always route to home page to avoid 404
-        this.routingService.go('/');
-      }
       this.deeplinkCartAlertKey = CART_TYPE_KEY[parameters.cartType || ''];
       this.subscription.add(
         combineLatest([
