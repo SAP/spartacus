@@ -116,7 +116,7 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   }
 }
 
-fdescribe('RulebasedConfiguratorConnector', () => {
+describe('RulebasedConfiguratorConnector', () => {
   let service: RulebasedConfiguratorConnector;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let adapter: RulebasedConfiguratorAdapter[];
