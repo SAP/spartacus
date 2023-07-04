@@ -6,16 +6,16 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CpqConfiguratorNormalizer } from '../common/converters/cpq-configurator-normalizer';
-import { CpqConfiguratorOverviewNormalizer } from '../common/converters/cpq-configurator-overview-normalizer';
-import { CpqConfiguratorSerializer } from '../common/converters/cpq-configurator-serializer';
-import { CpqConfiguratorValueSerializer } from '../common/converters/cpq-configurator-value-serializer';
+import { CpqConfiguratorNormalizer } from './converters/cpq-configurator-normalizer';
+import { CpqConfiguratorOverviewNormalizer } from './converters/cpq-configurator-overview-normalizer';
+import { CpqConfiguratorSerializer } from './converters/cpq-configurator-serializer';
+import { CpqConfiguratorValueSerializer } from './converters/cpq-configurator-value-serializer';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
-} from '../common/converters/cpq-configurator.converters';
+} from './converters/cpq-configurator.converters';
 
 @NgModule({
   imports: [CommonModule],
