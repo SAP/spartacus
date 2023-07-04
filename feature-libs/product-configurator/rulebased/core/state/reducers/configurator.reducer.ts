@@ -282,7 +282,6 @@ function handleReadEntryConfigurationSuccess(
   return result;
 }
 
-
 function handleReadOrderEntryConfigurationSuccess(
   state: Configurator.Configuration,
   action: ConfiguratorActions.ReadOrderEntryConfigurationSuccess
