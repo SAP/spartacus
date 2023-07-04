@@ -5,7 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Customer360ReviewList } from '@spartacus/asm/customer-360/root';
+import {
+  Customer360Config,
+  Customer360ReviewList,
+} from '@spartacus/asm/customer-360/root';
 import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -55,6 +58,7 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
   protected subscription = new Subscription();
 
   constructor(
+    protected customer360Config: Customer360Config,
     protected context: Customer360SectionContext<Customer360ReviewList>,
     protected datePipe: CxDatePipe,
     protected translation: TranslationService
@@ -86,6 +90,11 @@ export class AsmCustomerProductReviewsComponent implements OnInit {
   }
 
   protected getLongDate(date: Date) {
-    return date ? this.datePipe.transform(date, 'dd-MM-yy hh:mm a') ?? '' : '';
+    return date
+      ? this.datePipe.transform(
+          date,
+          this.customer360Config?.customer360?.dateTimeFormat
+        ) ?? ''
+      : '';
   }
 }
