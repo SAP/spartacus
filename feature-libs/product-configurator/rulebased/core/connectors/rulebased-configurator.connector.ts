@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
@@ -23,11 +23,27 @@ export class RulebasedConfiguratorConnector {
     RulebasedConfiguratorAdapter[]
   >('ConfiguratorAdapterList');
 
+  // TODO(CXSPA-3392): make config a required dependency
+  constructor(
+    adapters: RulebasedConfiguratorAdapter[],
+    configUtilsService: CommonConfiguratorUtilsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    config: ConfiguratorCpqConfig
+  );
+
+  /**
+   * @deprecated since 6.3
+   */
+  constructor(
+    adapters: RulebasedConfiguratorAdapter[],
+    configUtilsService: CommonConfiguratorUtilsService
+  );
+
   constructor(
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
     protected configUtilsService: CommonConfiguratorUtilsService,
-    protected config: ConfiguratorCpqConfig
+    @Optional() protected config?: ConfiguratorCpqConfig
   ) {}
 
   createConfiguration(
