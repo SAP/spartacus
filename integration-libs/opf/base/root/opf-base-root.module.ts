@@ -6,14 +6,23 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import {
+  BaseSiteService,
+  CONFIG_INITIALIZER,
+  ConfigInitializer,
   MODULE_INITIALIZER,
   provideConfigValidator,
   provideDefaultConfig,
 } from '@spartacus/core';
+import {
+  defaultOPFCheckoutConfig,
+  defaultOpfConfig,
+  defaultOpfRoutingConfig,
+} from '@spartacus/opf/checkout/root';
+import { defaultCheckoutConfig } from 'feature-libs/checkout/base/root/config/default-checkout-config';
+import { take } from 'rxjs/operators';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
-import { defaultOpfRoutingConfig } from './config';
-import { defaultOpfConfig } from './config/default-opf-config';
 import { opfConfidValidator } from './config/opf-config-validator';
 import { OpfEventModule } from './events/opf-event.module';
 import { OpfStatePersistenceService } from './services/opf-state-persistence.service';
@@ -54,10 +63,32 @@ export function opfStatePersistenceFactory(
       multi: true,
     },
     provideDefaultConfig(defaultOpfConfig),
-
-    // TODO OPF: uncomment once proper type and routing is set up
     provideDefaultConfig(defaultOpfRoutingConfig),
     provideConfigValidator(opfConfidValidator),
+    {
+      provide: CONFIG_INITIALIZER,
+      useFactory: (baseSiteService: BaseSiteService): ConfigInitializer => {
+        return {
+          scopes: ['checkout.steps'],
+          configFactory: async (): Promise<CheckoutConfig> => {
+            const baseSite = await baseSiteService
+              .get()
+              .pipe(take(1))
+              .toPromise();
+            const paymentProvider = baseSite?.baseStore?.paymentProvider;
+
+            if (paymentProvider === 'sap-opf') {
+              return defaultOPFCheckoutConfig;
+            } else {
+              return defaultCheckoutConfig;
+            }
+          },
+        };
+      },
+      deps: [BaseSiteService],
+      multi: true,
+    },
+    provideDefaultConfig(defaultOpfConfig),
   ],
 })
 export class OpfBaseRootModule {}

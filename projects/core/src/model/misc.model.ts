@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address } from './address.model';
 import { B2BUnit } from '.';
+import { Address } from './address.model';
 
 export interface Currency {
   active?: boolean;
@@ -110,6 +110,7 @@ export interface BaseStore {
   defaultCurrency?: Currency;
   languages?: Language[];
   defaultLanguage?: Language;
+  paymentProvider?: string;
 }
 
 export interface BaseSite {
