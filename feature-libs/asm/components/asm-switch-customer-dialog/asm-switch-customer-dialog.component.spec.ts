@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CsAgentAuthService } from '@spartacus/asm/root';
-import { AuthService } from '@spartacus/core';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services';
@@ -31,6 +31,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomer() {}
+  handleDeepLinkNavigation() {}
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -38,7 +39,9 @@ class MockAuthService implements Partial<AuthService> {
     return of(false);
   }
 }
-
+class MockRoutingService implements Partial<RoutingService> {
+  go = () => Promise.resolve(true);
+}
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   authorizeCustomerSupportAgent(): Promise<void> {
     return Promise.resolve();
@@ -52,7 +55,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   startCustomerEmulationSession(_customerId: string) {}
 }
 
-describe('AsmBindCartDialogComponent', () => {
+describe('AsmSwitchCustomerDialogComponent', () => {
   let component: AsmSwitchCustomerDialogComponent;
   let fixture: ComponentFixture<AsmSwitchCustomerDialogComponent>;
 
@@ -67,6 +70,7 @@ describe('AsmBindCartDialogComponent', () => {
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   });
