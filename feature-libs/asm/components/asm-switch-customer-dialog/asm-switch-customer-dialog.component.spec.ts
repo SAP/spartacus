@@ -31,7 +31,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 class MockAsmComponentService extends AsmComponentService {
   logoutCustomer() {}
-  handleDeepLinkNavigation() {}
 }
 
 class MockAuthService implements Partial<AuthService> {

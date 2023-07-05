@@ -93,9 +93,6 @@ describe('AsmComponentService', () => {
     authService = TestBed.inject(AuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     windowRef = TestBed.inject(WindowRef);
-    TestBed.inject(RoutingService);
-    TestBed.inject(AsmEnablerService);
-    TestBed.inject(AsmDeepLinkService);
   });
 
   it('should be created', () => {

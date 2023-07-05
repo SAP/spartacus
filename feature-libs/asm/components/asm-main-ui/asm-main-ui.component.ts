@@ -191,7 +191,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         //Always route to home page to avoid 404
         this.routingService.go('/');
       }
-      // TODO: Use asmDeepLinkService only in 7.0.
+      // TODO(CXSPA-3090): Use asmDeepLinkService only in 7.0.
       const parameters = this.asmComponentService.getDeepLinkUrlParams() ?? {
         customerId: this.asmComponentService.getSearchParameter('customerId'),
         orderId: this.asmComponentService.getSearchParameter('orderId'),
@@ -304,14 +304,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;
       if (parameters) {
-        // TODO: Remove feature flag in 7.0
+        // TODO(CXSPA-3090): Remove feature flag in 7.0
         if (this.featureConfig?.isLevel('6.3')) {
           this.asmComponentService.handleDeepLinkNavigation({
             customerId,
             ...parameters,
           });
         } else {
-          // TODO: Remove this implementation in 7.0
+          // TODOi(CXSPA-3090): Remove this implementation in 7.0
           this.handleDeepLinkParamsAfterStartSession(parameters);
         }
       }
