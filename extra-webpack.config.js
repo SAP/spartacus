@@ -42,6 +42,10 @@ module.exports = {
       '@spartacus/asm': path.join(__dirname, 'feature-libs/asm'),
       '@spartacus/smartedit': path.join(__dirname, 'feature-libs/smartedit'),
       '@spartacus/qualtrics': path.join(__dirname, 'feature-libs/qualtrics'),
+      '@spartacus/requested-delivery-date': path.join(
+        __dirname,
+        'feature-libs/requested-delivery-date'
+      ),
       '@spartacus/tracking': path.join(__dirname, 'feature-libs/tracking'),
       '@spartacus/cart': path.join(__dirname, 'feature-libs/cart'),
       '@spartacus/order': path.join(__dirname, 'feature-libs/order'),
@@ -53,7 +57,10 @@ module.exports = {
         __dirname,
         'feature-libs/customer-ticketing'
       ),
-      '@spartacus/pickup-in-store': path.join(__dirname, 'feature-libs/pickup-in-store'),
+      '@spartacus/pickup-in-store': path.join(
+        __dirname,
+        'feature-libs/pickup-in-store'
+      ),
       '@spartacus/s4om': path.join(__dirname, 'integration-libs/s4om'),
     },
   },
