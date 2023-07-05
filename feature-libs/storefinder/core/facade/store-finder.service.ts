@@ -105,7 +105,7 @@ export class StoreFinderService implements OnDestroy {
    */
   findStoresAction(
     queryText: string,
-    searchConfig: SearchConfig = {},
+    searchConfig?: SearchConfig,
     longitudeLatitude?: GeoPoint,
     countryIsoCode?: string,
     useMyLocation?: boolean,

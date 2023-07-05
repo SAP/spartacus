@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureModulesService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   User,
 } from '@spartacus/core';
@@ -52,7 +54,7 @@ describe('CustomerEmulationComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
         providers: [
           {
@@ -62,6 +64,12 @@ describe('CustomerEmulationComponent', () => {
           { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
+          },
         ],
       }).compileComponents();
     })

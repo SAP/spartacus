@@ -9,6 +9,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
@@ -27,22 +28,37 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
-  isCustomer360Configured = false;
+  isCustomer360Configured: boolean | undefined = false;
 
   @ViewChild('customer360Launcher') customer360LauncherElement: ElementRef;
 
   protected subscription = new Subscription();
 
   constructor(
+    asmComponentService: AsmComponentService,
+    userAccountFacade: UserAccountFacade,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    launchDialogService: LaunchDialogService,
+    featureModules: FeatureModulesService
+  );
+  /**
+   * @deprecated since 7.0
+   */
+  constructor(
+    asmComponentService: AsmComponentService,
+    userAccountFacade: UserAccountFacade
+  );
+  constructor(
     protected asmComponentService: AsmComponentService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected featureModules: FeatureModulesService
+    // TODO(CXSPA-3090): Remove optional flag in 7.0
+    @Optional() protected launchDialogService?: LaunchDialogService,
+    @Optional() protected featureModules?: FeatureModulesService
   ) {}
 
   ngOnInit() {
     this.isCustomer360Configured =
-      this.featureModules.isConfigured('customer360');
+      this.featureModules?.isConfigured('customer360');
 
     this.subscription.add(
       this.userAccountFacade.get().subscribe((user) => {
@@ -61,14 +77,14 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
 
   openCustomer360() {
     const data = { customer: this.customer };
-    this.launchDialogService.openDialogAndSubscribe(
+    this.launchDialogService?.openDialogAndSubscribe(
       LAUNCH_CALLER.ASM_CUSTOMER_360,
       this.customer360LauncherElement,
       data
     );
 
     this.subscription.add(
-      this.launchDialogService.dialogClose
+      this.launchDialogService?.dialogClose
         .pipe(filter((result) => Boolean(result)))
         .subscribe((event: AsmDialogActionEvent) => {
           this.asmComponentService.handleAsmDialogAction(event);

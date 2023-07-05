@@ -4,14 +4,17 @@
     <label class="cx-asm-uid">{{ customer?.uid }}</label>
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
-  <button
-    *ngIf="isCustomer360Configured"
-    #customer360Launcher
-    class="cx-360-button"
-    (click)="openCustomer360()"
-  >
-    {{ 'asm.customer360Button' | cxTranslate }}
-  </button>
+  <!-- TODO(CXSPA-3090): Remove feature flag in 7.0 -->
+  <ng-container *cxFeatureLevel="'6.3'">
+    <button
+      *ngIf="isCustomer360Configured"
+      #customer360Launcher
+      class="cx-360-button"
+      (click)="openCustomer360()"
+    >
+      {{ 'asm.customer360Button' | cxTranslate }}
+    </button>
+  </ng-container>
   <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endEmulation' | cxTranslate }}
   </button>
