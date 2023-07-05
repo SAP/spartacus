@@ -24,7 +24,7 @@ import {
           module: () =>
             import(
               './organization/organization-registration-wrapper.module'
-            ).then((m) => m.OrganizationRegistrationWrapperModule),
+            ).then((m) => m.OrganizationUserRegistrationWrapperModule),
         },
       },
     }),

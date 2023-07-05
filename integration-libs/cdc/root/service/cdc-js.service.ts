@@ -310,9 +310,9 @@ export class CdcJsService implements OnDestroy {
       if (message) {
         const msgList = message.replace('\n', '').split(';');
         for (const msg of msgList) {
-          if (msg.toLowerCase().search('department') === 0) {
+          if (msg.trim().toLowerCase().search('department') === 0) {
             department = msg.split(':')[1].trim();
-          } else if (msg.toLowerCase().search('position') === 0) {
+          } else if (msg.trim().toLowerCase().search('position') === 0) {
             position = msg.split(':')[1].trim();
           }
         }

@@ -19,4 +19,4 @@ if (environment.cdc) {
 @NgModule({
   imports: [OrganizationUserRegistrationModule, ...extensions],
 })
-export class OrganizationRegistrationWrapperModule {}
+export class OrganizationUserRegistrationWrapperModule {}
