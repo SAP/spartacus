@@ -24,11 +24,11 @@ declare module '@spartacus/core' {
      */
     updateCpqConfigurationForCartEntry?: string | OccEndpoint;
     /**
-     * Endpoint for reading a CPQ configuration Id attached to the given cart entry
+     * Endpoint for reading the Id of a CPQ configuration attached to the given cart entry
      */
     readCpqConfigurationForCartEntry?: string | OccEndpoint;
     /**
-     * Endpoint for reading a CPQ configuration Id attached to a given order entry
+     * Endpoint for reading the Id of a CPQ configuration attached to the given order entry
      */
     readCpqConfigurationForOrderEntry?: string | OccEndpoint;
     /**

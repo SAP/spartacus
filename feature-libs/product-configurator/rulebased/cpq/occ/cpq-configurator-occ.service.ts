@@ -122,8 +122,8 @@ export class CpqConfiguratorOccService {
   }
 
   /**
-   * Creates a new runtime configuration for the given product id
-   * and read this default configuration from the CPQ system over OCC.
+   * Creates a new default runtime configuration for the given product id
+   * and read it from the CPQ system over OCC.
    *
    * @param {string} productSystemId - Product system ID
    * @returns {Observable<Configurator.Configuration>} - Created configuration
@@ -168,7 +168,7 @@ export class CpqConfiguratorOccService {
 
   /**
    * Updates an attribute of the runtime configuration for the given configuration id and attribute code
-   * and read this default configuration from the CPQ system over OCC.
+   * and read the desired configuration tab from the CPQ system over OCC.
    *
    * @param {Configurator.Configuration} configuration - Configuration
    * @returns {Observable<Configurator.Configuration>} - Updated configuration
@@ -187,7 +187,7 @@ export class CpqConfiguratorOccService {
 
   /**
    * Updates a quantity for an attribute of the runtime configuration for the given configuration id and attribute code
-   * and read this default configuration from the CPQ system over OCC.
+   * and read the desired configuration tab from the CPQ system over OCC.
    *
    * @param {Configurator.Configuration} configuration - Configuration
    * @returns {Observable<Configurator.Configuration>} - Updated configuration
@@ -278,9 +278,7 @@ export class CpqConfiguratorOccService {
         configurationId: updateAttribute.configurationId,
         attributeCode: updateAttribute.standardAttributeCode,
       },
-      queryParams: updateAttribute.tabId
-        ? { tabId: updateAttribute.tabId }
-        : undefined,
+      queryParams: { tabId: updateAttribute.tabId },
     });
     return this.http.patch<Cpq.Configuration>(
       url,
@@ -299,9 +297,7 @@ export class CpqConfiguratorOccService {
           attributeCode: updateValue.standardAttributeCode,
           attributeValueId: updateValue.attributeValueId,
         },
-        queryParams: updateValue.tabId
-          ? { tabId: updateValue.tabId }
-          : undefined,
+        queryParams: { tabId: updateValue.tabId },
       }
     );
     return this.http.patch<Cpq.Configuration>(url, {

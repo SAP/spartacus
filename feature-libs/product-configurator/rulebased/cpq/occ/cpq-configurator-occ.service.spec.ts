@@ -485,7 +485,7 @@ describe('CpqConfigurationOccService', () => {
     );
   });
 
-  it('should  read the configuration for a cart entry and call normalizer', () => {
+  it('should read the configuration for a cart entry and call normalizer', () => {
     serviceUnderTest
       .readConfigurationForCartEntry(readConfigCartEntryParams)
       .subscribe((config) => {
@@ -512,7 +512,7 @@ describe('CpqConfigurationOccService', () => {
     );
   });
 
-  it('should  read the configuration for an order entry and call normalizer', () => {
+  it('should read the configuration for an order entry and call normalizer', () => {
     serviceUnderTest
       .readConfigurationForOrderEntry(readConfigOrderEntryParams)
       .subscribe((config) => {
