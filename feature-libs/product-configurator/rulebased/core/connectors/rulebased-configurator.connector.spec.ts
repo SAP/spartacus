@@ -411,18 +411,18 @@ describe('RulebasedConfiguratorConnector', () => {
       expect(isAdapterMatching(adapter, ConfiguratorType.VARIANT)).toBe(true);
     });
 
-    it("should't match if configurator types aren't the same", () => {
+    it("shouldn't match if configurator types aren't the same", () => {
       const adapter = createMockAdapter(ConfiguratorType.VARIANT);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
     });
 
-    it("should't match if CPQ configurator type with cpqOverOcc flag is requested, but adapter doesn't support it", () => {
+    it("shouldn't match if CPQ configurator type with cpqOverOcc flag is requested, but adapter doesn't support it", () => {
       setCpqOverOcc(true);
       const adapter = createMockAdapter(ConfiguratorType.CPQ, false);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
     });
 
-    it("should't match if CPQ configurator type without cpqOverOcc flag is requested, but adapter supports it", () => {
+    it("shouldn't match if CPQ configurator type without cpqOverOcc flag is requested, but adapter supports it", () => {
       setCpqOverOcc(false);
       const adapter = createMockAdapter(ConfiguratorType.CPQ, true);
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(false);
@@ -440,11 +440,10 @@ describe('RulebasedConfiguratorConnector', () => {
       expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
     });
 
-    // TODO Uli fix
-    // it("should match if CPQ configurator with non-existing config is requested and adapter doesn't implement method", () => {
-    //   service['config'] = undefined;
-    //   const adapter = createMockAdapter(ConfiguratorType.CPQ);
-    //   expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
-    // });
+    it("should match if CPQ configurator with non-existing config is requested and adapter doesn't implement method", () => {
+      service['config'] = undefined;
+      const adapter = createMockAdapter(ConfiguratorType.CPQ);
+      expect(isAdapterMatching(adapter, ConfiguratorType.CPQ)).toBe(true);
+    });
   });
 });
