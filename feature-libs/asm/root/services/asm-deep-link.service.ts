@@ -6,7 +6,8 @@
 
 import { RoutingService, WindowRef } from '@spartacus/core';
 import { Injectable } from '@angular/core';
-import { AsmDeepLinkParameters, AsmEnablerService } from '@spartacus/asm/root';
+import { AsmEnablerService } from './asm-enabler.service';
+import { AsmDeepLinkParameters } from '../model/asm.models';
 
 @Injectable({
   providedIn: 'root',
