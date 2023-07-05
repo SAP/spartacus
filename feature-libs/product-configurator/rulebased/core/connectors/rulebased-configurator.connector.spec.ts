@@ -8,8 +8,8 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
-import { ConfiguratorCpqConfig } from '../../cpq/config/configurator-cpq.config';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
@@ -117,13 +117,13 @@ describe('RulebasedConfiguratorConnector', () => {
   let service: RulebasedConfiguratorConnector;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let adapter: RulebasedConfiguratorAdapter[];
-  let configuratorCpqConfig: ConfiguratorCpqConfig;
+  let configuratorCpqConfig: ConfiguratorCoreConfig;
 
   const GROUP_ID = 'GROUP1';
 
   const QUANTITY = 1;
 
-  const MockConfig: ConfiguratorCpqConfig = {
+  const MockConfig: ConfiguratorCoreConfig = {
     productConfigurator: {
       cpqOverOcc: true,
     },
@@ -156,7 +156,7 @@ describe('RulebasedConfiguratorConnector', () => {
           multi: true,
         },
         {
-          provide: ConfiguratorCpqConfig,
+          provide: ConfiguratorCoreConfig,
           useValue: MockConfig,
         },
         {
@@ -175,7 +175,7 @@ describe('RulebasedConfiguratorConnector', () => {
       RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
     );
     configuratorCpqConfig = TestBed.inject(
-      ConfiguratorCpqConfig as Type<ConfiguratorCpqConfig>
+      ConfiguratorCoreConfig as Type<ConfiguratorCoreConfig>
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
     setCpqOverOcc(false);

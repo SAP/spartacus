@@ -5,9 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
 import { CpqConfiguratorCommonModule } from './common/cpq-configurator-common.module';
-import { defaultConfiguratorCpqConfig } from './config/default-configurator-cpq.config';
 import { CpqConfiguratorOccModule } from './occ/cpq-configurator-occ.module';
 import { CpqConfiguratorRestModule } from './rest/cpq-configurator-rest.module';
 
@@ -21,6 +19,5 @@ import { CpqConfiguratorRestModule } from './rest/cpq-configurator-rest.module';
     CpqConfiguratorOccModule,
     CpqConfiguratorRestModule,
   ],
-  providers: [provideDefaultConfig(defaultConfiguratorCpqConfig)],
 })
 export class RulebasedCpqConfiguratorModule {}

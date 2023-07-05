@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorType,
+  ConfiguratorType
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-//import { ConfiguratorCpqConfig } from '../../cpq/config/configurator-cpq.config';
+import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 
@@ -26,9 +26,9 @@ export class RulebasedConfiguratorConnector {
   // TODO(CXSPA-3392): make config a required dependency
   constructor(
     adapters: RulebasedConfiguratorAdapter[],
-    configUtilsService: CommonConfiguratorUtilsService
+    configUtilsService: CommonConfiguratorUtilsService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    // config: ConfiguratorCpqConfig
+    config: ConfiguratorCoreConfig
   );
 
   /**
@@ -42,7 +42,8 @@ export class RulebasedConfiguratorConnector {
   constructor(
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
-    protected configUtilsService: CommonConfiguratorUtilsService //@Optional() protected config?: ConfiguratorCpqConfig
+    protected configUtilsService: CommonConfiguratorUtilsService,
+    @Optional() protected config?: ConfiguratorCoreConfig
   ) {}
 
   createConfiguration(
@@ -164,10 +165,8 @@ export class RulebasedConfiguratorConnector {
   ): boolean {
     let matching = adapter.getConfiguratorType() === configuratorType;
     if (matching && ConfiguratorType.CPQ === configuratorType) {
-      //TODO Uli fix
-      //const isCpqOverOccRequested =
-      //this.config?.productConfigurator?.cpqOverOcc ?? false;
-      const isCpqOverOccRequested = true;
+      const isCpqOverOccRequested =
+        this.config?.productConfigurator?.cpqOverOcc ?? false;
       const isCpqOverOccSupported =
         !!adapter.supportsCpqOverOcc && adapter.supportsCpqOverOcc();
       matching = isCpqOverOccRequested === isCpqOverOccSupported;
