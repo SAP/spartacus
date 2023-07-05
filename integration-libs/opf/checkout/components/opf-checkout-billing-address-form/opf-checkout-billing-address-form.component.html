@@ -13,7 +13,7 @@
             type="checkbox"
             class="form-check-input"
             [checked]="addressData.isSameAsDelivery"
-            (change)="toggleSameAsDeliveryAddress($event.target.checked)"
+            (change)="toggleSameAsDeliveryAddress($event)"
             [attr.aria-label]="
               'paymentForm.billingAddressSameAsShipping' | cxTranslate
             "

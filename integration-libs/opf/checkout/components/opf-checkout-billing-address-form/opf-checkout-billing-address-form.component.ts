@@ -47,7 +47,8 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     this.isEditBillingAddress = true;
   }
 
-  toggleSameAsDeliveryAddress(checked: boolean): void {
+  toggleSameAsDeliveryAddress(event: Event): void {
+    const checked = (<HTMLInputElement>event.target).checked;
     this.service.setIsSameAsDeliveryValue(checked);
     if (checked) {
       this.service.putDeliveryAddressAsPaymentAddress();
@@ -58,8 +59,8 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
     }
   }
 
-  getAddressData(billingAddress: Address): Address {
-    return !!billingAddress.id && !this.isAddingBillingAddressInProgress
+  getAddressData(billingAddress: Address | undefined | null): Address {
+    return !!billingAddress?.id && !this.isAddingBillingAddressInProgress
       ? billingAddress
       : {};
   }
