@@ -30,6 +30,7 @@ import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator
       useClass: CpqConfiguratorRestAdapter,
       multi: true,
     },
+    //TODO: CXSPA-3392 move converters from here to cpq-configurator-common module
     {
       provide: CPQ_CONFIGURATOR_NORMALIZER,
       useClass: CpqConfiguratorNormalizer,
