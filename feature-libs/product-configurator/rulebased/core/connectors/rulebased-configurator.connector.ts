@@ -9,7 +9,7 @@ import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorType
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
