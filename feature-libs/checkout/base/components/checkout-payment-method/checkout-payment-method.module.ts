@@ -7,7 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, I18nModule, provideDefaultConfig, FeaturesConfigModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';

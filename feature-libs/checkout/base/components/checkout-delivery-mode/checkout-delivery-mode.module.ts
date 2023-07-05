@@ -7,7 +7,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, I18nModule, provideDefaultConfig, FeaturesConfigModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import {
   OutletModule,
   PageComponentModule,

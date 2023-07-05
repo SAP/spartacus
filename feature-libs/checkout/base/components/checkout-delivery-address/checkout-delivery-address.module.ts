@@ -8,7 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartValidationGuard } from '@spartacus/cart/base/core';
-import { CmsConfig, I18nModule, provideDefaultConfig, FeaturesConfigModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import {
   AddressFormModule,
   CardModule,
