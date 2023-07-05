@@ -16,7 +16,11 @@ describe('Segment Reference', () => {
   });
   it('should fetch appropriate banner customization', () => {
     interceptGet('segmentRefApi', '/cms/pages*');
-    cy.visit(`${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env('BASE_CURRENCY')}/?segmentrefs=footwear`);
+    cy.visit(
+      `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
+        'BASE_CURRENCY'
+      )}/?segmentrefs=footwear`
+    );
     cy.wait('@segmentRefApi').then((xhr) => {
       expect(xhr.request.headers).to.have.property('segmentrefs', 'footwear');
     });

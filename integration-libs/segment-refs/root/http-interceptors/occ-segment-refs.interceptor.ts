@@ -59,7 +59,6 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
       this.segmentRefs &&
       request.url.includes(this.occEndpoints.getBaseUrl())
     ) {
-      console.log(this.segmentRefs);
       request = request.clone({
         setHeaders: {
           [this.requestHeader]: this.segmentRefs,
