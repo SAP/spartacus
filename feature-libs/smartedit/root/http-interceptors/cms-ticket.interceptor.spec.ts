@@ -101,4 +101,25 @@ describe('CmsTicketInterceptor', () => {
       mockReq.flush('somedata');
     }
   ));
+
+  it('should add parameters for product requests: cmsTicketId', inject(
+    [HttpClient],
+    (http: HttpClient) => {
+      spyOnProperty(service, 'cmsTicketId', 'get').and.returnValue(
+        'mockCmsTicketId'
+      );
+
+      http.get(`${OccUrl}/products/mockId`).subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
+      });
+
+      expect(mockReq.request.params.get('cmsTicketId')).toEqual(
+        'mockCmsTicketId'
+      );
+      mockReq.flush('somedata');
+    }
+  ));
 });
