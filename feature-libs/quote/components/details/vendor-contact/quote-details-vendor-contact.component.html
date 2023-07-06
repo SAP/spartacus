@@ -12,4 +12,10 @@
   }}</span>
 </div>
 <!-- TBD -->
-<div *ngIf="showVendorContact">{{ vendorplaceHolder }}</div>
+<div *ngIf="showVendorContact">
+  <cx-messaging
+    [messageEvents$]="messageEvents$"
+    [messagingConfigs]="messagingConfigs"
+    (send)="onSend()"
+  ></cx-messaging>
+</div>
