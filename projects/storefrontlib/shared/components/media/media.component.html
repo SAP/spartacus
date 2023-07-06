@@ -1,10 +1,15 @@
-<img
-  *ngIf="media && media.src"
-  [attr.src]="media.src"
-  [attr.srcset]="media.srcset"
-  [attr.alt]="media.alt"
-  [attr.role]="media.role"
-  [attr.loading]="loading"
-  (load)="loadHandler()"
-  (error)="errorHandler()"
-/>
+<picture *ngIf="media && media.src">
+  <source
+    *ngFor="let image of media.srcset"
+    [srcset]="image.url"
+    media="(min-width: {{ image.width }}px)"
+  />
+  <img
+    [src]="media.src"
+    [attr.alt]="media.alt"
+    [attr.role]="media.role"
+    [attr.loading]="loading"
+    (load)="loadHandler()"
+    (error)="errorHandler()"
+  />
+</picture>

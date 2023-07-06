@@ -16,7 +16,7 @@ export interface Media {
   /**
    * The srcset attribute holds a list of image file URLs, along with size descriptions.
    */
-  srcset?: string;
+  srcset?: MediaSrcSet[] | undefined;
 
   /**
    * Provides alternative information for a media if a user cannot view the visual. It is
@@ -73,4 +73,14 @@ export enum ImageLoadingStrategy {
    * This generally improves the performance of the content in most typical use cases.
    */
   LAZY = 'lazy',
+}
+
+export interface MediaSrcSet {
+  url: string;
+  width: number;
+}
+
+export interface MediaFormat {
+  code: string;
+  size: MediaFormatSize;
 }

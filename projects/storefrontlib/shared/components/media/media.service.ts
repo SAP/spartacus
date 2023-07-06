@@ -11,7 +11,9 @@ import {
   ImageLoadingStrategy,
   Media,
   MediaContainer,
+  MediaFormat,
   MediaFormatSize,
+  MediaSrcSet,
 } from './media.model';
 
 /**
@@ -82,7 +84,7 @@ export class MediaService {
    * format key and the format size information. We do this only once for performance
    * benefits.
    */
-  protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
+  protected get sortedFormats(): MediaFormat[] {
     const mediaFormats = this.config?.mediaFormats;
     if (!this._sortedFormats && mediaFormats) {
       this._sortedFormats = Object.keys(mediaFormats)
@@ -152,32 +154,54 @@ export class MediaService {
   protected resolveSrcSet(
     media: MediaContainer | Image,
     maxFormat?: string
-  ): string | undefined {
+  ): MediaSrcSet[] | undefined {
     if (!media) {
       return undefined;
     }
 
+    const formats: MediaFormat[] =
+      this.getMaximumAvailableFormatsAmount(maxFormat);
+
+    return this.createSrcSet(formats, media);
+  }
+
+  protected getMaximumAvailableFormatsAmount(
+    maxFormat?: string
+  ): MediaFormat[] {
     // Only create srcset images that are smaller than the given `maxFormat` (if any)
-    let formats = this.sortedFormats;
+    let formats: MediaFormat[] = this.sortedFormats;
     const max: number = formats.findIndex((f) => f.code === maxFormat);
     if (max > -1) {
       formats = formats.slice(0, max + 1);
     }
 
-    const srcset = formats.reduce((set, format) => {
-      const image = (media as MediaContainer)[format.code];
-      if (!!image) {
-        if (set) {
-          set += ', ';
-        }
-        set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
-          format.size.width
-        }w`;
-      }
-      return set;
-    }, '');
+    return formats;
+  }
 
-    return srcset === '' ? undefined : srcset;
+  protected createSrcSet(
+    formats: MediaFormat[],
+    media: MediaContainer | Image
+  ): MediaSrcSet[] | undefined {
+    let previousWidth = 0;
+
+    const srcset = formats.reduce((set: any, format: MediaFormat) => {
+      const image = (media as MediaContainer)[format.code];
+
+      if (!!image) {
+        const url: string = this.resolveAbsoluteUrl(image.url ?? '');
+        const width: number = previousWidth;
+
+        previousWidth = format.size.width ?? 0;
+
+        set.push({
+          url,
+          width,
+        });
+      }
+      return set.reverse();
+    }, []);
+
+    return !srcset.length ? undefined : srcset;
   }
 
   /**
