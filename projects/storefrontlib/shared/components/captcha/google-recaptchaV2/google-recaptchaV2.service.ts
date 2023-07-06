@@ -130,12 +130,6 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
    */
   loadScript(params?: { [key: string]: string }): void {
     if (this.apiConfig?.apiUrl) {
-      //const scriptParams: any = { onload: 'onCaptchaLoad', render: 'explicit' };
-      /*
-      if (lang) {
-        params.hl = lang;
-      }
-*/
       if (params) {
         this.scriptLoader.embedScript({
           src: this.apiConfig.apiUrl,
