@@ -48,6 +48,14 @@ cx-quote-details-overview {
           max-width: 100%;
           word-break: break-word;
         }
+
+        .cx-card-paragraph {
+          padding-inline-start: 0;
+
+          .cx-card-paragraph-text {
+            font-weight: var(--cx-font-weight-bold);
+          }
+        }
       }
     }
   }
