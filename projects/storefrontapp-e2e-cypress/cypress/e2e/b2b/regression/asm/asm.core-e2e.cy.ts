@@ -4,16 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import * as asm from '../../../../helpers/asm';
+import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
+import * as checkout from '../../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
-import { user } from '../../../../sample-data/checkout-flow';
-import { register } from '../../../../helpers/auth-forms';
-import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { interceptGet } from '../../../../support/utils/intercept';
 
 context('B2B - Assisted Service Module', () => {
+  const customer = {
+    fullName: 'William Hunter',
+    email: 'william.hunter@pronto-hw.com',
+  };
+
   before(() => {
     clearAllStorage();
   });
@@ -27,8 +31,7 @@ context('B2B - Assisted Service Module', () => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
     });
 
-    // This test only works if "sap-commerce-cloud-user-id" is added to the allowed headers of "corsfilter.commercewebservices.allowedHeaders" on the Commerce Cloud side (CXSPA-1355)
-    it.skip("should fetch cost centers based on the emulated user's role", () => {
+    it("should fetch cost centers based on the emulated user's role", () => {
       cy.cxConfig({
         context: {
           baseSite: ['powertools-spa'],
@@ -36,15 +39,13 @@ context('B2B - Assisted Service Module', () => {
         },
       });
 
-      cy.visit('/', { qs: { asm: true } });
-
-      cy.visit('/login/register');
-
-      register(user, true);
-
+      cy.log('--> Agent logging in');
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
       asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
-
-      asm.startCustomerEmulation(user, true);
+      cy.log('--> Agent emulate customer');
+      asm.startCustomerEmulation(customer, true);
 
       addB2bProductToCartAndCheckout();
 
