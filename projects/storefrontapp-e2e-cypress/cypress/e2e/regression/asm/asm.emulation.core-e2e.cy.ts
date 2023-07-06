@@ -96,7 +96,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-customer-emulation').should('be.visible');
     });
 
-     // TODO(#7221): enable this case 
+    // TODO(#7221): enable this case
     it.skip('agent logout when user was logged and emulated should restore the session', () => {
       checkout.visitHomePage('asm=true');
 
