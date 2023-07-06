@@ -22,6 +22,10 @@ export abstract class OpfPaymentAdapter {
     payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
 
+  /**
+   * Abstract method used to submit payment for hosted-fields pattern
+   */
+
   abstract submitPayment(
     submitRequest: SubmitRequest,
     otpKey: string,

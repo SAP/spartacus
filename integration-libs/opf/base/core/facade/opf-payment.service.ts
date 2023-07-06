@@ -9,25 +9,25 @@ import {
   Command,
   CommandService,
   GlobalMessageService,
-  GlobalMessageType,
-  HttpResponseStatus,
-  QueryService,
   RoutingService,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
 import {
+  MerchantCallback,
   OpfOrderFacade,
   OpfOtpFacade,
+  OpfPaymentError,
   OpfPaymentFacade,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  PaymentError,
+  PaymentErrorType,
   PaymentMethod,
   SubmitInput,
   SubmitRequest,
   SubmitResponse,
   SubmitStatus,
+  defaultError,
 } from '@spartacus/opf/base/root';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -43,6 +43,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
+import { OpfPaymentErrorHandlerService } from '../services/opf-payment-error-handler.service';
+import { getBrowserInfo } from '../utils/opf-payment-utils';
 
 @Injectable()
 export class OpfPaymentService implements OpfPaymentFacade {
@@ -65,8 +67,6 @@ export class OpfPaymentService implements OpfPaymentFacade {
     },
     boolean
   > = this.commandService.create((payload) => {
-    const [submitSuccess, submitPending, submitFailure] =
-      payload.submitInput.callbackArray;
     const {
       paymentMethod,
       cartId,
@@ -74,25 +74,13 @@ export class OpfPaymentService implements OpfPaymentFacade {
       paymentSessionId,
       returnPath,
     } = payload.submitInput;
-    const currentDate = new Date();
-    const timeZoneOffset = currentDate.getTimezoneOffset();
+
     const submitRequest: SubmitRequest = {
       paymentMethod,
       cartId,
       additionalData,
       channel: 'BROWSER',
-      browserInfo: {
-        acceptHeader: 'application/json',
-        colorDepth: this.winRef.nativeWindow?.screen?.colorDepth,
-        javaEnabled: false,
-        javaScriptEnabled: true,
-        language: this.winRef.nativeWindow?.navigator?.language,
-        screenHeight: this.winRef.nativeWindow?.screen?.height,
-        screenWidth: this.winRef.nativeWindow?.screen?.width,
-        userAgent: this.winRef.nativeWindow?.navigator?.userAgent,
-        originUrl: this.winRef.nativeWindow?.location?.origin,
-        timeZoneOffset,
-      },
+      browserInfo: getBrowserInfo(this.winRef.nativeWindow),
     };
     if (paymentMethod !== PaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';
@@ -115,50 +103,69 @@ export class OpfPaymentService implements OpfPaymentFacade {
           paymentSessionId
         )
       ),
-      concatMap((response: SubmitResponse) => {
-        if (
-          response.status === SubmitStatus.ACCEPTED ||
-          response.status === SubmitStatus.DELAYED
-        ) {
-          return from(Promise.resolve(submitSuccess(response))).pipe(
-            concatMap(() => this.opfOrderFacade.placeOpfOrder(true))
-          );
-        } else if (response.status === SubmitStatus.PENDING) {
-          return from(Promise.resolve(submitPending(response))).pipe(
-            concatMap(() => EMPTY)
-          );
-        } else if (response.status === SubmitStatus.REJECTED) {
-          return from(Promise.resolve(submitFailure(response))).pipe(
-            concatMap(() =>
-              throwError({ ...this.defaultError, type: 'PAYMENT_REJECTED' })
-            )
-          );
-        } else {
-          return from(Promise.resolve(submitFailure(response))).pipe(
-            concatMap(() =>
-              throwError({
-                ...this.defaultError,
-                type: 'STATUS_NOT_RECOGNIZED',
-              })
-            )
-          );
-        }
-      }),
+      concatMap((response: SubmitResponse) =>
+        this.submitPaymentResponseHandler(
+          response,
+          payload.submitInput.callbackArray
+        )
+      ),
       tap((order: Order) => {
         if (order) {
           this.routingService.go({ cxRoute: 'orderConfirmation' });
         }
       }),
       map((order: Order) => (order ? true : false)),
-      catchError((error: PaymentError | undefined) => {
-        this.handlePaymentError(error, returnPath);
+      catchError((error: OpfPaymentError | undefined) => {
+        this.opfPaymentErrorHandlerService.handlePaymentError(
+          error,
+          returnPath
+        );
         return throwError(error);
       })
     );
   });
 
+  protected submitPaymentResponseHandler(
+    response: SubmitResponse,
+    [submitSuccess, submitPending, submitFailure]: [
+      MerchantCallback,
+      MerchantCallback,
+      MerchantCallback
+    ]
+  ) {
+    if (
+      response.status === SubmitStatus.ACCEPTED ||
+      response.status === SubmitStatus.DELAYED
+    ) {
+      return from(Promise.resolve(submitSuccess(response))).pipe(
+        concatMap(() => this.opfOrderFacade.placeOpfOrder(true))
+      );
+    } else if (response.status === SubmitStatus.PENDING) {
+      return from(Promise.resolve(submitPending(response))).pipe(
+        concatMap(() => EMPTY)
+      );
+    } else if (response.status === SubmitStatus.REJECTED) {
+      return from(Promise.resolve(submitFailure(response))).pipe(
+        concatMap(() =>
+          throwError({
+            ...defaultError,
+            type: PaymentErrorType.PAYMENT_REJECTED,
+          })
+        )
+      );
+    } else {
+      return from(Promise.resolve(submitFailure(response))).pipe(
+        concatMap(() =>
+          throwError({
+            ...defaultError,
+            type: PaymentErrorType.STATUS_NOT_RECOGNIZED,
+          })
+        )
+      );
+    }
+  }
+
   constructor(
-    protected queryService: QueryService,
     protected commandService: CommandService,
     protected opfPaymentConnector: OpfPaymentConnector,
     protected winRef: WindowRef,
@@ -167,15 +174,9 @@ export class OpfPaymentService implements OpfPaymentFacade {
     protected userIdService: UserIdService,
     protected routingService: RoutingService,
     protected opfOrderFacade: OpfOrderFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected opfPaymentErrorHandlerService: OpfPaymentErrorHandlerService
   ) {}
-
-  defaultError: PaymentError = {
-    statusText: 'Payment Error',
-    message: 'opf.payment.errors.proceedPayment',
-    status: -1,
-    type: '',
-  };
 
   verifyPayment(
     paymentSessionId: string,
@@ -189,53 +190,5 @@ export class OpfPaymentService implements OpfPaymentFacade {
 
   submitPayment(submitInput: SubmitInput): Observable<boolean> {
     return this.submitPaymentCommand.execute({ submitInput });
-  }
-
-  protected displayError(error: PaymentError | undefined): void {
-    this.globalMessageService.add(
-      {
-        key: error?.message ? error.message : this.defaultError.message,
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  }
-
-  protected handleBadRequestError(errorType: string): string {
-    let message = this.defaultError.message;
-    switch (errorType) {
-      case 'EXPIRED':
-        message = 'opf.payment.errors.cardExpired';
-        break;
-      case 'INSUFFICENT_FUNDS':
-      case 'CREDIT_LIMIT':
-        message = 'opf.payment.errors.insufficientFunds';
-        break;
-      case 'INVALID_CARD':
-      case 'INVALID_CVV':
-        message = 'opf.payment.errors.invalidCreditCard';
-        break;
-      case 'LOST_CARD':
-        message = 'opf.payment.errors.cardReportedLost';
-        break;
-    }
-    return message;
-  }
-
-  protected handlePaymentError(
-    error: PaymentError | undefined,
-    returnPath: Array<string> = []
-  ): void {
-    let message = this.defaultError.message;
-    if (error?.status === HttpResponseStatus.BAD_REQUEST) {
-      message = this.handleBadRequestError(error?.type);
-    } else {
-      if (error?.type === 'PAYMENT_CANCELLED') {
-        message = 'opf.payment.errors.cancelPayment';
-      }
-    }
-    this.displayError(error ? { ...error, message } : undefined);
-    if (returnPath.length) {
-      this.routingService.go([...returnPath]);
-    }
   }
 }

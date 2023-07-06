@@ -64,26 +64,25 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.service.initiatePayment(this.selectedPaymentId).subscribe({
         next: (paymentSessionData) => {
-          this.registerHostedFieldsGlobalFunctions(paymentSessionData);
+          if (this.isHostedFields(paymentSessionData)) {
+            this.globalFunctionsService.registerGlobalFunctions(
+              (paymentSessionData as PaymentSessionData)
+                .paymentSessionId as string,
+              this.vcr
+            );
+          } else {
+            this.globalFunctionsService.removeGlobalFunctions();
+          }
         },
       })
     );
   }
 
-  protected registerHostedFieldsGlobalFunctions(
-    paymentSessionData: PaymentSessionData | Error
-  ) {
-    if (
-      !(paymentSessionData instanceof Error) &&
+  protected isHostedFields(paymentSessionData: PaymentSessionData | Error) {
+    return !(paymentSessionData instanceof Error) &&
       paymentSessionData?.paymentSessionId &&
       paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
-    ) {
-      this.globalFunctionsService.registerGlobalFunctions(
-        paymentSessionData.paymentSessionId,
-        this.vcr
-      );
-    } else {
-      this.globalFunctionsService.removeGlobalFunctions();
-    }
+      ? true
+      : false;
   }
 }
