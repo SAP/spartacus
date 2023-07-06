@@ -78,11 +78,13 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected isHostedFields(paymentSessionData: PaymentSessionData | Error) {
-    return !(paymentSessionData instanceof Error) &&
+  protected isHostedFields(
+    paymentSessionData: PaymentSessionData | Error
+  ): boolean {
+    return !!(
+      !(paymentSessionData instanceof Error) &&
       paymentSessionData?.paymentSessionId &&
       paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
-      ? true
-      : false;
+    );
   }
 }
