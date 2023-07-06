@@ -20,6 +20,7 @@ class MockAsmEnablerService implements Partial<AsmEnablerService> {
 describe('AsmDeepLinkService', () => {
   let asmDeepLinkService: AsmDeepLinkService;
   let asmEnablerService: AsmEnablerService;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,6 +33,7 @@ describe('AsmDeepLinkService', () => {
 
     asmDeepLinkService = TestBed.inject(AsmDeepLinkService);
     asmEnablerService = TestBed.inject(AsmEnablerService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should be created', () => {
@@ -63,6 +65,50 @@ describe('AsmDeepLinkService', () => {
     });
   });
 
-  // TODO: Complete these when final design decided on
-  //describe('handleNavigation', () => {});
+  describe('handleNavigation', () => {
+    beforeEach(() => {
+      spyOn(routingService, 'go').and.callThrough();
+    });
+    it('should navigate to active cart', () => {
+      asmDeepLinkService.handleNavigation({
+        customerId: '123',
+        cartType: 'active',
+      });
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+    });
+    it('should navigate to saved cart', () => {
+      asmDeepLinkService.handleNavigation({
+        customerId: '123',
+        cartType: 'saved',
+        cartId: '456',
+      });
+      expect(routingService.go).toHaveBeenCalledWith(
+        'my-account/saved-cart/456'
+      );
+    });
+    it('should navigate to order details', () => {
+      asmDeepLinkService.handleNavigation({
+        customerId: '123',
+        orderId: '456',
+      });
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderDetails',
+        params: { code: '456' },
+      });
+    });
+    it('should navigate to support ticket details', () => {
+      asmDeepLinkService.handleNavigation({
+        customerId: '123',
+        ticketId: '456',
+      });
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'supportTicketDetails',
+        params: { ticketCode: '456' },
+      });
+    });
+    it('should not navigate', () => {
+      asmDeepLinkService.handleNavigation({});
+      expect(routingService.go).not.toHaveBeenCalled();
+    });
+  });
 });
