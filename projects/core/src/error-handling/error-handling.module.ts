@@ -6,8 +6,13 @@
 
 import { ErrorHandler, ModuleWithProviders, NgModule } from '@angular/core';
 import { CxErrorHandler } from './cx-error-handler';
+import {EffectsModule} from "@ngrx/effects";
+import {CxErrorHandlerEffect} from "./cx-error-handler.effect";
 
-@NgModule()
+@NgModule({
+  imports: [
+    EffectsModule.forFeature([CxErrorHandlerEffect])]
+})
 export class ErrorHandlingModule {
   static forRoot(): ModuleWithProviders<ErrorHandlingModule> {
     return {

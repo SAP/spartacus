@@ -4,20 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
-import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
-import { CmsStructureModel } from '../../../cms/model/page.model';
-import { PageType } from '../../../model/cms.model';
-import {
-  HOME_PAGE_CONTEXT,
-  PageContext,
-  SMART_EDIT_CONTEXT,
-} from '../../../routing/models/page-context.model';
-import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import {HttpClient,  HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, } from 'rxjs';
+import {CmsPageAdapter} from '../../../cms/connectors/page/cms-page.adapter';
+import {CmsStructureModel} from '../../../cms/model/page.model';
+import {PageType} from '../../../model/cms.model';
+import {HOME_PAGE_CONTEXT, PageContext, SMART_EDIT_CONTEXT,} from '../../../routing/models/page-context.model';
+import {ConverterService} from '../../../util/converter.service';
+import {OccEndpointsService} from '../../services/occ-endpoints.service';
+import {CMS_PAGE_NORMALIZER} from "../../../cms";
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;
@@ -54,6 +50,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     return this.http
       .get(endpoint, { headers: this.headers })
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
+    // return  throwError(new HttpErrorResponse({status: 400}));
   }
 
   /**

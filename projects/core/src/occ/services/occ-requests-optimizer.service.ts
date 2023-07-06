@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse,} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {Observable, of, throwError,} from 'rxjs';
+import {map, shareReplay, switchMap,} from 'rxjs/operators';
 import { ScopedData } from '../../model/scoped-data';
 import { extractFields } from '../utils/occ-fields';
 import {
@@ -38,7 +38,15 @@ export class OccRequestsOptimizerService {
     const result: ScopedData<T>[] = [];
 
     if (!dataFactory) {
-      dataFactory = (url) => this.http.get<any>(url);
+      dataFactory = (url): any => this.http.get<any>(url)
+        .pipe(
+          switchMap((x) => {
+            const error = new HttpErrorResponse({status: 400, error: 'simulated product error' });
+
+            return of(x);
+            return throwError(error);
+      })
+        );
     }
 
     const mergedUrls = this.occFields.getOptimalUrlGroups(scopedDataWithUrls);
