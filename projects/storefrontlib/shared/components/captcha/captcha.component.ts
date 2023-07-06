@@ -11,7 +11,6 @@ import {
   ElementRef,
   EventEmitter,
   Injector,
-  Input,
   OnDestroy,
   Output,
   Renderer2,
@@ -19,7 +18,6 @@ import {
 } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import { AbstractControl } from '@angular/forms';
 
 import { CaptchaApiConfig } from './config/captcha-api-config';
 import { CaptchaProvider } from './captcha.model';
@@ -30,8 +28,6 @@ import { CaptchaProvider } from './captcha.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
-  @Input() control: AbstractControl;
-
   // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
   // Emits whether captcha is enabled after calling the backend
@@ -87,7 +83,6 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
             })
           )
           .subscribe(() => {
-            this.control.setValue(true);
             this.confirmed.emit(true);
           })
       );
