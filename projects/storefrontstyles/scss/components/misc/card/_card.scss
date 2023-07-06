@@ -33,6 +33,22 @@
     .cx-card-paragraph-title {
       padding-top: 0.7em;
     }
+
+    .cx-card-paragraph-text {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+
+      .cx-card-paragraph-text-title {
+        width: 90%;
+      }
+
+      .cx-card-paragraph-text-img-container {
+        width: 10%;
+      }
+    }
   }
 
   .cx-card-fit-to-container {

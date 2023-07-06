@@ -55,7 +55,17 @@
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
             <div class="cx-card-paragraph-text">
-              {{ text }}
+              <div class="cx-card-paragraph-text-title">
+                {{ text.title }}
+              </div>
+              <div
+                *ngIf="text.img"
+                class="cx-card-paragraph-text-img-container"
+              >
+                <button class="btn btn-link cx-action-link">
+                  <cx-icon [type]="text.img"></cx-icon>
+                </button>
+              </div>
             </div>
           </div>
         </div>

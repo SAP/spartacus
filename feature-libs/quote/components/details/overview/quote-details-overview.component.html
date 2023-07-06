@@ -6,7 +6,7 @@
         {{ quoteDetailsState?.data?.code }}
       </h3>
       <h3 class="status">
-        {{ 'quote.commons.status' | cxTranslate }}
+        {{ 'quote.commons.status' | cxTranslate }}:
         {{ 'quote.states.' + quoteDetailsState?.data?.state | cxTranslate }}
       </h3>
     </div>
@@ -15,45 +15,9 @@
         <div class="cx-summary-card">
           <cx-card
             [content]="
-              getCardContent(
-                quoteDetailsState?.data?.code || 'TODO CHHI',
-                'quote.details.code'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetailsState?.data?.creationTime | cxDate,
-                'quote.details.created'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetailsState?.data?.updatedTime | cxDate,
-                'quote.details.lastUpdated'
-              ) | async
-            "
-          ></cx-card>
-        </div>
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="
-              getCardContent(
-                quoteDetailsState?.data?.previousEstimatedTotal
-                  ?.formattedValue || 'TODO CHHI',
-                'quote.details.estimatedTotal'
-              ) | async
-            "
-          ></cx-card>
-          <cx-card
-            class="cx-card-description"
-            [content]="
-              getCardContent(
-                quoteDetailsState?.data?.description || 'TODO CHHI',
-                'quote.details.description'
+              getQuoteInformation(
+                quoteDetailsState?.data?.name,
+                quoteDetailsState?.data?.description
               ) | async
             "
             [truncateText]="true"
@@ -63,17 +27,18 @@
         <div class="cx-summary-card">
           <cx-card
             [content]="
-              getCardContent(
-                'quote.states.' + quoteDetailsState?.data?.state | cxTranslate,
-                'quote.commons.status'
+              getEstimatedAndDate(
+                quoteDetailsState?.data?.previousEstimatedTotal?.formattedValue
               ) | async
             "
           ></cx-card>
+        </div>
+        <div class="cx-summary-card">
           <cx-card
             [content]="
-              getCardContent(
-                quoteDetailsState?.data?.expirationTime | cxDate,
-                'quote.details.expiryDate'
+              getUpdate(
+                quoteDetailsState?.data?.updatedTime | cxDate,
+                quoteDetailsState?.data?.expirationTime | cxDate
               ) | async
             "
           ></cx-card>

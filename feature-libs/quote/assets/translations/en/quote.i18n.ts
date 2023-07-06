@@ -49,11 +49,15 @@ export const quote = {
       contactVendor: 'Contact Vendor',
     },
     details: {
+      information: 'Quote Information',
+      name: 'Quote Name',
       code: 'Quote ID',
-      created: 'Created',
-      lastUpdated: 'Last Updated',
-      estimatedTotal: 'Estimated Total',
       description: 'Description',
+      estimateAndDate: 'Estimated & Date',
+      estimatedTotal: 'Estimated Total',
+      created: 'Created',
+      update: 'Update',
+      lastUpdated: 'Last Updated',
       expiryDate: 'Expiry Date',
     },
     links: {
