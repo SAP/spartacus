@@ -118,7 +118,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
       expect(component.messagingConfigs.charactersLimit).toBe(255);
     });
     it('should define a date format', () => {
-      expect(component.messagingConfigs.dateFormat).toBe('medium');
+      expect(component.messagingConfigs.dateFormat).toBe('MMMM d, yyyy h:mm aa');
     });
     it('should display add section', () => {
       (component.messagingConfigs.displayAddMessageSection ?? of(false))

@@ -40,7 +40,7 @@ export class QuoteDetailsVendorContactComponent {
     return {
       charactersLimit: 255,
       displayAddMessageSection: of(true),
-      dateFormat: 'medium',
+      dateFormat: 'MMMM d, yyyy h:mm aa',
     };
   }
 
