@@ -11,6 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as SegmentRefsOptions,
+  segmentRefsFeatureModulePath,
   SEGMENT_REFS_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -22,8 +23,6 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const segmentRefsFeatureModulePath =
-  'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
 
 describe('Spartacus segment-refs schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -56,7 +55,7 @@ describe('Spartacus segment-refs schematics: ng-add', () => {
 
   const libraryNoFeaturesOptions: SegmentRefsOptions = {
     project: 'schematics-test',
-    lazy: true,
+    lazy: false,
     features: [],
   };
 
