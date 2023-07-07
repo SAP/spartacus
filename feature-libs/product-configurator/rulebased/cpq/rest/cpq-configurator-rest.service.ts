@@ -15,9 +15,9 @@ import {
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
-} from './converters/cpq-configurator.converters';
+} from '../common/converters/cpq-configurator.converters';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
-import { Cpq } from './cpq.models';
+import { Cpq } from '../common/cpq.models';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {
