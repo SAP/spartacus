@@ -84,7 +84,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
     expect(fixture.debugElement.query(By.css('cx-messaging'))).not.toBeNull();
   });
 
-  it('should pipe empty  quote comments to empty message events', () => {
+  it('should pipe empty quote comments to empty message events', () => {
     component.messageEvents$
       .subscribe((messageEvent) => {
         expect(messageEvent.length).toBe(0);
@@ -153,12 +153,12 @@ describe('QuoteDetailsVendorContactComponent', () => {
       expect(mapCommentToMessageEvent(comment).author).toEqual('John Doe');
     });
     it('should map fromCustomer to not rightAligned', () => {
-      comment.fromCustomer = false;
-      expect(mapCommentToMessageEvent(comment).rightAlign).toEqual(true);
-    });
-    it('should map not fromCustomer to rightAligned', () => {
       comment.fromCustomer = true;
       expect(mapCommentToMessageEvent(comment).rightAlign).toEqual(false);
+    });
+    it('should map not fromCustomer to rightAligned', () => {
+      comment.fromCustomer = false;
+      expect(mapCommentToMessageEvent(comment).rightAlign).toEqual(true);
     });
     it("shouldn't map anything to code", () => {
       expect(mapCommentToMessageEvent(comment).code).toBeUndefined();
