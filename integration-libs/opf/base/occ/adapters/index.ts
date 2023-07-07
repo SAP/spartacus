@@ -6,3 +6,4 @@
 
 export * from './occ-opf-order.adapter';
 export * from './occ-opf.adapter';
+export * from './occ-otp.adapter';

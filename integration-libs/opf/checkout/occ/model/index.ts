@@ -5,4 +5,3 @@
  */
 
 export * from './occ-opf-endpoints.model';
-export * from './occ-otp-endpoints.model';

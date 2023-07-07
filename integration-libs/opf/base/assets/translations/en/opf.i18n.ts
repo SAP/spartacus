@@ -4,6 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/*
+ * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const opf = {
   opf: {
     payment: {
@@ -17,6 +23,7 @@ export const opf = {
         invalidCreditCard: 'Invalid credit card.  Please review card details.',
         unknown:
           'Unknown error occurred while fetching payment. Please contact support',
+        cardReportedLost: 'Card is reported lost.',
       },
     },
   },

@@ -13,5 +13,9 @@ declare module '@spartacus/core' {
      * and iFrame integration patterns.
      */
     verifyPayment?: string | OccEndpoint;
+    /**
+     * Endpoint to submit payment for Hosted Fields pattern.
+     */
+    submitPayment?: string | OccEndpoint;
   }
 }

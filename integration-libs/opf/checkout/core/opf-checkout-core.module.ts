@@ -5,10 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfCheckoutConnector, OtpConnector } from './connectors';
+import { OpfCheckoutConnector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
 
 @NgModule({
-  providers: [...facadeProviders, OpfCheckoutConnector, OtpConnector],
+  providers: [...facadeProviders, OpfCheckoutConnector],
 })
 export class OpfCheckoutCoreModule {}

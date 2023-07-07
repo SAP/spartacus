@@ -6,19 +6,22 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { backOff, ConverterService, isJaloError } from '@spartacus/core';
+import { ConverterService, backOff, isJaloError } from '@spartacus/core';
 import {
+  OPF_PAYMENT_SUBMIT_NORMALIZER,
+  OPF_PAYMENT_VERIFICATION_NORMALIZER,
   OpfEndpointsService,
   OpfPaymentAdapter,
-  OPF_PAYMENT_VERIFICATION_NORMALIZER,
 } from '@spartacus/opf/base/core';
 import {
+  OPF_CC_OTP_KEY,
+  OPF_CC_PUBLIC_KEY,
   OpfConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
-  OPF_CC_PUBLIC_KEY,
+  SubmitRequest,
+  SubmitResponse,
 } from '@spartacus/opf/base/root';
-
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { isHttp500Error } from '../utils/opf-occ-http-error-handlers';
@@ -32,15 +35,20 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
     protected config: OpfConfig
   ) {}
 
+  header: { [name: string]: string } = {
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Content-Language': 'en-us',
+  };
+
   verifyPayment(
     paymentSessionId: string,
     payload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse> {
-    const headers = new HttpHeaders({
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Content-Language': 'en-us',
-    }).set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '');
+    const headers = new HttpHeaders(this.header).set(
+      OPF_CC_PUBLIC_KEY,
+      this.config.opf?.commerceCloudPublicKey || ''
+    );
 
     return this.http
       .post<OpfPaymentVerificationResponse>(
@@ -63,8 +71,38 @@ export class OccOpfPaymentAdapter implements OpfPaymentAdapter {
       );
   }
 
+  submitPayment(
+    submitRequest: SubmitRequest,
+    otpKey: string,
+    paymentSessionId: string
+  ): Observable<SubmitResponse> {
+    const headers = new HttpHeaders(this.header)
+      .set(OPF_CC_PUBLIC_KEY, this.config.opf?.commerceCloudPublicKey || '')
+      .set(OPF_CC_OTP_KEY, otpKey || '');
+
+    const url = this.getSubmitPaymentEndpoint(paymentSessionId);
+
+    return this.http.post<SubmitResponse>(url, submitRequest, { headers }).pipe(
+      catchError((error) => throwError(error)),
+      backOff({
+        shouldRetry: isJaloError,
+      }),
+      backOff({
+        shouldRetry: isHttp500Error,
+        maxTries: 2,
+      }),
+      this.converter.pipeable(OPF_PAYMENT_SUBMIT_NORMALIZER)
+    );
+  }
+
   protected verifyPaymentEndpoint(paymentSessionId: string): string {
     return this.opfEndpointsService.buildUrl('verifyPayment', {
+      urlParams: { paymentSessionId },
+    });
+  }
+
+  protected getSubmitPaymentEndpoint(paymentSessionId: string): string {
+    return this.opfEndpointsService.buildUrl('submitPayment', {
       urlParams: { paymentSessionId },
     });
   }

@@ -71,3 +71,9 @@ export enum PaymentDynamicScriptResourceType {
   SCRIPT = 'SCRIPT',
   STYLES = 'STYLES',
 }
+
+export enum PaymentPattern {
+  IFRAME = 'IFRAME',
+  FULL_PAGE = 'FULL_PAGE',
+  HOSTED_FIELDS = 'HOSTED_FIELDS',
+}

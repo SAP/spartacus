@@ -7,7 +7,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { OtpAdapter } from '@spartacus/opf/checkout/core';
+import { OtpAdapter } from '@spartacus/opf/base/core';
 
 import { Observable } from 'rxjs';
 

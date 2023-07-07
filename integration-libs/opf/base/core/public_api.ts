@@ -9,3 +9,4 @@ export * from './facade/index';
 export * from './opf-base-core.module';
 export * from './services/index';
 export * from './tokens/index';
+export * from './utils/index';

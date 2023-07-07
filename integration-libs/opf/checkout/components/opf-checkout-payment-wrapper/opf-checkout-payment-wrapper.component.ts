@@ -10,11 +10,17 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { OpfPaymentMethodType } from '@spartacus/opf/checkout/root';
-import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+import { OpfGlobalFunctionsFacade } from '@spartacus/opf/base/root';
+import {
+  OpfPaymentMethodType,
+  PaymentPattern,
+  PaymentSessionData,
+} from '@spartacus/opf/checkout/root';
 import { Subscription } from 'rxjs';
+import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
@@ -32,7 +38,9 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   constructor(
     protected service: OpfCheckoutPaymentWrapperService,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    protected globalFunctionsService: OpfGlobalFunctionsFacade,
+    protected vcr: ViewContainerRef
   ) {}
 
   renderHtml(html: string): SafeHtml {
@@ -44,6 +52,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.globalFunctionsService.removeGlobalFunctions();
     this.sub.unsubscribe();
   }
 
@@ -53,7 +62,29 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   protected initiatePaymentMode(): void {
     this.sub.add(
-      this.service.initiatePayment(this.selectedPaymentId).subscribe()
+      this.service.initiatePayment(this.selectedPaymentId).subscribe({
+        next: (paymentSessionData) => {
+          if (this.isHostedFields(paymentSessionData)) {
+            this.globalFunctionsService.registerGlobalFunctions(
+              (paymentSessionData as PaymentSessionData)
+                .paymentSessionId as string,
+              this.vcr
+            );
+          } else {
+            this.globalFunctionsService.removeGlobalFunctions();
+          }
+        },
+      })
+    );
+  }
+
+  protected isHostedFields(
+    paymentSessionData: PaymentSessionData | Error
+  ): boolean {
+    return !!(
+      !(paymentSessionData instanceof Error) &&
+      paymentSessionData?.paymentSessionId &&
+      paymentSessionData?.pattern === PaymentPattern.HOSTED_FIELDS
     );
   }
 }

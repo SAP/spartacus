@@ -6,6 +6,7 @@
 
 import './augmented-types';
 
+export * from './opf-payment-error.model';
 export * from './opf-payment-verification.model';
 export * from './opf-quick-buy.model';
 export * from './opf.model';

@@ -11,6 +11,7 @@ import { OPF_BASE_FEATURE } from '../feature-name';
 import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
+  SubmitInput,
 } from '../model';
 
 @Injectable({
@@ -19,7 +20,7 @@ import {
     facadeFactory({
       facade: OpfPaymentFacade,
       feature: OPF_BASE_FEATURE,
-      methods: ['verifyPayment'],
+      methods: ['verifyPayment', 'submitPayment'],
     }),
 })
 export abstract class OpfPaymentFacade {
@@ -33,4 +34,11 @@ export abstract class OpfPaymentFacade {
     paymentSessionId: string,
     paymentVerificationPayload: OpfPaymentVerificationPayload
   ): Observable<OpfPaymentVerificationResponse>;
+
+  /**
+   * abstract method to submit payment for Hosted Fields pattern.
+   *
+   * @param submitInput
+   */
+  abstract submitPayment(submitInput: SubmitInput): Observable<boolean>;
 }

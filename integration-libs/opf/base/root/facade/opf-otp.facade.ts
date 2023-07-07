@@ -7,14 +7,14 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OPF_CHECKOUT_FEATURE } from '../feature-name';
+import { OPF_BASE_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: OpfOtpFacade,
-      feature: OPF_CHECKOUT_FEATURE,
+      feature: OPF_BASE_FEATURE,
       methods: ['generateOtpKey'],
     }),
 })
