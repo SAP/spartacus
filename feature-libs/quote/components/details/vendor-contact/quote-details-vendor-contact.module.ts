@@ -12,11 +12,11 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CardModule, ChatMessagingModule, IconModule, SpinnerModule } from '@spartacus/storefront';
+import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
 import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
 
 @NgModule({
-  imports: [CommonModule, CardModule, I18nModule, IconModule, SpinnerModule, ChatMessagingModule],
+  imports: [CommonModule, I18nModule, IconModule, ChatMessagingModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

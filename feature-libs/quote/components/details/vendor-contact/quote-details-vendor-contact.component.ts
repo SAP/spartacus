@@ -40,6 +40,7 @@ export class QuoteDetailsVendorContactComponent {
     return {
       charactersLimit: 255,
       displayAddMessageSection: of(true),
+      dateFormat: 'medium',
     };
   }
 
@@ -59,8 +60,8 @@ export class QuoteDetailsVendorContactComponent {
     const messages: MessageEvent = {
       author: comment.author?.name,
       text: comment.text,
-      createdAt: comment.creationDate?.toLocaleString(),
-      rightAlign: comment.fromCustomer,
+      createdAt: comment.creationDate?.toString(),
+      rightAlign: !comment.fromCustomer,
     };
     return messages;
   }
