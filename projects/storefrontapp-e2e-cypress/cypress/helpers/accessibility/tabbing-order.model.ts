@@ -37,4 +37,5 @@ export enum TabbingOrderTypes {
   INDEX_OF_ELEMENT = 'indexOfElement',
   TEXT_AREA = 'textarea',
   CX_PROGRESS_BUTTON = 'cx-progress-button',
+  CX_CAPTCHA = 'cx-captcha',
 }

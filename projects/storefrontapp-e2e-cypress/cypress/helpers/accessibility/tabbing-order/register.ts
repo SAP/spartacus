@@ -8,9 +8,16 @@ import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
 const containerSelector = '.AccountPageTemplate';
+const containerSelectorForRegistraterWithCaptcha = 'cx-register';
 
 export function registerTabbingOrder(config: TabElement[]) {
   cy.visit('/login/register');
 
   verifyTabbingOrder(containerSelector, config);
+}
+
+export function registerWithCaptchaTabbingOrder(config: TabElement[]) {
+  cy.visit('/login/register');
+  cy.get('cx-captcha').should('be.visible');
+  verifyTabbingOrder(containerSelectorForRegistraterWithCaptcha, config);
 }
