@@ -198,10 +198,11 @@ export class MediaService {
           width,
         });
       }
-      return set.reverse();
+
+      return set;
     }, []);
 
-    return !srcset.length ? undefined : srcset;
+    return !srcset.length ? undefined : srcset.reverse();
   }
 
   /**
