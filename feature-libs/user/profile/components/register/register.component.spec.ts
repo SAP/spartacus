@@ -1,6 +1,6 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -398,6 +398,10 @@ describe('RegisterComponent', () => {
       component.registerForm.patchValue(mockRegisterFormData);
     });
 
+    function getCaptchaControl(component: RegisterComponent): AbstractControl {
+      return component.registerForm.get('captcha') as AbstractControl;
+    }
+
     it('should create captcha component', () => {
       expect(captchaComponent).toBeTruthy();
     });
@@ -409,6 +413,7 @@ describe('RegisterComponent', () => {
       component.submitForm();
 
       expect(component.captchaEnabled).toHaveBeenCalledWith(true);
+      expect(getCaptchaControl(component).valid).toEqual(false);
       expect(component.registerUser).toHaveBeenCalledTimes(0);
     });
 
@@ -419,6 +424,8 @@ describe('RegisterComponent', () => {
       captchaComponent.triggerEventHandler('confirmed', true);
       component.submitForm();
 
+      expect(getCaptchaControl(component).value).toBe(true);
+      expect(getCaptchaControl(component).valid).toEqual(true);
       expect(component.registerUser).toHaveBeenCalledTimes(1);
     });
   });
