@@ -15,7 +15,7 @@ import {
   OpfPaymentError,
   PaymentErrorType,
   defaultError,
-} from '../../root/model/opf-payment-error.model';
+} from '@spartacus/opf/base/root';
 
 @Injectable({ providedIn: 'root' })
 export class OpfPaymentErrorHandlerService {
