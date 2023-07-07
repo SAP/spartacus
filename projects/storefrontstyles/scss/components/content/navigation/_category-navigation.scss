@@ -21,6 +21,10 @@
     > li {
       @include media-breakpoint-up(lg) {
         padding-inline-end: 15px;
+
+        @include forVersion(6.3) {
+          padding-inline-start: 15px;
+        }
       }
 
       list-style: none;
