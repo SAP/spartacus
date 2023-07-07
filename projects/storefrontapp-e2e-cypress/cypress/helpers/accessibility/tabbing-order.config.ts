@@ -173,9 +173,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
-    { value: '', type: TabbingOrderTypes.CX_ICON },
+    { value: '', type: TabbingOrderTypes.BUTTON },
     { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
-    { value: '', type: TabbingOrderTypes.CX_ICON },
+    { value: '', type: TabbingOrderTypes.BUTTON },
     {
       value: 'newsletter',
       type: TabbingOrderTypes.FORM_FIELD,
@@ -185,7 +185,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.FORM_FIELD,
     },
     { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
-    { value: '', type: TabbingOrderTypes.CX_CAPTCHA },
+    { value: 'reCAPTCHA', type: TabbingOrderTypes.CX_CAPTCHA },
     { value: 'Register', type: TabbingOrderTypes.BUTTON },
     {
       value: 'I already have an account. Sign In',
