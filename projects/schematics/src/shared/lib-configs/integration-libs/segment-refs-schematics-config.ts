@@ -29,6 +29,11 @@ export const SEGMENT_REFS_SCHEMATICS_CONFIG: SchematicConfig = {
     name: SEGMENT_REFS_MODULE,
     importPath: SPARTACUS_SEGMENT_REFS,
   },
+  rootModule: {
+    importPath: SPARTACUS_SEGMENT_REFS, //as SPARTACUS_SEGMENT_REFS_ROOT is same as SPARTACUS_SEGMENT_REFS, no extra module/features are present
+    name: SEGMENT_REFS_MODULE,
+    content: `${SEGMENT_REFS_MODULE}`,
+  },
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   importAfter: [
     {
