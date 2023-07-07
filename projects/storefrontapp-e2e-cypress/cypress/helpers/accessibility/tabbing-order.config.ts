@@ -167,6 +167,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  registerWithCaptcha: [
+    { value: 'titleCode', type: TabbingOrderTypes.NG_SELECT },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.CX_ICON },
+    { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
+    { value: '', type: TabbingOrderTypes.CX_ICON },
+    {
+      value: 'newsletter',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'termsandconditions',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
+    { value: '', type: TabbingOrderTypes.CX_CAPTCHA },
+    { value: 'Register', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'I already have an account. Sign In',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
