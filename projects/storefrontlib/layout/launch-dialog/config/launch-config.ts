@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Type } from '@angular/core';
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 
 export interface LaunchConfig {
@@ -21,7 +20,7 @@ export type LaunchOptions =
  * Parent type for configurations that render components
  */
 export interface LaunchDialog {
-  component: Type<any>;
+  component: any;
   /**
    * Can the element be rendered multiple times
    */
