@@ -28,6 +28,7 @@ import { interceptPutDeliveryModeEndpoint } from '../../b2b/b2b-checkout';
 import { clearActiveCart, goToCart, validateEmptyCart } from '../../cart';
 //import { interceptPaymentTypesEndpoint } from "../../b2b/b2b-checkout";
 import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { LOCATORS } from '../../pickup-in-store-utils';
 
 export const s4omB2BUser: AccountData = {
   registrationData: {
@@ -43,17 +44,17 @@ export const s4omB2BUser: AccountData = {
 export const s4omB2bAccountShipToUser: SampleUser = {
   email: 'james.weber@harvestlive.inc',
   password: 'welcome',
-  fullName: 'James Weber',
+  fullName: 'undefined undefined',
   address: {
     city: 'Chicago',
-    line1: 'Sunset, 87654, California, Beverly Hills, 90210',
+    line1: 'Sunset',
   },
 };
 
 export const cartWithS4OMB2bProductAndPremiumShipping: SampleCartProduct = {
   estimatedShipping: '$16.99',
-  total: '$17.55',
-  totalAndShipping: '$34.54',
+  total: '$100.00',
+  totalAndShipping: '$118.99',
 };
 
 export const s4omProduct: SampleProduct = {
@@ -62,7 +63,8 @@ export const s4omProduct: SampleProduct = {
 };
 
 export const s4omProductLink: string = s4omProduct.code + '/multi-eco-33i';
-export const s4omCostCenter: string = '17100005_CC';
+export const s4omPONumber: string = poNumber;
+export const s4omCostCenter: string = '17100003_CC';
 export const s4omB2BUnit: string = 'Dell Bont Industries';
 export const s4omPastOrderId: string = '787';
 
@@ -80,7 +82,7 @@ const acceptAndSubmitOrder = [
 
 export const s4omAccountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-  { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
+  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
@@ -145,6 +147,7 @@ export function loginS4OMB2bUser() {
 
   cy.window().then((win) => win.sessionStorage.clear());
   cy.visit('/login');
+  cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
   login(
     s4omB2BUser.registrationData.email,
     s4omB2BUser.registrationData.password
@@ -166,6 +169,9 @@ export function addB2bS4ProductToCart() {
   });
 
   addProductToCart();
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('.cx-name .cx-link').should('contain', s4omProduct.name);
+  });
 }
 
 export function resetCart() {
@@ -240,6 +246,7 @@ export function reviewB2bOrderDetail(
   cartData: SampleCartProduct,
   isAccount: boolean = true,
   replenishment?: string,
+  poNum: string = s4omPONumber,
   costCtr: string = s4omCostCenter,
   b2bUnt: string = s4omB2BUnit,
   isOrderConfirmation: boolean = true
@@ -253,14 +260,16 @@ export function reviewB2bOrderDetail(
 
   cy.get('cx-order-overview .container').within(() => {
     cy.get('.cx-summary-card:nth-child(1)').within(() => {
-      cy.get('cx-card:nth-child(1)').within(() => {
-        if (!replenishment) {
-          cy.get('.cx-card-title').should('contain', 'Order Number');
-        } else {
-          cy.get('.cx-card-title').should('contain', 'Replenishment #');
-        }
-        cy.get('.cx-card-label').should('not.be.empty');
-      });
+      cy.get('cx-card:nth-child(1)')
+        .first()
+        .within(() => {
+          if (!replenishment) {
+            cy.get('.cx-card-title').should('contain', 'Order Number');
+          } else {
+            cy.get('.cx-card-title').should('contain', 'Replenishment #');
+          }
+          cy.get('.cx-card-label').should('not.be.empty');
+        });
       if (!replenishment) {
         cy.get('cx-card:nth-child(2)').within(() => {
           cy.get('.cx-card-title').should('contain', 'Placed on');
@@ -279,15 +288,29 @@ export function reviewB2bOrderDetail(
     });
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
-        cy.contains(poNumber);
-        if (isAccount) {
-          cy.contains('Account');
-          cy.contains(costCtr);
-          cy.contains(`(${b2bUnt})`);
-        } else {
-          cy.contains('Credit Card');
-        }
+      cy.get('.cx-summary-card:nth-child(2)').within(() => {
+        cy.get('.cx-card')
+          .eq(0)
+          .within(() => {
+            cy.contains(poNum);
+          });
+        cy.get('.cx-card')
+          .eq(1)
+          .within(() => {
+            if (isAccount) {
+              cy.contains('Account');
+            } else {
+              cy.contains('Credit Card');
+            }
+          });
+        cy.get('.cx-card')
+          .eq(2)
+          .within(() => {
+            if (isAccount) {
+              cy.contains(costCtr);
+              cy.contains(`(${b2bUnt})`);
+            }
+          });
       });
     } else {
       cy.get('.cx-summary-card:nth-child(2) .cx-card').within(() => {
@@ -296,7 +319,7 @@ export function reviewB2bOrderDetail(
       });
 
       cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
-        cy.contains(poNumber);
+        cy.contains(poNum);
         if (isAccount) {
           cy.contains('Account');
           cy.contains(costCtr);
@@ -308,18 +331,25 @@ export function reviewB2bOrderDetail(
     }
 
     if (!replenishment) {
-      cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
-        cy.contains(sampleUser.fullName);
-        cy.contains(sampleUser.address.line1);
-
-        if (
-          cartData.estimatedShipping ===
-          cartWithB2bProductAndPremiumShipping.estimatedShipping
-        ) {
-          cy.contains('Premium Delivery');
-        } else {
-          cy.contains('Standard Delivery');
-        }
+      cy.get('.cx-summary-card:nth-child(3)').within(() => {
+        cy.get('.cx-card')
+          .eq(0)
+          .within(() => {
+            cy.contains(sampleUser.fullName);
+            cy.contains(sampleUser.address.line1);
+          });
+        cy.get('.cx-card')
+          .eq(1)
+          .within(() => {
+            if (
+              cartData.estimatedShipping ===
+              cartWithB2bProductAndPremiumShipping.estimatedShipping
+            ) {
+              cy.contains('Premium Delivery');
+            } else {
+              cy.contains('Standard Delivery');
+            }
+          });
       });
     } else {
       cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {

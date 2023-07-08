@@ -18,8 +18,10 @@ import {
   POWERTOOLS_BASESITE,
   USER_REQUEST_ENDPOINT,
 } from '../../../sample-data/b2b-checkout';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
-describe('S4HANA Order management', () => {
+describe('S4HANA Order management', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -86,6 +88,7 @@ describe('S4HANA Order management', () => {
         s4omHelper.s4omProduct,
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
         true,
+        s4omHelper.s4omPONumber,
         null,
         s4omHelper.s4omCostCenter,
         s4omHelper.s4omB2BUnit
@@ -121,6 +124,7 @@ describe('S4HANA Order management', () => {
         s4omHelper.cartWithS4OMB2bProductAndPremiumShipping,
         true,
         null,
+        s4omHelper.s4omPONumber,
         s4omHelper.s4omCostCenter,
         s4omHelper.s4omB2BUnit,
         false

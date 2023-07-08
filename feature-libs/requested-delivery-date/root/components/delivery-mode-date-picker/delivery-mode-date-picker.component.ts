@@ -120,13 +120,13 @@ export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
       this.requestedDelDateFacade
         .setRequestedDeliveryDate(userId, cartId, requestedDate)
         .subscribe(() => {
-          this.globalMessageService.add(
-            { key: 'requestedDeliveryDate.successMessage' },
-            GlobalMessageType.MSG_TYPE_INFO
-          );
           this.eventService.dispatch(
             {},
             CheckoutSupportedDeliveryModesQueryReloadEvent
+          );
+          this.globalMessageService.add(
+            { key: 'requestedDeliveryDate.successMessage' },
+            GlobalMessageType.MSG_TYPE_INFO
           );
         })
     );
