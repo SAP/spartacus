@@ -13,9 +13,10 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderOverviewService } from './order-overview.service';
 
 @Component({
   selector: 'cx-order-overview',
@@ -36,8 +37,13 @@ export class OrderOverviewComponent {
   constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
+    protected orderOverviewService: OrderOverviewService
   ) {}
+
+  getPaymentInfoCardContentOld(payment: PaymentDetails): Observable<Card> {
+    return this.orderOverviewService.getPaymentInfoCardContent(payment);
+  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -207,23 +213,7 @@ export class OrderOverviewComponent {
   }
 
   getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('paymentForm.payment'),
-      this.translation.translate('paymentCard.expires', {
-        month: Boolean(payment) ? payment.expiryMonth : '',
-        year: Boolean(payment) ? payment.expiryYear : '',
-      }),
-    ]).pipe(
-      filter(() => Boolean(payment)),
-      map(
-        ([textTitle, textExpires]) =>
-          ({
-            title: textTitle,
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-          } as Card)
-      )
-    );
+    return this.orderOverviewService.getPaymentInfoCardContent(payment);
   }
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
