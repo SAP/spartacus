@@ -13,9 +13,10 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, combineLatest, of } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({
   selector: 'cx-order-overview',
@@ -30,14 +31,20 @@ export class OrderOverviewComponent {
       : of(false);
 
   simple$: Observable<boolean | undefined> = this.component.data$.pipe(
-    map((data) => data.simple)
+    map((data) => data.simple),
+    tap((data) => console.log('simple:', data))
   );
 
   constructor(
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
+    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
+    protected orderOverviewService: OrderOverviewComponentService
   ) {}
+
+  getPaymentInfoCardContentOld(payment: PaymentDetails): Observable<Card> {
+    return this.orderOverviewService.getPaymentInfoCardContent(payment);
+  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(
@@ -207,23 +214,7 @@ export class OrderOverviewComponent {
   }
 
   getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('paymentForm.payment'),
-      this.translation.translate('paymentCard.expires', {
-        month: Boolean(payment) ? payment.expiryMonth : '',
-        year: Boolean(payment) ? payment.expiryYear : '',
-      }),
-    ]).pipe(
-      filter(() => Boolean(payment)),
-      map(
-        ([textTitle, textExpires]) =>
-          ({
-            title: textTitle,
-            textBold: payment.accountHolderName,
-            text: [payment.cardNumber, textExpires],
-          } as Card)
-      )
-    );
+    return this.orderOverviewService.getPaymentInfoCardContent(payment);
   }
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {

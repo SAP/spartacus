@@ -10,17 +10,19 @@ import {
   opfBaseTranslationChunksConfig,
   opfBaseTranslations,
 } from '@spartacus/opf/base/assets';
-import { OpfBaseRootModule, OPF_BASE_FEATURE } from '@spartacus/opf/base/root';
+import { OPF_BASE_FEATURE, OpfBaseRootModule } from '@spartacus/opf/base/root';
 import {
   opfCheckoutTranslationChunksConfig,
   opfCheckoutTranslations,
 } from '@spartacus/opf/checkout/assets';
 import {
+  OpfConfig,
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
-  OpfConfig,
 } from '@spartacus/opf/checkout/root';
 
+import { OpfOrderOverviewComponentService } from '@spartacus/opf/base/components';
+import { OrderOverviewComponentService } from '@spartacus/order/components';
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
@@ -76,6 +78,11 @@ if (environment.b2b) {
       },
     }),
     ...extensionProviders,
+    OpfOrderOverviewComponentService,
+    {
+      provide: OrderOverviewComponentService,
+      useExisting: OpfOrderOverviewComponentService,
+    },
   ],
 })
 export class OpfFeatureModule {}

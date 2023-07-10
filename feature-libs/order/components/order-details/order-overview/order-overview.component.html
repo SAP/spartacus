@@ -95,19 +95,26 @@
         </ng-container>
       </div>
 
-      <ng-container *ngIf="order.paymentInfo">
-        <div class="cx-summary-card">
-          <cx-card
-            [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
-          ></cx-card>
+      <ng-container
+        *ngIf="
+          !orderOverviewService.paymentIntegration;
+          else paymentIntegrationTemplate
+        "
+      >
+        <ng-container *ngIf="order.paymentInfo">
+          <div class="cx-summary-card">
+            <cx-card
+              [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+            ></cx-card>
 
-          <cx-card
-            [content]="
-              getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
-                | async
-            "
-          ></cx-card>
-        </div>
+            <cx-card
+              [content]="
+                getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+                  | async
+              "
+            ></cx-card>
+          </div>
+        </ng-container>
       </ng-container>
     </div>
 
@@ -130,4 +137,29 @@
       <cx-order-detail-billing></cx-order-detail-billing>
     </div>
   </ng-container>
+
+  <ng-template #paymentIntegrationTemplate>
+    <p>flo4</p>
+    <ng-container
+      *ngIf="
+        order?.paymentInfo?.billingAddress ||
+        (getPaymentInfoCardContent(order?.paymentInfo) | async)
+      "
+    >
+      <p>flo5</p>
+      <div class="cx-summary-card">
+        <p>flo6</p>
+        <cx-card
+          [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+              | async
+          "
+        ></cx-card>
+      </div>
+    </ng-container>
+  </ng-template>
 </div>
