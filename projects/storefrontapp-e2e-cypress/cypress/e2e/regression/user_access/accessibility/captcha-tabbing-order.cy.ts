@@ -15,6 +15,17 @@ describe('Tabbing order for Captcha', () => {
   context('Captcha', () => {
     context('Register page', () => {
       it('should allow to navigate to captcha with tab key', () => {
+        cy.intercept('GET', /\.*\/basesites\?fields=.*/, (req) => {
+          req.continue((res) => {
+            res?.body?.baseSites?.forEach((baseSite) => {
+              baseSite.captchaConfig = {
+                enabled: true,
+                publicKey: Cypress.env('RECAPTCHA_PUBLIC_KEY'),
+              };
+            });
+            res.send(res.body);
+          });
+        });
         registerWithCaptchaTabbingOrder(config.registerWithCaptcha);
       });
     });
