@@ -3,8 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import * as loginTools from './login';
 import * as productSearch from './product-search';
 import * as authentication from './auth-forms';
 
@@ -28,6 +26,13 @@ export function clickOnAddToCartBtnOnPD(): void {
 }
 
 /**
+ * Sets quantity on PDP
+ */
+export function setQtyOnPD(quantity:string): void {
+  cy.get('input.ng-pristine').clear().type(quantity);
+}
+
+/**
  * Clicks on 'View Cart' on the product details page.
  */
 export function clickOnViewCartBtnOnPD(): void {
@@ -45,44 +50,14 @@ export function clickOnViewCartBtnOnPD(): void {
  */
 export function clickOnRequestQuoteInCart(): void {
   cy.get('cx-quote-request-button button')
-    //.contains('Request A Quote')
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/quote');
       cy.get('cx-quote-details-overview').should('be.visible');
+    }).then(() => {
+      cy.get('cx-quote-actions-by-role').should('be.visible');
     });
-}
-
-/**
- * Clicks on 'Proceed to Checkout' on the product details page.
- */
-export function clickOnProceedToCheckoutBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-secondary')
-    .contains('proceed to checkout')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/delivery-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-delivery-address').should('be.visible');
-    });
-}
-
-/**
- * Searches for a product by a product name.
- *
- * @param {string} productName - Product name
- */
-export function searchForProduct(productName: string): void {
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/products/suggestions?term=${productName}*`,
-  }).as('productSearch');
-
-  productSearch.searchForProduct(productName);
-  cy.wait('@productSearch');
-}
+} 
 
 export function login(email: string, password: string, name: string): void {
   // Click on the 'Sign in / Register' link
@@ -100,9 +75,57 @@ export function login(email: string, password: string, name: string): void {
   cy.get('cx-login').should('not.contain', 'Sign In');
 }
 
-export function requestQuote(productName: string): void {
-  this.searchForProduct(productName);
+export function requestQuote(shopName, productName: string, quantity: string): void {
+  this.goToPDPage(shopName, productName);
+  this.setQtyOnPD(quantity);
   this.clickOnAddToCartBtnOnPD();
   this.clickOnViewCartBtnOnPD();
   this.clickOnRequestQuoteInCart();
+}
+
+/**
+ * Navigates to the product detail page.
+ *
+ * @param {string} shopName - shop name
+ * @param {string} productId - Product ID
+ */
+export function goToPDPage(shopName: string, productId: string): void {
+  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
+  cy.visit(location).then(() => {
+    checkLoadingMsgNotDisplayed();
+    cy.location('pathname').should('contain', location);
+    cy.get('.ProductDetailsPageTemplate').should('be.visible');
+  });
+}
+
+/**
+ * Verifies whether the loading message is not displayed.
+ */
+export function checkLoadingMsgNotDisplayed(): void {
+  cy.log('Wait until the loading notification is not displayed anymore');
+  cy.get('cx-storefront').should('not.contain.value', 'Loading');
+}
+
+/**
+ * Checks on the global message on the top of the page.
+ */
+export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
+  if (isDisplayed){
+    cy.get('cx-global-message').should('be.visible');
+    }
+  else{
+  cy.get('cx-global-message').should('not.be.visible');
+  }
+}
+
+/**
+ * Checks submit button on quote page.
+ */
+export function checkSubmitButton(isEnabled: boolean): void {
+  if (isEnabled){
+    cy.get('button.btn-primary').should('be.enabled');
+    }
+  else{
+    cy.get('button.btn-primary').should('be.disabled');
+  }
 }
