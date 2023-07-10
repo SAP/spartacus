@@ -114,8 +114,8 @@ describe('QuoteDetailsVendorContactComponent', () => {
     it('should be provided', () => {
       expect(component.messagingConfigs).toBeDefined();
     });
-    it('should set 255 chars limit', () => {
-      expect(component.messagingConfigs.charactersLimit).toBe(255);
+    it('should set 1.000 chars limit', () => {
+      expect(component.messagingConfigs.charactersLimit).toBe(1000);
     });
     it('should define a date format', () => {
       expect(component.messagingConfigs.dateFormat).toBe('MMMM d, yyyy h:mm aa');

@@ -1,20 +1,22 @@
-<div
-  class="vendor-contact-toggle"
-  (click)="showVendorContact = !showVendorContact"
->
-  <cx-icon
-    aria-hidden="false"
-    [type]="showVendorContact ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+<ng-container *ngIf="quoteDetails$ | async as quoteDetails">
+  <div
+    class="vendor-contact-toggle"
+    (click)="showVendorContact = !showVendorContact"
   >
-  </cx-icon>
-  <span class="vendor-contact-text">{{
-    'quote.commons.contactVendor' | cxTranslate
-  }}</span>
-</div>
-<div *ngIf="showVendorContact">
-  <cx-messaging
-    [messageEvents$]="messageEvents$"
-    [messagingConfigs]="messagingConfigs"
-    (send)="onSend()"
-  ></cx-messaging>
-</div>
+    <cx-icon
+      aria-hidden="false"
+      [type]="showVendorContact ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
+    >
+    </cx-icon>
+    <span class="vendor-contact-text">{{
+      'quote.commons.contactVendor' | cxTranslate
+    }}</span>
+  </div>
+  <div *ngIf="showVendorContact">
+    <cx-messaging
+      [messageEvents$]="messageEvents$"
+      [messagingConfigs]="messagingConfigs"
+      (send)="onSend($event, quoteDetails.data.code)"
+    ></cx-messaging>
+  </div>
+</ng-container>

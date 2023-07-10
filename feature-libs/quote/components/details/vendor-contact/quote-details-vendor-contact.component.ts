@@ -5,8 +5,13 @@
  */
 
 import { Component } from '@angular/core';
-import { EventService } from '@spartacus/core';
-import { QuoteFacade } from '@spartacus/quote/root';
+import { EventService, QueryState } from '@spartacus/core';
+import {
+  Comment,
+  Quote,
+  QuoteDetailsReloadQueryEvent,
+  QuoteFacade,
+} from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
@@ -14,26 +19,33 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
-import { map } from 'rxjs/operators';
-import { Comment } from '@spartacus/quote/root';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quote-details-vendor-contact',
   templateUrl: './quote-details-vendor-contact.component.html',
 })
 export class QuoteDetailsVendorContactComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
   showVendorContact = true;
   iconTypes = ICON_TYPE;
 
+  quoteDetails$: Observable<QueryState<Quote | undefined>> =
+    this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
+
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
   constructor(
     protected quoteFacade: QuoteFacade,
     protected eventService: EventService
   ) {}
-  onSend() {
-    //TODO CHHI signature is event: { message: string }
+
+  onSend(event: { message: string }, code: string) {
+    this.quoteFacade
+      .addQuoteComment(code, { text: event.message })
+      .pipe(take(1))
+      .subscribe(() =>
+        this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent)
+      );
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
