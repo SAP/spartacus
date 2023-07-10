@@ -5,7 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   QUOTE_LIST_NORMALIZER,
-  QUOTE_ACTION_NORMALIZER,
+  QUOTE_NORMALIZER,
   QUOTE_STARTER_SERIALIZER,
   QUOTE_METADATA_SERIALIZER,
   QUOTE_ACTION_SERIALIZER,
@@ -150,7 +150,7 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
-    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_ACTION_NORMALIZER);
+    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
     expect(converter.convert).toHaveBeenCalledWith(
       mockQuoteStarter,
       QUOTE_STARTER_SERIALIZER
@@ -176,7 +176,7 @@ describe(`OccQuoteAdapter`, () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(mockQuote);
-    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_ACTION_NORMALIZER);
+    expect(converter.pipeable).toHaveBeenCalledWith(QUOTE_NORMALIZER);
   });
 
   it('editQuote should editQuote quote', (done) => {
