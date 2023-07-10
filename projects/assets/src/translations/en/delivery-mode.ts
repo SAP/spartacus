@@ -6,6 +6,6 @@
 
 export const deliveryMode = {
   setDeliveryMode: {
-    unknownError: 'Unknown error occurred. Please contact support',
+    unknownError: 'An unknown error occurred. Please contact support.',
   },
 };
