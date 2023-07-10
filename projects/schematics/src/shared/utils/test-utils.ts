@@ -50,7 +50,7 @@ export const organizationOrderApprovalFeatureModulePath =
 export const organizationUserRegistrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-user-registration-feature.module.ts';
 export const organizationUserRegistrationWrapperModulePath =
-  'src/app/spartacus/features/organization/organization-registration-wrapper.module.ts';
+  'src/app/spartacus/features/organization/organization-user-registration-wrapper.module.ts';
 export const organizationUnitOrderFeatureModulePath =
   'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =

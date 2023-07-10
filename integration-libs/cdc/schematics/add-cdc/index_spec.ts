@@ -226,10 +226,10 @@ describe('Spartacus CDC schematics: ng-add', () => {
         );
         expect(administrationWrapperModule).toMatchSnapshot();
 
-        const organizationRegistrationWrapperModule = appTree.readContent(
+        const organizationUserRegistrationWrapperModule = appTree.readContent(
           organizationUserRegistrationWrapperModulePath
         );
-        expect(organizationRegistrationWrapperModule).toMatchSnapshot();
+        expect(organizationUserRegistrationWrapperModule).toMatchSnapshot();
       });
     });
 
