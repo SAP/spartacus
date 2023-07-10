@@ -35,7 +35,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 
 @Component({
@@ -203,16 +203,21 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.addressForm.valid) {
-      if (this.addressForm.get('region')?.value.isocode) {
-        this.regions$.pipe(take(1)).subscribe((regions) => {
-          const obj = regions.find(
-            (region) =>
-              region.isocode ===
-              this.addressForm.controls['region'].value.isocode
-          );
-          Object.assign(this.addressForm.value.region, {
-            isocodeShort: obj?.isocodeShort,
-          });
+      const regionControl = this.addressForm.get('region');
+      const isocode = regionControl?.value?.isocode;
+
+      if (isocode) {
+        this.regions$.pipe(take(1)).subscribe((regions: Region[]) => {
+          if (regions.length) {
+            const selectedRegion = regions.find(
+              (region: Region) => region.isocode === isocode
+            );
+            regionControl?.patchValue({
+              isocodeShort: selectedRegion?.isocodeShort,
+            });
+          } else {
+            regionControl?.reset();
+          }
         });
       }
 
