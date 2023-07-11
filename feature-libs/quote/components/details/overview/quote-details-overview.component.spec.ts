@@ -36,6 +36,7 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_ORDERED,
   name: 'Name',
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
+  isEditable: true,
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {

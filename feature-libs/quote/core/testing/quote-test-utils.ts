@@ -18,5 +18,6 @@ export function createEmptyQuote(): Quote {
     totalPrice: {},
     comments: [],
     description: 'Quote description',
+    isEditable: true,
   };
 }

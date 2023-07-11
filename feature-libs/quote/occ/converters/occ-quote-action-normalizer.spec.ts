@@ -29,6 +29,7 @@ const mockConvertedQuote: Quote = {
     { type: QuoteActionType.CANCEL, isPrimary: false },
     { type: QuoteActionType.SUBMIT, isPrimary: true },
   ],
+  isEditable: true,
 };
 
 const MockCQConfig: Partial<QuoteConfig> = {
