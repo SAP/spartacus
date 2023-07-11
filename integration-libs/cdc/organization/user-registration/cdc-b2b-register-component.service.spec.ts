@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
@@ -18,7 +18,6 @@ import {
   UserRegistrationFacade,
 } from '@spartacus/organization/user-registration/root';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { UserRegistrationService } from 'feature-libs/organization/user-registration/core/facade/user-registration.service';
 import { of, throwError } from 'rxjs';
 import { CDCB2BRegisterComponentService } from './cdc-b2b-register-component.service';
 import createSpy = jasmine.createSpy;
@@ -164,13 +163,6 @@ describe('CdcRegisterComponentService', () => {
   it('should be created', () => {
     expect(cdcOrgRegisterService).toBeTruthy();
   });
-
-  it('should inject UserRegisterService', inject(
-    [CDCB2BRegisterComponentService],
-    (userRegisterService: UserRegistrationService) => {
-      expect(userRegisterService).toBeTruthy();
-    }
-  ));
 
   it('should get countries from `userAddressService`', () => {
     cdcOrgRegisterService.getCountries().subscribe().unsubscribe();

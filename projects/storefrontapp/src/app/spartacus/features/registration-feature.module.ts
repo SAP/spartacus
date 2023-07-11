@@ -23,7 +23,7 @@ import {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>
             import(
-              './organization/organization-registration-wrapper.module'
+              './organization/organization-user-registration-wrapper.module'
             ).then((m) => m.OrganizationUserRegistrationWrapperModule),
         },
       },
