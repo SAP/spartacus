@@ -12,7 +12,7 @@ import { QuoteAdapter, QUOTE_NORMALIZER } from '@spartacus/quote/core';
 import { OccQuoteAdapter } from './adapters/occ-quote.adapter';
 import { defaultOccQuoteConfig } from './config/default-occ-quote-config';
 import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normalizer';
-import { OccQuoteNormalizer } from './converters/occ-quote-normalizer';
+import { OccQuoteEntryNormalizer } from './converters/occ-quote-entry-normalizer';
 
 @NgModule({
   imports: [CommonModule],
@@ -29,7 +29,7 @@ import { OccQuoteNormalizer } from './converters/occ-quote-normalizer';
     },
     {
       provide: QUOTE_NORMALIZER,
-      useExisting: OccQuoteNormalizer,
+      useExisting: OccQuoteEntryNormalizer,
       multi: true,
     },
   ],

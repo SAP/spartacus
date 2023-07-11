@@ -36,6 +36,7 @@ import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
 import {
   concatMap,
   distinctUntilChanged,
+  filter,
   map,
   switchMap,
   take,
@@ -295,7 +296,7 @@ export class QuoteService implements QuoteFacade {
     return this.getQuotesStateQuery(params).getState();
   }
 
-  getQuoteDetails(): Observable<QueryState<Quote | undefined>> {
+  getQuoteDetailsQueryState(): Observable<QueryState<Quote | undefined>> {
     return combineLatest([
       this.isActionPerforming$,
       this.quoteDetailsState$.getState(),
@@ -304,6 +305,15 @@ export class QuoteService implements QuoteFacade {
         ...state,
         loading: state.loading || isLoading,
       }))
+    );
+  }
+
+  getQuoteDetails(): Observable<Quote> {
+    return this.getQuoteDetailsQueryState().pipe(
+      filter((state) => !state.loading),
+      filter((state) => state.data !== undefined),
+      map((state) => state.data),
+      map((quote) => quote as Quote)
     );
   }
 }

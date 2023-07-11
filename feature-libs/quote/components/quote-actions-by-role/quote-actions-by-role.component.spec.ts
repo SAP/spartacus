@@ -10,7 +10,6 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   Price,
-  QueryState,
   TranslationService,
 } from '@spartacus/core';
 
@@ -39,15 +38,8 @@ const mockQuote: Quote = {
   threshold: threshold,
   totalPrice: totalPrice,
 };
-const mockQuoteDetailsState: QueryState<Quote> = {
-  loading: false,
-  error: false,
-  data: mockQuote,
-};
 
-const mockQuoteDetailsState$ = new BehaviorSubject<QueryState<Quote>>(
-  mockQuoteDetailsState
-);
+const mockQuoteDetails$ = new BehaviorSubject<Quote>(mockQuote);
 
 const dialogClose$ = new BehaviorSubject<any | undefined>(undefined);
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -68,8 +60,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 class MockCommerceQuotesFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<QueryState<Quote>> {
-    return mockQuoteDetailsState$.asObservable();
+  getQuoteDetails(): Observable<Quote> {
+    return mockQuoteDetails$.asObservable();
   }
   performQuoteAction(
     _quoteCode: string,
@@ -119,7 +111,7 @@ describe('QuoteActionsByRoleComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     facade = TestBed.inject(QuoteFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    mockQuoteDetailsState$.next(mockQuoteDetailsState);
+    mockQuoteDetails$.next(mockQuote);
   });
 
   it('should create component', () => {
@@ -129,7 +121,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should read quote details state', (done) => {
     component.quoteDetails$.pipe(take(1)).subscribe((state) => {
-      expect(state).toEqual(mockQuoteDetailsState.data);
+      expect(state).toEqual(mockQuote);
       done();
     });
   });
@@ -193,28 +185,24 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should open confirmation dialog when action is SUBMIT', () => {
     spyOn(launchDialogService, 'openDialog');
-    const newMockQuoteWithSubmitAction: QueryState<Quote> = {
-      error: false,
-      loading: false,
-      data: {
-        ...mockQuote,
-        allowedActions: [
-          { type: QuoteActionType.SUBMIT, isPrimary: true },
-          { type: QuoteActionType.CANCEL, isPrimary: false },
-        ],
-      },
+    const newMockQuoteWithSubmitAction: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+      ],
     };
-    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+    mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
     component.onClick(
       QuoteActionType.SUBMIT,
-      newMockQuoteWithSubmitAction.data?.code ?? ''
+      newMockQuoteWithSubmitAction.code
     );
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.REQUEST_CONFIRMATION,
       component.element,
       component['viewContainerRef'],
-      { quoteCode: newMockQuoteWithSubmitAction.data?.code }
+      { quoteCode: newMockQuoteWithSubmitAction.code }
     );
   });
 
@@ -227,24 +215,17 @@ describe('QuoteActionsByRoleComponent', () => {
       totalPrice: { value: threshold - 1 },
       allowedActions: allowedActionsSubmit,
     };
-    const queryStateSubmittableQuote: QueryState<Quote> = {
-      error: false,
-      loading: false,
-      data: {
-        ...mockQuote,
-        allowedActions: allowedActionsSubmit,
-      },
+    const submittableQuote: Quote = {
+      ...mockQuote,
+      allowedActions: allowedActionsSubmit,
     };
-    const queryStateCancellableQuote: QueryState<Quote> = {
-      ...queryStateSubmittableQuote,
-      data: {
-        ...quoteFailingThreshold,
-        allowedActions: [{ type: QuoteActionType.CANCEL, isPrimary: true }],
-      },
+    const cancellableQuote: Quote = {
+      ...quoteFailingThreshold,
+      allowedActions: [{ type: QuoteActionType.CANCEL, isPrimary: true }],
     };
 
     it('should let submit button enabled if threshold is met', () => {
-      mockQuoteDetailsState$.next(queryStateSubmittableQuote);
+      mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
       expect(actionButtons).toBeDefined();
@@ -253,7 +234,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
     it('should let submit button enabled if threshold is not specified', () => {
       mockQuote.threshold = undefined;
-      mockQuoteDetailsState$.next(queryStateSubmittableQuote);
+      mockQuoteDetails$.next(submittableQuote);
       fixture.detectChanges();
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
       expect(actionButtons).toBeDefined();
@@ -262,14 +243,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
     it('should disable submit button if threshold is not met and raise message', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
-
-      const queryStateSubmittableQuoteFailingThreshold: QueryState<Quote> = {
-        ...queryStateSubmittableQuote,
-        data: {
-          ...quoteFailingThreshold,
-        },
-      };
-      mockQuoteDetailsState$.next(queryStateSubmittableQuoteFailingThreshold);
+      mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
@@ -281,13 +255,7 @@ describe('QuoteActionsByRoleComponent', () => {
     it('should disable submit button if total price value is not provided', () => {
       quoteFailingThreshold.totalPrice.value = undefined;
 
-      const queryStateSubmittableQuoteFailingThreshold: QueryState<Quote> = {
-        ...queryStateSubmittableQuote,
-        data: {
-          ...quoteFailingThreshold,
-        },
-      };
-      mockQuoteDetailsState$.next(queryStateSubmittableQuoteFailingThreshold);
+      mockQuoteDetails$.next(quoteFailingThreshold);
       fixture.detectChanges();
 
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
@@ -296,7 +264,7 @@ describe('QuoteActionsByRoleComponent', () => {
     });
 
     it('should not touch buttons other than submit', () => {
-      mockQuoteDetailsState$.next(queryStateCancellableQuote);
+      mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
       const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
@@ -306,7 +274,7 @@ describe('QuoteActionsByRoleComponent', () => {
 
     it('should not raise message in case threshold not met and submit action not present', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
-      mockQuoteDetailsState$.next(queryStateCancellableQuote);
+      mockQuoteDetails$.next(cancellableQuote);
       fixture.detectChanges();
 
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
@@ -315,27 +283,23 @@ describe('QuoteActionsByRoleComponent', () => {
 
   it('should perform quote action when action is SUBMIT and confirm dialogClose reason is yes', () => {
     spyOn(facade, 'performQuoteAction').and.callThrough();
-    const newMockQuoteWithSubmitAction: QueryState<Quote> = {
-      error: false,
-      loading: false,
-      data: {
-        ...mockQuote,
-        allowedActions: [
-          { type: QuoteActionType.SUBMIT, isPrimary: true },
-          { type: QuoteActionType.CANCEL, isPrimary: false },
-        ],
-      },
+    const newMockQuoteWithSubmitAction: Quote = {
+      ...mockQuote,
+      allowedActions: [
+        { type: QuoteActionType.SUBMIT, isPrimary: true },
+        { type: QuoteActionType.CANCEL, isPrimary: false },
+      ],
     };
-    mockQuoteDetailsState$.next(newMockQuoteWithSubmitAction);
+    mockQuoteDetails$.next(newMockQuoteWithSubmitAction);
     fixture.detectChanges();
 
     component.onClick(
       QuoteActionType.SUBMIT,
-      newMockQuoteWithSubmitAction.data?.code ?? ''
+      newMockQuoteWithSubmitAction.code
     );
     launchDialogService.closeDialog('yes');
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
-      newMockQuoteWithSubmitAction.data?.code,
+      newMockQuoteWithSubmitAction.code,
       QuoteActionType.SUBMIT
     );
   });

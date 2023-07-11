@@ -200,6 +200,20 @@ describe('QuoteService', () => {
       });
   });
 
+  it('should return quote details query state after calling quoteConnector.getQuote', () => {
+    service
+      .getQuoteDetailsQueryState()
+      .pipe(take(1))
+      .subscribe((details) => {
+        expect(connector.getQuote).toHaveBeenCalledWith(
+          mockUserId,
+          mockParams.quoteId
+        );
+        expect(details.data).toEqual(mockQuote);
+        expect(details.loading).toBe(false);
+      });
+  });
+
   it('should return quote details after calling quoteConnector.getQuote', () => {
     service
       .getQuoteDetails()
@@ -209,7 +223,7 @@ describe('QuoteService', () => {
           mockUserId,
           mockParams.quoteId
         );
-        expect(details.data).toEqual(mockQuote);
+        expect(details).toEqual(mockQuote);
       });
   });
 
