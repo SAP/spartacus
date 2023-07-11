@@ -7,7 +7,6 @@
 import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  Config,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorHandler,
@@ -20,10 +19,7 @@ import {
   providedIn: 'root',
 })
 export class QuoteBadRequestHandler extends HttpErrorHandler {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    private config: Config
-  ) {
+  constructor(protected globalMessageService: GlobalMessageService) {
     super(globalMessageService);
   }
   responseStatus = HttpResponseStatus.BAD_REQUEST;
@@ -48,10 +44,7 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     if (result) {
       this.globalMessageService.add(
         {
-          key: 'quote.httpHandlers.threshold.underTresholdError',
-          params: {
-            minValue: this.config.quote?.tresholds?.requestInitiation,
-          },
+          key: 'quote.httpHandlers.threshold.underThresholdError',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );

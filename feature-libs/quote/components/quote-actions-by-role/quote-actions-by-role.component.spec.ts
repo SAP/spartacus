@@ -9,6 +9,7 @@ import {
 import {
   GlobalMessageService,
   I18nTestingModule,
+  Price,
   QueryState,
   TranslationService,
 } from '@spartacus/core';
@@ -19,11 +20,15 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
 import createSpy = jasmine.createSpy;
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { ElementRef, ViewContainerRef } from '@angular/core';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 const mockCartId = '1234';
 const mockCode = '3333';
+const threshold = 20;
+const totalPrice: Price = { value: threshold + 1 };
 
 const mockQuote: Quote = {
+  ...createEmptyQuote(),
   allowedActions: [
     { type: QuoteActionType.EDIT, isPrimary: false },
     { type: QuoteActionType.REQUOTE, isPrimary: true },
@@ -31,6 +36,8 @@ const mockQuote: Quote = {
   state: QuoteState.BUYER_DRAFT,
   cartId: mockCartId,
   code: mockCode,
+  threshold: threshold,
+  totalPrice: totalPrice,
 };
 const mockQuoteDetailsState: QueryState<Quote> = {
   loading: false,
@@ -121,8 +128,8 @@ describe('QuoteActionsByRoleComponent', () => {
   });
 
   it('should read quote details state', (done) => {
-    component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
-      expect(state).toEqual(mockQuoteDetailsState);
+    component.quoteDetails$.pipe(take(1)).subscribe((state) => {
+      expect(state).toEqual(mockQuoteDetailsState.data);
       done();
     });
   });
@@ -215,9 +222,9 @@ describe('QuoteActionsByRoleComponent', () => {
     const allowedActionsSubmit = [
       { type: QuoteActionType.SUBMIT, isPrimary: true },
     ];
-    const quoteFailingThreshold = {
+    const quoteFailingThreshold: Quote = {
       ...mockQuote,
-      totalPrice: { value: -1 },
+      totalPrice: { value: threshold - 1 },
       allowedActions: allowedActionsSubmit,
     };
     const queryStateSubmittableQuote: QueryState<Quote> = {
@@ -244,6 +251,15 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(actionButtons[0].nativeElement.disabled).toBe(false);
     });
 
+    it('should let submit button enabled if threshold is not specified', () => {
+      mockQuote.threshold = undefined;
+      mockQuoteDetailsState$.next(queryStateSubmittableQuote);
+      fixture.detectChanges();
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(false);
+    });
+
     it('should disable submit button if threshold is not met and raise message', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
 
@@ -260,6 +276,23 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(actionButtons).toBeDefined();
       expect(actionButtons[0].nativeElement.disabled).toBe(true);
       expect(globalMessageService.add).toHaveBeenCalled();
+    });
+
+    it('should disable submit button if total price value is not provided', () => {
+      quoteFailingThreshold.totalPrice.value = undefined;
+
+      const queryStateSubmittableQuoteFailingThreshold: QueryState<Quote> = {
+        ...queryStateSubmittableQuote,
+        data: {
+          ...quoteFailingThreshold,
+        },
+      };
+      mockQuoteDetailsState$.next(queryStateSubmittableQuoteFailingThreshold);
+      fixture.detectChanges();
+
+      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
+      expect(actionButtons).toBeDefined();
+      expect(actionButtons[0].nativeElement.disabled).toBe(true);
     });
 
     it('should not touch buttons other than submit', () => {

@@ -8,14 +8,15 @@ import { Injectable } from '@angular/core';
 import { QuoteActionType, QuoteActionsByState } from '@spartacus/quote/root';
 import { Config } from '@spartacus/core';
 
-export interface QuoteTresholdsConfig {
-  //TODO CHHI probably not needed in SPA, later remove
-  /** Value above which seller approval is required */
-  sellerAutoApproval: number;
-  //TODO CHHI read this value via OCC
-  /** Minimal value required to submit a quote */
-  requestInitiation: number;
-}
+//TODO CHHI: Delete when decision has been taken about quote request dialog
+// export interface QuoteTresholdsConfig {
+//
+//   /** Value above which seller approval is required */
+//   sellerAutoApproval: number;
+//
+//   /** Minimal value required to submit a quote */
+//   requestInitiation: number;
+// }
 
 export interface QuoteActionsConfig {
   /** Actions that should be presented in template as primary */
@@ -33,7 +34,7 @@ export abstract class QuoteConfig {
    * Commerce quotes config
    */
   quote?: {
-    tresholds?: QuoteTresholdsConfig;
+    //tresholds?: QuoteTresholdsConfig;
     actions?: QuoteActionsConfig;
   };
 }

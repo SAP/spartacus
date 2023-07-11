@@ -5,6 +5,7 @@ import { QuoteRequestButtonComponent } from './quote-request-button.component';
 import { QuoteFacade, Quote } from '@spartacus/quote/root';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 
 @Pipe({
   name: 'cxUrl',
@@ -14,6 +15,7 @@ class MockUrlPipe implements PipeTransform {
 }
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
+  ...createEmptyQuote(),
   allowedActions: [],
   code: quoteCode,
 };

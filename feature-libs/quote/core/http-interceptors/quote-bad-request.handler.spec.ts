@@ -4,20 +4,19 @@ import {
   GlobalMessageService,
   HttpResponseStatus,
   GlobalMessageType,
-  Config,
 } from '@spartacus/core';
-import { QuoteConfig } from '../config/quote-config';
 import { QuoteBadRequestHandler } from './quote-bad-request.handler';
 
 const MockRequest = {} as HttpRequest<any>;
-const MockCQConfig: QuoteConfig = {
-  quote: {
-    tresholds: {
-      requestInitiation: 10000,
-      sellerAutoApproval: 1,
-    },
-  },
-};
+//TODO CHHI: Delete when decision has been taken about quote request dialog
+// const MockCQConfig: QuoteConfig = {
+//   quote: {
+//     tresholds: {
+//       requestInitiation: 10000,
+//       sellerAutoApproval: 1,
+//     },
+//   },
+// };
 
 const MockQuoteUnderThresholdResponse = {
   error: {
@@ -48,10 +47,6 @@ describe('QuoteBadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: Config,
-          useValue: MockCQConfig,
-        },
       ],
     });
     service = TestBed.inject(QuoteBadRequestHandler);
@@ -72,10 +67,7 @@ describe('QuoteBadRequestHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'quote.httpHandlers.threshold.underTresholdError',
-        params: {
-          minValue: MockCQConfig.quote?.tresholds?.requestInitiation,
-        },
+        key: 'quote.httpHandlers.threshold.underThresholdError',
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
