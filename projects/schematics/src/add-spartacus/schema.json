@@ -140,8 +140,8 @@
             "label": "OPF - Checkout Integration"
           },
           {
-            "value": "OPF-Payment",
-            "label": "OPF - Payment Integration"
+            "value": "OPF-Base",
+            "label": "OPF - Base Integration"
           },
           {
             "value": "Administration",
