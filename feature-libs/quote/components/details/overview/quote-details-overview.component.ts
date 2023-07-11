@@ -8,8 +8,10 @@ import { Component } from '@angular/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Quote, QuoteMetadata } from '../../../root/model';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -17,25 +19,43 @@ import { map } from 'rxjs/operators';
 })
 export class QuoteDetailsOverviewComponent {
   quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  iconTypes = ICON_TYPE;
+  editMode = false;
 
   constructor(
     protected quoteFacade: QuoteFacade,
     protected translationService: TranslationService
   ) {}
 
-  getQuoteInformation(code?: string, description?: string): Observable<Card> {
+  editQuote(quote: Quote) {
+    const metaData: QuoteMetadata = {
+      description: 'Edit',
+      name: 'Edit',
+    };
+    this.quoteFacade.editQuote(quote.code, metaData);
+  }
+
+  isEditMode(): boolean {
+    return this.editMode;
+  }
+
+  setEditMode() {
+    this.editMode = !this.editMode;
+  }
+
+  getQuoteInformation(name?: string, description?: string): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.details.information'),
-      this.translationService.translate('quote.details.code'),
+      this.translationService.translate('quote.details.name'),
       this.translationService.translate('quote.details.description'),
     ]).pipe(
-      map(([infoTitle, codeTitle, descriptionTitle]) => {
+      map(([infoTitle, nameTitle, descriptionTitle]) => {
         return {
           title: infoTitle,
           paragraphs: [
             {
-              title: codeTitle,
-              text: [code ?? '-'],
+              title: nameTitle,
+              text: [name ?? '-'],
             },
             {
               title: descriptionTitle,

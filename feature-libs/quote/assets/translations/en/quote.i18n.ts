@@ -51,6 +51,7 @@ export const quote = {
     details: {
       information: 'Quote Information',
       code: 'Quote ID',
+      name: 'Quote Name',
       description: 'Description',
       estimateAndDate: 'Estimated & Date',
       estimatedTotal: 'Estimated Total',
