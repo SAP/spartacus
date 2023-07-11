@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { Card, CmsComponentData } from '@spartacus/storefront';
 import { Observable, combineLatest, of } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 
@@ -31,8 +31,7 @@ export class OrderOverviewComponent {
       : of(false);
 
   simple$: Observable<boolean | undefined> = this.component.data$.pipe(
-    map((data) => data.simple),
-    tap((data) => console.log('simple:', data))
+    map((data) => data.simple)
   );
 
   constructor(
@@ -41,10 +40,6 @@ export class OrderOverviewComponent {
     protected component: CmsComponentData<CmsOrderDetailOverviewComponent>,
     protected orderOverviewService: OrderOverviewComponentService
   ) {}
-
-  getPaymentInfoCardContentOld(payment: PaymentDetails): Observable<Card> {
-    return this.orderOverviewService.getPaymentInfoCardContent(payment);
-  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(

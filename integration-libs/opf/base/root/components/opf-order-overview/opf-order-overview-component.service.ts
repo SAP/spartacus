@@ -15,9 +15,7 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OpfOrderOverviewComponentService {
-  constructor(protected translation: TranslationService) {
-    console.log('constructor: OpfOrderOverviewComponentService');
-  }
+  constructor(protected translation: TranslationService) {}
 
   readonly paymentIntegration = true;
 
