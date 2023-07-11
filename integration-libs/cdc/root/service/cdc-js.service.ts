@@ -257,7 +257,7 @@ export class CdcJsService implements OnDestroy {
     const missingConsentErrorCode = 206001;
     let ignoreInterruptions = false;
     const channel = this.getCurrentBaseSiteChannel();
-    if (channel === 'B2C') {
+    if (channel && channel === 'B2C') {
       ignoreInterruptions = true;
     }
     return this.getSessionExpirationValue().pipe(
