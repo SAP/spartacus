@@ -21,8 +21,6 @@ import {
   defaultOPFCheckoutConfig,
 } from '@spartacus/opf/checkout/root';
 
-import { OpfOrderOverviewComponentService } from '@spartacus/opf/base/components';
-import { OrderOverviewComponentService } from '@spartacus/order/components';
 import { environment } from '../../../../environments/environment';
 
 const extensionProviders: Provider[] = [];
@@ -78,11 +76,6 @@ if (environment.b2b) {
       },
     }),
     ...extensionProviders,
-    OpfOrderOverviewComponentService,
-    {
-      provide: OrderOverviewComponentService,
-      useExisting: OpfOrderOverviewComponentService,
-    },
   ],
 })
 export class OpfFeatureModule {}
