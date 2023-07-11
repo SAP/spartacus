@@ -8,11 +8,7 @@ import {
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import {
-  I18nTestingModule,
-  QueryState,
-  TranslationService,
-} from '@spartacus/core';
+import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
@@ -43,8 +39,8 @@ const mockQuote: Quote = {
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<QueryState<Quote>> {
-    return of({ data: mockQuote, loading: false, error: false });
+  getQuoteDetails(): Observable<Quote> {
+    return of(mockQuote);
   }
   setSort = createSpy();
   setCurrentPage = createSpy();

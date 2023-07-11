@@ -25,6 +25,7 @@ import {
       feature: QUOTE_FEATURE,
       methods: [
         'getQuotesState',
+        'getQuoteDetailsQueryState',
         'getQuoteDetails',
         'createQuote',
         'editQuote',
@@ -80,7 +81,14 @@ export abstract class QuoteFacade {
   abstract requote(quoteCode: string): Observable<Quote>;
 
   /**
+   * Returns the quote details query state.
+   */
+  abstract getQuoteDetailsQueryState(): Observable<
+    QueryState<Quote | undefined>
+  >;
+
+  /**
    * Returns the quote details.
    */
-  abstract getQuoteDetails(): Observable<QueryState<Quote | undefined>>;
+  abstract getQuoteDetails(): Observable<Quote>;
 }

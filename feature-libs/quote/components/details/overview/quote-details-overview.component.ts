@@ -9,19 +9,14 @@ import { Quote, QuoteActionType, QuoteFacade } from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quote-details-overview',
   templateUrl: './quote-details-overview.component.html',
 })
 export class QuoteDetailsOverviewComponent {
-  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails().pipe(
-    filter((state) => !state.loading),
-    filter((state) => state.data !== undefined),
-    map((state) => state.data),
-    map((quote) => quote as Quote)
-  );
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   constructor(
     protected quoteFacade: QuoteFacade,

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 
-import { I18nTestingModule, QueryState } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import {
@@ -14,8 +14,8 @@ import { By } from '@angular/platform-browser';
 const quote: Quote = createEmptyQuote();
 
 class MockQuoteFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<QueryState<Quote>> {
-    return of({ data: quote, loading: false, error: false });
+  getQuoteDetails(): Observable<Quote> {
+    return of(quote);
   }
 }
 
