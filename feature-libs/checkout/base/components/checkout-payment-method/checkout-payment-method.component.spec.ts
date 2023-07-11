@@ -9,6 +9,8 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeaturesConfig,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   QueryState,
@@ -168,7 +170,7 @@ describe('CheckoutPaymentMethodComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, FeaturesConfigModule],
         declarations: [
           CheckoutPaymentMethodComponent,
           MockPaymentFormComponent,
@@ -193,6 +195,12 @@ describe('CheckoutPaymentMethodComponent', () => {
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '6.3' },
+            },
+          },
         ],
       }).compileComponents();
 
