@@ -10,7 +10,7 @@ import { TranslationService } from '@spartacus/core';
 import { Order, billingAddressCard } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailBillingComponentService } from './order-detail-billing.component.service';
 
@@ -40,8 +40,7 @@ export class OrderDetailBillingComponent {
     ]).pipe(
       map(([billingAddress, billTo]) =>
         billingAddressCard(billingAddress, billTo, paymentDetails)
-      ),
-      filter(() => false)
+      )
     );
   }
 }
