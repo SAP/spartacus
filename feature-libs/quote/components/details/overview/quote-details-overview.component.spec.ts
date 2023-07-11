@@ -34,8 +34,8 @@ const mockQuote: Quote = {
   updatedTime: new Date('2022-06-09T13:31:36+0000'),
   previousEstimatedTotal: {
     currencyIso: 'USD',
-    formattedValue: '$0.00',
-    value: 0,
+    formattedValue: '$1.00',
+    value: 1,
   },
   state: QuoteState.BUYER_ORDERED,
   name: 'Name',
