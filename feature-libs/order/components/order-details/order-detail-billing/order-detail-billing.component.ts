@@ -7,15 +7,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
-import {
-  billingAddressCard,
-  Order,
-  paymentMethodCard,
-} from '@spartacus/order/root';
+import { Order, billingAddressCard } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailBillingComponentService } from './order-detail-billing.component.service';
 
 @Component({
   selector: 'cx-order-detail-billing',
@@ -28,21 +25,12 @@ export class OrderDetailBillingComponent {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected translationService: TranslationService
+    protected translationService: TranslationService,
+    protected orderDetailBillingService: OrderDetailBillingComponentService
   ) {}
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
-    return combineLatest([
-      this.translationService.translate('paymentForm.payment'),
-      this.translationService.translate('paymentCard.expires', {
-        month: paymentDetails.expiryMonth,
-        year: paymentDetails.expiryYear,
-      }),
-    ]).pipe(
-      map(([textTitle, textExpires]) =>
-        paymentMethodCard(textTitle, textExpires, paymentDetails)
-      )
-    );
+    return this.orderDetailBillingService.getPaymentMethodCard(paymentDetails);
   }
 
   getBillingAddressCard(paymentDetails: PaymentDetails): Observable<Card> {
@@ -52,7 +40,8 @@ export class OrderDetailBillingComponent {
     ]).pipe(
       map(([billingAddress, billTo]) =>
         billingAddressCard(billingAddress, billTo, paymentDetails)
-      )
+      ),
+      filter(() => false)
     );
   }
 }

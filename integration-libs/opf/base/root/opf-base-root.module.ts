@@ -11,7 +11,11 @@ import {
   provideConfigValidator,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { OrderOverviewComponentService } from '@spartacus/order/components';
+import {
+  OrderDetailBillingComponentService,
+  OrderOverviewComponentService,
+} from '@spartacus/order/components';
+import { OpfOrderDetailBillingComponentService } from './components/opf-order-detail-billing/opf-order-detail-billing-component.service';
 import { OpfOrderOverviewComponentService } from './components/opf-order-overview';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
 import { defaultOpfRoutingConfig } from './config';
@@ -64,6 +68,11 @@ export function opfStatePersistenceFactory(
     {
       provide: OrderOverviewComponentService,
       useExisting: OpfOrderOverviewComponentService,
+    },
+    OpfOrderDetailBillingComponentService,
+    {
+      provide: OrderDetailBillingComponentService,
+      useExisting: OpfOrderDetailBillingComponentService,
     },
   ],
 })

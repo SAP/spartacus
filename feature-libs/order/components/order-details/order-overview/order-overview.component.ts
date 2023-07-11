@@ -16,7 +16,7 @@ import { Card, CmsComponentData } from '@spartacus/storefront';
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderOverviewComponentService } from './order-overview-component.service';
+import { OrderOverviewComponentService } from './order-overview.component.service';
 
 @Component({
   selector: 'cx-order-overview',
