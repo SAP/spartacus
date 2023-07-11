@@ -50,7 +50,7 @@ export class QuoteDetailsVendorContactComponent {
 
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
-      charactersLimit: 255,
+      charactersLimit: 1000,
       displayAddMessageSection: of(true),
       dateFormat: 'MMMM d, yyyy h:mm aa',
     };
