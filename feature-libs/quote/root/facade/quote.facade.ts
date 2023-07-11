@@ -88,7 +88,7 @@ export abstract class QuoteFacade {
   >;
 
   /**
-   * Returns the quote details.
+   * Returns the quote details once it has been fully loaded.
    */
   abstract getQuoteDetails(): Observable<Quote>;
 }
