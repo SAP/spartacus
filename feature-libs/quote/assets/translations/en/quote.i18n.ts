@@ -53,6 +53,7 @@ export const quote = {
       created: 'Created',
       lastUpdated: 'Last Updated',
       estimatedTotal: 'Estimated Total',
+      total: 'Total',
       description: 'Description',
       expiryDate: 'Expiry Date',
     },

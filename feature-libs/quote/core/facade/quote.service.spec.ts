@@ -5,6 +5,7 @@ import {
   Comment,
   Quote,
   QuoteActionType,
+  QuoteDetailsReloadQueryEvent,
   QuoteList,
   QuoteMetadata,
   QuotesStateParams,
@@ -187,6 +188,32 @@ describe('QuoteService', () => {
       });
   });
 
+  it('should signal that quote details need to be re-read when performing search', () => {
+    service
+      .getQuotesState(mockQuotesStateParams)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          QuoteDetailsReloadQueryEvent
+        );
+      });
+  });
+
+  it('should return quote details query state after calling quoteConnector.getQuote', () => {
+    service
+      .getQuoteDetailsQueryState()
+      .pipe(take(1))
+      .subscribe((details) => {
+        expect(connector.getQuote).toHaveBeenCalledWith(
+          mockUserId,
+          mockParams.quoteId
+        );
+        expect(details.data).toEqual(mockQuote);
+        expect(details.loading).toBe(false);
+      });
+  });
+
   it('should return quote details after calling quoteConnector.getQuote', () => {
     service
       .getQuoteDetails()
@@ -196,7 +223,7 @@ describe('QuoteService', () => {
           mockUserId,
           mockParams.quoteId
         );
-        expect(details.data).toEqual(mockQuote);
+        expect(details).toEqual(mockQuote);
       });
   });
 
