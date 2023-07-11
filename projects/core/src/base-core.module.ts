@@ -23,11 +23,11 @@ import { HttpErrorHandlerModule } from './error-handling';
 
 @NgModule({
   imports: [
+    HttpErrorHandlerModule, // Import this module before any other interceptor to handle HTTP errors efficiently
     StateModule.forRoot(),
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
     ConfigValidatorModule.forRoot(),
-    HttpErrorHandlerModule, // Import this module before any other interceptor to handle HTTP errors
     I18nModule.forRoot(),
     CmsModule.forRoot(),
     GlobalMessageModule.forRoot(),
