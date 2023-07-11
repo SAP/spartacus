@@ -7,11 +7,11 @@
   <span class="cart-toggle-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
 </div>
 
-<ng-container *ngIf="showCart && (quoteDetails$ | async) as quoteDetailsState">
+<ng-container *ngIf="showCart && (quoteDetails$ | async) as quoteDetails">
   <ng-template
     [cxOutlet]="cartOutlets.CART_ITEM_LIST"
     [cxOutletContext]="{
-      items: quoteDetailsState.data?.entries,
+      items: quoteDetails.entries,
       readonly: true
     }"
   >

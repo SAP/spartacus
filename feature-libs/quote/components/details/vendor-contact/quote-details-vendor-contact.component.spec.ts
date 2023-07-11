@@ -77,13 +77,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
       'getQuoteDetails',
       'addQuoteComment',
     ]);
-    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(
-      of({
-        data: quote,
-        loading: false,
-        error: false,
-      })
-    );
+    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(of(quote));
     asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(of({}));
 
     mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
@@ -201,9 +195,12 @@ describe('QuoteDetailsVendorContactComponent', () => {
   describe('onSend', () => {
     it('should add a quote comment with the given text', () => {
       component.onSend({ message: 'test comment' }, QUOTE_CODE);
-      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(QUOTE_CODE, {
-        text: 'test comment',
-      });
+      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(
+        QUOTE_CODE,
+        {
+          text: 'test comment',
+        }
+      );
     });
     it('should refresh the quote to display the just added comment', () => {
       component.onSend({ message: 'test comment' }, QUOTE_CODE);

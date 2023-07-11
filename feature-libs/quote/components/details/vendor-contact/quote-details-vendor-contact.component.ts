@@ -5,17 +5,15 @@
  */
 
 import { Component } from '@angular/core';
-import { EventService, QueryState } from '@spartacus/core';
+import { EventService } from '@spartacus/core';
 import {
-  Comment,
-  Quote,
-  QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
+  Comment, QuoteDetailsReloadQueryEvent,
+  QuoteFacade
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
-  MessagingConfigs,
+  MessagingConfigs
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
@@ -29,8 +27,7 @@ export class QuoteDetailsVendorContactComponent {
   showVendorContact = true;
   iconTypes = ICON_TYPE;
 
-  quoteDetails$: Observable<QueryState<Quote | undefined>> =
-    this.quoteFacade.getQuoteDetails();
+  quoteDetails$ = this.quoteFacade.getQuoteDetails();
   messageEvents$: Observable<Array<MessageEvent>> = this.prepareMessageEvents();
 
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
@@ -60,7 +57,7 @@ export class QuoteDetailsVendorContactComponent {
     return this.quoteDetails$.pipe(
       map((quote) => {
         const messageEvents: MessageEvent[] = [];
-        quote.data?.comments.forEach((comment) =>
+        quote.comments.forEach((comment) =>
           messageEvents.push(this.mapCommentToMessageEvent(comment))
         );
         return messageEvents;

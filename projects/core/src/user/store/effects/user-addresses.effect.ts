@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -81,13 +81,17 @@ export class UserAddressesEffects {
               map(() => {
                 return new UserActions.UpdateUserAddressSuccess(payload);
               }),
-              catchError((error) =>
-                of(
+              catchError((error) => {
+                this.showGlobalMessage(
+                  'addressForm.invalidAddress',
+                  GlobalMessageType.MSG_TYPE_ERROR
+                );
+                return of(
                   new UserActions.UpdateUserAddressFail(
                     normalizeHttpError(error, this.logger)
                   )
-                )
-              )
+                );
+              })
             );
         })
       )
@@ -182,10 +186,10 @@ export class UserAddressesEffects {
   /**
    * Show global confirmation message with provided text
    */
-  private showGlobalMessage(text: string) {
+  private showGlobalMessage(key: string, type?: GlobalMessageType) {
     this.messageService.add(
-      { key: text },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      { key },
+      type ?? GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 

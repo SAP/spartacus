@@ -16,19 +16,14 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { QuoteFacade, QuoteActionType, Quote } from '@spartacus/quote/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quote-actions-by-role',
   templateUrl: './quote-actions-by-role.component.html',
 })
 export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
-  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails().pipe(
-    filter((state) => !state.loading),
-    filter((state) => state.data !== undefined),
-    map((state) => state.data),
-    map((quote) => quote as Quote)
-  );
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
 
   @ViewChild('element') element: ElementRef;
 
