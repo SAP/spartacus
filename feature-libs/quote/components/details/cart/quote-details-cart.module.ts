@@ -15,12 +15,10 @@ import {
 import { IconModule, OutletModule } from '@spartacus/storefront';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-summary.component';
-//import { CartBaseComponentsModule } from '@spartacus/cart/base/components';
 
 //https://jira.tools.sap/browse/CXSPA-4039
-//import { CartBaseComponentsModule } from '@spartacus/cart/base/components';
 
-//CartBaseComponentsModule in order to ensure that the cart outlet implementations are
+//CartBaseComponentsModule import in order to ensure that the cart outlet implementations are
 //loaded once this component is displayed. Still after one interaction, outlet displays twice
 
 //Side note: importing CartBaseModule will lead to a duplicate rendering of the cart item list outlet
