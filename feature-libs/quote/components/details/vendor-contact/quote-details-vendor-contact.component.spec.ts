@@ -14,7 +14,6 @@ import { createEmptyQuote } from './../../../core/testing/quote-test-utils';
 import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
 
 const QUOTE_CODE = 'q123';
-let quote: Quote;
 
 @Component({
   selector: 'cx-messaging',
@@ -35,6 +34,8 @@ describe('QuoteDetailsVendorContactComponent', () => {
   let component: QuoteDetailsVendorContactComponent;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
+
+  let quote: Quote;
 
   beforeEach(
     waitForAsync(() => {
