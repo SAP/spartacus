@@ -1,30 +1,30 @@
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
-import { OccQuoteNormalizer } from './occ-quote-normalizer';
+import { OccQuoteEntryNormalizer } from './occ-quote-entry-normalizer';
 
 class MockConverterService {
   convert() {}
 }
 
-describe('OccQuoteNormalizer', () => {
-  let occQuoteNormalizer: OccQuoteNormalizer;
+describe('OccQuoteEntryNormalizer', () => {
+  let occQuoteEntryNormalizer: OccQuoteEntryNormalizer;
   let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OccQuoteNormalizer,
+        OccQuoteEntryNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
       ],
     });
 
-    occQuoteNormalizer = TestBed.inject(OccQuoteNormalizer);
+    occQuoteEntryNormalizer = TestBed.inject(OccQuoteEntryNormalizer);
     converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callThrough();
   });
 
   it('should be created', () => {
-    expect(occQuoteNormalizer).toBeTruthy();
+    expect(occQuoteEntryNormalizer).toBeTruthy();
   });
 
   it('should convert quote entries', () => {
@@ -40,7 +40,7 @@ describe('OccQuoteNormalizer', () => {
       totalPrice: price,
     };
 
-    const result = occQuoteNormalizer.convert(quote);
+    const result = occQuoteEntryNormalizer.convert(quote);
     expect(result.code).toBe(quote.code);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });
