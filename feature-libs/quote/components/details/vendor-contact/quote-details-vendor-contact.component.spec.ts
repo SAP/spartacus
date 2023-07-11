@@ -1,21 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, QueryState } from '@spartacus/core';
-import { Comment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { EventService, I18nTestingModule } from '@spartacus/core';
+import {
+  Comment,
+  Quote,
+  QuoteDetailsReloadQueryEvent,
+  QuoteFacade,
+} from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { createEmptyQuote } from './../../../core/testing/quote-test-utils';
 import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
 
+const QUOTE_CODE = 'q123';
 let quote: Quote;
-
-class MockQuoteFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<QueryState<Quote>> {
-    return of({ data: quote, loading: false, error: false });
-  }
-}
 
 @Component({
   selector: 'cx-messaging',
@@ -34,9 +33,13 @@ class MockCxIconComponent {
 describe('QuoteDetailsVendorContactComponent', () => {
   let fixture: ComponentFixture<QuoteDetailsVendorContactComponent>;
   let component: QuoteDetailsVendorContactComponent;
+  let mockedQuoteFacade: QuoteFacade;
+  let mockedEventService: EventService;
 
   beforeEach(
     waitForAsync(() => {
+      initTestData();
+      initMocks();
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
@@ -47,7 +50,11 @@ describe('QuoteDetailsVendorContactComponent', () => {
         providers: [
           {
             provide: QuoteFacade,
-            useClass: MockQuoteFacade,
+            useValue: mockedQuoteFacade,
+          },
+          {
+            provide: EventService,
+            useValue: mockedEventService,
           },
         ],
       }).compileComponents();
@@ -55,7 +62,6 @@ describe('QuoteDetailsVendorContactComponent', () => {
   );
 
   beforeEach(() => {
-    initTestData();
     fixture = TestBed.createComponent(QuoteDetailsVendorContactComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -63,6 +69,28 @@ describe('QuoteDetailsVendorContactComponent', () => {
 
   function initTestData() {
     quote = createEmptyQuote();
+    quote.code = QUOTE_CODE;
+  }
+
+  function initMocks() {
+    mockedQuoteFacade = jasmine.createSpyObj('quoteFacade', [
+      'getQuoteDetails',
+      'addQuoteComment',
+    ]);
+    asSpy(mockedQuoteFacade.getQuoteDetails).and.returnValue(
+      of({
+        data: quote,
+        loading: false,
+        error: false,
+      })
+    );
+    asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(of({}));
+
+    mockedEventService = jasmine.createSpyObj('eventService', ['dispatch']);
+  }
+
+  function asSpy(f: any) {
+    return <jasmine.Spy>f;
   }
 
   it('should create', () => {
@@ -118,7 +146,9 @@ describe('QuoteDetailsVendorContactComponent', () => {
       expect(component.messagingConfigs.charactersLimit).toBe(1000);
     });
     it('should define a date format', () => {
-      expect(component.messagingConfigs.dateFormat).toBe('MMMM d, yyyy h:mm aa');
+      expect(component.messagingConfigs.dateFormat).toBe(
+        'MMMM d, yyyy h:mm aa'
+      );
     });
     it('should display add section', () => {
       (component.messagingConfigs.displayAddMessageSection ?? of(false))
@@ -165,6 +195,22 @@ describe('QuoteDetailsVendorContactComponent', () => {
     });
     it("shouldn't map anything to attachments", () => {
       expect(mapCommentToMessageEvent(comment).attachments).toBeUndefined();
+    });
+  });
+
+  describe('onSend', () => {
+    it('should add a quote comment with the given text', () => {
+      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      expect(mockedQuoteFacade.addQuoteComment).toHaveBeenCalledWith(QUOTE_CODE, {
+        text: 'test comment',
+      });
+    });
+    it('should refresh the quote to display the just added comment', () => {
+      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      expect(mockedEventService.dispatch).toHaveBeenCalledWith(
+        {},
+        QuoteDetailsReloadQueryEvent
+      );
     });
   });
 });
