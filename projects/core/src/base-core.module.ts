@@ -19,6 +19,7 @@ import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
 import { StateModule } from './state/state.module';
+import { HttpErrorHandlerModule } from './error-handling';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { StateModule } from './state/state.module';
     ConfigModule.forRoot(),
     ConfigInitializerModule.forRoot(),
     ConfigValidatorModule.forRoot(),
+    HttpErrorHandlerModule, // Import this module before any other interceptor to handle HTTP errors
     I18nModule.forRoot(),
     CmsModule.forRoot(),
     GlobalMessageModule.forRoot(),
