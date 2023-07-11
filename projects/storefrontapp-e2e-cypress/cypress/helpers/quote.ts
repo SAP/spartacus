@@ -28,7 +28,7 @@ export function clickOnAddToCartBtnOnPD(): void {
 /**
  * Sets quantity on PDP
  */
-export function setQtyOnPD(quantity:string): void {
+export function setQtyOnPD(quantity: string): void {
   cy.get('input.ng-pristine').clear().type(quantity);
 }
 
@@ -54,10 +54,11 @@ export function clickOnRequestQuoteInCart(): void {
     .then(() => {
       cy.location('pathname').should('contain', '/quote');
       cy.get('cx-quote-details-overview').should('be.visible');
-    }).then(() => {
+    })
+    .then(() => {
       cy.get('cx-quote-actions-by-role').should('be.visible');
     });
-} 
+}
 
 export function login(email: string, password: string, name: string): void {
   // Click on the 'Sign in / Register' link
@@ -75,7 +76,11 @@ export function login(email: string, password: string, name: string): void {
   cy.get('cx-login').should('not.contain', 'Sign In');
 }
 
-export function requestQuote(shopName, productName: string, quantity: string): void {
+export function requestQuote(
+  shopName,
+  productName: string,
+  quantity: string
+): void {
   this.goToPDPage(shopName, productName);
   this.setQtyOnPD(quantity);
   this.clickOnAddToCartBtnOnPD();
@@ -110,11 +115,10 @@ export function checkLoadingMsgNotDisplayed(): void {
  * Checks on the global message on the top of the page.
  */
 export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
-  if (isDisplayed){
+  if (isDisplayed) {
     cy.get('cx-global-message').should('be.visible');
-    }
-  else{
-  cy.get('cx-global-message').should('not.be.visible');
+  } else {
+    cy.get('cx-global-message').should('not.be.visible');
   }
 }
 
@@ -122,10 +126,9 @@ export function checkGlobalMessageDisplayed(isDisplayed: boolean): void {
  * Checks submit button on quote page.
  */
 export function checkSubmitButton(isEnabled: boolean): void {
-  if (isEnabled){
+  if (isEnabled) {
     cy.get('button.btn-primary').should('be.enabled');
-    }
-  else{
+  } else {
     cy.get('button.btn-primary').should('be.disabled');
   }
 }
