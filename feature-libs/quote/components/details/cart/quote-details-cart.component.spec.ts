@@ -5,8 +5,11 @@ import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { I18nTestingModule, QueryState } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
-//import { By } from '@angular/platform-browser';
+import {
+  QUOTE_CODE,
+  createEmptyQuote,
+} from '../../../core/testing/quote-test-utils';
+import { By } from '@angular/platform-browser';
 
 const quote: Quote = createEmptyQuote();
 
@@ -42,5 +45,27 @@ describe('QuoteDetailsCartComponent', () => {
     expect(fixture.debugElement.nativeElement.textContent).toContain(
       'CARET_UP'
     );
+  });
+
+  it('should toggle caret when clicked', () => {
+    const fixture = TestBed.createComponent(QuoteDetailsCartComponent);
+    fixture.detectChanges();
+    const caret = fixture.debugElement.query(
+      By.css('.cart-toggle')
+    ).nativeElement;
+    caret.click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.textContent).toContain(
+      'CARET_DOWN'
+    );
+  });
+
+  it('should provide quote details observable', (done) => {
+    const fixture = TestBed.createComponent(QuoteDetailsCartComponent);
+    const component = fixture.componentInstance;
+    component.quoteDetails$.subscribe((quoteDetails) => {
+      expect(quoteDetails.code).toBe(QUOTE_CODE);
+      done();
+    });
   });
 });
