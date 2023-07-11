@@ -15,9 +15,14 @@ import {
 import { IconModule, OutletModule } from '@spartacus/storefront';
 import { QuoteDetailsCartComponent } from './quote-details-cart.component';
 import { QuoteDetailsCartSummaryComponent } from './summary/quote-details-cart-summary.component';
+import { CartBaseComponentsModule } from '@spartacus/cart/base/components';
 
+//CartBaseComponentsModule in order to ensure that the cart outlet implementations are
+//loaded once this component is displayed
+
+//Side note: importing CartBaseModule will lead to a duplicate rendering of the cart item list outlet
 @NgModule({
-  imports: [CommonModule, OutletModule, IconModule, I18nModule],
+  imports: [CommonModule, OutletModule, IconModule, I18nModule, CartBaseComponentsModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
