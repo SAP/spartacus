@@ -19,7 +19,10 @@ import {
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
-import { ADMINISTRATION_MODULE, ORGANIZATION_USER_REGISTRATION_MODULE } from '../organization-schematics-config';
+import {
+  ADMINISTRATION_MODULE,
+  ORGANIZATION_USER_REGISTRATION_MODULE,
+} from '../organization-schematics-config';
 import {
   USER_ACCOUNT_MODULE,
   USER_PROFILE_MODULE,
@@ -74,8 +77,8 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     },
     {
       name: CDC_B2B_REGISTER_MODULE,
-      importPath: SPARTACUS_CDC_ORGANIZATION_REGISTRATION
-    }
+      importPath: SPARTACUS_CDC_ORGANIZATION_REGISTRATION,
+    },
   ],
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CDC_ROOT,
@@ -95,7 +98,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   dependencyFeatures: [
     USER_PROFILE_FEATURE_NAME,
     ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-    ORGANIZATION_USER_REGISTRATION_FEATURE_NAME
+    ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   ],
   importAfter: [
     {
