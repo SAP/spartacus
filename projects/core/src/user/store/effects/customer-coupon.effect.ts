@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { LoggerService } from '../../../logger';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
@@ -15,6 +16,8 @@ import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 
 @Injectable()
 export class CustomerCouponEffects {
+  protected logger = inject(LoggerService);
+
   loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -40,7 +43,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -69,7 +72,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -98,7 +101,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )
@@ -127,7 +130,7 @@ export class CustomerCouponEffects {
               catchError((error) =>
                 of(
                   new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                    normalizeHttpError(error)
+                    normalizeHttpError(error, this.logger)
                   )
                 )
               )

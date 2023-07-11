@@ -20,7 +20,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
@@ -38,7 +38,7 @@ class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of({}));
-  setDeliveryAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(EMPTY);
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
   );
@@ -80,7 +80,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
 const mockAddress1: Address = {

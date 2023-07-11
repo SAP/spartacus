@@ -5,7 +5,15 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  ADD_TO_CART_FEATURE,
+  CART_BASE_FEATURE,
+} from '@spartacus/cart/base/root';
+import {
+  CmsConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
@@ -31,6 +39,22 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
+    // make pickup lib loaded before add-to-cart
+    provideDefaultConfig({
+      featureModules: {
+        [ADD_TO_CART_FEATURE]: {
+          dependencies: [PICKUP_IN_STORE_FEATURE],
+        },
+      },
+    }),
+    // make pickup lib loaded before cart base
+    provideDefaultConfig({
+      featureModules: {
+        [CART_BASE_FEATURE]: {
+          dependencies: [PICKUP_IN_STORE_FEATURE],
+        },
+      },
+    }),
   ],
 })
 export class PickupInStoreRootModule {}

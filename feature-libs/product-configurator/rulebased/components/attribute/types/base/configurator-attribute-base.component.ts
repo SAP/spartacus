@@ -162,6 +162,16 @@ export class ConfiguratorAttributeBaseComponent {
     return title;
   }
 
+  /**
+   * Fetches the first image for a given value
+   * @param value Value
+   * @returns Image
+   */
+  getImage(value: Configurator.Value): Configurator.Image | undefined {
+    const images = value.images;
+    return images ? images[0] : undefined;
+  }
+
   protected getValuePrice(value: Configurator.Value | undefined): string {
     if (value?.valuePrice?.value && !value.selected) {
       if (value.valuePrice.value < 0) {
@@ -203,5 +213,37 @@ export class ConfiguratorAttributeBaseComponent {
       uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
       uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
     );
+  }
+
+  protected isRequiredErrorMsg(attribute: Configurator.Attribute): boolean {
+    return (attribute.required && attribute.incomplete) || false;
+  }
+
+  protected isUserInput(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.STRING ||
+      attribute.uiType === Configurator.UiType.NUMERIC
+    );
+  }
+
+  protected isDropDown(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT
+    );
+  }
+
+  protected getSelectedValue(
+    attribute: Configurator.Attribute
+  ): Configurator.Value | undefined {
+    return attribute.values?.find((value) => value.selected);
+  }
+
+  protected isNoValueSelected(attribute: Configurator.Attribute): boolean {
+    const selectedValue = this.getSelectedValue(attribute);
+    if (selectedValue) {
+      return selectedValue.valueCode === Configurator.RetractValueCode;
+    }
+    return true;
   }
 }

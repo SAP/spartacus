@@ -7,7 +7,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { NEVER, of } from 'rxjs';
+import { EMPTY, NEVER, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core';
@@ -39,7 +39,9 @@ function asSpy(f: any) {
 function initTestData() {
   ovConfig = structuredClone({
     ...ConfiguratorTestUtils.createConfiguration(configId, owner),
-    overview: ConfigurationTestData.productConfiguration.overview,
+    overview: ConfigurationTestData.productConfiguration.overview
+      ? ConfigurationTestData.productConfiguration.overview
+      : { configId: '', productCode: '' },
   });
   ovConfig.overview.possibleGroups = structuredClone(ovConfig.overview.groups);
 }
@@ -61,7 +63,7 @@ function initMocks() {
   asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
     of(ovConfig).pipe(delay(0)) // delay(0) to avoid NG0100 error in test
   );
-  asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(of());
+  asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(EMPTY);
 }
 
 @Component({
@@ -105,6 +107,13 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
 
     it('should create component', () => {
       expect(component).toBeDefined();
+    });
+
+    it('should support obsolete observable that we keep until next major for compatibility reasons', (done) => {
+      component.config$.subscribe((config) => {
+        expect(config.configId).toBe(configId);
+        done();
+      });
     });
 
     it('should open filter modal on request', () => {

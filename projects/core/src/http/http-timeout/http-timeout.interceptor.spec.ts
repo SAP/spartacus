@@ -1,4 +1,5 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClient,
   HttpContext,
   HttpErrorResponse,
@@ -8,16 +9,16 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { LoggerService } from '../../logger';
 import { OccConfig } from '../../occ/config/occ-config';
 import { WindowRef } from '../../window/window-ref';
 import { HTTP_TIMEOUT_CONFIG } from './http-timeout.config';
@@ -37,6 +38,7 @@ describe('HttpTimeoutInterceptor', () => {
   let httpClient: HttpClient;
   let windowRef: WindowRef;
   let config: OccConfig;
+  let logger: LoggerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,8 +68,9 @@ describe('HttpTimeoutInterceptor', () => {
     httpClient = TestBed.inject(HttpClient);
     windowRef = TestBed.inject(WindowRef);
     config = TestBed.inject(OccConfig);
+    logger = TestBed.inject(LoggerService);
 
-    spyOn(console, 'warn');
+    spyOn(logger, 'warn');
   });
 
   afterEach(fakeAsync(() => {
@@ -262,7 +265,7 @@ describe('HttpTimeoutInterceptor', () => {
     );
   }));
 
-  it('in case of timeout, it should console.warn', fakeAsync(() => {
+  it('in case of timeout, it should logger.warn', fakeAsync(() => {
     spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
     httpClient.get(testUrl).subscribe({ error: () => {} });
@@ -272,7 +275,7 @@ describe('HttpTimeoutInterceptor', () => {
 
     tick(VERY_LONG_TIME);
 
-    expect(console.warn).toHaveBeenCalledWith(
+    expect(logger.warn).toHaveBeenCalledWith(
       `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
     );
   }));

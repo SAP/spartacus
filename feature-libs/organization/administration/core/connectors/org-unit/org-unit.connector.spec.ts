@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Address, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
 import createSpy = jasmine.createSpy;
@@ -36,15 +36,15 @@ class MockOrgUnitAdapter implements OrgUnitAdapter {
   loadApprovalProcesses = createSpy('loadApprovalProcesses').and.returnValue(
     of([approvalProcess])
   );
-  loadUsers = createSpy('loadUsers').and.returnValue(of());
-  assignRole = createSpy('assignRole').and.returnValue(of());
-  unassignRole = createSpy('unassignRole').and.returnValue(of());
-  assignApprover = createSpy('assignApprover').and.returnValue(of());
-  unassignApprover = createSpy('unassignApprover').and.returnValue(of());
-  loadAddresses = createSpy('loadAddresses').and.returnValue(of());
-  createAddress = createSpy('createAddress').and.returnValue(of());
-  updateAddress = createSpy('updateAddress').and.returnValue(of());
-  deleteAddress = createSpy('deleteAddress').and.returnValue(of());
+  loadUsers = createSpy('loadUsers').and.returnValue(EMPTY);
+  assignRole = createSpy('assignRole').and.returnValue(EMPTY);
+  unassignRole = createSpy('unassignRole').and.returnValue(EMPTY);
+  assignApprover = createSpy('assignApprover').and.returnValue(EMPTY);
+  unassignApprover = createSpy('unassignApprover').and.returnValue(EMPTY);
+  loadAddresses = createSpy('loadAddresses').and.returnValue(EMPTY);
+  createAddress = createSpy('createAddress').and.returnValue(EMPTY);
+  updateAddress = createSpy('updateAddress').and.returnValue(EMPTY);
+  deleteAddress = createSpy('deleteAddress').and.returnValue(EMPTY);
 }
 
 describe('OrgUnitConnector', () => {

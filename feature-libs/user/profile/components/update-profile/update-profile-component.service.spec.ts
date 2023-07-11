@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -21,9 +21,9 @@ const mockUser = {
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get = createSpy('UserProfileFacade.get').and.returnValue(of({}));
-  getTitles = createSpy('UserProfileFacade.getTitles').and.returnValue(of());
+  getTitles = createSpy('UserProfileFacade.getTitles').and.returnValue(EMPTY);
   update = createSpy('UserProfileFacade.update').and.returnValue(of({}));
-  close = createSpy('UserProfileFacade.close').and.returnValue(of());
+  close = createSpy('UserProfileFacade.close').and.returnValue(EMPTY);
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();

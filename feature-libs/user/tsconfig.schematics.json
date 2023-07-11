@@ -448,6 +448,7 @@
       "@spartacus/user/profile/root": [
         "../../feature-libs/user/profile/root/public_api"
       ],
+      "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
       "@spartacus/cdc/components": [
         "../../integration-libs/cdc/components/public_api"
       ],

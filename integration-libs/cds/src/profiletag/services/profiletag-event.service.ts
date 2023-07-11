@@ -5,14 +5,20 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
-import { BaseSiteService, WindowRef } from '@spartacus/core';
+import {
+  Inject,
+  Injectable,
+  OnDestroy,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
+import { BaseSiteService, LoggerService, WindowRef } from '@spartacus/core';
 import {
   BehaviorSubject,
-  fromEvent,
-  merge,
   Observable,
   Subscription,
+  fromEvent,
+  merge,
 } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -45,6 +51,9 @@ export class ProfileTagEventService implements OnDestroy {
     this.setConsentReference(),
     this.debugModeChanged()
   );
+
+  protected logger = inject(LoggerService);
+
   constructor(
     private winRef: WindowRef,
     private config: CdsConfig,
@@ -112,7 +121,9 @@ export class ProfileTagEventService implements OnDestroy {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {
-      console.log(`Unexpected error when calling profiletag push method ${e}`);
+      this.logger.log(
+        `Unexpected error when calling profiletag push method ${e}`
+      );
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefinder",
-  "version": "5.0.0",
+  "version": "6.2.0-1",
   "description": "Store finder feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "test:schematics": "npm --prefix ../../projects/schematics/ run clean && npm run clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
@@ -32,10 +32,10 @@
     "@angular/router": "^15.2.4",
     "@ngrx/effects": "^15.3.0",
     "@ngrx/store": "^15.3.0",
-    "@spartacus/core": "5.0.0",
-    "@spartacus/schematics": "5.0.0",
-    "@spartacus/storefront": "5.0.0",
-    "@spartacus/styles": "5.0.0",
+    "@spartacus/core": "6.2.0-1",
+    "@spartacus/schematics": "6.2.0-1",
+    "@spartacus/storefront": "6.2.0-1",
+    "@spartacus/styles": "6.2.0-1",
     "bootstrap": "^4.6.2",
     "rxjs": "^6.6.0"
   },

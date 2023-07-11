@@ -1,0 +1,240 @@
+$sapFiori_Button_Standard_TextColor: #1d2d3e;
+$sapFiori_Button_Standard_Background: #eaecee;
+$sapFiori_Button_Standard_BorderColor: transparent;
+$sapFiori_Button_Standard_Hover_TextColor: #1d2d3e;
+$sapFiori_Button_Standard_Hover_Background: #ffffff;
+$sapFiori_Button_Standard_Hover_BorderColor: transparent;
+$sapFiori_Button_Standard_Active_TextColor: #0070f2;
+$sapFiori_Button_Standard_Active_Background: #ffffff;
+$sapFiori_Button_Standard_Active_BorderColor: #0070f2;
+
+$sapFiori_Button_Lite_TextColor: #0064d9;
+$sapFiori_Button_Lite_Hover_Background: #ffffff;
+$sapFiori_Button_Lite_Active_Background: #ffffff;
+$sapFiori_Button_Lite_Active_TextColor: #0070f2;
+$sapFiori_Button_Lite_Active_BorderColor: #0070f2;
+
+$sapFiori_Button_Emphasized_TextColor: #ffffff;
+$sapFiori_Button_Emphasized_Background: #0070f2;
+$sapFiori_Button_Emphasized_BorderColor: transparent;
+$sapFiori_Button_Emphasized_Hover_Background: #0064d9;
+$sapFiori_Button_Emphasized_Hover_BorderColor: transparent;
+$sapFiori_Button_Emphasized_Active_TextColor: #0070f2;
+$sapFiori_Button_Emphasized_Active_Background: #ffffff;
+$sapFiori_Button_Emphasized_Active_BorderColor: #0070f2;
+
+%cx-asm-save-cart-dialog {
+  .cx-message {
+    border-radius: 8px;
+    margin-bottom: 0px;
+    border-width: 1px;
+    border-style: solid;
+
+    .cx-message-content {
+      margin-inline-start: 0;
+      max-width: 100%;
+      .cx-message-header {
+        padding-inline-start: 10px;
+        padding-inline-end: 1rem;
+        line-height: 16px;
+        text-align: start;
+        min-height: 35px;
+        .cx-message-text {
+          color: #1d2d3e;
+          font-size: 14px;
+          font-family: '72';
+          font-style: normal;
+          font-weight: 400;
+        }
+      }
+    }
+
+    .close {
+      align-self: center;
+      margin-inline-start: auto;
+      position: unset;
+      font-size: 16px;
+    }
+  }
+
+  .cx-message-info {
+    background-color: #e1f4ff;
+    border-color: #7bcfff;
+
+    .close {
+      color: #0064d8;
+    }
+
+    .cx-message-icon {
+      cx-icon {
+        color: #0070f2;
+      }
+    }
+  }
+
+  .cx-message-warning {
+    background-color: #fff8d6;
+    border-color: #ffe770;
+
+    .close {
+      color: #0064d9;
+    }
+
+    .cx-message-icon {
+      cx-icon {
+        color: #e76500;
+      }
+    }
+  }
+
+  .cx-modal-content {
+    max-width: 477px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+  }
+
+  .cx-dialog-header {
+    padding-top: 0.9rem;
+    padding-inline-end: 1rem;
+    padding-bottom: 0.9rem;
+    padding-inline-start: 1rem;
+    border-width: 0;
+    display: flex;
+
+    box-shadow: 0px 0px 4px rgba(85, 107, 130, 0.16), inset 0px -1px 0px #d9d9d9;
+
+    .title {
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .close {
+      font-size: 1rem;
+      color: $sapFiori_Button_Standard_TextColor;
+    }
+  }
+
+  .cx-dialog-body {
+    padding: 1rem;
+    font-size: 14px;
+    min-height: 137px;
+
+    .cx-dialog-content {
+      margin: 0px 60px 30px 60px;
+
+      .item-left-text {
+        width: 27px;
+        height: 22px;
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        color: #14293a;
+        padding: 15px;
+      }
+      .item-right-text {
+        width: 93px;
+        height: 25px;
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 25px;
+        text-transform: capitalize;
+        color: #14293a;
+        padding: 15px;
+      }
+    }
+  }
+
+  .cx-dialog-footer {
+    padding-top: 0;
+    padding-inline-end: 1rem;
+    padding-bottom: 0;
+    padding-inline-start: 1rem;
+  }
+
+  .btn {
+    color: $sapFiori_Button_Standard_TextColor;
+    transition: opacity 0.3s;
+    font-size: 14px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    min-width: 48px;
+    min-height: 36px;
+    line-height: 1.34;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      box-shadow: 0px 0px 4px rgba(120, 143, 166, 0.52);
+      background-color: $sapFiori_Button_Lite_Hover_Background;
+      filter: none;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      color: $sapFiori_Button_Lite_Active_TextColor;
+      background-color: $sapFiori_Button_Lite_Active_Background;
+      border-color: $sapFiori_Button_Lite_Active_BorderColor;
+      filter: none;
+    }
+
+    &-primary {
+      color: $sapFiori_Button_Emphasized_TextColor;
+      border-color: $sapFiori_Button_Emphasized_BorderColor;
+      background-color: $sapFiori_Button_Emphasized_Background;
+      font-weight: 700;
+
+      &:hover,
+      &:focus {
+        background-color: $sapFiori_Button_Emphasized_Hover_Background;
+        border-color: $sapFiori_Button_Emphasized_Hover_BorderColor;
+        box-shadow: none;
+        filter: none;
+      }
+
+      &:not(:disabled):not(.disabled):active,
+      &:not(:disabled):not(.disabled).active {
+        color: $sapFiori_Button_Emphasized_Active_TextColor;
+        background-color: $sapFiori_Button_Emphasized_Active_Background;
+        border-color: $sapFiori_Button_Emphasized_Active_BorderColor;
+        filter: none;
+      }
+
+      &:disabled {
+        &:hover {
+          background-color: var(--cx-color-border-focus);
+        }
+      }
+    }
+
+    &-secondary {
+      color: $sapFiori_Button_Standard_TextColor;
+      border-color: $sapFiori_Button_Standard_BorderColor;
+      background-color: $sapFiori_Button_Standard_Background;
+
+      &:hover,
+      &:focus {
+        color: $sapFiori_Button_Standard_Hover_TextColor;
+        background-color: $sapFiori_Button_Standard_Hover_Background;
+        border-color: $sapFiori_Button_Standard_Hover_BorderColor;
+        box-shadow: 0px 0px 4px rgba(85, 107, 130, 0.72);
+        filter: none;
+      }
+
+      &:not(:disabled):not(.disabled):active,
+      &:not(:disabled):not(.disabled).active {
+        color: $sapFiori_Button_Standard_Active_TextColor;
+        background-color: $sapFiori_Button_Standard_Active_Background;
+        border-color: $sapFiori_Button_Standard_Active_BorderColor;
+        filter: none;
+      }
+    }
+  }
+}

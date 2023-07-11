@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
 import { CurrentProductService } from '../current-product.service';
@@ -9,7 +9,7 @@ import { ProductSummaryComponent } from '../product-summary/product-summary.comp
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
-    return of();
+    return EMPTY;
   }
 }
 
