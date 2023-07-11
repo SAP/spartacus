@@ -18,8 +18,6 @@ import { filter, map } from 'rxjs/operators';
 export class OpfOrderDetailBillingComponentService {
   constructor(protected translationService: TranslationService) {}
 
-  readonly paymentIntegration = true;
-
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translationService.translate('paymentForm.payment'),
