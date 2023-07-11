@@ -3,8 +3,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import * as productSearch from './product-search';
 import * as authentication from './auth-forms';
 
 /**
