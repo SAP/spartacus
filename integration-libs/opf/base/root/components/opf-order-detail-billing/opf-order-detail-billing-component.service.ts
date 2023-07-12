@@ -7,7 +7,7 @@
 import { Injectable } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
-import { paymentMethodCard } from '@spartacus/order/root';
+import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -29,6 +29,18 @@ export class OpfOrderDetailBillingComponentService {
       filter(() => this.isPaymentInfoCardFull(paymentDetails)),
       map(([textTitle, textExpires]) =>
         paymentMethodCard(textTitle, textExpires, paymentDetails)
+      )
+    );
+  }
+
+  getBillingAddressCard(paymentDetails: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translationService.translate('paymentForm.billingAddress'),
+      this.translationService.translate('addressCard.billTo'),
+    ]).pipe(
+      filter(() => !!paymentDetails?.billingAddress),
+      map(([billingAddress, billTo]) =>
+        billingAddressCard(billingAddress, billTo, paymentDetails)
       )
     );
   }

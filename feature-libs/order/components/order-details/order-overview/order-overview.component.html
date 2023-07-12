@@ -118,7 +118,7 @@
       </ng-container>
     </div>
 
-    <div *ngIf="simple$ | async" class="container">
+    <div *ngIf="!(simple$ | async)" class="container">
       <div class="cx-order-details-cards">
         <cx-card
           [content]="getOrderCodeCardContent(order?.code) | async"
