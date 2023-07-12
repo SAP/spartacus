@@ -6,10 +6,10 @@ import {
   Comment,
   Quote,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
+  QuoteFacade
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { createEmptyQuote } from './../../../core/testing/quote-test-utils';
 import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
 
