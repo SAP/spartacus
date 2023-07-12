@@ -27,7 +27,10 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CaptchaApiConfig, CaptchaProvider } from '@spartacus/storefront';
+import {
+  GoogleRecaptchaApiConfig,
+  CaptchaProvider,
+} from '@spartacus/storefront';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -42,7 +45,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
-    protected captchaConfig?: CaptchaApiConfig,
+    protected captchaConfig?: GoogleRecaptchaApiConfig,
     protected injector?: Injector
   ) {}
 

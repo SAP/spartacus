@@ -7,7 +7,7 @@ import {
   ScriptLoader,
   SiteAdapter,
 } from '@spartacus/core';
-import { defaultCaptchaApiConfig } from '../config/default-captcha-api-config';
+import { defaultGoogleRecaptchaApiConfig } from './config/default-google-recaptcha-api-config';
 import { Observable, of } from 'rxjs';
 import { GoogleRecaptchaV2Service } from './google-recaptchaV2.service';
 
@@ -59,7 +59,7 @@ describe('GoogleRecaptchaV2Service Service', () => {
     TestBed.configureTestingModule({
       providers: [
         GoogleRecaptchaV2Service,
-        provideDefaultConfig(defaultCaptchaApiConfig),
+        provideDefaultConfig(defaultGoogleRecaptchaApiConfig),
         { provide: SiteAdapter, useClass: MockSiteAdapter },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: LanguageService, useClass: MockLanguageService },

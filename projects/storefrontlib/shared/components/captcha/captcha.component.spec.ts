@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent, CaptchaProvider } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CaptchaApiConfig } from './config/captcha-api-config';
+import { GoogleRecaptchaApiConfig } from './google-recaptchaV2/config/google-recaptcha-api-config';
 
 class MockCaptchaService implements CaptchaProvider {
   getCaptchaConfig(): Observable<CaptchaConfig> {
@@ -21,7 +21,7 @@ class MockCaptchaService implements CaptchaProvider {
   }
 }
 
-const mockCaptchaApiConfig: CaptchaApiConfig = {
+const mockCaptchaApiConfig: GoogleRecaptchaApiConfig = {
   apiUrl: 'mock-url',
   fields: { 'mock-field-key': 'mock-field-value' },
   captchaProvider: MockCaptchaService,
@@ -30,7 +30,7 @@ const mockCaptchaApiConfig: CaptchaApiConfig = {
 describe('Captcha Component', () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
-  let config: CaptchaApiConfig;
+  let config: GoogleRecaptchaApiConfig;
   let service: CaptchaProvider;
 
   beforeEach(
@@ -38,7 +38,7 @@ describe('Captcha Component', () => {
       TestBed.configureTestingModule({
         declarations: [CaptchaComponent],
         providers: [
-          { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
+          { provide: GoogleRecaptchaApiConfig, useValue: mockCaptchaApiConfig },
           MockCaptchaService,
         ],
       }).compileComponents();
@@ -48,7 +48,7 @@ describe('Captcha Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
-    config = TestBed.inject(CaptchaApiConfig);
+    config = TestBed.inject(GoogleRecaptchaApiConfig);
     service = TestBed.inject(MockCaptchaService);
   });
 

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CaptchaApiConfig } from './captcha-api-config';
-import { GoogleRecaptchaV2Service } from '../google-recaptchaV2/google-recaptchaV2.service';
+import { GoogleRecaptchaV2Service } from '../google-recaptchaV2.service';
+import { GoogleRecaptchaApiConfig } from './google-recaptcha-api-config';
 
-export const defaultCaptchaApiConfig: CaptchaApiConfig = {
+export const defaultGoogleRecaptchaApiConfig: GoogleRecaptchaApiConfig = {
   apiUrl: 'https://www.google.com/recaptcha/api.js',
   fields: { 'data-theme': 'light', 'data-size': 'normal' },
   captchaProvider: GoogleRecaptchaV2Service,

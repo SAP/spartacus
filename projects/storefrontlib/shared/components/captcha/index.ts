@@ -7,4 +7,4 @@
 export * from './captcha.component';
 export * from './captcha.module';
 export * from './captcha.model';
-export * from './config/captcha-api-config';
+export * from './google-recaptchaV2/config/google-recaptcha-api-config';

@@ -9,6 +9,10 @@ import { CaptchaConfig } from '@spartacus/core';
 
 export interface RenderParams {
   element?: HTMLElement | string;
+  /**
+   * Public key
+   * In order to render the reCaptcha widget. Get the reCaptcha token using publicKey when rendering the widget.
+   */
   publicKey?: string;
 }
 
