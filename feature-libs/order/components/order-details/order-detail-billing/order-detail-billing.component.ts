@@ -7,11 +7,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import {
+  Order,
+  billingAddressCard,
+  paymentMethodCard,
+} from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderDetailBillingComponentService } from './order-detail-billing.component.service';
 
 @Component({
   selector: 'cx-order-detail-billing',
@@ -24,15 +28,31 @@ export class OrderDetailBillingComponent {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected translationService: TranslationService,
-    protected orderDetailBillingService: OrderDetailBillingComponentService
+    protected translationService: TranslationService
   ) {}
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
-    return this.orderDetailBillingService.getPaymentMethodCard(paymentDetails);
+    return combineLatest([
+      this.translationService.translate('paymentForm.payment'),
+      this.translationService.translate('paymentCard.expires', {
+        month: paymentDetails.expiryMonth,
+        year: paymentDetails.expiryYear,
+      }),
+    ]).pipe(
+      map(([textTitle, textExpires]) =>
+        paymentMethodCard(textTitle, textExpires, paymentDetails)
+      )
+    );
   }
 
   getBillingAddressCard(paymentDetails: PaymentDetails): Observable<Card> {
-    return this.orderDetailBillingService.getBillingAddressCard(paymentDetails);
+    return combineLatest([
+      this.translationService.translate('paymentForm.billingAddress'),
+      this.translationService.translate('addressCard.billTo'),
+    ]).pipe(
+      map(([billingAddress, billTo]) =>
+        billingAddressCard(billingAddress, billTo, paymentDetails)
+      )
+    );
   }
 }
