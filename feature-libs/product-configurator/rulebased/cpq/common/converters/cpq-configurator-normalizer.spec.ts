@@ -164,6 +164,8 @@ const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
   numberOfConflicts: 0,
 };
 
+const cpqConfigurationId = '1234-56-7890';
+
 class MockLanguageService {
   getActive(): Observable<string> {
     return of('en-US');
@@ -231,6 +233,15 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.priceSummary?.selectedOptions?.formattedValue).toBe(
         '$2,333.33'
       );
+      expect(result.configId).toBe('');
+    });
+
+    it('should set configuration id if provided', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...cpqConfiguration,
+        configurationId: cpqConfigurationId,
+      });
+      expect(result.configId).toBe(cpqConfigurationId);
     });
 
     it('should set target to incomplete if incomplete attributes are undefined', () => {
@@ -1317,6 +1328,24 @@ describe('CpqConfiguratorNormalizer', () => {
         value
       );
       expect(value.valueDisplay).toEqual(mockCpqValue.valueDisplay);
+    });
+  });
+
+  describe('mapPAId', () => {
+    it("should map standard field name 'pA_ID' if present", () => {
+      expect(
+        cpqConfiguratorNormalizer['mapPAId'](<any>{
+          pA_ID: 123,
+          PA_ID: 456,
+        })
+      ).toBe('123');
+    });
+    it("should map fallback field name 'PA_ID' if standard field name 'pA_ID' is not present", () => {
+      expect(
+        cpqConfiguratorNormalizer['mapPAId'](<any>{
+          PA_ID: 456,
+        })
+      ).toBe('456');
     });
   });
 });
