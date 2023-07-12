@@ -11,6 +11,9 @@ import {
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
+const orderCode = '01008765';
+const quoteCode = '01008764';
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -46,7 +49,6 @@ describe('ConfigureCartEntryComponent', () => {
 
   describe('getOwnerType', () => {
     it('should find correct default owner type', () => {
-      orderOrCartEntry.orderCode = undefined;
       expect(component.getOwnerType()).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
@@ -54,17 +56,22 @@ describe('ConfigureCartEntryComponent', () => {
 
     it('should find correct owner type in case entry knows order', () => {
       component.readOnly = true;
-      orderOrCartEntry.orderCode = '112';
+      component.cartEntry = { orderCode: orderCode };
       expect(component.getOwnerType()).toBe(
         CommonConfigurator.OwnerType.ORDER_ENTRY
       );
     });
 
     it('should find correct owner type in case entry knows quote', () => {
-      orderOrCartEntry.quoteCode = '112';
+      component.cartEntry = { quoteCode: quoteCode };
       expect(component.getOwnerType()).toBe(
         CommonConfigurator.OwnerType.QUOTE_ENTRY
       );
+    });
+
+    it('should throw error in case both quote and order code are present', () => {
+      component.cartEntry = { orderCode: orderCode, quoteCode: quoteCode };
+      expect(() => component.getOwnerType()).toThrowError();
     });
   });
 
@@ -93,15 +100,18 @@ describe('ConfigureCartEntryComponent', () => {
     });
 
     it('should return a quote code', () => {
-      const quoteCode = '01008765';
       component.cartEntry = { quoteCode: quoteCode };
       expect(component['getCode']()).toEqual(quoteCode);
     });
 
     it('should return an order code', () => {
-      const orderCode = '01008765';
       component.cartEntry = { orderCode: orderCode };
       expect(component['getCode']()).toEqual(orderCode);
+    });
+
+    it('should throw error in case both quote and order code are present', () => {
+      component.cartEntry = { orderCode: orderCode, quoteCode: quoteCode };
+      expect(() => component['getCode']()).toThrowError();
     });
   });
 
