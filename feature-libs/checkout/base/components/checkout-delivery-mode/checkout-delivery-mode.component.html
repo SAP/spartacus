@@ -83,7 +83,7 @@
   <div class="col-md-12 col-lg-6">
     <button
       class="btn btn-block btn-primary"
-      [disabled]="deliveryModeInvalid"
+      [disabled]="deliveryModeInvalid || (isSetDeliveryModeHttpError$ | async)"
       (click)="next()"
     >
       {{ 'common.continue' | cxTranslate }}

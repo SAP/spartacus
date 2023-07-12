@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CpqConfiguratorCommonModule } from './common/cpq-configurator-common.module';
 import { CpqConfiguratorOccModule } from './occ/cpq-configurator-occ.module';
 import { CpqConfiguratorRestModule } from './rest/cpq-configurator-rest.module';
 
@@ -13,6 +14,10 @@ import { CpqConfiguratorRestModule } from './rest/cpq-configurator-rest.module';
  * REST APIs and to commerce via OCC
  */
 @NgModule({
-  imports: [CpqConfiguratorOccModule, CpqConfiguratorRestModule],
+  imports: [
+    CpqConfiguratorCommonModule,
+    CpqConfiguratorOccModule,
+    CpqConfiguratorRestModule,
+  ],
 })
 export class RulebasedCpqConfiguratorModule {}
