@@ -6,6 +6,8 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { QuoteListComponentService } from './quote-list-component.service';
+import { QuoteState } from '../../root/model';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-quote-list',
@@ -17,6 +19,7 @@ export class QuoteListComponent {
   sortLabels$ = this.quoteListService.sortLabels$;
   quotesState$ = this.quoteListService.quotesState$;
   dateFormat: string = 'MMMM d, YYYY h:mm aa';
+  iconTypes = ICON_TYPE;
 
   constructor(protected quoteListService: QuoteListComponentService) {
     this.changePage(0);
@@ -33,14 +36,32 @@ export class QuoteListComponent {
 
   getQuoteStateClass(state: string): string {
     switch (state) {
-      case 'BUYER_DRAFT':
+      case QuoteState.BUYER_DRAFT:
+      case QuoteState.SELLER_DRAFT:
         return 'quote-draft';
-      case 'BUYER_SUBMITTED':
+      case QuoteState.BUYER_SUBMITTED:
+      case QuoteState.SELLER_SUBMITTED:
         return 'quote-submitted';
-      case 'BUYER_REJECTED':
+      case QuoteState.BUYER_ACCEPTED:
+        return 'quote-accepted';
+      case QuoteState.BUYER_APPROVED:
+      case QuoteState.SELLERAPPROVER_APPROVED:
+        return 'quote-approved';
+      case QuoteState.BUYER_REJECTED:
+      case QuoteState.SELLERAPPROVER_REJECTED:
         return 'quote-rejected';
-      case 'CANCELLED':
+      case QuoteState.BUYER_OFFER:
+        return 'quote-offer';
+      case QuoteState.BUYER_ORDERED:
+        return 'quote-ordered';
+      case QuoteState.SELLER_REQUEST:
+        return 'quote-request';
+      case QuoteState.SELLERAPPROVER_PENDING:
+        return 'quote-pending';
+      case QuoteState.CANCELLED:
         return 'quote-cancelled';
+      case QuoteState.EXPIRED:
+        return 'quote-expired';
       default:
         return '';
     }

@@ -15,6 +15,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  IconModule,
   ListNavigationModule,
   SpinnerModule,
   ViewConfig,
@@ -26,6 +27,7 @@ import { QuoteListComponent } from './quote-list.component';
   imports: [
     CommonModule,
     I18nModule,
+    IconModule,
     UrlModule,
     RouterModule,
     ListNavigationModule,

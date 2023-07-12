@@ -5,8 +5,8 @@
     <ng-container
       *ngIf="quotesState.data.quotes.length > 0; else emptyQuoteList"
     >
-      <div class="cx-quote-list-sort top">
-        <label class="cx-quote-list-form-group form-group"
+      <div class="cx-sort top">
+        <label class="cx-form-group form-group"
           ><span class="sortBy-heading">
             {{ 'quote.list.sortBy' | cxTranslate }}
           </span>
@@ -28,26 +28,33 @@
       >
         <thead>
           <tr role="row">
-            <th scope="col" class="col-4">
+            <th role="columnheader">
               {{ 'quote.list.name' | cxTranslate }}
             </th>
-            <th scope="col" class="col-3">
+            <th role="columnheader">
               {{ 'quote.commons.id' | cxTranslate }}
             </th>
-            <th scope="col" class="col-2">
+            <th role="columnheader">
               {{ 'quote.commons.status' | cxTranslate }}
             </th>
-            <th scope="col" class="col-3">
+            <th role="columnheader">
               {{ 'quote.list.updated' | cxTranslate }}
             </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let quote of quotesState.data.quotes">
-            <td class="cx-quote-list-quote-name">
+          <tr
+            role="row"
+            *ngFor="let quote of quotesState.data.quotes"
+            class="cx-desktop-only"
+          >
+            <td role="cell" class="cx-name">
+              <!--
               <div class="cx-mobile-header">
                 {{ 'quote.list.name' | cxTranslate }}
               </div>
+              -->
               <a
                 [routerLink]="
                   {
@@ -59,10 +66,10 @@
                 {{ quote?.name }}
               </a>
             </td>
-            <td class="cx-quote-list-quote-code">
-              <div class="cx-mobile-header">
-                {{ 'quote.commons.id' | cxTranslate }}
-              </div>
+            <td role="cell" class="cx-code">
+              <!--<div class="cx-mobile-header">
+               {{ 'quote.commons.id' | cxTranslate }}
+             </div>-->
               <a
                 [routerLink]="
                   {
@@ -74,10 +81,7 @@
                 {{ quote?.code }}
               </a>
             </td>
-            <td class="cx-quote-list-quote-status">
-              <div class="cx-mobile-header">
-                {{ 'quote.commons.status' | cxTranslate }}
-              </div>
+            <td role="cell" class="cx-status">
               <a
                 [routerLink]="
                   {
@@ -90,10 +94,36 @@
                 {{ 'quote.states.' + quote?.state | cxTranslate }}
               </a>
             </td>
-            <td class="cx-quote-list-quote-updatedDate">
-              <div class="cx-mobile-header">
-                {{ 'quote.list.updated' | cxTranslate }}
-              </div>
+            <!--<td role="cell" class="cx-mobile-only">
+             <div class="cx-mobile-header">
+               {{ 'quote.commons.status' | cxTranslate }}
+             </div>
+             <a
+               [routerLink]="
+                 {
+                   cxRoute: 'quoteDetails',
+                   params: { quoteId: quote?.code }
+                 } | cxUrl
+               "
+               [ngClass]="getQuoteStateClass(quote?.state || 'TODO CHHI')"
+             >
+               {{ 'quote.states.' + quote?.state | cxTranslate }}
+             </a>
+             <a
+               [routerLink]="
+                 {
+                   cxRoute: 'quoteDetails',
+                   params: { quoteId: quote?.code }
+                 } | cxUrl
+               "
+             >
+               <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+             </a>
+           </td>-->
+            <td role="cell" class="cx-updated-date">
+              <!--<div class="cx-mobile-header">
+               {{ 'quote.list.updated' | cxTranslate }}
+             </div>-->
               <a
                 [routerLink]="
                   {
@@ -105,10 +135,103 @@
                 {{ quote?.updatedTime | cxDate: dateFormat }}
               </a>
             </td>
+            <td role="cell" class="cx-nav-caret">
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'quoteDetails',
+                    params: { quoteId: quote?.code }
+                  } | cxUrl
+                "
+              >
+                <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+              </a>
+            </td>
           </tr>
+          <ng-container *ngFor="let quote of quotesState.data.quotes">
+            <div class="bla">
+              <div class="container1">
+                <td role="cell" class="cx-name">
+                  <div class="cx-mobile-header">
+                    {{ 'quote.list.name' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'quoteDetails',
+                        params: { quoteId: quote?.code }
+                      } | cxUrl
+                    "
+                  >
+                    {{ quote?.name }}
+                  </a>
+                </td>
+                <td role="cell" class="cx-code">
+                  <div class="cx-mobile-header">
+                    {{ 'quote.commons.id' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'quoteDetails',
+                        params: { quoteId: quote?.code }
+                      } | cxUrl
+                    "
+                  >
+                    {{ quote?.code }}
+                  </a>
+                </td>
+                <td role="cell" class="cx-status">
+                  <div class="cx-mobile-header">
+                    {{ 'quote.commons.status' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'quoteDetails',
+                        params: { quoteId: quote?.code }
+                      } | cxUrl
+                    "
+                    [ngClass]="getQuoteStateClass(quote?.state || 'TODO CHHI')"
+                  >
+                    {{ 'quote.states.' + quote?.state | cxTranslate }}
+                  </a>
+                </td>
+                <td role="cell" class="cx-updated-date">
+                  <div class="cx-mobile-header">
+                    {{ 'quote.list.updated' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'quoteDetails',
+                        params: { quoteId: quote?.code }
+                      } | cxUrl
+                    "
+                  >
+                    {{ quote?.updatedTime | cxDate: dateFormat }}
+                  </a>
+                </td>
+              </div>
+              <div class="container2">
+                <td role="cell" class="cx-nav-caret">
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'quoteDetails',
+                        params: { quoteId: quote?.code }
+                      } | cxUrl
+                    "
+                  >
+                    <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+                  </a>
+                </td>
+              </div>
+            </div>
+          </ng-container>
         </tbody>
       </table>
-      <div class="cx-quote-list-sort bottom">
+      <div class="cx-sort bottom">
         <div
           *ngIf="
             quotesState.data.pagination.totalPages &&
@@ -132,7 +255,7 @@
 </ng-template>
 
 <ng-template #emptyQuoteList>
-  <div class="cx-quote-list-empty">
+  <div class="cx-empty">
     {{ 'quote.list.empty' | cxTranslate }}
   </div>
 </ng-template>
