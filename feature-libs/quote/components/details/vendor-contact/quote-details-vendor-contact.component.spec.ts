@@ -145,10 +145,19 @@ describe('QuoteDetailsVendorContactComponent', () => {
         'MMMM d, yyyy h:mm aa'
       );
     });
-    it('should display add section', () => {
+    it('should display add section for editable quotes', () => {
+      quote.isEditable = true;
       (component.messagingConfigs.displayAddMessageSection ?? of(false))
         .subscribe((showAddSection) => {
           expect(showAddSection).toBe(true);
+        })
+        .unsubscribe();
+    });
+    it('should hide display add section for not editable quotes', () => {
+      quote.isEditable = false;
+      (component.messagingConfigs.displayAddMessageSection ?? of(true))
+        .subscribe((showAddSection) => {
+          expect(showAddSection).toBe(false);
         })
         .unsubscribe();
     });

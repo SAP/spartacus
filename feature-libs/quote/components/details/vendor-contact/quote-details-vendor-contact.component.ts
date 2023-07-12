@@ -7,16 +7,16 @@
 import { Component } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
-  Comment, QuoteDetailsReloadQueryEvent,
-  QuoteFacade
+  Comment,
+  QuoteDetailsReloadQueryEvent,
+  QuoteFacade,
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
-  MessagingConfigs
+  MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -48,7 +48,9 @@ export class QuoteDetailsVendorContactComponent {
   protected prepareMessagingConfigs(): MessagingConfigs {
     return {
       charactersLimit: 1000,
-      displayAddMessageSection: of(true),
+      displayAddMessageSection: this.quoteDetails$.pipe(
+        map((quote) => quote.isEditable)
+      ),
       dateFormat: 'MMMM d, yyyy h:mm aa',
     };
   }
