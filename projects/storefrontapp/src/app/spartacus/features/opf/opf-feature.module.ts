@@ -10,15 +10,15 @@ import {
   opfBaseTranslationChunksConfig,
   opfBaseTranslations,
 } from '@spartacus/opf/base/assets';
-import { OPF_BASE_FEATURE, OpfBaseRootModule } from '@spartacus/opf/base/root';
+import { OpfBaseRootModule, OPF_BASE_FEATURE } from '@spartacus/opf/base/root';
 import {
   opfCheckoutTranslationChunksConfig,
   opfCheckoutTranslations,
 } from '@spartacus/opf/checkout/assets';
 import {
-  OpfConfig,
   defaultB2BOPFCheckoutConfig,
   defaultOPFCheckoutConfig,
+  OpfConfig,
 } from '@spartacus/opf/checkout/root';
 
 import { environment } from '../../../../environments/environment';
