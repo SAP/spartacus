@@ -9,10 +9,10 @@ import { Quote } from '@spartacus/quote/root';
 /**
  * Quote test utils
  */
-
+export const QUOTE_CODE = '00010000';
 export function createEmptyQuote(): Quote {
   return {
-    code: '00010000',
+    code: QUOTE_CODE,
     name: 'Quote',
     allowedActions: [],
     totalPrice: {},

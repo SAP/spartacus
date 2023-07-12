@@ -10,9 +10,8 @@ import {
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
-import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
-import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
+import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
+import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -80,52 +79,42 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
     owner: owner,
   };
 
-const readConfigQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
-  {
-    userId: userId,
-    quoteId: documentId,
-    quoteEntryNumber: '3',
-    owner: owner,
-  };
-
 const asSpy = (f: any) => <jasmine.Spy>f;
 
-describe('CpqConfiguratorRestAdapter', () => {
-  let adapterUnderTest: CpqConfiguratorRestAdapter;
-  let mockedRestService: CpqConfiguratorRestService;
+describe('CpqConfiguratorOccAdapter', () => {
+  let adapterUnderTest: CpqConfiguratorOccAdapter;
   let mockedOccService: CpqConfiguratorOccService;
 
   beforeEach(() => {
-    mockedRestService = jasmine.createSpyObj('mockedRestService', [
+    mockedOccService = jasmine.createSpyObj('mockedOccService', [
+      'addToCart',
+      'getConfigIdForCartEntry',
+      'getConfigIdForOrderEntry',
+      'updateCartEntry',
       'createConfiguration',
       'readConfiguration',
       'updateAttribute',
       'updateValueQuantity',
       'readConfigurationOverview',
-    ]);
-    mockedOccService = jasmine.createSpyObj('mockedOccService', [
-      'addToCart',
-      'getConfigIdForCartEntry',
-      'getConfigIdForOrderEntry',
-      'getConfigIdForQuoteEntry',
-      'updateCartEntry',
+      'readConfigurationForCartEntry',
+      'readConfigurationForOrderEntry',
     ]);
 
-    asSpy(mockedRestService.createConfiguration).and.callFake(() => {
+    asSpy(mockedOccService.createConfiguration).and.callFake(() => {
       return of(productConfiguration);
     });
 
-    asSpy(mockedRestService.readConfiguration).and.callFake(() => {
+    asSpy(mockedOccService.readConfiguration).and.callFake(() => {
       return of(productConfiguration);
     });
 
-    asSpy(mockedRestService.updateAttribute).and.callFake(() => {
+    asSpy(mockedOccService.updateAttribute).and.callFake(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedRestService.updateValueQuantity).and.callFake(() => {
+    asSpy(mockedOccService.updateValueQuantity).and.callFake(() => {
       return of(productConfiguration);
     });
-    asSpy(mockedRestService.readConfigurationOverview).and.callFake(() => {
+    asSpy(mockedOccService.readConfigurationOverview).and.callFake(() => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.addToCart).and.callFake(() => {
@@ -137,24 +126,23 @@ describe('CpqConfiguratorRestAdapter', () => {
     asSpy(mockedOccService.getConfigIdForOrderEntry).and.callFake(() => {
       return of(productConfiguration.configId);
     });
-    asSpy(mockedOccService.getConfigIdForQuoteEntry).and.callFake(() => {
-      return of(productConfiguration.configId);
-    });
     asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
       return of(cartResponse);
     });
     asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
       return of(productConfiguration.configId);
     });
+    asSpy(mockedOccService.readConfigurationForCartEntry).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedOccService.readConfigurationForOrderEntry).and.callFake(() => {
+      return of(productConfiguration);
+    });
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        CpqConfiguratorRestAdapter,
-        {
-          provide: CpqConfiguratorRestService,
-          useValue: mockedRestService,
-        },
+        CpqConfiguratorOccAdapter,
         {
           provide: CpqConfiguratorOccService,
           useValue: mockedOccService,
@@ -163,7 +151,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
 
     adapterUnderTest = TestBed.inject(
-      CpqConfiguratorRestAdapter as Type<CpqConfiguratorRestAdapter>
+      CpqConfiguratorOccAdapter as Type<CpqConfiguratorOccAdapter>
     );
 
     inputForUpdateConfiguration.updateType = Configurator.UpdateType.ATTRIBUTE;
@@ -175,21 +163,25 @@ describe('CpqConfiguratorRestAdapter', () => {
     );
   });
 
-  it('should delegate create configuration to rest service and map owner', () => {
+  it('should state that this adapter supports CPQ API calls over OCC', () => {
+    expect(adapterUnderTest.supportsCpqOverOcc()).toBe(true);
+  });
+
+  it('should delegate create configuration to OCC service and map owner', () => {
     adapterUnderTest.createConfiguration(owner).subscribe((config) => {
       expect(config.owner).toEqual(owner);
-      expect(mockedRestService.createConfiguration).toHaveBeenCalledWith(
+      expect(mockedOccService.createConfiguration).toHaveBeenCalledWith(
         productCode
       );
     });
   });
 
-  it('should delegate read configuration to rest service and map owner', () => {
+  it('should delegate read configuration to OCC service and map owner', () => {
     adapterUnderTest
       .readConfiguration(productConfiguration.configId, groupId, owner)
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
-        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+        expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
           productConfiguration.configId,
           groupId
         );
@@ -206,12 +198,12 @@ describe('CpqConfiguratorRestAdapter', () => {
       });
   });
 
-  it('should delegate update configuration to rest service and map owner', () => {
+  it('should delegate update attribute to OCC service and map owner', () => {
     adapterUnderTest
       .updateConfiguration(inputForUpdateConfiguration)
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
-        expect(mockedRestService.updateAttribute).toHaveBeenCalledWith(
+        expect(mockedOccService.updateAttribute).toHaveBeenCalledWith(
           inputForUpdateConfiguration
         );
       });
@@ -221,27 +213,27 @@ describe('CpqConfiguratorRestAdapter', () => {
     expect(() => adapterUnderTest.updateConfigurationOverview()).toThrowError();
   });
 
-  it('should delegate update quantity configuration to rest service and map owner', () => {
+  it('should delegate update value quantity to OCC service and map owner', () => {
     inputForUpdateConfiguration.updateType =
       Configurator.UpdateType.VALUE_QUANTITY;
     adapterUnderTest
       .updateConfiguration(inputForUpdateConfiguration)
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
-        expect(mockedRestService.updateValueQuantity).toHaveBeenCalledWith(
+        expect(mockedOccService.updateValueQuantity).toHaveBeenCalledWith(
           inputForUpdateConfiguration
         );
       });
   });
 
-  it('should delegate read configuration overview to rest service', () => {
+  it('should delegate read configuration overview to OCC service', () => {
     adapterUnderTest
       .getConfigurationOverview(productConfiguration.configId)
       .subscribe((config) => {
         expect(config.configId).toEqual(configId);
-        expect(
-          mockedRestService.readConfigurationOverview
-        ).toHaveBeenCalledWith(productConfiguration.configId);
+        expect(mockedOccService.readConfigurationOverview).toHaveBeenCalledWith(
+          productConfiguration.configId
+        );
       });
   });
 
@@ -256,48 +248,27 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
   });
 
-  it('should delegate readConfigurationForCartEntry to both OCC and rest service', () => {
+  it('should delegate readConfigurationForCartEntry to OCC service', () => {
     adapterUnderTest
       .readConfigurationForCartEntry(readConfigCartParams)
       .subscribe((response) => {
         expect(response).toBe(productConfiguration);
         expect(response.owner).toBe(readConfigCartParams.owner);
-        expect(mockedOccService.getConfigIdForCartEntry).toHaveBeenCalledWith(
-          readConfigCartParams
-        );
-        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
-          configId
-        );
+        expect(
+          mockedOccService.readConfigurationForCartEntry
+        ).toHaveBeenCalledWith(readConfigCartParams);
       });
   });
 
-  it('should delegate readConfigurationForOrderEntry to both OCC and rest service', () => {
+  it('should delegate readConfigurationForOrderEntry to OCC service', () => {
     adapterUnderTest
       .readConfigurationForOrderEntry(readConfigOrderEntryParams)
       .subscribe((response) => {
         expect(response).toBe(productConfiguration);
         expect(response.owner).toBe(readConfigOrderEntryParams.owner);
-        expect(mockedOccService.getConfigIdForOrderEntry).toHaveBeenCalledWith(
-          readConfigOrderEntryParams
-        );
-        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
-          configId
-        );
-      });
-  });
-
-  it('should delegate readConfigurationForQuoteEntry to both OCC and rest service', () => {
-    adapterUnderTest
-      .readConfigurationForQuoteEntry(readConfigQuoteEntryParams)
-      .subscribe((response) => {
-        expect(response).toBe(productConfiguration);
-        expect(response.owner).toBe(readConfigQuoteEntryParams.owner);
-        expect(mockedOccService.getConfigIdForQuoteEntry).toHaveBeenCalledWith(
-          readConfigQuoteEntryParams
-        );
-        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
-          configId
-        );
+        expect(
+          mockedOccService.readConfigurationForOrderEntry
+        ).toHaveBeenCalledWith(readConfigOrderEntryParams);
       });
   });
 
@@ -310,9 +281,5 @@ describe('CpqConfiguratorRestAdapter', () => {
           updateCartParams
         );
       });
-  });
-
-  it("shouldn't support CPQ over OCC mode", () => {
-    expect(adapterUnderTest.supportsCpqOverOcc()).toBe(false);
   });
 });

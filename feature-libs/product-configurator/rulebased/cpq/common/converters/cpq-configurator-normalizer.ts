@@ -27,7 +27,7 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
-      configId: '', //will later be populated with final value
+      configId: source.configurationId ? source.configurationId : '', //if empty, will later be populated with final value
       complete: !source.incompleteAttributes?.length,
       consistent:
         !source.invalidMessages?.length &&
@@ -162,7 +162,7 @@ export class CpqConfiguratorNormalizer
   ): void {
     const attribute: Configurator.Attribute = {
       attrCode: sourceAttribute.stdAttrCode,
-      name: sourceAttribute.pA_ID.toString(),
+      name: this.mapPAId(sourceAttribute),
       description: sourceAttribute.description,
       label:
         this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
@@ -202,6 +202,19 @@ export class CpqConfiguratorNormalizer
       );
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
+  }
+
+  /**
+   * In case the CPQ API is called via REST, the attribute id is returned using field name pA_ID.
+   * If we call CPQ via OCC the attribute is mapped to field name PA_ID.
+   * This can't be changed easily and is related to the non-standard conform name 'pA_ID';
+   * @param sourceAttribute source attribute
+   * @returns value of PA_ID or pA_ID, depending on which field is filled.
+   */
+  protected mapPAId(sourceAttribute: Cpq.Attribute): string {
+    return sourceAttribute.pA_ID
+      ? sourceAttribute.pA_ID.toString()
+      : (<any>sourceAttribute).PA_ID.toString();
   }
 
   protected setSelectedSingleValue(attribute: Configurator.Attribute) {
