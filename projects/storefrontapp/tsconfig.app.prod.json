@@ -315,6 +315,8 @@
       "@spartacus/s4om/assets": ["dist/s4om/assets"],
       "@spartacus/s4om": ["dist/s4om"],
       "@spartacus/s4om/root": ["dist/s4om/root"],
+      "@spartacus/segment-refs": ["dist/segment-refs"],
+      "@spartacus/segment-refs/root": ["dist/segment-refs/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

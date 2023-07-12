@@ -90,6 +90,8 @@ export const digitalPaymentsFeatureModulePath =
   'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
 export const epdFeatureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
+export const segmentRefsFeatureModulePath =
+  'src/app/spartacus/features/segment-refs/segment-refs-feature.module.ts';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,
