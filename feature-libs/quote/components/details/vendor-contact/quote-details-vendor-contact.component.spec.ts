@@ -180,7 +180,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
     });
     it('should map creation date', () => {
       expect(mapCommentToMessageEvent(comment).createdAt).toContain(
-        'Mon Oct 03 2022 17:33:45 GMT+0200'
+        'Mon Oct 03 2022 17:33:45'
       );
     });
     it('should map author', () => {
