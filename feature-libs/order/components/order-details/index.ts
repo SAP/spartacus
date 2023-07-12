@@ -6,7 +6,6 @@
 
 export * from './order-detail-actions/order-detail-actions.component';
 export * from './order-detail-billing/order-detail-billing.component';
-export * from './order-detail-billing/order-detail-billing.component.service';
 export * from './order-detail-items/index';
 export * from './order-detail-reorder/index';
 export * from './order-detail-totals/order-detail-totals.component';
