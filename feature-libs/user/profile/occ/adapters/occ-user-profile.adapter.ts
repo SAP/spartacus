@@ -203,11 +203,15 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
-    if (this.injector && this.captchaConfig?.captchaProvider) {
+    if (
+      this.injector &&
+      this.captchaConfig?.captchaProvider &&
+      this.googleRecaptchaV2service?.isEnabled
+    ) {
       const provider = this.injector.get<CaptchaProvider>(
         this.captchaConfig.captchaProvider
       );
-      if (provider?.getToken() && this.googleRecaptchaV2service?.isEnabled) {
+      if (provider?.getToken()) {
         return currentHeaders.append(USE_CAPTCHA_TOKEN, provider.getToken());
       }
     }
