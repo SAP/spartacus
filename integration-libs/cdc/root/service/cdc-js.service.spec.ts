@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  BaseSite,
   BaseSiteService,
   GlobalMessageService,
   GlobalMessageType,
@@ -36,6 +37,9 @@ const newEmail: string = 'newemail@domain.com';
 class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
     return of('electronics-spa');
+  }
+  get(_siteUid?: string): Observable<BaseSite | undefined> {
+    return of({ uid: 'electronics-spa', channel: 'B2C' });
   }
 }
 class LanguageServiceStub implements Partial<LanguageService> {
@@ -441,6 +445,7 @@ describe('CdcJsService', () => {
 
   describe('loginUserWithoutScreenSet', () => {
     it('should login user without screenset', (done) => {
+      expect(service['getCurrentBaseSite']()).toBe('electronics-spa');
       spyOn(service['gigyaSDK'].accounts, 'login').and.callFake(
         (options: { callback: Function }) => {
           options.callback({ status: 'OK' });
@@ -693,6 +698,22 @@ describe('CdcJsService', () => {
     it('should return the configured value of the base site', () => {
       spyOn(baseSiteService, 'getActive').and.returnValue(of(''));
       expect(service['getCurrentBaseSite']()).toBe('');
+    });
+  });
+
+  describe('getCurrentBaseSiteChannel', () => {
+    it('should return the channel value of the base site - B2C', () => {
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({ uid: 'electronics-spa', channel: 'B2C' })
+      );
+      expect(service['getCurrentBaseSiteChannel']()).toBe('B2C');
+    });
+
+    it('should return the channel of the base site - B2B', () => {
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({ uid: 'powertools-spa', channel: 'B2B' })
+      );
+      expect(service['getCurrentBaseSiteChannel']()).toBe('B2B');
     });
   });
 
