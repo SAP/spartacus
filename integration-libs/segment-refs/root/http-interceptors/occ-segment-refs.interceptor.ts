@@ -20,6 +20,7 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
   private segmentRefs?: string | null;
   private requestHeader?: string;
   protected readonly SEGMENT_REFS_KEY = 'segment-refs';
+  protected readonly SEGMENT_REFS_QUERY_PARAM = 'segmentrefs';
 
   protected logger = inject(LoggerService);
 
@@ -28,9 +29,17 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
     protected occEndpoints: OccEndpointsService,
     protected winRef: WindowRef
   ) {
+    this.initialize();
+  }
+
+  /**
+   * Fetched the segment reference ID from URL query parameter and saves it into
+   * browser local storage
+   */
+  protected initialize() {
     const url = this.winRef.location.href ?? '';
     const queryParams = new URLSearchParams(url.substring(url.indexOf('?')));
-    this.segmentRefs = queryParams.get('segmentrefs');
+    this.segmentRefs = queryParams.get(this.SEGMENT_REFS_QUERY_PARAM);
     if (this.segmentRefs) {
       this.winRef.localStorage?.setItem(
         this.SEGMENT_REFS_KEY,
@@ -46,15 +55,23 @@ export class OccSegmentRefsInterceptor implements HttpInterceptor {
         this.logger.warn(`There is no httpHeaderName configured in Segment`);
       }
       this.requestHeader =
-        this.config.segmentRefs?.httpHeaderName?.toLowerCase();
+        this.config.segmentRefs?.httpHeaderName?.toLowerCase?.();
     }
   }
 
+  /**
+   * Adds a new request header 'Segmentrefs' to the given HTTP request.
+   * @param request The outgoing request object to handle.
+   * @param next The next interceptor in the chain, or the backend
+   * if no interceptors remain in the chain.
+   * @returns An observable of the event stream.
+   */
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (
+      this.winRef.isBrowser() &&
       this.requestHeader &&
       this.segmentRefs &&
       request.url.includes(this.occEndpoints.getBaseUrl())

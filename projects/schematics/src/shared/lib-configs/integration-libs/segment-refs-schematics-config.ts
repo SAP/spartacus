@@ -7,6 +7,7 @@
 import {
   SEGMENT_REFS_FEATURE_NAME,
   SPARTACUS_SEGMENT_REFS,
+  SPARTACUS_SEGMENT_REFS_ROOT,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
@@ -14,7 +15,6 @@ import { PERSONALIZATION_MODULE } from '../tracking-schematics-config';
 
 export const SEGMENT_REFS_FOLDER_NAME = 'segment-refs';
 export const SEGMENT_REFS_MODULE_NAME = 'SegmentRefs';
-export const SEGMENT_REFS_MODULE = 'SegmentRefsModule';
 export const SEGMENT_REFS_ROOT_MODULE = 'SegmentRefsRootModule';
 export const SEGMENT_REF_FEATURE_NAME_CONSTANT = 'SEGMENT_REFS_FEATURE';
 
@@ -26,19 +26,22 @@ export const SEGMENT_REFS_SCHEMATICS_CONFIG: SchematicConfig = {
   folderName: SEGMENT_REFS_FOLDER_NAME,
   moduleName: SEGMENT_REFS_MODULE_NAME,
   featureModule: {
-    name: SEGMENT_REFS_MODULE,
+    name: SEGMENT_REFS_ROOT_MODULE,
     importPath: SPARTACUS_SEGMENT_REFS,
   },
   rootModule: {
-    importPath: SPARTACUS_SEGMENT_REFS, //as SPARTACUS_SEGMENT_REFS_ROOT is same as SPARTACUS_SEGMENT_REFS, no extra module/features are present
-    name: SEGMENT_REFS_MODULE,
-    content: `${SEGMENT_REFS_MODULE}`,
+    importPath: SPARTACUS_SEGMENT_REFS_ROOT,
+    name: SEGMENT_REFS_ROOT_MODULE,
+    content: `${SEGMENT_REFS_ROOT_MODULE}`,
   },
+  /* Through Spartacus Segment-refs code doesnot have a dependency on Personalization,
+  backend occ api of Segment-refs requires Personalization to be enabled , hence adding this dependency
+  If Personalization library is not installed, Personalization & Segment-refs won't apply */
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   importAfter: [
     {
       markerModuleName: PERSONALIZATION_MODULE,
-      featureModuleName: SEGMENT_REFS_MODULE,
+      featureModuleName: SEGMENT_REFS_ROOT_MODULE,
     },
   ],
 };

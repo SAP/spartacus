@@ -2,12 +2,12 @@
 
 exports[`Spartacus segment-refs schematics: ng-add Segment-refs feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { SegmentRefsModule } from "@spartacus/segment-refs";
+import { SegmentRefsRootModule } from "@spartacus/segment-refs";
 
 @NgModule({
   declarations: [],
   imports: [
-    SegmentRefsModule
+    SegmentRefsRootModule
   ]
 })
 export class SegmentRefsFeatureModule { }
@@ -16,12 +16,12 @@ export class SegmentRefsFeatureModule { }
 
 exports[`Spartacus segment-refs schematics: ng-add Segment-refs feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { SegmentRefsModule } from "@spartacus/segment-refs";
+import { SegmentRefsRootModule } from "@spartacus/segment-refs";
 
 @NgModule({
   declarations: [],
   imports: [
-    SegmentRefsModule
+    SegmentRefsRootModule
   ]
 })
 export class SegmentRefsFeatureModule { }

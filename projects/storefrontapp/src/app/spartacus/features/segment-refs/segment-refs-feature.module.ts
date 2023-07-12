@@ -5,9 +5,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SegmentRefsModule } from '@spartacus/segment-refs';
+import { SegmentRefsRootModule } from '@spartacus/segment-refs/root';
 
 @NgModule({
-  imports: [SegmentRefsModule],
+  imports: [SegmentRefsRootModule],
 })
 export class SegmentRefsFeatureModule {}
