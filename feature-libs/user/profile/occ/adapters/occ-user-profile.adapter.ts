@@ -31,7 +31,6 @@ import {
   GoogleRecaptchaApiConfig,
   CaptchaProvider,
 } from '@spartacus/storefront';
-import { GoogleRecaptchaV2Service } from 'projects/storefrontlib/shared/components/captcha/google-recaptchaV2/google-recaptchaV2.service';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -47,8 +46,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService,
     protected captchaConfig?: GoogleRecaptchaApiConfig,
-    protected injector?: Injector,
-    protected googleRecaptchaV2service?: GoogleRecaptchaV2Service
+    protected injector?: Injector
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
@@ -203,15 +201,15 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {
-    if (
-      this.injector &&
-      this.captchaConfig?.captchaProvider &&
-      this.googleRecaptchaV2service?.isEnabled
-    ) {
+    if (this.injector && this.captchaConfig?.captchaProvider) {
       const provider = this.injector.get<CaptchaProvider>(
         this.captchaConfig.captchaProvider
       );
-      if (provider?.getToken()) {
+      let isCaptchaEnabled = provider.getCaptchaConfig().subscribe((config) => {
+        return config.enabled;
+      });
+
+      if (provider?.getToken() && isCaptchaEnabled) {
         return currentHeaders.append(USE_CAPTCHA_TOKEN, provider.getToken());
       }
     }

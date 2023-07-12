@@ -40,8 +40,6 @@ declare global {
 export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
   protected token: string;
   protected subscription = new Subscription();
-  protected enabled: boolean;
-
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);
 
   constructor(
@@ -75,7 +73,6 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
           baseSite?.captchaConfig?.enabled &&
           baseSite?.captchaConfig?.publicKey
         ) {
-          this.enabled = true;
           captchaConfig = baseSite.captchaConfig;
           this.loadScript({
             onload: 'onCaptchaLoad',
@@ -83,7 +80,6 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
             hl: lang,
           });
         } else {
-          this.enabled = false;
           this.captchaConfigSubject$.next({ enabled: false });
         }
       })
@@ -146,9 +142,5 @@ export class GoogleRecaptchaV2Service implements CaptchaProvider, OnDestroy {
         });
       }
     }
-  }
-
-  isEnabled(): boolean {
-    return this.enabled;
   }
 }
