@@ -6,7 +6,7 @@ import {
   Comment,
   Quote,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade
+  QuoteFacade,
 } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of } from 'rxjs';
