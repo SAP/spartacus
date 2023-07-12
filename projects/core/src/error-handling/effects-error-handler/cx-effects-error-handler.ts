@@ -14,5 +14,12 @@ export function cxEffectsErrorHandler<T extends Action>(
         errorHandler.handleError(error);
       }
     })
+    // tap({
+    //   error:(error) => {
+    //     if (errorHandler) {
+    //       errorHandler.handleError(error);
+    //     }
+    //   }
+    // })
   );
 }

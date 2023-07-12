@@ -6,7 +6,7 @@
 
 import { ErrorHandler, ModuleWithProviders, NgModule } from '@angular/core';
 import { CxErrorHandler } from './cx-error-handler';
-import { effectErrorHandlerProviders } from './effects-error-handler/effects-error-handler-provider';
+import { effectErrorHandlerProviders } from './effects-error-handler';
 
 @NgModule()
 export class ErrorHandlingModule {
