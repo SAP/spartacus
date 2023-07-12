@@ -205,7 +205,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       const provider = this.injector.get<CaptchaProvider>(
         this.captchaConfig.captchaProvider
       );
-      let isCaptchaEnabled = provider.getCaptchaConfig().subscribe((config) => {
+      const isCaptchaEnabled = provider.getCaptchaConfig().subscribe((config) => {
         return config.enabled;
       });
 
