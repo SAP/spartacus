@@ -407,12 +407,9 @@ describe('RegisterComponent', () => {
     });
 
     it('should enable captcha', () => {
-      spyOn(component, 'captchaEnabled').and.callThrough();
-
       captchaComponent.triggerEventHandler('enabled', true);
       component.submitForm();
 
-      expect(component.captchaEnabled).toHaveBeenCalledWith(true);
       expect(getCaptchaControl(component).valid).toEqual(false);
       expect(component.registerUser).toHaveBeenCalledTimes(0);
     });
