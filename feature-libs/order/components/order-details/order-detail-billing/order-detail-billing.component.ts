@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import {
-  Order,
   billingAddressCard,
+  Order,
   paymentMethodCard,
 } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
