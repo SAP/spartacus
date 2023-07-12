@@ -54,37 +54,13 @@ context('Quote', () => {
 
   describe('Quote list', () => {
     it('should be accessible from My Account', () => {
-      cy.get('cx-page-layout[section="header"]').within(() => {
-        cy.get('cx-navigation-ui.accNavComponent')
-          .should('contain.text', 'My Account')
-          .and('be.visible')
-          .within(() => {
-            cy.get('nav > ul > li > button')
-              .first()
-              .focus()
-              .trigger('keydown', {
-                key: ' ',
-                code: 'Space',
-                force: true,
-              });
-            cy.get('cx-generic-link')
-              .contains('Quotes')
-              .should('be.visible')
-              .click({ force: true });
-          });
-      });
+      quote.navigateToQuoteListFromMyAccount();
       quote.checkQuoteListPresent();
     });
 
     it('should be accessible from quote details', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
-      cy.get('cx-quote-action-links').within(() => {
-        cy.get('section > ul > li')
-          .next()
-          .within(() => {
-            cy.get('button').contains('Quotes').first().click();
-          });
-      });
+      quote.navigateToQuoteListFromQuoteDetails();
       quote.checkQuoteListPresent();
     });
   });

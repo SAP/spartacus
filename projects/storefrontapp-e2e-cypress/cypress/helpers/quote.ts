@@ -5,44 +5,13 @@
  */
 
 import * as authentication from './auth-forms';
-
-/**
- * Clicks on 'Add to cart' on the product details page.
- */
-export function clickOnAddToCartBtnOnPD(): void {
-  cy.get('cx-add-to-cart button.btn-primary')
-    .contains('Add to cart')
-    .click()
-    .then(() => {
-      cy.get('cx-added-to-cart-dialog').should('be.visible');
-      cy.get('div.cx-dialog-body').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary')
-        .contains('view cart')
-        .should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-secondary')
-        .contains('proceed to checkout')
-        .should('be.visible');
-    });
-}
+import * as common from './common';
 
 /**
  * Sets quantity on PDP
  */
 export function setQtyOnPD(quantity: string): void {
   cy.get('input.ng-pristine').clear().type(quantity);
-}
-
-/**
- * Clicks on 'View Cart' on the product details page.
- */
-export function clickOnViewCartBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-primary')
-    .contains('view cart')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/cart');
-      cy.get('cx-cart-details').should('be.visible');
-    });
 }
 
 /**
@@ -81,34 +50,11 @@ export function requestQuote(
   productName: string,
   quantity: string
 ): void {
-  this.goToPDPage(shopName, productName);
+  common.goToPDPage(shopName, productName);
   this.setQtyOnPD(quantity);
-  this.clickOnAddToCartBtnOnPD();
-  this.clickOnViewCartBtnOnPD();
+  common.clickOnAddToCartBtnOnPD();
+  common.clickOnViewCartBtnOnPD();
   this.clickOnRequestQuoteInCart();
-}
-
-/**
- * Navigates to the product detail page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- */
-export function goToPDPage(shopName: string, productId: string): void {
-  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
-  cy.visit(location).then(() => {
-    checkLoadingMsgNotDisplayed();
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-/**
- * Verifies whether the loading message is not displayed.
- */
-export function checkLoadingMsgNotDisplayed(): void {
-  cy.log('Wait until the loading notification is not displayed anymore');
-  cy.get('cx-storefront').should('not.contain.value', 'Loading');
 }
 
 /**
@@ -138,4 +84,39 @@ export function checkSubmitButton(isEnabled: boolean): void {
  */
 export function checkQuoteListPresent() {
   cy.get('cx-quote-list').should('exist');
+}
+
+/**
+ * Navigates to quote list via my account
+ */
+export function navigateToQuoteListFromMyAccount() {
+  cy.get('cx-page-layout[section="header"]').within(() => {
+    cy.get('cx-navigation-ui.accNavComponent')
+      .should('contain.text', 'My Account')
+      .and('be.visible')
+      .within(() => {
+        cy.get('nav > ul > li > button').first().focus().trigger('keydown', {
+          key: ' ',
+          code: 'Space',
+          force: true,
+        });
+        cy.get('cx-generic-link')
+          .contains('Quotes')
+          .should('be.visible')
+          .click({ force: true });
+      });
+  });
+}
+
+/**
+ * Navigates to quote list via quote details
+ */
+export function navigateToQuoteListFromQuoteDetails() {
+  cy.get('cx-quote-action-links').within(() => {
+    cy.get('section > ul > li')
+      .next()
+      .within(() => {
+        cy.get('button').contains('Quotes').first().click();
+      });
+  });
 }
