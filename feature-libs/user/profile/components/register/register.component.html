@@ -211,9 +211,7 @@
               </label>
             </div>
           </div>
-          <cx-captcha
-            (confirmed)="captchaConfirmed()"
-          ></cx-captcha>
+          <cx-captcha (confirmed)="captchaConfirmed()"></cx-captcha>
           <cx-form-errors
             [control]="registerForm.get('captcha')"
           ></cx-form-errors>
