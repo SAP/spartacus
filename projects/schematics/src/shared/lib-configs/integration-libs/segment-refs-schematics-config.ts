@@ -11,7 +11,6 @@ import {
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import { SchematicConfig } from '../../utils/lib-utils';
-import { PERSONALIZATION_MODULE } from '../tracking-schematics-config';
 
 export const SEGMENT_REFS_FOLDER_NAME = 'segment-refs';
 export const SEGMENT_REFS_MODULE_NAME = 'SegmentRefs';
@@ -38,10 +37,4 @@ export const SEGMENT_REFS_SCHEMATICS_CONFIG: SchematicConfig = {
   backend occ api of Segment-refs requires Personalization to be enabled , hence adding this dependency
   If Personalization library is not installed, Personalization & Segment-refs won't apply */
   dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
-  importAfter: [
-    {
-      markerModuleName: PERSONALIZATION_MODULE,
-      featureModuleName: SEGMENT_REFS_ROOT_MODULE,
-    },
-  ],
 };
