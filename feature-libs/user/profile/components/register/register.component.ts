@@ -239,16 +239,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Triggered via CaptchaComponent if captcha is enabled in the backend.
-   * @param {boolean} status - True if enabled, false if not.
-   */
-  captchaEnabled(status: boolean) {
-    if (!status) {
-      this.registerForm.get('captcha')?.setValue(true);
-    }
-  }
-
-  /**
    * Triggered via CaptchaComponent when a user confirms captcha
    */
   captchaConfirmed() {

@@ -30,8 +30,6 @@ import { CaptchaProvider } from './captcha.model';
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
   // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
-  // Emits whether captcha is enabled after calling the backend
-  @Output() enabled = new EventEmitter<boolean>();
 
   @ViewChild('captcha', { static: false }) captchaRef: ElementRef;
 
@@ -71,13 +69,11 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
           .pipe(
             concatMap((captchaConfig) => {
               if (captchaConfig?.enabled && captchaConfig?.publicKey) {
-                this.enabled.emit(true);
                 return captchaProvider.renderCaptcha({
                   element: this.captchaRef.nativeElement,
                   publicKey: captchaConfig.publicKey,
                 });
               } else {
-                this.enabled.emit(false);
                 return of(null);
               }
             })
