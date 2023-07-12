@@ -170,8 +170,8 @@ describe('QuoteDetailsVendorContactComponent', () => {
       expect(mapCommentToMessageEvent(comment).text).toEqual('comment text');
     });
     it('should map creation date', () => {
-      expect(mapCommentToMessageEvent(comment).createdAt).toEqual(
-        'Mon Oct 03 2022 17:33:45 GMT+0200 (Central European Summer Time)'
+      expect(mapCommentToMessageEvent(comment).createdAt).toContain(
+        'Mon Oct 03 2022 17:33:45 GMT+0200'
       );
     });
     it('should map author', () => {

@@ -5,15 +5,15 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Converter } from '@spartacus/core';
 import { QuoteConfig } from '@spartacus/quote/core';
 import {
-  QuoteAction,
   OccQuote,
   Quote,
+  QuoteAction,
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import { Converter } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
@@ -24,13 +24,19 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       target = { ...source, allowedActions: [], isEditable: false };
     }
 
-    if (source.allowedActions && source.state) {
+    if (source.state) {
       target.allowedActions = this.getOrderedActions(
         source.state,
         source.allowedActions
       ).map((action) => this.getActionCategory(action));
     }
+    const switchToEditModeRequired = target.allowedActions.find(
+      (quoteAction) => quoteAction.type === QuoteActionType.EDIT
+    );
 
+    target.isEditable =
+      source.allowedActions.includes(QuoteActionType.EDIT) &&
+      !switchToEditModeRequired;
     return target;
   }
 
@@ -44,10 +50,10 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
   protected getOrderedActions(state: QuoteState, list: QuoteActionType[]) {
     const order = this.quoteConfig.quote?.actions?.actionsOrderByState?.[state];
 
-    return !order
+    return order
       ? list
-      : list
           .filter((item) => order.includes(item))
-          .sort((a, b) => order.indexOf(a) - order.indexOf(b));
+          .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+      : list;
   }
 }
