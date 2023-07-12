@@ -21,9 +21,6 @@ import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 @Injectable()
 export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
   constructor(protected cpqOccService: CpqConfiguratorOccService) {}
-  readConfigurationForQuoteEntry(): Observable<Configurator.Configuration> {
-    throw new Error('Method not implemented.');
-  }
 
   getConfiguratorType(): string {
     return ConfiguratorType.CPQ;
@@ -107,6 +104,17 @@ export class CpqConfiguratorOccAdapter implements RulebasedConfiguratorAdapter {
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
     return this.cpqOccService.readConfigurationForOrderEntry(parameters).pipe(
+      map((configResponse) => {
+        configResponse.owner = parameters.owner;
+        return configResponse;
+      })
+    );
+  }
+
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.readConfigurationForQuoteEntry(parameters).pipe(
       map((configResponse) => {
         configResponse.owner = parameters.owner;
         return configResponse;

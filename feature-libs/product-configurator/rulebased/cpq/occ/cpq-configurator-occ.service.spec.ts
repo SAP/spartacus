@@ -579,4 +579,31 @@ describe('CpqConfigurationOccService', () => {
       }
     );
   });
+
+  it('should read the configuration for a quote entry and call normalizer', () => {
+    serviceUnderTest
+      .readConfigurationForQuoteEntry(readConfigQuoteEntryParams)
+      .subscribe((config) => {
+        expect(config.errorMessages).toBe(errorMessages);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readCpqConfigurationForQuoteEntryFull'
+      );
+    });
+    mockReq.flush(cpqConfiguration);
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForQuoteEntryFull',
+      {
+        urlParams: {
+          userId: userId,
+          quoteId: documentId,
+          quoteEntryNumber: '3',
+        },
+      }
+    );
+  });
 });
