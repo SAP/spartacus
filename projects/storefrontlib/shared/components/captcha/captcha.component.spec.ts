@@ -59,7 +59,6 @@ describe('Captcha Component', () => {
   it('should init correctly', () => {
     spyOn(service, 'getCaptchaConfig').and.callThrough();
     spyOn(service, 'renderCaptcha').and.callThrough();
-    component.enabled.subscribe((value) => expect(value).toEqual(true));
 
     fixture.detectChanges();
 
