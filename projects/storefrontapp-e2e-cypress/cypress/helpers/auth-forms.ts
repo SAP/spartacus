@@ -63,6 +63,22 @@ export function register(
   });
 }
 
+export function registerWithCaptcha(
+  user: SampleUser,
+  giveRegistrationConsent = false,
+  hiddenConsent?
+) {
+  fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  cy.get('iframe')
+    .first()
+    .then((recaptchaIframe) => {
+      const body = recaptchaIframe.contents();
+      cy.wrap(body).find('#recaptcha-anchor').click();
+    });
+  cy.wait(3000);
+  cy.get('button[type="submit"]').click();
+}
+
 export function login(username: string, password: string) {
   fillLoginForm({ username, password });
 }

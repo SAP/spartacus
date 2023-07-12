@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { registerWithCaptcha } from '../../../helpers/auth-forms';
+import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 import { clickHamburger } from '../../../helpers/homepage';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { user } from '../../../sample-data/checkout-flow';
 
 describe('Register', () => {
   viewportContext(['desktop', 'mobile'], () => {
@@ -35,6 +38,8 @@ describe('Register', () => {
       cy.get('cx-login-register').findByText('Register').click();
       cy.wait('@getIFrame').its('response.statusCode').should('eq', 200);
       cy.get('cx-captcha').find('iframe').should('exist');
+      registerWithCaptcha(user);
+      verifyGlobalMessageAfterRegistration();
     });
   });
 });
