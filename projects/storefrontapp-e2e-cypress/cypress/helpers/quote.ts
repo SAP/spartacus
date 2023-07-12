@@ -131,3 +131,10 @@ export function checkSubmitButton(isEnabled: boolean): void {
     cy.get('button.btn-primary').should('be.disabled');
   }
 }
+
+/**
+ * Checks presence of quote list
+ */
+export function checkQuoteListPresent() {
+  cy.get('cx-quote-list').should('exist');
+}

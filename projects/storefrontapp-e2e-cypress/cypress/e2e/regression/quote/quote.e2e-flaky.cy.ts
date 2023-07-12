@@ -14,16 +14,16 @@ const USER = 'Gi Sun';
 const MSG_TYPE_WARNING = '[GlobalMessage] Warning';
 
 context('Quote', () => {
-  let configUISettings: any;
+  let globalMessageSettings: any;
   beforeEach(() => {
-    configUISettings = {
+    globalMessageSettings = {
       globalMessages: {
         [MSG_TYPE_WARNING]: {
           timeout: 10000,
         },
       },
     };
-    cy.cxConfig(configUISettings);
+    cy.cxConfig(globalMessageSettings);
     cy.visit('/');
     quote.login(EMAIL, PASSWORD, USER);
   });
@@ -47,8 +47,45 @@ context('Quote', () => {
     });
 
     it('should display quote entry details like product ID', () => {
-      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
+      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
       cy.get('.cx-code').should('contain.text', testProductHammerDrilling);
+    });
+  });
+
+  describe('Quote list', () => {
+    it('should be accessible from My Account', () => {
+      cy.get('cx-page-layout[section="header"]').within(() => {
+        cy.get('cx-navigation-ui.accNavComponent')
+          .should('contain.text', 'My Account')
+          .and('be.visible')
+          .within(() => {
+            cy.get('nav > ul > li > button')
+              .first()
+              .focus()
+              .trigger('keydown', {
+                key: ' ',
+                code: 'Space',
+                force: true,
+              });
+            cy.get('cx-generic-link')
+              .contains('Quotes')
+              .should('be.visible')
+              .click({ force: true });
+          });
+      });
+      quote.checkQuoteListPresent();
+    });
+
+    it('should be accessible from quote details', () => {
+      quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '1');
+      cy.get('cx-quote-action-links').within(() => {
+        cy.get('section > ul > li')
+          .next()
+          .within(() => {
+            cy.get('button').contains('Quotes').first().click();
+          });
+      });
+      quote.checkQuoteListPresent();
     });
   });
 });
