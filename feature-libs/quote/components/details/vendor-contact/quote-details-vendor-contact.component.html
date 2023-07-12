@@ -16,7 +16,7 @@
     <cx-messaging
       [messageEvents$]="messageEvents$"
       [messagingConfigs]="messagingConfigs"
-      (send)="onSend($event, quoteDetails.data.code)"
+      (send)="onSend($event, quoteDetails.code)"
     ></cx-messaging>
   </div>
 </ng-container>
