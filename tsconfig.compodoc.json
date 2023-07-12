@@ -578,6 +578,12 @@
       "@spartacus/s4om/root": [
         "integration-libs/s4om/root/public_api"
       ],
+      "@spartacus/segment-refs": [
+        "integration-libs/segment-refs/public_api"
+      ],
+      "@spartacus/segment-refs/root": [
+        "integration-libs/segment-refs/root/public_api"
+      ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],
