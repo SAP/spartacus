@@ -255,13 +255,18 @@ export class CdcJsService implements OnDestroy {
     context?: any
   ): Observable<{ status: string }> {
     const missingConsentErrorCode = 206001;
+    let ignoreInterruptions = false;
+    const channel = this.getCurrentBaseSiteChannel();
+    if (channel && channel === 'B2C') {
+      ignoreInterruptions = true;
+    }
     return this.getSessionExpirationValue().pipe(
       switchMap((sessionExpiration) => {
         return this.invokeAPI('accounts.login', {
           loginID: email,
           password: password,
           include: 'missing-required-fields',
-          ignoreInterruptions: true,
+          ignoreInterruptions: ignoreInterruptions,
           ...(context && { context: context }),
           sessionExpiry: sessionExpiration,
         }).pipe(
@@ -365,6 +370,16 @@ export class CdcJsService implements OnDestroy {
       .pipe(take(1))
       .subscribe((data) => (baseSite = data));
     return baseSite;
+  }
+
+  private getCurrentBaseSiteChannel(): string {
+    let channel: string = '';
+    const baseSiteUid: string = this.getCurrentBaseSite();
+    this.baseSiteService
+      .get(baseSiteUid)
+      .pipe(take(1))
+      .subscribe((data) => (channel = data?.channel ?? ''));
+    return channel;
   }
 
   /**
