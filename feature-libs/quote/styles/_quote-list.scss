@@ -1,19 +1,23 @@
 %cx-quote-list {
   @extend .cx-agnostic-table;
+
   table {
     th {
       text-align: start;
       text-transform: capitalize;
       //background-color: var(--cx-color-dark);
     }
+
     tr {
       &:hover {
         cursor: pointer;
         background-color: var(--cx-color-background);
       }
     }
+
     td {
       text-align: start;
+
       &:nth-last-of-type(1) {
         text-align: center;
       }
@@ -39,41 +43,43 @@
         }
       }
 
+      .quote-approved {
+        color: var(--cx-color-primary);
+      }
+
+      .quote-cancelled {
+        color: var(--cx-color-warning);
+      }
+
       .quote-draft,
       .quote-expired {
         color: var(--cx-color-dark);
       }
-      .quote-submitted {
-        color: var(--cx-color-success);
-      }
-      .quote-ordered {
+
+      .quote-ordered,
+      .quote-offer,
+      .quote-pending,
+      .quote-request {
         color: var(--cx-color-text);
       }
+
       .quote-rejected {
         color: var(--cx-color-danger);
       }
-      .quote-cancelled {
-        color: var(--cx-color-warning);
+
+      .quote-submitted {
+        color: var(--cx-color-success);
       }
     }
   }
 
   @include media-breakpoint-down(md) {
-    .cx-desktop-only {
-      display: none;
-    }
-
     td {
       align-items: start;
 
       .cx-mobile-header {
         min-width: 140px;
       }
-    }
-
-    .cx-status,
-    .cx-nav-caret {
-      display: none;
     }
   }
 
@@ -107,6 +113,7 @@
 
   .cx-form-group {
     width: 40%;
+
     .sortBy-heading {
       font-size: var(--cx-font-size, 1rem);
       font-weight: var(--cx-font-weight-semi);

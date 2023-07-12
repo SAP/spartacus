@@ -26,6 +26,7 @@ import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
 import createSpy = jasmine.createSpy;
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 const mockCartId = '1234';
 const mockPagination: PaginationModel = {
@@ -85,6 +86,14 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 class MockCommerceQuotesListComponentService
   implements Partial<QuoteListComponentService>
 {
@@ -115,6 +124,7 @@ describe('QuoteListComponent', () => {
         MockUrlPipe,
         MockPaginationComponent,
         MockSortingComponent,
+        MockCxIconComponent,
       ],
       providers: [
         {

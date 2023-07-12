@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { QuoteListComponentService } from './quote-list-component.service';
-import { QuoteState } from '../../root/model';
+import { QuoteState } from '../../root/model/quote.model';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
