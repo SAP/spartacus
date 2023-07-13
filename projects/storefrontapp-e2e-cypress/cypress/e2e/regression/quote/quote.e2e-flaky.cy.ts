@@ -43,7 +43,7 @@ context('Quote', () => {
 
     it('should result in a quote in draft state', () => {
       quote.requestQuote(POWERTOOLS, testProductHammerDrilling, '30');
-      cy.get('.cx-quote-details-header-status').should('contain.text', 'Draft');
+      quote.checkQuoteIsDraft();
     });
 
     it('should display quote entry details like product ID', () => {

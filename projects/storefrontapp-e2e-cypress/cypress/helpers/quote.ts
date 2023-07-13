@@ -120,3 +120,11 @@ export function navigateToQuoteListFromQuoteDetails() {
       });
   });
 }
+
+/**
+ * Checks quote is in draft status
+ */
+
+export function checkQuoteIsDraft() {
+  cy.get('.cx-quote-details-header-status').should('contain.text', 'Draft');
+}
