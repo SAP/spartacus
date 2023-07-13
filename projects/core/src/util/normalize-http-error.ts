@@ -18,6 +18,8 @@ import { HttpErrorModel } from '../model/misc.model';
  */
 export function normalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,
+  /** @deprecated since version 6.3 logger will not
+   * be used in normalizeHttpError */
   _logger?: LoggerService
 ): HttpErrorModel | undefined {
   if (error instanceof HttpErrorModel) {

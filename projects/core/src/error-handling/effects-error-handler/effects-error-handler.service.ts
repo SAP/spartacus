@@ -14,7 +14,7 @@ export class EffectsErrorHandlerService {
   constructor(protected errorHandler: ErrorHandler) {}
 
   getAndHandleFailAction(effectError: CxEffectError) {
-    if ((effectError.error instanceof HttpErrorResponse)) {
+    if (!(effectError.error instanceof HttpErrorResponse)) {
       // throw effectError.error;
       this.errorHandler.handleError(effectError.error);
     }
