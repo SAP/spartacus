@@ -187,7 +187,7 @@ describe('QuoteListComponent', () => {
 
     //when
     fixture.detectChanges();
-    const header = fixture.debugElement.query(By.css('.cx-quote-list-empty'));
+    const header = fixture.debugElement.query(By.css('.cx-empty'));
 
     //then
     expect(header.nativeElement.textContent.trim()).toEqual('quote.list.empty');
