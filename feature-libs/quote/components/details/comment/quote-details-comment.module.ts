@@ -13,7 +13,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
-import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
+import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule, IconModule, ChatMessagingModule],
@@ -21,13 +21,13 @@ import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-conta
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         QuoteContactVendorComponent: {
-          component: QuoteDetailsVendorContactComponent,
+          component: QuoteDetailsCommentComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  declarations: [QuoteDetailsVendorContactComponent],
-  exports: [QuoteDetailsVendorContactComponent],
+  declarations: [QuoteDetailsCommentComponent],
+  exports: [QuoteDetailsCommentComponent],
 })
-export class QuoteDetailsVendorContactModule {}
+export class QuoteDetailsCommentModule {}

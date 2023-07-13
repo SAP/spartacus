@@ -15,7 +15,7 @@ import { QuoteRequestDialogModule } from './quote-request-dialog/quote-request-d
 import {
   QuoteDetailsCartModule,
   QuoteDetailsOverviewModule,
-  QuoteDetailsVendorContactModule,
+  QuoteDetailsCommentModule,
 } from './details';
 
 @NgModule({
@@ -28,7 +28,7 @@ import {
     QuoteRequestDialogModule,
     QuoteActionLinksModule,
     QuoteActionsByRoleModule,
-    QuoteDetailsVendorContactModule,
+    QuoteDetailsCommentModule,
     ListNavigationModule,
   ],
 })

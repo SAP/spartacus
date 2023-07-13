@@ -9,23 +9,22 @@ import { EventService } from '@spartacus/core';
 import {
   Comment,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade
+  QuoteFacade,
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
   MessagingComponent,
-  MessagingConfigs
+  MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-quote-details-vendor-contact',
-  templateUrl: './quote-details-vendor-contact.component.html',
+  selector: 'cx-quote-details-comment',
+  templateUrl: './quote-details-comment.component.html',
 })
-export class QuoteDetailsVendorContactComponent {
-
+export class QuoteDetailsCommentComponent {
   @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
 
   showVendorContact = true;
@@ -47,9 +46,7 @@ export class QuoteDetailsVendorContactComponent {
       .subscribe(() =>
         this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent)
       );
-      console.log('### component');
-      console.log(this.commentsComponent);
-      this.commentsComponent.resetForm();
+    this.commentsComponent.resetForm();
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {

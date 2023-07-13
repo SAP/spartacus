@@ -14,8 +14,8 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { createEmptyQuote } from './../../../core/testing/quote-test-utils';
-import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
+import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
+import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
 
 const QUOTE_CODE = 'q123';
 
@@ -41,8 +41,8 @@ class MockCxIconComponent {
 }
 
 describe('QuoteDetailsVendorContactComponent', () => {
-  let fixture: ComponentFixture<QuoteDetailsVendorContactComponent>;
-  let component: QuoteDetailsVendorContactComponent;
+  let fixture: ComponentFixture<QuoteDetailsCommentComponent>;
+  let component: QuoteDetailsCommentComponent;
   let mockedQuoteFacade: QuoteFacade;
   let mockedEventService: EventService;
 
@@ -55,7 +55,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          QuoteDetailsVendorContactComponent,
+          QuoteDetailsCommentComponent,
           MockCxMessagingComponent,
           MockCxIconComponent,
         ],
@@ -74,7 +74,7 @@ describe('QuoteDetailsVendorContactComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuoteDetailsVendorContactComponent);
+    fixture = TestBed.createComponent(QuoteDetailsCommentComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -139,10 +139,10 @@ describe('QuoteDetailsVendorContactComponent', () => {
   });
 
   function clickVendorContactToggle(
-    fixture: ComponentFixture<QuoteDetailsVendorContactComponent>
+    fixture: ComponentFixture<QuoteDetailsCommentComponent>
   ) {
     fixture.debugElement
-      .query(By.css('.vendor-contact-toggle'))
+      .query(By.css('.quote-comment-toggle'))
       .nativeElement.click();
     fixture.detectChanges();
   }

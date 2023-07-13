@@ -1,6 +1,6 @@
 <ng-container *ngIf="quoteDetails$ | async as quoteDetails">
   <div
-    class="vendor-contact-toggle"
+    class="quote-comment-toggle"
     (click)="showVendorContact = !showVendorContact"
   >
     <cx-icon
@@ -8,7 +8,7 @@
       [type]="showVendorContact ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
     >
     </cx-icon>
-    <span class="vendor-contact-text">{{
+    <span class="quote-comment-text">{{
       'quote.commons.contactVendor' | cxTranslate
     }}</span>
   </div>

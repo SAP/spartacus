@@ -6,4 +6,4 @@
 
 export * from './cart';
 export * from './overview';
-export * from './vendor-contact';
+export * from './comment';
