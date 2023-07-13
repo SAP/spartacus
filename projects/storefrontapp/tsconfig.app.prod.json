@@ -296,6 +296,9 @@
       "@spartacus/cdc/organization/administration": [
         "dist/cdc/organization/administration"
       ],
+      "@spartacus/cdc/organization/user-registration": [
+        "dist/cdc/organization/user-registration"
+      ],
       "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cdc/user-account": ["dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["dist/cdc/user-profile"],
