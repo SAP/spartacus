@@ -8,8 +8,12 @@ import {
   QuoteDetailsReloadQueryEvent,
   QuoteFacade,
 } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import {
+  ICON_TYPE,
+  MessagingComponent,
+  MessagingConfigs,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { createEmptyQuote } from './../../../core/testing/quote-test-utils';
 import { QuoteDetailsVendorContactComponent } from './quote-details-vendor-contact.component';
 
@@ -18,8 +22,15 @@ const QUOTE_CODE = 'q123';
 @Component({
   selector: 'cx-messaging',
   template: '',
+  providers: [
+    { provide: MessagingComponent, useClass: MockCxMessagingComponent },
+  ],
 })
-class MockCxMessagingComponent {}
+class MockCxMessagingComponent {
+  @Input() messageEvents$: Observable<Array<MessageEvent>>;
+  @Input() messagingConfigs?: MessagingConfigs;
+  resetForm(): void {}
+}
 
 @Component({
   selector: 'cx-icon',
@@ -65,7 +76,9 @@ describe('QuoteDetailsVendorContactComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteDetailsVendorContactComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
+    spyOn(component.commentsComponent, 'resetForm');
   });
 
   function initTestData() {
@@ -218,6 +231,10 @@ describe('QuoteDetailsVendorContactComponent', () => {
         {},
         QuoteDetailsReloadQueryEvent
       );
+    });
+    it('should reset message input text', () => {
+      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      expect(component.commentsComponent.resetForm).toHaveBeenCalled();
     });
   });
 });

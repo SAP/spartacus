@@ -4,17 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
   Comment,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
+  QuoteFacade
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
-  MessagingConfigs,
+  MessagingComponent,
+  MessagingConfigs
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -24,6 +25,9 @@ import { map, take } from 'rxjs/operators';
   templateUrl: './quote-details-vendor-contact.component.html',
 })
 export class QuoteDetailsVendorContactComponent {
+
+  @ViewChild(MessagingComponent) commentsComponent: MessagingComponent;
+
   showVendorContact = true;
   iconTypes = ICON_TYPE;
 
@@ -43,6 +47,9 @@ export class QuoteDetailsVendorContactComponent {
       .subscribe(() =>
         this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent)
       );
+      console.log('### component');
+      console.log(this.commentsComponent);
+      this.commentsComponent.resetForm();
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
