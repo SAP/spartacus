@@ -34,7 +34,6 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       (quoteAction) => quoteAction.type === QuoteActionType.EDIT
     );
 
-
     target.isEditable =
       !!source.allowedActions?.includes(QuoteActionType.EDIT) &&
       !switchToEditModeRequired;
