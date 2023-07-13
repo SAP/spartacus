@@ -35,12 +35,15 @@ import { ConfiguratorCartService } from './configurator-cart.service';
 
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_QUOTE_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 const CART_CODE = '0000009336';
 const CART_ENTRY_ID = '3';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const ORDER_ID = '0000011';
+const QUOTE_ID = '0000022';
 const ORDER_ENTRY_NUMBER = 2;
+const QUOTE_ENTRY_NUMBER = 4;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
 
@@ -148,6 +151,12 @@ describe('ConfiguratorCartService', () => {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       key: CommonConfigurator.OwnerType.ORDER_ENTRY + '/1000+' + CART_ENTRY_ID,
+      configuratorType: ConfiguratorType.VARIANT,
+    };
+    OWNER_QUOTE_ENTRY = {
+      id: configuratorUtils.getComposedOwnerId(QUOTE_ID, QUOTE_ENTRY_NUMBER),
+      type: CommonConfigurator.OwnerType.QUOTE_ENTRY,
+      key: CommonConfigurator.OwnerType.QUOTE_ENTRY + '/1000+' + CART_ENTRY_ID,
       configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_PRODUCT = {
@@ -321,6 +330,59 @@ describe('ConfiguratorCartService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.ReadOrderEntryConfiguration(params)
+      );
+    });
+  });
+
+  describe('readConfigurationForQuoteEntry', () => {
+    it('should not dispatch ReadQuoteEntryConfiguration action in case configuration is present', () => {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest
+        .readConfigurationForQuoteEntry(OWNER_QUOTE_ENTRY)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch ReadQuoteEntryConfiguration action in case configuration is not present so far', () => {
+      const params: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+        {
+          userId: OCC_USER_ID_CURRENT,
+          quoteId: QUOTE_ID,
+          quoteEntryNumber: '' + QUOTE_ENTRY_NUMBER,
+          owner: OWNER_QUOTE_ENTRY,
+        };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest
+        .readConfigurationForQuoteEntry(OWNER_QUOTE_ENTRY)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ReadQuoteEntryConfiguration(params)
       );
     });
   });

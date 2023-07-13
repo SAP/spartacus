@@ -7,7 +7,9 @@
 import { OccEndpoint } from '@spartacus/core';
 declare module '@spartacus/core' {
   interface OccEndpoints {
-    readTextfieldConfigurationForOrderEntry?: string | OccEndpoint;
-    readTextfieldConfigurationForQuoteEntry?: string | OccEndpoint;
+    /**
+     * Endpoint for reading a variant configuration attached to a given quote entry
+     */
+    readVariantConfigurationOverviewForQuoteEntry?: string | OccEndpoint;
   }
 }

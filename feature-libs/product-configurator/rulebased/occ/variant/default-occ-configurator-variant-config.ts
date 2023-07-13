@@ -30,6 +30,9 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
           readVariantConfigurationOverviewForOrderEntry:
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/ccpconfigurator/configurationOverview',
 
+          readVariantConfigurationOverviewForQuoteEntry:
+            'users/${userId}/quotes/${quoteId}/entries/${quoteEntryNumber}/ccpconfigurator/configurationOverview',
+
           readVariantConfigurationPriceSummary:
             'ccpconfigurator/${configId}/pricing',
 

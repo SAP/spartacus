@@ -125,6 +125,21 @@ export class CpqConfiguratorRestAdapter
     );
   }
 
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.getConfigIdForQuoteEntry(parameters).pipe(
+      switchMap((configId) => {
+        return this.cpqRestService.readConfiguration(configId).pipe(
+          map((configResponse) => {
+            configResponse.owner = parameters.owner;
+            return configResponse;
+          })
+        );
+      })
+    );
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
