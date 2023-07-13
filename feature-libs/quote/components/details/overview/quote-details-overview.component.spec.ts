@@ -173,5 +173,12 @@ describe('QuoteDetailsOverviewComponent', () => {
         'quote.details.total'
       );
     });
+
+    it('should be able to deal with undefined actions', () => {
+      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
+      expect(component.getTotalPriceDescription(quoteWoActions)).toBe(
+        'quote.details.estimatedTotal'
+      );
+    });
   });
 });

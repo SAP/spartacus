@@ -33,8 +33,8 @@ export interface OccQuote {
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
-  allowedActions: QuoteAction[];
   isEditable: boolean;
+  allowedActions?: QuoteAction[];
 };
 
 export interface QuoteAction {
