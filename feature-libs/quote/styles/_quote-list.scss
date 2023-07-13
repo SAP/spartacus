@@ -3,6 +3,7 @@
   table {
     th {
       text-transform: capitalize;
+<<<<<<< Updated upstream
       text-align: start;
       &:nth-last-of-type(1) {
         text-align: start;
@@ -12,16 +13,33 @@
       &:hover {
         background-color: var(--cx-color-background);
         cursor: pointer;
+=======
+
+      &:nth-last-of-type(1) {
+        text-align: end;
+      }
+    }
+
+    tr {
+      &:hover {
+        cursor: pointer;
+        background-color: var(--cx-color-background);
+>>>>>>> Stashed changes
       }
     }
     td {
       text-align: start;
       &:nth-last-of-type(1) {
+<<<<<<< Updated upstream
         text-align: start;
+=======
+        text-align: end;
+>>>>>>> Stashed changes
       }
     }
 
     tbody {
+<<<<<<< Updated upstream
       a {
         color: var(--cx-color-text);
         text-decoration: none;
@@ -44,6 +62,73 @@
   @include media-breakpoint-down(md) {
     .cx-mobile-header {
       min-width: 140px;
+=======
+      tr {
+        .cx-name {
+          a {
+            text-decoration: underline;
+            font-weight: var(--cx-font-weight-semi);
+          }
+        }
+
+        .cx-code,
+        .cx-updated-date {
+          a {
+            color: var(--cx-color-text);
+          }
+        }
+
+        .cx-nav-caret {
+          a {
+            color: var(--cx-color-secondary);
+          }
+        }
+
+        a {
+          &:hover {
+            text-decoration: none;
+          }
+        }
+
+        .quote-approved {
+          color: var(--cx-color-primary);
+        }
+
+        .quote-cancelled {
+          color: var(--cx-color-warning);
+        }
+
+        .quote-draft,
+        .quote-expired {
+          color: var(--cx-color-dark);
+        }
+
+        .quote-ordered,
+        .quote-offer,
+        .quote-pending,
+        .quote-request {
+          color: var(--cx-color-text);
+        }
+
+        .quote-rejected {
+          color: var(--cx-color-danger);
+        }
+
+        .quote-submitted {
+          color: var(--cx-color-success);
+        }
+
+        @include media-breakpoint-down(md) {
+          td {
+            align-items: start;
+
+            .cx-mobile-header {
+              min-width: 25%;
+            }
+          }
+        }
+      }
+>>>>>>> Stashed changes
     }
   }
 
@@ -87,7 +172,6 @@
     }
 
     @include media-breakpoint-down(sm) {
-      padding: 1.25rem;
       width: 100%;
     }
   }
