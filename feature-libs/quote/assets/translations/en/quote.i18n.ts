@@ -46,7 +46,10 @@ export const quote = {
       status: 'Status',
       creationSuccess: 'Quote #{{ code }} created successfully',
       cart: 'Cart',
+    },
+    comments:{
       contactVendor: 'Contact Vendor',
+      invalidComment: 'Invalid Input - Please type again...'
     },
     details: {
       code: 'Quote ID',
