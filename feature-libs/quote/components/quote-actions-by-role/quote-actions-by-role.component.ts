@@ -41,7 +41,7 @@ export class QuoteActionsByRoleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //submit button present and threshold not reached: Display message
     this.quoteDetails$.pipe(take(1)).subscribe((quote) => {
-      const mustDisableAction = quote.allowedActions?.find((action) =>
+      const mustDisableAction = quote.allowedActions.find((action) =>
         this.mustDisableAction(action.type, quote)
       );
       if (mustDisableAction) {

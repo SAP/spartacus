@@ -232,18 +232,6 @@ describe('QuoteActionsByRoleComponent', () => {
       expect(actionButtons[0].nativeElement.disabled).toBe(false);
     });
 
-    it('should be able to deal with undefined actions', () => {
-      const quoteWithoutActions: Quote = {
-        ...mockQuote,
-        allowedActions: undefined,
-      };
-      mockQuoteDetails$.next(quoteWithoutActions);
-      fixture.detectChanges();
-      const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
-      expect(actionButtons).toBeDefined();
-      expect(actionButtons.length).toBe(0);
-    });
-
     it('should let submit button enabled if threshold is not specified', () => {
       mockQuote.threshold = undefined;
       mockQuoteDetails$.next(submittableQuote);
@@ -322,13 +310,10 @@ describe('QuoteActionsByRoleComponent', () => {
     const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
 
     expect(actionButtons).toBeDefined();
-
     actionButtons.filter((button, index) => {
-      if (mockQuote.allowedActions) {
-        expect(button.nativeElement.textContent.trim()).toEqual(
-          `quote.actions.${mockQuote.allowedActions[index].type}`
-        );
-      }
+      expect(button.nativeElement.textContent.trim()).toEqual(
+        `quote.actions.${mockQuote.allowedActions[index].type}`
+      );
       button.nativeElement.click();
     });
     expect(facade.performQuoteAction).toHaveBeenCalledWith(

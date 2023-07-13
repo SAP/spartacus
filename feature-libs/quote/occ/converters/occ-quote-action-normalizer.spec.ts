@@ -81,13 +81,10 @@ describe('OccQuoteActionNormalizer', () => {
       expect(service.convert(occQuote).isEditable).toBe(false);
     });
 
-    it('should set isEditable to false in case of partially converted quote without allowed actions', () => {
+    it('should set isEditable to false in case occ does not return allowedActions', () => {
+      occQuote.allowedActions = undefined;
       expect(
-        service.convert(occQuote, {
-          ...occQuote,
-          allowedActions: undefined,
-          isEditable: false,
-        }).isEditable
+        service.convert(occQuote).isEditable
       ).toBe(false);
     });
   });

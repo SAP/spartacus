@@ -24,7 +24,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
       target = { ...source, allowedActions: [], isEditable: false };
     }
 
-    if (source.state) {
+    if (source.allowedActions && source.state) {
       target.allowedActions = this.getOrderedActions(
         source.state,
         source.allowedActions
@@ -35,7 +35,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
     );
 
     target.isEditable =
-      source.allowedActions.includes(QuoteActionType.EDIT) &&
+      !!source.allowedActions?.includes(QuoteActionType.EDIT) &&
       !switchToEditModeRequired;
     return target;
   }
