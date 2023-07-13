@@ -30,7 +30,7 @@ export class OccQuoteActionNormalizer implements Converter<OccQuote, Quote> {
         source.allowedActions
       ).map((action) => this.getActionCategory(action));
     }
-    const switchToEditModeRequired = target.allowedActions.find(
+    const switchToEditModeRequired = target.allowedActions?.find(
       (quoteAction) => quoteAction.type === QuoteActionType.EDIT
     );
 

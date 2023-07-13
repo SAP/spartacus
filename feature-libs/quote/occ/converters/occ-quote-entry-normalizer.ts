@@ -18,7 +18,7 @@ export class OccQuoteEntryNormalizer implements Converter<OccQuote, Quote> {
 
   convert(source: OccQuote, target?: Quote): Quote {
     if (!target) {
-      target = { ...(source as any) } as Quote;
+      target = { ...source, allowedActions: [], isEditable: false };
     }
 
     if (source.entries) {
