@@ -121,6 +121,26 @@ export class CpqConfiguratorOccService {
     );
   }
 
+  getConfigIdForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<string> {
+    const url = this.occEndpointsService.buildUrl(
+      'readCpqConfigurationForQuoteEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          quoteId: parameters.quoteId,
+          quoteEntryNumber: parameters.quoteEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<{ configId: string }>(url).pipe(
+      map((response) => {
+        return response.configId;
+      })
+    );
+  }
   /**
    * Creates a new default runtime configuration for the given product id
    * and read it from the CPQ system over OCC.
@@ -232,6 +252,20 @@ export class CpqConfiguratorOccService {
     );
   }
 
+  /**
+   * Retrieves a configuration assigned to a quote entry.
+   *
+   * @param {CommonConfigurator.ReadConfigurationFromQuoteEntryParameters} parameters - Quote entry parameters
+   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   */
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.callReadConfigurationForQuoteEntry(parameters).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER)
+    );
+  }
+
   protected callCreateConfiguration(
     productSystemId: string
   ): Observable<Cpq.Configuration> {
@@ -331,6 +365,22 @@ export class CpqConfiguratorOccService {
           userId: parameters.userId,
           orderId: parameters.orderId,
           orderEntryNumber: parameters.orderEntryNumber,
+        },
+      }
+    );
+    return this.http.get<Cpq.Configuration>(url);
+  }
+
+  protected callReadConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Cpq.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readCpqConfigurationForQuoteEntryFull',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          quoteId: parameters.quoteId,
+          quoteEntryNumber: parameters.quoteEntryNumber,
         },
       }
     );
