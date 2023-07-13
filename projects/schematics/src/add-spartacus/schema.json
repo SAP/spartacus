@@ -48,6 +48,7 @@
           "SmartEdit",
           "Store-Finder",
           "Personalization",
+          "Segment-Refs",
           "TMS-GTM",
           "TMS-AEPL",
           "Pickup-In-Store",
@@ -200,6 +201,10 @@
           {
             "value": "Personalization",
             "label": "Tracking - Personalization"
+          },
+          {
+            "value": "Segment-Refs",
+            "label": "Segment Reference"
           },
           {
             "value": "TMS-GTM",

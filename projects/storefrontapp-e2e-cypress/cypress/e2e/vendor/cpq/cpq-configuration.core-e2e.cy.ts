@@ -10,6 +10,7 @@ import * as configurationOverview from '../../../helpers/product-configurator-ov
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
+import * as common from '../../../helpers/common';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
@@ -127,14 +128,14 @@ testConfig.forEach((config) => {
       });
 
       it('should be able to navigate from the product details page', () => {
-        configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+        common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
         configurationCpq.clickOnConfigureBtnInCatalog();
       });
     });
 
     describe('Handling different UI type', () => {
       it('should support radio button attribute type', () => {
-        configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+        common.goToPDPage(POWERTOOLS, PROD_CODE_COF);
         configurationCpq.clickOnConfigureBtnInCatalog();
 
         configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
@@ -165,7 +166,7 @@ testConfig.forEach((config) => {
       });
 
       it('should support checkbox list attribute type', () => {
-        configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+        common.goToPDPage(POWERTOOLS, PROD_CODE_COF);
         configurationCpq.clickOnConfigureBtnInCatalog();
 
         configuration.checkAttributeDisplayed(ATTR_COF_MODE, CHKBOX);
@@ -555,9 +556,9 @@ testConfig.forEach((config) => {
 
     describe('Configuration Process', () => {
       it('should support configuration aspect in product search, cart, checkout and order history', () => {
-        configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
-        configuration.clickOnAddToCartBtnOnPD();
-        configuration.clickOnViewCartBtnOnPD();
+        common.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+        common.clickOnAddToCartBtnOnPD();
+        common.clickOnViewCartBtnOnPD();
 
         cy.get('cx-mini-cart .count').then((elem) => {
           const numberOfCartItems = Number(elem.text());
