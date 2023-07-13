@@ -83,9 +83,12 @@ describe('OccQuoteActionNormalizer', () => {
 
     it('should set isEditable to false in case occ does not return allowedActions', () => {
       occQuote.allowedActions = undefined;
-      expect(
-        service.convert(occQuote).isEditable
-      ).toBe(false);
+      expect(service.convert(occQuote).isEditable).toBe(false);
+    });
+
+    it('should set allowedActions in quote to empty array in case occ does not return allowedActions', () => {
+      occQuote.allowedActions = undefined;
+      expect(service.convert(occQuote).allowedActions).toEqual([]);
     });
   });
 
