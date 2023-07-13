@@ -13,7 +13,7 @@ import {
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../../core/testing/quote-test-utils';
 import { QuoteDetailsCommentComponent } from './quote-details-comment.component';
 
@@ -235,6 +235,13 @@ describe('QuoteDetailsVendorContactComponent', () => {
     it('should reset message input text', () => {
       component.onSend({ message: 'test comment' }, QUOTE_CODE);
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
+      expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
+    });
+    it('should handle errors', () => {
+      asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(throwError(new Error('test error')));
+      component.onSend({ message: 'test comment' }, QUOTE_CODE);
+      expect(component.commentsComponent.resetForm).toHaveBeenCalled();
+      expect(component.messagingConfigs.newMessagePlaceHolder).toEqual('quote.comments.invalidComment');
     });
   });
 });

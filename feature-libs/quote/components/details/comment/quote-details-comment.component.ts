@@ -5,7 +5,7 @@
  */
 
 import { Component, ViewChild } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
   QuoteDetailsReloadQueryEvent,
@@ -18,7 +18,7 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { finalize, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-quote-details-comment',
@@ -36,17 +36,34 @@ export class QuoteDetailsCommentComponent {
   messagingConfigs: MessagingConfigs = this.prepareMessagingConfigs();
   constructor(
     protected quoteFacade: QuoteFacade,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected translationService: TranslationService
   ) {}
 
   onSend(event: { message: string }, code: string) {
     this.quoteFacade
       .addQuoteComment(code, { text: event.message })
-      .pipe(take(1))
-      .subscribe(() =>
-        this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent)
+      .pipe(
+        take(1),
+        // do for error and success
+        finalize(() => this.commentsComponent.resetForm())
+      )
+      .subscribe(
+        // success
+        () => {
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+          this.messagingConfigs.newMessagePlaceHolder = undefined;
+        },
+        // error
+        () => {
+          this.translationService
+            .translate('quote.comments.invalidComment')
+            .pipe(take(1))
+            .subscribe(
+              (text) => (this.messagingConfigs.newMessagePlaceHolder = text)
+            );
+        }
       );
-    this.commentsComponent.resetForm();
   }
 
   protected prepareMessagingConfigs(): MessagingConfigs {
