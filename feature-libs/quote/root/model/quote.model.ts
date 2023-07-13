@@ -33,7 +33,7 @@ export interface OccQuote {
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
-  allowedActions: QuoteAction[];
+  allowedActions?: QuoteAction[];
 };
 
 export interface QuoteAction {
