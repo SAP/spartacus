@@ -5,16 +5,22 @@
  */
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HttpErrorHandlerInterceptor } from './http-error-handler.interceptor';
 
-@NgModule({
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorHandlerInterceptor,
-      multi: true,
-    },
-  ],
-})
-export class HttpErrorHandlerModule {}
+@NgModule()
+export class HttpErrorHandlerModule {
+  static forRoot(): ModuleWithProviders<HttpErrorHandlerModule> {
+    return {
+      ngModule: HttpErrorHandlerModule,
+
+      providers: [
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: HttpErrorHandlerInterceptor,
+          multi: true,
+        },
+      ],
+    };
+  }
+}
