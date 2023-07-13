@@ -473,6 +473,9 @@
       "@spartacus/cdc/organization/administration": [
         "../../integration-libs/cdc/organization/administration/public_api"
       ],
+      "@spartacus/cdc/organization/user-registration": [
+        "../../integration-libs/cdc/organization/user-registration/public_api"
+      ],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cdc/user-account": [
         "../../integration-libs/cdc/user-account/public_api"

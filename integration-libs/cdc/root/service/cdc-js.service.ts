@@ -24,6 +24,7 @@ import {
   User,
   WindowRef,
 } from '@spartacus/core';
+import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import {
   combineLatest,
@@ -290,6 +291,65 @@ export class CdcJsService implements OnDestroy {
       })
     );
   }
+
+  /**
+   * Trigger CDC Organisation registration using CDC APIs.
+   *
+   * @param orgInfo
+   */
+  registerOrganisationWithoutScreenSet(
+    orgInfo: OrganizationUserRegistrationForm
+  ): Observable<{ status: string }> {
+    if (
+      !orgInfo?.companyName ||
+      !orgInfo?.email ||
+      !orgInfo?.firstName ||
+      !orgInfo?.lastName
+    ) {
+      return throwError(null);
+    } else {
+      const regSource: string = this.winRef.nativeWindow?.location?.href || '';
+      const message = orgInfo.message;
+      let department = null;
+      let position = null;
+      if (message) {
+        const msgList = message.replace('\n', '').split(';');
+        for (const msg of msgList) {
+          if (msg.trim().toLowerCase().search('department') === 0) {
+            department = msg.split(':')[1].trim();
+          } else if (msg.trim().toLowerCase().search('position') === 0) {
+            position = msg.split(':')[1].trim();
+          }
+        }
+      }
+
+      return this.invokeAPI('accounts.b2b.registerOrganization', {
+        organization: {
+          name: orgInfo.companyName,
+          street_address: orgInfo.addressLine1 + ' ' + orgInfo.addressLine2,
+          city: orgInfo.town,
+          state: orgInfo.region,
+          zip_code: orgInfo.postalCode,
+          country: orgInfo.country,
+        },
+        requester: {
+          firstName: orgInfo.firstName,
+          lastName: orgInfo.lastName,
+          email: orgInfo.email,
+          phone: orgInfo.phoneNumber,
+          department: department,
+          jobFunction: position,
+        },
+        regSource: regSource,
+      }).pipe(
+        take(1),
+        tap({
+          error: (errorResponse) => this.handleRegisterError(errorResponse),
+        })
+      );
+    }
+  }
+
   /**
    * Retrieves the organization selected by the logged in user
    *
