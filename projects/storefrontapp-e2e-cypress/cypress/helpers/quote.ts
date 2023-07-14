@@ -6,6 +6,8 @@
 
 import * as authentication from './auth-forms';
 import * as common from './common';
+import * as cart from './cart';
+import * as alerts from './global-message';
 
 /**
  * Sets quantity on PDP
@@ -15,9 +17,9 @@ export function setQtyOnPD(quantity: string): void {
 }
 
 /**
- * Clicks on 'Request Quote' on the cart page.
+ * Clicks on 'Request Quote' on the cart page and checks for quote page
  */
-export function clickOnRequestQuoteInCart(): void {
+export function clickOnRequestQuoteInCartAndExpectQuotePage(): void {
   cy.get('cx-quote-request-button button')
     .click()
     .then(() => {
@@ -27,6 +29,13 @@ export function clickOnRequestQuoteInCart(): void {
     .then(() => {
       cy.get('cx-quote-actions-by-role').should('be.visible');
     });
+}
+
+/**
+ * Clicks on 'Request Quote' on the cart page.
+ */
+export function clickOnRequestQuoteInCart(): void {
+  cy.get('cx-quote-request-button button').click();
 }
 
 export function login(email: string, password: string, name: string): void {
@@ -54,7 +63,7 @@ export function requestQuote(
   this.setQtyOnPD(quantity);
   common.clickOnAddToCartBtnOnPD();
   common.clickOnViewCartBtnOnPD();
-  this.clickOnRequestQuoteInCart();
+  this.clickOnRequestQuoteInCartAndExpectQuotePage();
 }
 
 /**
@@ -84,6 +93,18 @@ export function checkSubmitButton(isEnabled: boolean): void {
  */
 export function checkQuoteListPresent() {
   cy.get('cx-quote-list').should('exist');
+}
+
+/**
+ * Clears active cart
+ */
+export function clearCart() {
+  cart.goToCart();
+  cart.clearActiveCart();
+  alerts
+    .getSuccessAlert()
+    .should('contain', `Active cart cleared successfully.`);
+  cart.validateEmptyCart();
 }
 
 /**
