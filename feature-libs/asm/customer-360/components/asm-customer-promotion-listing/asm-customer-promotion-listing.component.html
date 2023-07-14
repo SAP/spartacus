@@ -1,0 +1,25 @@
+<div class="cx-asm-customer-table-heading" *ngIf="headerText">
+  <h4 class="cx-asm-customer-table-heading-text">
+    {{ headerText }}
+  </h4>
+</div> 
+<table>
+  <tr *ngFor="let entry of entries">
+    <td>
+      <tr>{{entry.code}}</tr>
+      <tr>{{entry.name}}</tr>
+    </td>
+    <td>
+      <ng-container *ngIf="!entry.applied">
+        <button>apply</button>
+      </ng-container>
+      <ng-container *ngIf="entry.applied">
+        <button>remove</button>
+      </ng-container>
+    </td>
+
+  </tr>
+</table>
+<div class="cx-asm-customer-table-empty" *ngIf="!entries">
+  {{ emptyStateText }}
+</div>

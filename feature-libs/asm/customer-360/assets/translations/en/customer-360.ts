@@ -88,13 +88,13 @@ export const customer360 = {
       header: 'Support Tickets',
       emptyDescription: 'There are currently no support tickets',
     },
+    coupons: {
+      headerText:'Coupons',
+      emptyDescription: 'There are currently no coupons',
+    },
     maps: {
       storeClosed: 'Close',
       storesFound: '{{ initial }} - {{ end }} from {{ total }} stores found',
-    },
-    coupons: {
-      header:'Coupons',
-      emptyDescription: 'There are currently no coupons',
     },
     overviewTab: 'Overview',
     profileTab: 'Profile',
