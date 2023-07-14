@@ -9,13 +9,13 @@ import { EventService, TranslationService } from '@spartacus/core';
 import {
   Comment,
   QuoteDetailsReloadQueryEvent,
-  QuoteFacade,
+  QuoteFacade
 } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   MessageEvent,
   MessagingComponent,
-  MessagingConfigs,
+  MessagingConfigs
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { finalize, map, take } from 'rxjs/operators';

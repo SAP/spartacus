@@ -49,7 +49,7 @@ export const quote = {
     },
     comments:{
       contactVendor: 'Contact Vendor',
-      invalidComment: 'Invalid Input - Please type again...'
+      invalidComment: 'Invalid input - please type again...'
     },
     details: {
       code: 'Quote ID',
