@@ -66,7 +66,7 @@ export class CheckoutPaymentTypeComponent {
           error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
         ) {
           this.globalMessageService.add(
-            error.details?.[0]?.message ?? '',
+            { key: 'httpHandlers.forbidden' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
         }
