@@ -26,7 +26,7 @@ import {
   getLastValueSync,
   isNotUndefined,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, combineLatest, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -70,7 +70,7 @@ export class CheckoutPaymentTypeComponent {
             GlobalMessageType.MSG_TYPE_ERROR
           );
         }
-        return throwError(error);
+        return of([]);
       })
     );
 

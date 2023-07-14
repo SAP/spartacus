@@ -121,10 +121,10 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
 
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.getPaymentTypesState().pipe(
-      concatMap((queryState) =>
-        (queryState?.error as HttpErrorModel)
-          ? throwError(queryState.error as HttpErrorModel)
-          : of(queryState)
+      concatMap((state) =>
+        (state?.error as HttpErrorModel)
+          ? throwError(state.error as HttpErrorModel)
+          : of(state)
       ),
       map((state) => state.data ?? [])
     );
