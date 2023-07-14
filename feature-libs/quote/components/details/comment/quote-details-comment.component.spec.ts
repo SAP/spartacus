@@ -238,10 +238,14 @@ describe('QuoteDetailsVendorContactComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
-      asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(throwError(new Error('test error')));
+      asSpy(mockedQuoteFacade.addQuoteComment).and.returnValue(
+        throwError(new Error('test error'))
+      );
       component.onSend({ message: 'test comment' }, QUOTE_CODE);
       expect(component.commentsComponent.resetForm).toHaveBeenCalled();
-      expect(component.messagingConfigs.newMessagePlaceHolder).toEqual('quote.comments.invalidComment');
+      expect(component.messagingConfigs.newMessagePlaceHolder).toEqual(
+        'quote.comments.invalidComment'
+      );
     });
   });
 });

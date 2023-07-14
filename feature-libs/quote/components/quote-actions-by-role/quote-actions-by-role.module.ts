@@ -31,6 +31,7 @@ import { QuoteActionsByRoleComponent } from './quote-actions-by-role.component';
             BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
             CANCELLED: [QuoteActionType.REQUOTE],
             SELLER_REQUEST: [QuoteActionType.EDIT, QuoteActionType.SUBMIT],
+            SELLER_DRAFT: [QuoteActionType.SUBMIT],
             BUYER_OFFER: [
               QuoteActionType.CANCEL,
               QuoteActionType.EDIT,
