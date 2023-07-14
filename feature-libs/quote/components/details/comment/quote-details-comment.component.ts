@@ -80,7 +80,7 @@ export class QuoteDetailsCommentComponent {
     return this.quoteDetails$.pipe(
       map((quote) => {
         const messageEvents: MessageEvent[] = [];
-        quote.comments.forEach((comment) =>
+        quote.comments?.forEach((comment) =>
           messageEvents.push(this.mapCommentToMessageEvent(comment))
         );
         return messageEvents;

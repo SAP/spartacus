@@ -70,9 +70,7 @@ export class QuoteRequestDialogComponent {
     }
     this.requestInProgress$.next(true);
     this.quoteFacade
-      .createQuote(quoteCreationPayload, {
-        text: this.form.controls.comment.value,
-      })
+      .createQuote(quoteCreationPayload)
       .pipe(
         tap((quote) => {
           if (goToDetails) {
