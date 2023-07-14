@@ -8,16 +8,14 @@ import {
   QuoteActionType,
   QuoteState,
 } from '@spartacus/quote/root';
-import {
-  I18nTestingModule,
-  QueryState,
-  TranslationService,
-} from '@spartacus/core';
+import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
 
 import { Observable, of } from 'rxjs';
 import { QuoteDetailsOverviewComponent } from './quote-details-overview.component';
 import createSpy = jasmine.createSpy;
+
+const totalPriceFormattedValue = '$20';
 
 const mockCartId = '1234';
 const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
@@ -32,17 +30,17 @@ const mockQuote: Quote = {
   updatedTime: new Date('2022-06-09T13:31:36+0000'),
   previousEstimatedTotal: {
     currencyIso: 'USD',
-    formattedValue: '$0.00',
-    value: 0,
+    formattedValue: '$1.00',
+    value: 1,
   },
   state: QuoteState.BUYER_ORDERED,
   name: 'Name',
-  totalPrice: { value: 20 },
+  totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
 };
 
 export class MockQuoteFacade implements Partial<QuoteFacade> {
-  getQuoteDetails(): Observable<QueryState<Quote>> {
-    return of({ data: mockQuote, loading: false, error: false });
+  getQuoteDetails(): Observable<Quote> {
+    return of(mockQuote);
   }
   setSort = createSpy();
   setCurrentPage = createSpy();
@@ -106,18 +104,14 @@ describe('QuoteDetailsOverviewComponent', () => {
     fixture.detectChanges();
 
     //then
-    const titleElements = fixture.debugElement.queryAll(
-      By.css('.cx-card-title')
+    const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+    const cardTitles = fixture.debugElement.queryAll(By.css('.cx-card-title'));
+    const cardContainers = fixture.debugElement.queryAll(
+      By.css('.cx-card-container')
     );
-    const contentElements = fixture.debugElement.queryAll(
-      By.css('.cx-card-label')
-    );
-    const descriptionElement = fixture.debugElement.query(
-      By.css('.truncated-text')
-    );
-    expect(titleElements.length).toEqual(7);
-    expect(contentElements.length).toEqual(6);
-    expect(descriptionElement.nativeElement.innerHTML).toBeDefined();
+    expect(cards.length).toEqual(3);
+    expect(cardTitles.length).toEqual(3);
+    expect(cardContainers.length).toEqual(3);
   });
 
   it('should return object with title and text if value is defined when getCardContent', () => {
@@ -141,6 +135,47 @@ describe('QuoteDetailsOverviewComponent', () => {
     //then
     component.getCardContent(value, titleKey).subscribe((result) => {
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getTotalPrice', () => {
+    it('should return the total price formatted value in case it is available', () => {
+      expect(component['getTotalPrice'](mockQuote)).toBe(
+        totalPriceFormattedValue
+      );
+    });
+
+    it('should return null in case no formatted value is available', () => {
+      const quoteWOPrices: Quote = {
+        ...mockQuote,
+        totalPrice: {},
+      };
+      expect(component['getTotalPrice'](quoteWOPrices)).toBe(null);
+    });
+  });
+
+  describe('getTotalPriceDescription', () => {
+    it('should name total price as estimated as long as final status not reached', () => {
+      expect(component['getTotalPriceDescription'](mockQuote)).toBe(
+        'quote.details.estimatedTotal'
+      );
+    });
+
+    it('should name total price as total as in case final status reached, i.e. checkout action is available', () => {
+      const quoteInOfferState: Quote = {
+        ...mockQuote,
+        allowedActions: [{ type: QuoteActionType.CHECKOUT, isPrimary: true }],
+      };
+      expect(component['getTotalPriceDescription'](quoteInOfferState)).toBe(
+        'quote.details.total'
+      );
+    });
+
+    it('should be able to deal with undefined actions', () => {
+      const quoteWoActions: Quote = { ...mockQuote, allowedActions: undefined };
+      expect(component['getTotalPriceDescription'](quoteWoActions)).toBe(
+        'quote.details.estimatedTotal'
+      );
     });
   });
 });

@@ -80,6 +80,14 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
     owner: owner,
   };
 
+const readConfigQuoteEntryParams: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+  {
+    userId: userId,
+    quoteId: documentId,
+    quoteEntryNumber: '3',
+    owner: owner,
+  };
+
 const asSpy = (f: any) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorRestAdapter', () => {
@@ -99,6 +107,7 @@ describe('CpqConfiguratorRestAdapter', () => {
       'addToCart',
       'getConfigIdForCartEntry',
       'getConfigIdForOrderEntry',
+      'getConfigIdForQuoteEntry',
       'updateCartEntry',
     ]);
 
@@ -126,6 +135,9 @@ describe('CpqConfiguratorRestAdapter', () => {
       return of(productConfiguration.configId);
     });
     asSpy(mockedOccService.getConfigIdForOrderEntry).and.callFake(() => {
+      return of(productConfiguration.configId);
+    });
+    asSpy(mockedOccService.getConfigIdForQuoteEntry).and.callFake(() => {
       return of(productConfiguration.configId);
     });
     asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
@@ -274,6 +286,21 @@ describe('CpqConfiguratorRestAdapter', () => {
       });
   });
 
+  it('should delegate readConfigurationForQuoteEntry to both OCC and rest service', () => {
+    adapterUnderTest
+      .readConfigurationForQuoteEntry(readConfigQuoteEntryParams)
+      .subscribe((response) => {
+        expect(response).toBe(productConfiguration);
+        expect(response.owner).toBe(readConfigQuoteEntryParams.owner);
+        expect(mockedOccService.getConfigIdForQuoteEntry).toHaveBeenCalledWith(
+          readConfigQuoteEntryParams
+        );
+        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+          configId
+        );
+      });
+  });
+
   it('should delegate updateCart to OCC service', () => {
     adapterUnderTest
       .updateConfigurationForCartEntry(updateCartParams)
@@ -283,5 +310,9 @@ describe('CpqConfiguratorRestAdapter', () => {
           updateCartParams
         );
       });
+  });
+
+  it("shouldn't support CPQ over OCC mode", () => {
+    expect(adapterUnderTest.supportsCpqOverOcc()).toBe(false);
   });
 });

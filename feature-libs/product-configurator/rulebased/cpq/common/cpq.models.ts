@@ -38,6 +38,7 @@ export namespace Cpq {
     responder?: Cpq.Responder;
     tabs?: Tab[];
     attributes?: Attribute[]; // attributes of current selected tab
+    configurationId?: string;
   }
 
   /**

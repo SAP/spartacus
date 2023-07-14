@@ -52,12 +52,13 @@ export const quote = {
       information: 'Quote Information',
       code: 'Quote ID',
       name: 'Quote Name',
+      created: 'Created',
+      lastUpdated: 'Last Updated',
+      estimatedTotal: 'Estimated Total',
+      total: 'Total',
       description: 'Description',
       estimateAndDate: 'Estimated & Date',
-      estimatedTotal: 'Estimated Total',
-      created: 'Created',
       update: 'Update',
-      lastUpdated: 'Last Updated',
       expiryDate: 'Expiry Date',
     },
     links: {
@@ -75,7 +76,7 @@ export const quote = {
       confirmSubmitOption: { yes: 'Yes', no: 'No' },
     },
     requestDialog: {
-      requestQuote: 'Request a Quote',
+      requestQuote: 'Request Quote',
       title: 'Request Quote',
       continueToEdit: 'Continue to Edit',
       form: {

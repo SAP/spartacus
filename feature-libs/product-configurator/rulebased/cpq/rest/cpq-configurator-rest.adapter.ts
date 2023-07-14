@@ -32,6 +32,10 @@ export class CpqConfiguratorRestAdapter
     return ConfiguratorType.CPQ;
   }
 
+  supportsCpqOverOcc(): boolean {
+    return false;
+  }
+
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
@@ -110,6 +114,21 @@ export class CpqConfiguratorRestAdapter
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
     return this.cpqOccService.getConfigIdForOrderEntry(parameters).pipe(
+      switchMap((configId) => {
+        return this.cpqRestService.readConfiguration(configId).pipe(
+          map((configResponse) => {
+            configResponse.owner = parameters.owner;
+            return configResponse;
+          })
+        );
+      })
+    );
+  }
+
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.getConfigIdForQuoteEntry(parameters).pipe(
       switchMap((configId) => {
         return this.cpqRestService.readConfiguration(configId).pipe(
           map((configResponse) => {

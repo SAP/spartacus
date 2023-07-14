@@ -140,6 +140,7 @@ describe('ConfiguratorCartEffect', () => {
   let updateCartEntryMock: jasmine.Spy;
 
   let readConfigurationForOrderEntryMock: jasmine.Spy;
+  let readConfigurationForQuoteEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
 
   let actions$: Observable<any>;
@@ -154,11 +155,16 @@ describe('ConfiguratorCartEffect', () => {
       .createSpy()
       .and.returnValue(of(productConfiguration));
 
+    readConfigurationForQuoteEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
+
     class MockConnector {
       addToCart = addToCartMock;
       updateConfigurationForCartEntry = updateCartEntryMock;
       readConfigurationForCartEntry = () => readFromCartEntryObs;
       readConfigurationForOrderEntry = readConfigurationForOrderEntryMock;
+      readConfigurationForQuoteEntry = readConfigurationForQuoteEntryMock;
     }
     TestBed.configureTestingModule({
       imports: [
@@ -503,6 +509,57 @@ describe('ConfiguratorCartEffect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(configCartEffects.readConfigurationForOrderEntry$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('Effect readConfigurationForQuoteEntry', () => {
+    it('should emit a success action with content in case call is successful', () => {
+      const readFromQuoteEntry: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+        {
+          owner: owner,
+        };
+      const action = new ConfiguratorActions.ReadQuoteEntryConfiguration(
+        readFromQuoteEntry
+      );
+
+      const readQuoteEntrySuccessAction =
+        new ConfiguratorActions.ReadQuoteEntryConfigurationSuccess(
+          productConfiguration
+        );
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', {
+        b: readQuoteEntrySuccessAction,
+      });
+
+      expect(configCartEffects.readConfigurationForQuoteEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should emit a fail action if something goes wrong', () => {
+      readConfigurationForQuoteEntryMock.and.returnValue(
+        throwError(errorResponse)
+      );
+      const readFromQuoteEntry: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters =
+        {
+          owner: owner,
+        };
+      const action = new ConfiguratorActions.ReadQuoteEntryConfiguration(
+        readFromQuoteEntry
+      );
+
+      const completion =
+        new ConfiguratorActions.ReadQuoteEntryConfigurationFail({
+          ownerKey: productConfiguration.owner.key,
+          error: normalizeHttpError(errorResponse),
+        });
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configCartEffects.readConfigurationForQuoteEntry$).toBeObservable(
         expected
       );
     });

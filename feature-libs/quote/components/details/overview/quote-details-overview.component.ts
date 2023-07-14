@@ -5,20 +5,25 @@
  */
 
 import { Component } from '@angular/core';
-import { QuoteFacade } from '@spartacus/quote/root';
+import {
+  Quote,
+  QuoteAction,
+  QuoteActionType,
+  QuoteMetadata,
+  QuoteFacade,
+} from '@spartacus/quote/root';
 import { TranslationService } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Quote, QuoteMetadata } from '../../../root/model';
 
 @Component({
   selector: 'cx-quote-details-overview',
   templateUrl: './quote-details-overview.component.html',
 })
 export class QuoteDetailsOverviewComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   editMode = false;
 
@@ -67,10 +72,9 @@ export class QuoteDetailsOverviewComponent {
     );
   }
 
-  getEstimatedAndDate(
-    estimatedTotal?: string,
-    createdDate?: string
-  ): Observable<Card> {
+  getEstimatedAndDate(quote: Quote, createdDate?: any): Observable<Card> {
+    const totalPrice =
+      this.getTotalPrice(quote) ?? this.getTotalPriceDescription(quote);
     return combineLatest([
       this.translationService.translate('quote.details.estimateAndDate'),
       this.translationService.translate('quote.details.estimatedTotal'),
@@ -82,7 +86,7 @@ export class QuoteDetailsOverviewComponent {
           paragraphs: [
             {
               title: secondTitle,
-              text: [estimatedTotal ?? '-'],
+              text: [totalPrice ?? '-'],
             },
             {
               title: thirdTitle,
@@ -126,5 +130,27 @@ export class QuoteDetailsOverviewComponent {
         text: [value ?? '-'],
       }))
     );
+  }
+  /**
+   * Returns total price as formatted string
+   * @param quote Quote
+   * @returns Total price formatted format, null if that is not available
+   */
+  protected getTotalPrice(quote: Quote): string | null {
+    return quote.totalPrice.formattedValue ?? null;
+  }
+
+  /**
+   * Returns total price description
+   * @param quote Quote
+   * @returns 'Total' price if quote is in final state, 'Estimated total' otherwise
+   */
+  protected getTotalPriceDescription(quote: Quote): string {
+    const readyToSubmit = quote.allowedActions?.find(
+      (action: QuoteAction) => action.type === QuoteActionType.CHECKOUT
+    );
+    return readyToSubmit
+      ? 'quote.details.total'
+      : 'quote.details.estimatedTotal';
   }
 }

@@ -276,6 +276,43 @@ export class VariantConfiguratorOccAdapter
     );
   }
 
+  readConfigurationForQuoteEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromQuoteEntryParameters
+  ): Observable<Configurator.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readVariantConfigurationOverviewForQuoteEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          quoteId: parameters.quoteId,
+          quoteEntryNumber: parameters.quoteEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<OccConfigurator.Overview>(url).pipe(
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),
+      map((overview) => {
+        const configuration: Configurator.Configuration = {
+          configId: overview.configId,
+          productCode: overview.productCode,
+          groups: [],
+          flatGroups: [],
+          interactionState: {},
+          overview: overview,
+          owner: ConfiguratorModelUtils.createInitialOwner(),
+        };
+        return configuration;
+      }),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: parameters.owner,
+        };
+      })
+    );
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {

@@ -14,7 +14,7 @@ import { ICON_TYPE, MessagingConfigs } from '@spartacus/storefront';
   templateUrl: './quote-details-vendor-contact.component.html',
 })
 export class QuoteDetailsVendorContactComponent {
-  quoteDetails$ = this.quoteFacade.getQuoteDetails();
+  quoteDetails$ = this.quoteFacade.getQuoteDetailsQueryState();
   showVendorContact = true;
   iconTypes = ICON_TYPE;
   vendorplaceHolder: string = 'Vendor Contact Component';
