@@ -92,6 +92,10 @@ export const customer360 = {
       storeClosed: 'Close',
       storesFound: '{{ initial }} - {{ end }} from {{ total }} stores found',
     },
+    coupons: {
+      header:'Coupons',
+      emptyDescription: 'There are currently no coupons',
+    },
     overviewTab: 'Overview',
     profileTab: 'Profile',
     activityTab: 'Activity',
