@@ -9,12 +9,14 @@
       <tr>{{entry.code}}</tr>
       <tr>{{entry.name}}</tr>
     </td>
-    <td>
+    <td id="couponStatus">
       <ng-container *ngIf="!entry.applied">
-        <button>apply</button>
+        <button
+        (click)="this.cartVoucherService.addVoucher(entry.code,this.activeCartId)">apply</button>
       </ng-container>
       <ng-container *ngIf="entry.applied">
-        <button>remove</button>
+        <button
+        (click)="this.cartVoucherService.removeVoucher(entry.code,this.activeCartId)">remove</button>
       </ng-container>
     </td>
 

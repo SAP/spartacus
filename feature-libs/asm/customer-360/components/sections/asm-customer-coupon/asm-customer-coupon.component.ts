@@ -9,6 +9,9 @@ import { Customer360CouponList } from '@spartacus/asm/customer-360/root';
 // import { UrlCommand } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {
+  CartVoucherFacade,
+} from '@spartacus/cart/base/root';
 // import {
 //   CustomerTableColumn,
 //   CustomerTableTextAlign,
@@ -42,7 +45,8 @@ export class AsmCustomerCouponComponent implements OnInit {
   ];
 
   constructor(
-    protected context: Customer360SectionContext<Customer360CouponList>
+    protected context: Customer360SectionContext<Customer360CouponList>,
+    protected cartVoucherService: CartVoucherFacade
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +66,14 @@ export class AsmCustomerCouponComponent implements OnInit {
         return entries;
       })
     );
+  }
+
+  applyCoupon(code: string,cartId: string){
+    this.cartVoucherService.addVoucher(code,cartId);
+  }
+
+  removeCoupon(code: string,cartId: string){
+    this.cartVoucherService.removeVoucher(code,cartId);
   }
 
   // itemSelected(entry: ActivityEntry | undefined): void {

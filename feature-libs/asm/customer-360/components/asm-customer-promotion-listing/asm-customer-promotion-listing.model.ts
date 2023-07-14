@@ -9,7 +9,7 @@ export interface PromotionListEntry {
 }
 
 export interface GeneralEntry extends PromotionListEntry {
-  applied: string;
+  applied: boolean;
   code: string;
   name?: string;
 }
