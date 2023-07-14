@@ -98,7 +98,9 @@ context('Assisted Service Module', () => {
         .then(($cartId) => {
           // localStorage contains anonymous cart uid, but need cart code.  read cart code from UI
           const text = $cartId.text();
-          anonymousCartCodeForReplaceBindCart = text.replace('Cart #', '').trim();
+          anonymousCartCodeForReplaceBindCart = text
+            .replace('Cart #', '')
+            .trim();
           cy.wrap(anonymousCartCodeForReplaceBindCart).as('anonymousCartCode');
         });
       cy.get<string>('@anonymousCartCode').then((anonymousCartCode) => {
@@ -157,7 +159,10 @@ context('Assisted Service Module', () => {
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login');
       cy.wait(`@${loginPage}`);
-      login(customerForReplaceBindCart.email, customerForReplaceBindCart.password);
+      login(
+        customerForReplaceBindCart.email,
+        customerForReplaceBindCart.password
+      );
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
       cy.log("--> Verify anonymous cart is now the user's active cart");
