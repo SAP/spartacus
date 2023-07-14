@@ -18,9 +18,22 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { getLastValueSync, isNotUndefined } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  OccHttpErrorType,
+  getLastValueSync,
+  isNotUndefined,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, combineLatest, throwError } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-type',
@@ -45,8 +58,21 @@ export class CheckoutPaymentTypeComponent {
     distinctUntilChanged()
   );
 
-  paymentTypes$: Observable<PaymentType[]> =
-    this.checkoutPaymentTypeFacade.getPaymentTypes();
+  paymentTypes$: Observable<PaymentType[]> = this.checkoutPaymentTypeFacade
+    .getPaymentTypes()
+    .pipe(
+      catchError((error: HttpErrorModel) => {
+        if (
+          error.details?.[0]?.type === OccHttpErrorType.CLASS_MISMATCH_ERROR
+        ) {
+          this.globalMessageService.add(
+            error.details?.[0]?.message ?? '',
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }
+        return throwError(error);
+      })
+    );
 
   typeSelected$: Observable<PaymentType> = combineLatest([
     this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
@@ -108,7 +134,8 @@ export class CheckoutPaymentTypeComponent {
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   changeType(code: string): void {
