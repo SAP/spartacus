@@ -17,6 +17,7 @@ import { Card } from '@spartacus/storefront';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SaveCardEvent } from '../../../../../projects/storefrontlib/shared';
 
 @Component({
   selector: 'cx-quote-details-overview',
@@ -25,7 +26,7 @@ import { map } from 'rxjs/operators';
 export class QuoteDetailsOverviewComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
-  editMode = false;
+  saveMode = false;
 
   constructor(
     protected quoteFacade: QuoteFacade,
@@ -40,12 +41,28 @@ export class QuoteDetailsOverviewComponent {
     this.quoteFacade.editQuote(quote.code, metaData);
   }
 
-  isEditMode(): boolean {
-    return this.editMode;
+  isSaveMode(): boolean {
+    return this.saveMode;
   }
 
-  setEditMode() {
-    this.editMode = !this.editMode;
+  setSaveMode() {
+    this.saveMode = !this.saveMode;
+  }
+
+  saveQuoteInformation(quote: Quote): void {
+    this.saveMode = false;
+    const event: SaveCardEvent = {
+      saveMode: this.saveMode,
+      name: 'Test',
+      description: 'Test',
+    };
+    if (event) {
+      const quoteMetadata: QuoteMetadata = {
+        name: 'TEST',
+        description: 'TEST',
+      };
+      this.quoteFacade.editQuote(quote.code, quoteMetadata);
+    }
   }
 
   getQuoteInformation(name?: string, description?: string): Observable<Card> {
@@ -65,7 +82,13 @@ export class QuoteDetailsOverviewComponent {
             {
               title: descriptionTitle,
               text: [description ?? '-'],
+              isTextArea: true,
             },
+          ],
+
+          actions: [
+            { event: 'cancel', name: 'Cancel' },
+            { event: 'save', name: 'Save' },
           ],
         };
       })

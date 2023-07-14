@@ -18,13 +18,14 @@
               getQuoteInformation(quoteDetails.name, quoteDetails.description)
                 | async
             "
-            [editMode]="isEditMode()"
+            [saveMode]="isSaveMode()"
+            (saveCard)="saveQuoteInformation(quoteDetails)"
             [truncateText]="true"
-            [charactersLimit]="30"
+            [charactersLimit]="225"
           ></cx-card>
         </div>
-        <div class="cx-edit-step">
-          <button class="btn btn-link cx-action-link" (click)="setEditMode()">
+        <div *ngIf="!saveMode" class="cx-edit-step">
+          <button class="btn btn-link cx-action-link" (click)="setSaveMode()">
             <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
           </button>
         </div>

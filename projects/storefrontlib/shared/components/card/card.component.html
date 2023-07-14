@@ -18,7 +18,11 @@
     {{ content.header }}
   </div>
   <!-- Card Body -->
-  <div class="card-body cx-card-body" [class.cx-card-delete]="editMode">
+  <div
+    class="card-body cx-card-body"
+    [class.cx-card-delete]="editMode"
+    [class.cx-card-save]="saveMode"
+  >
     <!-- Edit message -->
     <div *ngIf="editMode" role="alert" class="cx-card-delete-msg">
       {{ content.deleteMsg }}
@@ -54,9 +58,24 @@
         <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
-            <div class="cx-card-paragraph-text">
-              {{ text }}
-            </div>
+            <ng-container *ngIf="!saveMode">
+              <div class="cx-card-paragraph-text">
+                {{ text }}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="saveMode">
+              <ng-container *ngIf="!item.isTextArea">
+                <input class="cx-card-paragraph-input" value="{{ text }}" />
+              </ng-container>
+              <ng-container *ngIf="item.isTextArea">
+                <textarea
+                  [maxLength]="charactersLimit"
+                  class="form-control"
+                  formControlName="message"
+                  rows="5"
+                ></textarea>
+              </ng-container>
+            </ng-container>
           </div>
         </div>
         <ng-content select="[label_container_bottom]"></ng-content>
@@ -83,6 +102,24 @@
         </button>
       </div>
     </div>
+    <!--
+    <div *ngIf='saveMode' class='row cx-card-body-save'>
+      <div class='col-md-6'>
+        <button
+          [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+          class='btn btn-block btn-secondary'
+          (click)='cancelSave()'
+        >
+          {{ 'common.cancel' | cxTranslate }}
+        </button>
+      </div>
+      <div class='col-md-6' [cxFocus]='{ autofocus: true }'>
+        <button class='btn btn-block btn-primary' (click)='save()'>
+          Save
+        </button>
+      </div>
+    </div>
+    -->
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
@@ -125,6 +162,24 @@
             >
               {{ action.name }}
             </button>
+            <ng-container *ngIf="saveMode">
+              <button
+                type="button"
+                *ngSwitchCase="'cancel'"
+                class="link cx-action-link"
+                (click)="cancel()"
+              >
+                {{ action.name }}
+              </button>
+              <button
+                type="button"
+                *ngSwitchCase="'save'"
+                class="link cx-action-link"
+                (click)="save()"
+              >
+                {{ action.name }}
+              </button>
+            </ng-container>
           </ng-container>
           <a
             *ngIf="isCardLinkAction(action)"

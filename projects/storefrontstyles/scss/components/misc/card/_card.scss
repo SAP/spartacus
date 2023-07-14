@@ -33,6 +33,12 @@
     .cx-card-paragraph-title {
       padding-top: 0.7em;
     }
+
+    textarea,
+    input {
+      width: 100%;
+      border: 1px solid var(--cx-color-medium);
+    }
   }
 
   .cx-card-fit-to-container {
@@ -60,6 +66,10 @@
         margin: 0 0 1rem;
       }
     }
+  }
+
+  .cx-card-body-save {
+    padding-block-start: 1rem;
   }
 
   .cx-card-delete-msg {

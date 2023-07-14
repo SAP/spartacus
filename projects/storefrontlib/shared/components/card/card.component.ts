@@ -7,6 +7,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
+export interface SaveCardEvent {
+  saveMode: boolean;
+  name?: string;
+  description?: string;
+}
+
 export interface CardAction {
   event: string;
   name: string;
@@ -22,7 +28,11 @@ export interface Card {
   title?: string;
   textBold?: string;
   text?: Array<string>;
-  paragraphs?: Array<{ title?: string; text?: Array<string> }>;
+  paragraphs?: Array<{
+    title?: string;
+    text?: Array<string>;
+    isTextArea?: boolean;
+  }>;
   img?: string;
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;
@@ -37,6 +47,7 @@ export interface Card {
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;
+  leftCharacters: number;
 
   @Output()
   deleteCard: EventEmitter<number> = new EventEmitter();
@@ -48,12 +59,17 @@ export class CardComponent implements OnInit {
   editCard: EventEmitter<number> = new EventEmitter();
   @Output()
   cancelCard: EventEmitter<number> = new EventEmitter();
+  @Output()
+  saveCard: EventEmitter<SaveCardEvent> = new EventEmitter();
 
   @Input()
   border = false;
 
   @Input()
   editMode = false;
+
+  @Input()
+  saveMode = false;
 
   @Input()
   isDefault = false;
@@ -79,8 +95,19 @@ export class CardComponent implements OnInit {
     this.editMode = true;
   }
 
+  setSaveMode(): void {
+    this.saveMode = true;
+  }
+
   cancelEdit(): void {
     this.editMode = false;
+    this.cancelCard.emit(5);
+  }
+
+  cancelSave(): void {
+    this.saveMode = false;
+    const saveCardEvent: SaveCardEvent = { saveMode: this.saveMode };
+    this.saveCard.emit(saveCardEvent);
     this.cancelCard.emit(5);
   }
 
@@ -101,6 +128,23 @@ export class CardComponent implements OnInit {
     this.editCard.emit(4);
   }
 
+  cancel(): void {
+    this.saveMode = false;
+    const saveCardEvent: SaveCardEvent = { saveMode: this.saveMode };
+    this.saveCard.emit(saveCardEvent);
+    this.cancelCard.emit(5);
+  }
+
+  save(): void {
+    this.saveMode = false;
+    const saveCardEvent: SaveCardEvent = {
+      saveMode: this.saveMode,
+      name: 'test',
+      description: 'test',
+    };
+    this.saveCard.emit(saveCardEvent);
+  }
+
   isCardAction(action: CardAction | CardLinkAction): action is CardAction {
     return (action as CardAction).event !== undefined;
   }
@@ -109,6 +153,11 @@ export class CardComponent implements OnInit {
     action: CardAction | CardLinkAction
   ): action is CardLinkAction {
     return (action as CardLinkAction).link !== undefined;
+  }
+
+  calculateLeftCharacters(value: string) {
+    const currentLength = value.length;
+    this.leftCharacters = this.charactersLimit - currentLength;
   }
 
   constructor() {
