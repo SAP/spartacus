@@ -204,7 +204,7 @@
     "prettier": "~2.4.1",
     "rimraf": "^5.0.0",
     "sass-true": "^6.1.0",
-    "semver": "^7.5.0",
+    "semver": "^7.5.2",
     "shelljs": "^0.8.5",
     "stylelint": "^13.13.1",
     "stylelint-scss": "^3.18.0",
