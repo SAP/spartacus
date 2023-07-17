@@ -1,0 +1,177 @@
+<ng-container *ngIf="!((loading$ | async)); else loading">
+  <div>
+    <ng-container *ngIf="isOrderPresernt ;else noOrders">
+      <div class="cx-order-container" *ngFor="let order of orderValue.orders">
+        <div class="cx-order-summary" (click)="goToOrderDetail(order)">
+          <span class="cx-order-style">
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orderDetails',
+                  params: order
+                } | cxUrl
+              "
+            >
+              Order # {{ order?.code }}</a
+            >
+          </span>
+          <br />
+          <br />
+          <span class="cx-details"
+            >Purchased | {{ order.placed | cxDate: 'd, MMMM, yyyy' }} |
+            {{ orderDetail[order.code]?.deliveryItemsQuantity }} Items |
+            <b>TotalPrice: ${{ order.total.value }}</b></span
+          >
+          <br />
+          <br />
+          <br />
+          <div *ngFor="let item of orderStatus[order.code] | keyvalue">
+            <div *ngIf="item.key === 'NOTSHIPPED';then NotShipped"></div>
+            <ng-template #NotShipped>
+              <span class="cx-consignment-status">Not Shipped - {{item.value}} Items
+              </span>
+              <br>
+              <span class="cx-estimated-delivery">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-template>
+            <div *ngIf="item.key === 'Not delivered';then NotDelivered"></div>
+            <ng-template #NotDelivered>
+              <span class="cx-consignment-status">Not Delivered - {{item.value}}</span>
+              <br>
+              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-template>
+            <div *ngIf="item.key === 'Fully delivered';then FullyDelivered"></div>
+            <ng-template #FullyDelivered>
+              <span class="cx-consignment-status">Fully Delivered - {{item.value}}
+              </span>
+            </ng-template>
+            <div *ngIf="item.key === 'Partially delivered';then PartiallyDelivered"></div>
+            <ng-template #PartiallyDelivered>
+              <span class="cx-consignment-status">Partially Delivered - {{item.value}}
+              </span>
+              <br>
+              <span class="cx-consignment-status">Estimated Delivery - {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-template>
+            <div *ngIf="item.key === 'READY_FOR_PICKUP'; then content"></div>
+            <ng-template #content>
+              <span class="cx-consignment-readforpickup"
+                >Ready For Pickup - {{ item.value }} Items</span
+              ><br />
+              <span class="cx-ready-for-pickup"
+                >Pickup By: 25, October, 2022</span
+              >
+            </ng-template>
+            <div *ngIf="item.key === 'SHIPPED'; then contentShiped"></div>
+            <ng-template #contentShiped>
+              <span class="cx-consignment-status"
+                >Shipped - {{ item.value }} Items</span
+              ><br />
+              <span class="cx-estimated-delivery"
+                >Estimated Delivery: {{orderDetail[order.code]?.cdpOrderExtendedAttributes.estimatedDeliveryDate | cxDate: 'd, MMMM, yyyy'}}</span
+              ><br />
+              <!-- <span class="cx-tracking-number"
+                >Tracking Number: 2495301245</span
+              > -->
+            </ng-template>
+            <div *ngIf="item.key === 'Cancelled'; then contentCancelled"></div>
+            <ng-template #contentCancelled>
+              <span class="cx-consignment-status"
+                >{{ item.key }} - {{ item.value }} Items</span
+              ><br />
+              <h3 style="color: red">Cancellation Processed:</h3>
+            </ng-template>
+            <div
+              *ngIf="item.key === 'DELIVERY_REJECTED'; then deliveryRejected"
+            ></div>
+            <ng-template #deliveryRejected>
+              <span class="cx-consignment-status"
+                >{{ item.key }} - {{ item.value }} Items</span
+              ><br />
+              <h3 style="color: red">Delivery Rejected:</h3>
+            </ng-template>
+            <div
+              *ngIf="item.key === 'PICKUP_COMPLETE'; then pickUpComplete"
+            ></div>
+            <ng-template #pickUpComplete>
+              <span class="cx-consignment-pickedup"
+                >Picked Up - {{ item.value }} Items</span
+              ><br />
+              <span class="cx-pickedup-detail">Picked Up Date: </span>
+            </ng-template>
+            <div
+              *ngIf="item.key === 'DELIVERY_COMPLETED'; then deliveryComplete"
+            ></div>
+            <ng-template #deliveryComplete>
+              <span class="cx-consignment-status"
+                >{{ item.key }} - {{ item.value }} Items</span
+              ><br />
+              <h3 style="color: rgb(19, 18, 18)">Delivery Completed</h3>
+            </ng-template>
+            <div *ngIf="item.key === 'CANCELLED'; then deliveryCancelled"></div>
+            <ng-template #deliveryCancelled>
+              <span class="cx-consignment-cancelled"
+                >{{ item.key }} - {{ item.value }} Items</span
+              ><br />
+              <span class="cx-cancelled-detail">Cancellation Processed: </span>
+            </ng-template>
+
+            <ng-container *ngIf="item.key === 'RETURNED'">
+                <span class="cx-consignment-returned"
+                  >Returned - {{ item.value }} Items </span
+                ><br />
+                <span class="cx-returned-detail">Return Processed: {{(returnDate)[order.code] | cxDate: 'd, MMMM, yyyy'}}</span>
+            </ng-container>
+
+          </div>
+          <br />
+        </div>
+        <div class="cx-order-image">
+          <div *ngFor="let prdt of orderImage[order.code]">
+            <div *ngFor="let img of prdt.images; let i = index">
+              <div *ngIf="i < 1">
+                <img
+                  [src]="img.url"
+                  width="88"
+                  height="88"
+                  class="slide active"
+                />
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <hr>
+      </div>
+    </ng-container>
+  </div>
+  <div>
+    <div class="cx-order-pagination">
+      <div *ngIf="(orders$ | async)?.pagination.totalPages >= 0">
+        <cx-pagination
+          [pagination]="(orders$ | async)?.pagination"
+          (viewPageEvent)="pageChange($event)"
+        ></cx-pagination>
+      </div>
+    </div>
+    <hr>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
+
+<ng-template #noOrders>
+  <div class="cx-no-order">
+    <div>
+      <div>We have no order records for this account.</div>
+      <a
+        routerlinkactive="active"
+        class="btn btn-primary"
+        href="/electronics-spa/en/USD/"
+        >Start Shopping</a
+      >
+    </div>
+  </div>
+</ng-template>

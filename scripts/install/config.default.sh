@@ -68,6 +68,7 @@ ADD_B2B_LIBS=false
 
 ADD_CPQ=false
 ADD_CDC=false
+ADD_CDP=false
 # config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
 ADD_S4OM=false

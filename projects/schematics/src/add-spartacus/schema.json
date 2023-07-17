@@ -21,6 +21,7 @@
           "Saved-Cart",
           "Quick-Order",
           "CDC",
+          "CDP",
           "CDS",
           "Cart",
           "WishList",
@@ -97,6 +98,10 @@
           {
             "value": "CDC",
             "label": "Customer Data Cloud Integration"
+          },
+          {
+            "value": "CDP",
+            "label": "Customer Data Platform Integration"
           },
           {
             "value": "CDS",

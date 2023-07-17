@@ -7,10 +7,14 @@
 import { NgModule, Type } from '@angular/core';
 import { CDCUserProfileModule } from '@spartacus/cdc/user-profile';
 import { UserProfileModule } from '@spartacus/user/profile';
-
+import { CDPUserProfileModule } from '@spartacus/cdp/user-profile';
 import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
+
+if (environment.cdp) {
+  extensions.push(CDPUserProfileModule);
+}
 
 if (environment.cdc) {
   extensions.push(CDCUserProfileModule);

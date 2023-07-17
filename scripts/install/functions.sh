@@ -105,6 +105,12 @@ function add_cdc {
     fi
 }
 
+function add_cdp {
+  if [ "$ADD_CDP" = true ] ; then
+        ng add @spartacus/cdp@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
+    fi
+}
+
 function add_epd_visualization {
     if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
         ng add @spartacus/epd-visualization --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
@@ -148,6 +154,7 @@ function add_spartacus_csr {
     add_feature_libs
     add_b2b
     add_cdc
+    add_cdp
     add_epd_visualization
     add_product_configurator
     add_s4om
@@ -170,6 +177,7 @@ function add_spartacus_ssr {
     add_feature_libs
     add_b2b
     add_cdc
+    add_cdp
     add_epd_visualization
     add_product_configurator
     add_s4om
@@ -191,6 +199,7 @@ function add_spartacus_ssr_pwa {
     add_feature_libs
     add_b2b
     add_cdc
+    add_cdp
     add_epd_visualization
     add_product_configurator
     add_s4om
@@ -686,6 +695,11 @@ function parseInstallArgs {
             cdc)
                 ADD_CDC=true
                 echo "➖ Added CDC"
+                shift
+                ;;
+            cdp)
+                ADD_CDC=true
+                echo "➖ Added CDP"
                 shift
                 ;;
             epd)

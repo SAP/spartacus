@@ -2,7 +2,21 @@
   <div class="cx-login-greet">
     {{ 'miniLogin.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
-  <cx-page-slot id="account-nav" position="HeaderLinks"></cx-page-slot>
+  <cx-page-slot
+    *ngIf="!isCdpEnabled"
+    id="account-nav"
+    position="HeaderLinks"
+  ></cx-page-slot>
+
+  <!-- <button
+  class="link cx-action-link cx-login-greet"
+  (click)="gotToMyAccount()"
+  [routerLink]="{ cxRoute: 'my-account' } | cxUrl"
+  [disabled]=(isCdpEnabled)
+  type="button"
+>
+  {{ 'My Account'}}
+</button> -->
 </ng-container>
 
 <ng-template #login>

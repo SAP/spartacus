@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CdcCdpUpdateProfileModule } from './cdp-update-profile';
 import { CDCForgotPasswordModule } from './forgot-password/cdc-forgot-password.module';
 import { CDCRegisterModule } from './register/cdc-register.module';
 import { CDCUpdateEmailModule } from './update-email/cdc-update-email.module';
@@ -18,6 +19,7 @@ import { CDCUpdateProfileModule } from './update-profile/cdc-update-profile.modu
     CDCUpdateProfileModule,
     CDCUpdatePasswordModule,
     CDCUpdateEmailModule,
+    CdcCdpUpdateProfileModule,
   ],
 })
 export class CDCUserProfileModule {}

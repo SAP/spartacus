@@ -262,6 +262,8 @@ export const CDC_FEATURE_NAME = 'CDC';
 
 export const CDS_FEATURE_NAME = 'CDS';
 
+export const CDP_FEATURE_NAME = 'CDP';
+
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';

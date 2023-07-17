@@ -8,7 +8,7 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: true,
-  occBaseUrl: buildProcess.env.CX_BASE_URL,
+  occBaseUrl: 'https://localhost:9002/',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS,
   b2b: buildProcess.env.CX_B2B,
@@ -18,4 +18,5 @@ export const environment: Environment = {
   epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION,
   s4om: buildProcess.env.CX_S4OM,
   segmentRefs: buildProcess.env.CX_SEGMENT_REFS,
+  cdp: buildProcess.env.CX_CDP,
 };

@@ -34,6 +34,7 @@ export const myAccount = {
     passwordUpdateSuccess: 'Password updated with success',
   },
   updateProfileForm: {
+    myInformation: 'My Information',
     title: 'Title',
     none: '',
     firstName: {

@@ -1,0 +1,103 @@
+.cx-cdp-body {
+  padding: 5px 5px 5px 5px;
+  width: 100%;
+  border: 1px solid var(--cx-color-light);
+  .cx-order-returns {
+    font-weight: bold;
+    padding-left: 5px;
+    padding-top: 5px;
+  }
+  .cx-cdp-link-showMore {
+    color: #1672b7;
+    text-decoration-line: underline;
+    float: right;
+    padding-right: 5px;
+    padding-top: 5px;
+  }
+  .cx-cdp-link-underline {
+    // padding: 20px  ;
+    color: #1672b7;
+    text-decoration-line: underline;
+  }
+
+  .cx-cdp-link {
+    // padding: 20px  ;
+    color: #1672b7;
+  }
+  .cx-cdp-body-table {
+    border-top: 1px solid var(--cx-color-light);
+    border-bottom: 1px solid var(--cx-color-light);
+    border-left: 1px solid var(--cx-color-light);
+    border-right: 1px solid var(--cx-color-light);
+    table-layout: auto;
+    width: 99%;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+
+    th {
+      padding: 10px;
+      text-align: justify;
+      background-color: var(--cx-color-background);
+      height: 30px;
+      width: 33.33%;
+
+      .cx-order-number {
+        float: right;
+        color: darkgray;
+        font-weight: normal;
+      }
+    }
+
+    // tr {
+    //     padding: 0px;
+    //     text-align: justify;
+    //     height: 30px;
+    //     .cx-hide{
+    //         border-left: 0px solid var(--cx-color-light);
+    //         border-right: 0px solid var(--cx-color-light);
+    //         border-bottom: 0px solid var(--cx-color-light);
+    //         display: none;
+    //       }
+    //       .cx-header{
+    //         background-color: var(--cx-color-background);
+    //       }
+    //   }
+
+    td {
+      // padding: 10px;
+      width: max-content;
+      text-align: left;
+      height: 30px;
+      .cx-prod-name {
+        padding-top: 10px;
+        font-weight: 600;
+        // text-align: left;
+      }
+      .cx-prod-body {
+        font-size: small;
+      }
+
+      .cx-image {
+        padding: 10px 10px 10px 30px;
+        width: 20px;
+      }
+      .cx-cdp-link-underline {
+        // float: right;
+        text-align: right;
+        text-decoration-line: underline;
+        padding-right: 5px;
+        .cx-cdp-link-underline-color {
+          color: #1672b7;
+        }
+      }
+      .cx-order-details {
+        // padding-right: 10px;
+        text-align: end;
+        color: #1672b7;
+        text-decoration-line: underline;
+      }
+    }
+  }
+}

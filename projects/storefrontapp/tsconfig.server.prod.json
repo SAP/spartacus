@@ -341,6 +341,10 @@
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cdc/user-account": ["../../dist/cdc/user-account"],
       "@spartacus/cdc/user-profile": ["../../dist/cdc/user-profile"],
+      "@spartacus/cdp/assets": ["../../dist/cdp/assets"],
+      "@spartacus/cdp": ["../../dist/cdp"],
+      "@spartacus/cdp/root/components": ["../../dist/cdp/root/components"],
+      "@spartacus/cdp/user-profile": ["../../dist/cdp/user-profile"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"

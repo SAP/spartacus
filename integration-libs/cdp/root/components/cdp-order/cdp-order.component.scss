@@ -1,0 +1,233 @@
+.cx-order-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  .cx-order-summary {
+    a {
+      color: #1772b7;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    width: 50%;
+  }
+  .cx-order-image {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    padding: 10px;
+    width: 88px;
+    height: 88px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    justify-content: space-between;
+  }
+  hr {
+    width: 100%;
+  }
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.cx-all-orders {
+  color: black;
+}
+.cx-details {
+  font-family: Open Sans;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  font-family: Open Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  white-space: nowrap;
+}
+.cx-order-style {
+  width: 215px;
+  height: 30px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 30px;
+  text-decoration-line: underline;
+  color: #1672b7;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  cursor: pointer;
+}
+.cx-estimated-delivery {
+  width: 280px;
+  height: 22px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #6c7079;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-tracking-number {
+  width: 229px;
+  height: 22px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #6c7079;
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+.cx-ready-for-pickup {
+  width: 213px;
+  height: 22px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #6c7079;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-consignment-cancelled {
+  width: 164px;
+  height: 25px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  color: #db0002;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-cancelled-detail {
+  width: 335px;
+  height: 22px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #6c7079;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-consignment-readforpickup {
+  width: 220px;
+  height: 25px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  text-transform: capitalize;
+  color: #14293a;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-consignment-status {
+  width: 150px;
+  height: 25px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  text-transform: capitalize;
+  color: #14293a;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-consignment-returned {
+  width: 152px;
+  height: 25px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  color: #db0002;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-returned-detail {
+  width: 273px;
+  height: 22px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #6c7079;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+.cx-consignment-pickedup {
+  width: 166px;
+  height: 25px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  text-transform: capitalize;
+  color: #14293a;
+  flex: none;
+  order: 1;
+}
+.cx-pickedup-detail {
+  width: 276px;
+  height: 22px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #6c7079;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.cx-no-order{
+  color: #1672b7;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--cx-font-size, 1rem);
+  font-weight: var(--cx-font-weight-bold);
+  line-height: var(--cx-line-height, 1.2222222222);
+  font-weight: "normal";
+  min-height: 415px;
+  align-content: space-around;
+  justify-content: space-around;
+}
+
+.cx-order-pagination {
+  justify-content: flex-end;
+  display: flex;
+  align-items: stretch;
+  align-content: center;
+}
+

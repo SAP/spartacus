@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, merge, of } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions';
 import { LoggerService } from '../../../logger';
@@ -49,7 +49,7 @@ export class ProductEffects {
             merge(
               ...this.productConnector
                 .getMany(products)
-                .map(this.productLoadEffect)
+                .map((productLoad) => this.productLoadEffect(productLoad))
             )
           ),
           withdrawOn(this.contextChange$)

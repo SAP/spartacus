@@ -66,6 +66,7 @@ import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-featur
 import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
 import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
+import { CdpFeatureModule } from './features/cdp/cdp-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
@@ -125,6 +126,9 @@ if (environment.s4om) {
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
+}
+if (environment.cdp) {
+  featureModules.push(CdpFeatureModule);
 }
 
 @NgModule({

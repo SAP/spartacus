@@ -1,0 +1,167 @@
+<div class="cx-cdp-side">
+  <table class="cx-cdp-side-table">
+    <td>
+      <ng-container *ngIf="user$ | async as user">
+        <div *ngIf="user.title !== ''; else title">
+          {{ user.name }}
+        </div>
+        <div>
+          <a
+            class="cx-sign-out"
+            [routerLink]="
+              {
+                cxRoute: 'logout'
+              } | cxUrl
+            "
+            >{{ 'cdpOrderHistory.signOut' | cxTranslate }}
+          </a>
+        </div>
+      </ng-container>
+    </td>
+  </table>
+  <table class="cx-cdp-side-table">
+    <th>{{ 'cdpOrderHistory.orderInformation' | cxTranslate }}</th>
+    <tr role="row">
+      <td role="cell">
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.ORDER"></cx-icon>
+        </span>
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'orders'
+            } | cxUrl
+          "
+          >{{ 'cdpOrderHistory.ordersAndReturns' | cxTranslate }}
+        </a>
+      </td>
+    </tr>
+
+    <tr style="display: none">
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CART"></cx-icon>
+        </span>
+        {{ 'cdpOrderHistory.savedCarts' | cxTranslate }}
+      </td>
+    </tr>
+    <tr style="display: none">
+      <!-- <cx-icon type="STAR"></cx-icon> -->
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.STAR"></cx-icon>
+        </span>
+        {{ 'cdpOrderHistory.wishlist' | cxTranslate }}
+      </td>
+    </tr>
+  </table>
+
+  <table class="cx-cdp-side-table">
+    <th>{{ 'cdpOrderHistory.customerService' | cxTranslate }}</th>
+    <tr>
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.HEADSET"></cx-icon>
+        </span>
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'requests'
+            } | cxUrl
+          "
+          > {{ 'cdpOrderHistory.request' | cxTranslate }}
+        </a>
+       
+      </td>
+    </tr>
+    <tr style="display: none">
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.GRID"></cx-icon>
+        </span>
+        {{ 'cdpOrderHistory.registeredProducts' | cxTranslate }}
+      </td>
+    </tr>
+  </table>
+
+  <table class="cx-cdp-side-table">
+    <th>{{ 'cdpOrderHistory.accountInformation' | cxTranslate }}</th>
+    <tr>
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.USER"></cx-icon>
+        </span>
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'personalDetails'
+            } | cxUrl
+          "
+          >{{ 'cdpOrderHistory.personalDetails' | cxTranslate }}
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.PASSWORD"></cx-icon> </span
+        > <a
+        class="cx-side-navigation"
+        [routerLink]="
+          {
+            cxRoute: 'passwordDetails'
+          } | cxUrl
+        "
+        >{{ 'cdpOrderHistory.passwordAndSecurity' | cxTranslate }}</a>
+      </td>
+    </tr>
+    <tr style="display: none">
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.ADDRESS_BOOK"></cx-icon>
+        </span>
+        {{ 'cdpOrderHistory.addressBook' | cxTranslate }}
+      </td>
+    </tr>
+    <tr style="display: none">
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CREDIT_CARD"></cx-icon>
+        </span>
+        {{ 'cdpOrderHistory.paymentDetails' | cxTranslate }}
+      </td>
+    </tr>
+    <tr style="display: none">
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.COMMUNICATIONS"></cx-icon>
+        </span>
+        {{ 'cdpOrderHistory.communications' | cxTranslate }}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.PRIVACY"></cx-icon>
+        </span>
+        <a
+          class="cx-side-navigation"
+          [routerLink]="
+            {
+              cxRoute: 'SettingsAndPrivacy'
+            } | cxUrl
+          "
+          >{{ 'cdpOrderHistory.settingsAndPrivacy' | cxTranslate }}
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+<ng-template #title>
+  <div>
+    {{ user.title }}{{ 'cdpOrderHistory.dot' | cxTranslate }}{{ user.name }}
+  </div>
+</ng-template>

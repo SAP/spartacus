@@ -69,6 +69,9 @@ export const fontawesomeIconConfig: IconConfig = {
       ARROW_RIGHT: 'fas  fa-arrow-right',
       ARROW_DOWN: 'fas  fa-arrow-down',
       ARROW_UP: 'fas  fa-arrow-up',
+      COMMUNICATIONS: 'fas fa-envelope',
+      PRIVACY: 'fas fa-cog',
+      PASSWORD: 'fas fa-lock',
     },
     resources: [
       {
