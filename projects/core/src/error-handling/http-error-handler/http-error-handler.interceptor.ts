@@ -15,6 +15,13 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+/**
+ * This interceptor forwards all HTTP errors (e.g. 5xx or 4xx status response from backend)
+ * to Angular `ErrorHandler`.
+ *
+ * Thanks to this, in SSR, any HTTP error from backend can potentially mark the Server-Side Rendering
+ * as an error and therefore allow for sending an appropriate error response to a final client of SSR.
+ */
 @Injectable()
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   constructor(protected errorHandler: ErrorHandler) {}

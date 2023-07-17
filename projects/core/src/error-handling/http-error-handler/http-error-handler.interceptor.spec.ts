@@ -41,7 +41,7 @@ describe('HttpErrorHandlerInterceptor', () => {
     expect(interceptor).toBeTruthy();
   });
 
-  it('should call handleError on error', () => {
+  it('should call handleError on error', (done) => {
     const error: HttpErrorResponse = new HttpErrorResponse({
       status: 400,
       statusText: 'error',
@@ -54,11 +54,12 @@ describe('HttpErrorHandlerInterceptor', () => {
       error: (err) => {
         expect(err).toEqual(error);
         expect(errorHandler.handleError).toHaveBeenCalledWith(error);
+        done();
       },
     });
   });
 
-  it('should pass through the request when there is no error', () => {
+  it('should pass through the request when there is no error', (done) => {
     const response: HttpEvent<any> = {
       status: 200,
       statusText: 'ok',
@@ -68,6 +69,7 @@ describe('HttpErrorHandlerInterceptor', () => {
 
     interceptor.intercept(request, next).subscribe((result) => {
       expect(result).toBe(response);
+      done();
     });
   });
 });
