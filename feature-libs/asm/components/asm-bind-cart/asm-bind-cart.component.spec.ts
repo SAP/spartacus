@@ -362,6 +362,10 @@ describe('AsmBindCartComponent', () => {
       spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
         'active'
       );
+      spyOn(asmComponentService, 'getDeepLinkUrlParams').and.returnValue({
+        cartType: 'active',
+        customerId: '123',
+      });
       component.ngOnInit();
 
       expect(component.displayBindCartBtn$.next).toHaveBeenCalledWith(false);
