@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { POWERTOOLS_BASESITE } from '../sample-data/b2b-checkout';
 import * as authentication from './auth-forms';
 import * as common from './common';
 
+/** alias for GET Quote Route */
 export const GET_QUOTE_ALIAS = '@GET_QUOTE';
 
 /**
@@ -161,6 +161,7 @@ export function checkComment(index: number, text: string) {
     .eq(index)
     .should('contain.text', text);
 }
+
 /**
  * Register GET quote route.
  */
