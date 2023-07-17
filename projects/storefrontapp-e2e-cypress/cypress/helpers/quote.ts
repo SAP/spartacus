@@ -125,9 +125,9 @@ export function navigateToQuoteListFromQuoteDetails() {
 }
 
 /**
- *
- * @param meetsThreshold
- * @param productId
+ * Checks the displayed quote, assuming that it is in draft state.
+ * @param meetsThreshold does the quote meet the threshold
+ * @param productId product id of a product which is part of the quote
  */
 export function checkQuoteInDraftState(
   meetsThreshold: boolean,
@@ -139,6 +139,10 @@ export function checkQuoteInDraftState(
   cy.get('.cx-code').should('contain.text', productId);
 }
 
+/**
+ * Adds a header comment to the quote assuming that the quote is currently in edit mode
+ * @param text text to add
+ */
 export function addCommentAndWait(text: string) {
   cy.get('cx-quote-details-comment .cx-message-input').within(() => {
     cy.get('input').type(text);
@@ -147,13 +151,18 @@ export function addCommentAndWait(text: string) {
   cy.wait(GET_QUOTE_ALIAS);
 }
 
+/**
+ * checks whether the given header comment is displayed on the given position
+ * @param index position of the comment, starting with 0 for the first comment.
+ * @param text text to be displayed
+ */
 export function checkComment(index: number, text: string) {
   cy.get('cx-quote-details-comment .cx-message-card div[role="listitem"]')
     .eq(index)
     .should('contain.text', text);
 }
 /**
- * Register quote route.
+ * Register GET quote route.
  */
 export function registerGetQuoteRoute(shopName: string) {
   cy.intercept({
