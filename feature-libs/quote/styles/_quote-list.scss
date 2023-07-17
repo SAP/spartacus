@@ -2,28 +2,53 @@
   @extend .cx-agnostic-table;
 
   table {
-    th {
-      text-align: start;
-      text-transform: capitalize;
-      //background-color: var(--cx-color-dark);
-    }
-
     tr {
       &:hover {
         cursor: pointer;
         background-color: var(--cx-color-background);
       }
-    }
 
-    td {
-      text-align: start;
+      th {
+        text-align: start;
+        text-transform: capitalize;
+      }
 
-      &:nth-last-of-type(1) {
-        text-align: center;
+      td {
+        text-align: start;
+
+        &:nth-last-of-type(1) {
+          text-align: center;
+        }
       }
     }
 
     tbody {
+      @include media-breakpoint-down(md) {
+        tr {
+          position: relative;
+
+          td {
+            align-items: start;
+
+            .cx-mobile-header {
+              min-width: 30%;
+            }
+          }
+        }
+      }
+
+      .cx-name {
+        a {
+          font-weight: var(--cx-font-weight-semi);
+        }
+      }
+
+      .cx-status {
+        a {
+          font-weight: var(--cx-font-weight-semi);
+        }
+      }
+
       .cx-code,
       .cx-updated-date {
         a {
@@ -34,6 +59,19 @@
       .cx-nav-caret {
         a {
           color: var(--cx-color-secondary);
+        }
+      }
+
+      @include media-breakpoint-down(md) {
+        .cx-nav-caret {
+          position: absolute;
+          top: 40%;
+          right: 5px;
+
+          a {
+            min-height: 5px;
+            min-width: 5px;
+          }
         }
       }
 
@@ -69,16 +107,6 @@
 
       .quote-submitted {
         color: var(--cx-color-success);
-      }
-    }
-  }
-
-  @include media-breakpoint-down(md) {
-    td {
-      align-items: start;
-
-      .cx-mobile-header {
-        min-width: 140px;
       }
     }
   }
@@ -123,8 +151,8 @@
       width: 100%;
     }
 
-    @include media-breakpoint-down(sm) {
-      padding: 1.25rem;
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 0;
       width: 100%;
     }
   }

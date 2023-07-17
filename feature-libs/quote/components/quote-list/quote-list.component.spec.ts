@@ -23,7 +23,10 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { QuoteListComponentService } from './quote-list-component.service';
-import { QuoteListComponent } from './quote-list.component';
+import {
+  QuoteListComponent,
+  ResponsiblePersonPrefix,
+} from './quote-list.component';
 import createSpy = jasmine.createSpy;
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -209,6 +212,41 @@ describe('QuoteListComponent', () => {
 
     //then
     expect(elements.length).toEqual(1);
+  });
+
+  describe('isResponsible', () => {
+    it("should return 'false' in case state is undefined", () => {
+      expect(
+        component['isResponsible'](ResponsiblePersonPrefix.BUYER, undefined)
+      ).toBe(false);
+    });
+
+    it("should return 'true' in case state contains 'BUYER'", () => {
+      expect(
+        component['isResponsible'](
+          ResponsiblePersonPrefix.BUYER,
+          QuoteState.BUYER_ACCEPTED
+        )
+      ).toBe(true);
+    });
+
+    it("should return 'true' in case state contains 'SELLER'", () => {
+      expect(
+        component['isResponsible'](
+          ResponsiblePersonPrefix.SELLER,
+          QuoteState.SELLER_DRAFT
+        )
+      ).toBe(true);
+    });
+
+    it("should return 'true' in case state contains 'SELLERAPPROVER'", () => {
+      expect(
+        component['isResponsible'](
+          ResponsiblePersonPrefix.SELLERAPPROVER,
+          QuoteState.SELLERAPPROVER_APPROVED
+        )
+      ).toBe(true);
+    });
   });
 
   describe('getQuoteStateClass', () => {
@@ -495,6 +533,25 @@ describe('QuoteListComponent', () => {
       );
 
       expect(quoteStateLinks[0].attributes.class).toContain('quote-expired');
+    });
+
+    it('should not apply a class quote status because quote state is undefined', () => {
+      //given
+      mockQuoteListState$.next({
+        ...mockQuoteListState,
+        data: {
+          ...mockQuoteList,
+          quotes: [{ ...mockQuote, state: undefined }],
+        },
+      });
+      //when
+      fixture.detectChanges();
+      //then
+      const quoteStateLinks = fixture.debugElement.queryAll(
+        By.css('.cx-status a')
+      );
+
+      expect(quoteStateLinks[0].attributes.class).toBeUndefined();
     });
   });
 });
