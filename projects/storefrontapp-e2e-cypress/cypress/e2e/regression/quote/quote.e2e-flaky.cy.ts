@@ -39,6 +39,7 @@ context('Quote', () => {
       quote.checkQuoteInDraftState(true, testProductHammerDrilling);
 
       // add comment
+
       // check comment displayed
 
       // submit
@@ -47,6 +48,7 @@ context('Quote', () => {
     });
   });
 
+  // these test should be removed, as soon as Quote list navigation is part of the above process tests
   describe('Quote list', () => {
     it('should be accessible from My Account', () => {
       quote.navigateToQuoteListFromMyAccount();
